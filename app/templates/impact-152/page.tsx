@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react'
@@ -79,11 +80,12 @@ const ATELIER = [
   { t: "Les artisans qu'on appelle", d: "Six ateliers partenaires en Île-de-France, les mêmes depuis six ans. Ébéniste, métallier, tapissier, staffeur. Aucun appel d'offres au moins-disant." },
 ];
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { titre: "Conseil & Conception", desc: "De l'esquisse au dossier complet : plan, élévations, matériaux, mobilier. Chaque détail est pensé avant la première vis.", emoji: "✏️" },
   { titre: "Suivi de chantier", desc: "Coordination des artisans, contrôle qualité à chaque étape, livraison clé en main sans surprise de budget.", emoji: "🏗️" },
   { titre: "Décoration complète", desc: "Sélection de mobilier, luminaires, textiles et œuvres d'art. Une cohérence visuelle de la première pièce à la dernière.", emoji: "🪑" },
 ]
+let SERVICES = SERVICES_DEMO;
 
 const TEMOIGNAGES = [
   { texte: "Clémence a transformé notre appartement en un espace où il fait vraiment bon vivre. Son sens du détail et sa rigueur sont bluffants — et le budget a été parfaitement respecté.", auteur: "Marie & Thomas L.", projet: "Appartement 160 m², Lyon 2e" },
@@ -134,6 +136,10 @@ export default function StudioNomaPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], titre: s.title })),
+    SERVICES_DEMO,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -174,52 +180,7 @@ export default function StudioNomaPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div style={{ background: C.bg, fontFamily: FONT_SANS, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap');`}</style>
 

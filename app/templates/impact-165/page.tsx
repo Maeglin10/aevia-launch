@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef } from "react"
@@ -112,12 +113,13 @@ const PRICING = [
   },
 ]
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { name: "Mathieu Garnier", role: "CEO — Flowly", text: "En 3 semaines, Pulse a remplacé 4 outils différents. Notre équipe gagne 2h par jour.", rating: 5, avatar: "MG" },
   { name: "Laura Bertrand", role: "Head of Ops — Nimble", text: "Les analytics temps réel ont transformé notre façon de prendre des décisions. On voit tout, instantanément.", rating: 5, avatar: "LB" },
   { name: "Antoine Perrin", role: "CTO — DataBrick", text: "L'API est propre, la doc est excellente, l'intégration nous a pris 2 jours. Rare pour ce type d'outil.", rating: 5, avatar: "AP" },
   { name: "Camille Dumont", role: "Product — Kynda", text: "La collaboration contextuelle est une révélation. Fini les mails, fini les Slack perdus.", rating: 5, avatar: "CD" },
 ]
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -151,6 +153,10 @@ export default function PulseAppPage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
+    TESTIMONIALS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -173,52 +179,7 @@ export default function PulseAppPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);const ActiveIcon = FEATURES[activeFeature].icon
+  const ActiveIcon = FEATURES[activeFeature].icon
 
   return (
     <div className="min-h-dvh bg-[#F8F7FF] text-[#0F0B2D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>

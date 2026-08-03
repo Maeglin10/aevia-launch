@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -500,7 +501,7 @@ function ProcessSection() {
 }
 
 // ── Section 6: Testimonials ──────────────────────────────────────────────────
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     quote: "MASK_UNIT a transformé notre identité visuelle en arme stratégique.",
     name: "Sophie Martin",
@@ -517,6 +518,7 @@ const TESTIMONIALS = [
     title: "VP Marketing, Dior Beauty",
   },
 ];
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 function TestimonialsSection() {
   return (
@@ -914,6 +916,10 @@ export default function MaskUnitHome() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
+    TESTIMONIALS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -928,52 +934,7 @@ export default function MaskUnitHome() {
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 return (
     <div style={{ background: C.bg, minHeight: '100dvh' }}>
       <style>{`

@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
 import { useRef, useState, useEffect, useCallback } from "react"
@@ -46,7 +47,7 @@ const TARIFS = [
   { a: "Forfait marié", p: "80 €", n: "Essai deux semaines avant, prestation complète le jour J." },
 ];
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { title: "Coupe classique", price: "28€", desc: "Coupe ciseau + tondeuse, finitions rasoir droite. Inclut consultation, shampoing, séchage et coiffage." },
   { title: "Rasage traditionnel", price: "35€", desc: "Rasoir droit à l'ancienne. Serviette chaude, mousse artisanale, baume après-rasage maison. 45 minutes de pure détente." },
   { title: "Combo barbe + coupe", price: "55€", desc: "La formule complète. Coupe sur mesure + taille et soin de barbe. Le must pour repartir à 100%." },
@@ -54,6 +55,7 @@ const SERVICES = [
   { title: "Color & gris", price: "45€", desc: "Coloration naturelle ou couvrance des cheveux blancs. Teinte personnalisée, respect de la matière." },
   { title: "Soin cuir chevelu", price: "30€", desc: "Gommage + masque nourrissant. Idéal cuirs chevelu secs, desquamation ou chute de cheveux. En add-on ou seul." },
 ]
+let SERVICES = SERVICES_DEMO;
 
 const TIME_SLOTS = ["9h00", "10h00", "11h00", "14h00", "15h00", "16h00", "17h00", "18h00"]
 
@@ -246,6 +248,10 @@ export default function GentlemansCutPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    SERVICES_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -270,52 +276,7 @@ export default function GentlemansCutPage() {
   }, [])
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#0a0908] text-[#f5f0e8] overflow-x-hidden" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0a0908]/97 backdrop-blur-xl py-3 border-b border-[var(--brand,#c9a84c)]/10" : "bg-transparent py-7"}`}>

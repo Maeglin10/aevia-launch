@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react'
@@ -59,7 +60,7 @@ const OFFRES = [
   { n: "Accompagnement mensuel", p: "590 € / mois", d: "Corrections, contenus, suivi des positions, rapport mensuel commenté. Sans engagement de durée." },
 ];
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { titre: "Sites web & landing pages", desc: "Conception et développement de sites vitrines, e-commerce et landing pages haute conversion. Next.js, Webflow ou sur mesure selon vos besoins.", tag: "Web" },
   { titre: "Identité visuelle & branding", desc: "Logo, charte graphique, guide de marque. Nous créons une identité cohérente qui parle à vos cibles et vous distingue de vos concurrents.", tag: "Brand" },
   { titre: "Applications web & SaaS", desc: "Développement d'applications métier, dashboards, outils internes et produits SaaS. Full-stack React/Node, architecture évolutive.", tag: "App" },
@@ -67,6 +68,7 @@ const SERVICES = [
   { titre: "Campagnes Meta & Google Ads", desc: "Création et pilotage de campagnes publicitaires payantes. Ciblage précis, A/B testing créatifs, reporting transparent chaque semaine.", tag: "Ads" },
   { titre: "Maintenance & évolution", desc: "Support réactif, mises à jour de sécurité, évolutions fonctionnelles. Contrats mensuels à partir de 290€/mois pour sécuriser votre actif digital.", tag: "Support" },
 ]
+let SERVICES = SERVICES_DEMO;
 
 const REALISATIONS = [
   { client: "MaisonDéco Paris", sector: "E-commerce", desc: "Refonte UX + boutique Shopify. +68% de taux de conversion en 3 mois.", img: "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80" },
@@ -81,11 +83,12 @@ const ATOUTS = [
   "Reporting mensuel chiffré et actionnable",
 ]
 
-const AVIS = [
+const AVIS_DEMO = [
   { texte: "Pixel Republic a transformé notre site en véritable machine à leads. En 6 mois, nos demandes de devis ont doublé. L'équipe est réactive, créative et vraiment à l'écoute.", auteur: "Sébastien K.", detail: "Directeur, SolarPlus" },
   { texte: "Nous avions un budget serré et un délai court pour notre MVP. Résultat livré en 28 jours, zéro bug en prod, et nos utilisateurs adorent l'interface. Bluffant.", auteur: "Léa M.", detail: "CEO, Trackly" },
   { texte: "Refonte complète en 3 mois — branding, site, SEO. Premier retour sur investissement en moins de 6 mois. On ne change pas d'agence.", auteur: "Famille Dupont", detail: "Propriétaire, L'Atelier Dupont" },
 ]
+let AVIS = AVIS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -134,6 +137,14 @@ export default function PixelRepublicPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], titre: s.title })),
+    SERVICES_DEMO,
+  );
+  AVIS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author })),
+    AVIS_DEMO,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -173,52 +184,7 @@ export default function PixelRepublicPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
         /* mobile: stack 2-col grids to single column (added by responsive fix) */

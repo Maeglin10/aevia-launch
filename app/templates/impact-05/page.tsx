@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
@@ -17,6 +18,7 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Menu, X, ArrowRight, Check, ChevronDown, Zap, Shield, Globe, BarChart3, Users, Star, Play, Layers, Code2, Rocket, TrendingUp, Clock, MessageSquare, Sparkles, Terminal, GitBranch, Database, Cpu, Lock, ArrowUpRight } from "lucide-react"
 import {
+  clientFaq,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -91,7 +93,7 @@ const FEATURE_TABS = [
   },
 ]
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: "Sarah Chen",
     role: "CTO, Flowmatic",
@@ -138,6 +140,7 @@ const TESTIMONIALS = [
     metricColor: "pink",
   },
 ]
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const PRICING = [
   {
@@ -197,7 +200,7 @@ const PRICING = [
   },
 ]
 
-const FAQS = [
+const FAQS_DEMO = [
   { q: "How does the 14-day trial work?", a: "The Pro trial gives you full access to every Pro feature with no credit card required. At the end of 14 days, you choose to subscribe or downgrade to the free Starter plan — your data and projects are preserved either way." },
   { q: "Can I migrate from my current stack without downtime?", a: "Yes. Our migration CLI tool imports from AWS, GCP, Vercel, Netlify, and Heroku. The typical migration for a mid-size application takes under 2 hours, and you can run both environments in parallel during the cut-over period." },
   { q: "What does '99.99% uptime SLA' mean in practice?", a: "It means we guarantee less than 52 minutes of unplanned downtime per year. In the event of an SLA breach, we issue automatic service credits — you don't have to file a claim. Our actual 12-month average is 99.997%." },
@@ -206,6 +209,7 @@ const FAQS = [
   { q: "Do you offer a startup programme?", a: "Yes. Qualifying seed and Series A companies receive 12 months of Pro free, followed by a 40% discount for the next 24 months. Apply through our Startup Programme page with your funding announcement." },
   { q: "What regions does NovaPlatform operate in?", a: "We operate 42 edge regions across North America, Europe, Asia-Pacific, South America, and the Middle East. Data residency is configurable per project — EU-only, US-only, or globally distributed." },
 ]
+let FAQS = FAQS_DEMO;
 
 const LOGOS = [
   { name: "Vercel", img: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=120&q=80" },
@@ -253,6 +257,14 @@ export default function NovaPlatformSaaS() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
+    TESTIMONIALS_DEMO,
+  );
+  FAQS = resolveList(
+    clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
+    FAQS_DEMO,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -295,52 +307,7 @@ export default function NovaPlatformSaaS() {
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 return (
     <div style={{ overflowX: "hidden", scrollBehavior: "smooth" }} className="bg-[#09090b] text-white min-h-dvh selection:bg-[var(--brand,#8b5cf6)] font-sans">
 

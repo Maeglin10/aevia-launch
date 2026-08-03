@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -9,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -50,12 +52,13 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 
-const EQUIPE = [
+const EQUIPE_DEMO = [
   { n: "Élise Roubaud", r: "Fondatrice · Cheffe de projet", d: "Quinze ans d'événementiel, dont sept en hôtellerie de luxe à Cannes. C'est elle qui tient le rétroplanning et parle aux prestataires." },
   { n: "Camille Estève", r: "Coordination jour J", d: "Présente de 7 h au dernier invité. Elle a la liste, les numéros, les alliances de secours et le fil à coudre." },
   { n: "Hugo Sarlat", r: "Direction artistique & scénographie", d: "Plans d'implantation, lumière, fleurs. Il dessine la salle vide avant de la remplir." },
   { n: "Nadia Ferré", r: "Budget & contrats", d: "Elle relit chaque devis prestataire et vous dit quand une ligne n'a pas lieu d'être." },
 ];
+let EQUIPE = EQUIPE_DEMO;
 
 const BLOG = [
   { k: "Budget", d: "12 juin", t: "Ce que coûte vraiment un mariage de 120 personnes sur la Côte", e: "Le détail poste par poste d'un budget réel de 2025, sans arrondir ni oublier les frais de fin de soirée." },
@@ -109,6 +112,10 @@ export default function MaisonElisePage() {
   }, []);
 
   fd = session?.formData;
+  EQUIPE = resolveList(
+    clientTeam(session)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
+    EQUIPE_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -126,52 +133,7 @@ export default function MaisonElisePage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#fdfaf7] text-[#1a1018] overflow-x-hidden" style={{ fontFamily: "'Didact Gothic', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fdfaf7]/97 backdrop-blur-xl py-3 shadow-sm border-b border-[var(--brand,#c4a06a)]/12" : "bg-transparent py-7"}`}>

@@ -8,6 +8,7 @@ import { HardHat, Hammer, Phone, Star, MapPin, ArrowRight, CheckCircle, Ruler, S
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAreas,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -60,7 +61,7 @@ const MATERIAUX = [
   { nom: "Isolation fibre de bois", usage: "Murs, toiture, planchers", note: "Déphasage 12 h contre 4 h pour la laine minérale. Confort d'été sans climatisation." },
 ];
 
-const ZONES = [
+const ZONES_DEMO = [
   { ville: "Nantes", detail: "Agglomération et première couronne" },
   { ville: "Saint-Nazaire", detail: "Chantiers neufs et extensions" },
   { ville: "Vannes · Redon", detail: "Sur étude, déplacement au devis" },
@@ -68,6 +69,7 @@ const ZONES = [
   { ville: "La Baule", detail: "Rénovation lourde et surélévation" },
   { ville: "Angers", detail: "Nous consulter selon la période" },
 ];
+let ZONES = ZONES_DEMO;
 
 const REALISATIONS_DEMO = [
   { title: "Extension 45 m² · Villa provençale", tag: "Extension gros œuvre", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200" },
@@ -138,6 +140,10 @@ export default function BatirSolidePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  ZONES = resolveList(
+    clientAreas(sessionData)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], ville: z })),
+    ZONES_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const SERVICES = resolveList(

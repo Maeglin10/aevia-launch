@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -13,6 +14,7 @@ import {
 } from "framer-motion";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientFaq,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -52,7 +54,7 @@ let C: Record<string, string> = {
 };
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const FEATURES = [
+const FEATURES_DEMO = [
   {
     icon: "⚡",
     title: "Real-time dashboards",
@@ -96,13 +98,14 @@ const FEATURES = [
     color: "#f43f5e",
   },
 ];
+let FEATURES = FEATURES_DEMO;
 
 const INTEGRATIONS = [
   "Stripe", "HubSpot", "Salesforce", "Google Analytics", "PostgreSQL",
   "BigQuery", "Slack", "Notion", "Intercom", "Shopify", "Segment", "Mixpanel",
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     quote:
       "We replaced 4 tools with Metric. Fewer reporting meetings, more decisions based on real data. Our whole ops team lives in this dashboard now.",
@@ -131,6 +134,7 @@ const TESTIMONIALS = [
     avatar: "SK",
   },
 ];
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const PLANS = [
   {
@@ -182,7 +186,7 @@ const PLANS = [
   },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   {
     q: "Is your data stored in Europe?",
     a: "Yes — 100% EU infrastructure (AWS Paris + Frankfurt). GDPR-native, DPA available, ISO 27001 certified.",
@@ -204,6 +208,7 @@ const FAQS = [
     a: "Yes — full REST API documented at docs.metric.io. Webhooks, JavaScript and Python SDKs available.",
   },
 ];
+let FAQS = FAQS_DEMO;
 
 const LIVE_METRICS = [
   { label: "New users", val: "2,847", change: "+12.4%", up: true },
@@ -1120,6 +1125,18 @@ export default function Impact176Page() {
   }, []);
 
   fd = session?.formData;
+  FEATURES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
+    FEATURES_DEMO,
+  );
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
+    TESTIMONIALS_DEMO,
+  );
+  FAQS = resolveList(
+    clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
+    FAQS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
@@ -1143,52 +1160,7 @@ export default function Impact176Page() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 
   const scrollTo = useCallback((id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });

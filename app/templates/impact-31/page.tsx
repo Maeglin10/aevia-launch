@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import { useRef, useState, useEffect } from "react";
@@ -24,6 +25,7 @@ import {
   Leaf,
 } from "lucide-react";
 import {
+  clientFaq,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -900,13 +902,14 @@ function Pricing() {
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
-const FAQS = [
+const FAQS_DEMO = [
   { q: "Je suis débutant(e), puis-je commencer le yoga ?", a: "Absolument ! Tous nos cours débutants sont conçus pour les personnes sans aucune expérience. Emma et nos autres professeurs adaptent chaque posture selon les capacités de chacun. Votre premier cours est entièrement gratuit." },
   { q: "Quels accessoires dois-je apporter ?", a: "Nous mettons des tapis à disposition gratuitement. Venez simplement en tenue confortable. Les props (blocs, sangles, coussins) sont fournis. Vous pouvez bien sûr apporter votre propre tapis si vous en avez un." },
   { q: "Puis-je me joindre à n'importe quel moment ?", a: "Oui, les inscriptions sont ouvertes toute l'année. Nous vous recommandons de commencer par notre cours de découverte (gratuit) pour trouver le format qui vous convient le mieux avant de vous abonner." },
   { q: "Y a-t-il des cours en ligne ?", a: "Oui ! Tous nos abonnements payants incluent un accès illimité à notre plateforme en ligne avec plus de 200 cours enregistrés et 3 sessions live par semaine." },
   { q: "Quelle est votre politique d'annulation ?", a: "Vous pouvez annuler un cours jusqu'à 4h avant son début sans pénalité. En dessous de 4h, la séance est décomptée. Notre abonnement mensuel est résiliable à tout moment sans frais." },
 ];
+let FAQS = FAQS_DEMO;
 
 function FAQ() {
   const ref = useRef<HTMLElement>(null);
@@ -997,6 +1000,10 @@ export default function Impact31() {
   }, []);
 
   fd = session?.formData;
+  FAQS = resolveList(
+    clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
+    FAQS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
@@ -1005,52 +1012,7 @@ export default function Impact31() {
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 return (
     // layout.tsx already renders a fixed Navbar above {children} — this page
     // rendered a second fixed Navbar on top of it, causing the "Professeurs" /

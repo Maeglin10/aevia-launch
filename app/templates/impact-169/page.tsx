@@ -1,10 +1,12 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { Search, User, ArrowRight, BookOpen, Clock, MessageSquare, Check, Link2, Camera, Bookmark, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import {
+  clientFaq,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -160,7 +162,7 @@ const AUTHORS = [
   },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     quote: "Fréquence est la seule newsletter que j'ouvre en premier le lundi matin. Pas de superflu, des idées qui tiennent et qui transforment ma manière de penser le business.",
     name: "Alexandre M.",
@@ -186,6 +188,7 @@ const TESTIMONIALS = [
     stars: 5,
   },
 ];
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const PLANS = [
   {
@@ -239,7 +242,7 @@ const ARCHIVE_MONTHS = [
   { month: "Décembre 2024", issues: 3, highlights: ["Bilan 2024", "Tendances 2025", "Best-of articles"] },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   {
     q: "À quelle fréquence publiez-vous ?",
     a: "Chaque lundi — une grande analyse (2 000–3 000 mots) + 3 brèves commentées. Parfois un hors-série le jeudi sur un sujet brûlant.",
@@ -265,6 +268,7 @@ const FAQS = [
     a: "L'abonnement Lecteur donne accès à notre Discord privé (2 400 membres) et aux sessions mensuelles Q&A avec les auteurs.",
   },
 ];
+let FAQS = FAQS_DEMO;
 
 const STATS = [
   { val: "15 200+", label: "Abonnés actifs" },
@@ -446,6 +450,14 @@ export default function ImpactFrequencePage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
+    TESTIMONIALS_DEMO,
+  );
+  FAQS = resolveList(
+    clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
+    FAQS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
@@ -479,52 +491,7 @@ export default function ImpactFrequencePage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 
   return (
     <div

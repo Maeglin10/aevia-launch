@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react'
@@ -87,11 +88,12 @@ const APPROCHE = [
   "Remboursement partiel par de nombreuses mutuelles",
 ]
 
-const AVIS = [
+const AVIS_DEMO = [
   { texte: "J'hésitais à consulter depuis longtemps. Laurence m'a mise à l'aise dès la première séance. En 4 mois, ma relation à l'anxiété a complètement changé. Je regrette seulement de ne pas y être allée plus tôt.", auteur: "Camille R.", detail: "Suivi anxiété, 34 ans" },
   { texte: "Burn-out sévère après 8 ans dans la finance. Mon médecin m'a orienté vers Mme Moreau. La progression est lente mais réelle. Je récupère des ressources que je pensais avoir perdues.", auteur: "Vincent L.", detail: "Burnout professionnel, 42 ans" },
   { texte: "Ma fille de 15 ans traversait une période très difficile. L'approche avec les adolescents est remarquable — elle repart de chaque séance avec quelque chose de concret. Merci.", auteur: "Famille Martin", detail: "Thérapie adolescente" },
 ]
+let AVIS = AVIS_DEMO;
 
 /* Château mechanic, two views: the practice, then the practitioner. Both
    photographs were already in this file and verified at the merge — no third
@@ -157,6 +159,10 @@ export default function CabinetMoreauPage() {
   }, []);
 
   fd = session?.formData;
+  AVIS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author })),
+    AVIS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
@@ -179,52 +185,7 @@ export default function CabinetMoreauPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Nunito:wght@300;400;600;700;800&display=swap');
         /* mobile: stack 2-col grids to single column (added by responsive fix) */

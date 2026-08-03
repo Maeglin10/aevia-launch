@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef } from "react";
@@ -15,6 +16,7 @@ import { ChevronRight, ArrowRight, Shield, Zap, Activity, Globe, Lock, BarChart,
 
 import "../premium.css";
 import {
+  clientFaq,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -23,7 +25,7 @@ import {
    DATA STRUCTURES
    ========================================================================== */
 
-const FEATURES = [
+const FEATURES_DEMO = [
   {
     icon: <Zap className="w-5 h-5" />,
     title: "Real-time Processing",
@@ -55,6 +57,7 @@ const FEATURES = [
     desc: "Identity-aware access controls for every microservice. Assume breach mentality built into the core infrastructure.",
   },
 ];
+let FEATURES = FEATURES_DEMO;
 
 const PRICING = [
   {
@@ -103,7 +106,7 @@ const PRICING = [
   },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: "David Chen",
     role: "CTO, FinTech Global",
@@ -120,6 +123,7 @@ const TESTIMONIALS = [
     text: "We process over 2 billion events daily. Before Nexus, we needed a team of 5 DevOps engineers just to keep the lights on. Now, it just runs automatically.",
   },
 ];
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const INTEGRATIONS = [
   "AWS",
@@ -134,7 +138,7 @@ const INTEGRATIONS = [
   "GitHub",
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   {
     question: "How does Nexus compare to traditional cloud providers?",
     answer:
@@ -156,6 +160,7 @@ const FAQS = [
       "We never throttle or drop events. If you exceed your tier limits, you are simply billed for the overage at a flat rate of $0.001 per 10,000 events. You can set hard caps in your dashboard if desired.",
   },
 ];
+let FAQS = FAQS_DEMO;
 
 /* ==========================================================================
    UTILITY COMPONENTS
@@ -223,6 +228,18 @@ export default function NexusSaaSPage() {
   }, []);
 
   fd = session?.formData;
+  FEATURES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
+    FEATURES_DEMO,
+  );
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
+    TESTIMONIALS_DEMO,
+  );
+  FAQS = resolveList(
+    clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], question: r.q, answer: r.a })),
+    FAQS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -238,52 +255,7 @@ export default function NexusSaaSPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 
   return (
     <div className="premium-theme min-h-dvh bg-[#05050a] text-white selection:bg-[var(--brand,#8b5cf6)]/30 font-sans overflow-x-hidden">

@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -7,6 +8,7 @@ import Link from "next/link"
 import { Music, ArrowRight, Menu, Star, Calendar, Clock, MapPin, Ticket, Users, Heart, ChevronRight, Volume2 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientFaq,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -60,12 +62,13 @@ const VENUES = [
   { name: "Le Ratio", city: "Paris", capacity: "3 100", type: "Theatre", note: "Balcony horseshoe, velvet and gilt. Indie bills that deserve the room." },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   { q: "When do tickets go on sale?", a: "Members get a 48-hour window before general release. Sign up and you will get the code by email the morning it opens." },
   { q: "Can I transfer my ticket?", a: "Yes, up to 24 hours before doors, from your account. Transfers are free — we would rather you pass it on than leave a seat empty." },
   { q: "What is your refund policy?", a: "Full refund if an event is cancelled or rescheduled to a date you cannot make. Otherwise tickets are transferable rather than refundable." },
   { q: "Are the venues accessible?", a: "Every venue we programme has step-free access to the floor and accessible toilets. See the accessibility note below for the detail per room." },
 ];
+let FAQS = FAQS_DEMO;
 
 const PRESS = [
   { quote: "The most consistently interesting bookings in Europe right now.", outlet: "Frequency Review" },
@@ -118,6 +121,10 @@ export default function PulseEventsPage() {
   }, []);
 
   fd = session?.formData;
+  FAQS = resolveList(
+    clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
+    FAQS_DEMO,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -153,52 +160,7 @@ export default function PulseEventsPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#08050a] text-white font-sans min-h-dvh selection:bg-[var(--brand,#ec4899)] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ─────────────────────── */}

@@ -1,12 +1,15 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowUpRight, X, Menu, Check } from "lucide-react";
 import {
+  clientFaq,
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -141,7 +144,7 @@ const STATS = [
   { val: "06", suffix: "", label: "Disciplines maîtrisées" },
 ];
 
-const TEAM = [
+const TEAM_DEMO = [
   {
     name: "Léa Fontaine",
     role: "Directrice Générale",
@@ -179,8 +182,9 @@ const TEAM = [
     quote: "Un bon brief vaut mieux qu'un grand budget.",
   },
 ];
+let TEAM = TEAM_DEMO;
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     quote: "Bureau a transformé notre positionnement en 6 semaines. On est passés de «une agence parmi d'autres» à «la référence» dans notre secteur. Chiffres à l'appui.",
     name: "Camille Renard",
@@ -202,6 +206,7 @@ const TESTIMONIALS = [
     role: "CTO, DataFlux",
   },
 ];
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const PLANS = [
   {
@@ -251,7 +256,7 @@ const PLANS = [
   },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   {
     q: "Travaillez-vous avec des startups au stade très précoce ?",
     a: "Oui — à condition que la fondation soit solide. On n'habille pas l'inexistant. On préfère les projets ambitieux aux budgets illimités : une startup qui sait où elle va, c'est plus excitant qu'une grande marque qui tourne en rond.",
@@ -277,6 +282,7 @@ const FAQS = [
     a: "Oui — réservez un call de 30 min et on vous présente notre playbook complet : découverte, brief, concept, production, livraison, support. Pas de surprise, pas de black box.",
   },
 ];
+let FAQS = FAQS_DEMO;
 
 const MANIFESTE = [
   "On travaille avec des gens qui veulent vraiment changer quelque chose.",
@@ -334,6 +340,18 @@ export default function BureauPage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
+    TESTIMONIALS_DEMO,
+  );
+  FAQS = resolveList(
+    clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
+    FAQS_DEMO,
+  );
+  TEAM = resolveList(
+    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role })),
+    TEAM_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
@@ -364,52 +382,7 @@ export default function BureauPage() {
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, fontFamily: C.sans, overflowX: "hidden" }}>
       <style>{`

@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react'
@@ -86,11 +87,12 @@ const ATOUTS = [
   "Conseil personnalisé par nos fleuristes passionnées",
 ]
 
-const AVIS = [
+const AVIS_DEMO = [
   { texte: "Le bouquet de mariée était exactement dans mes rêves. L'équipe a su capturer ce que je voulais dès le premier rendez-vous. Des fleurs magnifiques et un service hors pair.", auteur: "Juliette B.", detail: "Mariage, juin 2025" },
   { texte: "Abonnement floral mensuel pour notre cabinet dentaire depuis 1 an. Toujours ponctuels, créatifs et avec des compositions qui durent. Nos patients adorent.", auteur: "Cabinet Dr. Engel", detail: "Abonnement entreprise" },
   { texte: "Je commande régulièrement pour offrir. Chaque bouquet est soigné, bien emballé et les fleurs tiennent au moins 10 jours. Une vraie adresse de qualité à Strasbourg.", auteur: "Sophie K.", detail: "Cliente régulière" },
 ]
+let AVIS = AVIS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -139,6 +141,10 @@ export default function AtelierBloomPage() {
   }, []);
 
   fd = session?.formData;
+  AVIS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author })),
+    AVIS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
@@ -160,52 +166,7 @@ export default function AtelierBloomPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Mulish:wght@300;400;600;700;800&display=swap');
         /* mobile: stack 2-col grids to single column (added by responsive fix) */

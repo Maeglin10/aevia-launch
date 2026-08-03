@@ -8,6 +8,7 @@ import { Key, Lock, Shield, Zap, Clock, Phone, Star, MapPin, CheckCircle, AlertT
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAreas,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -51,7 +52,7 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const ZONES = [
+const ZONES_DEMO = [
   { v: "Strasbourg", d: "Centre, Neudorf, Krutenau, Robertsau — 20 min" },
   { v: "Schiltigheim · Bischheim", d: "25 min en moyenne" },
   { v: "Illkirch · Ostwald", d: "25 min en moyenne" },
@@ -59,6 +60,7 @@ const ZONES = [
   { v: "Sélestat · Obernai", d: "45 min, majoration déplacement 25 €" },
   { v: "Reste du Bas-Rhin", d: "Sur appel, délai annoncé avant de partir" },
 ];
+let ZONES = ZONES_DEMO;
 
 const SERVICES_DEMO = [
   { icon: AlertTriangle, title: "Urgence & dépannage 24h/24", desc: "Porte claquée, serrure bloquée, intrusion. Intervention sous 30 min sur Strasbourg. Astreinte 7j/7 nuits et jours fériés inclus." },
@@ -113,6 +115,10 @@ export default function SecurFastPage() {
   }, []);
 
   fd = session?.formData;
+  ZONES = resolveList(
+    clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], v: z })),
+    ZONES_DEMO,
+  );
   TARIFS = resolveList(
     clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

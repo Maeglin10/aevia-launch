@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -9,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -52,14 +54,15 @@ const ELECTRIQUE = [
   { t: "Bornes et câbles", d: "Diagnostic de charge lente, remplacement de prise Type 2, contrôle du chargeur embarqué." },
 ];
 
-const EQUIPE = [
+const EQUIPE_DEMO = [
   { n: "Karim Aït-Saïd", r: "Chef d'atelier · Mécanique", d: "22 ans dont 9 en concession Peugeot. Diagnostic électronique et moteur." },
   { n: "Élodie Perrin", r: "Carrossière-peintre", d: "Cabine de peinture sur place, teintes retrouvées au spectromètre. Petits chocs traités en 48 h." },
   { n: "Marc Trébeau", r: "Technicien véhicules électriques", d: "Habilité B2VL. Formé chez Renault sur les packs Zoé et Kangoo E-Tech." },
   { n: "Sofia Lemarchand", r: "Accueil & devis", d: "C'est elle qui vous appelle avant toute dépense supplémentaire. Toujours avant, jamais après." },
 ];
+let EQUIPE = EQUIPE_DEMO;
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { icon: Wrench, title: "Entretien & révision", desc: "Vidange, filtres, distribution, embrayage, freins. Contrôle multi-points offert à chaque révision. Respect carnet entretien constructeur." },
   { icon: Car, title: "Carrosserie & peinture", desc: "Débosselage, remplacement pièces, peinture teintée en cabine UV. Assurance prise en charge directe. Devis gratuit 30 min." },
   { icon: Settings, title: "Diagnostic électronique", desc: "Valise OBD dernière génération, tous constructeurs. Lecture et effacement codes erreur, mise à jour logiciels, diagnostic complet." },
@@ -67,6 +70,7 @@ const SERVICES = [
   { icon: Shield, title: "Contrôle technique", desc: "Contre-visite rapide, mise en conformité avant CT, préparation complète. Partenaire Sécuritest sur place. Sans rendez-vous pour vérification rapide." },
   { icon: AlertTriangle, title: "Dépannage & remorquage", desc: "Intervention 7j/7 en Ille-et-Vilaine. Crevaison, panne, accident. Dépanneuse disponible sous 45 min. Convoyage vers atelier inclus." },
 ]
+let SERVICES = SERVICES_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -105,6 +109,14 @@ export default function AutoExpertPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    SERVICES_DEMO,
+  );
+  EQUIPE = resolveList(
+    clientTeam(session)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
+    EQUIPE_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -122,52 +134,7 @@ export default function AutoExpertPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#0e1117] text-[#f1f3f5] overflow-x-hidden" style={{ fontFamily: "'Space Grotesk', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0e1117]/97 backdrop-blur-xl py-3 border-b border-[var(--brand,#dc2626)]/10" : "bg-transparent py-7"}`}>

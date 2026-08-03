@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -40,12 +41,13 @@ const NAV = [
   { l: "Nous trouver", h: "#nous-trouver" },
 ];
 
-const EQUIPE = [
+const EQUIPE_DEMO = [
   { n: "Dr. Camille Ferrand", r: "Vétérinaire · Médecine interne", d: "Diplômée de l'ENVT en 2004. Suit les maladies chroniques : rein, thyroïde, diabète félin." },
   { n: "Dr. Yann Delorme", r: "Vétérinaire · Chirurgie", d: "Orthopédie et tissus mous. Opère sur place, du lundi au vendredi, avec suivi post-op à la clinique." },
   { n: "Dr. Salomé Kaci", r: "Vétérinaire · NAC & félins", d: "Lapins, rongeurs, oiseaux. Consultation féline en salle séparée, sans chiens dans la même attente." },
   { n: "Marion Vasseur", r: "Auxiliaire spécialisée", d: "Accueil, soins infirmiers, hospitalisation. C'est elle qui vous rappelle après une intervention." },
 ];
+let EQUIPE = EQUIPE_DEMO;
 
 const TARIFS_DEMO = [
   { a: "Consultation généraliste", p: "42 €", n: "Chien, chat, NAC. 25 minutes." },
@@ -111,6 +113,10 @@ export default function CliniqueBoisVertPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EQUIPE = resolveList(
+    clientTeam(sessionData)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
+    EQUIPE_DEMO,
+  );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

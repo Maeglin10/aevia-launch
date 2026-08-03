@@ -8,6 +8,7 @@ import { Flame, Thermometer, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAreas,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -65,7 +66,7 @@ const CONTRATS = [
   { f: "Copropriétés", p: "sur devis", n: "Chaufferie collective, télésurveillance, astreinte week-end et rapport annuel au syndic." },
 ];
 
-const ZONES = [
+const ZONES_DEMO = [
   { v: "Lyon et Villeurbanne", d: "Entretien et dépannage, sous 24 h en hiver" },
   { v: "Ouest lyonnais", d: "Écully, Tassin, Craponne, Francheville" },
   { v: "Est lyonnais", d: "Bron, Vénissieux, Saint-Priest, Décines" },
@@ -73,6 +74,7 @@ const ZONES = [
   { v: "Sud", d: "Oullins, Pierre-Bénite, Vernaison, Givors" },
   { v: "Reste du Rhône et Ain sud", d: "Installation uniquement, sur planning" },
 ];
+let ZONES = ZONES_DEMO;
 
 const SERVICES_DEMO = [
   { icon: Flame, title: "Installation chaudière", desc: "Chaudière gaz, fioul, condensation, micro-cogénération. Toutes marques. Mise en service et formation à l'utilisation incluses." },
@@ -130,6 +132,10 @@ export default function ThermotekChauffagePage() {
   }, []);
 
   fd = session?.formData;
+  ZONES = resolveList(
+    clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], v: z })),
+    ZONES_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

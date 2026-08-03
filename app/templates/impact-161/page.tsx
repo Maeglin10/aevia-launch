@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef } from "react"
@@ -50,7 +51,7 @@ function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; de
   )
 }
 
-const FEATURES = [
+const FEATURES_DEMO = [
   { icon: BarChart2, title: "Analytics avancés", desc: "Tableaux de bord en temps réel avec métriques personnalisables. Exportez vos données en un clic." },
   { icon: Shield, title: "Sécurité enterprise", desc: "Chiffrement AES-256, SSO, 2FA et conformité SOC2. Vos données sont protégées par défaut." },
   { icon: Users, title: "Collaboration d'équipe", desc: "Invitez votre équipe, gérez les rôles et permissions. Travaillez ensemble en temps réel." },
@@ -58,6 +59,7 @@ const FEATURES = [
   { icon: Globe, title: "API complète", desc: "API REST et GraphQL documentée. SDKs disponibles pour Python, JavaScript, Ruby et Go." },
   { icon: Clock, title: "Support 24/7", desc: "Équipe de support dédiée, disponible à tout moment. Temps de réponse moyen : 2 heures." },
 ]
+let FEATURES = FEATURES_DEMO;
 
 const PRICING = [
   {
@@ -89,11 +91,12 @@ const PRICING = [
   },
 ]
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { name: "Alice Dupont", role: "CTO — StartupX", text: "On a migré en 2 jours. L'API est propre, la doc claire. On n'a jamais regardé en arrière.", avatar: "AD" },
   { name: "Thomas Leroy", role: "CEO — Agence Nova", text: "Nos clients adorent les dashboards partagés. Ça a changé notre façon de livrer des projets.", avatar: "TL" },
   { name: "Camille Martin", role: "Product Manager", text: "Les automations nous ont économisé 15h par semaine. En 3 mois, le ROI était déjà là.", avatar: "CM" },
 ]
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -127,6 +130,14 @@ export default function EssentialSaaSPage() {
   }, []);
 
   fd = session?.formData;
+  FEATURES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
+    FEATURES_DEMO,
+  );
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
+    TESTIMONIALS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -142,52 +153,7 @@ export default function EssentialSaaSPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="min-h-dvh bg-white text-[#0F172A]" style={{ fontFamily: "'Inter', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 h-[3px] bg-[var(--brand,#6366F1)] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 

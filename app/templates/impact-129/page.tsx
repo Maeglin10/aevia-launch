@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -50,12 +51,13 @@ function CodeBlock({ code, lang = "typescript" }: { code: string; lang?: string 
   )
 }
 
-const FEATURES = [
+const FEATURES_DEMO = [
   { icon: Cpu, title: "Zero-Copy Transforms", desc: "Process data streams without memory allocation overhead. 10x faster than alternatives." },
   { icon: Boxes, title: "Plugin Architecture", desc: "Extend the core with typed plugins. Community-maintained registry with 200+ packages." },
   { icon: GitBranch, title: "Built-in Versioning", desc: "Track every schema change with automatic migration generation and rollback." },
   { icon: Terminal, title: "CLI First", desc: "Full control from your terminal. Scriptable, composable, and CI/CD-friendly." },
 ]
+let FEATURES = FEATURES_DEMO;
 
 const STATS = [
   { value: "14K", label: "GitHub Stars" },
@@ -121,6 +123,10 @@ export default function WaveFXPage() {
   }, []);
 
   fd = session?.formData;
+  FEATURES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
+    FEATURES_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -133,52 +139,7 @@ export default function WaveFXPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#070a10] text-white font-sans min-h-dvh selection:bg-[var(--brand,#6366f1)] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ────── */}

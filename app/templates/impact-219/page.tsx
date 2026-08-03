@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -19,6 +20,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import {
+  clientFaq,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -858,13 +860,14 @@ function Testimonials() {
    8. FAQ
    ════════════════════════════════════════════════════════════════════════════ */
 
-const FAQS: { q: string; a: string }[] = [
+const FAQS_DEMO: { q: string; a: string }[] = [
   { q: 'Puis-je essayer NovaSaaS gratuitement ?', a: 'Oui. L’offre Starter est gratuite à vie, et tous les plans payants incluent 14 jours d’essai sans carte bancaire.' },
   { q: 'Mes données sont-elles en sécurité ?', a: 'Absolument. Nous sommes certifiés SOC 2 Type II, chiffrons toutes les données en transit et au repos, et proposons le SSO sur les plans Business.' },
   { q: 'Puis-je changer d’offre à tout moment ?', a: 'Oui, les changements de plan sont immédiats et la facturation est calculée au prorata. Aucun engagement de durée.' },
   { q: 'Quelles intégrations proposez-vous ?', a: 'Plus de 80 intégrations natives (Stripe, HubSpot, Salesforce, Postgres…) plus une API REST et des webhooks pour le reste.' },
   { q: 'Proposez-vous un support en français ?', a: 'Oui, notre équipe support répond en français et en anglais. Les plans Pro et Business bénéficient d’un support prioritaire.' },
 ];
+let FAQS = FAQS_DEMO;
 
 function FAQItem({ item, index }: { item: { q: string; a: string }; index: number }) {
   const [open, setOpen] = useState(index === 0);
@@ -1237,6 +1240,10 @@ export default function Impact219Page() {
   }, []);
 
   fd = session?.formData;
+  FAQS = resolveList(
+    clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
+    FAQS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
@@ -1245,52 +1252,7 @@ export default function Impact219Page() {
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 return (
     <main style={pageStyle}>
       <style>{`

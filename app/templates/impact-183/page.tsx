@@ -6,6 +6,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { Paintbrush, Sparkles, Phone, Star, MapPin, ArrowRight, CheckCircle, Layers, Brush, Shield, Menu } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientAreas,
+} from "@/lib/templates/clientContent";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -65,7 +68,7 @@ const CHANTIERS = [
   { titre: "Bassin familial 7×3,5", lieu: "Wasquehal", an: "2024", note: "Escalier d'angle, plage immergée, abri télescopique bas." },
 ];
 
-const ZONES = [
+const ZONES_DEMO = [
   { ville: "Lille", detail: "Métropole et première couronne" },
   { ville: "Roubaix · Tourcoing", detail: "Intervention sous 48 h" },
   { ville: "Villeneuve-d'Ascq", detail: "Entretien hebdomadaire possible" },
@@ -73,6 +76,7 @@ const ZONES = [
   { ville: "Seclin · Douai", detail: "Sur rendez-vous" },
   { ville: "Béthune", detail: "Chantiers neufs uniquement" },
 ];
+let ZONES = ZONES_DEMO;
 
 const COULEURS = [
   { name: "Bleu Lagon", hex: "#2a9db5", desc: "Liner clair" },
@@ -142,6 +146,10 @@ export default function CouleursCOPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  ZONES = resolveList(
+    clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], ville: z })),
+    ZONES_DEMO,
+  );
   c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
