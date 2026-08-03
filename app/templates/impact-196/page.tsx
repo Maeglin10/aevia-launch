@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react'
@@ -46,7 +47,7 @@ const STATS = [
   { value: "48h", label: "Délai de prise en charge" },
 ]
 
-const SPECIALITES = [
+const SPECIALITES_DEMO = [
   { titre: "Rééducation post-opératoire", desc: "Genou, hanche, épaule — protocoles adaptés après chirurgie orthopédique pour une récupération fonctionnelle rapide et complète.", tag: "Sport & Ortho", color: C.accent },
   { titre: "Lombalgies & cervicalgies", desc: "Prise en charge globale des douleurs chroniques du dos et du cou. Mobilisation, renforcement, éducation thérapeutique.", tag: "Colonne", color: C.accent },
   { titre: "Rééducation neurologique", desc: "Accompagnement post-AVC, sclérose en plaques, Parkinson. Approche pluridisciplinaire pour maintenir l'autonomie et la qualité de vie.", tag: "Neuro", color: C.warm },
@@ -54,6 +55,7 @@ const SPECIALITES = [
   { titre: "Rééducation du sportif", desc: "Entorse, déchirure musculaire, tendinopathie. Protocoles de retour au sport progressifs avec évaluation fonctionnelle continue.", tag: "Sport", color: C.accent },
   { titre: "Prise en charge pédiatrique", desc: "Scoliose, troubles posturaux, rééducation motrice de l'enfant. Approche ludique et bienveillante pour les 0–18 ans.", tag: "Pédiatrie", color: C.warm },
 ]
+let SPECIALITES = SPECIALITES_DEMO;
 
 const APPROCHE = [
   "Bilan initial complet de 45 minutes pour chaque nouveau patient",
@@ -117,6 +119,10 @@ export default function CabinetKinePage() {
   }, []);
 
   fd = session?.formData;
+  SPECIALITES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...SPECIALITES_DEMO[i % SPECIALITES_DEMO.length], titre: s.title })),
+    SPECIALITES_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

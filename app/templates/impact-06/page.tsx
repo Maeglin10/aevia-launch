@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
@@ -51,7 +52,7 @@ const PRODUCTS_DEMO = [
 ];
 let PRODUCTS = PRODUCTS_DEMO;
 
-const INNOVATIONS = [
+const INNOVATIONS_DEMO = [
   { 
     title: "Molecular Synthesis", 
     desc: "Our lab utilizes 4D molecular printing to create biocompatible materials that evolve with your cellular structure.",
@@ -68,6 +69,7 @@ const INNOVATIONS = [
     icon: Droplets
   },
 ];
+let INNOVATIONS = INNOVATIONS_DEMO;
 
 const STATS = [
   { label: "Sync Latency", value: "0.8ms" },
@@ -152,6 +154,10 @@ export default function NeuralisPage() {
   }, []);
 
   fd = session?.formData;
+  INNOVATIONS = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...INNOVATIONS_DEMO[i % INNOVATIONS_DEMO.length], title: s.title })),
+    INNOVATIONS_DEMO,
+  );
   PRODUCTS = PRODUCTS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

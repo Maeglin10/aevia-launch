@@ -71,7 +71,7 @@ const LENTILLES = [
   { a: "Contrôle annuel", p: "offert", n: "Obligatoire pour renouveler. Vérification de la cornée à la lampe à fente." },
 ];
 
-const OFFRES = [
+const OFFRES_DEMO = [
   { titre: "Lunettes de vue", desc: "Plus de 400 montures sélectionnées : grandes marques (Ray-Ban, Lindberg, Persol) et créateurs indépendants. Verres haute définition, anti-lumière bleue, amincis.", tag: "Vue" },
   { titre: "Lentilles de contact", desc: "Journalières, mensuelles, toriques, multifocales. Adaptation par nos opticiens diplômés avec suivi à 1 mois. Commande en ligne disponible.", tag: "Lentilles" },
   { titre: "Examen de vue", desc: "Bilan visuel complet avec équipements de pointe (topographe, fond d'œil). Résultats immédiats et prescription remise en main propre.", tag: "Bilan" },
@@ -79,6 +79,7 @@ const OFFRES = [
   { titre: "Basse vision", desc: "Matériel spécialisé pour patients malvoyants : loupes électroniques, systèmes d'agrandissement, filtres chromiques. Prise en charge 100% Sécu.", tag: "Santé" },
   { titre: "Réparations express", desc: "Remplacement de vis, ressoudage, changement de plaquettes — réparations en 15 minutes en boutique pour la plupart des marques.", tag: "SAV" },
 ]
+let OFFRES = OFFRES_DEMO;
 
 const ENGAGEMENTS = [
   "Opticiens diplômés DSCVO sur tous nos créneaux",
@@ -141,6 +142,10 @@ export default function VisionClairePage() {
   }, []);
 
   fd = session?.formData;
+  OFFRES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...OFFRES_DEMO[i % OFFRES_DEMO.length], titre: s.title })),
+    OFFRES_DEMO,
+  );
   AVIS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author })),
     AVIS_DEMO,

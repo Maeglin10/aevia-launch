@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
@@ -60,11 +61,12 @@ const CASES = [
   { s: "Regulatory", t: "Dawn raid to closed file in nine months", d: "A competition authority inspection across three offices. No fine, no commitments, no publication." },
 ];
 
-const EXPERTISE = [
+const EXPERTISE_DEMO = [
   { icon: Gavel, title: "High-Stakes Litigation", desc: "Aggressive representation in complex civil and criminal proceedings with a track record of landmark victories." },
   { icon: Briefcase, title: "Strategic M&A", desc: "Navigating multi-billion dollar transactions with surgical precision and cross-border expertise." },
   { icon: Landmark, title: "Regulatory Affairs", desc: "Shaping the landscape of tomorrow through deep-level engagement with legislative and regulatory bodies." },
 ]
+let EXPERTISE = EXPERTISE_DEMO;
 
 const PARTNERS_DEMO = [
   { name: "Julian Thorne", role: "Managing Partner", focus: "Global Litigation", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800" },
@@ -110,6 +112,10 @@ export default function LuminaLawPage() {
   }, []);
 
   fd = session?.formData;
+  EXPERTISE = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...EXPERTISE_DEMO[i % EXPERTISE_DEMO.length], title: s.title })),
+    EXPERTISE_DEMO,
+  );
   PARTNERS = PARTNERS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
