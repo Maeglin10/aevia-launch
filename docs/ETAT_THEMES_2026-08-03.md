@@ -15,6 +15,11 @@ AUDIT_INTERVAL_MS=0 node scripts/theme-audit.mjs $(ls app/templates | grep '^imp
 node scripts/client-run.mjs "Santé" "Dentiste" "Cabinet Sourire" "Lyon"
 ```
 
+**Redémarrer le serveur avant chaque balayage.** Sans jeton Blob en local, les
+sessions vivent en mémoire dans le processus ; chaque balayage en crée 373, et
+au bout d'une dizaine le serveur passe de 5 secondes à une minute par thème. Un
+balayage complet passe alors de 30 minutes à six heures.
+
 **Ne jamais lancer `npm run build` pendant un balayage.** Le build remplace
 `.next` sous le serveur qui tourne, et le balayage rapporte alors « aucune donnée
 client » sur les 373 thèmes. Cette erreur a coûté quatre balayages et a bien
