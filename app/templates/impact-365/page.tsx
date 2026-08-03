@@ -8,8 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, HeldSwap, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Producteur fermier en vente directe, 1re variante. Signature : HeldSwap — le panier de la semaine posé sur la table. Images nature déjà présentes dans le repo. */
@@ -35,10 +37,12 @@ const HERO = [{"k": "Le panier de la semaine", "line": "Composé mardi, cueilli 
 
 const SERVICES_DEMO = [{"titre": "Légumes de saison", "desc": "Quarante variétés sur l'année, cueillies la veille ou le matin de la vente. La tomate d'août et le panais de janvier — jamais l'inverse.", "tag": "Maraîchage"}, {"titre": "Œufs de plein air", "desc": "250 poules sur parcours herbeux, nourries au grain local complété par ce que la ferme produit. Ramassés chaque matin.", "tag": "Œufs"}, {"titre": "Volailles fermières", "desc": "Poulets élevés 110 jours minimum, en plein air, abattus en abattoir de proximité. Sur commande, retrait le vendredi.", "tag": "Volaille"}, {"titre": "Paniers hebdomadaires", "desc": "Petit (2 pers.) ou grand (4-5 pers.) : la récolte de la semaine, une recette pour le légume oublié, sans engagement.", "tag": "Paniers"}, {"titre": "Conserves de la ferme", "desc": "Coulis, ratatouille, soupes d'hiver : l'été mis en bocaux dans notre atelier agréé, pour les mois sans.", "tag": "Bocaux"}, {"titre": "Visites & œufs de vacances", "desc": "La ferme se visite le premier samedi du mois. Les enfants ramassent les œufs, les parents comprennent les prix.", "tag": "Visites"}];
 const METHODE = [{"n": "01", "t": "Un sol vivant", "d": "Rotations longues, engrais verts, compost de la ferme : le sol est notre premier outil de travail."}, {"n": "02", "t": "Cueilli à maturité", "d": "La récolte se fait pour le lendemain, pas pour tenir une semaine de camion. Ça change le goût, vraiment."}, {"n": "03", "t": "Vendu en direct", "d": "Boutique à la ferme, marché de Cahors le samedi, paniers réservés : aucun intermédiaire, prix décidés ici."}, {"n": "04", "t": "Contrôlé chaque année", "d": "Certification AB par organisme agréé, contrôles annuels — le logo se mérite, il ne se déclare pas."}];
-const ENGAGEMENT = ["Certification Agriculture Biologique (AB), contrôles annuels d'organisme agréé", "Vente directe uniquement : ce qui est sur l'étal a poussé ici, point", "Prix affichés à l'année, décidés par la ferme — pas par un cours mondial", "La ferme se visite : premier samedi du mois, et sur demande pour les écoles"];
+const ENGAGEMENT_DEMO = ["Certification Agriculture Biologique (AB), contrôles annuels d'organisme agréé", "Vente directe uniquement : ce qui est sur l'étal a poussé ici, point", "Prix affichés à l'année, décidés par la ferme — pas par un cours mondial", "La ferme se visite : premier samedi du mois, et sur demande pour les écoles"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Panier petit (2 pers.)", "p": "14 €", "n": "5-6 légumes de la semaine + la recette du légume oublié."}, {"a": "Panier grand (4-5 pers.)", "p": "24 €", "n": "8-10 légumes, de quoi tenir la semaine sans supermarché."}, {"a": "Œufs plein air (×6)", "p": "2,80 €", "n": "Ramassés du matin, boîtes consignées reprises."}, {"a": "Poulet fermier (~1,8 kg)", "p": "12,90 €/kg", "n": "Sur commande avant mercredi, retrait vendredi."}];
 const AVIS_DEMO = [{"texte": "Deux ans de panier hebdomadaire : on a réappris à cuisiner avec les saisons, les enfants reconnaissent les légumes, et le goût des tomates d'août ne se compare à rien.", "auteur": "Famille Delmas", "detail": "Panier grand"}, {"texte": "La visite du premier samedi vaut tous les discours : on voit les poules, le compost, les rangs. Depuis, le prix des œufs me paraît même trop bas.", "auteur": "Nathalie C.", "detail": "Visite + cliente marché"}, {"texte": "Poulet de 110 jours commandé pour un dimanche de famille : mes parents ont retrouvé « le goût du poulet d'avant ». Tout est dit.", "auteur": "Julien F.", "detail": "Volaille fermière"}];
-const STATS = [{"value": "AB", "label": "Certifiée agriculture biologique"}, {"value": "2 ha", "label": "De maraîchage diversifié"}, {"value": "250", "label": "Poules de plein air"}, {"value": "0 km", "label": "Entre le champ et la boutique"}];
+const STATS_DEMO = [{"value": "AB", "label": "Certifiée agriculture biologique"}, {"value": "2 ha", "label": "De maraîchage diversifié"}, {"value": "250", "label": "Poules de plein air"}, {"value": "0 km", "label": "Entre le champ et la boutique"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -86,6 +90,8 @@ export default function QuatreVentsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

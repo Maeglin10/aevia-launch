@@ -6,8 +6,10 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Sprout } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -32,7 +34,8 @@ let C: Record<string, string> = {
 };const FONT = "'Playfair Display', Georgia, serif"
 const FONT_BODY = "'Lato', system-ui, sans-serif"
 
-const STATS = [{ value: "15 ans", label: "D'expertise" }, { value: "350+", label: "Jardins réalisés" }, { value: "0", label: "Pesticides" }, { value: "94%", label: "Clients satisfaits" }]
+const STATS_DEMO = [{ value: "15 ans", label: "D'expertise" }, { value: "350+", label: "Jardins réalisés" }, { value: "0", label: "Pesticides" }, { value: "94%", label: "Clients satisfaits" }]
+let STATS = STATS_DEMO;
 
 const PRESTATIONS_DEMO = [
   { titre: "Création de jardins", desc: "Conception et aménagement complet de votre jardin. Plan 3D, choix des essences, terrassement, plantation, arrosage automatique — clé en main.", tag: "Création" },
@@ -43,12 +46,13 @@ const PRESTATIONS_DEMO = [
   { titre: "Clôtures & haies", desc: "Haies mellifères et écrans végétaux, clôtures bois et métal. Sélection d'essences locales à croissance rapide.", tag: "Clôtures" },
 ]
 
-const ENGAGEMENTS = [
+const ENGAGEMENTS_DEMO = [
   "Zéro pesticide, zéro herbicide de synthèse — méthodes alternatives uniquement",
   "Plantes locales et adaptées au climat Bordeaux-Gironde",
   "Arrosage goutte-à-goutte pour économiser jusqu'à 60% d'eau",
   "Compostage intégré et amendement organique systématique",
 ]
+let ENGAGEMENTS = ENGAGEMENTS_DEMO;
 
 const AVIS_DEMO = [
   { texte: "Notre jardin de 800 m² complètement repensé : potager intégré, zone naturalisée, terrasse en lames de chêne. C'est devenu le plus bel endroit de la maison. On y passe tous nos week-ends.", auteur: "Famille Dupont", detail: "Création jardin + terrasse · Mérignac" },
@@ -107,6 +111,8 @@ export default function VertNaturePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENTS = resolveList(clientCertifications(sessionData), ENGAGEMENTS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

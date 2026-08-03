@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { PanelRise } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Cabinet d'infirmiers libéraux, 1re variante. Signature : PanelRise — les bandeaux qui s'élèvent avec douceur. Sans photographie. */
@@ -36,10 +38,12 @@ const HERO = [];
 
 const SERVICES_DEMO = [{"titre": "Prises de sang", "desc": "À domicile dès 6h30 (à jeun sans attendre midi) ou au cabinet sans rendez-vous de 7h à 9h. Résultats via votre laboratoire habituel.", "tag": "Prélèvements"}, {"titre": "Pansements & plaies", "desc": "Post-opératoires, ulcères, brûlures : protocoles suivis avec photos sécurisées transmises au médecin quand la plaie évolue.", "tag": "Plaies"}, {"titre": "Injections & perfusions", "desc": "Antibiothérapie, anticoagulants, chimiothérapie à domicile en lien avec l'hôpital : le retour à la maison, sécurisé.", "tag": "Perfusions"}, {"titre": "Soins chroniques & dépendance", "desc": "Diabète, piluliers, nursing : des passages réguliers aux mêmes heures, par les mêmes visages. La routine qui rassure.", "tag": "Chronique"}, {"titre": "Soins palliatifs", "desc": "En coordination avec l'HAD et les équipes mobiles : rester chez soi, entouré, jusqu'au bout si c'est le choix de la famille.", "tag": "Palliatif"}, {"titre": "Vaccins & dépistages", "desc": "Grippe, COVID, TROD angine : au cabinet ou à domicile, tracés dans votre dossier.", "tag": "Prévention"}];
 const METHODE = [{"n": "01", "t": "Ordonnance transmise", "d": "Par photo, mail ou papier : nous vérifions la cotation et prévenons votre médecin si quelque chose manque."}, {"n": "02", "t": "Passage planifié", "d": "Un créneau fiable, les mêmes infirmiers, prévenance par SMS si la tournée glisse de plus de 20 minutes."}, {"n": "03", "t": "Soin tracé", "d": "Chaque acte noté au dossier de soins, partagé entre nous quatre — pas de « c'était qui hier ? »."}, {"n": "04", "t": "Coordination", "d": "Médecin, kiné, pharmacie, HAD : nous parlons aux autres soignants, vous n'avez pas à porter les messages."}];
-const ENGAGEMENT = ["Infirmiers diplômés d'État, inscrits à l'Ordre national — n° RPPS affichés au cabinet", "Conventionnés CPAM secteur 1 : tarifs de la nomenclature, tiers payant systématique", "Dossier de soins partagé et sécurisé entre les quatre infirmiers du cabinet", "Zone d'intervention claire : Limoges et première couronne, annoncée avant d'accepter"];
+const ENGAGEMENT_DEMO = ["Infirmiers diplômés d'État, inscrits à l'Ordre national — n° RPPS affichés au cabinet", "Conventionnés CPAM secteur 1 : tarifs de la nomenclature, tiers payant systématique", "Dossier de soins partagé et sécurisé entre les quatre infirmiers du cabinet", "Zone d'intervention claire : Limoges et première couronne, annoncée avant d'accepter"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Prise de sang à domicile", "p": "tiers payant", "n": "Sur ordonnance : AMI + indemnité de déplacement, sans avance de frais."}, {"a": "Pansement complexe", "p": "tiers payant", "n": "Coté selon la NGAP, protocole suivi et transmis au prescripteur."}, {"a": "Passage quotidien chronique", "p": "tiers payant", "n": "Diabète, piluliers, nursing : pris en charge sur prescription."}, {"a": "Vaccin au cabinet (sans RDV)", "p": "selon nomenclature", "n": "Grippe : apportez le vaccin et votre bon, l'injection est prise en charge."}];
 const AVIS_DEMO = [{"texte": "Perfusions d'antibiotiques après une hospitalisation : passage deux fois par jour, à l'heure, les mêmes visages. La coordination avec l'hôpital était parfaite.", "auteur": "René B., 74 ans", "detail": "Retour d'hospitalisation"}, {"texte": "Ma mère diabétique voit la même infirmière chaque matin depuis deux ans. Ce lien-là fait autant que l'insuline.", "auteur": "Fille de Mme T.", "detail": "Soins chroniques"}, {"texte": "Prise de sang à 6h45 à domicile avant le travail : le laboratoire avait les tubes à 8h. Efficace, aimable, remboursé.", "auteur": "Karima L.", "detail": "Prélèvement à jeun"}];
-const STATS = [{"value": "4", "label": "Infirmiers D.E. conventionnés"}, {"value": "7j/7", "label": "Pour les soins quotidiens"}, {"value": "6h30", "label": "Première tournée (à jeun compris)"}, {"value": "100 %", "label": "Tiers payant sur ordonnance"}];
+const STATS_DEMO = [{"value": "4", "label": "Infirmiers D.E. conventionnés"}, {"value": "7j/7", "label": "Pour les soins quotidiens"}, {"value": "6h30", "label": "Première tournée (à jeun compris)"}, {"value": "100 %", "label": "Tiers payant sur ordonnance"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function TilleulsIdelPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

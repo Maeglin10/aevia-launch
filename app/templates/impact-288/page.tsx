@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -2465,7 +2466,7 @@ function SolaireSection() {
    9 · CERTIF SECTION
    IRVE P1/P2/P3, QualiPV, RGE, Qualifelec, assurance décennale
    ════════════════════════════════════════════════════════════════════════════ */
-const CERTIFS = [
+const CERTIFS_DEMO = [
   {
     code: 'RGE',
     name: 'Reconnu Garant de l\'Environnement',
@@ -2496,7 +2497,8 @@ const CERTIFS = [
     desc: 'Couverture décennale sur tous les travaux réalisés. Vos installations sont protégées 10 ans après réception.',
     icon: Shield,
   },
-] as const;
+];
+let CERTIFS = CERTIFS_DEMO;
 
 function CertifCard({ c, i }: { c: (typeof CERTIFS)[number]; i: number }) {
   const [hover, setHover] = useState(false);
@@ -3125,6 +3127,7 @@ export default function Impact288Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  CERTIFS = resolveList(clientCertifications(sessionData), CERTIFS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, green: brand, greenLight: shadeColor(brand, 25) };

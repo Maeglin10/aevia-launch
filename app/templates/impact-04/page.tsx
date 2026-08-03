@@ -22,6 +22,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientFaq,
   clientReviews,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -79,7 +80,7 @@ function buildMenuRecord(items: { name: string; price: string; description?: str
 
 const MENU_TAB_ICONS = [Leaf, Flame, Utensils, Wine];
 
-const STATS = [
+const STATS_DEMO = [
   { value: "2★", label: "Michelin Stars", icon: <Award className="w-5 h-5" /> },
   { value: "98/100", label: "Wine Spectator", icon: <Wine className="w-5 h-5" /> },
   { value: "#4", label: "Best Restaurants France", icon: <Globe className="w-5 h-5" /> },
@@ -87,6 +88,7 @@ const STATS = [
   { value: "8,400+", label: "Dinners Served", icon: <Users className="w-5 h-5" /> },
   { value: "240+", label: "Wine References", icon: <Leaf className="w-5 h-5" /> },
 ]
+let STATS = STATS_DEMO;
 
 const TESTIMONIALS_DEMO = [
   {
@@ -254,6 +256,7 @@ export default function LEtoileRestaurant() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Real client menu — the structured wizard step (businessProfile.menu)

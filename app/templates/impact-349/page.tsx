@@ -8,8 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { GhostSolid } from "@/lib/templates/hero-kit-2";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Centre de contrôle technique, 1re variante. Signature : GhostSolid — le châssis en fil de fer qui devient solide, comme un véhicule validé. Sans photographie. */
@@ -35,10 +37,12 @@ const HERO = [];
 
 const SERVICES_DEMO = [{"titre": "Contrôle technique périodique", "desc": "Les 133 points réglementaires : freinage, direction, liaisons au sol, pollution, éclairage. Rapport remis et expliqué ligne à ligne.", "tag": "VL"}, {"titre": "Contre-visite", "desc": "Incluse pendant deux mois : revenez quand c'est réparé, on ne re-contrôle que les points défaillants. Sans rendez-vous le samedi matin.", "tag": "Incluse"}, {"titre": "Véhicules électriques & hybrides", "desc": "Contrôleurs habilités haute tension, points spécifiques VE vérifiés selon la réglementation en vigueur.", "tag": "Électrique"}, {"titre": "Utilitaires & camping-cars", "desc": "Jusqu'à 3,5 t, ligne adaptée aux gabarits hauts. Contrôle pollution renforcé des utilitaires diesel.", "tag": "Utilitaire"}, {"titre": "Contrôle volontaire", "desc": "Avant un achat d'occasion ou un long trajet : le même banc, sans enregistrement officiel. Savoir avant d'acheter.", "tag": "Volontaire"}, {"titre": "Deux-roues motorisés", "desc": "Le contrôle des motos et scooters, désormais obligatoire, réalisé sur ligne dédiée par contrôleur formé.", "tag": "Moto"}];
 const METHODE = [{"n": "01", "t": "RDV en ligne ou par téléphone", "d": "Créneaux du lundi au samedi midi, rappel SMS la veille, dépôt des clés possible dès 7 h 45."}, {"n": "02", "t": "Le contrôle, visible", "d": "La baie vitrée donne sur les lignes : regardez votre véhicule passer les bancs, un café à la main."}, {"n": "03", "t": "Le rapport, expliqué", "d": "Chaque défaillance montrée sur le véhicule quand c'est possible, mineure/majeure/critique clairement distinguées."}, {"n": "04", "t": "La suite, sans pression", "d": "Nous ne vendons aucune réparation. Vous réparez où vous voulez, la contre-visite est incluse deux mois."}];
-const ENGAGEMENT = ["Centre agréé par la préfecture de la Drôme (S 026 X 042), contrôleurs agréés individuellement", "Indépendance totale : la loi nous interdit la réparation, nous ne recommandons aucun garage", "Prix affichés en salle d'attente et en ligne — le même pour tout le monde", "Équipements calibrés et vérifiés selon le référentiel OTC en vigueur"];
+const ENGAGEMENT_DEMO = ["Centre agréé par la préfecture de la Drôme (S 026 X 042), contrôleurs agréés individuellement", "Indépendance totale : la loi nous interdit la réparation, nous ne recommandons aucun garage", "Prix affichés en salle d'attente et en ligne — le même pour tout le monde", "Équipements calibrés et vérifiés selon le référentiel OTC en vigueur"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Contrôle technique VL essence/diesel", "p": "79 €", "n": "133 points, rapport expliqué, contre-visite incluse 2 mois."}, {"a": "Véhicule électrique ou hybride", "p": "85 €", "n": "Points haute tension inclus, contrôleur habilité."}, {"a": "Deux-roues motorisé", "p": "60 €", "n": "Ligne dédiée, contrôle réglementaire complet."}, {"a": "Contrôle volontaire avant achat", "p": "59 €", "n": "Même banc, rapport détaillé, sans enregistrement officiel."}];
 const AVIS_DEMO = [{"texte": "Défaillance majeure sur le freinage : le contrôleur m'a montré la pièce sous le pont, expliqué le risque, et ne m'a orienté vers personne. Réparé chez mon garagiste, contre-visite en dix minutes.", "auteur": "Marielle P.", "detail": "Contrôle + contre-visite"}, {"texte": "Contrôle volontaire avant d'acheter une occasion : 340 € de frais cachés détectés, prix renégocié d'autant. Les 59 € les plus rentables de l'année.", "auteur": "Hugo D.", "detail": "Contrôle avant achat"}, {"texte": "Camping-car passé sans stress, ligne adaptée, contrôleur qui connaît les porteurs. RDV pris en ligne la veille pour le samedi matin.", "auteur": "Jean-Luc et Françoise", "detail": "Camping-car"}];
-const STATS = [{"value": "45 min", "label": "Contrôle complet, montre en main"}, {"value": "133", "label": "Points de contrôle réglementaires"}, {"value": "0", "label": "Réparation vendue — jamais"}, {"value": "2 mois", "label": "Pour la contre-visite incluse"}];
+const STATS_DEMO = [{"value": "45 min", "label": "Contrôle complet, montre en main"}, {"value": "133", "label": "Points de contrôle réglementaires"}, {"value": "0", "label": "Réparation vendue — jamais"}, {"value": "2 mois", "label": "Pour la contre-visite incluse"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -78,6 +82,8 @@ export default function ControleRhodanienPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

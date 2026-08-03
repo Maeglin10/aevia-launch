@@ -19,6 +19,7 @@ import {
 } from "@/lib/templates/hero-kit";
 import {
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -59,12 +60,13 @@ const FONT_BODY = `'Inter', -apple-system, BlinkMacSystemFont, sans-serif`
    DATA
    ========================================================================= */
 
-const STATS = [
+const STATS_DEMO = [
   { label: 'Projets livrés', value: 347, suffix: '', prefix: '' },
   { label: 'Mètres carrés construits', value: 2400000, suffix: '', prefix: '', formatted: '2,4M m²' },
   { label: "Années d'expertise", value: 38, suffix: '', prefix: '' },
   { label: 'Pays', value: 12, suffix: '', prefix: '' },
 ]
+let STATS = STATS_DEMO;
 
 const PROJECTS_DEMO = [
   {
@@ -1995,6 +1997,7 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, yellow: brand };

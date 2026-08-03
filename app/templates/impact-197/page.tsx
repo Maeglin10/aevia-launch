@@ -14,6 +14,7 @@ import {
   clientFaq,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
@@ -114,12 +115,13 @@ const PACKAGES_DEMO = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { val: "1 200+", label: "Voyageurs accompagnés", suffix: "" },
   { val: "87", label: "Destinations maîtrisées", suffix: "+" },
   { val: "4.97", label: "Note moyenne clients", suffix: "/5" },
   { val: "18", label: "Années d'expertise", suffix: "" },
 ];
+let STATS = STATS_DEMO;
 
 const TESTIMONIALS_DEMO = [
   {
@@ -403,6 +405,7 @@ export default function EvasionDoree() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

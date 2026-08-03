@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { ParticleOrb } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Audioprothésiste, 1re variante. Signature : ParticleOrb — le son rendu visible, un halo de particules qui tourne lentement. Sans photographie. */
@@ -36,10 +38,12 @@ const HERO = [];
 
 const SERVICES_DEMO = [{"titre": "Bilan auditif complet", "desc": "Audiométrie tonale et vocale en cabine, dans le calme et dans le bruit. Résultats expliqués, compte rendu transmis à votre médecin.", "tag": "Bilan"}, {"titre": "Essai 30 jours", "desc": "Vos appareils réglés puis portés un mois dans votre vraie vie : repas de famille, téléphone, télévision. On ajuste, vous décidez.", "tag": "Essai"}, {"titre": "Appareillage sur mesure", "desc": "Intra-auriculaires invisibles, contours discrets, connectés au téléphone. Toutes grandes marques, choisies pour votre perte, pas pour la marge.", "tag": "Appareils"}, {"titre": "Suivi 4 ans inclus", "desc": "Réglages illimités, nettoyages, contrôles semestriels : inclus dans le prix affiché, comme l'exige le 100 % Santé — et au-delà.", "tag": "Suivi"}, {"titre": "Protections auditives", "desc": "Bouchons sur mesure pour musiciens, chasseurs, travail en bruit et sommeil. Empreintes prises au centre.", "tag": "Protection"}, {"titre": "Acouphènes", "desc": "Bilan spécifique et solutions d'habituation sonore. On ne promet pas de miracle : on améliore le quotidien, mesurablement.", "tag": "Acouphènes"}];
 const METHODE = [{"n": "01", "t": "Bilan et écoute", "d": "Une heure pour mesurer votre audition et comprendre vos situations difficiles — la réunion, le restaurant, les aigus."}, {"n": "02", "t": "Choix argumenté", "d": "Deux ou trois appareils proposés avec prix, classe et différences expliquées. Le devis normalisé part avec vous."}, {"n": "03", "t": "Essai d'un mois", "d": "Port réel à domicile, réglages à mi-parcours. Vous ne payez qu'à l'adoption, jamais à l'essai."}, {"n": "04", "t": "Suivi de long terme", "d": "Réglages illimités 4 ans, remplacement des pièces d'usure, contrôle annuel de l'audition."}];
-const ENGAGEMENT = ["Audioprothésistes diplômés d'État — le titre est protégé, le nôtre est affiché", "Devis normalisé systématique : classe I (0 € de reste à charge) toujours proposée", "Essai de 30 jours sans engagement, prescription médicale respectée", "Tiers payant Sécurité sociale et mutuelles : aucune avance de frais"];
+const ENGAGEMENT_DEMO = ["Audioprothésistes diplômés d'État — le titre est protégé, le nôtre est affiché", "Devis normalisé systématique : classe I (0 € de reste à charge) toujours proposée", "Essai de 30 jours sans engagement, prescription médicale respectée", "Tiers payant Sécurité sociale et mutuelles : aucune avance de frais"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Appareil classe I (100 % Santé)", "p": "0 € de reste à charge", "n": "Prix plafonné 950 €, intégralement remboursé Sécurité sociale + mutuelle responsable."}, {"a": "Appareil classe II", "p": "dès 1 190 €", "n": "Technologies premium : réduction de bruit avancée, connectivité, rechargeable. Remboursement partiel."}, {"a": "Bilan auditif", "p": "offert", "n": "Audiométrie complète en cabine. Le bilan médical ORL reste indispensable pour la prescription."}, {"a": "Protections sur mesure", "p": "dès 89 €", "n": "La paire, empreintes et ajustage compris."}];
 const AVIS_DEMO = [{"texte": "Trois ans à faire répéter tout le monde. Après l'essai d'un mois, j'ai signé : au repas de Noël, j'ai suivi toutes les conversations, même en bout de table.", "auteur": "Michel P., 71 ans", "detail": "Appareillage classe II"}, {"texte": "Ma mutuelle ne couvre pas grand-chose : l'audioprothésiste a défendu la classe I d'emblée. Zéro euro, et elle entend la télévision sans la mettre à fond.", "auteur": "Fils de Mme R.", "detail": "100 % Santé"}, {"texte": "Acouphènes depuis dix ans. Pas de promesse magique ici, mais un vrai protocole : je dors à nouveau, et le sifflement s'oublie des heures entières.", "auteur": "Laurence V.", "detail": "Prise en charge acouphènes"}];
-const STATS = [{"value": "30 j", "label": "D'essai réel, à domicile"}, {"value": "0 €", "label": "Reste à charge classe I"}, {"value": "4 ans", "label": "De suivi et réglages inclus"}, {"value": "2", "label": "Audioprothésistes D.E."}];
+const STATS_DEMO = [{"value": "30 j", "label": "D'essai réel, à domicile"}, {"value": "0 €", "label": "Reste à charge classe I"}, {"value": "4 ans", "label": "De suivi et réglages inclus"}, {"value": "2", "label": "Audioprothésistes D.E."}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -87,6 +91,8 @@ export default function MaisonAuditionPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

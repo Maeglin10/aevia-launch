@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { ComposeIn } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Infirmiers libéraux, 2e variante, cabinet côtier moderne. Signature : ComposeIn — la tournée du jour qui se compose, soin par soin. Tuiles CSS sans photo. */
@@ -40,10 +42,12 @@ const HERO = [
 
 const SERVICES_DEMO = [{"titre": "Prélèvements", "desc": "À domicile dès 6h30, au cabinet sans rendez-vous de 7h30 à 9h30. Acheminement direct aux deux laboratoires de la ville.", "tag": "Biologie"}, {"titre": "Plaies & cicatrisation", "desc": "Formation plaies et cicatrisation (DU) au cabinet : escarres, ulcères, plaies chroniques suivies par protocole photographié.", "tag": "Expertise"}, {"titre": "Perfusions à domicile", "desc": "PICC-line, chambres implantables, pompes : les soins d'hôpital à la maison, avec les protocoles de l'hôpital.", "tag": "Technique"}, {"titre": "Grand âge & dépendance", "desc": "Toilettes, piluliers, surveillance : des passages réguliers qui maintiennent à domicile dans la dignité.", "tag": "Autonomie"}, {"titre": "Diabète", "desc": "Éducation, glycémies, insuline, prévention du pied diabétique : le suivi rapproché qui évite les hospitalisations.", "tag": "Diabète"}, {"titre": "Coordination familles", "desc": "Application dédiée : passages confirmés, transmissions visibles, messagerie sécurisée. Les enfants à distance restent informés.", "tag": "Familles"}];
 const METHODE = [{"n": "01", "t": "Un appel, une réponse", "d": "La secrétaire décroche de 8h à 18h : ordonnance reçue, tournée organisée, créneau confirmé dans l'heure."}, {"n": "02", "t": "La bonne compétence", "d": "Plaies complexes au titulaire du DU, perfusions aux référents techniques : chacun son domaine."}, {"n": "03", "t": "Le passage confirmé", "d": "SMS ou notification à chaque passage — utile pour les proches, rassurant pour tous."}, {"n": "04", "t": "Le lien qui remonte", "d": "Toute évolution signalée au médecin le jour même. Les urgences évitées valent mieux que les urgences gérées."}];
-const ENGAGEMENT = ["Six infirmiers diplômés d'État, conventionnés CPAM, inscrits à l'Ordre", "Secrétariat humain 8h-18h — pas de répondeur qui promet de rappeler", "Dossier de soins unique partagé, messagerie sécurisée de santé (MSSanté)", "Zone d'intervention annoncée et tenue : on refuse plutôt que de mal faire"];
+const ENGAGEMENT_DEMO = ["Six infirmiers diplômés d'État, conventionnés CPAM, inscrits à l'Ordre", "Secrétariat humain 8h-18h — pas de répondeur qui promet de rappeler", "Dossier de soins unique partagé, messagerie sécurisée de santé (MSSanté)", "Zone d'intervention annoncée et tenue : on refuse plutôt que de mal faire"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Soins sur ordonnance", "p": "tiers payant", "n": "AMI/AIS selon nomenclature + indemnités de déplacement réglementaires."}, {"a": "Prélèvement au cabinet", "p": "tiers payant", "n": "Sans rendez-vous 7h30-9h30, résultats via votre laboratoire."}, {"a": "Bilan de soins infirmiers (BSI)", "p": "pris en charge", "n": "Pour les patients dépendants : évaluation complète, plan de soins transmis."}, {"a": "Appli familles", "p": "incluse", "n": "Pour tous les patients en soins réguliers, sans supplément."}];
 const AVIS_DEMO = [{"texte": "Depuis Paris, je vois chaque passage chez mon père à Saint-Nazaire : confirmé, commenté, avec les constantes. Cette appli m'a rendu des nuits de sommeil.", "auteur": "Fils de M. G.", "detail": "Suivi à distance"}, {"texte": "Escarre de stade 3 reprise en trois mois par l'infirmière au DU plaies. Photos envoyées au médecin chaque semaine, protocole ajusté sans que je me déplace.", "auteur": "Épouse de R.", "detail": "Plaies complexes"}, {"texte": "Le secrétariat change tout : un humain répond, la tournée est calée le jour même. Après deux cabinets injoignables, on mesure la différence.", "auteur": "Nadège P.", "detail": "Perfusions post-op"}];
-const STATS = [{"value": "6", "label": "Infirmiers D.E."}, {"value": "1", "label": "Secrétaire qui décroche"}, {"value": "20 km", "label": "De zone couverte annoncée"}, {"value": "98 %", "label": "De passages dans le créneau"}];
+const STATS_DEMO = [{"value": "6", "label": "Infirmiers D.E."}, {"value": "1", "label": "Secrétaire qui décroche"}, {"value": "20 km", "label": "De zone couverte annoncée"}, {"value": "98 %", "label": "De passages dans le créneau"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -83,6 +87,8 @@ export default function SoinsEstuairePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

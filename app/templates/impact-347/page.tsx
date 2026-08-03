@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { LineScroll } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Centre de formation professionnelle Qualiopi, 1re variante. Signature : LineScroll — le programme qui se déroule ligne à ligne. Sans photographie. */
@@ -36,10 +38,12 @@ const HERO = [{"k": "Bureautique", "lines": ["Excel enfin maîtrisé,", "certifi
 
 const SERVICES_DEMO = [{"titre": "Bureautique & Excel", "desc": "Excel, Word, PowerPoint du niveau débutant à expert. Certification TOSA en fin de parcours — un score, pas une attestation de présence.", "tag": "TOSA"}, {"titre": "Management d'équipe", "desc": "Prise de poste, entretiens annuels, gestion de conflit. Quatre journées espacées de trois semaines pour appliquer entre les sessions.", "tag": "Management"}, {"titre": "Langues professionnelles", "desc": "Anglais, espagnol, allemand des affaires en groupes de 6 maximum, évalués LILATE. L'oral d'abord, la grammaire ensuite.", "tag": "Langues"}, {"titre": "Digital & réseaux", "desc": "Community management, SEO, IA générative au bureau : des cas réels de votre entreprise travaillés en session.", "tag": "Digital"}, {"titre": "Comptabilité-gestion", "desc": "Lire un bilan, construire un budget, piloter sa trésorerie — pour dirigeants de TPE et responsables non-financiers.", "tag": "Gestion"}, {"titre": "Intra-entreprise sur mesure", "desc": "Vos équipes, vos cas, vos locaux ou les nôtres. Programme co-construit et audité Qualiopi comme le reste.", "tag": "Intra"}];
 const METHODE = [{"n": "01", "t": "Positionnement", "d": "Test de niveau et entretien de besoins avant l'inscription. Si la formation ne vous sert pas, on vous le dit."}, {"n": "02", "t": "Convention & financement", "d": "Dossier CPF ou OPCO monté par nos soins, convention conforme, convocations sous 48 h."}, {"n": "03", "t": "Formation active", "d": "Groupes de 8 maximum, cas réels, formateur praticien. Émargement et supports remis au fil de l'eau."}, {"n": "04", "t": "Certification & suivi à froid", "d": "Passage de la certification, enquête à chaud puis à 3 mois — les résultats sont publiés, c'est Qualiopi."}];
-const ENGAGEMENT = ["Certification Qualiopi (actions de formation) — audit de surveillance passé en 2025", "Numéro de déclaration d'activité 11 75 61234 75, éligible CPF et financements OPCO", "Taux de satisfaction et de réussite publiés, formation par formation", "Accessibilité handicap : référent dédié, parcours et supports adaptables"];
+const ENGAGEMENT_DEMO = ["Certification Qualiopi (actions de formation) — audit de surveillance passé en 2025", "Numéro de déclaration d'activité 11 75 61234 75, éligible CPF et financements OPCO", "Taux de satisfaction et de réussite publiés, formation par formation", "Accessibilité handicap : référent dédié, parcours et supports adaptables"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Excel — parcours complet (21 h)", "p": "1 190 €", "n": "Certification TOSA incluse. Éligible CPF : reste à charge souvent nul."}, {"a": "Management — 4 jours", "p": "1 890 €", "n": "Financement OPCO entreprise, déjeuners inclus."}, {"a": "Anglais pro — 30 h", "p": "1 590 €", "n": "Groupes de 6, évaluation LILATE incluse, éligible CPF."}, {"a": "Intra-entreprise (jour)", "p": "dès 1 500 €", "n": "Jusqu'à 8 participants, programme sur mesure, partout en France."}];
 const AVIS_DEMO = [{"texte": "Le test de positionnement m'a évité de payer trois jours pour ce que je savais déjà : parcours ajusté à 14 h au lieu de 21. Sérieux rare, TOSA 890/1000.", "auteur": "Sonia D.", "detail": "Excel avancé — CPF"}, {"texte": "Devenu manager sans formation, j'improvisais. Les journées espacées permettent d'essayer entre les sessions et de revenir avec ses ratés. Ça change tout.", "auteur": "Mathieu R.", "detail": "Management d'équipe"}, {"texte": "Notre OPCO a tout pris en charge, dossier monté par leur équipe. Six commerciaux formés à l'anglais téléphonique, résultats mesurés au LILATE.", "auteur": "DRH, PME e-commerce", "detail": "Intra langues"}];
-const STATS = [{"value": "Qualiopi", "label": "Certifié depuis 2021"}, {"value": "4 200+", "label": "Stagiaires formés"}, {"value": "94 %", "label": "De satisfaction (enquêtes à froid)"}, {"value": "87 %", "label": "De réussite aux certifications"}];
+const STATS_DEMO = [{"value": "Qualiopi", "label": "Certifié depuis 2021"}, {"value": "4 200+", "label": "Stagiaires formés"}, {"value": "94 %", "label": "De satisfaction (enquêtes à froid)"}, {"value": "87 %", "label": "De réussite aux certifications"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function PrismeFormationPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

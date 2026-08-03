@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Étude notariale — donneur : impact-03 (Maison Dorée, luxe clair, serif Georgia).
@@ -29,12 +31,13 @@ let C: Record<string, string> = {
 const FONT = "Georgia, 'Times New Roman', serif";
 const FONT_BODY = "system-ui, -apple-system, sans-serif";
 
-const STATS = [
+const STATS_DEMO = [
   { value: "2", label: "Notaires associés" },
   { value: "30 ans", label: "D'exercice cumulé" },
   { value: "1 200", label: "Actes reçus par an" },
   { value: "8 jours", label: "Premier rendez-vous" },
 ];
+let STATS = STATS_DEMO;
 
 const NAV = [
   { l: "Domaines", h: "#domaines" },
@@ -76,12 +79,13 @@ const DOMAINES_DEMO = [
   { titre: "Patrimoine & conseil", desc: "Démembrement, SCI familiale, anticipation de la dépendance, mandat de protection future. Un rendez-vous conseil avant les grandes décisions.", tag: "Conseil" },
 ];
 
-const ENGAGEMENT = [
+const ENGAGEMENT_DEMO = [
   "Officiers publics nommés par le garde des Sceaux — nos actes ont force exécutoire",
   "Membres de la Chambre des notaires de la Gironde, contrôlés chaque année",
   "Secret professionnel absolu, sur chaque dossier et chaque échange",
   "Réponse écrite sous 48 h ouvrées à toute demande de rendez-vous",
 ];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 
 /* Émoluments : barème national fixé par arrêté (art. A444 du code de commerce).
    Les montants cités sont les émoluments d'actes courants, hors débours et taxes. */
@@ -135,6 +139,8 @@ export default function EtudeNotarialePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

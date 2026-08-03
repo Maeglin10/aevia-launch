@@ -5,6 +5,7 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Zap, Phone, Mail, MapPin, Clock, CheckCircle, Star, ArrowRight, Shield, Wrench, Lightbulb } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import { clientStats } from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -59,12 +60,13 @@ const TARIFS = [
   { a: "Mise aux normes sécurité", p: "à partir de 1 400 €", n: "Barrière, alarme ou volet. Attestation de conformité fournie." },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { value: "18 ans", label: "D'expérience" },
   { value: "2 400+", label: "Chantiers réalisés" },
   { value: "4.9★", label: "Note clients" },
   { value: "24h", label: "Intervention d'urgence" },
 ]
+let STATS = STATS_DEMO;
 
 const SERVICES_DEMO = [
   { titre: "Construction de piscine", desc: "Piscine enterrée béton, coque ou bloc à bancher. Terrassement, structure, étanchéité, margelles et plage. De l'étude 3D à la mise en eau.", tag: "Construction" },
@@ -156,6 +158,7 @@ export default function VoltPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color

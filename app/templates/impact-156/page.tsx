@@ -9,6 +9,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
@@ -42,12 +43,13 @@ let C: Record<string, string> = {
 const FONT_SERIF = "'Lora', Georgia, serif"
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const STATS = [
+const STATS_DEMO = [
   { value: "8 ans", label: "D'enseignement" },
   { value: "420+", label: "Élèves formés" },
   { value: "4.9★", label: "Avis Google" },
   { value: "15+", label: "Cours par semaine" },
 ]
+let STATS = STATS_DEMO;
 
 
 const NAV = [
@@ -152,6 +154,7 @@ export default function LumiereYogaPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

@@ -8,8 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, HeldSwap, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Boucherie-charcuterie, 1re variante commerce de bouche. Signature : HeldSwap — la pièce posée sur l'étal, tenue, puis remplacée. Carte CSS sans photo. */
@@ -35,10 +37,12 @@ const HERO = [{"k": "Bœuf charolais", "line": "Maturée 30 jours, découpée à
 
 const SERVICES_DEMO = [{"titre": "Bœuf de Charolles", "desc": "Carcasses entières sélectionnées à l'abattoir de Venarey, maturées 21 à 45 jours en cave de maturation visible en boutique.", "tag": "Bœuf"}, {"titre": "Porc fermier", "desc": "Élevé sur paille en Bresse louhannaise. Côtes, rôtis, et toute la charcuterie maison : terrines, boudin, saucisson à l'ail.", "tag": "Porc"}, {"titre": "Agneau de l'Aveyron", "desc": "Label Rouge, travaillé entier : gigots, carrés, épaules confites préparées au labo. Sur commande de septembre à juin.", "tag": "Agneau"}, {"titre": "Volailles", "desc": "Bresse AOP, poulets fermiers jaunes des Landes, pintades et canettes. Effilées ou prêtes à cuire, abats sur demande.", "tag": "Volaille"}, {"titre": "Charcuterie maison", "desc": "Jambon blanc cuit au torchon, pâté en croûte primé, saucisses du jour : tout sort du laboratoire attenant, rien d'assemblé.", "tag": "Maison"}, {"titre": "Plats du traiteur", "desc": "Bourguignon, blanquette, lasagnes : cuisinés le matin avec nos viandes. Le déjeuner des halles, à emporter.", "tag": "Traiteur"}];
 const METHODE = [{"n": "01", "t": "Acheter en carcasse", "d": "Nous choisissons les bêtes entières chez quatre éleveurs partenaires — pas au catalogue d'un grossiste."}, {"n": "02", "t": "Maturer sur place", "d": "La cave vitrée fait le travail du temps : 21 à 45 jours selon les pièces, à l'œil et au toucher."}, {"n": "03", "t": "Couper devant vous", "d": "La découpe se fait à la demande : épaisseur, parage, barde. Dites comment vous cuisinez, on coupe pour ça."}, {"n": "04", "t": "Conseiller la cuisson", "d": "Chaque pièce part avec son conseil : température, repos, sauce. La viande se respecte jusqu'à l'assiette."}];
-const ENGAGEMENT = ["Origine née-élevée-abattue affichée pour chaque viande, à l'étal et sur le ticket", "Quatre élevages partenaires, tous à moins de 90 km, visitables sur demande", "Laboratoire de transformation attenant, contrôles sanitaires HACCP quotidiens", "Le dimanche midi, on garde vos commandes au frais jusqu'à 12h30 précises"];
+const ENGAGEMENT_DEMO = ["Origine née-élevée-abattue affichée pour chaque viande, à l'étal et sur le ticket", "Quatre élevages partenaires, tous à moins de 90 km, visitables sur demande", "Laboratoire de transformation attenant, contrôles sanitaires HACCP quotidiens", "Le dimanche midi, on garde vos commandes au frais jusqu'à 12h30 précises"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Côte de bœuf maturée 30 j", "p": "39,90 €/kg", "n": "Charolais de Sombernon, coupée à l'épaisseur demandée."}, {"a": "Saucisses du jour", "p": "12,90 €/kg", "n": "Faites le matin au labo : nature, herbes, ou chorizo doux."}, {"a": "Poulet fermier jaune", "p": "9,90 €/kg", "n": "Landes Label Rouge, prêt à cuire, abats offerts sur demande."}, {"a": "Plat traiteur du jour", "p": "9,50 €/part", "n": "Bourguignon, blanquette ou mijoté de saison, en bocal consigné."}];
 const AVIS_DEMO = [{"texte": "La côte de bœuf des grandes occasions vient d'ici depuis vingt ans. Le patron connaît l'éleveur, la bête et notre four. On ne mange pas de la viande, on mange la sienne.", "auteur": "Bernard C.", "detail": "Client depuis 2004"}, {"texte": "Le pâté en croûte du samedi est une institution familiale. Commandé le mardi, sinon il n'y en a plus — c'est bon signe.", "auteur": "Famille Morel", "detail": "Charcuterie maison"}, {"texte": "J'ai demandé une découpe spéciale pour un bœuf Wellington : conseils de cuisson inclus, filet paré au millimètre. Réussi du premier coup grâce à eux.", "auteur": "Antoine G.", "detail": "Découpe sur mesure"}];
-const STATS = [{"value": "34 km", "label": "L'élevage le plus loin"}, {"value": "30 j", "label": "De maturation sur os"}, {"value": "1962", "label": "La maison, aux halles depuis"}, {"value": "100 %", "label": "Viandes nées et élevées en France"}];
+const STATS_DEMO = [{"value": "34 km", "label": "L'élevage le plus loin"}, {"value": "30 j", "label": "De maturation sur os"}, {"value": "1962", "label": "La maison, aux halles depuis"}, {"value": "100 %", "label": "Viandes nées et élevées en France"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -86,6 +90,8 @@ export default function MaisonBertinPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

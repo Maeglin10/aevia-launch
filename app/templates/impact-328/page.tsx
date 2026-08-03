@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HeldSwap } from "@/lib/templates/hero-kit-2";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -68,12 +69,13 @@ const SERVICES_DEMO = [
   { titre: "Contrats de prévoyance", desc: "Vos volontés écrites et financées à l'avance, capital garanti. Mensualisable, modifiable, et opposable le moment venu.", tag: "Prévoyance" },
 ];
 
-const ENGAGEMENT = [
+const ENGAGEMENT_DEMO = [
   "Habilitation préfectorale n° 26-31-0142 — Préfecture de la Haute-Garonne",
   "Devis-type réglementé, gratuit et sans engagement, conforme à l'arrêté du 23 août 2010",
   "Un seul interlocuteur, joignable 24h/24, du premier appel à l'après-obsèques",
   "Toutes confessions, cérémonies civiles et laïques respectées",
 ];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 
 const TARIFS = [
   { a: "Obsèques avec crémation", p: "dès 2 890 €", n: "Cercueil chêne, transport, démarches, redevance de crémation incluse. Devis-type détaillé remis avant toute signature." },
@@ -134,6 +136,7 @@ export default function MaisonEstevePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

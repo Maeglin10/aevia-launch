@@ -17,6 +17,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // ─── Font Loader ─────────────────────────────────────────────────────────────
@@ -98,12 +99,13 @@ const EXPERIENCES_DEMO = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { n: '1887', l: 'Founded' },
   { n: '87',   l: 'Rooms & Suites' },
   { n: '2 ✦',  l: 'Michelin Stars' },
   { n: '4',    l: 'Hectares of Gardens' },
 ];
+let STATS = STATS_DEMO;
 
 const NAV_LINKS = ['Rooms', 'Experiences', 'Dining', 'Location', 'Reserve'];
 
@@ -2472,6 +2474,7 @@ export default function GrandPalaisPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts();

@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientReviews,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
@@ -27,12 +28,13 @@ const NODES = [
   { title: "Managed K8s", desc: "Auto-scaling clusters with built-in service mesh and observability.", icon: Server, color: "#ec4899" },
 ]
 
-const STATS = [
+const STATS_DEMO = [
   { value: "99.999%", label: "Uptime SLA" },
   { value: "250TB/s", label: "Network Capacity" },
   { value: "45ms", label: "Global Avg Latency" },
   { value: "24/7", label: "Expert Support" },
 ]
+let STATS = STATS_DEMO;
 
 const INTEGRATIONS = [
   "Terraform", "Kubernetes", "GitHub", "GitLab", "Slack", "Prometheus", "Grafana", "Redis"
@@ -78,6 +80,7 @@ export default function NebulaCloudPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

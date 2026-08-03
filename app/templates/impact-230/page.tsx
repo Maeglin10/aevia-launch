@@ -6,8 +6,10 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Hammer } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -32,7 +34,8 @@ let C: Record<string, string> = {
 };const FONT = "'Libre Baskerville', Georgia, serif"
 const FONT_BODY = "'Cabin', system-ui, sans-serif"
 
-const STATS = [{ value: "20 ans", label: "D'ébénisterie" }, { value: "600+", label: "Pièces créées" }, { value: "100%", label: "Bois sourcé France" }, { value: "3 ans", label: "Garantie pièces" }]
+const STATS_DEMO = [{ value: "20 ans", label: "D'ébénisterie" }, { value: "600+", label: "Pièces créées" }, { value: "100%", label: "Bois sourcé France" }, { value: "3 ans", label: "Garantie pièces" }]
+let STATS = STATS_DEMO;
 
 
 const NAV = [
@@ -59,12 +62,13 @@ const SAVOIR_FAIRE_DEMO = [
   { titre: "Objets & petites pièces", desc: "Cadres, étagères, accessoires de cuisine, jouets en bois. Pièces uniques réalisées à la commande — parfaites pour offrir.", tag: "Objets" },
 ]
 
-const ENGAGEMENT = [
+const ENGAGEMENT_DEMO = [
   "Bois massif certifié PEFC, exclusivement de forêts françaises",
   "Aucun aggloméré, aucun plastique, aucun médium dans nos créations",
   "Visite atelier possible pour suivre la fabrication de votre pièce",
   "Délais honnêtes : 8 à 12 semaines selon la complexité",
 ]
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 
 const AVIS_DEMO = [
   { texte: "Une table en chêne massif sur mesure pour notre salle à manger. Lassé du mobilier suédois, j'ai voulu quelque chose qui dure. 3 ans après, c'est la plus belle pièce de notre maison.", auteur: "Thomas & Claire R.", detail: "Table chêne sur mesure" },
@@ -123,6 +127,8 @@ export default function AtelierDuBoisPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

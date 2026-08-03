@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Pédicure-podologue, 1re variante. Signature : MosaicPush — la semelle qui se construit couche par couche, en tuiles. Tuiles CSS sans photo. */
@@ -40,10 +42,12 @@ const HERO = [
 
 const SERVICES_DEMO = [{"titre": "Semelles orthopédiques", "desc": "Sur prescription : examen clinique, plateforme de pression, fabrication au cabinet en 8 jours, contrôle à un mois inclus.", "tag": "Semelles"}, {"titre": "Pédicurie médicale", "desc": "Cors, durillons, hyperkératoses, ongles épais ou incarnés : instruments stériles à usage unique, sans douleur.", "tag": "Pédicurie"}, {"titre": "Pied diabétique", "desc": "Gradation du risque podologique, soins pris en charge par l'Assurance Maladie selon le grade, coordination avec votre médecin.", "tag": "Diabète"}, {"titre": "Podologie du sport", "desc": "Analyse de course sur tapis, semelles dynamiques fines, conseils chaussage par discipline — course, trail, foot, ski.", "tag": "Sport"}, {"titre": "Enfants & croissance", "desc": "Pieds plats, marche en dedans, douleurs de croissance : on surveille, on rassure, on ne corrige que ce qui doit l'être.", "tag": "Enfants"}, {"titre": "Orthoplasties & orthonyxies", "desc": "Protections sur mesure en silicone, redressement d'ongles : le petit appareillage qui évite la chirurgie.", "tag": "Appareillage"}];
 const METHODE = [{"n": "01", "t": "Anamnèse complète", "d": "Douleurs, chaussage, activité, antécédents : le pied s'explique rarement tout seul."}, {"n": "02", "t": "Examen clinique et postural", "d": "Debout, allongé, en marche : cheville, genou, bassin — la chaîne entière est regardée."}, {"n": "03", "t": "Plateforme et scan 3D", "d": "Pressions statiques et dynamiques enregistrées, empreinte numérique pour la fabrication."}, {"n": "04", "t": "Fabrication et contrôle", "d": "Semelles faites au cabinet, essayées dans VOS chaussures, re-testées à un mois. Ajustements inclus."}];
-const ENGAGEMENT = ["Pédicures-podologues D.E., inscrits à l'Ordre national — n° ADELI affichés", "Instruments stériles à usage unique ou stérilisés en autoclave contrôlé", "Semelles fabriquées au cabinet : pas d'envoi en série dans un atelier lointain", "Devis remis avant tout appareillage, prise en charge expliquée mutuelle en main"];
+const ENGAGEMENT_DEMO = ["Pédicures-podologues D.E., inscrits à l'Ordre national — n° ADELI affichés", "Instruments stériles à usage unique ou stérilisés en autoclave contrôlé", "Semelles fabriquées au cabinet : pas d'envoi en série dans un atelier lointain", "Devis remis avant tout appareillage, prise en charge expliquée mutuelle en main"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Bilan podologique + semelles", "p": "160 €", "n": "Examen complet, plateforme, fabrication, contrôle à 1 mois inclus."}, {"a": "Soin de pédicurie", "p": "35 €", "n": "Cors, durillons, ongles : 45 minutes, instruments stériles."}, {"a": "Pied diabétique (gradé 2-3)", "p": "pris en charge", "n": "Forfaits annuels remboursés par l'Assurance Maladie."}, {"a": "Analyse de course (vidéo + tapis)", "p": "90 €", "n": "Compte rendu et conseils chaussage, déduit si semelles sport."}];
 const AVIS_DEMO = [{"texte": "Talalgie depuis un an, deux paires de semelles inefficaces ailleurs. Ici : plateforme, vidéo, semelles refaites — plus aucune douleur au réveil depuis trois mois.", "auteur": "Nathalie B.", "detail": "Semelles sur mesure"}, {"texte": "Le contrôle à un mois n'est pas du marketing : mes semelles ont été retouchées deux fois, sans frais, jusqu'à l'oubli total. C'est ça le sur-mesure.", "auteur": "Étienne R.", "detail": "Suivi inclus"}, {"texte": "Mon père diabétique est suivi tous les deux mois, remboursé, avec un compte rendu envoyé au médecin. Ses pieds n'ont jamais été aussi bien surveillés.", "auteur": "Fille de M. C.", "detail": "Pied diabétique"}];
-const STATS = [{"value": "2", "label": "Podologues D.E."}, {"value": "J+8", "label": "Semelles livrées et testées"}, {"value": "1 mois", "label": "Contrôle et ajustement inclus"}, {"value": "ADELI", "label": "Inscrits à l'Ordre"}];
+const STATS_DEMO = [{"value": "2", "label": "Podologues D.E."}, {"value": "J+8", "label": "Semelles livrées et testées"}, {"value": "1 mois", "label": "Contrôle et ajustement inclus"}, {"value": "ADELI", "label": "Inscrits à l'Ordre"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -83,6 +87,8 @@ export default function PodoMarchePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

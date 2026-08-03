@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Menuisier-ébéniste, 2e variante (la 1re est impact-230, Atelier du Bois). Celle-ci est un ébéniste d'art, pièces uniques et restauration. Signature : ArcSwap — la pièce qui bascule au pivot, comme un meuble qu'on présente. */
@@ -36,10 +38,12 @@ const HERO = [{"k": "Mobilier contemporain", "line": "Le meuble dessiné pour vo
 
 const SERVICES_DEMO = [{"titre": "Mobilier sur mesure", "desc": "Tables, bibliothèques, bureaux, lits : dessinés avec vous, assemblés à tenon-mortaise et queues d'aronde. Aucun panneau de particules ne franchit la porte.", "tag": "Sur mesure"}, {"titre": "Restauration de mobilier ancien", "desc": "Placages refaits à la colle d'os, finitions à la gomme-laque au tampon, ferrures d'époque remontées : la restauration qui respecte le meuble, pas qui le maquille.", "tag": "Restauration"}, {"titre": "Marqueterie & placage", "desc": "Motifs contemporains ou reprises de modèles Louis-Philippe : essences choisies pour leur veine, découpées à la scie à chantourner.", "tag": "Marqueterie"}, {"titre": "Escaliers & pièces d'agencement", "desc": "Limons, garde-corps, habillages : les grandes pièces de menuiserie qui structurent une maison, calculées et posées.", "tag": "Agencement"}, {"titre": "Pièces d'exception", "desc": "Cabinets, secrétaires, meubles d'apparat : les commandes qui prennent six mois et se transmettent ensuite.", "tag": "Exception"}, {"titre": "Conseil & expertise", "desc": "Estimer un meuble de famille, dire s'il vaut une restauration : un avis d'ébéniste avant de dépenser — parfois pour vous dire non.", "tag": "Conseil"}];
 const METHODE = [{"n": "01", "t": "Le dessin, ensemble", "d": "Croquis, essences, proportions : la pièce se décide sur papier, à l'échelle, avant qu'une planche ne soit coupée."}, {"n": "02", "t": "Le bois choisi", "d": "Grumes sélectionnées chez nos scieurs du Jura, séchées deux ans minimum. Vous voyez la planche de votre plateau."}, {"n": "03", "t": "L'assemblage", "d": "Tenon-mortaise, queues d'aronde, chevilles : les liaisons qui traversent les siècles, faites à la main."}, {"n": "04", "t": "La finition & la livraison", "d": "Huile dure, cire ou vernis au tampon selon l'usage. Livraison et pose par nos soins, jamais par transporteur."}];
-const ENGAGEMENT = ["Bois massif français certifié PEFC — aucun aggloméré, médium ou placage industriel", "Assemblages traditionnels : la pièce se démonte et se répare dans cinquante ans", "Atelier visitable : venez voir votre meuble en cours, l'établi est ouvert", "Garantie 5 ans sur les assemblages, conseils d'entretien remis avec chaque pièce"];
+const ENGAGEMENT_DEMO = ["Bois massif français certifié PEFC — aucun aggloméré, médium ou placage industriel", "Assemblages traditionnels : la pièce se démonte et se répare dans cinquante ans", "Atelier visitable : venez voir votre meuble en cours, l'établi est ouvert", "Garantie 5 ans sur les assemblages, conseils d'entretien remis avec chaque pièce"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Table massive (2,20 m)", "p": "dès 3 400 €", "n": "Plateau chêne ou frêne, piètement assemblé, finition huilée."}, {"a": "Bibliothèque sur mesure (ml)", "p": "dès 950 €", "n": "Toute hauteur, montants massifs, étagères non fléchissantes."}, {"a": "Restauration de meuble ancien", "p": "dès 600 €", "n": "Après diagnostic ; devis ferme avant toute intervention."}, {"a": "Diagnostic / expertise", "p": "90 €", "n": "À l'atelier ou sur photos détaillées, déduit si restauration."}];
 const AVIS_DEMO = [{"texte": "Table de 2,40 m en noyer pour douze : six mois d'attente, une vie de service. On a choisi la planche à l'atelier, vu l'assemblage se monter. Rien à voir avec un achat de meuble.", "auteur": "Famille Perrin", "detail": "Table sur mesure"}, {"texte": "Secrétaire Empire de ma grand-mère restauré : placage refait à la colle d'os, serrure d'origine remontée. Impossible de voir où le travail a été fait. Un artisan rare.", "auteur": "Béatrice L.", "detail": "Restauration"}, {"texte": "Il m'a dit que mon buffet ne valait pas les 1 200 € de restauration et m'a conseillé un simple nettoyage à 90 €. Cette honnêteté-là m'a fait revenir pour une commande de bibliothèque.", "auteur": "Michel D.", "detail": "Expertise puis commande"}];
-const STATS = [{"value": "2022", "label": "Meilleur Ouvrier régional"}, {"value": "0", "label": "Vis apparente sur nos assemblages"}, {"value": "PEFC", "label": "Bois français tracé"}, {"value": "100 ans", "label": "L'horizon d'une pièce d'atelier"}];
+const STATS_DEMO = [{"value": "2022", "label": "Meilleur Ouvrier régional"}, {"value": "0", "label": "Vis apparente sur nos assemblages"}, {"value": "PEFC", "label": "Bois français tracé"}, {"value": "100 ans", "label": "L'horizon d'une pièce d'atelier"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -87,6 +91,8 @@ export default function EtabliMoreauPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

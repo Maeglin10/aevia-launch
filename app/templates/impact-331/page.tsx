@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Opticien, 2e variante (la 1re est impact-138). Signature : ArcSwap — les montures se remplacent une par une devant le visage, le balancier au pivot bas est littéralement ce mouvement. Donneur : squelette premium 326-330. */
@@ -36,10 +38,12 @@ const HERO = [{"k": "Lunettes de vue", "line": "La monture essayée, ajustée, a
 
 const SERVICES_DEMO = [{"titre": "Lunettes de vue", "desc": "Montures acétate, métal, titane. Créateurs français et indépendants, du classique au plus affirmé — jamais deux fois la même vitrine.", "tag": "Vue"}, {"titre": "Examen de vue", "desc": "Réfraction complète en salle dédiée. Depuis 2016, l'opticien peut adapter votre correction jusqu'à 5 ans après l'ordonnance.", "tag": "Examen"}, {"titre": "Verres & montage atelier", "desc": "Verres français amincis, anti-reflets, lumière bleue. Montage et ajustage dans notre atelier, retouches gratuites à vie.", "tag": "Atelier"}, {"titre": "Lentilles de contact", "desc": "Adaptation par opticien diplômé, essai encadré, suivi à un mois. Journalières, mensuelles, toriques et multifocales.", "tag": "Lentilles"}, {"titre": "Basse vision", "desc": "Aides visuelles pour DMLA et malvoyance : loupes électroniques, éclairages, filtres. Essais à domicile possibles.", "tag": "Basse vision"}, {"titre": "Enfants", "desc": "Montures indestructibles garanties, verres adaptés au traitement de l'amblyopie, contrôles de croissance tous les six mois.", "tag": "Enfants"}];
 const METHODE = [{"n": "01", "t": "On écoute d'abord", "d": "Votre usage, vos écrans, votre conduite de nuit. La monture vient après le mode de vie, pas l'inverse."}, {"n": "02", "t": "Examen ou ordonnance", "d": "Examen de vue sur place si votre ordonnance date, dans le cadre légal du renouvellement."}, {"n": "03", "t": "Essais francs", "d": "On vous dit quand une monture ne vous va pas. Photos d'essayage envoyées pour décider à tête reposée."}, {"n": "04", "t": "Montage & suivi", "d": "Montage atelier, ajustage au visage, retouches gratuites à vie. Tiers payant mutuelle directement appliqué."}];
-const ENGAGEMENT = ["Opticiens diplômés d'État (BTS Opticien-Lunetier) présents à chaque ouverture", "Offre 100 % Santé : un vrai choix de montures sans reste à charge, pas un fond de tiroir", "Devis normalisé remis avant toute commande — panier moyen affiché en vitrine", "Tiers payant Sécurité sociale et mutuelles : vous n'avancez pas les frais"];
+const ENGAGEMENT_DEMO = ["Opticiens diplômés d'État (BTS Opticien-Lunetier) présents à chaque ouverture", "Offre 100 % Santé : un vrai choix de montures sans reste à charge, pas un fond de tiroir", "Devis normalisé remis avant toute commande — panier moyen affiché en vitrine", "Tiers payant Sécurité sociale et mutuelles : vous n'avancez pas les frais"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Équipement 100 % Santé", "p": "0 € de reste à charge", "n": "Monture classe A + verres classe A, garantis deux ans. Un vrai choix de 35 modèles."}, {"a": "Monture + verres unifocaux", "p": "dès 149 €", "n": "Verres français durcis anti-reflets inclus. Amincissement selon correction."}, {"a": "Monture + verres progressifs", "p": "dès 349 €", "n": "Adaptation garantie : verres refaits sans frais si la vision de près ne convient pas."}, {"a": "Lentilles d'essai", "p": "offertes", "n": "Première adaptation et rendez-vous de contrôle à un mois inclus."}];
 const AVIS_DEMO = [{"texte": "Premier opticien qui m'a déconseillé une monture plus chère parce qu'elle n'allait pas à mon visage. Les progressifs réglés en un seul essai.", "auteur": "Martine L.", "detail": "Verres progressifs"}, {"texte": "Examen de vue sérieux, renouvellement fait sur place sans repasser par l'ophtalmo — six mois d'attente économisés. Lunettes prêtes en une heure.", "auteur": "Karim B.", "detail": "Renouvellement + montage express"}, {"texte": "Ma fille a cassé ses lunettes deux fois cette année. Remplacées deux fois sous garantie, sans discussion, ajustées en cinq minutes.", "auteur": "Aurélie D.", "detail": "Équipement enfant"}];
-const STATS = [{"value": "300+", "label": "Montures en boutique"}, {"value": "0 €", "label": "Reste à charge 100 % Santé"}, {"value": "1 h", "label": "Montage express sur stock"}, {"value": "2 ans", "label": "Garantie casse monture"}];
+const STATS_DEMO = [{"value": "300+", "label": "Montures en boutique"}, {"value": "0 €", "label": "Reste à charge 100 % Santé"}, {"value": "1 h", "label": "Montage express sur stock"}, {"value": "2 ans", "label": "Garantie casse monture"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function RegardNordPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

@@ -9,6 +9,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -76,12 +77,13 @@ const SERVICES_DEMO = [
   { titre: "Parapharmacie & dermo-conseil", desc: "Dermo-cosmétique, nutrition, aromathérapie : des conseils de pharmaciens diplômés, pas un simple libre-service.", tag: "Conseil" },
 ];
 
-const ENGAGEMENT = [
+const ENGAGEMENT_DEMO = [
   "Pharmacie inscrite à l'Ordre national des pharmaciens — licence n° 59#004512",
   "Pharmaciens diplômés d'État présents à chaque ouverture",
   "Tiers payant carte Vitale + mutuelle : aucune avance de frais",
   "Pharmacie de garde : composez le 3237 (0,35 €/min) en dehors de nos horaires",
 ];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 
 const INFOS = [
   { t: "Horaires étendus", d: "Lun–Sam 8h30–19h30, sans interruption. Le samedi jusqu'à 19h." },
@@ -130,6 +132,7 @@ export default function PharmacieDuParcPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

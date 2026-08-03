@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { StickyProgress } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Conseil en gestion de patrimoine, 2e variante (la 1re est impact-241). Signature : StickyProgress — le parcours patrimonial épinglé, étape par étape. Sans photographie. */
@@ -36,10 +38,12 @@ const HERO = [];
 const PARCOURS = [{"n": "01", "title": "Le bilan complet", "body": "Actifs, dettes, fiscalité, régimes matrimoniaux, objectifs de vie : deux heures pour photographier votre situation réelle — souvent la première fois qu'elle l'est."}, {"n": "02", "title": "La stratégie écrite", "body": "Un document clair : où vous allez, par quels véhicules, avec quels risques et quels horizons. Vous le gardez, même sans nous."}, {"n": "03", "title": "La mise en œuvre", "body": "Assurance-vie, PER, SCPI, immobilier : nous sélectionnons en architecture ouverte et négocions les frais d'entrée pour vous."}, {"n": "04", "title": "Le suivi annuel", "body": "Une revue par an minimum : la vie change, la fiscalité aussi. La stratégie s'ajuste, elle ne dort jamais."}];
 const SERVICES_DEMO = [{"titre": "Bilan patrimonial", "desc": "La photographie complète : civil, fiscal, financier, immobilier. Le préalable à tout conseil sérieux — facturé, donc indépendant.", "tag": "Bilan"}, {"titre": "Épargne & placements", "desc": "Assurance-vie, PER, comptes-titres en architecture ouverte : les supports choisis pour votre stratégie, pas pour la commission.", "tag": "Placements"}, {"titre": "Immobilier patrimonial", "desc": "LMNP, déficit foncier, SCPI, démembrement : l'immobilier qui sert un objectif chiffré, pas une plaquette de promoteur.", "tag": "Immobilier"}, {"titre": "Retraite", "desc": "Bilan retraite complet, rachats de trimestres étudiés, PER optimisé : savoir à 45 ans ce qu'on touchera à 64.", "tag": "Retraite"}, {"titre": "Transmission", "desc": "Donations, assurance-vie, démembrement, pacte Dutreil : transmettre plus en payant le juste impôt — en lien avec votre notaire.", "tag": "Transmission"}, {"titre": "Dirigeants & professions libérales", "desc": "Rémunération, holding, prévoyance Madelin, cession d'entreprise : le patrimoine pro et perso enfin coordonnés.", "tag": "Dirigeants"}];
 const METHODE = [{"n": "01", "t": "CIF, contrôlé AMF", "d": "Le statut de Conseiller en Investissements Financiers nous soumet au contrôle de l'AMF et à une association agréée."}, {"n": "02", "t": "Lettre de mission", "d": "Périmètre, livrables et rémunération écrits avant de commencer — vous savez ce que vous payez et pourquoi."}, {"n": "03", "t": "Architecture ouverte", "d": "Aucun produit maison : nous comparons les contrats du marché et négocions les frais pour vous."}, {"n": "04", "t": "Transparence totale", "d": "Honoraires et rétrocessions détaillés dans chaque rapport annuel, au centime."}];
-const ENGAGEMENT = ["CIF adhérent d'une association agréée AMF, ORIAS n° 26 009 244", "Carte T pour les opérations immobilières, RC professionnelle complète", "Rémunération mixte affichée : honoraires + rétrocessions détaillées par écrit", "Aucun objectif commercial sur un produit : notre seul stock, c'est le conseil"];
+const ENGAGEMENT_DEMO = ["CIF adhérent d'une association agréée AMF, ORIAS n° 26 009 244", "Carte T pour les opérations immobilières, RC professionnelle complète", "Rémunération mixte affichée : honoraires + rétrocessions détaillées par écrit", "Aucun objectif commercial sur un produit : notre seul stock, c'est le conseil"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Bilan patrimonial complet", "p": "dès 890 €", "n": "Deux rendez-vous, rapport écrit de 30+ pages, plan d'action chiffré."}, {"a": "Stratégie + mise en œuvre", "p": "sur lettre de mission", "n": "Honoraires forfaitaires annoncés avant, rétrocessions déduites ou affichées."}, {"a": "Suivi annuel", "p": "dès 490 €/an", "n": "Revue complète, ajustements, disponibilité toute l'année."}, {"a": "Bilan retraite seul", "p": "590 €", "n": "Relevés analysés, projections chiffrées, rachats étudiés."}];
 const AVIS_DEMO = [{"texte": "Premier conseiller qui commence par facturer un bilan au lieu de vendre un produit : le rapport de 34 pages a mis à plat quinze ans de décisions accumulées. On sait enfin où on va.", "auteur": "Couple de médecins, Lyon", "detail": "Bilan + stratégie"}, {"texte": "La cession de mon entreprise préparée trois ans en amont : holding, Dutreil, remploi. L'économie fiscale finance leurs honoraires pour vingt ans. Merci pour la rigueur.", "auteur": "Fondateur, PME industrielle", "detail": "Cession d'entreprise"}, {"texte": "Le rapport annuel détaille chaque euro de frais et de rétrocession — j'ai compris pour la première fois ce que coûtait mon assurance-vie. Et il a fait baisser la facture.", "auteur": "Cadre dirigeante, 52 ans", "detail": "Suivi annuel"}];
-const STATS = [{"value": "CIF", "label": "Statut contrôlé par l'AMF"}, {"value": "380", "label": "Familles conseillées"}, {"value": "0", "label": "Produit « maison » à vendre"}, {"value": "1/an", "label": "Revue patrimoniale minimum"}];
+const STATS_DEMO = [{"value": "CIF", "label": "Statut contrôlé par l'AMF"}, {"value": "380", "label": "Familles conseillées"}, {"value": "0", "label": "Produit « maison » à vendre"}, {"value": "1/an", "label": "Revue patrimoniale minimum"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function CapHorizonPatrimoinePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

@@ -8,8 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, LineMask, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Pédicure-podologue, 2e variante, douce et bien-être assumé. Signature : LineMask — la foulée décrite ligne à ligne. Sans photographie. */
@@ -35,10 +37,12 @@ const HERO = [{"k": "Pédicurie douce", "lines": ["Des pieds soignés,", "sans s
 
 const SERVICES_DEMO = [{"titre": "Soin de pédicurie complet", "desc": "Bain tiède, cors et callosités traités, ongles coupés et fraisés, crème massée : 45 minutes qui changent la démarche.", "tag": "Soin"}, {"titre": "Ongles difficiles", "desc": "Incarnés, épaissis, mycosiques : traités sans douleur, orthonyxie si besoin, conseils francs sur ce qui repoussera — et ce qui ne repoussera pas.", "tag": "Ongles"}, {"titre": "Semelles fines", "desc": "Correction efficace dans des semelles discrètes, gainées cuir, pensées pour VOS chaussures — y compris celles qu'on aime trop.", "tag": "Semelles"}, {"titre": "Pieds âgés & domicile", "desc": "Tournée du jeudi pour les patients qui ne se déplacent plus : le soin complet, à la maison, en lien avec l'infirmière.", "tag": "Domicile"}, {"titre": "Pied diabétique", "desc": "Gradation, soins pris en charge selon le grade, vigilance plaies : la prévention qui évite les catastrophes.", "tag": "Diabète"}, {"titre": "Réflexologie plantaire", "desc": "En fin de soin ou en séance dédiée : 30 minutes de détente réelle — le bien-être fait aussi partie du soin.", "tag": "Bien-être"}];
 const METHODE = [{"n": "01", "t": "On écoute d'abord", "d": "Vos douleurs, vos chaussures, votre quotidien. Le pied raconte une vie — on la prend en compte."}, {"n": "02", "t": "Le soin, en douceur", "d": "Instruments stériles, gestes expliqués, jamais de douleur infligée « pour bien faire »."}, {"n": "03", "t": "Les conseils utiles", "d": "Chaussage, crème, auto-surveillance : trois conseils réalistes valent mieux que dix idéaux."}, {"n": "04", "t": "Le bon rythme de suivi", "d": "Toutes les 6 à 10 semaines selon les pieds — rappel proposé, jamais imposé."}];
-const ENGAGEMENT = ["Diplômée d'État, inscrite à l'Ordre des pédicures-podologues", "Stérilisation autoclave contrôlée, instruments tracés par patient", "Tarifs affichés en salle d'attente, devis avant tout appareillage", "Visites à domicile le jeudi, en coordination avec infirmiers et familles"];
+const ENGAGEMENT_DEMO = ["Diplômée d'État, inscrite à l'Ordre des pédicures-podologues", "Stérilisation autoclave contrôlée, instruments tracés par patient", "Tarifs affichés en salle d'attente, devis avant tout appareillage", "Visites à domicile le jeudi, en coordination avec infirmiers et familles"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Soin de pédicurie (45 min)", "p": "38 €", "n": "Complet, crème et conseils compris."}, {"a": "Soin à domicile (jeudi)", "p": "48 €", "n": "Pau et première couronne, matériel stérile transporté."}, {"a": "Bilan + semelles fines", "p": "150 €", "n": "Fabrication 8 jours, ajustement à un mois inclus."}, {"a": "Réflexologie plantaire (30 min)", "p": "35 €", "n": "En complément d'un soin ou en séance seule."}];
 const AVIS_DEMO = [{"texte": "J'avais honte de mes pieds au point de repousser le rendez-vous deux ans. Accueil sans jugement, soin sans douleur, résultat spectaculaire. J'aurais dû venir bien avant.", "auteur": "Monique A., 67 ans", "detail": "Premier soin"}, {"texte": "Les semelles fines tiennent vraiment dans mes escarpins de travail. La douleur à l'avant-pied a disparu en trois semaines.", "auteur": "Sandrine V.", "detail": "Semelles discrètes"}, {"texte": "Elle vient chaque jeudi chez ma mère de 91 ans, coordonnée avec l'infirmière. Maman remarche dans le jardin — c'est tout ce qui compte.", "auteur": "Fils de Mme E.", "detail": "Soins à domicile"}];
-const STATS = [{"value": "45 min", "label": "Par soin — jamais à la chaîne"}, {"value": "8 j", "label": "Pour vos semelles"}, {"value": "D.E.", "label": "Diplômée d'État, inscrite à l'Ordre"}, {"value": "Dom.", "label": "Visites à domicile le jeudi"}];
+const STATS_DEMO = [{"value": "45 min", "label": "Par soin — jamais à la chaîne"}, {"value": "8 j", "label": "Pour vos semelles"}, {"value": "D.E.", "label": "Diplômée d'État, inscrite à l'Ordre"}, {"value": "Dom.", "label": "Visites à domicile le jeudi"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -86,6 +90,8 @@ export default function AllureAppuiPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

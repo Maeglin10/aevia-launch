@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientReviews,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
@@ -91,12 +92,13 @@ const PROPERTIES_DEMO = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { value: "€ 14 200", label: "Prix médian / m² — Paris Centre", suffix: "" },
   { value: "28", label: "Années d'expertise sur le marché parisien", suffix: "ans" },
   { value: "94", label: "Transactions réussies en 2024", suffix: "%" },
   { value: "340", label: "Biens vendus ces 5 dernières années", suffix: "+" },
 ];
+let STATS = STATS_DEMO;
 
 const NEIGHBORHOODS = [
   {
@@ -804,6 +806,7 @@ export default function Impact167Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25), goldDark: shadeColor(brand, -20) };

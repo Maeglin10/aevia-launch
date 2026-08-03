@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { ParticleOrb } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Sage-femme libérale, 1re variante. Signature : ParticleOrb — un halo doux qui respire, comme une veilleuse. Sans photographie. */
@@ -36,10 +38,12 @@ const HERO = [];
 
 const SERVICES_DEMO = [{"titre": "Suivi de grossesse", "desc": "Consultations mensuelles, entretien prénatal précoce, monitorings de fin de grossesse au cabinet : le suivi complet des grossesses physiologiques.", "tag": "Grossesse"}, {"titre": "Préparation à la naissance", "desc": "8 séances remboursées : physiologie, respiration, positions, place du co-parent, projet de naissance. En petit groupe ou en couple.", "tag": "Préparation"}, {"titre": "Retour à la maison (PRADO)", "desc": "Visites à domicile dès la sortie de maternité : poids, allaitement ou biberon, sommeil, baby-blues — tout ce qui déborde les premiers jours.", "tag": "Post-partum"}, {"titre": "Allaitement", "desc": "Consultations dédiées, y compris en urgence : crevasses, engorgement, doutes de croissance. Aussi : sevrage accompagné, sans culpabilité.", "tag": "Allaitement"}, {"titre": "Rééducation périnéale", "desc": "10 séances remboursées après la naissance : méthode manuelle et biofeedback, à votre rythme, sans tabou et sans douleur.", "tag": "Rééducation"}, {"titre": "Gynécologie de prévention", "desc": "Frottis, contraception, pose et retrait de DIU : les sages-femmes assurent le suivi gynécologique des femmes en bonne santé, à tout âge.", "tag": "Gynéco"}];
 const METHODE = [{"n": "01", "t": "Le premier rendez-vous", "d": "Long, posé : histoire, souhaits, questions. L'entretien prénatal précoce est un droit — et un vrai moment."}, {"n": "02", "t": "La grossesse, suivie", "d": "Une consultation par mois, monitorings en fin de parcours, lien direct avec la maternité choisie."}, {"n": "03", "t": "La naissance, préparée", "d": "8 séances pour arriver le jour J en connaissant son corps, ses droits et ses options."}, {"n": "04", "t": "L'après, accompagné", "d": "Domicile la première semaine, allaitement, rééducation, contraception : on ne disparaît pas après l'accouchement."}];
-const ENGAGEMENT = ["Sage-femme diplômée d'État, inscrite à l'Ordre — n° RPPS affiché au cabinet", "Conventionnée CPAM : consultations remboursées, 100 % dès le 6e mois de grossesse", "Visites à domicile dans Aix et sa couronne, coordination PRADO avec la maternité", "Urgences de ma patientèle : joignable 7j/7 en fin de grossesse et post-partum"];
+const ENGAGEMENT_DEMO = ["Sage-femme diplômée d'État, inscrite à l'Ordre — n° RPPS affiché au cabinet", "Conventionnée CPAM : consultations remboursées, 100 % dès le 6e mois de grossesse", "Visites à domicile dans Aix et sa couronne, coordination PRADO avec la maternité", "Urgences de ma patientèle : joignable 7j/7 en fin de grossesse et post-partum"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Consultation de suivi", "p": "tarif conventionné", "n": "Remboursée 70 %, puis 100 % dès le 6e mois — tiers payant."}, {"a": "Préparation à la naissance (×8)", "p": "prises en charge", "n": "100 % Assurance Maternité, en groupe ou en couple."}, {"a": "Rééducation périnéale (×10)", "p": "prises en charge", "n": "Sur prescription, remboursées intégralement."}, {"a": "Suivi gynécologique / frottis", "p": "tarif conventionné", "n": "Remboursé comme chez un médecin — les sages-femmes y sont habilitées."}];
 const AVIS_DEMO = [{"texte": "Suivie du test de grossesse au dernier jour de rééducation par la même personne : cette continuité change tout. Elle connaissait mon dossier, mes peurs, mon bébé.", "auteur": "Laure M.", "detail": "Suivi complet"}, {"texte": "La visite à domicile du 3e jour nous a sauvés : l'allaitement partait mal, tout est rentré dans l'ordre en deux visites. Et le co-parent a eu sa place à chaque étape.", "auteur": "Élise & Damien", "detail": "Post-partum + allaitement"}, {"texte": "Je continue de la voir pour ma gynéco de prévention : frottis, DIU, questions sans tabou. Je ne retournerai pas m'asseoir dans une salle d'attente anonyme.", "auteur": "Sophie R.", "detail": "Suivi gynécologique"}];
-const STATS = [{"value": "100 %", "label": "Grossesse remboursée dès le 6e mois"}, {"value": "7j/7", "label": "Pour ma patientèle en fin de grossesse"}, {"value": "RPPS", "label": "Conventionnée, inscrite à l'Ordre"}, {"value": "8", "label": "Séances de préparation prises en charge"}];
+const STATS_DEMO = [{"value": "100 %", "label": "Grossesse remboursée dès le 6e mois"}, {"value": "7j/7", "label": "Pour ma patientèle en fin de grossesse"}, {"value": "RPPS", "label": "Conventionnée, inscrite à l'Ordre"}, {"value": "8", "label": "Séances de préparation prises en charge"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -87,6 +91,8 @@ export default function CabinetNaissancesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

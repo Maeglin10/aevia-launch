@@ -10,6 +10,7 @@ import {
   clientFaq,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Nav and footer links all pointed at the template root regardless of their
@@ -307,12 +308,13 @@ const FAQS_DEMO = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { val: "4.92", label: "Note moyenne", sub: "2 840 avis vérifiés" },
   { val: "J+1", label: "Livraison express", sub: "Commande avant 14h" },
   { val: "30 j", label: "Retours gratuits", sub: "Sans justification" },
   { val: "100%", label: "Matières certifiées", sub: "GOTS & OEKO-TEX" },
 ];
+let STATS = STATS_DEMO;
 
 // ─── Animated Announcement Bar ───────────────────────────────────────────────
 function AnnouncementBar() {
@@ -790,6 +792,7 @@ export default function ImpactEclatPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25), goldDark: shadeColor(brand, -20) };

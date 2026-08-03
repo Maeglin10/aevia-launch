@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -1816,7 +1817,7 @@ type Certification = {
   icon: React.ReactNode;
 };
 
-const CERTIFICATIONS: Certification[] = [
+const CERTIFICATIONS_DEMO: Certification[] = [
   {
     abbr: 'Qualifelec',
     title: 'Qualifelec RGE',
@@ -1842,6 +1843,7 @@ const CERTIFICATIONS: Certification[] = [
     icon: <CheckCircle size={28} color={C.yellow} strokeWidth={1.8} />,
   },
 ];
+let CERTIFICATIONS = CERTIFICATIONS_DEMO;
 
 function CertificationBadge({ c, i }: { c: Certification; i: number }) {
   const [hover, setHover] = useState(false);
@@ -2722,6 +2724,7 @@ export default function Impact277Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  CERTIFICATIONS = resolveList(clientCertifications(sessionData), CERTIFICATIONS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, yellow: brand, yellowLight: shadeColor(brand, 25) };

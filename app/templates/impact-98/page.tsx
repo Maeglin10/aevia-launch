@@ -29,6 +29,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import "../premium.css";
 import {
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* ==========================================================================
@@ -80,12 +81,13 @@ const CRAFTSMANSHIP = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { label: "Components Per Watch", value: "320+" },
   { label: "Master Watchmakers", value: "14" },
   { label: "Hours of Testing", value: "800" },
   { label: "Heritage Years", value: "125" },
 ];
+let STATS = STATS_DEMO;
 
 /* ==========================================================================
    UTILITY COMPONENTS
@@ -221,6 +223,7 @@ export default function ZenithWatchesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Product collection ← client's business profile (falls back to demo).

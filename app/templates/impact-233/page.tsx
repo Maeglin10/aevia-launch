@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -33,7 +34,8 @@ let C: Record<string, string> = {
 const FONT = "'Cormorant Garamond', Georgia, serif"
 const FONT_BODY = "'Source Sans 3', system-ui, sans-serif"
 
-const STATS = [{ value: "12 ans", label: "D'ostéopathie" }, { value: "800+", label: "Patients par an" }, { value: "1ère séance", label: "En 48h" }, { value: "95%", label: "Patients soulagés" }]
+const STATS_DEMO = [{ value: "12 ans", label: "D'ostéopathie" }, { value: "800+", label: "Patients par an" }, { value: "1ère séance", label: "En 48h" }, { value: "95%", label: "Patients soulagés" }]
+let STATS = STATS_DEMO;
 
 const MOTIFS_DEMO = [
   { titre: "Douleurs du dos & rachis", desc: "Lombalgie, dorsalgie, cervicalgie aiguë ou chronique. Traitement des blocages vertébraux, des tensions musculaires et des douleurs liées à la posture.", tag: "Dos" },
@@ -173,6 +175,7 @@ export default function CabinetOsteopathiePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

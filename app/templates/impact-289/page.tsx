@@ -26,6 +26,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -1808,7 +1809,7 @@ function ContactFormSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type Stat = { value: string; label: string; sub: string };
 
-const STATS: Stat[] = [
+const STATS_DEMO: Stat[] = [
   {
     value: '28 ans',
     label: "d'expertise",
@@ -1830,6 +1831,7 @@ const STATS: Stat[] = [
     sub: 'Droit local, régime concordataire, Livre Foncier',
   },
 ];
+let STATS = STATS_DEMO;
 
 function StatsSection() {
   const sec: React.CSSProperties = {
@@ -2622,6 +2624,7 @@ export default function Impact289Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, blue: brand };

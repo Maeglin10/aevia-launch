@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Couvreur-zingueur, 1re variante. Signature : HardCutRebuild — la toiture déposée d'un coup puis remontée rang par rang. Sans photographie. */
@@ -36,10 +38,12 @@ const HERO = [{"k": "Réfection complète", "line": "ON DÉPOSE. ON REMONTE.", "
 
 const SERVICES_DEMO = [{"titre": "Réfection de couverture", "desc": "Dépose complète, contrôle de charpente, écran sous-toiture et remontage en ardoise, tuile ou zinc. Le chantier type qui engage quarante ans.", "tag": "Réfection"}, {"titre": "Zinguerie", "desc": "Gouttières, noues, abergements de cheminée, toitures zinc à joint debout : façonnés à l'atelier, soudés sur place.", "tag": "Zinc"}, {"titre": "Isolation de toiture", "desc": "Sarking ou combles perdus, éligible aux aides (MaPrimeRénov'). Le bon moment, c'est pendant la réfection — on chiffre les deux.", "tag": "Isolation"}, {"titre": "Réparations & entretien", "desc": "Ardoises glissées, tuiles gélives, mousse : forfait d'entretien annuel avec passage après l'hiver et rapport photo.", "tag": "Entretien"}, {"titre": "Fenêtres de toit", "desc": "Pose et remplacement de fenêtres de toit, raccords d'étanchéité garantis, volets solaires possibles.", "tag": "Lumière"}, {"titre": "Urgences & assurances", "desc": "Bâchage sous 24 h, chiffrage conforme aux attentes des experts, photos avant/après pour votre dossier.", "tag": "Urgence"}];
 const METHODE = [{"n": "01", "t": "Visite et diagnostic", "d": "Montée sur toit ou drone selon l'accès, photos commentées, diagnostic écrit de la charpente à la gouttière."}, {"n": "02", "t": "Devis détaillé", "d": "Matériaux nommés (ardoise, crochet, écran), quantités, délais. Les aides à la rénovation sont chiffrées avec."}, {"n": "03", "t": "Chantier protégé", "d": "Échafaudage aux normes, bâchage chaque soir, gravats évacués en benne — jamais dans votre jardin."}, {"n": "04", "t": "Réception en toiture", "d": "Réception avec photos de chaque zone, garanties remises, facture conforme pour l'assurance habitation."}];
-const ENGAGEMENT = ["Garantie décennale couverture-zinguerie — attestation remise avec chaque devis", "Qualibat 3212, équipes formées au travail en hauteur (habilitations à jour)", "Devis gratuit et détaillé matériau par matériau, jamais de forfait flou", "Après tempête : bâchage d'abord, devis ensuite — on ne profite pas de l'urgence"];
+const ENGAGEMENT_DEMO = ["Garantie décennale couverture-zinguerie — attestation remise avec chaque devis", "Qualibat 3212, équipes formées au travail en hauteur (habilitations à jour)", "Devis gratuit et détaillé matériau par matériau, jamais de forfait flou", "Après tempête : bâchage d'abord, devis ensuite — on ne profite pas de l'urgence"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Réfection ardoise naturelle", "p": "140–180 €/m²", "n": "Dépose, écran, ardoise d'Anjou au crochet inox, zinguerie comprise."}, {"a": "Réfection tuile terre cuite", "p": "95–130 €/m²", "n": "Tuiles de pays, faîtage scellé ou à sec selon DTU."}, {"a": "Gouttière zinc posée", "p": "dès 68 €/ml", "n": "Façonnée à l'atelier, naissances et descentes comprises."}, {"a": "Forfait entretien annuel", "p": "dès 290 €", "n": "Passage après l'hiver, ardoises remplacées, rapport photo envoyé."}];
 const AVIS_DEMO = [{"texte": "Toiture ardoise de 1930 refaite à l'identique, isolation sarking au passage. Le chantier a duré trois semaines, bâché chaque soir, jardin impeccable au départ.", "auteur": "Famille Hervé", "detail": "Réfection complète + isolation"}, {"texte": "Tempête de novembre : bâchés le soir même à 22 h, dossier photo transmis à l'assurance, réparation programmée sans qu'on ait à se battre avec l'expert.", "auteur": "Monique C.", "detail": "Urgence tempête"}, {"texte": "Ils ont refusé de remplacer toute la toiture que deux autres artisans condamnaient : 40 ardoises reprises, gouttière refaite, 800 € au lieu de 30 000. On sait où on ira le jour venu.", "auteur": "Pierre L.", "detail": "Réparation honnête"}];
-const STATS = [{"value": "10 ans", "label": "Garantie décennale"}, {"value": "Qualibat", "label": "3212 — couverture"}, {"value": "24 h", "label": "Bâchage d'urgence"}, {"value": "380+", "label": "Toitures refaites"}];
+const STATS_DEMO = [{"value": "10 ans", "label": "Garantie décennale"}, {"value": "Qualibat", "label": "3212 — couverture"}, {"value": "24 h", "label": "Bâchage d'urgence"}, {"value": "380+", "label": "Toitures refaites"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function ToitsDeLoirePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

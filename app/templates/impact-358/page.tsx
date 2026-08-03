@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Laboratoire de biologie médicale, 2e variante, proximité rurale multi-sites. Signature : MosaicPush — les paillasses qui arrivent rayon par rayon. Tuiles CSS sans photo. */
@@ -40,10 +42,12 @@ const HERO = [
 
 const SERVICES_DEMO = [{"titre": "Bilans de routine", "desc": "NFS, iono, lipides, hépatique : la biologie du quotidien, validée par un biologiste et en ligne le jour même.", "tag": "Routine"}, {"titre": "Tournées des villages", "desc": "Nos préleveurs sillonnent la vallée chaque matin : Pernes, L'Isle-sur-la-Sorgue, Monteux — à domicile sur prescription.", "tag": "Rural"}, {"titre": "Suivi des chroniques", "desc": "INR, diabète, thyroïde : rappels de prélèvement programmés, courbes historiques transmises au médecin traitant.", "tag": "Chronique"}, {"titre": "Pédiatrie douce", "desc": "Préleveuses formées aux enfants, crème anesthésiante conseillée en amont, diplôme du courage à la sortie — vraiment.", "tag": "Enfants"}, {"titre": "Microbiologie & allergies", "desc": "Cultures, antibiogrammes, panels d'allergènes : le plateau technique traite sur place, sans sous-traitance lointaine.", "tag": "Spécialisé"}, {"titre": "Conventions locales", "desc": "EHPAD, maisons de santé, infirmiers libéraux : circuits dédiés, coursiers et résultats intégrés à vos logiciels.", "tag": "Partenaires"}];
 const METHODE = [{"n": "01", "t": "Prélever près de chez vous", "d": "Trois sites et des tournées : personne ne fait 40 minutes de route pour une prise de sang."}, {"n": "02", "t": "Transporter sous contrôle", "d": "Navette réfrigérée toutes les deux heures, température loggée — la qualité commence dans le coffre."}, {"n": "03", "t": "Analyser au plateau", "d": "Automates mutualisés, contrôles COFRAC quotidiens, biologistes présents physiquement."}, {"n": "04", "t": "Rendre, et expliquer", "d": "En ligne avant 17 h 30, urgences téléphonées, rappel du biologiste quand il le faut."}];
-const ENGAGEMENT = ["Accréditation COFRAC ISO 15189 — la même exigence que les grands centres urbains", "Cinq biologistes médicaux, présents sur les sites, joignables par les prescripteurs", "Chaîne du froid tracée du prélèvement à l'automate, enregistrements conservés", "Urgences biologiques téléphonées au médecin dans l'heure, 6j/7"];
+const ENGAGEMENT_DEMO = ["Accréditation COFRAC ISO 15189 — la même exigence que les grands centres urbains", "Cinq biologistes médicaux, présents sur les sites, joignables par les prescripteurs", "Chaîne du froid tracée du prélèvement à l'automate, enregistrements conservés", "Urgences biologiques téléphonées au médecin dans l'heure, 6j/7"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Bilan prescrit", "p": "tiers payant", "n": "Carte Vitale + mutuelle, zéro avance sur les trois sites."}, {"a": "Prélèvement à domicile", "p": "pris en charge", "n": "Sur prescription, dans les communes des tournées affichées."}, {"a": "Panel allergènes (prescrit)", "p": "tiers payant", "n": "Résultats commentés, transmis à l'allergologue."}, {"a": "Bilan sportif sans ordonnance", "p": "dès 32 €", "n": "Tarif nomenclature affiché au guichet et en ligne."}];
 const AVIS_DEMO = [{"texte": "INR toutes les trois semaines depuis des années : la préleveuse de la tournée connaît mes veines et mon café. Le résultat est chez le médecin avant midi.", "auteur": "Marcel D., Pernes", "detail": "Tournée des villages"}, {"texte": "Ma fille de 4 ans est ressortie avec son diplôme du courage et sans larmes. La crème conseillée la veille au téléphone a tout changé.", "auteur": "Maman de Lila", "detail": "Prélèvement pédiatrique"}, {"texte": "Notre EHPAD travaille avec BioVallée : circuits fiables, urgences vraiment téléphonées, biologiste joignable. Un partenaire, pas un prestataire.", "auteur": "Médecin coordonnateur", "detail": "Convention EHPAD"}];
-const STATS = [{"value": "3", "label": "Sites + tournées à domicile"}, {"value": "2 h", "label": "Entre chaque navette réfrigérée"}, {"value": "17h30", "label": "Résultats du jour en ligne"}, {"value": "5", "label": "Biologistes médicaux"}];
+const STATS_DEMO = [{"value": "3", "label": "Sites + tournées à domicile"}, {"value": "2 h", "label": "Entre chaque navette réfrigérée"}, {"value": "17h30", "label": "Résultats du jour en ligne"}, {"value": "5", "label": "Biologistes médicaux"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -83,6 +87,8 @@ export default function BioValleePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

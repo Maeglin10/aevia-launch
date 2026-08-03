@@ -8,8 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, WordFlight, useSlides } from "@/lib/templates/hero-kit-2";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Notaire, 2e variante (la 1re est impact-326, luxe ivoire). Celle-ci est urbaine et sombre. Signature : WordFlight — les mots de l'acte s'assemblent en vol, comme les clauses d'un acte qui se construit. */
@@ -35,10 +37,12 @@ const HERO = [{"k": "Immobilier", "line": "Signer un achat sans découvrir de cl
 
 const SERVICES_DEMO = [{"titre": "Ventes immobilières", "desc": "De l'avant-contrat à la remise des clés : urbanisme, diagnostics, origine de propriété et servitudes vérifiés avant que vous ne signiez.", "tag": "Immobilier"}, {"titre": "Successions", "desc": "Acte de notoriété, inventaire, partage, déclaration fiscale dans les six mois. Un interlocuteur unique pour toute la famille.", "tag": "Succession"}, {"titre": "Donations & testaments", "desc": "Donation-partage, donation entre époux, testament authentique conservé au fichier central. Transmettre sans créer de conflit.", "tag": "Famille"}, {"titre": "Contrats de mariage & PACS", "desc": "Séparation de biens, participation aux acquêts, convention de PACS notariée : le régime choisi, pas le régime subi.", "tag": "Couple"}, {"titre": "Entreprise & sociétés", "desc": "Cession de fonds, baux commerciaux, constitution et cession de parts. La date certaine et la force exécutoire en plus.", "tag": "Affaires"}, {"titre": "Conseil patrimonial", "desc": "Démembrement, SCI, mandat de protection future, assurance-vie : un rendez-vous conseil avant les grandes décisions.", "tag": "Patrimoine"}];
 const METHODE = [{"n": "01", "t": "Écoute et pièces", "d": "Un premier échange pour cerner la situation, une liste de pièces claire — et une seule fois."}, {"n": "02", "t": "Projet d'acte commenté", "d": "Le projet vous est envoyé avant le rendez-vous, annoté en langage courant. Vous arrivez en connaissant votre dossier."}, {"n": "03", "t": "Signature expliquée", "d": "Chaque clause relue à voix haute, chaque question posée a sa réponse avant le stylo."}, {"n": "04", "t": "Suites assurées", "d": "Publicité foncière, enregistrement, attestations : l'étude suit le dossier jusqu'au dernier document."}];
-const ENGAGEMENT = ["Notaires nommés par le garde des Sceaux — nos actes ont force exécutoire", "Membres de la Chambre des notaires d'Ille-et-Vilaine, inspection annuelle", "Émoluments réglementés : pour un même acte, le même prix partout en France", "Secret professionnel absolu, y compris entre membres d'une même famille"];
+const ENGAGEMENT_DEMO = ["Notaires nommés par le garde des Sceaux — nos actes ont force exécutoire", "Membres de la Chambre des notaires d'Ille-et-Vilaine, inspection annuelle", "Émoluments réglementés : pour un même acte, le même prix partout en France", "Secret professionnel absolu, y compris entre membres d'une même famille"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Acte de notoriété", "p": "57,69 € HT", "n": "Émolument fixe national, identique dans toute la France."}, {"a": "Donation entre époux", "p": "115,39 € HT", "n": "Émolument fixe, hors droits d'enregistrement éventuels."}, {"a": "Testament authentique", "p": "113,19 € HT", "n": "Reçu par deux notaires ou un notaire et deux témoins, inscrit au fichier central."}, {"a": "Vente immobilière", "p": "barème proportionnel", "n": "Émoluments dégressifs par tranches. Simulation chiffrée remise avant l'avant-contrat."}];
 const AVIS_DEMO = [{"texte": "Succession réglée en quatre mois avec une sœur à l'étranger. Visio pour les rendez-vous, procurations gérées par l'étude, déclaration déposée dans les délais.", "auteur": "François T.", "detail": "Succession internationale"}, {"texte": "Le projet d'acte annoté reçu une semaine avant la signature change tout : on a posé nos questions par écrit, la signature a duré quarante minutes au lieu de deux heures.", "auteur": "Élodie & Marc P.", "detail": "Achat immobilier"}, {"texte": "Cession de mes parts préparée avec mon expert-comptable et l'étude en direct. Fiscalité anticipée, calendrier tenu.", "auteur": "Gaëlle M.", "detail": "Cession de parts"}];
-const STATS = [{"value": "3", "label": "Notaires et 6 collaborateurs"}, {"value": "900+", "label": "Actes reçus par an"}, {"value": "48 h", "label": "Réponse écrite garantie"}, {"value": "7 j", "label": "Premier rendez-vous"}];
+const STATS_DEMO = [{"value": "3", "label": "Notaires et 6 collaborateurs"}, {"value": "900+", "label": "Actes reçus par an"}, {"value": "48 h", "label": "Réponse écrite garantie"}, {"value": "7 j", "label": "Premier rendez-vous"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -78,6 +82,8 @@ export default function EtudeDuCanalPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

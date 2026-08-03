@@ -46,8 +46,30 @@ const WITNESS = {
   headline: "ZZACCROCHE",
 };
 
+/*
+  /api/sessions limite à 30 requêtes par minute et par IP. Le harnais en
+  consommait trois par thème et se faisait étrangler au dixième : les thèmes
+  audités ensuite paraissaient ne rien afficher, alors que c'est la mesure qui
+  échouait. On respecte la limite plutôt que d'affaiblir le limiteur.
+*/
+const MIN_INTERVAL_MS = Number(process.env.AUDIT_INTERVAL_MS ?? 2100);
+let lastCall = 0;
+async function throttled(url, init) {
+  const wait = MIN_INTERVAL_MS - (Date.now() - lastCall);
+  if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+  lastCall = Date.now();
+  let res = await fetch(url, init);
+  for (let n = 0; res.status === 429 && n < 4; n++) {
+    await new Promise((r) => setTimeout(r, 15_000));
+    lastCall = Date.now();
+    res = await fetch(url, init);
+  }
+  if (res.status === 429) throw new Error("429 persistant : limiteur de débit");
+  return res;
+}
+
 async function seed(templateId) {
-  const post = await fetch(`${BASE}/api/sessions`, {
+  const post = await throttled(`${BASE}/api/sessions`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
@@ -68,7 +90,7 @@ async function seed(templateId) {
   });
   const { sessionId } = await post.json();
 
-  await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
+  await throttled(`${BASE}/api/sessions?id=${sessionId}`, {
     method: "PATCH",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({

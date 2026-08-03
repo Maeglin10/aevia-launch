@@ -8,8 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, HeldSwap, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Caviste indépendant, 2e variante de la niche. Signature : HeldSwap — la bouteille posée sur le comptoir, tenue, remplacée. Carte CSS sans photo. */
@@ -35,10 +37,12 @@ const HERO = [{"k": "Loire", "line": "Chenins, cabernets francs, la vigne d'ici.
 
 const SERVICES_DEMO = [{"titre": "Les vins de Loire", "desc": "Soixante références de la vallée, de la petite cuvée à boire ce soir au Vouvray de garde. On connaît les parcelles, pas seulement les étiquettes.", "tag": "Loire"}, {"titre": "Nature, bio, conventionnel", "desc": "Aucune chapelle : ce qui est bon entre en cave. On vous dit ce qu'il y a dans la bouteille et vous choisissez en connaissance.", "tag": "Sélection"}, {"titre": "Champagnes de vignerons", "desc": "Récoltants-manipulants uniquement : des champagnes de terroir, souvent moitié moins chers que les grandes marques pour bien mieux.", "tag": "Bulles"}, {"titre": "Spiritueux & bières", "desc": "Whiskies de distilleries indépendantes, rhums agricoles, gins français, bières artisanales de la région : la cave complète.", "tag": "Spiritueux"}, {"titre": "Cadeaux & entreprises", "desc": "Coffrets composés avec vous, gravure sur bouteille, livraison sur Tours : le cadeau client qu'on n'oublie pas.", "tag": "Cadeaux"}, {"titre": "Dégustations mensuelles", "desc": "Un vigneron, dix personnes, deux heures : le troisième jeudi du mois à la cave. Douze euros, souvent déduits si vous emportez.", "tag": "Dégustation"}];
 const METHODE = [{"n": "01", "t": "On goûte tout", "d": "Aucune bouteille n'entre en cave sans avoir été goûtée par nous — souvent au domaine, avec celui qui l'a faite."}, {"n": "02", "t": "On demande le plat", "d": "« Un rouge à 15 € » ne veut rien dire. Dites-nous ce que vous mangez, avec qui, et le conseil devient utile."}, {"n": "03", "t": "On assume les non", "d": "Si votre budget ne permet pas ce que vous cherchez, on le dit et on propose autre chose plutôt que de vendre une déception."}, {"n": "04", "t": "On suit la bouteille", "d": "Revenez nous dire. C'est comme ça que la sélection s'ajuste — et que le conseil suivant sera meilleur."}];
-const ENGAGEMENT = ["80 % des vins achetés en direct au domaine : le vigneron est payé correctement", "Chaque bouteille de la cave a été goûtée par l'équipe avant d'être référencée", "Conseil sans supplément, quel que soit le budget — y compris à 8 €", "L'abus d'alcool est dangereux pour la santé : à consommer avec modération"];
+const ENGAGEMENT_DEMO = ["80 % des vins achetés en direct au domaine : le vigneron est payé correctement", "Chaque bouteille de la cave a été goûtée par l'équipe avant d'être référencée", "Conseil sans supplément, quel que soit le budget — y compris à 8 €", "L'abus d'alcool est dangereux pour la santé : à consommer avec modération"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Le vin de la semaine", "p": "dès 8,50 €", "n": "Une découverte chaque semaine, goûtée et défendue par l'équipe."}, {"a": "Loire — cœur de gamme", "p": "12–25 €", "n": "Vouvray, Chinon, Bourgueil : le meilleur rapport plaisir/prix de la cave."}, {"a": "Champagne de vigneron", "p": "dès 26 €", "n": "Récoltant-manipulant, brut nature ou extra-brut."}, {"a": "Dégustation mensuelle", "p": "12 €", "n": "Avec le vigneron, le 3e jeudi. Déduits dès 3 bouteilles emportées."}];
 const AVIS_DEMO = [{"texte": "J'arrive avec mon menu, je repars avec trois bouteilles qui vont ensemble et l'ordre de service. Aucun caviste ne m'avait jamais demandé ce que j'allais manger.", "auteur": "Bertrand M.", "detail": "Conseil accords"}, {"texte": "Il m'a déconseillé la bouteille à 45 € que je voulais offrir et proposé un Chinon à 19 € « qui fera plus plaisir ». Mon beau-père en a recommandé six.", "auteur": "Julie T.", "detail": "Cadeau"}, {"texte": "Les dégustations du jeudi ont changé ma façon de boire : rencontrer les vignerons, comprendre les millésimes. Douze euros la meilleure école du vin de Tours.", "auteur": "Habituée des dégustations", "detail": "Dégustation mensuelle"}];
-const STATS = [{"value": "400", "label": "Références en cave"}, {"value": "60", "label": "Vins de Loire"}, {"value": "80 %", "label": "Achetés en direct au domaine"}, {"value": "1/mois", "label": "Dégustation avec un vigneron"}];
+const STATS_DEMO = [{"value": "400", "label": "Références en cave"}, {"value": "60", "label": "Vins de Loire"}, {"value": "80 %", "label": "Achetés en direct au domaine"}, {"value": "1/mois", "label": "Dégustation avec un vigneron"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -78,6 +82,8 @@ export default function CaveDesTerroirsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

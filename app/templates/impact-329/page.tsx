@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Déménageur — donneur : impact-236 (ÉlectroPro, sombre, Inter, accent vif).
@@ -73,19 +75,21 @@ const METHODE = [
   { n: "04", t: "Tour du logement ensemble", d: "Rien ne part avant un dernier tour des pièces avec vous, rien n'est terminé avant votre signature à l'arrivée." },
 ];
 
-const ENGAGEMENT = [
+const ENGAGEMENT_DEMO = [
   "Inscrits au registre des transporteurs — DREAL Pays de la Loire",
   "Assurance ad valorem incluse jusqu'à 50 000 € de mobilier déclaré",
   "Devis ferme après visite : le prix signé est le prix facturé",
   "Lettre de voiture réglementaire remise au départ et à l'arrivée",
 ];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 
-const STATS = [
+const STATS_DEMO = [
   { value: "1 800+", label: "Déménagements réalisés" },
   { value: "98,4%", label: "Sans aucune casse déclarée" },
   { value: "45 min", label: "Pour un devis ferme" },
   { value: "50 000 €", label: "D'assurance incluse" },
 ];
+let STATS = STATS_DEMO;
 
 const AVIS_DEMO = [
   { texte: "Formule clé en main pour un T4 avec piano. Le monte-meubles était en place à 8h, le piano remonté au salon à 14h, et pas une rayure sur les murs — ni les leurs, ni les nôtres.", auteur: "Sophie & Marc D.", detail: "Nantes → Rennes, clé en main" },
@@ -127,6 +131,8 @@ export default function CapDemenagementsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
