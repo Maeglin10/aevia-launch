@@ -9,6 +9,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
   clientCity,
+  clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
@@ -120,7 +122,7 @@ export default function CouleursCOPiscinesPage() {
 
   const bpLocal: any = session?.businessProfile;
   const SERVICES = resolveList(
-    bpLocal?.services?.map((sv: any, i: number) => ({
+    clientServices(session)?.map((sv: any, i: number) => ({
       icon: SERVICE_ICONS[i % SERVICE_ICONS.length],
       title: sv.title ?? sv.name,
       desc: sv.description ?? sv.desc,
@@ -128,7 +130,7 @@ export default function CouleursCOPiscinesPage() {
     SERVICES_DEMO
   );
   const AVIS = resolveList(
-    bpLocal?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(session)?.map((r: any) => ({
       q: r.text ?? r.quote,
       n: r.name ?? r.author,
       l: r.location ?? r.context ?? "",

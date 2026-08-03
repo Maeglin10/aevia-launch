@@ -32,6 +32,8 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientFaq,
+  clientReviews,
   clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
@@ -468,7 +470,7 @@ export default function UrbanPulsePage() {
     PROJECTS_DEMO
   );
   const SERVICES = resolveList(
-    bpLocal?.services?.map((s: any, i: number) => ({
+    clientServices(session)?.map((s: any, i: number) => ({
       ...SERVICES_DEMO[i % SERVICES_DEMO.length],
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -476,7 +478,7 @@ export default function UrbanPulsePage() {
     SERVICES_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bpLocal?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(session)?.map((r: any, i: number) => ({
       ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length],
       q: r.text ?? r.quote ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].q,
       name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
@@ -488,7 +490,7 @@ export default function UrbanPulsePage() {
     TESTIMONIALS_DEMO
   );
   const FAQS = resolveList(
-    bpLocal?.faq?.map((f: any) => ({
+    clientFaq(session)?.map((f: any) => ({
       q: f.q ?? f.question,
       a: f.a ?? f.answer,
     })),

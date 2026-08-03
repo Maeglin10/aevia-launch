@@ -7,6 +7,7 @@ import { Zap, Phone, Mail, MapPin, Clock, CheckCircle, Star, ArrowRight, Shield,
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientReviews,
   clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
@@ -140,7 +141,7 @@ export default function VoltPiscinesPage() {
   const bpLocal: any = session?.businessProfile;
   const SERVICE_TAGS = SERVICES_DEMO.map((s) => s.tag);
   const SERVICES = resolveList(
-    bpLocal?.services?.map((sv: any, i: number) => ({
+    clientServices(session)?.map((sv: any, i: number) => ({
       titre: sv.title ?? sv.name,
       desc: sv.description ?? sv.desc,
       tag: sv.price ?? SERVICE_TAGS[i % SERVICE_TAGS.length],
@@ -148,7 +149,7 @@ export default function VoltPiscinesPage() {
     SERVICES_DEMO
   );
   const AVIS = resolveList(
-    bpLocal?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(session)?.map((r: any) => ({
       texte: r.text ?? r.quote,
       auteur: r.name ?? r.author,
       detail: r.detail ?? r.context ?? "",

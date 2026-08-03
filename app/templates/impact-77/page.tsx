@@ -1,5 +1,8 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientServices,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
@@ -159,7 +162,7 @@ export default function HorologsLuxePage() {
     GRID_PHOTOS_DEMO
   );
   const SERVICES = resolveList(
-    bpLocal?.services?.map((s: any, i: number) => ({
+    clientServices(session)?.map((s: any, i: number) => ({
       code: SERVICES_DEMO[i % SERVICES_DEMO.length].code,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,

@@ -21,6 +21,15 @@ const RULES = [
   [/c\?\.services\s*\?\?\s*bp\?\.services/g, "clientServices(session)", "clientServices"],
   [/session\?\.businessProfile\?\.services/g, "clientServices(session)", "clientServices"],
   [/bp\?\.services/g, "clientServices(session)", "clientServices"],
+  /*
+    Quelques thèmes copient le profil dans une variable locale avant de le lire —
+    bpLocal, businessProfile, cData. Les règles ne visaient que `bp?.` et `c?.`,
+    et ces thèmes restaient donc sur leur démonstration : dix pour les
+    prestations, neuf pour les avis.
+  */
+  [/bpLocal\?\.services/g, "clientServices(session)", "clientServices"],
+  [/businessProfile\?\.services/g, "clientServices(session)", "clientServices"],
+  [/cData\?\.services/g, "clientServices(session)", "clientServices"],
   [/c\?\.services/g, "clientServices(session)", "clientServices"],
   // avis
   [
@@ -35,12 +44,17 @@ const RULES = [
   ],
   [/session\?\.businessProfile\?\.reputation\?\.featuredReviews/g, "clientReviews(session)", "clientReviews"],
   [/bp\?\.reputation\?\.featuredReviews/g, "clientReviews(session)", "clientReviews"],
+  [/bpLocal\?\.reputation\?\.featuredReviews/g, "clientReviews(session)", "clientReviews"],
+  [/businessProfile\?\.reputation\?\.featuredReviews/g, "clientReviews(session)", "clientReviews"],
   [/c\?\.testimonials/g, "clientReviews(session)", "clientReviews"],
   // blocs jamais lus par aucun thème avant aujourd'hui
   [/bp\?\.keyStats/g, "clientStats(session)", "clientStats"],
+  [/bpLocal\?\.keyStats/g, "clientStats(session)", "clientStats"],
   [/bp\?\.certifications/g, "clientCertifications(session)", "clientCertifications"],
   [/bp\?\.faq/g, "clientFaq(session)", "clientFaq"],
+  [/bpLocal\?\.faq/g, "clientFaq(session)", "clientFaq"],
   [/bp\?\.team/g, "clientTeam(session)", "clientTeam"],
+  [/bpLocal\?\.team/g, "clientTeam(session)", "clientTeam"],
   [/bp\?\.geo\?\.serviceAreas/g, "clientAreas(session)", "clientAreas"],
 ];
 
@@ -67,10 +81,8 @@ for (const id of ids) {
   const file = path.join(ROOT, id, "page.tsx");
   if (!fs.existsSync(file)) continue;
   const before = fs.readFileSync(file, "utf8");
-  if (before.includes("@/lib/templates/clientContent")) {
-    skipped++;
-    continue;
-  }
+  // Un thème déjà basculé peut encore lire une variable locale non couverte.
+  const dejaSurContrat = before.includes("@/lib/templates/clientContent");
   // Le contrat a besoin de la session : un thème qui ne la lit pas doit être
   // traité à la main, son composant n'a pas d'état de session du tout.
   if (!/const \[session, setSession\]/.test(before)) {
@@ -98,10 +110,14 @@ for (const id of ids) {
     }
   }
   if (used.size === 0) {
-    summary.push(`${id}  aucune source connue`);
+    if (dejaSurContrat) skipped++;
+    else summary.push(`${id}  aucune source connue`);
     continue;
   }
 
+  if (dejaSurContrat) {
+    // L'import existe déjà : on ne le repose pas.
+  }
   if (moduleScoped && !/let sessionData/.test(after)) {
     after = after.replace(
       /(\n)(let bp: any = null;)/,
@@ -117,28 +133,37 @@ for (const id of ids) {
     }
   }
 
-  const imp = `import {\n${[...used]
-    .sort()
-    .map((h) => `  ${h},`)
-    .join("\n")}\n} from "@/lib/templates/clientContent";\n`;
-
-  // Après le DERNIER import du fichier, et après sa dernière ligne : un import
-  // multiligne (`import {\n  A,\n} from "…"`) se referme plus bas que la ligne
-  // qui commence par `import`, et y insérer coupe la déclaration en deux.
-  const lines = after.split("\n");
-  let last = -1;
-  for (let i = 0; i < lines.length; i++) {
-    if (!/^import[\s{]/.test(lines[i])) continue;
-    let j = i;
-    while (j < lines.length && !/from\s+["'][^"']+["'];?\s*$|^import\s+["'][^"']+["'];?\s*$/.test(lines[j])) j++;
-    last = Math.min(j, lines.length - 1);
+  /*
+    Fusionner plutôt que poser un second import : ces thèmes sont déjà sur le
+    contrat et n'y lisaient qu'une variable locale non couverte. Deux
+    déclarations depuis le même module ne compilent pas.
+  */
+  const bloc = /import \{([^}]*)\} from "@\/lib\/templates\/clientContent";/;
+  if (bloc.test(after)) {
+    after = after.replace(bloc, (m, corps) => {
+      const ont = new Set(
+        corps.split("\n").map((l) => l.trim().replace(/,$/, "")).filter(Boolean),
+      );
+      used.forEach((h) => ont.add(h));
+      return `import {\n${[...ont].sort().map((h) => `  ${h},`).join("\n")}\n} from "@/lib/templates/clientContent";`;
+    });
+  } else {
+    const imp = `import {\n${[...used].sort().map((h) => `  ${h},`).join("\n")}\n} from "@/lib/templates/clientContent";`;
+    const lignes = after.split("\n");
+    let fin = -1;
+    for (let i = 0; i < lignes.length; i++) {
+      if (!/^import[\s{]/.test(lignes[i])) continue;
+      let j = i;
+      while (j < lignes.length && !/from\s+["'][^"']+["'];?\s*$|^import\s+["'][^"']+["'];?\s*$/.test(lignes[j])) j++;
+      fin = Math.min(j, lignes.length - 1);
+    }
+    if (fin === -1) {
+      summary.push(`${id}  aucun import — ignoré`);
+      continue;
+    }
+    lignes.splice(fin + 1, 0, imp);
+    after = lignes.join("\n");
   }
-  if (last === -1) {
-    summary.push(`${id}  aucun import — ignoré`);
-    continue;
-  }
-  lines.splice(last + 1, 0, imp.trimEnd());
-  after = lines.join("\n");
 
   if (!dry) fs.writeFileSync(file, after);
   touched++;

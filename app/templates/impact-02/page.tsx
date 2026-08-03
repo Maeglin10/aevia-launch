@@ -2,7 +2,10 @@
 import {
   clientAddress,
   clientCity,
+  clientFaq,
   clientName,
+  clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
@@ -174,7 +177,7 @@ export default function CreativePortfolioSPA() {
     PROJECTS_DEMO
   );
   const SERVICES = resolveList(
-    bpLocal?.services?.map((s: any, i: number) => ({
+    clientServices(session)?.map((s: any, i: number) => ({
       ...SERVICES_DEMO[i % SERVICES_DEMO.length],
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -182,7 +185,7 @@ export default function CreativePortfolioSPA() {
     SERVICES_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bpLocal?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(session)?.map((r: any, i: number) => ({
       name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
       role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
       text: r.text ?? r.quote ?? "",
@@ -190,7 +193,7 @@ export default function CreativePortfolioSPA() {
     TESTIMONIALS_DEMO
   );
   const FAQS = resolveList(
-    bpLocal?.faq?.map((f: any) => ({
+    clientFaq(session)?.map((f: any) => ({
       question: f.q ?? f.question,
       answer: f.a ?? f.answer,
     })),
