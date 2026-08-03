@@ -43,6 +43,11 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -226,6 +231,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -274,6 +282,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -296,7 +305,7 @@ export default function Page() {
 
   const MENU_ITEMS_DEMO = [{"name": "Veste en Denim Upcyclée", "category": "Collections", "desc": "Pièce unique créée à partir de chutes de tissus et denim vintage.", "price": "120,00 €"}, {"name": "Atelier Couture DIY 3h", "category": "Ateliers", "desc": "Apprenez les bases de la couture ou de la customisation de vos vêtements.", "price": "45,00 €"}, {"name": "Broderie Personnalisée", "category": "Customisation", "desc": "Broderie main personnalisée sur votre propre vêtement.", "price": "30,00 €"}];
   const menuItems = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       category: MENU_ITEMS_DEMO[i % MENU_ITEMS_DEMO.length].category,
       desc: s.description ?? s.desc ?? MENU_ITEMS_DEMO[i % MENU_ITEMS_DEMO.length].desc,
@@ -943,13 +952,13 @@ export default function Page() {
                 position: 'relative',
                 zIndex: 2
               }}>
-                "{bp?.reputation?.featuredReviews?.[0]?.text ?? "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."}"
+                "{clientReviews(sessionData)?.[0]?.text ?? "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."}"
               </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 12 }}>
                 {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
               </div>
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
-                {bp?.reputation?.featuredReviews?.[0]?.name
+                {clientReviews(sessionData)?.[0]?.name
                   ? `${bp.reputation.featuredReviews[0].name}${bp.reputation.featuredReviews[0].location ? ' · ' + bp.reputation.featuredReviews[0].location : ''}`
                   : "Marie Lauret · Bordeaux"}
               </div>
@@ -977,7 +986,7 @@ export default function Page() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Où récupérez-vous vos tissus ?","a":"Nous rachetons des fins de séries et des stocks dormants auprès d'ateliers de couture parisiens et de manufactures textiles régionales françaises."},{"q":"Vos pièces sont-elles disponibles en plusieurs tailles ?","a":"Chaque tissu étant disponible en quantité très limitée, nos pièces sont le plus souvent uniques ou produites en 3 exemplaires (S, M, L)."},{"q":"Puis-je offrir un atelier en cadeau ?","a":"Oui, nous proposons des cartes cadeaux valables 1 an pour tous nos ateliers de couture d'initiation et de perfectionnement."}] as any[]).map((item: any, i: number) => (
+            {resolveList(clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Où récupérez-vous vos tissus ?","a":"Nous rachetons des fins de séries et des stocks dormants auprès d'ateliers de couture parisiens et de manufactures textiles régionales françaises."},{"q":"Vos pièces sont-elles disponibles en plusieurs tailles ?","a":"Chaque tissu étant disponible en quantité très limitée, nos pièces sont le plus souvent uniques ou produites en 3 exemplaires (S, M, L)."},{"q":"Puis-je offrir un atelier en cadeau ?","a":"Oui, nous proposons des cartes cadeaux valables 1 an pour tous nos ateliers de couture d'initiation et de perfectionnement."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,

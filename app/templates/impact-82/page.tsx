@@ -8,6 +8,10 @@ import Link from "next/link"
 import { ArrowRight, Building, Users, TrendingUp, Award } from "lucide-react"
 import { Reveal } from "./shared"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientReviews,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 // ─── Demo content — real data (businessProfile) replaces these wholesale via
 // resolveList when the client provided it; field access uses `??` chains so
@@ -36,6 +40,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -71,6 +78,7 @@ export default function BlueprintPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef<HTMLDivElement>(null)
@@ -78,9 +86,9 @@ export default function BlueprintPage() {
   const heroY = useTransform(heroScroll, [0, 1], ["0%", "35%"])
 
   const programmes = resolveList(bp?.listings, PROGRAMMES_DEMO);
-  const equipe = resolveList(bp?.team, EQUIPE_DEMO);
+  const equipe = resolveList(clientTeam(sessionData), EQUIPE_DEMO);
   const avis = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(sessionData)?.map((r: any) => ({
       quote: r.text ?? r.quote,
       name: r.name ?? r.author,
       stats: r.stats ?? r.context,

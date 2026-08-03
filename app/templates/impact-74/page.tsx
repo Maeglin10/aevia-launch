@@ -8,6 +8,9 @@ import Link from "next/link";
 import { ShieldCheck, ChevronRight, Star, MapPin, Clock, Car, Check } from "lucide-react";
 import { Reveal, MagneticBtn } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 /* ============================================================
    DATA
@@ -171,6 +174,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -224,11 +230,12 @@ export default function AeviaKitchenPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const hasRealMenu = !!(bp?.menu && bp.menu.length > 0);
   const menus = hasRealMenu ? buildSeasonalMenus(bp.menu) : MENUS;
-  const reviews = resolveList(bp?.reputation?.featuredReviews, REVIEWS_DEMO);
+  const reviews = resolveList(clientReviews(sessionData), REVIEWS_DEMO);
 
   const heroRef = useRef(null);
   const [activeMenu, setActiveMenu] = useState(0)

@@ -12,6 +12,10 @@ import {
 } from "framer-motion";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -682,6 +686,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -717,6 +724,7 @@ export default function Impact201Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand };
@@ -724,8 +732,8 @@ export default function Impact201Page() {
 
   useFonts();
 
-  const experiences: any[] = resolveList(bp?.services, EXPERIENCES_DEMO);
-  const testimonials: any[] = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
+  const experiences: any[] = resolveList(clientServices(sessionData), EXPERIENCES_DEMO);
+  const testimonials: any[] = resolveList(clientReviews(sessionData), TESTIMONIALS_DEMO);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSeason, setActiveSeason] = useState("Automne");

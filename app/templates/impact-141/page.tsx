@@ -14,6 +14,10 @@ import Link from "next/link";
 import { Play, Pause, SkipBack, SkipForward, Volume2, Heart, Share2, Disc3, Mic2, Radio, Music2, Maximize2, Headphones, Shuffle, Repeat } from "lucide-react";
 
 import "../premium.css";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    DATA STRUCTURES
@@ -203,7 +207,7 @@ export default function SonicPlayerPage() {
 
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -224,7 +228,7 @@ export default function SonicPlayerPage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

@@ -12,6 +12,10 @@ import {
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Heart, MapPin, Quote } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    KINÉPÉDIATRIE BORDEAUX — Kinésithérapie Pédiatrique & Respiratoire · Bordeaux
@@ -1136,7 +1140,7 @@ function CareCardItem({ care, i }: { care: Care; i: number }) {
 
 function CareCards() {
   const CARE_CARDS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       title: s.title ?? s.name,
       icon: CARE_CARDS_DEMO[i % CARE_CARDS_DEMO.length].icon,
     })),
@@ -1526,7 +1530,7 @@ function MethodPanel() {
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(sessionData)?.map((r: any) => ({
       quote: r.text ?? r.quote,
       author: r.name ?? r.author,
       context: r.context,
@@ -2170,6 +2174,9 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2201,6 +2208,7 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

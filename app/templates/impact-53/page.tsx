@@ -19,6 +19,10 @@ import {
 } from "./shared";
 import { DWELL, useSlides, BentoCascade, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { DifferentialExit } from "@/lib/templates/hero-kit-3";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* BentoCascade in a template that ships zero photography: the tiles are
    typographic — discipline, index, a red verb — in the studio's own
@@ -135,7 +139,7 @@ export default function Impact53Page() {
   
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -156,7 +160,7 @@ export default function Impact53Page() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

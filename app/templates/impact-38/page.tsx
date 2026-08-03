@@ -21,6 +21,9 @@ import {
   SectionReveal,
 } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -482,7 +485,7 @@ function ProductCard({ product, index }: { product: typeof ALL_PRODUCTS_DEMO[0];
 function TestimonialsCarousel() {
   const [current, setCurrent] = useState(0);
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name,
       role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
       avatar: String(r.name ?? "")
@@ -724,6 +727,9 @@ function ImpactMetric({ stat, index }: { stat: typeof IMPACT_STATS[0]; index: nu
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function OriginRoastPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -754,6 +760,7 @@ export default function OriginRoastPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Products ← bp.menu (real business products) else demo. Decorative fields

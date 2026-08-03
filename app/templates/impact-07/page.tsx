@@ -13,6 +13,10 @@ import { Separator } from "@/components/ui/separator"
 import { Volume2, Music, Mic2, Disc, Waves, Globe, Mail, MapPin, ChevronRight, ArrowRight, X, Menu, Headphones, Radio, Settings2, Play, Speaker, Zap, Activity, Info, Share2, Heart, Search, ShoppingBag } from "lucide-react"
 
 import "../premium.css";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    DATA STRUCTURES
@@ -179,7 +183,7 @@ export default function AetherSoundPage() {
 
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -200,7 +204,7 @@ export default function AetherSoundPage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

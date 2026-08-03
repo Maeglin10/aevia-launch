@@ -29,6 +29,10 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    EAU & HABITAT BRETAGNE — Plombier-chauffagiste Rennes & agglo
@@ -719,7 +723,7 @@ function ServicesSection() {
     },
   ];
   const services = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       Icon: services_DEMO[i % services_DEMO.length].Icon,
       title: s.title ?? s.name,
       description: s.description ?? s.desc,
@@ -1168,7 +1172,7 @@ function TestimonialsSection() {
     },
   ];
   const reviews = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name ?? r.author,
       location: r.location ?? reviews_DEMO[i % reviews_DEMO.length].location,
       service: reviews_DEMO[i % reviews_DEMO.length].service,
@@ -2840,6 +2844,9 @@ function FooterLink({ label, href }: { label: string; href: string }) {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 function Impact290Page() {
   const [session, setSession] = useState<{
@@ -2871,6 +2878,7 @@ function Impact290Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, forest: brand, forestLight: shadeColor(brand, 25) };

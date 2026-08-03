@@ -6,6 +6,11 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { ShoppingBag, Heart, Search, User, ArrowRight, Check, Star, Package, RefreshCw, Leaf, Camera, X, ChevronLeft, ChevronRight, Truck } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Nav and footer links all pointed at the template root regardless of their
 // label, leaving the pages below unreachable. Labels come from .map() vars, so
@@ -704,6 +709,9 @@ const BLOG_POSTS = [
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Builders return the client's real data (when the session provides a business
 // profile) or the demo dataset. Defined at module scope so the home page and
@@ -711,7 +719,7 @@ let brand: any = null;
 function buildProducts() {
   const D = PRODUCTS_DEMO;
   return resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name ?? D[i % D.length].name,
       price: s.price ?? D[i % D.length].price,
       oldPrice: D[i % D.length].oldPrice,
@@ -730,7 +738,7 @@ function buildProducts() {
 function buildTestimonials() {
   const D = TESTIMONIALS_DEMO;
   return resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? r.quote ?? D[i % D.length].quote,
       name: r.name ?? r.author ?? D[i % D.length].name,
       location: r.location ?? r.context ?? D[i % D.length].location,
@@ -744,7 +752,7 @@ function buildTestimonials() {
 function buildFaqs() {
   const D = FAQS_DEMO;
   return resolveList(
-    bp?.faq?.map((f: any, i: number) => ({
+    clientFaq(sessionData)?.map((f: any, i: number) => ({
       q: f.q ?? f.question ?? D[i % D.length].q,
       a: f.a ?? f.answer ?? D[i % D.length].a,
     })),
@@ -781,6 +789,7 @@ export default function ImpactEclatPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25), goldDark: shadeColor(brand, -20) };

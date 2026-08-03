@@ -14,6 +14,12 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { Flame } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -637,6 +643,9 @@ function SectionHeading({ eyebrow, title, accent, subtitle }: { eyebrow: string;
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function ThermaProPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -667,6 +676,7 @@ export default function ThermaProPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -828,7 +838,7 @@ export default function ThermaProPage() {
 
   // Prefer the client's real business data; else the template's demo arrays.
   const services = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: services_DEMO[i % services_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -847,7 +857,7 @@ export default function ThermaProPage() {
     projects_DEMO
   );
   const team = resolveList(
-    bp?.team?.map((m: any, i: number) => ({
+    clientTeam(sessionData)?.map((m: any, i: number) => ({
       name: m.name,
       role: m.role ?? team_DEMO[i % team_DEMO.length].role,
       years: team_DEMO[i % team_DEMO.length].years,
@@ -856,7 +866,7 @@ export default function ThermaProPage() {
     team_DEMO
   );
   const testimonials = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name ?? r.author,
       city: r.location ?? testimonials_DEMO[i % testimonials_DEMO.length].city,
       text: r.text ?? r.quote,
@@ -865,7 +875,7 @@ export default function ThermaProPage() {
     testimonials_DEMO
   );
   const faqs = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })),
     faqs_DEMO
   );
 

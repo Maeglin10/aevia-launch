@@ -43,6 +43,11 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -222,6 +227,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -271,6 +279,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -293,7 +302,7 @@ export default function Page() {
 
   const MENU_DEMO = [{"name": "Organisation Complète", "category": "Organisation", "desc": "Recherche de prestataires, gestion du budget, coordination le jour J.", "price": "3 500 €"}, {"name": "Scénographie & Déco Florale", "category": "Décoration", "desc": "Design floral organique, habillage de table, décoration de l'arche.", "price": "1 800 €"}, {"name": "Coordination Jour J", "category": "Organisation", "desc": "Présence dès les préparatifs jusqu'à la pièce montée, gestion du planning.", "price": "1 200 €"}];
   const menuItems = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? MENU_DEMO[i % MENU_DEMO.length].name,
       category: MENU_DEMO[i % MENU_DEMO.length].category,
       desc: s.description ?? MENU_DEMO[i % MENU_DEMO.length].desc,
@@ -315,13 +324,13 @@ export default function Page() {
 
   const FAQ_DEMO = [{"q":"Combien de temps à l'avance faut-il vous contacter ?","a":"Pour une organisation de A à Z, nous recommandons de nous contacter 8 à 12 mois avant la date du mariage. Pour les scénographies, 4 mois suffisent généralement."},{"q":"Travaillez-vous hors de Lyon ?","a":"Oui, nous nous déplaçons dans toute la région Auvergne-Rhône-Alpes (Beaujolais, monts du Lyonnais, Annecy)."},{"q":"Imposez-vous des prestataires ?","a":"Non, jamais. Nous vous proposons un carnet d'adresses d'artisans de confiance correspondant à vos goûts, mais le choix final vous appartient toujours."}];
   const FAQ = resolveList(
-    bp?.faq?.map((f: any, i: number) => ({
+    clientFaq(sessionData)?.map((f: any, i: number) => ({
       q: f.q ?? f.question ?? FAQ_DEMO[i % FAQ_DEMO.length].q,
       a: f.a ?? f.answer ?? FAQ_DEMO[i % FAQ_DEMO.length].a,
     })),
     FAQ_DEMO
   );
-  const review0 = bp?.reputation?.featuredReviews?.[0];
+  const review0 = clientReviews(sessionData)?.[0];
 return (
     <div style={{
       background: C.bg,

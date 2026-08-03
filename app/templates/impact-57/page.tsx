@@ -16,6 +16,10 @@ import {
   StyleInjector,
   CustomCursor,
 } from './shared';
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // ── Section 2: Stats Ticker ──────────────────────────────────────────────────
 function StatsTicker() {
@@ -925,7 +929,7 @@ export default function MaskUnitHome() {
   
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -946,7 +950,7 @@ export default function MaskUnitHome() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

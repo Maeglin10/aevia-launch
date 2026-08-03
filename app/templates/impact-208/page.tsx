@@ -17,6 +17,10 @@ import {
   useHeroSelector, HeroStage, Scrim, GhostMark, Rise, SelectorRail,
   heroSectionStyle, railResponsiveCSS, alpha, EASE_3, EASE_4, BEAT,
 } from "@/lib/templates/hero-kit";
+import {
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    DESIGN TOKENS
@@ -383,7 +387,7 @@ function ServicesSection() {
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
       title: s.title ?? s.name ?? SERVICES_DEMO[i % SERVICES_DEMO.length].title,
       desc: s.description ?? s.desc ?? SERVICES_DEMO[i % SERVICES_DEMO.length].desc,
@@ -1280,7 +1284,7 @@ function TeamSection() {
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   const TEAM = resolveList(
-    bp?.team?.map((t: any, i: number) => ({
+    clientTeam(sessionData)?.map((t: any, i: number) => ({
       ...TEAM_DEMO[i % TEAM_DEMO.length],
       name: t.name ?? TEAM_DEMO[i % TEAM_DEMO.length].name,
       role: t.role ?? TEAM_DEMO[i % TEAM_DEMO.length].role,
@@ -1956,6 +1960,9 @@ function Nav() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -1987,6 +1994,7 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, yellow: brand };

@@ -32,6 +32,10 @@ import {
   Package,
   Sparkles,
 } from "lucide-react"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    AURELIA JEWELS — Design Tokens
@@ -118,7 +122,7 @@ const COLLECTIONS_DEMO = [
 // Product collections ← client's business profile. Client services (flat list)
 // replace the demo pieces in each season; falls back to demo when absent.
 function buildCollections() {
-  if (!bp?.services?.length) return COLLECTIONS_DEMO;
+  if (!clientServices(sessionData)?.length) return COLLECTIONS_DEMO;
   const demoPieces = COLLECTIONS_DEMO[0].pieces;
   const pieces = bp.services.map((s: any, i: number) => ({
     name: s.title ?? s.name,
@@ -1071,7 +1075,7 @@ function AteliersSection() {
    ========================================================================== */
 function TestimonialsSection() {
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? r.quote,
       author: r.name ?? r.author,
       occasion: r.occasion ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].occasion,
@@ -1759,6 +1763,9 @@ function photo(i: number, fallback: string): string {
 }
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Impact91Page() {
   const [session, setSession] = useState<{
@@ -1790,6 +1797,7 @@ export default function Impact91Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

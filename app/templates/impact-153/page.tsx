@@ -17,6 +17,10 @@ import {
   useSpring,
 } from "framer-motion"
 import Link from "next/link"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    TYPOGRAPHY — Google Fonts injected via style tag
@@ -2298,7 +2302,7 @@ export default function ExpeditionTemplatePage() {
   
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -2319,7 +2323,7 @@ export default function ExpeditionTemplatePage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

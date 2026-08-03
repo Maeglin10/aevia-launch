@@ -24,6 +24,9 @@ import {
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import {
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    THE AETHELGARD DATASET (PREMIUM DENSITY)
@@ -109,6 +112,9 @@ function SectionTitle({ subtitle, title, alignment = "center" }: { subtitle: str
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -163,11 +169,12 @@ export default function AethelgardEstatePremium() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Product vintages ← client's business profile (falls back to demo).
   const VINTAGES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       id: `v-${i}`,
       name: s.title ?? s.name,
       type: s.description ?? VINTAGES_DEMO[i % VINTAGES_DEMO.length].type,

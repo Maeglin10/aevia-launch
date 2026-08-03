@@ -15,6 +15,10 @@ import { ArrowRight, MapPin, Compass, Calendar, Users, Star, ArrowLeft, Globe, S
 
 import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    DATA STRUCTURES
@@ -145,6 +149,9 @@ function Reveal({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -199,10 +206,11 @@ export default function WanderlustPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const DESTINATIONS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       id: DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].id,
       title: s.title ?? s.name,
       country: DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].country,
@@ -215,7 +223,7 @@ export default function WanderlustPage() {
     DESTINATIONS_DEMO
   );
   const EXPERIENCES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       title: s.title ?? s.name,
       icon: EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].icon,
       desc: s.description ?? s.desc ?? EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].desc,
@@ -223,7 +231,7 @@ export default function WanderlustPage() {
     EXPERIENCES_DEMO
   );
   const REVIEWS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       text: r.text ?? REVIEWS_DEMO[i % REVIEWS_DEMO.length].text,
       author: r.name ?? REVIEWS_DEMO[i % REVIEWS_DEMO.length].author,
       role: r.location ?? REVIEWS_DEMO[i % REVIEWS_DEMO.length].role,

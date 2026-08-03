@@ -43,6 +43,10 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+} from "@/lib/templates/clientContent";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -228,6 +232,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -277,7 +284,8 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
-  const review = bp?.reputation?.featuredReviews?.[0];
+  sessionData = session;
+  const review = clientReviews(sessionData)?.[0];
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -1031,7 +1039,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(bp?.faq, [{"q":"Vos viandes sont-elles fraîches ?","a":"Oui, notre broche de veau et dinde est montée chaque matin dans notre laboratoire par nos chefs bouchers. Nous n'utilisons aucun produit surgelé pour nos broches."},{"q":"Quelles sont les options pour le Click & Collect ?","a":"Vous commandez en ligne et vous venez chercher votre commande chaude en 15 minutes sans faire la queue."},{"q":"Faites-vous les livraisons ?","a":"Oui, via nos partenaires exclusifs Deliveroo et Uber Eats dans tout Marseille."}] as any[]).map((item: any, i: number) => (
+            {resolveList(clientFaq(sessionData), [{"q":"Vos viandes sont-elles fraîches ?","a":"Oui, notre broche de veau et dinde est montée chaque matin dans notre laboratoire par nos chefs bouchers. Nous n'utilisons aucun produit surgelé pour nos broches."},{"q":"Quelles sont les options pour le Click & Collect ?","a":"Vous commandez en ligne et vous venez chercher votre commande chaude en 15 minutes sans faire la queue."},{"q":"Faites-vous les livraisons ?","a":"Oui, via nos partenaires exclusifs Deliveroo et Uber Eats dans tout Marseille."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,

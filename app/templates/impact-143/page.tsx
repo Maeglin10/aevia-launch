@@ -7,6 +7,10 @@ import Link from "next/link"
 import { Sofa, ArrowRight, Menu, Star, Palette, Ruler, Eye, Lightbulb, Layers, ChevronRight, MapPin, Phone, Mail, CheckCircle2 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -56,6 +60,9 @@ const TESTIMONIALS_DEMO = [
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -110,6 +117,7 @@ export default function AtelierInteriorPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const PROJECTS = resolveList(
@@ -122,7 +130,7 @@ export default function AtelierInteriorPage() {
     PROJECTS_DEMO
   );
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
       title: s.title ?? SERVICES_DEMO[i % SERVICES_DEMO.length].title,
       desc: s.description ?? SERVICES_DEMO[i % SERVICES_DEMO.length].desc,
@@ -130,7 +138,7 @@ export default function AtelierInteriorPage() {
     SERVICES_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       text: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].text,
       author: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].author,
       project: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].project,

@@ -12,6 +12,10 @@ import {
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Quote, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET DENTAIRE SORRENTO — Dr. Clara Sorrento & Associés · Nice
@@ -2167,6 +2171,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2217,6 +2224,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -2224,8 +2232,8 @@ export default function Page() {
 
   // Real business data (resolveList) replaces demo content wholesale when
   // present — falls back to the template's own *_DEMO consts otherwise.
-  const treatments = resolveList(bp?.services, TREATMENTS_DEMO);
-  const reviews = resolveList(bp?.reputation?.featuredReviews, REVIEWS_DEMO);
+  const treatments = resolveList(clientServices(sessionData), TREATMENTS_DEMO);
+  const reviews = resolveList(clientReviews(sessionData), REVIEWS_DEMO);
 return (
     <>
       {/* Google Fonts */}

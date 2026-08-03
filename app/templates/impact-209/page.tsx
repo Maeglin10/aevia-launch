@@ -14,6 +14,11 @@ import { MapPin } from 'lucide-react'
 import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, BlurThrough, Retint, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
 import { TrackingCollapse } from '@/lib/templates/hero-kit-3';
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 /* No photography ships with this template, so the craft itself rotates:
    the gold word's letter-spacing spreads apart as it leaves and the next
@@ -143,7 +148,7 @@ const STYLISTS: Stylist[] = [
 const BOOKING_STEPS = ['Service', 'Date & Heure', 'Styliste', 'Confirmation']
 
 // Testimonials — hoisted from an inline JSX array literal so resolveList can
-// swap in bp?.reputation?.featuredReviews when the client provided real
+// swap in clientReviews(session) when the client provided real
 // reviews.
 const TESTIMONIALS_DEMO = [
   { name: 'Sophie M.', text: 'Le meilleur balayage que j\'aie jamais eu. Camille a su exactement ce que je voulais sans que j\'aie à l\'expliquer deux fois. Je reviens depuis 4 ans.', rating: 5 },
@@ -1023,9 +1028,9 @@ export default function Page() {
   // Note: businessProfile is a sibling of formData on SessionData, not
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
-  const services = resolveList(bp?.services, SERVICES);
-  const stylists = resolveList(bp?.team, STYLISTS);
-  const temoignages = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
+  const services = resolveList(clientServices(session), SERVICES);
+  const stylists = resolveList(clientTeam(session), STYLISTS);
+  const temoignages = resolveList(clientReviews(session), TESTIMONIALS_DEMO);
 
   const [scissorOpen, setScissorOpen] = useState(false)
   const { i: heroI, next: heroNext, prev: heroPrev } = useSlides(HERO_SERVICES.length, DWELL.normal);

@@ -22,6 +22,12 @@ import {
   useHeroSelector, HeroStage, Scrim, GhostMark, Rise, SelectorRail,
   heroSectionStyle, railResponsiveCSS, alpha, EASE_3, EASE_4, BEAT,
 } from "@/lib/templates/hero-kit";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 function HeroSection() {
   /* A law firm hero has to stay still. The promise never moves — that is the
@@ -37,7 +43,7 @@ function HeroSection() {
   ];
 
   const areas = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
     })),
@@ -160,7 +166,7 @@ function PracticeSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const practiceAreas = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: practiceAreas_DEMO[i % practiceAreas_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -217,7 +223,7 @@ function AttorneysSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const attorneys = resolveList(
-    bp?.team?.map((m: any, i: number) => ({
+    clientTeam(sessionData)?.map((m: any, i: number) => ({
       name: m.name ?? attorneys_DEMO[i % attorneys_DEMO.length].name,
       title: m.role ?? attorneys_DEMO[i % attorneys_DEMO.length].title,
       focus: m.specialty ?? "",
@@ -326,7 +332,7 @@ function TestimonialsSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const testimonials = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name ?? testimonials_DEMO[i % testimonials_DEMO.length].name,
       title: r.location ?? testimonials_DEMO[i % testimonials_DEMO.length].title,
       text: r.text ?? r.quote,
@@ -446,7 +452,7 @@ function FAQSection() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const faqs = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
     faqs_DEMO
   );
 
@@ -503,6 +509,9 @@ function FAQSection() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function LawFirmHome() {
   const [session, setSession] = useState<{
@@ -534,6 +543,7 @@ export default function LawFirmHome() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   return (

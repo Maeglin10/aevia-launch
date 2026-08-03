@@ -38,6 +38,11 @@ import {
   Zap
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
@@ -220,6 +225,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 
 const SERVICES_DEMO = [
@@ -292,6 +300,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -324,7 +333,7 @@ export default function Page() {
   };
 
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -332,7 +341,7 @@ export default function Page() {
     SERVICES_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name ?? r.author,
       role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
       text: r.text ?? r.quote,
@@ -1048,7 +1057,7 @@ export default function Page() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {resolveList(bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })), [
+            {resolveList(clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })), [
               { q: "Fournissez-vous les produits et le matériel ?", a: "Oui, nous apportons tout le nécessaire : aspirateur professionnel, serpillières microfibres, produits ménagers de qualité. Vous n'avez rien à prévoir." },
               { q: "Puis-je demander la même intervenante à chaque fois ?", a: "Absolument. Dès la deuxième intervention, nous vous attribuons une intervenante attitrée qui connaît vos préférences et vos habitudes." },
               { q: "Que se passe-t-il si je ne suis pas satisfait·e ?", a: "Notre garantie satisfaction vous couvre : nous revenons gratuitement sous 48h pour refaire les zones qui ne vous conviennent pas." },

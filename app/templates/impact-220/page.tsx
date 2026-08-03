@@ -30,6 +30,10 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    HORA VIVA — Manufacture Horlogère Suisse, Genève
@@ -1118,7 +1122,7 @@ function CollectionCard({
 
 function Collections() {
   const COLLECTIONS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       ...COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length],
       name: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -1586,7 +1590,7 @@ const TESTIMONIALS_DEMO = [
 
 function Testimonials() {
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
       author: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].author,
       role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
@@ -2322,6 +2326,9 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function HoraVivaPage() {
   const [session, setSession] = useState<{
@@ -2371,6 +2378,7 @@ export default function HoraVivaPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Inject global CSS once

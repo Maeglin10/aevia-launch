@@ -31,6 +31,10 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    KINÉSITHÉRAPIE DU LANGUEDOC — Cabinet kiné & rééducation · Montpellier Antigone
@@ -1336,7 +1340,7 @@ function TestimonialsSection() {
     },
   ];
   const testimonials = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(sessionData)?.map((r: any) => ({
       name: r.name ?? r.author,
       age: undefined,
       motif: undefined,
@@ -1984,7 +1988,7 @@ function EquipeSection() {
     },
   ];
   const equipe = resolveList(
-    bp?.team?.map((m: any, i: number) => {
+    clientTeam(sessionData)?.map((m: any, i: number) => {
       const [prenom, ...rest] = (m.name ?? "").split(" ");
       return {
         photo: m.photoUrl ?? equipe_demo[i % equipe_demo.length].photo,
@@ -3139,6 +3143,9 @@ function FooterLink283({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 function Impact283Page() {
   const [session, setSession] = useState<{
@@ -3170,6 +3177,7 @@ function Impact283Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, blue: brand, blueLight: shadeColor(brand, 25) };

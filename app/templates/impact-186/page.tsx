@@ -7,6 +7,11 @@ import Link from "next/link"
 import { Phone, Star, MapPin, Clock, CheckCircle, Shield, Smile, Heart, Calendar, Menu, X } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    DR. LÉA FONTAINE — Cabinet dentaire moderne (Nantes)
@@ -203,6 +208,9 @@ function AppointmentModal({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -239,10 +247,11 @@ export default function DrFontainePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const SOINS: any[] = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: SOINS_DEMO[i % SOINS_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -434,7 +443,7 @@ export default function DrFontainePage() {
             <h2 className="text-4xl font-bold text-[#1a2332]">Des praticiens <span className="text-[var(--brand,#1d6fa4)]">à votre écoute.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {resolveList(bp?.team?.map((m: any) => ({
+            {resolveList(clientTeam(sessionData)?.map((m: any) => ({
               nom: m.name,
               sp: m.role ?? m.specialty ?? "",
               f: m.bio ?? m.credentials ?? m.specialty ?? "",
@@ -466,7 +475,7 @@ export default function DrFontainePage() {
             <h2 className="text-3xl font-bold text-[#1a2332]">Ils nous font <span className="text-[var(--brand,#1d6fa4)]">confiance.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({
+            {resolveList(clientReviews(sessionData)?.map((r: any) => ({
               q: r.text ?? r.quote,
               n: r.name ?? r.author,
               l: r.location ?? r.context ?? "",

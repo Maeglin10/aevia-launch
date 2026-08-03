@@ -5,6 +5,10 @@ import React, {useRef, useState, useEffect, useCallback} from 'react'
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Camera, X } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -253,6 +257,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -288,6 +295,7 @@ export default function EncreNoirePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };
@@ -307,7 +315,7 @@ export default function EncreNoirePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  const STYLES = resolveList<any>(bp?.services, STYLES_DEMO);
+  const STYLES = resolveList<any>(clientServices(sessionData), STYLES_DEMO);
   const [consultOpen, setConsultOpen] = useState(false);
   const [consultStyle, setConsultStyle] = useState<string | null>(null);
   const openConsult = useCallback((style: string | null) => {
@@ -487,7 +495,7 @@ return (
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: C.text, marginTop: 10 }}>Ils portent <em style={{ color: C.accent }}>nos œuvres.</em></h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {resolveList<any>(bp?.reputation?.featuredReviews, AVIS_DEMO).map((a: any, i: number) => (
+          {resolveList<any>(clientReviews(sessionData), AVIS_DEMO).map((a: any, i: number) => (
             <Reveal key={a.auteur ?? a.author ?? i} delay={i * 0.1}>
               <div style={{ background: C.bgSection, border: `1px solid ${C.border}`, borderRadius: 8, padding: "28px 24px" }}>
                 <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(a.rating ?? 5)].map((_, j) => <Star key={j} size={13} fill={C.accent} color={C.accent} />)}</div>

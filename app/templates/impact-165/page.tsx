@@ -6,6 +6,10 @@ import { motion, AnimatePresence, useScroll, useTransform, useInView } from "fra
 import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, Check, Star, Zap, Shield, BarChart2, Bell, MessageSquare, Users, Smartphone, Apple, Play, ChevronRight } from "lucide-react"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 const DOCS = [
   { t: "Démarrer en 10 minutes", d: "Installation, premier projet, première automatisation. Le parcours que suivent 80 % des nouveaux comptes." },
@@ -170,7 +174,7 @@ export default function PulseAppPage() {
 
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -191,7 +195,7 @@ export default function PulseAppPage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

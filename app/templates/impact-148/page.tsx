@@ -7,6 +7,9 @@ import Link from "next/link"
 import { Zap, ArrowRight, Menu, Star, Activity, Cpu, Globe, Share2, Shield, ChevronRight, Layout, Box, Sparkles, Wallet, X, Check, Loader2 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 const SOCIALS = [
   { l: "Discord", h: "https://discord.com" },
@@ -104,7 +107,7 @@ export default function NeonPulsePage() {
   // Note: businessProfile is a sibling of formData on SessionData, not
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
-  const drops = resolveList(bp?.services, DROPS_DEMO);
+  const drops = resolveList(clientServices(session), DROPS_DEMO);
 
   // ── Buy Now / Mint waitlist modal ──────────────────────────────────────────
   // Real wallet connection / on-chain minting is out of scope for this pass —

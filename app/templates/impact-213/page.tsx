@@ -14,6 +14,12 @@ import { CheckCircle2 } from 'lucide-react'
 import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, GhostSolid, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
 import { HardCutRebuild, FixedRail } from '@/lib/templates/hero-kit-3';
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 /* ─────────────────────────────────────────────
    DESIGN TOKENS
@@ -925,7 +931,7 @@ function Services() {
   ]
 
   const services = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: services_DEMO[i % services_DEMO.length].icon,
       title: s.title ?? s.name ?? services_DEMO[i % services_DEMO.length].title,
       description: s.description ?? s.desc ?? services_DEMO[i % services_DEMO.length].description,
@@ -1765,7 +1771,7 @@ function Team() {
   ]
 
   const members = resolveList(
-    bp?.team?.map((t: any, i: number) => ({
+    clientTeam(sessionData)?.map((t: any, i: number) => ({
       ...members_DEMO[i % members_DEMO.length],
       name: t.name ?? members_DEMO[i % members_DEMO.length].name,
       role: t.role ?? members_DEMO[i % members_DEMO.length].role,
@@ -1942,7 +1948,7 @@ function Testimonials() {
   ]
 
   const testimonials = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       text: r.text ?? testimonials_DEMO[i % testimonials_DEMO.length].text,
       author: r.name ?? testimonials_DEMO[i % testimonials_DEMO.length].author,
       role: r.location ?? testimonials_DEMO[i % testimonials_DEMO.length].role,
@@ -2152,7 +2158,7 @@ function FAQ() {
   ]
 
   const faqs = resolveList(
-    bp?.faq?.map((f: any, i: number) => ({
+    clientFaq(sessionData)?.map((f: any, i: number) => ({
       question: f.q ?? faqs_DEMO[i % faqs_DEMO.length].question,
       answer: f.a ?? faqs_DEMO[i % faqs_DEMO.length].answer,
     })),
@@ -2774,6 +2780,9 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Impact213Page() {
   const [session, setSession] = useState<{
@@ -2805,6 +2814,7 @@ export default function Impact213Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

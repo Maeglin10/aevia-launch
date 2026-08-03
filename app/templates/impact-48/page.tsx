@@ -14,6 +14,9 @@ import {
 import Link from "next/link";
 import { C, F, projects, teamMembers, processSteps } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 // ─── 3D BUILDING FACADE ───────────────────────────────────────────────────────
 function Building3D({ rotateX }: { rotateX: any }) {
@@ -1969,7 +1972,7 @@ function TeamSection() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   const TEAM = resolveList(
-    bp?.team?.map((m: any, i: number) => ({
+    clientTeam(sessionData)?.map((m: any, i: number) => ({
       name: m.name,
       title: m.role ?? teamMembers[i % teamMembers.length].title,
       credentials: m.credentials ?? teamMembers[i % teamMembers.length].credentials,
@@ -2563,6 +2566,9 @@ function ContactSection() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function ArchitectureTemplate() {
   const [session, setSession] = useState<{
@@ -2594,6 +2600,7 @@ export default function ArchitectureTemplate() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
 return (

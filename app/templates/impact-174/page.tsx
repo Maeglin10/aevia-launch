@@ -11,6 +11,10 @@ import {
   CheckCircle, Clock, MapPin, Phone, Mail, Instagram
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -121,6 +125,9 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -156,9 +163,10 @@ export default function Impact174Page() {
 
   fd = session?.formData;
   bp = session?.businessProfile;
+  sessionData = session;
 
   const PROGRAMS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       ...PROGRAMS_DEMO[i % PROGRAMS_DEMO.length],
       title: s.title ?? s.name ?? PROGRAMS_DEMO[i % PROGRAMS_DEMO.length].title,
       desc: s.description ?? s.desc ?? PROGRAMS_DEMO[i % PROGRAMS_DEMO.length].desc,
@@ -166,7 +174,7 @@ export default function Impact174Page() {
     PROGRAMS_DEMO
   );
   const COACHES = resolveList(
-    bp?.team?.map((t: any, i: number) => ({
+    clientTeam(sessionData)?.map((t: any, i: number) => ({
       ...COACHES_DEMO[i % COACHES_DEMO.length],
       name: t.name ?? COACHES_DEMO[i % COACHES_DEMO.length].name,
       role: t.role ?? COACHES_DEMO[i % COACHES_DEMO.length].role,

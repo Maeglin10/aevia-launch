@@ -16,6 +16,10 @@ import Link from "next/link";
 import { Terminal, Cpu, Zap, Shield, Layers, Search, Menu, X, ArrowRight, ChevronRight, Code2, Database, Globe, Activity, Lock, Box, Binary, GitBranch, Terminal as TerminalIcon, Server, Cloud } from "lucide-react";
 
 import "../premium.css";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    DATA MANIFESTS
@@ -184,7 +188,7 @@ export default function BlockBasePage() {
 
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -205,7 +209,7 @@ export default function BlockBasePage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

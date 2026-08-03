@@ -22,6 +22,9 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { resolveList } from '@/lib/templates/resolveList';
+import {
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    SOLIS IMMOBILIER — Immobilier & architecture de prestige (France)
@@ -1713,7 +1716,7 @@ const Testimonials: React.FC = () => (
         gap: 'clamp(24px, 3vw, 40px)',
       }}
     >
-      {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+      {resolveList<any>(clientReviews(sessionData), TESTIMONIALS_DEMO).map((t: any, i: number) => (
         <Reveal key={t.name ?? t.author ?? i} delay={i * 0.12} y={36}>
           <figure
             style={{
@@ -2410,6 +2413,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function ImpactTemplate(): React.ReactElement {
   const [session, setSession] = useState<{
     formData?: {
@@ -2458,6 +2464,7 @@ export default function ImpactTemplate(): React.ReactElement {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

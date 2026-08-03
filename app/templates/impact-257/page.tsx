@@ -12,11 +12,18 @@ import {
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Heart, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. ALEXANDRE MOULIN — Médecin Généraliste & Médecine Fonctionnelle · Bordeaux
@@ -1171,7 +1178,7 @@ function SpecialtyCards() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(bp?.services, SPECIALTIES_DEMO).map((s: any, i: number) => (
+        {resolveList<any>(clientServices(sessionData), SPECIALTIES_DEMO).map((s: any, i: number) => (
           <SpecialtyCard key={s.title ?? s.name ?? i} s={s} i={i} />
         ))}
       </div>
@@ -1514,7 +1521,7 @@ function Testimonials() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+        {resolveList<any>(clientReviews(sessionData), TESTIMONIALS_DEMO).map((t: any, i: number) => (
           <Reveal key={t.name ?? t.author ?? i} delay={i * 0.12} style={{ height: '100%' }}>
             <figure
               style={{
@@ -2114,6 +2121,7 @@ export default function Page() {
 
   fd = session?.formData;
   bp = session?.businessProfile;
+  sessionData = session;
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

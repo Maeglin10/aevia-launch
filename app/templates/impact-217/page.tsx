@@ -27,6 +27,10 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -2202,12 +2206,15 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Builders return the client's real data (when the session provides a business
 // profile) or the demo dataset. Read by the module-level section components.
 function buildProducts217(): Product[] {
   const D = PRODUCTS_DEMO;
   return resolveList<Product>(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       id: s.id ?? `svc-${i}`,
       name: s.title ?? s.name ?? D[i % D.length].name,
       edition: D[i % D.length].edition,
@@ -2232,7 +2239,7 @@ function buildLookbook217(): Look[] {
 function buildReviews217(): Review[] {
   const D = REVIEWS_DEMO;
   return resolveList<Review>(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name ?? r.author ?? D[i % D.length].name,
       handle: r.location ?? r.context ?? D[i % D.length].handle,
       stars: r.stars ?? r.rating ?? D[i % D.length].stars,
@@ -2542,6 +2549,7 @@ export default function ImpactSneakerPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

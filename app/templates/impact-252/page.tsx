@@ -12,6 +12,10 @@ import {
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    SMILE & CO — Cabinet Dentaire Esthétique · Lyon 6e
@@ -2002,6 +2006,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2032,6 +2039,7 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -2071,14 +2079,14 @@ return (
       <Nav />
       <Hero />
       <Intro />
-      <TreatmentSequence treatments={resolveList<any>(bp?.services, TREATMENTS_DEMO)} />
+      <TreatmentSequence treatments={resolveList<any>(clientServices(sessionData), TREATMENTS_DEMO)} />
       {/* SpecialtyCards left demo-only: sparse icon+title tags with no clean
           BusinessProfile field — wiring real data here would just duplicate
           TREATMENTS_DEMO's substance with a worse (title-only) shape. */}
       <SpecialtyCards specialties={SPECIALTIES_DEMO} />
       <EditorialRows />
       <TechPanel />
-      <Testimonials testimonials={resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO)} />
+      <Testimonials testimonials={resolveList<any>(clientReviews(sessionData), TESTIMONIALS_DEMO)} />
       <AppointmentForm />
       <Footer />
     </main>

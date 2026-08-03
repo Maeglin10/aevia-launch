@@ -6,6 +6,9 @@ import Link from "next/link"
 import { Cloud, ArrowRight, Menu, Shield, Globe, Cpu, Database, Server, ChevronRight, Activity, Terminal } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -40,6 +43,9 @@ const INTEGRATIONS = [
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function NebulaCloudPage() {
   const [session, setSession] = useState<{
@@ -71,6 +77,7 @@ export default function NebulaCloudPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)
@@ -87,7 +94,7 @@ export default function NebulaCloudPage() {
     { quote: "The compliance dashboard alone was worth the migration. SOC 2 audit prep that used to take weeks now takes hours.", name: "C. Voss", title: "CTO · NovaBridge Systems" },
   ];
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
       name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
       title: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].title,

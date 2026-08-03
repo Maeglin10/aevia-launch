@@ -17,6 +17,11 @@ import {
   HairlineArrows,
 } from "@/lib/templates/hero-kit-2";
 import { MosaicPush } from "@/lib/templates/hero-kit-3";
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 // ─── Demo content — real data (businessProfile) replaces these wholesale via
 // resolveList when the client provided it; each field access below falls
@@ -113,9 +118,9 @@ export default function CypherClinicPage() {
   // Note: businessProfile is a sibling of formData on SessionData, not
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
-  const protocoles = resolveList(bp?.services, PROTOCOLES_DEMO);
-  const temoignages = resolveList(bp?.reputation?.featuredReviews, TEMOIGNAGES_DEMO);
-  const medecins = resolveList(bp?.team, MEDECINS_DEMO);
+  const protocoles = resolveList(clientServices(session), PROTOCOLES_DEMO);
+  const temoignages = resolveList(clientReviews(session), TEMOIGNAGES_DEMO);
+  const medecins = resolveList(clientTeam(session), MEDECINS_DEMO);
   const bookingUrl = bp?.bookingSystem?.url;
 
 return (

@@ -19,6 +19,10 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Menu, X, Clock, MapPin, Phone, Mail, Star, ChevronDown, ArrowRight, Leaf, Flame, Wine, Utensils, CalendarDays, Users, Camera, Award, Globe, CheckCircle2 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientFaq,
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -193,6 +197,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -246,6 +253,7 @@ export default function LEtoileRestaurant() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Real client menu — the structured wizard step (businessProfile.menu)
@@ -255,8 +263,8 @@ export default function LEtoileRestaurant() {
   const menuData = bp?.menu?.length
     ? buildMenuRecord(bp.menu)
     : (c?.menuItems && c.menuItems.length > 0) ? buildMenuRecord(c.menuItems) : MENU_ITEMS;
-  const testimonials: any[] = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
-  const faqs: any[] = resolveList(bp?.faq, FAQS_DEMO);
+  const testimonials: any[] = resolveList(clientReviews(sessionData), TESTIMONIALS_DEMO);
+  const faqs: any[] = resolveList(clientFaq(sessionData), FAQS_DEMO);
   const menuTabs = hasRealMenu
     ? Object.keys(menuData).map((cat, i) => {
         const TabIcon = MENU_TAB_ICONS[i % MENU_TAB_ICONS.length];

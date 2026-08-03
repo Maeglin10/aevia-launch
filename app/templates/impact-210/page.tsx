@@ -20,6 +20,10 @@ import {
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from '@/lib/templates/resolveList';
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -862,7 +866,7 @@ function ServiceCard({
 function ServicesSection({ accentColor }: { accentColor: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
-  const services: any[] = resolveList(bp?.services, SERVICES_DEMO);
+  const services: any[] = resolveList(clientServices(sessionData), SERVICES_DEMO);
 
   return (
     <section
@@ -1928,7 +1932,7 @@ function TestimonialsSection({ accentColor }: { accentColor: string }) {
             gap: 24,
           }}
         >
-          {resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+          {resolveList(clientReviews(sessionData), TESTIMONIALS_DEMO).map((t: any, i: number) => (
             <motion.div
               key={t.name ?? t.author ?? i}
               initial={{ opacity: 0, y: 30 }}
@@ -2208,6 +2212,9 @@ function Footer({ accentColor }: { accentColor: string }) {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function NailStudioTemplate() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2238,6 +2245,7 @@ export default function NailStudioTemplate() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [particles] = useState<Particle[]>(() => generateParticles());

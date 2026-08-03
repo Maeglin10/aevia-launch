@@ -7,6 +7,10 @@ import Link from "next/link"
 import { Heart, Phone, Star, MapPin, Clock, CheckCircle, Stethoscope, Scissors, Dog, Cat, Calendar, Shield, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    CLINIQUE DU BOIS VERT — Vétérinaire (Toulouse)
@@ -66,6 +70,9 @@ const SOINS_DEMO = [
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -102,11 +109,12 @@ export default function CliniqueBoisVertPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Client services drive the "Nos soins" grid; demo icons cycle through.
   const SOINS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: SOINS_DEMO[i % SOINS_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -115,7 +123,7 @@ export default function CliniqueBoisVertPage() {
   );
   // Client reviews drive the testimonials grid; demo copy is the fallback.
   const AVIS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(sessionData)?.map((r: any) => ({
       q: r.text ?? r.quote,
       n: r.name ?? r.author,
       l: r.location ?? r.context ?? "",

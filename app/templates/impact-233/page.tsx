@@ -5,6 +5,10 @@ import React, {useRef, useState, useEffect, useCallback} from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Zap } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.
@@ -129,6 +133,9 @@ function BookingField({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -165,13 +172,14 @@ export default function CabinetOsteopathiePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };
   }
 
   const MOTIFS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       titre: s.title ?? s.name,
       desc: s.description ?? s.desc,
       tag: s.price ?? MOTIFS_DEMO[i % MOTIFS_DEMO.length].tag,
@@ -179,7 +187,7 @@ export default function CabinetOsteopathiePage() {
     MOTIFS_DEMO
   );
   const AVIS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(sessionData)?.map((r: any) => ({
       texte: r.text ?? r.quote,
       auteur: r.name ?? r.author,
       detail: r.detail ?? r.context,

@@ -9,6 +9,10 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ArrowRight, Heart, Search, Droplets, Zap, Flower2, Quote, Check, Star } from "lucide-react";
 import { SERVICES, REVIEWS, PROTOCOLS, Reveal, Counter, MagneticBtn } from "./shared";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 
 // Global state variables for subpage compatibility
@@ -65,7 +69,7 @@ export default function AtelierBeautePage() {
   
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -86,7 +90,7 @@ export default function AtelierBeautePage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

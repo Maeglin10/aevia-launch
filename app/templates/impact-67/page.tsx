@@ -9,6 +9,9 @@ import { Reveal, MagneticBtn } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import "../premium.css";
+import {
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 const PROPERTIES_DEMO = [
   { id: "PRJ-0047", name: "Penthouse Trinity", loc: "Paris 8e", type: "Résidentiel", size: "340 m²", pts: "2.8B pts", imgFallback: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" },
@@ -28,6 +31,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -63,10 +69,11 @@ export default function VisionHomePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const properties: any[] = resolveList(bp?.listings, PROPERTIES_DEMO);
-  const services: any[] = resolveList(bp?.services, SERVICES_DEMO);
+  const services: any[] = resolveList(clientServices(sessionData), SERVICES_DEMO);
 
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({

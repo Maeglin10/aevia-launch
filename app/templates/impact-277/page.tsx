@@ -31,6 +31,10 @@ import {
   Smartphone,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    ÉLECTRICITÉ DUMONT — Électricien certifié · Paris 11e & Île-de-France
@@ -1105,7 +1109,7 @@ function ServicesSection() {
       </div>
       <div style={grid}>
         {resolveList(
-          bp?.services?.map((s: any, i: number) => ({
+          clientServices(sessionData)?.map((s: any, i: number) => ({
             icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
             title: s.title ?? s.name,
             sub: s.description ?? s.desc,
@@ -1507,7 +1511,7 @@ function TestimonialsSection() {
       </div>
       <div style={grid}>
         {resolveList(
-          bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+          clientReviews(sessionData)?.map((r: any, i: number) => ({
             quote: r.text ?? r.quote,
             name: r.name ?? r.author,
             job: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].job,
@@ -2665,6 +2669,9 @@ function FooterSection() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Impact277Page() {
   const [session, setSession] = useState<{
@@ -2714,6 +2721,7 @@ export default function Impact277Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, yellow: brand, yellowLight: shadeColor(brand, 25) };

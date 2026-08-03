@@ -1,0 +1,195 @@
+// Mesure ce qu'un thème affiche réellement d'une session client.
+//
+//   node scripts/theme-audit.mjs impact-351 [impact-352 …]
+//   node scripts/theme-audit.mjs --range 1 40
+//
+// À lancer sur un build de production servi avec BLOB_READ_WRITE_TOKEN :
+//   npm run build && (set -a; . ./.env.local; set +a; npx next start -p 3411)
+// Sans le jeton, /api/sessions répond 404, le thème retombe sur sa démonstration
+// et l'audit conclut à tort que le câblage ne marche pas.
+//
+// La session est semée de valeurs témoins improbables (« ZZSERVICE-UN »). Une
+// valeur témoin absente du DOM veut dire que la section correspondante montre
+// encore autre chose que la donnée du client — c'est le seul constat qui compte,
+// et il ne dépend d'aucune supposition sur les noms de constantes du thème.
+
+import { chromium } from "playwright";
+
+const BASE = process.env.AUDIT_BASE ?? "http://localhost:3411";
+
+const args = process.argv.slice(2);
+let ids = [];
+if (args[0] === "--range") {
+  const [from, to] = [Number(args[1]), Number(args[2])];
+  for (let n = from; n <= to; n++) ids.push(`impact-${String(n).padStart(2, "0")}`);
+} else {
+  ids = args;
+}
+if (ids.length === 0) {
+  console.error("usage: node scripts/theme-audit.mjs impact-351 [...] | --range 1 40");
+  process.exit(1);
+}
+
+const WITNESS = {
+  businessName: "ZZ-ENTREPRISE",
+  city: "ZZVILLE",
+  service1: "ZZSERVICE-UN",
+  service2: "ZZSERVICE-DEUX",
+  price1: "ZZ111 €",
+  review: "ZZAVIS le chantier fut impeccable",
+  author: "ZZAUTEUR",
+  stat: "ZZ99",
+  cert: "ZZCERTIF",
+  faq: "ZZQUESTION",
+  member: "ZZEQUIPIER",
+  area: "ZZZONE",
+  headline: "ZZACCROCHE",
+};
+
+async function seed(templateId) {
+  const post = await fetch(`${BASE}/api/sessions`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      formData: {
+        template: templateId,
+        businessName: WITNESS.businessName,
+        city: WITNESS.city,
+        sector: "couvreur",
+        industry: "services",
+        businessType: "couvreur",
+        email: "audit@example.com",
+        phone: "04 00 00 00 00",
+        mainService: WITNESS.service1,
+        benefits: ["a", "b", "c"],
+        brandColor: "#7c3aed",
+      },
+    }),
+  });
+  const { sessionId } = await post.json();
+
+  await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
+    method: "PATCH",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      businessProfile: {
+        services: [
+          { name: WITNESS.service1, price: WITNESS.price1, description: "desc un" },
+          { name: WITNESS.service2, price: "ZZ222 €", description: "desc deux" },
+        ],
+        reputation: {
+          featuredReviews: [
+            { author: WITNESS.author, text: WITNESS.review, rating: 5, source: "ZZSOURCE" },
+          ],
+        },
+        keyStats: [{ value: WITNESS.stat, label: "ZZLIBELLE" }],
+        certifications: [WITNESS.cert],
+        faq: [{ q: WITNESS.faq, a: "ZZREPONSE" }],
+        team: [{ name: WITNESS.member, role: "ZZROLE" }],
+        geo: { serviceAreas: [WITNESS.area], primaryCity: WITNESS.city },
+      },
+      generatedContent: {
+        heroHeadline: WITNESS.headline,
+        heroSubline: "ZZSOUS-TITRE",
+        aboutTitle: "ZZAPROPOS",
+        aboutText: "ZZTEXTE",
+        services: [{ title: WITNESS.service1, description: "desc un" }],
+        testimonials: [
+          { name: WITNESS.author, role: "ZZROLE", text: WITNESS.review, rating: 5 },
+        ],
+        ctaText: "ZZCTA",
+        metaTitle: "ZZMETA",
+        metaDescription: "ZZMETADESC",
+      },
+    }),
+  });
+  return sessionId;
+}
+
+const browser = await chromium.launch();
+const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+ctx.setDefaultTimeout(15000);
+await ctx.addInitScript(() => {
+  try {
+    localStorage.setItem(
+      "aevia-cookie-consent",
+      JSON.stringify({ essential: true, analytics: false, ts: Date.now() }),
+    );
+  } catch {}
+});
+
+const report = [];
+for (const id of ids) {
+  const page = await ctx.newPage();
+  try {
+    const sid = await seed(id);
+    await page.goto(`${BASE}/templates/${id}?session=${sid}`, {
+      waitUntil: "domcontentloaded",
+    });
+    await page.waitForTimeout(2500);
+    // Dérouler la page : beaucoup de sections n'apparaissent qu'au défilement.
+    await page.evaluate(async () => {
+      for (let y = 0; y < document.body.scrollHeight; y += 700) {
+        window.scrollTo(0, y);
+        await new Promise((r) => setTimeout(r, 90));
+      }
+      window.scrollTo(0, 0);
+    });
+    await page.waitForTimeout(700);
+
+    const r = await page.evaluate((W) => {
+      const text = document.body.innerText;
+      const vu = Object.fromEntries(
+        Object.entries(W).map(([k, v]) => [k, text.includes(v)]),
+      );
+      // Chargée mais jamais peinte : une image dont un ancêtre proche s'est
+      // effondré à moins de 2 px. C'est le seul contrôle qui attrape un hero
+      // vide, puisque l'image répond 200 et que naturalWidth est correct.
+      const invisibles = [...document.querySelectorAll("img")]
+        .filter((img) => img.naturalWidth > 0)
+        .filter((img) => {
+          let e = img;
+          for (let k = 0; k < 6 && e; k++) {
+            const b = e.getBoundingClientRect();
+            if (b.height < 2 || b.width < 2) return true;
+            e = e.parentElement;
+          }
+          return false;
+        })
+        .map((img) => (img.currentSrc || img.src).split("/").pop().slice(0, 40));
+      const cassees = [...document.querySelectorAll("img")]
+        .filter((img) => img.complete && img.naturalWidth === 0)
+        .map((img) => (img.currentSrc || img.src).split("/").pop().slice(0, 40));
+      return {
+        vu,
+        debordement: document.documentElement.scrollWidth > window.innerWidth + 1,
+        invisibles,
+        cassees,
+        hauteur: document.body.scrollHeight,
+      };
+    }, WITNESS);
+
+    const absents = Object.entries(r.vu)
+      .filter(([, ok]) => !ok)
+      .map(([k]) => k);
+    report.push({ id, absents, ...r, vu: undefined });
+  } catch (e) {
+    report.push({ id, erreur: String(e).slice(0, 140) });
+  }
+  await page.close();
+}
+await browser.close();
+
+for (const t of report) {
+  if (t.erreur) {
+    console.log(`${t.id}  ERREUR  ${t.erreur}`);
+    continue;
+  }
+  const flags = [
+    t.absents.length ? `absents: ${t.absents.join(",")}` : "tous les témoins vus",
+    t.debordement ? "DÉBORDEMENT" : "",
+    t.invisibles.length ? `invisibles: ${t.invisibles.join(",")}` : "",
+    t.cassees.length ? `cassées: ${t.cassees.join(",")}` : "",
+  ].filter(Boolean);
+  console.log(`${t.id}  ${flags.join("  |  ")}`);
+}

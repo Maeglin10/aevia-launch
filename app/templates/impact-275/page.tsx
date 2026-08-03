@@ -38,6 +38,10 @@ import {
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 function shadeColor(hex: string, percent: number): string {
   const num = parseInt(hex.replace('#', ''), 16);
@@ -993,7 +997,7 @@ function ExpertiseSection() {
   ];
 
   const expertises = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: expertises_DEMO[i % expertises_DEMO.length].icon,
       title: s.title ?? s.name,
       sub: expertises_DEMO[i % expertises_DEMO.length].sub,
@@ -1502,7 +1506,7 @@ function TestimonialsSection() {
   ];
 
   const temoignages = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       initials:
         (r.name ?? '').split(' ').map((w: string) => w.charAt(0)).join('').toUpperCase() ||
         temoignages_DEMO[i % temoignages_DEMO.length].initials,
@@ -3072,6 +3076,9 @@ function FooterSection() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 function Impact275Page() {
   const [session, setSession] = useState<{
@@ -3103,6 +3110,7 @@ function Impact275Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25) };

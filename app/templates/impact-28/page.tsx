@@ -8,6 +8,11 @@ import Link from "next/link"
 import { ArrowRight, ArrowUpRight, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import { Reveal, ScrollImage, projects as projects_DEMO, services as services_DEMO, team as team_DEMO, testimonials as testimonials_DEMO, processSteps } from "./shared"
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 // Animated counter hook
 function useCounter(target: number, duration = 1800) {
@@ -45,6 +50,9 @@ function useCounter(target: number, duration = 1800) {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -81,6 +89,7 @@ export default function Home() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const projects: any[] = resolveList(
@@ -98,7 +107,7 @@ export default function Home() {
     projects_DEMO
   );
   const services: any[] = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       n: services_DEMO[i % services_DEMO.length].n,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -106,7 +115,7 @@ export default function Home() {
     services_DEMO
   );
   const team: any[] = resolveList(
-    bp?.team?.map((m: any, i: number) => ({
+    clientTeam(sessionData)?.map((m: any, i: number) => ({
       name: m.name,
       role: m.role ?? m.specialty ?? "",
       img: m.photoUrl ?? team_DEMO[i % team_DEMO.length].img,
@@ -114,7 +123,7 @@ export default function Home() {
     team_DEMO
   );
   const testimonials: any[] = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? r.quote,
       author: r.name ?? r.author,
       title: r.location ?? r.context ?? "",

@@ -43,6 +43,10 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -232,6 +236,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -280,6 +287,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -330,8 +338,8 @@ export default function Page() {
     }
   };
 
-  const review = bp?.reputation?.featuredReviews?.[0];
-  const faqs = resolveList(bp?.faq, [{"q":"Quelles farines utilisez-vous ?","a":"Nous utilisons exclusivement des farines locales de la région Occitanie, issues de l'agriculture biologique et moulues sur meule de pierre pour préserver les nutriments."},{"q":"Peut-on réserver ses viennoiseries pour le dimanche ?","a":"Oui, vous pouvez passer commande par téléphone ou en boutique jusqu'à la veille à 18h pour récupérer votre sac chaud le lendemain matin."},{"q":"Vos pains conviennent-ils aux intolérants au gluten ?","a":"Notre pain d'épeautre ancien contient un gluten naturel très digeste grâce à la longue fermentation, mais il n'est pas certifié sans gluten pour les personnes céliaques."}]);
+  const review = clientReviews(sessionData)?.[0];
+  const faqs = resolveList(clientFaq(sessionData), [{"q":"Quelles farines utilisez-vous ?","a":"Nous utilisons exclusivement des farines locales de la région Occitanie, issues de l'agriculture biologique et moulues sur meule de pierre pour préserver les nutriments."},{"q":"Peut-on réserver ses viennoiseries pour le dimanche ?","a":"Oui, vous pouvez passer commande par téléphone ou en boutique jusqu'à la veille à 18h pour récupérer votre sac chaud le lendemain matin."},{"q":"Vos pains conviennent-ils aux intolérants au gluten ?","a":"Notre pain d'épeautre ancien contient un gluten naturel très digeste grâce à la longue fermentation, mais il n'est pas certifié sans gluten pour les personnes céliaques."}]);
 return (
     <div style={{
       background: C.bg,

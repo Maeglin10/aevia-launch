@@ -6,6 +6,10 @@ import { motion, AnimatePresence, useScroll, useInView } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, Check, Star, Zap, BarChart2, Shield, Users, Clock, Globe, ChevronRight, Play, Sparkles } from "lucide-react"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 const DOCS = [
   { t: "Démarrer en 10 minutes", d: "Installation, premier projet, première automatisation. Le parcours que suivent 80 % des nouveaux comptes." },
@@ -139,7 +143,7 @@ export default function EssentialSaaSPage() {
 
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -160,7 +164,7 @@ export default function EssentialSaaSPage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

@@ -5,6 +5,10 @@ import React, {useRef, useState, useEffect} from 'react';
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { C, TextReveal, MagneticButton, CountUp } from "./shared";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 
 // Global state variables for subpage compatibility
@@ -52,7 +56,7 @@ export default function SegmentOS() {
   
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -73,7 +77,7 @@ export default function SegmentOS() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

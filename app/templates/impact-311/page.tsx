@@ -25,6 +25,11 @@ import {
   Gauge
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
@@ -362,7 +367,7 @@ export default function AtelierPerformanceTemplate() {
   // Prefer the client's real business data (services / reviews / faq) when the
   // brief provided a BusinessProfile; otherwise fall back to the demo defaults.
   const servicesResolved = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(session)?.map((s: any, i: number) => ({
       title: s.title ?? s.name ?? "",
       description: s.description ?? s.desc ?? "",
       icon: services.length ? services[i % services.length].icon : <Cpu size={32} color={C.primary} />,
@@ -371,7 +376,7 @@ export default function AtelierPerformanceTemplate() {
     services
   );
   const testimonialsResolved = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(session)?.map((r: any) => ({
       name: r.name ?? r.author ?? "",
       role: r.location ?? r.role ?? "",
       text: r.text ?? r.quote ?? "",
@@ -380,7 +385,7 @@ export default function AtelierPerformanceTemplate() {
     testimonials
   );
   const faqsResolved = resolveList(
-    bp?.faq?.map((f: any) => ({
+    clientFaq(session)?.map((f: any) => ({
       question: f.q ?? f.question ?? "",
       answer: f.a ?? f.answer ?? "",
     })),

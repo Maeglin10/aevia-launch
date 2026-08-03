@@ -12,6 +12,11 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -975,9 +980,9 @@ export default function Impact198Page() {
   // Note: businessProfile is a sibling of formData on SessionData, not
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
-  const services: any[] = resolveList(bp?.services, SERVICES_DEMO);
-  const team: any[] = resolveList(bp?.team, TEAM_DEMO);
-  const temoignages: any[] = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
+  const services: any[] = resolveList(clientServices(session), SERVICES_DEMO);
+  const team: any[] = resolveList(clientTeam(session), TEAM_DEMO);
+  const temoignages: any[] = resolveList(clientReviews(session), TESTIMONIALS_DEMO);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });

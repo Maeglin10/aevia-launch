@@ -43,6 +43,11 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -226,6 +231,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -274,6 +282,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -296,7 +305,7 @@ export default function Page() {
 
   const MENU_ITEMS_DEMO = [{"name": "Consultation Ostéopathique Nourrisson", "category": "Nourrisson", "desc": "Traitement doux des tensions de naissance, coliques et troubles du sommeil.", "price": "65,00 €"}, {"name": "Suivi Ostéopathique Grossesse", "category": "Grossesse", "desc": "Soulagement des maux de dos, sciatiques et préparation du bassin à l'accouchement.", "price": "70,00 €"}, {"name": "Bilan Post-Partum Maman", "category": "Maman", "desc": "Rééquilibrage du corps et du bassin après l'accouchement.", "price": "70,00 €"}];
   const MENU_ITEMS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       category: MENU_ITEMS_DEMO[i % MENU_ITEMS_DEMO.length].category,
       desc: s.description ?? s.desc,
@@ -315,8 +324,8 @@ export default function Page() {
     }
   };
 
-  const review = bp?.reputation?.featuredReviews?.[0];
-  const faqs = resolveList(bp?.faq, [{"q":"Quand amener son bébé pour un bilan post-naissance ?","a":"L'idéal est de faire une séance de contrôle dans les 3 à 4 semaines suivant la naissance, ou plus tôt en cas d'accouchement difficile (forceps, ventouses, césarienne)."},{"q":"Vos consultations sont-elles remboursées ?","a":"L'ostéopathie n'est pas remboursée par la Sécurité Sociale, mais la grande majorité des mutuelles prennent en charge tout ou partie des séances sur facture."},{"q":"Quelles techniques utilisez-vous sur les femmes enceintes ?","a":"Exclusivement des techniques de mobilisation douce et de relâchement myofascial. Nous ne faisons aucune manipulation brusque."}]);
+  const review = clientReviews(sessionData)?.[0];
+  const faqs = resolveList(clientFaq(sessionData), [{"q":"Quand amener son bébé pour un bilan post-naissance ?","a":"L'idéal est de faire une séance de contrôle dans les 3 à 4 semaines suivant la naissance, ou plus tôt en cas d'accouchement difficile (forceps, ventouses, césarienne)."},{"q":"Vos consultations sont-elles remboursées ?","a":"L'ostéopathie n'est pas remboursée par la Sécurité Sociale, mais la grande majorité des mutuelles prennent en charge tout ou partie des séances sur facture."},{"q":"Quelles techniques utilisez-vous sur les femmes enceintes ?","a":"Exclusivement des techniques de mobilisation douce et de relâchement myofascial. Nous ne faisons aucune manipulation brusque."}]);
 return (
     <div style={{
       background: C.bg,

@@ -45,6 +45,11 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, BlurThrough, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
 import { CrossPush } from '@/lib/templates/hero-kit-3';
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* CrossPush (v07, the tattoo recording itself): the outgoing photograph
    slides left while the next arrives from the right — two passing shots,
@@ -321,6 +326,9 @@ function FormSelect({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -369,6 +377,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -394,7 +403,7 @@ export default function Page() {
 
   const MENU_DEMO: any[] = [{"name": "Tatouage Fineline Poignet", "category": "Fineline", "desc": "Motif floral délicat tracé avec des aiguilles ultra-fines.", "price": "120,00 €"}, {"name": "Projet Aquarelle Dos", "category": "Aquarelle", "desc": "Composition colorée à effet aquarelle fluide et fondue.", "price": "250,00 €"}, {"name": "Mini Flash Lettrage", "category": "Minimaliste", "desc": "Mot ou date symbolique, typographie fine sur mesure.", "price": "80,00 €"}];
   const menuItemsAll = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? MENU_DEMO[i % MENU_DEMO.length].name,
       category: MENU_DEMO[i % MENU_DEMO.length].category,
       desc: s.description ?? MENU_DEMO[i % MENU_DEMO.length].desc,
@@ -1113,13 +1122,13 @@ return (
                 position: 'relative',
                 zIndex: 2
               }}>
-                "{bp?.reputation?.featuredReviews?.[0]?.text ?? "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."}"
+                "{clientReviews(sessionData)?.[0]?.text ?? "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."}"
               </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 12 }}>
                 {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
               </div>
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
-                {bp?.reputation?.featuredReviews?.[0]?.name
+                {clientReviews(sessionData)?.[0]?.name
                   ? `${bp.reputation.featuredReviews[0].name}${bp.reputation.featuredReviews[0].location ? ` · ${bp.reputation.featuredReviews[0].location}` : ""}`
                   : "Marie Lauret · Bordeaux"}
               </div>
@@ -1147,7 +1156,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Quelles sont les consignes d'hygiène ?","a":"Nous utilisons exclusivement du matériel à usage unique stérile ouvert devant vous, et notre studio respecte les protocoles de stérilisation de classe médicale."},{"q":"Est-ce douloureux le tatouage fineline ?","a":"Le tracé fin utilise des aiguilles beaucoup plus fines que le tatouage classique, ce qui réduit significativement la sensation de douleur et facilite la cicatrisation."},{"q":"Comment réserver une séance ?","a":"Remplissez le formulaire de contact en détaillant votre idée, la taille souhaitée et l'emplacement sur le corps. Nous vous répondrons sous 5 jours."}] as any[]).map((item: any, i: number) => (
+            {resolveList(clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Quelles sont les consignes d'hygiène ?","a":"Nous utilisons exclusivement du matériel à usage unique stérile ouvert devant vous, et notre studio respecte les protocoles de stérilisation de classe médicale."},{"q":"Est-ce douloureux le tatouage fineline ?","a":"Le tracé fin utilise des aiguilles beaucoup plus fines que le tatouage classique, ce qui réduit significativement la sensation de douleur et facilite la cicatrisation."},{"q":"Comment réserver une séance ?","a":"Remplissez le formulaire de contact en détaillant votre idée, la taille souhaitée et l'emplacement sur le corps. Nous vous répondrons sous 5 jours."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,

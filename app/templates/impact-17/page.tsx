@@ -8,6 +8,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, Building2, ChevronRight, MapPin, Mail, Phone, Award, Layers, Users, Calendar, MessageSquare, ShieldCheck } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 // Nav and footer links all pointed at the template root regardless of their
 // label, leaving the pages below unreachable. Labels come from .map() vars, so
@@ -91,6 +95,9 @@ type ActivePage = "home" | "projets" | "services" | "agence" | "equipe" | "conta
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -145,6 +152,7 @@ export default function KeopsPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const projects: any[] = resolveList(
@@ -159,7 +167,7 @@ export default function KeopsPage() {
     projects_DEMO
   );
   const services: any[] = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: services_DEMO[i % services_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -495,7 +503,7 @@ function ProjetsPage({ activeFilter, setActiveFilter, filtered }: { activeFilter
 
 function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const services: any[] = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: services_DEMO[i % services_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -604,7 +612,7 @@ function AgencePage() {
 
 function EquipePage() {
   const team: any[] = resolveList(
-    bp?.team?.map((m: any, i: number) => ({
+    clientTeam(sessionData)?.map((m: any, i: number) => ({
       name: m.name,
       role: m.role ?? m.specialty ?? "",
       years: m.credentials ?? team_DEMO[i % team_DEMO.length].years,

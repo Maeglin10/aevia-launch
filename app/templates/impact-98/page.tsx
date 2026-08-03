@@ -27,6 +27,9 @@ import { Watch, Zap, Diamond, ShieldCheck, Star, Globe, Mail, MapPin, ChevronRig
 import { resolveList } from "@/lib/templates/resolveList";
 
 import "../premium.css";
+import {
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    DATA STRUCTURES
@@ -160,6 +163,9 @@ function MagneticBtn({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -214,11 +220,12 @@ export default function ZenithWatchesPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Product collection ← client's business profile (falls back to demo).
   const COLLECTIONS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       id: i + 1,
       name: s.title ?? s.name,
       category: s.category ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].category,

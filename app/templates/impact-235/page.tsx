@@ -18,6 +18,9 @@ import {
   Scissors,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    Atelier Marguerite Voss — Couturière créatrice sur mesure, Paris 8e
@@ -1210,7 +1213,7 @@ function MaterialsPanel() {
 
 function Press() {
   const PRESS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       outlet: r.name ?? r.author ?? PRESS_DEMO[i % PRESS_DEMO.length].outlet,
       quote: r.text ?? r.quote,
       issue: r.location ?? r.context ?? PRESS_DEMO[i % PRESS_DEMO.length].issue,
@@ -1796,6 +1799,9 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function AtlierMargueriteVossPage() {
   const [session, setSession] = useState<{
@@ -1845,6 +1851,7 @@ export default function AtlierMargueriteVossPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

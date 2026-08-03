@@ -7,6 +7,10 @@ import Link from "next/link"
 import { Building2, MapPin, ArrowRight, Star, Phone, Mail, Search, Bed, Bath, Square, ChevronDown, Menu, X } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    ALTA TRANSACTIONS — Agence immobilière premium (Paris)
@@ -215,6 +219,9 @@ function InquiryModal({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -269,10 +276,11 @@ export default function AltaTransactionsPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const BIENS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       ...BIENS_DEMO[i % BIENS_DEMO.length],
       title: s.title ?? s.name,
       price: s.price ?? BIENS_DEMO[i % BIENS_DEMO.length].price,
@@ -280,7 +288,7 @@ export default function AltaTransactionsPage() {
     BIENS_DEMO
   );
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       num: SERVICES_DEMO[i % SERVICES_DEMO.length].num,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -501,7 +509,7 @@ export default function AltaTransactionsPage() {
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({ q: r.text ?? r.quote, a: r.name ?? r.author, p: r.location ?? r.detail ?? "" })), [
+            {resolveList(clientReviews(sessionData)?.map((r: any) => ({ q: r.text ?? r.quote, a: r.name ?? r.author, p: r.location ?? r.detail ?? "" })), [
               { q: "Vente de notre appartement en 11 jours au prix demandé. L'équipe Alta est d'une efficacité remarquable. Vrais professionnels, vrais résultats.", a: "Jean-Michel & Corinne T.", p: "Vendeurs · Paris 8ème" },
               { q: "Après 6 mois de recherche infructueuse avec d'autres agences, Alta m'a trouvé mon appartement en 3 semaines. Un réseau et une réactivité hors norme.", a: "Sophie A.", p: "Acquéreur · Neuilly" },
               { q: "La gestion locative d'Alta est irréprochable. Zéro vacance depuis 4 ans sur mes 3 biens. Un vrai partenaire patrimonial.", a: "François D.", p: "Bailleur · Portfoli 3 biens" },

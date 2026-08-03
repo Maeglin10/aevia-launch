@@ -12,6 +12,12 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { Droplets, Bell } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 /* ─────────────────────────────────────────────
    DESIGN TOKENS
@@ -1066,6 +1072,9 @@ function AnalogClock() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function AquaPrestigePage() {
   const [session, setSession] = useState<{
@@ -1097,6 +1106,7 @@ export default function AquaPrestigePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -1104,7 +1114,7 @@ export default function AquaPrestigePage() {
 
   // Prefer the client's real business data; else the template's demo arrays.
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -1113,7 +1123,7 @@ export default function AquaPrestigePage() {
     SERVICES_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name ?? r.author,
       city: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].city,
       rating: r.stars ?? r.rating ?? 5,
@@ -1123,7 +1133,7 @@ export default function AquaPrestigePage() {
     TESTIMONIALS_DEMO
   );
   const TEAM = resolveList(
-    bp?.team?.map((m: any, i: number) => ({
+    clientTeam(sessionData)?.map((m: any, i: number) => ({
       name: m.name,
       role: m.role ?? TEAM_DEMO[i % TEAM_DEMO.length].role,
       exp: TEAM_DEMO[i % TEAM_DEMO.length].exp,
@@ -1148,7 +1158,7 @@ export default function AquaPrestigePage() {
     PORTFOLIO_DEMO
   );
   const FAQ_ITEMS = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })),
     FAQ_ITEMS_DEMO
   );
 

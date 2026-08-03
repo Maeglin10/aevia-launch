@@ -8,6 +8,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, ChevronRight, ShoppingBag, Check } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Nav and footer links all pointed at the template root regardless of their
 // label, leaving the pages below unreachable. Labels come from .map() vars, so
@@ -91,6 +94,9 @@ function formatPriceEUR(n: number): string {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -145,6 +151,7 @@ export default function NoirCouturePage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts();
@@ -404,7 +411,7 @@ export default function NoirCouturePage() {
               </Reveal>
               <div className="grid md:grid-cols-3 gap-6">
                 {resolveList(
-                  bp?.services?.map((s: any, i: number) => ({
+                  clientServices(sessionData)?.map((s: any, i: number) => ({
                     name: s.title ?? s.name,
                     price: s.price ?? looks[i % looks.length].price,
                     src: looks[i % looks.length].src,
@@ -964,7 +971,7 @@ function BoutiqueSubPage({ onAddToCart }: { onAddToCart: (item: { name: string; 
     { name: "Pantalon Fluide Noir", price: "950€", category: "Prêt-à-porter", src: photo(13, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80"), desc: "Pantalon ample fluide en satin de soie. Ceinture ajustable intégrée." }
   ];
   const shopItems = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       price: s.price ?? shopItems_DEMO[i % shopItems_DEMO.length].price,
       category: shopItems_DEMO[i % shopItems_DEMO.length].category,

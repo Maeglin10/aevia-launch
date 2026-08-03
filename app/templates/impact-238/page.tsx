@@ -20,6 +20,10 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    CENTRE KINÉ ATLANTIQUE — Cabinet de kinésithérapie · Rennes
@@ -1172,7 +1176,7 @@ function SpecialtyCards() {
     padding: 'clamp(90px,12vw,160px) clamp(24px,6vw,96px)',
   };
 
-  const specialties = resolveList<any>(bp?.services, SPECIALTIES_DEMO);
+  const specialties = resolveList<any>(clientServices(sessionData), SPECIALTIES_DEMO);
 
   return (
     <section style={sec} id="specialites">
@@ -1634,7 +1638,7 @@ function Reviews() {
     background: C.bg,
     padding: 'clamp(90px,12vw,160px) clamp(24px,6vw,96px)',
   };
-  const reviews = resolveList<any>(bp?.reputation?.featuredReviews, REVIEWS_DEMO);
+  const reviews = resolveList<any>(clientReviews(sessionData), REVIEWS_DEMO);
   return (
     <section style={sec} id="avis">
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
@@ -2193,6 +2197,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2241,6 +2248,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

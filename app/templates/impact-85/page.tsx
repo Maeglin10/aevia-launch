@@ -7,6 +7,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, FlaskConical, Microscope, Leaf, Shield, Star, ChevronRight, Search, Mail, Phone, MapPin, ShoppingBag, Plus, Minus, Trash2, Check } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientFaq,
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 function useFonts() {
   useEffect(() => {
@@ -353,8 +357,8 @@ export default function AetherLabsPage() {
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
   const products = resolveList(bp?.products, PRODUCTS_DEMO);
-  const faqs = resolveList(bp?.faq, FAQS_DEMO);
-  const testimonials = resolveList(bp?.reputation?.featuredReviews, TEMOIGNAGES_DEMO);
+  const faqs = resolveList(clientFaq(session), FAQS_DEMO);
+  const testimonials = resolveList(clientReviews(session), TEMOIGNAGES_DEMO);
 
   useFonts()
   const [menuOpen, setMenuOpen] = useState(false)

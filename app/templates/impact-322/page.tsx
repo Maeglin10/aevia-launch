@@ -40,6 +40,10 @@ import {
   Briefcase
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Linkedin = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
@@ -247,12 +251,12 @@ export default function Impact322() {
   ];
 
   const services = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(session)?.map((s: any, i: number) => ({
       ...services_DEMO[i % services_DEMO.length],
       title: s.title ?? services_DEMO[i % services_DEMO.length].title,
       description: s.description ?? services_DEMO[i % services_DEMO.length].description,
     })),
-    resolveList(c?.services, services_DEMO)
+    resolveList(clientServices(session), services_DEMO)
   );
 
   const testimonials_DEMO = [
@@ -274,12 +278,12 @@ export default function Impact322() {
   ];
 
   const testimonials = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(session)?.map((r: any, i: number) => ({
       name: r.name ?? testimonials_DEMO[i % testimonials_DEMO.length].name,
       role: r.location ?? testimonials_DEMO[i % testimonials_DEMO.length].role,
       content: r.text ?? testimonials_DEMO[i % testimonials_DEMO.length].content,
     })),
-    resolveList(c?.testimonials, testimonials_DEMO)
+    resolveList(clientReviews(session), testimonials_DEMO)
   );
 
   const navLinks = [

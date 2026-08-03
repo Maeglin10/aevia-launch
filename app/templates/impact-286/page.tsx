@@ -23,6 +23,10 @@ import {
   Star,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET VIDAL — Maître Clara Vidal · Avocate droit social & travail
@@ -955,7 +959,7 @@ function DomaineCard({ d, i }: { d: Domaine; i: number }) {
 
 function DomainesSection() {
   const DOMAINES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: DOMAINES_DEMO[i % DOMAINES_DEMO.length].icon,
       titre: s.title ?? s.name,
       sous: DOMAINES_DEMO[i % DOMAINES_DEMO.length].sous,
@@ -1337,7 +1341,7 @@ function TemoignageCard({ t, i }: { t: Temoignage; i: number }) {
 
 function TestimonialsSection() {
   const TEMOIGNAGES = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? r.quote,
       prenom: r.name ?? r.author,
       role: r.location ?? r.role ?? TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length].role,
@@ -2531,6 +2535,9 @@ function FooterSection() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Impact286Page() {
   const [session, setSession] = useState<{
@@ -2580,6 +2587,7 @@ export default function Impact286Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25) };

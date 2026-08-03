@@ -31,6 +31,9 @@ import {
   Heart,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    BOULANGERIE DU BEFFROI — Boulangerie artisanale & pâtisserie · Lille Vieux-Bourg
@@ -1380,7 +1383,7 @@ function AvisCard({ a, i }: { a: Avis; i: number }) {
 
 function TestimonialsSection() {
   const AVIS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text,
       prenom: r.name,
       quartier: r.location ?? "",
@@ -2744,6 +2747,9 @@ function FooterSection() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Impact282Page() {
   const [session, setSession] = useState<{
@@ -2793,6 +2799,7 @@ export default function Impact282Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, wheat: brand, wheatLight: shadeColor(brand, 25) };

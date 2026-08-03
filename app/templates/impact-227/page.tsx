@@ -5,6 +5,10 @@ import React, {useRef, useState, useEffect, useCallback} from 'react'
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
 import { Scissors, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Calendar, X } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -260,6 +264,9 @@ function BarberBookingModal({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -296,6 +303,7 @@ export default function LeBarberClubPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -305,8 +313,8 @@ export default function LeBarberClubPage() {
     };
   }
 
-  const PRESTATIONS = resolveList(bp?.services?.map((sv: any, i: number) => ({ titre: sv.title ?? sv.name, desc: sv.description ?? sv.desc, tag: sv.price ?? PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length].tag })), PRESTATIONS_DEMO);
-  const AVIS = resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({ texte: r.text ?? r.quote, auteur: r.name ?? r.author, detail: r.detail ?? r.context ?? "" })), AVIS_DEMO);
+  const PRESTATIONS = resolveList(clientServices(sessionData)?.map((sv: any, i: number) => ({ titre: sv.title ?? sv.name, desc: sv.description ?? sv.desc, tag: sv.price ?? PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length].tag })), PRESTATIONS_DEMO);
+  const AVIS = resolveList(clientReviews(sessionData)?.map((r: any) => ({ texte: r.text ?? r.quote, auteur: r.name ?? r.author, detail: r.detail ?? r.context ?? "" })), AVIS_DEMO);
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)

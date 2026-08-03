@@ -30,6 +30,11 @@ import {
   Heart,
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientFaq,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -323,6 +328,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -376,11 +384,12 @@ export default function Impact199Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Real client data (falls back to demo when the client left a field empty).
   const STYLES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? STYLES_DEMO[i % STYLES_DEMO.length].name,
       desc: s.description ?? STYLES_DEMO[i % STYLES_DEMO.length].desc,
       image: STYLES_DEMO[i % STYLES_DEMO.length].image,
@@ -389,7 +398,7 @@ export default function Impact199Page() {
     STYLES_DEMO,
   );
   const ARTISTS = resolveList(
-    bp?.team?.map((t: any, i: number) => ({
+    clientTeam(sessionData)?.map((t: any, i: number) => ({
       name: t.name ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].name,
       specialty: t.specialty ?? t.role ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].specialty,
       years: ARTISTS_DEMO[i % ARTISTS_DEMO.length].years,
@@ -410,7 +419,7 @@ export default function Impact199Page() {
     FLASH_PIECES_DEMO,
   );
   const FAQS = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })),
     FAQS_DEMO,
   );
   const GALLERY_IMAGES = resolveList(

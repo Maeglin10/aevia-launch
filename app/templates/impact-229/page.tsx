@@ -5,6 +5,10 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import { Sparkles, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Heart } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.
@@ -165,8 +169,8 @@ export default function EclatSpaPage() {
   // Note: businessProfile is a sibling of formData on SessionData, not
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
-  const soins = resolveList(bp?.services, SOINS_DEMO);
-  const avis = resolveList(bp?.reputation?.featuredReviews, AVIS_DEMO);
+  const soins = resolveList(clientServices(session), SOINS_DEMO);
+  const avis = resolveList(clientReviews(session), AVIS_DEMO);
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)

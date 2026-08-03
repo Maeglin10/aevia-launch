@@ -10,6 +10,10 @@ import {
   useHeroSelector, GhostMark, Rise, SelectorRail,
   heroSectionStyle, railResponsiveCSS, alpha, EASE_3, EASE_4, BEAT,
 } from "@/lib/templates/hero-kit";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 function HeroWatch() {
   const pieces = COLLECTIONS.slice(0, 5);
@@ -254,7 +258,7 @@ export default function MaisonDrouetHome() {
   
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -275,7 +279,7 @@ export default function MaisonDrouetHome() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

@@ -12,6 +12,10 @@ import {
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Heart, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -1092,7 +1096,7 @@ function PieceCard({ piece, i }: { piece: Piece; i: number }) {
 
 function PieceCards() {
   const PIECES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       title: s.title ?? s.name,
       sub: s.description ?? s.desc ?? PIECES_DEMO[i % PIECES_DEMO.length].sub,
     })),
@@ -1441,7 +1445,7 @@ function AtélierPanel() {
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? r.quote,
       name: r.name ?? r.author,
       role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
@@ -1555,7 +1559,7 @@ function Testimonials() {
    ════════════════════════════════════════════════════════════════════════════ */
 function OrderForm() {
   const PIECE_TYPES = resolveList(
-    bp?.services?.map((s: any) => s.title ?? s.name),
+    clientServices(sessionData)?.map((s: any) => s.title ?? s.name),
     PIECE_TYPES_DEMO
   );
   const [prenom, setPrenom] = useState('');
@@ -2068,6 +2072,9 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2098,6 +2105,7 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

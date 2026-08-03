@@ -42,6 +42,10 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import {
+  clientFaq,
+  clientServices,
+} from "@/lib/templates/clientContent";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -222,6 +226,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -270,6 +277,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -290,7 +298,7 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
-  const servicesReal: any[] | null = bp?.services?.length ? bp.services : null;
+  const servicesReal: any[] | null = clientServices(sessionData)?.length ? bp.services : null;
   const SERVICES_DEMO = [{"name": "Bilan Dentaire & Détartrage", "category": "Soins", "desc": "Examen bucco-dentaire complet, nettoyage professionnel, conseils d'hygiène.", "price": "43,43 €"}, {"name": "Blanchiment Professionnel", "category": "Esthétique", "desc": "Traitement de blanchiment au fauteuil avec gel certifié et lampe LED.", "price": "450,00 €"}, {"name": "Traitement Aligneurs Invisibles", "category": "Esthétique", "desc": "Orthodontie invisible par gouttières amovibles transparentes sur mesure.", "price": "Sur Devis"}, {"name": "Pose d'Implant Dentaire", "category": "Implants", "desc": "Remplacement d'une dent manquante par une racine artificielle en titane.", "price": "Sur Devis"}];
   // businessProfile.services replaces the demo list wholesale; real services
   // rarely carry a `category`, so the fixed tab filter is skipped for them.
@@ -966,7 +974,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {(bp?.faq?.length ? bp.faq : [{"q":"Quelles technologies utilisez-vous ?","a":"Le cabinet dispose d'une caméra d'empreinte optique 3D Trios, d'une radio 3D Cône Beam, et de systèmes de chirurgie guidée."},{"q":"Êtes-vous conventionné ?","a":"Oui, le cabinet est conventionné. Les soins de base (détartrage, caries) sont remboursés à 70% par la Sécurité Sociale, le reste étant couvert par votre mutuelle."},{"q":"Comment se déroule la première consultation d'implantologie ?","a":"Elle comprend un bilan clinique complet, une radio 3D au cabinet, et l'établissement d'un plan de traitement chiffré détaillé."}]).map((item: any, i: number) => (
+            {(clientFaq(sessionData)?.length ? bp.faq : [{"q":"Quelles technologies utilisez-vous ?","a":"Le cabinet dispose d'une caméra d'empreinte optique 3D Trios, d'une radio 3D Cône Beam, et de systèmes de chirurgie guidée."},{"q":"Êtes-vous conventionné ?","a":"Oui, le cabinet est conventionné. Les soins de base (détartrage, caries) sont remboursés à 70% par la Sécurité Sociale, le reste étant couvert par votre mutuelle."},{"q":"Comment se déroule la première consultation d'implantologie ?","a":"Elle comprend un bilan clinique complet, une radio 3D au cabinet, et l'établissement d'un plan de traitement chiffré détaillé."}]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,

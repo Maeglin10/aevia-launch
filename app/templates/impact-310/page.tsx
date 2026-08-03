@@ -43,6 +43,11 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -228,6 +233,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -277,6 +285,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -304,7 +313,7 @@ export default function Page() {
 
   const MENU_ITEMS_DEMO = [{"name": "Conception Jardin Sec", "category": "Création", "desc": "Plan 3D et plantation d'espèces locales peu gourmandes en eau.", "price": "Sur Devis"}, {"name": "Pose de Terrasse Bois", "category": "Création", "desc": "Installation de terrasse en bois naturel ou composite, matériaux locaux.", "price": "Sur Devis"}, {"name": "Installation Goutte-à-Goutte", "category": "Arrosage", "desc": "Système d'irrigation programmé économe en eau, adapté à la garrigue.", "price": "450,00 €"}];
   const menuItemsAll = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       category: MENU_ITEMS_DEMO[i % MENU_ITEMS_DEMO.length].category,
       desc: s.description ?? s.desc,
@@ -329,7 +338,7 @@ export default function Page() {
 
   const REVIEWS_DEMO = [{ text: "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide.", name: "Marie Lauret", location: "Bordeaux" }];
   const REVIEWS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(sessionData)?.map((r: any) => ({
       text: r.text ?? r.quote,
       name: r.name ?? r.author,
       location: r.location ?? r.role ?? "",
@@ -340,7 +349,7 @@ export default function Page() {
 
   const FAQ_DEMO = [{"q":"Quelles plantes résistantes à la chaleur conseillez-vous ?","a":"Le laurier-rose, la lavande, le romarin, le ciste, l'olivier et les herbes de la pampa s'épanouissent parfaitement sous le climat de Montpellier sans nécessiter beaucoup d'eau."},{"q":"Comment fonctionnent vos systèmes d'arrosage économes ?","a":"Ils sont connectés à une sonde météo locale : si de la pluie est annoncée, l'arrosage se coupe automatiquement pour préserver les ressources."},{"q":"Proposez-vous des contrats d'entretien annuel ?","a":"Oui, pour la tonte, la taille des haies et le nettoyage saisonnier, éligibles au crédit d'impôt service à la personne (50% de déduction)."}];
   const FAQ = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
     FAQ_DEMO
   );
 

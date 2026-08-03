@@ -9,6 +9,9 @@ import Link from "next/link"
 import { Watch, ArrowRight, Menu, Star, Sparkles, Shield, Clock, Award, Hammer, Compass, ChevronRight, Play, BookOpen, History, Cpu, Wrench } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -54,6 +57,9 @@ type ActivePage = "home" | "atelier" | "collection" | "concierge" | "legal" | "c
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -108,6 +114,7 @@ export default function ChronosLuxuryPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const COLLECTION: any[] = resolveList(
@@ -121,7 +128,7 @@ export default function ChronosLuxuryPage() {
     COLLECTION_DEMO
   );
   const CRAFT: any[] = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: CRAFT_DEMO[i % CRAFT_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,

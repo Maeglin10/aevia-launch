@@ -12,6 +12,11 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { PartyPopper } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -1523,7 +1528,7 @@ function MobileNavDrawer({
 function FAQAccordion() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const FAQS = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })),
     FAQS_DEMO
   );
 
@@ -1767,6 +1772,9 @@ function PromoBanner() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function FlammeEtCoPage() {
   const [session, setSession] = useState<{
@@ -1798,6 +1806,7 @@ export default function FlammeEtCoPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25) };
@@ -1807,7 +1816,7 @@ export default function FlammeEtCoPage() {
   // Products carry the client's services (name + price); decorative fields
   // (emoji, brand, rating, badges) cycle from the demo catalog.
   const PRODUCTS = resolveList(
-    bp?.services?.map((s: any, i: number) => {
+    clientServices(sessionData)?.map((s: any, i: number) => {
       const d = PRODUCTS_DEMO[i % PRODUCTS_DEMO.length];
       const parsed = typeof s.price === 'number'
         ? s.price
@@ -1823,7 +1832,7 @@ export default function FlammeEtCoPage() {
     PRODUCTS_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => {
+    clientReviews(sessionData)?.map((r: any, i: number) => {
       const d = TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length];
       return {
         ...d,
