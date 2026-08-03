@@ -29,13 +29,13 @@ câblage manquant.
 | bloc | thèmes qui l'affichent | qui lisent la donnée client | reste |
 |---|---:|---:|---:|
 | nom de l'entreprise | 373 | **373** | 0 |
-| avis | 333 | 247 | 86 |
+| avis | 288 | 231 | 57 |
 | prestations | 271 | 189 | 82 |
 | chiffres clés | 158 | 112 | 46 |
 | tarifs | 148 | 117 | 31 |
-| engagements | 45 | 22 | 23 |
-| équipe | 49 | 34 | 15 |
 | FAQ | 73 | 64 | 9 |
+| équipe | 49 | 34 | 15 |
+| engagements | 45 | 22 | 23 |
 | zones | 3 | 1 | 2 |
 
 Par ailleurs : la ville est lue par 288 thèmes, l'adresse par 33, les photos par
@@ -55,6 +55,12 @@ La liste exacte est dans `/tmp/reste.json` au moment de l'écriture ; elle se
 régénère avec le script d'audit.
 
 ## Les pièges rencontrés, pour ne pas les repayer
+
+**Un test statique ne remplace pas un parcours client.** L'analyse disait
+« 373/373 thèmes affichent le nom » — techniquement vrai. Sur cinq d'entre eux, le
+nom s'affichait sur le bouton « Prendre RDV », parce que le codemod avait pris ce
+libellé pour la marque. Seul le parcours réel, formulaire rempli et page
+regardée, attrape ce genre d'erreur.
 
 **Le manifeste sur-déclarait massivement.** Bâti sur les seuls noms de
 constantes, il annonçait des sections que les thèmes n'ont pas. Le compteur
