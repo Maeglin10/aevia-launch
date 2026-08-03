@@ -29,6 +29,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
   clientReviews,
+  clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
 
@@ -105,7 +106,7 @@ const FAQ_DEMO = [
   },
 ];
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     title: "Asset Acquisition",
     desc: "Off-market access to the world's most exclusive real estate, yachts, and private aviation.",
@@ -122,6 +123,7 @@ const SERVICES = [
     icon: ShieldCheck,
   },
 ];
+let SERVICES = SERVICES_DEMO;
 
 const STATS_DEMO = [
   { label: "Assets Managed", value: "$4.2B+" },
@@ -256,6 +258,10 @@ export default function SkylineConciergePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    SERVICES_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

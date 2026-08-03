@@ -9,6 +9,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 
@@ -67,12 +68,13 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const EQUIPE = [
+const EQUIPE_DEMO = [
   { n: "Vincent Cazals", r: "Fondateur · Barbier", d: "Formé chez un maître barbier de Barcelone. Vingt ans de coupe-chou, et il aiguise encore ses lames lui-même." },
   { n: "Rachid Berrada", r: "Barbier · Dégradés", d: "Le fade, la transition invisible, les contours au rasoir. C'est lui qu'on demande pour les coupes courtes." },
   { n: "Louis Tessier", r: "Coiffeur · Cheveux longs", d: "Coupes aux ciseaux, boucles, entretien des cheveux mi-longs. Vient du milieu de la coiffure femme." },
   { n: "Enzo Marchisio", r: "Barbier junior", d: "En troisième année d'apprentissage. Tarif réduit de 5 € sur ses créneaux, annoncé à la réservation." },
 ];
+let EQUIPE = EQUIPE_DEMO;
 
 const PRESTATIONS_DEMO = [
   { titre: "Coupe homme classique", desc: "Ciseaux ou tondeuse, dégradé américain ou anglais, finition rasoir. Shampooing + coupe + styling — 35€.", tag: "Coupe" },
@@ -307,6 +309,10 @@ export default function LeBarberClubPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EQUIPE = resolveList(
+    clientTeam(sessionData)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
+    EQUIPE_DEMO,
+  );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -51,7 +52,7 @@ const MENU = [
   { g: "Desserts", ls: ["Tarte praliné-noisette", "Pavlova aux fruits rouges", "Chariot de mignardises", "Pièce montée sur demande"] },
 ];
 
-const PRESTATIONS = [
+const PRESTATIONS_DEMO = [
   { icon: Users, title: "Cocktails & réceptions", desc: "Cocktail dînatoire, standing, mariage, gala. Buffets chauds et froids, bouchées minute, animations culinaires. De 20 à 800 personnes." },
   { icon: ChefHat, title: "Repas assis & gastronomique", desc: "Menu 3 ou 5 services, carte personnalisée, régimes spéciaux. Chef à domicile ou en salle. Vaisselle premium, personnel de service inclus." },
   { icon: Gift, title: "Plateaux repas entreprise", desc: "Plateaux livrés sous 24h. Formule midi, buffet réunion, petit-déjeuner d'équipe. Conditionnements individuels ou collectifs certifiés HACCP." },
@@ -59,6 +60,7 @@ const PRESTATIONS = [
   { icon: Wine, title: "Accord mets & vins", desc: "Sélection vins de la Vallée du Rhône, champagnes, cocktails sans alcool maison. Bar à eaux premium, infusions fraîches. Sommelier sur demande." },
   { icon: Utensils, title: "Cuisine du monde & thème", desc: "Cuisine lyonnaise, méditerranéenne, asiatique, sud-américaine. Plancha, wok, live cooking, atelier dégustation. Décor de table thématique inclus." },
 ]
+let PRESTATIONS = PRESTATIONS_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -97,6 +99,10 @@ export default function TableExceptionPage() {
   }, []);
 
   fd = session?.formData;
+  PRESTATIONS = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length], title: s.title })),
+    PRESTATIONS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -114,52 +120,7 @@ export default function TableExceptionPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#fefcf8] text-[#1f1d1a] overflow-x-hidden" style={{ fontFamily: "'Source Sans 3', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fefcf8]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[var(--brand,#d4a853)]/12" : "bg-transparent py-7"}`}>

@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -59,14 +60,15 @@ const TARIFS = [
   { g: "Soin", ls: [["Rituel botanique", "38 €"], ["Kératine sans formol", "à partir de 180 €"], ["Diagnostic cuir chevelu", "offert"], ["Brushing seul", "34 €"]] },
 ];
 
-const EQUIPE = [
+const EQUIPE_DEMO = [
   { n: "Léonie Barbier", r: "Fondatrice · Coloriste", d: "Formée chez Christophe Robin. Balayage et corrections de couleur : c'est elle qu'on vient voir quand une couleur a mal tourné ailleurs." },
   { n: "Inès Marchetti", r: "Styliste senior", d: "Coupes courtes et carrés graphiques. Douze ans de plateau et de collections, aujourd'hui uniquement en salon." },
   { n: "Nour Benali", r: "Spécialiste cheveux texturés", d: "Boucles, frisés, crépus. Coupe à sec, méthode courbes, et un vrai diagnostic avant de toucher aux longueurs." },
   { n: "Théo Rives", r: "Styliste · Cérémonie", d: "Chignons et attachés. Essai systématique avant un mariage, déplacement possible le jour J." },
 ];
+let EQUIPE = EQUIPE_DEMO;
 
-const PRESTATIONS = [
+const PRESTATIONS_DEMO = [
   { title: "Coupe & brushing", price: "Dès 65€", desc: "Coupe sur mesure adaptée à votre morphologie, densité et mode de vie. Brushing professionnel ou coiffage naturel." },
   { title: "Couleur & balayage", price: "Dès 95€", desc: "Couleur pleine, balayage californien, mèches, ombré. Produits Kérastase & L'Oréal Professionnel. Bilan capillaire offert." },
   { title: "Traitement & soin", price: "Dès 45€", desc: "Soins Olaplex, masques kératine, lissage brésilien, soins anti-chute. Résultat visible dès la première séance." },
@@ -74,6 +76,7 @@ const PRESTATIONS = [
   { title: "Extensions", price: "Dès 250€", desc: "Extensions kératine, bandes, clips. Volume, longueur, densité. Pose personnalisée, entretien et dépose assurés." },
   { title: "Consultation capillaire", price: "Offerte", desc: "Diagnostic état de la fibre, rythme colorimétrique, soins adaptés. En amont de chaque nouveau service, sur demande." },
 ]
+let PRESTATIONS = PRESTATIONS_DEMO;
 
 const TESTIMONIALS_DEMO = [
   { q: "Léonie a transformé mes cheveux abîmés en quelque chose de sublime. Le balayage est naturel, la couleur exactement ce que je voulais. Enfin une vraie experte.", n: "Sophie M.", l: "Paris 16e" },
@@ -272,6 +275,14 @@ export default function AtelierLeoniePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PRESTATIONS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length], title: s.title })),
+    PRESTATIONS_DEMO,
+  );
+  EQUIPE = resolveList(
+    clientTeam(sessionData)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
+    EQUIPE_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const services = resolveList(clientServices(sessionData), PRESTATIONS);

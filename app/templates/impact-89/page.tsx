@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import { useRef, useState, useEffect } from "react";
@@ -35,6 +36,7 @@ import {
   Pen,
 } from "lucide-react";
 import {
+  clientFaq,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -351,7 +353,7 @@ const TESTIMONIALS = [
   },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   {
     q: "Combien coûte un tatouage chez Ink & Iron ?",
     a: "Nos tarifs démarrent à €180 pour les petites pièces flash. Les sessions au taux horaire : Viktor à €100/h, Léa à €90/h, James à €95/h. Les projets complexes (sleeves, full back) sont devisés en session globale après consultation.",
@@ -377,6 +379,7 @@ const FAQS = [
     a: "La cicatrisation superficielle dure 2 à 3 semaines. La peau se régénère en profondeur sur 2 à 3 mois. Nous fournissons un protocole complet écrit et répondons à vos questions pendant toute la période de soin.",
   },
 ];
+let FAQS = FAQS_DEMO;
 
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -542,6 +545,10 @@ export default function Impact89Page() {
   }, []);
 
   fd = session?.formData;
+  FAQS = resolveList(
+    clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
+    FAQS_DEMO,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -594,52 +601,7 @@ export default function Impact89Page() {
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100dvh", fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style>{`

@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import { useRef, useState, useEffect } from "react";
@@ -37,8 +38,10 @@ import {
   Palette,
 } from "lucide-react";
 import {
+  clientFaq,
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -220,7 +223,7 @@ const STATS = [
   { value: 3, suffix: " awards", label: "Red Dot, ADC, Awwwards" },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: "Mathieu Rosset",
     role: "CEO, Folio Maison",
@@ -254,8 +257,9 @@ const TESTIMONIALS = [
     text: "Concevoir une expo pour 200K visiteurs avec un budget muséal serré — ils ont relevé le défi avec une élégance remarquable.",
   },
 ];
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
-const TEAM = [
+const TEAM_DEMO = [
   {
     name: "Lucas Berger",
     role: "Creative Director & Fondateur",
@@ -281,8 +285,9 @@ const TEAM = [
     initials: "CM",
   },
 ];
+let TEAM = TEAM_DEMO;
 
-const FAQS = [
+const FAQS_DEMO = [
   {
     q: "Travaillez-vous uniquement avec des entreprises suisses ?",
     a: "Non — notre portfolio s'étend à la France, l'Allemagne et le Royaume-Uni. Nous travaillons à distance avec une aisance totale. Les ateliers de brief peuvent se tenir en présentiel à Genève ou via Zoom.",
@@ -304,6 +309,7 @@ const FAQS = [
     a: "Deux cycles complets par phase. Nous constatons que des briefs solides en amont réduisent drastiquement le besoin de révisions — c'est pourquoi nous investissons dans la phase découverte.",
   },
 ];
+let FAQS = FAQS_DEMO;
 
 // Counter animé
 function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
@@ -583,6 +589,18 @@ export default function Impact130Page() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
+    TESTIMONIALS_DEMO,
+  );
+  FAQS = resolveList(
+    clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
+    FAQS_DEMO,
+  );
+  TEAM = resolveList(
+    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role })),
+    TEAM_DEMO,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -625,52 +643,7 @@ export default function Impact130Page() {
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 return (
     <div style={{ background: C.bg, color: C.text, minHeight: "100dvh", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
       <style>{`

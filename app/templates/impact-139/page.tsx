@@ -43,12 +43,13 @@ const PROGRAMS_DEMO = [
   { title: "RECOVER", type: "Mobility", duration: "30 min", level: "All Levels", desc: "Active recovery with guided stretching and foam rolling protocols.", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80&w=800" },
 ]
 
-const FEATURES = [
+const FEATURES_DEMO = [
   { icon: Target, title: "Personal Programming", desc: "Every member gets a custom training plan based on their goals and baseline assessment." },
   { icon: Flame, title: "Heart Rate Zones", desc: "Live biometric tracking during every session. Train smarter, not just harder." },
   { icon: Trophy, title: "Progress Tracking", desc: "Monthly body composition scans, strength benchmarks, and recovery metrics." },
   { icon: Users, title: "Community Driven", desc: "Small classes of 12 max. You're not a number — you're part of a tribe." },
 ]
+let FEATURES = FEATURES_DEMO;
 
 const PLANS = [
   { name: "Essential", price: "$79", desc: "3 sessions/week", features: ["3x Group Sessions", "Open Gym Access", "Monthly Check-in", "Community App"] },
@@ -119,6 +120,10 @@ export default function ApexFitnessPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FEATURES = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
+    FEATURES_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Real client programs (services) when provided, else template demo lineup.

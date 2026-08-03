@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -7,6 +8,7 @@ import Link from "next/link"
 import { Sparkles, CheckCircle, Phone, Star, MapPin, Clock, Shield, Leaf, Home, Building, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientAreas,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -44,7 +46,7 @@ const TARIFS = [
   { f: "Bureaux & locaux", p: "sur devis", n: "Passage avant 8h ou après 19h, produits et consommables inclus." },
 ];
 
-const ZONES = [
+const ZONES_DEMO = [
   { v: "Lyon 1er — 9e", d: "Tous arrondissements, sans supplément" },
   { v: "Villeurbanne", d: "Sans supplément" },
   { v: "Caluire · Rillieux", d: "Sans supplément" },
@@ -52,8 +54,9 @@ const ZONES = [
   { v: "Bron · Vénissieux · Saint-Priest", d: "Supplément déplacement 6 €" },
   { v: "Reste du Rhône", d: "Sur étude, à partir de 4 h par passage" },
 ];
+let ZONES = ZONES_DEMO;
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { icon: Home, title: "Ménage domicile", desc: "Passage régulier hebdomadaire ou bihebdomadaire. Dépoussiérage, aspiration, nettoyage sols, sanitaires, cuisine. Produits écologiques certifiés." },
   { icon: Building, title: "Nettoyage bureaux", desc: "Locaux professionnels, open spaces, salles de réunion, sanitaires. Intervention en soirée ou week-end pour ne pas perturber l'activité." },
   { icon: Sparkles, title: "Nettoyage fin de chantier", desc: "Déblayage et nettoyage complet post-travaux. Vitres, plinthes, enduits, carrelage. Rendu prêt à emménager en 1 intervention." },
@@ -61,6 +64,7 @@ const SERVICES = [
   { icon: Clock, title: "Ménage express & ponctuel", desc: "Avant/après emménagement, avant une réception, entre deux locataires Airbnb. Intervention rapide sous 24h sur Lyon Métropole." },
   { icon: Shield, title: "Vitres & surfaces vitrées", desc: "Lavage de vitres intérieures et extérieures jusqu'au 3ème étage. Velux, baies, vérandas. Sans traces garanties, finition cristal." },
 ]
+let SERVICES = SERVICES_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -99,6 +103,14 @@ export default function BrilloNetPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    SERVICES_DEMO,
+  );
+  ZONES = resolveList(
+    clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], v: z })),
+    ZONES_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -116,52 +128,7 @@ export default function BrilloNetPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-white text-[#1c2b2b] overflow-x-hidden" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/98 backdrop-blur-xl py-3 shadow-sm border-b border-[var(--brand,#0d9488)]/10" : "bg-transparent py-7"}`}>

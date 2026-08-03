@@ -7,7 +7,10 @@ import Link from "next/link"
 import { Droplets, ShieldCheck, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle, Wrench, Award, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientAreas,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    AQUANOVA PISCINES — Pisciniste / Constructeur de piscines (Lyon)
@@ -58,7 +61,7 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const ZONES = [
+const ZONES_DEMO = [
   { v: "Lyon 1er — 9e", d: "Intervention sous 2 h en urgence" },
   { v: "Villeurbanne · Vaulx-en-Velin", d: "Sous 2 h" },
   { v: "Caluire · Rillieux", d: "Sous 3 h" },
@@ -66,6 +69,7 @@ const ZONES = [
   { v: "Vénissieux · Saint-Priest · Bron", d: "Sous 3 h" },
   { v: "Reste du Rhône", d: "Sur rendez-vous, hors urgence" },
 ];
+let ZONES = ZONES_DEMO;
 
 const SERVICE_ICONS = [Droplets, Wrench, ShieldCheck, Droplets, Wrench, ShieldCheck]
 const SERVICES_DEMO = [
@@ -153,6 +157,10 @@ export default function AquanovaPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  ZONES = resolveList(
+    clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], v: z })),
+    ZONES_DEMO,
+  );
   TARIFS = resolveList(
     clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

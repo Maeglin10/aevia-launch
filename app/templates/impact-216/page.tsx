@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import { useEffect, useRef, useState, useCallback } from 'react';
@@ -11,6 +12,7 @@ import {
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientFaq,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -1157,7 +1159,7 @@ function CoverageSection() {
 }
 
 // ─── 8. TESTIMONIALS ──────────────────────────────────────────────────────────
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: 'Élodie Marchand', role: 'Directrice Logistique', company: 'Boutique Nature & Bio', sector: 'E-commerce', rating: 5, initials: 'EM', color: '#10b981',
     text: "Meridian Freight a transformé notre logistique. Grâce à leur intégration Shopify, 98 % de nos commandes partent le jour même. Le taux de retours clients dû aux livraisons a chuté de 40 %.",
@@ -1183,6 +1185,7 @@ const TESTIMONIALS = [
     text: "Les flux inter-usines sont désormais pilotés en EDI. Les camions arrivent à l'heure, le planning est respecté. Le portail de suivi nous économise 2h de travail par jour.",
   },
 ];
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 function TestimonialCard({ t, index }: { t: typeof TESTIMONIALS[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -1296,7 +1299,7 @@ function PartnersSection() {
 }
 
 // ─── 10. FAQ ──────────────────────────────────────────────────────────────────
-const FAQ_ITEMS = [
+const FAQ_ITEMS_DEMO = [
   {
     q: 'Comment sont calculés vos tarifs de transport ?',
     a: "Nos tarifs sont basés sur le poids réel ou volumétrique (le plus élevé des deux), la distance, le délai choisi et votre volume mensuel. Plus votre volume est élevé, plus nos tarifs sont compétitifs. Demandez une simulation gratuite en 2 minutes.",
@@ -1318,6 +1321,7 @@ const FAQ_ITEMS = [
     a: "Nos clients Business et Enterprise bénéficient d'enlèvements programmés quotidiens. Les nouveaux clients peuvent planifier un premier enlèvement en 24h via notre portail ou par téléphone. Nous intervenons sur toute la France pour le premier passage.",
   },
 ];
+let FAQ_ITEMS = FAQ_ITEMS_DEMO;
 
 function FAQItem({ item, index }: { item: typeof FAQ_ITEMS[0]; index: number }) {
   const [open, setOpen] = useState(false);
@@ -1712,6 +1716,14 @@ export default function MeridianFreightPage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
+    TESTIMONIALS_DEMO,
+  );
+  FAQ_ITEMS = resolveList(
+    clientFaq(session)?.map((r, i) => ({ ...FAQ_ITEMS_DEMO[i % FAQ_ITEMS_DEMO.length], q: r.q, a: r.a })),
+    FAQ_ITEMS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
@@ -1720,52 +1732,7 @@ export default function MeridianFreightPage() {
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 return (
     <>
       <FontLoader />

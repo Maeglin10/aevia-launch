@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useState, useEffect, useRef} from 'react';
@@ -8,8 +9,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Compass, ArrowUpRight, Plus, Minus } from "lucide-react";
 import { Reveal, ParallaxImg } from "./shared";
 import {
+  clientFaq,
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 const PROJECTS = [
@@ -90,7 +93,7 @@ const STATS = [
   { val: "4", label: "RIBA Awards" },
 ];
 
-const TEAM = [
+const TEAM_DEMO = [
   {
     name: "Elias Vorn",
     role: "Founding Principal",
@@ -110,6 +113,7 @@ const TEAM = [
     img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=600&auto=format&fit=crop",
   },
 ];
+let TEAM = TEAM_DEMO;
 
 const PROCESS = [
   { step: "01", title: "Commission", body: "An initial conversation to understand the scope, ambitions, and constraints of the project. We take on only commissions where genuine design innovation is possible." },
@@ -128,12 +132,13 @@ const PRESS = [
   { pub: "Icon", title: "Elias Vorn: 'We subtract until only the essential remains'", year: "2023" },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   { q: "What is your minimum project budget?", a: "Our residential projects typically start at £1.2m in construction value. Commercial commissions vary by complexity and scale. We are happy to discuss feasibility during an initial consultation." },
   { q: "Do you work internationally?", a: "Yes. We currently maintain active projects across Europe, Japan, and North America. Our studio is based in London with a satellite office in Zürich." },
   { q: "How long does a typical project take?", a: "A mid-scale residential project runs 18–24 months from commission to completion. Commercial and cultural projects typically take 24–36 months, depending on planning complexity." },
   { q: "Can I visit your studio?", a: "We welcome site visits by appointment. Our material library and model archive are available for viewing during studio hours, Tuesday through Friday." },
 ];
+let FAQS = FAQS_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -172,6 +177,14 @@ export default function SymmetryStudioPage() {
   }, []);
 
   fd = session?.formData;
+  FAQS = resolveList(
+    clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
+    FAQS_DEMO,
+  );
+  TEAM = resolveList(
+    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role })),
+    TEAM_DEMO,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -199,52 +212,7 @@ export default function SymmetryStudioPage() {
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 return (
     <main>
       {/* ── HERO ──────────────────── */}

@@ -72,7 +72,7 @@ interface Stylist {
 }
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   {
     name: 'Coupe & Brushing',
     nameEn: 'Cut & Blowdry',
@@ -109,6 +109,7 @@ const SERVICES: Service[] = [
     duration: '45 min',
   },
 ]
+let SERVICES = SERVICES_DEMO;
 
 const STYLISTS: Stylist[] = [
   {
@@ -1019,6 +1020,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  SERVICES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], name: s.title })),
+    SERVICES_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

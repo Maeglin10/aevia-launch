@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {
@@ -19,6 +20,7 @@ import {
 import {
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 /* ==========================================================================
@@ -137,7 +139,7 @@ const PHILOSOPHY = [
   },
 ];
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     title: "Architectural Design",
     desc: "Full-spectrum design from conceptual sketches to construction documentation. We use parametric modelling to test thousands of environmental scenarios before a single brick is laid.",
@@ -159,6 +161,7 @@ const SERVICES = [
     desc: "Architecture does not end at the facade. We design the soil, the water table, the micro-climate, and the habitat corridors that make a building truly alive.",
   },
 ];
+let SERVICES = SERVICES_DEMO;
 
 const AWARDS = [
   { year: "2025", title: "Pritzker Prize", body: "Architecture Laureate" },
@@ -176,7 +179,7 @@ const STATS = [
   { value: "23k", label: "Tonnes CO₂ sequestered" },
 ];
 
-const TEAM = [
+const TEAM_DEMO = [
   {
     name: "Elena Rostova",
     role: "Lead Architect & Founder",
@@ -190,6 +193,7 @@ const TEAM = [
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop",
   },
 ];
+let TEAM = TEAM_DEMO;
 
 /* ==========================================================================
    LEAF VEIN SVG SIGNATURE ELEMENT
@@ -573,6 +577,14 @@ export default function Impact115Page() {
   }, []);
 
   fd = session?.formData;
+  SERVICES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    SERVICES_DEMO,
+  );
+  TEAM = resolveList(
+    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role })),
+    TEAM_DEMO,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -627,52 +639,7 @@ export default function Impact115Page() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 
   return (
     <div

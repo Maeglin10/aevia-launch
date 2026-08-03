@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
@@ -48,11 +49,12 @@ const TESTIMONIALS_DEMO = [
   { quote: "Three continents, one advisor. Haven managed our entire portfolio consolidation seamlessly and discreetly.", name: "E. Volkov", role: "Geneva · Multi-Property" },
 ]
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { icon: Building, title: "Acquisition Advisory", desc: "End-to-end guidance from search to closing on residential and commercial assets." },
   { icon: DollarSign, title: "Investment Strategy", desc: "Portfolio construction for ultra-high-net-worth individuals seeking trophy real estate." },
   { icon: Award, title: "Off-Market Access", desc: "Exclusive pre-market listings and pocket deals from our global broker network." },
 ]
+let SERVICES = SERVICES_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -99,6 +101,10 @@ export default function HavenEstatesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    SERVICES_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

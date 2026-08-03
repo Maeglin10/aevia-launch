@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from "react";
@@ -6,6 +7,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
 import Link from "next/link";
 import { ArrowRight, Search, Menu, X, Clock, BookOpen, TrendingUp, Users, Star, Check, Rss, MessageSquare, Camera, Link2, ChevronRight, Calendar } from "lucide-react";
 import {
+  clientFaq,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -158,7 +160,7 @@ const AUTHORS = [
   },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: "Claire Dupont",
     role: "CMO, Spendr",
@@ -202,6 +204,7 @@ const TESTIMONIALS = [
     avatar: "JB",
   },
 ];
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const PLANS = [
   {
@@ -250,7 +253,7 @@ const PLANS = [
   },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   {
     q: "À quelle fréquence publiez-vous ?",
     a: "Deux articles longs formats par semaine (mardi et jeudi), plus une synthèse de curation le vendredi. Les abonnés Pro reçoivent une newsletter premium le dimanche avec analyses exclusives et fiches actionnables.",
@@ -276,6 +279,7 @@ const FAQS = [
     a: "Oui, annulation possible à tout moment depuis votre espace abonné. Aucun engagement, aucun frais de résiliation. Vous conservez l'accès jusqu'à la fin de votre période payée.",
   },
 ];
+let FAQS = FAQS_DEMO;
 
 const ARCHIVE_MONTHS = [
   { month: "Mai 2026", count: 8 },
@@ -348,6 +352,14 @@ export default function EssentialBlogPage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
+    TESTIMONIALS_DEMO,
+  );
+  FAQS = resolveList(
+    clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
+    FAQS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
@@ -379,52 +391,7 @@ export default function EssentialBlogPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 
   return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, fontFamily: C.sans, overflowX: "hidden" }}>

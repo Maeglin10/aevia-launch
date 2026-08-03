@@ -117,7 +117,7 @@ const SCIENCE = [
   { icon: Award, title: "Formation continue", desc: "Nos praticiens se forment chaque année aux congrès IMCAS (Paris), AMWC (Monaco) et AAD (USA)." },
 ]
 
-const FAQ_ITEMS = [
+const FAQ_ITEMS_DEMO = [
   {
     q: "Comment prendre rendez-vous pour une consultation ?",
     a: "Vous pouvez utiliser notre formulaire de prise de rendez-vous en ligne ci-dessous, ou nous contacter par téléphone au +33 1 45 72 98 30. La première consultation de diagnostic est entièrement gratuite.",
@@ -139,6 +139,7 @@ const FAQ_ITEMS = [
     a: "En cas d'empêchement, nous vous demandons de bien vouloir nous prévenir au moins 24 heures à l'avance afin de libérer le créneau pour un autre patient.",
   },
 ]
+let FAQ_ITEMS = FAQ_ITEMS_DEMO;
 
 // ─── Sub-pages refactored to Sections ──────────────────────────────────────────
 
@@ -773,6 +774,10 @@ export default function LumiereCliniquePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FAQ_ITEMS = resolveList(
+    clientFaq(sessionData)?.map((r, i) => ({ ...FAQ_ITEMS_DEMO[i % FAQ_ITEMS_DEMO.length], q: r.q, a: r.a })),
+    FAQ_ITEMS_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()

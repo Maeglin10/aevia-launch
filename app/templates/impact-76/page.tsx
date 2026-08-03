@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -10,6 +11,7 @@ import { Reveal, MagneticBtn, Counter } from "./shared";
 import {
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 const ARCHIVE_PROJECTS = [
@@ -55,7 +57,7 @@ const ARCHIVE_PROJECTS = [
   },
 ];
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     code: "SVC_01",
     title: "Residential Architecture",
@@ -72,6 +74,7 @@ const SERVICES = [
     desc: "Museums, civic institutions, and cultural pavilions that reconfigure the relationship between community and built space.",
   },
 ];
+let SERVICES = SERVICES_DEMO;
 
 const STATS = [
   { value: 12, suffix: " ans", label: "D'expertise" },
@@ -80,7 +83,7 @@ const STATS = [
   { value: 3, suffix: "", label: "Prix internationaux" },
 ];
 
-const TEAM = [
+const TEAM_DEMO = [
   {
     name: "Elias Vorne",
     role: "Principal Architect",
@@ -100,6 +103,7 @@ const TEAM = [
     img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop",
   },
 ];
+let TEAM = TEAM_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -138,6 +142,14 @@ export default function StructuraArchPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    SERVICES_DEMO,
+  );
+  TEAM = resolveList(
+    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role })),
+    TEAM_DEMO,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -169,52 +181,7 @@ export default function StructuraArchPage() {
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  
 return (
     <div className="relative w-full">
       {/* ==========================================

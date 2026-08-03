@@ -6,6 +6,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { Home, ShieldCheck, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle, Wrench, AlertTriangle, Wind, Menu } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientAreas,
+} from "@/lib/templates/clientContent";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -56,7 +59,7 @@ const MATERIAUX = [
   { n: "Filtration à billes de verre", u: "Toutes installations", d: "Filtre plus fin que le sable, moins de lavages, 30 % d'eau économisée chaque saison." },
 ];
 
-const ZONES = [
+const ZONES_DEMO = [
   { v: "Nantes et périphérie", d: "Création, rénovation et entretien" },
   { v: "Saint-Nazaire · La Baule", d: "Chantiers côtiers, contraintes de vent étudiées" },
   { v: "Angers · Cholet", d: "Création et rénovation, hors entretien hebdomadaire" },
@@ -64,6 +67,7 @@ const ZONES = [
   { v: "La Roche-sur-Yon", d: "Création uniquement" },
   { v: "Le Mans · Laval", d: "Nous consulter selon la saison" },
 ];
+let ZONES = ZONES_DEMO;
 
 const SERVICE_ICONS = [Home, Wrench, Wind, AlertTriangle, ShieldCheck, Home]
 const SERVICES_DEMO = [
@@ -151,6 +155,10 @@ export default function ToitPierrePiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  ZONES = resolveList(
+    clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], v: z })),
+    ZONES_DEMO,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

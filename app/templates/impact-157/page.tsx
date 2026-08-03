@@ -209,7 +209,7 @@ const CERTIFICATIONS_DEMO = [
 ];
 let CERTIFICATIONS = CERTIFICATIONS_DEMO;
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     icon: Gem,
     title: "Gravure personnalisée",
@@ -231,6 +231,7 @@ const SERVICES = [
     desc: "Certificat GIA, évaluation pour assurance incluse. Documentation complète pour chaque pièce.",
   },
 ];
+let SERVICES = SERVICES_DEMO;
 
 const FAQS_DEMO = [
   {
@@ -415,6 +416,10 @@ export default function Impact157Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    SERVICES_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   CERTIFICATIONS = resolveList(clientCertifications(sessionData), CERTIFICATIONS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color

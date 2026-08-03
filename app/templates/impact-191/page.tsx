@@ -8,6 +8,7 @@ import { Leaf, Sun, Trees, Flower, Phone, Star, MapPin, Clock, CheckCircle, Scis
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAreas,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -63,7 +64,7 @@ const DEVIS_ETAPES = [
   { t: "Planning ferme", d: "Date de début, durée, et ce qui reste à votre charge (arrosage, évacuation). Écrit avant la signature." },
 ];
 
-const ZONES = [
+const ZONES_DEMO = [
   { v: "Annecy", d: "Et communes du lac : Veyrier, Menthon, Talloires, Sévrier" },
   { v: "Annecy-le-Vieux · Cran-Gevrier", d: "Entretien hebdomadaire et création" },
   { v: "La Roche-sur-Foron", d: "Création et élagage, sur planning" },
@@ -71,6 +72,7 @@ const ZONES = [
   { v: "Thônes · Vallée de Manigod", d: "Terrains en pente, accès étudié au cas par cas" },
   { v: "Genève et Pays de Gex", d: "Sur étude, à partir de 3 jours de chantier" },
 ];
+let ZONES = ZONES_DEMO;
 
 const PRESTATIONS_DEMO = [
   { icon: Flower, title: "Création jardin", desc: "Étude, plan 3D, terrassement, plantations, dallage, éclairage, arrosage automatique. Conception sur mesure de A à Z, du 10m² au 2 hectares." },
@@ -125,6 +127,10 @@ export default function JardinsVivantsPage() {
   }, []);
 
   fd = session?.formData;
+  ZONES = resolveList(
+    clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], v: z })),
+    ZONES_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

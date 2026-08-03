@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react'
@@ -7,6 +8,7 @@ import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Shield } fro
 import {
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -50,7 +52,7 @@ const NAV = [
   { l: "Honoraires", h: "#honoraires" },
   { l: "Contact", h: "#contact" },
 ];
-const EQUIPE = [
+const EQUIPE_DEMO = [
   { n: "Maître Hélène Renard", r: "Associée fondatrice · Droit social", d: "Barreau de Paris depuis 2001. Licenciements, ruptures conventionnelles, contentieux prud'homal. Plaide elle-même ses dossiers." },
   { n: "Maître Antoine Vasseur", r: "Associé · Droit des affaires", d: "Cessions, pactes d'associés, litiges commerciaux. Ancien juriste d'un groupe coté, passé au barreau en 2009." },
   { n: "Maître Claire Boutin", r: "Collaboratrice · Droit de la famille", d: "Divorces, résidence des enfants, successions conflictuelles. Formée à la médiation familiale." },
@@ -58,6 +60,7 @@ const EQUIPE = [
   { n: "Nadia Lefort", r: "Juriste · Veille et rédaction", d: "Contrats, conclusions, recherches. Le travail de fond derrière chaque audience." },
   { n: "Pauline Aubry", r: "Responsable du cabinet", d: "Rendez-vous, dossiers, relations avec les greffes. Votre interlocutrice entre deux échéances." },
 ];
+let EQUIPE = EQUIPE_DEMO;
 
 const DOMAINES = [
   { titre: "Droit des affaires & commercial", desc: "Création d'entreprise, rédaction de contrats, litiges commerciaux, contentieux entre associés, recouvrement de créances. Conseil aux PME et ETI.", tag: "Affaires" },
@@ -75,11 +78,12 @@ const ENGAGEMENTS = [
   "Aide juridictionnelle acceptée sous conditions",
 ]
 
-const AVIS = [
+const AVIS_DEMO = [
   { texte: "Maître Renard a géré un litige commercial complexe avec une rigueur impressionnante. Gain de cause en première instance. Communication impeccable tout au long de la procédure.", auteur: "Pierre V.", detail: "Litige commercial B2B" },
   { texte: "Licenciement abusif après 12 ans dans l'entreprise. Maître Renard m'a accompagnée patiemment et obtenu une indemnisation bien supérieure à ce que j'espérais.", auteur: "Sandra M.", detail: "Droit du travail, CDI" },
   { texte: "Divorce difficile après 15 ans. Maître Renard a su rester humain tout en défendant mes intérêts avec fermeté. L'accord amiable final est bien au-delà de mes attentes.", auteur: "François D.", detail: "Droit de la famille" },
 ]
+let AVIS = AVIS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -128,6 +132,14 @@ export default function CabinetRenardPage() {
   }, []);
 
   fd = session?.formData;
+  AVIS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author })),
+    AVIS_DEMO,
+  );
+  EQUIPE = resolveList(
+    clientTeam(session)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
+    EQUIPE_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
@@ -149,52 +161,7 @@ export default function CabinetRenardPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (clientServices(session)) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (clientReviews(session)) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap');
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
