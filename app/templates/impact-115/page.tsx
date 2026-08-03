@@ -23,6 +23,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -183,12 +184,13 @@ const AWARDS = [
   { year: "2023", title: "Fast Company Innovation", body: "Most Innovative Architecture Firm" },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { value: "47", label: "Projects completed" },
   { value: "14", label: "Countries" },
   { value: "92%", label: "Carbon-negative projects" },
   { value: "23k", label: "Tonnes CO₂ sequestered" },
 ];
+let STATS = STATS_DEMO;
 
 const TEAM_DEMO = [
   {
@@ -584,6 +586,7 @@ export default function Impact115Page() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
     ...row,
     image: clientPhotos(session)[0 + i] || row.image,

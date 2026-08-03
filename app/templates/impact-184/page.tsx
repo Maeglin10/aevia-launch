@@ -48,12 +48,13 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 
-const TARIFS = [
+const TARIFS_DEMO = [
   { f: "Ponctuel", p: "28 €/h", n: "Grand ménage, remise en état, après travaux. Minimum 3 heures." },
   { f: "Hebdomadaire", p: "23 €/h", n: "Même intervenante chaque semaine, créneau fixe. La formule la plus demandée." },
   { f: "Bi-mensuel", p: "25 €/h", n: "Un passage toutes les deux semaines, 3 heures minimum." },
   { f: "Bureaux & locaux", p: "sur devis", n: "Passage avant 8h ou après 19h, produits et consommables inclus." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const ZONES_DEMO = [
   { v: "Lyon 1er — 9e", d: "Tous arrondissements, sans supplément" },
@@ -108,6 +109,10 @@ export default function BrilloNetPage() {
   }, []);
 
   fd = session?.formData;
+  TARIFS = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], f: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   SERVICES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
     SERVICES_DEMO,

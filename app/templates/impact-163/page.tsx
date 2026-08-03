@@ -12,6 +12,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -127,12 +128,13 @@ const CATEGORIES = [
   { name: "Ventes", count: 55 },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { val: "52 000", suffix: "+", label: "Lecteurs actifs chaque semaine" },
   { val: "2×", suffix: "", label: "Articles publiés par semaine" },
   { val: "380", suffix: "+", label: "Articles en archive" },
   { val: "4.9", suffix: "/5", label: "Note lecteurs (App + Web)" },
 ];
+let STATS = STATS_DEMO;
 
 const AUTHORS = [
   {
@@ -357,6 +359,7 @@ export default function EssentialBlogPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
     TESTIMONIALS_DEMO,

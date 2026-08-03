@@ -9,6 +9,7 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -48,12 +49,13 @@ let C: Record<string, string> = {
 const FONT_SERIF = "'Merriweather', Georgia, serif"
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const STATS = [
+const STATS_DEMO = [
   { value: "2 800+", label: "Patients suivis" },
   { value: "15 ans", label: "D'expérience" },
   { value: "4.9★", label: "Avis patients" },
   { value: "48h", label: "Délai de prise en charge" },
 ]
+let STATS = STATS_DEMO;
 
 const SPECIALITES_DEMO = [
   { titre: "Rééducation post-opératoire", desc: "Genou, hanche, épaule — protocoles adaptés après chirurgie orthopédique pour une récupération fonctionnelle rapide et complète.", tag: "Sport & Ortho", color: C.accent },
@@ -124,6 +126,7 @@ export default function CabinetKinePage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   TEMOIGNAGES = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),
     TEMOIGNAGES_DEMO,

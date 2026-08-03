@@ -13,6 +13,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -86,12 +87,13 @@ const SERVICES_DEMO = [
 ];
 let SERVICES = SERVICES_DEMO;
 
-const STATS = [
+const STATS_DEMO = [
   { value: 12, suffix: " ans", label: "D'expertise" },
   { value: 47, suffix: "", label: "Projets livrés" },
   { value: 8, suffix: " pays", label: "D'opérations" },
   { value: 3, suffix: "", label: "Prix internationaux" },
 ];
+let STATS = STATS_DEMO;
 
 const TEAM_DEMO = [
   {
@@ -148,6 +150,7 @@ export default function StructuraArchPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   ARCHIVE_PROJECTS = ARCHIVE_PROJECTS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

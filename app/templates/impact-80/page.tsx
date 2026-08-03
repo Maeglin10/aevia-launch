@@ -13,6 +13,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -95,12 +96,13 @@ const AWARDS = [
   { year: "2022", title: "Frame Awards — Best Newcomer", category: "Studio" },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { val: "87", label: "Completed Projects" },
   { val: "23", label: "Countries" },
   { val: "12", label: "Years Practice" },
   { val: "4", label: "RIBA Awards" },
 ];
+let STATS = STATS_DEMO;
 
 const TEAM_DEMO = [
   {
@@ -182,6 +184,7 @@ export default function SymmetryStudioPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

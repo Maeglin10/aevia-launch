@@ -34,6 +34,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -186,12 +187,13 @@ const PROCESS_STEPS = [
   },
 ];
 
-const STATS_DATA = [
+const STATS_DATA_DEMO = [
   { target: 147, suffix: "+", label: "Clients Worldwide" },
   { target: 312, suffix: "+", label: "Projects Delivered" },
   { target: 8, suffix: "", label: "Years of Craft" },
   { target: 98, suffix: "%", label: "Client Satisfaction" },
 ];
+let STATS_DATA = STATS_DATA_DEMO;
 
 /* ─────────────────────────────────────────────────────────────
    MULTI-PAGE NAVIGATION (additive — see notes below)
@@ -780,6 +782,7 @@ export default function ImpactAgencyTemplate() {
   }, []);
 
   fd = session?.formData;
+  STATS_DATA = resolveList(clientStats(session), STATS_DATA_DEMO);
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
     ...row,
     image: clientPhotos(session)[0 + i] || row.image,

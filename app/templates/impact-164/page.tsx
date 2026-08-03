@@ -12,6 +12,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -147,12 +148,13 @@ const CASES = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { val: "127", suffix: "+", label: "Projets livrés depuis 2019" },
   { val: "94", suffix: "%", label: "Clients en relation longue durée" },
   { val: "12×", suffix: "", label: "ROI moyen sur campagnes" },
   { val: "06", suffix: "", label: "Disciplines maîtrisées" },
 ];
+let STATS = STATS_DEMO;
 
 const TEAM_DEMO = [
   {
@@ -346,6 +348,7 @@ export default function BureauPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
     TESTIMONIALS_DEMO,

@@ -16,6 +16,7 @@ import {
   clientFaq,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -853,12 +854,13 @@ function ServicesSection() {
 }
 
 // ─── 5. STATS ─────────────────────────────────────────────────────────────────
-const STATS_DATA = [
+const STATS_DATA_DEMO = [
   { value: 12000, suffix: '+',    label: 'colis livrés par jour',    icon: '📦', desc: "Volume quotidien sur l'ensemble du réseau" },
   { value: 97.8,  suffix: ' %',   label: 'livraisons à temps',       icon: '⏱️', desc: 'Taux de ponctualité sur 12 mois glissants', isFloat: true },
   { value: 18,    suffix: ' ans', label: "d'expertise logistique",   icon: '🏆', desc: "Fondée en 2006, présente sur tout le territoire" },
   { value: 340,   suffix: '',     label: 'véhicules en flotte',      icon: '🚛', desc: 'Flotte propre + réseau partenaires certifiés' },
 ];
+let STATS_DATA = STATS_DATA_DEMO;
 
 function StatCard({ stat, index }: { stat: typeof STATS_DATA[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -1720,6 +1722,7 @@ export default function MeridianFreightPage() {
   }, []);
 
   fd = session?.formData;
+  STATS_DATA = resolveList(clientStats(session), STATS_DATA_DEMO);
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
     TESTIMONIALS_DEMO,

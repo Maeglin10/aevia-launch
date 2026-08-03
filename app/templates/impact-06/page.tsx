@@ -19,6 +19,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -79,12 +80,13 @@ const INNOVATIONS_DEMO = [
 ];
 let INNOVATIONS = INNOVATIONS_DEMO;
 
-const STATS = [
+const STATS_DEMO = [
   { label: "Sync Latency", value: "0.8ms" },
   { label: "Biocompatibility", value: "99.9%" },
   { label: "Active Users", value: "125k" },
   { label: "R&D Patents", value: "480" },
 ];
+let STATS = STATS_DEMO;
 
 /* ==========================================================================
    UTILITY COMPONENTS
@@ -158,6 +160,7 @@ export default function NeuralisPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   INNOVATIONS = resolveList(
     clientServices(session)?.map((s, i) => ({ ...INNOVATIONS_DEMO[i % INNOVATIONS_DEMO.length], title: s.title })),
     INNOVATIONS_DEMO,

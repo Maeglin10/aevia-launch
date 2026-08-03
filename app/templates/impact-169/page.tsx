@@ -11,6 +11,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -279,12 +280,13 @@ const FAQS_DEMO = [
 ];
 let FAQS = FAQS_DEMO;
 
-const STATS = [
+const STATS_DEMO = [
   { val: "15 200+", label: "Abonnés actifs" },
   { val: "89%", label: "Taux d'ouverture" },
   { val: "2019", label: "Depuis" },
   { val: "0", label: "Publicités intrusives" },
 ];
+let STATS = STATS_DEMO;
 
 // ─── Article Card ─────────────────────────────────────────────────────────────
 function ArticleCard({ a, i }: { a: typeof ARTICLES[0]; i: number }) {
@@ -455,6 +457,7 @@ export default function ImpactFrequencePage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
     TESTIMONIALS_DEMO,

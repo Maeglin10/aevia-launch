@@ -9,6 +9,7 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -47,12 +48,13 @@ let C: Record<string, string> = {
 };const FONT = "'Spectral', Georgia, serif"
 const FONT_BODY = "'Poppins', system-ui, sans-serif"
 
-const STATS = [
+const STATS_DEMO = [
   { value: "18 ans", label: "D'enseignement" },
   { value: "320+", label: "Élèves formés" },
   { value: "8", label: "Professeurs certifiés" },
   { value: "4 ans", label: "Âge minimum" },
 ]
+let STATS = STATS_DEMO;
 
 
 const NAV = [
@@ -70,7 +72,7 @@ const PROFESSEURS = [
   { n: "Paul Vidal", r: "Éveil musical (4-6 ans)", d: "Séances de 40 minutes, en groupe de six au maximum. Sans instrument imposé la première année." },
 ];
 
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Cours individuel 30 min", p: "48 € / mois", n: "Une séance hebdomadaire, 32 semaines sur l'année scolaire." },
   { a: "Cours individuel 45 min", p: "68 € / mois", n: "Le format le plus courant à partir du deuxième cycle." },
   { a: "Cours individuel 1 h", p: "89 € / mois", n: "Préparation aux examens et concours d'entrée." },
@@ -78,6 +80,7 @@ const TARIFS = [
   { a: "Formation musicale", p: "26 € / mois", n: "Obligatoire à partir du premier cycle, incluse dans le forfait famille." },
   { a: "Forfait famille (2e inscrit)", p: "-20 %", n: "Appliqué automatiquement sur le tarif le moins élevé." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const COURS = [
   { titre: "Piano classique & contemporain", desc: "Initiation à la maîtrise, de 4 ans à l'adulte. Préparation aux concours et examens du conservatoire. Méthode Suzuki disponible pour les plus jeunes.", tag: "Piano" },
@@ -145,6 +148,11 @@ export default function ConservatoireAccordPage() {
   }, []);
 
   fd = session?.formData;
+  TARIFS = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   TEMOIGNAGES = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),
     TEMOIGNAGES_DEMO,

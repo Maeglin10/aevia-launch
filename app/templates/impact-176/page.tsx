@@ -20,6 +20,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -227,12 +228,13 @@ const LIVE_METRICS = [
   { label: "NPS Score", val: "67", change: "+4", up: true },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { val: "4,200+", label: "Active teams" },
   { val: "2B+",    label: "Events tracked/month" },
   { val: "99.95%", label: "Uptime SLA" },
   { val: "< 5s",   label: "Data latency" },
 ];
+let STATS = STATS_DEMO;
 
 const CHART_POINTS = [22, 38, 28, 52, 44, 68, 55, 80, 72, 91, 84, 100];
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -1131,6 +1133,7 @@ export default function Impact176Page() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   FEATURES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
     FEATURES_DEMO,
