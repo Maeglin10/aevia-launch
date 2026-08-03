@@ -6,6 +6,7 @@ import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { Atom, Cpu, Binary, Globe, ArrowRight, ExternalLink, Download, Menu, X } from "lucide-react"
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -1526,7 +1527,7 @@ export default function QBitLabsPage() {
                   color: "#525252",
                   letterSpacing: "0.06em",
                 }}
-              >{fd?.businessName ?? "QUANTUM // COMPUTE"}</p>
+              >{fd?.businessName ?? (clientName({ formData: fd }) ?? "QUANTUM // COMPUTE")}</p>
             </div>
 
             {/* Link columns */}

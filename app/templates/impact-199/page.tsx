@@ -35,6 +35,7 @@ import {
   clientAddress,
   clientCity,
   clientFaq,
+  clientName,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
@@ -490,7 +491,7 @@ export default function Impact199Page() {
                   className="text-3xl tracking-widest text-white"
                   style={{ fontFamily: "'Bebas Neue', cursive" }}
                 >
-                  ENCRE & ÂME
+                  {clientName(sessionData) ?? (clientName(sessionData) ?? "ENCRE & ÂME")}
                 </span>
               </>
             )}
@@ -544,7 +545,7 @@ export default function Impact199Page() {
                 className="text-3xl tracking-widest"
                 style={{ fontFamily: "'Bebas Neue', cursive" }}
               >
-                ENCRE & ÂME
+                {clientName(sessionData) ?? (clientName(sessionData) ?? "ENCRE & ÂME")}
               </span>
               <button onClick={() => setMenuOpen(false)} className="p-2">
                 <X className="w-6 h-6" />
@@ -1591,7 +1592,7 @@ export default function Impact199Page() {
                 className="text-2xl tracking-widest text-white"
                 style={{ fontFamily: "'Bebas Neue', cursive" }}
               >
-                ENCRE & ÂME
+                {clientName(sessionData) ?? (clientName(sessionData) ?? "ENCRE & ÂME")}
               </span>
             </div>
 

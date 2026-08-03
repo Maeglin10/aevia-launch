@@ -11,6 +11,7 @@ import { Menu, X, ArrowRight, CheckCircle, ChevronRight, Phone, Mail, Clock, Awa
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientFaq,
+  clientName,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
@@ -830,7 +831,7 @@ export default function LumiereCliniquePage() {
               />
             ) : (
               <>
-                <span className="text-xl tracking-widest font-light" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.1em" }}>{fd?.businessName ?? "Lumière Clinic"}</span>
+                <span className="text-xl tracking-widest font-light" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.1em" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Lumière Clinic")}</span>
                 <span className="text-[10px] tracking-[0.25em] uppercase text-[var(--brand,#3A8080)]">Médecine esthétique médicale</span>
               </>
             )}
@@ -866,7 +867,7 @@ export default function LumiereCliniquePage() {
                   style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">{fd?.businessName ?? "Lumière Clinic"}</span>
+                <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">{fd?.businessName ?? (clientName(sessionData) ?? "Lumière Clinic")}</span>
               )}
               <button type="button" onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
@@ -888,7 +889,7 @@ export default function LumiereCliniquePage() {
         {/* Hero */}
         <section id="hero" ref={heroRef} className="relative min-h-[calc(100vh-80px)] overflow-hidden">
           <motion.div className="absolute inset-0" style={{ y: heroY }}>
-            <Image src={photo(0, "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=85&fit=crop")} alt={fd?.businessName ?? "Lumière Clinic"} fill className="object-cover" loading="lazy" />
+            <Image src={photo(0, "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=85&fit=crop")} alt={fd?.businessName ?? (clientName(sessionData) ?? "Lumière Clinic")} fill className="object-cover" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#FAFAF8]/95 via-[#FAFAF8]/70 to-[#FAFAF8]/20" />
           </motion.div>
           <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-24 min-h-[calc(100vh-80px)] flex flex-col justify-center">
@@ -963,7 +964,7 @@ export default function LumiereCliniquePage() {
           <div className="grid md:grid-cols-4 gap-10 mb-12">
             <div className="md:col-span-2">
               <button type="button" onClick={() => scrollToSection("hero")} className="text-left cursor-pointer">
-                <div className="text-[#FAFAF8] text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Lumière Clinic"}</div>
+                <div className="text-[#FAFAF8] text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Lumière Clinic")}</div>
                 <div className="text-[var(--brand,#3A8080)] text-xs tracking-widest uppercase mb-4">Médecine esthétique médicale</div>
               </button>
               <p className="text-sm leading-relaxed max-w-xs mb-5">{c?.aboutText ?? <>Rigueur médicale, résultats naturels. Traitements validés cliniquement, pratiqués par des médecins diplômés d&apos;État.</>}</p>

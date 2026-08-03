@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BookOpen, Users, Star, Play, ChevronRight, Menu, X, ArrowRight, Clock, Award, BarChart2, Globe, CheckCircle } from "lucide-react";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -147,7 +148,7 @@ return (
                 <div className="w-8 h-8 bg-[var(--brand,#7C3AED)] rounded-lg flex items-center justify-center">
                   <BookOpen className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-gray-900 font-bold text-lg">{fd?.businessName ?? "EduPath"}</span>
+                <span className="text-gray-900 font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? "EduPath")}</span>
               </>
             )}
           </Link>
@@ -177,7 +178,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-gray-900 font-bold text-xl">{fd?.businessName ?? "EduPath"}</span>
+                <span className="text-gray-900 font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? "EduPath")}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6" /></button>
             </div>
@@ -375,7 +376,7 @@ return (
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-[var(--brand,#7C3AED)] rounded-lg flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>
-              <span className="text-white font-bold text-lg">{fd?.businessName ?? "EduPath"}</span>
+              <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? "EduPath")}</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">La plateforme d'apprentissage en ligne pour les professionnels ambitieux.</p>
           </div>

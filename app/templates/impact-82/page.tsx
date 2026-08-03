@@ -9,6 +9,7 @@ import { ArrowRight, Building, Users, TrendingUp, Award } from "lucide-react"
 import { Reveal } from "./shared"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientName,
   clientReviews,
   clientTeam,
 } from "@/lib/templates/clientContent";
@@ -103,7 +104,7 @@ return (
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
             src={photo(0, "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?w=1600&q=85")}
-            alt={fd?.businessName ?? "Blueprint Developments"}
+            alt={fd?.businessName ?? (clientName(sessionData) ?? "Blueprint Developments")}
             fill
             className="object-cover"
             priority

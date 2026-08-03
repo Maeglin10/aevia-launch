@@ -11,6 +11,7 @@ import { Menu, X, ArrowRight, Building2, ChevronRight, MapPin, Mail, Phone, Awar
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientName,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
@@ -214,7 +215,7 @@ return (
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <span className="text-[#1A1510] tracking-wide text-lg font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Kéops"}</span>
+              <span className="text-[#1A1510] tracking-wide text-lg font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Kéops")}</span>
             )}
           </div>
           <div className="hidden md:flex items-center gap-8 text-[#1A1510]/60 text-sm font-medium">
@@ -253,7 +254,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-[#1A1510] text-xl font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Kéops"}</span>
+                <span className="text-[#1A1510] text-xl font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Kéops")}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-[#1A1510]" /></button>
             </div>
@@ -296,7 +297,7 @@ return (
                     <p className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4">Agence d'architecture · {clientCity(sessionData) ?? "Paris"}</p>
                   </Reveal>
                   <Reveal delay={0.1}>
-                    <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{c?.heroHeadline ?? <>{fd?.businessName ?? "Kéops"}</>}</h1>
+                    <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? "Kéops")}</>}</h1>
                   </Reveal>
                   <Reveal delay={0.2}>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
@@ -400,7 +401,7 @@ return (
       <footer className="bg-[#1A1510] py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
-            <p className="text-white text-xl mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Kéops"}</p>
+            <p className="text-white text-xl mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Kéops")}</p>
             <p className="text-white/30 text-sm leading-relaxed">Agence d'architecture fondée à Paris. Projets résidentiels, culturels et mixtes.</p>
           </div>
           {[

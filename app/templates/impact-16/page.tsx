@@ -12,6 +12,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -182,7 +183,7 @@ return (
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <span className="text-[var(--brand,#C9A86C)] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem" }}>{fd?.businessName ?? "Obscura"}</span>
+              <span className="text-[var(--brand,#C9A86C)] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Obscura")}</span>
             )}
           </div>
           <div className="hidden md:flex items-center gap-8 text-white/40 text-sm">
@@ -215,7 +216,7 @@ return (
                       style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                     />
                   ) : (
-                    <span className="text-[var(--brand,#C9A86C)] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Obscura"}</span>
+                    <span className="text-[var(--brand,#C9A86C)] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Obscura")}</span>
                   )}
                </div>
                <div className="flex flex-col gap-6 font-medium">
@@ -258,7 +259,7 @@ return (
                   </div>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <h1 className="text-white text-6xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>{fd?.businessName ?? "Obscura"}</>}</h1>
+                  <h1 className="text-white text-6xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? "Obscura")}</>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
                   <p className="text-white/50 text-lg max-w-md leading-relaxed mb-12 font-sans font-light">{c?.heroSubline ?? fd?.tagline ?? <>

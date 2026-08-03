@@ -12,6 +12,7 @@ import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -192,7 +193,7 @@ export default function CapDemenagementsPage() {
           ) : (
             <>
               <Truck size={19} color={C.accent} />
-              <span style={{ fontWeight: 800, fontSize: 18, letterSpacing: -0.3 }}>{fd?.businessName ?? "Cap Déménagements"}</span>
+              <span style={{ fontWeight: 800, fontSize: 18, letterSpacing: -0.3 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Cap Déménagements")}</span>
             </>
           )}
         </div>
@@ -425,7 +426,7 @@ export default function CapDemenagementsPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ fontWeight: 800, fontSize: 17, marginBottom: 8 }}>{fd?.businessName ?? "Cap Déménagements"}</div>
+              <div style={{ fontWeight: 800, fontSize: 17, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Cap Déménagements")}</div>
               <p style={{ color: C.textMuted, fontSize: 13, lineHeight: 1.7 }}>
                 Déménageur professionnel · {clientCity(sessionData) ?? "Nantes"}<br />Registre des transporteurs — DREAL Pays de la Loire
               </p>
@@ -440,7 +441,7 @@ export default function CapDemenagementsPage() {
           </div>
           <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? "Cap Déménagements"} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Cap Déménagements")} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
           </div>

@@ -41,6 +41,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -630,7 +631,7 @@ export default function Page() {
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))', gap: 48, marginBottom: 64 }}>
             <div>
-              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>PRO-NETTOYAGE SERVICES</h4>
+              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{clientName(sessionData) ?? (clientName(sessionData) ?? "PRO-NETTOYAGE SERVICES")}</h4>
               <p style={{ lineHeight: 1.6 }}>Nettoyage professionnel B2B</p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href={fd?.instagram ?? "https://instagram.com"} target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

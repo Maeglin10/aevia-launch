@@ -16,6 +16,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -1366,7 +1367,7 @@ export default function AquaPrestigePage() {
                     textTransform: 'uppercase',
                     lineHeight: 1,
                   }}
-                >{fd?.businessName ?? "Aqua Prestige"}</div>
+                >{fd?.businessName ?? (clientName(sessionData) ?? "Aqua Prestige")}</div>
                 <div style={{ fontSize: '0.62rem', color: C.textMuted, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
                   Plomberie & Sanitaire
                 </div>
@@ -2430,7 +2431,7 @@ export default function AquaPrestigePage() {
                       textTransform: 'uppercase',
                       lineHeight: 1,
                     }}
-                  >{fd?.businessName ?? "Aqua Prestige"}</div>
+                  >{fd?.businessName ?? (clientName(sessionData) ?? "Aqua Prestige")}</div>
                   <div style={{ fontSize: '0.65rem', color: C.textMuted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                     Plomberie & Sanitaire
                   </div>

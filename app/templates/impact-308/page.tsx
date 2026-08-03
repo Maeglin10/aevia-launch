@@ -45,6 +45,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -369,7 +370,7 @@ export default function Page() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              fd?.businessName ?? "Re-Thread Studio"
+              fd?.businessName ?? (clientName(sessionData) ?? "Re-Thread Studio")
             )}
           </a>
 
@@ -639,7 +640,7 @@ export default function Page() {
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>{fd?.businessName ?? "Re-Thread Studio"}</Eyebrow>
+                <Eyebrow>{fd?.businessName ?? (clientName(sessionData) ?? "Re-Thread Studio")}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1241,7 +1242,7 @@ export default function Page() {
             marginBottom: 64
           }}>
             <div>
-              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? "Re-Thread Studio"}</h4>
+              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Re-Thread Studio")}</h4>
               <p style={{ lineHeight: 1.6 }}>
                 Mode upcycling Bordeaux
               </p>

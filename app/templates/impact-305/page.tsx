@@ -45,6 +45,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -367,7 +368,7 @@ export default function Page() {
                 style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              "Courant Fort Bordeaux"
+              (clientName(sessionData) ?? "Courant Fort Bordeaux")
             )}
           </a>
 
@@ -637,7 +638,7 @@ export default function Page() {
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>Courant Fort Bordeaux</Eyebrow>
+                <Eyebrow>{clientName(sessionData) ?? (clientName(sessionData) ?? "Courant Fort Bordeaux")}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1243,7 +1244,7 @@ export default function Page() {
           }}>
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>
-                Courant Fort Bordeaux
+                {clientName(sessionData) ?? (clientName(sessionData) ?? "Courant Fort Bordeaux")}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
                 Électricien tertiaire Bordeaux

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Reveal, Instagram, Twitter } from "./shared";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -65,7 +66,7 @@ return (
       {/* Hero — asymmetric mosaic */}
       <section ref={heroRef} className="relative min-h-dvh overflow-hidden">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
-          <Image src={photo(0, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85")} alt={fd?.businessName ?? "Vogue Noire"} fill className="object-cover" />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? "Vogue Noire")} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A08] via-[#0A0A08]/50 to-[#0A0A08]/20" />
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 min-h-dvh flex flex-col">

@@ -16,6 +16,7 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -1258,7 +1259,7 @@ export default function Impact176Page() {
                   color: C.text,
                   letterSpacing: "-0.3px",
                 }}
-              >{fd?.businessName ?? "Metric"}</span>
+              >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Metric")}</span>
             </>
           )}
         </div>
@@ -2110,7 +2111,7 @@ export default function Impact176Page() {
                   fontSize: 17,
                   color: C.accent,
                 }}
-              >{fd?.businessName ?? "Metric"}</span>
+              >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Metric")}</span>
             </div>
             <p
               style={{

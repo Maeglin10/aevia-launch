@@ -12,6 +12,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge";
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -524,7 +525,7 @@ return (
             ) : (
               <>
             <Compass size={22} color={C.accent} />
-            <span style={{ fontSize: 22, fontWeight: 400, letterSpacing: "0.08em", color: C.marine }}>{fd?.businessName ?? "Évasion Dorée"}</span>
+            <span style={{ fontSize: 22, fontWeight: 400, letterSpacing: "0.08em", color: C.marine }}>{fd?.businessName ?? (clientName(sessionData) ?? "Évasion Dorée")}</span>
               </>
             )}
           </div>
@@ -898,7 +899,7 @@ return (
                 <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>AVIS VOYAGEURS</span>
               </div>
               <h2 style={{ fontSize: "clamp(32px, 4.5vw, 60px)", fontWeight: 300, color: C.marine, letterSpacing: "-0.02em", maxWidth: 540 }}>
-                Ils ont voyagé avec<br /><em style={{ color: C.accent, fontStyle: "italic" }}>{fd?.businessName ?? "Évasion Dorée"}</em>
+                Ils ont voyagé avec<br /><em style={{ color: C.accent, fontStyle: "italic" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Évasion Dorée")}</em>
               </h2>
             </div>
           </RevealSection>
@@ -1105,7 +1106,7 @@ return (
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
                 <Compass size={20} color={C.accent} />
-                <span style={{ fontSize: 20, fontWeight: 400, color: C.white, letterSpacing: "0.08em" }}>{fd?.businessName ?? "Évasion Dorée"}</span>
+                <span style={{ fontSize: 20, fontWeight: 400, color: C.white, letterSpacing: "0.08em" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Évasion Dorée")}</span>
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", fontFamily: "system-ui", lineHeight: 1.8, maxWidth: 280, marginBottom: 24 }}>
                 Agence de voyages de luxe sur mesure depuis 2006. Paris · Genève · Monaco. IATA 88-2-0456.

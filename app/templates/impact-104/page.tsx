@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from "react";
@@ -154,7 +155,7 @@ export default function LumiereDoreePage() {
               color: scrolled ? C.text : C.white,
             }}
           >
-            Studio Lumière Dorée
+            {clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Studio Lumière Dorée")}
           </div>
         )}
         <div style={{ display: "flex", alignItems: "center", gap: 36 }} className="nav-links-desktop">
@@ -225,7 +226,7 @@ export default function LumiereDoreePage() {
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 48 }}>
-              <span style={{ fontFamily: FONT, fontStyle: "italic", fontSize: 20, color: C.white }}>Studio Lumière Dorée</span>
+              <span style={{ fontFamily: FONT, fontStyle: "italic", fontSize: 20, color: C.white }}>{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Studio Lumière Dorée")}</span>
               <button onClick={() => setMenuOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: C.white }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <line x1="18" y1="6" x2="6" y2="18" />
@@ -749,7 +750,7 @@ export default function LumiereDoreePage() {
           <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
             <div>
               <div style={{ fontFamily: FONT, fontStyle: "italic", fontWeight: 300, fontSize: 22, color: C.white, marginBottom: 16 }}>
-                Studio Lumière Dorée
+                {clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Studio Lumière Dorée")}
               </div>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 1.8 }}>
                 Photographe mariage &amp; portraits.<br />

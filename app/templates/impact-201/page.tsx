@@ -13,6 +13,7 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -885,7 +886,7 @@ return (
                     color: C.cream,
                     letterSpacing: "0.08em",
                   }}
-                >{fd?.businessName ?? "Maison Saveur"}</span>
+                >{fd?.businessName ?? (clientName(sessionData) ?? "Maison Saveur")}</span>
               </>
             )}
           </button>
@@ -2639,7 +2640,7 @@ return (
                     color: C.cream,
                     letterSpacing: "0.08em",
                   }}
-                >{fd?.businessName ?? "Maison Saveur"}</span>
+                >{fd?.businessName ?? (clientName(sessionData) ?? "Maison Saveur")}</span>
               </div>
               <p
                 style={{

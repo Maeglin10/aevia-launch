@@ -8,6 +8,7 @@ import Link from "next/link";
 import { ArrowRight, Search, Menu, X, Clock, BookOpen, TrendingUp, Users, Star, Check, Rss, MessageSquare, Camera, Link2, ChevronRight, Calendar } from "lucide-react";
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -445,7 +446,7 @@ export default function EssentialBlogPage() {
                 <div style={{ width: 28, height: 28, background: C.accent, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <BookOpen size={14} color="#fff" />
                 </div>
-                <span style={{ fontSize: 16, fontWeight: 800, color: C.bg, fontFamily: C.serif, fontStyle: "italic", letterSpacing: "0.02em" }}>{fd?.businessName ?? "L'Essentiel"}</span>
+                <span style={{ fontSize: 16, fontWeight: 800, color: C.bg, fontFamily: C.serif, fontStyle: "italic", letterSpacing: "0.02em" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "L'Essentiel")}</span>
               </>
             )}
           </div>
@@ -1193,7 +1194,7 @@ export default function EssentialBlogPage() {
                 <div style={{ width: 24, height: 24, background: C.accent, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <BookOpen size={12} color="#fff" />
                 </div>
-                <span style={{ fontFamily: C.serif, fontSize: 18, fontStyle: "italic", fontWeight: 700, color: C.bg }}>{fd?.businessName ?? "L'Essentiel"}</span>
+                <span style={{ fontFamily: C.serif, fontSize: 18, fontStyle: "italic", fontWeight: 700, color: C.bg }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "L'Essentiel")}</span>
               </div>
               <p style={{ fontSize: 13, color: "rgba(250,250,250,0.35)", fontFamily: C.sans, lineHeight: 1.7, maxWidth: 240 }}>
                 Le media indépendant des professionnels du digital — stratégie, product, growth, culture.
@@ -1212,7 +1213,7 @@ export default function EssentialBlogPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: 40 }}>
               {[
                 { title: "Catégories", links: ["Stratégie", "Product", "Marketing", "IA & Tech", "Financement"] },
-                { title: "L'Essentiel", links: ["À propos", "Notre équipe", "Partenariats", "Publicité"] },
+                { title: (clientName({ formData: fd }) ?? "L'Essentiel"), links: ["À propos", "Notre équipe", "Partenariats", "Publicité"] },
                 { title: "Abonnés", links: ["Se connecter", "Mon compte", "Newsletter Pro", "Communauté"] },
                 { title: "Légal", links: ["Mentions légales", "Politique de conf.", "CGU", "RGPD"] },
               ].map(col => (

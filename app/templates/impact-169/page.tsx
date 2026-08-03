@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from "fra
 import { Search, User, ArrowRight, BookOpen, Clock, MessageSquare, Check, Link2, Camera, Bookmark, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -586,7 +587,7 @@ export default function ImpactFrequencePage() {
                   color: C.red,
                   lineHeight: 1,
                 }}
-              >{fd?.businessName ?? "Fréquence"}</span>
+              >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Fréquence")}</span>
             )}
           </motion.div>
 
@@ -1851,7 +1852,7 @@ export default function ImpactFrequencePage() {
                 marginBottom: 16,
                 letterSpacing: -0.5,
               }}
-            >{fd?.businessName ?? "Fréquence"}</div>
+            >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Fréquence")}</div>
             <p
               style={{
                 fontFamily: C.sans,

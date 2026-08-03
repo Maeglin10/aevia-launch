@@ -18,6 +18,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -952,7 +953,7 @@ return (
                     fontFamily: "'Barlow Condensed', sans-serif",
                     fontSize: 'clamp(18px, 3vw, 22px)',
                     fontWeight: 800, color: C.white, letterSpacing: '0.04em', lineHeight: 1,
-                  }}>THERMA PRO</div>
+                  }}>{clientName(sessionData) ?? (clientName(sessionData) ?? "THERMA PRO")}</div>
                   <div style={{ color: C.accent, fontSize: 10, fontWeight: 600, letterSpacing: '0.12em' }}>
                     CHAUFFAGE · CLIMATISATION
                   </div>
@@ -1626,7 +1627,7 @@ return (
                   <div style={{
                     fontFamily: "'Barlow Condensed', sans-serif",
                     fontSize: 20, fontWeight: 800, color: C.white, letterSpacing: '0.04em',
-                  }}>THERMA PRO</div>
+                  }}>{clientName(sessionData) ?? (clientName(sessionData) ?? "THERMA PRO")}</div>
                   <div style={{ color: C.accent, fontSize: 10, fontWeight: 600, letterSpacing: '0.12em' }}>
                     CHAUFFAGE · CLIMATISATION
                   </div>

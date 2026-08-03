@@ -45,6 +45,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -377,7 +378,7 @@ return (
                 style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              "Rapido Plomberie Paris"
+              (clientName(sessionData) ?? "Rapido Plomberie Paris")
             )}
           </a>
 
@@ -647,7 +648,7 @@ return (
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>Rapido Plomberie Paris</Eyebrow>
+                <Eyebrow>{clientName(sessionData) ?? (clientName(sessionData) ?? "Rapido Plomberie Paris")}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1248,7 +1249,7 @@ return (
           }}>
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>
-                Rapido Plomberie Paris
+                {clientName(sessionData) ?? (clientName(sessionData) ?? "Rapido Plomberie Paris")}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
                 Plombier-chauffagiste Paris

@@ -45,6 +45,7 @@ import {
 import {
   clientCity,
   clientFaq,
+  clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
 // Custom Instagram icon component for compatibility
@@ -360,7 +361,7 @@ return (
                 style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              "Dr. Estelle Blanc"
+              (clientName(sessionData) ?? "Dr. Estelle Blanc")
             )}
           </a>
 
@@ -630,7 +631,7 @@ return (
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>Dr. Estelle Blanc</Eyebrow>
+                <Eyebrow>{clientName(sessionData) ?? (clientName(sessionData) ?? "Dr. Estelle Blanc")}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1233,7 +1234,7 @@ return (
           }}>
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>
-                Dr. Estelle Blanc
+                {clientName(sessionData) ?? (clientName(sessionData) ?? "Dr. Estelle Blanc")}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
                 Chirurgien-dentiste Montpellier Antigone

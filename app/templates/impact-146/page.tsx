@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Utensils, ArrowRight, Menu, Star, Clock, MapPin, Shield, Heart, Compass, ChevronRight, Play } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -323,7 +324,7 @@ export default function KuroOmakasePage() {
               </Reveal>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                  {[
-                    { tier: "Kuro Omakase", courses: "12 courses", price: "¥88,000", note: "Chef&apos;s full progression. 3.5 hours. Seasonal kaiseki opening.", incl: ["House sake pairing", "Tea ceremony close", "Signed menu card"] },
+                    { tier: (clientName({ formData: fd }) ?? "Kuro Omakase"), courses: "12 courses", price: "¥88,000", note: "Chef&apos;s full progression. 3.5 hours. Seasonal kaiseki opening.", incl: ["House sake pairing", "Tea ceremony close", "Signed menu card"] },
                     { tier: "Umi Course", courses: "8 courses", price: "¥52,000", note: "Ocean-focused tasting, emphasising sashimi and shellfish.", incl: ["Wine pairing available", "À la carte additions", "Private dining option"] },
                     { tier: "Tsuki Dinner", courses: "5 courses", price: "¥32,000", note: "An introduction to the Kuro kitchen. Ideal for first visits.", incl: ["Non-alcoholic pairing", "Allergen-conscious menu", "Counter seating"] },
                  ].map((m, i) => (
@@ -378,7 +379,7 @@ export default function KuroOmakasePage() {
                 <div className="w-8 h-8 bg-white flex items-center justify-center">
                   <span className="text-black font-black text-sm uppercase">K</span>
                 </div>
-                <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Kuro Omakase</span>
+                <span className="text-xl font-light tracking-[0.4em] uppercase text-white">{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Kuro Omakase")}</span>
               </Link>
               <p className="text-white/20 max-w-sm leading-relaxed mb-12 text-sm font-light italic">
                  "In the silence of the room, the only story told is that of the season." Ginza, Tokyo.

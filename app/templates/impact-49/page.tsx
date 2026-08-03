@@ -49,6 +49,7 @@ import {
   MarqueeStrip,
 } from "./shared";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -508,7 +509,7 @@ return (
                 Success Stories
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B] mb-6">
-                Ils ont changé de vie grâce à {fd?.businessName ?? 'Skillbridge'}
+                Ils ont changé de vie grâce à {fd?.businessName ?? (clientName({ formData: fd }) ?? "Skillbridge")}
               </h2>
             </div>
           </Reveal>

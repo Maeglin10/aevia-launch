@@ -17,6 +17,7 @@ import { DWELL, useSlides, AnchoredBackdrop, SlideIndex, HairlineArrows } from "
 import { PanelDrop } from "@/lib/templates/hero-kit-3";
 import {
   clientFaq,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1071,7 +1072,7 @@ export default function Page() {
               ))}
             </svg>
             <div>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: C.brown, lineHeight: 1 }}>{fd?.businessName ?? "Maison Laval"}</p>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: C.brown, lineHeight: 1 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Maison Laval")}</p>
               <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 10, color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>Boulangerie Artisanale</p>
             </div>
           </div>
@@ -1335,7 +1336,7 @@ export default function Page() {
               <TextReveal text="Lyon 4e." delay={0.15} style={{ fontStyle: "italic" }} />
             </h2>
             <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 6, padding: "28px", marginBottom: 20 }}>
-              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 16, color: C.brown, fontWeight: 600, marginBottom: 6 }}>{fd?.businessName ?? "Maison Laval"}</p>
+              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 16, color: C.brown, fontWeight: 600, marginBottom: 6 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Maison Laval")}</p>
               <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.6 }}>47 Grande Rue de la Croix-Rousse<br />69004 Lyon, France</p>
             </div>
             <div style={{ display: "flex", gap: 12 }}>

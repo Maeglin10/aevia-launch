@@ -41,6 +41,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -397,7 +398,7 @@ export default function Page() {
                 style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <><Leaf size={22} /> Brise de Propreté</>
+              <><Leaf size={22} /> {clientName(sessionData) ?? (clientName(sessionData) ?? "Brise de Propreté")}</>
             )}
           </a>
 
@@ -1349,7 +1350,7 @@ export default function Page() {
           }}>
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Leaf size={18} /> Brise de Propreté
+                <Leaf size={18} /> {clientName(sessionData) ?? (clientName(sessionData) ?? "Brise de Propreté")}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
                 Ménage professionnel à domicile

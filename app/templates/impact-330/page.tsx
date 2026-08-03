@@ -11,6 +11,7 @@ import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -207,7 +208,7 @@ export default function PharmacieDuParcPage() {
               <span aria-hidden style={{ width: 30, height: 30, borderRadius: 8, background: C.accent, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
                 <Cross size={16} />
               </span>
-              <span style={{ fontWeight: 800, fontSize: 18, letterSpacing: -0.4 }}>{fd?.businessName ?? "Pharmacie du Parc"}</span>
+              <span style={{ fontWeight: 800, fontSize: 18, letterSpacing: -0.4 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Pharmacie du Parc")}</span>
             </>
           )}
         </div>
@@ -410,7 +411,7 @@ export default function PharmacieDuParcPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ fontWeight: 800, fontSize: 17, color: "#fff", marginBottom: 8 }}>{fd?.businessName ?? "Pharmacie du Parc"}</div>
+              <div style={{ fontWeight: 800, fontSize: 17, color: "#fff", marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Pharmacie du Parc")}</div>
               <p style={{ color: "rgba(255,255,255,0.40)", fontSize: 13, lineHeight: 1.7 }}>
                 Pharmacie d'officine · {clientCity(sessionData) ?? "Lille"}<br />
                 Ordre national des pharmaciens — licence n° 59#004512
@@ -426,7 +427,7 @@ export default function PharmacieDuParcPage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? "Pharmacie du Parc"} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Pharmacie du Parc")} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
           </div>

@@ -20,6 +20,7 @@ import { Separator } from "@/components/ui/separator"
 import { Menu, X, ArrowRight, Check, ChevronDown, Zap, Shield, Globe, BarChart3, Users, Star, Play, Layers, Code2, Rocket, TrendingUp, Clock, MessageSquare, Sparkles, Terminal, GitBranch, Database, Cpu, Lock, ArrowUpRight } from "lucide-react"
 import {
   clientFaq,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -334,7 +335,7 @@ return (
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-fuchsia-500 flex items-center justify-center">
                   <Zap className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-lg font-bold tracking-tight">{fd?.businessName ?? "NovaPlatform SaaS"}</span>
+                <span className="text-lg font-bold tracking-tight">{fd?.businessName ?? (clientName({ formData: fd }) ?? "NovaPlatform SaaS")}</span>
               </>
             )}
           </Link>
@@ -364,7 +365,7 @@ return (
                     <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-fuchsia-500 flex items-center justify-center">
                       <Zap className="w-3.5 h-3.5" />
                     </div>
-                    <span className="font-bold">{fd?.businessName ?? "NovaPlatform SaaS"}</span>
+                    <span className="font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? "NovaPlatform SaaS")}</span>
                   </>
                 )}
               </div>
@@ -785,7 +786,7 @@ return (
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-fuchsia-500 flex items-center justify-center">
                 <Zap className="w-4 h-4" />
               </div>
-              <span className="text-lg font-bold">{fd?.businessName ?? "NovaPlatform SaaS"}</span>
+              <span className="text-lg font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? "NovaPlatform SaaS")}</span>
             </div>
             <p className="text-sm text-zinc-500 leading-relaxed max-w-xs mb-5">The all-in-one platform for modern engineering teams. Build, deploy, and scale without limits.</p>
             <div className="flex gap-3">

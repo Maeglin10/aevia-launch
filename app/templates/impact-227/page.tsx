@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from "fra
 import { Scissors, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Calendar, X } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -594,7 +595,7 @@ return (
       <footer style={{ background: C.bgDark, padding: "44px 80px 22px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
-            <div style={{ fontFamily: FONT, fontSize: 18, color: C.accentLight, marginBottom: 8 }}>Le Barber Club</div>
+            <div style={{ fontFamily: FONT, fontSize: 18, color: C.accentLight, marginBottom: 8 }}>{clientName(sessionData) ?? (clientName(sessionData) ?? "Le Barber Club")}</div>
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Barbier · Lyon 2e<br />Lun–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
