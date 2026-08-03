@@ -40,6 +40,7 @@ import {
 import {
   clientCity,
   clientFaq,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -711,7 +712,7 @@ return (
               <div style={{ width: 28, height: 28, background: C.emeraldGlow, borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <div style={{ width: 12, height: 12, background: C.bg, borderRadius: 1 }} />
               </div>
-              <span style={{ fontSize: 18, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>Verso</span>
+              <span style={{ fontSize: 18, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>{clientName({ formData: fd }) ?? "Verso"}</span>
             </div>
           )}
         </a>

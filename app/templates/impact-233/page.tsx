@@ -7,6 +7,7 @@ import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Zap } from "
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -246,7 +247,7 @@ export default function CabinetOsteopathiePage() {
           ) : (
             <>
               <Zap size={18} color={scrolled ? C.accent : "#fff"} />
-              <span style={{ fontFamily: FONT, fontSize: 21, color: scrolled ? C.text : "#fff" }}>Cabinet <em>Équilibre</em></span>
+              <span style={{ fontFamily: FONT, fontSize: 21, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Cabinet"}<em>Équilibre</em></span>
             </>
           )}
         </div>

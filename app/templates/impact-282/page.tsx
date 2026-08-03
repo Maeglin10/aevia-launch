@@ -33,6 +33,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientName,
   clientReviews,
 } from "@/lib/templates/clientContent";
 
@@ -305,7 +306,7 @@ function Nav() {
       </div>
       <div className="r282-navcta">
         <a href="#commande" style={{ textDecoration: 'none' }}>
-          <BreadButton filled>Commander</BreadButton>
+          <BreadButton filled>{clientName(sessionData) ?? "Commander"}</BreadButton>
         </a>
       </div>
       

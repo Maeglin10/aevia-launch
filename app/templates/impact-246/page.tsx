@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -494,7 +495,7 @@ function Nav() {
         ) : (
           <>
             <Wrench size={20} color={C.accent} strokeWidth={2} />
-            ThermoFix&nbsp;<span style={{ color: C.accent }}>Pro</span>
+            ThermoFix&nbsp;<span style={{ color: C.accent }}>{clientName(sessionData) ?? "Pro"}</span>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.accent, display: 'inline-block', marginLeft: 2 }} />
           </>
         )}

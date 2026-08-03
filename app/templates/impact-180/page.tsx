@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -177,7 +178,7 @@ export default function ThermotekChauffagePage() {
             ) : (
               <>
                 <Flame className="w-6 h-6 text-[var(--brand,#ea580c)] fill-[var(--brand,#ea580c)]/20" />
-                <span className="font-bold text-lg tracking-tight">Thermo<span className="text-[var(--brand,#ea580c)]">tek</span></span>
+                <span className="font-bold text-lg tracking-tight">{clientName({ formData: fd }) ?? "Thermo"}<span className="text-[var(--brand,#ea580c)]">tek</span></span>
               </>
             )}
           </div>

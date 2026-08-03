@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -237,7 +238,7 @@ function Navbar() {
                 <Leaf size={20} color={C.white} />
               </div>
               <span style={{ fontWeight: 700, fontSize: 21, color: C.text, fontFamily: FONT_HEADING, letterSpacing: -0.3 }}>
-                Ananda<span style={{ color: C.accent }}>Flow</span>
+                {clientName({ formData: fd }) ?? "Ananda"}<span style={{ color: C.accent }}>Flow</span>
               </span>
             </>
           )}

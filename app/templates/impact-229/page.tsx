@@ -7,6 +7,7 @@ import { Sparkles, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, He
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -225,7 +226,7 @@ export default function EclatSpaPage() {
               style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <>Éclat <span style={{ color: scrolled ? C.gold : "rgba(255,255,255,0.7)" }}>Spa</span></>
+            <>{clientName({ formData: fd }) ?? "Éclat"}<span style={{ color: scrolled ? C.gold : "rgba(255,255,255,0.7)" }}>Spa</span></>
           )}
         </div>
         <div id="mb229-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (

@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCertifications,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -173,7 +174,7 @@ export default function VertNaturePage() {
           ) : (
             <>
               <Sprout size={18} color={scrolled ? C.accent : "#fff"} />
-              <span style={{ fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>Vert <em>Nature</em></span>
+              <span style={{ fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Vert"}<em>Nature</em></span>
             </>
           )}
         </div>

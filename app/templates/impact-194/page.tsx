@@ -9,6 +9,7 @@ import { ChefHat, Star, Phone, MapPin, Clock, CheckCircle, Utensils, Wine, Users
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -135,7 +136,7 @@ export default function TableExceptionPage() {
               />
             ) : (
               <>
-                <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Table d'Exception</div>
+                <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Table d'Exception"}</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/60">Traiteur · Lyon & Rhône-Alpes</div>
               </>
             )}

@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -172,7 +173,7 @@ export default function ApexFitnessPage() {
                 <div className="w-10 h-10 rounded-lg bg-[var(--brand,#84cc16)] flex items-center justify-center -skew-x-6">
                   <Dumbbell className="w-5 h-5 text-black" />
                 </div>
-                <span className="text-xl font-black tracking-tight uppercase">Apex</span>
+                <span className="text-xl font-black tracking-tight uppercase">{clientName(sessionData) ?? "Apex"}</span>
               </>
             )}
           </Link>

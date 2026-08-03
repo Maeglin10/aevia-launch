@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -310,7 +311,7 @@ function Nav() {
       </div>
       <div className="r280-navcta">
         <a href="#contact" style={{ textDecoration: 'none' }}>
-          <RoseButton filled>Consultation gratuite</RoseButton>
+          <RoseButton filled>{clientName(sessionData) ?? "Consultation gratuite"}</RoseButton>
         </a>
       </div>
     

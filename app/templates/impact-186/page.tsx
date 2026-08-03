@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -300,7 +301,7 @@ export default function DrFontainePage() {
               />
             ) : (
               <>
-                <div className="font-bold text-[#1a2332] text-sm leading-tight">Dr. Léa Fontaine</div>
+                <div className="font-bold text-[#1a2332] text-sm leading-tight">{clientName(sessionData) ?? "Dr. Léa Fontaine"}</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60">Chirurgien-dentiste · {clientCity(sessionData) ?? "Nantes"}</div>
               </>
             )}

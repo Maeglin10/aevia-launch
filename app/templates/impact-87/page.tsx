@@ -8,6 +8,7 @@ import { C, FONT, FONT_BODY, STATS, COURS, AVIS, Reveal } from "./shared";
 import {
   clientAddress,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -133,7 +134,7 @@ export default function IronClubPage() {
           />
         ) : (
           <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 24, letterSpacing: 1, color: scrolled ? C.text : C.white }}>
-            IRON <span style={{ color: C.accent }}>CLUB</span>
+            {clientName({ formData: fd }) ?? "IRON"}<span style={{ color: C.accent }}>CLUB</span>
           </div>
         )}
         <div style={{ display: "flex", alignItems: "center", gap: 32 }} className="nav-links-desktop">

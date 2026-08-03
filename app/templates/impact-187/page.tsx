@@ -8,6 +8,7 @@ import { Zap, Target, TrendingUp, Timer, Users, Star, Phone, MapPin, ArrowRight,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -121,7 +122,7 @@ export default function MaxPerformancePage() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <span className="font-black text-[#f8f5f0] tracking-widest text-sm uppercase" style={{ fontFamily: "'Anton', impact, sans-serif" }}>MAX<span className="text-[var(--brand,#f97316)]">.</span>PERF</span>
+              <span className="font-black text-[#f8f5f0] tracking-widest text-sm uppercase" style={{ fontFamily: "'Anton', impact, sans-serif" }}>{clientName({ formData: fd }) ?? "MAX"}<span className="text-[var(--brand,#f97316)]">.</span>PERF</span>
             )}
           </div>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-[#f8f5f0]/25">

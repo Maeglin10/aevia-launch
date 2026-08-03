@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCertifications,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -189,7 +190,7 @@ export default function AtelierDuBoisPage() {
           ) : (
             <>
               <Hammer size={18} color={scrolled ? C.accent : "#fff"} />
-              <span style={{ fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>Atelier <em>du Bois</em></span>
+              <span style={{ fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Atelier"}<em>du Bois</em></span>
             </>
           )}
         </div>

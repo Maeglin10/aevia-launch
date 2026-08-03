@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -179,7 +180,7 @@ export default function CliniqueBoisVertPage() {
                   <Heart className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <div className="font-bold text-[#2d2318] text-sm leading-tight" style={{ fontFamily: "'Lora', Georgia, serif" }}>Clinique du Bois Vert</div>
+                  <div className="font-bold text-[#2d2318] text-sm leading-tight" style={{ fontFamily: "'Lora', Georgia, serif" }}>{clientName(sessionData) ?? "Clinique du Bois Vert"}</div>
                   <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60">Vétérinaire · {clientCity(sessionData) ?? "Toulouse"}</div>
                 </div>
               </>

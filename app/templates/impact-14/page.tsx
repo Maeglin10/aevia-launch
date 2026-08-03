@@ -49,6 +49,7 @@ import {
   Wind,
 } from "lucide-react";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -1012,7 +1013,7 @@ export default function HorizonMaritimePage() {
                       lineHeight: 1,
                     }}
                   >
-                    Horizon
+                    {clientName({ formData: fd }) ?? "Horizon"}
                   </p>
                   <p
                     style={{fontFamily: "Montserrat, sans-serif",

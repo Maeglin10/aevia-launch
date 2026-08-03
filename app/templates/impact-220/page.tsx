@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -199,7 +200,7 @@ function Nav() {
                   color: T.cream,
                 }}
               >
-                HORA VIVA
+                {clientName(sessionData) ?? "HORA VIVA"}
               </span>
               <span
                 style={{

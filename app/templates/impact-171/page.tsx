@@ -14,6 +14,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -334,7 +335,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
             ) : (
               <>
                 <Heart className="w-5 h-5 text-[var(--brand,#0891B2)]" />
-                <span className="text-xl font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>VITALITÉ</span>
+                <span className="text-xl font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{clientName(sessionData) ?? "VITALITÉ"}</span>
                 <span className="text-xs font-medium text-[var(--brand,#0891B2)] uppercase tracking-widest">Médical</span>
               </>
             )}

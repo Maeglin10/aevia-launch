@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -164,7 +165,7 @@ export default function SecurFastPage() {
             ) : (
               <>
                 <Lock className="w-5 h-5 text-[var(--brand,#2563eb)]" />
-                <span className="font-bold text-[#f0f4ff] tracking-wide text-sm">SÉC'UR<span className="text-[var(--brand,#2563eb)]">FAST</span></span>
+                <span className="font-bold text-[#f0f4ff] tracking-wide text-sm">{clientName({ formData: fd }) ?? "SÉC'UR"}<span className="text-[var(--brand,#2563eb)]">FAST</span></span>
               </>
             )}
           </div>
