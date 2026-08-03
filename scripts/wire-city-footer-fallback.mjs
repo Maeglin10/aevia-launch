@@ -34,7 +34,8 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
   }
   const arg = /sessionData = session;/.test(src) ? "sessionData" : "{ formData: fd }";
 
-  const m = /\n(\s*)<\/(\w+)>\s*\n\s*\);?\s*\n\}\s*$/.exec(src);
+  // Le rendu peut se terminer par un fragment « </> » et pas une balise nommée.
+  const m = /\n(\s*)<\/(?:\w+)?>\s*\n\s*\);?\s*\n\}\s*$/.exec(src);
   if (!m) {
     laisses.push(`${id} (fin de rendu introuvable)`);
     continue;

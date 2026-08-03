@@ -1,4 +1,8 @@
 "use client";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
@@ -1424,6 +1428,11 @@ export default function AIHorizonsTemplate() {
           </motion.div>
         )}
       </AnimatePresence>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName({ formData: fd }) ?? "impact-321"}
+        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+      </footer>
     </div>
   );
 }
