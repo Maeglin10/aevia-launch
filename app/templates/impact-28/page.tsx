@@ -10,6 +10,8 @@ import { ArrowRight, ArrowUpRight, ChevronDown, ChevronLeft, ChevronRight } from
 import { resolveList } from "@/lib/templates/resolveList"
 import { Reveal, ScrollImage, projects as projects_DEMO, services as services_DEMO, team as team_DEMO, testimonials as testimonials_DEMO, processSteps } from "./shared"
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -731,6 +733,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? "impact-28"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </div>
   )
 }

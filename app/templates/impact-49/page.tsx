@@ -49,6 +49,7 @@ import {
   MarqueeStrip,
 } from "./shared";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
@@ -656,6 +657,11 @@ return (
           </div>
         </div>
       </section>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName({ formData: fd }) ?? "impact-49"}
+        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+      </footer>
     </div>
   );
 }

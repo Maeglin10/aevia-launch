@@ -33,6 +33,7 @@ import {
 } from "./shared";
 import {
   clientAddress,
+  clientCity,
   clientFaq,
   clientName,
   clientPhotos,
@@ -614,6 +615,11 @@ return (
       <TestimonialsSection />
       <SubscribeSection />
       <FAQSection />
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? "impact-47"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </div>
   );
 }

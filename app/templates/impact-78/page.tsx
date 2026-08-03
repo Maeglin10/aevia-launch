@@ -9,6 +9,8 @@ import Link from "next/link";
 import { ArrowUpRight, Quote } from "lucide-react";
 import { Reveal, MagneticBtn, Counter } from "./shared";
 import {
+  clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -607,6 +609,11 @@ return (
           </Reveal>
         </div>
       </section>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName({ formData: fd }) ?? "impact-78"}
+        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+      </footer>
     </div>
   );
 }

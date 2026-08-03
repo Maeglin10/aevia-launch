@@ -9,6 +9,8 @@ import { Leaf, Sun, Wind, Activity, Sparkles } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { Reveal, Counter, MagneticBtn } from "./shared";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -391,6 +393,11 @@ return (
           </Reveal>
         </div>
       </section>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? "impact-71"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </div>
   );
 }

@@ -21,6 +21,8 @@ import {
 import { DWELL, useSlides, BentoCascade, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { DifferentialExit } from "@/lib/templates/hero-kit-3";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -354,6 +356,11 @@ return (
           <a href="/templates/impact-53/contact" style={{ display: "inline-block", background: C.black, color: C.red, padding: "1.2rem 3.5rem", fontFamily: FONT_SYNE, fontWeight: 900, fontSize: "0.7rem", letterSpacing: "0.3em", textTransform: "uppercase", textDecoration: "none" }}>START A PROJECT →</a>
         </div>
       </section>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName({ formData: fd }) ?? "impact-53"}
+        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+      </footer>
     </div>
   );
 }

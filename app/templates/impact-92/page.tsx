@@ -27,7 +27,9 @@ import { Building2, Key, ShieldCheck, Globe, Star, Mail, Phone, ChevronRight, Ar
 import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -1072,6 +1074,11 @@ export default function SkylineConciergePage() {
         ::-webkit-scrollbar{width:4px;background:#0a0a0a}
         ::-webkit-scrollbar-thumb{background:#c9a96e}
       `}</style>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? "impact-92"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </div>
   );
 }

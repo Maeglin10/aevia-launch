@@ -15,6 +15,8 @@ import { Volume2, Music, Mic2, Disc, Waves, Globe, Mail, MapPin, ChevronRight, A
 
 import "../premium.css";
 import {
+  clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -649,6 +651,11 @@ export default function AetherSoundPage() {
         ::-webkit-scrollbar{width:4px;background:#080808}
         ::-webkit-scrollbar-thumb{background:#c9a84c}
       `}</style>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName({ formData: fd }) ?? "impact-07"}
+        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+      </footer>
     </div>
   );
 }

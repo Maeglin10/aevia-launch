@@ -17,6 +17,7 @@ import { Terminal, Cpu, Zap, Shield, Layers, Search, Menu, X, ArrowRight, Chevro
 
 import "../premium.css";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
@@ -653,6 +654,11 @@ export default function BlockBasePage() {
             <span>0x4A...2F9</span>
           </div>
         </div>
+      </footer>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName({ formData: fd }) ?? "impact-101"}
+        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>
     </div>
   );

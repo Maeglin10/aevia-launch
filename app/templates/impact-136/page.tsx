@@ -18,6 +18,7 @@ import { ArrowRight, ArrowUpRight, Play, Maximize, X, Globe, ArrowDown, Sparkles
 
 import "../premium.css";
 import {
+  clientCity,
   clientName,
   clientPhotos,
   clientReviews,
@@ -771,6 +772,11 @@ export default function TextRevealPage() {
             </div>
           </div>
         </div>
+      </footer>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName({ formData: fd }) ?? "impact-136"}
+        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>
     </div>
   );

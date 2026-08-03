@@ -9,6 +9,7 @@ import { ShieldCheck, ChevronRight, Star, MapPin, Clock, Car, Check } from "luci
 import { Reveal, MagneticBtn } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientName,
   clientPhotos,
   clientReviews,
@@ -958,6 +959,11 @@ export default function AeviaKitchenPage() {
           </div>
         </div>
       </section>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? "impact-74"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </div>
   );
 }
