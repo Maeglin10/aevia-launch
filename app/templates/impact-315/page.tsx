@@ -40,6 +40,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCertifications,
   clientCity,
   clientFaq,
   clientName,
@@ -50,6 +51,17 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 let fd: any = null;
+
+// Les engagements affichés à côté du texte « à propos ». Écrits en dur dans le
+// rendu jusqu'ici : le client pouvait les saisir, le thème ne les lisait pas.
+const ENGAGEMENTS_SOURCE = [
+  "Personnel vérifié & formé",
+  "Assurance dommages incluse",
+  "Satisfaction garantie ou re-nettoyage",
+  "Produits éco-certifiés disponibles",
+];
+let ENGAGEMENTS = ENGAGEMENTS_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -287,6 +299,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  ENGAGEMENTS = resolveList(clientCertifications(sessionData), ENGAGEMENTS_SOURCE);
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -671,7 +685,7 @@ export default function Page() {
                 </p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 32 }}>
-                  {["Personnel vérifié & formé", "Assurance dommages incluse", "Satisfaction garantie ou re-nettoyage", "Produits éco-certifiés disponibles"].map((item, i) => (
+                  {ENGAGEMENTS.map((item: string, i: number) => (
                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <CheckCircle size={16} color={C.primary} />
                       <span style={{ fontSize: 14, color: C.text }}>{item}</span>

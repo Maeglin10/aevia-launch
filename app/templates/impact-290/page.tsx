@@ -32,6 +32,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientCertifications,
   clientCity,
   clientName,
   clientReviews,
@@ -42,6 +43,17 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les points forts affichés à côté du texte « à propos ». L'icône reste celle du
+// thème — le wizard ne la demande pas — et seul le texte vient du client.
+const ENGAGEMENTS_SOURCE = [
+  { Icon: CheckCircle, text: 'Devis détaillé aides incluses' },
+  { Icon: Shield, text: 'Artisan assuré décennale' },
+  { Icon: Award, text: 'Certifié RGE QualiPAC & QualiSol' },
+  { Icon: Zap, text: 'Urgences traitées sous 2h' },
+];
+let ENGAGEMENTS = ENGAGEMENTS_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -1569,12 +1581,7 @@ function DevisFormSection() {
             {/* Points forts */}
             <Reveal delay={0.18}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                {[
-                  { Icon: CheckCircle, text: 'Devis détaillé aides incluses' },
-                  { Icon: Shield, text: 'Artisan assuré décennale' },
-                  { Icon: Award, text: 'Certifié RGE QualiPAC & QualiSol' },
-                  { Icon: Zap, text: 'Urgences traitées sous 2h' },
-                ].map((pt) => (
+                {ENGAGEMENTS.map((pt: any) => (
                   <div
                     key={pt.text}
                     style={{ display: 'flex', alignItems: 'center', gap: 12 }}
@@ -2883,6 +2890,20 @@ function Impact290Page() {
   }, []);
 
   fd = session?.formData;
+
+  ENGAGEMENTS = resolveList(
+
+    clientCertifications(sessionData)?.map((texte: string, i: number) => ({
+
+      ...ENGAGEMENTS_SOURCE[i % ENGAGEMENTS_SOURCE.length],
+
+      text: texte,
+
+    })),
+
+    ENGAGEMENTS_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
