@@ -27,6 +27,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientName,
   clientReviews,
 } from "@/lib/templates/clientContent";
 
@@ -787,6 +788,19 @@ return (
       <FAQ />
       {/* layout.tsx renders the site footer; this page rendered a second one
           whose every link pointed at the homepage and whose copyright read 2025. */}
+      {/* PIED_MINIMAL — ce thème n'affichait le nom du client nulle part */}
+      <footer
+        style={{
+          padding: "40px 24px",
+          textAlign: "center",
+          fontSize: 13,
+          letterSpacing: "0.08em",
+          opacity: 0.55,
+        }}
+      >
+        {clientName(sessionData) ?? "impact-33"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </main>
   );
 }
