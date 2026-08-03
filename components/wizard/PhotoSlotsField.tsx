@@ -1,7 +1,9 @@
 "use client";
 
 import { Loader2, Plus, X } from "lucide-react";
+import { useState } from "react";
 import { photoSlotsFor } from "@/lib/templates/photoSlots";
+import { checkImage } from "@/lib/wizard/imageCheck";
 
 /**
  * Une photo par emplacement du thème, à la place exacte où il la lit.
@@ -33,6 +35,8 @@ export function PhotoSlotsField({
   emptyLabel: string;
 }) {
   const slots = photoSlotsFor(templateId);
+  /** Ce qu'on a à dire sur la photo de chaque emplacement. */
+  const [verdicts, setVerdicts] = useState<Record<number, { texte: string; grave: boolean }>>({});
 
   const setAt = (i: number, url: string) => {
     const next = [...photoUrls];
@@ -77,6 +81,22 @@ export function PhotoSlotsField({
                     onChange={async (e) => {
                       const f = e.target.files?.[0];
                       if (!f) return;
+                      // Mesurer avant d'envoyer : inutile de téléverser un
+                      // fichier qu'on refusera, et le client veut savoir tout
+                      // de suite, pas une fois son site en ligne.
+                      const v = await checkImage(f, i);
+                      setVerdicts((prev) => ({
+                        ...prev,
+                        [i]: v.erreur
+                          ? { texte: v.erreur, grave: true }
+                          : v.avertissement
+                            ? { texte: v.avertissement, grave: false }
+                            : { texte: "", grave: false },
+                      }));
+                      if (!v.ok) {
+                        e.target.value = "";
+                        return;
+                      }
                       const uploaded = await onUpload(f);
                       if (uploaded) setAt(i, uploaded);
                     }}
@@ -86,6 +106,14 @@ export function PhotoSlotsField({
               <p className="truncate text-xs text-zinc-500" title={label ?? undefined}>
                 {label ?? emptyLabel}
               </p>
+              {verdicts[i]?.texte && (
+                <p
+                  role={verdicts[i].grave ? "alert" : undefined}
+                  className={`text-xs ${verdicts[i].grave ? "text-red-400" : "text-amber-400"}`}
+                >
+                  {verdicts[i].texte}
+                </p>
+              )}
             </div>
           );
         })}
