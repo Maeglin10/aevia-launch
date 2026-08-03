@@ -318,7 +318,7 @@ function Nav() {
       </div>
       <div className="r282-navcta">
         <a href="#commande" style={{ textDecoration: 'none' }}>
-          <BreadButton filled>{clientName(sessionData) ?? "Commander"}</BreadButton>
+          <BreadButton filled>Commander</BreadButton>
         </a>
       </div>
       
@@ -2833,6 +2833,11 @@ return (
       <AgriculteurSection />
       <HorairesSection />
       <FooterSection />
+      {/* PIED_MINIMAL — le nom du client n'apparaissait nulle part */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? 'impact-282'}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </main>
   );
 }

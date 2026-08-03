@@ -365,7 +365,7 @@ function Nav() {
       </div>
       <div className="r281-navcta">
         <a href="#rendez-vous" style={{ textDecoration: 'none' }}>
-          <GoldButton>{clientName(sessionData) ?? "Prendre RDV"}</GoldButton>
+          <GoldButton>Prendre RDV</GoldButton>
         </a>
       </div>
       
@@ -2525,7 +2525,7 @@ function FooterSection() {
           fontWeight: 400,
         }}
       >
-        <span>© 1987–2026 Maison Céleste. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 1987–2026 Maison Céleste. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}{/* NOM_PIED */}{clientName(sessionData) ? ` — ${clientName(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a
             href="/templates/impact-281"

@@ -341,7 +341,7 @@ function Nav() {
       </div>
       <div className="r279-navcta">
         <ForestButton filled href="#rdv">
-          {clientName(sessionData) ?? "Prendre RDV"}
+          Prendre RDV
         </ForestButton>
       </div>
       
@@ -2634,6 +2634,11 @@ return (
       <PractitionerSection />
       <PracticalSection />
       <FooterSection />
+      {/* PIED_MINIMAL — le nom du client n'apparaissait nulle part */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? 'impact-279'}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </main>
   );
 }
