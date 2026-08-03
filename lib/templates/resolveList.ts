@@ -1,14 +1,26 @@
-// Single contract every template uses to read business data instead of
-// mutating hardcoded const arrays by index. Returns the real array when the
-// client provided one (non-empty), otherwise the template's own demo data —
-// so untouched templates keep rendering exactly as before.
-//
-// Les deux tableaux n'ont pas la même forme, et c'est voulu : le thème passe
-// soit sa propre projection de la donnée client, soit — pour les sections où
-// les noms de champs coïncident — le tableau du contrat tel quel, dont la forme
-// ne peut pas être celle de la démonstration. Contraindre les deux au même
-// paramètre de type produisait 66 erreurs qui ne décrivaient aucun défaut : le
-// rendu retombe sur le champ manquant, il ne casse pas.
+/**
+ * Le tableau du client, complété champ par champ par celui du thème.
+ *
+ * Les thèmes ne se contentent pas d'afficher un titre et une description : leurs
+ * lignes portent une icône, un identifiant, une couleur, une image. Beaucoup les
+ * rendent directement — `const ActiveIcon = treatments[active].icon` suivi de
+ * `<ActiveIcon />`. Rendre le tableau du client tel quel laissait donc `icon`
+ * indéfini, et React levait l'erreur #130 : **la page d'un vrai client ne
+ * s'affichait pas du tout**, remplacée par « This page couldn't load ».
+ *
+ * Une version précédente de ce fichier affirmait que « le rendu retombe sur le
+ * champ manquant, il ne casse pas ». C'était faux. Le défaut ne se voyait que
+ * dans le cas réel : sans profil client, le thème servait sa démonstration et
+ * tout allait bien, ce qui est exactement le cas qu'on ne teste pas. 219 appels
+ * dans 123 thèmes étaient concernés.
+ *
+ * D'où la fusion : la ligne de démonstration fournit les champs de présentation,
+ * celle du client écrase tout ce qu'il a renseigné. Si le client a plus
+ * d'entrées que la démonstration, on boucle sur cette dernière — mieux vaut
+ * répéter une icône que n'en avoir aucune.
+ */
 export function resolveList<T>(real: readonly unknown[] | undefined, demo: T[]): T[] {
-  return real && real.length > 0 ? (real as unknown as T[]) : demo;
+  if (!real || real.length === 0) return demo;
+  if (demo.length === 0) return real as unknown as T[];
+  return real.map((row, i) => ({ ...demo[i % demo.length], ...(row as object) }) as T);
 }
