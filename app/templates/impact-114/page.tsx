@@ -31,6 +31,7 @@ import {
   Star,
 } from "lucide-react"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -101,7 +102,7 @@ function useFonts() {
 
 const NAV_LINKS = ["Collections", "Tirages", "Terrain", "À propos", "Contact"]
 
-const SLIDES = [
+const SLIDES_DEMO = [
   {
     id: 1,
     title: "Forêts Primaires",
@@ -148,8 +149,9 @@ const SLIDES = [
     year: "2025",
   },
 ]
+let SLIDES = SLIDES_DEMO;
 
-const COLLECTIONS = [
+const COLLECTIONS_DEMO = [
   {
     name: "Forêts Primaires",
     count: 42,
@@ -193,6 +195,7 @@ const COLLECTIONS = [
     img: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&q=80&auto=format&fit=crop",
   },
 ]
+let COLLECTIONS = COLLECTIONS_DEMO;
 
 const PRINTS = [
   {
@@ -558,6 +561,14 @@ export default function Impact114Page() {
   }, []);
 
   fd = session?.formData;
+  SLIDES = SLIDES_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
+  COLLECTIONS = COLLECTIONS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[5 + i] || row.img,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

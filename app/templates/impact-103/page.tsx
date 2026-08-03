@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Scale, ArrowRight, Menu, Star, Shield, Gavel, Briefcase, Landmark, Globe, ChevronRight, Quote, FileText } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -64,11 +65,12 @@ const EXPERTISE = [
   { icon: Landmark, title: "Regulatory Affairs", desc: "Shaping the landscape of tomorrow through deep-level engagement with legislative and regulatory bodies." },
 ]
 
-const PARTNERS = [
+const PARTNERS_DEMO = [
   { name: "Julian Thorne", role: "Managing Partner", focus: "Global Litigation", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800" },
   { name: "Elena Rossi", role: "Senior Partner", focus: "M&A / Private Equity", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" },
   { name: "Marcus Vane", role: "Senior Partner", focus: "International Law", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=800" },
 ]
+let PARTNERS = PARTNERS_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -107,6 +109,10 @@ export default function LuminaLawPage() {
   }, []);
 
   fd = session?.formData;
+  PARTNERS = PARTNERS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

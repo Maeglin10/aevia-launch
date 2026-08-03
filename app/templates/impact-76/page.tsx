@@ -9,12 +9,13 @@ import Link from "next/link";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { Reveal, MagneticBtn, Counter } from "./shared";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
-const ARCHIVE_PROJECTS = [
+const ARCHIVE_PROJECTS_DEMO = [
   {
     id: 1,
     title: "VILLA_AETHER",
@@ -56,6 +57,7 @@ const ARCHIVE_PROJECTS = [
     img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
   },
 ];
+let ARCHIVE_PROJECTS = ARCHIVE_PROJECTS_DEMO;
 
 const SERVICES_DEMO = [
   {
@@ -142,6 +144,10 @@ export default function StructuraArchPage() {
   }, []);
 
   fd = session?.formData;
+  ARCHIVE_PROJECTS = ARCHIVE_PROJECTS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
   SERVICES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
     SERVICES_DEMO,

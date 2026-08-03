@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight, MapPin, Mail, Phone, Clock, Star, ChevronDown } from "lucide-react"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -57,7 +58,7 @@ const STATS = [
   { value: "8", label: "Prix de design" },
 ]
 
-const PROJETS = [
+const PROJETS_DEMO = [
   { titre: "Villa contemporaine", lieu: "Lyon 5e", surface: "220 m²", style: "Minimaliste", tag: "Résidentiel", img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80" },
   { titre: "Penthouse panoramique", lieu: "Lyon 2e", surface: "160 m²", style: "Art Déco moderne", tag: "Prestige", img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80" },
   { titre: "Maison de maître", lieu: "Villeurbanne", surface: "310 m²", style: "Classique revisité", tag: "Rénovation", img: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80" },
@@ -65,6 +66,7 @@ const PROJETS = [
   { titre: "Appartement haussmannien", lieu: "Lyon 1er", surface: "180 m²", style: "Parisien épuré", tag: "Résidentiel", img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80" },
   { titre: "Boutique concept store", lieu: "Part-Dieu", surface: "95 m²", style: "Retail design", tag: "Commercial", img: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" },
 ]
+let PROJETS = PROJETS_DEMO;
 
 
 const NAV = [
@@ -136,6 +138,10 @@ export default function StudioNomaPage() {
   }, []);
 
   fd = session?.formData;
+  PROJETS = PROJETS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
   SERVICES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], titre: s.title })),
     SERVICES_DEMO,

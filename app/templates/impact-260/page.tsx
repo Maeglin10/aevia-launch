@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -118,7 +119,7 @@ interface CertItem {
 /* ════════════════════════════════════════════════════════════════════════════
    Data
    ════════════════════════════════════════════════════════════════════════════ */
-const INTERVENTIONS: Intervention[] = [
+const INTERVENTIONS_DEMO: Intervention[] = [
   {
     img: ph('https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'I',
@@ -141,6 +142,7 @@ const INTERVENTIONS: Intervention[] = [
     body: "Pompes à chaleur air/eau, chauffe-eau thermodynamique, solaire thermique — aides MaPrimeRénov' incluses.",
   },
 ];
+let INTERVENTIONS = INTERVENTIONS_DEMO;
 
 const SERVICES_DEMO: Service[] = [
   { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Dépannage urgent', desc: "Intervention d'urgence sous 2h sur Lyon Métropole, 7j/7 et 24h/24." },
@@ -2288,6 +2290,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  INTERVENTIONS = INTERVENTIONS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

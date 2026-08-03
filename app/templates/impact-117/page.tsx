@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Truck, ArrowRight, Menu, Zap, Globe, Shield, BarChart3, Clock, Package, MapPin, Gauge, MoveRight } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -31,11 +32,12 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
   )
 }
 
-const FLEET = [
+const FLEET_DEMO = [
   { name: "V1 Courier", range: "350km", payload: "1.5 Tons", type: "Electric Van", img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200" },
   { name: "V2 Hauler", range: "800km", payload: "18 Tons", type: "Semi-Truck", img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200" },
   { name: "V-Drone X", range: "40km", payload: "25kg", type: "Autonomous Drone", img: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=1200" },
 ]
+let FLEET = FLEET_DEMO;
 
 const FEATURES_DEMO = [
   { icon: Gauge, title: "Hyper-Efficiency", desc: "AI-optimized routing that reduces energy consumption by 24% per mile." },
@@ -81,6 +83,10 @@ export default function VoltLogisticsPage() {
   }, []);
 
   fd = session?.formData;
+  FLEET = FLEET_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
   FEATURES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
     FEATURES_DEMO,

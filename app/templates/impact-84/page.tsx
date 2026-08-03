@@ -18,6 +18,7 @@ import {
 } from "@/lib/templates/hero-kit-2";
 import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -51,7 +52,7 @@ const MEDECINS_DEMO = [
 /* MosaicPush + Retint: the clinic's two verified views push out tile by
    tile to the right and rebuild from the left — the dominant tile carries
    the current view. The caption plaque still re-tints with each frame. */
-const HERO_VIEWS = [
+const HERO_VIEWS_DEMO = [
   {
     k: "Médecine faciale",
     d: "Injections ultra-précises, résultats invisibles — la morphologie d'abord.",
@@ -65,6 +66,7 @@ const HERO_VIEWS = [
     img: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1600&q=85",
   },
 ];
+let HERO_VIEWS = HERO_VIEWS_DEMO;
 
 // Global state variables for subpage compatibility
 let fd: any = null;
@@ -103,6 +105,10 @@ export default function CypherClinicPage() {
   }, []);
 
   fd = session?.formData;
+  HERO_VIEWS = HERO_VIEWS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

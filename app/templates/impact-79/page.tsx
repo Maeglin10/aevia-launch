@@ -43,6 +43,7 @@ import { Flame, Droplets, Thermometer, Wind, Zap, Globe, Activity, Terminal, Box
 
 import "../premium.css";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -51,7 +52,7 @@ import {
    DATA STRUCTURES
    ========================================================================= */
 
-const PRODUCTS = [
+const PRODUCTS_DEMO = [
   {
     id: 1,
     name: "THE_VOID_LOAF",
@@ -85,6 +86,7 @@ const PRODUCTS = [
     img: "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?w=800&q=80",
   },
 ];
+let PRODUCTS = PRODUCTS_DEMO;
 
 const TECHNIQUE = [
   {
@@ -255,6 +257,10 @@ export default function BoulangerieNoirePage() {
   }, []);
 
   fd = session?.formData;
+  PRODUCTS = PRODUCTS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

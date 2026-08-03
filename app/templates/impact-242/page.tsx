@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -108,7 +109,7 @@ interface Testimonial {
 }
 
 /* ── Données ─────────────────────────────────────────────────────────────── */
-const PHASES: Service[] = [
+const PHASES_DEMO: Service[] = [
   {
     id: 'comptabilite',
     num: '01',
@@ -134,6 +135,7 @@ const PHASES: Service[] = [
     alt: "Documents juridiques de création d'entreprise",
   },
 ];
+let PHASES = PHASES_DEMO;
 
 const OFFERS_DEMO: Offer[] = [
   {
@@ -2264,6 +2266,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHASES = PHASES_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

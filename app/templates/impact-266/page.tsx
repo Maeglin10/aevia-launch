@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, BlurThrough, HairlineArrows } from '@/lib/templates/hero-kit-2';
 import { PortalZoom } from '@/lib/templates/hero-kit-3';
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -169,7 +170,7 @@ const SERVICES_DEMO: Service[] = [
   },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_DEMO: EditRow[] = [
   {
     eyebrow: 'Notre territoire',
     img: `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=800&auto=format&fit=crop`,
@@ -194,6 +195,7 @@ const EDIT_ROWS: EditRow[] = [
     reverse: true,
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const PROCESS_STEPS: ProcessStep[] = [
   {
@@ -2208,6 +2210,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

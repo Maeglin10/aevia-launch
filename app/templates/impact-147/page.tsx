@@ -15,6 +15,7 @@ import {
   HairlineArrows,
 } from "@/lib/templates/hero-kit-2"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -24,7 +25,7 @@ import {
    part of the page that looked free. WordFlight + ExpandFrame from the law
    lab instead: the headline assembles word by word, one practice at a time,
    in the firm's own voice. */
-const HERO_CASES = [
+const HERO_CASES_DEMO = [
   {
     k: "Asset Recovery",
     t: "Silent justice, executed across twelve jurisdictions",
@@ -41,6 +42,7 @@ const HERO_CASES = [
     img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1400&q=80",
   },
 ]
+let HERO_CASES = HERO_CASES_DEMO;
 
 function VanguardHero({ headline, subline }: { headline?: string; subline?: React.ReactNode }) {
   const { i, next, prev } = useSlides(HERO_CASES.length, DWELL.normal)
@@ -194,6 +196,10 @@ export default function VanguardLegalPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_CASES = HERO_CASES_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

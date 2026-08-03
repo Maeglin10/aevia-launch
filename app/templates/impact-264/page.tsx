@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Heart, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -101,7 +102,7 @@ interface Testimonial {
 }
 
 /* ── Data ────────────────────────────────────────────────────────────────── */
-const DOMAINS: Domain[] = [
+const DOMAINS_DEMO: Domain[] = [
   {
     img: 'https://images.pexels.com/photos/4506218/pexels-photo-4506218.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'I',
@@ -121,6 +122,7 @@ const DOMAINS: Domain[] = [
     body: "Nourrissons, grossesse, post-partum — le corps en transformation a besoin d'un accompagnement doux et précis.",
   },
 ];
+let DOMAINS = DOMAINS_DEMO;
 
 const SPECIALTIES_DEMO: Specialty[] = [
   { label: 'Lombalgies & sciatique' },
@@ -131,7 +133,7 @@ const SPECIALTIES_DEMO: Specialty[] = [
   { label: 'Troubles digestifs' },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_DEMO: EditRow[] = [
   {
     eyebrow: 'Notre pratique',
     img: 'https://images.pexels.com/photos/4506218/pexels-photo-4506218.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
@@ -157,6 +159,7 @@ const EDIT_ROWS: EditRow[] = [
     reverse: true,
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const PRINCIPLES: PrincipleItem[] = [
   {
@@ -2060,6 +2063,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  DOMAINS = DOMAINS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
+  EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[3 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

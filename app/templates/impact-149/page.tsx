@@ -17,6 +17,7 @@ import {
 } from "@/lib/templates/hero-kit-2"
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -25,7 +26,7 @@ import {
    type — which is what made a €11,200 retreat look like a free template.
    Split screen from the bakery lab: the sanctuary is shown, one retreat at a
    time, and the swatches let a visitor choose rather than wait. */
-const HERO_SLIDES = [
+const HERO_SLIDES_DEMO = [
   {
     n: "Elemental",
     d: "Forest bathing, breathwork, cold immersion. Three days to reset at cellular level.",
@@ -48,6 +49,7 @@ const HERO_SLIDES = [
     img: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=1400&q=80",
   },
 ]
+let HERO_SLIDES = HERO_SLIDES_DEMO;
 
 function AetherHero({ headline, subline }: { headline?: React.ReactNode; subline?: React.ReactNode }) {
   const { i, go, next, prev } = useSlides(HERO_SLIDES.length, DWELL.slow)
@@ -217,6 +219,10 @@ export default function AetherWellnessPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_SLIDES = HERO_SLIDES_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const RETREATS = resolveList(

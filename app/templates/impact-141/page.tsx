@@ -15,6 +15,7 @@ import { Play, Pause, SkipBack, SkipForward, Volume2, Heart, Share2, Disc3, Mic2
 
 import "../premium.css";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -23,7 +24,7 @@ import {
    DATA STRUCTURES
    ========================================================================== */
 
-const RELEASES = [
+const RELEASES_DEMO = [
   {
     id: "r-01",
     title: "Neon Genesis",
@@ -55,6 +56,7 @@ const RELEASES = [
     color: "#8b5cf6", // Violet
   },
 ];
+let RELEASES = RELEASES_DEMO;
 
 const TRACKLIST = [
   { num: "01", title: "Overture: The Grid", duration: "2:15", plays: "1.2M" },
@@ -172,6 +174,10 @@ export default function SonicPlayerPage() {
   }, []);
 
   fd = session?.formData;
+  RELEASES = RELEASES_DEMO.map((row, i) => ({
+    ...row,
+    image: clientPhotos(session)[0 + i] || row.image,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

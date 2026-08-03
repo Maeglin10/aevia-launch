@@ -30,6 +30,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -97,7 +98,7 @@ const SERVICES = [
   },
 ];
 
-const PROJECTS = [
+const PROJECTS_DEMO = [
   {
     id: 1,
     title: "Aether Labs",
@@ -147,6 +148,7 @@ const PROJECTS = [
       "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?q=80&w=1200&auto=format&fit=crop",
   },
 ];
+let PROJECTS = PROJECTS_DEMO;
 
 const PROCESS_STEPS = [
   {
@@ -288,7 +290,7 @@ const SERVICE_DETAILS = [
 ];
 
 /* ── Fuller portfolio for the Réalisations sub-page (reuses WorkCard styling) ── */
-const WORK_DETAILS = [
+const WORK_DETAILS_DEMO = [
   {
     id: 1,
     title: "Aether Labs",
@@ -362,9 +364,10 @@ const WORK_DETAILS = [
     result: "Faster onboarding and churn cut in half.",
   },
 ];
+let WORK_DETAILS = WORK_DETAILS_DEMO;
 
 /* ── Blog mock articles (EN — web / design / marketing insights) ── */
-const BLOG_POSTS = [
+const BLOG_POSTS_DEMO = [
   {
     slug: "core-web-vitals",
     title: "Core Web Vitals: why performance became a selling point",
@@ -430,6 +433,7 @@ const BLOG_POSTS = [
     ],
   },
 ];
+let BLOG_POSTS = BLOG_POSTS_DEMO;
 
 /* ── Team & values for the À propos sub-page ── */
 const TEAM_DEMO = [
@@ -772,6 +776,18 @@ export default function ImpactAgencyTemplate() {
   }, []);
 
   fd = session?.formData;
+  PROJECTS = PROJECTS_DEMO.map((row, i) => ({
+    ...row,
+    image: clientPhotos(session)[0 + i] || row.image,
+  }));
+  WORK_DETAILS = WORK_DETAILS_DEMO.map((row, i) => ({
+    ...row,
+    image: clientPhotos(session)[6 + i] || row.image,
+  }));
+  BLOG_POSTS = BLOG_POSTS_DEMO.map((row, i) => ({
+    ...row,
+    image: clientPhotos(session)[12 + i] || row.image,
+  }));
   TEAM = resolveList(
     clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role })),
     TEAM_DEMO,

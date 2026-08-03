@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { CrossPush } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -34,7 +35,8 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Le champ", "h": "#services"}, {"l": "L'AMAP", "h": "#methode"}, {"l": "Contrats & prix", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Printemps", "sub": "Semis, plants, premières bottes — le champ redémarre.", "img": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1920&q=80", "alt": "Le champ au printemps"}, {"k": "Été", "sub": "Tomates, courgettes, haricots : la pleine saison des paniers lourds.", "img": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1920&q=80", "alt": "Cultures d'été en pleine terre"}, {"k": "Hiver", "sub": "Courges, poireaux, choux — la saison qu'on apprend à aimer.", "img": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1920&q=80", "alt": "Travail au champ en morte saison"}];
+const HERO_DEMO = [{"k": "Printemps", "sub": "Semis, plants, premières bottes — le champ redémarre.", "img": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1920&q=80", "alt": "Le champ au printemps"}, {"k": "Été", "sub": "Tomates, courgettes, haricots : la pleine saison des paniers lourds.", "img": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1920&q=80", "alt": "Cultures d'été en pleine terre"}, {"k": "Hiver", "sub": "Courges, poireaux, choux — la saison qu'on apprend à aimer.", "img": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1920&q=80", "alt": "Travail au champ en morte saison"}];
+let HERO = HERO_DEMO;
 
 const SERVICES_DEMO = [{"titre": "Paniers AMAP", "desc": "Un contrat de saison (6 mois), un panier chaque mardi : vous partagez la récolte — l'abondance de juillet comme la sobriété de février.", "tag": "AMAP"}, {"titre": "Marché des Lices", "desc": "Le samedi matin : l'étal complet, pour ceux qui préfèrent choisir. Les amapiens y ont leurs habitudes aussi.", "tag": "Marché"}, {"titre": "Légumes de plein champ", "desc": "Pommes de terre, courges, oignons : les gros volumes d'hiver, stockés à la ferme, vendus au cageot pour les conserves familiales.", "tag": "Stock"}, {"titre": "Plants de printemps", "desc": "En avril-mai : nos plants de tomates, courgettes et aromatiques, ceux-là mêmes que nous plantons — pas des invendus de jardinerie.", "tag": "Plants"}, {"titre": "Chantiers participatifs", "desc": "Plantation de printemps, récolte des courges : les amapiens qui veulent mettre les mains viennent — jamais obligatoire, toujours joyeux.", "tag": "Participatif"}, {"titre": "Écoles & visites", "desc": "Les classes de Vannes viennent voir pousser ce qu'elles mangent à la cantine — on livre aussi deux cantines de la ville.", "tag": "Pédagogie"}];
 const METHODE = [{"n": "01", "t": "Un engagement de saison", "d": "Six mois de paniers payés d'avance : la trésorerie qui permet de semer sans emprunter."}, {"n": "02", "t": "La récolte partagée", "d": "Le panier suit le champ : généreux l'été, plus sobre l'hiver. C'est le principe — et le calendrier est publié."}, {"n": "03", "t": "La distribution ensemble", "d": "Le mardi soir à la ferme : chacun compose son panier sur la table de tri, l'équipe raconte la semaine du champ."}, {"n": "04", "t": "Les comptes ouverts", "d": "Une réunion par saison : les prix, les investissements, les galères. Les amapiens savent ce qu'ils financent."}];
@@ -84,6 +86,10 @@ export default function PotagerEstuairePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO = HERO_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

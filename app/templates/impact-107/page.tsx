@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Compass, ArrowRight, Menu, Star, MapPin, Mountain, Camera, Globe, Tent, Flame, Award, Users, ChevronRight } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -35,11 +36,12 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const EXPEDITIONS = [
+const EXPEDITIONS_DEMO = [
   { title: "Karakoram Traverse", region: "Pakistan", duration: "18 days", difficulty: "Expert", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1200", desc: "Cross the world's most dramatic mountain range through ancient Silk Road passes." },
   { title: "Svalbard Polar", region: "Arctic Norway", duration: "12 days", difficulty: "Moderate", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop", desc: "Glacier treks and polar wildlife encounters at 78°N latitude." },
   { title: "Namib Desert Crossing", region: "Namibia", duration: "10 days", difficulty: "Challenging", img: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&q=80&w=1200", desc: "Navigate the world's oldest desert, from Deadvlei to the Skeleton Coast." },
 ]
+let EXPEDITIONS = EXPEDITIONS_DEMO;
 
 const CHAPTERS = [
   { num: "01", title: "The Approach", desc: "Every expedition begins months before departure — with research, conditioning, and route reconnaissance.", icon: Globe },
@@ -85,6 +87,10 @@ export default function MeridianJourneyPage() {
   }, []);
 
   fd = session?.formData;
+  EXPEDITIONS = EXPEDITIONS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

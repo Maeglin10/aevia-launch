@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -167,7 +168,7 @@ const ARTISTS_DEMO: Artist[] = [
   },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_DEMO: EditRow[] = [
   {
     eyebrow: 'Notre philosophie',
     img: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=800&auto=format&fit=crop',
@@ -187,6 +188,7 @@ const EDIT_ROWS: EditRow[] = [
     reverse: true,
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const SAFETY_STEPS: SafetyStep[] = [
   {
@@ -2172,6 +2174,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

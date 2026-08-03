@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -149,7 +150,7 @@ const SERVICES_DEMO: Service[] = [
   { title: 'Éclairage extérieur', desc: 'Ambiances LED basse consommation, guirlandes, spots encastrés — le jardin habité la nuit.', icon: '✨' },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_DEMO: EditRow[] = [
   {
     eyebrow: 'Notre démarche',
     img: 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -179,6 +180,7 @@ const EDIT_ROWS: EditRow[] = [
     roman: 'II',
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const PHILOSOPHY: PhilosophyItem[] = [
   {
@@ -2029,6 +2031,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

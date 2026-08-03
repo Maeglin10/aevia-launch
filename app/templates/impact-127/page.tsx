@@ -9,6 +9,7 @@ import { Music, ArrowRight, Menu, Star, Calendar, Clock, MapPin, Ticket, Users, 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientFaq,
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -45,12 +46,13 @@ function EqBars({ active = false }: { active?: boolean }) {
   )
 }
 
-const EVENTS = [
+const EVENTS_DEMO = [
   { title: "NEON PULSE", artist: "Nova Collective", date: "May 24, 2026", time: "21:00", venue: "Warehouse IX", city: "Berlin", img: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=1200", price: "€45", status: "On Sale", genre: "Electronic" },
   { title: "MIDNIGHT CRESCENDO", artist: "The Archivists", date: "Jun 7, 2026", time: "20:00", venue: "Hall Meridian", city: "London", img: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&q=80&w=1200", price: "£65", status: "Selling Fast", genre: "Orchestral" },
   { title: "BASS COMMUNION", artist: "Drift Engine", date: "Jun 21, 2026", time: "23:00", venue: "Sublevel", city: "London", img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=1200", price: "£35", status: "On Sale", genre: "Techno" },
   { title: "AURORA SESSIONS", artist: "Halcyon Drift", date: "Jul 5, 2026", time: "19:30", venue: "Le Ratio", city: "Paris", img: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=1200", price: "€55", status: "Limited", genre: "Indie" },
 ]
+let EVENTS = EVENTS_DEMO;
 
 
 // Venues, FAQ and press were linked from the nav and the footer but no such
@@ -121,6 +123,10 @@ export default function PulseEventsPage() {
   }, []);
 
   fd = session?.formData;
+  EVENTS = EVENTS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
   FAQS = resolveList(
     clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
     FAQS_DEMO,

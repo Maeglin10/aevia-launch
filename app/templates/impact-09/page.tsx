@@ -37,6 +37,7 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -45,7 +46,7 @@ import {
    ASTRUM REACH ORBITAL DATASET (ULTRA DENSITY)
    ========================================================================== */
 
-const MISSIONS = [
+const MISSIONS_DEMO = [
   {
     id: "mis-lh-01",
     name: "Lunar Descent",
@@ -80,6 +81,7 @@ const MISSIONS = [
     color: "#f43f5e"
   }
 ]
+let MISSIONS = MISSIONS_DEMO;
 
 const CRAFT_SPECS = [
   { label: "Shield Integrity", value: "98.4%", trend: "Stable", detail: "Liquid-Graphene Layer" },
@@ -227,6 +229,10 @@ export default function AstrumReachPremium() {
   }, []);
 
   fd = session?.formData;
+  MISSIONS = MISSIONS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

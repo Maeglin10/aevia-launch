@@ -14,6 +14,7 @@ import { Volume2, Music, Mic2, Disc, Waves, Globe, Mail, MapPin, ChevronRight, A
 
 import "../premium.css";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -22,7 +23,7 @@ import {
    DATA STRUCTURES
    ========================================================================= */
 
-const COLLECTIONS = [
+const COLLECTIONS_DEMO = [
   { 
     id: 1, 
     name: "Aether One", 
@@ -48,6 +49,7 @@ const COLLECTIONS = [
     img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&q=80"
   },
 ];
+let COLLECTIONS = COLLECTIONS_DEMO;
 
 const ENGINEERING = [
   { 
@@ -150,6 +152,10 @@ export default function AetherSoundPage() {
   }, []);
 
   fd = session?.formData;
+  COLLECTIONS = COLLECTIONS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

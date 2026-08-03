@@ -14,6 +14,7 @@ import { Zap, Brain, Activity, ShieldCheck, Star, Globe, Mail, MapPin, ChevronRi
 
 import "../premium.css";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -22,7 +23,7 @@ import {
    DATA STRUCTURES
    ========================================================================= */
 
-const PRODUCTS = [
+const PRODUCTS_DEMO = [
   { 
     id: 1, 
     name: "Neural Link V2", 
@@ -48,6 +49,7 @@ const PRODUCTS = [
     img: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=1200&q=80"
   },
 ];
+let PRODUCTS = PRODUCTS_DEMO;
 
 const INNOVATIONS = [
   { 
@@ -150,6 +152,10 @@ export default function NeuralisPage() {
   }, []);
 
   fd = session?.formData;
+  PRODUCTS = PRODUCTS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

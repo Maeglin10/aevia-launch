@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, PenLine } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -162,7 +163,7 @@ const ARTISTS_DEMO: Artist[] = [
   },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_DEMO: EditRow[] = [
   {
     eyebrow: "L'atelier",
     title: (
@@ -190,6 +191,7 @@ const EDIT_ROWS: EditRow[] = [
     reverse: true,
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const SAFETY_ITEMS: SafetyItem[] = [
   {
@@ -2184,6 +2186,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

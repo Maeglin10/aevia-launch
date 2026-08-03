@@ -28,6 +28,7 @@ import { Anchor, Compass, Ship, ShieldCheck, Star, Globe, Mail, MapPin, ChevronR
 import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhotos,
   clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
@@ -36,7 +37,7 @@ import {
    DATA STRUCTURES
    ========================================================================= */
 
-const FLEET = [
+const FLEET_DEMO = [
   {
     id: 1,
     name: "Azure Odyssey",
@@ -65,6 +66,7 @@ const FLEET = [
     img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200&q=80",
   },
 ];
+let FLEET = FLEET_DEMO;
 
 const DESTINATIONS_DEMO = [
   {
@@ -231,6 +233,10 @@ export default function HorizonYachtPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FLEET = FLEET_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

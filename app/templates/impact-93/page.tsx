@@ -28,6 +28,7 @@ import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
+  clientPhotos,
   clientReviews,
 } from "@/lib/templates/clientContent";
 
@@ -35,7 +36,7 @@ import {
    DATA STRUCTURES
    ========================================================================= */
 
-const FLEET = [
+const FLEET_DEMO = [
   {
     id: 1,
     name: "Global 7500",
@@ -67,6 +68,7 @@ const FLEET = [
     desc: "Revolutionary comfort with the lowest cabin altitude in its class.",
   },
 ];
+let FLEET = FLEET_DEMO;
 
 const VALUES = [
   {
@@ -241,6 +243,10 @@ export default function VelocityJetsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FLEET = FLEET_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const TESTIMONIALS_DEMO = [

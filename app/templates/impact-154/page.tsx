@@ -27,6 +27,7 @@ import {
   UserCheck, Globe2, AlertCircle, Mail, Check
 } from "lucide-react"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -35,7 +36,7 @@ import {
    IVORY ARCHIVE DATASET (ULTRA DENSITY)
    ========================================================================== */
 
-const COLLECTIONS = [
+const COLLECTIONS_DEMO = [
   {
     id: "art-01",
     title: "The Renaissance Veil",
@@ -64,6 +65,7 @@ const COLLECTIONS = [
     image: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1200&auto=format&fit=crop"
   }
 ]
+let COLLECTIONS = COLLECTIONS_DEMO;
 
 const PROVENANCE_LOGS = [
   { year: "1892", event: "Acquired by the von Hardenburg family, Vienna." },
@@ -84,7 +86,7 @@ const LAB_METRICS = [
    ========================================================================== */
 
 // Full curated collection for the Collection / Œuvres page (extends COLLECTIONS).
-const ARCHIVE_WORKS = [
+const ARCHIVE_WORKS_DEMO = [
   ...COLLECTIONS,
   {
     id: "art-04",
@@ -114,6 +116,7 @@ const ARCHIVE_WORKS = [
     image: "https://images.unsplash.com/photo-1620503374956-c942862f0372?q=80&w=1200&auto=format&fit=crop"
   }
 ]
+let ARCHIVE_WORKS = ARCHIVE_WORKS_DEMO;
 
 // Long-form provenance + technical detail per work (Collection detail view).
 const WORK_DETAILS: Record<string, {
@@ -185,7 +188,7 @@ const WORK_DETAILS: Record<string, {
 }
 
 // Journal — editorial articles in the maison's register (index + article view).
-const JOURNAL = [
+const JOURNAL_DEMO = [
   {
     slug: "silence-du-temps",
     title: "Le silence du temps : philosophie de la conservation",
@@ -243,6 +246,7 @@ const JOURNAL = [
     ]
   }
 ]
+let JOURNAL = JOURNAL_DEMO;
 
 /* ==========================================================================
    MULTI-PAGE NAVIGATION CONFIG
@@ -374,6 +378,18 @@ export default function IvoryArchivePremium() {
   }, []);
 
   fd = session?.formData;
+  COLLECTIONS = COLLECTIONS_DEMO.map((row, i) => ({
+    ...row,
+    image: clientPhotos(session)[0 + i] || row.image,
+  }));
+  ARCHIVE_WORKS = ARCHIVE_WORKS_DEMO.map((row, i) => ({
+    ...row,
+    image: clientPhotos(session)[3 + i] || row.image,
+  }));
+  JOURNAL = JOURNAL_DEMO.map((row, i) => ({
+    ...row,
+    image: clientPhotos(session)[6 + i] || row.image,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

@@ -15,6 +15,7 @@ import {
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -149,7 +150,7 @@ type RoomFull = {
   amenities: string[];
 };
 
-const ROOMS_FULL: RoomFull[] = [
+const ROOMS_FULL_DEMO: RoomFull[] = [
   {
     slug: 'prestige-room',
     name: 'Prestige Room',
@@ -219,6 +220,7 @@ const ROOMS_FULL: RoomFull[] = [
     amenities: ['Two principal bedrooms', 'Library & grand piano', 'Suspended garden terrace', 'Private chef on request', 'Chauffeured car', 'Personal concierge'],
   },
 ];
+let ROOMS_FULL = ROOMS_FULL_DEMO;
 
 // ─── Hotel services / experiences (Services sub-page) ─────────────────────────
 const SERVICES_DEMO = [
@@ -273,7 +275,7 @@ const SERVICES_DEMO = [
 ];
 
 // ─── Blog mock data (EN — art of living / travel / gastronomy) ────────────────
-const BLOG_POSTS = [
+const BLOG_POSTS_DEMO = [
   {
     slug: 'art-of-the-table',
     title: 'The French Art of the Table, a Living Heritage',
@@ -335,6 +337,7 @@ const BLOG_POSTS = [
     ],
   },
 ];
+let BLOG_POSTS = BLOG_POSTS_DEMO;
 
 // ─── Hooks ───────────────────────────────────────────────────────────────────
 function useParallax(ref: React.RefObject<HTMLElement | null>, speed = 0.4) {
@@ -2474,6 +2477,14 @@ export default function GrandPalaisPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  ROOMS_FULL = ROOMS_FULL_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
+  BLOG_POSTS = BLOG_POSTS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[4 + i] || row.img,
+  }));
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

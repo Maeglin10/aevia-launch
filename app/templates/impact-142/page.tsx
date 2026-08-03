@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Leaf, ArrowRight, Menu, TreePine, Recycle, Droplets, Sun, Heart, Award, BarChart3, ChevronRight, Globe, Users, CheckCircle2 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -42,11 +43,12 @@ const IMPACT = [
   { value: "12", label: "Countries Active", icon: Globe },
 ]
 
-const PROGRAMS = [
+const PROGRAMS_DEMO = [
   { icon: TreePine, title: "Reforestation", desc: "Large-scale tree planting programs in deforested regions with indigenous community partnerships.", img: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=800" },
   { icon: Droplets, title: "Ocean Cleanup", desc: "AI-guided autonomous systems removing plastic from waterways before it reaches open ocean.", img: "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&q=80&w=800" },
   { icon: Sun, title: "Clean Energy", desc: "Community solar installations providing renewable energy to underserved populations.", img: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=800" },
 ]
+let PROGRAMS = PROGRAMS_DEMO;
 
 const PLANS = [
   { name: "Individual", price: "$9", desc: "Personal carbon offset subscription.", features: ["Monthly CO₂ offset", "Impact dashboard", "Quarterly reports", "Community access"] },
@@ -91,6 +93,10 @@ export default function VerdantImpactPage() {
   }, []);
 
   fd = session?.formData;
+  PROGRAMS = PROGRAMS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
