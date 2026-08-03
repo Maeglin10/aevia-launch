@@ -100,3 +100,39 @@ Toujours vérifier le vrai contenu : `grep "export default function" app/templat
 
 ### Règle de fin de session
 Appendre dans `.claude/HISTORY.md` (format : Fait / Comment / Pourquoi / Erreurs commises)
+
+## Règle de vérification des thèmes (2026-08-03)
+
+**Ne jamais annoncer un thème corrigé sans l'avoir ouvert dans un navigateur.**
+
+Trois erreurs en une journée viennent toutes de la même cause : avoir conclu
+depuis le code au lieu de la page rendue.
+
+- Un comptage d'occurrences de `heroHeadline` donnait 347 thèmes « câblés » ;
+  mesurés dans le navigateur, 5 sur 12 affichaient le titre du client et
+  **aucun** ses services.
+- Un `useEffect` qui mute les constantes du module sans déclencher de rendu
+  existe dans une centaine de fichiers : le code est là, il ne produit rien.
+- Un test « après correction » ne montrait aucun changement — le serveur local
+  n'avait pas `BLOB_READ_WRITE_TOKEN`, donc `/api/sessions` répondait 404 et le
+  thème retombait sur sa démo. Le test était faux, pas le code.
+
+Avant de dire qu'un thème est fait, il faut donc :
+
+1. une **session client réelle** (`?session=…`), avec services, tarifs, photos,
+   ville et téléphone — et le serveur lancé avec le jeton Blob ;
+2. une **mesure du DOM** : le contenu du client est présent, celui de la
+   démonstration a disparu, aucune image chargée mais jamais peinte, aucun
+   débordement horizontal ;
+3. une **capture à 1440×900 et à 390×844**, regardée ;
+4. `npm run build` dont on lit vraiment le code de sortie — un `&&` mal placé a
+   déjà affiché `BUILD=0` sur un build en échec.
+
+Règles de contenu décidées par le fondateur, valables pour les 373 thèmes :
+
+- **On n'invente rien.** Pas de témoignage, de tarif ni de référence fabriqués.
+- Si le client ne renseigne pas une section, **on garde celle du thème et on le
+  lui rappelle**. On ne supprime aucune section.
+- **Cohérence de langue** : un thème en anglais vendu à une entreprise française
+  se traduit — dans les deux sens, pour fr/en/es.
+- Le catalogue est **100 % impact** ; rien d'autre n'est vendu.
