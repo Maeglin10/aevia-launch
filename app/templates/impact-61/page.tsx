@@ -6,6 +6,8 @@ import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { C, TextReveal, MagneticButton, CountUp } from "./shared";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -372,6 +374,19 @@ return (
           </Link>
         </div>
       </section>
+      {/* PIED_MINIMAL — ce thème n'affichait le nom du client nulle part */}
+      <footer
+        style={{
+          padding: "40px 24px",
+          textAlign: "center",
+          fontSize: 13,
+          letterSpacing: "0.08em",
+          opacity: 0.55,
+        }}
+      >
+        {clientName({ formData: fd }) ?? "impact-61"}
+        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+      </footer>
     </div>
   );
 }
