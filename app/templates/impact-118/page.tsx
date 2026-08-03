@@ -11,6 +11,7 @@ import { Watch, ArrowRight, Menu, Star, Sparkles, Shield, Clock, Award, Hammer, 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCity,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -430,7 +431,7 @@ export default function ChronosLuxuryPage() {
         </div>
         
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/20">
-          <span>© 2026 CHRONOS HOROLOGY SA. GENÈVE.</span>
+          <span>© 2026 CHRONOS HOROLOGY SA. GENÈVE.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
              <a href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#d4af37)] transition-colors">Legal Mention</a>
              <a href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#d4af37)] transition-colors">Privacy Circle</a>

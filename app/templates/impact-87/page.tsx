@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { C, FONT, FONT_BODY, STATS, COURS, AVIS, Reveal } from "./shared";
 import {
   clientAddress,
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -812,7 +813,7 @@ export default function IronClubPage() {
               fontFamily: FONT_BODY,
             }}
           >
-            <span>© 2025 Iron Club — Tous droits réservés</span>
+            <span>© 2025 Iron Club — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
             <div style={{ display: "flex", gap: 24 }}>
               <a href="/templates/impact-87/legal" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
               <a href="/templates/impact-87/legal" style={{ color: "inherit", textDecoration: "none" }}>Politique de confidentialité</a>

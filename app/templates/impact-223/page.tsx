@@ -8,6 +8,7 @@ import { Zap, ShieldCheck, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle, 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -605,7 +606,7 @@ export default function VoltProPage() {
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-white/15" style={{ fontFamily: "'Space Mono', monospace" }}>© 2026 VoltPro Électricité · SIRET 123 456 789 00010 · RGE QualiPV · Qualifelec</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-white/15" style={{ fontFamily: "'Space Mono', monospace" }}>© 2026 VoltPro Électricité · SIRET 123 456 789 00010 · RGE QualiPV · Qualifelec{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#facc15)]/30" style={{ fontFamily: "'Space Mono', monospace" }}>Artisan électricien certifié · Île-de-France</span>
         </div>
       </footer>

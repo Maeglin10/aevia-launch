@@ -34,6 +34,7 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -698,7 +699,7 @@ return (
 
             <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-white/10 italic">
                <div className="flex flex-wrap gap-8">
-                  <span>©2026 VULCAN MOTOR GROUP MODENA.</span>
+                  <span>©2026 VULCAN MOTOR GROUP MODENA.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
                   <span className="hidden md:inline">//</span>
                   <a href="#aero-grad" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#3b82f6)] transition-colors">MENTIONS LEGALES</a>
                </div>

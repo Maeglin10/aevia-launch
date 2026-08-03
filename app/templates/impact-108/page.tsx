@@ -8,6 +8,7 @@ import { C, FONT, FONT_BODY, STATS, MISSIONS, TEMOIGNAGES, Reveal } from "./shar
 import { DWELL, useSlides, AnchoredBackdrop, WordFlight, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import {
   clientAddress,
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -847,7 +848,7 @@ export default function LedgerPage() {
               fontWeight: 300,
             }}
           >
-            <span>© 2025 Ledger &amp; Associés — Tous droits réservés</span>
+            <span>© 2025 Ledger &amp; Associés — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
             <div style={{ display: "flex", gap: 24 }}>
               <a href="/templates/impact-108/legal" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
               <a href="/templates/impact-108/legal" style={{ color: "inherit", textDecoration: "none" }}>Confidentialité</a>

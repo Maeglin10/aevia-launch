@@ -6,6 +6,7 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { ArrowRight, MapPin, Mail, Phone, Clock, Star, CheckCircle, Calendar } from "lucide-react"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -385,7 +386,7 @@ export default function CabinetKinePage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 18, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <span style={{ color: "rgba(255,255,255,0.24)", fontSize: 12 }}>© 2026 Kiné Mouvement — Site réalisé par Aevia WS</span>
+          <span style={{ color: "rgba(255,255,255,0.24)", fontSize: 12 }}>© 2026 Kiné Mouvement — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.24)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

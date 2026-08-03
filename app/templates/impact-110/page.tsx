@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Flower2, ArrowRight, Menu, Star, Sparkles, MapPin, Clock, Phone, Heart, Leaf, Wind, Droplets, CheckCircle2 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -454,7 +455,7 @@ export default function OasisWellnessPage() {
         </div>
         
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-[var(--brand,#2c3e2d)]/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#2c3e2d)]/30">
-          <span>© 2026 OASIS WELLNESS COLLECTIVE.</span>
+          <span>© 2026 OASIS WELLNESS COLLECTIVE.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <div className="flex gap-10">
             <Link href="#contact" className="hover:text-[var(--brand,#2c3e2d)] transition-colors">Mentions légales</Link>
             <Link href="#contact" className="hover:text-[var(--brand,#2c3e2d)] transition-colors">Confidentialité</Link>

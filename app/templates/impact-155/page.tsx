@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight, MapPin, Mail, Phone, BedDouble, Bath, Maximize, Star, TrendingUp } from "lucide-react"
 import {
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -398,7 +399,7 @@ export default function PierreCoPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 20, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 13 }}>© 2026 Pierre & Co Immobilier — Site réalisé par Aevia WS</span>
+          <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 13 }}>© 2026 Pierre & Co Immobilier — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.25)", fontSize: 13, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

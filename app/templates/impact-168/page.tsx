@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
 import { ShoppingBag, Heart, Search, User, ArrowRight, Check, Star, Package, RefreshCw, Leaf, Camera, X, ChevronLeft, ChevronRight, Truck } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientFaq,
   clientName,
   clientReviews,
@@ -2262,7 +2263,7 @@ export default function ImpactEclatPage() {
             fontFamily: C.sans,
           }}
         >
-          <span>© 2025 Éclat — Tous droits réservés</span>
+          <span>© 2025 Éclat — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <a
               href="/templates/impact-168"

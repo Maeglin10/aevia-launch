@@ -8,6 +8,7 @@ import { Car, ArrowRight, Menu, Zap, Gauge, Shield, Settings, Timer, ChevronRigh
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCity,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -469,7 +470,7 @@ export default function VulcanMotorsPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 VULCAN MOTORS ATELIER. REDLINE ADDICTED.</span>
+          <span>© 2026 VULCAN MOTORS ATELIER. REDLINE ADDICTED.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2">MODENA, IT</Link>
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2">SILVERSTONE, UK</Link>

@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Code2, ArrowRight, Menu, Star, Terminal, GitBranch, Cpu, Boxes, Download, ChevronRight, Globe, ExternalLink, Copy, Check } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -400,7 +401,7 @@ export default function WaveFXPage() {
           ))}
         </div>
         <div className="max-w-[1000px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 WAVEFX LABS.</span>
+          <span>© 2026 WAVEFX LABS.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span>MIT LICENSE · OPEN SOURCE</span>
         </div>
       </footer>

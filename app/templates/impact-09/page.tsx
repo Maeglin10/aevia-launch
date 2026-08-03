@@ -37,6 +37,7 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -623,7 +624,7 @@ return (
 
             <div className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-white/10 italic">
                <div className="flex flex-wrap gap-8 font-mono">
-                  <span>©2026 ASTRUM REACH ORBITAL.</span>
+                  <span>©2026 ASTRUM REACH ORBITAL.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
                   <span className="hidden md:inline">//</span>
                   <a href="/templates/impact-09" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-indigo-400 transition-colors">MENTIONS LEGALES</a>
                </div>

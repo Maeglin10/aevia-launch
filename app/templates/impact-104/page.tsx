@@ -1,5 +1,8 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from "react";
@@ -791,7 +794,7 @@ export default function LumiereDoreePage() {
               fontWeight: 300,
             }}
           >
-            <span>© 2025 Studio Lumière Dorée — Tous droits réservés</span>
+            <span>© 2025 Studio Lumière Dorée — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
             <div style={{ display: "flex", gap: 24 }}>
               <a href="/templates/impact-104/legal" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
               <a href="/templates/impact-104/legal" style={{ color: "inherit", textDecoration: "none" }}>Confidentialité</a>

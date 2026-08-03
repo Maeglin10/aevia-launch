@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Utensils, ArrowRight, Menu, Star, Clock, MapPin, Shield, Heart, Compass, ChevronRight, Play } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
@@ -409,7 +410,7 @@ export default function KuroOmakasePage() {
            ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
-           <span>© 2026 KURO OMAKASE GROUP. SILENCE IS FLAVOR.</span>
+           <span>© 2026 KURO OMAKASE GROUP. SILENCE IS FLAVOR.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
            <div className="flex gap-12">
               <Link href="#contact" className="hover:text-white transition-all">KYOTO</Link>
               <Link href="#contact" className="hover:text-white transition-all">TOKYO</Link>

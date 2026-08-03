@@ -8,6 +8,7 @@ import { Home, ArrowRight, Menu, Star, MapPin, Bed, Bath, Maximize2, Phone, Mail
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -368,7 +369,7 @@ export default function HavenEstatesPage() {
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 HAVEN ESTATES.</span>
+          <span>© 2026 HAVEN ESTATES.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>NEW YORK · LONDON · PARIS · SINGAPORE</span>
         </div>
       </footer>

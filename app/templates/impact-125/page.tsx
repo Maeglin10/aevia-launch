@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Rocket, ArrowRight, Menu, Globe, Shield, Satellite, Zap, Radio, ChevronRight, Activity, Cpu, Box } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -435,7 +436,7 @@ export default function AstrumReachPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 ASTRUM REACH AEROSPACE. ALL STAGES NOMINAL.</span>
+          <span>© 2026 ASTRUM REACH AEROSPACE. ALL STAGES NOMINAL.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2">CAPE CANAVERAL, FL</Link>
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2">STARBASE, TX</Link>

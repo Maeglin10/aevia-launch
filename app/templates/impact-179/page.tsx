@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
+  clientCity,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -516,7 +517,7 @@ export default function AquanovaPiscinesPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 {fd?.businessName ?? "AquaNova Piscines"} · SIRET 234 567 890 00056 · Garantie Décennale · Assurance RC Pro</span>
+          <span>© 2026 {fd?.businessName ?? "AquaNova Piscines"} · SIRET 234 567 890 00056 · Garantie Décennale · Assurance RC Pro{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand-light)]/30">Pisciniste certifié · Grand Lyon</span>
         </div>
       </footer>

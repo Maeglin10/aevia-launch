@@ -28,6 +28,7 @@ import {
   Navigation, Code, Command, Grid
 } from "lucide-react"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -490,7 +491,7 @@ return (
            </div>
 
            <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 {fd?.businessName ?? "THE MONOLITH"} GLOBAL INFRASTRUCTURE AG. // ALL_RIGHTS_RESERVED</span>
+              <span>© 2026 {fd?.businessName ?? "THE MONOLITH"} GLOBAL INFRASTRUCTURE AG. // ALL_RIGHTS_RESERVED{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
               <div className="flex gap-16">
                  <span>STATUS: IMMUTABLE</span>
                  <span>LATENCY: 12ms (AVG)</span>

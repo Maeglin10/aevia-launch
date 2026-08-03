@@ -18,6 +18,7 @@ import { Separator } from "@/components/ui/separator"
 import { Sparkles, Droplets, Wind, Menu, X, ArrowRight, Flower2, Moon, Sun, Star, Gem, Feather, Heart, Eye, Palette, CheckCircle2, FlaskConical, Quote, ShoppingBag, Plus, Minus, Trash2, Loader2 } from "lucide-react"
 import { DWELL, useSlides, HeldSwap, BlurThrough, CircularLabel, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -915,7 +916,7 @@ export default function EclatLuxuryPage() {
           </div>
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600">
-            <div>© 2026 Éclat Parfums. All Rights Reserved.</div>
+            <div>© 2026 Éclat Parfums. All Rights Reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</div>
             <div className="flex items-center gap-8 text-white/50">
               <Link href="#boutique" className="hover:text-white transition-colors">Camera</Link>
               <Link href="#boutique" className="hover:text-white transition-colors">MessageSquare</Link>

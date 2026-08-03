@@ -17,6 +17,7 @@ import {
 } from "@/lib/templates/hero-kit-2"
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3"
 import {
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -496,7 +497,7 @@ export default function AetherWellnessPage() {
            ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-black/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-black/10 italic">
-           <span>© 2026 AETHER WELLNESS GROUP. BREATHE IN.</span>
+           <span>© 2026 AETHER WELLNESS GROUP. BREATHE IN.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
            <div className="flex gap-12">
               <Link href="#contact" className="hover:text-black transition-all">SWITZERLAND</Link>
               <Link href="#contact" className="hover:text-black transition-all">ICELAND</Link>

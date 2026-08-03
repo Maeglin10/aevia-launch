@@ -6,6 +6,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useInView } from "fra
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Leaf } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -445,7 +446,7 @@ return (
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 Nourrir Juste · Camille Renard — Site par Aevia WS</span>
+          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 Nourrir Juste · Camille Renard — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.18)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

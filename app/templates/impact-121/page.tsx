@@ -17,6 +17,7 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { ArrowUpRight, CheckCircle2, Menu, X, Play, ArrowRight, Circle, Square, Triangle, Hexagon, Star, Award, Trophy, Medal } from "lucide-react"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -639,7 +640,7 @@ export default function FolioStudioPage() {
             </div>
 
             <div className="mt-24 flex flex-col md:flex-row items-center justify-between text-zinc-500 font-medium">
-              <div>© 2026 Folio Studio. All rights reserved.</div>
+              <div>© 2026 Folio Studio. All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</div>
               <div className="flex gap-6 mt-4 md:mt-0">
                 <Link href="#contact" className="hover:text-white transition-colors">Privacy</Link>
                 <Link href="#contact" className="hover:text-white transition-colors">{tr({ formData: fd }, "Terms")}</Link>
