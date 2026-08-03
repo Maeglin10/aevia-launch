@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {
@@ -106,7 +107,7 @@ const PROJECTS = [
   },
 ];
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     label: "Parametric Design",
     desc: "Algorithm-generated form-finding that balances structural integrity with environmental performance. Every curve is computed, never arbitrary.",
@@ -128,6 +129,7 @@ const SERVICES = [
     num: "04",
   },
 ];
+let SERVICES = SERVICES_DEMO;
 
 const TECH_STACK = [
   { name: "Grasshopper", sub: "Parametric modelling" },
@@ -2212,6 +2214,10 @@ export default function Impact133Page() {
   }, []);
 
   fd = session?.formData;
+  SERVICES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], label: s.title, desc: s.desc })),
+    SERVICES_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

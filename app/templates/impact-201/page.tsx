@@ -189,7 +189,7 @@ const EXPERIENCES_DEMO = [
   },
 ];
 
-const SAVOIR_FAIRE = [
+const SAVOIR_FAIRE_DEMO = [
   {
     icon: "🌱",
     title: "Produits locaux & de saison",
@@ -211,6 +211,7 @@ const SAVOIR_FAIRE = [
     desc: "Serveur(s) inclus dans toutes les formules groupe — mise en place de la table, service à l'assiette, débarrassage et nettoyage complets. Vous profitez.",
   },
 ];
+let SAVOIR_FAIRE = SAVOIR_FAIRE_DEMO;
 
 const TESTIMONIALS_DEMO = [
   {
@@ -725,6 +726,10 @@ export default function Impact201Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SAVOIR_FAIRE = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...SAVOIR_FAIRE_DEMO[i % SAVOIR_FAIRE_DEMO.length], title: s.title })),
+    SAVOIR_FAIRE_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand };

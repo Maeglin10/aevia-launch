@@ -19,12 +19,38 @@ const dry = process.argv.includes("--dry");
 const GROUPS = [
   {
     helper: "clientServices",
-    names: ["SERVICES", "FEATURES", "PRESTATIONS", "SERVICE_DETAILS"],
+    /*
+      Les thèmes n'appellent pas leur liste de prestations « SERVICES ». On y
+      trouve PRODUCTS, INNOVATIONS, PILLARS, EXPERTISE, SPECIALITES… Deviner les
+      noms ratait vingt-deux thèmes ; deviner par la seule forme en attrapait
+      cent trente-sept, dont PROCESS_STEPS et PHILOSOPHY, qui ne sont pas des
+      prestations. Il faut les deux : un nom qui parle de prestations et une
+      forme titre + description.
+    */
+    names: [
+      "SERVICES", "SERVICE", "SERVICES_ITEMS", "SERVICE_DETAILS",
+      "FEATURES", "FEATURE",
+      "PRESTATIONS", "PRESTATION",
+      "PRODUCTS", "PRODUITS",
+      "OFFRES", "OFFERS",
+      "EXPERTISE", "EXPERTISES",
+      "SPECIALITES", "SPECIALTIES",
+      "SOINS", "ACTES",
+      "PILLARS", "CAPABILITIES", "SOLUTIONS", "DISCIPLINES",
+      "METIERS", "SAVOIR_FAIRE", "COMPETENCES", "INNOVATIONS", "CARDS",
+    ],
     keys: [
       { match: ["title", "desc"], project: () => `title: s.title` },
       { match: ["titre", "desc"], project: () => `titre: s.title` },
       { match: ["title", "description"], project: () => `title: s.title` },
       { match: ["name", "description"], project: () => `name: s.title` },
+      { match: ["t", "d"], project: () => `t: s.title, d: s.desc` },
+      { match: ["nom", "desc"], project: () => `nom: s.title, desc: s.desc` },
+      { match: ["label", "desc"], project: () => `label: s.title, desc: s.desc` },
+      { match: ["heading", "body"], project: () => `heading: s.title, body: s.desc` },
+      { match: ["title", "text"], project: () => `title: s.title, text: s.desc` },
+      { match: ["title", "sub"], project: () => `title: s.title, sub: s.desc` },
+      { match: ["title", "subtitle"], project: () => `title: s.title, subtitle: s.desc` },
     ],
   },
   {
@@ -104,6 +130,9 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
       const row = /\{([^}]*)\}/.exec(body);
       if (!row) continue;
       const present = [...row[1].matchAll(/["']?(\w+)["']?\s*:/g)].map((m) => m[1]);
+      // Une ligne qui porte un auteur est un avis, pas une prestation, même si
+      // elle a par ailleurs un titre et une description.
+      if (helper === "clientServices" && present.some((k) => ["author", "auteur", "role", "company"].includes(k.toLowerCase()))) continue;
       const shape = keys.find((k) => k.match.every((f) => present.includes(f)));
       if (!shape) continue;
 

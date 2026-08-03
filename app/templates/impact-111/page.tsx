@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -44,11 +45,12 @@ const PROJECTS_DEMO = [
 ]
 let PROJECTS = PROJECTS_DEMO;
 
-const PILLARS = [
+const PILLARS_DEMO = [
   { icon: TreePine, title: "Biophilic Integration", desc: "Dissolving the boundaries between indoor living and the natural ecosystem." },
   { icon: Layers, title: "Honest Materials", desc: "Prioritizing raw timber, rammed earth, and local stone with zero toxic finishes." },
   { icon: Wind, title: "Passive Energy", desc: "Leveraging solar pathing and cross-ventilation to eliminate mechanical cooling." },
 ]
+let PILLARS = PILLARS_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -87,6 +89,10 @@ export default function TerraArchitecturePage() {
   }, []);
 
   fd = session?.formData;
+  PILLARS = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...PILLARS_DEMO[i % PILLARS_DEMO.length], title: s.title })),
+    PILLARS_DEMO,
+  );
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
