@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Peinture intérieure", "desc": "Murs, plafonds
 const METHODE = [{"n": "01", "t": "Visite & devis en 48 h", "d": "Surfaces mesurées, supports sondés, teintes discutées. Devis détaillé par pièce et par couche."}, {"n": "02", "t": "Échantillons sur vos murs", "d": "Deux ou trois teintes posées en A2, regardées matin et soir. On décide ensuite, pas avant."}, {"n": "03", "t": "Protection totale", "d": "Sols bâchés, meubles housés, prises démontées. Le chantier est aspiré chaque soir — vous vivez chez vous."}, {"n": "04", "t": "Réception à la lumière", "d": "Chaque mur inspecté en lumière rasante avec vous. Les reprises se font tout de suite, pas « la semaine prochaine »."}];
 const ENGAGEMENT_DEMO = ["Garantie décennale et RC professionnelle — attestations jointes au devis", "Devis détaillé par pièce, par support et par couche : comparable ligne à ligne", "Chantier bâché, aspiré chaque soir, habitable pendant les travaux", "Peintures classées A+ par défaut, fiches techniques fournies"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Murs & plafonds (2 couches)", "p": "28–38 €/m²", "n": "Selon état du support, peinture A+ comprise."}, {"a": "Chaux ferrée / tadelakt", "p": "dès 90 €/m²", "n": "Matière, passes multiples et cire de finition comprises."}, {"a": "Pose papier peint panoramique", "p": "dès 45 €/m²", "n": "Lé simple dès 25 €/m², raccords complexes sur devis."}, {"a": "Conseil couleur à domicile", "p": "120 €", "n": "Une heure trente + planche de teintes, déduit si chantier."}];
+const TARIFS_DEMO = [{"a": "Murs & plafonds (2 couches)", "p": "28–38 €/m²", "n": "Selon état du support, peinture A+ comprise."}, {"a": "Chaux ferrée / tadelakt", "p": "dès 90 €/m²", "n": "Matière, passes multiples et cire de finition comprises."}, {"a": "Pose papier peint panoramique", "p": "dès 45 €/m²", "n": "Lé simple dès 25 €/m², raccords complexes sur devis."}, {"a": "Conseil couleur à domicile", "p": "120 €", "n": "Une heure trente + planche de teintes, déduit si chantier."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Le conseil couleur a tout changé : la teinte que j'avais choisie sur nuancier aurait été une erreur. Celle posée est parfaite du matin au soir. Chantier impeccable, appartement habitable tout du long.", "auteur": "Émilie R.", "detail": "Salon + conseil couleur"}, {"texte": "Chaux ferrée dans la salle de bain : une matière magnifique, des artisans qui aiment visiblement leur métier. La lumière rasante de la réception ne pardonne rien — il n'y avait rien à reprendre.", "auteur": "Marc & Sofia", "detail": "Enduits décoratifs"}, {"texte": "Panoramique de 4 lés posé sans un raccord visible dans la chambre. Ils ont même corrigé un mur pas droit à l'enduit avant. Du travail d'atelier.", "auteur": "Julie C.", "detail": "Papier peint panoramique"}];
 const STATS_DEMO = [{"value": "500+", "label": "Pièces transformées"}, {"value": "48 h", "label": "Devis après visite"}, {"value": "10 ans", "label": "Garantie décennale"}, {"value": "A+", "label": "Peintures faibles émissions"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function AtelierTeintesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -155,7 +160,7 @@ export default function AtelierTeintesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33466000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33466000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Devis gratuit
           </motion.a>
         </div>
@@ -170,7 +175,7 @@ export default function AtelierTeintesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33466000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Devis gratuit</a>
+          <a href={`tel:${fd?.phone ?? "+33466000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Devis gratuit</a>
         </div>
       )}
 

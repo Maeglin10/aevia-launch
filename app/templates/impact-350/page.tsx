@@ -39,7 +39,8 @@ const SERVICES_DEMO = [{"titre": "Contrôle périodique VL", "desc": "Les 133 po
 const METHODE = [{"n": "01", "t": "Réservation en 2 minutes", "d": "En ligne ou par téléphone. Rappel SMS la veille avec les documents à apporter — carte grise, c'est tout."}, {"n": "02", "t": "45 minutes, en direct", "d": "Suivez le contrôle depuis la baie vitrée ou l'appli : chaque étape cochée en temps réel."}, {"n": "03", "t": "Le débrief traduit", "d": "Le contrôleur vous montre, explique la gravité réelle, et remet le lexique. Pas de jargon, pas de terreur."}, {"n": "04", "t": "Rappel avant échéance", "d": "SMS deux mois avant votre prochain contrôle. Une chose de moins à retenir pendant deux ans."}];
 const ENGAGEMENT_DEMO = ["Agrément préfectoral S 069 X 118, contrôleurs agréés en formation continue", "Indépendance légale : aucune réparation vendue, aucun garage recommandé", "Prix affichés, identiques pour tous, week-end sans majoration", "Espace enfants, café offert, wifi — parce que 45 minutes, c'est long à 4 ans"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Contrôle périodique VL", "p": "82 €", "n": "Essence, diesel, GPL — rapport avec lexique traduit."}, {"a": "Électrique / hybride", "p": "86 €", "n": "Points haute tension, contrôleur habilité."}, {"a": "Deux-roues", "p": "62 €", "n": "Ligne dédiée, contrôleur motard."}, {"a": "Collection (tous les 5 ans)", "p": "95 €", "n": "Créneau calme du samedi matin, manipulation soignée."}];
+const TARIFS_DEMO = [{"a": "Contrôle périodique VL", "p": "82 €", "n": "Essence, diesel, GPL — rapport avec lexique traduit."}, {"a": "Électrique / hybride", "p": "86 €", "n": "Points haute tension, contrôleur habilité."}, {"a": "Deux-roues", "p": "62 €", "n": "Ligne dédiée, contrôleur motard."}, {"a": "Collection (tous les 5 ans)", "p": "95 €", "n": "Créneau calme du samedi matin, manipulation soignée."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Créneau à 18h30 après le travail, contrôle suivi sur l'appli, débrief clair : ma « défaillance mineure » n'était pas la fin du monde, juste une ampoule. Merci pour la pédagogie.", "auteur": "Amélie R.", "detail": "Contrôle du soir"}, {"texte": "Avec deux enfants en bas âge, l'espace jeux change tout. 45 minutes passées sans cris, contrôle nickel, rappel SMS reçu pour dans deux ans.", "auteur": "Thomas B.", "detail": "Famille, samedi matin"}, {"texte": "Ma 4L de collection contrôlée aux gants, par un contrôleur qui a pris le temps. On sent le respect de la mécanique ancienne.", "auteur": "Gérard L.", "detail": "Véhicule de collection"}];
 const STATS_DEMO = [{"value": "19 h", "label": "Dernier créneau du soir"}, {"value": "45 min", "label": "Contrôle complet"}, {"value": "4,9/5", "label": "Sur 1 200 avis vérifiés"}, {"value": "10 min", "label": "La contre-visite"}];
 let STATS = STATS_DEMO;
@@ -82,6 +83,10 @@ export default function CTLumierePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function CTLumierePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33472000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33472000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Réserver
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function CTLumierePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33472000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Réserver</a>
+          <a href={`tel:${fd?.phone ?? "+33472000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Réserver</a>
         </div>
       )}
 

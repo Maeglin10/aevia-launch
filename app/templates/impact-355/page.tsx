@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Prises de sang", "desc": "À domicile dès 6h3
 const METHODE = [{"n": "01", "t": "Ordonnance transmise", "d": "Par photo, mail ou papier : nous vérifions la cotation et prévenons votre médecin si quelque chose manque."}, {"n": "02", "t": "Passage planifié", "d": "Un créneau fiable, les mêmes infirmiers, prévenance par SMS si la tournée glisse de plus de 20 minutes."}, {"n": "03", "t": "Soin tracé", "d": "Chaque acte noté au dossier de soins, partagé entre nous quatre — pas de « c'était qui hier ? »."}, {"n": "04", "t": "Coordination", "d": "Médecin, kiné, pharmacie, HAD : nous parlons aux autres soignants, vous n'avez pas à porter les messages."}];
 const ENGAGEMENT_DEMO = ["Infirmiers diplômés d'État, inscrits à l'Ordre national — n° RPPS affichés au cabinet", "Conventionnés CPAM secteur 1 : tarifs de la nomenclature, tiers payant systématique", "Dossier de soins partagé et sécurisé entre les quatre infirmiers du cabinet", "Zone d'intervention claire : Limoges et première couronne, annoncée avant d'accepter"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Prise de sang à domicile", "p": "tiers payant", "n": "Sur ordonnance : AMI + indemnité de déplacement, sans avance de frais."}, {"a": "Pansement complexe", "p": "tiers payant", "n": "Coté selon la NGAP, protocole suivi et transmis au prescripteur."}, {"a": "Passage quotidien chronique", "p": "tiers payant", "n": "Diabète, piluliers, nursing : pris en charge sur prescription."}, {"a": "Vaccin au cabinet (sans RDV)", "p": "selon nomenclature", "n": "Grippe : apportez le vaccin et votre bon, l'injection est prise en charge."}];
+const TARIFS_DEMO = [{"a": "Prise de sang à domicile", "p": "tiers payant", "n": "Sur ordonnance : AMI + indemnité de déplacement, sans avance de frais."}, {"a": "Pansement complexe", "p": "tiers payant", "n": "Coté selon la NGAP, protocole suivi et transmis au prescripteur."}, {"a": "Passage quotidien chronique", "p": "tiers payant", "n": "Diabète, piluliers, nursing : pris en charge sur prescription."}, {"a": "Vaccin au cabinet (sans RDV)", "p": "selon nomenclature", "n": "Grippe : apportez le vaccin et votre bon, l'injection est prise en charge."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Perfusions d'antibiotiques après une hospitalisation : passage deux fois par jour, à l'heure, les mêmes visages. La coordination avec l'hôpital était parfaite.", "auteur": "René B., 74 ans", "detail": "Retour d'hospitalisation"}, {"texte": "Ma mère diabétique voit la même infirmière chaque matin depuis deux ans. Ce lien-là fait autant que l'insuline.", "auteur": "Fille de Mme T.", "detail": "Soins chroniques"}, {"texte": "Prise de sang à 6h45 à domicile avant le travail : le laboratoire avait les tubes à 8h. Efficace, aimable, remboursé.", "auteur": "Karima L.", "detail": "Prélèvement à jeun"}];
 const STATS_DEMO = [{"value": "4", "label": "Infirmiers D.E. conventionnés"}, {"value": "7j/7", "label": "Pour les soins quotidiens"}, {"value": "6h30", "label": "Première tournée (à jeun compris)"}, {"value": "100 %", "label": "Tiers payant sur ordonnance"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function TilleulsIdelPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function TilleulsIdelPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33555000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33555000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Nous appeler
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function TilleulsIdelPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33555000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Nous appeler</a>
+          <a href={`tel:${fd?.phone ?? "+33555000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Nous appeler</a>
         </div>
       )}
 

@@ -43,7 +43,8 @@ const SERVICES_DEMO = [{"titre": "CAP Cuisine (8 mois)", "desc": "En cuisine pé
 const METHODE = [{"n": "01", "t": "Réunion d'info & entretien", "d": "Chaque mois. On parle métier réel, salaires réels, difficultés réelles — pas de brochure enchantée."}, {"n": "02", "t": "Financement bouclé avant", "d": "CPF, Transitions Pro, France Travail, Région : le dossier est monté et accepté avant le premier jour."}, {"n": "03", "t": "Atelier + stage", "d": "Les gestes en atelier dès la première semaine, 6 à 8 semaines de stage placées par l'école."}, {"n": "04", "t": "Titre + placement", "d": "Épreuves RNCP, puis six mois de suivi emploi. Nos taux d'insertion sont publiés parcours par parcours."}];
 const ENGAGEMENT_DEMO = ["Certification Qualiopi, NDA 75 33 12987 33 — audits publiés", "Titres professionnels RNCP reconnus par l'État (niveaux 3 à 5)", "Taux d'insertion à 6 mois publiés par parcours, réunions d'info mensuelles", "Promotion limitée à 12 : un formateur voit réellement chaque geste"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "CAP Cuisine — 8 mois", "p": "7 900 €", "n": "Finançable Transitions Pro / CPF / France Travail. Tenues et couteaux fournis."}, {"a": "Titre Pro Menuisier — 7 mois", "p": "8 400 €", "n": "EPI et consommables inclus, projets réels clients."}, {"a": "Développeur web — 9 mois", "p": "8 900 €", "n": "Portable prêté, alternance possible dès le 3e mois."}, {"a": "Bilan de compétences — 24 h", "p": "1 800 €", "n": "Éligible CPF, en présentiel ou visio, restitution écrite."}];
+const TARIFS_DEMO = [{"a": "CAP Cuisine — 8 mois", "p": "7 900 €", "n": "Finançable Transitions Pro / CPF / France Travail. Tenues et couteaux fournis."}, {"a": "Titre Pro Menuisier — 7 mois", "p": "8 400 €", "n": "EPI et consommables inclus, projets réels clients."}, {"a": "Développeur web — 9 mois", "p": "8 900 €", "n": "Portable prêté, alternance possible dès le 3e mois."}, {"a": "Bilan de compétences — 24 h", "p": "1 800 €", "n": "Éligible CPF, en présentiel ou visio, restitution écrite."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Contrôleur de gestion pendant douze ans, menuisier depuis dix-huit mois. L'atelier réel fait toute la différence : au premier jour en entreprise, je savais tenir mon poste.", "auteur": "Damien F., 41 ans", "detail": "Titre Pro Menuisier"}, {"texte": "Le CAP Cuisine en promotion de 12, c'est un vrai restaurant d'application, pas une salle de classe. Embauchée par mon maître de stage avant même l'examen.", "auteur": "Nora B., 33 ans", "detail": "CAP Cuisine"}, {"texte": "Transitions Pro a financé la totalité, salaire maintenu. Le dossier faisait peur, l'école l'a monté avec moi en trois rendez-vous.", "auteur": "Sébastien L., 38 ans", "detail": "Développeur web"}];
 const STATS_DEMO = [{"value": "82 %", "label": "En emploi 6 mois après le titre"}, {"value": "12", "label": "Stagiaires max par promotion"}, {"value": "400 m²", "label": "D'ateliers réels"}, {"value": "RNCP", "label": "Titres reconnus par l'État"}];
 let STATS = STATS_DEMO;
@@ -86,6 +87,10 @@ export default function AlmaCompetencesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -170,7 +175,7 @@ export default function AlmaCompetencesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33556000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Réunion d'info
           </motion.a>
         </div>
@@ -185,7 +190,7 @@ export default function AlmaCompetencesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33556000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Réunion d'info</a>
+          <a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Réunion d'info</a>
         </div>
       )}
 

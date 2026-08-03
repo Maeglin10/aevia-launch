@@ -39,7 +39,8 @@ const SERVICES_DEMO = [{"titre": "La nef sous verrière", "desc": "600 m² modul
 const METHODE = [{"n": "01", "t": "Visite technique", "d": "Avec notre régisseur : implantation, flux, accès camions, puissance — les vraies questions dès le premier jour."}, {"n": "02", "t": "Devis modulaire", "d": "La halle, la technique, le personnel : trois blocs chiffrés séparément. Vous ne payez pas ce que vous n'utilisez pas."}, {"n": "03", "t": "Fiche technique validée", "d": "Plan d'implantation signé, prestataires briefés par nos soins, run de la journée écrit heure par heure."}, {"n": "04", "t": "Régie le jour J", "d": "Notre régisseur reste : le son, la lumière et les imprévus sont son problème, pas le vôtre."}];
 const ENGAGEMENT_DEMO = ["ERP type L contrôlé : commission de sécurité, capacités affichées et respectées", "Insonorisation d'usine : fêtes jusqu'à 4 h sans conflit de voisinage", "Accessibilité PMR complète, parkings à 200 m, métro à 6 minutes", "Régisseur de la maison obligatoire dès 100 personnes — c'est lui qui connaît la machine"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "La nef — soirée (18h-4h)", "p": "3 400 €", "n": "600 m², son et lumières de base, régisseur inclus."}, {"a": "Nef + studio + cour — week-end", "p": "5 900 €", "n": "Du samedi 9 h au dimanche 15 h, mariages et galas."}, {"a": "Journée corporate (8h-20h)", "p": "2 600 €", "n": "Plénière jusqu'à 250 assis, vidéoprojection, wifi fibre, loges."}, {"a": "Journée tournage", "p": "1 500 €", "n": "Plateau nu, accès camion, électricité 63 A, fiche technique fournie."}];
+const TARIFS_DEMO = [{"a": "La nef — soirée (18h-4h)", "p": "3 400 €", "n": "600 m², son et lumières de base, régisseur inclus."}, {"a": "Nef + studio + cour — week-end", "p": "5 900 €", "n": "Du samedi 9 h au dimanche 15 h, mariages et galas."}, {"a": "Journée corporate (8h-20h)", "p": "2 600 €", "n": "Plénière jusqu'à 250 assis, vidéoprojection, wifi fibre, loges."}, {"a": "Journée tournage", "p": "1 500 €", "n": "Plateau nu, accès camion, électricité 63 A, fiche technique fournie."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Mariage de 180 personnes sous la verrière : la cérémonie à la lumière du soir, le dîner dans la nef, le DJ jusqu'à 4 h. Le régisseur a géré une panne de traiteur sans que personne ne s'en aperçoive.", "auteur": "Lisa & Karim", "detail": "Mariage urbain"}, {"texte": "Lancement produit devant 300 invités : accès camions impeccable, son calibré, keynote au cordeau. Le lieu a fait le buzz autant que le produit.", "auteur": "Dir. marketing, marque lilloise", "detail": "Lancement produit"}, {"texte": "Trois jours de tournage : électricité stable, régisseur qui connaît chaque recoin, brique magnifique à l'image. On revient au printemps.", "auteur": "Prod. audiovisuelle parisienne", "detail": "Tournage"}];
 const STATS_DEMO = [{"value": "600 m²", "label": "Sous la verrière"}, {"value": "400", "label": "Debout · 250 assis"}, {"value": "1897", "label": "La halle, textile d'origine"}, {"value": "20 kW", "label": "De son installé, calibré"}];
 let STATS = STATS_DEMO;
@@ -82,6 +83,10 @@ export default function Halle1897Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function Halle1897Page() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33320000001" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33320000001"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Visiter la halle
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function Halle1897Page() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33320000001" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Visiter la halle</a>
+          <a href={`tel:${fd?.phone ?? "+33320000001"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Visiter la halle</a>
         </div>
       )}
 

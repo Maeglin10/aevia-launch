@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Aquanettoyage", "desc": "Nettoyage à l'eau ha
 const METHODE = [{"n": "01", "t": "Diagnostic au comptoir", "d": "Chaque pièce examinée devant vous : taches signalées, boutons fragiles notés, délai annoncé."}, {"n": "02", "t": "Fiche de soin par pièce", "d": "Fibre, tache, traitement : chaque vêtement suit sa fiche, pas un tapis roulant."}, {"n": "03", "t": "Atelier sur place", "d": "Rien ne part en sous-traitance : nettoyage, repassage et retouches se font derrière la vitrine."}, {"n": "04", "t": "Prêt le lendemain 17 h", "d": "Déposé avant 10 h, prêt le lendemain. SMS quand c'est prêt, conservation 3 mois sans frais."}];
 const ENGAGEMENT_DEMO = ["Aquanettoyage exclusivement : zéro perchloroéthylène (interdit en boutique depuis 2022 — chez nous depuis 2020)", "Détergents biodégradables, eau recyclée à 40 %, cintres repris et réutilisés", "Toute pièce abîmée par notre fait est indemnisée selon le barème IFTH, sans discussion", "Prix affichés en boutique et en ligne — le comptoir n'invente rien"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Chemise (lavée + repassée main)", "p": "4,90 €", "n": "Pliée ou sur cintre. Dégressif dès 5 chemises."}, {"a": "Costume 2 pièces", "p": "19,90 €", "n": "Aquanettoyage + apprêt vapeur sur mannequin, rendu 24 h."}, {"a": "Robe de mariée", "p": "dès 149 €", "n": "Nettoyage main + boîte de conservation anti-acide incluse."}, {"a": "Couette (2 places)", "p": "24,90 €", "n": "Lavage grand volume, séchage complet contrôlé, housse de transport offerte."}];
+const TARIFS_DEMO = [{"a": "Chemise (lavée + repassée main)", "p": "4,90 €", "n": "Pliée ou sur cintre. Dégressif dès 5 chemises."}, {"a": "Costume 2 pièces", "p": "19,90 €", "n": "Aquanettoyage + apprêt vapeur sur mannequin, rendu 24 h."}, {"a": "Robe de mariée", "p": "dès 149 €", "n": "Nettoyage main + boîte de conservation anti-acide incluse."}, {"a": "Couette (2 places)", "p": "24,90 €", "n": "Lavage grand volume, séchage complet contrôlé, housse de transport offerte."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Costume porté tous les jours : ici, il ressort avec les épaules en place et le pli du pantalon net. J'ai comparé ailleurs, on ne m'y reprendra pas.", "auteur": "Julien M.", "detail": "Abonné costume hebdo"}, {"texte": "Une robe en soie tachée au champagne le soir du mariage de ma sœur. Rendue parfaite, avec la fiche détaillant le traitement. Chapeau l'atelier.", "auteur": "Capucine L.", "detail": "Robe soie — détachage"}, {"texte": "Le passage à l'aquanettoyage se sent : plus d'odeur chimique dans les vestes, et mes pulls en laine ne feutrent pas. Et prêt le lendemain, vraiment.", "auteur": "Hervé D.", "detail": "Client depuis 12 ans"}];
 const STATS_DEMO = [{"value": "0 %", "label": "Perchloroéthylène (aqua only)"}, {"value": "24 h", "label": "Costume rendu apprêté"}, {"value": "15 000+", "label": "Pièces traitées par an"}, {"value": "30 ans", "label": "Le même atelier, rue du Commerce"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function BlancNetPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;

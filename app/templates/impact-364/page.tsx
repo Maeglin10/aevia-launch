@@ -39,7 +39,8 @@ const SERVICES_DEMO = [{"titre": "Soin de pédicurie complet", "desc": "Bain ti�
 const METHODE = [{"n": "01", "t": "On écoute d'abord", "d": "Vos douleurs, vos chaussures, votre quotidien. Le pied raconte une vie — on la prend en compte."}, {"n": "02", "t": "Le soin, en douceur", "d": "Instruments stériles, gestes expliqués, jamais de douleur infligée « pour bien faire »."}, {"n": "03", "t": "Les conseils utiles", "d": "Chaussage, crème, auto-surveillance : trois conseils réalistes valent mieux que dix idéaux."}, {"n": "04", "t": "Le bon rythme de suivi", "d": "Toutes les 6 à 10 semaines selon les pieds — rappel proposé, jamais imposé."}];
 const ENGAGEMENT_DEMO = ["Diplômée d'État, inscrite à l'Ordre des pédicures-podologues", "Stérilisation autoclave contrôlée, instruments tracés par patient", "Tarifs affichés en salle d'attente, devis avant tout appareillage", "Visites à domicile le jeudi, en coordination avec infirmiers et familles"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Soin de pédicurie (45 min)", "p": "38 €", "n": "Complet, crème et conseils compris."}, {"a": "Soin à domicile (jeudi)", "p": "48 €", "n": "Pau et première couronne, matériel stérile transporté."}, {"a": "Bilan + semelles fines", "p": "150 €", "n": "Fabrication 8 jours, ajustement à un mois inclus."}, {"a": "Réflexologie plantaire (30 min)", "p": "35 €", "n": "En complément d'un soin ou en séance seule."}];
+const TARIFS_DEMO = [{"a": "Soin de pédicurie (45 min)", "p": "38 €", "n": "Complet, crème et conseils compris."}, {"a": "Soin à domicile (jeudi)", "p": "48 €", "n": "Pau et première couronne, matériel stérile transporté."}, {"a": "Bilan + semelles fines", "p": "150 €", "n": "Fabrication 8 jours, ajustement à un mois inclus."}, {"a": "Réflexologie plantaire (30 min)", "p": "35 €", "n": "En complément d'un soin ou en séance seule."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "J'avais honte de mes pieds au point de repousser le rendez-vous deux ans. Accueil sans jugement, soin sans douleur, résultat spectaculaire. J'aurais dû venir bien avant.", "auteur": "Monique A., 67 ans", "detail": "Premier soin"}, {"texte": "Les semelles fines tiennent vraiment dans mes escarpins de travail. La douleur à l'avant-pied a disparu en trois semaines.", "auteur": "Sandrine V.", "detail": "Semelles discrètes"}, {"texte": "Elle vient chaque jeudi chez ma mère de 91 ans, coordonnée avec l'infirmière. Maman remarche dans le jardin — c'est tout ce qui compte.", "auteur": "Fils de Mme E.", "detail": "Soins à domicile"}];
 const STATS_DEMO = [{"value": "45 min", "label": "Par soin — jamais à la chaîne"}, {"value": "8 j", "label": "Pour vos semelles"}, {"value": "D.E.", "label": "Diplômée d'État, inscrite à l'Ordre"}, {"value": "Dom.", "label": "Visites à domicile le jeudi"}];
 let STATS = STATS_DEMO;
@@ -90,6 +91,10 @@ export default function AllureAppuiPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -162,7 +167,7 @@ export default function AllureAppuiPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33559000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33559000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Prendre RDV
           </motion.a>
         </div>
@@ -177,7 +182,7 @@ export default function AllureAppuiPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33559000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre RDV</a>
+          <a href={`tel:${fd?.phone ?? "+33559000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre RDV</a>
         </div>
       )}
 

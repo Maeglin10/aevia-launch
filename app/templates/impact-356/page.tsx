@@ -44,7 +44,8 @@ const SERVICES_DEMO = [{"titre": "Prélèvements", "desc": "À domicile dès 6h3
 const METHODE = [{"n": "01", "t": "Un appel, une réponse", "d": "La secrétaire décroche de 8h à 18h : ordonnance reçue, tournée organisée, créneau confirmé dans l'heure."}, {"n": "02", "t": "La bonne compétence", "d": "Plaies complexes au titulaire du DU, perfusions aux référents techniques : chacun son domaine."}, {"n": "03", "t": "Le passage confirmé", "d": "SMS ou notification à chaque passage — utile pour les proches, rassurant pour tous."}, {"n": "04", "t": "Le lien qui remonte", "d": "Toute évolution signalée au médecin le jour même. Les urgences évitées valent mieux que les urgences gérées."}];
 const ENGAGEMENT_DEMO = ["Six infirmiers diplômés d'État, conventionnés CPAM, inscrits à l'Ordre", "Secrétariat humain 8h-18h — pas de répondeur qui promet de rappeler", "Dossier de soins unique partagé, messagerie sécurisée de santé (MSSanté)", "Zone d'intervention annoncée et tenue : on refuse plutôt que de mal faire"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Soins sur ordonnance", "p": "tiers payant", "n": "AMI/AIS selon nomenclature + indemnités de déplacement réglementaires."}, {"a": "Prélèvement au cabinet", "p": "tiers payant", "n": "Sans rendez-vous 7h30-9h30, résultats via votre laboratoire."}, {"a": "Bilan de soins infirmiers (BSI)", "p": "pris en charge", "n": "Pour les patients dépendants : évaluation complète, plan de soins transmis."}, {"a": "Appli familles", "p": "incluse", "n": "Pour tous les patients en soins réguliers, sans supplément."}];
+const TARIFS_DEMO = [{"a": "Soins sur ordonnance", "p": "tiers payant", "n": "AMI/AIS selon nomenclature + indemnités de déplacement réglementaires."}, {"a": "Prélèvement au cabinet", "p": "tiers payant", "n": "Sans rendez-vous 7h30-9h30, résultats via votre laboratoire."}, {"a": "Bilan de soins infirmiers (BSI)", "p": "pris en charge", "n": "Pour les patients dépendants : évaluation complète, plan de soins transmis."}, {"a": "Appli familles", "p": "incluse", "n": "Pour tous les patients en soins réguliers, sans supplément."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Depuis Paris, je vois chaque passage chez mon père à Saint-Nazaire : confirmé, commenté, avec les constantes. Cette appli m'a rendu des nuits de sommeil.", "auteur": "Fils de M. G.", "detail": "Suivi à distance"}, {"texte": "Escarre de stade 3 reprise en trois mois par l'infirmière au DU plaies. Photos envoyées au médecin chaque semaine, protocole ajusté sans que je me déplace.", "auteur": "Épouse de R.", "detail": "Plaies complexes"}, {"texte": "Le secrétariat change tout : un humain répond, la tournée est calée le jour même. Après deux cabinets injoignables, on mesure la différence.", "auteur": "Nadège P.", "detail": "Perfusions post-op"}];
 const STATS_DEMO = [{"value": "6", "label": "Infirmiers D.E."}, {"value": "1", "label": "Secrétaire qui décroche"}, {"value": "20 km", "label": "De zone couverte annoncée"}, {"value": "98 %", "label": "De passages dans le créneau"}];
 let STATS = STATS_DEMO;
@@ -87,6 +88,10 @@ export default function SoinsEstuairePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -171,7 +176,7 @@ export default function SoinsEstuairePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33240000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33240000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Appeler le secrétariat
           </motion.a>
         </div>
@@ -186,7 +191,7 @@ export default function SoinsEstuairePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33240000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Appeler le secrétariat</a>
+          <a href={`tel:${fd?.phone ?? "+33240000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Appeler le secrétariat</a>
         </div>
       )}
 

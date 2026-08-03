@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Bilan auditif complet", "desc": "Audiométrie 
 const METHODE = [{"n": "01", "t": "Bilan et écoute", "d": "Une heure pour mesurer votre audition et comprendre vos situations difficiles — la réunion, le restaurant, les aigus."}, {"n": "02", "t": "Choix argumenté", "d": "Deux ou trois appareils proposés avec prix, classe et différences expliquées. Le devis normalisé part avec vous."}, {"n": "03", "t": "Essai d'un mois", "d": "Port réel à domicile, réglages à mi-parcours. Vous ne payez qu'à l'adoption, jamais à l'essai."}, {"n": "04", "t": "Suivi de long terme", "d": "Réglages illimités 4 ans, remplacement des pièces d'usure, contrôle annuel de l'audition."}];
 const ENGAGEMENT_DEMO = ["Audioprothésistes diplômés d'État — le titre est protégé, le nôtre est affiché", "Devis normalisé systématique : classe I (0 € de reste à charge) toujours proposée", "Essai de 30 jours sans engagement, prescription médicale respectée", "Tiers payant Sécurité sociale et mutuelles : aucune avance de frais"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Appareil classe I (100 % Santé)", "p": "0 € de reste à charge", "n": "Prix plafonné 950 €, intégralement remboursé Sécurité sociale + mutuelle responsable."}, {"a": "Appareil classe II", "p": "dès 1 190 €", "n": "Technologies premium : réduction de bruit avancée, connectivité, rechargeable. Remboursement partiel."}, {"a": "Bilan auditif", "p": "offert", "n": "Audiométrie complète en cabine. Le bilan médical ORL reste indispensable pour la prescription."}, {"a": "Protections sur mesure", "p": "dès 89 €", "n": "La paire, empreintes et ajustage compris."}];
+const TARIFS_DEMO = [{"a": "Appareil classe I (100 % Santé)", "p": "0 € de reste à charge", "n": "Prix plafonné 950 €, intégralement remboursé Sécurité sociale + mutuelle responsable."}, {"a": "Appareil classe II", "p": "dès 1 190 €", "n": "Technologies premium : réduction de bruit avancée, connectivité, rechargeable. Remboursement partiel."}, {"a": "Bilan auditif", "p": "offert", "n": "Audiométrie complète en cabine. Le bilan médical ORL reste indispensable pour la prescription."}, {"a": "Protections sur mesure", "p": "dès 89 €", "n": "La paire, empreintes et ajustage compris."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Trois ans à faire répéter tout le monde. Après l'essai d'un mois, j'ai signé : au repas de Noël, j'ai suivi toutes les conversations, même en bout de table.", "auteur": "Michel P., 71 ans", "detail": "Appareillage classe II"}, {"texte": "Ma mutuelle ne couvre pas grand-chose : l'audioprothésiste a défendu la classe I d'emblée. Zéro euro, et elle entend la télévision sans la mettre à fond.", "auteur": "Fils de Mme R.", "detail": "100 % Santé"}, {"texte": "Acouphènes depuis dix ans. Pas de promesse magique ici, mais un vrai protocole : je dors à nouveau, et le sifflement s'oublie des heures entières.", "auteur": "Laurence V.", "detail": "Prise en charge acouphènes"}];
 const STATS_DEMO = [{"value": "30 j", "label": "D'essai réel, à domicile"}, {"value": "0 €", "label": "Reste à charge classe I"}, {"value": "4 ans", "label": "De suivi et réglages inclus"}, {"value": "2", "label": "Audioprothésistes D.E."}];
 let STATS = STATS_DEMO;
@@ -91,6 +92,10 @@ export default function MaisonAuditionPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -162,7 +167,7 @@ export default function MaisonAuditionPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33247000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33247000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Bilan auditif offert
           </motion.a>
         </div>
@@ -177,7 +182,7 @@ export default function MaisonAuditionPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33247000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Bilan auditif offert</a>
+          <a href={`tel:${fd?.phone ?? "+33247000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Bilan auditif offert</a>
         </div>
       )}
 

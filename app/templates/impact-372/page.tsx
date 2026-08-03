@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Sécurité de commerce", "desc": "Prévention 
 const METHODE = [{"n": "01", "t": "Comprendre le lieu", "d": "Chaque site a sa clientèle, ses flux, ses heures sensibles : l'audit précède le planning."}, {"n": "02", "t": "Affecter, pas remplir", "d": "L'agent est choisi pour le site — profil, présentation, langues. Et il y reste : la stabilité fait la vigilance."}, {"n": "03", "t": "Briefer par écrit", "d": "Consignes signées, interlocuteurs nommés, procédures d'escalade claires."}, {"n": "04", "t": "Rendre compte", "d": "Main courante électronique, incidents documentés sous 24 h, point mensuel avec vous."}];
 const ENGAGEMENT_DEMO = ["Autorisation CNAPS affichée, agents titulaires de la carte professionnelle", "Agents salariés de l'entreprise — aucune sous-traitance en cascade", "Tenues adaptées au lieu : costume en boutique, uniforme en résidence", "RC professionnelle sécurité privée, attestations jointes à chaque devis"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Agent de prévention commerce", "p": "dès 27 € HT/h", "n": "Carté, formé retail, majoration samedi incluse dans le contrat annuel."}, {"a": "Ronde de nuit résidence", "p": "dès 42 € HT", "n": "Passage horodaté + rapport photo, itinéraires variables."}, {"a": "Événement privé (soirée)", "p": "dès 240 € HT", "n": "Par agent, briefing et repérage inclus."}, {"a": "Audit sûreté", "p": "offert", "n": "Pour tout dispositif étudié — rapport remis dans tous les cas."}];
+const TARIFS_DEMO = [{"a": "Agent de prévention commerce", "p": "dès 27 € HT/h", "n": "Carté, formé retail, majoration samedi incluse dans le contrat annuel."}, {"a": "Ronde de nuit résidence", "p": "dès 42 € HT", "n": "Passage horodaté + rapport photo, itinéraires variables."}, {"a": "Événement privé (soirée)", "p": "dès 240 € HT", "n": "Par agent, briefing et repérage inclus."}, {"a": "Audit sûreté", "p": "offert", "n": "Pour tout dispositif étudié — rapport remis dans tous les cas."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Notre boutique du centre a divisé la démarque par trois, sans un seul incident client. L'agent connaît nos habituées, dit bonjour, et voit tout.", "auteur": "Gérante, prêt-à-porter", "detail": "Contrat commerce"}, {"texte": "Mariage de 200 invités : deux agents en costume, invisibles sur les photos, impeccables au filtrage. Un pique-assiette éconduit sans que personne ne s'en aperçoive.", "auteur": "Wedding planner partenaire", "detail": "Événement privé"}, {"texte": "Les rondes de nuit ont mis fin aux intrusions dans nos parkings. Le rapport photo mensuel présenté en AG a convaincu même les sceptiques du budget.", "auteur": "Syndic, résidence Les Argoulets", "detail": "Résidentiel"}];
 const STATS_DEMO = [{"value": "CNAPS", "label": "Autorisation affichée"}, {"value": "60+", "label": "Commerces sous contrat"}, {"value": "100 %", "label": "Agents cartés et salariés"}, {"value": "4,9/5", "label": "Satisfaction contrats annuels"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function HorizonProtectionPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -155,7 +160,7 @@ export default function HorizonProtectionPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33561000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33561000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Devis dispositif
           </motion.a>
         </div>
@@ -170,7 +175,7 @@ export default function HorizonProtectionPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33561000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Devis dispositif</a>
+          <a href={`tel:${fd?.phone ?? "+33561000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Devis dispositif</a>
         </div>
       )}
 

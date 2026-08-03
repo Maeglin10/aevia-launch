@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Urgence bris de glace", "desc": "Vitrine, fen�
 const METHODE = [{"n": "01", "t": "Métré sur place", "d": "Prise de cotes au laser, contrôle d'équerrage — les murs ne sont jamais droits, nos verres s'y adaptent."}, {"n": "02", "t": "Façonnage à l'atelier", "d": "Coupe, rodage des bords, perçages : tout se fait au Havre, pas en commande à trois semaines."}, {"n": "03", "t": "Pose propre", "d": "Protection des sols, dépose de l'ancien vitrage recyclé en filière verre, mastics et parcloses soignés."}, {"n": "04", "t": "Dossier assurance", "d": "En cas de sinistre : photos avant/après, facture détaillée conforme aux attentes des assureurs."}];
 const ENGAGEMENT_DEMO = ["Devis avant intervention, même en urgence — le prix ne profite pas de la panique", "Garantie décennale sur les poses, verres certifiés CE", "Verre déposé recyclé en filière agréée — le calcin redevient du verre", "Atelier de façonnage sur place : vos mesures ne voyagent pas"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Remplacement vitrage simple", "p": "dès 120 €", "n": "Fourniture, dépose et pose, mastic ou parclose."}, {"a": "Double vitrage rénovation (m²)", "p": "dès 180 €", "n": "Sur menuiserie existante, gain thermique immédiat."}, {"a": "Paroi de douche sur mesure", "p": "dès 450 €", "n": "Verre trempé 8 mm, quincaillerie inox, pose comprise."}, {"a": "Miroir sur mesure (m²)", "p": "dès 140 €", "n": "Coupe et façon des bords comprises, pose en option."}];
+const TARIFS_DEMO = [{"a": "Remplacement vitrage simple", "p": "dès 120 €", "n": "Fourniture, dépose et pose, mastic ou parclose."}, {"a": "Double vitrage rénovation (m²)", "p": "dès 180 €", "n": "Sur menuiserie existante, gain thermique immédiat."}, {"a": "Paroi de douche sur mesure", "p": "dès 450 €", "n": "Verre trempé 8 mm, quincaillerie inox, pose comprise."}, {"a": "Miroir sur mesure (m²)", "p": "dès 140 €", "n": "Coupe et façon des bords comprises, pose en option."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Vitrine cassée un dimanche matin : sécurisée à midi, remplacée le mardi, dossier assurance complet fourni. Le commerce n'a pas fermé une heure.", "auteur": "Boulangerie du Rond-Point", "detail": "Urgence commerce"}, {"texte": "Double vitrage posé dans nos fenêtres de 1930 sans les changer : le bruit du boulevard a disparu, les fenêtres d'origine sont sauvées. Exactement ce qu'on voulait.", "auteur": "Catherine V.", "detail": "Rénovation double vitrage"}, {"texte": "Paroi de douche aux cotes impossibles (mur en biais) : mesurée au laser, coupée à l'atelier, posée au millimètre. Le sur-mesure qui en est vraiment.", "auteur": "Damien R.", "detail": "Miroiterie sur mesure"}];
 const STATS_DEMO = [{"value": "7j/7", "label": "Urgence vitrage cassé"}, {"value": "24-48 h", "label": "Remplacement standard"}, {"value": "1/10 mm", "label": "Précision de façonnage"}, {"value": "10 ans", "label": "Décennale sur les poses"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function MiroiterieDuPortPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -155,7 +160,7 @@ export default function MiroiterieDuPortPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33235000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33235000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Urgence vitrage
           </motion.a>
         </div>
@@ -170,7 +175,7 @@ export default function MiroiterieDuPortPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33235000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Urgence vitrage</a>
+          <a href={`tel:${fd?.phone ?? "+33235000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Urgence vitrage</a>
         </div>
       )}
 

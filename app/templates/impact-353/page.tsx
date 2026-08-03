@@ -44,7 +44,8 @@ const SERVICES_DEMO = [{"titre": "Accueil régulier", "desc": "De 2 mois ½ à 3
 const METHODE = [{"n": "01", "t": "Arrivées échelonnées", "d": "7h30-9h30 : chaque enfant est accueilli individuellement, transmission du matin avec le parent."}, {"n": "02", "t": "Jardin & activités", "d": "Dehors chaque matin, ateliers libres ensuite. Les siestes ne sont jamais réveillées."}, {"n": "03", "t": "Repas ensemble", "d": "Cuisinés sur place, servis à table dès que l'enfant s'assoit — les grands aident à mettre le couvert."}, {"n": "04", "t": "Transmissions du soir", "d": "Ce qu'il a mangé, dormi, découvert : cinq vraies minutes par famille, pas un tableau à la porte."}];
 const ENGAGEMENT_DEMO = ["Agrément PMI de l'Isère — 12 places, locaux et taux d'encadrement contrôlés", "Équipe 100 % diplômée (EJE, auxiliaires de puériculture, CAP AEPE), stable depuis l'ouverture", "Analyse de pratiques mensuelle avec une psychologue extérieure", "Éligible CMG de la CAF : le vrai reste à charge est souvent proche d'une crèche municipale"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Journée (contrat régulier)", "p": "dès 68 €", "n": "Avant CMG. Repas bio, couches et produits de soin inclus."}, {"a": "Semaine 5 jours", "p": "dès 310 €", "n": "Avant aides — reste à charge simulé lors de la visite."}, {"a": "Accueil occasionnel (demi-journée)", "p": "38 €", "n": "Selon places disponibles, repas inclus."}, {"a": "Frais d'inscription", "p": "0 €", "n": "La visite, le dossier et l'adaptation ne se facturent pas."}];
+const TARIFS_DEMO = [{"a": "Journée (contrat régulier)", "p": "dès 68 €", "n": "Avant CMG. Repas bio, couches et produits de soin inclus."}, {"a": "Semaine 5 jours", "p": "dès 310 €", "n": "Avant aides — reste à charge simulé lors de la visite."}, {"a": "Accueil occasionnel (demi-journée)", "p": "38 €", "n": "Selon places disponibles, repas inclus."}, {"a": "Frais d'inscription", "p": "0 €", "n": "La visite, le dossier et l'adaptation ne se facturent pas."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Notre fille rentre avec de la terre sous les ongles et des histoires plein la tête. L'équipe n'a pas bougé en trois ans — ça dit tout de cette maison.", "auteur": "Parents de Léonie, 2 ans ½", "detail": "Accueil régulier"}, {"texte": "L'adaptation en deux semaines, à son rythme, sans forcer : notre fils de 4 mois s'est posé tout seul. Les transmissions du soir sont un vrai moment.", "auteur": "Camille & Hugo", "detail": "Entrée en crèche"}, {"texte": "La simulation CMG faite à la visite nous a surpris : 12 € par jour de reste à charge réel. On croyait la micro-crèche inaccessible.", "auteur": "Parents de Nino", "detail": "Tarifs & CAF"}];
 const STATS_DEMO = [{"value": "12", "label": "Places — pas une de plus"}, {"value": "1:3", "label": "Adulte pour 3 bébés"}, {"value": "100 %", "label": "Équipe diplômée petite enfance"}, {"value": "0", "label": "Écran, nulle part"}];
 let STATS = STATS_DEMO;
@@ -87,6 +88,10 @@ export default function PetitsCairnsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -171,7 +176,7 @@ export default function PetitsCairnsPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33476000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33476000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Pré-inscription
           </motion.a>
         </div>
@@ -186,7 +191,7 @@ export default function PetitsCairnsPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33476000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Pré-inscription</a>
+          <a href={`tel:${fd?.phone ?? "+33476000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Pré-inscription</a>
         </div>
       )}
 

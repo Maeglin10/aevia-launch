@@ -41,7 +41,7 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Ouverture de porte claquée", p: "89 €", n: "Jour ouvré, 8h — 20h. Sans dégât dans 9 cas sur 10." },
   { a: "Ouverture de porte fermée à clé", p: "à partir de 149 €", n: "Selon la serrure. Le prix vous est donné sur place, avant de commencer." },
   { a: "Majoration nuit / dimanche / férié", p: "+ 60 €", n: "20h — 8h. Annoncée au téléphone, jamais découverte sur la facture." },
@@ -49,6 +49,7 @@ const TARIFS = [
   { a: "Serrure multipoints", p: "sur devis", n: "Devis écrit gratuit, déplacement compris." },
   { a: "Déplacement sans intervention", p: "45 €", n: "Si vous renoncez après notre arrivée. Rien de plus." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const ZONES = [
   { v: "Strasbourg", d: "Centre, Neudorf, Krutenau, Robertsau — 20 min" },
@@ -112,6 +113,10 @@ export default function SecurFastPage() {
   }, []);
 
   fd = session?.formData;
+  TARIFS = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

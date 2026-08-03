@@ -170,7 +170,7 @@ const TESTIMONIALS_DEMO = [
   },
 ];
 
-const PACKAGES = [
+const PACKAGES_DEMO = [
   {
     name: "Évasion Dorée",
     duration: "3h30",
@@ -199,6 +199,7 @@ const PACKAGES = [
     highlight: false,
   },
 ];
+let PACKAGES = PACKAGES_DEMO;
 
 const MARQUEE_ITEMS = [
   "Soins Bio Certifiés",
@@ -952,6 +953,10 @@ export default function Impact198Page() {
   }, []);
 
   fd = session?.formData;
+  PACKAGES = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...PACKAGES_DEMO[i % PACKAGES_DEMO.length], name: s.title, price: s.price ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].price })),
+    PACKAGES_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Gestion parentale", "desc": "La crèche est un
 const METHODE = [{"n": "01", "t": "Accueil individualisé", "d": "Dès 7 h pour les lève-tôt. Le doudou, la tétine et les habitudes de la maison sont les bienvenus."}, {"n": "02", "t": "Jeux et découvertes", "d": "Ateliers libres, jardin d'hiver, sorties au square : chaque groupe vit à son rythme."}, {"n": "03", "t": "Repas et siestes", "d": "Cuisinés sur place, siestes à la demande dans des chambres séparées des espaces de jeu."}, {"n": "04", "t": "Le soir, on se parle", "d": "Transmissions orales complètes, cahier de vie illustré chaque semaine — pas d'appli qui remplace les visages."}];
 const ENGAGEMENT_DEMO = ["Agrément PMI de la Marne, 20 places, contrôles réguliers", "Tarification PSU de la CAF : le prix dépend de vos revenus, pas de notre grille", "Équipe diplômée et stable — ancienneté moyenne de 9 ans", "Conseil d'administration de parents élus : les comptes sont ouverts"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Tarif horaire PSU", "p": "0,20–3,71 €/h", "n": "Selon barème CAF national, calculé à l'inscription, repas et couches inclus."}, {"a": "Adhésion association", "p": "30 €/an", "n": "Par famille — donne voix aux assemblées et aux décisions."}, {"a": "Permanences parents", "p": "2 h/mois", "n": "Bricolage, courses, comptes : la contribution qui fait tenir la maison."}, {"a": "Frais de dossier", "p": "0 €", "n": "L'inscription et l'adaptation ne se facturent pas."}];
+const TARIFS_DEMO = [{"a": "Tarif horaire PSU", "p": "0,20–3,71 €/h", "n": "Selon barème CAF national, calculé à l'inscription, repas et couches inclus."}, {"a": "Adhésion association", "p": "30 €/an", "n": "Par famille — donne voix aux assemblées et aux décisions."}, {"a": "Permanences parents", "p": "2 h/mois", "n": "Bricolage, courses, comptes : la contribution qui fait tenir la maison."}, {"a": "Frais de dossier", "p": "0 €", "n": "L'inscription et l'adaptation ne se facturent pas."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Trois enfants passés ici en dix ans. La même directrice, presque la même équipe : cette stabilité-là ne s'achète pas, elle se construit — et on y participe.", "auteur": "Famille Lambert", "detail": "Parents adhérents depuis 2016"}, {"texte": "Notre fils porteur de trisomie est accueilli comme les autres, avec ce qu'il faut en plus. Les autres enfants grandissent avec lui — tout le monde y gagne.", "auteur": "Parents d'Élio", "detail": "Accueil inclusif"}, {"texte": "Le tarif PSU nous coûte moins cher qu'une nounou, pour une amplitude 7h-19h. Et les permanences du samedi ont fait de nous des amis des autres parents.", "auteur": "Chloé & Maxence", "detail": "PSU + vie associative"}];
 const STATS_DEMO = [{"value": "20", "label": "Places en trois groupes d'âge"}, {"value": "7h–19h", "label": "L'amplitude des parents qui bossent"}, {"value": "1983", "label": "L'association, depuis"}, {"value": "PSU", "label": "Tarif CAF selon revenus"}];
 let STATS = STATS_DEMO;
@@ -91,6 +92,10 @@ export default function NidDouilletPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -162,7 +167,7 @@ export default function NidDouilletPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33326000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33326000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Demander une place
           </motion.a>
         </div>
@@ -177,7 +182,7 @@ export default function NidDouilletPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33326000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Demander une place</a>
+          <a href={`tel:${fd?.phone ?? "+33326000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Demander une place</a>
         </div>
       )}
 

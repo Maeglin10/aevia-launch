@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Bilan patrimonial", "desc": "La photographie c
 const METHODE = [{"n": "01", "t": "CIF, contrôlé AMF", "d": "Le statut de Conseiller en Investissements Financiers nous soumet au contrôle de l'AMF et à une association agréée."}, {"n": "02", "t": "Lettre de mission", "d": "Périmètre, livrables et rémunération écrits avant de commencer — vous savez ce que vous payez et pourquoi."}, {"n": "03", "t": "Architecture ouverte", "d": "Aucun produit maison : nous comparons les contrats du marché et négocions les frais pour vous."}, {"n": "04", "t": "Transparence totale", "d": "Honoraires et rétrocessions détaillés dans chaque rapport annuel, au centime."}];
 const ENGAGEMENT_DEMO = ["CIF adhérent d'une association agréée AMF, ORIAS n° 26 009 244", "Carte T pour les opérations immobilières, RC professionnelle complète", "Rémunération mixte affichée : honoraires + rétrocessions détaillées par écrit", "Aucun objectif commercial sur un produit : notre seul stock, c'est le conseil"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Bilan patrimonial complet", "p": "dès 890 €", "n": "Deux rendez-vous, rapport écrit de 30+ pages, plan d'action chiffré."}, {"a": "Stratégie + mise en œuvre", "p": "sur lettre de mission", "n": "Honoraires forfaitaires annoncés avant, rétrocessions déduites ou affichées."}, {"a": "Suivi annuel", "p": "dès 490 €/an", "n": "Revue complète, ajustements, disponibilité toute l'année."}, {"a": "Bilan retraite seul", "p": "590 €", "n": "Relevés analysés, projections chiffrées, rachats étudiés."}];
+const TARIFS_DEMO = [{"a": "Bilan patrimonial complet", "p": "dès 890 €", "n": "Deux rendez-vous, rapport écrit de 30+ pages, plan d'action chiffré."}, {"a": "Stratégie + mise en œuvre", "p": "sur lettre de mission", "n": "Honoraires forfaitaires annoncés avant, rétrocessions déduites ou affichées."}, {"a": "Suivi annuel", "p": "dès 490 €/an", "n": "Revue complète, ajustements, disponibilité toute l'année."}, {"a": "Bilan retraite seul", "p": "590 €", "n": "Relevés analysés, projections chiffrées, rachats étudiés."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Premier conseiller qui commence par facturer un bilan au lieu de vendre un produit : le rapport de 34 pages a mis à plat quinze ans de décisions accumulées. On sait enfin où on va.", "auteur": "Couple de médecins, Lyon", "detail": "Bilan + stratégie"}, {"texte": "La cession de mon entreprise préparée trois ans en amont : holding, Dutreil, remploi. L'économie fiscale finance leurs honoraires pour vingt ans. Merci pour la rigueur.", "auteur": "Fondateur, PME industrielle", "detail": "Cession d'entreprise"}, {"texte": "Le rapport annuel détaille chaque euro de frais et de rétrocession — j'ai compris pour la première fois ce que coûtait mon assurance-vie. Et il a fait baisser la facture.", "auteur": "Cadre dirigeante, 52 ans", "detail": "Suivi annuel"}];
 const STATS_DEMO = [{"value": "CIF", "label": "Statut contrôlé par l'AMF"}, {"value": "380", "label": "Familles conseillées"}, {"value": "0", "label": "Produit « maison » à vendre"}, {"value": "1/an", "label": "Revue patrimoniale minimum"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function CapHorizonPatrimoinePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function CapHorizonPatrimoinePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33478000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Bilan patrimonial
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function CapHorizonPatrimoinePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33478000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Bilan patrimonial</a>
+          <a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Bilan patrimonial</a>
         </div>
       )}
 

@@ -67,7 +67,7 @@ const PLANNING = [
   { j: "Samedi", c: [["9 h 00", "Hatha tous niveaux · 90 min"], ["11 h 00", "Atelier mensuel · 2 h"]] },
 ];
 
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Cours à l'unité", p: "18 €", n: "Tapis et matériel prêtés. Premier cours à 10 €." },
   { a: "Carnet de 10 cours", p: "155 €", n: "Valable un an, transmissible à une autre personne." },
   { a: "Illimité mensuel", p: "89 € / mois", n: "Tous les cours, tous les jours. Résiliable avec un mois de préavis." },
@@ -75,6 +75,7 @@ const TARIFS = [
   { a: "Tarif réduit", p: "-25 %", n: "Étudiants, demandeurs d'emploi, plus de 65 ans. Sur justificatif." },
   { a: "Atelier du samedi", p: "35 €", n: "Deux heures sur un thème. Inclus dans l'abonnement illimité." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const COURS_DEMO = [
   { nom: "Vinyasa Flow", niveau: "Tous niveaux", duree: "60 min", horaire: "Lun · Mar · Jeu 7h30", desc: "Enchaînement fluide de postures synchronisées avec la respiration. Renforce et libère.", icon: <Sun size={20} color={C.accent} /> },
@@ -154,6 +155,10 @@ export default function LumiereYogaPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

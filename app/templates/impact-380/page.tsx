@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "La Blonde de Soif", "desc": "4,8 % — maltée
 const METHODE = [{"n": "01", "t": "Le malt d'à côté", "d": "Orges de Flandre maltées à 30 km : la matière première voyage moins que nos bouteilles."}, {"n": "02", "t": "Le brassin de 20 hL", "d": "Petits volumes, brassage tous les mardis : on peut se permettre d'arrêter une recette qui ne nous plaît plus."}, {"n": "03", "t": "Fermentation lente", "d": "Trois semaines minimum, garde à froid : le temps que le brasseur industriel n'a pas et que le goût réclame."}, {"n": "04", "t": "Ni filtrée ni pasteurisée", "d": "La bière reste vivante, un léger dépôt est normal — c'est la preuve, pas le défaut."}];
 const ENGAGEMENT_DEMO = ["Brasserie indépendante : aucun groupe au capital, aucune bière brassée pour d'autres", "Malts d'orge de Flandre, houblons tracés, aucun additif ni arôme", "Bières non filtrées, non pasteurisées — DLUO courte, goût long", "Consigne bouteilles et fûts : rapportez, on reprend, on relave"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Bouteille 33 cl (boutique)", "p": "3,20 €", "n": "Consigne 0,20 € rendue au retour."}, {"a": "Caisse de 12 (assortie)", "p": "34 €", "n": "Composez avec les permanentes et la saisonnière du moment."}, {"a": "Fût 20 L + tireuse prêtée", "p": "145 €", "n": "Caution tireuse, livraison sur Lille comprise."}, {"a": "Visite-dégustation (1 h 30)", "p": "12 €", "n": "Cuves, brassin en cours, 4 dégustations. Le samedi à 15 h."}];
+const TARIFS_DEMO = [{"a": "Bouteille 33 cl (boutique)", "p": "3,20 €", "n": "Consigne 0,20 € rendue au retour."}, {"a": "Caisse de 12 (assortie)", "p": "34 €", "n": "Composez avec les permanentes et la saisonnière du moment."}, {"a": "Fût 20 L + tireuse prêtée", "p": "145 €", "n": "Caution tireuse, livraison sur Lille comprise."}, {"a": "Visite-dégustation (1 h 30)", "p": "12 €", "n": "Cuves, brassin en cours, 4 dégustations. Le samedi à 15 h."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "L'IPA du Beffroi est devenue la bière officielle de nos vendredis. Le taproom au pied des cuves, avec le brasseur qui passe expliquer le brassin en cours : c'est ça, boire local.", "auteur": "Habitué du taproom", "detail": "Taproom"}, {"texte": "Fûts et tireuse pour notre mariage de 120 personnes : livrés, installés, repris le lundi. La blanche a fait l'unanimité, même chez les non-buveurs de bière.", "auteur": "Marion & Cédric", "detail": "Fûts événement"}, {"texte": "La visite du samedi avec dégustation vaut largement les 12 €. On a compris pourquoi une bière artisanale coûte ce qu'elle coûte — et on l'achète sans broncher depuis.", "auteur": "Groupe d'amis lillois", "detail": "Visite-dégustation"}];
 const STATS_DEMO = [{"value": "4", "label": "Bières permanentes"}, {"value": "1 200 hL", "label": "Brassés par an — pas un de plus"}, {"value": "0", "label": "Filtration, pasteurisation, additif"}, {"value": "30 km", "label": "Rayon des orges maltées"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function BrasserieHoublonPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function BrasserieHoublonPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33320000002" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33320000002"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Visite & dégustation
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function BrasserieHoublonPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33320000002" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Visite & dégustation</a>
+          <a href={`tel:${fd?.phone ?? "+33320000002"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Visite & dégustation</a>
         </div>
       )}
 

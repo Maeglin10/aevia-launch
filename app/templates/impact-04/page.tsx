@@ -22,6 +22,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientFaq,
   clientReviews,
+  clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
 
@@ -133,7 +134,7 @@ const TESTIMONIALS_DEMO = [
   },
 ]
 
-const PRICING = [
+const PRICING_DEMO = [
   {
     name: "À La Carte",
     price: "From €85",
@@ -182,6 +183,7 @@ const PRICING = [
     popular: false,
   },
 ]
+let PRICING = PRICING_DEMO;
 
 const FAQS_DEMO = [
   { q: "How far in advance should I book?", a: "We strongly recommend reserving at least three to four weeks in advance for Friday and Saturday evenings. Midweek tables are sometimes available with shorter notice. Private dining events require a minimum of two weeks." },
@@ -256,6 +258,10 @@ export default function LEtoileRestaurant() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PRICING = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...PRICING_DEMO[i % PRICING_DEMO.length], name: s.title, price: s.price ?? PRICING_DEMO[i % PRICING_DEMO.length].price, desc: s.desc || PRICING_DEMO[i % PRICING_DEMO.length].desc })),
+    PRICING_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

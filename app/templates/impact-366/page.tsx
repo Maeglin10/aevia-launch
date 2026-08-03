@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Paniers AMAP", "desc": "Un contrat de saison (
 const METHODE = [{"n": "01", "t": "Un engagement de saison", "d": "Six mois de paniers payés d'avance : la trésorerie qui permet de semer sans emprunter."}, {"n": "02", "t": "La récolte partagée", "d": "Le panier suit le champ : généreux l'été, plus sobre l'hiver. C'est le principe — et le calendrier est publié."}, {"n": "03", "t": "La distribution ensemble", "d": "Le mardi soir à la ferme : chacun compose son panier sur la table de tri, l'équipe raconte la semaine du champ."}, {"n": "04", "t": "Les comptes ouverts", "d": "Une réunion par saison : les prix, les investissements, les galères. Les amapiens savent ce qu'ils financent."}];
 const ENGAGEMENT_DEMO = ["Certification AB — contrôles annuels, dérogations : zéro", "Tout ce qui est vendu a poussé sur nos 3 hectares — pas de revente négoce", "Prix de saison publiés et stables, décidés en réunion d'AMAP", "Deux cantines scolaires de Vannes livrées en légumes de saison"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Contrat AMAP — panier solo", "p": "12 €/semaine", "n": "Sur 6 mois : l'équivalent de 4-5 légumes chaque mardi."}, {"a": "Contrat AMAP — panier famille", "p": "21 €/semaine", "n": "8-10 légumes, calendrier de récoltes publié à la signature."}, {"a": "Cageot d'hiver (10 kg)", "p": "18 €", "n": "Pommes de terre, courges, oignons — pour les caves et les conserves."}, {"a": "Plants de printemps", "p": "dès 1,50 €", "n": "Tomates anciennes, courgettes, basilic — en avril-mai à la ferme."}];
+const TARIFS_DEMO = [{"a": "Contrat AMAP — panier solo", "p": "12 €/semaine", "n": "Sur 6 mois : l'équivalent de 4-5 légumes chaque mardi."}, {"a": "Contrat AMAP — panier famille", "p": "21 €/semaine", "n": "8-10 légumes, calendrier de récoltes publié à la signature."}, {"a": "Cageot d'hiver (10 kg)", "p": "18 €", "n": "Pommes de terre, courges, oignons — pour les caves et les conserves."}, {"a": "Plants de printemps", "p": "dès 1,50 €", "n": "Tomates anciennes, courgettes, basilic — en avril-mai à la ferme."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Quatrième saison d'AMAP : le mardi soir est devenu un rendez-vous, les enfants connaissent les maraîchers par leur prénom, et on mange mieux pour moins cher qu'au supermarché bio.", "auteur": "Famille Le Goff", "detail": "Panier famille"}, {"texte": "La réunion des comptes m'a bluffée : tout est sur la table, les prix, le tracteur à remplacer, les ratés de l'année. On ne consomme pas, on participe.", "auteur": "Anne-Sophie M.", "detail": "Amapienne depuis 2024"}, {"texte": "Le chantier courges d'octobre avec les enfants : une matinée dans la boue, cent kilos rentrés, soupe offerte. Ils en parlent encore.", "auteur": "Pierre-Yves D.", "detail": "Chantier participatif"}];
 const STATS_DEMO = [{"value": "100", "label": "Familles en AMAP"}, {"value": "3 ha", "label": "En agriculture biologique"}, {"value": "45+", "label": "Variétés sur l'année"}, {"value": "2", "label": "Distributions par semaine"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function PotagerEstuairePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -155,7 +160,7 @@ export default function PotagerEstuairePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33297000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33297000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Rejoindre l'AMAP
           </motion.a>
         </div>
@@ -170,7 +175,7 @@ export default function PotagerEstuairePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33297000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Rejoindre l'AMAP</a>
+          <a href={`tel:${fd?.phone ?? "+33297000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Rejoindre l'AMAP</a>
         </div>
       )}
 

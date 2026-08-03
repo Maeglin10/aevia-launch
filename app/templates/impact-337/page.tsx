@@ -44,7 +44,8 @@ const SERVICES_DEMO = [{"titre": "Auto & deux-roues", "desc": "Du tiers étendu 
 const METHODE = [{"n": "01", "t": "Bilan de l'existant", "d": "Vos contrats actuels relus ligne à ligne : doublons, trous de garantie, franchises oubliées."}, {"n": "02", "t": "Étude comparative écrite", "d": "Vingt compagnies interrogées, trois propositions argumentées, remises sous 48 h avec nos recommandations."}, {"n": "03", "t": "Souscription sans rupture", "d": "Résiliations gérées par nos soins, aucune journée sans couverture, cartes vertes et attestations immédiates."}, {"n": "04", "t": "Revue annuelle", "d": "Chaque année, on vérifie que vos contrats suivent votre vie : déménagement, naissance, nouveau véhicule, nouvelle activité."}];
 const ENGAGEMENT_DEMO = ["Immatriculés à l'ORIAS (n° 26 004 512), contrôlés par l'ACPR", "Devoir de conseil formalisé : nos recommandations sont écrites et motivées", "Rémunération transparente : commissions affichées, honoraires annoncés avant mission", "Aucun engagement d'exclusivité avec une compagnie — c'est votre intérêt qui arbitre"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Bilan assurantiel particulier", "p": "gratuit", "n": "Relecture de vos contrats et étude comparative écrite, sans engagement."}, {"a": "Audit assurances entreprise", "p": "dès 390 €", "n": "Cartographie des risques, rapport écrit, déduit si vous nous confiez les contrats."}, {"a": "Assurance emprunteur", "p": "économie moyenne 6 400 €", "n": "Sur la durée du prêt, à garanties équivalentes (loi Lemoine)."}, {"a": "Accompagnement sinistre", "p": "inclus", "n": "Pour tous nos clients, jusqu'à l'indemnisation. C'est le métier."}];
+const TARIFS_DEMO = [{"a": "Bilan assurantiel particulier", "p": "gratuit", "n": "Relecture de vos contrats et étude comparative écrite, sans engagement."}, {"a": "Audit assurances entreprise", "p": "dès 390 €", "n": "Cartographie des risques, rapport écrit, déduit si vous nous confiez les contrats."}, {"a": "Assurance emprunteur", "p": "économie moyenne 6 400 €", "n": "Sur la durée du prêt, à garanties équivalentes (loi Lemoine)."}, {"a": "Accompagnement sinistre", "p": "inclus", "n": "Pour tous nos clients, jusqu'à l'indemnisation. C'est le métier."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Dégât des eaux important : le courtier a géré la déclaration, l'expert, la contre-expertise. Indemnisation doublée par rapport à la première proposition de la compagnie.", "auteur": "Yann & Morgane L.", "detail": "Sinistre habitation"}, {"texte": "Ils ont repris nos cinq contrats : deux doublons supprimés, une garantie perte d'exploitation ajoutée — qu'on n'avait pas et qui nous aurait coûté l'entreprise.", "auteur": "Menuiserie Kerbrat", "detail": "Audit entreprise"}, {"texte": "Assurance de prêt renégociée en trois semaines : 41 € de moins par mois, mêmes garanties, banque prévenue par leurs soins.", "auteur": "Simon G.", "detail": "Emprunteur — loi Lemoine"}];
 const STATS_DEMO = [{"value": "20", "label": "Compagnies comparées"}, {"value": "1 900+", "label": "Foyers et pros assurés"}, {"value": "-23 %", "label": "Économie moyenne à garanties égales"}, {"value": "48 h", "label": "Étude comparative rendue"}];
 let STATS = STATS_DEMO;
@@ -87,6 +88,10 @@ export default function CapAssurancesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -171,7 +176,7 @@ export default function CapAssurancesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33298000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33298000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Bilan gratuit
           </motion.a>
         </div>
@@ -186,7 +191,7 @@ export default function CapAssurancesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33298000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Bilan gratuit</a>
+          <a href={`tel:${fd?.phone ?? "+33298000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Bilan gratuit</a>
         </div>
       )}
 

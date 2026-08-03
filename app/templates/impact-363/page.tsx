@@ -44,7 +44,8 @@ const SERVICES_DEMO = [{"titre": "Semelles orthopédiques", "desc": "Sur prescri
 const METHODE = [{"n": "01", "t": "Anamnèse complète", "d": "Douleurs, chaussage, activité, antécédents : le pied s'explique rarement tout seul."}, {"n": "02", "t": "Examen clinique et postural", "d": "Debout, allongé, en marche : cheville, genou, bassin — la chaîne entière est regardée."}, {"n": "03", "t": "Plateforme et scan 3D", "d": "Pressions statiques et dynamiques enregistrées, empreinte numérique pour la fabrication."}, {"n": "04", "t": "Fabrication et contrôle", "d": "Semelles faites au cabinet, essayées dans VOS chaussures, re-testées à un mois. Ajustements inclus."}];
 const ENGAGEMENT_DEMO = ["Pédicures-podologues D.E., inscrits à l'Ordre national — n° ADELI affichés", "Instruments stériles à usage unique ou stérilisés en autoclave contrôlé", "Semelles fabriquées au cabinet : pas d'envoi en série dans un atelier lointain", "Devis remis avant tout appareillage, prise en charge expliquée mutuelle en main"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Bilan podologique + semelles", "p": "160 €", "n": "Examen complet, plateforme, fabrication, contrôle à 1 mois inclus."}, {"a": "Soin de pédicurie", "p": "35 €", "n": "Cors, durillons, ongles : 45 minutes, instruments stériles."}, {"a": "Pied diabétique (gradé 2-3)", "p": "pris en charge", "n": "Forfaits annuels remboursés par l'Assurance Maladie."}, {"a": "Analyse de course (vidéo + tapis)", "p": "90 €", "n": "Compte rendu et conseils chaussage, déduit si semelles sport."}];
+const TARIFS_DEMO = [{"a": "Bilan podologique + semelles", "p": "160 €", "n": "Examen complet, plateforme, fabrication, contrôle à 1 mois inclus."}, {"a": "Soin de pédicurie", "p": "35 €", "n": "Cors, durillons, ongles : 45 minutes, instruments stériles."}, {"a": "Pied diabétique (gradé 2-3)", "p": "pris en charge", "n": "Forfaits annuels remboursés par l'Assurance Maladie."}, {"a": "Analyse de course (vidéo + tapis)", "p": "90 €", "n": "Compte rendu et conseils chaussage, déduit si semelles sport."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Talalgie depuis un an, deux paires de semelles inefficaces ailleurs. Ici : plateforme, vidéo, semelles refaites — plus aucune douleur au réveil depuis trois mois.", "auteur": "Nathalie B.", "detail": "Semelles sur mesure"}, {"texte": "Le contrôle à un mois n'est pas du marketing : mes semelles ont été retouchées deux fois, sans frais, jusqu'à l'oubli total. C'est ça le sur-mesure.", "auteur": "Étienne R.", "detail": "Suivi inclus"}, {"texte": "Mon père diabétique est suivi tous les deux mois, remboursé, avec un compte rendu envoyé au médecin. Ses pieds n'ont jamais été aussi bien surveillés.", "auteur": "Fille de M. C.", "detail": "Pied diabétique"}];
 const STATS_DEMO = [{"value": "2", "label": "Podologues D.E."}, {"value": "J+8", "label": "Semelles livrées et testées"}, {"value": "1 mois", "label": "Contrôle et ajustement inclus"}, {"value": "ADELI", "label": "Inscrits à l'Ordre"}];
 let STATS = STATS_DEMO;
@@ -87,6 +88,10 @@ export default function PodoMarchePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -171,7 +176,7 @@ export default function PodoMarchePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33473000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33473000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Prendre RDV
           </motion.a>
         </div>
@@ -186,7 +191,7 @@ export default function PodoMarchePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33473000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre RDV</a>
+          <a href={`tel:${fd?.phone ?? "+33473000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre RDV</a>
         </div>
       )}
 

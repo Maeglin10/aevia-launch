@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Code accéléré", "desc": "Stage de 3 jours +
 const METHODE = [{"n": "01", "t": "Éval de départ offerte", "d": "45 min en voiture. Ton volume d'heures estimé est écrit au contrat — et on s'y tient."}, {"n": "02", "t": "Résa en ligne 24h/24", "d": "Tes créneaux depuis ton téléphone, annulation gratuite 48 h avant, liste d'attente automatique."}, {"n": "03", "t": "Simulateur + voiture", "d": "Le simulateur déblaye les bases et les situations à risque ; la voiture sert à progresser, pas à répéter."}, {"n": "04", "t": "Examens blancs filmés", "d": "Deux passages blancs filmés et débriefés image par image. Le jour J, tu l'as déjà vécu."}];
 const ENGAGEMENT_DEMO = ["Agrément préfectoral E 26 034 0118 0, moniteurs diplômés Titre Pro ECSR", "Taux de réussite affichés en vitrine et en ligne, mis à jour chaque trimestre", "Heure supplémentaire au prix du forfait, écrit au contrat", "Frais de transfert de dossier : 0 € — tu restes parce que ça marche, pas parce que c'est cher de partir"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Code intensif (3 jours + appli)", "p": "330 €", "n": "Jusqu'à réussite, examen en centre partenaire à 30 € en sus (tarif d'État)."}, {"a": "Forfait 20 h mixte simu/voiture", "p": "1 290 €", "n": "6 h simulateur + 14 h voiture, examens blancs filmés inclus."}, {"a": "Forfait 20 h tout voiture", "p": "1 450 €", "n": "Créneaux soir et samedi sans supplément."}, {"a": "Heure supplémentaire", "p": "45 €", "n": "Identique au tarif forfait, réservable à l'unité en ligne."}];
+const TARIFS_DEMO = [{"a": "Code intensif (3 jours + appli)", "p": "330 €", "n": "Jusqu'à réussite, examen en centre partenaire à 30 € en sus (tarif d'État)."}, {"a": "Forfait 20 h mixte simu/voiture", "p": "1 290 €", "n": "6 h simulateur + 14 h voiture, examens blancs filmés inclus."}, {"a": "Forfait 20 h tout voiture", "p": "1 450 €", "n": "Créneaux soir et samedi sans supplément."}, {"a": "Heure supplémentaire", "p": "45 €", "n": "Identique au tarif forfait, réservable à l'unité en ligne."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Le simulateur m'a évité de griller 6 heures de voiture à apprendre l'embrayage. Permis en 4 mois en bossant à côté, créneaux du samedi nickel.", "auteur": "Inès B., 22 ans", "detail": "Forfait mixte"}, {"texte": "L'examen blanc filmé, ça pique — mais le jour J j'avais déjà corrigé mes deux défauts. Reçue, 29/31.", "auteur": "Manon F., 19 ans", "detail": "Stage dernière ligne droite"}, {"texte": "Code en 3 semaines en sortant du lycée, permis avant la fac. Résa en ligne à minuit depuis mon lit : c'est comme ça que ça devrait marcher partout.", "auteur": "Adam R., 18 ans", "detail": "Code intensif + B"}];
 const STATS_DEMO = [{"value": "75 %", "label": "Réussite 1er passage"}, {"value": "7 j/7", "label": "Réservation en ligne 24h/24"}, {"value": "3 sem.", "label": "Pour le code en intensif"}, {"value": "4×", "label": "Paiement sans frais"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function PermisCapSudPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -155,7 +160,7 @@ export default function PermisCapSudPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33467000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33467000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Inscription
           </motion.a>
         </div>
@@ -170,7 +175,7 @@ export default function PermisCapSudPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33467000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Inscription</a>
+          <a href={`tel:${fd?.phone ?? "+33467000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Inscription</a>
         </div>
       )}
 

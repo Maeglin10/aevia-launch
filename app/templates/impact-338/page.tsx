@@ -43,7 +43,8 @@ const SERVICES_DEMO = [{"titre": "Cartographie des risques", "desc": "Visite de 
 const METHODE = [{"n": "01", "t": "Cartographie écrite", "d": "Sites visités, risques hiérarchisés, valeurs validées avec votre expert-comptable."}, {"n": "02", "t": "Appel au marché", "d": "Consultation de quinze assureurs entreprise, mise en concurrence réelle, clauses négociées ligne à ligne."}, {"n": "03", "t": "Programme unifié", "d": "Un seul échéancier, des franchises cohérentes, zéro trou entre les contrats."}, {"n": "04", "t": "Pilotage annuel", "d": "Revue de sinistralité, ajustement des capitaux, renégociation à chaque échéance triennale."}];
 const ENGAGEMENT_DEMO = ["ORIAS n° 26 007 833, sous le contrôle de l'ACPR, RC professionnelle de courtage", "Lettre de mission écrite : périmètre, rémunération et livrables annoncés", "Transparence totale des commissions et honoraires, compte par compte", "Aucun lien capitalistique avec un assureur : l'arbitre, c'est votre risque"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Cartographie des risques", "p": "dès 1 200 €", "n": "Rapport écrit et hiérarchisé, déduit si le programme nous est confié."}, {"a": "Programme PME (< 50 salariés)", "p": "commissions affichées", "n": "Rémunération de place, détaillée contrat par contrat dans la lettre de mission."}, {"a": "Programme ETI / multi-sites", "p": "honoraires au forfait", "n": "Facturation au temps ou au forfait annuel, commissions rétrocédées."}, {"a": "Gestion de sinistre majeur", "p": "incluse", "n": "Cellule dédiée, expertise et avances négociées — sans facturation additionnelle."}];
+const TARIFS_DEMO = [{"a": "Cartographie des risques", "p": "dès 1 200 €", "n": "Rapport écrit et hiérarchisé, déduit si le programme nous est confié."}, {"a": "Programme PME (< 50 salariés)", "p": "commissions affichées", "n": "Rémunération de place, détaillée contrat par contrat dans la lettre de mission."}, {"a": "Programme ETI / multi-sites", "p": "honoraires au forfait", "n": "Facturation au temps ou au forfait annuel, commissions rétrocédées."}, {"a": "Gestion de sinistre majeur", "p": "incluse", "n": "Cellule dédiée, expertise et avances négociées — sans facturation additionnelle."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Incendie d'un atelier en 2025 : avance de 300 k€ obtenue en trois semaines, perte d'exploitation réglée au réel. L'entreprise n'a pas licencié.", "auteur": "DG, agroalimentaire (56 sal.)", "detail": "Sinistre majeur"}, {"texte": "La cartographie a révélé que nos stocks déportés n'étaient couverts nulle part. Corrigé avant l'hiver, prime globale en baisse de 11 %.", "auteur": "DAF, distribution", "detail": "Cartographie + programme"}, {"texte": "Flotte de 120 véhicules : sinistralité en baisse d'un tiers en deux ans grâce au reporting et au plan conducteurs. Prime renégociée à la baisse.", "auteur": "Resp. flotte, BTP", "detail": "Flotte automobile"}];
 const STATS_DEMO = [{"value": "240", "label": "Entreprises clientes"}, {"value": "15", "label": "Assureurs en place de marché"}, {"value": "72 h", "label": "Ouverture d'un sinistre majeur"}, {"value": "1", "label": "Interlocuteur dédié par compte"}];
 let STATS = STATS_DEMO;
@@ -86,6 +87,10 @@ export default function BorealCourtagePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -170,7 +175,7 @@ export default function BorealCourtagePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33478000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Prendre rendez-vous
           </motion.a>
         </div>
@@ -185,7 +190,7 @@ export default function BorealCourtagePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33478000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre rendez-vous</a>
+          <a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre rendez-vous</a>
         </div>
       )}
 

@@ -44,7 +44,8 @@ const SERVICES_DEMO = [{"titre": "Fromages d'alpage", "desc": "Beaufort, Abondan
 const METHODE = [{"n": "01", "t": "Acheter jeune, aux fermes", "d": "Quatorze fermes partenaires. Les fromages arrivent jeunes, à leur meilleur potentiel."}, {"n": "02", "t": "Affiner en cave voûtée", "d": "Brossage, retournes, frottage au vin blanc pour certains : chaque famille a son geste et son hygrométrie."}, {"n": "03", "t": "Goûter chaque semaine", "d": "On sonde, on goûte, on décide : à l'étal cette semaine, ou encore quinze jours de cave."}, {"n": "04", "t": "Vendre au bon moment", "d": "Un fromage se vend à son pic. S'il l'a passé, il finit en fondue maison — jamais sur l'étal."}];
 const ENGAGEMENT_DEMO = ["Achat en direct aux fermes, prix rémunérateurs négociés à l'année", "Lait cru défendu et expliqué — femmes enceintes conseillées sans détour", "Cave d'affinage sur place, visite le samedi matin sur simple demande", "Étiquetage complet : ferme, lait, affinage — pas seulement « fromage de montagne »"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Plateau découverte (4-6 pers.)", "p": "34 €", "n": "Cinq fromages, cinq familles, fiche de dégustation incluse."}, {"a": "Plateau grande tablée (10-12 pers.)", "p": "72 €", "n": "Huit fromages dont un d'exception, pain aux noix offert."}, {"a": "Kit raclette complet (par pers.)", "p": "8,90 €", "n": "Trois fromages à racler, machine prêtée, charcuterie en option."}, {"a": "Mélange fondue de la maison", "p": "24,90 €/kg", "n": "Beaufort, Comté, Emmental de Savoie — proportions secrètes, résultat garanti."}];
+const TARIFS_DEMO = [{"a": "Plateau découverte (4-6 pers.)", "p": "34 €", "n": "Cinq fromages, cinq familles, fiche de dégustation incluse."}, {"a": "Plateau grande tablée (10-12 pers.)", "p": "72 €", "n": "Huit fromages dont un d'exception, pain aux noix offert."}, {"a": "Kit raclette complet (par pers.)", "p": "8,90 €", "n": "Trois fromages à racler, machine prêtée, charcuterie en option."}, {"a": "Mélange fondue de la maison", "p": "24,90 €/kg", "n": "Beaufort, Comté, Emmental de Savoie — proportions secrètes, résultat garanti."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Le Beaufort d'alpage vendu ici n'a rien à voir avec ce que j'achetais avant. On m'a expliqué le chalet, l'été, la cave. On goûte tout avant d'acheter.", "auteur": "Claire N.", "detail": "Cliente du samedi"}, {"texte": "Plateau de mariage pour 80 : livré à l'heure, magnifique, avec les étiquettes et l'ordre de dégustation. Les invités en parlent encore.", "auteur": "Élise & Romain", "detail": "Plateau événement"}, {"texte": "Ils m'ont déconseillé un chèvre « pas à son mieux cette semaine » et fait goûter autre chose. Des commerçants qui refusent de vendre : rare.", "auteur": "Marc T.", "detail": "Habitué du mercredi"}];
 const STATS_DEMO = [{"value": "120+", "label": "Fromages à l'étal"}, {"value": "9", "label": "AOP de Savoie et d'ailleurs"}, {"value": "14", "label": "Fermes en direct"}, {"value": "1", "label": "Cave voûtée d'affinage"}];
 let STATS = STATS_DEMO;
@@ -95,6 +96,10 @@ export default function HalleAuxFromagesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -179,7 +184,7 @@ export default function HalleAuxFromagesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33479000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33479000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Commander un plateau
           </motion.a>
         </div>
@@ -194,7 +199,7 @@ export default function HalleAuxFromagesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33479000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Commander un plateau</a>
+          <a href={`tel:${fd?.phone ?? "+33479000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Commander un plateau</a>
         </div>
       )}
 

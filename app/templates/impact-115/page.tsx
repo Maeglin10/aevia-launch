@@ -2051,7 +2051,7 @@ export default function Impact115Page() {
                 Contact
               </div>
               <a
-                href="mailto:hello@rostova.studio"
+                href={`mailto:${fd?.email ?? "hello@rostova.studio"}`}
                 style={{
                   display: "block",
                   fontFamily: C.fontSans,

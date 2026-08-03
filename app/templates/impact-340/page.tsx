@@ -39,7 +39,8 @@ const SERVICES_DEMO = [{"titre": "Mesure in-vivo", "desc": "Micro-sonde au tympa
 const METHODE = [{"n": "01", "t": "Audiométrie complète", "d": "Tonale, vocale, dans le bruit. Compte rendu chiffré remis et envoyé à votre ORL."}, {"n": "02", "t": "Réglage in-vivo", "d": "La sonde au tympan objective le gain réel. Deux appareils candidats, comparés à l'aveugle."}, {"n": "03", "t": "Un mois de terrain", "d": "Port en vie réelle, données de port analysées, réglage à mi-parcours. Adoption seulement si l'amélioration est mesurable."}, {"n": "04", "t": "Contrôles semestriels", "d": "Audition re-testée, appareils re-mesurés, pièces d'usure remplacées. Quatre ans inclus."}];
 const ENGAGEMENT_DEMO = ["Audioprothésistes diplômés d'État, formation continue constructeurs certifiée", "Devis normalisé avec offre 100 % Santé classe I systématiquement chiffrée", "Essai 30 jours : vous ne payez qu'à l'adoption, résultats mesurés à l'appui", "Tiers payant intégral Sécurité sociale + mutuelles"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Classe I — 100 % Santé", "p": "0 € de reste à charge", "n": "Appareils plafonnés 950 €, remboursés intégralement. Suivi 4 ans inclus."}, {"a": "Classe II — technologies avancées", "p": "dès 1 290 €", "n": "Streaming, rechargeable, réduction de bruit IA. Reste à charge simulé avec votre mutuelle."}, {"a": "Test auditif + démonstration", "p": "gratuit", "n": "Audiométrie complète et essai immédiat en cabine d'environnements."}, {"a": "Bouchons musiciens sur mesure", "p": "dès 119 €", "n": "Filtres interchangeables, atténuation plate certifiée."}];
+const TARIFS_DEMO = [{"a": "Classe I — 100 % Santé", "p": "0 € de reste à charge", "n": "Appareils plafonnés 950 €, remboursés intégralement. Suivi 4 ans inclus."}, {"a": "Classe II — technologies avancées", "p": "dès 1 290 €", "n": "Streaming, rechargeable, réduction de bruit IA. Reste à charge simulé avec votre mutuelle."}, {"a": "Test auditif + démonstration", "p": "gratuit", "n": "Audiométrie complète et essai immédiat en cabine d'environnements."}, {"a": "Bouchons musiciens sur mesure", "p": "dès 119 €", "n": "Filtres interchangeables, atténuation plate certifiée."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Ingénieur, j'avais besoin de comprendre : la mesure in-vivo m'a convaincu. On voit littéralement la courbe se corriger. En réunion, je ne devine plus, j'entends.", "auteur": "Bertrand C., 58 ans", "detail": "Mesure in-vivo + classe II"}, {"texte": "La cabine qui simule le restaurant a tout changé : mes appareils précédents, réglés « en silence », étaient inutilisables dehors. Ceux-ci fonctionnent partout.", "auteur": "Annick M.", "detail": "Ré-appareillage"}, {"texte": "L'atelier proches aidants avec ma fille a évité tous les malentendus du début. Elle sait se placer, je porte mes appareils du matin au soir.", "auteur": "Georges L., 79 ans", "detail": "Premier appareillage"}];
 const STATS_DEMO = [{"value": "in-vivo", "label": "Mesure au tympan, pas en moyenne"}, {"value": "30 j", "label": "D'essai en conditions réelles"}, {"value": "0 €", "label": "Classe I sans reste à charge"}, {"value": "98 %", "label": "De porteurs suivis à un an"}];
 let STATS = STATS_DEMO;
@@ -82,6 +83,10 @@ export default function OctaveAuditionPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function OctaveAuditionPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33240000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33240000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Test auditif gratuit
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function OctaveAuditionPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33240000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Test auditif gratuit</a>
+          <a href={`tel:${fd?.phone ?? "+33240000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Test auditif gratuit</a>
         </div>
       )}
 

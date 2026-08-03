@@ -39,7 +39,8 @@ const SERVICES_DEMO = [{"titre": "Recrutement cadres & techniciens", "desc": "So
 const METHODE = [{"n": "01", "t": "Immersion chez vous", "d": "Une demi-journée sur site : l'équipe, l'ambiance, le vrai contenu du poste. Une fiche de poste ne dit jamais tout."}, {"n": "02", "t": "Sourcing et approche directe", "d": "Annonces ciblées ET chasse : les meilleurs candidats sont en poste et ne cherchent pas."}, {"n": "03", "t": "Trois candidats, argumentés", "d": "Chacun rencontré en entretien approfondi, évalué, avec ses forces ET ses risques écrits noir sur blanc."}, {"n": "04", "t": "Suivi d'intégration", "d": "Points à 1, 3 et 6 mois avec vous et le candidat : la garantie 12 mois n'est pas qu'une clause."}];
 const ENGAGEMENT_DEMO = ["Garantie 12 mois : si le candidat part ou ne convient pas, nous recommençons sans honoraires", "Trois candidats présentés maximum — sinon c'est que nous n'avons pas fait notre travail de tri", "Chaque candidat rencontré physiquement ou en visio approfondie, jamais présenté sur dossier", "Retour argumenté à 100 % des candidats reçus, y compris les non retenus"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Recrutement cadre / technicien", "p": "18 % du salaire annuel", "n": "Garantie 12 mois incluse, trois candidats présentés."}, {"a": "Chasse de dirigeant", "p": "22 % du salaire annuel", "n": "Cartographie de marché et confidentialité renforcée comprises."}, {"a": "Évaluation seule (candidat identifié)", "p": "dès 1 200 €", "n": "Tests, entretien approfondi, prise de références, rapport écrit."}, {"a": "Conseil RH (jour)", "p": "dès 950 €", "n": "Fiches de poste, grilles de rémunération, parcours d'intégration."}];
+const TARIFS_DEMO = [{"a": "Recrutement cadre / technicien", "p": "18 % du salaire annuel", "n": "Garantie 12 mois incluse, trois candidats présentés."}, {"a": "Chasse de dirigeant", "p": "22 % du salaire annuel", "n": "Cartographie de marché et confidentialité renforcée comprises."}, {"a": "Évaluation seule (candidat identifié)", "p": "dès 1 200 €", "n": "Tests, entretien approfondi, prise de références, rapport écrit."}, {"a": "Conseil RH (jour)", "p": "dès 950 €", "n": "Fiches de poste, grilles de rémunération, parcours d'intégration."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Trois candidats présentés, trois profils pertinents, un recruté qui est toujours là trois ans après et dirige maintenant le bureau d'études. La demi-journée d'immersion faisait la différence.", "auteur": "DG, PME industrielle (85 sal.)", "detail": "Recrutement cadre"}, {"texte": "Notre premier recrutement avec eux a échoué au bout de quatre mois — pour des raisons personnelles du candidat. Ils ont refait la mission gratuitement, sans discuter. La garantie est réelle.", "auteur": "DRH, groupe agroalimentaire", "detail": "Garantie 12 mois"}, {"texte": "Candidate non retenue chez leur client, j'ai eu un retour de 20 minutes au téléphone avec des conseils concrets. Six mois plus tard ils m'ont replacée ailleurs. Ça ne s'oublie pas.", "auteur": "Responsable qualité", "detail": "Côté candidat"}];
 const STATS_DEMO = [{"value": "12 mois", "label": "De garantie sur chaque recrutement"}, {"value": "3", "label": "Candidats présentés, pas trente"}, {"value": "42 j", "label": "Délai moyen de recrutement"}, {"value": "91 %", "label": "Encore en poste à un an"}];
 let STATS = STATS_DEMO;
@@ -82,6 +83,10 @@ export default function TrajectoiresRhPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function TrajectoiresRhPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33240000002" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33240000002"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Parler d'un poste
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function TrajectoiresRhPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33240000002" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Parler d'un poste</a>
+          <a href={`tel:${fd?.phone ?? "+33240000002"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Parler d'un poste</a>
         </div>
       )}
 

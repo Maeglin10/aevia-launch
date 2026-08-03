@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Réfection de couverture", "desc": "Dépose co
 const METHODE = [{"n": "01", "t": "Visite et diagnostic", "d": "Montée sur toit ou drone selon l'accès, photos commentées, diagnostic écrit de la charpente à la gouttière."}, {"n": "02", "t": "Devis détaillé", "d": "Matériaux nommés (ardoise, crochet, écran), quantités, délais. Les aides à la rénovation sont chiffrées avec."}, {"n": "03", "t": "Chantier protégé", "d": "Échafaudage aux normes, bâchage chaque soir, gravats évacués en benne — jamais dans votre jardin."}, {"n": "04", "t": "Réception en toiture", "d": "Réception avec photos de chaque zone, garanties remises, facture conforme pour l'assurance habitation."}];
 const ENGAGEMENT_DEMO = ["Garantie décennale couverture-zinguerie — attestation remise avec chaque devis", "Qualibat 3212, équipes formées au travail en hauteur (habilitations à jour)", "Devis gratuit et détaillé matériau par matériau, jamais de forfait flou", "Après tempête : bâchage d'abord, devis ensuite — on ne profite pas de l'urgence"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Réfection ardoise naturelle", "p": "140–180 €/m²", "n": "Dépose, écran, ardoise d'Anjou au crochet inox, zinguerie comprise."}, {"a": "Réfection tuile terre cuite", "p": "95–130 €/m²", "n": "Tuiles de pays, faîtage scellé ou à sec selon DTU."}, {"a": "Gouttière zinc posée", "p": "dès 68 €/ml", "n": "Façonnée à l'atelier, naissances et descentes comprises."}, {"a": "Forfait entretien annuel", "p": "dès 290 €", "n": "Passage après l'hiver, ardoises remplacées, rapport photo envoyé."}];
+const TARIFS_DEMO = [{"a": "Réfection ardoise naturelle", "p": "140–180 €/m²", "n": "Dépose, écran, ardoise d'Anjou au crochet inox, zinguerie comprise."}, {"a": "Réfection tuile terre cuite", "p": "95–130 €/m²", "n": "Tuiles de pays, faîtage scellé ou à sec selon DTU."}, {"a": "Gouttière zinc posée", "p": "dès 68 €/ml", "n": "Façonnée à l'atelier, naissances et descentes comprises."}, {"a": "Forfait entretien annuel", "p": "dès 290 €", "n": "Passage après l'hiver, ardoises remplacées, rapport photo envoyé."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Toiture ardoise de 1930 refaite à l'identique, isolation sarking au passage. Le chantier a duré trois semaines, bâché chaque soir, jardin impeccable au départ.", "auteur": "Famille Hervé", "detail": "Réfection complète + isolation"}, {"texte": "Tempête de novembre : bâchés le soir même à 22 h, dossier photo transmis à l'assurance, réparation programmée sans qu'on ait à se battre avec l'expert.", "auteur": "Monique C.", "detail": "Urgence tempête"}, {"texte": "Ils ont refusé de remplacer toute la toiture que deux autres artisans condamnaient : 40 ardoises reprises, gouttière refaite, 800 € au lieu de 30 000. On sait où on ira le jour venu.", "auteur": "Pierre L.", "detail": "Réparation honnête"}];
 const STATS_DEMO = [{"value": "10 ans", "label": "Garantie décennale"}, {"value": "Qualibat", "label": "3212 — couverture"}, {"value": "24 h", "label": "Bâchage d'urgence"}, {"value": "380+", "label": "Toitures refaites"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function ToitsDeLoirePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -199,7 +204,7 @@ export default function ToitsDeLoirePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33241000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33241000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Devis toiture
           </motion.a>
         </div>
@@ -214,7 +219,7 @@ export default function ToitsDeLoirePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33241000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Devis toiture</a>
+          <a href={`tel:${fd?.phone ?? "+33241000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Devis toiture</a>
         </div>
       )}
 

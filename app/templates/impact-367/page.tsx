@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Suivi de grossesse", "desc": "Consultations me
 const METHODE = [{"n": "01", "t": "Le premier rendez-vous", "d": "Long, posé : histoire, souhaits, questions. L'entretien prénatal précoce est un droit — et un vrai moment."}, {"n": "02", "t": "La grossesse, suivie", "d": "Une consultation par mois, monitorings en fin de parcours, lien direct avec la maternité choisie."}, {"n": "03", "t": "La naissance, préparée", "d": "8 séances pour arriver le jour J en connaissant son corps, ses droits et ses options."}, {"n": "04", "t": "L'après, accompagné", "d": "Domicile la première semaine, allaitement, rééducation, contraception : on ne disparaît pas après l'accouchement."}];
 const ENGAGEMENT_DEMO = ["Sage-femme diplômée d'État, inscrite à l'Ordre — n° RPPS affiché au cabinet", "Conventionnée CPAM : consultations remboursées, 100 % dès le 6e mois de grossesse", "Visites à domicile dans Aix et sa couronne, coordination PRADO avec la maternité", "Urgences de ma patientèle : joignable 7j/7 en fin de grossesse et post-partum"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Consultation de suivi", "p": "tarif conventionné", "n": "Remboursée 70 %, puis 100 % dès le 6e mois — tiers payant."}, {"a": "Préparation à la naissance (×8)", "p": "prises en charge", "n": "100 % Assurance Maternité, en groupe ou en couple."}, {"a": "Rééducation périnéale (×10)", "p": "prises en charge", "n": "Sur prescription, remboursées intégralement."}, {"a": "Suivi gynécologique / frottis", "p": "tarif conventionné", "n": "Remboursé comme chez un médecin — les sages-femmes y sont habilitées."}];
+const TARIFS_DEMO = [{"a": "Consultation de suivi", "p": "tarif conventionné", "n": "Remboursée 70 %, puis 100 % dès le 6e mois — tiers payant."}, {"a": "Préparation à la naissance (×8)", "p": "prises en charge", "n": "100 % Assurance Maternité, en groupe ou en couple."}, {"a": "Rééducation périnéale (×10)", "p": "prises en charge", "n": "Sur prescription, remboursées intégralement."}, {"a": "Suivi gynécologique / frottis", "p": "tarif conventionné", "n": "Remboursé comme chez un médecin — les sages-femmes y sont habilitées."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Suivie du test de grossesse au dernier jour de rééducation par la même personne : cette continuité change tout. Elle connaissait mon dossier, mes peurs, mon bébé.", "auteur": "Laure M.", "detail": "Suivi complet"}, {"texte": "La visite à domicile du 3e jour nous a sauvés : l'allaitement partait mal, tout est rentré dans l'ordre en deux visites. Et le co-parent a eu sa place à chaque étape.", "auteur": "Élise & Damien", "detail": "Post-partum + allaitement"}, {"texte": "Je continue de la voir pour ma gynéco de prévention : frottis, DIU, questions sans tabou. Je ne retournerai pas m'asseoir dans une salle d'attente anonyme.", "auteur": "Sophie R.", "detail": "Suivi gynécologique"}];
 const STATS_DEMO = [{"value": "100 %", "label": "Grossesse remboursée dès le 6e mois"}, {"value": "7j/7", "label": "Pour ma patientèle en fin de grossesse"}, {"value": "RPPS", "label": "Conventionnée, inscrite à l'Ordre"}, {"value": "8", "label": "Séances de préparation prises en charge"}];
 let STATS = STATS_DEMO;
@@ -91,6 +92,10 @@ export default function CabinetNaissancesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -162,7 +167,7 @@ export default function CabinetNaissancesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33442000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33442000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Prendre RDV
           </motion.a>
         </div>
@@ -177,7 +182,7 @@ export default function CabinetNaissancesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33442000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre RDV</a>
+          <a href={`tel:${fd?.phone ?? "+33442000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre RDV</a>
         </div>
       )}
 

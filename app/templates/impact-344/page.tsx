@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Aquanettoyage", "desc": "Programmes doux par f
 const METHODE = [{"n": "01", "t": "Vous réservez un créneau", "d": "Par téléphone ou au comptoir. La tournée du matin collecte avant 9 h 30, celle du soir avant 18 h 30."}, {"n": "02", "t": "Sac consigné, fiche par pièce", "d": "Un sac réutilisable consigné, chaque vêtement examiné et noté à l'atelier."}, {"n": "03", "t": "Atelier dans la boutique", "d": "Tout se fait sur place, derrière la vitrine — venez voir, ça sent la vapeur, pas le solvant."}, {"n": "04", "t": "Livré au créneau choisi", "d": "Sous 48 h à vélo-cargo, ou en boutique dès le lendemain 17 h."}];
 const ENGAGEMENT_DEMO = ["Zéro perchloroéthylène ni solvant chloré — aquanettoyage exclusivement", "Détergents Écolabel européen, doses pilotées par la machine", "Cintres consignés et réutilisés, housses coton lavables au lieu du plastique", "Pièce abîmée par notre fait = indemnisée au barème IFTH, sans discussion"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Chemise", "p": "4,50 €", "n": "Lavée, repassée main, sur cintre consigné ou pliée."}, {"a": "Costume 2 pièces", "p": "18,90 €", "n": "Aquanettoyage + apprêt mannequin, rendu 48 h."}, {"a": "Couette 2 places", "p": "23,90 €", "n": "Séchage sonde, housse coton offerte."}, {"a": "Abonnement actif (8 pièces/mois)", "p": "49 €/mois", "n": "Report des pièces non utilisées, sans engagement."}];
+const TARIFS_DEMO = [{"a": "Chemise", "p": "4,50 €", "n": "Lavée, repassée main, sur cintre consigné ou pliée."}, {"a": "Costume 2 pièces", "p": "18,90 €", "n": "Aquanettoyage + apprêt mannequin, rendu 48 h."}, {"a": "Couette 2 places", "p": "23,90 €", "n": "Séchage sonde, housse coton offerte."}, {"a": "Abonnement actif (8 pièces/mois)", "p": "49 €/mois", "n": "Report des pièces non utilisées, sans engagement."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "La collecte à vélo avant le bureau, la livraison le jeudi soir : je n'ai littéralement plus à y penser. Et mes pulls ne sentent plus le produit chimique.", "auteur": "Julie W.", "detail": "Abonnement actif"}, {"texte": "Couette de bébé nettoyée impeccable, rendue dans une housse en coton avec la fiche du programme utilisé. C'est ce genre de détail qui fait confiance.", "auteur": "Léna & Tom", "detail": "Linge de maison"}, {"texte": "Je croyais que « écologique » voulait dire « moins efficace ». Ma veste en lin tachée d'huile dit le contraire. Bravo et merci.", "auteur": "Pascal H.", "detail": "Détachage difficile"}];
 const STATS_DEMO = [{"value": "100 %", "label": "Aquanettoyage à l'eau"}, {"value": "0", "label": "Solvant chloré depuis l'ouverture"}, {"value": "2×/j", "label": "Tournées de livraison à vélo"}, {"value": "92 %", "label": "De cintres réutilisés"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function AquaVertPressingPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function AquaVertPressingPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33388000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Collecte à vélo
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function AquaVertPressingPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33388000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Collecte à vélo</a>
+          <a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Collecte à vélo</a>
         </div>
       )}
 

@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Tentes & barnums", "desc": "Tentes de récepti
 const METHODE = [{"n": "01", "t": "Devis sur plan", "d": "Envoyez le lieu, la date, le nombre d'invités : devis détaillé sous 48 h, repérage sur place pour les tentes."}, {"n": "02", "t": "Livraison à J-2", "d": "Tout arrive le mercredi ou jeudi : le temps de dresser sans courir, tentes montées par nos équipes."}, {"n": "03", "t": "Le jour J, une hotline", "d": "Un numéro qui répond le soir de l'événement — pour le fusible de la sono ou la rallonge manquante."}, {"n": "04", "t": "Reprise le lundi", "d": "Vaisselle sale dans les cartons, nappes en vrac dans les sacs : on reprend tout, on lave tout."}];
 const ENGAGEMENT_DEMO = ["Matériel de réception contrôlé et compté à chaque rotation, tentes certifiées et ancrées selon les normes", "Livraison à J-2 garantie par contrat — pas la veille au soir", "Hotline le soir de l'événement, réponse humaine jusqu'à minuit", "Casse au tarif affiché d'avance, caution levée après comptage contradictoire"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Pack mariage 100 pers.", "p": "dès 1 890 €", "n": "Tente 150 m² montée, tables, chaises, vaisselle complète, guirlandes."}, {"a": "Vaisselle complète (par pers.)", "p": "3,90 €", "n": "Assiettes ×3, couverts, verres ×3, rendus sales."}, {"a": "Tente 50 m² montée", "p": "490 €", "n": "Week-end complet, plancher en option, ancrage compris."}, {"a": "Sono cérémonie + soirée", "p": "290 €", "n": "Enceintes, micro HF, piste de danse en option, réglée sur place."}];
+const TARIFS_DEMO = [{"a": "Pack mariage 100 pers.", "p": "dès 1 890 €", "n": "Tente 150 m² montée, tables, chaises, vaisselle complète, guirlandes."}, {"a": "Vaisselle complète (par pers.)", "p": "3,90 €", "n": "Assiettes ×3, couverts, verres ×3, rendus sales."}, {"a": "Tente 50 m² montée", "p": "490 €", "n": "Week-end complet, plancher en option, ancrage compris."}, {"a": "Sono cérémonie + soirée", "p": "290 €", "n": "Enceintes, micro HF, piste de danse en option, réglée sur place."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Mariage de 140 personnes dans le jardin familial : tente montée le mercredi, plan B pluie anticipé, hotline appelée à 22h pour un fusible — réglé en dix minutes. Parfait de bout en bout.", "auteur": "Claire & Bastien", "detail": "Pack mariage"}, {"texte": "Rendre la vaisselle sale ! Celui qui a inventé ça mérite une médaille. Le lundi matin, tout était repris, le jardin était rendu aux enfants.", "auteur": "Famille Rousseau", "detail": "Anniversaire 60 pers."}, {"texte": "Séminaire de 80 collaborateurs sous tente en bord de mer : montage impeccable malgré le vent, scène et sono calées à l'heure. Re-réservé pour l'an prochain avant de partir.", "auteur": "Office manager, biotech", "detail": "Événement entreprise"}];
 const STATS_DEMO = [{"value": "300", "label": "Personnes sous notre plus grande tente"}, {"value": "0", "label": "Vaisselle à relaver chez vous"}, {"value": "J-2", "label": "Livraison avant l'événement"}, {"value": "15 ans", "label": "De mariages sans pluie dedans"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function AtlantiqueMaterielsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -155,7 +160,7 @@ export default function AtlantiqueMaterielsPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33546000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33546000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Devis événement
           </motion.a>
         </div>
@@ -170,7 +175,7 @@ export default function AtlantiqueMaterielsPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33546000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Devis événement</a>
+          <a href={`tel:${fd?.phone ?? "+33546000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Devis événement</a>
         </div>
       )}
 

@@ -39,7 +39,8 @@ const SERVICES_DEMO = [{"titre": "Gardiennage de sites", "desc": "Postes fixes j
 const METHODE = [{"n": "01", "t": "Audit du site", "d": "Flux, accès, points faibles, obligations réglementaires : l'audit écrit précède tout devis."}, {"n": "02", "t": "Dispositif dimensionné", "d": "Le bon nombre d'agents, les bonnes qualifications (SSIAP, palpation, cynophile) — jamais de sur-vente."}, {"n": "03", "t": "Agents briefés et encadrés", "d": "Consignes écrites signées, chef de poste dédié, contrôles inopinés de nos superviseurs."}, {"n": "04", "t": "Reporting exploitable", "d": "Main courante électronique, rapports d'événement sous 24 h, revue mensuelle de dispositif."}];
 const ENGAGEMENT_DEMO = ["Autorisation d'exercice CNAPS affichée, agents titulaires de la carte professionnelle", "Aucune sous-traitance en cascade : les agents sont nos salariés, en CDI à 85 %", "Assurance RC pro spécifique sécurité privée, attestations jointes aux devis", "Code de déontologie CNAPS appliqué et rappelé à chaque prise de poste"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Agent de sécurité (heure)", "p": "dès 26 € HT", "n": "Carté CNAPS, équipé, encadré — majorations nuit/dimanche réglementaires."}, {"a": "Ronde de nuit (site)", "p": "dès 39 € HT", "n": "Passage horodaté, rapport photo, itinéraires aléatoires."}, {"a": "Agent SSIAP 1 (heure)", "p": "dès 28 € HT", "n": "ERP/IGH, registre de sécurité tenu."}, {"a": "Audit de site", "p": "offert", "n": "Pour tout dispositif étudié — rapport écrit remis dans tous les cas."}];
+const TARIFS_DEMO = [{"a": "Agent de sécurité (heure)", "p": "dès 26 € HT", "n": "Carté CNAPS, équipé, encadré — majorations nuit/dimanche réglementaires."}, {"a": "Ronde de nuit (site)", "p": "dès 39 € HT", "n": "Passage horodaté, rapport photo, itinéraires aléatoires."}, {"a": "Agent SSIAP 1 (heure)", "p": "dès 28 € HT", "n": "ERP/IGH, registre de sécurité tenu."}, {"a": "Audit de site", "p": "offert", "n": "Pour tout dispositif étudié — rapport écrit remis dans tous les cas."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Chantier de 18 mois en zone sensible : zéro vol depuis leur arrivée, main courante consultable en ligne, agents toujours à l'heure. Le surcoût s'est remboursé le premier mois.", "auteur": "Conducteur de travaux, BTP", "detail": "Gardiennage de chantier"}, {"texte": "Festival de 12 000 personnes : dispositif dimensionné avec la préfecture, agents pros et calmes, débriefing complet à J+2. Reconduits les yeux fermés.", "auteur": "Organisateur de festival", "detail": "Événementiel"}, {"texte": "La levée de doute vidéo a évité onze déplacements inutiles cette année — et permis une interpellation en flagrant délit. Le PC 24h/24 change tout.", "auteur": "Gérant de concession auto", "detail": "Télésurveillance"}];
 const STATS_DEMO = [{"value": "CNAPS", "label": "Autorisation d'exercice affichée"}, {"value": "24h/24", "label": "PC opérationnel à Marseille"}, {"value": "140", "label": "Agents cartés en poste"}, {"value": "< 15 min", "label": "Intervention sur alarme en ville"}];
 let STATS = STATS_DEMO;
@@ -82,6 +83,10 @@ export default function SentinellePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -153,7 +158,7 @@ export default function SentinellePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33491000001" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33491000001"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Audit de site
           </motion.a>
         </div>
@@ -168,7 +173,7 @@ export default function SentinellePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33491000001" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Audit de site</a>
+          <a href={`tel:${fd?.phone ?? "+33491000001"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Audit de site</a>
         </div>
       )}
 

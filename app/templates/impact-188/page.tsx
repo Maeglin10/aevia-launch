@@ -47,7 +47,7 @@ const EQUIPE = [
   { n: "Marion Vasseur", r: "Auxiliaire spécialisée", d: "Accueil, soins infirmiers, hospitalisation. C'est elle qui vous rappelle après une intervention." },
 ];
 
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Consultation généraliste", p: "42 €", n: "Chien, chat, NAC. 25 minutes." },
   { a: "Consultation d'urgence", p: "78 €", n: "Sans rendez-vous, 7j/7 (majoration nuit : +35 €)." },
   { a: "Vaccination annuelle", p: "à partir de 58 €", n: "Consultation incluse. Rappel envoyé par SMS." },
@@ -55,6 +55,7 @@ const TARIFS = [
   { a: "Détartrage", p: "à partir de 190 €", n: "Sous anesthésie, bilan sanguin préalable inclus." },
   { a: "Bilan sanguin complet", p: "89 €", n: "Résultats sous 20 minutes, analyseur sur place." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const SOINS_DEMO = [
   { icon: Stethoscope, title: "Consultations & bilans", desc: "Consultations de routine, bilans de santé annuels, suivi des maladies chroniques. Écoute, examen clinique approfondi, diagnostic précis." },
@@ -110,6 +111,10 @@ export default function CliniqueBoisVertPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Client services drive the "Nos soins" grid; demo icons cycle through.

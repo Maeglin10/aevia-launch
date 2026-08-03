@@ -39,7 +39,7 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Consultation & bilan", p: "23 €", n: "Base Sécurité sociale, remboursée à 70 %." },
   { a: "Détartrage", p: "28,92 €", n: "Tarif conventionné, une à deux fois par an." },
   { a: "Carie (une face)", p: "26,97 €", n: "Composite teinte dent, sans amalgame." },
@@ -47,6 +47,7 @@ const TARIFS = [
   { a: "Implant unitaire", p: "à partir de 1 100 €", n: "Hors couronne. Non remboursé par l'Assurance Maladie, devis obligatoire." },
   { a: "Blanchiment ambulatoire", p: "350 €", n: "Gouttières sur mesure, deux séances de contrôle incluses." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const SOINS_DEMO = [
   { icon: Smile, title: "Soins conservateurs", desc: "Détartrage, traitement de caries, obturations composite teintées. Matériaux sans mercure, résultat esthétique invisible." },
@@ -248,6 +249,10 @@ export default function DrFontainePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const SOINS: any[] = resolveList(
