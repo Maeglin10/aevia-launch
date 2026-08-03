@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Copy, Check, Rocket, Loader2, Globe, ChevronDown, Pencil, Sparkles, X } from "lucide-react";
 import GeneratedSite from "@/components/GeneratedSite";
+import { MissingInfo } from "@/components/preview/MissingInfo";
 import { EditPanel } from "@/components/EditPanel";
 import type { SessionData, GeneratedContent, FormData } from "@/lib/sessions";
 import { useLang, LOCALE_META, type Locale } from "@/lib/LangContext";
@@ -332,6 +333,13 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
             {t.preview} — {liveSession.formData.businessName}
           </div>
         </div>
+
+        {/*
+          On ne supprime aucune section et on n'invente rien : ce qui manque
+          garde l'exemple du thème. Il faut donc le dire ici, sans quoi le client
+          prend le contenu de démonstration pour une erreur de dossier.
+        */}
+        <MissingInfo session={liveSession} locale={locale} />
 
         {liveSession.formData.template?.startsWith("impact-") ? (
           <iframe
