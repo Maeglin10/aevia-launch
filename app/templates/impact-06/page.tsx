@@ -27,6 +27,15 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les avis, jusqu'ici écrits dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const AVIS_INLINE_SOURCE = [
+  { name: "Soren Kvist", role: "Quantum Architect", text: "The Neural Link didn't just improve my workflow; it changed my perception of mathematical structures. I'm no longer visualizing data—I'm inhabiting it.", img: photo(3, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80") },
+                { name: "Emi Nakamura", role: "Synthetic Biologist", text: "Oxy-Flow is the first augmentation that feels truly native. The focus is sustained, clinical, and entirely without the jitters of chemical stimulants.", img: photo(4, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80") }
+];
+let AVIS_INLINE = AVIS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -162,6 +171,20 @@ export default function NeuralisPage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_INLINE = resolveList(
+
+    clientReviews(session)?.map((r: any, i: number) => ({
+
+      ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
+
+      text: r.text, name: r.author,
+
+    })),
+
+    AVIS_INLINE_SOURCE,
+
+  );
   PRODUCTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title })),
     PRODUCTS_SOURCE,
@@ -664,10 +687,7 @@ export default function NeuralisPage() {
            </Reveal>
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-32">
-              {[
-                { name: "Soren Kvist", role: "Quantum Architect", text: "The Neural Link didn't just improve my workflow; it changed my perception of mathematical structures. I'm no longer visualizing data—I'm inhabiting it.", img: photo(3, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80") },
-                { name: "Emi Nakamura", role: "Synthetic Biologist", text: "Oxy-Flow is the first augmentation that feels truly native. The focus is sustained, clinical, and entirely without the jitters of chemical stimulants.", img: photo(4, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80") },
-              ].map((item, i) => (
+              {AVIS_INLINE.map((item, i) => (
                 <Reveal key={i} delay={i * 0.2}>
                    <div className="space-y-12">
                       <div className="relative w-24 h-24 rounded-full overflow-hidden grayscale border border-[var(--brand,#00f2ff)]/30">

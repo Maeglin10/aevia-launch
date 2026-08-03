@@ -16,6 +16,7 @@ import { C, F, projects, teamMembers, processSteps } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -23,6 +24,33 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les prestations, jusqu'ici écrits dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const PRESTATIONS_INLINE_SOURCE = [
+  {
+                n: '01',
+                title: 'Structure is Ornament',
+                text: 'We expose what holds the building up. A concrete column, a steel truss, a timber beam — each is also the primary aesthetic experience. We never hide structure behind cladding.',
+              },
+              {
+                n: '02',
+                title: 'Section before Plan',
+                text: 'The cross-section determines how light moves, how rooms relate vertically, how the building breathes. We draw sections before plans on every project.',
+              },
+              {
+                n: '03',
+                title: 'Material Honesty',
+                text: "Concrete looks like concrete. Brick looks like brick. We don\'t apply thin veneers or use materials to simulate other materials. Authenticity ages better than novelty.",
+              },
+              {
+                n: '04',
+                title: 'Urban Generosity',
+                text: 'Every building has a civic duty. A public colonnade, an active ground floor, a planted setback — small acts that repair the city rather than enclose it.',
+              }
+];
+let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -639,28 +667,7 @@ function PhilosophySection() {
 
           {/* Right column: principles */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            {[
-              {
-                n: '01',
-                title: 'Structure is Ornament',
-                text: 'We expose what holds the building up. A concrete column, a steel truss, a timber beam — each is also the primary aesthetic experience. We never hide structure behind cladding.',
-              },
-              {
-                n: '02',
-                title: 'Section before Plan',
-                text: 'The cross-section determines how light moves, how rooms relate vertically, how the building breathes. We draw sections before plans on every project.',
-              },
-              {
-                n: '03',
-                title: 'Material Honesty',
-                text: "Concrete looks like concrete. Brick looks like brick. We don\'t apply thin veneers or use materials to simulate other materials. Authenticity ages better than novelty.",
-              },
-              {
-                n: '04',
-                title: 'Urban Generosity',
-                text: 'Every building has a civic duty. A public colonnade, an active ground floor, a planted setback — small acts that repair the city rather than enclose it.',
-              },
-            ].map((p, i) => (
+            {PRESTATIONS_INLINE.map((p, i) => (
               <motion.div
                 key={p.n}
                 initial={{ opacity: 0, x: 30 }}
@@ -2602,6 +2609,20 @@ export default function ArchitectureTemplate() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_INLINE = resolveList(
+
+    clientServices(sessionData)?.map((s: any, i: number) => ({
+
+      ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
+
+      title: s.title, text: s.desc || "",
+
+    })),
+
+    PRESTATIONS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

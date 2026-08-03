@@ -17,6 +17,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les avis, jusqu'ici écrits dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const AVIS_INLINE_SOURCE = [
+  { quote: "The Celestial Stone massage released a year's worth of accumulated stress in ninety minutes. The silence here is physical.", author: "Clara M.", plan: "Sanctuary Guest" },
+                { quote: "An absolute masterclass in minimalist design and somatic care. The sound-dampened suites are a dream.", author: "Julien B.", plan: "Member since 2023" },
+                { quote: "Oasis has become my weekly anchor. The breathwork sessions with Kavi have completely shifted my high-stress routine.", author: "Sophia T.", plan: "Essential Member" }
+];
+let AVIS_INLINE = AVIS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -90,6 +100,20 @@ export default function OasisWellnessPage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_INLINE = resolveList(
+
+    clientReviews(session)?.map((r: any, i: number) => ({
+
+      ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
+
+      quote: r.text, author: r.author,
+
+    })),
+
+    AVIS_INLINE_SOURCE,
+
+  );
   TREATMENTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...TREATMENTS_SOURCE[i % TREATMENTS_SOURCE.length], title: s.title })),
     TREATMENTS_SOURCE,
@@ -368,11 +392,7 @@ export default function OasisWellnessPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { quote: "The Celestial Stone massage released a year's worth of accumulated stress in ninety minutes. The silence here is physical.", author: "Clara M.", plan: "Sanctuary Guest" },
-                { quote: "An absolute masterclass in minimalist design and somatic care. The sound-dampened suites are a dream.", author: "Julien B.", plan: "Member since 2023" },
-                { quote: "Oasis has become my weekly anchor. The breathwork sessions with Kavi have completely shifted my high-stress routine.", author: "Sophia T.", plan: "Essential Member" },
-              ].map((t, i) => (
+              {AVIS_INLINE.map((t, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="p-10 bg-[#faf9f6] rounded-3xl border border-[var(--brand,#2c3e2d)]/5 flex flex-col justify-between h-full hover:border-[var(--brand,#2c3e2d)]/25 transition-all duration-300">
                     <p className="text-[var(--brand,#2c3e2d)]/60 leading-relaxed font-light italic mb-8">"{t.quote}"</p>
