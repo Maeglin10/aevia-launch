@@ -30,6 +30,7 @@ import {
   clientFaq,
   clientPhotos,
   clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -246,10 +247,15 @@ export default function VelocityJetsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  FLEET = FLEET_DEMO.map((row, i) => ({
-    ...row,
-    img: clientPhotos(sessionData)[0 + i] || row.img,
-  }));
+  FLEET = resolveList(
+    clientServices(sessionData)?.map((sv: any, i: number) => ({
+      ...FLEET_DEMO[i % FLEET_DEMO.length],
+      name: sv.title,
+      desc: sv.desc || FLEET_DEMO[i % FLEET_DEMO.length].desc,
+      img: clientPhotos(sessionData)[i] || FLEET_DEMO[i % FLEET_DEMO.length].img,
+    })),
+    FLEET_DEMO.map((row, i) => ({ ...row, img: clientPhotos(sessionData)[i] || row.img })),
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const TESTIMONIALS_DEMO = [
