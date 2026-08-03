@@ -34,6 +34,7 @@ import {
   Sparkles,
 } from "lucide-react"
 import {
+  clientAddress,
   clientReviews,
   clientServices,
   clientStats,
@@ -1453,7 +1454,7 @@ function ContactSection() {
                     className="text-[12px] tracking-[0.12em] uppercase"
                     style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 500, color: C.navyDeep }}
                   >
-                    12 Rue de la Paix · Paris 1er
+                    {clientAddress(sessionData) ?? "12 Rue de la Paix · Paris 1er"}
                   </p>
                 </div>
               </div>

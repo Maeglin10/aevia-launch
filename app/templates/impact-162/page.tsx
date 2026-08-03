@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Menu, X, ArrowRight, Coffee, Clock, MapPin, Phone, Mail, Star, Heart, ChevronRight, Loader2, CheckCircle2 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientReviews,
 } from "@/lib/templates/clientContent";
 
@@ -623,7 +624,7 @@ return (
             </div>
             <div>
               <p className="text-[#FDFAF5] text-xs tracking-widest uppercase mb-5">Contact</p>
-              <p className="text-sm mb-2">34 rue de la Roquette</p>
+              <p className="text-sm mb-2">{clientAddress(sessionData) ?? "34 rue de la Roquette"}</p>
               <p className="text-sm mb-2">75011 Paris</p>
               <p className="text-sm mb-4">{fd?.phone ?? "+33 1 43 48 22 10"}</p>
               <Link href="#contact" className="flex items-center gap-2 text-sm hover:text-[#C9A86C] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /> @lematindore</Link>

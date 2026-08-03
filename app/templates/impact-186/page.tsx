@@ -8,6 +8,7 @@ import { Phone, Star, MapPin, Clock, CheckCircle, Shield, Smile, Heart, Calendar
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAddress,
   clientReviews,
   clientServices,
   clientTeam,
@@ -589,7 +590,7 @@ export default function DrFontainePage() {
           <div>
             <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60 mb-5">Adresse</h4>
             <address className="not-italic text-white/20 text-sm leading-relaxed space-y-2.5">
-              <div>14 rue Crébillon<br />44000 Nantes</div>
+              <div>{clientAddress(sessionData) ?? "14 rue Crébillon"}<br />44000 Nantes</div>
               <div>Lun — Ven 8h30 — 19h<br />Sam 8h30 — 13h</div>
               <a href={`tel:${fd?.phone ?? "0240567890"}`} className="inline-flex items-center gap-2 hover:text-white transition-colors">
                 <Phone className="w-3.5 h-3.5" />{fd?.phone ?? "02 40 56 78 90"}

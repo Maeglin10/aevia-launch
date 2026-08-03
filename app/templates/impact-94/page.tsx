@@ -35,6 +35,7 @@ import {
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientFaq,
   clientReviews,
   clientServices,
@@ -1115,7 +1116,7 @@ export default function Impact94Page() {
                   </div>
                   <div>
                     <div className="text-sm font-medium text-[#0C0A09]">Atelier</div>
-                    <div className="text-sm text-[#0C0A09]/60">12, rue des Fleurs, 75004 Paris</div>
+                    <div className="text-sm text-[#0C0A09]/60">{clientAddress(sessionData) ?? "12, rue des Fleurs, 75004 Paris"}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">

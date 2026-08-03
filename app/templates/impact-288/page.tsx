@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientCertifications,
   clientReviews,
   clientServices,
@@ -2984,7 +2985,7 @@ function FooterSection() {
                   lineHeight: 1.6,
                 }}
               >
-                12 rue de la Chabossière
+                {clientAddress(sessionData) ?? "12 rue de la Chabossière"}
                 <br />
                 44300 Nantes
               </div>

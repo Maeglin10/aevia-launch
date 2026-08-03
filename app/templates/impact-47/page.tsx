@@ -32,6 +32,7 @@ import {
   useCart
 } from "./shared";
 import {
+  clientAddress,
   clientFaq,
   clientPhotos,
   clientReviews,
@@ -325,7 +326,7 @@ function WorkshopSection() {
           <div style={{ textAlign: "center" as const, padding: 40 }}>
             <Leaf size={48} color={C.sage} style={{ marginBottom: 16 }} />
             <p style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 20, color: C.sage, fontStyle: "italic" }}>Our Parisian Studio</p>
-            <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 13, color: C.textMuted, marginTop: 8 }}>18 Rue du Marché, Paris 11e</p>
+            <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 13, color: C.textMuted, marginTop: 8 }}>{clientAddress(sessionData) ?? "18 Rue du Marché, Paris 11e"}</p>
           </div>
         </motion.div>
 

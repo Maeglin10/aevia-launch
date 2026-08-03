@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { C, FONT, FONT_BODY, STATS, MISSIONS, TEMOIGNAGES, Reveal } from "./shared";
 import { DWELL, useSlides, AnchoredBackdrop, WordFlight, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import {
+  clientAddress,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -32,6 +33,8 @@ let HERO_MISSIONS = HERO_MISSIONS_DEMO;
 
 // Global state variables for subpage compatibility
 let fd: any = null;
+// Le profil métier, pour lib/templates/clientContent : même portée que fd.
+let bp: any = null;
 let c: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -66,6 +69,8 @@ export default function LedgerPage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = (session as any)?.businessProfile;
   HERO_MISSIONS = HERO_MISSIONS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
@@ -813,7 +818,7 @@ export default function LedgerPage() {
                 Adresse
               </p>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
-                14 allée de Tourny<br />
+                {clientAddress({ businessProfile: bp }) ?? "14 allée de Tourny"}<br />
                 33000 Bordeaux<br />
                 <a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>05 56 XX XX XX</a><br />
                 <a href={`mailto:${fd?.email ?? "contact@ledger-associes.fr"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{fd?.email ?? "contact@ledger-associes.fr"}</a>

@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientCertifications,
   clientFaq,
   clientReviews,
@@ -1910,7 +1911,7 @@ return (
               opacity: 0.8,
             }}
           >
-            24, Rue de la Paix · Paris 75002
+            {clientAddress(sessionData) ?? "24, Rue de la Paix · Paris 75002"}
           </div>
           <h2
             style={{

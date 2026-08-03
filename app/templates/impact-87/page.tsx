@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { C, FONT, FONT_BODY, STATS, COURS, AVIS, Reveal } from "./shared";
 import {
+  clientAddress,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -13,6 +14,8 @@ import {
 
 // Global state variables for subpage compatibility
 let fd: any = null;
+// Le profil métier, pour lib/templates/clientContent : même portée que fd.
+let bp: any = null;
 let c: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -47,6 +50,8 @@ export default function IronClubPage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = (session as any)?.businessProfile;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -780,7 +785,7 @@ export default function IronClubPage() {
                 Contact
               </p>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, lineHeight: 2 }}>{c?.aboutText ?? <>
-                12 rue de la Guillotière<br />
+                {clientAddress({ businessProfile: bp }) ?? "12 rue de la Guillotière"}<br />
                 69007 Lyon<br />
                 04 78 XX XX XX<br />{fd?.email ?? "contact@ironclub-lyon.fr"}</>}</p>
             </div>

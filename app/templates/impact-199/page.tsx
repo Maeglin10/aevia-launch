@@ -32,6 +32,7 @@ import {
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAddress,
   clientFaq,
   clientServices,
   clientTeam,
@@ -1609,7 +1610,7 @@ export default function Impact199Page() {
               <p className="text-white/20 text-xs">
                 © {new Date().getFullYear()} Encre & Âme. Tous droits réservés.
               </p>
-              <p className="text-white/15 text-xs">42 Rue Oberkampf, Paris XI</p>
+              <p className="text-white/15 text-xs">{clientAddress(sessionData) ?? "42 Rue Oberkampf, Paris XI"}</p>
               <div className="flex items-center justify-center md:justify-end gap-4 mt-2">
                 {["Mentions légales", "Confidentialité", "CGV"].map((item) => (
                   <a key={item} href="#contact" className="text-white/20 text-[10px] hover:text-white/40 transition-colors">

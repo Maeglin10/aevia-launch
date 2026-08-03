@@ -207,6 +207,21 @@ export function clientCity(s: SessionLike | null | undefined): string | undefine
   );
 }
 
+/**
+ * L'adresse postale du client.
+ *
+ * Elle est saisie à l'étape légale, sous `legal.companyAddress` — et aucun thème
+ * ne la lisait : 67 d'entre eux affichaient une adresse parisienne inventée sous
+ * le nom du client, ce qui est pire qu'aucune adresse du tout.
+ */
+export function clientAddress(s: SessionLike | null | undefined): string | undefined {
+  return (
+    trimmed(s?.businessProfile?.legal?.companyAddress) ||
+    trimmed(s?.businessProfile?.geo?.address) ||
+    undefined
+  );
+}
+
 /** Les photos du client. Jamais de photo de stock à la place. */
 export function clientPhotos(s: SessionLike | null | undefined): string[] {
   const rows = (s?.formData?.photoUrls ?? []) as any[];

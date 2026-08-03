@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -2406,7 +2407,7 @@ function FooterSection() {
             }}
           >
             <MapPin size={13} color={C.terra} strokeWidth={1.5} />
-            18 rue de la Barre · 69006 Lyon
+            {clientAddress(sessionData) ?? "18 rue de la Barre · 69006 Lyon"}
           </div>
           <div style={{ marginTop: 28 }}>
             <a

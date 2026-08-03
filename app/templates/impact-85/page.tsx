@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Menu, X, ArrowRight, FlaskConical, Microscope, Leaf, Shield, Star, ChevronRight, Search, Mail, Phone, MapPin, ShoppingBag, Plus, Minus, Trash2, Check } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAddress,
   clientFaq,
   clientReviews,
 } from "@/lib/templates/clientContent";
@@ -906,7 +907,7 @@ export default function AetherLabsPage() {
                   </div>
                   <div>
                     <div className="text-xs text-[#8A7860] uppercase tracking-wider">Laboratoire</div>
-                    <span className="text-[#1C1814]">12 Route de Cannes, 06130 Grasse, France</span>
+                    <span className="text-[#1C1814]">{clientAddress({ businessProfile: bp }) ?? "12 Route de Cannes, 06130 Grasse, France"}</span>
                   </div>
                 </div>
               </div>

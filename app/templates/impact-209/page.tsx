@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, BlurThrough, Retint, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
 import { TrackingCollapse } from '@/lib/templates/hero-kit-3';
 import {
+  clientAddress,
   clientReviews,
   clientServices,
   clientTeam,
@@ -1666,7 +1667,7 @@ export default function Page() {
               <MapPin style={{ width: 20, height: 20 }} />
             </div>
             <p style={{ ...bodyFont, fontSize: '12px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', margin: 0 }}>
-              14 rue de Varenne, Paris 7e
+              {clientAddress({ businessProfile: bp }) ?? "14 rue de Varenne, Paris 7e"}
             </p>
             <p style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, margin: 0, opacity: 0.6 }}>
               Métro Varenne (ligne 13) · Bus 69, 87
