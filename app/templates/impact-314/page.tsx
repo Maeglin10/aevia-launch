@@ -265,9 +265,11 @@ export default function Page({ session: initialSession }) {
   const [session, setSession] = useState(initialSession ?? null);
 
   // Data lists
-  const [services, setServices] = useState([]);
-  const [testimonials, setTestimonials] = useState([]);
-  const [faq, setFaq] = useState([]);
+  // useState([]) infère never[] : ces états reçoivent ensuite les prestations et
+  // les avis du client, dont la forme n'a rien de « never ».
+  const [services, setServices] = useState<any[]>([]);
+  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [faq, setFaq] = useState<any[]>([]);
 
   // Standard session loading (matches every other template): this page is
   // never actually given a `session` prop by Next.js routing — it must fetch
@@ -372,7 +374,7 @@ export default function Page({ session: initialSession }) {
       }
     ];
 
-    setServices(cData?.services || fallbackServices);
+    setServices(clientServices(session) || fallbackServices);
     setTestimonials(cData?.testimonials || fallbackTestimonials);
     setFaq(cData?.faq || fallbackFaq);
   }, [cData]);

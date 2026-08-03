@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
   clientCity,
+  clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -122,7 +123,7 @@ export default function AquanovaPiscinesPage() {
 
   const bpLocal: any = session?.businessProfile;
   const SERVICES = resolveList(
-    bpLocal?.services?.map((s: any, i: number) => ({
+    clientServices(session)?.map((s: any, i: number) => ({
       icon: SERVICE_ICONS[i % SERVICE_ICONS.length],
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -138,7 +139,7 @@ export default function AquanovaPiscinesPage() {
     REALISATIONS_DEMO
   );
   const AVIS = resolveList(
-    bpLocal?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(session)?.map((r: any) => ({
       q: r.text ?? r.quote,
       n: r.name ?? r.author,
       l: r.location ?? r.context ?? "",

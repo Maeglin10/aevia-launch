@@ -2,6 +2,8 @@
 import {
   clientCity,
   clientName,
+  clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
@@ -113,7 +115,7 @@ export default function MaelleDumasPiscinesPage() {
 
   const bpLocal: any = session?.businessProfile;
   const SERVICES = resolveList(
-    bpLocal?.services?.map((sv: any, i: number) => ({
+    clientServices(session)?.map((sv: any, i: number) => ({
       num: SERVICES_DEMO[i % SERVICES_DEMO.length].num,
       title: sv.title ?? sv.name,
       desc: sv.description ?? sv.desc,
@@ -131,7 +133,7 @@ export default function MaelleDumasPiscinesPage() {
     PROJECTS_DEMO
   );
   const AVIS = resolveList(
-    bpLocal?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(session)?.map((r: any) => ({
       quote: r.text ?? r.quote,
       name: r.name ?? r.author,
       loc: r.location ?? r.context ?? "",

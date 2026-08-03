@@ -2,6 +2,8 @@
 import {
   clientCity,
   clientName,
+  clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -792,7 +794,7 @@ export default function Impact166Page() {
     SERIES_DEMO
   );
   const SERVICES = resolveList(
-    bpLocal?.services?.map((s: any, i: number) => ({
+    clientServices(session)?.map((s: any, i: number) => ({
       ...SERVICES_DEMO[i % SERVICES_DEMO.length],
       name: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -801,7 +803,7 @@ export default function Impact166Page() {
     SERVICES_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bpLocal?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(session)?.map((r: any, i: number) => ({
       quote: r.text ?? r.quote ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
       name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
       role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,

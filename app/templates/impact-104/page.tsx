@@ -2,6 +2,8 @@
 import {
   clientCity,
   clientName,
+  clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -45,7 +47,7 @@ export default function LumiereDoreePage() {
 
   const bpLocal: any = session?.businessProfile;
   const PRESTATIONS = resolveList(
-    bpLocal?.services?.map((s: any, i: number) => ({
+    clientServices(session)?.map((s: any, i: number) => ({
       ...PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length],
       titre: s.title ?? s.name,
       description: s.description ?? s.desc,
@@ -53,7 +55,7 @@ export default function LumiereDoreePage() {
     PRESTATIONS_DEMO
   );
   const TEMOIGNAGES = resolveList(
-    bpLocal?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(session)?.map((r: any, i: number) => ({
       ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length],
       couple: r.name ?? TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length].couple,
       texte: r.text ?? r.quote ?? TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length].texte,
