@@ -46,10 +46,15 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
     retours avant la fermeture — mais toujours pas de « < », pour ne jamais
     déborder sur la balise suivante.
   */
-  src = src.replace(/(©\s*(?:\{[^}]{0,80}\}|\d{4})[^<]{0,140}?)(\s*<\/)/, (m, ligne, fin) => {
+  /*
+    On insère à la fin du texte du copyright, pas avant une balise fermante :
+    dix-huit lignes contiennent un composant au milieu — « SIREN <LegalIdentity />
+    » — et exiger « </ » juste après faisait échouer le motif sur toutes.
+  */
+  src = src.replace(/(©\s*(?:\{[^}]{0,80}\}|\d{4})[^<]{0,200})/, (m, ligne) => {
     if (fait) return m;
     fait = true;
-    return `${ligne}${mention}${fin}`;
+    return `${ligne}${mention}`;
   });
   if (!fait) continue;
 

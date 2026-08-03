@@ -2698,7 +2698,7 @@ function FooterSection() {
         <span>
           © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Dr. Marc Lecomte")} · RPPS 10&nbsp;987&nbsp;654&nbsp;321 ·
           Conseil de l'Ordre des Médecins de Loire-Atlantique · Nantes Centre
-        </span>
+        {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 20 }}>
           <a href="#hero" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
