@@ -13,6 +13,7 @@ import { SECTOR_EXTRA_QUESTIONS } from "@/lib/templates/sector-questions";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 import { NICHE_ARCHETYPE, SANTE_NICHES } from "@/lib/wizard/archetypes";
 import { ServicesCatalogue } from "@/components/wizard/ServicesCatalogue";
+import { ThemeBlocks } from "@/components/wizard/ThemeBlocks";
 import { ServiceRdvStep } from "@/components/wizard/steps/ServiceRdvStep";
 import { FoodStep } from "@/components/wizard/steps/FoodStep";
 import { ImmobilierStep } from "@/components/wizard/steps/ImmobilierStep";
@@ -772,6 +773,13 @@ export function StepForm() {
           )}
 
           {/* STEP 4 — Offer */}
+          {/*
+            Après la saisie propre au métier viennent les blocs que le thème
+            choisi sait afficher : avis (89 % des thèmes), garanties (74 %),
+            chiffres clés (42 %), FAQ, équipe, zones. Le wizard n'en demandait
+            aucun, donc ces sections restaient sur le contenu de démonstration
+            quel que soit le câblage — la donnée n'existait pas.
+          */}
           {step === 4 && NICHE_ARCHETYPE[form.sector] === "service_rdv" ? (
             <ServiceRdvStep
               value={form.businessProfile}
@@ -817,6 +825,11 @@ export function StepForm() {
               <Field label={t.fTargetAudience}>
                 <input className={input} value={form.targetAudience} onChange={(e) => set("targetAudience", e.target.value)} placeholder={t.phTargetAudience} />
               </Field>
+              <ThemeBlocks
+                templateId={form.template}
+                profile={form.businessProfile}
+                onChange={(bp) => set("businessProfile", bp)}
+              />
 
               {(SECTOR_EXTRA_QUESTIONS[form.sector] ?? []).length > 0 && (
                 <div className="border-t border-zinc-700 pt-5 mt-1 space-y-4">
