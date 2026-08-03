@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientName,
+  clientStats,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -23,6 +24,16 @@ import { DWELL, useSlides, HeldSwap, BlurThrough, CircularLabel, SlideIndex, Hai
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: "4", label: "Générations" },
+              { value: "28", label: "Hectares" },
+              { value: "6", label: "Cépages" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 let brand: any = null;
@@ -1002,6 +1013,22 @@ export default function WineryTemplate() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(session)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -1490,11 +1517,7 @@ export default function WineryTemplate() {
               borderTop: `1px solid ${C.border}`,
             }}
           >
-            {[
-              { value: "4", label: "Générations" },
-              { value: "28", label: "Hectares" },
-              { value: "6", label: "Cépages" },
-            ].map((stat, i) => {
+            {STATS_INLINE.map((stat, i) => {
               const statRef = useRef<HTMLDivElement>(null);
               const statInView = useInView(statRef, { once: true });
               return (

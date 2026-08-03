@@ -31,6 +31,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -41,6 +42,14 @@ import {
 let brand: any = null;
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: "3 500+", label: "Animaux soignés" }, { value: "4.8★", label: "Note Google" }, { value: "20 ans", label: "D'expertise" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -403,7 +412,7 @@ function Hero() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} style={{ display: "flex", gap: 36 }}>
-          {[{ value: "3 500+", label: "Animaux soignés" }, { value: "4.8★", label: "Note Google" }, { value: "20 ans", label: "D'expertise" }].map((s) => (
+          {STATS_INLINE.map((s) => (
             <div key={s.label}>
               <div style={{ fontWeight: 900, fontSize: 22, color: C.text }}>{s.value}</div>
               <div style={{ fontSize: 13, color: C.textMuted }}>{s.label}</div>
@@ -810,6 +819,22 @@ export default function Impact32() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

@@ -1,8 +1,10 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
   clientPhotos,
+  clientStats,
 } from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -123,12 +125,13 @@ const PHILOSOPHY = [
   },
 ];
 
-const STATS = [
+const STATS_SOURCE = [
   { label: "Wood Species", value: "3" },
   { label: "Dry Aging Days", value: "45-90" },
   { label: "Michelin Stars", value: "2" },
   { label: "Wine Labels", value: "850+" },
 ];
+let STATS = STATS_SOURCE;
 
 /* ── CARTE (full menu) — theme-native FR data ───────────────────────────── */
 
@@ -1084,6 +1087,14 @@ export default function EmberGrillPage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS = resolveList(
+
+    clientStats(session)?.map((s: any, i: number) => ({ ...STATS_SOURCE[i % STATS_SOURCE.length], value: s.value, label: s.label })),
+
+    STATS_SOURCE,
+
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
