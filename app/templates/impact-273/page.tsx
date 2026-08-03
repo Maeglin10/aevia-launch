@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from '@/lib/templates/resolveList';
 import {
+  clientAddress,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1951,7 +1952,7 @@ function Footer() {
               }}
             >
               <MapPin size={14} color={C.accent} strokeWidth={1.5} />
-              2 Place Kléber, 67000 Strasbourg
+              {clientAddress(sessionData) ?? "2 Place Kléber, 67000 Strasbourg"}
             </div>
             <div
               style={{

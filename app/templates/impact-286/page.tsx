@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientReviews,
   clientServices,
   clientStats,
@@ -2151,7 +2152,7 @@ function PracticalSection() {
       lignes: [
         <span key="a1" style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
           <MapPin size={16} color={C.gold} strokeWidth={1.5} style={{ flexShrink: 0, marginTop: 2 }} />
-          <span>Cabinet Vidal — Droit Social<br />14, quai Perrache<br />69002 Lyon Confluence</span>
+          <span>Cabinet Vidal — Droit Social<br />{clientAddress(sessionData) ?? "14, quai Perrache"}<br />69002 Lyon Confluence</span>
         </span>,
         <span key="a2" style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 12 }}>
           <Phone size={16} color={C.gold} strokeWidth={1.5} style={{ flexShrink: 0 }} />
@@ -2411,7 +2412,7 @@ function FooterSection() {
             }}
           >
             <MapPin size={13} color={C.gold} strokeWidth={1.5} />
-            14, quai Perrache · Lyon 69002
+            {clientAddress(sessionData) ?? "14, quai Perrache · Lyon 69002"}
           </div>
         </div>
 

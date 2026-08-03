@@ -34,6 +34,7 @@ import {
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAddress,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -1619,7 +1620,7 @@ export default function Impact200Page() {
                 className="text-white/20 text-xs"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
-                18 Avenue Montaigne, Paris 8ème
+                {clientAddress(sessionData) ?? "18 Avenue Montaigne, Paris 8ème"}
               </p>
             </div>
           </div>

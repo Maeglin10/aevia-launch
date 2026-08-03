@@ -31,6 +31,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -2653,7 +2654,7 @@ function FooterSection() {
                     lineHeight: 1.55,
                   }}
                 >
-                  12 allée des Artisans,
+                  {clientAddress(sessionData) ?? "12 allée des Artisans,"}
                   <br />
                   35000 Rennes
                 </span>

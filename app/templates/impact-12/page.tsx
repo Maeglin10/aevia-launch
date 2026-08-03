@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, ChevronRight, ShoppingBag, Check } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -1129,7 +1130,7 @@ function ContactSubPage() {
           <div className="md:col-span-5 space-y-8 text-sm text-white/60">
             <div className="space-y-2">
               <h3 className="text-white text-xs tracking-widest uppercase">Showroom Vendôme</h3>
-              <p>18 Place Vendôme, 75001 Paris</p>
+              <p>{clientAddress(sessionData) ?? "18 Place Vendôme, 75001 Paris"}</p>
             </div>
             <div className="space-y-2">
               <h3 className="text-white text-xs tracking-widest uppercase">Horaires</h3>

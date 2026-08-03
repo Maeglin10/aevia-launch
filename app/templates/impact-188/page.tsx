@@ -8,6 +8,7 @@ import { Heart, Phone, Star, MapPin, Clock, CheckCircle, Stethoscope, Scissors, 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAddress,
   clientReviews,
   clientServices,
   clientTeam,
@@ -523,7 +524,7 @@ export default function CliniqueBoisVertPage() {
           <div>
             <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60 mb-5">Infos</h4>
             <address className="not-italic text-white/20 text-sm leading-relaxed space-y-2.5">
-              <div>12 allée des Pins<br />31400 Toulouse</div>
+              <div>{clientAddress(sessionData) ?? "12 allée des Pins"}<br />31400 Toulouse</div>
               <div>Lun — Sam 8h30 — 19h30<br />Dim : urgences</div>
               <a href={`tel:${fd?.phone ?? "0561789012"}`} className="inline-flex items-center gap-2 hover:text-white transition-colors">
                 <Phone className="w-3.5 h-3.5" />{fd?.phone ?? "05 61 78 90 12"}

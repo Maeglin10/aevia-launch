@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientReviews,
 } from "@/lib/templates/clientContent";
 
@@ -2558,7 +2559,7 @@ function FooterSection() {
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
               <MapPin size={14} color={C.wheat} strokeWidth={1.5} style={{ marginTop: 3, flexShrink: 0 }} />
               <span>
-                12 rue du Grand-Beffroi<br />
+                {clientAddress(sessionData) ?? "12 rue du Grand-Beffroi"}<br />
                 Vieux-Bourg · 59000 Lille
               </span>
             </div>

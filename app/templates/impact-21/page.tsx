@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Menu, X, ArrowRight, Layers, Cpu, Package, Eye, ChevronRight, Globe, Award, Users, Mail, Clock, Send, Calendar, CheckCircle, Star, Lightbulb, Target, Heart, Palette, Ruler, Cog, BookOpen } from "lucide-react";
 import {
+  clientAddress,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -165,6 +166,8 @@ const pricingTiers = [
 
 // Global state variables for subpage compatibility
 let fd: any = null;
+// Le profil métier, pour lib/templates/clientContent : même portée que fd.
+let bp: any = null;
 let c: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -199,6 +202,8 @@ export default function FormeStudioPage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = (session as any)?.businessProfile;
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -959,7 +964,7 @@ return (
                           <Globe className="w-5 h-5 text-[var(--brand,#F97316)]" />
                           <h4 className="text-gray-900 font-bold">Studio</h4>
                         </div>
-                        <p className="text-gray-500 text-sm">42 rue Oberkampf<br />75011 Paris, France</p>
+                        <p className="text-gray-500 text-sm">{clientAddress({ businessProfile: bp }) ?? "42 rue Oberkampf"}<br />75011 Paris, France</p>
                       </div>
                       <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                         <div className="flex items-center gap-3 mb-3">

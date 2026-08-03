@@ -27,6 +27,7 @@ import {
 } from '@/lib/templates/hero-kit-2';
 import { PortalZoom } from '@/lib/templates/hero-kit-3';
 import {
+  clientAddress,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -2093,7 +2094,7 @@ function Footer() {
               }}
             >
               <MapPin size={13} color={C.accent} strokeWidth={1.6} />
-              12 rue du Dôme · 67000 Strasbourg
+              {clientAddress(sessionData) ?? "12 rue du Dôme · 67000 Strasbourg"}
             </div>
             <div
               style={{

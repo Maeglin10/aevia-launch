@@ -34,6 +34,7 @@ import {
   Check,
 } from "lucide-react"
 import {
+  clientAddress,
   clientFaq,
   clientReviews,
   clientServices,
@@ -1457,7 +1458,7 @@ function ContactFooter() {
                   <span className="text-[11px] font-[600] uppercase tracking-[0.2em] text-[#F9A8D4]" style={{ fontFamily: "'Inter', sans-serif" }}>Adresse</span>
                 </div>
                 <p className="text-white text-[14px] font-[300] leading-[1.7]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  24 rue des Petites Écuries<br />
+                  {clientAddress(sessionData) ?? "24 rue des Petites Écuries"}<br />
                   75009 Paris<br />
                   Métro Bonne Nouvelle (L8/9)
                 </p>
@@ -1554,7 +1555,7 @@ function ContactFooter() {
               <div className="text-center">
                 <MapPin className="w-8 h-8 text-[#F9A8D4] mx-auto mb-2" />
                 <p className="text-white/60 text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  24 rue des Petites Écuries, 75009 Paris
+                  {clientAddress(sessionData) ?? "24 rue des Petites Écuries, 75009 Paris"}
                 </p>
                 <a
                   href="https://maps.google.com"

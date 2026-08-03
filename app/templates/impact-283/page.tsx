@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientReviews,
   clientTeam,
 } from "@/lib/templates/clientContent";
@@ -2544,7 +2545,7 @@ function PracticalSection() {
                   marginBottom: 18,
                 }}
               >
-                12 Avenue de Palavas
+                {clientAddress(sessionData) ?? "12 Avenue de Palavas"}
                 <br />
                 Quartier Antigone
                 <br />

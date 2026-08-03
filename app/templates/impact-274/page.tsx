@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientReviews,
   clientServices,
   clientTeam,
@@ -1999,7 +2000,7 @@ function PracticalInfoSection() {
                   marginBottom: 16,
                 }}
               >
-                18, rue de la République
+                {clientAddress(sessionData) ?? "18, rue de la République"}
                 <br />
                 69003 Lyon (3e arr.)
               </div>
@@ -2553,7 +2554,7 @@ function FooterSection() {
               }}
             >
               <MapPin size={14} color="rgba(160,210,170,0.75)" strokeWidth={1.8} />
-              18 rue de la République, 69003 Lyon
+              {clientAddress(sessionData) ?? "18 rue de la République, 69003 Lyon"}
             </div>
             <div
               style={{

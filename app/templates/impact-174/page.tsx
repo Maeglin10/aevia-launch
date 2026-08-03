@@ -12,6 +12,7 @@ import {
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
@@ -563,7 +564,7 @@ export default function Impact174Page() {
             <div className="flex flex-col sm:flex-row gap-8 justify-center text-sm text-[#f5f5f5]/30">
               <div className="flex items-center gap-2 justify-center">
                 <MapPin className="w-4 h-4 text-[var(--brand,#84cc16)]" />
-                <span>8 rue Oberkampf, 75011 Paris</span>
+                <span>{clientAddress(sessionData) ?? "8 rue Oberkampf, 75011 Paris"}</span>
               </div>
               <div className="flex items-center gap-2 justify-center">
                 <Clock className="w-4 h-4 text-[var(--brand,#84cc16)]" />

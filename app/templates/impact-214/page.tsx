@@ -14,6 +14,7 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import { Droplets, Bell } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientFaq,
   clientReviews,
   clientServices,
@@ -2582,7 +2583,7 @@ export default function AquaPrestigePage() {
                 </a>
                 <div style={{ color: C.textMuted, fontSize: '0.83rem', lineHeight: 1.7 }}>
                   <div>{fd?.email ?? "contact@aquaprestige.fr"}</div>
-                  <div style={{ marginTop: '0.4rem' }}>15 Rue de la Pompe, Paris 16e</div>
+                  <div style={{ marginTop: '0.4rem' }}>{clientAddress(sessionData) ?? "15 Rue de la Pompe, Paris 16e"}</div>
                   <div style={{ marginTop: '0.4rem' }}>Lun–Sam : 8h – 19h</div>
                   <div>Urgences : 24h/24</div>
                 </div>
