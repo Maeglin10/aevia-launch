@@ -12,6 +12,7 @@ import { INDUSTRIES, SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/l
 import { SECTOR_EXTRA_QUESTIONS } from "@/lib/templates/sector-questions";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 import { NICHE_ARCHETYPE, SANTE_NICHES } from "@/lib/wizard/archetypes";
+import { ServicesCatalogue } from "@/components/wizard/ServicesCatalogue";
 import { ServiceRdvStep } from "@/components/wizard/steps/ServiceRdvStep";
 import { FoodStep } from "@/components/wizard/steps/FoodStep";
 import { ImmobilierStep } from "@/components/wizard/steps/ImmobilierStep";
@@ -412,9 +413,12 @@ export function StepForm() {
       if (!form.businessName.trim()) errs.businessName = t.errBusinessName;
       if (!form.tagline.trim()) errs.tagline = t.errTagline;
     } else if (s === 4 && !NICHE_ARCHETYPE[form.sector]) {
-      // Only non-pilot niches (no dedicated step 4 component) use the
-      // generic "Votre offre" fields.
-      if (!form.mainService.trim()) errs.mainService = t.errMainService;
+      // Les métiers sans archétype saisissent désormais la même liste de
+      // prestations que les métiers pilotes : c'est elle qui est exigée, et
+      // non plus un « service principal » en une ligne qu'aucun thème ne
+      // savait afficher.
+      const named = (form.businessProfile.services ?? []).filter((sv) => sv.name?.trim());
+      if (named.length === 0) errs.mainService = t.errMainService;
       if (!form.benefit1.trim()) errs.benefit1 = t.errBenefit;
     } else if (s === 6) {
       if (!form.email.trim()) errs.email = t.errEmailRequired;
@@ -472,8 +476,8 @@ export function StepForm() {
         // mainService/benefits fields — step 4 is their businessProfile
         // capture instead. Fall back to whatever catalogue they filled so
         // the AI copy prompt (lib/llmProviders.ts) never sees empty strings.
-        mainService: form.mainService
-          || form.businessProfile.services?.[0]?.name
+        mainService: form.businessProfile.services?.[0]?.name
+          || form.mainService
           || form.businessProfile.menu?.[0]?.name
           || form.businessProfile.listings?.[0]?.title
           || "",
@@ -790,17 +794,26 @@ export function StepForm() {
           ) : step === 4 && (
             <>
               <h2 className="text-xl font-bold text-white">{t.s4Title}</h2>
-              <Field label={t.fMainService} required error={errFor("mainService")}>
-                <input className={`${input} ${errFor("mainService") ? inputError : ""}`} value={form.mainService} onChange={(e) => set("mainService", e.target.value)} placeholder={t.phMainService} />
-              </Field>
+              {/*
+                Les cinquante-sept métiers sans archétype ne donnaient qu'un
+                service en une ligne : leurs thèmes n'avaient rien à mettre dans
+                la section prestations et gardaient celles de la démonstration.
+                Ils saisissent désormais la même liste structurée que les onze
+                métiers pilotes, tarif compris.
+              */}
+              <ServicesCatalogue
+                services={form.businessProfile.services ?? [{ name: "" }]}
+                onChange={(next) =>
+                  set("businessProfile", { ...form.businessProfile, services: next })
+                }
+              />
+
               <Field label={t.fBenefits} required error={errFor("benefit1")}>
                 {(["benefit1", "benefit2", "benefit3"] as const).map((k, i) => (
                   <input key={k} className={`${input} mb-2 ${k === "benefit1" && errFor("benefit1") ? inputError : ""}`} value={form[k]} onChange={(e) => set(k, e.target.value)} placeholder={`${t.phBenefit} ${i + 1} ${i === 0 ? t.required : t.optional}`} />
                 ))}
               </Field>
-              <Field label={t.fPriceRange}>
-                <input className={input} value={form.priceRange} onChange={(e) => set("priceRange", e.target.value)} placeholder={t.phPriceRange} />
-              </Field>
+
               <Field label={t.fTargetAudience}>
                 <input className={input} value={form.targetAudience} onChange={(e) => set("targetAudience", e.target.value)} placeholder={t.phTargetAudience} />
               </Field>
