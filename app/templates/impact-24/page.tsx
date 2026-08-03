@@ -1,5 +1,6 @@
 
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -649,7 +650,7 @@ return (
                             <div className="font-bold text-[var(--brand,#A3E635)]">{co.raise}</div>
                           </div>
                           <div>
-                            <div className="text-xs text-white/40 mb-1">Team</div>
+                            <div className="text-xs text-white/40 mb-1">{tr({ formData: fd }, "Team")}</div>
                             <div className="font-bold">{co.teamSize} people</div>
                           </div>
                           <div>
@@ -1187,7 +1188,7 @@ return (
           </button>
           <div className="flex gap-8 text-sm text-white/40">
             <button onClick={() => goTo("portfolio")} className="hover:text-white transition-colors cursor-pointer bg-transparent border-none text-sm text-white/40">Portfolio</button>
-            <button onClick={() => goTo("mentors")} className="hover:text-white transition-colors cursor-pointer bg-transparent border-none text-sm text-white/40">Team</button>
+            <button onClick={() => goTo("mentors")} className="hover:text-white transition-colors cursor-pointer bg-transparent border-none text-sm text-white/40">{tr({ formData: fd }, "Team")}</button>
             <button onClick={() => goTo("home")} className="hover:text-white transition-colors cursor-pointer bg-transparent border-none text-sm text-white/40">Blog</button>
             <button onClick={() => goTo("home")} className="hover:text-white transition-colors cursor-pointer bg-transparent border-none text-sm text-white/40">Contact</button>
           </div>

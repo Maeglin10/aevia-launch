@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
@@ -309,7 +310,7 @@ return (
           <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
             <Link href="/templates/impact-69/prints" style={{ textDecoration: "none" }}>
               <MagneticButton style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.bg, background: C.amber, padding: "14px 32px", borderRadius: 2, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 700 }}>
-                Get in Touch
+                {tr({ formData: fd }, "Get in Touch")}
               </MagneticButton>
             </Link>
           </div>

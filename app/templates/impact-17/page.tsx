@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -363,7 +364,7 @@ return (
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
                     <div>
                       <p className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-3">Expertise</p>
-                      <h2 className="text-[#1A1510] text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Services</h2>
+                      <h2 className="text-[#1A1510] text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{tr(sessionData, "Services")}</h2>
                     </div>
                     <button onClick={() => goTo("services")} className="mt-4 md:mt-0 text-[var(--brand,#C46A3E)] font-medium flex items-center gap-2 hover:underline cursor-pointer">
                       Notre méthodologie <ArrowRight className="w-4 h-4" />

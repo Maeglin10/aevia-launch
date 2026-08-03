@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from "react"
 import {
@@ -512,7 +513,7 @@ export default function Impact199Page() {
               href="#contact"
               className="hidden lg:flex items-center gap-2 bg-[var(--brand,#DC2626)] hover:bg-[#b91c1c] text-white text-sm font-semibold px-6 py-3 tracking-widest uppercase transition-colors"
             >
-              Book Now
+              {tr(sessionData, "Book Now")}
               <ArrowRight className="w-4 h-4" />
             </a>
             <button
@@ -571,7 +572,7 @@ export default function Impact199Page() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                Book Now
+                {tr(sessionData, "Book Now")}
               </motion.a>
             </div>
           </motion.div>

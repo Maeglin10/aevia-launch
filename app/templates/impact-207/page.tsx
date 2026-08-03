@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import {
@@ -283,7 +284,7 @@ function Navbar() {
           </a>
         ))}
         <a href="#contact" className="n207-btn-primary" style={{ fontSize: 13, padding: "10px 20px" }}>
-          Get a Quote
+          {tr({ formData: fd }, "Get a Quote")}
         </a>
       </div>
     </motion.nav>
@@ -527,13 +528,13 @@ function RouteMapHero() {
 
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             <a href="#contact" className="n207-btn-primary">
-              Request a Quote
+              {tr({ formData: fd }, "Request a Quote")}
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </a>
             <a href="#services" className="n207-btn-ghost">
-              Our Services
+              {tr({ formData: fd }, "Our Services")}
             </a>
           </div>
 
@@ -1084,7 +1085,7 @@ function ServiceCard({ icon, title, desc, features, color, routePoints, delay = 
           marginTop: 8,
         }}
       >
-        Learn more
+        {tr({ formData: fd }, "Learn more")}
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ transition: "transform 0.2s", transform: hovered ? "translateX(4px)" : "none" }}>
           <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
@@ -1678,7 +1679,7 @@ function ContactSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="n207-label">Get a Quote</div>
+            <div className="n207-label">{tr({ formData: fd }, "Get a Quote")}</div>
             <h2 className="n207-h2" style={{ marginBottom: 24 }}>
               Ready to move?
               <br />

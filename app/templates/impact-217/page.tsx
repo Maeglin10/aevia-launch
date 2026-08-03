@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -1949,7 +1950,7 @@ function ContactSection() {
     >
       <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
         <Reveal>
-          <Eyebrow style={{ marginBottom: 16 }}>Get in touch</Eyebrow>
+          <Eyebrow style={{ marginBottom: 16 }}>{tr(sessionData, "Get in touch")}</Eyebrow>
           <h2
             style={{
               margin: '0 0 24px',
@@ -1961,7 +1962,7 @@ function ContactSection() {
               color: C.white,
             }}
           >
-            Contact us
+            {tr(sessionData, "Contact us")}
           </h2>
           <p style={{ color: C.textMuted, fontSize: 16, marginBottom: 32, lineHeight: 1.6 }}>
             Have a question about our drops, sizing, or shipping? Drop us a line.
@@ -2185,7 +2186,7 @@ function Footer() {
               Privacy
             </a>
             <a href="#contact" style={{ color: C.textFaint, textDecoration: 'none' }}>
-              Terms
+              {tr(sessionData, "Terms")}
             </a>
             <a href="#contact" style={{ color: C.textFaint, textDecoration: 'none' }}>
               Cookies

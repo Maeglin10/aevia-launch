@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -494,7 +495,7 @@ export default function StudioVersaPage() {
                   type="submit"
                   className="min-h-[44px] px-7 bg-[var(--brand,#fb923c)] text-[#1a1a1a] text-[10px] font-bold uppercase tracking-[0.2em] hover:opacity-90 transition-opacity"
                 >
-                  Subscribe
+                  {tr(sessionData, "Subscribe")}
                 </button>
               </form>
             </Reveal>

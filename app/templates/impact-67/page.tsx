@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -360,7 +361,7 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-20">
-              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#e11d48)] mb-4 block">Services</span>
+              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#e11d48)] mb-4 block">{tr(sessionData, "Services")}</span>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight uppercase italic text-white">
                 Full-Spectrum<br /><span className="text-[var(--brand,#e11d48)]">Capture.</span>
               </h2>

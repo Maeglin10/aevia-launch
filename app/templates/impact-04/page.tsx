@@ -1,5 +1,6 @@
 
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -564,7 +565,7 @@ return (
           </Reveal>
 
           <Reveal delay={0.2}>
-            <span className="text-amber-500 text-[10px] uppercase tracking-[0.4em] font-sans font-semibold mb-6 block">Our Story</span>
+            <span className="text-amber-500 text-[10px] uppercase tracking-[0.4em] font-sans font-semibold mb-6 block">{tr(sessionData, "Our Story")}</span>
             <h2 className="text-4xl md:text-5xl font-light leading-[1.1] mb-8">
               Born from a passion<br />for <span className="italic">Provence</span>
             </h2>
@@ -739,7 +740,7 @@ return (
                 <CalendarDays className="w-4 h-4" /> Make a Reservation
               </button>
               <a href={`tel:${fd?.phone ?? "+33142651516"}`} className="px-12 py-5 border border-white/10 hover:border-amber-700/40 text-[11px] uppercase tracking-[0.3em] font-sans font-semibold transition-all duration-200 inline-flex items-center gap-3 cursor-pointer">
-                <Phone className="w-4 h-4" /> Call Us
+                <Phone className="w-4 h-4" /> {tr(sessionData, "Call Us")}
               </a>
             </div>
 

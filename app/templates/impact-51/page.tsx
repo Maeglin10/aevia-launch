@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, {useState, useRef, useEffect} from 'react';
@@ -304,7 +305,7 @@ return (
                   display: "block",
                 }}
               >
-                Testimonials
+                {tr({ formData: fd }, "Testimonials")}
               </span>
               <h2
                 style={{
@@ -486,7 +487,7 @@ return (
                     }}
                   >
                     <Mail style={{ width: 15, height: 15 }} />
-                    Get started
+                    {tr({ formData: fd }, "Get started")}
                   </button>
                 </form>
               ) : (

@@ -464,7 +464,7 @@ export function StepForm() {
     void fetch("/api/sessions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ formData: { sector, industry, businessType: sector } }),
+      body: JSON.stringify({ formData: { locale, sector, industry, businessType: sector } }),
     })
       .then((res) => res.json())
       .then((data: { sessionId: string }) => setSessionId(data.sessionId))
@@ -488,6 +488,8 @@ export function StepForm() {
     try {
       // Create session
       const formData = {
+        // La langue du wizard suit le client jusque dans le thème.
+        locale,
         industry: form.industry, sector: form.sector,
         businessType: form.sector, // FormData contract key
         template: form.template,

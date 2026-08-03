@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
@@ -231,7 +232,7 @@ function ServicesSection() {
                 textTransform: 'uppercase',
               }}
             >
-              Services
+              {tr({ formData: fd }, "Services")}
             </span>
           </Reveal>
           <Reveal delay={0.1}>

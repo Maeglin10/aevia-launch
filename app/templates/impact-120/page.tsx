@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
@@ -895,7 +896,7 @@ export default function EclatLuxuryPage() {
             <div>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-white mb-8">Maison</h4>
               <ul className="space-y-4 text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase">
-                <li><Link href="#boutique" className="hover:text-fuchsia-400 transition-colors">Our Story</Link></li>
+                <li><Link href="#boutique" className="hover:text-fuchsia-400 transition-colors">{tr({ formData: fd }, "Our Story")}</Link></li>
                 <li><Link href="#boutique" className="hover:text-fuchsia-400 transition-colors">The Noses</Link></li>
                 <li><Link href="#boutique" className="hover:text-fuchsia-400 transition-colors">Sustainability</Link></li>
                 <li><Link href="#boutique" className="hover:text-fuchsia-400 transition-colors">Careers</Link></li>
@@ -905,7 +906,7 @@ export default function EclatLuxuryPage() {
             <div>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-white mb-8">Legal</h4>
               <ul className="space-y-4 text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase">
-                <li><Link href="#contact" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+                <li><Link href="#contact" className="hover:text-white transition-colors">{tr({ formData: fd }, "Privacy Policy")}</Link></li>
                 <li><Link href="#contact" className="hover:text-white transition-colors">Terms of Service</Link></li>
                 <li><Link href="#contact" className="hover:text-white transition-colors">Shipping & Returns</Link></li>
                 <li><Link href="#contact" className="hover:text-white transition-colors">Contact</Link></li>

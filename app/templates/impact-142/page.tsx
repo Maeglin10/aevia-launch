@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -160,7 +161,7 @@ export default function VerdantImpactPage() {
           </div>
           <div className="flex items-center gap-4">
             <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-6 py-2.5 text-[var(--brand,#1a2e1a)]/60 text-[10px] font-bold uppercase tracking-widest hover:text-emerald-600 transition-colors">Log In</button>
-            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-6 py-2.5 bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-emerald-700 transition-colors">Get Started</button>
+            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-6 py-2.5 bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-emerald-700 transition-colors">{tr({ formData: fd }, "Get Started")}</button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#f6faf4] p-12">
@@ -251,7 +252,7 @@ export default function VerdantImpactPage() {
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-emerald-600 block mb-4">Pricing</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-emerald-600 block mb-4">{tr({ formData: fd }, "Pricing")}</span>
                 <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Start Your <span className="text-emerald-600">Journey.</span></h2>
               </div>
             </Reveal>
@@ -328,7 +329,7 @@ export default function VerdantImpactPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-emerald-600 block mb-4">Testimonials</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-emerald-600 block mb-4">{tr({ formData: fd }, "Testimonials")}</span>
                 <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Trusted by Earth Advocates.</h2>
               </div>
             </Reveal>
@@ -356,7 +357,7 @@ export default function VerdantImpactPage() {
         <section id="contact" className="py-32 bg-[#f6faf4] border-t border-emerald-600/10">
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-emerald-600 block mb-4">Get In Touch</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-emerald-600 block mb-4">{tr({ formData: fd }, "Get In Touch")}</span>
               <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-12">Start Your Climate Action.</h2>
             </Reveal>
             <Reveal delay={0.15}>

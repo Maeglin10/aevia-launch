@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -1289,7 +1290,7 @@ return (
                 e.currentTarget.style.color = T.text;
               }}
             >
-              Our Services
+              {tr({ formData: fd }, "Our Services")}
             </button>
           </motion.div>
         </motion.div>
@@ -1881,7 +1882,7 @@ return (
                 marginBottom: 28,
               }}
             >
-              Get in touch
+              {tr({ formData: fd }, "Get in touch")}
             </span>
           </FadeUp>
 
@@ -2327,7 +2328,7 @@ function Footer({ goTo }: { goTo: (p: AgencyPage) => void }) {
               onMouseEnter={(e) => (e.currentTarget.style.color = T.text)}
               onMouseLeave={(e) => (e.currentTarget.style.color = T.dimmed)}
             >
-              Privacy policy
+              {tr({ formData: fd }, "Privacy policy")}
             </button>
           </div>
         </div>
@@ -2460,7 +2461,7 @@ function ServiceCard({
           transition: "opacity 0.3s ease, transform 0.3s ease",
         }}
       >
-        Learn more <ArrowUpRight size={14} />
+        {tr({ formData: fd }, "Learn more")} <ArrowUpRight size={14} />
       </div>
     </div>
   );

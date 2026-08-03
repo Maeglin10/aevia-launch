@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring, useInView } from "framer-motion";
@@ -675,7 +676,7 @@ export default function CreativePortfolioSPA() {
             </div>
 
             <div>
-              <h4 className="text-white font-medium mb-6 uppercase tracking-wider text-xs">Explore</h4>
+              <h4 className="text-white font-medium mb-6 uppercase tracking-wider text-xs">{tr({ formData: fd }, "Explore")}</h4>
               <ul className="space-y-4 text-white/50 text-sm">
                 {["Portfolio", "Expertise", "About", "Journal", "Contact"].map(link => (
                   <li key={link}><a href="#contact" className="hover:text-amber-400 transition-colors">{link}</a></li>
@@ -699,7 +700,7 @@ export default function CreativePortfolioSPA() {
             <span>&copy; {new Date().getFullYear()} Elena Korr Studio</span>
             <div className="flex gap-6">
               <a href="#contact" className="hover:text-white transition-colors">Privacy</a>
-              <a href="#contact" className="hover:text-white transition-colors">Terms</a>
+              <a href="#contact" className="hover:text-white transition-colors">{tr({ formData: fd }, "Terms")}</a>
               <a href="#contact" className="hover:text-white transition-colors">Credits</a>
             </div>
           </div>

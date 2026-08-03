@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, {
@@ -2017,7 +2018,7 @@ function Navigation() {
             onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
             onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
           >
-            Book Now
+            {tr({ formData: fd }, "Book Now")}
           </a>
         </div>
       </motion.nav>

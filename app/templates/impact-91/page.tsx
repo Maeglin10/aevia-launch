@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef, useCallback } from "react"
@@ -1695,7 +1696,7 @@ function Footer() {
               className="text-[10px] tracking-[0.20em] uppercase mb-5"
               style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 500, color: C.gold }}
             >
-              Services
+              {tr(sessionData, "Services")}
             </p>
             <ul className="space-y-3">
               {["Rendez-vous privé", "Gravure personnalisée", "Entretien & restauration", "Expertise & estimations", "Livraison sécurisée"].map((item) => (

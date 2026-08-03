@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -369,7 +370,7 @@ return (
           <Reveal>
             <div style={{ marginBottom: 80, textAlign: "center" }}>
               <span style={{fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: brand ?? 'var(--brand,#00ffd1)', marginBottom: 12, display: "block" }}>
-                Pricing
+                {tr({ formData: fd }, "Pricing")}
               </span>
               <h2 style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontFamily: "'Syne', sans-serif", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em" }}>
                 Scale your rendering pipeline.

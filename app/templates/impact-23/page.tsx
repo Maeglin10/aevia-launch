@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -538,7 +539,7 @@ export default function StudioPelikanPage() {
               <Reveal>
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Notre expertise</p>
                 <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
-                  Nos <em>Services</em>
+                  Nos <em>{tr(sessionData, "Services")}</em>
                 </h1>
                 <p className="text-white/40 text-lg max-w-2xl leading-relaxed">
                   De la première idée à la diffusion internationale, nous accompagnons chaque projet avec

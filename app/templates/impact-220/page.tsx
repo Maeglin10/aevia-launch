@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, {
@@ -2227,7 +2228,7 @@ function Footer() {
                 marginBottom: '24px',
               }}
             >
-              Services
+              {tr(sessionData, "Services")}
             </div>
             {['Rendez-vous atelier', 'Révision & entretien', 'Restauration', 'Expertise & certificat', 'Vente privée'].map((l) => (
               <div key={l} style={{ marginBottom: '12px' }}>

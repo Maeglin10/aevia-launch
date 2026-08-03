@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
@@ -1315,7 +1316,7 @@ export default function Impact176Page() {
               cursor: "pointer",
             }}
           >
-            Get started
+            {tr({ formData: fd }, "Get started")}
           </MagneticButton>
         </div>
 

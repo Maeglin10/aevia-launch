@@ -1,5 +1,6 @@
 
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
@@ -188,7 +189,7 @@ export default function ChronosLuxuryPage() {
           </div>
           <div className="flex items-center gap-8">
             <button onClick={() => goTo("concierge")} className={`hidden md:block text-[10px] font-bold uppercase tracking-widest transition-colors ${page === "concierge" ? "text-[var(--brand,#d4af37)]" : "text-[var(--brand,#d4af37)]/60 hover:text-[var(--brand,#d4af37)]"}`}>Private Concierge</button>
-            <button onClick={() => goTo("collection")} className="px-8 py-3 border border-[var(--brand,#d4af37)] text-[var(--brand,#d4af37)] text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-[var(--brand,#d4af37)] hover:text-black transition-all duration-700">Explore</button>
+            <button onClick={() => goTo("collection")} className="px-8 py-3 border border-[var(--brand,#d4af37)] text-[var(--brand,#d4af37)] text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-[var(--brand,#d4af37)] hover:text-black transition-all duration-700">{tr(sessionData, "Explore")}</button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-[var(--brand,#d4af37)]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#050505] border-[var(--brand,#d4af37)]/10 p-12 overflow-y-auto">
@@ -880,7 +881,7 @@ function SupportPage() {
                 <p className="text-sm text-white/40 leading-relaxed font-light mb-8">{item.desc}</p>
               </div>
               <button className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] hover:underline text-left">
-                Learn More
+                {tr(sessionData, "Learn More")}
               </button>
             </div>
           ))}

@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, { useState, useRef, useEffect } from "react";
@@ -223,7 +224,7 @@ export default function CapChauffeurPage() {
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <Reveal>
             <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Services</span>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>{tr(sessionData, "Services")}</span>
               <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>
                 Les trajets qui<br /><em>tiennent une vie.</em>
               </h2>

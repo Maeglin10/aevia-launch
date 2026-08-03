@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -297,7 +298,7 @@ function OccasionsSection() {
                 <h3 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 22, color: C.text, margin: "0 0 10px", fontWeight: 700 }}>{occ.title}</h3>
                 <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 15, color: C.textMuted, lineHeight: 1.65, margin: "0 0 20px" }}>{occ.desc}</p>
                 <Link href="/templates/impact-47/about" style={{ fontFamily: "'Poppins', system-ui", fontSize: 13, color: C.accent, textDecoration: "none", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
-                  Learn more <ArrowRight size={13} />
+                  {tr(sessionData, "Learn more")} <ArrowRight size={13} />
                 </Link>
               </div>
             </motion.div>
@@ -335,7 +336,7 @@ function WorkshopSection() {
         >
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
             <div style={{ width: 32, height: 1, background: C.sage }} />
-            <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.sage }}>Our Story</span>
+            <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.sage }}>{tr(sessionData, "Our Story")}</span>
           </div>
           <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(32px, 4vw, 48px)", color: C.text, margin: "0 0 24px", fontWeight: 700 }}>Made by Hand,<br />With Intention.</h2>
           <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 16, color: C.textMuted, lineHeight: 1.75, marginBottom: 24 }}>{fd?.businessName ?? "Pétales & Co"} was born from a simple belief: flowers shouldn't be an afterthought. Founded in 2014 by florist Amélie Rousseau, our studio in the 11th arrondissement has become a gathering place for people who care about natural beauty.</p>
@@ -389,7 +390,7 @@ function TestimonialsSection() {
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 16 }}>
             <div style={{ width: 32, height: 1, background: C.accent }} />
-            <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.accent }}>Testimonials</span>
+            <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.accent }}>{tr(sessionData, "Testimonials")}</span>
             <div style={{ width: 32, height: 1, background: C.accent }} />
           </div>
           <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.text, margin: 0, fontWeight: 700 }}>What Our Clients Say</h2>

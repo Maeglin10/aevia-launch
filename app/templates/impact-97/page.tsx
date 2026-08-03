@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import {
@@ -698,7 +699,7 @@ export default function HorizonYachtPage() {
 
           <div className="lg:col-span-2">
             <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#c5a059)] mb-12">
-              Services
+              {tr(sessionData, "Services")}
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>

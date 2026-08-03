@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import { useRef, useState, useEffect } from 'react'
@@ -2661,7 +2662,7 @@ function Footer() {
                 marginBottom: 20,
               }}
             >
-              Services
+              {tr(sessionData, "Services")}
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {['Maçonnerie générale', 'Ravalement & ITE', 'Carrelage', 'Chape & dallage', 'Étanchéité', 'Démolition'].map((s) => (

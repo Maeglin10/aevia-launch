@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useSpring } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
@@ -222,7 +223,7 @@ export default function ChronicleEditorialPage() {
                     </Link>
                   ))}
                   <div className="w-full h-[1px] bg-white/10 my-4" />
-                  <Link href="#subscribe" className="text-sm font-bold uppercase tracking-widest text-[var(--brand,#d64000)] hover:text-white transition-colors">Subscribe</Link>
+                  <Link href="#subscribe" className="text-sm font-bold uppercase tracking-widest text-[var(--brand,#d64000)] hover:text-white transition-colors">{tr({ formData: fd }, "Subscribe")}</Link>
                   <Link href="#subscribe" className="text-sm font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors">Sign In</Link>
                 </div>
               </SheetContent>
@@ -249,7 +250,7 @@ export default function ChronicleEditorialPage() {
 
           <div className="flex items-center gap-6">
             <Link href="#subscribe" className="hidden md:block text-xs font-bold uppercase tracking-widest hover:text-[var(--brand,#d64000)] transition-colors">
-              Subscribe
+              {tr({ formData: fd }, "Subscribe")}
             </Link>
             <Link href="#subscribe" className="hidden sm:block bg-[var(--brand,#d64000)] text-white px-5 py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-[#a33000] transition-colors">
               Support Us
@@ -368,7 +369,7 @@ export default function ChronicleEditorialPage() {
             <div className="flex items-center justify-between mb-12">
               <h3 className="text-3xl font-serif italic">Editors' Picks</h3>
               <Link href="#subscribe" className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:text-[var(--brand,#d64000)] transition-colors">
-                View All <ArrowRight className="w-4 h-4" />
+                {tr({ formData: fd }, "View All")} <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
             
@@ -533,7 +534,7 @@ export default function ChronicleEditorialPage() {
                   className="flex-1 bg-white border border-[#1a1814]/20 px-6 py-4 text-sm focus:outline-none focus:border-[var(--brand,#d64000)] transition-colors"
                 />
                 <button className="bg-[#1a1814] text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-[var(--brand,#d64000)] transition-colors">
-                  Subscribe
+                  {tr({ formData: fd }, "Subscribe")}
                 </button>
               </form>
             </Reveal>
@@ -593,7 +594,7 @@ export default function ChronicleEditorialPage() {
           <div>© 2026 The Chronicle Media Group.</div>
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="#subscribe" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="#subscribe" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="#subscribe" className="hover:text-white transition-colors">{tr({ formData: fd }, "Privacy Policy")}</Link>
             <Link href="#subscribe" className="hover:text-white transition-colors">Cookie Settings</Link>
             <Link href="#subscribe" className="hover:text-white transition-colors">Accessibility</Link>
           </div>

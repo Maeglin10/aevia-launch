@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
@@ -171,7 +172,7 @@ export default function WaveFXPage() {
               <Globe className="w-5 h-5" />
             </Link>
             <button className="hidden md:block px-6 py-2.5 bg-gradient-to-r from-[var(--brand,#6366f1)] to-blue-500 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:opacity-90 transition-opacity">
-              Get Started
+              {tr({ formData: fd }, "Get Started")}
             </button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>

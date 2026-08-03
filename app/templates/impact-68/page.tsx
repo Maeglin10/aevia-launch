@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
 
@@ -188,7 +189,7 @@ return (
                   onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = C.text)}
                   onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = C.textMuted)}
                 >
-                  Get in touch
+                  {tr({ formData: fd }, "Get in touch")}
                   <ArrowRight size={14} />
                 </Link>
               </motion.div>
