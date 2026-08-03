@@ -14,6 +14,15 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+// Le profil métier, pour lib/templates/clientContent : même portée que fd.
+let bp: any = null;
+let c: any = null;
+let brand: any = null;
+
 type ActivePage = "home" | "travaux" | "expertises" | "studio" | "contact" | "legal";
 
 const useFonts = () => {
@@ -166,12 +175,6 @@ const pricingTiers = [
 ];
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-// Le profil métier, pour lib/templates/clientContent : même portée que fd.
-let bp: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -271,7 +274,7 @@ return (
             ) : (
               <>
                 <div className="w-7 h-7 bg-[var(--brand,#F97316)] rounded-lg" />
-                <span className="text-gray-900 font-bold text-lg tracking-tight">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Forme Studio")}</span>
+                <span className="text-gray-900 font-bold text-lg tracking-tight">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Forme Studio"))}</span>
               </>
             )}
           </button>
@@ -300,7 +303,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-gray-900 font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Forme Studio")}</span>
+                <span className="text-gray-900 font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Forme Studio"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6" /></button>
             </div>
@@ -1073,7 +1076,7 @@ return (
       {/* Footer — always visible */}
       <footer className="bg-gray-900 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-          <button onClick={() => goTo("home")} className="flex items-center gap-2 cursor-pointer bg-transparent border-none p-0"><div className="w-5 h-5 bg-[var(--brand,#F97316)] rounded" /><span className="text-white font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Forme Studio")}</span></button>
+          <button onClick={() => goTo("home")} className="flex items-center gap-2 cursor-pointer bg-transparent border-none p-0"><div className="w-5 h-5 bg-[var(--brand,#F97316)] rounded" /><span className="text-white font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Forme Studio"))}</span></button>
           <div className="flex gap-8">
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Politique de conf.</button>
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Mentions légales</button>

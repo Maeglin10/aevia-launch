@@ -12,6 +12,14 @@ import {
 } from "@/lib/templates/clientContent";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+let brand: any = null;
+
 /* ═══════════════════════════════════════════════════════════════════════════
    TOIT & PIERRE PISCINES — Pisciniste / Constructeur de piscines (Nantes)
    Palette : blanc cassé / ardoise profonde #374151 / rouge tuile #b91c1c
@@ -87,11 +95,6 @@ const REALISATIONS_DEMO = [
 ]
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

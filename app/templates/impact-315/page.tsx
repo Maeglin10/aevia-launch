@@ -40,11 +40,22 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientFaq,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
@@ -224,13 +235,6 @@ function Button({
    MAIN PAGE COMPONENT
    ════════════════════════════════════════════════════════════════════════════ */
 
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 
 const SERVICES_DEMO = [
   { icon: <Home size={28} />, title: "Ménage Régulier", desc: "Entretien hebdomadaire ou bi-mensuel de votre intérieur. Cuisine, salons, chambres, sanitaires — tout brille." },
@@ -398,7 +402,7 @@ export default function Page() {
                 style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <><Leaf size={22} /> {clientName(sessionData) ?? (clientName(sessionData) ?? "Brise de Propreté")}</>
+              <><Leaf size={22} /> {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Brise de Propreté"))}</>
             )}
           </a>
 
@@ -1350,7 +1354,7 @@ export default function Page() {
           }}>
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Leaf size={18} /> {clientName(sessionData) ?? (clientName(sessionData) ?? "Brise de Propreté")}
+                <Leaf size={18} /> {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Brise de Propreté"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
                 Ménage professionnel à domicile
@@ -1395,7 +1399,7 @@ export default function Page() {
             fontSize: 11.5,
             letterSpacing: '0.05em',
           }}>
-            © {new Date().getFullYear()} Brise de Propreté. Tous droits réservés.
+            © {new Date().getFullYear()} Brise de Propreté. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

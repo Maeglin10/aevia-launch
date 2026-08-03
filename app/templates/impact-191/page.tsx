@@ -15,6 +15,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 /* ═══════════════════════════════════════════════════════════════════════════
    JARDINS VIVANTS — Paysagiste & entretien espaces verts (Annecy)
    Palette : blanc naturel #fafaf7 / vert profond #2d5a27 / vert clair #a8d5a0 / terre #6b4226
@@ -92,10 +99,6 @@ const TEMOIGNAGES_DEMO = [
 ]
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

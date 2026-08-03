@@ -13,14 +13,26 @@ import {
 import { ArrowRight, ChevronDown, Zap } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    STUDIO ATHLETIC — Coach sportif personnel · Lyon 6e
@@ -441,7 +453,7 @@ function Nav() {
         ) : (
           <>
             <span style={{ color: C.accent }}>▶</span>
-            {fd?.businessName ?? "STUDIO ATHLETIC"}
+            {fd?.businessName ?? (clientName(sessionData) ?? "STUDIO ATHLETIC")}
           </>
         )}
       </div>
@@ -631,7 +643,7 @@ function Hero() {
         }}
       >
         <Reveal y={16}>
-          <Eyebrow>Coach sportif personnel · Lyon</Eyebrow>
+          <Eyebrow>Coach sportif personnel · {clientCity(sessionData) ?? "Lyon"}</Eyebrow>
         </Reveal>
 
         <motion.h1
@@ -2002,7 +2014,7 @@ function Footer() {
             }}
           >
             <span style={{ color: C.accent }}>▶</span>
-            STUDIO ATHLETIC
+            {clientName(sessionData) ?? (clientName(sessionData) ?? "STUDIO ATHLETIC")}
           </div>
           <p
             style={{
@@ -2095,7 +2107,7 @@ function Footer() {
           color: C.textFaint,
         }}
       >
-        <span>© 2026 Studio Athletic. Tous droits réservés.</span>
+        <span>© 2026 Studio Athletic. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span>Conçu pour performer.</span>
       </div>
       <style>{`
@@ -2135,13 +2147,6 @@ function FootLink({ label, href }: { label: string; href: string }) {
    PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

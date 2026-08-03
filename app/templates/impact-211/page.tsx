@@ -17,6 +17,14 @@ import {
   type MotionValue,
 } from "framer-motion"
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+
 // ─── Design Tokens ─────────────────────────────────────────────────────────────
 const C = {
   bg: "#0d0b08",
@@ -385,11 +393,6 @@ function CourseCard({ course, index }: { course: typeof COURSES[0]; index: numbe
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
 export default function Impact211Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -547,7 +550,7 @@ export default function Impact211Page() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Maison Éclat")}</>
+            <>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maison Éclat"))}</>
           )}</motion.div>
 
           <nav className="nav-211-inner" style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
@@ -858,7 +861,7 @@ export default function Impact211Page() {
             fontWeight: 300,
             color: C.cream,
             marginBottom: "0.5rem",
-          }}>{c?.heroSubline ?? fd?.tagline ?? <>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Maison Éclat")}</>}</p>
+          }}>{c?.heroSubline ?? fd?.tagline ?? <>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maison Éclat"))}</>}</p>
           <p style={{ ...eyebrowStyle, textAlign: "center", marginBottom: "2rem" }}>
             7ème arrondissement · {clientCity({ formData: fd }) ?? "Paris"}
           </p>
@@ -978,7 +981,7 @@ export default function Impact211Page() {
                 <line x1="30" y1="200" x2="270" y2="200" stroke={C.gold} strokeWidth="0.3" opacity="0.4" />
                 <line x1="150" y1="30" x2="150" y2="370" stroke={C.gold} strokeWidth="0.3" opacity="0.4" />
                 <path d="M 70 120 Q 150 80 230 120 Q 270 200 230 280 Q 150 320 70 280 Q 30 200 70 120 Z" fill="none" stroke={C.gold} strokeWidth="0.5" />
-                <text x="150" y="205" textAnchor="middle" fill={C.gold} fontSize="12" fontFamily={font.serif} fontStyle="italic" opacity="0.8">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Maison Éclat")}</text>
+                <text x="150" y="205" textAnchor="middle" fill={C.gold} fontSize="12" fontFamily={font.serif} fontStyle="italic" opacity="0.8">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maison Éclat"))}</text>
                 <text x="150" y="222" textAnchor="middle" fill={C.creamMuted} fontSize="7" fontFamily={font.sans} opacity="0.6" letterSpacing="3">PARIS · MMXXVI</text>
               </svg>
 
@@ -1632,7 +1635,7 @@ export default function Impact211Page() {
             <style>{`@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr !important; gap: 2rem !important; } }`}</style>
 
             <div>
-              <div style={{ fontFamily: font.serif, fontSize: "2rem", fontStyle: "italic", color: C.cream, marginBottom: "1.2rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Maison Éclat")}</div>
+              <div style={{ fontFamily: font.serif, fontSize: "2rem", fontStyle: "italic", color: C.cream, marginBottom: "1.2rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maison Éclat"))}</div>
               <p style={{ ...bodyStyle, marginBottom: "1.5rem", maxWidth: 320 }}>
                 Un restaurant gastronomique parisien au cœur du 7ème arrondissement, entre tradition et innovation, produit et émotion.
               </p>
@@ -1713,7 +1716,7 @@ export default function Impact211Page() {
           {/* Bottom bar */}
           <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
             <p style={{ fontFamily: font.sans, fontSize: "0.72rem", fontWeight: 300, color: C.creamMuted, opacity: 0.5, letterSpacing: "0.06em" }}>
-              © 2026 Maison Éclat · Tous droits réservés · SIRET 123 456 789 00010
+              © 2026 Maison Éclat · Tous droits réservés · SIRET 123 456 789 00010{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
               {["Mentions légales", "Politique de confidentialité", "CGV"].map((link) => (

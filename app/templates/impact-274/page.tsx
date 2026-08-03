@@ -30,11 +30,23 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. SOPHIE RENARD — Médecin généraliste · Lyon 3e
@@ -1695,7 +1707,7 @@ type TeamMember = {
 
 const TEAM_MEMBERS_DEMO: TeamMember[] = [
   {
-    name: 'Dr. Sophie Renard',
+    name: (clientName(sessionData) ?? "Dr. Sophie Renard"),
     role: 'Médecin généraliste — Praticienne responsable',
     bio: 'Diplômée de la Faculté de Médecine de Lyon en 2008, le Dr. Renard exerce la médecine générale depuis 15 ans avec une spécialisation en médecine du sport et médecine préventive. Membre du Collège National des Généralistes Enseignants (CNGE), elle s\'engage à maintenir ses connaissances à la pointe des recommandations actuelles.',
     initials: 'SR',
@@ -2555,7 +2567,7 @@ function FooterSection() {
               }}
             >
               <MapPin size={14} color="rgba(160,210,170,0.75)" strokeWidth={1.8} />
-              {clientAddress(sessionData) ?? "18 rue de la République, 69003 Lyon"}
+              {clientAddress(sessionData) ?? `18 rue de la République, 69003 ${clientCity(sessionData) ?? "Lyon"}`}
             </div>
             <div
               style={{
@@ -2644,7 +2656,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 Dr. Sophie Renard — Médecin Généraliste. RPPS : 10 003 456 789
+          © 2026 Dr. Sophie Renard — Médecin Généraliste. RPPS : 10 003 456 789{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a href="/templates/impact-274" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2675,14 +2687,6 @@ function FooterSection() {
    PAGE PRINCIPALE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Impact274Page() {
   const [session, setSession] = useState<{
     formData?: {

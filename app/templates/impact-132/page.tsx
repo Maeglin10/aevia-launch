@@ -5,11 +5,19 @@ import { tr } from "@/lib/templates/uiStrings";
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
 import React, { useState, useRef, useEffect, useCallback } from "react"
 import {
+  clientCity,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -411,10 +419,6 @@ function ArticleCard({ article, index }: { article: typeof ARTICLES[0]; index: n
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -1453,7 +1457,7 @@ return (
               fontSize: 12,
               color: "rgba(255,255,255,0.2)",
             }}>
-              © 2026 The Review Magazine. All rights reserved.
+              © 2026 The Review Magazine. All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {["Privacy Policy", "Terms of Use", "Accessibility"].map(item => (

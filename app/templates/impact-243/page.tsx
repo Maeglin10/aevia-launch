@@ -28,9 +28,22 @@ import {
 import { PortalZoom } from '@/lib/templates/hero-kit-3';
 import {
   clientAddress,
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. ÉLODIE BEAUMONT — Cabinet médecine générale & préventive · Strasbourg
@@ -644,7 +657,7 @@ function Hero() {
               marginBottom: 28,
             }}
           >
-            Médecin généraliste · Strasbourg
+            Médecin généraliste · {clientCity(sessionData) ?? "Strasbourg"}
           </span>
         </motion.div>
 
@@ -2011,7 +2024,7 @@ function Footer() {
       title: 'Cabinet',
       items: [
         'Notre philosophie',
-        'Dr. Élodie Beaumont',
+        (clientName(sessionData) ?? "Dr. Élodie Beaumont"),
         'Équipe médicale',
         'Certifications',
       ],
@@ -2190,7 +2203,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.36)',
         }}
       >
-        <span>© 2026 Cabinet Dr. Élodie Beaumont — Médecin généraliste · Strasbourg</span>
+        <span>© 2026 Cabinet Dr. Élodie Beaumont — Médecin généraliste · Strasbourg{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2220,14 +2233,6 @@ function Footer() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

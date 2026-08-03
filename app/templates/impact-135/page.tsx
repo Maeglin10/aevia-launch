@@ -6,13 +6,20 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+
 
 // ─── Design tokens ───────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -995,9 +1002,6 @@ function HudScanline() {
 
 // ─── Main export ──────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
 export default function Impact135Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2139,7 +2143,7 @@ export default function Impact135Page() {
               color: C.subdued,
             }}
           >
-            © 2026 TradeOS Inc. · All rights reserved · SOC 2 Type II
+            © 2026 TradeOS Inc. · All rights reserved · SOC 2 Type II{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
           <span
             style={{

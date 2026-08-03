@@ -13,8 +13,21 @@ import {
 import { ArrowRight, ChevronDown, Coffee, MapPin, Quote, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    LE FOURNIL DU PARLEMENT — Boulangerie-Café Bistronomique · Strasbourg
@@ -740,7 +753,7 @@ function Intro() {
       <Reveal>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 32 }}>
           <Eyebrow color={C.accentDark} align="center">
-            Le Fournil du Parlement
+            {clientName(sessionData) ?? (clientName(sessionData) ?? "Le Fournil du Parlement")}
           </Eyebrow>
         </div>
       </Reveal>
@@ -2122,7 +2135,7 @@ function Footer() {
           color: 'rgba(240,221,184,0.40)',
         }}
       >
-        <span>© 2009–2026 Le Fournil du Parlement · Strasbourg</span>
+        <span>© 2009–2026 Le Fournil du Parlement · Strasbourg{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#reservation" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2149,19 +2162,11 @@ function Footer() {
    PAGE — Composition
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
 // Ce thème avait déjà un `photo(id)` qui construit une URL Unsplash : on ne
 // réutilise pas le nom, on en prend un autre.
 function clientPhoto(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

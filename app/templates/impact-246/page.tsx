@@ -22,10 +22,22 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    THERMOFIX PRO — Plombier-Chauffagiste & Climatisation · Marseille
@@ -261,14 +273,14 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     quote:
       "Rupture de canalisation un dimanche soir, eau dans le couloir. Ils ont débarqué en 40 minutes, tout réparé avant minuit. Tarif annoncé à l'avance, respecté à l'euro. Je n'appelle plus que ThermoFix.",
     author: 'Nathalie Ferrero',
-    role: 'Propriétaire · 8e arrondissement, Marseille',
+    role: `Propriétaire · 8e arrondissement, ${clientCity(sessionData) ?? "Marseille"}`,
     stars: 5,
   },
   {
     quote:
       'Ma chaudière a lâché en plein hiver, restaurant fermé le lendemain impossible. Ils ont commandé la pièce en urgence et remis le chauffage en route le matin même. Professionnalisme irréprochable.',
     author: 'Karim Bouzid',
-    role: 'Restaurateur · Cours Julien, Marseille',
+    role: `Restaurateur · Cours Julien, ${clientCity(sessionData) ?? "Marseille"}`,
     stars: 5,
   },
 ];
@@ -738,7 +750,7 @@ function Hero() {
       >
         <Reveal y={18} delay={0.1}>
           <Eyebrow color="rgba(214,232,248,0.9)">
-            Plombier-Chauffagiste · Marseille
+            Plombier-Chauffagiste · {clientCity(sessionData) ?? "Marseille"}
           </Eyebrow>
         </Reveal>
 
@@ -858,7 +870,7 @@ function Intro() {
       <Reveal>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 30 }}>
           <Eyebrow color={C.accent} align="center">
-            ThermoFix Pro — Marseille
+            ThermoFix Pro — {clientCity(sessionData) ?? "Marseille"}
           </Eyebrow>
         </div>
       </Reveal>
@@ -2307,7 +2319,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.42)',
         }}
       >
-        <span>© 2026 ThermoFix Pro · Marseille · SIRET 000 000 000 00000</span>
+        <span>© 2026 ThermoFix Pro · Marseille · SIRET 000 000 000 00000{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#tf-msg" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2334,14 +2346,6 @@ function Footer() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

@@ -30,13 +30,25 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCertifications,
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    PLOMBERIE GARONNE — Plombier-chauffagiste certifié · Toulouse & agglo
@@ -1860,7 +1872,7 @@ function DevisFormSection() {
                   }}
                   value={form.adresse}
                   onChange={(e) => setForm({ ...form, adresse: e.target.value })}
-                  placeholder="12 rue de la Garonne, 31000 Toulouse"
+                  placeholder={`12 rue de la Garonne, 31000 ${clientCity(sessionData) ?? "Toulouse"}`}
                   autoComplete="street-address"
                 />
                 {errors.adresse && <div style={errorStyle}>{errors.adresse}</div>}
@@ -2532,7 +2544,7 @@ function FooterSection() {
               marginBottom: 18,
             }}
           >
-            <Droplets size={24} color={C.brick} strokeWidth={2} />{fd?.businessName ?? "Plomberie Garonne"}</a>
+            <Droplets size={24} color={C.brick} strokeWidth={2} />{fd?.businessName ?? (clientName(sessionData) ?? "Plomberie Garonne")}</a>
           <p
             style={{
               fontFamily: SANS,
@@ -2776,7 +2788,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024 {fd?.businessName ?? 'Plomberie Garonne'} — SIRET 000 000 000 00000 · Toulouse (31)
+          © 2024 {fd?.businessName ?? (clientName(sessionData) ?? "Plomberie Garonne")} — SIRET 000 000 000 00000 · Toulouse (31){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a href="#hero" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2807,13 +2819,6 @@ function FooterSection() {
    PAGE — Impact278Page
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 function Impact278Page() {
   const [session, setSession] = useState<{
     formData?: {

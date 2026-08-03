@@ -13,6 +13,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -180,7 +187,7 @@ const TESTIMONIALS_DEMO = [
   {
     quote: "Enfin du contenu qui respecte l'intelligence du lecteur. Pas de listes de 10 conseils inutiles. Des analyses, des chiffres, des nuances.",
     name: "Romain L.",
-    role: "VC Partner, Paris",
+    role: `VC Partner, ${clientCity({ formData: fd }) ?? "Paris"}`,
     stars: 5,
   },
   {
@@ -421,10 +428,6 @@ function ArticleCard({ a, i }: { a: typeof ARTICLES[0]; i: number }) {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function ImpactFrequencePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -588,7 +591,7 @@ export default function ImpactFrequencePage() {
                   color: C.red,
                   lineHeight: 1,
                 }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Fréquence")}</span>
+              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Fréquence"))}</span>
             )}
           </motion.div>
 
@@ -1853,7 +1856,7 @@ export default function ImpactFrequencePage() {
                 marginBottom: 16,
                 letterSpacing: -0.5,
               }}
-            >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Fréquence")}</div>
+            >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Fréquence"))}</div>
             <p
               style={{
                 fontFamily: C.sans,

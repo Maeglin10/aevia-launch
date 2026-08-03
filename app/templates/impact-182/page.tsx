@@ -15,6 +15,17 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 /* ═══════════════════════════════════════════════════════════════════════════
    BÂTIR SOLIDE — Maçon & Gros Œuvre (Marseille)
    Palette : sable chaud #d4a96a / brun terre #5c3317 / blanc cassé / ardoise
@@ -64,12 +75,12 @@ const MATERIAUX = [
 ];
 
 const ZONES_DEMO = [
-  { ville: "Nantes", detail: "Agglomération et première couronne" },
+  { ville: (clientCity(sessionData) ?? "Nantes"), detail: "Agglomération et première couronne" },
   { ville: "Saint-Nazaire", detail: "Chantiers neufs et extensions" },
   { ville: "Vannes · Redon", detail: "Sur étude, déplacement au devis" },
   { ville: "Cholet · Ancenis", detail: "Gros œuvre uniquement" },
   { ville: "La Baule", detail: "Rénovation lourde et surélévation" },
-  { ville: "Angers", detail: "Nous consulter selon la période" },
+  { ville: (clientCity(sessionData) ?? "Angers"), detail: "Nous consulter selon la période" },
 ];
 let ZONES = ZONES_DEMO;
 
@@ -80,14 +91,6 @@ const REALISATIONS_DEMO = [
 ]
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

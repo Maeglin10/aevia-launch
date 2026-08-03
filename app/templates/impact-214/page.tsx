@@ -15,6 +15,7 @@ import { Droplets, Bell } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientCity,
   clientFaq,
   clientName,
   clientReviews,
@@ -22,6 +23,17 @@ import {
   clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ─────────────────────────────────────────────
    DESIGN TOKENS
@@ -1073,14 +1085,6 @@ function AnalogClock() {
    MAIN PAGE COMPONENT
 ───────────────────────────────────────────── */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function AquaPrestigePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1367,7 +1371,7 @@ export default function AquaPrestigePage() {
                     textTransform: 'uppercase',
                     lineHeight: 1,
                   }}
-                >{fd?.businessName ?? (clientName(sessionData) ?? "Aqua Prestige")}</div>
+                >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aqua Prestige"))}</div>
                 <div style={{ fontSize: '0.62rem', color: C.textMuted, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
                   Plomberie & Sanitaire
                 </div>
@@ -2431,7 +2435,7 @@ export default function AquaPrestigePage() {
                       textTransform: 'uppercase',
                       lineHeight: 1,
                     }}
-                  >{fd?.businessName ?? (clientName(sessionData) ?? "Aqua Prestige")}</div>
+                  >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aqua Prestige"))}</div>
                   <div style={{ fontSize: '0.65rem', color: C.textMuted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                     Plomberie & Sanitaire
                   </div>
@@ -2606,7 +2610,7 @@ export default function AquaPrestigePage() {
             }}
           >
             <p style={{ color: C.textMuted, fontSize: '0.78rem' }}>
-              © {new Date().getFullYear()} Aqua Prestige — Tous droits réservés. SIRET : 512 345 678 00019
+              © {new Date().getFullYear()} Aqua Prestige — Tous droits réservés. SIRET : 512 345 678 00019{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: 'flex', gap: '1.5rem' }}>
               {['Mentions légales', 'Politique de confidentialité', 'CGV'].map((item) => (

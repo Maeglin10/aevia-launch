@@ -13,6 +13,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 // Nav and footer links all pointed at the template root regardless of their
 // label, leaving the pages below unreachable. Labels come from .map() vars, so
 // they resolve through this table; anything unmapped stays on the homepage.
@@ -84,10 +91,6 @@ const plans = [
 ];
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function EduPathPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -149,7 +152,7 @@ return (
                 <div className="w-8 h-8 bg-[var(--brand,#7C3AED)] rounded-lg flex items-center justify-center">
                   <BookOpen className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-gray-900 font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? "EduPath")}</span>
+                <span className="text-gray-900 font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "EduPath"))}</span>
               </>
             )}
           </Link>
@@ -179,7 +182,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-gray-900 font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? "EduPath")}</span>
+                <span className="text-gray-900 font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "EduPath"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6" /></button>
             </div>
@@ -377,7 +380,7 @@ return (
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-[var(--brand,#7C3AED)] rounded-lg flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>
-              <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? "EduPath")}</span>
+              <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "EduPath"))}</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">La plateforme d'apprentissage en ligne pour les professionnels ambitieux.</p>
           </div>

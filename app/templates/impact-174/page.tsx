@@ -19,6 +19,17 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const PROGRAMS_DEMO = [
@@ -74,7 +85,7 @@ const MEMBERSHIPS = [
     highlight: false,
   },
   {
-    name: "FORGE",
+    name: (clientName(sessionData) ?? "FORGE"),
     price: "59 €",
     period: "/mois",
     desc: "Le plus populaire",
@@ -124,14 +135,6 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -243,7 +246,7 @@ export default function Impact174Page() {
             ) : (
               <>
                 <Dumbbell className="w-6 h-6 text-[var(--brand,#84cc16)]" />
-                <span className="text-2xl font-bold tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "FORGE")}</span>
+                <span className="text-2xl font-bold tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "FORGE"))}</span>
               </>
             )}
           </div>
@@ -586,7 +589,7 @@ export default function Impact174Page() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <Dumbbell className="w-5 h-5 text-[var(--brand,#84cc16)]" />
-            <span className="text-xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "FORGE")}</span>
+            <span className="text-xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "FORGE"))}</span>
           </div>
           <p className="text-xs text-[#f5f5f5]/30 uppercase tracking-widest">© 2026 FORGE Performance · Paris 11ème{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
           <div className="flex gap-6">

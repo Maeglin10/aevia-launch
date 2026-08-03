@@ -24,9 +24,19 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -642,13 +652,6 @@ function SectionHeading({ eyebrow, title, accent, subtitle }: { eyebrow: string;
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function ThermaProPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -953,7 +956,7 @@ return (
                     fontFamily: "'Barlow Condensed', sans-serif",
                     fontSize: 'clamp(18px, 3vw, 22px)',
                     fontWeight: 800, color: C.white, letterSpacing: '0.04em', lineHeight: 1,
-                  }}>{clientName(sessionData) ?? (clientName(sessionData) ?? "THERMA PRO")}</div>
+                  }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "THERMA PRO"))}</div>
                   <div style={{ color: C.accent, fontSize: 10, fontWeight: 600, letterSpacing: '0.12em' }}>
                     CHAUFFAGE · CLIMATISATION
                   </div>
@@ -1627,7 +1630,7 @@ return (
                   <div style={{
                     fontFamily: "'Barlow Condensed', sans-serif",
                     fontSize: 20, fontWeight: 800, color: C.white, letterSpacing: '0.04em',
-                  }}>{clientName(sessionData) ?? (clientName(sessionData) ?? "THERMA PRO")}</div>
+                  }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "THERMA PRO"))}</div>
                   <div style={{ color: C.accent, fontSize: 10, fontWeight: 600, letterSpacing: '0.12em' }}>
                     CHAUFFAGE · CLIMATISATION
                   </div>
@@ -1699,7 +1702,7 @@ return (
             alignItems: 'center', gap: '0.75rem',
           }}>
             <div style={{ color: C.textMuted, fontSize: 12.5 }}>
-              © 2024 Therma Pro SAS · SIRET 123 456 789 00012 · RGE n° E-E200050
+              © 2024 Therma Pro SAS · SIRET 123 456 789 00012 · RGE n° E-E200050{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </div>
             <div className="footer-badges" style={{ display: 'flex', gap: '0.75rem' }}>
               {['RGE Certifié', '4.9/5 Google', 'Garantie 5 ans'].map(badge => (

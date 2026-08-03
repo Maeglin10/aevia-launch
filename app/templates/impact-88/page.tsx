@@ -35,11 +35,24 @@ import {
 } from "lucide-react"
 import {
   clientAddress,
+  clientCity,
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -1555,7 +1568,7 @@ function ContactFooter() {
               <div className="text-center">
                 <MapPin className="w-8 h-8 text-[#F9A8D4] mx-auto mb-2" />
                 <p className="text-white/60 text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  {clientAddress(sessionData) ?? "24 rue des Petites Écuries, 75009 Paris"}
+                  {clientAddress(sessionData) ?? `24 rue des Petites Écuries, 75009 ${clientCity(sessionData) ?? "Paris"}`}
                 </p>
                 <a
                   href="https://maps.google.com"
@@ -1577,11 +1590,11 @@ function ContactFooter() {
         <div className="max-w-[1280px] mx-auto px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-[#F9A8D4]" />
-            <span className="text-[15px] font-[500] italic text-white" style={{ fontFamily: "'Playfair Display', serif" }}>{fd?.businessName ?? "Velvet Nails"}</span>
+            <span className="text-[15px] font-[500] italic text-white" style={{ fontFamily: "'Playfair Display', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Velvet Nails")}</span>
             <span className="text-white/40 text-[12px]" style={{ fontFamily: "'Inter', sans-serif" }}>· Paris 9e</span>
           </div>
           <p className="text-[11px] text-white/40 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
-            © 2025 Velvet Nails — Tous droits réservés
+            © 2025 Velvet Nails — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div className="flex gap-5">
             <Link href="/templates/impact-88/mentions-legales" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -1828,14 +1841,6 @@ function ContactSection() {
    PAGE EXPORT
    ========================================================================== */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

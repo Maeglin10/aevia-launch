@@ -13,9 +13,22 @@ import {
 import { ArrowRight, ChevronDown, Leaf, MapPin, Send } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    JARDINS VIVANTS — Paysagiste-Concepteur & Permaculture · Bordeaux
@@ -408,7 +421,7 @@ function Nav() {
           />
         ) : (
           <>
-            <Leaf size={18} color={C.accentLight} strokeWidth={1.5} />{fd?.businessName ?? "Jardins Vivants"}
+            <Leaf size={18} color={C.accentLight} strokeWidth={1.5} />{fd?.businessName ?? (clientName(sessionData) ?? "Jardins Vivants")}
           </>
         )}</a>
       <div style={linkRow} className="jv-navlinks">
@@ -2005,7 +2018,7 @@ function Footer() {
               marginBottom: 18,
             }}
           >
-            <Leaf size={20} color={C.accentLight} strokeWidth={1.4} />{fd?.businessName ?? "Jardins Vivants"}</div>
+            <Leaf size={20} color={C.accentLight} strokeWidth={1.4} />{fd?.businessName ?? (clientName(sessionData) ?? "Jardins Vivants")}</div>
           <p
             style={{
               fontFamily: SANS,
@@ -2109,7 +2122,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2006–2026 Jardins Vivants · Paysagiste-Concepteur · Bordeaux</span>
+        <span>© 2006–2026 Jardins Vivants · Paysagiste-Concepteur · Bordeaux{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#demarche" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2139,17 +2152,9 @@ function Footer() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

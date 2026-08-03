@@ -20,14 +20,22 @@ import {
   Sparkles,
 } from 'lucide-react';
 import {
+  clientCity,
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    NovaSaaS — Clean, light SaaS landing page (violet/indigo)
@@ -156,7 +164,7 @@ function Nav() {
               >
                 <Sparkles size={17} />
               </div>
-              <span style={{ fontWeight: 800, fontSize: 19, letterSpacing: '-0.02em' }}>{fd?.businessName ?? "NovaSaaS"}</span>
+              <span style={{ fontWeight: 800, fontSize: 19, letterSpacing: '-0.02em' }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "NovaSaaS")}</span>
             </>
           )}
         </div>
@@ -1163,7 +1171,7 @@ function Footer() {
               >
                 <Sparkles size={15} />
               </div>
-              <span style={{ fontWeight: 800, fontSize: 18 }}>{fd?.businessName ?? "NovaSaaS"}</span>
+              <span style={{ fontWeight: 800, fontSize: 18 }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "NovaSaaS")}</span>
             </div>
             <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.6, maxWidth: 230 }}>
               La plateforme d&apos;analytics et d&apos;automatisation pour les équipes qui avancent vite.
@@ -1197,7 +1205,7 @@ function Footer() {
             color: C.muted,
           }}
         >
-          <span>© 2026 NovaSaaS SAS. Tous droits réservés.</span>
+          <span>© 2026 NovaSaaS SAS. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span>Fait avec soin à Lyon, France.</span>
         </div>
       </div>
@@ -1210,9 +1218,6 @@ function Footer() {
    ════════════════════════════════════════════════════════════════════════════ */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
 export default function Impact219Page() {
   const [session, setSession] = useState<{
     formData?: {

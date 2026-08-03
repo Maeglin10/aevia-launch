@@ -13,10 +13,23 @@ import {
 import { ArrowRight, ChevronDown, Sun, MapPin, Leaf } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    JARDINS D'ALSACE — Paysagiste & Horticulture · Strasbourg & Bas-Rhin
@@ -424,7 +437,7 @@ function Nav() {
           />
         ) : (
           <>
-            <Leaf size={19} color={C.accent} strokeWidth={1.6} />{fd?.businessName ?? "Jardins d'Alsace"}
+            <Leaf size={19} color={C.accent} strokeWidth={1.6} />{fd?.businessName ?? (clientName(sessionData) ?? "Jardins d'Alsace")}
           </>
         )}
       </a>
@@ -1976,7 +1989,7 @@ function Footer() {
               gap: 10,
             }}
           >
-            <Leaf size={20} color={C.accent} strokeWidth={1.6} />{fd?.businessName ?? "Jardins d'Alsace"}</div>
+            <Leaf size={20} color={C.accent} strokeWidth={1.6} />{fd?.businessName ?? (clientName(sessionData) ?? "Jardins d'Alsace")}</div>
           <p
             style={{
               fontFamily: SANS,
@@ -2083,7 +2096,7 @@ function Footer() {
       >
         <span>
           © 2003–2026 Jardins d&apos;Alsace · SARL Reinhardt Paysage ·
-          Strasbourg, Bas-Rhin
+          Strasbourg, Bas-Rhin{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#devis" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2111,14 +2124,6 @@ function Footer() {
    PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

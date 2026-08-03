@@ -15,6 +15,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 function HeroWatch() {
   const pieces = COLLECTIONS.slice(0, 5);
   const { active, paused, pick, hold, reduce } = useHeroSelector(pieces.length, 7500);
@@ -200,10 +207,6 @@ function HeroWatch() {
 
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function MaisonDrouetHome() {
   const [session, setSession] = useState<{
     formData?: {

@@ -14,6 +14,17 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 const PROPERTIES_DEMO = [
   { id: "PRJ-0047", name: "Penthouse Trinity", loc: "Paris 8e", type: "Résidentiel", size: "340 m²", pts: "2.8B pts", imgFallback: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" },
   { id: "PRJ-0031", name: "HQ Montparnasse", loc: "Paris 14e", type: "Commercial", size: "4 200 m²", pts: "18.4B pts", imgFallback: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80" },
@@ -27,14 +38,6 @@ const SERVICES_DEMO = [
   { code: "04", title: "Development Pipeline", price: "Abonnement mensuel", desc: "Suivi chantier en temps réel, comparaison BIM vs. As-built, rapport d'avancement automatisé." },
 ];
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

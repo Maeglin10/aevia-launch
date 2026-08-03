@@ -19,9 +19,17 @@ import {
 } from "framer-motion"
 import Link from "next/link"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 
 /* ==========================================================================
    TYPOGRAPHY — Google Fonts injected via style tag
@@ -2231,7 +2239,7 @@ function Footer() {
               letterSpacing: "0.03em",
             }}
           >
-            © {year} Atlas Expedition Logistics AG. All rights reserved.
+            © {year} Atlas Expedition Logistics AG. All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             {["Privacy", "Terms", "Safety"].map((l) => (
@@ -2263,10 +2271,6 @@ function Footer() {
    ========================================================================== */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function ExpeditionTemplatePage() {
   const [session, setSession] = useState<{
     formData?: {

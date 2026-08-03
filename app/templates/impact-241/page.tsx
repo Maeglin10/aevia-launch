@@ -19,9 +19,21 @@ import {
 } from 'lucide-react';
 import { resolveList } from '@/lib/templates/resolveList';
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    CLÉ DE VOÛTE IMMOBILIER — Agence immobilière premium · Bordeaux
@@ -242,7 +254,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     quote:
       "Nous avions mis notre appartement des Chartrons en vente deux fois sans succès avec d'autres agences. Clé de Voûte l'a vendu en 8 jours, au-dessus de notre prix de réserve. Leur méthode est radicalement différente : photos de qualité studio, acheteurs ciblés, négociation sans concession. Nous ne saurions recommander personne d'autre.",
     name: 'Sophie & Thomas D.',
-    role: 'Vendeurs · Chartrons, Bordeaux',
+    role: `Vendeurs · Chartrons, ${clientCity(sessionData) ?? "Bordeaux"}`,
   },
   {
     quote:
@@ -2065,7 +2077,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2003–2026 Clé de Voûte Immobilier · Bordeaux. Tous droits réservés.</span>
+        <span>© 2003–2026 Clé de Voûte Immobilier · Bordeaux. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Confidentialité</a>
@@ -2108,14 +2120,6 @@ function FooterLink({ label, href }: { label: string; href: string }) {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

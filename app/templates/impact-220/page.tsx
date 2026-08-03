@@ -32,10 +32,22 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    HORA VIVA — Manufacture Horlogère Suisse, Genève
@@ -200,7 +212,7 @@ function Nav() {
                   color: T.cream,
                 }}
               >
-                {clientName(sessionData) ?? "HORA VIVA"}
+                {clientName(sessionData) ?? (clientName(sessionData) ?? "HORA VIVA")}
               </span>
               <span
                 style={{
@@ -1579,7 +1591,7 @@ const TESTIMONIALS_DEMO = [
   {
     quote: "Ma Perpétuelle Hora Viva accompagne chaque décision importante de ma vie depuis vingt-deux ans. Ce n\'est pas une montre — c\'est un compagnon silencieux et fidèle.",
     author: 'Henri de Vauclaire',
-    role: 'Collectionneur, Paris',
+    role: `Collectionneur, ${clientCity(sessionData) ?? "Paris"}`,
     stars: 5,
   },
   {
@@ -2083,7 +2095,7 @@ function Footer() {
                 marginBottom: '4px',
               }}
             >
-              HORA VIVA
+              {clientName(sessionData) ?? (clientName(sessionData) ?? "HORA VIVA")}
             </div>
             <div
               style={{
@@ -2275,7 +2287,7 @@ function Footer() {
               opacity: 0.5,
             }}
           >
-            © 2024 Hora Viva SA · Genève · Tous droits réservés
+            © 2024 Hora Viva SA · Genève · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: 'flex', gap: '24px' }}>
             {['Mentions légales', 'Confidentialité', 'CGV'].map((l) => (
@@ -2324,14 +2336,6 @@ function Footer() {
 // ─── PAGE ROOT ────────────────────────────────────────────────────────────────
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function HoraVivaPage() {
   const [session, setSession] = useState<{
     formData?: {

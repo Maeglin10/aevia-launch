@@ -31,10 +31,18 @@ import {
   Trash2,
 } from "lucide-react";
 import {
+  clientCity,
   clientFaq,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 
 /* ─── PALETTE ─────────────────────────────────────────────────── */
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -176,25 +184,25 @@ const TESTIMONIALS = [
   {
     q: "La tasse à thé que j'ai reçue est d'une finesse incroyable. Je ne pensais pas qu'on pouvait expédier de la porcelaine aussi bien protégée. Elle est parfaite depuis six mois d'usage quotidien.",
     name: "Mathilde Rousseau",
-    role: "Cliente, Lyon",
+    role: `Cliente, ${clientCity({ formData: fd }) ?? "Lyon"}`,
     stars: 5,
   },
   {
     q: "J'ai commandé le plat à partager pour un cadeau de mariage. Les mariés m'ont écrit une lettre de remerciements à part — la pièce était si belle qu'ils ont voulu savoir qui la faisait. C'est dire.",
     name: "Arnaud Lefèvre",
-    role: "Client, Bordeaux",
+    role: `Client, ${clientCity({ formData: fd }) ?? "Bordeaux"}`,
     stars: 5,
   },
   {
     q: "Le vase colonne trône dans mon salon depuis quatre mois avec des branches séchées. Il s'impose sans dominer — exactement ce que je cherchais. Le service client était impeccable aussi.",
     name: "Sophie Marchand",
-    role: "Cliente, Paris",
+    role: `Cliente, ${clientCity({ formData: fd }) ?? "Paris"}`,
     stars: 5,
   },
   {
     q: "Impossible de choisir une seule pièce, j'ai commandé trois fois en deux mois. La régularité qualitative est impressionnante pour du fait-main. L'atelier a une vraie philosophie visible dans chaque objet.",
     name: "Pierre-Antoine Vidal",
-    role: "Client, Nantes",
+    role: `Client, ${clientCity({ formData: fd }) ?? "Nantes"}`,
     stars: 5,
   },
 ];
@@ -993,10 +1001,6 @@ function CartDrawer({
 
 /* ─── MAIN COMPONENT ─────────────────────────────────────────── */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function ArtisanMinimalPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2894,7 +2898,7 @@ return (
             }}
           >
             <div style={{ fontSize: "0.73rem", color: C.muted }}>
-              © 2026 Terre & Geste · Atelier de céramique · Beaune, Bourgogne · Micro-entreprise
+              © 2026 Terre & Geste · Atelier de céramique · Beaune, Bourgogne · Micro-entreprise{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </div>
             <div style={{ display: "flex", gap: 24 }}>
               {["Mentions légales", "Confidentialité", "CGV"].map((link) => (

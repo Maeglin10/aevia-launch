@@ -40,6 +40,17 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -327,14 +338,6 @@ const GALLERY_IMAGES_DEMO = [
    ========================================================================== */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -491,7 +494,7 @@ export default function Impact199Page() {
                   className="text-3xl tracking-widest text-white"
                   style={{ fontFamily: "'Bebas Neue', cursive" }}
                 >
-                  {clientName(sessionData) ?? (clientName(sessionData) ?? "ENCRE & ÂME")}
+                  {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "ENCRE & ÂME"))}
                 </span>
               </>
             )}
@@ -545,7 +548,7 @@ export default function Impact199Page() {
                 className="text-3xl tracking-widest"
                 style={{ fontFamily: "'Bebas Neue', cursive" }}
               >
-                {clientName(sessionData) ?? (clientName(sessionData) ?? "ENCRE & ÂME")}
+                {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "ENCRE & ÂME"))}
               </span>
               <button onClick={() => setMenuOpen(false)} className="p-2">
                 <X className="w-6 h-6" />
@@ -1592,7 +1595,7 @@ export default function Impact199Page() {
                 className="text-2xl tracking-widest text-white"
                 style={{ fontFamily: "'Bebas Neue', cursive" }}
               >
-                {clientName(sessionData) ?? (clientName(sessionData) ?? "ENCRE & ÂME")}
+                {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "ENCRE & ÂME"))}
               </span>
             </div>
 
@@ -1610,7 +1613,7 @@ export default function Impact199Page() {
 
             <div className="text-center md:text-right space-y-1">
               <p className="text-white/20 text-xs">
-                © {new Date().getFullYear()} Encre & Âme. Tous droits réservés.
+                © {new Date().getFullYear()} Encre & Âme. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
               </p>
               <p className="text-white/15 text-xs">{clientAddress(sessionData) ?? "42 Rue Oberkampf, Paris XI"}</p>
               <div className="flex items-center justify-center md:justify-end gap-4 mt-2">

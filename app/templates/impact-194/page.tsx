@@ -14,6 +14,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 /* ═══════════════════════════════════════════════════════════════════════════
    TABLE D'EXCEPTION — Traiteur premium & buffets événementiels (Lyon)
    Palette : blanc chaud #fefcf8 / champagne #d4a853 / bordeaux #7c2d3e / anthracite #1f1d1a
@@ -65,10 +72,6 @@ const PRESTATIONS_DEMO = [
 let PRESTATIONS = PRESTATIONS_DEMO;
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

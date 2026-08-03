@@ -15,6 +15,16 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 /* Pompes funèbres — donneur : impact-95 (Lumière Clinic, clair et apaisé,
    Cormorant Garamond). Signature : HeldSwap avec DWELL.slow — le temps mort
    tenu (0,5 s de scène vide) est ce qui rend un hero cher, et ici il porte
@@ -104,13 +114,6 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   );
 }
 
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }

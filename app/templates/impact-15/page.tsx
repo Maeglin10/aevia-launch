@@ -11,6 +11,14 @@ import {
   clientStats,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+let brand: any = null;
+
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
 function shadeColor(hex: string, percent: number): string {
@@ -90,7 +98,7 @@ const ATOUTS = [
 ]
 
 const AVIS_DEMO = [
-  { texte: "Construction de notre piscine béton livrée dans les délais, chantier propre et équipe à l'écoute. Le résultat dépasse toutes nos attentes. Un vrai savoir-faire.", auteur: "Marc D.", detail: "Construction, Toulouse" },
+  { texte: "Construction de notre piscine béton livrée dans les délais, chantier propre et équipe à l'écoute. Le résultat dépasse toutes nos attentes. Un vrai savoir-faire.", auteur: "Marc D.", detail: `Construction, ${clientCity({ formData: fd }) ?? "Toulouse"}` },
   { texte: "Rénovation complète de notre bassin des années 90 : nouveau liner, margelles et filtration au sel. On profite enfin d'une eau parfaite. Bravo !", auteur: "Christine M.", detail: "Rénovation, Colomiers" },
   { texte: "Local technique refait avec régulation automatique et éclairage LED. Conseils pertinents, finitions impeccables, délai tenu à la journée près.", auteur: "Famille Aubert", detail: "Local technique, Blagnac" },
 ]
@@ -106,11 +114,6 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 }
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

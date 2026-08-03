@@ -15,8 +15,20 @@ import Link from "next/link";
 import { C, F, projects, teamMembers, processSteps } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 // ─── 3D BUILDING FACADE ───────────────────────────────────────────────────────
 function Building3D({ rotateX }: { rotateX: any }) {
@@ -2369,7 +2381,7 @@ function ContactSection() {
                 style={{ display: 'flex', flexDirection: 'column' as const, gap: 24 }}
               >
                 {[
-                  { label: 'Paris Studio', val: '14 Rue du Dragon, 75006 Paris' },
+                  { label: 'Paris Studio', val: `14 Rue du Dragon, 75006 ${clientCity(sessionData) ?? "Paris"}` },
                   { label: 'Geneva Office', val: '12 Quai du Mont-Blanc, 1201 Geneva' },
                   { label: 'Email', val: 'contact@exemple.fr' },
                   { label: 'Horaires', val: 'Lun – Ven · 9h – 19h' },
@@ -2562,14 +2574,6 @@ function ContactSection() {
 
 // ─── ROOT EXPORT ─────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function ArchitectureTemplate() {
   const [session, setSession] = useState<{
     formData?: {

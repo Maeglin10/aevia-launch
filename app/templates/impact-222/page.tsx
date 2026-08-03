@@ -23,9 +23,21 @@ import {
 } from 'lucide-react';
 import { resolveList } from '@/lib/templates/resolveList';
 import {
+  clientCity,
   clientName,
   clientReviews,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    SOLIS IMMOBILIER — Immobilier & architecture de prestige (France)
@@ -1265,7 +1277,7 @@ const SIGNATURES: Signature[] = [
   },
   {
     img: PHOTO.facade,
-    city: 'Bordeaux',
+    city: (clientCity(sessionData) ?? "Bordeaux"),
     caption: 'Hôtel particulier Chartrons',
     detail:
       'Une façade classée du XVIIIᵉ siècle entièrement repensée, alliant patrimoine et confort de vie moderne.',
@@ -1899,7 +1911,7 @@ const Contact: React.FC = () => {
     {
       icon: <MapPin size={18} />,
       label: 'Bureau principal',
-      value: '18 cours Mirabeau, 13100 Aix-en-Provence',
+      value: `18 cours Mirabeau, 13100 ${clientCity(sessionData) ?? "Aix-en-Provence"}`,
     },
     {
       icon: <Phone size={18} />,
@@ -2351,7 +2363,7 @@ const Footer: React.FC = () => (
           }}
         >
           © 2026 Solis Immobilier — Carte professionnelle CPI 1301 2024 000 047
-          218
+          218{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 24 }}>
           {['Mentions légales', 'Confidentialité', 'Honoraires'].map((l) => (
@@ -2409,14 +2421,6 @@ const ResponsiveStyles: React.FC = () => (
 /* ─────────────────────────── PAGE ─────────────────────────── */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function ImpactTemplate(): React.ReactElement {
   const [session, setSession] = useState<{
     formData?: {

@@ -15,6 +15,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 /* ═══════════════════════════════════════════════════════════════════════════
    THERMOTEK CHAUFFAGE — Chauffagiste professionnel (Bordeaux)
    Palette : noir charbon / orange flamme #ea580c / cuivre / blanc
@@ -55,7 +62,7 @@ const NAV = [
 ];
 
 const REALISATIONS = [
-  { t: "Copropriété · 84 lots, Villeurbanne", n: "Chaufferie gaz condensation", d: "Remplacement de deux chaudières de 1998 par une cascade de trois modules. Coupure de trois jours, en juin, avec production d'eau chaude maintenue." },
+  { t: `Copropriété · 84 lots, ${clientCity({ formData: fd }) ?? "Villeurbanne"}`, n: "Chaufferie gaz condensation", d: "Remplacement de deux chaudières de 1998 par une cascade de trois modules. Coupure de trois jours, en juin, avec production d'eau chaude maintenue." },
   { t: "Maison 1962 · Sainte-Foy", n: "Pompe à chaleur air/eau", d: "Dépose d'une chaudière fioul, PAC 11 kW et remplacement de six radiateurs. Facture de chauffage divisée par 2,4 sur la première saison." },
   { t: "Restaurant · Lyon 2e", n: "Production ECS renforcée", d: "Ballon 500 L et bouclage sanitaire pour un service en continu. Posé de nuit pour ne pas fermer la salle." },
   { t: "Atelier · Corbas", n: "Aérothermes gaz", d: "800 m² à chauffer sans reprendre le réseau existant. Quatre aérothermes suspendus, régulation par zone." },
@@ -97,10 +104,6 @@ const TEMOIGNAGES_DEMO = [
 ]
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

@@ -39,6 +39,17 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
 function shadeColor(hex: string, percent: number): string {
@@ -394,14 +405,6 @@ function CountUp({ target, suffix = "", duration = 2 }: { target: number; suffix
 }
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Impact173Page() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [session, setSession] = useState<{
@@ -600,7 +603,7 @@ export default function Impact173Page() {
                 fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 18, color: "#fff",
                 letterSpacing: 1,
               }}>SB</div>
-              <div style={{ fontFamily: FONT_HEADING, fontWeight: 600, fontSize: 16, letterSpacing: 3, textTransform: "uppercase", color: C.text }}>{fd?.businessName ?? (clientName(sessionData) ?? "Structure Bâtisseurs")}</div>
+              <div style={{ fontFamily: FONT_HEADING, fontWeight: 600, fontSize: 16, letterSpacing: 3, textTransform: "uppercase", color: C.text }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Structure Bâtisseurs"))}</div>
             </>
           )}
         </div>
@@ -1456,7 +1459,7 @@ export default function Impact173Page() {
                   display: "flex", alignItems: "center", justifyContent: "center",
                   fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 15, color: "#fff",
                 }}>SB</div>
-                <div style={{ fontFamily: FONT_HEADING, fontWeight: 600, fontSize: 15, letterSpacing: 2, textTransform: "uppercase" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Structure Bâtisseurs")}</div>
+                <div style={{ fontFamily: FONT_HEADING, fontWeight: 600, fontSize: 15, letterSpacing: 2, textTransform: "uppercase" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Structure Bâtisseurs"))}</div>
               </div>
               <p style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.8, maxWidth: 300 }}>
                 Entreprise générale de construction fondée en 1989. 280 collaborateurs, 12 équipes terrain, 340+ projets livrés.

@@ -13,13 +13,25 @@ import {
 import { ArrowRight, ChevronDown, Heart } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    ATELIER CÉLESTE — Wedding Planner & Design Floral · Paris 8e
@@ -450,7 +462,7 @@ function Nav() {
           />
         ) : (
           <>
-            {fd?.businessName ?? "Atelier Céleste"}<span style={dot} />
+            {fd?.businessName ?? (clientName(sessionData) ?? "Atelier Céleste")}<span style={dot} />
           </>
         )}
       </a>
@@ -648,7 +660,7 @@ function Hero() {
       >
         <Reveal y={16}>
           <Eyebrow color="rgba(240,216,207,0.88)" align="center">
-            Wedding Planner & Design Floral · Paris
+            Wedding Planner & Design Floral · {clientCity(sessionData) ?? "Paris"}
           </Eyebrow>
         </Reveal>
 
@@ -1895,7 +1907,7 @@ function Footer() {
               alignItems: 'center',
               gap: 10,
             }}
-          >{fd?.businessName ?? "Atelier Céleste"}<span
+          >{fd?.businessName ?? (clientName(sessionData) ?? "Atelier Céleste")}<span
               style={{
                 width: 6,
                 height: 6,
@@ -2001,7 +2013,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.36)',
         }}
       >
-        <span>© 2026 Atelier Céleste. Tous droits réservés.</span>
+        <span>© 2026 Atelier Céleste. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Confidentialité</a>
@@ -2024,13 +2036,6 @@ function Footer() {
    PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

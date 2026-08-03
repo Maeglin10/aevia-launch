@@ -30,13 +30,24 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    AirForge — Premium Sneaker / Streetwear E-commerce
@@ -386,7 +397,7 @@ function Nav({ cartCount, onCartClick }: NavProps) {
           />
         ) : (
           <>
-            <Zap size={20} color={C.accent} fill={C.accent} strokeWidth={1} />{fd?.businessName ?? "AirForge"}
+            <Zap size={20} color={C.accent} fill={C.accent} strokeWidth={1} />{fd?.businessName ?? (clientName(sessionData) ?? "AirForge")}
           </>
         )}
       </div>
@@ -2095,7 +2106,7 @@ function Footer() {
                 marginBottom: 18,
               }}
             >
-              <Zap size={24} color={C.accent} fill={C.accent} strokeWidth={1} />{fd?.businessName ?? "AirForge"}</div>
+              <Zap size={24} color={C.accent} fill={C.accent} strokeWidth={1} />{fd?.businessName ?? (clientName(sessionData) ?? "AirForge")}</div>
             <p style={{ margin: '0 0 24px', color: C.textMuted, fontSize: 15, lineHeight: 1.6, maxWidth: 320 }}>
               Performance sneakers forged in Lyon. Limited runs, built to outlast
               the hype.
@@ -2181,7 +2192,7 @@ function Footer() {
             fontSize: 13,
           }}
         >
-          <span>© 2026 AirForge. All rights reserved.</span>
+          <span>© 2026 AirForge. All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div style={{ display: 'flex', gap: 24 }}>
             <a href="#contact" style={{ color: C.textFaint, textDecoration: 'none' }}>
               Privacy
@@ -2204,13 +2215,6 @@ function Footer() {
    ════════════════════════════════════════════════════════════════════════════ */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 // Builders return the client's real data (when the session provides a business
 // profile) or the demo dataset. Read by the module-level section components.
 function buildProducts217(): Product[] {

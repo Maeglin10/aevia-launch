@@ -37,6 +37,17 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 /* ════════════════════════════════════════════════════════════════════════════
    AMPÈRE & FILS — Électricien artisan · Nantes & Loire-Atlantique
    Template premium calqué sur impact-218. Auto-suffisant. 'use client'.
@@ -3072,14 +3083,6 @@ function FooterSection() {
    PAGE PRINCIPALE — Impact 288
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Impact288Page() {
   const [session, setSession] = useState<{
     formData?: {

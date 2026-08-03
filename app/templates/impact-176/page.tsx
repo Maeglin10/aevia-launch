@@ -15,11 +15,19 @@ import {
 } from "framer-motion";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientCity,
   clientFaq,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -1091,10 +1099,6 @@ function FaqItem({
 
 // ─── Main export ──────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -1259,7 +1263,7 @@ export default function Impact176Page() {
                   color: C.text,
                   letterSpacing: "-0.3px",
                 }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Metric")}</span>
+              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Metric"))}</span>
             </>
           )}
         </div>
@@ -2111,7 +2115,7 @@ export default function Impact176Page() {
                   fontSize: 17,
                   color: C.accent,
                 }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Metric")}</span>
+              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Metric"))}</span>
             </div>
             <p
               style={{
@@ -2181,7 +2185,7 @@ export default function Impact176Page() {
               color: C.subdued,
             }}
           >
-            © 2026 Metric Analytics · All rights reserved · GDPR · Privacy Policy
+            © 2026 Metric Analytics · All rights reserved · GDPR · Privacy Policy{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <div

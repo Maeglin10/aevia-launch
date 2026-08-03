@@ -20,6 +20,17 @@ import {
   clientStats,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.
@@ -765,14 +776,6 @@ function NeighborhoodTab({
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -2113,7 +2116,7 @@ export default function Impact167Page() {
             color: "rgba(255,255,255,0.25)",
           }}
         >
-          © 2025 Rive Gauche Immobilier. Tous droits réservés. Carte professionnelle T n° 75-XXX-2024.
+          © 2025 Rive Gauche Immobilier. Tous droits réservés. Carte professionnelle T n° 75-XXX-2024.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </div>
         <div style={{ display: "flex", gap: 28 }}>
           {["Mentions légales", "Confidentialité", "Plan du site"].map((link) => (

@@ -39,9 +39,22 @@ import {
 // used to derive companion shades from the client's brand color.
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 function shadeColor(hex: string, percent: number): string {
   const num = parseInt(hex.replace('#', ''), 16);
@@ -315,8 +328,8 @@ function Nav() {
         ) : (
           <>
             <span style={brand}>
-              <Scale size={18} color={C.gold} strokeWidth={1.4} />{fd?.businessName ?? "Cabinet Faure"}</span>
-            <span style={sub}>Avocate · Marseille</span>
+              <Scale size={18} color={C.gold} strokeWidth={1.4} />{fd?.businessName ?? (clientName(sessionData) ?? "Cabinet Faure")}</span>
+            <span style={sub}>Avocate · {clientCity(sessionData) ?? "Marseille"}</span>
           </>
         )}
       </div>
@@ -2898,7 +2911,7 @@ function FooterSection() {
                   fontWeight: 700,
                   letterSpacing: '0.08em',
                 }}
-              >{fd?.businessName ?? "Cabinet Faure"}</span>
+              >{fd?.businessName ?? (clientName(sessionData) ?? "Cabinet Faure")}</span>
             </div>
             <div
               style={{
@@ -3024,7 +3037,7 @@ function FooterSection() {
               color: 'rgba(249,247,242,0.35)',
             }}
           >
-            © {new Date().getFullYear()} Cabinet Faure — Tous droits réservés · Marseille, France
+            © {new Date().getFullYear()} Cabinet Faure — Tous droits réservés · Marseille, France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: 'flex', gap: 24 }}>
             {['Mentions légales', 'Politique de confidentialité', 'RGPD'].map(
@@ -3072,14 +3085,6 @@ function FooterSection() {
    PAGE PRINCIPALE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 function Impact275Page() {
   const [session, setSession] = useState<{
     formData?: {

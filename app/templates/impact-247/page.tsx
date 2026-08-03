@@ -13,9 +13,22 @@ import {
 import { ArrowRight, ChevronDown, Zap } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    VOLT & LUX — Électricien Certifié & Domotique · Toulouse
@@ -273,7 +286,7 @@ function Nav() {
           ) : (
             <>
               <Zap size={20} color={C.yellow} strokeWidth={2.5} fill={C.yellow} />
-              {fd?.businessName ?? "Volt & Lux"}
+              {fd?.businessName ?? (clientName(sessionData) ?? "Volt & Lux")}
             </>
           )}
         </a>
@@ -459,7 +472,7 @@ function Hero() {
         }}
       >
         <Reveal y={16}>
-          <Eyebrow color={C.yellow}>Électricien certifié · Toulouse</Eyebrow>
+          <Eyebrow color={C.yellow}>Électricien certifié · {clientCity(sessionData) ?? "Toulouse"}</Eyebrow>
         </Reveal>
 
         <motion.h1
@@ -1452,7 +1465,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     quote:
       "Panne électrique totale un vendredi soir dans notre restaurant — intervention en moins de 2h. Le lendemain, Volt & Lux revenait pour l\'upgrade LED de toute la salle. Professionnels, propres, efficaces.",
     name: 'David Anselmi',
-    role: 'Gérant · Brasserie Le Capitole, Toulouse',
+    role: `Gérant · Brasserie Le Capitole, ${clientCity(sessionData) ?? "Toulouse"}`,
     detail: 'Dépannage urgence + LED',
   },
 ];
@@ -2012,7 +2025,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2012–2026 Volt &amp; Lux · Tous droits réservés</span>
+        <span>© 2012–2026 Volt &amp; Lux · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#vl-projet" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2039,14 +2052,6 @@ function Footer() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

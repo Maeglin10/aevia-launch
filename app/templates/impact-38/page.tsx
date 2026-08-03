@@ -26,9 +26,19 @@ import {
   clientStats,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 // ─── Additional page-level constants ──────────────────────────────────────────
 
@@ -725,13 +735,6 @@ function ImpactMetric({ stat, index }: { stat: typeof IMPACT_STATS[0]; index: nu
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function OriginRoastPage() {
   const [session, setSession] = useState<{
     formData?: {

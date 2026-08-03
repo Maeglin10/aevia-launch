@@ -15,9 +15,18 @@ import {
 import Link from "next/link"
 import { TemplateIcon } from '@/components/TemplateIcon'
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 
 /* ==========================================================================
    NEXUS FREIGHT — Premium B2B Freight & Logistics (impact-207)
@@ -628,7 +637,7 @@ function CssTruck({ scale = 1, color = "#1e3a5f", opacity = 1 }: TruckProps) {
       {/* Trailer stripe */}
       <rect x="2" y="12" width="82" height="4" fill={T.accent} opacity="0.4"/>
       {/* Logo on trailer */}
-      <text x="28" y="35" fontFamily="Inter,sans-serif" fontSize="8" fontWeight="700" fill="#ffffff" opacity="0.5">NEXUSFREIGHT</text>
+      <text x="28" y="35" fontFamily="Inter,sans-serif" fontSize="8" fontWeight="700" fill="#ffffff" opacity="0.5">{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NEXUSFREIGHT")}</text>
       {/* Rear wheels */}
       <circle cx="20" cy="46" r="8" fill="#0a0f1e" stroke="var(--brand,#2a4a6e)" strokeWidth="2"/>
       <circle cx="20" cy="46" r="4" fill="#1a2a45"/>
@@ -2091,7 +2100,7 @@ function Footer() {
           }}
         >
           <span style={{ fontSize: 13, color: T.textMuted }}>
-            © 2026 {fd?.businessName ?? "NexusFreight SAS"}. All rights reserved.
+            © 2026 {fd?.businessName ?? "NexusFreight SAS"}. All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             {["Privacy Policy", "Terms of Service", "Cookie Settings"].map((item) => (
@@ -2114,10 +2123,6 @@ function Footer() {
    ROOT PAGE COMPONENT
    -------------------------------------------------------------------------- */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function Impact207() {
   const [session, setSession] = useState<{
     formData?: {

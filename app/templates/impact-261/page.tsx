@@ -13,9 +13,22 @@ import {
 import { ArrowRight, ChevronDown, TrendingUp } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    AXIOM CONSEIL — Expert-Comptable & Conseil en Gestion · Bordeaux
@@ -209,7 +222,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     quote:
       "J'ai lancé mon e-commerce à zéro et franchi les 2 M€ en deux ans. Axiom a structuré la comptabilité, la paie et la fiscalité dès le premier jour. Je n'aurais pas grandi aussi vite sans eux.",
     name: 'Camille Leroy',
-    role: 'Fondatrice · e-commerce mode, Bordeaux',
+    role: `Fondatrice · e-commerce mode, ${clientCity(sessionData) ?? "Bordeaux"}`,
   },
   {
     quote:
@@ -427,7 +440,7 @@ function Nav() {
           />
         ) : (
           <>
-            <span style={brandDot} />{fd?.businessName ?? "Axiom Conseil"}
+            <span style={brandDot} />{fd?.businessName ?? (clientName(sessionData) ?? "Axiom Conseil")}
           </>
         )}</a>
       <div style={linkRow} className="ax-navlinks">
@@ -617,7 +630,7 @@ function Hero() {
         }}
       >
         <Reveal y={18}>
-          <Eyebrow light>Expert-Comptable · Bordeaux</Eyebrow>
+          <Eyebrow light>Expert-Comptable · {clientCity(sessionData) ?? "Bordeaux"}</Eyebrow>
         </Reveal>
 
         <motion.h1
@@ -1330,7 +1343,7 @@ function PillarPanel() {
                 fontWeight: 500,
               }}
             >
-              Axiom Conseil · Bordeaux
+              Axiom Conseil · {clientCity(sessionData) ?? "Bordeaux"}
             </div>
             <div
               style={{
@@ -1952,7 +1965,7 @@ function Footer() {
                 background: C.accent,
                 flexShrink: 0,
               }}
-            />{fd?.businessName ?? "Axiom Conseil"}</div>
+            />{fd?.businessName ?? (clientName(sessionData) ?? "Axiom Conseil")}</div>
           <p
             style={{
               fontFamily: SANS,
@@ -2063,7 +2076,7 @@ function Footer() {
           color: 'rgba(200,224,208,0.38)',
         }}
       >
-        <span>© 2015–2026 Axiom Conseil. Tous droits réservés.</span>
+        <span>© 2015–2026 Axiom Conseil. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2089,14 +2102,6 @@ function Footer() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

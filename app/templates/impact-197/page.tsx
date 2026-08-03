@@ -19,9 +19,19 @@ import {
   clientStats,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.
@@ -369,13 +379,6 @@ function RevealSection({ children, delay = 0, direction = "up" }: { children: Re
 type ActivePage = "home" | "destinations" | "concept" | "formules" | "legal";
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function EvasionDoree() {
   const [session, setSession] = useState<{
     formData?: {
@@ -526,7 +529,7 @@ return (
             ) : (
               <>
             <Compass size={22} color={C.accent} />
-            <span style={{ fontSize: 22, fontWeight: 400, letterSpacing: "0.08em", color: C.marine }}>{fd?.businessName ?? (clientName(sessionData) ?? "Évasion Dorée")}</span>
+            <span style={{ fontSize: 22, fontWeight: 400, letterSpacing: "0.08em", color: C.marine }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Évasion Dorée"))}</span>
               </>
             )}
           </div>
@@ -900,7 +903,7 @@ return (
                 <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>AVIS VOYAGEURS</span>
               </div>
               <h2 style={{ fontSize: "clamp(32px, 4.5vw, 60px)", fontWeight: 300, color: C.marine, letterSpacing: "-0.02em", maxWidth: 540 }}>
-                Ils ont voyagé avec<br /><em style={{ color: C.accent, fontStyle: "italic" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Évasion Dorée")}</em>
+                Ils ont voyagé avec<br /><em style={{ color: C.accent, fontStyle: "italic" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Évasion Dorée"))}</em>
               </h2>
             </div>
           </RevealSection>
@@ -1107,7 +1110,7 @@ return (
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
                 <Compass size={20} color={C.accent} />
-                <span style={{ fontSize: 20, fontWeight: 400, color: C.white, letterSpacing: "0.08em" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Évasion Dorée")}</span>
+                <span style={{ fontSize: 20, fontWeight: 400, color: C.white, letterSpacing: "0.08em" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Évasion Dorée"))}</span>
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", fontFamily: "system-ui", lineHeight: 1.8, maxWidth: 280, marginBottom: 24 }}>
                 Agence de voyages de luxe sur mesure depuis 2006. Paris · Genève · Monaco. IATA 88-2-0456.

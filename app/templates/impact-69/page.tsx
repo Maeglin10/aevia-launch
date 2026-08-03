@@ -8,12 +8,15 @@ import Link from "next/link";
 import { C, TextReveal, MagneticButton, MarqueeStrip, DepthLayers, CountUp, PRESS, SERIES as SERIES_DEMO, SeriesCard } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 
-
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
 let brand: any = null;
+
+
 export default function LeaHomePage() {
   const [session, setSession] = useState<{
     formData?: {

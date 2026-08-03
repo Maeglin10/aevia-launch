@@ -25,13 +25,24 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientFaq,
   clientReviews,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 // ─── Design Tokens ─────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -618,7 +629,7 @@ function HorairesContact() {
           </h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             {[
-              { icon: <MapPin size={20} color={C.accent} />, title: "Adresse", text: "42 Rue de la Roquette, 75011 Paris" },
+              { icon: <MapPin size={20} color={C.accent} />, title: "Adresse", text: `42 Rue de la Roquette, 75011 ${clientCity(sessionData) ?? "Paris"}` },
               { icon: <Phone size={20} color={C.accent} />, title: "Téléphone", text: "01 43 55 67 89" },
               { icon: <Mail size={20} color={C.accent} />, title: "Email", text: "bonjour@lafournee.paris" },
               { icon: <ShoppingBag size={20} color={C.accent} />, title: "Commande", text: "Disponible en ligne 24h/24" },
@@ -713,13 +724,6 @@ function FAQ() {
 
 // ─── Page Export ──────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Impact33() {
   const [session, setSession] = useState<{
     formData?: {

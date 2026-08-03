@@ -12,9 +12,17 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 
 // ─── Design tokens ─────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -908,10 +916,6 @@ function OssRow({
 
 // ─── Main component ────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function Impact170Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2150,7 +2154,7 @@ export default function Impact170Page() {
               textAlign: "center",
             }}
           >
-            © 2025 · Built with Next.js 15 + TypeScript · No trackers, no cookies
+            © 2025 · Built with Next.js 15 + TypeScript · No trackers, no cookies{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </div>
           <div style={{ display: "flex", gap: 24 }}>
             {["github", "linkedin", "twitter"].map((s) => (

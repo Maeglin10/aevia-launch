@@ -35,10 +35,22 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 // Nav and footer links all pointed at the template root regardless of their
 // label, leaving the pages below unreachable. Labels come from .map() vars, so
@@ -3025,7 +3037,7 @@ function FooterSection() {
                 margin: 0,
               }}
             >
-              © 2025 Thomas Lebrun Coach — Bordeaux Caudéran. Tous droits réservés.
+              © 2025 Thomas Lebrun Coach — Bordeaux Caudéran. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               {LINKS.map((l) => (
@@ -3111,14 +3123,6 @@ function GlobalStyles() {
    Page principale — assemblage des 10 sections
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 function Impact276Page() {
   const [session, setSession] = useState<{
     formData?: {

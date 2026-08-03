@@ -13,11 +13,24 @@ import {
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    DERMIS STUDIO — Tatouage & Piercing · Montpellier
@@ -423,7 +436,7 @@ function Nav() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          fd?.businessName ?? "Dermis Studio"
+          fd?.businessName ?? (clientName(sessionData) ?? "Dermis Studio")
         )}
       </a>
       <div style={linkRow} className="ds-navlinks">
@@ -617,7 +630,7 @@ function Hero() {
       >
         <Reveal y={16}>
           <Eyebrow color={C.accentLight} align="left">
-            Tatouage &amp; Piercing · Montpellier
+            Tatouage &amp; Piercing · {clientCity(sessionData) ?? "Montpellier"}
           </Eyebrow>
         </Reveal>
 
@@ -1988,7 +2001,7 @@ function Footer() {
               fontWeight: 400,
               marginBottom: 16,
             }}
-          >{fd?.businessName ?? "Dermis Studio"}</div>
+          >{fd?.businessName ?? (clientName(sessionData) ?? "Dermis Studio")}</div>
           <p
             style={{
               fontFamily: SANS,
@@ -2070,7 +2083,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2024 Dermis Studio · Montpellier. Tous droits réservés.</span>
+        <span>© 2024 Dermis Studio · Montpellier. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#reserver" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2117,14 +2130,6 @@ function FooterLink({ label, href }: { label: string; href: string }) {
    PAGE PRINCIPALE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

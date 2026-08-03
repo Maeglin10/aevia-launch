@@ -16,12 +16,23 @@ import {
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 /* ─────────────────────────────────────────────────────────────────────────────
    DATA
@@ -111,7 +122,7 @@ const SUSTAINABILITY_ITEMS = [
 ];
 
 const STORES = [
-  { city: 'Paris', address: '12 Rue Saint-Honoré, 75001', hours: 'Mon–Sat 10–19' },
+  { city: (clientCity(sessionData) ?? "Paris"), address: '12 Rue Saint-Honoré, 75001', hours: 'Mon–Sat 10–19' },
   { city: 'London', address: '47 Sloane Street, SW1X 9LP', hours: 'Mon–Sat 10–18' },
   { city: 'New York', address: '850 Madison Avenue, NY 10021', hours: 'Mon–Sat 10–19' },
   { city: 'Tokyo', address: '5-4-1 Minami-Aoyama, Minato', hours: 'Daily 11–20' },
@@ -1126,13 +1137,6 @@ function CartDrawer({
 ───────────────────────────────────────────────────────────────────────────── */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 // Builds the product collection from the client's business services when
 // provided (real data), otherwise falls back to the demo collection. Reads the
 // module-level `bp` so both the homepage and the Boutique sub-page share it.
@@ -2822,7 +2826,7 @@ export default function FashionEditorialTemplate() {
                 letterSpacing: '0.1em',
               }}
             >
-              © 2026 {fd?.businessName ?? "Atelier NOIR"}. All rights reserved.
+              © 2026 {fd?.businessName ?? "Atelier NOIR"}. All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </div>
             <div
               style={{

@@ -23,6 +23,17 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 /* The hero carried no photography at all — a blurred circle behind centred
    type — which is what made a €11,200 retreat look like a free template.
    Split screen from the bakery lab: the sanctuary is shown, one retreat at a
@@ -171,19 +182,11 @@ const RETREATS_DEMO = [
 ]
 
 const TESTIMONIALS_DEMO = [
-  { quote: "I arrived carrying three years of accumulated burnout. After seven days at Aether, I remembered what it felt like to be in my body.", name: "Dr. Léa Fontaine", role: "Surgeon, Lyon" },
+  { quote: "I arrived carrying three years of accumulated burnout. After seven days at Aether, I remembered what it felt like to be in my body.", name: "Dr. Léa Fontaine", role: `Surgeon, ${clientCity(sessionData) ?? "Lyon"}` },
   { quote: "Nothing digital, nothing performative. Just the sound of water and the smell of cedar. It changed my entire relationship with stillness.", name: "M. Okafor", role: "Founder, London" },
   { quote: "The Deep Stillness retreat recalibrated my nervous system in ways I didn't know were possible. I sleep differently now.", name: "Y. Sato", role: "Artist, Tokyo" },
 ]
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

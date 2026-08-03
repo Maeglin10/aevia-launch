@@ -24,13 +24,25 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    OSTÉOPATHIE ALSACE — Ostéopathe D.O., Strasbourg Orangerie
@@ -309,7 +321,7 @@ function Nav() {
           />
         ) : (
           <>
-            {fd?.businessName ?? "Ostéopathie Alsace"}<span style={brandSub}>Strasbourg Orangerie</span>
+            {fd?.businessName ?? (clientName(sessionData) ?? "Ostéopathie Alsace")}<span style={brandSub}>Strasbourg Orangerie</span>
           </>
         )}
       </div>
@@ -2381,7 +2393,7 @@ function FooterSection() {
               lineHeight: 1.15,
               marginBottom: 4,
             }}
-          >{fd?.businessName ?? "Ostéopathie Alsace"}</div>
+          >{fd?.businessName ?? (clientName(sessionData) ?? "Ostéopathie Alsace")}</div>
           <div
             style={{
               fontFamily: SANS,
@@ -2494,7 +2506,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024–2026 Ostéopathie Alsace — Strasbourg. Tous droits réservés.
+          © 2024–2026 Ostéopathie Alsace — Strasbourg. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#cabinet" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2546,13 +2558,6 @@ function FootLink({ label, href }: { label: string; href: string }) {
    Assemblage des 10 sous-composants
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Impact291Page() {
   const [session, setSession] = useState<{
     formData?: {

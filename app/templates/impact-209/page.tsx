@@ -16,10 +16,20 @@ import { DWELL, useSlides, BlurThrough, Retint, SlideIndex, HairlineArrows } fro
 import { TrackingCollapse } from '@/lib/templates/hero-kit-3';
 import {
   clientAddress,
+  clientCity,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
 
 /* No photography ships with this template, so the craft itself rotates:
    the gold word's letter-spacing spreads apart as it leaves and the next
@@ -31,9 +41,6 @@ const HERO_SERVICES = [
   { word: 'BALAYAGE', name: 'Balayage & Mèches', tint: 'rgba(55,45,28,0.92)' },
 ];
 
-// Hoisted above the design tokens: several templates read `brand` in a
-// module-level const — declaring it lower caused a TDZ ReferenceError (500).
-let brand: any = null;
 
 // ─── Design Tokens ─────────────────────────────────────────────────────────────
 const BG = '#faf8f5'
@@ -990,9 +997,6 @@ function SectionHeading({ eyebrow, title, subtitle }: { eyebrow: string; title: 
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1705,7 +1709,7 @@ export default function Page() {
             ))}
           </div>
           <p style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, margin: 0 }}>
-            © 2024 L'Atelier Coiffure · Mentions légales · Politique de confidentialité
+            © 2024 L'Atelier Coiffure · Mentions légales · Politique de confidentialité{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </p>
         </div>
       </footer>

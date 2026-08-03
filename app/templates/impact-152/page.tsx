@@ -13,9 +13,15 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -92,7 +98,7 @@ let SERVICES = SERVICES_DEMO;
 
 const TEMOIGNAGES_DEMO = [
   { texte: "Clémence a transformé notre appartement en un espace où il fait vraiment bon vivre. Son sens du détail et sa rigueur sont bluffants — et le budget a été parfaitement respecté.", auteur: "Marie & Thomas L.", projet: "Appartement 160 m², Lyon 2e" },
-  { texte: "Nous avions peur de perdre le caractère de notre maison ancienne. Le Studio Noma a su magnifier les volumes tout en apportant la modernité qu'on cherchait. Résultat magistral.", auteur: "Édouard V.", projet: "Maison de maître, Villeurbanne" },
+  { texte: "Nous avions peur de perdre le caractère de notre maison ancienne. Le Studio Noma a su magnifier les volumes tout en apportant la modernité qu'on cherchait. Résultat magistral.", auteur: "Édouard V.", projet: `Maison de maître, ${clientCity({ formData: fd }) ?? "Villeurbanne"}` },
   { texte: "Un accompagnement de A à Z, professionnel et chaleureux. Notre boutique est maintenant l'une des plus belles de la galerie. Les ventes ont bondi de 40% depuis l'ouverture.", auteur: "Sophie K.", projet: "Concept store, Part-Dieu" },
 ]
 let TEMOIGNAGES = TEMOIGNAGES_DEMO;
@@ -110,9 +116,6 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
 export default function StudioNomaPage() {
   const [session, setSession] = useState<{
     formData?: {

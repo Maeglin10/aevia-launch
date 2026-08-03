@@ -13,6 +13,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
@@ -94,10 +101,6 @@ const pipeline = createPipeline({
 await pipeline.start();`
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function WaveFXPage() {
   const [session, setSession] = useState<{
     formData?: {

@@ -49,14 +49,21 @@ import {
   Wind,
 } from "lucide-react";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -284,7 +291,7 @@ const testimonials: Testimonial[] = [
   },
   {
     name: "Édouard de Villeneuve",
-    title: "Family Charter, Paris",
+    title: `Family Charter, ${clientCity({ formData: fd }) ?? "Paris"}`,
     text: "We have chartered through three agencies over twenty years. Horizon Maritime is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.",
     yacht: "S/Y Ariel — 42m",
     stars: 5,
@@ -826,9 +833,6 @@ function CounterStat({ stat, triggered }: { stat: StatItem; triggered: boolean }
 type ActivePage = "home" | "fleet" | "destinations" | "experience" | "contact" | "legal";
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
 export default function HorizonMaritimePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2416,7 +2420,7 @@ export default function HorizonMaritimePage() {
             }}
           >
             <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.25)", letterSpacing: 1 }}>
-              © 2026 Horizon Maritime Group S.A.M. · All rights reserved · Monaco
+              © 2026 Horizon Maritime Group S.A.M. · All rights reserved · Monaco{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
               {["Privacy Policy", "Terms of Charter", "Cookie Policy", "Legal Mentions"].map((l) => (

@@ -18,6 +18,16 @@ import {
   clientStats,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 /* Cuisiniste, 2e variante (la 1re est impact-327, ExpandFrame). Celle-ci est un studio-showroom montagne. Signature : PanelDrop — le panneau qui descend comme une façade qu'on pose. */
 
 let C: Record<string, string> = {
@@ -60,13 +70,6 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   );
 }
 
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
@@ -167,7 +170,7 @@ export default function StudioCulinaPage() {
           ) : (
             <>
               <Ruler size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Studio Culina")}</span>
+              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Culina"))}</span>
               <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>Cuisines</span>
             </>
           )}
@@ -403,7 +406,7 @@ export default function StudioCulinaPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Studio Culina")}</div>
+              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Culina"))}</div>
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Cuisines & agencement sur mesure · {clientCity(sessionData) ?? "Annecy"}<br />Fabrication européenne, pose garantie décennale</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -416,7 +419,7 @@ export default function StudioCulinaPage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Studio Culina")} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Culina"))} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
           </div>

@@ -14,6 +14,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 function useFonts() {
   useEffect(() => {
     if (document.getElementById("impact-26-fonts")) return
@@ -115,10 +122,6 @@ type ActivePage =
   | "privacy";
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -252,7 +255,7 @@ export default function Impact26() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              fd?.businessName ?? (clientName({ formData: fd }) ?? "Éther")
+              fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Éther"))
             )}
           </div>
           <div className="hidden md:flex items-center gap-10 text-xs tracking-widest uppercase text-[#F5EDE8]/50">
@@ -714,7 +717,7 @@ export default function Impact26() {
       {/* Footer */}
       <footer className="border-t border-[var(--brand,#c9956a)]/10 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-xl tracking-[0.3em] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Éther")}</div>
+          <div className="text-xl tracking-[0.3em] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Éther"))}</div>
           <div className="flex flex-wrap gap-6 text-xs tracking-widest uppercase text-[#F5EDE8]/30">
             {[
               { label: "Collection", key: "collection" as const },

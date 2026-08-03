@@ -25,6 +25,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 /* BentoCascade in a template that ships zero photography: the tiles are
    typographic — discipline, index, a red verb — in the studio's own
    black/white/red. The cascade empties and refills them per discipline. */
@@ -35,10 +42,6 @@ const HERO_DISCIPLINES = [
 ];
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 function HeroBento({ i }: { i: number }) {
   const d = HERO_DISCIPLINES[i];
   const cell = (bg: string, color: string, pad = "1.1rem") => ({

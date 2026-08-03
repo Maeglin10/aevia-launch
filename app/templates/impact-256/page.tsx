@@ -13,10 +13,22 @@ import {
 import { ArrowRight, ChevronDown, Trophy, Dumbbell, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    FORCE BRUTE — Coach Sportif Personnel & Remise en Forme · Marseille
@@ -659,7 +671,7 @@ function Hero() {
         }}
       >
         <Reveal y={16}>
-          <Eyebrow color={C.accent}>Coach Sportif · Marseille</Eyebrow>
+          <Eyebrow color={C.accent}>Coach Sportif · {clientCity(sessionData) ?? "Marseille"}</Eyebrow>
         </Reveal>
 
         {/* Stripe rouge sous l'eyebrow, au-dessus du titre */}
@@ -2137,7 +2149,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2026 Force Brute · Coach Sportif Marseille. Tous droits réservés.</span>
+        <span>© 2026 Force Brute · Coach Sportif Marseille. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Confidentialité</a>
@@ -2161,14 +2173,6 @@ function Footer() {
    PAGE — composition finale
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

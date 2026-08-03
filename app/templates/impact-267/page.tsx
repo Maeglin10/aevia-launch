@@ -13,11 +13,24 @@ import {
 import { ArrowRight, ChevronDown, PenLine } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    ATELIER ENCRE VIVANTE — Tatouage Contemporain & Art Corporel · Lyon 1er
@@ -434,7 +447,7 @@ function Nav() {
         ) : (
           <>
             <PenLine size={18} color={C.accent} strokeWidth={1.5} />
-            {fd?.businessName ?? "Atelier Encre Vivante"}
+            {fd?.businessName ?? (clientName(sessionData) ?? "Atelier Encre Vivante")}
           </>
         )}
       </a>
@@ -2013,7 +2026,7 @@ function Footer() {
             }}
           >
             <PenLine size={20} color={C.accent} strokeWidth={1.4} />
-            Atelier Encre Vivante
+            {clientName(sessionData) ?? (clientName(sessionData) ?? "Atelier Encre Vivante")}
           </div>
           <p
             style={{
@@ -2098,7 +2111,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2024–2026 Atelier Encre Vivante — Tous droits réservés
+          © 2024–2026 Atelier Encre Vivante — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#hygiene" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2147,14 +2160,6 @@ function FooterLink({ label, href }: { label: string; href: string }) {
    PAGE — composition
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

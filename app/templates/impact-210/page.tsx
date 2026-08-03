@@ -21,13 +21,25 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from '@/lib/templates/resolveList';
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 /* ==========================================================================
    TYPES
@@ -330,7 +342,7 @@ function Nav({ accentColor }: { accentColor: string }) {
                 color: accentColor,
                 letterSpacing: '-0.02em',
               }}
-            >{fd?.businessName ?? "Studio Nail"}</span>
+            >{fd?.businessName ?? (clientName(sessionData) ?? "Studio Nail")}</span>
           </>
         )}
       </div>
@@ -2167,7 +2179,7 @@ function Footer({ accentColor }: { accentColor: string }) {
             fontSize: 18,
             color: accentColor,
           }}
-        >{fd?.businessName ?? "Studio Nail"}</span>
+        >{fd?.businessName ?? (clientName(sessionData) ?? "Studio Nail")}</span>
       </div>
 
       <div style={{ display: 'flex', gap: 32 }}>
@@ -2197,7 +2209,7 @@ function Footer({ accentColor }: { accentColor: string }) {
       </div>
 
       <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12 }}>
-        © 2025 Studio Nail. All rights reserved.
+        © 2025 Studio Nail. All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </div>
     </footer>
   );
@@ -2208,13 +2220,6 @@ function Footer({ accentColor }: { accentColor: string }) {
    ========================================================================== */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function NailStudioTemplate() {
   const [session, setSession] = useState<{
     formData?: {

@@ -26,6 +26,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
@@ -226,10 +233,6 @@ const LOGOS_DEMO = [
 let LOGOS = LOGOS_DEMO;
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -335,7 +338,7 @@ return (
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-fuchsia-500 flex items-center justify-center">
                   <Zap className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-lg font-bold tracking-tight">{fd?.businessName ?? (clientName({ formData: fd }) ?? "NovaPlatform SaaS")}</span>
+                <span className="text-lg font-bold tracking-tight">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NovaPlatform SaaS"))}</span>
               </>
             )}
           </Link>
@@ -365,7 +368,7 @@ return (
                     <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-fuchsia-500 flex items-center justify-center">
                       <Zap className="w-3.5 h-3.5" />
                     </div>
-                    <span className="font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? "NovaPlatform SaaS")}</span>
+                    <span className="font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NovaPlatform SaaS"))}</span>
                   </>
                 )}
               </div>
@@ -786,7 +789,7 @@ return (
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-fuchsia-500 flex items-center justify-center">
                 <Zap className="w-4 h-4" />
               </div>
-              <span className="text-lg font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? "NovaPlatform SaaS")}</span>
+              <span className="text-lg font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NovaPlatform SaaS"))}</span>
             </div>
             <p className="text-sm text-zinc-500 leading-relaxed max-w-xs mb-5">The all-in-one platform for modern engineering teams. Build, deploy, and scale without limits.</p>
             <div className="flex gap-3">

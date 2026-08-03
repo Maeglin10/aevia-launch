@@ -17,6 +17,16 @@ import {
   clientStats,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 /* Sage-femme libérale, 1re variante. Signature : ParticleOrb — un halo doux qui respire, comme une veilleuse. Sans photographie. */
 
 let C: Record<string, string> = {
@@ -58,13 +68,6 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   );
 }
 
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
@@ -160,7 +163,7 @@ export default function CabinetNaissancesPage() {
           ) : (
             <>
               <Baby size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Cabinet Naissances")}</span>
+              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cabinet Naissances"))}</span>
               
             </>
           )}
@@ -377,7 +380,7 @@ export default function CabinetNaissancesPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Cabinet Naissances")}</div>
+              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cabinet Naissances"))}</div>
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Sage-femme libérale · {clientCity(sessionData) ?? "Aix-en-Provence"}<br />Conventionnée CPAM — Ordre des sages-femmes, n° RPPS affiché</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -390,7 +393,7 @@ export default function CabinetNaissancesPage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Cabinet Naissances")} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cabinet Naissances"))} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
           </div>

@@ -13,11 +13,14 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
-
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+
+
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -66,7 +69,7 @@ return (
       {/* Hero — asymmetric mosaic */}
       <section ref={heroRef} className="relative min-h-dvh overflow-hidden">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
-          <Image src={photo(0, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? "Vogue Noire")} fill className="object-cover" />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Vogue Noire"))} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A08] via-[#0A0A08]/50 to-[#0A0A08]/20" />
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 min-h-dvh flex flex-col">

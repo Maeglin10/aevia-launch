@@ -29,6 +29,17 @@ import {
   clientStats,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
@@ -199,14 +210,6 @@ const FAQS_DEMO = [
 ]
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -386,7 +389,7 @@ return (
           </motion.div>
 
           <div className="overflow-hidden mb-4">
-            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.6 }} className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-light tracking-[-0.02em] leading-[0.85] text-[#f5efe6]">{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? "L'Étoile Restaurant")}</>}</motion.h1>
+            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.6 }} className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-light tracking-[-0.02em] leading-[0.85] text-[#f5efe6]">{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "L'Étoile Restaurant"))}</>}</motion.h1>
           </div>
           <div className="overflow-hidden mb-12">
             <motion.p initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 0.9, delay: 0.85 }} className="text-xl md:text-2xl text-[#f5efe6]/35 font-light italic">{c?.heroSubline ?? fd?.tagline ?? <>

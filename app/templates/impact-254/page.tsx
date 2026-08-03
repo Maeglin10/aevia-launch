@@ -13,9 +13,22 @@ import {
 import { ArrowRight, Briefcase, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET VAILLANT & ASSOCIÉS — Expert-Comptable & Commissariat aux Comptes
@@ -208,7 +221,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     quote:
       'Nous avons confié notre comptabilité à Vaillant lors de notre Série A. En six mois, ils ont restructuré nos process, formé notre CFO et nous ont servi de co-pilote financier tout au long de la levée. Un partenaire stratégique, pas un prestataire.',
     name: 'Camille Renaud',
-    role: 'CFO · SaaS B2B, Paris',
+    role: `CFO · SaaS B2B, ${clientCity(sessionData) ?? "Paris"}`,
   },
   {
     quote:
@@ -397,7 +410,7 @@ function Nav() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          <>{fd?.businessName ?? "Vaillant & Associés"}</>
+          <>{fd?.businessName ?? (clientName(sessionData) ?? "Vaillant & Associés")}</>
         )}
       </div>
 
@@ -2004,7 +2017,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.36)',
         }}
       >
-        <span>© 1990–2026 Vaillant &amp; Associés. Tous droits réservés.</span>
+        <span>© 1990–2026 Vaillant &amp; Associés. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Politique de confidentialité</a>
@@ -2053,14 +2066,6 @@ const GLOBAL_RESPONSIVE = `
    PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

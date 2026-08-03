@@ -12,6 +12,14 @@ import {
 } from "@/lib/templates/clientContent";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+let brand: any = null;
+
 /* ═══════════════════════════════════════════════════════════════════════════
    COULEURS & CO PISCINES — Pisciniste / Constructeur de piscines (Lille)
    Palette : blanc pur / vert sauge #4d7c5f / gris perle #e8e8e4 / encre #1a1a2e
@@ -70,7 +78,7 @@ const CHANTIERS = [
 ];
 
 const ZONES_DEMO = [
-  { ville: "Lille", detail: "Métropole et première couronne" },
+  { ville: (clientCity({ formData: fd }) ?? "Lille"), detail: "Métropole et première couronne" },
   { ville: "Roubaix · Tourcoing", detail: "Intervention sous 48 h" },
   { ville: "Villeneuve-d'Ascq", detail: "Entretien hebdomadaire possible" },
   { ville: "Armentières", detail: "Devis déplacement offert" },
@@ -87,11 +95,6 @@ const COULEURS = [
 ]
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

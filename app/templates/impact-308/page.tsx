@@ -44,15 +44,26 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientFaq,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -228,13 +239,6 @@ function Button({
    ════════════════════════════════════════════════════════════════════════════ */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -370,7 +374,7 @@ export default function Page() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              fd?.businessName ?? (clientName(sessionData) ?? "Re-Thread Studio")
+              fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Re-Thread Studio"))
             )}
           </a>
 
@@ -640,7 +644,7 @@ export default function Page() {
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>{fd?.businessName ?? (clientName(sessionData) ?? "Re-Thread Studio")}</Eyebrow>
+                <Eyebrow>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Re-Thread Studio"))}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1242,7 +1246,7 @@ export default function Page() {
             marginBottom: 64
           }}>
             <div>
-              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Re-Thread Studio")}</h4>
+              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Re-Thread Studio"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
                 Mode upcycling Bordeaux
               </p>
@@ -1288,7 +1292,7 @@ export default function Page() {
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Re-Thread Studio. Tous droits réservés.
+            © {new Date().getFullYear()} Re-Thread Studio. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

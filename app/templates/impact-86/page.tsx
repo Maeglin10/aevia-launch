@@ -46,6 +46,13 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 const useFonts = () => {
   useEffect(() => {
     if (document.getElementById("aura-fonts")) return;
@@ -362,10 +369,6 @@ const FAQS_DEMO = [
 ];
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -492,7 +495,7 @@ export default function AuraWellnessPage() {
             ) : (
               <>
                 <Leaf className="w-5 h-5 text-[var(--brand,#7C9E87)]" />
-                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Aura Wellness")}</span>
+                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aura Wellness"))}</span>
               </>
             )}
           </Link>
@@ -540,7 +543,7 @@ export default function AuraWellnessPage() {
                   style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Aura Wellness")}</span>
+                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aura Wellness"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="text-[#2C2820] cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
@@ -1144,7 +1147,7 @@ export default function AuraWellnessPage() {
               <span
                 className="text-[#2C2820] text-lg"
                 style={{ fontFamily: "'Cormorant Garamond', serif" }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Aura Wellness")}</span>
+              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aura Wellness"))}</span>
             </div>
             <p className="text-[#6B5E52] text-sm leading-relaxed mb-4">
               Sanctuary de soins botaniques & rituels holistiques. Bordeaux, France.

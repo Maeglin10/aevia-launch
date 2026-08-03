@@ -12,10 +12,18 @@ import {
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientCity,
   clientFaq,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -1669,7 +1677,7 @@ function Footer() {
             display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 14,
           }}>
             <p style={{ fontFamily: C.fontBody, fontSize: 12, color: C.textMuted }}>
-              © 2024 Meridian Freight SAS · RCS Paris 841 234 567 · SIRET 84123456700014
+              © 2024 Meridian Freight SAS · RCS Paris 841 234 567 · SIRET 84123456700014{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               {['Mentions légales', 'CGV', 'Confidentialité', 'Cookies'].map((l) => (
@@ -1685,10 +1693,6 @@ function Footer() {
 
 // ─── ROOT PAGE ────────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function MeridianFreightPage() {
   const [session, setSession] = useState<{
     formData?: {

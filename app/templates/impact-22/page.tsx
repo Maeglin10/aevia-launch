@@ -13,6 +13,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 type ActivePage = "home" | "modeles" | "pricing" | "docs" | "blog" | "login" | "legal";
 
 const useFonts = () => {
@@ -91,10 +98,6 @@ const footerLinkMap: Record<string, ActivePage> = {
 };
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function NimbusAIPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -158,7 +161,7 @@ return (
             ) : (
               <>
                 <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#06B6D4)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div>
-                <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? "NimbusAI")}</span>
+                <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NimbusAI"))}</span>
               </>
             )}
           </button>
@@ -186,7 +189,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-white font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? "NimbusAI")}</span>
+                <span className="text-white font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NimbusAI"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -387,7 +390,7 @@ return (
       <footer className="bg-[#060B16] border-t border-white/5 py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
-            <div className="flex items-center gap-2 mb-4"><div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#06B6D4)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div><span className="text-white font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? "NimbusAI")}</span></div>
+            <div className="flex items-center gap-2 mb-4"><div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#06B6D4)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div><span className="text-white font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NimbusAI"))}</span></div>
             <p className="text-gray-500 text-sm">Cloud AI infrastructure pour les équipes qui construisent les produits de demain.</p>
           </div>
           {[

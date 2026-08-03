@@ -21,6 +21,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 // ── Showreel Modal ─────────────────────────────────────────────────────────────
 function ShowreelModal({ onClose }: { onClose: () => void }) {
   useEffect(() => {
@@ -145,10 +152,6 @@ const CLIENTS = ['Adidas', 'Apple', 'Vuitton', 'Spotify', 'Balenciaga', 'Hermès
 
 // ── Main Component ─────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function SkewOSHome() {
   const [session, setSession] = useState<{
     formData?: {

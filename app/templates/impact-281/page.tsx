@@ -21,14 +21,25 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    MAISON CÉLESTE — Couture sur mesure & retouches luxe · Paris 8e (Madeleine)
@@ -1288,7 +1299,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     quote:
       "Mon costume pour la remise de la Légion d'honneur devait être irréprochable. Maison Céleste a su capter mon style et livrer une pièce d'une élégance rare, taillée comme une seconde peau.",
     name: 'Antoine de Mauroy',
-    role: 'Dirigeant, Paris',
+    role: `Dirigeant, ${clientCity(sessionData) ?? "Paris"}`,
     occasion: 'Costume cérémonie sur mesure',
     stars: 5,
   },
@@ -2513,7 +2524,7 @@ function FooterSection() {
           fontWeight: 400,
         }}
       >
-        <span>© 1987–2026 Maison Céleste. Tous droits réservés.</span>
+        <span>© 1987–2026 Maison Céleste. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a
             href="/templates/impact-281"
@@ -2552,13 +2563,6 @@ function FooterSection() {
    PAGE PRINCIPALE — Impact281Page
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Impact281Page() {
   const [session, setSession] = useState<{
     formData?: {

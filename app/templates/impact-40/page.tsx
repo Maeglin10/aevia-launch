@@ -28,10 +28,20 @@ import {
 } from "lucide-react";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
 
 // Nav and footer links all pointed at the template root regardless of their
 // label, leaving the pages below unreachable. Labels come from .map() vars, so
@@ -47,9 +57,6 @@ const navHref = (label: unknown) =>
 
 
 
-// Hoisted above the design tokens: several templates read `brand` in a
-// module-level const — declaring it lower caused a TDZ ReferenceError (500).
-let brand: any = null;
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -356,9 +363,6 @@ function SectionReveal({ children, delay = 0 }: { children: React.ReactNode; del
 
 // ─── Main page ─────────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
 type PlanInfo = { name: string; price: string; freq: string };
 
 function SubscriptionModal({ plan, onClose }: { plan: PlanInfo; onClose: () => void }) {
@@ -566,7 +570,7 @@ export default function TerreVivantePage() {
               >
                 <Leaf size={18} color={C.accent} />
               </div>
-              <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", fontWeight: 700, color: scrolled ? C.bgDark : C.bg }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Terre Vivante")}</span>
+              <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", fontWeight: 700, color: scrolled ? C.bgDark : C.bg }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Terre Vivante"))}</span>
             </>
           )}
         </div>
@@ -1258,7 +1262,7 @@ export default function TerreVivantePage() {
                 >
                   <Leaf size={18} color={C.accent} />
                 </div>
-                <span style={{ fontFamily: C.headingFont, fontSize: "1.25rem", color: C.bg, fontWeight: 700 }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Terre Vivante")}</span>
+                <span style={{ fontFamily: C.headingFont, fontSize: "1.25rem", color: C.bg, fontWeight: 700 }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Terre Vivante"))}</span>
               </div>
               <p style={{ fontFamily: C.bodyFont, fontSize: "0.86rem", color: "rgba(253,249,238,0.5)", lineHeight: 1.8, maxWidth: 290 }}>
                 Ferme biologique familiale dans le Beaujolais depuis 1998. Nous cultivons la terre avec amour et la partageons avec notre communauté.
@@ -1314,7 +1318,7 @@ export default function TerreVivantePage() {
             }}
           >
             <p style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: "rgba(253,249,238,0.3)" }}>
-              © 2026 {fd?.businessName ?? (clientName({ formData: fd }) ?? "Terre Vivante")} SARL. Tous droits réservés. SIRET 422 890 123 00034.
+              © 2026 {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Terre Vivante"))} SARL. Tous droits réservés. SIRET 422 890 123 00034.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <div style={{ display: "flex", gap: "1.75rem" }}>
               {["Mentions légales", "Confidentialité", "CGV"].map((l) => (

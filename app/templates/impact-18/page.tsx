@@ -14,6 +14,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 // Nav and footer links all pointed at the template root regardless of their
 // label, leaving the pages below unreachable. Labels come from .map() vars, so
 // they resolve through this table; anything unmapped stays on the homepage.
@@ -92,10 +99,6 @@ const integrations = ["Slack", "Salesforce", "HubSpot", "Notion", "GitHub", "Fig
 type ActivePage = "home" | "features" | "integrations" | "tarifs" | "docs" | "blog" | "legal";
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function StreamlinePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -170,7 +173,7 @@ return (
             ) : (
               <>
                 <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#3B82F6)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
-                <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Streamline")}</span>
+                <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Streamline"))}</span>
               </>
             )}
           </div>
@@ -211,7 +214,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-white font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Streamline")}</span>
+                <span className="text-white font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Streamline"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -374,7 +377,7 @@ return (
           <div className="md:col-span-2">
             <div onClick={() => goTo("home")} className="flex items-center gap-2 mb-4 cursor-pointer">
               <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#3B82F6)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
-              <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Streamline")}</span>
+              <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Streamline"))}</span>
             </div>
             <p className="text-gray-500 text-sm leading-relaxed">La plateforme de productivité pour les équipes modernes. Gérez tout votre travail en un seul endroit.</p>
           </div>

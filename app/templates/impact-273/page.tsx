@@ -23,10 +23,22 @@ import {
 import { resolveList } from '@/lib/templates/resolveList';
 import {
   clientAddress,
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET DENTAIRE ROSENFELD — Dentisterie & Implantologie · Strasbourg
@@ -622,7 +634,7 @@ function Hero() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.accentLight} align="center">
-            Dentisterie &amp; Implantologie · Strasbourg
+            Dentisterie &amp; Implantologie · {clientCity(sessionData) ?? "Strasbourg"}
           </Eyebrow>
         </Reveal>
 
@@ -1952,7 +1964,7 @@ function Footer() {
               }}
             >
               <MapPin size={14} color={C.accent} strokeWidth={1.5} />
-              {clientAddress(sessionData) ?? "2 Place Kléber, 67000 Strasbourg"}
+              {clientAddress(sessionData) ?? `2 Place Kléber, 67000 ${clientCity(sessionData) ?? "Strasbourg"}`}
             </div>
             <div
               style={{
@@ -2074,7 +2086,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Cabinet Dentaire Rosenfeld · Strasbourg. Tous droits réservés.
+          © 2026 Cabinet Dentaire Rosenfeld · Strasbourg. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="/templates/impact-273" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2102,17 +2114,9 @@ function Footer() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

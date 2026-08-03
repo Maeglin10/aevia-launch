@@ -24,6 +24,17 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 /* PanelDrop (v02, the split-screen recording): the whole text panel drops
    like a curtain, contents included, while the photograph changes behind.
    Photographs were verified at the merge; names, prices and copy are this
@@ -967,14 +978,6 @@ function ContactSection() {
 
 /* ─── Page ───────────────────────────────────────────────────── */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1073,7 +1076,7 @@ export default function Page() {
               ))}
             </svg>
             <div>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: C.brown, lineHeight: 1 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Maison Laval")}</p>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: C.brown, lineHeight: 1 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Laval"))}</p>
               <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 10, color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>Boulangerie Artisanale</p>
             </div>
           </div>
@@ -1337,7 +1340,7 @@ export default function Page() {
               <TextReveal text="Lyon 4e." delay={0.15} style={{ fontStyle: "italic" }} />
             </h2>
             <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 6, padding: "28px", marginBottom: 20 }}>
-              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 16, color: C.brown, fontWeight: 600, marginBottom: 6 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Maison Laval")}</p>
+              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 16, color: C.brown, fontWeight: 600, marginBottom: 6 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Laval"))}</p>
               <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.6 }}>47 Grande Rue de la Croix-Rousse<br />69004 Lyon, France</p>
             </div>
             <div style={{ display: "flex", gap: 12 }}>

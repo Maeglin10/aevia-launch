@@ -16,6 +16,17 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée que
+// fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -73,14 +84,6 @@ const CLIENTS = ["Vogue France", "Le Monde", "LVMH", "Chanel", "Elle", "Air Fran
 type ActivePage = "home" | "portfolio" | "services" | "propos" | "legal"
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée que
-// fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -183,7 +186,7 @@ return (
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <span className="text-[var(--brand,#C9A86C)] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Obscura")}</span>
+              <span className="text-[var(--brand,#C9A86C)] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Obscura"))}</span>
             )}
           </div>
           <div className="hidden md:flex items-center gap-8 text-white/40 text-sm">
@@ -216,7 +219,7 @@ return (
                       style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                     />
                   ) : (
-                    <span className="text-[var(--brand,#C9A86C)] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Obscura")}</span>
+                    <span className="text-[var(--brand,#C9A86C)] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Obscura"))}</span>
                   )}
                </div>
                <div className="flex flex-col gap-6 font-medium">
@@ -259,7 +262,7 @@ return (
                   </div>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <h1 className="text-white text-6xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? "Obscura")}</>}</h1>
+                  <h1 className="text-white text-6xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Obscura"))}</>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
                   <p className="text-white/50 text-lg max-w-md leading-relaxed mb-12 font-sans font-light">{c?.heroSubline ?? fd?.tagline ?? <>

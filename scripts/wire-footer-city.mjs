@@ -39,7 +39,14 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
   const mention = `{/* VILLE_PIED */}{clientCity(${arg}) ? \` · \${clientCity(${arg})}\` : ""}`;
 
   let fait = false;
-  src = src.replace(/(©\s*(?:\{[^}]{0,60}\}|\d{4})[^<\n]{0,120}?)(<\/)/, (m, ligne, fin) => {
+  /*
+    La balise fermante n'est pas toujours sur la même ligne que le texte : sur
+    100 thèmes le copyright tient sur plusieurs lignes, et une classe [^<\n]
+    s'arrêtait au premier retour à la ligne. On accepte donc les espaces et les
+    retours avant la fermeture — mais toujours pas de « < », pour ne jamais
+    déborder sur la balise suivante.
+  */
+  src = src.replace(/(©\s*(?:\{[^}]{0,80}\}|\d{4})[^<]{0,140}?)(\s*<\/)/, (m, ligne, fin) => {
     if (fait) return m;
     fait = true;
     return `${ligne}${mention}${fin}`;

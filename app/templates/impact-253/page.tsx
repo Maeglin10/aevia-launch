@@ -13,9 +13,22 @@ import {
 import { ArrowRight, ChevronDown, MapPin, Quote, Trophy } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    KINESPORT ÉLITE — Kinésithérapie du Sport & Rééducation · Paris 15e
@@ -428,7 +441,7 @@ function Nav() {
                 flexShrink: 0,
               }}
             />
-            {fd?.businessName ?? "KinéSport Élite"}
+            {fd?.businessName ?? (clientName(sessionData) ?? "KinéSport Élite")}
           </>
         )}
       </a>
@@ -1998,7 +2011,7 @@ function Footer() {
                 background: C.accent,
                 flexShrink: 0,
               }}
-            />{fd?.businessName ?? "KinéSport Élite"}</div>
+            />{fd?.businessName ?? (clientName(sessionData) ?? "KinéSport Élite")}</div>
           <p
             style={{
               fontFamily: SANS,
@@ -2102,7 +2115,7 @@ function Footer() {
           color: 'rgba(196,220,204,0.46)',
         }}
       >
-        <span>© 2026 KinéSport Élite · Paris 15e</span>
+        <span>© 2026 KinéSport Élite · Paris 15e{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2150,14 +2163,6 @@ const RESPONSIVE_CSS = `
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

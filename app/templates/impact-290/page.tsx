@@ -32,9 +32,22 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    EAU & HABITAT BRETAGNE — Plombier-chauffagiste Rennes & agglo
@@ -2769,8 +2782,8 @@ function FooterSection() {
               color: 'rgba(255,255,255,0.30)',
             }}
           >
-            © 2024 {fd?.businessName ?? 'Eau & Habitat Bretagne'} · SIRET 000 000 000 00000 ·
-            Artisan RGE · Assurance décennale souscrite
+            © 2024 {fd?.businessName ?? (clientName(sessionData) ?? "Eau & Habitat Bretagne")} · SIRET 000 000 000 00000 ·
+            Artisan RGE · Assurance décennale souscrite{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: 'flex', gap: 24 }}>
             {['Mentions légales', 'Politique de confidentialité', 'CGV'].map(
@@ -2842,14 +2855,6 @@ function FooterLink({ label, href }: { label: string; href: string }) {
    ROOT PAGE — Impact290Page
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 function Impact290Page() {
   const [session, setSession] = useState<{
     formData?: {

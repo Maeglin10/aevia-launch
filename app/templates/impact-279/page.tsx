@@ -28,14 +28,25 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET SOLER — Ostéopathe D.O., Lyon 6e · Brotteaux
@@ -2503,7 +2514,7 @@ function FooterSection() {
       >
         <span>
           © 2026 Cabinet Soler · Ostéopathe D.O. · ADELI&nbsp;69XXXXXXX ·
-          Registre ARS Auvergne-Rhône-Alpes
+          Registre ARS Auvergne-Rhône-Alpes{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a
@@ -2542,13 +2553,6 @@ function FooterSection() {
    PAGE PRINCIPALE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Impact279Page() {
   const [session, setSession] = useState<{
     formData?: {

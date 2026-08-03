@@ -15,6 +15,13 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
 function shadeColor(hex: string, percent: number): string {
@@ -312,10 +319,6 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 }
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function BureauPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -425,7 +428,7 @@ return (
           />
         ) : (
           <span style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, textTransform: "uppercase", color: C.white, fontWeight: 700 }}>
-            {fd?.businessName ?? (clientName({ formData: fd }) ?? "BUREAU")}
+            {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "BUREAU"))}
           </span>
         )}
         <div id="mb164-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {[
@@ -932,7 +935,7 @@ return (
       {/* FOOTER */}
       <footer style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", borderBottom: `1px solid ${C.borderLight}` }}>
         <div style={{ padding: "48px 44px", borderRight: `1px solid ${C.borderLight}` }}>
-          <div style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, fontWeight: 700, textTransform: "uppercase", marginBottom: 12 }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "BUREAU")}</div>
+          <div style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, fontWeight: 700, textTransform: "uppercase", marginBottom: 12 }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "BUREAU"))}</div>
           <div style={{ fontFamily: C.mono, fontSize: 10, color: C.textMuted, lineHeight: 1.8, letterSpacing: 1 }}>
             Agence créative indépendante.<br />Paris 11e, France.<br />{fd?.email ?? "hello@bureau.co"}</div>
         </div>

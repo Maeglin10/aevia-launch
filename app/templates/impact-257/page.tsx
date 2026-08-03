@@ -19,6 +19,8 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
@@ -26,6 +28,10 @@ let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
 let sessionData: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. ALEXANDRE MOULIN — Médecin Généraliste & Médecine Fonctionnelle · Bordeaux
@@ -2063,7 +2069,7 @@ function Footer() {
       >
         <span>
           © 2026 Dr. Alexandre Moulin. Médecin conventionné secteur 2 · RPPS
-          xxxxxxxxx.
+          xxxxxxxxx.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2091,9 +2097,6 @@ function Footer() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
