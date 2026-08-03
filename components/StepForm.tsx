@@ -14,6 +14,7 @@ import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 import { NICHE_ARCHETYPE, SANTE_NICHES } from "@/lib/wizard/archetypes";
 import { ServicesCatalogue } from "@/components/wizard/ServicesCatalogue";
 import { ThemeBlocks } from "@/components/wizard/ThemeBlocks";
+import { copyFor } from "@/lib/wizard/lexicon";
 import { ServiceRdvStep } from "@/components/wizard/steps/ServiceRdvStep";
 import { FoodStep } from "@/components/wizard/steps/FoodStep";
 import { ImmobilierStep } from "@/components/wizard/steps/ImmobilierStep";
@@ -715,7 +716,10 @@ export function StepForm() {
                 <div className="space-y-3">
                   {(SECTOR_TEMPLATES[form.sector] ?? []).map((tid) => {
                     const meta = REGISTRY_BY_ID[tid];
-                    const cityLabel = TEMPLATE_CITY_LABELS[tid] ?? tid;
+                    // Le nom du registre avant l'identifiant : soixante thèmes
+                    // vendus n'ont pas de libellé de ville, et affichaient donc
+                    // « impact-326 » comme titre de carte au client.
+                    const cityLabel = TEMPLATE_CITY_LABELS[tid] ?? meta?.name ?? tid;
                     const isSelected = form.template === tid;
                     return (
                       <button
@@ -780,25 +784,56 @@ export function StepForm() {
             aucun, donc ces sections restaient sur le contenu de démonstration
             quel que soit le câblage — la donnée n'existait pas.
           */}
+          {/*
+            Les onze métiers à archétype (médecin, dentiste, coiffeur,
+            restaurant, agence immobilière…) empruntaient une branche qui
+            n'affichait jamais les blocs conditionnels : leurs avis, chiffres et
+            garanties restaient donc ceux de la démonstration. Les blocs sont
+            désormais communs aux quatre branches.
+          */}
           {step === 4 && NICHE_ARCHETYPE[form.sector] === "service_rdv" ? (
-            <ServiceRdvStep
-              value={form.businessProfile}
-              onChange={(bp) => set("businessProfile", bp)}
-              sessionId={sessionId}
-              variant={SANTE_NICHES.has(form.sector) ? "sante" : "default"}
-            />
+            <>
+              <ServiceRdvStep
+                value={form.businessProfile}
+                onChange={(bp) => set("businessProfile", bp)}
+                sessionId={sessionId}
+                variant={SANTE_NICHES.has(form.sector) ? "sante" : "default"}
+              />
+              <ThemeBlocks
+                templateId={form.template}
+                sector={form.sector}
+                profile={form.businessProfile}
+                onChange={(bp) => set("businessProfile", bp)}
+              />
+            </>
           ) : step === 4 && NICHE_ARCHETYPE[form.sector] === "food" ? (
-            <FoodStep
-              value={form.businessProfile}
-              onChange={(bp) => set("businessProfile", bp)}
-              sessionId={sessionId}
-            />
+            <>
+              <FoodStep
+                value={form.businessProfile}
+                onChange={(bp) => set("businessProfile", bp)}
+                sessionId={sessionId}
+              />
+              <ThemeBlocks
+                templateId={form.template}
+                sector={form.sector}
+                profile={form.businessProfile}
+                onChange={(bp) => set("businessProfile", bp)}
+              />
+            </>
           ) : step === 4 && NICHE_ARCHETYPE[form.sector] === "immobilier" ? (
-            <ImmobilierStep
-              value={form.businessProfile}
-              onChange={(bp) => set("businessProfile", bp)}
-              sessionId={sessionId}
-            />
+            <>
+              <ImmobilierStep
+                value={form.businessProfile}
+                onChange={(bp) => set("businessProfile", bp)}
+                sessionId={sessionId}
+              />
+              <ThemeBlocks
+                templateId={form.template}
+                sector={form.sector}
+                profile={form.businessProfile}
+                onChange={(bp) => set("businessProfile", bp)}
+              />
+            </>
           ) : step === 4 && (
             <>
               <h2 className="text-xl font-bold text-white">{t.s4Title}</h2>
@@ -810,6 +845,11 @@ export function StepForm() {
                 métiers pilotes, tarif compris.
               */}
               <ServicesCatalogue
+                label={copyFor(form.sector, "prestations").label}
+                hint={copyFor(form.sector, "prestations").hint}
+                namePlaceholder={copyFor(form.sector, "prestations").ph?.name}
+                pricePlaceholder={copyFor(form.sector, "prestations").ph?.price}
+                descPlaceholder={copyFor(form.sector, "prestations").ph?.desc}
                 services={form.businessProfile.services ?? [{ name: "" }]}
                 onChange={(next) =>
                   set("businessProfile", { ...form.businessProfile, services: next })
@@ -827,6 +867,7 @@ export function StepForm() {
               </Field>
               <ThemeBlocks
                 templateId={form.template}
+                sector={form.sector}
                 profile={form.businessProfile}
                 onChange={(bp) => set("businessProfile", bp)}
               />
