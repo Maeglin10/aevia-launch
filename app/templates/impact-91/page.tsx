@@ -1437,7 +1437,7 @@ function ContactSection() {
               style={{ backgroundColor: C.creamSoft, border: `1px solid ${C.border}` }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop"
+                src={photo(0, "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop")}
                 alt="Localisation Aurelia"
                 fill
                 className="object-cover opacity-50"

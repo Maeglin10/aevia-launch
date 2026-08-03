@@ -414,7 +414,7 @@ function AboutSection() {
             <div style={{
               width: "100%",
               aspectRatio: "3/4",
-              backgroundImage: `url("https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80")`,
+              backgroundImage: `url(${photo(0, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80")})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               border: `1px solid ${C.borderAccent}`,

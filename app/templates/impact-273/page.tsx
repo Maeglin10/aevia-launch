@@ -576,7 +576,7 @@ function Hero() {
         }}
       >
         <img
-          src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop"
+          src={photo(0, "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop")}
           alt="Cabinet dentaire Rosenfeld Strasbourg"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1328,7 +1328,7 @@ function TechPanel() {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=900&auto=format&fit=crop"
+              src={photo(1, "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=900&auto=format&fit=crop")}
               alt="Technologies de pointe Cabinet Rosenfeld"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -1617,7 +1617,7 @@ function AppointmentForm() {
     <section style={sec} id="contact">
       {/* Fond photo fantôme */}
       <img
-        src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop"
+        src={photo(2, "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop")}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2103,6 +2103,9 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.

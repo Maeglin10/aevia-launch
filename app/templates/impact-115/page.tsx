@@ -543,6 +543,9 @@ function LeafParticles() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact115Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -907,7 +910,7 @@ export default function Impact115Page() {
             position: "absolute",
             inset: 0,
             backgroundImage:
-              "url(https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2000&auto=format&fit=crop)",
+              `url(${photo(0, "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2000&auto=format&fit=crop")})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             opacity: 0.32,

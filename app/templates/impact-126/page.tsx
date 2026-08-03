@@ -272,7 +272,7 @@ function PastaThreadSVG() {
           pointerEvents: "none",
         }}
       />
-      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80" alt="Portrait" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+      <img src={photo(0, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80")} alt="Portrait" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
     </div>
   );
 }

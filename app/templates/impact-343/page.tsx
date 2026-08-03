@@ -200,7 +200,7 @@ export default function BlancNetPage() {
         <div className="i343-card">
           <WipeReveal index={i}>
             <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", boxShadow: "0 18px 52px rgba(0,0,0,0.18)" }}>
-              <div style={{ aspectRatio: "4/3", background: C.accentLight , overflow: "hidden" }}><img src="https://images.pexels.com/photos/8774451/pexels-photo-8774451.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Atelier de pressing en activité" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
+              <div style={{ aspectRatio: "4/3", background: C.accentLight , overflow: "hidden" }}><img src={photo(0, "https://images.pexels.com/photos/8774451/pexels-photo-8774451.jpeg?auto=compress&cs=tinysrgb&w=1400")} alt="Atelier de pressing en activité" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
               <div style={{ padding: "22px 24px 24px", borderTop: `3px solid ${C.accent}` }}>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accentDark, marginBottom: 8 }}>{S.k}</div>
                 <div style={{ fontFamily: FONT, fontSize: 19, color: C.text, lineHeight: 1.35 }}>{S.line}</div>

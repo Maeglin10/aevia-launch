@@ -559,7 +559,7 @@ function Hero() {
         }}
       >
         <img
-          src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop"
+          src={photo(0, "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop")}
           alt="Jardin paysager réalisé par Jardins Vivants à Bordeaux"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
@@ -1379,7 +1379,7 @@ function EcoPanel() {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=900&auto=format&fit=crop"
+              src={photo(1, "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=900&auto=format&fit=crop")}
               alt="Jardin écologique conçu selon les principes de la permaculture"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -1640,7 +1640,7 @@ function QuoteForm() {
     <section style={sec} id="devis">
       {/* Image de fond subtile */}
       <img
-        src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop"
+        src={photo(2, "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop")}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2143,6 +2143,9 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
 let sessionData: any = null;
