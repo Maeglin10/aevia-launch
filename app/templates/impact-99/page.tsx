@@ -29,6 +29,14 @@ import { Flame, UtensilsCrossed, Wine, Star, Award, Globe, Mail, MapPin, Chevron
 
 import "../premium.css";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+
 /* ==========================================================================
    PAGE NAVIGATION MODEL
    --------------------------------------------------------------------------
@@ -1039,11 +1047,6 @@ function LegalBlock({
    ========================================================================= */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

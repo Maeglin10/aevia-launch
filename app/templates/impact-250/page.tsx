@@ -13,10 +13,23 @@ import {
 import { ArrowRight, ChevronDown, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    ATELIER TERRA — Paysagiste & Aménagement Extérieur · Nantes
@@ -214,7 +227,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote: "Notre terrasse redessinée est devenue l\'attraction de la maison. Les clients viennent désormais spécifiquement pour profiter de l\'espace extérieur. Le retour sur investissement a été immédiat.",
     name: 'Thomas Guillou',
-    role: 'Gérant · Restaurant Les Jardins de Loire, Nantes',
+    role: `Gérant · Restaurant Les Jardins de Loire, ${clientCity(sessionData) ?? "Nantes"}`,
   },
 ];
 
@@ -407,7 +420,7 @@ function Nav() {
         ) : (
           <>
             <Leaf size={18} color={C.accent} strokeWidth={1.5} />
-            {fd?.businessName ?? "Atelier Terra"}
+            {fd?.businessName ?? (clientName(sessionData) ?? "Atelier Terra")}
           </>
         )}
       </a>
@@ -1848,7 +1861,7 @@ function Footer() {
             }}
           >
             <Leaf size={20} color={C.accent} strokeWidth={1.4} />
-            Atelier Terra
+            {clientName(sessionData) ?? (clientName(sessionData) ?? "Atelier Terra")}
           </div>
           <p
             style={{
@@ -1950,7 +1963,7 @@ function Footer() {
           color: 'rgba(200,223,196,0.44)',
         }}
       >
-        <span>© 2010–2026 Atelier Terra. Tous droits réservés.</span>
+        <span>© 2010–2026 Atelier Terra. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#at-type" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#at-type" style={{ color: 'inherit', textDecoration: 'none' }}>Confidentialité</a>
@@ -1972,14 +1985,6 @@ function Footer() {
    PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

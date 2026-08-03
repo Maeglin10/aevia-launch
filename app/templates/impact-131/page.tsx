@@ -1,4 +1,8 @@
 "use client";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef } from "react";
@@ -15,6 +19,14 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, HeldSwap, BlurThrough, CircularLabel, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+let brand: any = null;
+
 /* The wine-lab arch, recoloured to the domain's cream and burgundy: the
    bottle swaps inside a real clipped frame (exit, half a beat of held
    emptiness, entry), the wordmark splits around it from md up. Bottle
@@ -24,7 +36,7 @@ const HERO_CUVEES = [
   {
     left: "CHÂTEAU",
     right: "DE VALROC",
-    name: "Cuvée Prestige",
+    name: (clientName({ formData: fd }) ?? "Cuvée Prestige"),
     meta: "AOC Bordeaux Grand Cru · 2020",
     bottle: "https://images.unsplash.com/photo-1545608508-78f351665a1c?auto=format&fit=crop&q=85&w=620&h=1240",
   },
@@ -94,7 +106,7 @@ function useFonts() {
 const WINES_DEMO = [
   {
     id: "prestige",
-    name: "Cuvée Prestige",
+    name: (clientName({ formData: fd }) ?? "Cuvée Prestige"),
     vintage: "2020",
     appellation: "AOC Bordeaux Grand Cru",
     price: "€240",
@@ -957,11 +969,6 @@ function BookingModal({
    ========================================================================== */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -2503,7 +2510,7 @@ export default function WineryTemplate() {
                 textTransform: "uppercase",
               }}
             >
-              © 2024 Château de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé
+              © 2024 Château de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               {["Instagram", "LinkedIn", "Newsletter"].map((s) => (

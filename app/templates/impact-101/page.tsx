@@ -22,6 +22,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 /* ==========================================================================
    DATA MANIFESTS
    ========================================================================== */
@@ -143,10 +150,6 @@ function MagneticBtn({
    ========================================================================== */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function BlockBasePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -605,7 +608,7 @@ export default function BlockBasePage() {
               <div className="w-8 h-8 bg-white text-black rounded flex items-center justify-center">
                 <Box className="w-5 h-5" />
               </div>
-              <span>{fd?.businessName ?? (clientName({ formData: fd }) ?? "BLOCK // BASE")}</span>
+              <span>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "BLOCK // BASE"))}</span>
             </Link>
             <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-12">
               Engineering the foundation of high-performance decentralized systems. Built for the next billion users.

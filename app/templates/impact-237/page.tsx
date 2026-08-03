@@ -13,9 +13,21 @@ import {
 import { ArrowRight, ChevronDown, Quote, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET DENTAIRE SORRENTO — Dr. Clara Sorrento & Associés · Nice
@@ -700,7 +712,7 @@ function Hero() {
           style={{ marginBottom: 28 }}
         >
           <Eyebrow color="rgba(204,240,236,0.9)" align="center">
-            Cabinet dentaire · Nice
+            Cabinet dentaire · {clientCity(sessionData) ?? "Nice"}
           </Eyebrow>
         </motion.div>
 
@@ -1443,7 +1455,7 @@ function TechPanel() {
                 marginBottom: 10,
               }}
             >
-              Cabinet Sorrento · Nice
+              Cabinet Sorrento · {clientCity(sessionData) ?? "Nice"}
             </div>
             <div
               style={{
@@ -2143,7 +2155,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Cabinet Dentaire Sorrento. Tous droits réservés.
+          © 2026 Cabinet Dentaire Sorrento. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Dr. Clara Sorrento · RPPS 00000000000 · Ordre des Chirurgiens-Dentistes
@@ -2166,14 +2178,6 @@ function Footer() {
    PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

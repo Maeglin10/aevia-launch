@@ -25,6 +25,17 @@ import {
   clientReviews,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    HERO — the wine list IS the hero.
@@ -480,14 +491,6 @@ function WineHero() {
   );
 }
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function ClosDuSoirPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -811,7 +814,7 @@ export default function ClosDuSoirPage() {
                     fontWeight: 300,
                   }}
                 >
-                  Each evening at {fd?.businessName ?? (clientName(sessionData) ?? "Clos du Soir")}, she or one of her carefully trained team guides guests through the language of terroir, vintage, and winemaker intention — making every glass a conversation.
+                  Each evening at {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Clos du Soir"))}, she or one of her carefully trained team guides guests through the language of terroir, vintage, and winemaker intention — making every glass a conversation.
                 </p>
                 <div
                   style={{
@@ -870,7 +873,7 @@ export default function ClosDuSoirPage() {
                     marginBottom: 24,
                   }}
                 >
-                  Une soirée au {fd?.businessName ?? (clientName(sessionData) ?? "Clos du Soir")}
+                  Une soirée au {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Clos du Soir"))}
                 </div>
                 {[
                   {

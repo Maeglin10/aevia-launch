@@ -25,6 +25,20 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Client business profile (populated at render from the session). Section
+// components live at module scope, so they read these shared builders which
+// return the client's real data when present, otherwise the demo dataset.
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 /* ==========================================================================
    DESIGN TOKENS — Ultra-Prestigious Law Firm
    ========================================================================== */
@@ -230,13 +244,6 @@ const PARTNERS_DEMO = [
   },
 ]
 
-// Client business profile (populated at render from the session). Section
-// components live at module scope, so they read these shared builders which
-// return the client's real data when present, otherwise the demo dataset.
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 function buildPracticeAreas() {
   const D = PRACTICE_AREAS_DEMO;
   return resolveList(
@@ -2084,7 +2091,7 @@ function Footer() {
             }}
           >
             © 2026 {fd?.businessName ?? "Alderton & Sterling LLP"}. Regulated by the Solicitors Regulation Authority.
-            All rights reserved.
+            All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div
             style={{
@@ -2121,10 +2128,6 @@ function Footer() {
    ========================================================================== */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function LegalFirmTemplate() {
   const [session, setSession] = useState<{
     formData?: {

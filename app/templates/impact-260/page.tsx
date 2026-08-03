@@ -21,10 +21,23 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    AQUA CONFORT LYON — Plombier-Chauffagiste & Énergies Renouvelables · Lyon 7e
@@ -697,7 +710,7 @@ function Hero() {
       >
         <Reveal y={16}>
           <Eyebrow color={C.accentLight} light>
-            Plombier-Chauffagiste · Lyon
+            Plombier-Chauffagiste · {clientCity(sessionData) ?? "Lyon"}
           </Eyebrow>
         </Reveal>
         <motion.h1
@@ -813,7 +826,7 @@ function Intro() {
     <section id="contact" style={sec}>
       <Reveal>
         <Eyebrow color={C.accent} align="center">
-          Aqua Confort Lyon
+          {clientName(sessionData) ?? (clientName(sessionData) ?? "Aqua Confort Lyon")}
         </Eyebrow>
       </Reveal>
       <Reveal delay={0.1}>
@@ -2220,7 +2233,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Aqua Confort Lyon — SIRET 000 000 000 00000 · RGE certifié
+          © 2026 Aqua Confort Lyon — SIRET 000 000 000 00000 · RGE certifié{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="/templates/impact-260" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2251,14 +2264,6 @@ function Footer() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

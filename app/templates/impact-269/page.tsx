@@ -13,8 +13,21 @@ import {
 import { ArrowRight, ChevronDown, Coffee, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    BOULANGERIE DES CHARTRONS — Boulangerie-Pâtisserie & Café · Bordeaux
@@ -453,7 +466,7 @@ function Nav() {
             style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          fd?.businessName ?? "Boulangerie des Chartrons"
+          fd?.businessName ?? (clientName(sessionData) ?? "Boulangerie des Chartrons")
         )}
       </div>
       <div style={linkRow} className="bc-navlinks">
@@ -2009,7 +2022,7 @@ function Footer() {
               marginBottom: 18,
             }}
           >
-            Boulangerie des Chartrons
+            {clientName(sessionData) ?? (clientName(sessionData) ?? "Boulangerie des Chartrons")}
           </div>
           <p
             style={{
@@ -2122,7 +2135,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2007–2026 Boulangerie des Chartrons. Tous droits réservés.
+          © 2007–2026 Boulangerie des Chartrons. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#commander" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2150,14 +2163,6 @@ function Footer() {
    PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

@@ -20,9 +20,22 @@ import {
 } from '@/lib/templates/hero-kit-2';
 import { MosaicPush } from '@/lib/templates/hero-kit-3';
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    OSTÉO RÉPUBLIQUE — Cabinet d'Ostéopathie · Paris 11e
@@ -2027,7 +2040,7 @@ function Footer() {
               textDecoration: 'none',
               display: 'block',
             }}
-          >{fd?.businessName ?? "Ostéo République"}</a>
+          >{fd?.businessName ?? (clientName(sessionData) ?? "Ostéo République")}</a>
           <p
             style={{
               fontFamily: SANS,
@@ -2133,7 +2146,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2024–2026 Ostéo République · Paris 11e. Tous droits réservés.
+          © 2024–2026 Ostéo République · Paris 11e. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2161,14 +2174,6 @@ function Footer() {
    PAGE PRINCIPALE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

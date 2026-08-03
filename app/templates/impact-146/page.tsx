@@ -13,6 +13,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
@@ -38,10 +45,6 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -325,7 +328,7 @@ export default function KuroOmakasePage() {
               </Reveal>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                  {[
-                    { tier: (clientName({ formData: fd }) ?? "Kuro Omakase"), courses: "12 courses", price: "¥88,000", note: "Chef&apos;s full progression. 3.5 hours. Seasonal kaiseki opening.", incl: ["House sake pairing", "Tea ceremony close", "Signed menu card"] },
+                    { tier: (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Kuro Omakase")), courses: "12 courses", price: "¥88,000", note: "Chef&apos;s full progression. 3.5 hours. Seasonal kaiseki opening.", incl: ["House sake pairing", "Tea ceremony close", "Signed menu card"] },
                     { tier: "Umi Course", courses: "8 courses", price: "¥52,000", note: "Ocean-focused tasting, emphasising sashimi and shellfish.", incl: ["Wine pairing available", "À la carte additions", "Private dining option"] },
                     { tier: "Tsuki Dinner", courses: "5 courses", price: "¥32,000", note: "An introduction to the Kuro kitchen. Ideal for first visits.", incl: ["Non-alcoholic pairing", "Allergen-conscious menu", "Counter seating"] },
                  ].map((m, i) => (
@@ -380,7 +383,7 @@ export default function KuroOmakasePage() {
                 <div className="w-8 h-8 bg-white flex items-center justify-center">
                   <span className="text-black font-black text-sm uppercase">K</span>
                 </div>
-                <span className="text-xl font-light tracking-[0.4em] uppercase text-white">{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Kuro Omakase")}</span>
+                <span className="text-xl font-light tracking-[0.4em] uppercase text-white">{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Kuro Omakase"))}</span>
               </Link>
               <p className="text-white/20 max-w-sm leading-relaxed mb-12 text-sm font-light italic">
                  "In the silence of the room, the only story told is that of the season." Ginza, Tokyo.

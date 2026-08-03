@@ -30,6 +30,17 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 /* ==========================================================================
    THE AETHELGARD DATASET (PREMIUM DENSITY)
    ========================================================================== */
@@ -110,14 +121,6 @@ function SectionTitle({ subtitle, title, alignment = "center" }: { subtitle: str
    ========================================================================== */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -219,7 +222,7 @@ return (
               />
             ) : (
               <>
-               <span className="text-3xl font-light tracking-[0.4em] uppercase text-white group-hover:text-[var(--brand,#c4a661)] transition-colors">{clientName(sessionData) ?? (clientName(sessionData) ?? "AETHELGARD")}</span>
+               <span className="text-3xl font-light tracking-[0.4em] uppercase text-white group-hover:text-[var(--brand,#c4a661)] transition-colors">{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "AETHELGARD"))}</span>
                <span className="text-[10px] font-black tracking-[0.6em] text-[var(--brand,#c4a661)]/40 uppercase italic">The Estate & Spirits Group</span>
             </>
             )}</Link>
@@ -479,7 +482,7 @@ return (
                     <div className="w-10 h-10 bg-[var(--brand,#c4a661)] flex items-center justify-center rounded-sm">
                        <Landmark className="w-6 h-6 text-black" />
                     </div>
-                    <span className="text-3xl font-light tracking-[0.4em] uppercase">{clientName(sessionData) ?? (clientName(sessionData) ?? "AETHELGARD")}</span>
+                    <span className="text-3xl font-light tracking-[0.4em] uppercase">{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "AETHELGARD"))}</span>
                  </div>
                  <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.4em] leading-loose max-w-sm mb-16 italic">
                     "Le temps n'est pas un luxe, c'est notre ingrédient secret." — Domaine Aethelgard V.4

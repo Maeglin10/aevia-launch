@@ -16,11 +16,24 @@ import {
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 // ─── Font Loader ─────────────────────────────────────────────────────────────
 const useFonts = () => {
@@ -458,7 +471,7 @@ function NavBar({ scrolled, page, goTo }: { scrolled: boolean; page: HotelPage; 
         >{fd?.logoBase64 ? (
           <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
         ) : (
-          fd?.businessName ?? "Grand Palais"
+          fd?.businessName ?? (clientName(sessionData) ?? "Grand Palais")
         )}</button>
 
         {/* Desktop links */}
@@ -1346,7 +1359,7 @@ function LocationSection() {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {[
-                  { icon: '◎', label: 'Address', val: '8 Avenue de la Paix, 75009 Paris' },
+                  { icon: '◎', label: 'Address', val: `8 Avenue de la Paix, 75009 ${clientCity(sessionData) ?? "Paris"}` },
                   { icon: '◎', label: 'Telephone', val: '+33 1 40 00 00 00' },
                   { icon: '◎', label: 'Reservations', val: 'reservations@grandpalais.fr' },
                   { icon: '◎', label: 'Concierge', val: 'Available 24 hours' },
@@ -1543,7 +1556,7 @@ function BookingCTA() {
             }}
           >
             Live the<br />
-            <em style={{ fontStyle: 'italic', color: GOLD }}>{fd?.businessName ?? "Grand Palais"}</em>
+            <em style={{ fontStyle: 'italic', color: GOLD }}>{fd?.businessName ?? (clientName(sessionData) ?? "Grand Palais")}</em>
           </h2>
         </BlurReveal>
 
@@ -1714,7 +1727,7 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
             <button
               onClick={() => goTo('home')}
               style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: SERIF, fontSize: '1.6rem', fontWeight: 300, color: GOLD, marginBottom: '1rem', letterSpacing: '0.05em', display: 'block' }}
-            >{fd?.businessName ?? "Grand Palais"}</button>
+            >{fd?.businessName ?? (clientName(sessionData) ?? "Grand Palais")}</button>
             <p style={{ fontFamily: SERIF, fontSize: '0.9rem', color: `${CREAM}50`, lineHeight: 1.7, fontStyle: 'italic', maxWidth: '20rem', marginBottom: '1.5rem' }}>
               A palace of quiet distinction at the heart of Paris since 1887.
             </p>
@@ -1792,7 +1805,7 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
           }}
         >
           <span style={{ fontFamily: SANS, fontSize: '0.58rem', color: `${CREAM}35`, letterSpacing: '0.08em' }}>
-            © 2026 Grand Palais. All rights reserved.
+            © 2026 Grand Palais. All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: 'flex', gap: '2rem' }}>
             {([
@@ -2249,7 +2262,7 @@ function ContactPage() {
             {[
               { label: 'Telephone', val: '+33 1 40 00 00 00' },
               { label: 'Reservations', val: 'reservations@grandpalais.fr' },
-              { label: 'Address', val: '8 Avenue de la Paix, 75009 Paris' },
+              { label: 'Address', val: `8 Avenue de la Paix, 75009 ${clientCity(sessionData) ?? "Paris"}` },
               { label: 'Concierge', val: 'Available 24 hours a day' },
             ].map((item) => (
               <div key={item.label} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start', marginBottom: '1.75rem', borderBottom: `1px solid ${GOLD}30`, paddingBottom: '1.4rem' }}>
@@ -2418,17 +2431,9 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
 
 // ─── Root Page ────────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function GrandPalaisPage() {
   const [session, setSession] = useState<{
     formData?: {

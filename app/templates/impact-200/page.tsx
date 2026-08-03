@@ -41,6 +41,17 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 /* ==========================================================================
    CÉRÉMONIE — Wedding Planner (impact-200)
    Design: blush pink #FDF2F8, primary #DB2777, gold #CA8A04, text #831843
@@ -223,7 +234,7 @@ const GALLERY_ITEMS_DEMO = [
   {
     src: "https://images.unsplash.com/photo-1525772764200-be829a350797?w=800&q=80",
     year: "2023",
-    location: "Hôtel Meurice, Paris",
+    location: `Hôtel Meurice, ${clientCity(sessionData) ?? "Paris"}`,
     size: "small",
   },
   {
@@ -406,14 +417,6 @@ const MARQUEE_ITEMS = [
    ========================================================================== */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -586,7 +589,7 @@ export default function Impact200Page() {
                 <span
                   className="text-4xl text-[#831843]"
                   style={{ fontFamily: "'Great Vibes', cursive" }}
-                >{fd?.businessName ?? (clientName(sessionData) ?? "Cérémonie")}</span>
+                >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cérémonie"))}</span>
               </>
             )}
           </Link>
@@ -649,7 +652,7 @@ export default function Impact200Page() {
                 <span
                   className="text-4xl text-[#831843]"
                   style={{ fontFamily: "'Great Vibes', cursive" }}
-                >{fd?.businessName ?? (clientName(sessionData) ?? "Cérémonie")}</span>
+                >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cérémonie"))}</span>
               )}
               <button onClick={() => setMenuOpen(false)} className="p-2 text-[#831843]">
                 <X className="w-6 h-6" />
@@ -1588,7 +1591,7 @@ export default function Impact200Page() {
                 <span
                   className="text-3xl text-white/90"
                   style={{ fontFamily: "'Great Vibes', cursive" }}
-                >{fd?.businessName ?? (clientName(sessionData) ?? "Cérémonie")}</span>
+                >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cérémonie"))}</span>
               </div>
               <p
                 className="text-white/40 text-xs italic"
@@ -1616,7 +1619,7 @@ export default function Impact200Page() {
                 className="text-white/30 text-xs italic mb-1"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
-                © {new Date().getFullYear()} Cérémonie. Tous droits réservés.
+                © {new Date().getFullYear()} Cérémonie. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
               </p>
               <p
                 className="text-white/20 text-xs"

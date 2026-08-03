@@ -26,10 +26,22 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    LES ÉPOUSAILLES D'ALSACE — Wedding planner & événementiel · Strasbourg
@@ -2032,7 +2044,7 @@ function RealizationsSection() {
       img: PHOTO.laique,
       tag: 'Cérémonie laïque',
       title: 'Lucie & Martin',
-      lieu: 'Villa Schützenberger, Strasbourg',
+      lieu: `Villa Schützenberger, ${clientCity(sessionData) ?? "Strasbourg"}`,
       annee: '2023',
       nbInvites: '55 invités',
       desc: "Une cérémonie laïque intimiste au bord du Rhin. Discours personnalisés, musique live acoustique, dîner à la table d'hôte. Un mariage d'une douceur rare pour 55 proches triés sur le volet.",
@@ -2900,7 +2912,7 @@ function FooterSection() {
       links: [
         { label: '+33 3 88 00 00 00', href: 'tel:+33388000000' },
         { label: 'contact@epousailles-alsace.fr', href: 'mailto:contact@epousailles-alsace.fr' },
-        { label: '12 rue du Mariage, Strasbourg', href: "/templates/impact-280" },
+        { label: `12 rue du Mariage, ${clientCity(sessionData) ?? "Strasbourg"}`, href: "/templates/impact-280" },
         { label: 'Du lundi au vendredi 9h–18h', href: "/templates/impact-280" },
       ],
     },
@@ -3100,7 +3112,7 @@ function FooterSection() {
             }}
           >
             © {new Date().getFullYear()} Les Épousailles d&apos;Alsace · SIRET 852 346 710 00014 ·
-            APE 8230Z · Auto-entrepreneur
+            APE 8230Z · Auto-entrepreneur{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
           <div style={{ display: 'flex', gap: 22 }}>
             {[
@@ -3241,14 +3253,6 @@ const RESPONSIVE_CSS = `
    PAGE PRINCIPALE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Impact280Page() {
   const [session, setSession] = useState<{
     formData?: {

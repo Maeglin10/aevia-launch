@@ -13,10 +13,22 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -683,14 +695,6 @@ function ExperienceCard({
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -886,7 +890,7 @@ return (
                     color: C.cream,
                     letterSpacing: "0.08em",
                   }}
-                >{fd?.businessName ?? (clientName(sessionData) ?? "Maison Saveur")}</span>
+                >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Saveur"))}</span>
               </>
             )}
           </button>
@@ -2640,7 +2644,7 @@ return (
                     color: C.cream,
                     letterSpacing: "0.08em",
                   }}
-                >{fd?.businessName ?? (clientName(sessionData) ?? "Maison Saveur")}</span>
+                >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Saveur"))}</span>
               </div>
               <p
                 style={{
@@ -2772,7 +2776,7 @@ return (
                 fontFamily: C.fontSans,
               }}
             >
-              © 2025 Maison Saveur — Chef Antoine Lefèvre
+              © 2025 Maison Saveur — Chef Antoine Lefèvre{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               {["Mentions légales", "Politique de confidentialité", "CGV"].map(

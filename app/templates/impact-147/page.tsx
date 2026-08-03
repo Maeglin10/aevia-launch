@@ -22,6 +22,17 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 /* The old hero was a fake terminal typing to itself — a gadget, and the one
    part of the page that looked free. WordFlight + ExpandFrame from the law
    lab instead: the headline assembles word by word, one practice at a time,
@@ -158,14 +169,6 @@ function GridBackground() {
 }
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function VanguardLegalPage() {
   const [session, setSession] = useState<{
     formData?: {

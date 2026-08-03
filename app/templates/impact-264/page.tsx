@@ -13,10 +13,23 @@ import {
 import { ArrowRight, ChevronDown, Heart, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    OSTÉO ATLANTIQUE — Cabinet d'Ostéopathie & Thérapies Manuelles · Nantes
@@ -391,7 +404,7 @@ function Nav() {
             style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          fd?.businessName ?? "Ostéo Atlantique"
+          fd?.businessName ?? (clientName(sessionData) ?? "Ostéo Atlantique")
         )}
       </div>
       <div style={linkRow} className="oa-navlinks">
@@ -585,7 +598,7 @@ function Hero() {
       >
         <Reveal y={18}>
           <Eyebrow color={C.accentLight} align="center">
-            Ostéopathie D.O. · Nantes
+            Ostéopathie D.O. · {clientCity(sessionData) ?? "Nantes"}
           </Eyebrow>
         </Reveal>
 
@@ -1882,7 +1895,7 @@ function Footer() {
               fontWeight: 400,
               marginBottom: 20,
             }}
-          >{fd?.businessName ?? "Ostéo Atlantique"}</div>
+          >{fd?.businessName ?? (clientName(sessionData) ?? "Ostéo Atlantique")}</div>
           <p
             style={{
               fontFamily: SANS,
@@ -1997,7 +2010,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2026 Ostéo Atlantique · Nantes</span>
+        <span>© 2026 Ostéo Atlantique · Nantes{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#reserver" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2024,14 +2037,6 @@ function Footer() {
    PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

@@ -35,11 +35,23 @@ import {
 } from "lucide-react"
 import {
   clientAddress,
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ==========================================================================
    AURELIA JEWELS — Design Tokens
@@ -508,7 +520,7 @@ function Hero() {
             className="text-[10px] tracking-[0.30em] uppercase"
             style={{ fontFamily: "'Montserrat', sans-serif", color: C.gold, fontWeight: 500 }}
           >
-            Maison fondée en 1977 · Paris
+            Maison fondée en 1977 · {clientCity(sessionData) ?? "Paris"}
           </span>
           <div className="h-[1px] w-12" style={{ backgroundColor: C.gold }} />
         </motion.div>
@@ -1407,7 +1419,7 @@ function ContactSection() {
 
             <div className="space-y-6 mb-12">
               {[
-                { icon: MapPin, label: "Adresse", value: "12 Rue de la Paix, 75001 Paris" },
+                { icon: MapPin, label: "Adresse", value: `12 Rue de la Paix, 75001 ${clientCity(sessionData) ?? "Paris"}` },
                 { icon: Phone, label: "Téléphone", value: "+33 1 42 60 XX XX" },
                 { icon: Mail, label: "Email", value: "contact@aurelia-joaillerie.fr" },
                 { icon: Clock, label: "Horaires", value: "Lun–Sam 10h–19h · Dim sur RDV" },
@@ -1725,7 +1737,7 @@ function Footer() {
             className="text-[11px] tracking-[0.08em]"
             style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}40` }}
           >
-            © 2025 Aurelia Joaillerie. Tous droits réservés. Entreprise du Patrimoine Vivant.
+            © 2025 Aurelia Joaillerie. Tous droits réservés. Entreprise du Patrimoine Vivant.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div className="flex gap-6">
             <Link
@@ -1760,19 +1772,11 @@ function Footer() {
    PAGE COMPONENT
    ========================================================================== */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Impact91Page() {
   const [session, setSession] = useState<{
     formData?: {

@@ -14,6 +14,17 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 type ActivePage = "home" | "films" | "services" | "propos" | "legal";
 
 const useFonts = () => {
@@ -119,14 +130,6 @@ const filmsCatalogue = [
 ];
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -250,7 +253,7 @@ export default function StudioPelikanPage() {
               />
             ) : (
               <>
-                <Film className="w-4 h-4" />{fd?.businessName ?? (clientName(sessionData) ?? "Studio Pelikan")}
+                <Film className="w-4 h-4" />{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Pelikan"))}
               </>
             )}
           </button>
@@ -277,7 +280,7 @@ export default function StudioPelikanPage() {
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <button onClick={() => goTo("home")} className="text-[var(--brand,#C9A05A)] text-xl cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Studio Pelikan")}</button>
+                <button onClick={() => goTo("home")} className="text-[var(--brand,#C9A05A)] text-xl cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Pelikan"))}</button>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -295,7 +298,7 @@ export default function StudioPelikanPage() {
           {/* Hero */}
           <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
-              <Image src={photo(0, "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop")} alt={fd?.businessName ?? (clientName(sessionData) ?? "Studio Pelikan")} fill className="object-cover" priority />
+              <Image src={photo(0, "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop")} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Pelikan"))} fill className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-b from-[#100D08]/70 via-[#100D08]/30 to-[#100D08]/95" />
             </motion.div>
             <motion.div className="relative z-10 h-full flex flex-col justify-end pb-20 px-6" style={{ opacity: heroOpacity }}>

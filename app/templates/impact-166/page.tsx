@@ -1,5 +1,8 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -13,6 +16,14 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { resolveList } from "@/lib/templates/resolveList";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+let brand: any = null;
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 
@@ -748,11 +759,6 @@ function TestimonialCard({
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -943,7 +949,7 @@ return (
                 letterSpacing: "0.08em",
                 color: C.text,
               }}
-            >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Iris Studio")}</span>
+            >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Iris Studio"))}</span>
           )}
         </div>
 
@@ -1984,7 +1990,7 @@ return (
               letterSpacing: "0.06em",
               color: C.text,
             }}
-          >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Iris Studio")}</div>
+          >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Iris Studio"))}</div>
 
           <div
             style={{
@@ -2022,7 +2028,7 @@ return (
               letterSpacing: "0.05em",
             }}
           >
-            © 2025 Iris Studio. Tous droits réservés.
+            © 2025 Iris Studio. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </div>
         </div>
       </footer>

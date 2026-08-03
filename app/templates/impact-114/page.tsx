@@ -31,10 +31,18 @@ import {
   Star,
 } from "lucide-react"
 import {
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -525,10 +533,6 @@ function CurtainSlider() {
    ========================================================================== */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -1551,7 +1555,7 @@ export default function Impact114Page() {
             className="text-xs text-[#8b7355]/40"
             style={{ fontFamily: "'Source Serif 4', serif" }}
           >
-            © 2026 Terra · Julien Moreau Photography. Tous droits réservés.
+            © 2026 Terra · Julien Moreau Photography. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
         </div>
       </footer>

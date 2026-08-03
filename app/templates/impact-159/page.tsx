@@ -19,13 +19,20 @@ import {
   MotionValue,
 } from "framer-motion"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+
 
 /* ==========================================================================
    GLOBAL KEYFRAMES (injected once)
@@ -1930,7 +1937,7 @@ function Footer() {
               letterSpacing: "0.2em",
             }}
           >
-            © 2026 Aevia Materials AG · All rights reserved · Paris / Tokyo / Zürich
+            © 2026 Aevia Materials AG · All rights reserved · Paris / Tokyo / Zürich{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
           <div style={{ display: "flex", gap: 32 }}>
             {["STATUS: NOMINAL","REGISTRY v4.2.1","ISO 10993 CERTIFIED"].map(s => (
@@ -1959,9 +1966,6 @@ function Footer() {
    ========================================================================== */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
 export default function SmartTextilesPremium() {
   const [session, setSession] = useState<{
     formData?: {

@@ -19,8 +19,20 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientReviews,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Atelier Marguerite Voss — Couturière créatrice sur mesure, Paris 8e
@@ -1763,7 +1775,7 @@ function Footer() {
             letterSpacing: '0.06em',
           }}
         >
-          © {year} Atelier Marguerite Voss. Tous droits réservés.
+          © {year} Atelier Marguerite Voss. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 24 }}>
           {['Mentions légales', 'Politique de confidentialité', 'CGV'].map((l) => (
@@ -1795,14 +1807,6 @@ function Footer() {
    ════════════════════════════════════════════════════════════════════════════ */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function AtlierMargueriteVossPage() {
   const [session, setSession] = useState<{
     formData?: {

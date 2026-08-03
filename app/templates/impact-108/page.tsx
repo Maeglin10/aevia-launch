@@ -14,6 +14,15 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+// Le profil métier, pour lib/templates/clientContent : même portée que fd.
+let bp: any = null;
+let c: any = null;
+let brand: any = null;
+
 /* WordFlight from the law lab: the headline assembles word by word, one
    mission at a time, while the photograph dissolves behind it. Both images
    were already in this file and verified at the merge. */
@@ -32,12 +41,6 @@ const HERO_MISSIONS_DEMO = [
 let HERO_MISSIONS = HERO_MISSIONS_DEMO;
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-// Le profil métier, pour lib/templates/clientContent : même portée que fd.
-let bp: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

@@ -13,6 +13,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 const DOCS = [
   { t: "Démarrer en 10 minutes", d: "Installation, premier projet, première automatisation. Le parcours que suivent 80 % des nouveaux comptes." },
   { t: "Référence API", d: "REST et webhooks, avec les schémas de chaque payload et un bac à sable pour tester sans clé de production." },
@@ -100,10 +107,6 @@ const TESTIMONIALS_DEMO = [
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function EssentialSaaSPage() {
   const [session, setSession] = useState<{
     formData?: {

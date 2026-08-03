@@ -19,11 +19,19 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import {
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 
 /* ==========================================================================
    DESIGN TOKENS
@@ -546,10 +554,6 @@ function LeafParticles() {
    ========================================================================== */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
@@ -2070,7 +2074,7 @@ export default function Impact115Page() {
                 letterSpacing: "0.06em",
               }}
             >
-              © {new Date().getFullYear()} Rostova Architecture Studio. All rights reserved.
+              © {new Date().getFullYear()} Rostova Architecture Studio. All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </span>
             <div style={{ display: "flex", gap: 28 }}>
               {["Privacy", "Terms", "Cookies"].map((item) => (

@@ -20,11 +20,14 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
-
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+
+
 export default function Home() {
   const [session, setSession] = useState<{
     formData?: {
@@ -268,7 +271,7 @@ return (
                 Un espace pour chaque façon de travailler
               </h2>
               <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
-                Du Day Pass spontané au bureau privatif permanent — {fd?.businessName ?? (clientName({ formData: fd }) ?? "Nexus Hub")} s'adapte à votre rythme.
+                Du Day Pass spontané au bureau privatif permanent — {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Nexus Hub"))} s'adapte à votre rythme.
               </p>
             </div>
           </SectionReveal>

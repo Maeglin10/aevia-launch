@@ -33,9 +33,22 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCertifications,
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    ÉLECTRICITÉ DUMONT — Électricien certifié · Paris 11e & Île-de-France
@@ -2442,7 +2455,7 @@ function FooterSection() {
               gap: 10,
             }}
           >
-            <Zap size={24} color={C.yellow} strokeWidth={2} />{fd?.businessName ?? "Électricité Dumont"}</div>
+            <Zap size={24} color={C.yellow} strokeWidth={2} />{fd?.businessName ?? (clientName(sessionData) ?? "Électricité Dumont")}</div>
           <p
             style={{
               fontFamily: SANS,
@@ -2599,7 +2612,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2009–2026 Électricité Dumont. Tous droits réservés.
+          © 2009–2026 Électricité Dumont. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           <span
@@ -2667,14 +2680,6 @@ function FooterSection() {
    PAGE PRINCIPALE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Impact277Page() {
   const [session, setSession] = useState<{
     formData?: {

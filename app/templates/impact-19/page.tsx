@@ -14,6 +14,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 const useFonts = () => {
   useEffect(() => {
     if (document.getElementById("sc-fonts")) return;
@@ -68,10 +75,6 @@ const milestones = [
 type ActivePage = "home" | "theses" | "portefeuille" | "equipe" | "blog" | "contact" | "legal";
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -146,7 +149,7 @@ return (
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <span className="text-[var(--brand,#C9A86C)] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.15rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Summit Capital")}</span>
+              <span className="text-[var(--brand,#C9A86C)] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.15rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))}</span>
             )}
           </div>
           <div className="hidden md:flex items-center gap-8 text-white/50 text-sm font-medium">
@@ -185,7 +188,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-[var(--brand,#C9A86C)] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Summit Capital")}</span>
+                <span className="text-[var(--brand,#C9A86C)] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -224,7 +227,7 @@ return (
                 of clipping, and the h1 is now sized to actually fit. */}
             <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-center py-24 md:py-0">
               <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
-                <Image src={photo(0, "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? "Summit Capital")} fill className="object-cover opacity-30" priority />
+                <Image src={photo(0, "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))} fill className="object-cover opacity-30" priority />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#09090B] via-[#09090B]/80 to-[#09090B]" />
               </motion.div>
               <motion.div className="relative z-10 max-w-6xl mx-auto px-6 w-full" style={{ opacity: heroOpacity }}>
@@ -307,7 +310,7 @@ return (
       {/* Footer */}
       <footer className="bg-[#09090B] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20">
-          <div onClick={() => goTo("home")} className="text-[var(--brand,#C9A86C)] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Summit Capital")}</div>
+          <div onClick={() => goTo("home")} className="text-[var(--brand,#C9A86C)] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))}</div>
           <div className="flex gap-8">
             <a href="/templates/impact-19" onClick={(e) => { e.preventDefault(); goTo("portefeuille"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Portefeuille</a>
             <a href="/templates/impact-19" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Mentions légales</a>

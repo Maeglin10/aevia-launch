@@ -28,11 +28,23 @@ import {
 import { resolveList } from '@/lib/templates/resolveList';
 import {
   clientAddress,
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET DENT'OR — Chirurgien-dentiste & implantologie · Bordeaux Chartrons
@@ -2522,7 +2534,7 @@ function FooterSection() {
               marginBottom: 20,
             }}
           >
-            Cabinet dentaire · Bordeaux
+            Cabinet dentaire · {clientCity(sessionData) ?? "Bordeaux"}
           </div>
           <p
             style={{
@@ -2729,7 +2741,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024 Cabinet Dent&apos;Or — Dr. Mathieu Prévost. Tous droits réservés.
+          © 2024 Cabinet Dent&apos;Or — Dr. Mathieu Prévost. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Acte médical soumis au secret professionnel · Résultat non garanti · À titre
@@ -2752,14 +2764,6 @@ function FooterSection() {
    PAGE — Impact 284 · Cabinet Dent'Or · Bordeaux Chartrons
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Impact284Page() {
   const [session, setSession] = useState<{
     formData?: {

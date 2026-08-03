@@ -14,6 +14,17 @@ import {
   clientReviews,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 /* ============================================================
    DATA
    ============================================================ */
@@ -172,14 +183,6 @@ const TIME_SLOTS = ["12h00", "12h30", "14h00", "14h30", "19h30", "20h00", "21h00
 const GUEST_OPTIONS = ["1 personne", "2 personnes", "3 personnes", "4 personnes", "5 personnes", "6+ personnes"];
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -278,7 +281,7 @@ export default function AeviaKitchenPage() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <span className="font-serif text-xl text-white tracking-wide italic">{fd?.businessName ?? (clientName(sessionData) ?? "Aevia Kitchen")}</span>
+            <span className="font-serif text-xl text-white tracking-wide italic">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aevia Kitchen"))}</span>
           )}
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["La carte", "Expériences", "Réserver", "Cave à vins", "À propos"].map(l => (

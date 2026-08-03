@@ -14,6 +14,17 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 // ─── Demo content — real data (businessProfile) replaces these wholesale via
 // resolveList when the client provided it; field access uses `??` chains so
 // the same JSX renders either shape.
@@ -36,14 +47,6 @@ const AVIS_DEMO = [
   { quote: "La collectivité nous a confié une opération mixte complexe. Blueprint a tenu les délais et le budget sur un projet de 8 500 m². Rare et remarquable dans ce secteur.", name: "Claude B.", stats: "Collectivité · Bureaux" },
 ];
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -104,7 +107,7 @@ return (
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
             src={photo(0, "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?w=1600&q=85")}
-            alt={fd?.businessName ?? (clientName(sessionData) ?? "Blueprint Developments")}
+            alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Blueprint Developments"))}
             fill
             className="object-cover"
             priority

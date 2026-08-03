@@ -15,6 +15,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 type ActivePage = "home" | "portfolio" | "program" | "mentors" | "apply" | "legal"
 
 function useFonts() {
@@ -69,10 +76,6 @@ const faqs = [
 const sectors = ["All", "AI/ML", "Fintech", "Developer Tools", "HealthTech", "CleanTech", "Design Tools"]
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -178,7 +181,7 @@ return (
                 <div className="w-8 h-8 bg-[var(--brand,#A3E635)] rounded-lg flex items-center justify-center">
                   <Rocket className="w-4 h-4 text-[#060A0F]" />
                 </div>
-                <span className="font-semibold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Zero to One")}</span>
+                <span className="font-semibold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Zero to One"))}</span>
               </>
             )}
           </button>
@@ -1186,7 +1189,7 @@ return (
             <div className="w-7 h-7 bg-[var(--brand,#A3E635)] rounded-lg flex items-center justify-center">
               <Rocket className="w-3.5 h-3.5 text-[#060A0F]" />
             </div>
-            <span className="font-semibold text-white">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Zero to One")}</span>
+            <span className="font-semibold text-white">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Zero to One"))}</span>
           </button>
           <div className="flex gap-8 text-sm text-white/40">
             <button onClick={() => goTo("portfolio")} className="hover:text-white transition-colors cursor-pointer bg-transparent border-none text-sm text-white/40">Portfolio</button>

@@ -28,16 +28,28 @@ import {
   heroSectionStyle, railResponsiveCSS, EASE_3, EASE_4, BEAT,
 } from "@/lib/templates/hero-kit";
 import {
+  clientCity,
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -280,7 +292,7 @@ function Navbar() {
               >
                 <Smile size={22} color={C.white} />
               </div>
-              <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>{fd?.businessName ?? "Smile Studio"}</span>
+              <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Smile Studio")}</span>
             </>
           )}
         </motion.div>
@@ -444,7 +456,7 @@ function Hero() {
             <Rise beat="first" style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
               <span style={{ width: 36, height: 2, background: C.accent, display: "block" }} />
               <span style={{ fontSize: 11, letterSpacing: "0.28em", textTransform: "uppercase", color: C.accent, fontWeight: 700 }}>
-                Cabinet dentaire · Bordeaux
+                Cabinet dentaire · {clientCity(sessionData) ?? "Bordeaux"}
               </span>
             </Rise>
 
@@ -1372,13 +1384,6 @@ function FAQ() {
 
 // ─── Page Export ──────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Impact30() {
   const [session, setSession] = useState<{
     formData?: {

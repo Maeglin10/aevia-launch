@@ -17,6 +17,16 @@ import {
   clientStats,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 /* Conseil en gestion de patrimoine, 2e variante (la 1re est impact-241). Signature : StickyProgress — le parcours patrimonial épinglé, étape par étape. Sans photographie. */
 
 let C: Record<string, string> = {
@@ -44,7 +54,7 @@ const ENGAGEMENT_DEMO = ["CIF adhérent d'une association agréée AMF, ORIAS n�
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Bilan patrimonial complet", "p": "dès 890 €", "n": "Deux rendez-vous, rapport écrit de 30+ pages, plan d'action chiffré."}, {"a": "Stratégie + mise en œuvre", "p": "sur lettre de mission", "n": "Honoraires forfaitaires annoncés avant, rétrocessions déduites ou affichées."}, {"a": "Suivi annuel", "p": "dès 490 €/an", "n": "Revue complète, ajustements, disponibilité toute l'année."}, {"a": "Bilan retraite seul", "p": "590 €", "n": "Relevés analysés, projections chiffrées, rachats étudiés."}];
 let TARIFS = TARIFS_DEMO;
-const AVIS_DEMO = [{"texte": "Premier conseiller qui commence par facturer un bilan au lieu de vendre un produit : le rapport de 34 pages a mis à plat quinze ans de décisions accumulées. On sait enfin où on va.", "auteur": "Couple de médecins, Lyon", "detail": "Bilan + stratégie"}, {"texte": "La cession de mon entreprise préparée trois ans en amont : holding, Dutreil, remploi. L'économie fiscale finance leurs honoraires pour vingt ans. Merci pour la rigueur.", "auteur": "Fondateur, PME industrielle", "detail": "Cession d'entreprise"}, {"texte": "Le rapport annuel détaille chaque euro de frais et de rétrocession — j'ai compris pour la première fois ce que coûtait mon assurance-vie. Et il a fait baisser la facture.", "auteur": "Cadre dirigeante, 52 ans", "detail": "Suivi annuel"}];
+const AVIS_DEMO = [{"texte": "Premier conseiller qui commence par facturer un bilan au lieu de vendre un produit : le rapport de 34 pages a mis à plat quinze ans de décisions accumulées. On sait enfin où on va.", "auteur": `Couple de médecins, ${clientCity(sessionData) ?? "Lyon"}`, "detail": "Bilan + stratégie"}, {"texte": "La cession de mon entreprise préparée trois ans en amont : holding, Dutreil, remploi. L'économie fiscale finance leurs honoraires pour vingt ans. Merci pour la rigueur.", "auteur": "Fondateur, PME industrielle", "detail": "Cession d'entreprise"}, {"texte": "Le rapport annuel détaille chaque euro de frais et de rétrocession — j'ai compris pour la première fois ce que coûtait mon assurance-vie. Et il a fait baisser la facture.", "auteur": "Cadre dirigeante, 52 ans", "detail": "Suivi annuel"}];
 const STATS_DEMO = [{"value": "CIF", "label": "Statut contrôlé par l'AMF"}, {"value": "380", "label": "Familles conseillées"}, {"value": "0", "label": "Produit « maison » à vendre"}, {"value": "1/an", "label": "Revue patrimoniale minimum"}];
 let STATS = STATS_DEMO;
 
@@ -58,13 +68,6 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   );
 }
 
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
@@ -152,7 +155,7 @@ export default function CapHorizonPatrimoinePage() {
           ) : (
             <>
               <Landmark size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Cap Horizon Patrimoine")}</span>
+              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cap Horizon Patrimoine"))}</span>
               
             </>
           )}
@@ -394,7 +397,7 @@ export default function CapHorizonPatrimoinePage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Cap Horizon Patrimoine")}</div>
+              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cap Horizon Patrimoine"))}</div>
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Conseil en gestion de patrimoine · {clientCity(sessionData) ?? "Lyon"}<br />CIF (AMF) — ORIAS n° 26 009 244 — carte T</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -407,7 +410,7 @@ export default function CapHorizonPatrimoinePage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Cap Horizon Patrimoine")} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cap Horizon Patrimoine"))} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
           </div>

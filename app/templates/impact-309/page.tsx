@@ -46,11 +46,25 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, BlurThrough, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
 import { CrossPush } from '@/lib/templates/hero-kit-3';
 import {
+  clientCity,
   clientFaq,
   clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* CrossPush (v07, the tattoo recording itself): the outgoing photograph
    slides left while the next arrives from the right — two passing shots,
@@ -63,9 +77,6 @@ const HERO_STYLES_DEMO = [
 ];
 let HERO_STYLES = HERO_STYLES_DEMO;
 
-// Hoisted above the design tokens: several templates read `brand` in a
-// module-level const — declaring it lower caused a TDZ ReferenceError (500).
-let brand: any = null;
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -324,13 +335,6 @@ function FormSelect({
    ════════════════════════════════════════════════════════════════════════════ */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1577,7 +1581,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Encre Délicate. Tous droits réservés.
+            © {new Date().getFullYear()} Encre Délicate. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

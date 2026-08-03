@@ -16,6 +16,16 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 /* Pharmacie / parapharmacie — donneur : impact-30 (Smile Studio, clair et
    rassurant). Signature : MosaicPush. La grille qui pousse, c'est le
    rayonnage de l'officine : chaque univers arrive rayon par rayon.
@@ -110,13 +120,6 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   );
 }
 
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 
 export default function PharmacieDuParcPage() {
   const [session, setSession] = useState<any>(null);
@@ -208,7 +211,7 @@ export default function PharmacieDuParcPage() {
               <span aria-hidden style={{ width: 30, height: 30, borderRadius: 8, background: C.accent, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
                 <Cross size={16} />
               </span>
-              <span style={{ fontWeight: 800, fontSize: 18, letterSpacing: -0.4 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Pharmacie du Parc")}</span>
+              <span style={{ fontWeight: 800, fontSize: 18, letterSpacing: -0.4 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Pharmacie du Parc"))}</span>
             </>
           )}
         </div>
@@ -411,7 +414,7 @@ export default function PharmacieDuParcPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ fontWeight: 800, fontSize: 17, color: "#fff", marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Pharmacie du Parc")}</div>
+              <div style={{ fontWeight: 800, fontSize: 17, color: "#fff", marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Pharmacie du Parc"))}</div>
               <p style={{ color: "rgba(255,255,255,0.40)", fontSize: 13, lineHeight: 1.7 }}>
                 Pharmacie d'officine · {clientCity(sessionData) ?? "Lille"}<br />
                 Ordre national des pharmaciens — licence n° 59#004512
@@ -427,7 +430,7 @@ export default function PharmacieDuParcPage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Pharmacie du Parc")} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Pharmacie du Parc"))} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
           </div>

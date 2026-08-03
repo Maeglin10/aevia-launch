@@ -15,6 +15,17 @@ import {
   clientStats,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 // Nav and footer links all pointed at the template root regardless of their
 // label, leaving the pages below unreachable. Labels come from .map() vars, so
 // they resolve through this table; anything unmapped stays on the homepage.
@@ -709,14 +720,6 @@ const BLOG_POSTS = [
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 // Builders return the client's real data (when the session provides a business
 // profile) or the demo dataset. Defined at module scope so the home page and
 // the boutique/product sub-pages all read the same resolved lists.
@@ -919,7 +922,7 @@ export default function ImpactEclatPage() {
                 fontStyle: "italic",
                 color: C.gold,
               }}
-            >{fd?.businessName ?? (clientName(sessionData) ?? "Éclat")}</span>
+            >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Éclat"))}</span>
           )}
         </motion.div>
 
@@ -2159,7 +2162,7 @@ export default function ImpactEclatPage() {
                 letterSpacing: 2,
                 marginBottom: 20,
               }}
-            >{fd?.businessName ?? (clientName(sessionData) ?? "Éclat")}</div>
+            >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Éclat"))}</div>
             <p
               style={{
                 fontSize: 13,

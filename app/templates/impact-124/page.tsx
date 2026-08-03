@@ -20,8 +20,20 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
   clientFaq,
+  clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 // ─── UTILS & ANIMATION COMPONENTS ─────────────────────────────────────────────
 
@@ -83,7 +95,7 @@ function GridBackground() {
 const MANIFEST = {
   hero: {
     status: "SYSTEMS ONLINE",
-    title: "MORPH STUDIO",
+    title: (clientName(sessionData) ?? "MORPH STUDIO"),
     desc: "We engineer immersive 3D interfaces, WebGL experiences, and spatial computing environments for the next era of the web."
   },
   services: [
@@ -119,14 +131,6 @@ const MANIFEST = {
 // ─── MAIN PAGE ──────────────────────────────────────────────────────────────
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function MorphStudioPage() {
   const [session, setSession] = useState<{
     formData?: {

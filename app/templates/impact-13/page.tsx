@@ -15,6 +15,17 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 // Nav and footer links all pointed at the template root regardless of their
 // label, leaving the pages below unreachable. Labels come from .map() vars, so
 // they resolve through this table; anything unmapped stays on the homepage.
@@ -81,14 +92,6 @@ const timeline = [
 ];
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -180,7 +183,7 @@ return (
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : (fd?.businessName ?? (clientName(sessionData) ?? "Atelier Mécanique"))}</a>
+          ) : (fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Atelier Mécanique")))}</a>
           <div className="hidden md:flex items-center gap-8 text-white/50 text-xs tracking-widest uppercase">
             {[
               { name: "Accueil", target: "home" },
@@ -222,7 +225,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-[var(--brand,#B49A6A)] text-xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Atelier Mécanique")}</span>
+                <span className="text-[var(--brand,#B49A6A)] text-xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Atelier Mécanique"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer bg-transparent border-0"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -437,7 +440,7 @@ return (
       <footer className="bg-[#080807] border-t border-white/5 py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
           <div>
-            <p className="text-[var(--brand,#B49A6A)] text-lg mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Atelier Mécanique")}</p>
+            <p className="text-[var(--brand,#B49A6A)] text-lg mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Atelier Mécanique"))}</p>
             <p className="text-white/30 text-sm leading-relaxed">Manufacture horlogère. Place Vendôme, Paris — Depuis 1887.</p>
           </div>
           {[

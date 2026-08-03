@@ -36,12 +36,20 @@ import {
   Pen,
 } from "lucide-react";
 import {
+  clientCity,
   clientFaq,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -510,10 +518,6 @@ function ServicesSection() {
 }
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -672,7 +676,7 @@ return (
               }}>
                 <span style={{ fontFamily: FONT_HEADING, fontSize: 14, color: C.white, letterSpacing: 1 }}>I</span>
               </div>
-              <span style={{ fontFamily: FONT_HEADING, fontSize: 20, letterSpacing: 4, color: C.white }}>{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "INK & IRON")}</span>
+              <span style={{ fontFamily: FONT_HEADING, fontSize: 20, letterSpacing: 4, color: C.white }}>{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "INK & IRON"))}</span>
             </div>
           )}
         </Link>
@@ -1833,7 +1837,7 @@ return (
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 60, marginBottom: 64 }}>
             <div>
               <div style={{ fontFamily: FONT_HEADING, fontSize: 28, color: C.text, letterSpacing: 4, marginBottom: 20 }}>
-                {clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "INK & IRON")}
+                {clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "INK & IRON"))}
               </div>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: C.textMuted, lineHeight: 1.7, marginBottom: 24, maxWidth: 280 }}>
                 Studio de tatouage luxury à Paris depuis 2010. Trois artistes, un standard absolu. Rue de la Roquette, Paris 11e.
@@ -1911,7 +1915,7 @@ return (
             gap: 16,
           }}>
             <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.textDim, letterSpacing: 2 }}>
-              © 2025 INK & IRON STUDIO — PARIS 11E
+              © 2025 INK & IRON STUDIO — PARIS 11E{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {[

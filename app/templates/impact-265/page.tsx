@@ -13,9 +13,22 @@ import {
 import { ArrowRight, ChevronDown, Scissors } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    L'ATELIER SOIE — Couture & Broderie sur-mesure · Lyon 2e
@@ -429,7 +442,7 @@ function Nav() {
             style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          <>{fd?.businessName ?? "L'Atelier Soie"}</>
+          <>{fd?.businessName ?? (clientName(sessionData) ?? "L'Atelier Soie")}</>
         )}
       </a>
       <div style={linkRow} className="as-navlinks">
@@ -622,7 +635,7 @@ function Hero() {
       >
         <Reveal y={18}>
           <Eyebrow color={C.silk} align="center">
-            Couture &amp; Broderie · Lyon
+            Couture &amp; Broderie · {clientCity(sessionData) ?? "Lyon"}
           </Eyebrow>
         </Reveal>
 
@@ -1322,7 +1335,7 @@ function CraftPanel() {
                 marginBottom: 8,
               }}
             >
-              L&rsquo;Atelier Soie · Lyon
+              L&rsquo;Atelier Soie · {clientCity(sessionData) ?? "Lyon"}
             </div>
             <div
               style={{
@@ -2021,7 +2034,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 L&rsquo;Atelier Soie — Lyon. Tous droits réservés.
+          © 2026 L&rsquo;Atelier Soie — Lyon. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Couture &amp; Broderie sur-mesure · Haute Couture Lyonnaise
@@ -2043,14 +2056,6 @@ function Footer() {
    PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

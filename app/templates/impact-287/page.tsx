@@ -27,13 +27,25 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    CÔTE D'AZUR COACHING — Coach bien-être & remise en forme · Nice Promenade
@@ -306,7 +318,7 @@ function Nav() {
           />
         ) : (
           <>
-            <Sun size={22} color={C.coral} strokeWidth={2} />{fd?.businessName ?? "Côte d'Azur Coaching"}
+            <Sun size={22} color={C.coral} strokeWidth={2} />{fd?.businessName ?? (clientName(sessionData) ?? "Côte d'Azur Coaching")}
           </>
         )}
       </a>
@@ -2882,7 +2894,7 @@ function FooterSection() {
                   color: C.white,
                   lineHeight: 1.2,
                 }}
-              >{fd?.businessName ?? "Côte d'Azur Coaching"}</div>
+              >{fd?.businessName ?? (clientName(sessionData) ?? "Côte d'Azur Coaching")}</div>
               <div
                 style={{
                   fontFamily: SANS,
@@ -3065,7 +3077,7 @@ function FooterSection() {
       >
         <span>
           © 2026 Côte d&apos;Azur Coaching · Thomas Morel · Coach diplômé
-          d&apos;État
+          d&apos;État{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 20 }}>
           <a
@@ -3105,13 +3117,6 @@ function FooterSection() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Impact287Page() {
   const [session, setSession] = useState<{
     formData?: {

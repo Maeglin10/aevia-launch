@@ -16,11 +16,24 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, GhostSolid, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
 import { HardCutRebuild, FixedRail } from '@/lib/templates/hero-kit-3';
 import {
+  clientCity,
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ─────────────────────────────────────────────
    DESIGN TOKENS
@@ -329,9 +342,9 @@ function Nav() {
                     lineHeight: 1.1,
                     textTransform: 'uppercase',
                   }}
-                >{fd?.businessName ?? "Bâtisseurs Durand"}</div>
+                >{fd?.businessName ?? (clientName(sessionData) ?? "Bâtisseurs Durand")}</div>
                 <div style={{ fontSize: 10, color: C.textMuted, letterSpacing: 3, textTransform: 'uppercase' }}>
-                  Maçonnerie · BTP · Lyon
+                  Maçonnerie · BTP · {clientCity(sessionData) ?? "Lyon"}
                 </div>
               </div>
             </>
@@ -2314,7 +2327,7 @@ function ContactForm() {
             {[
               { icon: '📞', label: 'Téléphone', value: '04 78 XX XX XX', sub: 'Du lundi au vendredi, 8h–18h' },
               { icon: '✉️', label: 'E-mail', value: 'contact@batisseurs-durand.fr', sub: 'Réponse sous 24h' },
-              { icon: '📍', label: 'Siège social', value: '14 rue des Bâtisseurs, 69009 Lyon', sub: 'Lyon 9e — France' },
+              { icon: '📍', label: 'Siège social', value: `14 rue des Bâtisseurs, 69009 ${clientCity(sessionData) ?? "Lyon"}`, sub: 'Lyon 9e — France' },
             ].map((item) => (
               <div
                 key={item.label}
@@ -2603,7 +2616,7 @@ function Footer() {
                   letterSpacing: 2,
                   textTransform: 'uppercase',
                 }}
-              >{fd?.businessName ?? "Bâtisseurs Durand"}</div>
+              >{fd?.businessName ?? (clientName(sessionData) ?? "Bâtisseurs Durand")}</div>
             </div>
             <p style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.8, maxWidth: 280, marginBottom: 24 }}>
               Votre partenaire maçonnerie depuis 2002 sur Lyon, le Rhône et l'Isère.
@@ -2749,7 +2762,7 @@ function Footer() {
           }}
         >
           <p style={{ fontSize: 12, color: C.textMuted }}>
-            © {currentYear} Bâtisseurs Durand SARL — Tous droits réservés. Maçonnerie Lyon.
+            © {currentYear} Bâtisseurs Durand SARL — Tous droits réservés. Maçonnerie Lyon.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
             {['Qualibat RGE', 'Décennale', '4.9/5 Google'].map((badge) => (
@@ -2777,14 +2790,6 @@ function Footer() {
    PAGE EXPORT
 ───────────────────────────────────────────── */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Impact213Page() {
   const [session, setSession] = useState<{
     formData?: {

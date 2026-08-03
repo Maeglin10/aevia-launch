@@ -36,6 +36,14 @@ import {
   clientStats,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+let brand: any = null;
+
 /* ─── COLOUR PALETTE ─────────────────────────────────────────── */
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -432,11 +440,6 @@ function StatItem({ val, label }: { val: string; label: string }) {
 
 /* ─── MAIN COMPONENT ─────────────────────────────────────────── */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-let brand: any = null;
 export default function UrbanPulsePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2604,7 +2607,7 @@ return (
             }}
           >
             <div style={{ fontSize: "0.73rem", color: C.muted }}>
-              © 2026 Urban Pulse SAS · 12 rue Oberkampf, 75011 Paris · SIRET 512 XXX XXX 00024
+              © 2026 Urban Pulse SAS · 12 rue Oberkampf, 75011 Paris · SIRET 512 XXX XXX 00024{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </div>
             <div style={{ display: "flex", gap: 24 }}>
               {[

@@ -6,10 +6,18 @@ import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { Atom, Cpu, Binary, Globe, ArrowRight, ExternalLink, Download, Menu, X } from "lucide-react"
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 
 // ─── Reveal helper ────────────────────────────────────────────────────────────
 function Reveal({
@@ -169,10 +177,6 @@ function MetricRow({ label, value }: { label: string; value: string }) {
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function QBitLabsPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1527,7 +1531,7 @@ export default function QBitLabsPage() {
                   color: "#525252",
                   letterSpacing: "0.06em",
                 }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? "QUANTUM // COMPUTE")}</p>
+              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "QUANTUM // COMPUTE"))}</p>
             </div>
 
             {/* Link columns */}
@@ -1609,7 +1613,7 @@ export default function QBitLabsPage() {
             }}
           >
             <span style={{ fontSize: 12, color: "#525252" }}>
-              © 2026 QBit Labs. All rights reserved.
+              © 2026 QBit Labs. All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {["Privacy Policy", "Terms of Use", "Accessibility"].map((l) => (

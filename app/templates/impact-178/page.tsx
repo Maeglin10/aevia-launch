@@ -14,6 +14,17 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 /* ═══════════════════════════════════════════════════════════════════════════
    ALTA TRANSACTIONS — Agence immobilière premium (Paris)
    Palette : bleu nuit profond / or champagne / blanc chaud
@@ -217,14 +228,6 @@ function InquiryModal({
 }
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -336,7 +339,7 @@ export default function AltaTransactionsPage() {
                 <div className="w-7 h-7 border border-[var(--brand,#b8944a)] flex items-center justify-center">
                   <Building2 className="w-3.5 h-3.5 text-[var(--brand,#b8944a)]" />
                 </div>
-                <span className="text-white font-bold tracking-[0.2em] uppercase text-sm">{clientName(sessionData) ?? (clientName(sessionData) ?? "Alta Transactions")}</span>
+                <span className="text-white font-bold tracking-[0.2em] uppercase text-sm">{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Alta Transactions"))}</span>
               </>
             )}
           </div>
@@ -566,7 +569,7 @@ export default function AltaTransactionsPage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <Building2 className="w-5 h-5 text-[var(--brand,#b8944a)]" />
-              <span className="font-bold tracking-[0.2em] uppercase text-white text-sm">{clientName(sessionData) ?? (clientName(sessionData) ?? "Alta Transactions")}</span>
+              <span className="font-bold tracking-[0.2em] uppercase text-white text-sm">{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Alta Transactions"))}</span>
             </div>
             <p className="text-sm text-white/25 leading-relaxed">Immobilier de prestige · Paris & Île-de-France · Expertise depuis 2009.</p>
           </div>

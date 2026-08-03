@@ -18,11 +18,23 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    FIDUCIAIRE MARCHAND & PARTNERS — Expert-comptable · Nantes · Agréé CSOEC
@@ -238,7 +250,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
       "Nous avons créé notre SARL en moins de deux semaines, statuts inclus. L'équipe a tout géré : choix du statut, immatriculation, ouverture de compte pro. Six mois plus tard, notre comptabilité tourne en pilote automatique.",
     name: 'Thomas & Aline Moreau',
     role: 'Co-gérants',
-    company: 'SARL — Commerce de détail, Nantes',
+    company: `SARL — Commerce de détail, ${clientCity(sessionData) ?? "Nantes"}`,
   },
 ];
 
@@ -1413,7 +1425,7 @@ function ExpertisePanel() {
                 fontWeight: 500,
               }}
             >
-              Depuis 1998 · Nantes
+              Depuis 1998 · {clientCity(sessionData) ?? "Nantes"}
             </div>
             <div
               style={{
@@ -2155,7 +2167,7 @@ function Footer() {
         }}
       >
         <span>
-          © {new Date().getFullYear()} Fiduciaire Marchand &amp; Partners. Tous droits réservés. Membre de l&apos;OEC.
+          © {new Date().getFullYear()} Fiduciaire Marchand &amp; Partners. Tous droits réservés. Membre de l&apos;OEC.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2207,17 +2219,9 @@ function FooterLink({ label, href }: { label: string; href: string }) {
    PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

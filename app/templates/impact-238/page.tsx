@@ -21,9 +21,21 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    CENTRE KINÉ ATLANTIQUE — Cabinet de kinésithérapie · Rennes
@@ -650,7 +662,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
         >
-          <Eyebrow color={C.accentLight}>Kinésithérapie · Rennes</Eyebrow>
+          <Eyebrow color={C.accentLight}>Kinésithérapie · {clientCity(sessionData) ?? "Rennes"}</Eyebrow>
         </motion.div>
 
         <motion.h1
@@ -2161,7 +2173,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Centre Kiné Atlantique — Kinésithérapie à Rennes
+          © 2026 Centre Kiné Atlantique — Kinésithérapie à Rennes{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2192,14 +2204,6 @@ function Footer() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

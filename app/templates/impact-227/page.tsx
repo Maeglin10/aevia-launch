@@ -14,6 +14,17 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.
@@ -267,14 +278,6 @@ function BarberBookingModal({
 }
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -596,7 +599,7 @@ return (
       <footer style={{ background: C.bgDark, padding: "44px 80px 22px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
-            <div style={{ fontFamily: FONT, fontSize: 18, color: C.accentLight, marginBottom: 8 }}>{clientName(sessionData) ?? (clientName(sessionData) ?? "Le Barber Club")}</div>
+            <div style={{ fontFamily: FONT, fontSize: 18, color: C.accentLight, marginBottom: 8 }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Le Barber Club"))}</div>
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Barbier · Lyon 2e<br />Lun–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>

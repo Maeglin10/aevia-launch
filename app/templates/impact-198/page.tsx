@@ -13,11 +13,19 @@ import {
 } from "framer-motion";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -917,10 +925,6 @@ function BookingModal({
   );
 }
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -1073,7 +1077,7 @@ export default function Impact198Page() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Lumière Beauty")}</>
+            <>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Lumière Beauty"))}</>
           )}</div>
 
         {/* Desktop links */}
@@ -2001,7 +2005,7 @@ export default function Impact198Page() {
             fontSize: 18,
             color: "rgba(255,255,255,0.8)",
           }}
-        >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Lumière Beauty")}</div>
+        >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Lumière Beauty"))}</div>
         <div
           style={{
             fontFamily: C.fontSans,
@@ -2009,7 +2013,7 @@ export default function Impact198Page() {
             letterSpacing: "0.05em",
           }}
         >
-          © 2025 Lumière Beauty · 12 Rue de Grenelle, Paris 7ème · Institut certifié bio
+          © 2025 Lumière Beauty · 12 Rue de Grenelle, Paris 7ème · Institut certifié bio{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
         </div>
       </footer>
 

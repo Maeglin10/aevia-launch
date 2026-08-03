@@ -40,11 +40,22 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientFaq,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -136,13 +147,6 @@ function Button({ children, onClick, filled = false, type = 'button' }: { childr
 
 /* ════════════════════════════════════════════════════════════════════════════ */
 
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 
 const SERVICES_DEMO = [
   { icon: <HardHat size={28} />, title: "Fin de Chantier", desc: "Nettoyage complet après travaux de construction ou rénovation. Poussière, gravats, résidus de peinture, joints." },
@@ -251,7 +255,7 @@ export default function Page() {
             {fd?.logoBase64 ? (
               <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
             ) : (
-              <><AlertTriangle size={20} /> {clientName(sessionData) ?? (clientName(sessionData) ?? "NETTOYAGE EXTRÊME")}</>
+              <><AlertTriangle size={20} /> {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "NETTOYAGE EXTRÊME"))}</>
             )}
           </a>
           <div style={{ gap: 28, alignItems: 'center' }} className="hidden md:flex">
@@ -572,7 +576,7 @@ export default function Page() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))', gap: 48, marginBottom: 64 }}>
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <AlertTriangle size={18} /> {clientName(sessionData) ?? (clientName(sessionData) ?? "Nettoyage Extrême")}
+                <AlertTriangle size={18} /> {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Nettoyage Extrême"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>Spécialistes sinistres & chantiers</p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
@@ -603,7 +607,7 @@ export default function Page() {
             </div>
           </div>
           <div style={{ paddingTop: 32, borderTop: `1px solid ${C.primary}12`, textAlign: 'center', fontSize: 11.5, letterSpacing: '0.05em' }}>
-            © {new Date().getFullYear()} Nettoyage Extrême. Tous droits réservés.
+            © {new Date().getFullYear()} Nettoyage Extrême. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

@@ -44,10 +44,22 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientFaq,
   clientName,
   clientReviews,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -229,14 +241,6 @@ function Button({
    ════════════════════════════════════════════════════════════════════════════ */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -399,7 +403,7 @@ return (
                 style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              (clientName(sessionData) ?? "Sultan Kebab & Grill")
+              (clientName(sessionData) ?? (clientName(sessionData) ?? "Sultan Kebab & Grill"))
             )}
           </a>
 
@@ -669,7 +673,7 @@ return (
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>{clientName(sessionData) ?? (clientName(sessionData) ?? "Sultan Kebab & Grill")}</Eyebrow>
+                <Eyebrow>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Sultan Kebab & Grill"))}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1356,7 +1360,7 @@ return (
           }}>
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>
-                {clientName(sessionData) ?? (clientName(sessionData) ?? "Sultan Kebab & Grill")}
+                {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Sultan Kebab & Grill"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
                 Kebab & grill méditerranéen Marseille
@@ -1403,7 +1407,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Sultan Kebab & Grill. Tous droits réservés.
+            © {new Date().getFullYear()} Sultan Kebab & Grill. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

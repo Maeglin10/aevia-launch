@@ -35,11 +35,14 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
-
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+
+
 export default function Home() {
   const [session, setSession] = useState<{
     formData?: {
@@ -403,7 +406,7 @@ return (
                 Success Stories
               </span>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">
-                Creators who chose {fd?.businessName ?? (clientName({ formData: fd }) ?? "WaveForm")}
+                Creators who chose {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "WaveForm"))}
               </h2>
               <p className="text-lg text-[#64748B] max-w-xl mx-auto">
                 Real results from real podcasters — not marketing copy.

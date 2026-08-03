@@ -47,6 +47,13 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
 function shadeColor(hex: string, percent: number): string {
@@ -559,10 +566,6 @@ function SplitRevealHero() {
 }
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function Impact130Page() {
   // Mobile menu state — was mistakenly declared inside Counter (different
   // component), leaving it undefined here and 500ing every SSR render.

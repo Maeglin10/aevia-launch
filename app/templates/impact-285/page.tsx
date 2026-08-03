@@ -35,10 +35,23 @@ import {
 import { resolveList } from '@/lib/templates/resolveList';
 import {
   clientAddress,
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. MARC LECOMTE — Médecin généraliste & médecine du voyage · Nantes Centre
@@ -1154,7 +1167,7 @@ function ConsultationSection() {
                 fontWeight: 600,
               }}
             >
-              {fd?.businessName ?? 'Dr. Marc Lecomte'}
+              {fd?.businessName ?? (clientName(sessionData) ?? "Dr. Marc Lecomte")}
             </div>
             <div
               style={{
@@ -2237,7 +2250,7 @@ type TeamMember = {
 
 const TEAM_DEMO: TeamMember[] = [
   {
-    nom: 'Dr. Marc Lecomte',
+    nom: (clientName(sessionData) ?? "Dr. Marc Lecomte"),
     role: 'Médecin généraliste & médecin du voyageur',
     bio: 'Diplômé de la Faculté de Médecine de Nantes, le Dr. Lecomte exerce en libéral depuis 2008. Titulaire du Diplôme Universitaire de Médecine des Voyages, il assure un suivi global de ses patients et une prise en charge personnalisée des pathologies chroniques.',
     img: PHOTO.medecin,
@@ -2558,7 +2571,7 @@ function FooterSection() {
             }}
           >
             <MapPin size={14} color={C.salmon} strokeWidth={1.6} />
-            {clientAddress(sessionData) ?? "12 Rue Crébillon, 44000 Nantes"}
+            {clientAddress(sessionData) ?? `12 Rue Crébillon, 44000 ${clientCity(sessionData) ?? "Nantes"}`}
           </div>
           <div
             style={{
@@ -2682,7 +2695,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 {fd?.businessName ?? 'Dr. Marc Lecomte'} · RPPS 10&nbsp;987&nbsp;654&nbsp;321 ·
+          © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Dr. Marc Lecomte")} · RPPS 10&nbsp;987&nbsp;654&nbsp;321 ·
           Conseil de l'Ordre des Médecins de Loire-Atlantique · Nantes Centre
         </span>
         <span style={{ display: 'flex', gap: 20 }}>
@@ -2713,14 +2726,6 @@ function FooterSection() {
    PAGE RACINE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 function Impact285Page() {
   const [session, setSession] = useState<{
     formData?: {

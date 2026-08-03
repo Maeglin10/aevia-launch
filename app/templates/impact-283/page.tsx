@@ -33,9 +33,22 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientCity,
+  clientName,
   clientReviews,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    KINÉSITHÉRAPIE DU LANGUEDOC — Cabinet kiné & rééducation · Montpellier Antigone
@@ -314,7 +327,7 @@ function NavSection() {
           />
         ) : (
           <>
-            <Activity size={20} color={C.turq} strokeWidth={2} />{fd?.businessName ?? "Kinésithérapie du Languedoc"}
+            <Activity size={20} color={C.turq} strokeWidth={2} />{fd?.businessName ?? (clientName(sessionData) ?? "Kinésithérapie du Languedoc")}
           </>
         )}
       </a>
@@ -1648,7 +1661,7 @@ function RdvFormSection() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {[
                 { icon: Phone, text: '04 67 XX XX XX — Lun-Ven 8h–19h' },
-                { icon: MapPin, text: '12 Avenue de Palavas, 34000 Montpellier' },
+                { icon: MapPin, text: `12 Avenue de Palavas, 34000 ${clientCity(sessionData) ?? "Montpellier"}` },
                 { icon: FileText, text: 'Ordonnance médicale requise' },
                 { icon: CreditCard, text: 'Secteur 1 & 2 — CB, chèque, espèces' },
               ].map((item) => {
@@ -2956,7 +2969,7 @@ function FooterSection() {
                   fontWeight: 700,
                   letterSpacing: '0.02em',
                 }}
-              >{fd?.businessName ?? "Kinésithérapie du Languedoc"}</span>
+              >{fd?.businessName ?? (clientName(sessionData) ?? "Kinésithérapie du Languedoc")}</span>
             </div>
             <p
               style={{
@@ -3077,7 +3090,7 @@ function FooterSection() {
               color: 'rgba(255,255,255,0.40)',
             }}
           >
-            © 2025 {fd?.businessName ?? 'Kinésithérapie du Languedoc'} — Tous droits réservés
+            © 2025 {fd?.businessName ?? (clientName(sessionData) ?? "Kinésithérapie du Languedoc")} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div style={{ display: 'flex', gap: 20 }}>
             {[
@@ -3140,14 +3153,6 @@ function FooterLink283({
    PAGE PRINCIPALE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 function Impact283Page() {
   const [session, setSession] = useState<{
     formData?: {

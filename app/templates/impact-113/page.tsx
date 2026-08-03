@@ -22,6 +22,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 /* ==========================================================================
    DATA STRUCTURES
    ========================================================================== */
@@ -198,10 +205,6 @@ function Reveal({
    ========================================================================== */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 export default function NexusSaaSPage() {
   const [session, setSession] = useState<{
     formData?: {

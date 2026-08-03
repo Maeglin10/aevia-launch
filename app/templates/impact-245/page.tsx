@@ -13,12 +13,24 @@ import {
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    MAISON BRÛLOT — Boulangerie-Pâtisserie Artisanale · Lyon 1er
@@ -306,7 +318,7 @@ function Nav() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          fd?.businessName ?? "Maison Brûlot"
+          fd?.businessName ?? (clientName(sessionData) ?? "Maison Brûlot")
         )}
       </a>
 
@@ -1023,7 +1035,7 @@ function SpecialtyCard({ item, i }: { item: Specialty; i: number }) {
             fontWeight: 600,
             transition: 'color .4s',
           }}
-        >{fd?.businessName ?? "Maison Brûlot"}</div>
+        >{fd?.businessName ?? (clientName(sessionData) ?? "Maison Brûlot")}</div>
         <h3
           style={{
             fontFamily: SERIF,
@@ -1969,7 +1981,7 @@ function Footer() {
               marginBottom: 18,
               lineHeight: 1.1,
             }}
-          >{fd?.businessName ?? "Maison Brûlot"}</div>
+          >{fd?.businessName ?? (clientName(sessionData) ?? "Maison Brûlot")}</div>
           <p
             style={{
               fontFamily: SERIF,
@@ -2071,7 +2083,7 @@ function Footer() {
           color: 'rgba(250,245,238,0.42)',
         }}
       >
-        <span>© 2011–2026 Maison Brûlot. Tous droits réservés.</span>
+        <span>© 2011–2026 Maison Brûlot. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2098,13 +2110,6 @@ function Footer() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

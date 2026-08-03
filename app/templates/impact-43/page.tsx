@@ -28,7 +28,8 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
-
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
@@ -37,6 +38,8 @@ let bp: any = null;
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
 let sessionData: any = null;
 let brand: any = null;
+
+
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

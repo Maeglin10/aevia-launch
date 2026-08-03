@@ -21,8 +21,21 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    DOMAINE MIROIR — Domaine viticole français · vente par allocation
@@ -1586,7 +1599,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     quote:
       'Sur ma carte, ces vins partent en un service. Le Pinot 2018 a une tension que l’on cherche en Bourgogne et que l’on trouve rarement ailleurs. Une maison rare.',
     name: 'Marc-Antoine Lefèvre',
-    role: 'Chef sommelier · Maison Étoilée, Lyon',
+    role: `Chef sommelier · Maison Étoilée, ${clientCity(sessionData) ?? "Lyon"}`,
   },
 ];
 
@@ -1994,7 +2007,7 @@ function Footer() {
               gap: 12,
             }}
           >
-            <Grape size={22} color={C.gold} strokeWidth={1.4} />{fd?.businessName ?? "Domaine Miroir"}</div>
+            <Grape size={22} color={C.gold} strokeWidth={1.4} />{fd?.businessName ?? (clientName(sessionData) ?? "Domaine Miroir")}</div>
           <p
             style={{
               fontFamily: SERIF,
@@ -2087,7 +2100,7 @@ function Footer() {
       >
         <span>
           © 1834–2026 Domaine Miroir. L&apos;abus d&apos;alcool est dangereux pour
-          la santé. À consommer avec modération.
+          la santé. À consommer avec modération.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a
@@ -2117,14 +2130,6 @@ function Footer() {
    PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

@@ -10,6 +10,14 @@ import { ArrowUpRight, Mail } from "lucide-react";
 import { Reveal, MagneticBtn, TiltCard, Counter } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+let brand: any = null;
+
 const Instagram = (props: any) => (
   <svg
     viewBox="0 0 24 24"
@@ -116,11 +124,6 @@ const SERVICES_DEMO = [
 const CLIENTS = ["Vogue", "Wallpaper*", "Dezeen", "Monocle", "Dior"];
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

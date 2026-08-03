@@ -34,11 +34,23 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCertifications,
+  clientCity,
   clientFaq,
   clientReviews,
   clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -357,17 +369,9 @@ function StatItem({
 
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Impact157Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2126,7 +2130,7 @@ return (
           }}
         >
           <div style={{ fontSize: 12, color: C.textMuted, letterSpacing: 0.5 }}>
-            © 2026 Aurum Jewelry SAS · 24, rue de la Paix · 75002 Paris
+            © 2026 Aurum Jewelry SAS · 24, rue de la Paix · 75002 Paris{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
           <div style={{ fontSize: 12, color: C.textMuted, letterSpacing: 0.5 }}>
             Garantie maison 10 ans · Livraison assurée 67 pays

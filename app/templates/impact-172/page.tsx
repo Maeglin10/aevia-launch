@@ -14,6 +14,17 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
+
 function useFonts() {
   useEffect(() => {
     const id = "fonts-legrand"
@@ -90,14 +101,6 @@ const REFERENCES = [
 ]
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -211,7 +214,7 @@ export default function LegrandPage() {
               />
             ) : (
               <>
-                <span className="text-lg font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Legrand & Associés")}</span>
+                <span className="text-lg font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Legrand & Associés"))}</span>
                 <span className="text-[10px] tracking-[0.2em] uppercase text-[var(--brand,#C9A855)]">Avocats au Barreau de Paris</span>
               </>
             )}
@@ -243,7 +246,7 @@ export default function LegrandPage() {
                   style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Legrand & Associés")}</span>
+                <span style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Legrand & Associés"))}</span>
               )}
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
@@ -589,7 +592,7 @@ export default function LegrandPage() {
       <footer className="bg-[#0E0A06] text-[#5A5040] py-12 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
           <div>
-            <div className="text-[#F9F6F0] font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Legrand & Associés")}</div>
+            <div className="text-[#F9F6F0] font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Legrand & Associés"))}</div>
             <div className="text-xs text-[var(--brand,#C9A855)] tracking-widest uppercase">Avocats au Barreau de Paris</div>
           </div>
           <div className="flex flex-wrap gap-8 text-xs">

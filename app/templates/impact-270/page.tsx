@@ -13,14 +13,26 @@ import {
 import { ArrowRight, ChevronDown, Feather, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    PEAU & PLUME — Atelier de Tatouage & Illustration · Lille
@@ -437,7 +449,7 @@ function Nav() {
         ) : (
           <>
             <Feather size={18} color={C.accent} strokeWidth={1.6} />
-            {fd?.businessName ?? "Peau & Plume"}
+            {fd?.businessName ?? (clientName(sessionData) ?? "Peau & Plume")}
           </>
         )}
       </a>
@@ -635,7 +647,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
         >
           <Eyebrow color={C.accentLight}>
-            Tatouage &amp; Illustration · Lille
+            Tatouage &amp; Illustration · {clientCity(sessionData) ?? "Lille"}
           </Eyebrow>
         </motion.div>
 
@@ -2089,7 +2101,7 @@ function Footer() {
           color: 'rgba(248,246,242,0.42)',
         }}
       >
-        <span>© 2024–2026 Peau &amp; Plume · Lille</span>
+        <span>© 2024–2026 Peau &amp; Plume · Lille{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#reserver" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2116,13 +2128,6 @@ function Footer() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

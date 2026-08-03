@@ -13,10 +13,22 @@ import {
 } from "framer-motion";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -468,14 +480,6 @@ function ProcessStep({ step, index }: { step: (typeof PROCESS)[0]; index: number
 }
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -812,7 +816,7 @@ export default function Impact175Page() {
         >
           <img
             src={photo(0, "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=1400&auto=format&fit=crop")}
-            alt={fd?.businessName ?? (clientName(sessionData) ?? "Confluence Events")}
+            alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Confluence Events"))}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
           <div
@@ -1609,9 +1613,9 @@ export default function Impact175Page() {
           gap: 16,
         }}
       >
-        <div style={{ fontFamily: C.font, fontSize: 18, color: C.champagne }}>{fd?.businessName ?? (clientName(sessionData) ?? "Confluence Events")}</div>
+        <div style={{ fontFamily: C.font, fontSize: 18, color: C.champagne }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Confluence Events"))}</div>
         <div style={{ fontFamily: C.fontSans, fontSize: 12, letterSpacing: "0.05em" }}>
-          © 2025 Confluence · Paris · Monte-Carlo · info@confluence-events.fr
+          © 2025 Confluence · Paris · Monte-Carlo · info@confluence-events.fr{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </div>
       </footer>
     </div>

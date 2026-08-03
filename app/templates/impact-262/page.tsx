@@ -13,10 +13,23 @@ import {
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    STUDIO NOIR ABSOLU — Tatouage Fine Art & Illustration · Paris 3e Marais
@@ -437,7 +450,7 @@ function Nav() {
             style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          fd?.businessName ?? "Studio Noir Absolu"
+          fd?.businessName ?? (clientName(sessionData) ?? "Studio Noir Absolu")
         )}
       </a>
       <div style={linkRow} className="sna-navlinks">
@@ -2078,7 +2091,7 @@ function Footer() {
               color: C.white,
               marginBottom: 16,
             }}
-          >{fd?.businessName ?? "Studio Noir Absolu"}</div>
+          >{fd?.businessName ?? (clientName(sessionData) ?? "Studio Noir Absolu")}</div>
           <p
             style={{
               fontFamily: SANS,
@@ -2194,7 +2207,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Studio Noir Absolu. Paris 3e Marais. Tous droits réservés.
+          © 2026 Studio Noir Absolu. Paris 3e Marais. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a
@@ -2234,14 +2247,6 @@ function Footer() {
    PAGE — assemblage
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

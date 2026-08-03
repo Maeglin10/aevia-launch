@@ -14,10 +14,23 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import { PartyPopper } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -179,17 +192,17 @@ const USPS = [
 ];
 
 const TESTIMONIALS_DEMO = [
-  { id: 1, name: 'Isabelle M.', city: 'Lyon', product: 'Invicta Prélude 8kW', rating: 5, text: 'Magnifique poêle, installation parfaite. Livré en 2 jours, service impeccable. Après 3 mois d\'utilisation, notre maison est toujours à la bonne température.', verified: true, date: 'Janvier 2025' },
-  { id: 2, name: 'Thomas D.', city: 'Bordeaux', product: 'MCZ Musa 11kW', rating: 5, text: 'Le granulés MCZ Musa est silencieux, efficace et l\'application mobile est bluffante. On programme la chauffe depuis le lit ! Qualité premium à prix justifié.', verified: true, date: 'Février 2025' },
-  { id: 3, name: 'Claire & Paul R.', city: 'Strasbourg', product: 'Stuv 16 Insert', rating: 5, text: 'Cet insert a transformé notre salon. Le flamme est spectaculaire derrière la vitre panoramique. L\'équipe Flamme & Co nous a très bien conseillés.', verified: true, date: 'Décembre 2024' },
-  { id: 4, name: 'Marc-Antoine B.', city: 'Toulouse', product: 'Godin Fonte Noire', rating: 4, text: 'Très bon rapport qualité-prix. Le design fonte classique s\'adapte parfaitement à notre maison de campagne. Chauffe vite et longtemps.', verified: true, date: 'Novembre 2024' },
-  { id: 5, name: 'Sophie V.', city: 'Nantes', product: 'Edilkamin Eco 10kW', rating: 5, text: 'Edilkamin m\'a bluffée par son rendement. La qualité de fabrication italienne est au rendez-vous. Flamme & Co a été très réactif pour le SAV lors d\'une petite question technique.', verified: true, date: 'Mars 2025' },
-  { id: 6, name: 'Laurent P.', city: 'Marseille', product: 'Planika Pure Flame 3', rating: 4, text: 'Décoratif et élégant, ce brûleur éthanol est parfait pour notre terrasse. La flamme est réelle et hypnotique. Livraison rapide, emballage soigné.', verified: true, date: 'Avril 2025' },
+  { id: 1, name: 'Isabelle M.', city: (clientCity(sessionData) ?? "Lyon"), product: 'Invicta Prélude 8kW', rating: 5, text: 'Magnifique poêle, installation parfaite. Livré en 2 jours, service impeccable. Après 3 mois d\'utilisation, notre maison est toujours à la bonne température.', verified: true, date: 'Janvier 2025' },
+  { id: 2, name: 'Thomas D.', city: (clientCity(sessionData) ?? "Bordeaux"), product: 'MCZ Musa 11kW', rating: 5, text: 'Le granulés MCZ Musa est silencieux, efficace et l\'application mobile est bluffante. On programme la chauffe depuis le lit ! Qualité premium à prix justifié.', verified: true, date: 'Février 2025' },
+  { id: 3, name: 'Claire & Paul R.', city: (clientCity(sessionData) ?? "Strasbourg"), product: 'Stuv 16 Insert', rating: 5, text: 'Cet insert a transformé notre salon. Le flamme est spectaculaire derrière la vitre panoramique. L\'équipe Flamme & Co nous a très bien conseillés.', verified: true, date: 'Décembre 2024' },
+  { id: 4, name: 'Marc-Antoine B.', city: (clientCity(sessionData) ?? "Toulouse"), product: 'Godin Fonte Noire', rating: 4, text: 'Très bon rapport qualité-prix. Le design fonte classique s\'adapte parfaitement à notre maison de campagne. Chauffe vite et longtemps.', verified: true, date: 'Novembre 2024' },
+  { id: 5, name: 'Sophie V.', city: (clientCity(sessionData) ?? "Nantes"), product: 'Edilkamin Eco 10kW', rating: 5, text: 'Edilkamin m\'a bluffée par son rendement. La qualité de fabrication italienne est au rendez-vous. Flamme & Co a été très réactif pour le SAV lors d\'une petite question technique.', verified: true, date: 'Mars 2025' },
+  { id: 6, name: 'Laurent P.', city: (clientCity(sessionData) ?? "Marseille"), product: 'Planika Pure Flame 3', rating: 4, text: 'Décoratif et élégant, ce brûleur éthanol est parfait pour notre terrasse. La flamme est réelle et hypnotique. Livraison rapide, emballage soigné.', verified: true, date: 'Avril 2025' },
 ];
 
 const EXTRA_TESTIMONIALS = [
-  { id: 7, name: 'Héloïse G.', city: 'Rennes', product: 'MCZ Musa 11kW', rating: 5, text: 'J\'hésite pendant des semaines, et finalement Flamme & Co m\'a convaincue avec un conseil personnalisé. Le poêle à granulés MCZ est parfait pour notre maison de 110 m².' , verified: true, date: 'Mars 2025' },
-  { id: 8, name: 'Benoît L.', city: 'Grenoble', product: 'Invicta Prélude 8kW', rating: 5, text: 'Parfait pour nos hivers montagnards ! Très content de mon achat. Le rendement est au top, et l\'équipe Flamme & Co était disponible pour répondre à toutes mes questions.', verified: true, date: 'Octobre 2024' },
+  { id: 7, name: 'Héloïse G.', city: (clientCity(sessionData) ?? "Rennes"), product: 'MCZ Musa 11kW', rating: 5, text: 'J\'hésite pendant des semaines, et finalement Flamme & Co m\'a convaincue avec un conseil personnalisé. Le poêle à granulés MCZ est parfait pour notre maison de 110 m².' , verified: true, date: 'Mars 2025' },
+  { id: 8, name: 'Benoît L.', city: (clientCity(sessionData) ?? "Grenoble"), product: 'Invicta Prélude 8kW', rating: 5, text: 'Parfait pour nos hivers montagnards ! Très content de mon achat. Le rendement est au top, et l\'équipe Flamme & Co était disponible pour répondre à toutes mes questions.', verified: true, date: 'Octobre 2024' },
 ];
 
 const FAQS_DEMO = [
@@ -1340,7 +1353,7 @@ function CartDrawer({
                   </div>
                   <div>
                     <label htmlFor="ck-address" style={labelStyle}>Adresse de livraison *</label>
-                    <input id="ck-address" type="text" required value={ckAddress} onChange={(e) => setCkAddress(e.target.value)} placeholder="12 rue des Forges, 21000 Dijon" style={inputStyle} />
+                    <input id="ck-address" type="text" required value={ckAddress} onChange={(e) => setCkAddress(e.target.value)} placeholder={`12 rue des Forges, 21000 ${clientCity(sessionData) ?? "Dijon"}`} style={inputStyle} />
                   </div>
                   <motion.button
                     type="submit"
@@ -1467,7 +1480,7 @@ function MobileNavDrawer({
               {fd?.logoBase64 ? (
                 <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
               ) : (
-                <span style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.3rem', fontWeight: 700 }}>{fd?.businessName ?? "Flamme & Co"}</span>
+                <span style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.3rem', fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Flamme & Co")}</span>
               )}
               <motion.button
                 whileTap={{ scale: 0.9 }}
@@ -1769,14 +1782,6 @@ function PromoBanner() {
 
 // ─── Main Page Component ───────────────────────────────────────────────────────
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function FlammeEtCoPage() {
   const [session, setSession] = useState<{
     formData?: {

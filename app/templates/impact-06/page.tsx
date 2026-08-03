@@ -21,6 +21,13 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 /* ==========================================================================
    DATA STRUCTURES
    ========================================================================= */
@@ -119,10 +126,6 @@ function MagneticBtn({ children, className = "", onClick }: { children: React.Re
    ========================================================================= */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -208,7 +211,7 @@ export default function NeuralisPage() {
                <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
              ) : (
                <>
-                 <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Neuralis")}</span>
+                 <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Neuralis"))}</span>
                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] -mt-1 ml-1">Augmentation Lab</span>
                </>
              )}
@@ -713,7 +716,7 @@ export default function NeuralisPage() {
            <div className="lg:col-span-6">
               <Reveal>
                  <div className="flex flex-col mb-12">
-                    <span className="text-4xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Neuralis")}</span>
+                    <span className="text-4xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Neuralis"))}</span>
                     <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] -mt-1 ml-1">Augmentation Lab</span>
                  </div>
                  <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">

@@ -13,14 +13,26 @@ import {
 import { ArrowRight, ChevronDown, Heart, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    MAISON SOLAL — Couture & Mode Sur-Mesure · Marseille
@@ -411,7 +423,7 @@ function Nav() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          fd?.businessName ?? "Maison Solal"
+          fd?.businessName ?? (clientName(sessionData) ?? "Maison Solal")
         )}
       </a>
       <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(18px,2.4vw,38px)' }} className="ms-navlinks">
@@ -608,7 +620,7 @@ function Hero() {
       >
         <Reveal y={18}>
           <Eyebrow color={C.accentLight} align="center">
-            Couture Sur-Mesure · Marseille
+            Couture Sur-Mesure · {clientCity(sessionData) ?? "Marseille"}
           </Eyebrow>
         </Reveal>
 
@@ -1905,7 +1917,7 @@ function Footer() {
       title: 'Contact',
       items: [
         { label: 'Prendre rendez-vous', href: '#contact' },
-        { label: 'Le Panier, Marseille', href: '#contact' },
+        { label: `Le Panier, ${clientCity(sessionData) ?? "Marseille"}`, href: '#contact' },
         { label: 'Tarifs & délais', href: '#contact' },
         { label: 'Entretien & retouche', href: '#contact' },
       ],
@@ -1941,7 +1953,7 @@ function Footer() {
               fontWeight: 400,
               letterSpacing: '0.04em',
             }}
-          >{fd?.businessName ?? "Maison Solal"}</div>
+          >{fd?.businessName ?? (clientName(sessionData) ?? "Maison Solal")}</div>
           <p
             style={{
               fontFamily: SERIF,
@@ -2044,7 +2056,7 @@ function Footer() {
           color: 'rgba(232,220,200,0.42)',
         }}
       >
-        <span>© 2012–2026 Maison Solal. Tous droits réservés.</span>
+        <span>© 2012–2026 Maison Solal. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2070,13 +2082,6 @@ function Footer() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

@@ -18,10 +18,23 @@ import {
   heroSectionStyle, railResponsiveCSS, alpha, EASE_3, EASE_4, BEAT,
 } from "@/lib/templates/hero-kit";
 import {
+  clientCity,
+  clientName,
   clientServices,
   clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ==========================================================================
    DESIGN TOKENS
@@ -1545,7 +1558,7 @@ function ContactSection() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
               {[
-                { label: 'Siège social', value: '14 rue des Bâtisseurs, 69000 Lyon' },
+                { label: 'Siège social', value: `14 rue des Bâtisseurs, 69000 ${clientCity(sessionData) ?? "Lyon"}` },
                 { label: 'Téléphone', value: '+33 4 78 XX XX XX' },
                 { label: 'Email', value: 'contact@ferretti-construction.fr' },
                 { label: 'Horaires', value: 'Lun–Ven : 8h–18h' },
@@ -1838,7 +1851,7 @@ function Footer() {
           color: C.creamDim,
           opacity: 0.5,
         }}>
-          © 2024 {fd?.businessName ?? "Ferretti Construction"}. SIRET 123 456 789 00010
+          © 2024 {fd?.businessName ?? (clientName(sessionData) ?? "Ferretti Construction")}. SIRET 123 456 789 00010{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </div>
       </div>
     </footer>
@@ -1958,14 +1971,6 @@ function Nav() {
    ========================================================================= */
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

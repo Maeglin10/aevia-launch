@@ -13,9 +13,21 @@ import {
 import { ArrowRight, ChevronDown, Shield, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    MAÎTRE GÉRALDINE VOSS — Avocate en Droit des Affaires & Contentieux
@@ -203,7 +215,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     quote:
       'Un conflit collectif dans nos restaurants aurait pu nous bloquer des mois. En 6 semaines, Maître Voss avait trouvé un accord négocié. Son sang-froid et sa maîtrise du droit du travail ont évité le pire. Je la recommande sans réserve.',
     name: 'Isabelle Cornu',
-    role: 'Directrice générale — chaîne de restauration, Toulouse',
+    role: `Directrice générale — chaîne de restauration, ${clientCity(sessionData) ?? "Toulouse"}`,
   },
 ];
 
@@ -2018,7 +2030,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2008–2026 Maître Géraldine Voss — Avocate au Barreau de Toulouse. Tous droits réservés.
+          © 2008–2026 Maître Géraldine Voss — Avocate au Barreau de Toulouse. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2046,14 +2058,6 @@ function Footer() {
    PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

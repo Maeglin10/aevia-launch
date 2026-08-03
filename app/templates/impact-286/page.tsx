@@ -25,10 +25,23 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET VIDAL — Maître Clara Vidal · Avocate droit social & travail
@@ -437,7 +450,7 @@ function HeroSection() {
       >
         <img
           src={PHOTO.tribunal}
-          alt="Palais de justice — Cabinet Vidal, Lyon"
+          alt={`Palais de justice — Cabinet Vidal, ${clientCity(sessionData) ?? "Lyon"}`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -2349,7 +2362,7 @@ function FooterSection() {
               gap: 12,
             }}
           >
-            <Scale size={20} color={C.gold} strokeWidth={1.4} />{fd?.businessName ?? "Cabinet Vidal"}</div>
+            <Scale size={20} color={C.gold} strokeWidth={1.4} />{fd?.businessName ?? (clientName(sessionData) ?? "Cabinet Vidal")}</div>
           <p
             style={{
               fontFamily: SERIF,
@@ -2489,7 +2502,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 Cabinet Vidal — Maître Clara Vidal, Avocate. Tous droits réservés.
+          © 2026 Cabinet Vidal — Maître Clara Vidal, Avocate. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a
@@ -2534,14 +2547,6 @@ function FooterSection() {
    PAGE PRINCIPALE — Impact286Page
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Impact286Page() {
   const [session, setSession] = useState<{
     formData?: {

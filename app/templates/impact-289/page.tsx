@@ -25,10 +25,23 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
+let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    SCHREIBER & ASSOCIÉS — Expert-comptable & commissaires aux comptes
@@ -303,7 +316,7 @@ function Nav() {
         ) : (
           <>
             <Scale size={20} color="rgba(255,255,255,0.85)" strokeWidth={1.6} />
-            <div>{fd?.businessName ?? "Schreiber & Associés"}<span style={brandSub}>Expert-comptable · Strasbourg</span>
+            <div>{fd?.businessName ?? (clientName(sessionData) ?? "Schreiber & Associés")}<span style={brandSub}>Expert-comptable · {clientCity(sessionData) ?? "Strasbourg"}</span>
             </div>
           </>
         )}
@@ -459,7 +472,7 @@ function HeroSection() {
       >
         <img
           src={PHOTO.hero}
-          alt="Expert-comptable Schreiber & Associés, Strasbourg"
+          alt={`Expert-comptable Schreiber & Associés, ${clientCity(sessionData) ?? "Strasbourg"}`}
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }}
         />
       </motion.div>
@@ -2313,7 +2326,7 @@ function FooterSection() {
         { label: 'Diagnostic gratuit', href: '#contact' },
         { label: '03 88 XX XX XX', href: 'tel:+33388000000' },
         { label: 'contact@schreiber-ec.fr', href: 'mailto:contact@schreiber-ec.fr' },
-        { label: '14 rue de Neudorf, Strasbourg', href: '#contact' },
+        { label: `14 rue de Neudorf, ${clientCity(sessionData) ?? "Strasbourg"}`, href: '#contact' },
       ],
     },
   ];
@@ -2350,7 +2363,7 @@ function FooterSection() {
               marginBottom: 6,
             }}
           >
-            <Scale size={22} color="rgba(255,255,255,0.75)" strokeWidth={1.6} />{fd?.businessName ?? "Schreiber & Associés"}</div>
+            <Scale size={22} color="rgba(255,255,255,0.75)" strokeWidth={1.6} />{fd?.businessName ?? (clientName(sessionData) ?? "Schreiber & Associés")}</div>
           <div
             style={{
               fontFamily: SANS,
@@ -2537,7 +2550,7 @@ function FooterSection() {
       >
         <span>
           © 1997–2026 Schreiber & Associés — Cabinet d&apos;expertise comptable
-          agréé. Tous droits réservés.
+          agréé. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#hero" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2568,14 +2581,6 @@ function FooterSection() {
    PAGE PRINCIPALE
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 export default function Impact289Page() {
   const [session, setSession] = useState<{
     formData?: {

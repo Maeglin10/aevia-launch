@@ -15,6 +15,13 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+
 /* ═══════════════════════════════════════════════════════════════════════════
    AUTO EXPERT — Garage & carrosserie automobile (Rennes)
    Palette : acier sombre #0e1117 / rouge précision #dc2626 / gris métal #3a3f4a / blanc tech #f1f3f5
@@ -75,10 +82,6 @@ const SERVICES_DEMO = [
 let SERVICES = SERVICES_DEMO;
 
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {

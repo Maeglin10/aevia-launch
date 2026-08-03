@@ -13,9 +13,22 @@ import {
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
+let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    SMILE & CO — Cabinet Dentaire Esthétique · Lyon 6e
@@ -415,7 +428,7 @@ function Nav() {
           />
         ) : (
           <>
-            {fd?.businessName ?? "Smile & Co"}
+            {fd?.businessName ?? (clientName(sessionData) ?? "Smile & Co")}
             <span style={dot} />
           </>
         )}
@@ -1974,7 +1987,7 @@ function Footer() {
           color: 'rgba(200,234,240,0.38)',
         }}
       >
-        <span>© 2025–2026 Smile &amp; Co · Cabinet Dentaire · Lyon 6e</span>
+        <span>© 2025–2026 Smile &amp; Co · Cabinet Dentaire · Lyon 6e{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2001,14 +2014,6 @@ function Footer() {
    PAGE ROOT
    ════════════════════════════════════════════════════════════════════════════ */
 
-// Global state variables for subpage compatibility
-let fd: any = null;
-let c: any = null;
-let brand: any = null;
-let bp: any = null;
-// La session complète, pour lib/templates/clientContent : même portée
-// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

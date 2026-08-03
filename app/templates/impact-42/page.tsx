@@ -32,7 +32,8 @@ import {
   clientServices,
 } from "@/lib/templates/clientContent";
 
-
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
@@ -41,6 +42,8 @@ let bp: any = null;
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
 let sessionData: any = null;
 let brand: any = null;
+
+
 export default function EchoChamberPage() {
   const [session, setSession] = useState<{
     formData?: {
