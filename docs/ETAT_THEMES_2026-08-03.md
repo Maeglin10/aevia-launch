@@ -44,6 +44,21 @@ Par ailleurs : la ville est lue par 288 thèmes, l'adresse par 33, les photos pa
 **Zéro page plantée**, zéro débordement horizontal, aucune image chargée mais
 jamais peinte.
 
+### Le parcours client, joué comme un client
+
+Quinze métiers, du choix du secteur jusqu'à l'aperçu, formulaire rempli et photos
+téléversées — sans appel d'API, sans session semée à la main.
+
+| | début de journée | fin |
+|---|---:|---:|
+| atteignent l'aperçu | 15/15 | **15/15** |
+| pages plantées | — | **0** |
+| nom de l'entreprise affiché | 12/15 | **13/15** |
+| ville affichée | 5/15 | **10/15** |
+
+Les deux thèmes sans nom (impact-252 pour le dentiste, Brutco pour l'architecte)
+et les cinq sans ville restent à traiter à la main.
+
 ## Ce qui reste, et pourquoi aucun codemod ne l'atteint
 
 Les blocs restants ont leur contenu **écrit directement dans le JSX**, sans
