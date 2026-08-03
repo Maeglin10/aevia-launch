@@ -14,6 +14,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientName,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
@@ -242,7 +243,7 @@ export default function Impact174Page() {
             ) : (
               <>
                 <Dumbbell className="w-6 h-6 text-[var(--brand,#84cc16)]" />
-                <span className="text-2xl font-bold tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? "FORGE"}</span>
+                <span className="text-2xl font-bold tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "FORGE")}</span>
               </>
             )}
           </div>
@@ -585,7 +586,7 @@ export default function Impact174Page() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <Dumbbell className="w-5 h-5 text-[var(--brand,#84cc16)]" />
-            <span className="text-xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? "FORGE"}</span>
+            <span className="text-xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "FORGE")}</span>
           </div>
           <p className="text-xs text-[#f5f5f5]/30 uppercase tracking-widest">© 2026 FORGE Performance · Paris 11ème</p>
           <div className="flex gap-6">

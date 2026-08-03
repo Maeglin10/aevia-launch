@@ -13,6 +13,7 @@ import {
 } from "framer-motion";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -1072,7 +1073,7 @@ export default function Impact198Page() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <>{fd?.businessName ?? "Lumière Beauty"}</>
+            <>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Lumière Beauty")}</>
           )}</div>
 
         {/* Desktop links */}
@@ -2000,7 +2001,7 @@ export default function Impact198Page() {
             fontSize: 18,
             color: "rgba(255,255,255,0.8)",
           }}
-        >{fd?.businessName ?? "Lumière Beauty"}</div>
+        >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Lumière Beauty")}</div>
         <div
           style={{
             fontFamily: C.fontSans,

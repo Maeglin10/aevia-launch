@@ -11,6 +11,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -210,7 +211,7 @@ export default function NoirCouturePage() {
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : (fd?.businessName ?? "Noir Couture")}</a>
+          ) : (fd?.businessName ?? (clientName(sessionData) ?? "Noir Couture"))}</a>
           <div className="hidden md:flex items-center gap-10 text-black text-xs tracking-widest uppercase font-light">
             {[
               { name: "Accueil", target: "home" },
@@ -275,7 +276,7 @@ export default function NoirCouturePage() {
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-white tracking-widest text-xl" style={{ fontFamily: "'Playfair Display', serif" }}>{fd?.businessName ?? "Noir Couture"}</span>
+                <span className="text-white tracking-widest text-xl" style={{ fontFamily: "'Playfair Display', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Noir Couture")}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -303,7 +304,7 @@ export default function NoirCouturePage() {
           <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden pt-20">
             <div className="grid grid-cols-1 md:grid-cols-2 h-full">
               <motion.div className="relative overflow-hidden" style={{ y: heroY }}>
-                <Image src={photo(0, "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=90")} alt={fd?.businessName ?? "Noir Couture"} fill className="object-cover" priority />
+                <Image src={photo(0, "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=90")} alt={fd?.businessName ?? (clientName(sessionData) ?? "Noir Couture")} fill className="object-cover" priority />
               </motion.div>
               <div className="bg-black flex flex-col items-start justify-center md:justify-end p-8 md:p-12">
                 <motion.div style={{ opacity: heroOpacity }}>
@@ -470,7 +471,7 @@ export default function NoirCouturePage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-4 gap-10 mb-12">
             <div>
-              <p className="text-white text-xl mb-4 tracking-widest uppercase" style={{ fontFamily: "'Playfair Display', serif", fontSize: "0.9rem" }}>{fd?.businessName ?? "Noir Couture"}</p>
+              <p className="text-white text-xl mb-4 tracking-widest uppercase" style={{ fontFamily: "'Playfair Display', serif", fontSize: "0.9rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Noir Couture")}</p>
               <p className="text-white/30 text-sm leading-relaxed">Maison de couture parisienne. Fondée en 1998.</p>
             </div>
             {[

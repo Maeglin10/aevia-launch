@@ -11,6 +11,7 @@ import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -166,7 +167,7 @@ export default function EtabliMoreauPage() {
           ) : (
             <>
               <Hammer size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? "Établi Moreau"}</span>
+              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Établi Moreau")}</span>
               <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>Ébéniste</span>
             </>
           )}
@@ -402,7 +403,7 @@ export default function EtabliMoreauPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Établi Moreau"}</div>
+              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Établi Moreau")}</div>
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Ébénisterie d'art & restauration · {clientCity(sessionData) ?? "Besançon"}<br />Meilleur Ouvrier régional 2022 — bois français PEFC</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -415,7 +416,7 @@ export default function EtabliMoreauPage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? "Établi Moreau"} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Établi Moreau")} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
           </div>

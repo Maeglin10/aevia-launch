@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, Cloud, Cpu, Zap, Database, Lock, BarChart3, ChevronDown, CheckCircle, GitBranch, Globe, BookOpen, FileText, Tag, Clock, Users, Shield, Terminal, Code, Layers, Server, Eye, TrendingUp, Sparkles, ExternalLink } from "lucide-react";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -156,7 +157,7 @@ return (
             ) : (
               <>
                 <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#06B6D4)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div>
-                <span className="text-white font-bold text-lg">{fd?.businessName ?? "NimbusAI"}</span>
+                <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? "NimbusAI")}</span>
               </>
             )}
           </button>
@@ -184,7 +185,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-white font-bold text-xl">{fd?.businessName ?? "NimbusAI"}</span>
+                <span className="text-white font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? "NimbusAI")}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -385,7 +386,7 @@ return (
       <footer className="bg-[#060B16] border-t border-white/5 py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
-            <div className="flex items-center gap-2 mb-4"><div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#06B6D4)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div><span className="text-white font-bold">{fd?.businessName ?? "NimbusAI"}</span></div>
+            <div className="flex items-center gap-2 mb-4"><div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#06B6D4)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div><span className="text-white font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? "NimbusAI")}</span></div>
             <p className="text-gray-500 text-sm">Cloud AI infrastructure pour les équipes qui construisent les produits de demain.</p>
           </div>
           {[

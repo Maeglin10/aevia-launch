@@ -40,6 +40,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -491,7 +492,7 @@ export default function AuraWellnessPage() {
             ) : (
               <>
                 <Leaf className="w-5 h-5 text-[var(--brand,#7C9E87)]" />
-                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? "Aura Wellness"}</span>
+                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Aura Wellness")}</span>
               </>
             )}
           </Link>
@@ -539,7 +540,7 @@ export default function AuraWellnessPage() {
                   style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? "Aura Wellness"}</span>
+                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Aura Wellness")}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="text-[#2C2820] cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
@@ -1143,7 +1144,7 @@ export default function AuraWellnessPage() {
               <span
                 className="text-[#2C2820] text-lg"
                 style={{ fontFamily: "'Cormorant Garamond', serif" }}
-              >{fd?.businessName ?? "Aura Wellness"}</span>
+              >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Aura Wellness")}</span>
             </div>
             <p className="text-[#6B5E52] text-sm leading-relaxed mb-4">
               Sanctuary de soins botaniques & rituels holistiques. Bordeaux, France.

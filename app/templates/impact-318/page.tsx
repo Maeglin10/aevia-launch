@@ -41,6 +41,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -250,7 +251,7 @@ export default function Page() {
             {fd?.logoBase64 ? (
               <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
             ) : (
-              <><AlertTriangle size={20} /> NETTOYAGE EXTRÊME</>
+              <><AlertTriangle size={20} /> {clientName(sessionData) ?? (clientName(sessionData) ?? "NETTOYAGE EXTRÊME")}</>
             )}
           </a>
           <div style={{ gap: 28, alignItems: 'center' }} className="hidden md:flex">
@@ -571,7 +572,7 @@ export default function Page() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))', gap: 48, marginBottom: 64 }}>
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <AlertTriangle size={18} /> Nettoyage Extrême
+                <AlertTriangle size={18} /> {clientName(sessionData) ?? (clientName(sessionData) ?? "Nettoyage Extrême")}
               </h4>
               <p style={{ lineHeight: 1.6 }}>Spécialistes sinistres & chantiers</p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>

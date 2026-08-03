@@ -11,6 +11,7 @@ import { ScrollGrow } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -151,7 +152,7 @@ export default function StudioGammePage() {
           ) : (
             <>
               <Music4 size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? "Studio Gamme"}</span>
+              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Studio Gamme")}</span>
               <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>Musiques actuelles</span>
             </>
           )}
@@ -380,7 +381,7 @@ export default function StudioGammePage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Studio Gamme"}</div>
+              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Studio Gamme")}</div>
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>École de musiques actuelles · {clientCity(sessionData) ?? "Villeurbanne"}<br />Professeurs diplômés (DEM, MIMA) — scène trimestrielle</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -393,7 +394,7 @@ export default function StudioGammePage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? "Studio Gamme"} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Studio Gamme")} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
           </div>

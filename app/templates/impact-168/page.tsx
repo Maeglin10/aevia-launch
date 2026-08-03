@@ -8,6 +8,7 @@ import { ShoppingBag, Heart, Search, User, ArrowRight, Check, Star, Package, Ref
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -917,7 +918,7 @@ export default function ImpactEclatPage() {
                 fontStyle: "italic",
                 color: C.gold,
               }}
-            >{fd?.businessName ?? "Éclat"}</span>
+            >{fd?.businessName ?? (clientName(sessionData) ?? "Éclat")}</span>
           )}
         </motion.div>
 
@@ -2157,7 +2158,7 @@ export default function ImpactEclatPage() {
                 letterSpacing: 2,
                 marginBottom: 20,
               }}
-            >{fd?.businessName ?? "Éclat"}</div>
+            >{fd?.businessName ?? (clientName(sessionData) ?? "Éclat")}</div>
             <p
               style={{
                 fontSize: 13,

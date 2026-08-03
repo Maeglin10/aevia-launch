@@ -36,6 +36,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -585,7 +586,7 @@ export default function Impact200Page() {
                 <span
                   className="text-4xl text-[#831843]"
                   style={{ fontFamily: "'Great Vibes', cursive" }}
-                >{fd?.businessName ?? "Cérémonie"}</span>
+                >{fd?.businessName ?? (clientName(sessionData) ?? "Cérémonie")}</span>
               </>
             )}
           </Link>
@@ -648,7 +649,7 @@ export default function Impact200Page() {
                 <span
                   className="text-4xl text-[#831843]"
                   style={{ fontFamily: "'Great Vibes', cursive" }}
-                >{fd?.businessName ?? "Cérémonie"}</span>
+                >{fd?.businessName ?? (clientName(sessionData) ?? "Cérémonie")}</span>
               )}
               <button onClick={() => setMenuOpen(false)} className="p-2 text-[#831843]">
                 <X className="w-6 h-6" />
@@ -1587,7 +1588,7 @@ export default function Impact200Page() {
                 <span
                   className="text-3xl text-white/90"
                   style={{ fontFamily: "'Great Vibes', cursive" }}
-                >{fd?.businessName ?? "Cérémonie"}</span>
+                >{fd?.businessName ?? (clientName(sessionData) ?? "Cérémonie")}</span>
               </div>
               <p
                 className="text-white/40 text-xs italic"

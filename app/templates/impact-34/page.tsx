@@ -30,6 +30,7 @@ import {
   WeeklyChart,
 } from "./shared"
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -402,7 +403,7 @@ return (
                 Success Stories
               </span>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">
-                Creators who chose {fd?.businessName ?? 'WaveForm'}
+                Creators who chose {fd?.businessName ?? (clientName({ formData: fd }) ?? "WaveForm")}
               </h2>
               <p className="text-lg text-[#64748B] max-w-xl mx-auto">
                 Real results from real podcasters — not marketing copy.

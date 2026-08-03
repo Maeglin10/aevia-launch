@@ -11,6 +11,7 @@ import { PanelRise } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -151,7 +152,7 @@ export default function BrasserieHoublonPage() {
           ) : (
             <>
               <Beer size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? "Brasserie du Houblon Franc"}</span>
+              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Brasserie du Houblon Franc")}</span>
               
             </>
           )}
@@ -370,7 +371,7 @@ export default function BrasserieHoublonPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Brasserie du Houblon Franc"}</div>
+              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Brasserie du Houblon Franc")}</div>
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Brasserie artisanale indépendante · {clientCity(sessionData) ?? "Lille"}<br />Bières non filtrées, non pasteurisées — vente directe et CHR</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -383,7 +384,7 @@ export default function BrasserieHoublonPage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? "Brasserie du Houblon Franc"} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Brasserie du Houblon Franc")} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
           </div>

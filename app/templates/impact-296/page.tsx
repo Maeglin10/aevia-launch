@@ -45,6 +45,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
+  clientName,
   clientReviews,
 } from "@/lib/templates/clientContent";
 // Custom Instagram icon component for compatibility
@@ -370,7 +371,7 @@ return (
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              fd?.businessName ?? "Caliente Tacos"
+              fd?.businessName ?? (clientName(sessionData) ?? "Caliente Tacos")
             )}
           </a>
 
@@ -640,7 +641,7 @@ return (
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>{fd?.businessName ?? "Caliente Tacos"}</Eyebrow>
+                <Eyebrow>{fd?.businessName ?? (clientName(sessionData) ?? "Caliente Tacos")}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1245,7 +1246,7 @@ return (
             marginBottom: 64
           }}>
             <div>
-              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? "Caliente Tacos"}</h4>
+              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Caliente Tacos")}</h4>
               <p style={{ lineHeight: 1.6 }}>
                 Tacos & burritos mexicains Bordeaux Victoire
               </p>

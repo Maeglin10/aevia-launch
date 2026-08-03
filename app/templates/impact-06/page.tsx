@@ -15,6 +15,7 @@ import { Zap, Brain, Activity, ShieldCheck, Star, Globe, Mail, MapPin, ChevronRi
 
 import "../premium.css";
 import {
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -207,7 +208,7 @@ export default function NeuralisPage() {
                <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
              ) : (
                <>
-                 <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? "Neuralis"}</span>
+                 <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Neuralis")}</span>
                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] -mt-1 ml-1">Augmentation Lab</span>
                </>
              )}
@@ -712,7 +713,7 @@ export default function NeuralisPage() {
            <div className="lg:col-span-6">
               <Reveal>
                  <div className="flex flex-col mb-12">
-                    <span className="text-4xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? "Neuralis"}</span>
+                    <span className="text-4xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Neuralis")}</span>
                     <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] -mt-1 ml-1">Augmentation Lab</span>
                  </div>
                  <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">

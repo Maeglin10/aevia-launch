@@ -10,6 +10,7 @@ import Image from "next/image"
 import { ArrowRight, Zap, Users, TrendingUp, Globe, CheckCircle, ChevronDown, Rocket, Star, Clock, Briefcase, Target, BookOpen, Award, Calendar, MapPin, Mail, Shield } from "lucide-react"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -177,7 +178,7 @@ return (
                 <div className="w-8 h-8 bg-[var(--brand,#A3E635)] rounded-lg flex items-center justify-center">
                   <Rocket className="w-4 h-4 text-[#060A0F]" />
                 </div>
-                <span className="font-semibold text-lg">{fd?.businessName ?? "Zero to One"}</span>
+                <span className="font-semibold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Zero to One")}</span>
               </>
             )}
           </button>
@@ -1185,7 +1186,7 @@ return (
             <div className="w-7 h-7 bg-[var(--brand,#A3E635)] rounded-lg flex items-center justify-center">
               <Rocket className="w-3.5 h-3.5 text-[#060A0F]" />
             </div>
-            <span className="font-semibold text-white">{fd?.businessName ?? "Zero to One"}</span>
+            <span className="font-semibold text-white">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Zero to One")}</span>
           </button>
           <div className="flex gap-8 text-sm text-white/40">
             <button onClick={() => goTo("portfolio")} className="hover:text-white transition-colors cursor-pointer bg-transparent border-none text-sm text-white/40">Portfolio</button>

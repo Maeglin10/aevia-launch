@@ -21,6 +21,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
+  clientName,
   clientReviews,
 } from "@/lib/templates/clientContent";
 
@@ -810,7 +811,7 @@ export default function ClosDuSoirPage() {
                     fontWeight: 300,
                   }}
                 >
-                  Each evening at {fd?.businessName ?? 'Clos du Soir'}, she or one of her carefully trained team guides guests through the language of terroir, vintage, and winemaker intention — making every glass a conversation.
+                  Each evening at {fd?.businessName ?? (clientName(sessionData) ?? "Clos du Soir")}, she or one of her carefully trained team guides guests through the language of terroir, vintage, and winemaker intention — making every glass a conversation.
                 </p>
                 <div
                   style={{
@@ -869,7 +870,7 @@ export default function ClosDuSoirPage() {
                     marginBottom: 24,
                   }}
                 >
-                  Une soirée au {fd?.businessName ?? 'Clos du Soir'}
+                  Une soirée au {fd?.businessName ?? (clientName(sessionData) ?? "Clos du Soir")}
                 </div>
                 {[
                   {

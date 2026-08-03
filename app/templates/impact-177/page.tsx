@@ -1,5 +1,8 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -197,7 +200,7 @@ return (
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <span style={{ fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: C.dark }}>{fd?.businessName ?? "Maëlle Dumas Piscines"}</span>
+            <span style={{ fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: C.dark }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines")}</span>
           )}
           <div style={{ gap: "3rem" }} className="hidden lg:flex">
             {["Projets", "Prestations", "À propos", "Contact"].map(l => (
@@ -417,7 +420,7 @@ return (
       <footer style={{ background: "#141210", padding: "4rem 2.5rem 2rem", borderTop: `1px solid rgba(255,255,255,0.05)` }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: "3rem", marginBottom: "3rem" }}>
           <div>
-            <div style={{ fontFamily: C.serif, fontSize: "1.2rem", fontStyle: "italic", color: "#fff", marginBottom: "1rem" }}>{fd?.businessName ?? "Maëlle Dumas Piscines"}</div>
+            <div style={{ fontFamily: C.serif, fontSize: "1.2rem", fontStyle: "italic", color: "#fff", marginBottom: "1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines")}</div>
             <p style={{ fontFamily: C.sans, fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.7 }}>Pisciniste certifié. Conception, construction et rénovation de piscines en Auvergne-Rhône-Alpes.</p>
           </div>
           {[
@@ -433,7 +436,7 @@ return (
           ))}
         </div>
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingTop: "1.5rem", borderTop: "1px solid rgba(255,255,255,0.05)", display: "flex", justifyContent: "space-between", gap: "1rem" }}>
-          <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", letterSpacing: "0.15em" }}>© 2026 {fd?.businessName ?? "Maëlle Dumas Piscines"} · SIRET 987 654 321 00045</span>
+          <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", letterSpacing: "0.15em" }}>© 2026 {fd?.businessName ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines")} · SIRET 987 654 321 00045</span>
           <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: C.terra + "60", textTransform: "uppercase", letterSpacing: "0.15em" }}>Pisciniste certifié FPP</span>
         </div>
       </footer>

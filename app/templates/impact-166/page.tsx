@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -942,7 +943,7 @@ return (
                 letterSpacing: "0.08em",
                 color: C.text,
               }}
-            >{fd?.businessName ?? "Iris Studio"}</span>
+            >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Iris Studio")}</span>
           )}
         </div>
 
@@ -1983,7 +1984,7 @@ return (
               letterSpacing: "0.06em",
               color: C.text,
             }}
-          >{fd?.businessName ?? "Iris Studio"}</div>
+          >{fd?.businessName ?? (clientName({ formData: fd }) ?? "Iris Studio")}</div>
 
           <div
             style={{

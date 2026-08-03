@@ -1,5 +1,8 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import {
@@ -544,7 +547,7 @@ export default function Impact211Page() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <>{fd?.businessName ?? "Maison Éclat"}</>
+            <>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Maison Éclat")}</>
           )}</motion.div>
 
           <nav className="nav-211-inner" style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
@@ -855,7 +858,7 @@ export default function Impact211Page() {
             fontWeight: 300,
             color: C.cream,
             marginBottom: "0.5rem",
-          }}>{c?.heroSubline ?? fd?.tagline ?? <>{fd?.businessName ?? "Maison Éclat"}</>}</p>
+          }}>{c?.heroSubline ?? fd?.tagline ?? <>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Maison Éclat")}</>}</p>
           <p style={{ ...eyebrowStyle, textAlign: "center", marginBottom: "2rem" }}>
             7ème arrondissement · {clientCity({ formData: fd }) ?? "Paris"}
           </p>
@@ -975,7 +978,7 @@ export default function Impact211Page() {
                 <line x1="30" y1="200" x2="270" y2="200" stroke={C.gold} strokeWidth="0.3" opacity="0.4" />
                 <line x1="150" y1="30" x2="150" y2="370" stroke={C.gold} strokeWidth="0.3" opacity="0.4" />
                 <path d="M 70 120 Q 150 80 230 120 Q 270 200 230 280 Q 150 320 70 280 Q 30 200 70 120 Z" fill="none" stroke={C.gold} strokeWidth="0.5" />
-                <text x="150" y="205" textAnchor="middle" fill={C.gold} fontSize="12" fontFamily={font.serif} fontStyle="italic" opacity="0.8">{fd?.businessName ?? "Maison Éclat"}</text>
+                <text x="150" y="205" textAnchor="middle" fill={C.gold} fontSize="12" fontFamily={font.serif} fontStyle="italic" opacity="0.8">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Maison Éclat")}</text>
                 <text x="150" y="222" textAnchor="middle" fill={C.creamMuted} fontSize="7" fontFamily={font.sans} opacity="0.6" letterSpacing="3">PARIS · MMXXVI</text>
               </svg>
 
@@ -1629,7 +1632,7 @@ export default function Impact211Page() {
             <style>{`@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr !important; gap: 2rem !important; } }`}</style>
 
             <div>
-              <div style={{ fontFamily: font.serif, fontSize: "2rem", fontStyle: "italic", color: C.cream, marginBottom: "1.2rem" }}>{fd?.businessName ?? "Maison Éclat"}</div>
+              <div style={{ fontFamily: font.serif, fontSize: "2rem", fontStyle: "italic", color: C.cream, marginBottom: "1.2rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "Maison Éclat")}</div>
               <p style={{ ...bodyStyle, marginBottom: "1.5rem", maxWidth: 320 }}>
                 Un restaurant gastronomique parisien au cœur du 7ème arrondissement, entre tradition et innovation, produit et émotion.
               </p>

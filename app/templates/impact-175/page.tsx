@@ -13,6 +13,7 @@ import {
 } from "framer-motion";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -811,7 +812,7 @@ export default function Impact175Page() {
         >
           <img
             src={photo(0, "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=1400&auto=format&fit=crop")}
-            alt={fd?.businessName ?? "Confluence Events"}
+            alt={fd?.businessName ?? (clientName(sessionData) ?? "Confluence Events")}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
           <div
@@ -1608,7 +1609,7 @@ export default function Impact175Page() {
           gap: 16,
         }}
       >
-        <div style={{ fontFamily: C.font, fontSize: 18, color: C.champagne }}>{fd?.businessName ?? "Confluence Events"}</div>
+        <div style={{ fontFamily: C.font, fontSize: 18, color: C.champagne }}>{fd?.businessName ?? (clientName(sessionData) ?? "Confluence Events")}</div>
         <div style={{ fontFamily: C.fontSans, fontSize: 12, letterSpacing: "0.05em" }}>
           © 2025 Confluence · Paris · Monte-Carlo · info@confluence-events.fr
         </div>

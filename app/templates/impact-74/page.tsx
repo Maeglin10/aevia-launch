@@ -9,6 +9,7 @@ import { ShieldCheck, ChevronRight, Star, MapPin, Clock, Car, Check } from "luci
 import { Reveal, MagneticBtn } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientName,
   clientPhotos,
   clientReviews,
 } from "@/lib/templates/clientContent";
@@ -277,7 +278,7 @@ export default function AeviaKitchenPage() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <span className="font-serif text-xl text-white tracking-wide italic">{fd?.businessName ?? "Aevia Kitchen"}</span>
+            <span className="font-serif text-xl text-white tracking-wide italic">{fd?.businessName ?? (clientName(sessionData) ?? "Aevia Kitchen")}</span>
           )}
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["La carte", "Expériences", "Réserver", "Cave à vins", "À propos"].map(l => (

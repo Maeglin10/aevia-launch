@@ -17,6 +17,7 @@ import { Terminal, Cpu, Zap, Shield, Layers, Search, Menu, X, ArrowRight, Chevro
 
 import "../premium.css";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -604,7 +605,7 @@ export default function BlockBasePage() {
               <div className="w-8 h-8 bg-white text-black rounded flex items-center justify-center">
                 <Box className="w-5 h-5" />
               </div>
-              <span>{fd?.businessName ?? "BLOCK // BASE"}</span>
+              <span>{fd?.businessName ?? (clientName({ formData: fd }) ?? "BLOCK // BASE")}</span>
             </Link>
             <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-12">
               Engineering the foundation of high-performance decentralized systems. Built for the next billion users.

@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight } from "lucide-react"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -425,7 +426,7 @@ export default function AtelierBloomPage() {
       <footer style={{ background: C.text, padding: "48px 80px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
-            <div style={{fontFamily: FONT_SERIF, fontSize: 20, fontStyle: "italic", color: brand ?? 'var(--brand,#a8d498)', marginBottom: 8 }}>Atelier Bloom</div>
+            <div style={{fontFamily: FONT_SERIF, fontSize: 20, fontStyle: "italic", color: brand ?? 'var(--brand,#a8d498)', marginBottom: 8 }}>{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Atelier Bloom")}</div>
             <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6 }}>Fleuriste artisanale · {clientCity({ formData: fd }) ?? "Strasbourg"}<br />Lun–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>

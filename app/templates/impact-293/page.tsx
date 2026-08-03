@@ -45,6 +45,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
+  clientName,
   clientReviews,
 } from "@/lib/templates/clientContent";
 
@@ -371,7 +372,7 @@ return (
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              'Pizza Napoli Express'
+              (clientName(sessionData) ?? "Pizza Napoli Express")
             )}
           </a>
 
@@ -641,7 +642,7 @@ return (
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>Pizza Napoli Express</Eyebrow>
+                <Eyebrow>{clientName(sessionData) ?? (clientName(sessionData) ?? "Pizza Napoli Express")}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1247,7 +1248,7 @@ return (
           }}>
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>
-                Pizza Napoli Express
+                {clientName(sessionData) ?? (clientName(sessionData) ?? "Pizza Napoli Express")}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
                 Pizzeria napolitaine Lyon Presqu'île

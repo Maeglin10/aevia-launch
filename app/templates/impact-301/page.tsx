@@ -45,6 +45,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -383,7 +384,7 @@ export default function Page() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              fd?.businessName ?? "Dubois & Partenaires"
+              fd?.businessName ?? (clientName(sessionData) ?? "Dubois & Partenaires")
             )}
           </a>
 
@@ -653,7 +654,7 @@ export default function Page() {
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>{fd?.businessName ?? "Dubois & Partenaires"}</Eyebrow>
+                <Eyebrow>{fd?.businessName ?? (clientName(sessionData) ?? "Dubois & Partenaires")}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1257,7 +1258,7 @@ export default function Page() {
             marginBottom: 64
           }}>
             <div>
-              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? "Dubois & Partenaires"}</h4>
+              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Dubois & Partenaires")}</h4>
               <p style={{ lineHeight: 1.6 }}>
                 Avocat droit des affaires Bordeaux
               </p>

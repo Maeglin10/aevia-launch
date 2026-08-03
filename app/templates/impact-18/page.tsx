@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, Zap, BarChart3, Users, CheckCircle, ChevronDown, Globe, Layers, Bell, Shield, Code2, TrendingUp, Cpu, Server, Lock, HelpCircle } from "lucide-react";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -168,7 +169,7 @@ return (
             ) : (
               <>
                 <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#3B82F6)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
-                <span className="text-white font-bold text-lg">{fd?.businessName ?? "Streamline"}</span>
+                <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Streamline")}</span>
               </>
             )}
           </div>
@@ -209,7 +210,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-white font-bold text-xl">{fd?.businessName ?? "Streamline"}</span>
+                <span className="text-white font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Streamline")}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -372,7 +373,7 @@ return (
           <div className="md:col-span-2">
             <div onClick={() => goTo("home")} className="flex items-center gap-2 mb-4 cursor-pointer">
               <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#3B82F6)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
-              <span className="text-white font-bold text-lg">{fd?.businessName ?? "Streamline"}</span>
+              <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? "Streamline")}</span>
             </div>
             <p className="text-gray-500 text-sm leading-relaxed">La plateforme de productivité pour les équipes modernes. Gérez tout votre travail en un seul endroit.</p>
           </div>
