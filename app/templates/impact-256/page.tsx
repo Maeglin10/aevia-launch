@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Trophy, Dumbbell, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -465,7 +466,7 @@ function Nav() {
         ) : (
           <>
             <Dumbbell size={20} color={C.accent} strokeWidth={2} />
-            <span>FORCE<span style={brandAccent}> BRUTE</span></span>
+            <span>{clientName(sessionData) ?? "FORCE"}<span style={brandAccent}> BRUTE</span></span>
           </>
         )}
       </div>

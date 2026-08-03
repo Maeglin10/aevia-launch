@@ -30,6 +30,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -307,7 +308,7 @@ function Nav() {
         ) : (
           <>
             <Heart size={18} color={C.sage} strokeWidth={1.8} />
-            Dr. S. Renard
+            {clientName(sessionData) ?? "Dr. S. Renard"}
           </>
         )}
       </div>

@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -204,7 +205,7 @@ export default function BatirSolidePage() {
             ) : (
               <>
                 <HardHat className="w-6 h-6 text-[var(--brand,#d4a96a)]" />
-                <span className="font-black text-lg tracking-wide text-white uppercase">Bâtir <span className="text-[var(--brand,#d4a96a)]">Solide</span></span>
+                <span className="font-black text-lg tracking-wide text-white uppercase">{clientName(sessionData) ?? "Bâtir"}<span className="text-[var(--brand,#d4a96a)]">Solide</span></span>
               </>
             )}
           </div>

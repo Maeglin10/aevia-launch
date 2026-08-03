@@ -18,6 +18,7 @@ import { ArrowRight, ArrowUpRight, Play, Maximize, X, Globe, ArrowDown, Sparkles
 
 import "../premium.css";
 import {
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -300,7 +301,7 @@ export default function TextRevealPage() {
               />
             ) : (
               <>
-                <Sparkles className="w-5 h-5" /> REVEAL
+                <Sparkles className="w-5 h-5" /> {clientName({ formData: fd }) ?? "REVEAL"}
               </>
             )}
           </Link>

@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -353,7 +354,7 @@ function Nav() {
       </div>
       <div className="r281-navcta">
         <a href="#rendez-vous" style={{ textDecoration: 'none' }}>
-          <GoldButton>Prendre RDV</GoldButton>
+          <GoldButton>{clientName(sessionData) ?? "Prendre RDV"}</GoldButton>
         </a>
       </div>
       

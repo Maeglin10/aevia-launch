@@ -8,6 +8,7 @@ import { Compass, ArrowRight, Menu, Star, MapPin, Mountain, Camera, Globe, Tent,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -142,7 +143,7 @@ export default function MeridianJourneyPage() {
             ) : (
               <>
                 <Compass className="w-6 h-6 text-[var(--brand,#2dd4bf)]" />
-                <span className="text-xl font-bold tracking-[0.2em] uppercase">Meridian</span>
+                <span className="text-xl font-bold tracking-[0.2em] uppercase">{clientName({ formData: fd }) ?? "Meridian"}</span>
               </>
             )}
           </Link>

@@ -8,6 +8,7 @@ import Link from "next/link"
 import { ArrowRight, MapPin, Mail, Phone, BedDouble, Bath, Maximize, Star, TrendingUp } from "lucide-react"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -197,7 +198,7 @@ export default function PierreCoPage() {
             />
           ) : (
             <>
-              <span style={{ fontFamily: FONT_SERIF, fontSize: 20, color: scrolled ? C.text : "#fff" }}>Pierre</span>
+              <span style={{ fontFamily: FONT_SERIF, fontSize: 20, color: scrolled ? C.text : "#fff" }}>{clientName({ formData: fd }) ?? "Pierre"}</span>
               <span style={{ fontSize: 12, color: C.accent, fontWeight: 700, letterSpacing: 2, marginLeft: 6 }}>&amp; CO</span>
             </>
           )}

@@ -5,6 +5,7 @@ import { tr } from "@/lib/templates/uiStrings";
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
 import React, { useState, useRef, useEffect, useCallback } from "react"
 import {
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -585,7 +586,7 @@ return (
                 letterSpacing: "-0.02em",
                 lineHeight: 1,
               }}>
-                The Review
+                {clientName({ formData: fd }) ?? "The Review"}
               </span>
               <span style={{
                 fontFamily: C.sans,

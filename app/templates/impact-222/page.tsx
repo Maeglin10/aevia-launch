@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from '@/lib/templates/resolveList';
 import {
+  clientName,
   clientReviews,
 } from "@/lib/templates/clientContent";
 
@@ -297,7 +298,7 @@ const Nav: React.FC = () => {
                     letterSpacing: '0.02em',
                   }}
                 >
-                  Solis
+                  {clientName(sessionData) ?? "Solis"}
                 </span>
                 <span
                   style={{

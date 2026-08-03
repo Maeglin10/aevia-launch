@@ -9,6 +9,7 @@ import { Wrench, Car, Settings, Zap, Shield, Clock, Star, Phone, MapPin, CheckCi
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -152,7 +153,7 @@ export default function AutoExpertPage() {
                 <div className="w-7 h-7 bg-[var(--brand,#dc2626)] flex items-center justify-center">
                   <Wrench className="w-4 h-4 text-white" />
                 </div>
-                <span className="font-bold text-[#f1f3f5] tracking-wide text-sm">AUTO<span className="text-[var(--brand,#dc2626)]">EXPERT</span></span>
+                <span className="font-bold text-[#f1f3f5] tracking-wide text-sm">{clientName({ formData: fd }) ?? "AUTO"}<span className="text-[var(--brand,#dc2626)]">EXPERT</span></span>
               </>
             )}
           </div>

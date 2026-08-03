@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Heart, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -496,7 +497,7 @@ function Nav() {
           style={{ textDecoration: 'none' }}
         >
           <AccentButton filled dark>
-            Prendre RDV
+            {clientName(sessionData) ?? "Prendre RDV"}
           </AccentButton>
         </a>
       </div>

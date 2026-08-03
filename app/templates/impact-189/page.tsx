@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -323,7 +324,7 @@ export default function AtelierLeoniePage() {
               />
             ) : (
               <>
-                <div className="font-bold text-[#1a1218] tracking-widest text-sm" style={{ fontFamily: "'Bodoni Moda', 'Georgia', serif" }}>ATELIER LÉONIE</div>
+                <div className="font-bold text-[#1a1218] tracking-widest text-sm" style={{ fontFamily: "'Bodoni Moda', 'Georgia', serif" }}>{clientName(sessionData) ?? "ATELIER LÉONIE"}</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)]/60">Salon de coiffure · Paris 16e</div>
               </>
             )}

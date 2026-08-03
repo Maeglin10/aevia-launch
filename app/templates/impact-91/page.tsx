@@ -35,6 +35,7 @@ import {
 } from "lucide-react"
 import {
   clientAddress,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -304,7 +305,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
                   color: scrolled ? C.navyDeep : C.cream,
                 }}
               >
-                AURELIA
+                {clientName(sessionData) ?? "AURELIA"}
               </span>
             )}
           </Link>

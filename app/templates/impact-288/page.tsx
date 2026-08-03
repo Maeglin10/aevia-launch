@@ -32,6 +32,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCertifications,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -315,7 +316,7 @@ function Nav() {
       </div>
       <div className="r288-navcta">
         <a href="#devis" style={{ textDecoration: 'none' }}>
-          <GreenButton filled small>Devis gratuit</GreenButton>
+          <GreenButton filled small>{clientName(sessionData) ?? "Devis gratuit"}</GreenButton>
         </a>
       </div>
       

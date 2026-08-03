@@ -28,6 +28,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -329,7 +330,7 @@ function Nav() {
       </div>
       <div className="r279-navcta">
         <ForestButton filled href="#rdv">
-          Prendre RDV
+          {clientName(sessionData) ?? "Prendre RDV"}
         </ForestButton>
       </div>
       

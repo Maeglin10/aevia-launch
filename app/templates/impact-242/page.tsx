@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -444,7 +445,7 @@ function Nav() {
       </div>
       <div className="fm-navcta">
         <a href="#contact" style={{ textDecoration: 'none' }}>
-          <BlueButton>Première consultation offerte</BlueButton>
+          <BlueButton>{clientName(sessionData) ?? "Première consultation offerte"}</BlueButton>
         </a>
       </div>
       

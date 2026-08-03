@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientAreas,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -144,7 +145,7 @@ export default function BrilloNetPage() {
             ) : (
               <>
                 <Sparkles className="w-4 h-4 text-[var(--brand,#0d9488)]" />
-                <span className={`font-bold ${scrolled ? "text-[#1c2b2b]" : "text-white"} tracking-tight text-sm`}>Brillo<span className="text-[var(--brand,#0d9488)]">Net</span></span>
+                <span className={`font-bold ${scrolled ? "text-[#1c2b2b]" : "text-white"} tracking-tight text-sm`}>{clientName({ formData: fd }) ?? "Brillo"}<span className="text-[var(--brand,#0d9488)]">Net</span></span>
               </>
             )}
           </div>

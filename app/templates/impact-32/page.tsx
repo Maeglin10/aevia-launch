@@ -27,6 +27,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -284,7 +285,7 @@ function Navbar() {
                 <TemplateIcon emoji="🐾" size={20} color="#fff" />
               </div>
               <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>
-                Paw<span style={{ color: C.accent }}>Care</span>
+                {clientName(sessionData) ?? "Paw"}<span style={{ color: C.accent }}>Care</span>
               </span>
             </>
           )}

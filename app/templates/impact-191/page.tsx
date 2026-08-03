@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -173,7 +174,7 @@ export default function JardinsVivantsPage() {
               <>
                 <Leaf className="w-5 h-5 text-[var(--brand,#2d5a27)]" />
                 <div>
-                  <div className="font-bold text-[#1e2a1c] text-sm leading-tight" style={{ fontFamily: "'Cardo', Georgia, serif" }}>Jardins Vivants</div>
+                  <div className="font-bold text-[#1e2a1c] text-sm leading-tight" style={{ fontFamily: "'Cardo', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Jardins Vivants"}</div>
                   <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/50">Paysagiste · {clientCity({ formData: fd }) ?? "Annecy"}</div>
                 </div>
               </>

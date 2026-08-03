@@ -9,6 +9,7 @@ import { Heart, Star, Phone, MapPin, Calendar, Sparkles, Music, Camera, Flower, 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -148,7 +149,7 @@ export default function MaisonElisePage() {
               />
             ) : (
               <>
-                <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ fontFamily: "'Lora', Georgia, serif" }}>Maison Élise</div>
+                <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ fontFamily: "'Lora', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Maison Élise"}</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)]/60">Wedding Planner · Nice & Riviera</div>
               </>
             )}

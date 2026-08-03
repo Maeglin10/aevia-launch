@@ -28,6 +28,7 @@ import {
 import { resolveList } from '@/lib/templates/resolveList';
 import {
   clientAddress,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -299,7 +300,7 @@ function NavBar() {
       </div>
       <div className="r284-navcta">
         <a href="#bilan" style={{ textDecoration: 'none' }}>
-          <GoldButton small filled>Bilan gratuit</GoldButton>
+          <GoldButton small filled>{clientName(sessionData) ?? "Bilan gratuit"}</GoldButton>
         </a>
       </div>
       
