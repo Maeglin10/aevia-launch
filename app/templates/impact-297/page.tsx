@@ -42,6 +42,10 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import {
+  clientFaq,
+  clientServices,
+} from "@/lib/templates/clientContent";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -222,6 +226,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -270,6 +277,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -290,7 +298,7 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
-  const servicesReal: any[] | null = bp?.services?.length ? bp.services : null;
+  const servicesReal: any[] | null = clientServices(sessionData)?.length ? bp.services : null;
   const SERVICES_DEMO = [{"name": "Consultation de Médecine Générale", "category": "Général", "desc": "Consultation standard pour adultes et enfants, suivi médical, ordonnances.", "price": "26,50 €"}, {"name": "Bilan Sportif Complet", "category": "Sport", "desc": "Bilan cardiorespiratoire, évaluation de la condition physique, conseils sportifs.", "price": "80,00 €"}, {"name": "Téléconsultation", "category": "Général", "desc": "Consultation à distance par vidéo pour suivi et petites urgences.", "price": "25,00 €"}, {"name": "Certificat de Non-Contre-Indication", "category": "Sport", "desc": "Examen médical approfondi pour la pratique sportive en compétition.", "price": "50,00 €"}];
   // businessProfile.services replaces the demo list wholesale; real services
   // rarely carry a `category`, so the fixed tab filter is skipped for them —
@@ -967,7 +975,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {(bp?.faq?.length ? bp.faq : [{"q":"Prenez-vous de nouveaux patients ?","a":"Oui, le cabinet accepte actuellement de nouveaux patients en tant que médecin traitant. Vous pouvez déclarer le Dr. Faure lors de votre première consultation."},{"q":"Quels sont les modes de paiement acceptés ?","a":"Nous acceptons les cartes bancaires, les chèques et les espèces. La carte Vitale est acceptée pour le tiers payant automatique."},{"q":"Comment prendre rendez-vous en urgence ?","a":"Des créneaux d'urgence sont libérés chaque matin à 8h00 sur notre espace Doctolib. Vous pouvez aussi contacter le secrétariat téléphonique."}]).map((item: any, i: number) => (
+            {(clientFaq(sessionData)?.length ? bp.faq : [{"q":"Prenez-vous de nouveaux patients ?","a":"Oui, le cabinet accepte actuellement de nouveaux patients en tant que médecin traitant. Vous pouvez déclarer le Dr. Faure lors de votre première consultation."},{"q":"Quels sont les modes de paiement acceptés ?","a":"Nous acceptons les cartes bancaires, les chèques et les espèces. La carte Vitale est acceptée pour le tiers payant automatique."},{"q":"Comment prendre rendez-vous en urgence ?","a":"Des créneaux d'urgence sont libérés chaque matin à 8h00 sur notre espace Doctolib. Vous pouvez aussi contacter le secrétariat téléphonique."}]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,

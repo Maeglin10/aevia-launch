@@ -7,6 +7,10 @@ import Link from "next/link"
 import { Heart, Wind, Hand, Star, Phone, MapPin, Clock, CheckCircle, Leaf, Circle, Calendar, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    OSTÉO GAÏA — Ostéopathe D.O. (Montpellier)
@@ -71,6 +75,9 @@ const AVIS_DEMO = [
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -107,10 +114,11 @@ export default function OsteoGaiaPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const PRISES_EN_CHARGE = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: PRISES_EN_CHARGE_DEMO[i % PRISES_EN_CHARGE_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -118,7 +126,7 @@ export default function OsteoGaiaPage() {
     PRISES_EN_CHARGE_DEMO
   );
   const AVIS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       q: r.text ?? r.quote,
       n: r.name ?? r.author,
       l: r.location ?? r.context ?? AVIS_DEMO[i % AVIS_DEMO.length].l,

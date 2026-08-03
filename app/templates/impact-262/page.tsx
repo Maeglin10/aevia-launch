@@ -12,6 +12,11 @@ import {
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    STUDIO NOIR ABSOLU — Tatouage Fine Art & Illustration · Paris 3e Marais
@@ -949,7 +954,7 @@ function ProgressDot({
 
 function StyleSequence() {
   const STYLES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       num: STYLES_DEMO[i % STYLES_DEMO.length].num,
       roman: STYLES_DEMO[i % STYLES_DEMO.length].roman,
       label: s.title ?? STYLES_DEMO[i % STYLES_DEMO.length].label,
@@ -1177,7 +1182,7 @@ function ArtistCard({ artist, i }: { artist: Artist; i: number }) {
 
 function ArtistCards() {
   const ARTISTS = resolveList(
-    bp?.team?.map((t: any, i: number) => ({
+    clientTeam(sessionData)?.map((t: any, i: number) => ({
       name: t.name ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].name,
       specialty: t.specialty ?? t.role ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].specialty,
       wait: ARTISTS_DEMO[i % ARTISTS_DEMO.length].wait,
@@ -1531,7 +1536,7 @@ function SafetyPanel() {
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
       name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
       role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
@@ -2234,6 +2239,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2264,6 +2272,7 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

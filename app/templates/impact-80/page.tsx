@@ -7,6 +7,10 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Compass, ArrowUpRight, Plus, Minus } from "lucide-react";
 import { Reveal, ParallaxImg } from "./shared";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 const PROJECTS = [
   {
@@ -196,7 +200,7 @@ export default function SymmetryStudioPage() {
   
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -217,7 +221,7 @@ export default function SymmetryStudioPage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

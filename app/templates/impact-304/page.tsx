@@ -43,6 +43,11 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -222,6 +227,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -271,6 +279,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -298,7 +307,7 @@ export default function Page() {
   ];
   // Prefer the client's real services; keep demo category so tab filtering works.
   const MENU_ITEMS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       category: MENU_DEMO[i % MENU_DEMO.length].category,
       desc: s.description ?? s.desc,
@@ -311,9 +320,9 @@ export default function Page() {
     : MENU_ITEMS.filter(item => item.category === activeCategory);
 
   // Single testimonial block bound to the first real review when available.
-  const featuredReview = bp?.reputation?.featuredReviews?.[0];
+  const featuredReview = clientReviews(sessionData)?.[0];
   const FAQ_ITEMS = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })),
     [{"q":"Quelles sont les majorations de nuit et de week-end ?","a":"Nos tarifs sont majorés de 50% après 19h00 en semaine, et le week-end (samedi/dimanche)."},{"q":"Vos devis sont-ils vraiment gratuits ?","a":"Oui, un devis écrit détaillé vous est présenté avant chaque intervention. Si vous refusez le devis, rien ne vous est facturé hormis le déplacement en cas d'urgence."},{"q":"Travaillez-vous avec les assurances ?","a":"Oui, nos factures de recherche de fuite sont conformes aux demandes de remboursement des compagnies d'assurance habitation."}]
   );
 

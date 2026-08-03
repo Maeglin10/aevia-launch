@@ -8,6 +8,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, ChevronRight, Clock, MapPin, Phone, Mail, Award, Settings } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Nav and footer links all pointed at the template root regardless of their
 // label, leaving the pages below unreachable. Labels come from .map() vars, so
@@ -79,6 +82,9 @@ const timeline = [
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -115,11 +121,12 @@ export default function AtelierMecaniquePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Product collection ← client's business profile (falls back to demo).
   const models = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       movement: s.description ?? models_DEMO[i % models_DEMO.length].movement,
       reserve: models_DEMO[i % models_DEMO.length].reserve,

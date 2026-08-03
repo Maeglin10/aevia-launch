@@ -30,6 +30,12 @@ import {
   Users2,
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -389,6 +395,9 @@ function CountUp({ target, suffix = "", duration = 2 }: { target: number; suffix
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Impact173Page() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -421,6 +430,7 @@ export default function Impact173Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, orange: brand };
@@ -434,7 +444,7 @@ export default function Impact173Page() {
     PROJECTS_DEMO
   );
   const METIERS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       ...METIERS_DEMO[i % METIERS_DEMO.length],
       name: s.title ?? s.name ?? METIERS_DEMO[i % METIERS_DEMO.length].name,
       desc: s.description ?? s.desc ?? METIERS_DEMO[i % METIERS_DEMO.length].desc,
@@ -443,11 +453,11 @@ export default function Impact173Page() {
     METIERS_DEMO
   );
   const CORPS_METIERS = resolveList(
-    bp?.services?.map((s: any, i: number) => s.title ?? s.name ?? CORPS_METIERS_DEMO[i % CORPS_METIERS_DEMO.length]),
+    clientServices(sessionData)?.map((s: any, i: number) => s.title ?? s.name ?? CORPS_METIERS_DEMO[i % CORPS_METIERS_DEMO.length]),
     CORPS_METIERS_DEMO
   );
   const TEAM = resolveList(
-    bp?.team?.map((t: any, i: number) => ({
+    clientTeam(sessionData)?.map((t: any, i: number) => ({
       ...TEAM_DEMO[i % TEAM_DEMO.length],
       name: t.name ?? TEAM_DEMO[i % TEAM_DEMO.length].name,
       role: t.role ?? TEAM_DEMO[i % TEAM_DEMO.length].role,
@@ -458,7 +468,7 @@ export default function Impact173Page() {
     TEAM_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length],
       quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
       name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
@@ -469,7 +479,7 @@ export default function Impact173Page() {
     TESTIMONIALS_DEMO
   );
   const FAQS = resolveList(
-    bp?.faq?.map((f: any, i: number) => ({
+    clientFaq(sessionData)?.map((f: any, i: number) => ({
       q: f.q ?? FAQS_DEMO[i % FAQS_DEMO.length].q,
       a: f.a ?? FAQS_DEMO[i % FAQS_DEMO.length].a,
     })),

@@ -13,6 +13,10 @@ import {
 import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -687,7 +691,7 @@ const LOOKBOOK_DEMO = [
 // Product collections ← client's business profile (falls back to demo).
 function buildProducts(): ProductCard[] {
   return resolveList<ProductCard>(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       image: PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].image,
       subtitle: PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].subtitle,
@@ -868,6 +872,9 @@ type ActivePage =
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function LuxuryJewelryTemplate() {
   const [session, setSession] = useState<{
     formData?: {
@@ -916,12 +923,13 @@ export default function LuxuryJewelryTemplate() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const PRODUCTS = buildProducts();
   const LOOKBOOK = buildLookbook();
   const TESTIMONIALS_LIST = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       text: r.text ?? r.quote,
       name: r.name ?? r.author,
       piece: r.location ?? r.context ?? TESTIMONIALS_DEMO_20[i % TESTIMONIALS_DEMO_20.length].piece,

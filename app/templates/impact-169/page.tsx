@@ -4,6 +4,10 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { Search, User, ArrowRight, BookOpen, Clock, MessageSquare, Check, Link2, Camera, Bookmark, ChevronLeft, ChevronRight, Play } from "lucide-react";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -476,7 +480,7 @@ export default function ImpactFrequencePage() {
 
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -497,7 +501,7 @@ export default function ImpactFrequencePage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

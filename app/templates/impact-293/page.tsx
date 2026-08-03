@@ -43,6 +43,10 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -224,6 +228,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -272,7 +279,8 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
-  const review = bp?.reputation?.featuredReviews?.[0];
+  sessionData = session;
+  const review = clientReviews(sessionData)?.[0];
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -981,7 +989,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(bp?.faq, [{"q":"Quelles farines utilisez-vous ?","a":"Nous utilisons exclusivement la farine de blé tendre type 00 de la maison Caputo, la référence absolue à Naples."},{"q":"La livraison est-elle payante ?","a":"La livraison est gratuite dès 15€ de commande sur Lyon Presqu'île (2e et 1er arrondissements)."},{"q":"Proposez-vous du sans gluten ?","a":"Nos pizzas contiennent du gluten en raison de la farine de blé traditionnelle, mais nous proposons des salades gourmandes adaptées."}] as any[]).map((item: any, i: number) => (
+            {resolveList(clientFaq(sessionData), [{"q":"Quelles farines utilisez-vous ?","a":"Nous utilisons exclusivement la farine de blé tendre type 00 de la maison Caputo, la référence absolue à Naples."},{"q":"La livraison est-elle payante ?","a":"La livraison est gratuite dès 15€ de commande sur Lyon Presqu'île (2e et 1er arrondissements)."},{"q":"Proposez-vous du sans gluten ?","a":"Nos pizzas contiennent du gluten en raison de la farine de blé traditionnelle, mais nous proposons des salades gourmandes adaptées."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,

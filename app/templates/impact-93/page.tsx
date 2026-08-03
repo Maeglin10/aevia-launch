@@ -26,6 +26,10 @@ import { Plane, Globe, Clock, ShieldCheck, Zap, Mail, Phone, ChevronRight, Arrow
 
 import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    DATA STRUCTURES
@@ -179,6 +183,9 @@ function MagneticBtn({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -233,6 +240,7 @@ export default function VelocityJetsPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const TESTIMONIALS_DEMO = [
@@ -253,7 +261,7 @@ export default function VelocityJetsPage() {
     },
   ];
   const AVIS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
       author: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].author,
       location: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].location,
@@ -279,7 +287,7 @@ export default function VelocityJetsPage() {
     },
   ];
   const FAQS = resolveList(
-    bp?.faq?.map((f: any, i: number) => ({
+    clientFaq(sessionData)?.map((f: any, i: number) => ({
       q: f.q ?? FAQS_DEMO[i % FAQS_DEMO.length].q,
       a: f.a ?? FAQS_DEMO[i % FAQS_DEMO.length].a,
     })),

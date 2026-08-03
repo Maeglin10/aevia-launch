@@ -25,6 +25,12 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { TemplateIcon } from '@/components/TemplateIcon';
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -415,7 +421,7 @@ const SERVICES_DEMO = [
 function Services() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
-  const SERVICES = resolveList(bp?.services?.map((s: any, i: number) => ({ icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon, title: s.title ?? s.name, desc: s.description ?? s.desc, tag: s.price ?? SERVICES_DEMO[i % SERVICES_DEMO.length].tag })), SERVICES_DEMO);
+  const SERVICES = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon, title: s.title ?? s.name, desc: s.description ?? s.desc, tag: s.price ?? SERVICES_DEMO[i % SERVICES_DEMO.length].tag })), SERVICES_DEMO);
 
   return (
     <section id="services" ref={ref} style={{ padding: "100px 80px", background: C.bgSection, fontFamily: FONT }}>
@@ -514,7 +520,7 @@ const TEAM_DEMO = [
 ];
 
 function Team() {
-  const TEAM = resolveList(bp?.team?.map((m: any, i: number) => ({ name: m.name, role: m.role, specialty: m.specialty ?? m.credentials, exp: m.experience, initials: m.initials ?? (m.name ?? '').split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase(), color: m.color ?? TEAM_DEMO[i % TEAM_DEMO.length].color })), TEAM_DEMO);
+  const TEAM = resolveList(clientTeam(sessionData)?.map((m: any, i: number) => ({ name: m.name, role: m.role, specialty: m.specialty ?? m.credentials, exp: m.experience, initials: m.initials ?? (m.name ?? '').split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase(), color: m.color ?? TEAM_DEMO[i % TEAM_DEMO.length].color })), TEAM_DEMO);
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
@@ -565,7 +571,7 @@ const TESTIMONIALS_DEMO = [
 function Testimonials() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
-  const TESTIMONIALS = resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({ name: r.name ?? r.author, text: r.text ?? r.quote, stars: r.stars ?? r.rating ?? 5 })), TESTIMONIALS_DEMO);
+  const TESTIMONIALS = resolveList(clientReviews(sessionData)?.map((r: any) => ({ name: r.name ?? r.author, text: r.text ?? r.quote, stars: r.stars ?? r.rating ?? 5 })), TESTIMONIALS_DEMO);
 
   return (
     <section ref={ref} style={{ padding: "100px 80px", background: C.bgSection, fontFamily: FONT }}>
@@ -711,7 +717,7 @@ const FAQS_DEMO = [
 ];
 
 function FAQ() {
-  const FAQS = resolveList(bp?.faq, FAQS_DEMO);
+  const FAQS = resolveList(clientFaq(sessionData), FAQS_DEMO);
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [open, setOpen] = useState<number | null>(null);
@@ -767,6 +773,9 @@ function FAQ() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Impact32() {
   const [session, setSession] = useState<{
     formData?: {
@@ -797,6 +806,7 @@ export default function Impact32() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

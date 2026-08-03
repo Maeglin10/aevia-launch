@@ -7,6 +7,10 @@ import Link from "next/link"
 import { Flame, Thermometer, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle, Wrench, Shield, Zap, Menu, Award } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    THERMOTEK CHAUFFAGE — Chauffagiste professionnel (Bordeaux)
@@ -80,7 +84,7 @@ const SERVICES_DEMO = [
 ]
 
 // Testimonials — hoisted from an inline JSX array literal so resolveList can
-// swap in bp?.reputation?.featuredReviews when the client provided real
+// swap in clientReviews(session) when the client provided real
 // reviews.
 const TEMOIGNAGES_DEMO = [
   { q: "Chaudière tombée en panne un dimanche soir de janvier. Technicien présent en 3h. Pièce remplacée, chaudière repartie. Service au top.", n: "Bernard L.", l: "Bordeaux (33)" },
@@ -135,8 +139,8 @@ export default function ThermotekChauffagePage() {
   // Note: businessProfile is a sibling of formData on SessionData, not
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
-  const services = resolveList(bp?.services, SERVICES_DEMO);
-  const temoignages = resolveList(bp?.reputation?.featuredReviews, TEMOIGNAGES_DEMO);
+  const services = resolveList(clientServices(session), SERVICES_DEMO);
+  const temoignages = resolveList(clientReviews(session), TEMOIGNAGES_DEMO);
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)

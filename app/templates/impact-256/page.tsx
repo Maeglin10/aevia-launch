@@ -12,6 +12,10 @@ import {
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Trophy, Dumbbell, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    FORCE BRUTE — Coach Sportif Personnel & Remise en Forme · Marseille
@@ -986,7 +990,7 @@ function ProgressDot({
 
 function ProgramSequence() {
   const PROGRAMS = resolveList<Program>(
-    bp?.services?.map((s: any, i: number) => {
+    clientServices(sessionData)?.map((s: any, i: number) => {
       const d = PROGRAMS_DEMO[i % PROGRAMS_DEMO.length];
       return {
         id: (d.id ?? 'prog') + '-' + i,
@@ -1212,7 +1216,7 @@ function OfferCard({ offer, i }: { offer: Offer; i: number }) {
 
 function OfferCards() {
   const OFFERS = resolveList<Offer>(
-    bp?.services?.map((s: any, i: number) => {
+    clientServices(sessionData)?.map((s: any, i: number) => {
       const d = OFFERS_DEMO[i % OFFERS_DEMO.length];
       return {
         id: (d.id ?? 'offer') + '-' + i,
@@ -1569,7 +1573,7 @@ function PillarPanel() {
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
   const TESTIMONIALS = resolveList<Testimonial>(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => {
+    clientReviews(sessionData)?.map((r: any, i: number) => {
       const d = TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length];
       return {
         quote: r.text ?? d.quote,
@@ -2160,6 +2164,9 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2209,6 +2216,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

@@ -7,6 +7,10 @@ import Link from "next/link"
 import { Scissors, Star, Phone, MapPin, Clock, Calendar, Sparkles, Heart, ArrowRight, Menu, X } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    ATELIER LÉONIE — Salon de coiffure premium femmes (Paris 16e)
@@ -229,6 +233,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -264,10 +271,11 @@ export default function AtelierLeoniePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
-  const services = resolveList(bp?.services, PRESTATIONS);
-  const testimonials = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
+  const services = resolveList(clientServices(sessionData), PRESTATIONS);
+  const testimonials = resolveList(clientReviews(sessionData), TESTIMONIALS_DEMO);
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)

@@ -34,6 +34,11 @@ import {
   CheckCircle,
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 const Facebook = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -320,7 +325,7 @@ const FAQ_ITEMS_DEMO = [
 function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const FAQ_ITEMS = resolveList(
-    bp?.faq?.map((f: any, i: number) => ({
+    clientFaq(sessionData)?.map((f: any, i: number) => ({
       q: f.q ?? FAQ_ITEMS_DEMO[i % FAQ_ITEMS_DEMO.length].q,
       a: f.a ?? FAQ_ITEMS_DEMO[i % FAQ_ITEMS_DEMO.length].a,
     })),
@@ -385,6 +390,9 @@ function FaqSection() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -420,9 +428,10 @@ export default function Impact94Page() {
 
   fd = session?.formData;
   bp = session?.businessProfile;
+  sessionData = session;
 
   const ARRANGEMENTS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       ...ARRANGEMENTS_DEMO[i % ARRANGEMENTS_DEMO.length],
       id: `svc-${i}`,
       name: s.title ?? s.name ?? ARRANGEMENTS_DEMO[i % ARRANGEMENTS_DEMO.length].name,
@@ -432,7 +441,7 @@ export default function Impact94Page() {
     ARRANGEMENTS_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length],
       name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
       quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,

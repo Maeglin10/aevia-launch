@@ -7,6 +7,10 @@ import Link from "next/link"
 import { Leaf, Sun, Trees, Flower, Phone, Star, MapPin, Clock, CheckCircle, Scissors, Sprout, Droplets, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    JARDINS VIVANTS — Paysagiste & entretien espaces verts (Annecy)
@@ -143,8 +147,8 @@ export default function JardinsVivantsPage() {
   // Note: businessProfile is a sibling of formData on SessionData, not
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
-  const prestations = resolveList(bp?.services, PRESTATIONS_DEMO);
-  const temoignages = resolveList(bp?.reputation?.featuredReviews, TEMOIGNAGES_DEMO);
+  const prestations = resolveList(clientServices(session), PRESTATIONS_DEMO);
+  const temoignages = resolveList(clientReviews(session), TEMOIGNAGES_DEMO);
 
   return (
     <div className="bg-[#fafaf7] text-[#1e2a1c] overflow-x-hidden" style={{ fontFamily: "'Source Sans 3', 'Inter', system-ui, sans-serif" }}>

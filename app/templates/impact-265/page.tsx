@@ -12,6 +12,10 @@ import {
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Scissors } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    L'ATELIER SOIE — Couture & Broderie sur-mesure · Lyon 2e
@@ -1139,7 +1143,7 @@ function PieceCards() {
       </div>
       <div style={grid}>
         {resolveList(
-          bp?.services?.map((s: any, i: number) => ({
+          clientServices(sessionData)?.map((s: any, i: number) => ({
             name: s.title ?? s.name,
             sub: s.description ?? s.desc ?? PIECES_DEMO[i % PIECES_DEMO.length].sub,
           })),
@@ -1528,7 +1532,7 @@ function Testimonials() {
       </div>
       <div style={grid}>
         {resolveList(
-          bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+          clientReviews(sessionData)?.map((r: any, i: number) => ({
             quote: r.text ?? r.quote,
             name: r.name ?? r.author,
             role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
@@ -1600,7 +1604,7 @@ function OrderForm() {
     'Autre',
   ];
   const PIECE_OPTIONS = resolveList(
-    bp?.services?.map((s: any) => s.title ?? s.name),
+    clientServices(sessionData)?.map((s: any) => s.title ?? s.name),
     PIECE_OPTIONS_DEMO
   );
 
@@ -2043,6 +2047,9 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2074,6 +2081,7 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, silk: brand };

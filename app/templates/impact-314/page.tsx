@@ -28,6 +28,11 @@ import {
   Minus
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 const NAV = [
   { l: "Services", h: "#services" },
@@ -408,7 +413,7 @@ export default function Page({ session: initialSession }) {
   // (seeded from generatedContent or the template demo fallbacks).
   const bp = (session as any)?.businessProfile;
   const resolvedServices = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(session)?.map((s: any, i: number) => ({
       title: s.title ?? s.name,
       description: s.description ?? s.desc,
       icon: (services as any[])[i % services.length]?.icon,
@@ -416,7 +421,7 @@ export default function Page({ session: initialSession }) {
     services
   );
   const resolvedTestimonials = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(session)?.map((r: any) => ({
       name: r.name ?? r.author,
       role: r.location ?? r.role,
       text: r.text ?? r.quote,
@@ -425,7 +430,7 @@ export default function Page({ session: initialSession }) {
     testimonials
   );
   const resolvedFaq = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    clientFaq(session)?.map((f: any) => ({ q: f.q, a: f.a })),
     faq
   );
 

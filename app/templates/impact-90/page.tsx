@@ -15,6 +15,11 @@ import Link from "next/link";
 import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, AnchoredBackdrop, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { PanelDrop } from "@/lib/templates/hero-kit-3";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* PanelDrop (v02, the split-screen recording): the whole text panel drops
    like a curtain, contents included, while the photograph changes behind.
@@ -621,7 +626,7 @@ const SERVICES_90_DEMO = [
 
 function ServicesSection() {
   const SERVICES_90 = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       desc: s.description ?? s.desc,
       icon: SERVICES_90_DEMO[i % SERVICES_90_DEMO.length].icon,
@@ -660,7 +665,7 @@ const TESTIMONIALS_90_DEMO = [
 
 function TestimonialsSection() {
   const TESTIMONIALS_90 = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(sessionData)?.map((r: any) => ({
       name: r.name,
       review: r.text,
       origin: r.location ?? "",
@@ -705,7 +710,7 @@ const FAQS_90_DEMO = [
 function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const FAQS_90 = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })),
     FAQS_90_DEMO
   );
   return (
@@ -962,6 +967,9 @@ function ContactSection() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -993,6 +1001,7 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, brown: brand };

@@ -6,6 +6,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { Zap, Target, TrendingUp, Timer, Users, Star, Phone, MapPin, ArrowRight, CheckCircle, Dumbbell, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    MAX PERFORMANCE — Coach sportif personnel (Paris)
@@ -104,7 +108,7 @@ export default function MaxPerformancePage() {
 
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -125,7 +129,7 @@ export default function MaxPerformancePage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

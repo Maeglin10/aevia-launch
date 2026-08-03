@@ -6,6 +6,10 @@ import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { C, FONT, FONT_BODY, STATS, MISSIONS, TEMOIGNAGES, Reveal } from "./shared";
 import { DWELL, useSlides, AnchoredBackdrop, WordFlight, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* WordFlight from the law lab: the headline assembles word by word, one
    mission at a time, while the photograph dissolves behind it. Both images
@@ -81,7 +85,7 @@ export default function LedgerPage() {
 
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -102,7 +106,7 @@ export default function LedgerPage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

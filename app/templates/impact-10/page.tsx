@@ -14,6 +14,10 @@ import {
 } from 'framer-motion';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // ─── Font Loader ─────────────────────────────────────────────────────────────
 const useFonts = () => {
@@ -806,7 +810,7 @@ function StatsBar() {
 // remaining sticky/parallax descendants behave correctly.
 function RoomsSection({ goTo }: { goTo: (p: HotelPage) => void }) {
   const ROOMS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       num: ROOMS_DEMO[i % ROOMS_DEMO.length].num,
       name: s.title ?? s.name,
       size: ROOMS_DEMO[i % ROOMS_DEMO.length].size,
@@ -1011,7 +1015,7 @@ function RoomCard({
 // ─── Experience Section ───────────────────────────────────────────────────────
 function ExperienceSection() {
   const EXPERIENCES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       label: s.title ?? s.name,
       sub: EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].sub,
       desc: s.description ?? s.desc ?? EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].desc,
@@ -1400,7 +1404,7 @@ const TESTIMONIALS_DEMO = [
 
 function TestimonialsSection() {
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
       origin: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].origin,
       text: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].text,
@@ -2035,7 +2039,7 @@ function ChambresPage({ roomSlug, setRoomSlug, goTo }: { roomSlug: string | null
 // ─── SERVICES (hotel experiences), theme card design ──────────────────────────
 function ServicesPage({ goTo }: { goTo: (p: HotelPage) => void }) {
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       glyph: SERVICES_DEMO[i % SERVICES_DEMO.length].glyph,
       label: s.title ?? s.name,
       sub: SERVICES_DEMO[i % SERVICES_DEMO.length].sub,
@@ -2412,6 +2416,9 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function GrandPalaisPage() {
   const [session, setSession] = useState<{
@@ -2461,6 +2468,7 @@ export default function GrandPalaisPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts();

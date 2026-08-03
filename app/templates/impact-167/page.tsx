@@ -12,6 +12,10 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientAreas,
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -761,6 +765,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -796,6 +803,7 @@ export default function Impact167Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25), goldDark: shadeColor(brand, -20) };
@@ -829,8 +837,8 @@ export default function Impact167Page() {
   }, []);
 
   const properties = resolveList(bp?.listings, PROPERTIES_DEMO);
-  const testimonials = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
-  const marqueeItems = resolveList(bp?.geo?.serviceAreas, MARQUEE_ITEMS_DEMO);
+  const testimonials = resolveList(clientReviews(sessionData), TESTIMONIALS_DEMO);
+  const marqueeItems = resolveList(clientAreas(sessionData), MARQUEE_ITEMS_DEMO);
 
   useEffect(() => {
     const interval = setInterval(() => {

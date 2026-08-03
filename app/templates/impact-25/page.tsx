@@ -4,6 +4,10 @@
 import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Code2, Phone, Mail, MapPin, Star, CheckCircle, ArrowRight, Layers, Sparkles, Globe } from "lucide-react"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -170,7 +174,7 @@ export default function PixelRepublicPage() {
 
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -191,7 +195,7 @@ export default function PixelRepublicPage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

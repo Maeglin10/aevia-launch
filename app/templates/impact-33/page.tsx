@@ -24,6 +24,10 @@ import {
 } from "lucide-react";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -518,7 +522,7 @@ function Testimonials() {
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(sessionData)?.map((r: any) => ({
       name: r.name,
       text: r.text,
       stars: r.stars ?? 5,
@@ -658,7 +662,7 @@ function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
 
   const FAQS = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })),
     FAQS_DEMO
   );
 
@@ -713,6 +717,9 @@ function FAQ() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Impact33() {
   const [session, setSession] = useState<{
     formData?: {
@@ -743,6 +750,7 @@ export default function Impact33() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

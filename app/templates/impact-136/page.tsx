@@ -15,6 +15,10 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Play, Maximize, X, Globe, ArrowDown, Sparkles, Command, Eye, Code } from "lucide-react";
 
 import "../premium.css";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    DATA STRUCTURES
@@ -261,7 +265,7 @@ export default function TextRevealPage() {
 
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -282,7 +286,7 @@ export default function TextRevealPage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

@@ -37,6 +37,12 @@ import {
 } from "lucide-react";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 const useFonts = () => {
   useEffect(() => {
@@ -418,10 +424,10 @@ export default function AuraWellnessPage() {
   // Note: businessProfile is a sibling of formData on SessionData, not
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
-  const rituals = resolveList(bp?.services, RITUALS_DEMO);
-  const team = resolveList(bp?.team, TEAM_DEMO);
-  const testimonials = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
-  const faqs = resolveList(bp?.faq, FAQS_DEMO);
+  const rituals = resolveList(clientServices(session), RITUALS_DEMO);
+  const team = resolveList(clientTeam(session), TEAM_DEMO);
+  const testimonials = resolveList(clientReviews(session), TESTIMONIALS_DEMO);
+  const faqs = resolveList(clientFaq(session), FAQS_DEMO);
 
   useFonts();
 

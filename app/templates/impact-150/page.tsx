@@ -18,6 +18,11 @@ import {
   useMotionValue,
   animate,
 } from "framer-motion"
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    DESIGN TOKENS — Ultra-Prestigious Law Firm
@@ -228,10 +233,13 @@ const PARTNERS_DEMO = [
 // components live at module scope, so they read these shared builders which
 // return the client's real data when present, otherwise the demo dataset.
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 function buildPracticeAreas() {
   const D = PRACTICE_AREAS_DEMO;
   return resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       id: s.id ?? `svc-${i}`,
       title: s.title ?? s.name ?? D[i % D.length].title,
       roman: D[i % D.length].roman,
@@ -247,7 +255,7 @@ function buildPracticeAreas() {
 function buildLandmarkCases() {
   const D = LANDMARK_CASES_DEMO;
   return resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       id: `case-${i}`,
       year: D[i % D.length].year,
       title: r.name ?? r.author ?? D[i % D.length].title,
@@ -261,7 +269,7 @@ function buildLandmarkCases() {
 function buildPartners() {
   const D = PARTNERS_DEMO;
   return resolveList(
-    bp?.team?.map((m: any, i: number) => ({
+    clientTeam(sessionData)?.map((m: any, i: number) => ({
       id: `partner-${i}`,
       initials:
         (m.name ?? "")
@@ -2146,6 +2154,7 @@ export default function LegalFirmTemplate() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

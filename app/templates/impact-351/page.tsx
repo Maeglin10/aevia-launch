@@ -8,6 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* Couvreur-zingueur, 1re variante. Signature : HardCutRebuild — la toiture déposée d'un coup puis remontée rang par rang. Sans photographie. */
 
@@ -50,6 +54,9 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
@@ -71,6 +78,7 @@ export default function ToitsDeLoirePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
@@ -83,7 +91,7 @@ export default function ToitsDeLoirePage() {
     couvreur d'Angers. On lit donc aussi `c.services`, que la génération
     produit pour chaque client.
   */
-  const CLIENT_SERVICES = bp?.services ?? c?.services;
+  const CLIENT_SERVICES = clientServices(sessionData);
   const SERVICES = resolveList(
     CLIENT_SERVICES?.map((s: any, n: number) => ({
       titre: s.title ?? SERVICES_DEMO[n % SERVICES_DEMO.length].titre,
@@ -92,7 +100,7 @@ export default function ToitsDeLoirePage() {
     })),
     SERVICES_DEMO
   );
-  const CLIENT_AVIS = bp?.reputation?.featuredReviews ?? c?.testimonials;
+  const CLIENT_AVIS = clientReviews(sessionData);
   const AVIS = resolveList(
     CLIENT_AVIS?.map((r: any, n: number) => ({
       texte: r.text ?? AVIS_DEMO[n % AVIS_DEMO.length].texte,

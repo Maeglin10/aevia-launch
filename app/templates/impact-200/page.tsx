@@ -33,6 +33,10 @@ import {
   Check,
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    CÉRÉMONIE — Wedding Planner (impact-200)
@@ -402,6 +406,9 @@ const MARQUEE_ITEMS = [
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -456,10 +463,11 @@ export default function Impact200Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       title: s.title ?? SERVICES_DEMO[i % SERVICES_DEMO.length].title,
       subtitle: SERVICES_DEMO[i % SERVICES_DEMO.length].subtitle,
       desc: s.description ?? SERVICES_DEMO[i % SERVICES_DEMO.length].desc,
@@ -478,7 +486,7 @@ export default function Impact200Page() {
     GALLERY_ITEMS_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       names: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].names,
       date: TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].date,
       location: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].location,

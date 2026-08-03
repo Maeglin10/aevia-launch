@@ -31,6 +31,11 @@ import {
   Globe,
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -350,6 +355,9 @@ function StatItem({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Impact157Page() {
   const [session, setSession] = useState<{
@@ -399,6 +407,7 @@ export default function Impact157Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand };
@@ -406,7 +415,7 @@ export default function Impact157Page() {
 
   // Product collections ← client's business profile (falls back to demo).
   const COLLECTIONS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       category: s.category ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].category,
       desc: s.description ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].desc,
@@ -418,7 +427,7 @@ export default function Impact157Page() {
     COLLECTIONS_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name ?? r.author,
       location: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].location,
       stars: r.stars ?? r.rating ?? 5,
@@ -428,7 +437,7 @@ export default function Impact157Page() {
     TESTIMONIALS_DEMO
   );
   const FAQS = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
     FAQS_DEMO
   );
 

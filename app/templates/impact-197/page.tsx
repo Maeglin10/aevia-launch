@@ -10,6 +10,11 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -364,6 +369,9 @@ type ActivePage = "home" | "destinations" | "concept" | "formules" | "legal";
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function EvasionDoree() {
   const [session, setSession] = useState<{
     formData?: {
@@ -394,6 +402,7 @@ export default function EvasionDoree() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -421,7 +430,7 @@ export default function EvasionDoree() {
   const NAV_LINKS = ["Destinations", "Services", "Processus", "Avis", "Tarifs"];
 
   const DESTINATIONS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       ...DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length],
       name: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -430,7 +439,7 @@ export default function EvasionDoree() {
     DESTINATIONS_DEMO
   );
   const SERVICES_DETAIL = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: SERVICES_DETAIL_DEMO[i % SERVICES_DETAIL_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -438,7 +447,7 @@ export default function EvasionDoree() {
     SERVICES_DETAIL_DEMO
   );
   const PACKAGES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       ...PACKAGES_DEMO[i % PACKAGES_DEMO.length],
       name: s.title ?? s.name,
       subtitle: s.description ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].subtitle,
@@ -447,7 +456,7 @@ export default function EvasionDoree() {
     PACKAGES_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length],
       name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
       text: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].text,
@@ -456,7 +465,7 @@ export default function EvasionDoree() {
     })),
     TESTIMONIALS_DEMO
   );
-  const FAQS = resolveList(bp?.faq, FAQS_DEMO);
+  const FAQS = resolveList(clientFaq(sessionData), FAQS_DEMO);
 return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100dvh", fontFamily: "'Cormorant Garamond', Georgia, serif", overflowX: "hidden" }}>
       <style>{`

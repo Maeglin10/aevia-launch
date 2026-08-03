@@ -8,12 +8,19 @@ import Link from "next/link";
 import { Leaf, Sun, Wind, Activity, Sparkles } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { Reveal, Counter, MagneticBtn } from "./shared";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -50,6 +57,7 @@ export default function ZenSpaceHome() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null);
@@ -291,7 +299,7 @@ return (
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-stone-200/30">
-            {resolveList(bp?.services?.map((sv: any) => ({ icon: <Leaf className="w-5 h-5" />, name: sv.title ?? sv.name, duration: "", level: "", desc: sv.description ?? sv.desc })), [
+            {resolveList(clientServices(sessionData)?.map((sv: any) => ({ icon: <Leaf className="w-5 h-5" />, name: sv.title ?? sv.name, duration: "", level: "", desc: sv.description ?? sv.desc })), [
               { icon: <Leaf className="w-5 h-5" />, name: "Yin Yoga", duration: "75 min", level: "All levels", desc: "Deep connective tissue release. Long holds, breath synchronization, and complete nervous system reset." },
               { icon: <Sun className="w-5 h-5" />, name: "Vinyasa Flow", duration: "60 min", level: "Intermediate", desc: "Dynamic sequences linking breath to movement. Build heat, strength, and fluid mobility in one practice." },
               { icon: <Wind className="w-5 h-5" />, name: "Breathwork", duration: "45 min", level: "All levels", desc: "Pranayama and coherence breathing protocols for immediate cortisol reduction and clarity of mind." },
@@ -332,7 +340,7 @@ return (
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({ name: r.name ?? r.author, role: r.location ?? "", stars: r.stars ?? r.rating ?? 5, text: r.text ?? r.quote })), [
+            {resolveList(clientReviews(sessionData)?.map((r: any) => ({ name: r.name ?? r.author, role: r.location ?? "", stars: r.stars ?? r.rating ?? 5, text: r.text ?? r.quote })), [
               { name: "Camille R.", role: "Member since 2023", stars: 5, text: "ZenSpace changed my relationship with stress entirely. The Yin sessions are unlike anything I've experienced. Three months in, my therapist noticed the difference before I did." },
               { name: "Antoine M.", role: "Annual membership", stars: 5, text: "I was skeptical about sound baths. Two sessions in and I cancelled my insomnia prescription. The 432Hz environment here is something I can only describe as physical calm." },
               { name: "Sophie L.", role: "Corporate retreat client", stars: 5, text: "We booked ZenSpace for our leadership team after a brutal Q4. The breathwork protocol reduced measurable burnout markers by 40% in our post-retreat survey. We're booking Q2 already." },

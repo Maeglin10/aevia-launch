@@ -26,6 +26,10 @@ import {
   Palette, Camera, Shield, FileText,
   UserCheck, Globe2, AlertCircle, Mail, Check
 } from "lucide-react"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    IVORY ARCHIVE DATASET (ULTRA DENSITY)
@@ -415,7 +419,7 @@ export default function IvoryArchivePremium() {
   
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -436,7 +440,7 @@ export default function IvoryArchivePremium() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

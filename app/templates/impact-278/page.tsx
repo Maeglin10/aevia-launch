@@ -28,6 +28,10 @@ import {
   Flame,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -1038,7 +1042,7 @@ function ServiceCard({ svc, i }: { svc: Service; i: number }) {
 
 function ServicesSection() {
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -1484,7 +1488,7 @@ function TestimonialCard({ t, i }: { t: Testimonial278; i: number }) {
 
 function TestimonialsSection() {
   const TESTIMONIALS278 = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? r.quote,
       name: r.name ?? r.author,
       role: r.location ?? TESTIMONIALS278_DEMO[i % TESTIMONIALS278_DEMO.length].role,
@@ -2805,6 +2809,9 @@ function FooterSection() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 function Impact278Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2835,6 +2842,7 @@ function Impact278Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, brick: brand, brickLight: shadeColor(brand, 25) };

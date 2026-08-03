@@ -21,6 +21,10 @@ import {
   Shield,
 } from 'lucide-react';
 import { resolveList } from '@/lib/templates/resolveList';
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET DENTAIRE ROSENFELD — Dentisterie & Implantologie · Strasbourg
@@ -1136,7 +1140,7 @@ function CareCards() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(bp?.services, CARE_CARDS_DEMO).map((card: any, i: number) => (
+        {resolveList<any>(clientServices(sessionData), CARE_CARDS_DEMO).map((card: any, i: number) => (
           <CareCard key={card.title ?? card.name ?? i} care={card} i={i} />
         ))}
       </div>
@@ -1487,7 +1491,7 @@ function Testimonials() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+        {resolveList<any>(clientReviews(sessionData), TESTIMONIALS_DEMO).map((t: any, i: number) => (
           <Reveal key={t.name ?? t.author ?? i} delay={i * 0.14} style={{ height: '100%' }}>
             <figure
               style={{
@@ -2100,6 +2104,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2148,6 +2155,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

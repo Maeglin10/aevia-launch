@@ -6,6 +6,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { Truck, ArrowRight, Menu, Zap, Globe, Shield, BarChart3, Clock, Package, MapPin, Gauge, MoveRight } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 const SOCIALS = [
   { l: "LinkedIn", h: "https://linkedin.com" },
@@ -106,7 +110,7 @@ export default function VoltLogisticsPage() {
 
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -127,7 +131,7 @@ export default function VoltLogisticsPage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

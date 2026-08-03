@@ -19,6 +19,10 @@ import {
   SectionReveal,
 } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -479,6 +483,9 @@ function WineHero() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function ClosDuSoirPage() {
   const [session, setSession] = useState<{
@@ -510,6 +517,7 @@ export default function ClosDuSoirPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Wine regions ← bp.menu grouped by category (real business menu) else demo
@@ -536,7 +544,7 @@ export default function ClosDuSoirPage() {
   );
 
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name,
       role: TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
       avatar: String(r.name ?? "")
@@ -551,7 +559,7 @@ export default function ClosDuSoirPage() {
     TESTIMONIALS_DEMO
   );
 
-  const FAQS = resolveList(bp?.faq, FAQS_DEMO);
+  const FAQS = resolveList(clientFaq(sessionData), FAQS_DEMO);
 
   return (
     <div style={{ overflowX: "clip", background: C.bg }}>

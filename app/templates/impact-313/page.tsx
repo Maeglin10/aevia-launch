@@ -36,6 +36,11 @@ import {
   Plus
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 const NAV = [
   { l: "Services", h: "#services" },
@@ -386,7 +391,7 @@ export default function PlumberDarkUrgent() {
   // Prefer the client's real business data; fall back to the generatedContent
   // state (already seeded from localStorage) and then the template demo arrays.
   const resolvedServices = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(session)?.map((s: any, i: number) => ({
       title: s.title ?? s.name,
       description: s.description ?? s.desc,
       icon: FALLBACK_SERVICES[i % FALLBACK_SERVICES.length].icon,
@@ -394,7 +399,7 @@ export default function PlumberDarkUrgent() {
     services
   );
   const resolvedTestimonials = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(session)?.map((r: any, i: number) => ({
       name: r.name ?? r.author,
       role: r.location ?? r.role,
       content: r.text ?? r.quote,
@@ -403,7 +408,7 @@ export default function PlumberDarkUrgent() {
     testimonials
   );
   const resolvedFaqs = resolveList(
-    bp?.faq?.map((f: any) => ({ question: f.q, answer: f.a })),
+    clientFaq(session)?.map((f: any) => ({ question: f.q, answer: f.a })),
     FALLBACK_FAQS
   );
 

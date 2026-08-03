@@ -34,6 +34,10 @@ import {
   BarChart2,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Nav and footer links all pointed at the template root regardless of their
 // label, leaving the pages below unreachable. Labels come from .map() vars, so
@@ -1036,7 +1040,7 @@ const PROGRAMS_DEMO = [
 function ProgramsSection() {
   const [hovered, setHovered] = useState<number | null>(null);
   const PROGRAMS = resolveList(
-    bp?.services?.map((s: any, i: number) => {
+    clientServices(sessionData)?.map((s: any, i: number) => {
       const d = PROGRAMS_DEMO[i % PROGRAMS_DEMO.length];
       return {
         icon: d.icon,
@@ -1572,7 +1576,7 @@ const TESTIMONIALS_DEMO = [
 
 function TransformationSection() {
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => {
+    clientReviews(sessionData)?.map((r: any, i: number) => {
       const d = TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length];
       return {
         name: r.name ?? d.name,
@@ -3109,6 +3113,9 @@ function GlobalStyles() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 function Impact276Page() {
   const [session, setSession] = useState<{
@@ -3140,6 +3147,7 @@ function Impact276Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, orange: brand };

@@ -9,6 +9,11 @@ import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, CheckCircle, ChevronRight, Phone, Mail, Clock, Award, Microscope, Shield, FlaskConical, Stethoscope, Sparkles, Star } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientFaq,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 // ─── Fonts ───────────────────────────────────────────────────────────────────
 function useFonts() {
@@ -139,7 +144,7 @@ const FAQ_ITEMS = [
 
 function TraitementsSection() {
   const [active, setActive] = useState(0)
-  const treatments: any[] = resolveList(bp?.services, TREATMENTS_DEMO)
+  const treatments: any[] = resolveList(clientServices(sessionData), TREATMENTS_DEMO)
   const ActiveIcon = treatments[active].icon
   return (
     <div className="bg-[#FAFAF8] py-28 border-t border-[#E8E4DE]">
@@ -267,7 +272,7 @@ function EquipeSection() {
       image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=800&q=80&fit=crop",
     },
   ]
-  const team: any[] = resolveList(bp?.team, TEAM_DEMO)
+  const team: any[] = resolveList(clientTeam(sessionData), TEAM_DEMO)
 
   return (
     <div className="bg-[#FAFAF8] py-28 border-t border-[#E8E4DE]">
@@ -370,7 +375,7 @@ function RdvSection() {
               <select required className="w-full bg-[#FAFAF8] border border-[#D8D0C8] px-4 py-3 text-sm focus:outline-none focus:border-[#181410] transition-colors">
                 <option value="">Sélectionner un traitement...</option>
                 <option>Consultation initiale (bilan complet)</option>
-                {resolveList(bp?.services, TREATMENTS_DEMO).map((t: any, i: number) => <option key={t.id ?? i}>{(t.label ?? t.name)}{t.price ? ` — ${t.price}` : ""}</option>)}
+                {resolveList(clientServices(sessionData), TREATMENTS_DEMO).map((t: any, i: number) => <option key={t.id ?? i}>{(t.label ?? t.name)}{t.price ? ` — ${t.price}` : ""}</option>)}
               </select>
             </div>
 
@@ -666,7 +671,7 @@ function ContactSection() {
 
 function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
-  const faqItems: any[] = resolveList(bp?.faq, FAQ_ITEMS)
+  const faqItems: any[] = resolveList(clientFaq(sessionData), FAQ_ITEMS)
 
   return (
     <section id="faq" className="py-28 bg-[#FAFAF8] border-t border-[#E8E4DE]">
@@ -729,6 +734,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -764,6 +772,7 @@ export default function LumiereCliniquePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()

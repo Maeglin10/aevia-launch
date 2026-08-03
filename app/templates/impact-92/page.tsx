@@ -26,6 +26,10 @@ import { Building2, Key, ShieldCheck, Globe, Star, Mail, Phone, ChevronRight, Ar
 
 import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    DATA STRUCTURES — demo content; resolveList() swaps in businessProfile
@@ -211,6 +215,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -246,6 +253,7 @@ export default function SkylineConciergePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false);
@@ -260,8 +268,8 @@ export default function SkylineConciergePage() {
   }, []);
 
   const listings = resolveList(bp?.listings, LISTINGS_DEMO);
-  const testimonials = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
-  const faqs = resolveList(bp?.faq, FAQ_DEMO);
+  const testimonials = resolveList(clientReviews(sessionData), TESTIMONIALS_DEMO);
+  const faqs = resolveList(clientFaq(sessionData), FAQ_DEMO);
 
   return (
     <div className="premium-theme min-h-dvh bg-[#0a0a0a] text-[#ffffff] font-sans selection:bg-[var(--brand,#c9a96e)] selection:text-black overflow-x-hidden">

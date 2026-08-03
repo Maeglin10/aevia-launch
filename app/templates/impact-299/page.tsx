@@ -43,6 +43,11 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -222,6 +227,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -271,6 +279,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -293,7 +302,7 @@ export default function Page() {
 
   const MENU_ITEMS_DEMO = [{"name": "Séance de Kinésithérapie du Sport", "category": "Rééducation", "desc": "Séance individuelle axée sur la rééducation active et le renforcement.", "price": "30,00 €"}, {"name": "Dry Needling", "category": "Spécialités", "desc": "Technique de puncture sèche pour relâcher les trigger points musculaires.", "price": "45,00 €"}, {"name": "Massage de Récupération Sportive", "category": "Récupération", "desc": "Massage profond pour éliminer les toxines et détendre les muscles fatigués.", "price": "60,00 €"}, {"name": "Strapping & Kinésio-Taping", "category": "Spécialités", "desc": "Application de bandes de soutien pour sécuriser les articulations pendant l'effort.", "price": "20,00 €"}];
   const MENU_ITEMS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       category: MENU_ITEMS_DEMO[i % MENU_ITEMS_DEMO.length].category,
       desc: s.description ?? s.desc,
@@ -312,8 +321,8 @@ export default function Page() {
     }
   };
 
-  const review = bp?.reputation?.featuredReviews?.[0];
-  const faqs = resolveList(bp?.faq, [{"q":"Qu'est-ce que le Dry Needling ?","a":"C'est une technique qui utilise des aiguilles de puncture stériles très fines pour relâcher les tensions musculaires profondes (trigger points). Très efficace pour les sportifs."},{"q":"Faut-il une ordonnance pour consulter ?","a":"Pour bénéficier du remboursement de la Sécurité Sociale, une prescription médicale de kinésithérapie est obligatoire. Pour les bilans de performance, l'ordonnance n'est pas nécessaire."},{"q":"Quelles sont les modalités d'accès au plateau ?","a":"Le plateau de rééducation est accessible uniquement lors de vos séances encadrées par votre kinésithérapeute."}]);
+  const review = clientReviews(sessionData)?.[0];
+  const faqs = resolveList(clientFaq(sessionData), [{"q":"Qu'est-ce que le Dry Needling ?","a":"C'est une technique qui utilise des aiguilles de puncture stériles très fines pour relâcher les tensions musculaires profondes (trigger points). Très efficace pour les sportifs."},{"q":"Faut-il une ordonnance pour consulter ?","a":"Pour bénéficier du remboursement de la Sécurité Sociale, une prescription médicale de kinésithérapie est obligatoire. Pour les bilans de performance, l'ordonnance n'est pas nécessaire."},{"q":"Quelles sont les modalités d'accès au plateau ?","a":"Le plateau de rééducation est accessible uniquement lors de vos séances encadrées par votre kinésithérapeute."}]);
 return (
     <div style={{
       background: C.bg,

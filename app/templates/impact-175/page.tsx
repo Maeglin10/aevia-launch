@@ -12,6 +12,10 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -467,6 +471,9 @@ function ProcessStep({ step, index }: { step: (typeof PROCESS)[0]; index: number
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -503,6 +510,7 @@ export default function Impact175Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, champagne: brand };
@@ -524,7 +532,7 @@ export default function Impact175Page() {
   }, [scrollY]);
 
   const EVENT_TYPES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       ...EVENT_TYPES_DEMO[i % EVENT_TYPES_DEMO.length],
       label: s.title ?? EVENT_TYPES_DEMO[i % EVENT_TYPES_DEMO.length].label,
       title: s.title ?? EVENT_TYPES_DEMO[i % EVENT_TYPES_DEMO.length].title,
@@ -543,7 +551,7 @@ export default function Impact175Page() {
     PAST_EVENTS_DEMO
   );
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
       title: s.title ?? SERVICES_DEMO[i % SERVICES_DEMO.length].title,
       description: s.description ?? SERVICES_DEMO[i % SERVICES_DEMO.length].description,
@@ -551,7 +559,7 @@ export default function Impact175Page() {
     SERVICES_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       text: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].text,
       author: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].author,
       role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,

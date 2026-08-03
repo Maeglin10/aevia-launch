@@ -16,6 +16,10 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Menu, X, ArrowRight, ArrowUpRight, Play, Box, Layers, Cpu, Zap, Maximize, Activity, Code, Orbit, Disc3, Sparkles } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientFaq,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // ─── UTILS & ANIMATION COMPONENTS ─────────────────────────────────────────────
 
@@ -117,6 +121,9 @@ const MANIFEST = {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function MorphStudioPage() {
   const [session, setSession] = useState<{
@@ -166,11 +173,12 @@ export default function MorphStudioPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Client services drive the capability cards; demo id/icon cycle through.
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       id: MANIFEST.services[i % MANIFEST.services.length].id,
       title: s.title ?? s.name,
       icon: MANIFEST.services[i % MANIFEST.services.length].icon,
@@ -189,7 +197,7 @@ export default function MorphStudioPage() {
     MANIFEST.projects
   );
   const FAQS = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
     MANIFEST.faq
   );
 

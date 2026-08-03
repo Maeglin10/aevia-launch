@@ -12,6 +12,10 @@ import {
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, TrendingUp } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    AXIOM CONSEIL — Expert-Comptable & Conseil en Gestion · Bordeaux
@@ -1070,7 +1074,7 @@ function ServiceCard({ svc, i }: { svc: Service; i: number }) {
 
 function ServiceCards() {
   const SERVICES = resolveList(
-    bp?.services?.map((s: any) => ({
+    clientServices(sessionData)?.map((s: any) => ({
       label: s.title ?? s.name,
       desc: s.description ?? s.desc,
     })),
@@ -1444,7 +1448,7 @@ function PillarPanel() {
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? r.quote,
       name: r.name ?? r.author,
       role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
@@ -2089,6 +2093,9 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2120,6 +2127,7 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

@@ -26,6 +26,11 @@ import {
   Activity,
 } from 'lucide-react';
 import { resolveList } from '@/lib/templates/resolveList';
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET DENT'OR — Chirurgien-dentiste & implantologie · Bordeaux Chartrons
@@ -1128,7 +1133,7 @@ function SoinsSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(bp?.services, SOINS_DEMO).map((s: any, i: number) => (
+        {resolveList<any>(clientServices(sessionData), SOINS_DEMO).map((s: any, i: number) => (
           <SoinCard key={s.titre ?? s.name ?? i} soin={s} i={i} />
         ))}
       </div>
@@ -1445,7 +1450,7 @@ function TestimonialsSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(bp?.reputation?.featuredReviews, TEMOIGNAGES_DEMO).map((t: any, i: number) => (
+        {resolveList<any>(clientReviews(sessionData), TEMOIGNAGES_DEMO).map((t: any, i: number) => (
           <Reveal key={t.prenom ?? t.author ?? i} delay={i * 0.10} style={{ height: '100%' }}>
             <figure
               style={{
@@ -2427,7 +2432,7 @@ function EquipeSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(bp?.team, EQUIPE_DEMO).map((m: any, i: number) => (
+        {resolveList<any>(clientTeam(sessionData), EQUIPE_DEMO).map((m: any, i: number) => (
           <MembreCard key={m.nom ?? m.name ?? i} m={m} i={i} />
         ))}
       </div>
@@ -2750,6 +2755,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Impact284Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2798,6 +2806,7 @@ export default function Impact284Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25) };

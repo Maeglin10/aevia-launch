@@ -15,6 +15,10 @@ import {
   STATS,
   TESTIMONIALS,
 } from "./shared";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 
 // Global state variables for subpage compatibility
@@ -73,7 +77,7 @@ export default function NexusPage() {
   
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -94,7 +98,7 @@ export default function NexusPage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

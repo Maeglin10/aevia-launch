@@ -23,6 +23,10 @@ import {
   Star,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -975,7 +979,7 @@ function MotifCard({ m, i }: { m: Motif; i: number }) {
 
 function MotifSection() {
   const MOTIFS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: MOTIFS_DEMO[i % MOTIFS_DEMO.length].icon,
       title: s.title ?? s.name,
       body: s.description ?? s.desc,
@@ -1256,7 +1260,7 @@ const TESTIMONIALS_DEMO: Testi[] = [
 
 function TestimonialsSection() {
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(sessionData)?.map((r: any) => ({
       quote: r.text ?? r.quote,
       name: r.name ?? r.author,
       role: r.role ?? r.context ?? "",
@@ -2546,6 +2550,9 @@ function FootLink({ label, href }: { label: string; href: string }) {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Impact291Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2594,6 +2601,7 @@ export default function Impact291Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, terra: brand, terraLight: shadeColor(brand, 25), terraDark: shadeColor(brand, -20) };

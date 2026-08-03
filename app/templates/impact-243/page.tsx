@@ -26,6 +26,10 @@ import {
   HairlineArrows,
 } from '@/lib/templates/hero-kit-2';
 import { PortalZoom } from '@/lib/templates/hero-kit-3';
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. ÉLODIE BEAUMONT — Cabinet médecine générale & préventive · Strasbourg
@@ -1225,7 +1229,7 @@ function ConsultationCards() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(bp?.services, CONSULTATIONS_DEMO).map((c: any, i: number) => (
+        {resolveList<any>(clientServices(sessionData), CONSULTATIONS_DEMO).map((c: any, i: number) => (
           <ConsultationCard key={c.title ?? c.name ?? i} c={c} i={i} />
         ))}
       </div>
@@ -1685,7 +1689,7 @@ function Testimonials() {
         </Reveal>
       </div>
       <div style={grid} className="eb-testgrid">
-        {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+        {resolveList<any>(clientReviews(sessionData), TESTIMONIALS_DEMO).map((t: any, i: number) => (
           <TestimonialCard key={t.name ?? t.author ?? i} t={t} i={i} />
         ))}
       </div>
@@ -2220,6 +2224,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2250,6 +2257,7 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

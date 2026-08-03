@@ -38,6 +38,11 @@ import {
   Zap
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -132,6 +137,9 @@ function Button({ children, onClick, filled = false, type = 'button' }: { childr
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 
 const SERVICES_DEMO = [
@@ -194,6 +202,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -213,7 +222,7 @@ export default function Page() {
   const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); if (formData.name && formData.email) setFormSubmitted(true); };
 
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -221,7 +230,7 @@ export default function Page() {
     SERVICES_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name ?? r.author,
       role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
       text: r.text ?? r.quote,
@@ -497,7 +506,7 @@ export default function Page() {
             </Reveal>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {resolveList(bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })), [
+            {resolveList(clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })), [
               { q: "Quelle est la durée minimum d'engagement ?", a: "Nos contrats sont flexibles. Nous proposons des engagements de 3, 6 ou 12 mois avec des conditions avantageuses pour les contrats annuels. Un préavis de 30 jours suffit." },
               { q: "Intervenez-vous en dehors des heures de bureau ?", a: "Oui, nos équipes s'adaptent à vos horaires : interventions matinales dès 5h, en soirée après 19h ou le week-end. Aucun supplément pour les créneaux standards hors bureau." },
               { q: "Comment gérez-vous les accès et la sécurité ?", a: "Chaque agent signe une clause de confidentialité. Nous gérons les badges, clés et protocoles d'accès en coordination avec votre responsable sécurité." },

@@ -32,6 +32,12 @@ import {
   Users,
   Check,
 } from "lucide-react"
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -284,7 +290,7 @@ function BookingModalProvider({ children }: { children: React.ReactNode }) {
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
 
-  const services: any[] = resolveList(bp?.services, SERVICES_DEMO)
+  const services: any[] = resolveList(clientServices(sessionData), SERVICES_DEMO)
 
   const open = useCallback((opts?: BookingOpenOptions) => {
     setService(opts?.service ?? "")
@@ -949,7 +955,7 @@ function PortfolioSection() {
    ========================================================================== */
 function ServicesSection() {
   const { open } = useBookingModal()
-  const services: any[] = resolveList(bp?.services, SERVICES_DEMO)
+  const services: any[] = resolveList(clientServices(sessionData), SERVICES_DEMO)
   return (
     <section className="py-[100px] bg-white" id="services">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
@@ -1039,7 +1045,7 @@ function ServicesSection() {
    ========================================================================== */
 function ArtistesSection() {
   const { open } = useBookingModal()
-  const artists: any[] = resolveList(bp?.team, ARTISTS_DEMO)
+  const artists: any[] = resolveList(clientTeam(sessionData), ARTISTS_DEMO)
   return (
     <section className="py-[100px] bg-gradient-to-b from-[#FCE7F3] to-[#FDF2F8]" id="artistes">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
@@ -1244,7 +1250,7 @@ function BrandsSection() {
    ========================================================================== */
 function TestimonialsSection() {
   const [active, setActive] = useState(0)
-  const testimonials: any[] = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO)
+  const testimonials: any[] = resolveList(clientReviews(sessionData), TESTIMONIALS_DEMO)
 
   useEffect(() => {
     const t = setInterval(() => setActive((p) => (p + 1) % testimonials.length), 5000)
@@ -1668,7 +1674,7 @@ const FAQS_88 = [
 
 function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const faqs: any[] = resolveList(bp?.faq, FAQS_88)
+  const faqs: any[] = resolveList(clientFaq(sessionData), FAQS_88)
   return (
     <section className="py-[100px] bg-white border-b border-[rgba(236,72,153,0.08)]" id="faq">
       <div className="max-w-[800px] mx-auto px-6">
@@ -1825,6 +1831,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -1860,6 +1869,7 @@ export default function Impact88Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };

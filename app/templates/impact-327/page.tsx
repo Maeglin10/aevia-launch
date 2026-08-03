@@ -8,6 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { ExpandFrame } from "@/lib/templates/hero-kit-2";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* Cuisiniste / agencement sur mesure — donneur : impact-230 (Atelier du Bois).
    Signature : ExpandFrame. Le cadre qui s'ouvre du plan à la pièce : chaque
@@ -111,6 +115,9 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
@@ -131,13 +138,14 @@ export default function LignesEtBoisPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
   }
 
   const PRESTATIONS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       titre: s.title ?? PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length].titre,
       desc: s.description ?? PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length].desc,
       tag: PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length].tag,
@@ -145,7 +153,7 @@ export default function LignesEtBoisPage() {
     PRESTATIONS_DEMO
   );
   const AVIS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       texte: r.text ?? AVIS_DEMO[i % AVIS_DEMO.length].texte,
       auteur: r.name ?? AVIS_DEMO[i % AVIS_DEMO.length].auteur,
       detail: r.location ?? AVIS_DEMO[i % AVIS_DEMO.length].detail,

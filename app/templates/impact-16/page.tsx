@@ -10,6 +10,9 @@ import Link from "next/link"
 import { Menu, X, ArrowRight, Camera, Eye, Award, ChevronRight, MapPin, Mail, Tag, Star, Heart, CheckCircle2, Loader2 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -72,6 +75,9 @@ type ActivePage = "home" | "portfolio" | "services" | "propos" | "legal"
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée que
+// fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -137,6 +143,7 @@ export default function ObscuraPage() {
   });
   c = session?.generatedContent;
   bp = bpLocal;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()
@@ -514,7 +521,7 @@ function QuoteModal({ service, onClose }: { service: string; onClose: () => void
 
 function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
       from: s.price ?? SERVICES_DEMO[i % SERVICES_DEMO.length].from,

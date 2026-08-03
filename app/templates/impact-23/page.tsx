@@ -7,6 +7,9 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Menu, X, ArrowRight, Film, Camera, ChevronRight, Award, Globe, Users, Play, Clock, Clapperboard, Sparkles, MonitorPlay, PenLine, Video, Layers, Star, MapPin, Mail } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 type ActivePage = "home" | "films" | "services" | "propos" | "legal";
 
@@ -117,6 +120,9 @@ const filmsCatalogue = [
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -171,11 +177,12 @@ export default function StudioPelikanPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Real client services (from the brief) replace the demo list when present.
   const services = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
     })),

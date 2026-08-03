@@ -43,6 +43,11 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -222,6 +227,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -271,6 +279,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -293,7 +302,7 @@ export default function Page() {
 
   const MENU_ITEMS_DEMO = [{"name": "Pack Création d'Entreprise", "category": "Création", "desc": "Choix du statut juridique, rédaction des statuts, dépôt au greffe.", "price": "350,00 €"}, {"name": "Tenue Comptable Mensuelle", "category": "Comptabilité", "desc": "Saisie des pièces, rapprochement bancaire, déclarations de TVA incluses.", "price": "99,00 € / mois"}, {"name": "Déclaration Fiscale Annuelle", "category": "Fiscalité", "desc": "Établissement du bilan, compte de résultat et liasse fiscale.", "price": "400,00 €"}];
   const MENU_ITEMS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       category: MENU_ITEMS_DEMO[i % MENU_ITEMS_DEMO.length].category,
       desc: s.description ?? s.desc,
@@ -940,13 +949,13 @@ return (
                 position: 'relative',
                 zIndex: 2
               }}>
-                "{bp?.reputation?.featuredReviews?.[0]?.text ?? "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."}"
+                "{clientReviews(sessionData)?.[0]?.text ?? "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."}"
               </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 12 }}>
                 {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
               </div>
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
-                {bp?.reputation?.featuredReviews?.[0]?.name
+                {clientReviews(sessionData)?.[0]?.name
                   ? `${bp.reputation.featuredReviews[0].name}${bp.reputation.featuredReviews[0].location ? " · " + bp.reputation.featuredReviews[0].location : ""}`
                   : "Marie Lauret · Bordeaux"}
               </div>
@@ -974,7 +983,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Quels outils logiciels fournissez-vous ?","a":"Chaque forfait intègre un accès à notre application partenaire Penylane permettant de prendre en photo vos factures et de suivre votre trésorerie en temps réel."},{"q":"Comment s'effectue la transition depuis mon ancien comptable ?","a":"Nous nous occupons de tout. Nous envoyons la lettre de résiliation à votre ancien cabinet et récupérons vos historiques sans coupure."},{"q":"Puis-je vous rencontrer physiquement à Toulouse ?","a":"Absolument. Nos bureaux sont basés à Toulouse, vous pouvez y prendre rendez-vous pour des points fiscaux réguliers."}]).map((item, i) => (
+            {resolveList(clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Quels outils logiciels fournissez-vous ?","a":"Chaque forfait intègre un accès à notre application partenaire Penylane permettant de prendre en photo vos factures et de suivre votre trésorerie en temps réel."},{"q":"Comment s'effectue la transition depuis mon ancien comptable ?","a":"Nous nous occupons de tout. Nous envoyons la lettre de résiliation à votre ancien cabinet et récupérons vos historiques sans coupure."},{"q":"Puis-je vous rencontrer physiquement à Toulouse ?","a":"Absolument. Nos bureaux sont basés à Toulouse, vous pouvez y prendre rendez-vous pour des points fiscaux réguliers."}]).map((item, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,

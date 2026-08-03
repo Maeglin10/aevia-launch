@@ -12,6 +12,10 @@ import {
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, MapPin, Quote, Trophy } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    KINESPORT ÉLITE — Kinésithérapie du Sport & Rééducation · Paris 15e
@@ -1136,7 +1140,7 @@ function SpecialtyCards() {
     maxWidth: 1280,
     margin: '0 auto',
   };
-  const specialties = resolveList<any>(bp?.services, SPECIALTIES_DEMO);
+  const specialties = resolveList<any>(clientServices(sessionData), SPECIALTIES_DEMO);
   return (
     <section id="contact" style={sec}>
       <div style={{ maxWidth: 1280, margin: '0 auto 56px' }}>
@@ -1512,7 +1516,7 @@ function Testimonials() {
     maxWidth: 1220,
     margin: '0 auto',
   };
-  const testimonials = resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
+  const testimonials = resolveList<any>(clientReviews(sessionData), TESTIMONIALS_DEMO);
   return (
     <section id="about" style={sec}>
       <div style={{ maxWidth: 1220, margin: '0 auto 60px', textAlign: 'center' }}>
@@ -2151,6 +2155,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2181,6 +2188,7 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

@@ -28,6 +28,11 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. SOPHIE RENARD — Médecin généraliste · Lyon 3e
@@ -1165,7 +1170,7 @@ function PracticeSection() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {resolveList<any>(bp?.services, PRACTICES_DEMO).map((p: any, i: number) => (
+            {resolveList<any>(clientServices(sessionData), PRACTICES_DEMO).map((p: any, i: number) => (
               <Reveal key={p.title ?? p.name ?? i} delay={0.06 * i}>
                 <div
                   style={{
@@ -1306,7 +1311,7 @@ function TestimonialsSection() {
       </div>
 
       <div style={grid}>
-        {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+        {resolveList<any>(clientReviews(sessionData), TESTIMONIALS_DEMO).map((t: any, i: number) => (
           <TestimonialCard key={t.name ?? t.author ?? i} testimonial={t} index={i} />
         ))}
       </div>
@@ -1750,7 +1755,7 @@ function TeamSection() {
       </div>
 
       <div style={grid} className="r274-team-grid">
-        {resolveList<TeamMember>(bp?.team, TEAM_MEMBERS_DEMO).map((m: TeamMember, i: number) => (
+        {resolveList<TeamMember>(clientTeam(sessionData), TEAM_MEMBERS_DEMO).map((m: TeamMember, i: number) => (
           <TeamCard key={m.name ?? i} member={m} index={i} />
         ))}
       </div>
@@ -2673,6 +2678,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Impact274Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2721,6 +2729,7 @@ export default function Impact274Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, sage: brand };

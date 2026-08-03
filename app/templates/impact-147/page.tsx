@@ -14,6 +14,11 @@ import {
   SlideIndex,
   HairlineArrows,
 } from "@/lib/templates/hero-kit-2"
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 /* The old hero was a fake terminal typing to itself — a gadget, and the one
    part of the page that looked free. WordFlight + ExpandFrame from the law
@@ -154,6 +159,9 @@ function GridBackground() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function VanguardLegalPage() {
   const [session, setSession] = useState<{
@@ -185,6 +193,7 @@ export default function VanguardLegalPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)
@@ -257,7 +266,7 @@ export default function VanguardLegalPage() {
             </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/5">
-              {resolveList(bp?.services?.map((s: any, i: number) => ({ icon: [Radar, Lock, Eye][i % 3], t: s.title ?? s.name, d: s.description ?? s.desc })), [
+              {resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ icon: [Radar, Lock, Eye][i % 3], t: s.title ?? s.name, d: s.description ?? s.desc })), [
                 { icon: Radar, t: "Asset Intelligence", d: "Deep-web tracing and forensic accounting to locate misappropriated holdings globally." },
                 { icon: Lock, t: "Extraction Strategy", d: "Surgical legal maneuvers to freeze and extract assets across complex jurisdictions." },
                 { icon: Eye, t: "Privacy Cloaking", d: "Digital erasure and physical security protocols to ensure your movements remain invisible." }
@@ -392,7 +401,7 @@ export default function VanguardLegalPage() {
               </h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[var(--brand,#00ff41)]/5">
-              {resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({ quote: r.text ?? r.quote, handle: r.name ?? r.author, org: r.location ?? r.context ?? "" })), [
+              {resolveList(clientReviews(sessionData)?.map((r: any) => ({ quote: r.text ?? r.quote, handle: r.name ?? r.author, org: r.location ?? r.context ?? "" })), [
                 { quote: "Our red team couldn't find a single gap after deployment. The threat graph identified a lateral movement path we had missed for two years. Mission critical.", handle: "// SEC_LEAD_ORION", org: "Fortune 500 · Financial Sector" },
                 { quote: "Six ransomware attempts blocked in 90 days. Zero successful intrusions. The AI intercepts attacks before our SOC analysts even see the alert.", handle: "// CISO_MERIDIAN", org: "Critical Infrastructure" },
                 { quote: "We replaced four separate tools with this single platform. Coverage increased 40%, cost dropped 60%. The ROI conversation with the board was the easiest I've had.", handle: "// INFOSEC_VOSS", org: "Global SaaS · Series C" },
@@ -422,7 +431,7 @@ export default function VanguardLegalPage() {
               </h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-[var(--brand,#00ff41)]/5">
-              {resolveList(bp?.team?.map((tm: any, i: number) => ({ handle: (["WRAITH", "CIPHER", "GHOST", "SPECTER"][i % 4]), name: tm.name, role: tm.role ?? tm.specialty ?? "", clearance: (["ALPHA", "BRAVO", "CHARLIE"][i % 3]), years: tm.credentials ?? "" })), [
+              {resolveList(clientTeam(sessionData)?.map((tm: any, i: number) => ({ handle: (["WRAITH", "CIPHER", "GHOST", "SPECTER"][i % 4]), name: tm.name, role: tm.role ?? tm.specialty ?? "", clearance: (["ALPHA", "BRAVO", "CHARLIE"][i % 3]), years: tm.credentials ?? "" })), [
                 { handle: "WRAITH", name: "Elara Voss", role: "Threat Intelligence", clearance: "ALPHA", years: "14yr" },
                 { handle: "CIPHER", name: "Ryo Tanaka", role: "Offensive Security", clearance: "BRAVO", years: "11yr" },
                 { handle: "GHOST", name: "Omar Al Farsi", role: "AI/ML Defense", clearance: "ALPHA", years: "9yr" },

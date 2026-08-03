@@ -26,12 +26,20 @@ import {
   faqs as faqs_DEMO,
 } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function EchoChamberPage() {
   const [session, setSession] = useState<{
@@ -63,12 +71,13 @@ export default function EchoChamberPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Client service offerings drive the studios showcase; demo colour/size/features
   // cycle through so each tab stays visually complete.
   const homeStudios = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name ?? homeStudios_DEMO[i % homeStudios_DEMO.length].name,
       size: s.price ?? homeStudios_DEMO[i % homeStudios_DEMO.length].size,
       desc: s.description ?? s.desc ?? homeStudios_DEMO[i % homeStudios_DEMO.length].desc,
@@ -78,7 +87,7 @@ export default function EchoChamberPage() {
     homeStudios_DEMO
   );
   const testimonials = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name ?? r.author,
       role: r.location ?? r.role ?? testimonials_DEMO[i % testimonials_DEMO.length].role,
       text: r.text ?? r.quote,
@@ -88,7 +97,7 @@ export default function EchoChamberPage() {
     testimonials_DEMO
   );
   const faqs = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
     faqs_DEMO
   );
 

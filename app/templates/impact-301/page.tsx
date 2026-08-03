@@ -43,6 +43,11 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -235,6 +240,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -284,13 +292,14 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
   }
 
   const MENU_ITEMS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       category: SERVICES_DEMO[i % SERVICES_DEMO.length].category,
       desc: s.description ?? s.desc,
@@ -299,7 +308,7 @@ export default function Page() {
     SERVICES_DEMO
   );
   const FAQ = resolveList(
-    bp?.faq?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
     FAQ_DEMO
   );
 
@@ -957,7 +966,7 @@ export default function Page() {
                 position: 'relative',
                 zIndex: 2
               }}>
-                {bp?.reputation?.featuredReviews?.[0]?.text
+                {clientReviews(sessionData)?.[0]?.text
                   ? `"${bp.reputation.featuredReviews[0].text}"`
                   : "\"Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide.\""}
               </p>
@@ -965,7 +974,7 @@ export default function Page() {
                 {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
               </div>
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
-                {bp?.reputation?.featuredReviews?.[0]?.name ?? "Marie Lauret"}{" · "}{bp?.reputation?.featuredReviews?.[0]?.location ?? "Bordeaux"}
+                {clientReviews(sessionData)?.[0]?.name ?? "Marie Lauret"}{" · "}{clientReviews(sessionData)?.[0]?.location ?? "Bordeaux"}
               </div>
             </div>
           </Reveal>

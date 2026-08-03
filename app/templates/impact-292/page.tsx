@@ -43,6 +43,10 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+} from "@/lib/templates/clientContent";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -228,6 +232,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -277,7 +284,8 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
-  const review = bp?.reputation?.featuredReviews?.[0];
+  sessionData = session;
+  const review = clientReviews(sessionData)?.[0];
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -1033,7 +1041,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(bp?.faq, [{"q":"Quelles sont vos zones de livraison ?","a":"Nous livrons principalement dans le 9e, 2e, 10e et 18e arrondissements de Paris. Vous pouvez aussi commander en Click & Collect."},{"q":"Proposez-vous des options végétariennes ?","a":"Oui, notre Veggie Green est disponible sur place et à la livraison, et vous pouvez remplacer la viande par un patty végétal sur tous nos burgers."},{"q":"D'où vient votre viande ?","a":"Notre bœuf est 100% origine France, de race Aubrac ou Limousine, fourni par une boucherie partenaire du 9e arrondissement."}] as any[]).map((item: any, i: number) => (
+            {resolveList(clientFaq(sessionData), [{"q":"Quelles sont vos zones de livraison ?","a":"Nous livrons principalement dans le 9e, 2e, 10e et 18e arrondissements de Paris. Vous pouvez aussi commander en Click & Collect."},{"q":"Proposez-vous des options végétariennes ?","a":"Oui, notre Veggie Green est disponible sur place et à la livraison, et vous pouvez remplacer la viande par un patty végétal sur tous nos burgers."},{"q":"D'où vient votre viande ?","a":"Notre bœuf est 100% origine France, de race Aubrac ou Limousine, fourni par une boucherie partenaire du 9e arrondissement."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,

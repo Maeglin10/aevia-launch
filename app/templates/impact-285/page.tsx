@@ -33,6 +33,11 @@ import {
   Users,
 } from 'lucide-react';
 import { resolveList } from '@/lib/templates/resolveList';
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. MARC LECOMTE — Médecin généraliste & médecine du voyage · Nantes Centre
@@ -1188,7 +1193,7 @@ function ConsultationSection() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {resolveList<any>(bp?.services, CONSULT_TYPES_DEMO).map((ct: any, i: number) => (
+            {resolveList<any>(clientServices(sessionData), CONSULT_TYPES_DEMO).map((ct: any, i: number) => (
               <Reveal key={ct.num ?? ct.titre ?? ct.name ?? i} delay={0.05 * i}>
                 <div
                   style={{
@@ -1428,7 +1433,7 @@ function TestimonialsSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+        {resolveList<any>(clientReviews(sessionData), TESTIMONIALS_DEMO).map((t: any, i: number) => (
           <TestimonialCard key={t.name ?? t.author ?? i} t={t} i={i} />
         ))}
       </div>
@@ -2425,7 +2430,7 @@ function TeamSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(bp?.team, TEAM_DEMO).map((member: any, i: number) => (
+        {resolveList<any>(clientTeam(sessionData), TEAM_DEMO).map((member: any, i: number) => (
           <TeamMemberCard key={member.nom ?? member.name ?? i} member={member} i={i} />
         ))}
       </div>
@@ -2712,6 +2717,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 function Impact285Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2742,6 +2750,7 @@ function Impact285Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, salmon: brand, salmonLight: shadeColor(brand, 25) };

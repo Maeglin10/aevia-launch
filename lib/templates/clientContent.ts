@@ -1,0 +1,214 @@
+/**
+ * Le contrat de lecture des thèmes : une forme unique par bloc, quelle que soit
+ * la provenance de la donnée.
+ *
+ * Trois vocabulaires coexistent pour les mêmes idées.
+ *
+ *   businessProfile.services          { name, price, duration, description }
+ *   generatedContent.services         { title, description }
+ *
+ *   businessProfile…featuredReviews   { author, text, rating, source }
+ *   generatedContent.testimonials     { name, role, text, rating }
+ *
+ * Les thèmes lisaient l'un ou l'autre au hasard. impact-351 lisait `s.title` et
+ * `r.name` : les services saisis par le client tombaient donc systématiquement
+ * sur le titre de démonstration, et ses avis sur l'auteur de démonstration —
+ * silencieusement, puisque `undefined` déclenche le repli sans erreur. Ce
+ * module est le seul endroit qui connaît les trois vocabulaires.
+ *
+ * L'ordre est toujours le même : donnée du client, puis contenu généré, puis
+ * rien. Le repli sur la démonstration reste au thème, qui seul sait quoi
+ * afficher à la place.
+ */
+
+export interface ClientService {
+  title: string;
+  desc: string;
+  /** Tel que saisi : un montant, une fourchette ou « sur devis ». */
+  price?: string;
+  duration?: string;
+  /*
+    Les deux vocabulaires sont émis ensemble, à dessein. 318 thèmes lisent
+    `s.title` et 136 lisent `s.name` ; 182 lisent `r.name` et 76 `r.author`.
+    Réécrire ces 700 lectures reviendrait à toucher chaque section de chaque
+    fichier pour un gain nul et un risque réel. On publie donc les alias : la
+    bascule d'un thème vers le contrat ne change qu'une ligne, celle de la
+    source.
+  */
+  name: string;
+  description: string;
+}
+
+export interface ClientReview {
+  text: string;
+  author: string;
+  /** Ville, plateforme ou rôle — ce qui donne du poids à l'avis. */
+  detail?: string;
+  rating?: number;
+  /** Alias : voir la note sur ClientService. `stars` est lu par neuf thèmes. */
+  name: string;
+  role?: string;
+  location?: string;
+  source?: string;
+  stars?: number;
+}
+
+export interface ClientStat {
+  value: string;
+  label: string;
+}
+
+export interface ClientMember {
+  name: string;
+  role: string;
+  photoUrl?: string;
+}
+
+export interface ClientFaq {
+  q: string;
+  a: string;
+}
+
+/** Ce qu'un thème reçoit de `/api/sessions`. Volontairement permissif. */
+interface SessionLike {
+  formData?: any;
+  generatedContent?: any;
+  businessProfile?: any;
+}
+
+const trimmed = (v: unknown): string => (typeof v === "string" ? v.trim() : "");
+
+/** Écarte les entrées vides plutôt que d'afficher une carte sans titre. */
+function keep<T>(rows: T[], has: (row: T) => boolean): T[] | undefined {
+  const out = rows.filter(has);
+  return out.length > 0 ? out : undefined;
+}
+
+/** Construit une prestation en publiant les deux vocabulaires. */
+function service(title: string, desc: string, price?: string, duration?: string): ClientService {
+  return { title, desc, price, duration, name: title, description: desc };
+}
+
+/** Idem pour un avis. */
+function review(text: string, author: string, detail?: string, rating?: number): ClientReview {
+  return {
+    text,
+    author,
+    detail,
+    rating,
+    name: author,
+    role: detail,
+    location: detail,
+    source: detail,
+    stars: rating,
+  };
+}
+
+export function clientServices(s: SessionLike | null | undefined): ClientService[] | undefined {
+  const own = (s?.businessProfile?.services ?? []) as any[];
+  const fromProfile = keep(
+    own.map((r) => service(
+      trimmed(r?.name) || trimmed(r?.title),
+      trimmed(r?.description) || trimmed(r?.desc),
+      trimmed(r?.price) || undefined,
+      trimmed(r?.duration) || undefined,
+    )),
+    (r) => Boolean(r.title),
+  );
+  if (fromProfile) return fromProfile;
+
+  const gen = (s?.generatedContent?.services ?? []) as any[];
+  return keep(
+    gen.map((r) =>
+      service(trimmed(r?.title) || trimmed(r?.name), trimmed(r?.description) || trimmed(r?.desc)),
+    ),
+    (r) => Boolean(r.title),
+  );
+}
+
+export function clientReviews(s: SessionLike | null | undefined): ClientReview[] | undefined {
+  const own = (s?.businessProfile?.reputation?.featuredReviews ?? []) as any[];
+  const fromProfile = keep(
+    own.map((r) =>
+      review(
+        trimmed(r?.text),
+        trimmed(r?.author) || trimmed(r?.name),
+        trimmed(r?.source) || trimmed(r?.location) || trimmed(r?.role) || undefined,
+        typeof r?.rating === "number" ? r.rating : undefined,
+      ),
+    ),
+    (r) => Boolean(r.text),
+  );
+  if (fromProfile) return fromProfile;
+
+  // Les témoignages générés restent un repli : le client a demandé qu'ils ne
+  // disparaissent pas, mais les siens passent devant.
+  const gen = (s?.generatedContent?.testimonials ?? []) as any[];
+  return keep(
+    gen.map((r) =>
+      review(
+        trimmed(r?.text),
+        trimmed(r?.name) || trimmed(r?.author),
+        trimmed(r?.role) || trimmed(r?.source) || undefined,
+        typeof r?.rating === "number" ? r.rating : undefined,
+      ),
+    ),
+    (r) => Boolean(r.text),
+  );
+}
+
+export function clientStats(s: SessionLike | null | undefined): ClientStat[] | undefined {
+  const rows = (s?.businessProfile?.keyStats ?? []) as any[];
+  return keep(
+    rows.map((r) => ({ value: trimmed(r?.value), label: trimmed(r?.label) })),
+    (r) => Boolean(r.value),
+  );
+}
+
+export function clientCertifications(s: SessionLike | null | undefined): string[] | undefined {
+  const rows = (s?.businessProfile?.certifications ?? []) as any[];
+  return keep(rows.map(trimmed), Boolean);
+}
+
+export function clientFaq(s: SessionLike | null | undefined): ClientFaq[] | undefined {
+  const rows = (s?.businessProfile?.faq ?? []) as any[];
+  return keep(
+    rows.map((r) => ({ q: trimmed(r?.q), a: trimmed(r?.a) })),
+    (r) => Boolean(r.q),
+  );
+}
+
+export function clientTeam(s: SessionLike | null | undefined): ClientMember[] | undefined {
+  const rows = (s?.businessProfile?.team ?? []) as any[];
+  return keep(
+    rows.map((r) => ({
+      name: trimmed(r?.name),
+      role: trimmed(r?.role),
+      photoUrl: trimmed(r?.photoUrl) || undefined,
+    })),
+    (r) => Boolean(r.name),
+  );
+}
+
+export function clientAreas(s: SessionLike | null | undefined): string[] | undefined {
+  const rows = (s?.businessProfile?.geo?.serviceAreas ?? []) as any[];
+  return keep(rows.map(trimmed), Boolean);
+}
+
+/** Le nom de l'entreprise, tel qu'il doit apparaître partout. */
+export function clientName(s: SessionLike | null | undefined): string | undefined {
+  return trimmed(s?.formData?.businessName) || undefined;
+}
+
+/** La ville, pour les sur-titres du genre « Couvreur-zingueur · Lyon ». */
+export function clientCity(s: SessionLike | null | undefined): string | undefined {
+  return (
+    trimmed(s?.formData?.city) || trimmed(s?.businessProfile?.geo?.primaryCity) || undefined
+  );
+}
+
+/** Les photos du client. Jamais de photo de stock à la place. */
+export function clientPhotos(s: SessionLike | null | undefined): string[] {
+  const rows = (s?.formData?.photoUrls ?? []) as any[];
+  return rows.map(trimmed).filter(Boolean);
+}

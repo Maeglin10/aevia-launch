@@ -7,6 +7,11 @@ import Link from "next/link"
 import { Dumbbell, ArrowRight, Menu, Star, MapPin, Clock, Users, Flame, ChevronRight, Heart, Trophy, Target, Zap, CheckCircle2 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -56,6 +61,9 @@ const PLANS = [
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -110,11 +118,12 @@ export default function ApexFitnessPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Real client programs (services) when provided, else template demo lineup.
   const PROGRAMS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       title: s.title ?? s.name ?? PROGRAMS_DEMO[i % PROGRAMS_DEMO.length].title,
       type: s.price ?? PROGRAMS_DEMO[i % PROGRAMS_DEMO.length].type,
       duration: PROGRAMS_DEMO[i % PROGRAMS_DEMO.length].duration,
@@ -351,7 +360,7 @@ export default function ApexFitnessPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {resolveList(bp?.team?.map((m: any, i: number) => ({
+              {resolveList(clientTeam(sessionData)?.map((m: any, i: number) => ({
                 name: m.name,
                 role: m.role ?? m.specialty ?? "",
                 bio: m.bio ?? m.credentials ?? "",
@@ -386,7 +395,7 @@ export default function ApexFitnessPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {resolveList(bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+              {resolveList(clientReviews(sessionData)?.map((r: any, i: number) => ({
                 quote: r.text ?? r.quote ?? "",
                 author: r.name ?? r.author ?? "",
                 plan: r.location ?? r.context ?? "Verified Member",

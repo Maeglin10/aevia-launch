@@ -22,12 +22,20 @@ import {
   TestimonialCard,
 } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -64,10 +72,11 @@ export default function SereneRetreatHome() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const EXPERIENCES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       title: s.title ?? s.name,
       subtitle: EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].subtitle,
       description: s.description ?? s.desc ?? EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].description,
@@ -78,7 +87,7 @@ export default function SereneRetreatHome() {
     EXPERIENCES_DEMO
   );
   const PACKAGES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       duration: PACKAGES_DEMO[i % PACKAGES_DEMO.length].duration,
       price: s.price ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].price,
@@ -90,7 +99,7 @@ export default function SereneRetreatHome() {
     PACKAGES_DEMO
   );
   const TEAM = resolveList(
-    bp?.team?.map((t: any, i: number) => ({
+    clientTeam(sessionData)?.map((t: any, i: number) => ({
       name: t.name ?? TEAM_DEMO[i % TEAM_DEMO.length].name,
       role: t.role ?? TEAM_DEMO[i % TEAM_DEMO.length].role,
       bio: t.bio ?? t.credentials ?? TEAM_DEMO[i % TEAM_DEMO.length].bio,
@@ -100,7 +109,7 @@ export default function SereneRetreatHome() {
     TEAM_DEMO
   );
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
       author: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].author,
       location: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].location,

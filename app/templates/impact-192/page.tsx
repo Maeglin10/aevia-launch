@@ -7,6 +7,10 @@ import Link from "next/link"
 import { Key, Lock, Shield, Zap, Clock, Phone, Star, MapPin, CheckCircle, AlertTriangle, Wrench, Home, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    SÉC'URFAST — Serrurier urgence & sécurité (Strasbourg)
@@ -130,8 +134,8 @@ export default function SecurFastPage() {
   // Note: businessProfile is a sibling of formData on SessionData, not
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
-  const services = resolveList(bp?.services, SERVICES_DEMO);
-  const temoignages = resolveList(bp?.reputation?.featuredReviews, TEMOIGNAGES_DEMO);
+  const services = resolveList(clientServices(session), SERVICES_DEMO);
+  const temoignages = resolveList(clientReviews(session), TEMOIGNAGES_DEMO);
 
   return (
     <div className="bg-[#0d1524] text-[#f0f4ff] overflow-x-hidden" style={{ fontFamily: "'Exo 2', 'Inter', system-ui, sans-serif" }}>

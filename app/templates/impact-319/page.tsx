@@ -36,6 +36,11 @@ import {
   X
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -394,7 +399,7 @@ export default function Template({ session: initialSession }: { session?: any } 
   }, []);
 
   useEffect(() => {
-    const srcServices = resolveList(bp?.services?.map((s: any) => ({ title: s.title, description: s.description })), c.services || []);
+    const srcServices = resolveList(clientServices(session)?.map((s: any) => ({ title: s.title, description: s.description })), c.services || []);
     if (srcServices.length > 0) {
       setServices(srcServices);
     } else {
@@ -417,7 +422,7 @@ export default function Template({ session: initialSession }: { session?: any } 
       ]);
     }
 
-    const srcTesti = resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({ name: r.name, role: r.location ?? "Client", content: r.text, rating: r.stars ?? 5 })), c.testimonials || []);
+    const srcTesti = resolveList(clientReviews(session)?.map((r: any) => ({ name: r.name, role: r.location ?? "Client", content: r.text, rating: r.stars ?? 5 })), c.testimonials || []);
     if (srcTesti.length > 0) {
       setTestimonials(srcTesti);
     } else {
@@ -443,7 +448,7 @@ export default function Template({ session: initialSession }: { session?: any } 
       ]);
     }
 
-    const srcFaq = resolveList(bp?.faq?.map((f: any) => ({ question: f.q, answer: f.a })), c.faq || []);
+    const srcFaq = resolveList(clientFaq(session)?.map((f: any) => ({ question: f.q, answer: f.a })), c.faq || []);
     if (srcFaq.length > 0) {
       setFaqs(srcFaq);
     } else {

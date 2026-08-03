@@ -5,6 +5,10 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Leaf } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -109,6 +113,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -144,6 +151,7 @@ export default function NutritherapiePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };
@@ -282,7 +290,7 @@ return (
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Des réponses concrètes<br /><em>à chaque situation.</em></h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
-          {resolveList<any>(bp?.services, ACCOMPAGNEMENTS_DEMO).map((s: any, i: number) => (
+          {resolveList<any>(clientServices(sessionData), ACCOMPAGNEMENTS_DEMO).map((s: any, i: number) => (
             <Reveal key={s.titre ?? s.name ?? i} delay={i * 0.07}>
               <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 10, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
                 {(s.tag || s.price) && <span style={{ background: C.accentLight, color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag ?? s.price}</span>}
@@ -318,7 +326,7 @@ return (
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff" }}>Ce qu'ils ont <em style={{ color: C.sand }}>retrouvé</em>.</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {resolveList<any>(bp?.reputation?.featuredReviews, AVIS_DEMO).map((a: any, i: number) => (
+          {resolveList<any>(clientReviews(sessionData), AVIS_DEMO).map((a: any, i: number) => (
             <Reveal key={a.auteur ?? a.author ?? i} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 10, padding: "26px 24px" }}>
                 <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(a.rating ?? 5)].map((_, j) => <Star key={j} size={13} fill={C.sand} color={C.sand} />)}</div>
@@ -363,7 +371,7 @@ return (
                   <NJField label="Adresse e-mail" type="email" />
                   <NJField label="Type de consultation" type="select">
                     <option value="">Choisir un accompagnement</option>
-                    {resolveList<any>(bp?.services, ACCOMPAGNEMENTS_DEMO).map((s: any, i: number) => (
+                    {resolveList<any>(clientServices(sessionData), ACCOMPAGNEMENTS_DEMO).map((s: any, i: number) => (
                       <option key={s.titre ?? s.name ?? i} value={s.titre ?? s.name}>{s.titre ?? s.name}</option>
                     ))}
                   </NJField>

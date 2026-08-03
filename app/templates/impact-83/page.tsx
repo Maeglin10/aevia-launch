@@ -18,12 +18,20 @@ const HERO_CRAFTS = [
   { l1: "L'Alliance", l2: "sur-mesure", gem: "ruby", tint: "rgba(46,22,28,0.9)", piece: "Eternité Rose", stone: "Diamant rose 3 ct" },
 ];
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -60,6 +68,7 @@ export default function Impact83Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Product collections ← client's business profile (falls back to demo).
@@ -70,7 +79,7 @@ export default function Impact83Page() {
     { name: "Heritage Tourbillon", cat: "Montre de collection", price: "€320,000", stone: "Rubis de Birmanie", img: photo(3, "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=85") },
   ];
   const COLLECTIONS_LIST = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       cat: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].cat,
       price: s.price ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].price,
@@ -80,7 +89,7 @@ export default function Impact83Page() {
     COLLECTIONS_DEMO
   );
   const TESTIMONIALS_LIST = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name ?? r.author,
       role: r.location ?? r.role ?? TESTIMONIALS[i % TESTIMONIALS.length].role,
       note: r.stars ?? r.rating ?? 5,
@@ -90,7 +99,7 @@ export default function Impact83Page() {
     TESTIMONIALS
   );
   const TEAM_LIST = resolveList(
-    bp?.team?.map((m: any, i: number) => ({
+    clientTeam(sessionData)?.map((m: any, i: number) => ({
       name: m.name,
       role: m.role ?? TEAM[i % TEAM.length].role,
       bio: m.bio ?? m.specialty ?? TEAM[i % TEAM.length].bio,

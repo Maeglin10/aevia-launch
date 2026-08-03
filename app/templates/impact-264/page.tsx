@@ -12,6 +12,10 @@ import {
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Heart, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    OSTÉO ATLANTIQUE — Cabinet d'Ostéopathie & Thérapies Manuelles · Nantes
@@ -1041,7 +1045,7 @@ function SpecialtyCard({ s, i }: { s: Specialty; i: number }) {
 
 function SpecialtyCards() {
   const SPECIALTIES = resolveList(
-    bp?.services?.map((s: any) => ({ label: s.title ?? s.name })),
+    clientServices(sessionData)?.map((s: any) => ({ label: s.title ?? s.name })),
     SPECIALTIES_DEMO
   );
   const sec: React.CSSProperties = {
@@ -1409,7 +1413,7 @@ function PrinciplesPanel() {
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(sessionData)?.map((r: any) => ({
       quote: r.text ?? r.quote,
       name: r.name ?? r.author,
       role: r.role ?? r.context,
@@ -2021,6 +2025,9 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2052,6 +2059,7 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

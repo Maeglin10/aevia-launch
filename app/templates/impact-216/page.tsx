@@ -10,6 +10,10 @@ import {
   AnimatePresence,
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -1717,7 +1721,7 @@ export default function MeridianFreightPage() {
   
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -1738,7 +1742,7 @@ export default function MeridianFreightPage() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

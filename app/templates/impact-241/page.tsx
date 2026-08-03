@@ -18,6 +18,10 @@ import {
   Quote,
 } from 'lucide-react';
 import { resolveList } from '@/lib/templates/resolveList';
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    CLÉ DE VOÛTE IMMOBILIER — Agence immobilière premium · Bordeaux
@@ -1160,7 +1164,7 @@ function ServiceCards() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(bp?.services, SERVICES_DEMO).map((s: any, i: number) => (
+        {resolveList<any>(clientServices(sessionData), SERVICES_DEMO).map((s: any, i: number) => (
           <ServiceCard key={s.title ?? s.name ?? i} s={s} i={i} />
         ))}
       </div>
@@ -1610,7 +1614,7 @@ function Testimonials() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+        {resolveList<any>(clientReviews(sessionData), TESTIMONIALS_DEMO).map((t: any, i: number) => (
           <TestimonialCard key={t.name ?? t.author ?? i} t={t} i={i} />
         ))}
       </div>
@@ -2109,6 +2113,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2157,6 +2164,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

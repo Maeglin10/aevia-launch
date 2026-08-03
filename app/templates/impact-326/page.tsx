@@ -8,6 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* Étude notariale — donneur : impact-03 (Maison Dorée, luxe clair, serif Georgia).
    Signature : ArcSwap. La plaque en laiton d'une étude est littéralement un
@@ -107,6 +111,9 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
@@ -127,13 +134,14 @@ export default function EtudeNotarialePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
   }
 
   const DOMAINES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       titre: s.title ?? DOMAINES_DEMO[i % DOMAINES_DEMO.length].titre,
       desc: s.description ?? DOMAINES_DEMO[i % DOMAINES_DEMO.length].desc,
       tag: DOMAINES_DEMO[i % DOMAINES_DEMO.length].tag,
@@ -141,7 +149,7 @@ export default function EtudeNotarialePage() {
     DOMAINES_DEMO
   );
   const AVIS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       texte: r.text ?? AVIS_DEMO[i % AVIS_DEMO.length].texte,
       auteur: r.name ?? AVIS_DEMO[i % AVIS_DEMO.length].auteur,
       detail: r.location ?? AVIS_DEMO[i % AVIS_DEMO.length].detail,

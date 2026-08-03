@@ -25,6 +25,10 @@ import {
   Calendar,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    LES ÉPOUSAILLES D'ALSACE — Wedding planner & événementiel · Strasbourg
@@ -890,7 +894,7 @@ function ServicesSection() {
   ];
 
   const services = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       ...services_DEMO[i % services_DEMO.length],
       title: s.title ?? services_DEMO[i % services_DEMO.length].title,
       desc: s.description ?? services_DEMO[i % services_DEMO.length].desc,
@@ -1430,7 +1434,7 @@ function TestimonialsSection() {
   ];
 
   const testimonials = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       couple: r.name ?? testimonials_DEMO[i % testimonials_DEMO.length].couple,
       lieu: r.location ?? testimonials_DEMO[i % testimonials_DEMO.length].lieu,
       mariage: testimonials_DEMO[i % testimonials_DEMO.length].mariage,
@@ -3240,6 +3244,9 @@ const RESPONSIVE_CSS = `
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Impact280Page() {
   const [session, setSession] = useState<{
@@ -3289,6 +3296,7 @@ export default function Impact280Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, rose: brand, roseLight: shadeColor(brand, 25), roseDark: shadeColor(brand, -20) };

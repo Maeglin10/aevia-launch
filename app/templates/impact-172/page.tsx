@@ -7,6 +7,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, Scale, Shield, Briefcase, Users, Building, FileText, Phone, Mail, MapPin, ChevronRight, Award, Globe } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 function useFonts() {
   useEffect(() => {
@@ -88,6 +92,9 @@ const REFERENCES = [
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -142,10 +149,11 @@ export default function LegrandPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const DOMAINS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       id: DOMAINS_DEMO[i % DOMAINS_DEMO.length].id + "-" + i,
       icon: DOMAINS_DEMO[i % DOMAINS_DEMO.length].icon,
       label: s.title ?? s.name,
@@ -155,7 +163,7 @@ export default function LegrandPage() {
     DOMAINS_DEMO
   );
   const PARTNERS = resolveList(
-    bp?.team?.map((m: any, i: number) => ({
+    clientTeam(sessionData)?.map((m: any, i: number) => ({
       name: m.name ?? PARTNERS_DEMO[i % PARTNERS_DEMO.length].name,
       title: m.role ?? PARTNERS_DEMO[i % PARTNERS_DEMO.length].title,
       domain: m.specialty ?? PARTNERS_DEMO[i % PARTNERS_DEMO.length].domain,

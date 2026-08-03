@@ -7,6 +7,9 @@ import Link from "next/link"
 import { Home, ArrowRight, Menu, Star, MapPin, Bed, Bath, Maximize2, Phone, Mail, Building, Award, ChevronRight, Heart, DollarSign } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientReviews,
+} from "@/lib/templates/clientContent";
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -57,6 +60,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -92,6 +98,7 @@ export default function HavenEstatesPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)
@@ -107,7 +114,7 @@ export default function HavenEstatesPage() {
   }, []);
 
   const properties = resolveList(bp?.listings, PROPERTIES_DEMO);
-  const testimonials = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
+  const testimonials = resolveList(clientReviews(sessionData), TESTIMONIALS_DEMO);
 
   return (
     <div className="bg-[#faf9f6] text-[#1a1a1a] font-sans min-h-dvh selection:bg-[var(--brand,#b8860b)] selection:text-white overflow-x-hidden">

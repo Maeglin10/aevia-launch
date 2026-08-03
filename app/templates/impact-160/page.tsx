@@ -27,6 +27,10 @@ import {
   Timer, Cloud, Signal, Search,
   Navigation, Code, Command, Grid
 } from "lucide-react"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ==========================================================================
    THE MONOLITH DATASET (ULTRA DENSITY)
@@ -180,7 +184,7 @@ export default function MonolithPremium() {
   
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
+    if (clientServices(session)) {
       const services_arrays = [
         typeof SERVICES !== 'undefined' ? SERVICES : null,
         typeof features !== 'undefined' ? features : null,
@@ -201,7 +205,7 @@ export default function MonolithPremium() {
         }
       });
     }
-    if (c?.testimonials) {
+    if (clientReviews(session)) {
       const testimonials_arrays = [
         typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
         typeof testimonials !== 'undefined' ? testimonials : null,

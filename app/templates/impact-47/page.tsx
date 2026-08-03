@@ -29,6 +29,11 @@ import {
   petalPaths,
   useCart
 } from "./shared";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 function HeroSection() {
   const ref = useRef(null);
@@ -162,7 +167,7 @@ function CollectionsSection() {
   const [activeSeason, setActiveSeason] = useState("spring");
   const active = seasons.find(s => s.id === activeSeason) || seasons[0];
   const arrangements = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name ?? active.arrangements[i % active.arrangements.length].name,
       price: s.price ?? active.arrangements[i % active.arrangements.length].price,
       desc: s.description ?? s.desc ?? active.arrangements[i % active.arrangements.length].desc,
@@ -361,7 +366,7 @@ function TestimonialsSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const reviewList = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name ?? testimonials[i % testimonials.length].name,
       location: r.location ?? testimonials[i % testimonials.length].location,
       rating: r.stars ?? testimonials[i % testimonials.length].rating,
@@ -485,7 +490,7 @@ function FAQSection() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const faqList = resolveList(
-    bp?.faq?.map((f: any, i: number) => ({
+    clientFaq(sessionData)?.map((f: any, i: number) => ({
       q: f.q ?? faqs[i % faqs.length].q,
       a: f.a ?? faqs[i % faqs.length].a,
     })),
@@ -545,6 +550,9 @@ function FAQSection() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function FloristHome() {
   const [session, setSession] = useState<{
@@ -576,6 +584,7 @@ export default function FloristHome() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
 return (

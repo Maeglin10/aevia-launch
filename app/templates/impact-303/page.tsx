@@ -43,6 +43,11 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -222,6 +227,9 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -271,6 +279,7 @@ export default function Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -293,7 +302,7 @@ export default function Page() {
 
   const MENU_DEMO: any[] = [{"name": "Programme Online 12 Semaines", "category": "Coaching", "desc": "Plan d'entraînement vidéo personnalisé, suivi nutritionnel et bilan hebdo.", "price": "149,00 €"}, {"name": "Coaching Privé 1-to-1", "category": "Coaching", "desc": "Séance individuelle de 60 minutes avec correction posturale en présentiel.", "price": "70,00 € / h"}, {"name": "Plan Nutritionnel Sur Mesure", "category": "Nutrition", "desc": "Calcul des macros, recettes simples, ajustement toutes les 2 semaines.", "price": "59,00 €"}];
   const menuBase = resolveList(
-    bp?.services?.map((s: any, i: number) => {
+    clientServices(sessionData)?.map((s: any, i: number) => {
       const d = MENU_DEMO[i % MENU_DEMO.length];
       return {
         name: s.title ?? s.name ?? d.name,
@@ -929,7 +938,7 @@ return (
           </Reveal>
 
           {resolveList(
-            bp?.reputation?.featuredReviews?.map((r: any) => ({
+            clientReviews(sessionData)?.map((r: any) => ({
               quote: r.text,
               name: r.name,
               location: r.location ?? '',
@@ -983,7 +992,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Où se déroulent les séances ?","a":"Dans notre studio privé tout équipé situé à Paris Est. Les séances sont limitées à 3 personnes maximum sur le plateau en simultané."},{"q":"Quelles sont les qualifications des coaches ?","a":"Tous nos entraîneurs possèdent un diplôme d'État (BPJEPS AGFF ou Master STAPS) et une certification en nutrition sportive."},{"q":"Puis-je annuler ou reporter une séance ?","a":"Oui, sans frais jusqu'à 24h avant l'heure prévue du rendez-vous depuis l'application mobile."}] as any[]).map((item: any, i: number) => (
+            {resolveList(clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Où se déroulent les séances ?","a":"Dans notre studio privé tout équipé situé à Paris Est. Les séances sont limitées à 3 personnes maximum sur le plateau en simultané."},{"q":"Quelles sont les qualifications des coaches ?","a":"Tous nos entraîneurs possèdent un diplôme d'État (BPJEPS AGFF ou Master STAPS) et une certification en nutrition sportive."},{"q":"Puis-je annuler ou reporter une séance ?","a":"Oui, sans frais jusqu'à 24h avant l'heure prévue du rendez-vous depuis l'application mobile."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,

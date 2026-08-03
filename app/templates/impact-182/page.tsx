@@ -7,6 +7,10 @@ import Link from "next/link"
 import { HardHat, Hammer, Phone, Star, MapPin, ArrowRight, CheckCircle, Ruler, ShieldCheck, Award, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    BÂTIR SOLIDE — Maçon & Gros Œuvre (Marseille)
@@ -76,6 +80,9 @@ const REALISATIONS_DEMO = [
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -130,10 +137,11 @@ export default function BatirSolidePage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc ?? SERVICES_DEMO[i % SERVICES_DEMO.length].desc,
@@ -149,7 +157,7 @@ export default function BatirSolidePage() {
     REALISATIONS_DEMO
   );
   const AVIS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(sessionData)?.map((r: any) => ({
       q: r.text ?? "",
       n: r.name ?? "",
       l: r.location ?? "",

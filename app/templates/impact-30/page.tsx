@@ -27,6 +27,12 @@ import {
   useHeroSelector, HeroStage, Rise, SelectorRail,
   heroSectionStyle, railResponsiveCSS, EASE_3, EASE_4, BEAT,
 } from "@/lib/templates/hero-kit";
+import {
+  clientFaq,
+  clientReviews,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -397,7 +403,7 @@ function Hero() {
   ];
 
   const treatments = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       ...SERVICES_DEMO[i % SERVICES_DEMO.length],
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -590,7 +596,7 @@ function Services() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -818,7 +824,7 @@ function Testimonials() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any) => ({
+    clientReviews(sessionData)?.map((r: any) => ({
       name: r.name ?? r.author,
       treatment: r.treatment,
       before: r.before,
@@ -942,7 +948,7 @@ function Team() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const TEAM = resolveList(
-    bp?.team?.map((m: any, i: number) => ({
+    clientTeam(sessionData)?.map((m: any, i: number) => ({
       name: m.name,
       role: m.role,
       specialty: m.specialty ?? m.credentials,
@@ -1265,7 +1271,7 @@ function FAQ() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [open, setOpen] = useState<number | null>(null);
-  const FAQS = resolveList(bp?.faq, FAQS_DEMO);
+  const FAQS = resolveList(clientFaq(sessionData), FAQS_DEMO);
 
   return (
     <section
@@ -1368,6 +1374,9 @@ function FAQ() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 export default function Impact30() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1398,6 +1407,7 @@ export default function Impact30() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

@@ -29,6 +29,10 @@ import {
   ZapOff,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
    AMPÈRE & FILS — Électricien artisan · Nantes & Loire-Atlantique
@@ -1162,7 +1166,7 @@ function ServicesSection() {
           }}
         >
           {resolveList(
-            bp?.services?.map((s: any, i: number) => ({
+            clientServices(sessionData)?.map((s: any, i: number) => ({
               icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
               title: s.title ?? s.name,
               subtitle: SERVICES_DEMO[i % SERVICES_DEMO.length].subtitle,
@@ -1611,7 +1615,7 @@ function TestimonialsSection() {
           }}
         >
           {resolveList(
-            bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+            clientReviews(sessionData)?.map((r: any, i: number) => ({
               name: r.name ?? r.author,
               city: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].city,
               project: TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].project,
@@ -3068,6 +3072,9 @@ function FooterSection() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 export default function Impact288Page() {
   const [session, setSession] = useState<{
@@ -3117,6 +3124,7 @@ export default function Impact288Page() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, green: brand, greenLight: shadeColor(brand, 25) };

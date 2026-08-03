@@ -16,6 +16,10 @@ import {
   HairlineArrows,
 } from "@/lib/templates/hero-kit-2"
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3"
+import {
+  clientReviews,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 /* The hero carried no photography at all — a blurred circle behind centred
    type — which is what made a €11,200 retreat look like a free template.
@@ -173,6 +177,9 @@ const TESTIMONIALS_DEMO = [
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// La session complète, pour lib/templates/clientContent : même portée
+// que fd/c/bp, pour les sous-composants qui n'ont pas de props.
+let sessionData: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -209,10 +216,11 @@ export default function AetherWellnessPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const RETREATS = resolveList(
-    bp?.services?.map((s: any, i: number) => ({
+    clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? RETREATS_DEMO[i % RETREATS_DEMO.length].name,
       duration: RETREATS_DEMO[i % RETREATS_DEMO.length].duration,
       guests: RETREATS_DEMO[i % RETREATS_DEMO.length].guests,
@@ -224,7 +232,7 @@ export default function AetherWellnessPage() {
     RETREATS_DEMO
   )
   const TESTIMONIALS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
       name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
       role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
