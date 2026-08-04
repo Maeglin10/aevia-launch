@@ -603,12 +603,12 @@ function Intro() {
             maxWidth: 980,
             margin: '0 auto',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
           L&apos;électricité, c&apos;est{' '}
           <span style={{ fontStyle: 'italic', color: C.accent }}>invisible</span>.
           Notre travail, lui, doit être{' '}
           <span style={{ fontStyle: 'italic' }}>irréprochable</span>.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.22}>
         <div

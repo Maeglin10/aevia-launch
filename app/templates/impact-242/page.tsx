@@ -778,7 +778,7 @@ function Manifesto() {
             margin: '0 auto',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
           La comptabilité ne devrait pas être une source de stress. Elle devrait
           être{' '}
           <span style={{ fontWeight: 700, fontStyle: 'normal', color: C.accent }}>
@@ -786,7 +786,7 @@ function Manifesto() {
           </span>
           . Nous sommes là pour ça — en langage clair, sans jargon, avec des
           conseils qui font vraiment la différence.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
         <div

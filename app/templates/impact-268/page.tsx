@@ -771,11 +771,11 @@ function Intro() {
             maxWidth: 920,
             margin: '0 auto',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
           À {clientCity(sessionData) ?? "Paris"}, chaque m² de verdure est un acte de résistance.
           <br />
           Nous les plantons un à un.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.14}>
         <div

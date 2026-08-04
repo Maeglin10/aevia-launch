@@ -375,9 +375,9 @@ export default function Home() {
         <div className="max-w-5xl mx-auto text-center">
           <Reveal>
             <div className="text-xs font-bold tracking-[0.4em] uppercase text-white/30 mb-8">Manifesto</div>
-            <p className="font-black leading-[0.9] uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(36px, 6vw, 80px)" }}>
+            <p className="font-black leading-[0.9] uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(36px, 6vw, 80px)" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.texte") ?? (<>
               "BUILDINGS ARE NOT OBJECTS. THEY ARE THE INFRASTRUCTURE OF HUMAN LIFE."
-            </p>
+            </>)}</p>
             <div className="text-white/30 text-sm font-semibold uppercase tracking-widest mt-8">— Viktor Brunel, Founding Partner</div>
           </Reveal>
         </div>

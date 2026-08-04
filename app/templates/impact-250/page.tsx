@@ -758,11 +758,11 @@ function Intro() {
             margin: '0 auto',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
           Un jardin ne se commande pas.
           <br />
           Il se cultive, avec patience et intention.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.20}>
         <div

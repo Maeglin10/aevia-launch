@@ -829,11 +829,11 @@ function Intro() {
             margin: '0 auto',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
           Il n&apos;y a qu&apos;un seul jour parfait.
           <br />
           <span style={{ color: C.accent }}>Ensemble, nous le créons.</span>
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.22}>
         <div

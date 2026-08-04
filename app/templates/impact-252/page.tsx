@@ -752,9 +752,9 @@ function Intro() {
             maxWidth: 920,
             margin: '0 auto',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (<>
           Chaque sourire mérite des soins à la hauteur de son importance.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.14}>
         <div

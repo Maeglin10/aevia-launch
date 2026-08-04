@@ -786,10 +786,10 @@ function Intro() {
             margin: '0 auto',
             fontWeight: 400,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (<>
           Un tatouage ne s&apos;efface pas. C&apos;est une raison de plus pour le
           confier à un artiste.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
         <div

@@ -878,11 +878,11 @@ function Intro() {
             maxWidth: 880,
             margin: '0 auto',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "apropos.texte") ?? (<>
           Le corps sait guérir.
           <br />
           L'ostéopathie lui rappelle comment.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.18}>
         <div

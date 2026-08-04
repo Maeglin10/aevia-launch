@@ -3237,9 +3237,9 @@ function ContactPage() {
                 <div style={{ fontFamily: C.serif, fontSize: 24, fontStyle: "italic", color: C.cream, marginBottom: 10 }}>
                   Message envoyé
                 </div>
-                <p style={{ fontSize: 14, color: C.creamDim, fontFamily: C.sans, lineHeight: 1.7 }}>
+                <p style={{ fontSize: 14, color: C.creamDim, fontFamily: C.sans, lineHeight: 1.7 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-18.texte") ?? (<>
                   Merci ! Notre équipe vous répond sous 24h ouvrées.
-                </p>
+                </>)}</p>
               </div>
             ) : (
               <form onSubmit={e => { e.preventDefault(); setSent(true); }}>

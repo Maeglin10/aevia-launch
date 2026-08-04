@@ -784,11 +784,11 @@ function Intro() {
             maxWidth: 900,
             margin: '0 auto',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "apropos.texte") ?? (<>
           &ldquo;Un mariage ne se déroule qu&apos;une fois.
           <br />
           Il mérite d&apos;être parfait.&rdquo;
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.18}>
         <div

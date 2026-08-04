@@ -783,12 +783,12 @@ function Intro() {
             margin: '0 auto',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "intro.texte") ?? (<>
           Nourrir {clientCity(sessionData) ?? "Strasbourg"} depuis 2009,{' '}
           <span style={{ fontStyle: 'italic', color: C.accent }}>
             avec les mains et avec le cœur.
           </span>
-        </p>
+        </>)}</p>
       </Reveal>
 
       <Reveal delay={0.2}>

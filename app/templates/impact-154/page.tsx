@@ -779,9 +779,9 @@ return (
            <div className="max-w-[1200px] mx-auto px-8 md:px-20 text-center">
               <Reveal>
                  <SectionTitle subtitle="Acquisitions // Privilège" title="Registry Application." />
-                 <p className="max-w-2xl mx-auto text-xl font-light text-black/40 leading-relaxed italic mb-20 uppercase tracking-widest">
+                 <p className="max-w-2xl mx-auto text-xl font-light text-black/40 leading-relaxed italic mb-20 uppercase tracking-widest">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.texte") ?? (<>
                     L'accès à notre registre privé et aux opportunités d'acquisition est réservé aux institutions muséales et aux collectionneurs certifiés.
-                 </p>
+                 </>)}</p>
 
                  <form className="max-w-xl mx-auto space-y-12" onSubmit={e => e.preventDefault()}>
                     <div className="grid md:grid-cols-2 gap-8">

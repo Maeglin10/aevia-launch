@@ -819,10 +819,10 @@ function Intro() {
             maxWidth: 1000,
             margin: '0 auto',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
           La santé n&apos;est pas l&apos;absence de maladie. C&apos;est une
           énergie que vous méritez de retrouver.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
         <div

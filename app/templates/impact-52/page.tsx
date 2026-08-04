@@ -20,6 +20,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -547,9 +548,9 @@ export default function Impact52Page() {
                 margin: "0 auto 3.5rem",
                 marginTop: "2rem",
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.texte") ?? (<>
               WE_TAKE_4_CLIENTS_PER_QUARTER. IF_YOUR_BRIEF_HAS_VOLTAGE, SEND_TRANSMISSION.
-            </p>
+            </>)}</p>
             <Link
               href="/templates/impact-52/contact"
               style={{

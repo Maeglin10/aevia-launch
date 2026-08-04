@@ -22,6 +22,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -1700,11 +1701,11 @@ function ManifestoSection() {
             margin: "32px auto 0",
             lineHeight: 1.7,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "manifesto.texte") ?? (<>
           Forma Studio was founded on the belief that architecture must earn
           the right to exist — through structural clarity, ecological
           honesty, and visionary daring.
-        </motion.p>
+        </>)}</motion.p>
       </div>
     </section>
   );

@@ -787,13 +787,13 @@ function Intro() {
             maxWidth: 900,
             margin: '0 auto',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (<>
           Chaque enfant a son propre calendrier. Notre rôle est de
           l&apos;accompagner,{' '}
           <span style={{ color: C.accent, fontStyle: 'normal', fontWeight: 400 }}>
             pas de le presser.
           </span>
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.18}>
         <div

@@ -20,6 +20,7 @@ import {
   clientList,
   clientName,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1576,10 +1577,10 @@ export default function FashionEditorialTemplate() {
               marginTop: 36,
               marginBottom: 48,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.texte") ?? (<>
             Garments that speak in silence. Each piece considered from fibre to finish — made to last a
             lifetime, designed to feel entirely your own.
-          </motion.p>
+          </>)}</motion.p>
 
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -2288,11 +2289,11 @@ export default function FashionEditorialTemplate() {
                   color: 'rgba(10,10,10,0.5)',
                   maxWidth: 400,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "sustainability.texte") ?? (<>
                 We believe the most sustainable garment is one that never needs replacing. Every decision from
                 fibre selection to final packaging is made through this lens. Atelier NOIR is a certified
                 B-Corp and member of the Fashion Pact.
-              </p>
+              </>)}</p>
             </div>
           </div>
         </Reveal>
@@ -2597,10 +2598,10 @@ export default function FashionEditorialTemplate() {
               maxWidth: 480,
               margin: '0 auto 48px',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "newsletter.texte") ?? (<>
             Exclusive access to new arrivals, private sales, and invitations to our atelier events before
             anyone else.
-          </p>
+          </>)}</p>
 
           {!submitted ? (
             <div

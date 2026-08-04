@@ -728,10 +728,10 @@ function Intro() {
             margin: '0 auto',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "approche.texte") ?? (<>
           Le corps guérit quand on lui laisse retrouver son équilibre.
           C&apos;est tout ce que fait l&apos;ostéopathie.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.22}>
         <div

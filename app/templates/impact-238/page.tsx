@@ -791,13 +791,13 @@ function Intro() {
               color: C.ink,
               margin: 'clamp(24px,3vw,44px) 0 0',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "presentation.texte") ?? (<>
             Le mouvement est la première{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>médecine</span>.
             Chaque séance est une invitation à retrouver confiance en votre corps —
             progressivement, durablement,{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>librement</span>.
-          </p>
+          </>)}</p>
         </Reveal>
         <Reveal delay={0.2}>
           <div
