@@ -25,9 +25,12 @@ export function PhotoSlotsField({
   onUpload,
   uploading,
   emptyLabel,
+  metier,
 }: {
   templateId: string | undefined;
   photoUrls: string[];
+  /** Le metier du client, pour chercher dans les banques d'images. */
+  metier?: string;
   onChange: (next: string[]) => void;
   /** Téléverse et rend l'URL, ou une chaîne vide en cas d'échec. */
   onUpload: (file: File) => Promise<string>;
@@ -35,6 +38,33 @@ export function PhotoSlotsField({
   emptyLabel: string;
 }) {
   const slots = photoSlotsFor(templateId);
+  /*
+    Les banques d'images, pour le client qui n'a pas de photo de son atelier.
+
+    Sans elles, il garde celles de la demonstration — les memes que tous les
+    clients de sa niche. Pexels et Pixabay sont interroges ensemble et leurs
+    resultats alternes, si bien que deux clients du meme metier ne tombent pas
+    sur la meme premiere image.
+  */
+  const [banqueOuverte, setBanqueOuverte] = useState<number | null>(null);
+  const [propositions, setPropositions] = useState<
+    { url: string; apercu: string; auteur: string; source: string }[]
+  >([]);
+  const [chargeBanque, setChargeBanque] = useState(false);
+
+  async function ouvrirBanque(i: number, requete: string) {
+    setBanqueOuverte(i);
+    setChargeBanque(true);
+    try {
+      const r = await fetch(`/api/stock?q=${encodeURIComponent(requete)}&n=12`);
+      const { images } = await r.json();
+      setPropositions(images ?? []);
+    } catch {
+      setPropositions([]);
+    } finally {
+      setChargeBanque(false);
+    }
+  }
   /** Ce qu'on a à dire sur la photo de chaque emplacement. */
   const [verdicts, setVerdicts] = useState<Record<number, { texte: string; grave: boolean }>>({});
 
@@ -47,6 +77,43 @@ export function PhotoSlotsField({
 
   return (
     <div className="space-y-3">
+      {banqueOuverte !== null && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/70 p-4" onClick={() => setBanqueOuverte(null)}>
+          <div className="max-h-[80vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-zinc-700 bg-zinc-900 p-5" onClick={(e) => e.stopPropagation()}>
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-sm font-semibold text-white">Images libres de droits</p>
+              <button type="button" className="text-zinc-400 hover:text-white" onClick={() => setBanqueOuverte(null)} aria-label="Fermer">
+                <X size={18} />
+              </button>
+            </div>
+            {chargeBanque ? (
+              <div className="flex justify-center py-10"><Loader2 className="animate-spin text-zinc-500" /></div>
+            ) : propositions.length === 0 ? (
+              <p className="py-10 text-center text-sm text-zinc-500">Aucune image trouvee. Essayez un autre emplacement.</p>
+            ) : (
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {propositions.map((img) => (
+                  <button
+                    key={img.url}
+                    type="button"
+                    className="group overflow-hidden rounded-lg border border-zinc-700 transition-colors hover:border-red-500"
+                    onClick={() => {
+                      setAt(banqueOuverte, img.url);
+                      setBanqueOuverte(null);
+                    }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={img.apercu} alt="" className="aspect-square w-full object-cover" />
+                    <span className="block truncate px-2 py-1 text-[10px] text-zinc-500">
+                      {img.auteur} · {img.source}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {Array.from({ length: slots.n }, (_, i) => {
           const url = photoUrls[i];
@@ -106,6 +173,13 @@ export function PhotoSlotsField({
               <p className="truncate text-xs text-zinc-500" title={label ?? undefined}>
                 {label ?? emptyLabel}
               </p>
+              <button
+                type="button"
+                className="text-[11px] text-zinc-400 underline underline-offset-2 hover:text-white transition-colors"
+                onClick={() => ouvrirBanque(i, [metier, label].filter(Boolean).join(" "))}
+              >
+                Choisir une image
+              </button>
               {verdicts[i]?.texte && (
                 <p
                   role={verdicts[i].grave ? "alert" : undefined}
