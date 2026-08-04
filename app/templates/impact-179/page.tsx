@@ -163,6 +163,7 @@ export default function AquanovaPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -193,7 +194,6 @@ export default function AquanovaPiscinesPage() {
       });
     });
   });
-  c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

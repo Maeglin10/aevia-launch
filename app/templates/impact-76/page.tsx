@@ -153,6 +153,7 @@ export default function StructuraArchPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -188,7 +189,6 @@ export default function StructuraArchPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null);

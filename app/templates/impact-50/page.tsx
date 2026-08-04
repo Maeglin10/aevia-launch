@@ -173,9 +173,9 @@ export default function CabinetMoreauPage() {
   }, []);
 
   fd = session?.formData;
-
-  HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
   c = session?.generatedContent;
+  HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
+
   ACCOMPAGNEMENTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...ACCOMPAGNEMENTS_SOURCE[i % ACCOMPAGNEMENTS_SOURCE.length], titre: s.title, desc: s.desc || "" || "" })),
     ACCOMPAGNEMENTS_SOURCE,

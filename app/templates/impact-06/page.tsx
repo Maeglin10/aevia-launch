@@ -171,6 +171,7 @@ export default function NeuralisPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   AVIS_INLINE = resolveList(
 
@@ -213,7 +214,6 @@ export default function NeuralisPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false);

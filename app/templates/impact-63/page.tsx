@@ -236,6 +236,7 @@ export default function MaisonDrouetHome() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -254,7 +255,6 @@ export default function MaisonDrouetHome() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const containerRef = useRef<HTMLDivElement>(null);

@@ -2216,11 +2216,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
-
-  EDIT_ROWS = EDIT_ROWS_LIVE();
-  c = session?.generatedContent;
   bp = session?.businessProfile;
+  c = session?.generatedContent;
   sessionData = session;
+  EDIT_ROWS = EDIT_ROWS_LIVE();
+
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

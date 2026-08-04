@@ -140,6 +140,7 @@ export default function LuminaLawPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   PARTNERS_DEMO = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...PARTNERS_DEMO_SOURCE[i % PARTNERS_DEMO_SOURCE.length], name: m.name, role: m.role })),
     PARTNERS_DEMO_SOURCE,
@@ -198,7 +199,6 @@ export default function LuminaLawPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

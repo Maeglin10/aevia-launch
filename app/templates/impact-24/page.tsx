@@ -130,9 +130,10 @@ export default function Impact24() {
   }, []);
 
   fd = session?.formData;
-
-  faqs_SOURCE = faqs_SOURCE_LIVE();
   bp = session?.businessProfile;
+  c = session?.generatedContent;
+  faqs_SOURCE = faqs_SOURCE_LIVE();
+
 
   mentors = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...mentors_SOURCE[i % mentors_SOURCE.length], name: m.name, role: m.role })),
@@ -174,7 +175,6 @@ export default function Impact24() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()

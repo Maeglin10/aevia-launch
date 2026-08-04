@@ -1879,7 +1879,7 @@ function Footer() {
     },
     {
       title: 'Destinations',
-      items: ["Paris & \u00cele-de-France", "Loire", "C\u00f4te d'Azur", "International"],
+      items: [(clientCity(sessionData) ?? "Paris") + " & \u00cele-de-France", "Loire", "C\u00f4te d'Azur", "International"],
     },
     {
       title: 'Informations',
@@ -2074,13 +2074,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
-
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-
-  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+
+
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

@@ -151,8 +151,9 @@ export default function StudioNomaPage() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
   TEMOIGNAGES_SOURCE = TEMOIGNAGES_SOURCE_LIVE();
+
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -192,7 +193,6 @@ export default function StudioNomaPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

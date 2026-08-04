@@ -153,10 +153,10 @@ export default function StreamlinePage() {
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-
   testimonials = testimonials_LIVE();
-
   plans = plans_LIVE();
+
+
 
   features = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...features_SOURCE[i % features_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),

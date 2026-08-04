@@ -239,6 +239,7 @@ export default function AstrumReachPremium() {
 
   fd = session?.formData;
   bp = session?.businessProfile;
+  c = session?.generatedContent;
 
   MISSIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...MISSIONS_DEMO_SOURCE[i % MISSIONS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
@@ -266,7 +267,6 @@ export default function AstrumReachPremium() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [page, setPage] = useState<ActivePage>("home")

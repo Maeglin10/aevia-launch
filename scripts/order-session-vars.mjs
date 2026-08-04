@@ -38,26 +38,21 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
     if (!fs.existsSync(file)) continue;
     const lignes = fs.readFileSync(file, "utf8").split("\n");
 
-    const debut = lignes.findIndex((l) => SOURCES[0].test(l));
-    if (debut === -1) continue;
+    // Pas de détection de bloc : elle s'arrêtait au premier `useEffect` et
+    // laissait `sessionData = session;` trente lignes plus bas, derrière les
+    // appels qui le lisent. On prend la première affectation de session et on
+    // ramène toutes les autres juste dessous, où qu'elles soient.
+    const iSources = lignes.map((l, i) => (SOURCES.some((re) => re.test(l)) ? i : -1)).filter((i) => i >= 0);
+    if (iSources.length < 2) continue;
+    const premier = iSources[0];
+    const autres = iSources.slice(1);
+    if (autres.every((i, k) => i === premier + k + 1)) continue;   // déjà groupées
 
-    // Le bloc de rendu : jusqu'au premier `const`/`return`/hook local.
-    let fin = debut + 1;
-    for (; fin < lignes.length; fin++) {
-      const l = lignes[fin];
-      if (/^\s*(const|let|var|return|if|useEffect|function)\b/.test(l) && !/^\s*(?:const|let|var)\s+\w+\s*=\s*\w+_LIVE\(\)/.test(l)) break;
-    }
+    const deplacees = autres.map((i) => lignes[i]);
+    const restantes = lignes.filter((_, i) => !autres.includes(i));
+    restantes.splice(premier + 1, 0, ...deplacees);
+    const neuf = restantes;
 
-    const bloc = lignes.slice(debut, fin);
-    const estSource = (l) => SOURCES.some((re) => re.test(l));
-    const sources = bloc.filter(estSource);
-    const reste = bloc.filter((l) => !estSource(l));
-    // Rien à faire si les sources sont déjà toutes en tête.
-    const dejaEnTete = bloc.slice(0, sources.length).every(estSource);
-    if (sources.length < 2 || dejaEnTete) continue;
-
-    const ordre = SOURCES.map((re) => sources.find((l) => re.test(l))).filter(Boolean);
-    const neuf = [...lignes.slice(0, debut), ...ordre, ...reste, ...lignes.slice(fin)];
     if (!dry) fs.writeFileSync(file, neuf.join("\n"));
     faits++;
     touches.push(`${id}/${nom.replace(".tsx", "")}`);

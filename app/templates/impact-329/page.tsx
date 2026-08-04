@@ -139,11 +139,11 @@ export default function CapDemenagementsPage() {
   }, []);
 
   fd = session?.formData;
-
-  AVIS_SOURCE = AVIS_SOURCE_LIVE();
-  c = session?.generatedContent;
   bp = session?.businessProfile;
+  c = session?.generatedContent;
   sessionData = session;
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

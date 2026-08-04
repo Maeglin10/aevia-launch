@@ -146,9 +146,9 @@ export default function CabinetRenardPage() {
   }, []);
 
   fd = session?.formData;
-
-  ENGAGEMENTS_DEMO = ENGAGEMENTS_DEMO_LIVE();
   c = session?.generatedContent;
+  ENGAGEMENTS_DEMO = ENGAGEMENTS_DEMO_LIVE();
+
   DOMAINES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...DOMAINES_SOURCE[i % DOMAINES_SOURCE.length], titre: s.title, desc: s.desc || "" || "" })),
     DOMAINES_SOURCE,

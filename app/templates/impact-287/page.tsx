@@ -3148,6 +3148,9 @@ export default function Impact287Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   OUTDOOR_SPOTS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...OUTDOOR_SPOTS_SOURCE[i % OUTDOOR_SPOTS_SOURCE.length], name: s.title, description: s.desc || "" || "" })),
     OUTDOOR_SPOTS_SOURCE,
@@ -3170,9 +3173,6 @@ export default function Impact287Page() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

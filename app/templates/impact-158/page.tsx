@@ -167,6 +167,7 @@ export default function AtlasPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   ARTICLES = ARTICLES_DEMO.map((row, i) => ({
     ...row,
     image: clientPhotos(session)[0 + i] || row.image,
@@ -193,7 +194,6 @@ export default function AtlasPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()

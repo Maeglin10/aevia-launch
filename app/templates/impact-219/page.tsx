@@ -1267,8 +1267,8 @@ export default function Impact219Page() {
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-
   TIERS = TIERS_LIVE();
+
 
   BENEFITS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...BENEFITS_SOURCE[i % BENEFITS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),

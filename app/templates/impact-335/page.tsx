@@ -99,11 +99,11 @@ export default function RivesBlanchesPage() {
   }, []);
 
   fd = session?.formData;
-
-  STATS_DEMO = STATS_DEMO_LIVE();
-  c = session?.generatedContent;
   bp = session?.businessProfile;
+  c = session?.generatedContent;
   sessionData = session;
+  STATS_DEMO = STATS_DEMO_LIVE();
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

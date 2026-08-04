@@ -134,6 +134,9 @@ export default function LegrandPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -152,9 +155,6 @@ export default function LegrandPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const DOMAINS = resolveList(

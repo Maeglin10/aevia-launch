@@ -844,6 +844,7 @@ export default function Home() {
 
   fd = session?.formData;
   bp = session?.businessProfile;
+  c = session?.generatedContent;
 
   testimonials = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], quote: r.text, author: r.author })),
@@ -887,7 +888,6 @@ export default function Home() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const containerRef = useRef(null)

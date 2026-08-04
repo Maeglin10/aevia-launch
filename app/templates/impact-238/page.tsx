@@ -2235,6 +2235,9 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,
@@ -2257,9 +2260,6 @@ export default function Page() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   REVIEWS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], name: r.author, quote: r.text })),
     REVIEWS_SOURCE,

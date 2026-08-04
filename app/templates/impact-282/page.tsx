@@ -2791,8 +2791,11 @@ export default function Impact282Page() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   MENU_CATEGORIES_DEMO = MENU_CATEGORIES_DEMO_LIVE();
+
   PRODUCTEURS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRODUCTEURS_SOURCE[i % PRODUCTEURS_SOURCE.length], nom: s.title, description: s.desc || "" || "" })),
     PRODUCTEURS_SOURCE,
@@ -2815,9 +2818,6 @@ export default function Impact282Page() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, wheat: brand, wheatLight: shadeColor(brand, 25) };

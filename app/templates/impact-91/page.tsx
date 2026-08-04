@@ -1856,11 +1856,11 @@ export default function Impact91Page() {
   }, []);
 
   fd = session?.formData;
-
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  c = session?.generatedContent;
   bp = session?.businessProfile;
+  c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

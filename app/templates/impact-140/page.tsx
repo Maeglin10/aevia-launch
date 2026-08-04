@@ -193,6 +193,9 @@ export default function WanderlustPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -211,9 +214,6 @@ export default function WanderlustPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   REVIEWS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], author: r.author, text: r.text })),
     REVIEWS_SOURCE,

@@ -97,6 +97,7 @@ export default function ArcaneRealtyPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   PROPERTIES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length], name: s.title, price: s.price ?? PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length].price })),
     PROPERTIES_DEMO_SOURCE,
@@ -137,7 +138,6 @@ export default function ArcaneRealtyPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

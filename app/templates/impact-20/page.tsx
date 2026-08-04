@@ -909,6 +909,9 @@ export default function LuxuryJewelryTemplate() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   MATERIALS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...MATERIALS_SOURCE[i % MATERIALS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     MATERIALS_SOURCE,
@@ -931,9 +934,6 @@ export default function LuxuryJewelryTemplate() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const PRODUCTS = buildProducts();

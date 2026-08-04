@@ -629,6 +629,7 @@ export default function Impact130Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   SERVICES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "", price: s.price ?? SERVICES_SOURCE[i % SERVICES_SOURCE.length].price })),
     SERVICES_SOURCE,
@@ -672,7 +673,6 @@ export default function Impact130Page() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, emeraldGlow: brand };

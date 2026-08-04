@@ -205,6 +205,8 @@ export default function NovaSpacesPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
   PHILOSOPHY = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     PHILOSOPHY_SOURCE,
@@ -227,8 +229,6 @@ export default function NovaSpacesPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
   STATS = resolveList(clientStats(session), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

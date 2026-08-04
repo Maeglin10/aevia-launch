@@ -338,6 +338,7 @@ export default function AetherLabsPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   INGREDIENTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...INGREDIENTS_SOURCE[i % INGREDIENTS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     INGREDIENTS_SOURCE,
@@ -364,7 +365,6 @@ export default function AetherLabsPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Real business data (resolveList) replaces demo content wholesale when

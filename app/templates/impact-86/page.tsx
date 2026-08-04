@@ -404,6 +404,7 @@ export default function AuraWellnessPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   amenities = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...amenities_SOURCE[i % amenities_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),
     amenities_SOURCE,
@@ -430,7 +431,6 @@ export default function AuraWellnessPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Real business data (resolveList) replaces demo content wholesale when

@@ -228,9 +228,10 @@ export default function FolioStudioPage() {
 
   fd = session?.formData;
   bp = session?.businessProfile;
-
-
+  c = session?.generatedContent;
   MANIFEST = MANIFEST_LIVE();
+
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -249,7 +250,6 @@ export default function FolioStudioPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

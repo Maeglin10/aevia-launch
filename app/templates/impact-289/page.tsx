@@ -2620,12 +2620,15 @@ export default function Impact289Page() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   PARTNER_CATEGORIES = PARTNER_CATEGORIES_LIVE();
-
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-
   STATS_DEMO = STATS_DEMO_LIVE();
+
+
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -2644,9 +2647,6 @@ export default function Impact289Page() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

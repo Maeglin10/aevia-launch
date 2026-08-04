@@ -170,8 +170,9 @@ export default function Impact26() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
   testimonials_SOURCE = testimonials_SOURCE_LIVE();
+
   testimonials = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], text: r.text, name: r.author })),
     testimonials_SOURCE,
@@ -208,7 +209,6 @@ export default function Impact26() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()

@@ -1189,8 +1189,8 @@ export default function FashionEditorialTemplate() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-
   STORES = STORES_LIVE();
+
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const COLLECTION = buildCollection();

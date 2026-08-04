@@ -1190,6 +1190,9 @@ export default function LumyxPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   SPEC_BULLETS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPEC_BULLETS_SOURCE[i % SPEC_BULLETS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     SPEC_BULLETS_SOURCE,
@@ -1220,9 +1223,6 @@ export default function LumyxPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

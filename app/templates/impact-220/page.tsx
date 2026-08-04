@@ -2372,8 +2372,11 @@ export default function HoraVivaPage() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
   EDITORIAL_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDITORIAL_ROWS_SOURCE[i % EDITORIAL_ROWS_SOURCE.length], title: s.title, text: s.desc || "" || "" })),
     EDITORIAL_ROWS_SOURCE,
@@ -2400,9 +2403,6 @@ export default function HoraVivaPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

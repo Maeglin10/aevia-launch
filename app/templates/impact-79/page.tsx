@@ -264,6 +264,7 @@ export default function BoulangerieNoirePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   PRODUCTS_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), PRODUCTS_SOURCE);
   PRODUCTS = PRODUCTS_DEMO.map((row, i) => ({
     ...row,
@@ -287,7 +288,6 @@ export default function BoulangerieNoirePage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false);

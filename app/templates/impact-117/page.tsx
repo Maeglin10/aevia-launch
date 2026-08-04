@@ -89,6 +89,7 @@ export default function VoltLogisticsPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   FEATURES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
     FEATURES_SOURCE,
@@ -119,7 +120,6 @@ export default function VoltLogisticsPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

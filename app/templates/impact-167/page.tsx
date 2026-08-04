@@ -820,15 +820,15 @@ export default function Impact167Page() {
   }, []);
 
   fd = session?.formData;
-
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-
-  NEIGHBORHOODS_DEMO = NEIGHBORHOODS_DEMO_LIVE();
-
-  STATS_DEMO = STATS_DEMO_LIVE();
-  c = session?.generatedContent;
   bp = session?.businessProfile;
+  c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  NEIGHBORHOODS_DEMO = NEIGHBORHOODS_DEMO_LIVE();
+  STATS_DEMO = STATS_DEMO_LIVE();
+
+
+
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

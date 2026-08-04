@@ -2119,13 +2119,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
-
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-
-  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
+
+
   EDIT_ROWS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_DEMO_SOURCE[i % EDIT_ROWS_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_DEMO_SOURCE,

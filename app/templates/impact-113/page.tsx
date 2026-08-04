@@ -241,8 +241,8 @@ export default function NexusSaaSPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
-
   PRICING_SOURCE = PRICING_SOURCE_LIVE();
+
   PRICING = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].price })),
     PRICING_SOURCE,

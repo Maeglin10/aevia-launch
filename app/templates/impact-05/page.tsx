@@ -274,8 +274,9 @@ export default function NovaPlatformSaaS() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
   PRICING_SOURCE = PRICING_SOURCE_LIVE();
+
   FEATURE_TABS_DEMO = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...FEATURE_TABS_DEMO_SOURCE[i % FEATURE_TABS_DEMO_SOURCE.length], value: s.value, label: s.label })),
     FEATURE_TABS_DEMO_SOURCE,
@@ -323,7 +324,6 @@ export default function NovaPlatformSaaS() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [billingAnnual, setBillingAnnual] = useState(true)

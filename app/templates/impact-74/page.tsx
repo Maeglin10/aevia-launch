@@ -220,6 +220,9 @@ export default function AeviaKitchenPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   EXPERIENCES = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EXPERIENCES_SOURCE[i % EXPERIENCES_SOURCE.length], title: s.title, desc: s.desc || "" || "", price: s.price ?? EXPERIENCES_SOURCE[i % EXPERIENCES_SOURCE.length].price })),
     EXPERIENCES_SOURCE,
@@ -242,9 +245,6 @@ export default function AeviaKitchenPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   REVIEWS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], author: r.author, text: r.text })),
     REVIEWS_SOURCE,

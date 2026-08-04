@@ -183,16 +183,16 @@ export default function AtelierBloomPage() {
   }, []);
 
   fd = session?.formData;
-
-  ATOUTS = ATOUTS_LIVE();
-
-  ENTREPRISES = ENTREPRISES_LIVE();
-
-  AVIS_SOURCE = AVIS_SOURCE_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
-
+  ATOUTS = ATOUTS_LIVE();
+  ENTREPRISES = ENTREPRISES_LIVE();
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
   CREATIONS = CREATIONS_LIVE();
+
+
+
+
 
   AVIS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),

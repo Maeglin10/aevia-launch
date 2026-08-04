@@ -397,6 +397,9 @@ export default function Impact199Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   AVIS_INLINE = resolveList(
 
@@ -429,9 +432,6 @@ export default function Impact199Page() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Real client data (falls back to demo when the client left a field empty).

@@ -107,6 +107,9 @@ export default function ApexFitnessPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   PLANS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
     PLANS_SOURCE,
@@ -129,9 +132,6 @@ export default function ApexFitnessPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   FEATURES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
     FEATURES_SOURCE,

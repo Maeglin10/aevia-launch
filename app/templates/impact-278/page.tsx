@@ -2857,15 +2857,15 @@ function Impact278Page() {
   }, []);
 
   fd = session?.formData;
-
-  TESTIMONIALS278_DEMO = TESTIMONIALS278_DEMO_LIVE();
-
-  PROCESS_STEPS = PROCESS_STEPS_LIVE();
-
-  SERVICES_DEMO = SERVICES_DEMO_LIVE();
-  c = session?.generatedContent;
   bp = session?.businessProfile;
+  c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS278_DEMO = TESTIMONIALS278_DEMO_LIVE();
+  PROCESS_STEPS = PROCESS_STEPS_LIVE();
+  SERVICES_DEMO = SERVICES_DEMO_LIVE();
+
+
+
   CERTIFICATIONS = CERTIFICATIONS_DEMO;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

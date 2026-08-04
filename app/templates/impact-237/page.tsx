@@ -2213,8 +2213,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   REVIEWS_SOURCE = REVIEWS_SOURCE_LIVE();
+
   PHASES = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PHASES_SOURCE[i % PHASES_SOURCE.length], label: s.title, sub: s.desc || "" || "" })),
     PHASES_SOURCE,
@@ -2239,9 +2242,6 @@ export default function Page() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   TREATMENTS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...TREATMENTS_SOURCE[i % TREATMENTS_SOURCE.length], label: s.title })),
     TREATMENTS_SOURCE,

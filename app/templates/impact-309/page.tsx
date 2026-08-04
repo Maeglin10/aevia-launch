@@ -363,6 +363,9 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -381,9 +384,6 @@ export default function Page() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   HERO_STYLES = HERO_STYLES_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

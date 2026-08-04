@@ -148,6 +148,9 @@ export default function PulseEventsPage() {
 
   fd = session?.formData;
   bp = session?.businessProfile;
+  c = session?.generatedContent;
+  VENUES = VENUES_LIVE();
+  EVENTS_DEMO_SOURCE = EVENTS_DEMO_SOURCE_LIVE();
 
 
   CHIFFRES_ANON = resolveList(
@@ -158,9 +161,7 @@ export default function PulseEventsPage() {
 
   );
 
-  VENUES = VENUES_LIVE();
 
-  EVENTS_DEMO_SOURCE = EVENTS_DEMO_SOURCE_LIVE();
   EVENTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EVENTS_DEMO_SOURCE[i % EVENTS_DEMO_SOURCE.length], title: s.title, price: s.price ?? EVENTS_DEMO_SOURCE[i % EVENTS_DEMO_SOURCE.length].price })),
     EVENTS_DEMO_SOURCE,
@@ -191,7 +192,6 @@ export default function PulseEventsPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

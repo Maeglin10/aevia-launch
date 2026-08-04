@@ -121,11 +121,11 @@ export default function OsteoGaiaPage() {
   }, []);
 
   fd = session?.formData;
-
-  AVIS_DEMO = AVIS_DEMO_LIVE();
-  c = session?.generatedContent;
   bp = session?.businessProfile;
+  c = session?.generatedContent;
   sessionData = session;
+  AVIS_DEMO = AVIS_DEMO_LIVE();
+
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

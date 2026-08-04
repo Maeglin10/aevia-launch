@@ -95,9 +95,9 @@ export default function CapHorizonPatrimoinePage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-
-
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
+
+
   PARCOURS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PARCOURS_SOURCE[i % PARCOURS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     PARCOURS_SOURCE,

@@ -92,12 +92,12 @@ export default function CapChauffeurPage() {
 
 
   fd = session?.formData;
-
-
-  TARIFS_DEMO = TARIFS_DEMO_LIVE();
-  c = session?.generatedContent;
   bp = session?.businessProfile;
+  c = session?.generatedContent;
   sessionData = session;
+  TARIFS_DEMO = TARIFS_DEMO_LIVE();
+
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
