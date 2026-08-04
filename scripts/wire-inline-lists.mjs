@@ -35,6 +35,22 @@ const PLANS = {
     projette: (t, d) => `${t}: s.title, ${d}: s.desc || ""`,
     v: "s",
   },
+  faq: {
+    helper: "clientFaq",
+    nom: "FAQ_INLINE",
+    texte: ["q", "question"],
+    auteur: ["a", "answer", "reponse"],
+    projette: (q, a) => `${q}: r.q, ${a}: r.a`,
+    v: "r",
+  },
+  tarifs: {
+    helper: "clientServices",
+    nom: "TARIFS_INLINE",
+    texte: ["a", "name", "title", "titre", "nom", "label", "f"],
+    auteur: ["p", "price", "prix", "tarif"],
+    projette: (n, p) => `${n}: s.title, ${p}: s.price ?? TARIFS_INLINE_SOURCE[i % TARIFS_INLINE_SOURCE.length].${p}`,
+    v: "s",
+  },
   equipe: {
     helper: "clientTeam",
     nom: "EQUIPE_INLINE",
@@ -49,7 +65,7 @@ const PLANS = {
 };
 const plan = PLANS[bloc];
 if (!plan) {
-  console.error("usage: node scripts/wire-inline-lists.mjs avis|prestations|equipe [impact-NN …] [--dry]");
+  console.error("usage: node scripts/wire-inline-lists.mjs avis|prestations|equipe|faq|tarifs [impact-NN …] [--dry]");
   process.exit(1);
 }
 
@@ -67,6 +83,13 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
   let trouve = null;
   while ((m = re.exec(src))) {
     const corps = m[1];
+    /*
+      Une liste qui contient une interpolation ou un appel ne peut pas monter au
+      niveau du module : elle y serait évaluée à l'import, quand la session
+      n'existe pas. Un thème avait ainsi vu « ${clientCity(...)} » figé sur la
+      ville de démonstration.
+    */
+    if (/\$\{|\w+\(/.test(corps)) continue;
     const cles = [...corps.matchAll(/["']?(\w+)["']?\s*:/g)].map((x) => x[1].toLowerCase());
     const a = plan.texte.find((k) => cles.includes(k));
     const b = plan.auteur.find((k) => cles.includes(k));
@@ -83,7 +106,7 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
   }
 
   const decl =
-    `\n// ${{ avis: "Les avis", prestations: "Les prestations", equipe: "L'équipe" }[bloc]}, jusqu'ici écrit(e)s dans le rendu :\n` +
+    `\n// ${{ avis: "Les avis", prestations: "Les prestations", equipe: "L'équipe", faq: "La FAQ", tarifs: "La grille tarifaire" }[bloc]}, jusqu'ici écrit(e) dans le rendu :\n` +
     `// le client pouvait les saisir, le thème ne les lisait pas.\n` +
     `const ${plan.nom}_SOURCE = [\n  ${trouve.corps.trim()}\n];\n` +
     `let ${plan.nom} = ${plan.nom}_SOURCE;\n`;

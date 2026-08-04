@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -18,6 +19,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les avis, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const AVIS_INLINE_SOURCE = [
+  { quote: "The Patagonia expedition changed my life. Not hyperbole — I genuinely made different career and family decisions in the weeks after. Meridian creates that kind of space.", name: "A. Fischer", origin: "Berlin · Software Engineer", exp: "Patagonia Wind Routes" },
+                { quote: "I've done 11 expeditions with various companies. Meridian is the only one where the guide knows when to speak and when not to. That's rare and priceless.", name: "P. Nakamura", origin: "Osaka · Surgeon", exp: "Iceland Ice Shelf" },
+                { quote: "My son and I did the Greenland coastal route. He's 14. He still talks about it. I'll never find a better investment of two weeks.", name: "D. Morel", origin: "Lyon · Architect", exp: "Greenland Coastal" }
+];
+let AVIS_INLINE = AVIS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -92,6 +103,20 @@ export default function MeridianJourneyPage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_INLINE = resolveList(
+
+    clientReviews(session)?.map((r: any, i: number) => ({
+
+      ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
+
+      quote: r.text, name: r.author,
+
+    })),
+
+    AVIS_INLINE_SOURCE,
+
+  );
   EXPEDITIONS = EXPEDITIONS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
@@ -307,11 +332,7 @@ export default function MeridianJourneyPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { quote: "The Patagonia expedition changed my life. Not hyperbole — I genuinely made different career and family decisions in the weeks after. Meridian creates that kind of space.", name: "A. Fischer", origin: "Berlin · Software Engineer", exp: "Patagonia Wind Routes" },
-                { quote: "I've done 11 expeditions with various companies. Meridian is the only one where the guide knows when to speak and when not to. That's rare and priceless.", name: "P. Nakamura", origin: "Osaka · Surgeon", exp: "Iceland Ice Shelf" },
-                { quote: "My son and I did the Greenland coastal route. He's 14. He still talks about it. I'll never find a better investment of two weeks.", name: "D. Morel", origin: "Lyon · Architect", exp: "Greenland Coastal" },
-              ].map((t, i) => (
+              {AVIS_INLINE.map((t, i) => (
                 <Reveal key={i} delay={i * 0.12}>
                   <div className="group border border-white/5 rounded-2xl p-10 flex flex-col gap-6 hover:border-[var(--brand,#14b8a6)]/20 transition-all duration-500 h-full">
                     <div className="flex gap-1">

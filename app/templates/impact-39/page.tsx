@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -23,12 +24,23 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { val: "4,9★", label: "Avis Google" },
+                  { val: "18 K+", label: "Clients satisfaits" },
+                  { val: "100 %", label: "Agréé & assuré" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -60,6 +72,22 @@ export default function SwiftMovePage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(session)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -129,11 +157,7 @@ return (
 
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
                 style={{ display: "flex", gap: 32, marginTop: 52 }}>
-                {[
-                  { val: "4,9★", label: "Avis Google" },
-                  { val: "18 K+", label: "Clients satisfaits" },
-                  { val: "100 %", label: "Agréé & assuré" },
-                ].map((s) => (
+                {STATS_INLINE.map((s) => (
                   <div key={s.label}>
                     <div style={{ fontSize: 22, fontWeight: 900, color: C.orange }}>{s.val}</div>
                     <div style={{fontSize: 13, color: brand ?? 'var(--brand,#93c5fd)', marginTop: 4 }}>{s.label}</div>

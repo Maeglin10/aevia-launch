@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
@@ -16,12 +17,24 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { val: "200+", label: "Projects delivered" },
+              { val: "40+", label: "Global clients" },
+              { val: "12ms", label: "Avg. render time" },
+              { val: "99.8%", label: "Client satisfaction" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -748,6 +761,22 @@ export default function Home() {
 
   fd = session?.formData;
 
+  STATS_INLINE = resolveList(
+
+    clientStats(session)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
+
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 0;
@@ -829,12 +858,7 @@ return (
             transition={{ duration: 0.7, delay: 0.5 }}
             className="mt-20 flex flex-wrap gap-12"
           >
-            {[
-              { val: "200+", label: "Projects delivered" },
-              { val: "40+", label: "Global clients" },
-              { val: "12ms", label: "Avg. render time" },
-              { val: "99.8%", label: "Client satisfaction" },
-            ].map(({ val, label }) => (
+            {STATS_INLINE.map(({ val, label }) => (
               <div key={label}>
                 <div className="text-3xl font-bold text-[var(--brand,#9B5CF6)]" style={monoStyle}>{val}</div>
                 <div className="text-sm text-white/40 mt-1">{label}</div>

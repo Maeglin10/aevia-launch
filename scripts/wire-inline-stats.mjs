@@ -40,6 +40,13 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
   let trouve = null;
   while ((m = re.exec(src))) {
     const corps = m[1];
+    /*
+      Une liste qui contient une interpolation ou un appel ne peut pas monter au
+      niveau du module : elle y serait évaluée à l'import, quand la session
+      n'existe pas. Un thème avait ainsi vu « ${clientCity(...)} » figé sur la
+      ville de démonstration.
+    */
+    if (/\$\{|\w+\(/.test(corps)) continue;
     const cles = [...corps.matchAll(/["']?(\w+)["']?\s*:/g)].map((x) => x[1].toLowerCase());
     const v = VALEUR.find((k) => cles.includes(k));
     const l = LIBELLE.find((k) => cles.includes(k));

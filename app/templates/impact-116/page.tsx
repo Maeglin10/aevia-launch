@@ -20,6 +20,7 @@ import {
   clientCity,
   clientName,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -27,6 +28,17 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { label: "Projects Completed", value: 300 },
+            { label: "Years Experience", value: 8 },
+            { label: "Brands Served", value: 50 },
+            { label: "Awards Won", value: 12 }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -169,6 +181,22 @@ export default function KineticStudio() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -374,12 +402,7 @@ export default function KineticStudio() {
           <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>By The Numbers</h2>
         </Reveal>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {[
-            { label: "Projects Completed", value: 300 },
-            { label: "Years Experience", value: 8 },
-            { label: "Brands Served", value: 50 },
-            { label: "Awards Won", value: 12 },
-          ].map((stat, idx) => (
+          {STATS_INLINE.map((stat, idx) => (
             <Reveal key={idx} delay={idx * 0.1}>
               <div className="text-center">
                 <p className="text-4xl md:text-5xl font-light mb-2" style={{color: brand ?? 'var(--brand,#ff5500)' }}>

@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useState, useRef, useEffect} from 'react';
@@ -59,6 +60,31 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les avis, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const AVIS_INLINE_SOURCE = [
+  {
+                name: "Maxime Dubois",
+                before: "Caissier",
+                after: "Développeur Frontend @ Deezer",
+                salary: "+87% salaire",
+                quote:
+                  "En 9 mois avec le parcours Frontend de Skillbridge, j'ai décroché un poste que je n'aurais jamais cru possible. La qualité des cours est incomparable.",
+                initials: "MD",
+              },
+              {
+                name: "Camille Renard",
+                before: "Assistante RH",
+                after: "UX Designer @ SNCF Connect",
+                salary: "+65% salaire",
+                quote:
+                  "J'avais peur que la reconversion soit trop longue. Avec Skillbridge, j'ai eu mon premier job en UX 6 mois après avoir commencé. Le parcours est structuré parfaitement.",
+                initials: "CR",
+              }
+];
+let AVIS_INLINE = AVIS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -90,6 +116,20 @@ export default function Impact49Page() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_INLINE = resolveList(
+
+    clientReviews(session)?.map((r: any, i: number) => ({
+
+      ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
+
+      quote: r.text, name: r.author,
+
+    })),
+
+    AVIS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -520,26 +560,7 @@ return (
 
           {/* Testimonial slider / grid snippet */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              {
-                name: "Maxime Dubois",
-                before: "Caissier",
-                after: "Développeur Frontend @ Deezer",
-                salary: "+87% salaire",
-                quote:
-                  "En 9 mois avec le parcours Frontend de Skillbridge, j'ai décroché un poste que je n'aurais jamais cru possible. La qualité des cours est incomparable.",
-                initials: "MD",
-              },
-              {
-                name: "Camille Renard",
-                before: "Assistante RH",
-                after: "UX Designer @ SNCF Connect",
-                salary: "+65% salaire",
-                quote:
-                  "J'avais peur que la reconversion soit trop longue. Avec Skillbridge, j'ai eu mon premier job en UX 6 mois après avoir commencé. Le parcours est structuré parfaitement.",
-                initials: "CR",
-              },
-            ].map((testi, idx) => (
+            {AVIS_INLINE.map((testi, idx) => (
               <Reveal key={testi.name} delay={idx * 0.1}>
                 <div className="p-10 rounded-[2.5rem] bg-[#F9FAFB] border border-[#F3F4F6] flex flex-col justify-between h-full">
                   <div>

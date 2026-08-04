@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -18,6 +19,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les avis, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const AVIS_INLINE_SOURCE = [
+  { quote: "Vogue Noire est la seule publication qui parle de mode avec une intelligence que je reconnais. Chaque numéro m'apprend quelque chose.", name: "Amara K.", role: "Styliste · Paris" },
+              { quote: "J'ai découvert trois créateurs majeurs grâce à Vogue Noire avant qu'ils ne défilent à Milan. C'est la définition d'un vrai média de mode.", name: "Lilas T.", role: "Buyer · Montréal" },
+              { quote: "Le seul magazine que je garde. La photographie, les mots, le silence entre les deux — rien d'autre n'approche ce niveau d'exigence.", name: "Sonia B.", role: "Photographe · Dakar" }
+];
+let AVIS_INLINE = AVIS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -54,6 +65,20 @@ export default function VogueNoirePage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_INLINE = resolveList(
+
+    clientReviews(session)?.map((r: any, i: number) => ({
+
+      ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
+
+      quote: r.text, name: r.author,
+
+    })),
+
+    AVIS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -225,11 +250,7 @@ return (
             </h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#2A2820]">
-            {[
-              { quote: "Vogue Noire est la seule publication qui parle de mode avec une intelligence que je reconnais. Chaque numéro m'apprend quelque chose.", name: "Amara K.", role: "Styliste · Paris" },
-              { quote: "J'ai découvert trois créateurs majeurs grâce à Vogue Noire avant qu'ils ne défilent à Milan. C'est la définition d'un vrai média de mode.", name: "Lilas T.", role: "Buyer · Montréal" },
-              { quote: "Le seul magazine que je garde. La photographie, les mots, le silence entre les deux — rien d'autre n'approche ce niveau d'exigence.", name: "Sonia B.", role: "Photographe · Dakar" },
-            ].map((t, i) => (
+            {AVIS_INLINE.map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#0A0A08] p-12 flex flex-col gap-6 hover:bg-[#0F0E0B] transition-colors">
                   <div className="text-5xl text-[var(--brand,#C9A86C)]/10 font-serif leading-none">&ldquo;</div>

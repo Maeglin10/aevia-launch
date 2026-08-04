@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef, useCallback } from "react"
@@ -35,12 +36,24 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: "48", label: "Pays explorés", suffix: "" },
+              { value: "200", label: "Collections", suffix: "+" },
+              { value: "5M", label: "Vues cumulées", suffix: "+" },
+              { value: "2800", label: "Tirages vendus", suffix: "+" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -565,6 +578,22 @@ export default function Impact114Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(session)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   SLIDES = SLIDES_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
@@ -1256,12 +1285,7 @@ export default function Impact114Page() {
       <section id="realisations" className="py-20 px-6 md:px-12 bg-[#3d5a3e]">
         <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-[#faf8f3]/10">
-            {[
-              { value: "48", label: "Pays explorés", suffix: "" },
-              { value: "200", label: "Collections", suffix: "+" },
-              { value: "5M", label: "Vues cumulées", suffix: "+" },
-              { value: "2800", label: "Tirages vendus", suffix: "+" },
-            ].map((stat, i) => (
+            {STATS_INLINE.map((stat, i) => (
               <Reveal key={stat.label} delay={i * 0.08}>
                 <div className="px-8 py-10 text-center">
                   <motion.div

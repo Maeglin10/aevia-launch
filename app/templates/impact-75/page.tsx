@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
@@ -24,6 +25,7 @@ import {
 import { Reveal, GridBackground } from "./shared";
 import {
   clientCity,
+  clientFaq,
   clientName,
   clientPhotos,
   clientReviews,
@@ -34,6 +36,18 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// La FAQ, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const FAQ_INLINE_SOURCE = [
+  { q: "Quels sont les délais de livraison ?", a: "Livraison standard : 2-3 jours ouvrés gratuite dès 200€. Express 24h disponible pour 12€ en France métropolitaine. Les produits en stock partent le jour même si la commande est passée avant 14h. Livraison internationale disponible dans 38 pays." },
+              { q: "Quelle est votre politique de retour ?", a: "30 jours de retour gratuit, sans questions. Si votre produit présente un défaut ou ne vous convient pas, nous prenons en charge l'enlèvement à domicile et le remboursement intégral sous 5 jours ouvrés. Aucun frais de restockage." },
+              { q: "Vos produits sont-ils garantis ?", a: "Tous nos produits bénéficient d'une garantie constructeur de 2 ans minimum, extensible à 5 ans avec notre programme NeuroSafe. En cas de panne, nous vous remplaçons le produit sous 48h sans attendre la fin du diagnostic." },
+              { q: "Proposez-vous des facilités de paiement ?", a: "Oui — paiement en 3x ou 12x sans frais disponible dès 150€ via notre partenaire Alma. Paiement en 24x pour les produits à partir de 1 000€. Aucun justificatif ni formulaire papier — tout se fait en 30 secondes à la caisse." },
+              { q: "Comment contacter le support ?", a: "Chat en direct disponible 7j/7 de 8h à 23h. Email avec réponse garantie en moins de 2h en semaine, 4h le week-end. Pour les produits sous garantie, ligne prioritaire au 01 88 32 XX XX. Notre NPS client est de 78 — on ne dit pas ça pour rien." }
+];
+let FAQ_INLINE = FAQ_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -632,6 +646,20 @@ export default function OrbitAIPage() {
   }, []);
 
   fd = session?.formData;
+
+  FAQ_INLINE = resolveList(
+
+    clientFaq(session)?.map((r: any, i: number) => ({
+
+      ...FAQ_INLINE_SOURCE[i % FAQ_INLINE_SOURCE.length],
+
+      q: r.q, a: r.a,
+
+    })),
+
+    FAQ_INLINE_SOURCE,
+
+  );
   HERO_PRODUCTS = HERO_PRODUCTS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
@@ -1209,13 +1237,7 @@ return (
             <h2 className="text-4xl md:text-5xl font-black text-black tracking-tight mb-16">FAQ</h2>
           </Reveal>
           <div className="divide-y divide-black/5">
-            {[
-              { q: "Quels sont les délais de livraison ?", a: "Livraison standard : 2-3 jours ouvrés gratuite dès 200€. Express 24h disponible pour 12€ en France métropolitaine. Les produits en stock partent le jour même si la commande est passée avant 14h. Livraison internationale disponible dans 38 pays." },
-              { q: "Quelle est votre politique de retour ?", a: "30 jours de retour gratuit, sans questions. Si votre produit présente un défaut ou ne vous convient pas, nous prenons en charge l'enlèvement à domicile et le remboursement intégral sous 5 jours ouvrés. Aucun frais de restockage." },
-              { q: "Vos produits sont-ils garantis ?", a: "Tous nos produits bénéficient d'une garantie constructeur de 2 ans minimum, extensible à 5 ans avec notre programme NeuroSafe. En cas de panne, nous vous remplaçons le produit sous 48h sans attendre la fin du diagnostic." },
-              { q: "Proposez-vous des facilités de paiement ?", a: "Oui — paiement en 3x ou 12x sans frais disponible dès 150€ via notre partenaire Alma. Paiement en 24x pour les produits à partir de 1 000€. Aucun justificatif ni formulaire papier — tout se fait en 30 secondes à la caisse." },
-              { q: "Comment contacter le support ?", a: "Chat en direct disponible 7j/7 de 8h à 23h. Email avec réponse garantie en moins de 2h en semaine, 4h le week-end. Pour les produits sous garantie, ligne prioritaire au 01 88 32 XX XX. Notre NPS client est de 78 — on ne dit pas ça pour rien." },
-            ].map((faq, i) => (
+            {FAQ_INLINE.map((faq, i) => (
               <Reveal key={i} delay={i * 0.06}>
                 <div className="py-8">
                   <h4 className="font-black text-black text-sm uppercase tracking-wide mb-4">{faq.q}</h4>

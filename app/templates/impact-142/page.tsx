@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
@@ -18,6 +19,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les avis, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const AVIS_INLINE_SOURCE = [
+  { quote: "Verdant made our corporate ESG reporting completely seamless. The live APIs allow us to display our real-time offset directly to our customers.", author: "Sarah Jenkins", role: "Sustainability Lead · NovaRetail" },
+                { quote: "I've subscribed to the Individual plan for two years. The quarterly reports are incredibly detailed, showing exact GPS coordinates of the trees planted.", author: "David Vance", role: "Subscriber since 2024" },
+                { quote: "Their focus on indigenous community partnerships is what sets them apart. This isn't just about carbon; it's about social equity.", author: "Dr. Aris Thorne", role: "Climate Researcher · Earth Institute" }
+];
+let AVIS_INLINE = AVIS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -98,6 +109,20 @@ export default function VerdantImpactPage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_INLINE = resolveList(
+
+    clientReviews(session)?.map((r: any, i: number) => ({
+
+      ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
+
+      quote: r.text, author: r.author,
+
+    })),
+
+    AVIS_INLINE_SOURCE,
+
+  );
   PROGRAMS = PROGRAMS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
@@ -338,11 +363,7 @@ export default function VerdantImpactPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { quote: "Verdant made our corporate ESG reporting completely seamless. The live APIs allow us to display our real-time offset directly to our customers.", author: "Sarah Jenkins", role: "Sustainability Lead · NovaRetail" },
-                { quote: "I've subscribed to the Individual plan for two years. The quarterly reports are incredibly detailed, showing exact GPS coordinates of the trees planted.", author: "David Vance", role: "Subscriber since 2024" },
-                { quote: "Their focus on indigenous community partnerships is what sets them apart. This isn't just about carbon; it's about social equity.", author: "Dr. Aris Thorne", role: "Climate Researcher · Earth Institute" },
-              ].map((t, i) => (
+              {AVIS_INLINE.map((t, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="p-8 bg-[#f6faf4] border border-emerald-600/5 rounded-2xl flex flex-col justify-between h-full hover:border-emerald-600/20 transition-all duration-300">
                     <p className="text-[var(--brand,#1a2e1a)]/60 leading-relaxed italic mb-8">"{t.quote}"</p>
