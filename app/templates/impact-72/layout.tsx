@@ -1,6 +1,9 @@
 // @ts-nocheck
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -170,7 +173,7 @@ export default function StackUnitLayout({
               STACK<span style={{ color: C.amber }}>_</span>UNIT
             </div>
             <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.55rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "1.5rem" }}>
-              MAISON DE PRODUCTION · PARIS · EST. 2001
+              MAISON DE PRODUCTION · {clientCity(__layoutSession) ?? "PARIS"} · EST. 2001
             </div>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.8rem", color: C.textDim, lineHeight: 1.65 }}>
               Agréé CNC. Membre du SPI.

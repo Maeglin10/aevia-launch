@@ -2987,7 +2987,7 @@ function FooterSection() {
       titre: 'Contact',
       liens: [
         { label: '04 67 XX XX XX', href: 'tel:+33467000000' },
-        { label: 'cabinet@kinetherapeute-montpellier.fr', href: 'mailto:cabinet@kinetherapeute-montpellier.fr' },
+        { label: 'cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr', href: 'mailto:cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr' },
         { label: '12 Av. de Palavas, Antigone', href: '#pratique' },
         { label: 'Urgences : Hôpital Lapeyronie', href: "/templates/impact-283" },
       ],

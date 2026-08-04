@@ -170,7 +170,7 @@ export default function AtelierLayout({
           <div className="flex items-center gap-8">
             <div className="hidden md:flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#1a1814]/20">
               <MapPin className="w-3.5 h-3.5" />
-              <span>PARIS VIII</span>
+              <span>{clientCity(__layoutSession) ?? "PARIS"} VIII</span>
             </div>
             <MagneticBtn
               onClick={() => setBookingOpen(true)}

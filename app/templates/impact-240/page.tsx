@@ -207,7 +207,7 @@ function EDIT_ROWS_DEMO_LIVE() {
     imgAlt: 'Studio Athletic ' + (clientCity(sessionData) ?? 'Lyon') + ' — équipements professionnels',
     title: (
       <>
-        LYON 6E,{' '}
+        {clientCity(sessionData) ?? "LYON"} 6E,{' '}
         <em style={{ color: C.accent, fontStyle: 'italic' }}>
           ÉQUIPÉ POUR PERFORMER.
         </em>
@@ -761,7 +761,7 @@ function Strip() {
     'HIIT · CIRCUIT',
     'NUTRITION',
     'RÉSULTATS GARANTIS',
-    'LYON 6E',
+    (clientCity(sessionData) ?? 'Lyon') + ' 6E',
   ];
 
   const text: React.CSSProperties = {

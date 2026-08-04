@@ -189,7 +189,15 @@ for (const id of ids) {
       .map(([k]) => k);
 
     const restes = [];
-    for (const v of VILLES_DEMO) if (v !== d.ville && new RegExp(`\\b${v}\\b`, "i").test(texte)) restes.push(v);
+    for (const v of VILLES_DEMO) {
+      if (v === d.ville) continue;
+      const m = new RegExp(`\\b${v}\\b`, "i").exec(texte);
+      if (!m) continue;
+      restes.push(v);
+      if (process.env.CONTEXTE) {
+        console.log(`   ↳ ${v} : …${texte.slice(Math.max(0, m.index - 60), m.index + 60).replace(/\n/g, " ⏎ ")}…`);
+      }
+    }
     for (const m of texte.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}/g) ?? [])
       if (m !== d.formData.email) restes.push(m);
     if (/\bNaN\b|undefined/.test(texte)) restes.push("NaN/undefined");

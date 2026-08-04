@@ -203,7 +203,7 @@ export default function MaskUnitLayout({
             © 2025 {/* NOM_PIED */ clientName(__layoutSession) ?? "MASK UNIT STUDIO"} — Valentin Milliand. ALL RIGHTS RESERVED.
           </div>
           <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", color: C.textDim }}>
-            PARIS · BRANDING · MOTION · DIGITAL
+            {clientCity(__layoutSession) ?? "PARIS"} · BRANDING · MOTION · DIGITAL
           </div>
         </div>
       </footer>

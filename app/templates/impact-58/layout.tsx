@@ -191,7 +191,7 @@ export default function SkewLayout({
             © 2025 {/* NOM_PIED */ clientName(__layoutSession) ?? "SKEW STUDIO"} — Valentin Milliand. ALL RIGHTS RESERVED.
           </div>
           <div style={{ fontFamily: "'Syne Mono', monospace", fontSize: "0.55rem", color: C.textDim }}>
-            PARIS · MOTION · FILM
+            {clientCity(__layoutSession) ?? "PARIS"} · MOTION · FILM
           </div>
         </div>
       </footer>

@@ -72,7 +72,13 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
   }
   if (!ville) continue;
 
-  const motCle = new RegExp(`\\b${ville.replace(/-/g, "\\-")}\\b`);
+  /*
+    La casse compte : « NEW YORK · LONDON · PARIS » et « BORDEAUX, FRANCE » sont
+    écrits en capitales dans les pieds de page, et un motif sensible à la casse
+    les laissait passer — soixante « Paris » et vingt-deux « Bordeaux » sur le
+    site de clients savoyards. Le repli garde la graphie d'origine.
+  */
+  const motCle = new RegExp(`\\b${ville.replace(/-/g, "\\-")}\\b`, "i");
   let n = 0;
 
   for (const f of presents) {
@@ -98,7 +104,7 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
         if (!"[,:".includes(avantChar)) return m0;
         if (apresChar && !"],}".includes(apresChar)) return m0;
         if (valeur.includes("${") || !motCle.test(valeur)) return m0;
-        const morceaux = valeur.split(motCle);
+        const morceaux = valeur.split(new RegExp(motCle.source, "i"));
         if (morceaux.some(finitParBarre)) return m0;
         k++;
         const appel = partage ? `clientCityOr(${q}${ville}${q})` : `(clientCity(${arg}) ?? ${q}${ville}${q})`;
@@ -109,7 +115,7 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
 
       // Le texte JSX, seulement dans un fichier qui a une session.
       if (!partage) {
-        out = out.replace(new RegExp(`(^|[\\s>(,·—–])(${ville})(?=[\\s<{.,;:!?·—–)]|$)`, "g"), (m0, avant, v, pos) => {
+        out = out.replace(new RegExp(`(^|[\\s>(,·—–])(${ville})(?=[\\s<{.,;:!?·—–)]|$)`, "gi"), (m0, avant, v, pos) => {
           const seg = out.slice(0, pos);
           const impair = (re) => (seg.match(re) || []).length % 2 === 1;
           if (impair(/(?<!\\)"/g) || impair(/(?<!\\)'/g) || impair(/(?<!\\)`/g)) return m0;

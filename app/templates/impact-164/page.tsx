@@ -818,7 +818,7 @@ return (
         <div style={{ padding: "80px 64px 40px", borderBottom: `2px solid ${C.bgDark}` }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
             <div style={{ fontSize: "clamp(32px, 5vw, 64px)", fontWeight: 900, letterSpacing: "-2px" }}>L'ÉQUIPE</div>
-            <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 4, color: C.textMuted, textTransform: "uppercase" }}>PARIS · 4 PERMANENTS</div>
+            <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 4, color: C.textMuted, textTransform: "uppercase" }}>{clientCity(sessionData) ?? "PARIS"} · 4 PERMANENTS</div>
           </div>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", borderBottom: `2px solid ${C.bgDark}` }}>

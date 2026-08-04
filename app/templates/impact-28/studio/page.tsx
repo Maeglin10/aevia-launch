@@ -97,7 +97,7 @@ export default function StudioPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
         <div className="lg:col-span-5">
           <h2 className="font-black text-4xl uppercase mb-6" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
-            FOUNDED IN PARIS, 2008.
+            FOUNDED IN {clientCity(sessionData) ?? "PARIS"}, 2008.
           </h2>
           <p className="text-gray-600 leading-relaxed mb-6">
             Atelier Brunel was founded by Viktor Brunel in {clientCity(sessionData) ?? "Paris"} with a simple commitment: to return architecture to its raw, structural roots. Rejecting the glass-and-plasterboard standards of commercial offices, the studio pioneered raw concrete formulations suited for both residential and institutional buildings.

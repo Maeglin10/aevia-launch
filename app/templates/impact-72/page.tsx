@@ -556,7 +556,7 @@ return (
               color: C.textDim,
             }}
           >
-            STACK UNIT FILMS · PARIS · EST. 2001
+            STACK UNIT FILMS · {clientCity(sessionData) ?? "PARIS"} · EST. 2001
           </motion.div>
         </div>
       </section>
