@@ -546,7 +546,7 @@ function TestimonialsCarousel() {
           }}
         >
           <div style={{ display: "flex", justifyContent: "center", gap: 4, marginBottom: 24 }}>
-            {Array.from({ length: TESTIMONIALS[current].rating }).map((_, i) => (
+            {Array.from({ length: TESTIMONIALS[current % TESTIMONIALS.length].rating }).map((_, i) => (
               <Star key={i} size={16} fill={C.caramel} color={C.caramel} />
             ))}
           </div>
@@ -559,7 +559,7 @@ function TestimonialsCarousel() {
             fontWeight: 400,
             marginBottom: 28,
           }}>
-            "{TESTIMONIALS[current].text}"
+            "{TESTIMONIALS[current % TESTIMONIALS.length].text}"
           </p>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14 }}>
             <div style={{
@@ -575,19 +575,19 @@ function TestimonialsCarousel() {
               fontSize: 15,
               color: C.caramel,
             }}>
-              {TESTIMONIALS[current].avatar}
+              {TESTIMONIALS[current % TESTIMONIALS.length].avatar}
             </div>
             <div style={{ textAlign: "left" }}>
               <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 16, color: C.cream }}>
-                {TESTIMONIALS[current].name}
+                {TESTIMONIALS[current % TESTIMONIALS.length].name}
               </div>
               <div style={{fontSize: 12, color: brand ?? 'var(--brand-light,#7a5c3a)', fontWeight: 300 }}>
-                {TESTIMONIALS[current].role}
+                {TESTIMONIALS[current % TESTIMONIALS.length].role}
               </div>
             </div>
           </div>
           <div style={{ marginTop: 16, fontSize: 12, color: C.caramel, fontWeight: 600 }}>
-            {TESTIMONIALS[current].coffee}
+            {TESTIMONIALS[current % TESTIMONIALS.length].coffee}
           </div>
         </motion.div>
       </AnimatePresence>

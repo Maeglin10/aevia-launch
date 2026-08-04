@@ -1,6 +1,6 @@
 # IA ou plug-and-play — ce qui coûte quoi
 
-État au 4 août 2026, après le chantier de personnalisation des 373 thèmes.
+État au 5 août 2026, après le chantier de personnalisation des 373 thèmes.
 
 ## Ce qui vient du client, sans IA
 
@@ -20,7 +20,7 @@ Le wizard recueille, et les thèmes lisent directement :
 | photos | étape visuels | tous les emplacements du thème |
 | couleur de marque | étape design | accents, boutons, liens |
 | identité légale | étape légale | éditeur, mentions, CGV |
-| titres et listes de section | aperçu, panneau d'édition | 2210 retouches sur 371 thèmes |
+| titres et listes de section | aperçu, panneau d'édition | 2235 retouches sur 371 thèmes |
 
 **Aucune de ces données ne passe par un modèle.** C'est du plug-and-play : ce que
 le client tape s'affiche, ce qu'il ne tape pas garde le contenu du thème.

@@ -1041,7 +1041,7 @@ export default function EssentialBlogPage() {
           </Reveal>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(380px, 100%), 1fr))", gap: 2 }}>
-            {[TESTIMONIALS[testimonialIdx], TESTIMONIALS[(testimonialIdx + 1) % TESTIMONIALS.length], TESTIMONIALS[(testimonialIdx + 2) % TESTIMONIALS.length]].map((t, i) => (
+            {[TESTIMONIALS[testimonialIdx % TESTIMONIALS.length], TESTIMONIALS[(testimonialIdx + 1) % TESTIMONIALS.length], TESTIMONIALS[(testimonialIdx + 2) % TESTIMONIALS.length]].map((t, i) => (
               <Reveal key={`${testimonialIdx}-${i}`} delay={i * 0.1}>
                 <div style={{ padding: "32px 28px", border: `1px solid ${C.border}`, background: C.bg }}>
                   <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>

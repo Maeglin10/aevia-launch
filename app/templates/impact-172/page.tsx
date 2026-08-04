@@ -200,7 +200,7 @@ export default function LegrandPage() {
     return () => window.removeEventListener("scroll", onScroll)
   }, []);
 
-  const ActiveDomainIcon = DOMAINS[activeDomain].icon
+  const ActiveDomainIcon = DOMAINS[activeDomain % DOMAINS.length].icon
 
   return (
     <div className="min-h-dvh bg-[#F9F6F0] text-[#1A1510]" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -374,13 +374,13 @@ export default function LegrandPage() {
                     <ActiveDomainIcon className="w-6 h-6 text-[var(--brand,#C9A855)]" />
                   </div>
                   <h3 className="text-2xl font-light mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>
-                    {DOMAINS[activeDomain].label}
+                    {DOMAINS[activeDomain % DOMAINS.length].label}
                   </h3>
-                  <p className="text-[#5A5040] leading-relaxed mb-10">{DOMAINS[activeDomain].desc}</p>
-                  {DOMAINS[activeDomain].expertise?.length > 0 && (
+                  <p className="text-[#5A5040] leading-relaxed mb-10">{DOMAINS[activeDomain % DOMAINS.length].desc}</p>
+                  {DOMAINS[activeDomain % DOMAINS.length].expertise?.length > 0 && (
                   <div className="space-y-3">
                     <p className="text-xs tracking-[0.2em] uppercase text-[var(--brand,#C9A855)] mb-4">Domaines d&apos;expertise</p>
-                    {DOMAINS[activeDomain].expertise.map(e => (
+                    {DOMAINS[activeDomain % DOMAINS.length].expertise.map(e => (
                       <div key={e} className="flex items-center gap-3 text-sm">
                         <div className="w-4 h-[1px] bg-[var(--brand,#C9A855)]" />
                         <span className="text-[#3A3020]">{e}</span>

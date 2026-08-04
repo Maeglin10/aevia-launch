@@ -478,7 +478,7 @@ export default function AuraWellnessPage() {
   const { scrollYProgress: amenitiesScroll } = useScroll({ target: amenitiesRef, offset: ["start end", "end start"] });
   const amenitiesX = useTransform(amenitiesScroll, [0, 1], ["0%", "-8%"]);
 
-  const currentRitual: any = rituals[activeRitual] ?? rituals[0];
+  const currentRitual: any = rituals[activeRitual % rituals.length] ?? rituals[0];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -916,7 +916,7 @@ export default function AuraWellnessPage() {
               transition={{ duration: 0.5 }}
             >
               <div className="flex justify-center mb-6">
-                {Array.from({ length: testimonials[activeTestimonial].rating }).map((_, i) => (
+                {Array.from({ length: testimonials[activeTestimonial % testimonials.length].rating }).map((_, i) => (
                   <Star key={i} className="w-5 h-5 text-white fill-white" />
                 ))}
               </div>
@@ -924,10 +924,10 @@ export default function AuraWellnessPage() {
                 className="text-white text-2xl md:text-3xl leading-relaxed mb-8"
                 style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
               >
-                "{testimonials[activeTestimonial].text}"
+                "{testimonials[activeTestimonial % testimonials.length].text}"
               </p>
-              <p className="text-white font-medium text-sm">{testimonials[activeTestimonial].name}</p>
-              <p className="text-white/60 text-xs mt-1">{testimonials[activeTestimonial].role} · {testimonials[activeTestimonial].ritual}</p>
+              <p className="text-white font-medium text-sm">{testimonials[activeTestimonial % testimonials.length].name}</p>
+              <p className="text-white/60 text-xs mt-1">{testimonials[activeTestimonial % testimonials.length].role} · {testimonials[activeTestimonial % testimonials.length].ritual}</p>
             </motion.div>
           </AnimatePresence>
           <div className="flex justify-center gap-2 mt-10">

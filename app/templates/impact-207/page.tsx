@@ -1610,7 +1610,7 @@ function DeliveryTimeline() {
                     justifyContent: "center",
                   }}
                 >
-                  <TemplateIcon emoji={STAGES[activeStage].icon} size={72} color={T.accent} />
+                  <TemplateIcon emoji={STAGES[activeStage % STAGES.length].icon} size={72} color={T.accent} />
                 </div>
                 <h3
                   style={{
@@ -1621,10 +1621,10 @@ function DeliveryTimeline() {
                     marginBottom: 16,
                   }}
                 >
-                  {STAGES[activeStage].label}
+                  {STAGES[activeStage % STAGES.length].label}
                 </h3>
                 <p style={{ fontSize: 16, color: T.textMuted, lineHeight: 1.6 }}>
-                  {STAGES[activeStage].desc}
+                  {STAGES[activeStage % STAGES.length].desc}
                 </p>
 
                 {/* Stage-specific visual: step dots */}
@@ -1655,7 +1655,7 @@ function DeliveryTimeline() {
                     fontWeight: 600,
                   }}
                 >
-                  Stage {activeStage + 1} of {STAGES.length} — {STAGES[activeStage].time}
+                  Stage {activeStage + 1} of {STAGES.length} — {STAGES[activeStage % STAGES.length].time}
                 </div>
               </motion.div>
             </AnimatePresence>

@@ -1416,7 +1416,7 @@ return (
                   }}
                 >
                   {(() => {
-                    const Icon = SERVICES[activeService].icon;
+                    const Icon = SERVICES[activeService % SERVICES.length].icon;
                     return <Icon size={22} />;
                   })()}
                 </div>
@@ -1429,7 +1429,7 @@ return (
                     marginBottom: 12,
                   }}
                 >
-                  {SERVICES[activeService].sub}
+                  {SERVICES[activeService % SERVICES.length].sub}
                 </div>
                 <h3
                   style={{
@@ -1441,7 +1441,7 @@ return (
                     marginBottom: 20,
                   }}
                 >
-                  {SERVICES[activeService].title}
+                  {SERVICES[activeService % SERVICES.length].title}
                 </h3>
                 <p
                   style={{
@@ -1450,7 +1450,7 @@ return (
                     lineHeight: 1.8,
                   }}
                 >
-                  {SERVICES[activeService].desc}
+                  {SERVICES[activeService % SERVICES.length].desc}
                 </p>
               </div>
 
@@ -1474,7 +1474,7 @@ return (
                 >
                   Ce que nous livrons
                 </div>
-                {SERVICES[activeService].items.map((item, i) => (
+                {SERVICES[activeService % SERVICES.length].items.map((item, i) => (
                   <motion.div
                     key={item}
                     initial={{ opacity: 0, x: 16 }}
@@ -1708,7 +1708,7 @@ return (
                       marginBottom: 36,
                     }}
                   >
-                    {TESTIMONIALS[activeTesti].q}
+                    {TESTIMONIALS[activeTesti % TESTIMONIALS.length].q}
                   </blockquote>
 
                   {/* Stars */}
@@ -1719,7 +1719,7 @@ return (
                       marginBottom: 16,
                     }}
                   >
-                    {Array.from({ length: TESTIMONIALS[activeTesti].stars }).map(
+                    {Array.from({ length: TESTIMONIALS[activeTesti % TESTIMONIALS.length].stars }).map(
                       (_, i) => (
                         <Star
                           key={i}
@@ -1754,7 +1754,7 @@ return (
                         flexShrink: 0,
                       }}
                     >
-                      {TESTIMONIALS[activeTesti].init}
+                      {TESTIMONIALS[activeTesti % TESTIMONIALS.length].init}
                     </div>
                     <div>
                       <div
@@ -1764,7 +1764,7 @@ return (
                           color: C.text,
                         }}
                       >
-                        {TESTIMONIALS[activeTesti].name}
+                        {TESTIMONIALS[activeTesti % TESTIMONIALS.length].name}
                       </div>
                       <div
                         style={{
@@ -1773,7 +1773,7 @@ return (
                           marginTop: 2,
                         }}
                       >
-                        {TESTIMONIALS[activeTesti].role} — {TESTIMONIALS[activeTesti].co}
+                        {TESTIMONIALS[activeTesti % TESTIMONIALS.length].role} — {TESTIMONIALS[activeTesti % TESTIMONIALS.length].co}
                       </div>
                     </div>
                   </div>

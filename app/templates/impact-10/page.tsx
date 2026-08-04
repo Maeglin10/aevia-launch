@@ -1477,7 +1477,7 @@ function TestimonialsSection() {
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             <div style={{ display: 'flex', justifyContent: 'center', gap: '0.35rem', marginBottom: '2rem' }}>
-              {Array.from({ length: TESTIMONIALS[active].stars }).map((_, i) => (
+              {Array.from({ length: TESTIMONIALS[active % TESTIMONIALS.length].stars }).map((_, i) => (
                 <span key={i} style={{ color: DARK, fontSize: '0.9rem' }}>✦</span>
               ))}
             </div>
@@ -1492,13 +1492,13 @@ function TestimonialsSection() {
                 marginBottom: '2rem',
               }}
             >
-              "{TESTIMONIALS[active].text}"
+              "{TESTIMONIALS[active % TESTIMONIALS.length].text}"
             </p>
             <p style={{ fontFamily: SANS, fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: DARK, fontWeight: 500 }}>
-              {TESTIMONIALS[active].name}
+              {TESTIMONIALS[active % TESTIMONIALS.length].name}
             </p>
             <p style={{ fontFamily: SANS, fontSize: '0.62rem', color: `${DARK}60`, marginTop: '0.25rem' }}>
-              {TESTIMONIALS[active].origin}
+              {TESTIMONIALS[active % TESTIMONIALS.length].origin}
             </p>
           </motion.div>
         </AnimatePresence>

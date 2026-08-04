@@ -397,8 +397,8 @@ export default function WanderlustPage() {
             className="absolute inset-0 z-0"
           >
             <Image
-              src={DESTINATIONS[activeDst].image}
-              alt={DESTINATIONS[activeDst].title}
+              src={DESTINATIONS[activeDst % DESTINATIONS.length].image}
+              alt={DESTINATIONS[activeDst % DESTINATIONS.length].title}
               fill
               className="object-cover"
               priority
@@ -420,18 +420,18 @@ export default function WanderlustPage() {
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
                 <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-bold tracking-tighter leading-[0.9] mb-6">{c?.heroHeadline ?? <>
-                  {DESTINATIONS[activeDst].title}
+                  {DESTINATIONS[activeDst % DESTINATIONS.length].title}
                 </>}</h1>
                 <p className="text-lg md:text-xl text-stone-300 max-w-2xl leading-relaxed mb-8 font-light">{fd?.tagline ?? c?.heroSubline ?? <>
-                  {DESTINATIONS[activeDst].desc}
+                  {DESTINATIONS[activeDst % DESTINATIONS.length].desc}
                 </>}</p>
                 <div className="flex items-center gap-8 text-sm font-bold uppercase tracking-widest">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-amber-500" />{" "}
-                    {DESTINATIONS[activeDst].days}
+                    {DESTINATIONS[activeDst % DESTINATIONS.length].days}
                   </div>
                   <div className="flex items-center gap-2 text-amber-500">
-                    {DESTINATIONS[activeDst].price}{" "}
+                    {DESTINATIONS[activeDst % DESTINATIONS.length].price}{" "}
                     <span className="text-stone-500">/pp</span>
                   </div>
                 </div>

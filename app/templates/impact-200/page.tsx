@@ -1251,7 +1251,7 @@ export default function Impact200Page() {
             >
               {/* Stars */}
               <div className="flex items-center gap-1 mb-6">
-                {Array.from({ length: TESTIMONIALS[activeTestimonial].stars }).map((_, i) => (
+                {Array.from({ length: TESTIMONIALS[activeTestimonial % TESTIMONIALS.length].stars }).map((_, i) => (
                   <Star key={i} className="w-4 h-4 text-[#CA8A04]" fill="currentColor" />
                 ))}
               </div>
@@ -1260,14 +1260,14 @@ export default function Impact200Page() {
                 className="text-[#831843] text-xl md:text-2xl leading-relaxed italic font-light mb-8"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
-                "{TESTIMONIALS[activeTestimonial].quote}"
+                "{TESTIMONIALS[activeTestimonial % TESTIMONIALS.length].quote}"
               </blockquote>
 
               <div className="flex items-center gap-4">
                 <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-[var(--brand,#DB2777)]/20">
                   <Image
-                    src={TESTIMONIALS[activeTestimonial].image}
-                    alt={TESTIMONIALS[activeTestimonial].names}
+                    src={TESTIMONIALS[activeTestimonial % TESTIMONIALS.length].image}
+                    alt={TESTIMONIALS[activeTestimonial % TESTIMONIALS.length].names}
                     fill
                     className="object-cover"
                   />
@@ -1277,17 +1277,17 @@ export default function Impact200Page() {
                     className="text-[#831843] font-semibold"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
-                    {TESTIMONIALS[activeTestimonial].names}
+                    {TESTIMONIALS[activeTestimonial % TESTIMONIALS.length].names}
                   </p>
                   <div className="flex items-center gap-3 text-[#831843]/40 text-xs">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
-                      <span>{TESTIMONIALS[activeTestimonial].date}</span>
+                      <span>{TESTIMONIALS[activeTestimonial % TESTIMONIALS.length].date}</span>
                     </div>
                     <span>·</span>
                     <div className="flex items-center gap-1">
                       <MapPin className="w-3 h-3" />
-                      <span>{TESTIMONIALS[activeTestimonial].location}</span>
+                      <span>{TESTIMONIALS[activeTestimonial % TESTIMONIALS.length].location}</span>
                     </div>
                   </div>
                 </div>

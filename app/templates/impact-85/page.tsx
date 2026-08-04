@@ -620,7 +620,7 @@ export default function AetherLabsPage() {
           </div>
 
           {(() => {
-            const current: any = products[activeProduct] ?? products[0];
+            const current: any = products[activeProduct % products.length] ?? products[0];
             return (
           <AnimatePresence mode="wait">
             <motion.div key={activeProduct} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.4 }}

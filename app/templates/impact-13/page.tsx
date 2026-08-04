@@ -692,7 +692,7 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
         <div className="grid md:grid-cols-2 gap-12 items-start">
           <div className="space-y-6">
             <div className="relative h-[480px] bg-[#181610] rounded-2xl overflow-hidden border border-[var(--brand,#B49A6A)]/20">
-              <Image src={photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1619134778706-7015533a6150?w=800&q=80"))} alt={watchModels[activeModel].name} fill className="object-cover opacity-80" />
+              <Image src={photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1619134778706-7015533a6150?w=800&q=80"))} alt={watchModels[activeModel % watchModels.length].name} fill className="object-cover opacity-80" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {watchModels.map((m, idx) => (
@@ -711,19 +711,19 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
 
           <div className="space-y-8">
             <div>
-              <span className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">{watchModels[activeModel].movement}</span>
-              <h2 className="text-4xl font-light mt-2" style={{ fontFamily: "'Libre Baskerville', serif" }}>{watchModels[activeModel].name}</h2>
-              <p className="text-2xl text-[var(--brand,#B49A6A)] font-light mt-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{watchModels[activeModel].price}</p>
+              <span className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">{watchModels[activeModel % watchModels.length].movement}</span>
+              <h2 className="text-4xl font-light mt-2" style={{ fontFamily: "'Libre Baskerville', serif" }}>{watchModels[activeModel % watchModels.length].name}</h2>
+              <p className="text-2xl text-[var(--brand,#B49A6A)] font-light mt-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{watchModels[activeModel % watchModels.length].price}</p>
             </div>
 
-            <p className="text-white/60 text-sm leading-relaxed">{watchModels[activeModel].desc}</p>
-            <p className="text-white/60 text-xs italic">{watchModels[activeModel].details}</p>
+            <p className="text-white/60 text-sm leading-relaxed">{watchModels[activeModel % watchModels.length].desc}</p>
+            <p className="text-white/60 text-xs italic">{watchModels[activeModel % watchModels.length].details}</p>
 
             <div className="border-t border-[var(--brand,#B49A6A)]/20 pt-6 space-y-3 text-xs text-white/40">
-              <div className="flex justify-between"><span>Complications :</span><span className="text-white">{watchModels[activeModel].complications}</span></div>
-              <div className="flex justify-between"><span>Réserve de marche :</span><span className="text-white">{watchModels[activeModel].reserve}</span></div>
-              <div className="flex justify-between"><span>Millésime :</span><span className="text-white">{watchModels[activeModel].year}</span></div>
-              <div className="flex justify-between"><span>Édition :</span><span className="text-white">{watchModels[activeModel].limited ? "Édition Limitée" : "Série Standard"}</span></div>
+              <div className="flex justify-between"><span>Complications :</span><span className="text-white">{watchModels[activeModel % watchModels.length].complications}</span></div>
+              <div className="flex justify-between"><span>Réserve de marche :</span><span className="text-white">{watchModels[activeModel % watchModels.length].reserve}</span></div>
+              <div className="flex justify-between"><span>Millésime :</span><span className="text-white">{watchModels[activeModel % watchModels.length].year}</span></div>
+              <div className="flex justify-between"><span>Édition :</span><span className="text-white">{watchModels[activeModel % watchModels.length].limited ? "Édition Limitée" : "Série Standard"}</span></div>
             </div>
 
             <button
