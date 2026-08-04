@@ -154,10 +154,10 @@ export default function StudioNomaPage() {
   }, []);
 
   fd = session?.formData;
-
   c = session?.generatedContent;
   PROJETS_DEMO = PROJETS_DEMO_LIVE();
   TEMOIGNAGES_SOURCE = TEMOIGNAGES_SOURCE_LIVE();
+
 
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),

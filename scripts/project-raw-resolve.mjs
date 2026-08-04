@@ -111,6 +111,15 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
         if (d) {
           const j = src.indexOf("[", d.index + d[0].length - 1);
           corps = src.slice(j, ferme(src, j, "[", "]") + 1);
+        } else {
+          // Le dégel a transformé la constante en fonction : `let X = X_LIVE();`
+          // ne ressemble plus à un tableau, et la démonstration est un cran plus
+          // loin, dans le `return` de `X_LIVE`.
+          const f = new RegExp(`function ${demoExpr}_LIVE\\(\\)[^{]*\\{\\s*return\\s*(?:resolveList[^[]*)?\\[`).exec(src);
+          if (f) {
+            const j = src.indexOf("[", f.index + f[0].length - 1);
+            corps = src.slice(j, ferme(src, j, "[", "]") + 1);
+          }
         }
       }
       if (!corps) continue;
