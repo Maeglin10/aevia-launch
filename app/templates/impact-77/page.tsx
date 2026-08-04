@@ -14,7 +14,13 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Mail } from "lucide-react";
-import { Reveal, MagneticBtn, TiltCard, Counter } from "./shared";
+import {
+  Counter,
+  MagneticBtn,
+  Reveal,
+  TiltCard,
+  rafraichirPartage,
+} from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 let sessionData: any = null;
 
@@ -206,6 +212,8 @@ export default function HorologsLuxePage() {
   sessionData = session;
 
   memoriserSession(sessionData);
+
+  rafraichirPartage();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   GRID_PHOTOS_DEMO = GRID_PHOTOS_DEMO_LIVE();

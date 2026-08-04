@@ -7,7 +7,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Reveal, Instagram, Twitter } from "./shared";
+import {
+  Instagram,
+  Reveal,
+  Twitter,
+  rafraichirPartage,
+} from "./shared";
 import {
   clientCity,
   clientName,
@@ -71,6 +76,7 @@ export default function VogueNoirePage() {
   fd = session?.formData;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   c = session?.generatedContent;
 
 

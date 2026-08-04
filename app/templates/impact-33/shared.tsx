@@ -110,7 +110,8 @@ export const CATEGORIES = [
   },
 ];
 
-export const BOUTIQUE_PRODUCTS = [
+function BOUTIQUE_PRODUCTS_LIVE() {
+  return [
   {
     title: "Pains artisanaux",
     emoji: "🍞",
@@ -142,8 +143,11 @@ export const BOUTIQUE_PRODUCTS = [
     ],
   },
 ];
+}
+export let BOUTIQUE_PRODUCTS = BOUTIQUE_PRODUCTS_LIVE();
 
-export const TARTES_DATA = [
+function TARTES_DATA_LIVE() {
+  return [
   {
     name: "Tarte Tatin",
     subtitle: "La classique revisitée",
@@ -177,6 +181,8 @@ export const TARTES_DATA = [
     badge: "Automne",
   },
 ];
+}
+export let TARTES_DATA = TARTES_DATA_LIVE();
 
 export const WORKSHOPS = [
   {
@@ -224,3 +230,14 @@ export const TESTIMONIALS = [
   { name: "Sakina B.", text: "J'ai commandé le plateau prestige pour l'anniversaire de ma mère — succès total. Chaque pâtisserie était un chef-d'œuvre de saveurs. Merci Camille !", stars: 5 },
 ];
 
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  BOUTIQUE_PRODUCTS = BOUTIQUE_PRODUCTS_LIVE();
+  TARTES_DATA = TARTES_DATA_LIVE();
+}

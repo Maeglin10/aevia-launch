@@ -31,7 +31,8 @@ export const NAV_LINKS = [
   { label: "Contact", href: "/templates/impact-43/contact" },
 ];
 
-export const EXPERIENCES = [
+function EXPERIENCES_LIVE() {
+  return [
   {
     title: "Alpine Stone Ritual",
     subtitle: "90 min",
@@ -81,6 +82,8 @@ export const EXPERIENCES = [
     tag: "Breathwork",
   },
 ];
+}
+export let EXPERIENCES = EXPERIENCES_LIVE();
 
 export const CIRCUIT_STEPS = [
   { step: "01", title: "Arrival & Intention", description: "Guests are welcomed with a warm tisane ceremony and invited to set a personal intention for their time at the retreat.", icon: "❧" },
@@ -141,7 +144,8 @@ export const PACKAGES = [
   },
 ];
 
-export const TEAM = [
+function TEAM_LIVE() {
+  return [
   {
     name: "Ingrid Halvorsen",
     role: "Lead Holistic Therapist",
@@ -164,6 +168,8 @@ export const TEAM = [
     specialties: ["Sound Healing", "Tibetan Bowls", "Meditation"],
   },
 ];
+}
+export let TEAM = TEAM_LIVE();
 
 export const TESTIMONIALS = [
   { quote: "I have visited six spas across Europe. Serene Retreat is categorically different. The silence alone is worth the journey.", author: "Charlotte V.", location: "Geneva" },
@@ -849,4 +855,15 @@ export function TestimonialCard({ t, active }: { t: typeof TESTIMONIALS[0]; acti
       </div>
     </motion.div>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  EXPERIENCES = EXPERIENCES_LIVE();
+  TEAM = TEAM_LIVE();
 }

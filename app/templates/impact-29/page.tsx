@@ -1,4 +1,5 @@
 "use client";
+import { rafraichirPartage } from "./shared";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
@@ -61,6 +62,7 @@ export default function Home() {
   fd = session?.formData;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   c = session?.generatedContent;
 
   brand = fd?.brandColor ?? null; // null = keep template's original color

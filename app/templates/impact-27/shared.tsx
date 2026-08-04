@@ -48,7 +48,8 @@ export function Label({ children }: { children: React.ReactNode }) {
   )
 }
 
-export const projects = [
+function projects_LIVE() {
+  return [
   {
     name: "VALO — Brand Identity in 3D",
     client: "Valo Corp",
@@ -137,4 +138,16 @@ export const projects = [
     result: "FDA-cleared training module",
     tech: ["ARKit", "Unity WebGL", "WASM"],
   },
-]
+];
+}
+export let projects = projects_LIVE();
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  projects = projects_LIVE();
+}

@@ -7,7 +7,12 @@ import {useRef, useState, useEffect} from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Quote } from "lucide-react";
-import { Reveal, MagneticBtn, Counter } from "./shared";
+import {
+  Counter,
+  MagneticBtn,
+  Reveal,
+  rafraichirPartage,
+} from "./shared";
 import {
   clientCity,
   clientList,
@@ -173,6 +178,8 @@ export default function AetherRoasteryPage() {
   sessionData = session;
 
   memoriserSession(sessionData);
+
+  rafraichirPartage();
   c = session?.generatedContent;
   WORK_REEL_DEMO = WORK_REEL_DEMO_LIVE();
 

@@ -5,11 +5,14 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Image from "next/image";
 
-export const PROJECTS = [
+function PROJECTS_LIVE() {
+  return [
   { name: "The Obsidian Villa", loc: "Malibu, CA", img: clientPhotoAt(8, "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200") },
   { name: "Glass Monolith", loc: "Berlin, DE", img: clientPhotoAt(9, "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200") },
   { name: "Serene Heights", loc: "Kyoto, JP", img: clientPhotoAt(10, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200") },
 ];
+}
+export let PROJECTS = PROJECTS_LIVE();
 
 export function Reveal({ children, delay = 0, y = 30, className = "" }: { children: React.ReactNode; delay?: number; y?: number; className?: string }) {
   const ref = useRef(null);
@@ -33,4 +36,14 @@ export function ParallaxImg({ src, alt }: { src: string; alt: string }) {
       </motion.div>
     </div>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  PROJECTS = PROJECTS_LIVE();
 }

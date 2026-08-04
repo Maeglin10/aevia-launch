@@ -6,20 +6,21 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import {
   C,
-  EXPERIENCES as EXPERIENCES_DEMO,
   CIRCUIT_STEPS,
-  PACKAGES as PACKAGES_DEMO,
-  TEAM as TEAM_DEMO,
-  TESTIMONIALS as TESTIMONIALS_DEMO,
+  CircuitStep,
+  EXPERIENCES as EXPERIENCES_DEMO,
+  ExperienceCard,
   MARQUEE_ITEMS,
-  TextReveal,
   MagneticButton,
   MarqueeStrip,
-  ExperienceCard,
-  CircuitStep,
+  PACKAGES as PACKAGES_DEMO,
   PackageCard,
-  TherapistCard,
+  TEAM as TEAM_DEMO,
+  TESTIMONIALS as TESTIMONIALS_DEMO,
   TestimonialCard,
+  TextReveal,
+  TherapistCard,
+  rafraichirPartage,
 } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
@@ -82,6 +83,7 @@ export default function SereneRetreatHome() {
   bp = session?.businessProfile;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const EXPERIENCES = resolveList(

@@ -1,4 +1,5 @@
 "use client";
+import { rafraichirPartage } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
@@ -1039,6 +1040,7 @@ export default function Impact31() {
   fd = session?.formData;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   bp = session?.businessProfile;
   c = session?.generatedContent;
 

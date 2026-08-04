@@ -11,7 +11,14 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { STATS, FEATURES, TESTIMONIALS, FAQS, Reveal } from "./shared";
+import {
+  FAQS,
+  FEATURES,
+  Reveal,
+  STATS,
+  TESTIMONIALS,
+  rafraichirPartage,
+} from "./shared";
 import {
   clientCity,
   clientName,
@@ -78,6 +85,7 @@ export default function ChateauVestigeHome() {
   fd = session?.formData;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   c = session?.generatedContent;
 
   brand = fd?.brandColor ?? null; // null = keep template's original color

@@ -1,4 +1,5 @@
 "use client";
+import { rafraichirPartage } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
@@ -159,6 +160,7 @@ export default function ConservatoireAccordPage() {
   fd = session?.formData;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   c = session?.generatedContent;
   PROFESSEURS = PROFESSEURS_LIVE();
 

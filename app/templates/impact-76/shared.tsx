@@ -6,7 +6,8 @@ import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Compass, Activity, Zap } from "lucide-react";
 
-export const PROJECTS = [
+function PROJECTS_LIVE() {
+  return [
   {
     id: 1,
     title: "VILLA_AETHER",
@@ -38,6 +39,8 @@ export const PROJECTS = [
     desc: "Subterranean art gallery utilizing natural light diffraction through glass fissures.",
   },
 ];
+}
+export let PROJECTS = PROJECTS_LIVE();
 
 export const PHILOSOPHY = [
   {
@@ -158,4 +161,14 @@ export function MagneticBtn({
       {children}
     </motion.button>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  PROJECTS = PROJECTS_LIVE();
 }

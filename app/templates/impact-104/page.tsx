@@ -13,7 +13,18 @@ import {
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { C, FONT, FONT_BODY, STATS, PRESTATIONS as PRESTATIONS_DEMO, TEMOIGNAGES as TEMOIGNAGES_DEMO, GALERIE as GALERIE_DEMO, Reveal, CSS_VARIABLES } from "./shared";
+import {
+  C,
+  CSS_VARIABLES,
+  FONT,
+  FONT_BODY,
+  GALERIE as GALERIE_DEMO,
+  PRESTATIONS as PRESTATIONS_DEMO,
+  Reveal,
+  STATS,
+  TEMOIGNAGES as TEMOIGNAGES_DEMO,
+  rafraichirPartage,
+} from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 let sessionData: any = null;
 
@@ -85,6 +96,7 @@ export default function LumiereDoreePage() {
   fd = session?.formData;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   bp = session?.businessProfile;
   c = session?.generatedContent;
 

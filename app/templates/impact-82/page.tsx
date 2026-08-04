@@ -1,4 +1,5 @@
 "use client";
+import { rafraichirPartage } from "./shared";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react'
@@ -98,6 +99,7 @@ export default function BlueprintPage() {
   bp = session?.businessProfile;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
   PROGRAMMES_DEMO = PROGRAMMES_DEMO_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();

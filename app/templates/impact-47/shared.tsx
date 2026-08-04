@@ -81,7 +81,8 @@ export function FallingPetal({ index }: { index: number }) {
   );
 }
 
-export const seasons = [
+function seasons_LIVE() {
+  return [
   {
     id: "spring",
     label: "Spring",
@@ -131,6 +132,8 @@ export const seasons = [
     ],
   },
 ];
+}
+export let seasons = seasons_LIVE();
 
 export const occasions = [
   { icon: Heart, title: "Weddings", desc: "Bridal bouquets, ceremony installations, reception centrepieces, and full floral direction from initial brief to last petal on the day.", color: C.accent },
@@ -227,7 +230,8 @@ export const faqs = [
   },
 ];
 
-export const PRODUCTS = [
+function PRODUCTS_LIVE() {
+  return [
   {
     name: "Jardin de Printemps",
     price: 65,
@@ -341,8 +345,11 @@ export const PRODUCTS = [
     image: clientPhotoAt(23, "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=600&h=600&fit=crop&q=80"),
   },
 ];
+}
+export let PRODUCTS = PRODUCTS_LIVE();
 
-export const BLOG_POSTS = [
+function BLOG_POSTS_LIVE() {
+  return [
   {
     slug: "fleurs-de-saison",
     title: "Pourquoi choisir des fleurs de saison",
@@ -404,6 +411,8 @@ export const BLOG_POSTS = [
     ],
   },
 ];
+}
+export let BLOG_POSTS = BLOG_POSTS_LIVE();
 
 export const SERIF = "'Libre Baskerville', Georgia, serif";
 export const SANS = "'Poppins', system-ui";
@@ -479,4 +488,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       {children}
     </CartContext.Provider>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  seasons = seasons_LIVE();
+  PRODUCTS = PRODUCTS_LIVE();
+  BLOG_POSTS = BLOG_POSTS_LIVE();
 }

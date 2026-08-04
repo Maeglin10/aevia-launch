@@ -68,7 +68,8 @@ export const PROTOCOLS = [
   },
 ];
 
-export const SPECIALISTS = [
+function SPECIALISTS_LIVE() {
+  return [
   {
     name: "Dr. Alexandre Noir", spec: "Médecin esthétique · Lasers",
     shortBio: "Interne médecine AP-HP · DU Médecine esthétique Paris VI",
@@ -94,8 +95,11 @@ export const SPECIALISTS = [
     experience: "18 ans d'expérience"
   },
 ];
+}
+export let SPECIALISTS = SPECIALISTS_LIVE();
 
-export const NURSES = [
+function NURSES_LIVE() {
+  return [
   {
     name: "Sophie Laurent", role: "Infirmière coordinatrice",
     bio: "Diplômée en soins infirmiers, spécialisée en oncologie esthétique et coordination de parcours patient. 8 ans d'expérience en clinique esthétique haut de gamme.",
@@ -107,6 +111,8 @@ export const NURSES = [
     image: clientPhotoAt(7, "https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=800&q=80&fit=crop")
   },
 ];
+}
+export let NURSES = NURSES_LIVE();
 
 export const TESTIMONIALS = [
   {
@@ -141,4 +147,15 @@ export function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactN
       {children}
     </motion.div>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  SPECIALISTS = SPECIALISTS_LIVE();
+  NURSES = NURSES_LIVE();
 }

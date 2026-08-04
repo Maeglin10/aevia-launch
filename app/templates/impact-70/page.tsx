@@ -8,7 +8,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Music, Sparkles, Disc, Heart, MapPin, Play } from "lucide-react";
 import { motion } from "framer-motion";
-import { Reveal, EVENTS, ParallaxImg } from "./shared";
+import {
+  EVENTS,
+  ParallaxImg,
+  Reveal,
+  rafraichirPartage,
+} from "./shared";
 import {
   clientCity,
   clientList,
@@ -100,6 +105,7 @@ export default function VelvetHomePage() {
   fd = session?.formData;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   c = session?.generatedContent;
 
   STATS_INLINE = resolveList(

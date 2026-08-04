@@ -8,12 +8,13 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import {
-  RETREATS,
-  LINEAGE,
-  SCIENTIFIC_PILLARS,
-  Reveal,
   Counter,
+  LINEAGE,
+  RETREATS,
+  Reveal,
+  SCIENTIFIC_PILLARS,
   StyleInjector,
+  rafraichirPartage,
 } from "./shared";
 import {
   clientCity,
@@ -92,6 +93,7 @@ export default function LuminalHome() {
   fd = session?.formData;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   bp = session?.businessProfile;
   c = session?.generatedContent;
 

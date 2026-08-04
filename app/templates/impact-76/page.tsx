@@ -8,7 +8,12 @@ import {useRef, useState, useEffect} from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Mail } from "lucide-react";
-import { Reveal, MagneticBtn, Counter } from "./shared";
+import {
+  Counter,
+  MagneticBtn,
+  Reveal,
+  rafraichirPartage,
+} from "./shared";
 import {
   clientCity,
   clientName,
@@ -168,6 +173,9 @@ export default function StructuraArchPage() {
 
 
   memoriserSession(sessionData);
+
+
+  rafraichirPartage();
   c = session?.generatedContent;
   TEAM_DEMO = TEAM_DEMO_LIVE();
   ARCHIVE_PROJECTS_DEMO = ARCHIVE_PROJECTS_DEMO_LIVE();

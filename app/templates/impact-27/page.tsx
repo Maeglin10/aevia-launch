@@ -1,4 +1,5 @@
 "use client";
+import { rafraichirPartage } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
@@ -855,6 +856,8 @@ export default function Home() {
   sessionData = session;
 
   memoriserSession(sessionData);
+
+  rafraichirPartage();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   testimonials_SOURCE = testimonials_SOURCE_LIVE();

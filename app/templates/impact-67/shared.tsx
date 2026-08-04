@@ -5,7 +5,8 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import { Radio, Box, Cpu, Zap } from "lucide-react";
 
-export const ROOMS = [
+function ROOMS_LIVE() {
+  return [
   {
     id: 1,
     name: "The Obsidian Atrium",
@@ -35,6 +36,8 @@ export const ROOMS = [
     tech: "360° Volumetric",
   },
 ];
+}
+export let ROOMS = ROOMS_LIVE();
 
 export const SPECS = [
   { label: "Scan Precision", val: "±1mm", icon: <Radio className="w-4 h-4" /> },
@@ -169,4 +172,14 @@ export function MagneticBtn({
       {children}
     </motion.button>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  ROOMS = ROOMS_LIVE();
 }
