@@ -11,6 +11,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -39,11 +40,11 @@ function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.4 }}
             style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(52px, 8vw, 100px)", fontWeight: 700, color: C.white, lineHeight: 0.95, margin: "0 0 32px", letterSpacing: "-0.02em" }}
-          >
+          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
             INK<br />
             <span style={{ color: C.accent }}>WORTH</span><br />
             WEARING
-          </motion.h1>
+          </>)}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}

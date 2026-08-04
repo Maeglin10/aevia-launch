@@ -17,6 +17,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientServices,
+  clientTagline,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -354,13 +355,13 @@ function HeroSection() {
               letterSpacing: '-0.03em',
               margin: '0 0 32px',
             }}
-          >
+          >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
             Space
             <br />
             <span style={{ color: C.accent }}>Defines</span>
             <br />
             Culture.
-          </motion.h1>
+          </>)}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 24 }}

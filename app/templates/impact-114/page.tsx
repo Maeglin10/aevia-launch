@@ -33,6 +33,7 @@ import {
 } from "lucide-react"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -702,9 +703,9 @@ export default function Impact114Page() {
                 <span
                   className="text-lg md:text-2xl tracking-[0.15em] text-[var(--brand,#2d1b0e)]"
                   style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 500 }}
-                >
+                >{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
                   TERRA
-                </span>
+                </>)}</span>
               </>
             )}
           </Link>

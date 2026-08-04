@@ -10,6 +10,7 @@ import { Scale, ArrowRight, Menu, Star, Shield, Gavel, Briefcase, Landmark, Glob
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -227,7 +228,7 @@ export default function LuminaLawPage() {
                 <div className="w-10 h-10 bg-[var(--brand,#1a365d)] flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                   <Scale className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-2xl font-bold tracking-tighter text-[var(--brand,#1a365d)]">Lumina<span className="font-light">Law</span></span>
+                <span className="text-2xl font-bold tracking-tighter text-[var(--brand,#1a365d)]">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Lumina<span className="font-light">Law</span></>)}</span>
               </>
             )}
           </Link>

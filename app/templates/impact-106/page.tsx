@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientName,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
@@ -221,7 +222,7 @@ export default function StudioVersaPage() {
                 <div className="w-10 h-10 rounded-full bg-[var(--brand,#f97316)] flex items-center justify-center">
                   <PenTool className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-light tracking-[0.15em] uppercase">Studio <span className="font-black text-[var(--brand,#f97316)]">Versa</span></span>
+                <span className="text-xl font-light tracking-[0.15em] uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Studio <span className="font-black text-[var(--brand,#f97316)]">Versa</span></>)}</span>
               </>
             )}
           </Link>

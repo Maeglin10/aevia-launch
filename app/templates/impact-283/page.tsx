@@ -37,6 +37,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -547,7 +548,7 @@ function HeroSection() {
             textShadow: '0 8px 48px rgba(0,0,0,0.45)',
             maxWidth: 820,
           }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           Retrouver le{' '}
           <span style={{ fontStyle: 'italic', color: C.turqLight }}>
             mouvement
@@ -556,7 +557,7 @@ function HeroSection() {
           <br />
           retrouver la{' '}
           <span style={{ fontStyle: 'italic', color: C.turqLight }}>vie</span>
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 22 }}

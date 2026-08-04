@@ -20,6 +20,7 @@ import { Sparkles, Droplets, Wind, Menu, X, ArrowRight, Flower2, Moon, Sun, Star
 import { DWELL, useSlides, HeldSwap, BlurThrough, CircularLabel, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -163,7 +164,8 @@ const BESPOKE = [
   { n: "04", t: "The vault", d: "The final formula is registered under your name and held for life. A refill can be produced at any point, at any volume, without repeating the work." },
 ];
 
-const MANIFEST = {
+function MANIFEST_LIVE() {
+  return {
   hero: {
     title: "Éclat",
     subtitle: "L'Essence de l'Éternité",
@@ -243,7 +245,9 @@ const MANIFEST = {
     { q: "Do you offer refill services?", a: "Yes, our crystal flacons are designed for eternity. We offer a white-glove refill service at 40% of the original retail price." },
     { q: "How should I store my Éclat fragrance?", a: "Store in a cool, dark environment. The custom vitrine box provided acts as a thermal and UV shield to prevent molecular degradation." }
   ]
+};
 }
+let MANIFEST = MANIFEST_LIVE();
 
 // ─── MAIN PAGE ──────────────────────────────────────────────────────────────
 
@@ -287,6 +291,8 @@ export default function EclatLuxuryPage() {
   }, []);
 
   fd = session?.formData;
+
+  MANIFEST = MANIFEST_LIVE();
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -428,7 +434,7 @@ export default function EclatLuxuryPage() {
                 <div className="w-10 h-10 rounded-full border border-fuchsia-900/50 flex items-center justify-center bg-fuchsia-900/10 group-hover:bg-fuchsia-900/30 transition-all duration-500">
                   <FlaskConical className="w-4 h-4 text-fuchsia-300" />
                 </div>
-                <span className="text-xl tracking-[0.3em] font-light text-white uppercase">ÉCLAT</span>
+                <span className="text-xl tracking-[0.3em] font-light text-white uppercase">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>ÉCLAT</>)}</span>
               </>
             )}
           </Link>

@@ -18,6 +18,7 @@ import {
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -286,7 +287,7 @@ export default function AetherWellnessPage() {
             <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-700">
               <Wind className="w-5 h-5 text-[#3d3d3d]/60" />
             </div>
-            <span className="text-xl font-light tracking-[0.3em] uppercase">Aether <span className="font-bold">Wellness</span></span>
+            <span className="text-xl font-light tracking-[0.3em] uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Aether <span className="font-bold">Wellness</span></>)}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-black/30">

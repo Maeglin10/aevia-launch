@@ -9,6 +9,7 @@ import { MapPin, ArrowRight, Menu, Star, Shield, Key, Home, Building2, Map, Chev
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -166,7 +167,7 @@ export default function ArcaneRealtyPage() {
             <div className="w-10 h-10 border border-white/20 flex items-center justify-center group-hover:border-white transition-all duration-700">
               <Building2 className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-[0.2em] uppercase">Arcane <span className="font-light text-white/40">Realty</span></span>
+            <span className="text-xl font-bold tracking-[0.2em] uppercase">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Arcane <span className="font-light text-white/40">Realty</span></>)}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">

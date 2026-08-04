@@ -33,6 +33,7 @@ import {
 import {
   clientCity,
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -1175,7 +1176,7 @@ return (
                   }}
                 />
               </div>
-              <div>
+              <div>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
                 <div
                   style={{
                     fontFamily: FONT,
@@ -1199,7 +1200,7 @@ return (
                 >
                   Céramique artisanale · Bourgogne
                 </div>
-              </div>
+              </>)}</div>
             </div>
           )}
         </Link>

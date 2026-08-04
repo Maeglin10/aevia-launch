@@ -23,6 +23,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -525,9 +526,9 @@ return (
                   color: C.text,
                   margin: 0,
                 }}
-              >
+              >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
                 TRAVAUX<br />SÉLECTIONNÉS
-              </h2>
+              </>)}</h2>
               <Link
                 href="/templates/impact-58/work"
                 style={{

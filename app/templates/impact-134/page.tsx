@@ -36,6 +36,7 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1100,13 +1101,13 @@ function Hero() {
             fontSize: "clamp(42px, 5.5vw, 80px)",
             color: C.text,
           }}
-        >
+        >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
           La Beauté
           <br />
           Authentique
           <br />
           <span style={{ color: C.primary }}>de la Nature</span>
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}

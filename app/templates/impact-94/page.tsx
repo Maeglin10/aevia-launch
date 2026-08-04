@@ -38,6 +38,7 @@ import {
   clientAddress,
   clientCity,
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -551,9 +552,9 @@ export default function Impact94Page() {
               <span
                 className="text-xl font-normal tracking-[0.25em] uppercase text-[#0C0A09]"
                 style={{ fontFamily: "'Bodoni Moda', serif" }}
-              >
+              >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
                 Botanica
-              </span>
+              </>)}</span>
             </>
           )}
         </Link>

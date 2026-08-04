@@ -36,6 +36,7 @@ import {
   clientCertifications,
   clientCity,
   clientFaq,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -564,9 +565,9 @@ return (
                 fontStyle: "italic",
                 fontWeight: 300,
               }}
-            >
+            >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
               AURUM
-            </span>
+            </>)}</span>
           )}
         </div>
 

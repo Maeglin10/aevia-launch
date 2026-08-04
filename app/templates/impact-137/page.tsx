@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
@@ -174,9 +175,9 @@ export default function TorrefieCoffeePage() {
             ) : (
               <>
                 <Coffee className="w-6 h-6 text-[var(--brand,#6b3a24)]" />
-                <span className="text-xl tracking-tight" style={{ fontFamily: "Georgia, serif" }}>
+                <span className="text-xl tracking-tight" style={{ fontFamily: "Georgia, serif" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
                   <span className="font-light">Torré</span><span className="font-bold text-[var(--brand,#6b3a24)]">fié</span>
-                </span>
+                </>)}</span>
               </>
             )}
           </Link>

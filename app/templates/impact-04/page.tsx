@@ -332,7 +332,7 @@ return (
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <><span className="text-2xl tracking-wide"><span className="font-light">L&apos;</span><span className="italic">Étoile</span></span></>
+              <><span className="text-2xl tracking-wide">{/* NOM_LOGO */ clientName(sessionData) ?? (<><span className="font-light">L&apos;</span><span className="italic">Étoile</span></>)}</span></>
             )}
           </button>
 

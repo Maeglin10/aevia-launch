@@ -9,6 +9,7 @@ import { Flower2, ArrowRight, Menu, Star, Sparkles, MapPin, Clock, Phone, Heart,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -154,7 +155,7 @@ export default function OasisWellnessPage() {
                 <div className="w-10 h-10 rounded-full bg-[var(--brand,#2c3e2d)] flex items-center justify-center group-hover:scale-110 transition-transform duration-700">
                   <Flower2 className="w-5 h-5 text-[#faf9f6]" />
                 </div>
-                <span className="text-xl font-light tracking-[0.2em] uppercase">Oasis <span className="font-bold text-[var(--brand,#2c3e2d)]">Wellness</span></span>
+                <span className="text-xl font-light tracking-[0.2em] uppercase">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Oasis <span className="font-bold text-[var(--brand,#2c3e2d)]">Wellness</span></>)}</span>
               </>
             )}
           </Link>

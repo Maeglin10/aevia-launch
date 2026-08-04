@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
   clientFaq,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -222,7 +223,7 @@ export default function PulseEventsPage() {
                   <Music className="w-5 h-5 text-white" />
                   <motion.div className="absolute inset-0 rounded-full border-2 border-[var(--brand,#ec4899)]" animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }} transition={{ duration: 2, repeat: Infinity }} />
                 </div>
-                <span className="text-xl font-black tracking-tight">PULSE</span>
+                <span className="text-xl font-black tracking-tight">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>PULSE</>)}</span>
               </>
             )}
           </Link>

@@ -58,7 +58,8 @@ let brand: any = null;
    DATA MANIFESTS
    ========================================================================== */
 
-const BLOCK_MANIFESTS = {
+function BLOCK_MANIFESTS_LIVE() {
+  return {
   hero: {
     version: "v4.2.0-stable",
     status: "SYSTEMS_NOMINAL",
@@ -115,6 +116,8 @@ const BLOCK_MANIFESTS = {
     { time: "12:40:12", event: "TX_RECONCILE", status: "ACTIVE" },
   ],
 };
+}
+let BLOCK_MANIFESTS = BLOCK_MANIFESTS_LIVE();
 
 /* ==========================================================================
    UTILITY COMPONENTS
@@ -212,6 +215,8 @@ export default function BlockBasePage() {
   }, []);
 
   fd = session?.formData;
+
+  BLOCK_MANIFESTS = BLOCK_MANIFESTS_LIVE();
 
   PRESTATIONS_INLINE = resolveList(
 

@@ -23,6 +23,7 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -486,11 +487,11 @@ function ParallaxMountainHero() {
             textTransform: "uppercase",
             overflowWrap: "break-word",
           }}
-        >
+        >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
           The World's<br />
           <span style={{ color: C.accent }}>Highest</span><br />
           Summits
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}

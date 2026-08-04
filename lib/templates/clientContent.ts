@@ -200,6 +200,22 @@ export function clientName(s: SessionLike | null | undefined): string | undefine
   return trimmed(s?.formData?.businessName) || undefined;
 }
 
+/**
+ * L'accroche du hero.
+ *
+ * `tagline` est un champ obligatoire du wizard — « ce que vous faites », écrit
+ * par le client lui-même. Il passe donc avant `heroHeadline`, qui est rédigé
+ * pour lui. Sans l'un ni l'autre, le thème garde son accroche de démonstration.
+ */
+export function clientTagline(s: SessionLike | null | undefined): string | undefined {
+  return (
+    trimmed(s?.formData?.tagline) ||
+    trimmed(s?.formData?.slogan) ||
+    trimmed(s?.generatedContent?.heroHeadline) ||
+    undefined
+  );
+}
+
 /** La ville, pour les sur-titres du genre « Couvreur-zingueur · Lyon ». */
 export function clientCity(s: SessionLike | null | undefined): string | undefined {
   return (

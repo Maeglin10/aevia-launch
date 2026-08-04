@@ -31,6 +31,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -388,10 +389,10 @@ function Hero() {
             letterSpacing: -1,
             marginBottom: 24,
           }}
-        >
+        >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
           Trouvez votre{" "}
           <em style={{ color: C.accent, fontStyle: "italic" }}>équilibre intérieur</em>
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}

@@ -25,6 +25,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -516,12 +517,12 @@ function Hero({ accentColor, particles }: { accentColor: string; particles: Part
             color: brand ?? '#1a0a10',
             marginBottom: 24,
           }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           L&apos;art{' '}
           <span className="shimmer-text">au bout</span>
           <br />
           des ongles.
-        </motion.h1>
+        </>)}</motion.h1>
 
         {/* Subtitle */}
         <motion.p

@@ -34,6 +34,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 const NAV = [
@@ -615,9 +616,9 @@ export default function Page({ session: initialSession }) {
                   color: C.white,
                   lineHeight: 1.1,
                   marginBottom: "24px"
-                }}>
+                }}>{/* ACCROCHE */ clientTagline({ formData: fd }) ?? (<>
                   L'Expertise Sanitaire <br/> & <span style={{ color: C.primary }}>Thermique</span>.
-                </h1>
+                </>)}</h1>
               </Reveal>
 
               <Reveal delay={0.2}>

@@ -33,6 +33,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -613,7 +614,7 @@ function Hero() {
             maxWidth: '14ch',
             willChange: 'transform',
           }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           Forged for
           <br />
           the{' '}
@@ -625,7 +626,7 @@ function Hero() {
           >
             streets
           </span>
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.div
           style={{

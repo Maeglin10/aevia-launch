@@ -26,6 +26,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -730,13 +731,13 @@ function Hero() {
             margin: 'clamp(16px,2.5vw,28px) 0 clamp(14px,2vw,22px)',
             textShadow: '0 12px 50px rgba(0,0,0,0.55)',
           }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           Confort garanti{' '}
           <br />
           <span style={{ fontStyle: 'normal', fontWeight: 300, color: C.accentLight }}>
             24h / 7j.
           </span>
-        </motion.h1>
+        </>)}</motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}

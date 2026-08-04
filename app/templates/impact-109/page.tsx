@@ -9,6 +9,7 @@ import { Volume2, ArrowRight, Menu, Star, Activity, Shield, Mic2, Speaker, Headp
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -172,7 +173,7 @@ export default function AetherSoundPage() {
                 <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white transition-all duration-700">
                   <Volume2 className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-bold tracking-[0.2em] uppercase">Aether <span className="font-light text-white/40">Sound</span></span>
+                <span className="text-xl font-bold tracking-[0.2em] uppercase">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Aether <span className="font-light text-white/40">Sound</span></>)}</span>
               </>
             )}
           </Link>

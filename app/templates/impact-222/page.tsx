@@ -28,6 +28,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -569,14 +570,14 @@ const Hero: React.FC = () => {
               margin: '24px 0 0',
               letterSpacing: '-0.015em',
             }}
-          >
+          >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
             Des espaces qui
             <br />
             <span style={{ fontStyle: 'italic', color: C.goldSoft }}>
               transforment
             </span>{' '}
             des vies
-          </motion.h1>
+          </>)}</motion.h1>
 
           <motion.p
             style={{ y: subY }}

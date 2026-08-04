@@ -24,6 +24,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1033,9 +1034,9 @@ function HeroSection({
             backgroundSize: "200% 200%",
             animation: "shimmer-x 6s linear infinite",
           }}
-        >
+        >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
           The Fabric<br/>of Tomorrow.
-        </motion.h1>
+        </>)}</motion.h1>
 
         {/* Sub */}
         <motion.p

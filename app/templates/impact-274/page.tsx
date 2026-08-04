@@ -34,6 +34,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -532,12 +533,12 @@ function HeroSection() {
             margin: '30px 0 20px',
             textShadow: '0 12px 60px rgba(0,0,0,0.45)',
           }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           Votre santé,{' '}
           <span style={{ fontStyle: 'italic', color: 'rgba(160,210,170,0.92)' }}>
             notre priorité
           </span>
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}

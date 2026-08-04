@@ -17,6 +17,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -694,10 +695,10 @@ function Hero() {
             margin: '0 0 28px',
             textShadow: '0 8px 48px rgba(0,0,0,0.55)',
           }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           DEVENEZ<br />
           <span style={{ color: C.accent }}>PLUS</span> FORT.
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 28 }}

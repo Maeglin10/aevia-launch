@@ -12,6 +12,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -175,7 +176,7 @@ export default function ChronosLuxuryPage() {
                 <div className="w-10 h-10 border border-[var(--brand,#d4af37)]/30 flex items-center justify-center group-hover:rotate-45 transition-transform duration-700">
                   <Watch className="w-5 h-5 text-[var(--brand,#d4af37)]" />
                 </div>
-                <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Chronos</span>
+                <span className="text-xl font-light tracking-[0.4em] uppercase text-white">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Chronos</>)}</span>
               </>
             )}
           </div>

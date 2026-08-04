@@ -7,6 +7,7 @@ import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Leaf } from 
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -216,7 +217,7 @@ return (
           ) : (
             <>
               <Leaf size={18} color={scrolled ? C.accent : "#fff"} />
-              <span style={{ fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>Nourrir <em>Juste</em></span>
+              <span style={{ fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>Nourrir <em>Juste</em></>)}</span>
             </>
           )}
         </div>

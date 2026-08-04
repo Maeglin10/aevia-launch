@@ -40,6 +40,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -774,7 +775,7 @@ function Hero() {
           <h1
             className="text-[clamp(52px,8vw,96px)] font-[700] italic leading-[0.92] tracking-[-0.02em] text-[var(--brand-light,#831843)] mb-8"
             style={{ fontFamily: "'Playfair Display', serif" }}
-          >
+          >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
             <motion.span
               className="block"
               initial={{ opacity: 0, y: 32 }}
@@ -799,7 +800,7 @@ function Hero() {
             >
               Parfait.
             </motion.span>
-          </h1>
+          </>)}</h1>
 
           <motion.p
             initial={{ opacity: 0 }}
