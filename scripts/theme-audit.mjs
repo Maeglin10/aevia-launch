@@ -35,10 +35,10 @@ const WITNESS = {
   city: "ZZVILLE",
   service1: "ZZSERVICE-UN",
   service2: "ZZSERVICE-DEUX",
-  price1: "ZZ111 €",
+  price1: "ZZ8137 €",
   review: "ZZAVIS le chantier fut impeccable",
   author: "ZZAUTEUR",
-  stat: "ZZ99",
+  stat: "9911",
   cert: "ZZCERTIF",
   faq: "ZZQUESTION",
   member: "ZZEQUIPIER",
@@ -217,8 +217,13 @@ for (const id of ids) {
 
     const r = await page.evaluate((W) => {
       const text = document.body.innerText;
+      // Un thème qui anime ses chiffres lit un nombre, pas une chaîne : « 9911 »
+      // y arrive sous la forme d'un compteur, et le libellé du client est la
+      // seule autre preuve que la donnée est passée. De même un tarif rendu
+      // sans son symbole reste un tarif affiché.
+      const ALT = { stat: ["9911", "ZZLIBELLE"], price1: ["ZZ8137 €", "ZZ8137", "8137"] };
       const vu = Object.fromEntries(
-        Object.entries(W).map(([k, v]) => [k, text.includes(v)]),
+        Object.entries(W).map(([k, v]) => [k, (ALT[k] ?? [v]).some((x) => text.includes(x))]),
       );
       // Chargée mais jamais peinte : une image dont un ancêtre proche s'est
       // effondré à moins de 2 px. C'est le seul contrôle qui attrape un hero

@@ -156,7 +156,7 @@ export default function SecurFastPage() {
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
   const services = resolveList(clientServices(session), SERVICES_DEMO);
-  const temoignages = resolveList(clientReviews(session), TEMOIGNAGES_DEMO);
+  const temoignages = resolveList(clientReviews(session)?.map((r: any) => ({ q: r.text, n: r.author, l: r.detail })), TEMOIGNAGES_DEMO);
 
   return (
     <div className="bg-[#0d1524] text-[#f0f4ff] overflow-x-hidden" style={{ fontFamily: "'Exo 2', 'Inter', system-ui, sans-serif" }}>

@@ -332,7 +332,7 @@ export default function EncreNoirePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  const STYLES = resolveList<any>(clientServices(sessionData), STYLES_DEMO);
+  const STYLES = resolveList<any>(clientServices(sessionData)?.map((r: any) => ({ titre: r.title, desc: r.desc })), STYLES_DEMO);
   const [consultOpen, setConsultOpen] = useState(false);
   const [consultStyle, setConsultStyle] = useState<string | null>(null);
   const openConsult = useCallback((style: string | null) => {

@@ -161,7 +161,7 @@ export default function ThermotekChauffagePage() {
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
   const services = resolveList(clientServices(session), SERVICES_DEMO);
-  const temoignages = resolveList(clientReviews(session), TEMOIGNAGES_DEMO);
+  const temoignages = resolveList(clientReviews(session)?.map((r: any) => ({ q: r.text, n: r.author, l: r.detail })), TEMOIGNAGES_DEMO);
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)

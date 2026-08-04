@@ -210,7 +210,7 @@ export default function SymmetryStudioPage() {
     PRESTATIONS_INLINE_SOURCE,
 
   );
-  STATS = resolveList(clientStats(session), STATS_DEMO);
+  STATS = resolveList(clientStats(session)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

@@ -1050,7 +1050,7 @@ export default function Page() {
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
   const services = resolveList(clientServices(session), SERVICES);
-  const stylists = resolveList(clientTeam(session), STYLISTS);
+  const stylists = resolveList(clientTeam(session)?.map((r: any) => ({ name: r.name, title: r.role })), STYLISTS);
   const temoignages = resolveList(clientReviews(session), TESTIMONIALS_DEMO);
 
   const [scissorOpen, setScissorOpen] = useState(false)

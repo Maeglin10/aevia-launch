@@ -747,7 +747,7 @@ export default function Impact201Page() {
 
   useFonts();
 
-  const experiences: any[] = resolveList(clientServices(sessionData), EXPERIENCES_DEMO);
+  const experiences: any[] = resolveList(clientServices(sessionData)?.map((r: any) => ({ title: r.title, sub: r.desc, price: r.price })), EXPERIENCES_DEMO);
   const testimonials: any[] = resolveList(clientReviews(sessionData), TESTIMONIALS_DEMO);
 
   const [menuOpen, setMenuOpen] = useState(false);

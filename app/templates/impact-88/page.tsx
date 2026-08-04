@@ -1064,7 +1064,7 @@ function ServicesSection() {
    ========================================================================== */
 function ArtistesSection() {
   const { open } = useBookingModal()
-  const artists: any[] = resolveList(clientTeam(sessionData), ARTISTS_DEMO)
+  const artists: any[] = resolveList(clientTeam(sessionData)?.map((r: any) => ({ name: r.name, title: r.role })), ARTISTS_DEMO)
   return (
     <section className="py-[100px] bg-gradient-to-b from-[#FCE7F3] to-[#FDF2F8]" id="artistes">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">

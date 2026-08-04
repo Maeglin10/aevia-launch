@@ -799,7 +799,7 @@ export default function ImpactAgencyTemplate() {
     clientServices(session)?.map((s: any, i: number) => ({ ...VALUES_SOURCE[i % VALUES_SOURCE.length], title: s.title, text: s.desc || "" || "" })),
     VALUES_SOURCE,
   );
-  STATS_DATA = resolveList(clientStats(session), STATS_DATA_DEMO);
+  STATS_DATA = resolveList(clientStats(session)?.map((r: any) => ({ target: Number(String(r.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(r.value ?? "").replace(/[\d.\s]/g, ""), label: r.label })), STATS_DATA_DEMO);
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
     ...row,
     image: clientPhotos(session)[0 + i] || row.image,

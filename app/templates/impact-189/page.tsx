@@ -296,7 +296,7 @@ export default function AtelierLeoniePage() {
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const services = resolveList(clientServices(sessionData), PRESTATIONS);
-  const testimonials = resolveList(clientReviews(sessionData), TESTIMONIALS_DEMO);
+  const testimonials = resolveList(clientReviews(sessionData)?.map((r: any) => ({ q: r.text, n: r.author, l: r.detail })), TESTIMONIALS_DEMO);
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)

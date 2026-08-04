@@ -112,7 +112,7 @@ export default function NeonPulsePage() {
   // Note: businessProfile is a sibling of formData on SessionData, not
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
-  const drops = resolveList(clientServices(session), DROPS_DEMO);
+  const drops = resolveList(clientServices(session)?.map((r: any) => ({ name: r.title, price: r.price })), DROPS_DEMO);
 
   // ── Buy Now / Mint waitlist modal ──────────────────────────────────────────
   // Real wallet connection / on-chain minting is out of scope for this pass —

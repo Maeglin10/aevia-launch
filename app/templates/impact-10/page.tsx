@@ -2497,7 +2497,7 @@ export default function GrandPalaisPage() {
     ...row,
     img: clientPhotos(sessionData)[4 + i] || row.img,
   }));
-  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  STATS = resolveList(clientStats(sessionData)?.map((r: any) => ({ n: r.value, l: r.label })), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts();

@@ -807,7 +807,7 @@ export default function ImpactEclatPage() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,
   );
-  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  STATS = resolveList(clientStats(sessionData)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25), goldDark: shadeColor(brand, -20) };
