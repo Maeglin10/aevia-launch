@@ -107,6 +107,7 @@ export default function TerraArchitecturePage() {
 
   fd = session?.formData;
   bp = session?.businessProfile;
+  c = session?.generatedContent;
 
 
   EQUIPE_ANON = resolveList(
@@ -142,7 +143,6 @@ export default function TerraArchitecturePage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

@@ -196,6 +196,7 @@ export default function SymmetryStudioPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   PRESTATIONS_INLINE = resolveList(
 
@@ -241,7 +242,6 @@ export default function SymmetryStudioPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const basePath = "/templates/impact-80";

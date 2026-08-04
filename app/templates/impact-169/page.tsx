@@ -465,8 +465,8 @@ export default function ImpactFrequencePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
-
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
   AUTHORS = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...AUTHORS_SOURCE[i % AUTHORS_SOURCE.length], name: m.name, role: m.role })),
     AUTHORS_SOURCE,

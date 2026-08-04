@@ -518,13 +518,13 @@ export default function UrbanPulsePage() {
   }, []);
 
   fd = session?.formData;
-
-  STATS_DEMO = STATS_DEMO_LIVE();
-
-  SERVICES_DEMO = SERVICES_DEMO_LIVE();
-
-  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   c = session?.generatedContent;
+  STATS_DEMO = STATS_DEMO_LIVE();
+  SERVICES_DEMO = SERVICES_DEMO_LIVE();
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
+
+
+
   TESTIMONIALS_DEMO = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...TESTIMONIALS_DEMO_SOURCE[i % TESTIMONIALS_DEMO_SOURCE.length], name: m.name, role: m.role })),
     TESTIMONIALS_DEMO_SOURCE,

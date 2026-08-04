@@ -2536,6 +2536,9 @@ export default function ImpactSneakerPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   SPECS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPECS_SOURCE[i % SPECS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     SPECS_SOURCE,
@@ -2560,9 +2563,6 @@ export default function ImpactSneakerPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   REVIEWS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], name: r.author, text: r.text })),
     REVIEWS_SOURCE,

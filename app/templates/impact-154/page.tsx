@@ -396,11 +396,12 @@ export default function IvoryArchivePremium() {
   }, []);
 
   fd = session?.formData;
-
-  ARCHIVE_WORKS_DEMO_SOURCE = ARCHIVE_WORKS_DEMO_SOURCE_LIVE();
-
-  COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
   bp = session?.businessProfile;
+  c = session?.generatedContent;
+  ARCHIVE_WORKS_DEMO_SOURCE = ARCHIVE_WORKS_DEMO_SOURCE_LIVE();
+  COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
+
+
 
   LAB_METRICS = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...LAB_METRICS_SOURCE[i % LAB_METRICS_SOURCE.length], value: s.value, label: s.label })),
@@ -444,7 +445,6 @@ export default function IvoryArchivePremium() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [page, setPage] = useState<ArchivePage>("home")

@@ -2004,11 +2004,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
-
-  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
+
   MATERIALS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...MATERIALS_SOURCE[i % MATERIALS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     MATERIALS_SOURCE,

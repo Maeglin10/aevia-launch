@@ -162,8 +162,11 @@ export default function MorphStudioPage() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   MANIFEST = MANIFEST_LIVE();
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -182,9 +185,6 @@ export default function MorphStudioPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Client services drive the capability cards; demo id/icon cycle through.

@@ -132,6 +132,7 @@ export default function PierreCoPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   BIENS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...BIENS_DEMO_SOURCE[i % BIENS_DEMO_SOURCE.length], titre: s.title, prix: s.price ?? BIENS_DEMO_SOURCE[i % BIENS_DEMO_SOURCE.length].prix })),
     BIENS_DEMO_SOURCE,
@@ -175,7 +176,6 @@ export default function PierreCoPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

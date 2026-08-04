@@ -104,6 +104,9 @@ export default function AtelierInteriorPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -122,9 +125,6 @@ export default function AtelierInteriorPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,

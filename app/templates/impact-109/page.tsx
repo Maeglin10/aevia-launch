@@ -102,6 +102,7 @@ export default function AetherSoundPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   PRODUCTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_DEMO_SOURCE[i % PRODUCTS_DEMO_SOURCE.length], name: s.title, price: s.price ?? PRODUCTS_DEMO_SOURCE[i % PRODUCTS_DEMO_SOURCE.length].price })),
     PRODUCTS_DEMO_SOURCE,
@@ -142,7 +143,6 @@ export default function AetherSoundPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

@@ -164,8 +164,8 @@ export default function PulseAppPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
-
   PRICING_SOURCE = PRICING_SOURCE_LIVE();
+
   FEATURES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     FEATURES_SOURCE,

@@ -1077,10 +1077,10 @@ export default function WineryTemplate() {
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-
   WINES_DEMO = WINES_DEMO_LIVE();
-
   HERO_CUVEES = HERO_CUVEES_LIVE();
+
+
   TERROIR_TABS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...TERROIR_TABS_SOURCE[i % TERROIR_TABS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     TERROIR_TABS_SOURCE,

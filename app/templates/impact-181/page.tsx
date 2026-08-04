@@ -162,6 +162,7 @@ export default function ToitPierrePiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -188,7 +189,6 @@ export default function ToitPierrePiscinesPage() {
       });
     });
   });
-  c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

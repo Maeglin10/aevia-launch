@@ -652,6 +652,7 @@ export default function OrbitAIPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   HERO_PRODUCTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length].price })),
     HERO_PRODUCTS_DEMO_SOURCE,
@@ -716,7 +717,6 @@ export default function OrbitAIPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null);

@@ -181,6 +181,9 @@ export default function KineticStudio() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   STATS_INLINE = resolveList(
 
@@ -215,9 +218,6 @@ export default function KineticStudio() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Services ← bp.services; reels/deliverables are decorative demo fields

@@ -162,6 +162,7 @@ export default function AetherRoasteryPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   EXPERTISE = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EXPERTISE_SOURCE[i % EXPERTISE_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     EXPERTISE_SOURCE,
@@ -197,7 +198,6 @@ export default function AetherRoasteryPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null);

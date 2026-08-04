@@ -559,6 +559,7 @@ export default function Impact89Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   STYLE_GUIDE = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...STYLE_GUIDE_SOURCE[i % STYLE_GUIDE_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     STYLE_GUIDE_SOURCE,
@@ -606,7 +607,6 @@ export default function Impact89Page() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

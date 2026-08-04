@@ -112,6 +112,7 @@ export default function AstrumReachPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   FLEET = FLEET_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
@@ -134,7 +135,6 @@ export default function AstrumReachPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

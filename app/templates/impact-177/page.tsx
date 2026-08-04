@@ -156,6 +156,7 @@ export default function MaelleDumasPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -178,7 +179,6 @@ export default function MaelleDumasPiscinesPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, terra: brand };

@@ -151,8 +151,9 @@ export default function PixelRepublicPage() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
   OFFRES = OFFRES_LIVE();
+
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -192,7 +193,6 @@ export default function PixelRepublicPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

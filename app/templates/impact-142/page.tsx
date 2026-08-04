@@ -114,6 +114,7 @@ export default function VerdantImpactPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   IMPACT = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...IMPACT_SOURCE[i % IMPACT_SOURCE.length], value: s.value, label: s.label })),
     IMPACT_SOURCE,
@@ -162,7 +163,6 @@ export default function VerdantImpactPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

@@ -451,6 +451,7 @@ export default function Impact132() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   ARTICLES = ARTICLES_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
@@ -477,7 +478,6 @@ export default function Impact132() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

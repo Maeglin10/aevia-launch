@@ -192,6 +192,7 @@ export default function HorologsLuxePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   AVIS_INLINE = resolveList(
 
@@ -228,7 +229,6 @@ export default function HorologsLuxePage() {
       });
     });
   });
-  c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

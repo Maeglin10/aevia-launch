@@ -164,6 +164,9 @@ export default function StudioPelikanPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -182,9 +185,6 @@ export default function StudioPelikanPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Real client services (from the brief) replace the demo list when present.

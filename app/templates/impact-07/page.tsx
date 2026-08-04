@@ -171,6 +171,7 @@ export default function AetherSoundPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   ENGINEERING = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...ENGINEERING_SOURCE[i % ENGINEERING_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     ENGINEERING_SOURCE,
@@ -216,7 +217,6 @@ export default function AetherSoundPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false);

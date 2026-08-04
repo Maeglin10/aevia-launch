@@ -225,8 +225,8 @@ export default function QBitLabsPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
-
   TEAM = TEAM_LIVE();
+
 
   RESEARCH_AREAS = resolveList(
 

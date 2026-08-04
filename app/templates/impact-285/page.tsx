@@ -2797,13 +2797,13 @@ function Impact285Page() {
   }, []);
 
   fd = session?.formData;
-
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   TEAM_DEMO = TEAM_DEMO_LIVE();
+
+
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

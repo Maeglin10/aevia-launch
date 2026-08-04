@@ -105,6 +105,9 @@ export default function VulcanMotorsPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   SPECS = resolveList(
     clientStats(sessionData)?.map((s: any, i: number) => ({ ...SPECS_SOURCE[i % SPECS_SOURCE.length], value: s.value, label: s.label })),
     SPECS_SOURCE,
@@ -127,9 +130,6 @@ export default function VulcanMotorsPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const MODELS = resolveList(

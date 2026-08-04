@@ -1090,6 +1090,8 @@ export default function EmberGrillPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
   MENU_HIGHLIGHTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...MENU_HIGHLIGHTS_DEMO_SOURCE[i % MENU_HIGHLIGHTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? MENU_HIGHLIGHTS_DEMO_SOURCE[i % MENU_HIGHLIGHTS_DEMO_SOURCE.length].price })),
     MENU_HIGHLIGHTS_DEMO_SOURCE,
@@ -1124,8 +1126,6 @@ export default function EmberGrillPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
   MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

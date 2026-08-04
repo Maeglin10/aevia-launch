@@ -232,6 +232,9 @@ export default function VelocityJetsPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   FLEET_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     FLEET_DEMO_SOURCE,
@@ -262,9 +265,6 @@ export default function VelocityJetsPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   FLEET = resolveList(
     clientServices(sessionData)?.map((sv: any, i: number) => ({
       ...FLEET_DEMO[i % FLEET_DEMO.length],

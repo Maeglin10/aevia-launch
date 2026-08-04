@@ -2179,8 +2179,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();
+
 
   // Client-uploaded photos (beyond the hero, which uses index 0) replace the
   // template's stock Unsplash photography in the editorial rows.
@@ -2201,9 +2204,6 @@ export default function Page() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

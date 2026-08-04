@@ -3413,6 +3413,9 @@ export default function Impact280Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -3431,9 +3434,6 @@ export default function Impact280Page() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, rose: brand, roseLight: shadeColor(brand, 25), roseDark: shadeColor(brand, -20) };

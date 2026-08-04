@@ -174,8 +174,9 @@ export default function Impact174Page() {
   fd = session?.formData;
   bp = session?.businessProfile;
   sessionData = session;
-
+  c = session?.generatedContent;
   MEMBERSHIPS_SOURCE = MEMBERSHIPS_SOURCE_LIVE();
+
   MEMBERSHIPS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...MEMBERSHIPS_SOURCE[i % MEMBERSHIPS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? MEMBERSHIPS_SOURCE[i % MEMBERSHIPS_SOURCE.length].price })),
     MEMBERSHIPS_SOURCE,
@@ -218,7 +219,6 @@ export default function Impact174Page() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()

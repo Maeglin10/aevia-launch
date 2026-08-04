@@ -52,6 +52,8 @@ export default function StackUnitHome() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
   // `SERVICES` vient de ./shared et n'existe qu'à l'import : la liste vivante est
   // recalculée ici, là où la session est arrivée.
   const SERVICES_LIVE = resolveList(
@@ -62,8 +64,6 @@ export default function StackUnitHome() {
     SERVICES,
   );
 
-  bp = session?.businessProfile;
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const router = useRouter();

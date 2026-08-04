@@ -316,6 +316,7 @@ export default function VulcanMotorPremium() {
 
   fd = session?.formData;
   bp = session?.businessProfile;
+  c = session?.generatedContent;
 
   FLEET_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
@@ -347,7 +348,6 @@ export default function VulcanMotorPremium() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [page, setPage] = useState<ActivePage>("home")

@@ -443,12 +443,13 @@ export default function Impact94Page() {
   }, []);
 
   fd = session?.formData;
-
-  FAQ_ITEMS_DEMO = FAQ_ITEMS_DEMO_LIVE();
-
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   bp = session?.businessProfile;
   sessionData = session;
+  c = session?.generatedContent;
+  FAQ_ITEMS_DEMO = FAQ_ITEMS_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
+
   EVENTS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EVENTS_SOURCE[i % EVENTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     EVENTS_SOURCE,
@@ -497,7 +498,6 @@ export default function Impact94Page() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()

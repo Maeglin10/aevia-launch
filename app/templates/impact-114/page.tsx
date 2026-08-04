@@ -581,6 +581,7 @@ export default function Impact114Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   SLIDES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SLIDES_DEMO_SOURCE[i % SLIDES_DEMO_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     SLIDES_DEMO_SOURCE,
@@ -631,7 +632,6 @@ export default function Impact114Page() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()

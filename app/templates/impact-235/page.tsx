@@ -1838,6 +1838,9 @@ export default function AtlierMargueriteVossPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   MATERIALS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...MATERIALS_SOURCE[i % MATERIALS_SOURCE.length], name: s.title, description: s.desc || "" || "" })),
     MATERIALS_SOURCE,
@@ -1860,9 +1863,6 @@ export default function AtlierMargueriteVossPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

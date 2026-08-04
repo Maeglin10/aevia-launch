@@ -303,8 +303,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   PLANS_SOURCE = PLANS_SOURCE_LIVE();
+
   PLANS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
     PLANS_SOURCE,
@@ -329,9 +332,6 @@ export default function Page() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,

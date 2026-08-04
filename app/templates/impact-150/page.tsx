@@ -2164,8 +2164,8 @@ export default function LegalFirmTemplate() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-
   OFFICES = OFFICES_LIVE();
+
   TRUST_METRICS = resolveList(
     clientStats(sessionData)?.map((s: any, i: number) => ({ ...TRUST_METRICS_SOURCE[i % TRUST_METRICS_SOURCE.length], value: s.value, label: s.label })),
     TRUST_METRICS_SOURCE,

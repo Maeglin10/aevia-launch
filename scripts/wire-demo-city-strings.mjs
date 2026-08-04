@@ -18,6 +18,13 @@ import path from "node:path";
 const ROOT = path.join(process.cwd(), "app/templates");
 const dry = process.argv.includes("--dry");
 
+// Vrai si le morceau se termine par une barre oblique inverse non neutralisée :
+// la recoller à un guillemet fermant en ferait un guillemet échappé.
+function finitParBarre(x) {
+  const m = /\\+$/.exec(x);
+  return Boolean(m) && m[0].length % 2 === 1;
+}
+
 let faits = 0;
 const touches = [];
 
@@ -66,8 +73,11 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
         const apresChar = ligne.slice(pos + m0.length).replace(/^\s+/, "").slice(0, 1);
         if (!"[,:".includes(avantChar)) return m0;
         if (apresChar && !"],}".includes(apresChar)) return m0;
-        if (valeur.includes("${") || valeur.includes("\\") || !motCle.test(valeur)) return m0;
+        if (valeur.includes("${") || !motCle.test(valeur)) return m0;
         const morceaux = valeur.split(motCle);
+        // Une barre oblique inverse en fin de morceau échapperait le guillemet
+        // fermant qu'on lui accole — c'est ce qui a coupé impact-04 en deux.
+        if (morceaux.some(finitParBarre)) return m0;
         n++;
         return morceaux
           .map((x) => (x ? `${q}${x}${q}` : null))

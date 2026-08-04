@@ -2590,6 +2590,9 @@ export default function Impact291Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   PED_ITEMS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PED_ITEMS_SOURCE[i % PED_ITEMS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     PED_ITEMS_SOURCE,
@@ -2616,9 +2619,6 @@ export default function Impact291Page() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

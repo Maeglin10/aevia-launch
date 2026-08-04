@@ -219,6 +219,9 @@ export default function HorizonYachtPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   FLEET_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length].price })),
     FLEET_DEMO_SOURCE,
@@ -241,9 +244,6 @@ export default function HorizonYachtPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   FLEET = FLEET_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

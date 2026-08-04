@@ -156,6 +156,9 @@ export default function AethelgardEstatePremium() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   TERROIR_DATA = resolveList(
     clientStats(sessionData)?.map((s: any, i: number) => ({ ...TERROIR_DATA_SOURCE[i % TERROIR_DATA_SOURCE.length], value: s.value, label: s.label })),
     TERROIR_DATA_SOURCE,
@@ -178,9 +181,6 @@ export default function AethelgardEstatePremium() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Product vintages ← client's business profile (falls back to demo).

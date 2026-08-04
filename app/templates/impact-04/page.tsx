@@ -247,8 +247,11 @@ export default function LEtoileRestaurant() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -267,9 +270,6 @@ export default function LEtoileRestaurant() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,

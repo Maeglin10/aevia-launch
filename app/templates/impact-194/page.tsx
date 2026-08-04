@@ -108,9 +108,9 @@ export default function TableExceptionPage() {
   }, []);
 
   fd = session?.formData;
-
-  PRESTATIONS_SOURCE = PRESTATIONS_SOURCE_LIVE();
   c = session?.generatedContent;
+  PRESTATIONS_SOURCE = PRESTATIONS_SOURCE_LIVE();
+
   PRESTATIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title })),
     PRESTATIONS_SOURCE,

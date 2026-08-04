@@ -104,6 +104,7 @@ export default function MeridianJourneyPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   EXPEDITIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EXPEDITIONS_DEMO_SOURCE[i % EXPEDITIONS_DEMO_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     EXPEDITIONS_DEMO_SOURCE,
@@ -144,7 +145,6 @@ export default function MeridianJourneyPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

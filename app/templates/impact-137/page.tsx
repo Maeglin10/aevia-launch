@@ -102,6 +102,8 @@ export default function TorrefieCoffeePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
 
   TARIFS_ANON = resolveList(
 
@@ -128,8 +130,6 @@ export default function TorrefieCoffeePage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Origins ← bp.menu (real coffee list) else demo. altitude/process/img/score

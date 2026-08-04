@@ -219,9 +219,9 @@ export default function BlockBasePage() {
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-
-
   BLOCK_MANIFESTS = BLOCK_MANIFESTS_LIVE();
+
+
 
   PRESTATIONS_INLINE = resolveList(
 

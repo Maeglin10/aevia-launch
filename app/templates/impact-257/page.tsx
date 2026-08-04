@@ -2134,12 +2134,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
-
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-
-  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   bp = session?.businessProfile;
   sessionData = session;
+  c = session?.generatedContent;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+
+
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,
@@ -2166,7 +2167,6 @@ export default function Page() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

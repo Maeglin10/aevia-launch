@@ -1041,11 +1041,11 @@ export default function ArtisanMinimalPage() {
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-
   PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
-
-
   TESTIMONIALS = TESTIMONIALS_LIVE();
+
+
+
   PRICING = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     PRICING_SOURCE,

@@ -215,8 +215,9 @@ export default function CreativePortfolioSPA() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
   FAQS_DEMO = FAQS_DEMO_LIVE();
+
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -243,7 +244,6 @@ export default function CreativePortfolioSPA() {
       });
     });
   });
-  c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

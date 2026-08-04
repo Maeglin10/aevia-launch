@@ -223,8 +223,9 @@ export default function FormeStudioPage() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
   pricingTiers = pricingTiers_LIVE();
+
   disciplines = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...disciplines_SOURCE[i % disciplines_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     disciplines_SOURCE,
@@ -267,7 +268,6 @@ export default function FormeStudioPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts();

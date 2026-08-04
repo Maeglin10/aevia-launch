@@ -170,8 +170,8 @@ export default function EclatSpaPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
-
   FORFAITS = FORFAITS_LIVE();
+
   SOINS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SOINS_SOURCE[i % SOINS_SOURCE.length], titre: s.title })),
     SOINS_SOURCE,

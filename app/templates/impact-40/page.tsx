@@ -619,8 +619,8 @@ export default function TerreVivantePage() {
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-
   plans = plans_LIVE();
+
 
   testimonials = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], text: r.text, name: r.author })),

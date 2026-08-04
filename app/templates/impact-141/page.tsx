@@ -180,6 +180,7 @@ export default function SonicPlayerPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   RELEASES = RELEASES_DEMO.map((row, i) => ({
     ...row,
     image: clientPhotos(session)[0 + i] || row.image,
@@ -202,7 +203,6 @@ export default function SonicPlayerPage() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [isPlaying, setIsPlaying] = useState(false);

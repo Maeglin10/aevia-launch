@@ -589,6 +589,7 @@ export default function Impact115Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   PROJECTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PROJECTS_DEMO_SOURCE[i % PROJECTS_DEMO_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     PROJECTS_DEMO_SOURCE,
@@ -628,7 +629,6 @@ export default function Impact115Page() {
       });
     });
   });
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, green: brand };

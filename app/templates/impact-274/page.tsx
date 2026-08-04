@@ -1713,7 +1713,7 @@ function TEAM_MEMBERS_DEMO_LIVE() {
   {
     name: (clientName(sessionData) ?? "Dr. Sophie Renard"),
     role: 'Médecin généraliste — Praticienne responsable',
-    bio: 'Diplômée de la Faculté de Médecine de Lyon en 2008, le Dr. Renard exerce la médecine générale depuis 15 ans avec une spécialisation en médecine du sport et médecine préventive. Membre du Collège National des Généralistes Enseignants (CNGE), elle s\'engage à maintenir ses connaissances à la pointe des recommandations actuelles.',
+    bio: 'Diplômée de la Faculté de Médecine de ' + (clientCity(sessionData) ?? 'Lyon') + ' en 2008, le Dr. Renard exerce la médecine générale depuis 15 ans avec une spécialisation en médecine du sport et médecine préventive. Membre du Collège National des Généralistes Enseignants (CNGE), elle s\'engage à maintenir ses connaissances à la pointe des recommandations actuelles.',
     initials: 'SR',
   },
   {
@@ -2721,8 +2721,11 @@ export default function Impact274Page() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   TEAM_MEMBERS_DEMO = TEAM_MEMBERS_DEMO_LIVE();
+
   VALUES = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...VALUES_SOURCE[i % VALUES_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     VALUES_SOURCE,
@@ -2745,9 +2748,6 @@ export default function Impact274Page() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

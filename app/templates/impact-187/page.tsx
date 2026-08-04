@@ -104,8 +104,8 @@ export default function MaxPerformancePage() {
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-
   TARIFS = TARIFS_LIVE();
+
 
   PROGRAMMES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PROGRAMMES_SOURCE[i % PROGRAMMES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),

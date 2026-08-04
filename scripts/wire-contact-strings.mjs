@@ -20,6 +20,13 @@ const dry = process.argv.includes("--dry");
 const MAIL = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
 const TEL = /\b0[1-9](?:[ .X-]?[\dX]{2}){4}\b/;
 
+// Vrai si le morceau se termine par une barre oblique inverse non neutralisée :
+// la recoller à un guillemet fermant en ferait un guillemet échappé.
+function finitParBarre(x) {
+  const m = /\\+$/.exec(x);
+  return Boolean(m) && m[0].length % 2 === 1;
+}
+
 let mails = 0, tels = 0;
 const touches = [];
 

@@ -116,11 +116,11 @@ export default function BrilloNetPage() {
   }, []);
 
   fd = session?.formData;
-
-  ZONES_DEMO = ZONES_DEMO_LIVE();
-
-  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   c = session?.generatedContent;
+  ZONES_DEMO = ZONES_DEMO_LIVE();
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
+
+
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,

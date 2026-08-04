@@ -175,11 +175,11 @@ export default function VoltPiscinesPage() {
   }, []);
 
   fd = session?.formData;
-
-  CHANTIERS = CHANTIERS_LIVE();
   c = session?.generatedContent;
-
+  CHANTIERS = CHANTIERS_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
+
+
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

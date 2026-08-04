@@ -2797,8 +2797,11 @@ export default function Impact284Page() {
   }, []);
 
   fd = session?.formData;
-
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
   TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
+
   EQUIPEMENTS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EQUIPEMENTS_SOURCE[i % EQUIPEMENTS_SOURCE.length], nom: s.title, description: s.desc || "" || "" })),
     EQUIPEMENTS_SOURCE,
@@ -2821,9 +2824,6 @@ export default function Impact284Page() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25) };

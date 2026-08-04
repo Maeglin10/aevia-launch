@@ -140,6 +140,9 @@ export default function StudioVersaPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   EQUIPE_ANON = resolveList(
 
@@ -166,9 +169,6 @@ export default function StudioVersaPage() {
       });
     });
   });
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Client project gallery drives the portfolio; demo client/type/year metadata

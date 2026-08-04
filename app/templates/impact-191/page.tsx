@@ -139,11 +139,11 @@ export default function JardinsVivantsPage() {
   }, []);
 
   fd = session?.formData;
-
-  TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
-
-  ZONES_DEMO = ZONES_DEMO_LIVE();
   c = session?.generatedContent;
+  TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
+  ZONES_DEMO = ZONES_DEMO_LIVE();
+
+
   PRESTATIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title })),
     PRESTATIONS_SOURCE,

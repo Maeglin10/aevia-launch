@@ -2096,13 +2096,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
-
-  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
+
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

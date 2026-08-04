@@ -128,8 +128,8 @@ export default function SummitCapitalPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
-
   team = team_LIVE();
+
   theses = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...theses_SOURCE[i % theses_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     theses_SOURCE,

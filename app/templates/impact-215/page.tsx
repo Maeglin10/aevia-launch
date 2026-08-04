@@ -1823,10 +1823,10 @@ export default function FlammeEtCoPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-
   EXTRA_TESTIMONIALS_SOURCE = EXTRA_TESTIMONIALS_SOURCE_LIVE();
-
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
+
   FEATURED = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...FEATURED_SOURCE[i % FEATURED_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? FEATURED_SOURCE[i % FEATURED_SOURCE.length].price })),
     FEATURED_SOURCE,

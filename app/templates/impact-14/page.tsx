@@ -914,9 +914,9 @@ export default function HorizonMaritimePage() {
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-
-
   testimonials = testimonials_LIVE();
+
+
   stats = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...stats_SOURCE[i % stats_SOURCE.length], value: s.value, label: s.label })),
     stats_SOURCE,
