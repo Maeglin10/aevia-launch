@@ -99,6 +99,10 @@ async function semer(templateId) {
         template: templateId,
         businessName: WITNESS.businessName,
         city: WITNESS.city,
+        // `tagline` — « ce que vous faites » — est obligatoire dans le wizard :
+        // le harnais doit l'envoyer comme un vrai client, sans quoi les thèmes
+        // qui la lisent paraissent ne rien afficher.
+        tagline: WITNESS.headline,
         sector: "couvreur",
         industry: "services",
         businessType: "couvreur",

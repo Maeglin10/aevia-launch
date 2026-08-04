@@ -36,6 +36,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -377,12 +378,14 @@ return (
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
-            ) : (
+            ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
+              <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">{clientName({ formData: fd })}</span>
+            ) : (<>
               <>
             <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Vulcan</span>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] -mt-1 ml-1">Motor Group Modena</span>
               </>
-            )}
+            </>))}
          </div>
          <div className="hidden md:flex gap-10 text-[10px] font-black uppercase tracking-widest text-white/40">
             {[

@@ -14,6 +14,7 @@ import {
 } from "framer-motion";
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -1102,7 +1103,9 @@ export default function Impact170Page() {
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : (
+          ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
+              <span style={{ opacity: 0.5 }}>{clientName({ formData: fd })}</span>
+            ) : (<>
             <>
           rafael.moreau<span style={{ opacity: 0.5 }}>@dev</span>
           <motion.span
@@ -1112,7 +1115,7 @@ export default function Impact170Page() {
             _
           </motion.span>
             </>
-          )}
+          </>))}
         </div>
 
         <div id="mb170-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((link) => (

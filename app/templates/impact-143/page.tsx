@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -186,11 +187,13 @@ export default function AtelierInteriorPage() {
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
-            ) : (
+            ) : (/* NOM_LOGO */ clientName(sessionData) ? (
+              <span className="font-light">{clientName(sessionData)}</span>
+            ) : (<>
               <>
             <span className="font-light">Atelier</span> <span className="font-bold text-[var(--brand,#8b7355)]">Interior</span>
           </>
-            )}</Link>
+            </>))}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2a2520]/40">
             {["Projects", "Services", "About", "Contact"].map(l => (
               <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-[var(--brand,#8b7355)] transition-colors">{l}</a>

@@ -142,18 +142,38 @@ for (const id of ids) {
   const toutEspace = espace(repli);
   const cible = bons.find(
     (nd) => texte(repli.slice(nd.debEnfants, nd.finEnfants)) === texte(repli),
-  );
-  if (!cible) { restants.push(`${id} (marque en plusieurs morceaux)`); continue; }
+  ) ?? null;
+  // Quand le repli est un fragment de plusieurs éléments frères — « Vulcan » puis
+  // « Motor Group Modena » — aucun élément ne porte le texte entier. Le nom du
+  // client prend alors la place du fragment, dans la typographie du premier
+  // frère : la seconde ligne décrit l'entreprise de démonstration, pas la sienne.
+  let fragment = null;
+  if (!cible) {
+    const racines = noeuds.filter((nd) => nd.prof === 0);
+    const premier = racines.sort((a, b) => a.debEnfants - b.debEnfants)[0];
+    if (racines.length >= 2 && premier && !DESSIN.test(premier.attrs)) fragment = premier;
+  }
+  if (!cible && !fragment) { restants.push(`${id} (marque en plusieurs morceaux)`); continue; }
   // Un repli déjà branché sur l'accroche n'est pas un bloc de marque.
   if (/heroHeadline|clientTagline/.test(repli)) { restants.push(`${id} (repli déjà câblé ailleurs)`); continue; }
-  const tag = cible.tag;
-  const attrs = cible.attrs;
-  const marque = repli.slice(cible.debEnfants, cible.finEnfants);
+  const tag = cible ? cible.tag : fragment.tag;
+  const marque = cible ? repli.slice(cible.debEnfants, cible.finEnfants) : "";
 
   const nom = `clientName(${arg})`;
-  const remp = `{/* NOM_LOGO */ ${nom} ?? (<>${marque}</>)}`;
-  const avant = src.slice(0, deb + 1);
-  src = avant + repli.slice(0, cible.debEnfants) + remp + repli.slice(cible.finEnfants) + src.slice(fin);
+  let remplace;
+  if (cible) {
+    const remp = `{/* NOM_LOGO */ ${nom} ?? (<>${marque}</>)}`;
+    remplace = repli.slice(0, cible.debEnfants) + remp + repli.slice(cible.finEnfants);
+  } else {
+    // Le repli occupe une position d'expression — la branche « : ( … ) » du
+    // ternaire — et non une position d'enfant JSX : l'entourer d'accolades y
+    // écrirait un littéral d'objet.
+    remplace =
+      `/* NOM_LOGO */ ${nom} ? (\n` +
+      `              <${fragment.tag}${fragment.attrs ? " " + fragment.attrs : ""}>{${nom}}</${fragment.tag}>\n` +
+      `            ) : (<>${repli}</>)`;
+  }
+  src = src.slice(0, deb + 1) + remplace + src.slice(fin);
 
   if (!/clientName/.test(src.slice(0, src.indexOf("\n", src.indexOf("clientContent"))) + src)) {
     // rien à faire, l'import est traité juste après

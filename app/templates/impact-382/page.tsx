@@ -14,6 +14,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -45,7 +46,8 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Prestations", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Honoraires", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Cadres & techniciens", "line": "Le bon profil existe. Encore faut-il aller le chercher.", "sub": "Approche directe, 3 candidats présentés, jamais 30 CV."}, {"k": "Dirigeants", "line": "Recruter celui qui fera grandir l'entreprise.", "sub": "Chasse confidentielle, évaluation approfondie, prise de références."}, {"k": "Garantie 12 mois", "line": "Un recrutement raté, on le refait gratuitement.", "sub": "Parce que le risque doit être partagé, pas transféré."}];
+const HERO_SOURCE = [{"k": "Cadres & techniciens", "line": "Le bon profil existe. Encore faut-il aller le chercher.", "sub": "Approche directe, 3 candidats présentés, jamais 30 CV."}, {"k": "Dirigeants", "line": "Recruter celui qui fera grandir l'entreprise.", "sub": "Chasse confidentielle, évaluation approfondie, prise de références."}, {"k": "Garantie 12 mois", "line": "Un recrutement raté, on le refait gratuitement.", "sub": "Parce que le risque doit être partagé, pas transféré."}];
+let HERO = HERO_SOURCE;
 
 const SERVICES_SOURCE = [{"titre": "Recrutement cadres & techniciens", "desc": "Sourcing multicanal, approche directe, entretiens structurés : trois candidats présentés avec un rapport d'évaluation par profil.", "tag": "Cadres"}, {"titre": "Chasse de dirigeants", "desc": "Missions confidentielles, cartographie du marché, approche des candidats en poste : les meilleurs ne répondent pas aux annonces.", "tag": "Executive"}, {"titre": "Métiers industriels & techniques", "desc": "Bureau d'études, méthodes, maintenance, qualité : nos consultants viennent de l'industrie et parlent le langage de vos ateliers.", "tag": "Industrie"}, {"titre": "Évaluation & assessment", "desc": "Tests de personnalité débriefés, mises en situation, prise de références réelle : décider sur des faits, pas sur une bonne impression.", "tag": "Évaluation"}, {"titre": "Conseil RH pour PME", "desc": "Fiches de poste, grilles de rémunération, parcours d'intégration : ce qui fait qu'un bon recrutement le reste au bout d'un an.", "tag": "Conseil"}, {"titre": "Accompagnement candidats", "desc": "Gratuit et confidentiel pour les candidats : conseil de carrière, préparation d'entretien, retour argumenté même en cas de refus.", "tag": "Candidats"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
@@ -87,6 +89,21 @@ export default function TrajectoiresRhPage() {
 
 
   fd = session?.formData;
+
+
+  // L'accroche du client remplace la première ligne du carrousel : c'est la
+
+
+  // seule des trois qui parle de lui, les autres décrivent des spécialités.
+
+
+  HERO = clientTagline({ formData: fd, generatedContent: c })
+
+
+    ? HERO_SOURCE.map((h, i) => (i === 0 ? { ...h, line: clientTagline({ formData: fd, generatedContent: c })! } : h))
+
+
+    : HERO_SOURCE;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

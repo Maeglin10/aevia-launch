@@ -13,6 +13,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -44,7 +45,8 @@ const FONT = "Georgia, 'Times New Roman', serif";
 const FONT_BODY = "system-ui, -apple-system, sans-serif";
 
 const NAV = [{"l": "Domaines", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Immobilier", "line": "Signer un achat sans découvrir de clause après coup.", "sub": "Compromis, vente, VEFA, prêt — vérifiés ligne à ligne."}, {"k": "Famille", "line": "Transmettre clairement, de son vivant.", "sub": "Donations, testaments authentiques, PACS, adoption."}, {"k": "Entreprise", "line": "Donner force exécutoire à vos accords d'affaires.", "sub": "Cessions, baux commerciaux, statuts, garanties."}];
+const HERO_SOURCE = [{"k": "Immobilier", "line": "Signer un achat sans découvrir de clause après coup.", "sub": "Compromis, vente, VEFA, prêt — vérifiés ligne à ligne."}, {"k": "Famille", "line": "Transmettre clairement, de son vivant.", "sub": "Donations, testaments authentiques, PACS, adoption."}, {"k": "Entreprise", "line": "Donner force exécutoire à vos accords d'affaires.", "sub": "Cessions, baux commerciaux, statuts, garanties."}];
+let HERO = HERO_SOURCE;
 
 const SERVICES_SOURCE = [{"titre": "Ventes immobilières", "desc": "De l'avant-contrat à la remise des clés : urbanisme, diagnostics, origine de propriété et servitudes vérifiés avant que vous ne signiez.", "tag": "Immobilier"}, {"titre": "Successions", "desc": "Acte de notoriété, inventaire, partage, déclaration fiscale dans les six mois. Un interlocuteur unique pour toute la famille.", "tag": "Succession"}, {"titre": "Donations & testaments", "desc": "Donation-partage, donation entre époux, testament authentique conservé au fichier central. Transmettre sans créer de conflit.", "tag": "Famille"}, {"titre": "Contrats de mariage & PACS", "desc": "Séparation de biens, participation aux acquêts, convention de PACS notariée : le régime choisi, pas le régime subi.", "tag": "Couple"}, {"titre": "Entreprise & sociétés", "desc": "Cession de fonds, baux commerciaux, constitution et cession de parts. La date certaine et la force exécutoire en plus.", "tag": "Affaires"}, {"titre": "Conseil patrimonial", "desc": "Démembrement, SCI, mandat de protection future, assurance-vie : un rendez-vous conseil avant les grandes décisions.", "tag": "Patrimoine"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
@@ -86,6 +88,21 @@ export default function EtudeDuCanalPage() {
 
 
   fd = session?.formData;
+
+
+  // L'accroche du client remplace la première ligne du carrousel : c'est la
+
+
+  // seule des trois qui parle de lui, les autres décrivent des spécialités.
+
+
+  HERO = clientTagline({ formData: fd, generatedContent: c })
+
+
+    ? HERO_SOURCE.map((h, i) => (i === 0 ? { ...h, line: clientTagline({ formData: fd, generatedContent: c })! } : h))
+
+
+    : HERO_SOURCE;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

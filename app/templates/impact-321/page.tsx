@@ -6,6 +6,7 @@ import {
   clientName,
   clientServices,
   clientStats,
+  clientTagline,
   clientTeam,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
@@ -392,7 +393,7 @@ export default function AIHorizonsTemplate() {
 
   // --- SECTIONS DATA (Fallback to Premium French) ---
 
-  const heroTitle = c?.heroTitle || "LE SOMMET DES INTELLIGENCES";
+  const heroTitle = clientTagline({ formData: fd, generatedContent: c }) || c?.heroTitle || "LE SOMMET DES INTELLIGENCES";
   const heroSubtitle = c?.heroSubtitle || "Explorez les frontières de l'IA. 3 jours de conférences, d'ateliers techniques et de networking exclusif avec les pionniers du domaine.";
 
   // Countdown logic
