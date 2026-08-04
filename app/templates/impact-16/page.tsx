@@ -129,8 +129,10 @@ export default function ObscuraPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

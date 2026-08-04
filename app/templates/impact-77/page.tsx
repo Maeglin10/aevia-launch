@@ -195,8 +195,10 @@ export default function HorologsLuxePage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
   AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
+
 
 
   AVIS_INLINE = resolveList(

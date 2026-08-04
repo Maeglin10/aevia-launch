@@ -79,7 +79,9 @@ export default function LumiereDoreePage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
+
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

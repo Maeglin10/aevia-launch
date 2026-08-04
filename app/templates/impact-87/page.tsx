@@ -36,6 +36,7 @@ export default function IronClubPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -55,7 +56,9 @@ export default function IronClubPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
   bp = (session as any)?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color

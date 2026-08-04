@@ -517,7 +517,7 @@ export default function PulseAppPage() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {PRICING.map((plan, i) => {
-              const price = billingAnnual && plan.price !== "0" ? Math.round(parseInt(plan.price) * 0.8) : plan.price
+              const price = billingAnnual && /* PRIX_CALCULABLE */ Number.isFinite(parseFloat(String(plan.price).replace(/[^0-9.]/g, ""))) && plan.price !== "0" ? Math.round(parseInt(plan.price) * 0.8) : plan.price
               return (
                 <Reveal key={plan.name} delay={i * 0.1}>
                   <div className={`rounded-3xl p-8 relative ${plan.highlight ? "bg-[var(--brand,#6366F1)] text-white shadow-2xl shadow-indigo-200 scale-105" : "bg-[#F8F7FF]"}`}>

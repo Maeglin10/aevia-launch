@@ -215,8 +215,10 @@ export default function CreativePortfolioSPA() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
   FAQS_DEMO = FAQS_DEMO_LIVE();
+
 
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),

@@ -265,11 +265,11 @@ export default function AltaTransactionsPage() {
   }, []);
 
   fd = session?.formData;
-
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
   BIENS_DEMO = BIENS_DEMO_LIVE();
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

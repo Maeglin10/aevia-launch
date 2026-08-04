@@ -205,6 +205,7 @@ export default function QBitLabsPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -224,8 +225,10 @@ export default function QBitLabsPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
   TEAM = TEAM_LIVE();
+
 
 
   RESEARCH_AREAS = resolveList(

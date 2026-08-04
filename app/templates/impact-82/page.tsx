@@ -91,14 +91,14 @@ export default function BlueprintPage() {
   }, []);
 
   fd = session?.formData;
-
-
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
   EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
   PROGRAMMES_DEMO = PROGRAMMES_DEMO_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
+
+
 
   AVIS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], name: r.author, quote: r.text })),

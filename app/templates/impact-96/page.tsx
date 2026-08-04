@@ -518,10 +518,12 @@ export default function UrbanPulsePage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
   STATS_DEMO = STATS_DEMO_LIVE();
   SERVICES_DEMO = SERVICES_DEMO_LIVE();
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
+
 
 
 

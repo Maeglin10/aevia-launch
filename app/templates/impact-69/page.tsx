@@ -75,7 +75,9 @@ export default function LeaHomePage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
   STATS_INLINE = resolveList(
 
