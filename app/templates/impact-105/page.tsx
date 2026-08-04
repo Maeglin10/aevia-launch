@@ -82,14 +82,34 @@ const ENTREPRISES = [
   { t: "Livraison sur Strasbourg", p: "incluse", d: "Comprise dans l'abonnement en centre-ville, à la Krutenau et à la Robertsau. Hors zone, 12 € par passage." },
 ];
 
-const CREATIONS = [
+const CREATIONS = resolveList(
+
+  clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
   { titre: "Bouquets & compositions", desc: "Bouquets de fleurs fraîches de saison, compositions table, centres de table et décorations personnalisées pour toutes occasions.", tag: "Frais" },
   { titre: "Mariage & cérémonie", desc: "Bouquet de mariée, boutonnières, décoration de salle et de cérémonie. Consultation offerte pour chaque projet mariage.", tag: "Mariage" },
   { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur Strasbourg.", tag: "Recueillement" },
   { titre: "Abonnements entreprises", desc: "Décoration florale hebdomadaire ou bimensuelle pour accueil, salles de réunion et espaces de travail. Entretien inclus.", tag: "Entreprises" },
   { titre: "Fleurs séchées & éternelles", desc: "Compositions en fleurs séchées, pampassi, eucalyptus et gypsophile — déco longue durée au style bohème ou minimaliste.", tag: "Séchées" },
   { titre: "Livraison & abonnements", desc: "Livraison à domicile sur Strasbourg et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
-]
+])[i % ([
+  { titre: "Bouquets & compositions", desc: "Bouquets de fleurs fraîches de saison, compositions table, centres de table et décorations personnalisées pour toutes occasions.", tag: "Frais" },
+  { titre: "Mariage & cérémonie", desc: "Bouquet de mariée, boutonnières, décoration de salle et de cérémonie. Consultation offerte pour chaque projet mariage.", tag: "Mariage" },
+  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur Strasbourg.", tag: "Recueillement" },
+  { titre: "Abonnements entreprises", desc: "Décoration florale hebdomadaire ou bimensuelle pour accueil, salles de réunion et espaces de travail. Entretien inclus.", tag: "Entreprises" },
+  { titre: "Fleurs séchées & éternelles", desc: "Compositions en fleurs séchées, pampassi, eucalyptus et gypsophile — déco longue durée au style bohème ou minimaliste.", tag: "Séchées" },
+  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur Strasbourg et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
+]).length], titre: s.title, desc: s.desc || '' })),
+
+  [
+  { titre: "Bouquets & compositions", desc: "Bouquets de fleurs fraîches de saison, compositions table, centres de table et décorations personnalisées pour toutes occasions.", tag: "Frais" },
+  { titre: "Mariage & cérémonie", desc: "Bouquet de mariée, boutonnières, décoration de salle et de cérémonie. Consultation offerte pour chaque projet mariage.", tag: "Mariage" },
+  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur Strasbourg.", tag: "Recueillement" },
+  { titre: "Abonnements entreprises", desc: "Décoration florale hebdomadaire ou bimensuelle pour accueil, salles de réunion et espaces de travail. Entretien inclus.", tag: "Entreprises" },
+  { titre: "Fleurs séchées & éternelles", desc: "Compositions en fleurs séchées, pampassi, eucalyptus et gypsophile — déco longue durée au style bohème ou minimaliste.", tag: "Séchées" },
+  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur Strasbourg et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
+],
+
+)
 
 const ATOUTS = [
   "Fleurs sourcées auprès de producteurs locaux et certifiés",

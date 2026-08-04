@@ -91,11 +91,25 @@ const plans = [
   { name: "Enterprise", price: "99", desc: "Pour les grandes organisations", features: ["Tout Growth inclus", "SSO & SAML", "SLA 99.99%", "Déploiement on-prem", "CISO dédié", "Support 24/7"], highlight: false, cta: "Contacter les ventes" },
 ];
 
-const testimonials = [
+const testimonials = resolveList(
+
+  clientReviews({ formData: fd })?.map((r: any, i: number) => ({ ...([
   { name: "Aurélie Marchand", role: "COO — Fintech Scale-up", text: "Streamline a réduit notre temps de réunion de 40%. Tout le monde sait exactement quoi faire et quand. Indispensable.", rating: 5 },
   { name: "Thomas Leroy", role: "CTO — Agence digitale", text: "L'API est un chef-d'œuvre. On a construit notre propre couche d'automatisation en 2 semaines. Aucune autre plateforme n'offre ça.", rating: 5 },
   { name: "Sophie Chen", role: "VP Product — SaaS B2B", text: "Migration de Jira en 3 jours. L'équipe a adoré dès le premier jour. Le support a été réactif à chaque étape.", rating: 5 },
-];
+])[i % ([
+  { name: "Aurélie Marchand", role: "COO — Fintech Scale-up", text: "Streamline a réduit notre temps de réunion de 40%. Tout le monde sait exactement quoi faire et quand. Indispensable.", rating: 5 },
+  { name: "Thomas Leroy", role: "CTO — Agence digitale", text: "L'API est un chef-d'œuvre. On a construit notre propre couche d'automatisation en 2 semaines. Aucune autre plateforme n'offre ça.", rating: 5 },
+  { name: "Sophie Chen", role: "VP Product — SaaS B2B", text: "Migration de Jira en 3 jours. L'équipe a adoré dès le premier jour. Le support a été réactif à chaque étape.", rating: 5 },
+]).length], text: r.text, name: r.author })),
+
+  [
+  { name: "Aurélie Marchand", role: "COO — Fintech Scale-up", text: "Streamline a réduit notre temps de réunion de 40%. Tout le monde sait exactement quoi faire et quand. Indispensable.", rating: 5 },
+  { name: "Thomas Leroy", role: "CTO — Agence digitale", text: "L'API est un chef-d'œuvre. On a construit notre propre couche d'automatisation en 2 semaines. Aucune autre plateforme n'offre ça.", rating: 5 },
+  { name: "Sophie Chen", role: "VP Product — SaaS B2B", text: "Migration de Jira en 3 jours. L'équipe a adoré dès le premier jour. Le support a été réactif à chaque étape.", rating: 5 },
+],
+
+);
 
 const integrations = ["Slack", "Salesforce", "HubSpot", "Notion", "GitHub", "Figma", "Stripe", "Zapier", "Linear", "Intercom"];
 
