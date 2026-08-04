@@ -126,7 +126,7 @@ for (const id of ids) {
       return "import {\n" + [...noms].sort().map((n) => `  ${n},\n`).join("") + '} from "@/lib/templates/clientContent";';
     });
   } else {
-    const d = /(^|\n)\s*("use client";|'use client';)[^\n]*\n/.exec(src);
+    const d = /(^|\n)\s*("use client"|'use client')\s*;?[^\n]*\n/.exec(src);
     const at = d ? d.index + d[0].length : 0;
     src = src.slice(0, at) + 'import { clientTagline } from "@/lib/templates/clientContent";\n' + src.slice(at);
   }
