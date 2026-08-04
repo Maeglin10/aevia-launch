@@ -1921,7 +1921,8 @@ function VoyageSection() {
     overflow: 'hidden',
   };
 
-  const conseils: { icon: React.ReactNode; titre: string; body: string }[] = [
+  const conseils: { icon: React.ReactNode; titre: string; body: string }[] = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       icon: <Calendar size={20} color={C.salmonLight} strokeWidth={1.8} />,
       titre: 'Consulter 4 à 6 semaines avant',
@@ -1937,7 +1938,41 @@ function VoyageSection() {
       titre: 'Carnet vaccinal international',
       body: 'La fièvre jaune impose un carnet certifié. Nous disposons du tampon officiel centre de vaccination international.',
     },
-  ];
+  ])[i % ([
+    {
+      icon: <Calendar size={20} color={C.salmonLight} strokeWidth={1.8} />,
+      titre: 'Consulter 4 à 6 semaines avant',
+      body: 'Certains vaccins nécessitent plusieurs injections espacées. Anticipez votre consultation pour être protégé à temps.',
+    },
+    {
+      icon: <Pill size={20} color={C.salmonLight} strokeWidth={1.8} />,
+      titre: 'Trousse médicale adaptée',
+      body: 'Antidiarrhéiques, antibiotiques à large spectre, antiseptiques, antipaludéens de secours selon la destination.',
+    },
+    {
+      icon: <Shield size={20} color={C.salmonLight} strokeWidth={1.8} />,
+      titre: 'Carnet vaccinal international',
+      body: 'La fièvre jaune impose un carnet certifié. Nous disposons du tampon officiel centre de vaccination international.',
+    },
+  ]).length], titre: s.title, body: s.desc || "" })),
+    [
+    {
+      icon: <Calendar size={20} color={C.salmonLight} strokeWidth={1.8} />,
+      titre: 'Consulter 4 à 6 semaines avant',
+      body: 'Certains vaccins nécessitent plusieurs injections espacées. Anticipez votre consultation pour être protégé à temps.',
+    },
+    {
+      icon: <Pill size={20} color={C.salmonLight} strokeWidth={1.8} />,
+      titre: 'Trousse médicale adaptée',
+      body: 'Antidiarrhéiques, antibiotiques à large spectre, antiseptiques, antipaludéens de secours selon la destination.',
+    },
+    {
+      icon: <Shield size={20} color={C.salmonLight} strokeWidth={1.8} />,
+      titre: 'Carnet vaccinal international',
+      body: 'La fièvre jaune impose un carnet certifié. Nous disposons du tampon officiel centre de vaccination international.',
+    },
+  ],
+  );
 
   return (
     <section ref={ref} style={sec} id="voyage">

@@ -201,7 +201,7 @@ const EDIT_ROWS: EditRow[] = [
 ];
 
 /* ── Tech specs (4) ───────────────────────────────────────────────────────── */
-const SPECS: Spec[] = [
+const SPECS_SOURCE: Spec[] = [
   {
     key: '01',
     title: 'Habilitation BR / B2V / BC / BE',
@@ -223,6 +223,7 @@ const SPECS: Spec[] = [
     desc: 'Chaque chantier est couvert par notre assurance décennale et notre responsabilité civile professionnelle.',
   },
 ];
+let SPECS = SPECS_SOURCE;
 
 /* ── Reviews (3) ─────────────────────────────────────────────────────────── */
 const REVIEWS_SOURCE: Review[] = [
@@ -2154,6 +2155,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  SPECS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPECS_SOURCE[i % SPECS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    SPECS_SOURCE,
+  );
 
   // Client-uploaded photos (beyond the hero, which uses index 0) replace the
   // template's stock Unsplash photography in the editorial rows.

@@ -16,6 +16,7 @@ import {
   clientCity,
   clientName,
   clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -180,7 +181,7 @@ const SPECIALTIES_DEMO: Specialty[] = [
   },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_SOURCE: EditRow[] = [
   {
     eyebrow: 'Nos valeurs',
     imgId: 'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -202,6 +203,7 @@ const EDIT_ROWS: EditRow[] = [
     ghostNum: '02',
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const CRAFT_STEPS: CraftStep[] = [
   {
@@ -2192,6 +2194,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

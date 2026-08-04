@@ -158,7 +158,7 @@ const PIECES_DEMO: Piece[] = [
   { title: 'Broderie & personnalisation', sub: "Fil d\'or · Soie · Main" },
 ];
 
-const EDIT_ROWS_DEMO: EditRow[] = [
+const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
   {
     eyebrow: 'Notre philosophie',
     img: 'https://images.pexels.com/photos/36731349/pexels-photo-36731349.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
@@ -184,6 +184,7 @@ const EDIT_ROWS_DEMO: EditRow[] = [
     reverse: true,
   },
 ];
+let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_SOURCE;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const ATELIER_STEPS: AtélierStep[] = [
@@ -2111,6 +2112,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_DEMO_SOURCE[i % EDIT_ROWS_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_DEMO_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

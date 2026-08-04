@@ -187,7 +187,7 @@ const SERVICES_SOURCE: Service[] = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_SOURCE: EditRow[] = [
   {
     eyebrow: 'Notre approche',
     roman: 'I',
@@ -217,6 +217,7 @@ const EDIT_ROWS: EditRow[] = [
     reverse: true,
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const PROCESS: ProcessStep[] = [
   {
@@ -2201,6 +2202,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_SOURCE,
+  );
 
   // Client-uploaded photos (beyond the hero, which uses index 0) replace the
   // template's stock Unsplash photography in the editorial rows.

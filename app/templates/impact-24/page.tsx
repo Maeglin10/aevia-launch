@@ -15,6 +15,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -184,12 +185,25 @@ export default function Impact24() {
 
   const filtered = activeSector === "All" ? companies : companies.filter(c => c.sector === activeSector)
 
-  const navItems: { label: string; target: ActivePage }[] = [
+  const navItems: { label: string; target: ActivePage }[] = resolveList(
+    clientStats({ formData: fd })?.map((s: any, i: number) => ({ ...([
     { label: "Portfolio", target: "portfolio" },
     { label: "Program", target: "program" },
     { label: "Mentors", target: "mentors" },
     { label: "Apply", target: "apply" },
-  ]
+  ])[i % ([
+    { label: "Portfolio", target: "portfolio" },
+    { label: "Program", target: "program" },
+    { label: "Mentors", target: "mentors" },
+    { label: "Apply", target: "apply" },
+  ]).length], target: s.value, label: s.label })),
+    [
+    { label: "Portfolio", target: "portfolio" },
+    { label: "Program", target: "program" },
+    { label: "Mentors", target: "mentors" },
+    { label: "Apply", target: "apply" },
+  ],
+  )
 
   
   // Dynamic Services & Testimonials Mutation for Session Data

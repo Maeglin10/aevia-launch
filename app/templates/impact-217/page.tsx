@@ -267,7 +267,7 @@ interface Spec {
   body: string;
 }
 
-const SPECS: Spec[] = [
+const SPECS_SOURCE: Spec[] = [
   {
     k: '01',
     title: 'Nitro-Forge midsole',
@@ -289,6 +289,7 @@ const SPECS: Spec[] = [
     body: 'A breathable, moisture-wicking ankle collar spun from 92% recycled ocean-bound plastics.',
   },
 ];
+let SPECS = SPECS_SOURCE;
 
 interface Look {
   img: string;
@@ -2534,6 +2535,10 @@ export default function ImpactSneakerPage() {
   }, []);
 
   fd = session?.formData;
+  SPECS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPECS_SOURCE[i % SPECS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    SPECS_SOURCE,
+  );
 
   // Client-uploaded photos (beyond the hero, which uses index 0) replace the
   // template's stock Unsplash photography in the editorial story rows.

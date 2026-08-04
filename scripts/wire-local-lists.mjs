@@ -77,7 +77,8 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
       if (new RegExp(`const ${nom}[^=]*=\\s*resolveList`).test(src)) continue;
 
       // fin du tableau
-      let i = src.indexOf("[", dm.index);
+      // Après le « = » : une annotation « : Testimonial[] » a ses propres crochets.
+      let i = src.indexOf("[", src.indexOf("=", dm.index));
       let d = 0, fin = -1;
       for (let k = i; k < src.length; k++) {
         if (src[k] === "[") d++;

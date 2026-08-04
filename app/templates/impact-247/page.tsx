@@ -1072,7 +1072,7 @@ interface EditRow {
   reverse?: boolean;
 }
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_SOURCE: EditRow[] = [
   {
     eyebrow: 'Notre expertise',
     numeral: 'I',
@@ -1101,6 +1101,7 @@ const EDIT_ROWS: EditRow[] = [
     reverse: true,
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -2082,6 +2083,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_SOURCE,
+  );
 
   // Client-uploaded photos (beyond the hero, which uses index 0) replace the
   // template's stock Unsplash photography in the editorial rows.

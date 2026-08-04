@@ -924,7 +924,7 @@ type Value = {
   body: string;
 };
 
-const VALUES: Value[] = [
+const VALUES_SOURCE: Value[] = [
   {
     icon: <Heart size={36} color={C.sage} strokeWidth={1.4} />,
     title: 'Écoute active',
@@ -941,6 +941,7 @@ const VALUES: Value[] = [
     body: 'Un dossier médical vivant, un médecin référent qui vous connaît sur le long terme. La continuité des soins est au cœur de notre pratique.',
   },
 ];
+let VALUES = VALUES_SOURCE;
 
 function ValuesSection() {
   const sec: React.CSSProperties = {
@@ -2716,6 +2717,10 @@ export default function Impact274Page() {
   }, []);
 
   fd = session?.formData;
+  VALUES = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...VALUES_SOURCE[i % VALUES_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    VALUES_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

@@ -21,6 +21,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -130,7 +131,7 @@ interface Material {
   description: string;
 }
 
-const MATERIALS: Material[] = [
+const MATERIALS_SOURCE: Material[] = [
   {
     name: 'Soie de Lyon',
     origin: 'Fabrique Bucol, Rhône-Alpes',
@@ -156,6 +157,7 @@ const MATERIALS: Material[] = [
       "Le lin Ulster, cultivé dans les pluies atlantiques, possède une résistance singulière et un tomber rectiligne parfait. Il vieillit en s\'embellissant, comme doit le faire une pièce sur mesure.",
   },
 ];
+let MATERIALS = MATERIALS_SOURCE;
 
 interface PressItem {
   outlet: string;
@@ -1835,6 +1837,10 @@ export default function AtlierMargueriteVossPage() {
   }, []);
 
   fd = session?.formData;
+  MATERIALS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...MATERIALS_SOURCE[i % MATERIALS_SOURCE.length], name: s.title, description: s.desc || "" || "" })),
+    MATERIALS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

@@ -1105,7 +1105,8 @@ function ServiceCard({ icon, title, desc, features, color, routePoints, delay = 
 }
 
 function ServicesSection() {
-  const services: ServiceCardProps[] = [
+  const services: ServiceCardProps[] = resolveList(
+    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
     {
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -1183,7 +1184,165 @@ function ServicesSection() {
       routePoints: [[20, 20], [65, 38], [120, 12], [175, 28]],
       delay: 0.3,
     },
-  ]
+  ])[i % ([
+    {
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      title: "Air Freight",
+      desc: "Priority air cargo with same-day and next-flight-out options for time-critical shipments across our global airport network.",
+      features: [
+        "Door-to-door in 24–72 hours",
+        "Dangerous goods certified",
+        "Real-time tracking per piece",
+        "Temperature-controlled options",
+      ],
+      color: "#3b82f6",
+      routePoints: [[20, 40], [80, 15], [130, 30], [185, 10]],
+      delay: 0,
+    },
+    {
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <rect x="9" y="10" width="6" height="12" rx="1" stroke="currentColor" strokeWidth="2"/>
+        </svg>
+      ),
+      title: "Ocean Freight",
+      desc: "Full Container Load (FCL) and Less-than-Container Load (LCL) solutions with carrier diversity across 200+ shipping lanes.",
+      features: [
+        "FCL & LCL consolidation",
+        "Port-to-port and door-to-door",
+        "Weekly departures on all lanes",
+        "Customs brokerage included",
+      ],
+      color: "#06b6d4",
+      routePoints: [[15, 35], [55, 45], [110, 20], [170, 35]],
+      delay: 0.1,
+    },
+    {
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <rect x="1" y="3" width="15" height="13" rx="1" stroke="currentColor" strokeWidth="2"/>
+          <path d="M16 8h4l3 3v5h-7V8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="5.5" cy="18.5" r="2.5" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="18.5" cy="18.5" r="2.5" stroke="currentColor" strokeWidth="2"/>
+        </svg>
+      ),
+      title: "Road Freight",
+      desc: "Full-truck loads, partial loads, and groupage across Europe and beyond — with cross-border clearance in every corridor.",
+      features: [
+        "FTL, LTL, and groupage",
+        "Scheduled and on-demand",
+        "Intermodal road + rail",
+        "ADR hazmat certified",
+      ],
+      color: "#22c55e",
+      routePoints: [[10, 25], [70, 40], [130, 20], [190, 35]],
+      delay: 0.2,
+    },
+    {
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+          <polyline points="12 6 12 12 16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+        </svg>
+      ),
+      title: "Express & Courier",
+      desc: "Time-guaranteed delivery with proof of delivery, signature capture, and white-glove handling for your most valuable shipments.",
+      features: [
+        "Next-day and same-day options",
+        "Signature POD & live photo",
+        "High-value cargo protocols",
+        "24/7 dedicated support",
+      ],
+      color: T.accent,
+      routePoints: [[20, 20], [65, 38], [120, 12], [175, 28]],
+      delay: 0.3,
+    },
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    {
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      title: "Air Freight",
+      desc: "Priority air cargo with same-day and next-flight-out options for time-critical shipments across our global airport network.",
+      features: [
+        "Door-to-door in 24–72 hours",
+        "Dangerous goods certified",
+        "Real-time tracking per piece",
+        "Temperature-controlled options",
+      ],
+      color: "#3b82f6",
+      routePoints: [[20, 40], [80, 15], [130, 30], [185, 10]],
+      delay: 0,
+    },
+    {
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <rect x="9" y="10" width="6" height="12" rx="1" stroke="currentColor" strokeWidth="2"/>
+        </svg>
+      ),
+      title: "Ocean Freight",
+      desc: "Full Container Load (FCL) and Less-than-Container Load (LCL) solutions with carrier diversity across 200+ shipping lanes.",
+      features: [
+        "FCL & LCL consolidation",
+        "Port-to-port and door-to-door",
+        "Weekly departures on all lanes",
+        "Customs brokerage included",
+      ],
+      color: "#06b6d4",
+      routePoints: [[15, 35], [55, 45], [110, 20], [170, 35]],
+      delay: 0.1,
+    },
+    {
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <rect x="1" y="3" width="15" height="13" rx="1" stroke="currentColor" strokeWidth="2"/>
+          <path d="M16 8h4l3 3v5h-7V8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="5.5" cy="18.5" r="2.5" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="18.5" cy="18.5" r="2.5" stroke="currentColor" strokeWidth="2"/>
+        </svg>
+      ),
+      title: "Road Freight",
+      desc: "Full-truck loads, partial loads, and groupage across Europe and beyond — with cross-border clearance in every corridor.",
+      features: [
+        "FTL, LTL, and groupage",
+        "Scheduled and on-demand",
+        "Intermodal road + rail",
+        "ADR hazmat certified",
+      ],
+      color: "#22c55e",
+      routePoints: [[10, 25], [70, 40], [130, 20], [190, 35]],
+      delay: 0.2,
+    },
+    {
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+          <polyline points="12 6 12 12 16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+        </svg>
+      ),
+      title: "Express & Courier",
+      desc: "Time-guaranteed delivery with proof of delivery, signature capture, and white-glove handling for your most valuable shipments.",
+      features: [
+        "Next-day and same-day options",
+        "Signature POD & live photo",
+        "High-value cargo protocols",
+        "24/7 dedicated support",
+      ],
+      color: T.accent,
+      routePoints: [[20, 20], [65, 38], [120, 12], [175, 28]],
+      delay: 0.3,
+    },
+  ],
+  )
 
   return (
     <section id="services" className="n207-section" style={{ background: T.navy3 }}>

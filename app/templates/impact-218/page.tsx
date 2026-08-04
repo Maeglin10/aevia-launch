@@ -24,6 +24,7 @@ import {
   clientCity,
   clientName,
   clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1143,7 +1144,7 @@ type EditRow = {
   alt: string;
 };
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_SOURCE: EditRow[] = [
   {
     eyebrow: 'Le Terroir',
     title: (
@@ -1167,6 +1168,7 @@ const EDIT_ROWS: EditRow[] = [
     alt: 'Cave d’élevage du Domaine Miroir',
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 function EditorialRows() {
   const sec: React.CSSProperties = {
@@ -2159,6 +2161,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

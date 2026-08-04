@@ -36,6 +36,7 @@ import {
   clientCity,
   clientName,
   clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1989,7 +1990,7 @@ type Producteur = {
   depuis: string;
 };
 
-const PRODUCTEURS: Producteur[] = [
+const PRODUCTEURS_SOURCE: Producteur[] = [
   {
     nom: 'Ferme Dupuis',
     region: 'Hauts-de-France · Douai',
@@ -2018,6 +2019,7 @@ const PRODUCTEURS: Producteur[] = [
     depuis: 'Partenaire depuis 2015',
   },
 ];
+let PRODUCTEURS = PRODUCTEURS_SOURCE;
 
 function ProducteurCard({ p, i }: { p: Producteur; i: number }) {
   return (
@@ -2785,6 +2787,10 @@ export default function Impact282Page() {
   }, []);
 
   fd = session?.formData;
+  PRODUCTEURS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRODUCTEURS_SOURCE[i % PRODUCTEURS_SOURCE.length], nom: s.title, description: s.desc || "" || "" })),
+    PRODUCTEURS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

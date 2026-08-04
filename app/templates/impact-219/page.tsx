@@ -25,6 +25,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -485,7 +486,7 @@ interface Benefit {
   body: string;
 }
 
-const BENEFITS: Benefit[] = [
+const BENEFITS_SOURCE: Benefit[] = [
   { icon: <BarChart3 size={22} />, title: 'Analytics temps réel', body: 'Visualisez vos métriques clés en direct, sans attendre les rapports de fin de mois.' },
   { icon: <Workflow size={22} />, title: 'Automatisations', body: 'Créez des workflows sans code pour éliminer les tâches répétitives de vos équipes.' },
   { icon: <Users size={22} />, title: 'Collaboration', body: 'Commentaires, mentions et permissions granulaires pour aligner toute l’organisation.' },
@@ -493,6 +494,7 @@ const BENEFITS: Benefit[] = [
   { icon: <Globe size={22} />, title: 'Multi-régions', body: 'Hébergement en Europe et aux États-Unis, avec résidence des données configurable.' },
   { icon: <Zap size={22} />, title: 'Performances', body: 'Une interface ultra-rapide, optimisée pour des millions d’événements par seconde.' },
 ];
+let BENEFITS = BENEFITS_SOURCE;
 
 function Benefits() {
   const ref = useRef<HTMLDivElement>(null);
@@ -563,11 +565,22 @@ function Benefits() {
 function HowItWorks() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
-  const steps: { title: string; body: string }[] = [
+  const steps: { title: string; body: string }[] = resolveList(
+    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
     { title: 'Connectez vos outils', body: 'Reliez Stripe, HubSpot, votre base de données et plus de 80 intégrations en quelques clics.' },
     { title: 'Construisez vos vues', body: 'Glissez-déposez des widgets pour créer les tableaux de bord dont vos équipes ont besoin.' },
     { title: 'Partagez & automatisez', body: 'Diffusez des rapports, déclenchez des alertes et laissez NovaSaaS travailler pour vous.' },
-  ];
+  ])[i % ([
+    { title: 'Connectez vos outils', body: 'Reliez Stripe, HubSpot, votre base de données et plus de 80 intégrations en quelques clics.' },
+    { title: 'Construisez vos vues', body: 'Glissez-déposez des widgets pour créer les tableaux de bord dont vos équipes ont besoin.' },
+    { title: 'Partagez & automatisez', body: 'Diffusez des rapports, déclenchez des alertes et laissez NovaSaaS travailler pour vous.' },
+  ]).length], title: s.title, body: s.desc || "" })),
+    [
+    { title: 'Connectez vos outils', body: 'Reliez Stripe, HubSpot, votre base de données et plus de 80 intégrations en quelques clics.' },
+    { title: 'Construisez vos vues', body: 'Glissez-déposez des widgets pour créer les tableaux de bord dont vos équipes ont besoin.' },
+    { title: 'Partagez & automatisez', body: 'Diffusez des rapports, déclenchez des alertes et laissez NovaSaaS travailler pour vous.' },
+  ],
+  );
   return (
     <section id="how" style={{ ...pad, paddingBlock: 100, background: C.bgSoft }} ref={ref}>
       <div style={{ ...maxw }}>
@@ -798,7 +811,7 @@ interface Testi {
 const AV = (id: string) =>
   ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=160&h=160&auto=format&fit=crop&crop=faces`);
 
-const TESTIS: Testi[] = [
+const TESTIS_SOURCE: Testi[] = [
   { name: 'Sophie Laurent', role: 'Head of Growth, Welly', hue: 'var(--brand,#6d4aff)', img: AV('1494790108377-be9c29b29330'), body: 'On a divisé par deux le temps passé sur le reporting. Les équipes adorent enfin leurs dashboards.' },
   { name: 'Thomas Berger', role: 'CTO, Fluxio', hue: '#4338ca', img: AV('1500648767791-00dcc994a43e'), body: 'L’API et les automatisations sont d’une fiabilité rare. Déployé en production en une après-midi.' },
   { name: 'Inès Moreau', role: 'CMO, Brightside', hue: '#8b6dff', img: AV('1438761681033-6461ffad8d80'), body: 'Le suivi de conversion en temps réel a transformé nos arbitrages budgétaires hebdomadaires.' },
@@ -806,6 +819,7 @@ const TESTIS: Testi[] = [
   { name: 'Amélie Dubois', role: 'COO, Vértigo', hue: '#7c5cff', img: AV('1517841905240-472988babdf9'), body: 'Le support est excellent et la conformité SOC 2 a débloqué nos plus gros comptes entreprise.' },
   { name: 'Diego Ferreira', role: 'Founder, Layerbase', hue: 'var(--brand,#6d4aff)', img: AV('1472099645785-5658abf4ff4e'), body: 'Passés de tableurs chaotiques à une source de vérité unique. Retour sur investissement immédiat.' },
 ];
+let TESTIS = TESTIS_SOURCE;
 
 function Testimonials() {
   return (
@@ -1245,6 +1259,14 @@ export default function Impact219Page() {
   }, []);
 
   fd = session?.formData;
+  BENEFITS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...BENEFITS_SOURCE[i % BENEFITS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    BENEFITS_SOURCE,
+  );
+  TESTIS = resolveList(
+    clientTeam(session)?.map((m: any, i: number) => ({ ...TESTIS_SOURCE[i % TESTIS_SOURCE.length], name: m.name, role: m.role })),
+    TESTIS_SOURCE,
+  );
   FAQS = resolveList(
     clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
     FAQS_DEMO,

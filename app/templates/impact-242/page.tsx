@@ -183,7 +183,7 @@ const OFFERS_DEMO: Offer[] = [
   },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_SOURCE: EditRow[] = [
   {
     eyebrow: 'Notre philosophie',
     imgId: '1454165804606-c3d57bc86b40?w=800',
@@ -213,6 +213,7 @@ const EDIT_ROWS: EditRow[] = [
     reverse: true,
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const EXPERTISE_ITEMS: ExpertiseItem[] = [
   {
@@ -2251,6 +2252,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
