@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientCity,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -227,7 +228,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
                   </div>
                 </div>
               </Link>
-              <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.7, maxWidth: 260, marginBottom: 20 }}>Hand-crafted floral arrangements, seasonal subscriptions, and wedding floral direction. Paris, France.</p>
+              <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.7, maxWidth: 260, marginBottom: 20 }}>Hand-crafted floral arrangements, seasonal subscriptions, and wedding floral direction. {clientCity(__layoutSession) ?? "Paris"}, France.</p>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <MessageSquare size={14} color={C.rose} />
                 <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>@petalesandco</span>
@@ -255,7 +256,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
           <div style={{ borderTop: `1px solid rgba(255,255,255,0.08)`, paddingTop: 32, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" as const, gap: 16 }}>
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" as const }}>
               {[
-                { Icon: MapPin, text: "18 Rue du Marché, Paris 11e" },
+                { Icon: MapPin, text: "18 Rue du Marché, " + (clientCity(__layoutSession) ?? "Paris") + " 11e" },
                 { Icon: Phone, text: "+33 1 43 00 00 00" },
                 { Icon: Clock, text: "Mar–Sam, 9h–19h" },
               ].map(({ Icon, text }) => (

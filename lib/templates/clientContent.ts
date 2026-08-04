@@ -370,6 +370,16 @@ export function memoriserSession(s: SessionLike | null | undefined): void {
   sessionCourante = s ?? null;
 }
 
+/** La ville du client, ou celle de la démonstration. Pour les modules partagés. */
+export function clientCityOr(repli: string): string {
+  return clientCity(sessionCourante) ?? repli;
+}
+
+/** Le nom du client, ou celui de la démonstration. Pour les modules partagés. */
+export function clientNameOr(repli: string): string {
+  return clientName(sessionCourante) ?? repli;
+}
+
 /** La photo du client à cet emplacement, ou celle du thème. */
 export function clientPhotoAt(i: number, repli: string): string {
   return clientPhotos(sessionCourante)[i] || repli;

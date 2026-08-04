@@ -148,7 +148,7 @@ const seasonData: Record<
     items: [
       { name: "Courges Butternut", desc: "Fondantes et sucrées, parfaites en velouté", emoji: "🎃" },
       { name: "Pommes reinette", desc: "Acidulées et croquantes, verger biologique", emoji: "🍎" },
-      { name: "Champignons cultivés", desc: "Shiitake, pleurotes et Paris rosé", emoji: "🍄" },
+      { name: "Champignons cultivés", desc: "Shiitake, pleurotes et " + (clientCity(sessionData) ?? "Paris") + " rosé", emoji: "🍄" },
       { name: "Poireaux", desc: "Doux et tendres, blancs sur 30 cm", emoji: "🧅" },
       { name: "Noix fraîches", desc: "Récoltées de nos noyers centenaires", emoji: "🪨" },
       { name: "Betteraves chioggia", desc: "Rayées rose et blanc, crues ou rôties", emoji: "🟣" },

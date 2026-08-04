@@ -1,5 +1,8 @@
 "use client";
-import { clientPhotoAt } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+  clientPhotoAt,
+} from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
@@ -65,7 +68,7 @@ export const REVIEWS = [
   {
     author: "Elena V.",
     text: "The most clinical yet calming environment I've ever experienced. My nails have never been this healthy.",
-    role: "Paris",
+    role: clientCityOr("Paris"),
   },
   {
     author: "Sophie L.",

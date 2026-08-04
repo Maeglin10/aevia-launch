@@ -228,7 +228,8 @@ const TASTING_NOTES_CATEGORIES = [
   },
 ];
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: "James Okafor",
     role: "Home Barista · Londres",
@@ -247,7 +248,7 @@ const TESTIMONIALS_SOURCE = [
   },
   {
     name: "Tariq Hassan",
-    role: "Abonné mensuel · Paris",
+    role: "Abonné mensuel · " + (clientCity(sessionData) ?? "Paris"),
     avatar: "TH",
     rating: 5,
     coffee: "Colombie Huila Natural",
@@ -270,6 +271,8 @@ const TESTIMONIALS_SOURCE = [
     text: "En cuisine, la qualité du café en fin de repas est critique. L'Antigua offre cette douceur équilibrée qui convient à tous mes clients. Nous commandons pour nos deux restaurants.",
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const PROCESS_TIMELINE = [
@@ -771,9 +774,11 @@ export default function OriginRoastPage() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   memoriserSession(sessionData);
   rafraichirPartage();
   SUBSCRIPTION_HIGHLIGHTS = resolveList(

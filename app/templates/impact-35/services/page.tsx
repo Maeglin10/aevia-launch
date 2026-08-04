@@ -1,7 +1,10 @@
 "use client"
 
 import React from "react"
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientServices,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
 import { MessageSquare, Wifi, Bike, Coffee, FileText, PartyPopper, Zap, Check } from "lucide-react"
@@ -59,7 +62,7 @@ function SERVICES_DATA_LIVE() {
     icon: Coffee,
     title: "Restauration",
     color: "#f59e0b",
-    desc: "Un café d'exception torréfié à Paris et des collations bio pour accompagner vos pauses créatives.",
+    desc: "Un café d'exception torréfié à " + (clientCity(sessionData) ?? "Paris") + " et des collations bio pour accompagner vos pauses créatives.",
     items: [
       "Machine café premium",
       "Cuisine équipée partagée",
@@ -72,9 +75,9 @@ function SERVICES_DATA_LIVE() {
     icon: FileText,
     title: "Domiciliation",
     color: "#8b5cf6",
-    desc: "Établissez votre siège social à une adresse prestigieuse à Paris pour asseoir le sérieux de votre entreprise.",
+    desc: "Établissez votre siège social à une adresse prestigieuse à " + (clientCity(sessionData) ?? "Paris") + " pour asseoir le sérieux de votre entreprise.",
     items: [
-      "Adresse commerciale Paris",
+      "Adresse commerciale " + (clientCity(sessionData) ?? "Paris"),
       "Gestion courrier complète",
       "KBIS compatible",
       "Numérisation sur demande",

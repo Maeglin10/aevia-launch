@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientCity,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -213,13 +214,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <span style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 21 }}>AnandaFlow</span>
             </div>
             <p style={{ color: "rgba(255,255,255,0.58)", fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-              Studio de yoga et méditation au cœur de Lyon. Un espace chaleureux pour trouver la paix intérieure et cultiver votre équilibre.
+              Studio de yoga et méditation au cœur de {clientCity(__layoutSession) ?? "Lyon"}. Un espace chaleureux pour trouver la paix intérieure et cultiver votre équilibre.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
               {[
                 { icon: <Phone size={15} />, text: (fd?.phone ?? "04 72 34 56 78") },
                 { icon: <Mail size={15} />, text: (fd?.email ?? "namaste@anandaflow.fr") },
-                { icon: <MapPin size={15} />, text: "18 Rue de la Paix, 69002 Lyon" },
+                { icon: <MapPin size={15} />, text: "18 Rue de la Paix, 69002 " + (clientCity(__layoutSession) ?? "Lyon") },
                 { icon: <Clock size={15} />, text: "Lun–Ven 7h–21h | Week-end 8h–19h" },
               ].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.62)", fontSize: 14 }}>

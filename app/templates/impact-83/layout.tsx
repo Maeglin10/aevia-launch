@@ -1,5 +1,8 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -290,7 +293,7 @@ export default function AureliusHeritageLayout({
           }}
         >
           <span>© {new Date().getFullYear()} Aurelius Heritage. Tous droits réservés.</span>
-          <span>Paris — Genève — Tokyo</span>
+          <span>{clientCity(__layoutSession) ?? "Paris"} — Genève — Tokyo</span>
         </div>
       </footer>
     </div>

@@ -1,5 +1,8 @@
 "use client";
-import { clientPhotoAt } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+  clientPhotoAt,
+} from "@/lib/templates/clientContent";
 
 import React, { createContext, useContext, useState } from "react";
 import { motion } from "framer-motion";
@@ -145,7 +148,7 @@ export const occasions = [
 export const testimonials = [
   {
     name: "Isabelle Fontaine",
-    location: "Paris, 7e",
+    location: clientCityOr("Paris") + ", 7e",
     rating: 5,
     text: "Pétales & Co did our entire wedding — 18 arrangements, 4 arches, bridal party bouquets. Every single piece was more beautiful than I imagined. They understood our vision perfectly.",
     occasion: "Wedding",
@@ -159,7 +162,7 @@ export const testimonials = [
   },
   {
     name: "Chloé Morin",
-    location: "Paris, 16e",
+    location: clientCityOr("Paris") + ", 16e",
     rating: 5,
     text: "We did the bouquet workshop for my sister's birthday. Eight of us, two hours, incredible instruction and a gorgeous takeaway. The best afternoon we've had together in years.",
     occasion: "Workshop",
@@ -179,7 +182,7 @@ export const subscriptionTiers = [
     price: "€48",
     duration: "per week",
     desc: "One artisan bouquet delivered each week. Seasonal selection, curated by our florists.",
-    includes: ["Seasonal arrangement", "Free delivery Paris", "Kraft wrapping + ribbon", "Care card"],
+    includes: ["Seasonal arrangement", "Free delivery " + clientCityOr("Paris"), "Kraft wrapping + ribbon", "Care card"],
     cta: "Subscribe Weekly",
     featured: false,
   },
@@ -188,7 +191,7 @@ export const subscriptionTiers = [
     price: "€80",
     duration: "per month",
     desc: "Two bouquets per month — the perfect rhythm for those who love flowers but want flexibility.",
-    includes: ["2 seasonal arrangements", "Free delivery Paris", "Choice of style", "Care card + seasonal note"],
+    includes: ["2 seasonal arrangements", "Free delivery " + clientCityOr("Paris"), "Choice of style", "Care card + seasonal note"],
     cta: "Subscribe Biweekly",
     featured: true,
   },
@@ -206,7 +209,7 @@ export const subscriptionTiers = [
 export const faqs = [
   {
     q: "What areas do you deliver to?",
-    a: "We deliver within Paris and the Île-de-France region. Paris deliveries are free for all subscriptions. Île-de-France deliveries have a €12 surcharge for one-off orders — free for monthly subscribers.",
+    a: "We deliver within " + clientCityOr("Paris") + " and the Île-de-France region. " + clientCityOr("Paris") + " deliveries are free for all subscriptions. Île-de-France deliveries have a €12 surcharge for one-off orders — free for monthly subscribers.",
   },
   {
     q: "Can I request specific flowers or colours?",
@@ -226,7 +229,7 @@ export const faqs = [
   },
   {
     q: "Do you do same-day delivery?",
-    a: "For in-stock arrangements ordered before 10h, we offer same-day delivery in Paris (€18 express fee). For custom orders or workshop bookings, advance notice is required.",
+    a: "For in-stock arrangements ordered before 10h, we offer same-day delivery in " + clientCityOr("Paris") + " (€18 express fee). For custom orders or workshop bookings, advance notice is required.",
   },
 ];
 

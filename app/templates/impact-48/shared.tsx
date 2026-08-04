@@ -1,4 +1,7 @@
 "use client";
+import {
+  clientCityOr,
+} from "@/lib/templates/clientContent";
 
 import React from "react";
 import { motion } from "framer-motion";
@@ -101,12 +104,12 @@ export const projects = [
     id: 'p2',
     title: 'Tour Silhouette',
     category: 'Mixed-Use Tower',
-    location: 'Paris 13e, FR',
+    location: clientCityOr('Paris') + ' 13e, FR',
     year: '2023',
     area: '18 400 m²',
     color: '#0d1a2a',
     description:
-      'A 22-storey mixed-use tower in Paris\'s emerging Masséna district. The facade is composed of a unitised curtain wall where each panel carries a bronze anodised sunscreen fin, rotated between 0° and 45° according to solar orientation. The tower tapers at its crown, reading from the Seine as a vertical sliver that disappears into sky.',
+      'A 22-storey mixed-use tower in ' + clientCityOr('Paris') + '\'s emerging Masséna district. The facade is composed of a unitised curtain wall where each panel carries a bronze anodised sunscreen fin, rotated between 0° and 45° according to solar orientation. The tower tapers at its crown, reading from the Seine as a vertical sliver that disappears into sky.',
     specs: ['Bronze anodised aluminium', 'Unitised curtain wall', 'Underground parking', 'BREEAM Excellent'],
   },
   {
@@ -181,7 +184,7 @@ export const teamMembers = [
   {
     name: 'Sadia Rahman',
     title: 'Associate — Research',
-    credentials: 'MArch Cambridge · PhD ENSA Paris',
+    credentials: 'MArch Cambridge · PhD ENSA ' + clientCityOr('Paris'),
     focus: 'Housing typology, post-occupancy evaluation, urban strategy',
     bio: 'Sadia directs the studio\'s research agenda and manages relationships with academic institutions. Her doctoral work on the social life of corridors has influenced the studio\'s approach to circulation as collective space.',
     projects: '19 built',

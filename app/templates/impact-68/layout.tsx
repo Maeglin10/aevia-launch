@@ -1,5 +1,8 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -321,7 +324,7 @@ export default function OrbitLayout({
               </span>
             </div>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "13px", color: C.textMuted, lineHeight: 1.7, maxWidth: "240px" }}>
-              Brand identity studio. Paris, France. Est. 2015. Senior-led, intentionally small.
+              Brand identity studio. {clientCity(__layoutSession) ?? "Paris"}, France. Est. 2015. Senior-led, intentionally small.
             </p>
             <div style={{ marginTop: "20px", display: "flex", gap: "16px" }}>
               {[MessageSquare, Camera, Link2].map((Icon, i) => (
@@ -432,7 +435,7 @@ export default function OrbitLayout({
             © {new Date().getFullYear()} Orbit Studio. All rights reserved.
           </p>
           <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "12px", color: C.textMuted }}>
-            Paris · contact@exemple.fr · +33 1 XX XX XX XX
+            {clientCity(__layoutSession) ?? "Paris"} · contact@exemple.fr · +33 1 XX XX XX XX
           </p>
         </div>
       </footer>

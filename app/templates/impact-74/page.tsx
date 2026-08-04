@@ -240,8 +240,8 @@ export default function AeviaKitchenPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  memoriserSession(sessionData);
   GALLERY_PHOTOS_DEMO = GALLERY_PHOTOS_DEMO_LIVE();
+  memoriserSession(sessionData);
 
   STATS_INLINE = resolveList(
 

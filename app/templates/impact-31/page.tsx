@@ -407,7 +407,7 @@ function Hero() {
           style={{ fontSize: 17, color: C.textMuted, lineHeight: 1.78, marginBottom: 36, maxWidth: 480 }}
         >
           Ananda Flow vous invite à un voyage vers la sérénité. Cours de yoga, méditation et
-          pranayama pour tous les niveaux, dans un cadre chaleureux au cœur de Lyon.
+          pranayama pour tous les niveaux, dans un cadre chaleureux au cœur de {clientCity(sessionData) ?? "Lyon"}.
         </motion.p>
 
         <motion.div

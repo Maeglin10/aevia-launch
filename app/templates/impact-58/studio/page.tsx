@@ -1,4 +1,5 @@
 'use client';
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from 'next/link';
@@ -13,12 +14,13 @@ let bp: any = null;
 let c: any = null;
 
 // ── Team data ──────────────────────────────────────────────────────────────────
-const TEAM = [
+function TEAM_LIVE() {
+  return [
   {
     initials: 'MB',
     name: 'Mathieu Blanc',
     role: 'Directeur Créatif',
-    bio: 'Ancien directeur artistique chez Wieden+Kennedy Paris. 12 ans à sculpter des univers visuels pour les plus grandes marques mondiales.',
+    bio: 'Ancien directeur artistique chez Wieden+Kennedy ' + (clientCity(sessionData) ?? 'Paris') + '. 12 ans à sculpter des univers visuels pour les plus grandes marques mondiales.',
     accent: C.violet,
   },
   {
@@ -36,6 +38,8 @@ const TEAM = [
     accent: '#FF4DAD',
   },
 ];
+}
+let TEAM = TEAM_LIVE();
 
 // ── Philosophy pillars ────────────────────────────────────────────────────────
 const PILLARS = [
@@ -201,9 +205,11 @@ export default function StudioPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  TEAM = TEAM_LIVE();
 
   return (
     <>
@@ -313,7 +319,7 @@ export default function StudioPage() {
                   margin: 0,
                 }}
               >
-                Studio de motion design basé à Paris. Nous faisons bouger les marques mondiales.
+                Studio de motion design basé à {clientCity(sessionData) ?? "Paris"}. Nous faisons bouger les marques mondiales.
               </p>
               <p
                 style={{

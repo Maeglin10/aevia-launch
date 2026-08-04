@@ -161,7 +161,7 @@ return (
                   maxWidth: 480,
                 }}
               >{fd?.tagline ?? c?.heroSubline ?? <>
-                Un espace de coworking premium à Paris. Hot desks, bureaux dédiés, salles de réunion, studio podcast — et une communauté pensée pour grandir.
+                Un espace de coworking premium à {clientCity(sessionData) ?? "Paris"}. Hot desks, bureaux dédiés, salles de réunion, studio podcast — et une communauté pensée pour grandir.
               </>}</motion.p>
 
               <motion.div

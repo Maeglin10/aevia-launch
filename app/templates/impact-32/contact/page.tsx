@@ -1,5 +1,8 @@
 "use client";
-import { clientHours } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientHours,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -119,7 +122,8 @@ const EMERGENCY_FAQ = [
   },
 ];
 
-const CONTACT_INFO = [
+function CONTACT_INFO_LIVE() {
+  return [
   {
     icon: <Phone size={20} color={C.accent} />,
     title: "Téléphone standard",
@@ -141,10 +145,12 @@ const CONTACT_INFO = [
   {
     icon: <MapPin size={20} color={C.accent} />,
     title: "Adresse",
-    details: ["15 Rue des Platanes", "33000 Bordeaux"],
+    details: ["15 Rue des Platanes", "33000 " + (clientCity(sessionData) ?? "Bordeaux")],
     urgent: false,
   },
 ];
+}
+let CONTACT_INFO = CONTACT_INFO_LIVE();
 
 const HOURS = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, hours: h.hours })), [
   { day: "Lundi – Vendredi", hours: "8h00 – 20h00", open: true },
@@ -344,7 +350,7 @@ function ContactInfo() {
             Comment nous trouver
           </h2>
           <p style={{ fontSize: 15, color: C.textMuted, marginBottom: 24 }}>
-            15 Rue des Platanes, 33000 Bordeaux — Tram B arrêt Pellegrin (3 min à pied). Parking gratuit sur place.
+            15 Rue des Platanes, 33000 {clientCity(sessionData) ?? "Bordeaux"} — Tram B arrêt Pellegrin (3 min à pied). Parking gratuit sur place.
           </p>
 
           {/* Map placeholder (no real embed to avoid external dependencies) */}
@@ -413,7 +419,7 @@ function ContactInfo() {
                 }}
               >
                 <div style={{ fontWeight: 800, fontSize: 14, color: C.text }}>PawCare Clinic</div>
-                <div style={{ fontSize: 12, color: C.textMuted }}>15 Rue des Platanes, Bordeaux</div>
+                <div style={{ fontSize: 12, color: C.textMuted }}>15 Rue des Platanes, {clientCity(sessionData) ?? "Bordeaux"}</div>
               </div>
             </div>
           </div>
@@ -1267,9 +1273,11 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  CONTACT_INFO = CONTACT_INFO_LIVE();
 
   return (
     <>

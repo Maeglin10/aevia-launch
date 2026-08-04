@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { Shield, Clock, Users } from "lucide-react";
@@ -59,7 +60,7 @@ export default function MaisonPage() {
               L&apos;Excellence depuis <em>1887</em>
             </h2>
             <p style={{ fontSize: 18, color: C.textMuted, lineHeight: 1.8, marginTop: 20 }}>
-              Fondée à Paris à la fin du XIXe siècle, la maison Aurelius Heritage a traversé les époques en préservant le geste artisanal pur. Nos pièces combinent les techniques de sertissage traditionnelles françaises et les complications horlogères les plus rigoureuses de l&apos;arc jurassien suisse.
+              Fondée à {clientCity(sessionData) ?? "Paris"} à la fin du XIXe siècle, la maison Aurelius Heritage a traversé les époques en préservant le geste artisanal pur. Nos pièces combinent les techniques de sertissage traditionnelles françaises et les complications horlogères les plus rigoureuses de l&apos;arc jurassien suisse.
             </p>
           </Reveal>
           <Reveal delay={0.1}>

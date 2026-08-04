@@ -1,5 +1,8 @@
 "use client";
-import { clientPhotoAt } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+  clientPhotoAt,
+} from "@/lib/templates/clientContent";
 
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
@@ -26,7 +29,7 @@ function FEATURES_LIVE() {
 export let FEATURES = FEATURES_LIVE();
 
 export const BOUTIQUES = [
-  { city: "Paris", address: "15 rue du Faubourg Saint-Honoré, 75008", hours: "10h–19h (sf dimanche)" },
+  { city: clientCityOr("Paris"), address: "15 rue du Faubourg Saint-Honoré, 75008", hours: "10h–19h (sf dimanche)" },
   { city: "Milan", address: "Via Montenapoleone 12, 20121", hours: "10h–19h" },
   { city: "New York", address: "720 Fifth Avenue, NY 10019", hours: "10h–20h" },
 ];

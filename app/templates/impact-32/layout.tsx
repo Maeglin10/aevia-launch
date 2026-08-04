@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientCity,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -215,7 +216,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <span style={{ fontWeight: 800, fontSize: 20, color: C.white }}>PawCare Clinic</span>
             </Link>
             <p style={{ color: "rgba(255,255,255,0.58)", fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-              Clinique vétérinaire bienveillante à Bordeaux. Parce que votre animal mérite les mêmes soins d'excellence que vous.
+              Clinique vétérinaire bienveillante à {clientCity(__layoutSession) ?? "Bordeaux"}. Parce que votre animal mérite les mêmes soins d'excellence que vous.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
               {[

@@ -126,7 +126,10 @@ interface SafetyItem {
    DATA
    ════════════════════════════════════════════════════════════════════════════ */
 
-const PHOTO_BASE = (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-');
+function PHOTO_BASE_LIVE() {
+  return (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-');
+}
+let PHOTO_BASE = PHOTO_BASE_LIVE();
 
 function STYLES_DEMO_LIVE() {
   return [
@@ -2204,9 +2207,11 @@ export default function Page() {
   fd = session?.formData;
 
 
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PHOTO_BASE = PHOTO_BASE_LIVE();
   ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
   STYLES_DEMO = STYLES_DEMO_LIVE();
   EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();

@@ -1,5 +1,8 @@
 "use client";
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientServices,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -164,7 +167,7 @@ export default function TarifsPage() {
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
           <span>© 2026 Streamline. Tous droits réservés.</span>
-          <span>Made in 🇫🇷 Paris</span>
+          <span>Made in 🇫🇷 {clientCity(sessionData) ?? "Paris"}</span>
         </div>
       </footer>
     </div>

@@ -1,4 +1,5 @@
 "use client";
+import { clientCityOr } from "@/lib/templates/clientContent";
 
 import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -230,7 +231,7 @@ export const FAQ = [
   },
   {
     q: "Vos équipes accèdent-elles à nos données ?",
-    a: "Nos analystes SOC voient uniquement les logs et métadonnées réseau nécessaires à la détection. Aucun accès aux données métier. Tout est contractualisé via DPA RGPD, accord de confidentialité NDA, et les données restent hébergées en France (datacenters Tier IV à Lyon et Paris).",
+    a: "Nos analystes SOC voient uniquement les logs et métadonnées réseau nécessaires à la détection. Aucun accès aux données métier. Tout est contractualisé via DPA RGPD, accord de confidentialité NDA, et les données restent hébergées en France (datacenters Tier IV à Lyon et " + clientCityOr("Paris") + ").",
   },
   {
     q: "Comment fonctionne le Red Team / pentest ?",

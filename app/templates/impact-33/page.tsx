@@ -801,9 +801,9 @@ export default function Impact33() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   memoriserSession(sessionData);
   rafraichirPartage();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
 
   STATS_INLINE = resolveList(

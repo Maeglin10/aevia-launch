@@ -1,5 +1,6 @@
 // @ts-nocheck
 "use client";
+import { clientCityOr } from "@/lib/templates/clientContent";
 
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -33,7 +34,7 @@ export const THREATS = [
   {
     id: "TR-945",
     source: "Kiev, UA",
-    target: "Paris, FR",
+    target: clientCityOr("Paris") + ", FR",
     type: "Infiltration",
     intensity: "CRITICAL",
     timestamp: "14:23:10",

@@ -106,7 +106,7 @@ export default function StackUnitHome() {
     {
       num: "03",
       title: "Post-Production",
-      desc: "Montage Avid, étalonnage DaVinci Resolve, mixage 5.1 Dolby. Studio Paris 15e, 3 salles de montage.",
+      desc: "Montage Avid, étalonnage DaVinci Resolve, mixage 5.1 Dolby. Studio " + (clientCity(sessionData) ?? "Paris") + " 15e, 3 salles de montage.",
     },
     {
       num: "04",

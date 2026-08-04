@@ -1,4 +1,5 @@
 "use client";
+import { clientCityOr } from "@/lib/templates/clientContent";
 
 import React, { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
@@ -124,7 +125,7 @@ export const PRICING_CARDS = [
 export const TESTIMONIALS = [
   {
     name: "Sophie Marchand",
-    role: "Propriétaire, Paris 11e",
+    role: "Propriétaire, " + clientCityOr("Paris") + " 11e",
     avatar: "SM",
     rating: 5,
     text: "L'équipe a déménagé notre appartement de 4 pièces en 6 h chrono, sans aucun dommage. Professionnels, ponctuels et vraiment attentionnés. Je ne ferai plus jamais appel à quelqu'un d'autre.",
@@ -141,7 +142,7 @@ export const TESTIMONIALS = [
     role: "Locataire, Lyon",
     avatar: "LF",
     rating: 5,
-    text: "Déménagement Paris → Lyon en solo, j'avais peur de confier mes affaires. Suivi GPS tout au long du trajet, livraison 2 h en avance. Je recommande les yeux fermés.",
+    text: "Déménagement " + clientCityOr("Paris") + " → Lyon en solo, j'avais peur de confier mes affaires. Suivi GPS tout au long du trajet, livraison 2 h en avance. Je recommande les yeux fermés.",
   },
 ];
 

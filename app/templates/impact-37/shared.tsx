@@ -1,4 +1,5 @@
 "use client";
+import { clientCityOr } from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useTransform, useInView, MotionValue } from "framer-motion";
@@ -34,7 +35,7 @@ export const SANS = "'Lato', system-ui, sans-serif";
 // ─── Datasets ─────────────────────────────────────────────────────────────────
 export const WINE_REGIONS = [
   {
-    region: "Bordeaux",
+    region: clientCityOr("Bordeaux"),
     flag: "FR",
     description: "Left Bank Cabernet-forward blends with profound structure and cellaring potential.",
     selections: [
@@ -78,7 +79,7 @@ export const WINE_REGIONS = [
 export const EVENTS = [
   {
     date: "15 Jun",
-    title: "Bordeaux Grands Crus Evening",
+    title: clientCityOr("Bordeaux") + " Grands Crus Evening",
     desc: "6 wines including two 2016 first growths, guided by Maison Bourgeois.",
     spots: 14,
     price: "145",
@@ -233,7 +234,7 @@ export const CARTE_SECTIONS = [
     items: [
       { name: "Châteauneuf-du-Pape", origin: "Rhône · Grenache", year: "2019", price: "18" },
       { name: "Gevrey-Chambertin 1er Cru", origin: "Bourgogne · Pinot Noir", year: "2018", price: "24" },
-      { name: "Saint-Émilion Grand Cru", origin: "Bordeaux · Merlot", year: "2017", price: "17" },
+      { name: "Saint-Émilion Grand Cru", origin: clientCityOr("Bordeaux") + " · Merlot", year: "2017", price: "17" },
       { name: "Brunello di Montalcino", origin: "Toscane · Sangiovese", year: "2018", price: "22" },
     ],
   },
@@ -261,7 +262,7 @@ export const CARTE_SECTIONS = [
 ];
 
 export const CAVE_BOTTLES = [
-  { name: "Château Margaux", appellation: "Margaux · 1er Grand Cru Classé", year: "2018", price: "680", region: "Bordeaux", note: "Élégance veloutée, tanins soyeux, garde 30 ans." },
+  { name: "Château Margaux", appellation: "Margaux · 1er Grand Cru Classé", year: "2018", price: "680", region: clientCityOr("Bordeaux"), note: "Élégance veloutée, tanins soyeux, garde 30 ans." },
   { name: "Pommard Les Rugiens", appellation: "Pommard · Premier Cru", year: "2019", price: "92", region: "Bourgogne", note: "Pinot Noir structuré, fruits noirs et sous-bois." },
   { name: "Hermitage La Chapelle", appellation: "Hermitage · Rhône Nord", year: "2017", price: "245", region: "Rhône", note: "Syrah septentrionale, profondeur épicée." },
   { name: "Sassicaia", appellation: "Bolgheri · Toscane", year: "2019", price: "320", region: "Italie", note: "Assemblage bordelais solaire, grande allonge." },

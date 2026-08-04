@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -29,7 +30,7 @@ export default function ContactPage() {
 
   const boutiques = [
     { city: "Paris", address: "Rue du Faubourg Saint-Honoré, 75008", note: "Sur rendez-vous uniquement" },
-    { city: "Genève", address: "Rue du Rhône, 1204 Genève", note: "Sur rendez-vous uniquement" },
+    { city: (clientCity(sessionData) ?? "Genève"), address: "Rue du Rhône, 1204 " + (clientCity(sessionData) ?? "Genève"), note: "Sur rendez-vous uniquement" },
     { city: "Tokyo", address: "Ginza, Chuo-ku, 104-0061", note: "Sur rendez-vous uniquement" },
   ];
 

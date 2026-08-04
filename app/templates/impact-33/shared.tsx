@@ -1,5 +1,8 @@
 "use client";
-import { clientPhotoAt } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+  clientPhotoAt,
+} from "@/lib/templates/clientContent";
 
 import React from "react";
 import { motion } from "framer-motion";
@@ -225,7 +228,7 @@ export const FAQS = [
 ];
 
 export const TESTIMONIALS = [
-  { name: "Isabelle T.", text: "La meilleure baguette tradition de Paris, sans hésitation. Le croissant est à se damner — feuilleté, aérien, pur beurre. J'y vais chaque samedi matin depuis 8 ans.", stars: 5 },
+  { name: "Isabelle T.", text: "La meilleure baguette tradition de " + clientCityOr("Paris") + ", sans hésitation. Le croissant est à se damner — feuilleté, aérien, pur beurre. J'y vais chaque samedi matin depuis 8 ans.", stars: 5 },
   { name: "Grégoire M.", text: "L'abonnement hebdomadaire est une révélation. Du pain frais sans y penser, livré directement en boutique avant mon passage. Qualité constante, équipe adorable.", stars: 5 },
   { name: "Sakina B.", text: "J'ai commandé le plateau prestige pour l'anniversaire de ma mère — succès total. Chaque pâtisserie était un chef-d'œuvre de saveurs. Merci Camille !", stars: 5 },
 ];

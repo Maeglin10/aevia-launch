@@ -610,9 +610,9 @@ export default function FloristHome() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  HERO_BOUQUETS_DEMO_SOURCE = HERO_BOUQUETS_DEMO_SOURCE_LIVE();
   memoriserSession(sessionData);
   rafraichirPartage();
-  HERO_BOUQUETS_DEMO_SOURCE = HERO_BOUQUETS_DEMO_SOURCE_LIVE();
 
   STATS_INLINE = resolveList(
 

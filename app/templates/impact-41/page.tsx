@@ -196,7 +196,7 @@ return (
                 color: SCENES[0].textSecondary,
               }}
             >
-              Paris — Maison de Couture
+              {clientCity(sessionData) ?? "Paris"} — Maison de Couture
             </div>
             <div
               style={{

@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react";
+import { clientCity } from "@/lib/templates/clientContent";
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { Reveal, gridOverlay, monoStyle, Label } from "../shared"
@@ -588,7 +589,7 @@ export default function ContactPage() {
                     {
                       icon: <MapPin className="w-4 h-4 text-[#9B5CF6]" />,
                       label: "Location",
-                      value: "Paris, France (Remote-first)",
+                      value: (clientCity(sessionData) ?? "Paris") + ", France (Remote-first)",
                     },
                     {
                       icon: <Clock className="w-4 h-4 text-[#9B5CF6]" />,

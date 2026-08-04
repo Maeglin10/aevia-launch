@@ -1,4 +1,5 @@
 "use client";
+import { clientCityOr } from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useInView } from "framer-motion";
@@ -49,7 +50,7 @@ export const PROJECTS = [
     id: "S.03",
     title: "Tour Ombre",
     type: "Immeuble de bureaux",
-    location: "Paris 13e",
+    location: clientCityOr("Paris") + " 13e",
     year: "2023",
     area: "8 400 m²",
     status: "Réalisé",

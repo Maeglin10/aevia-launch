@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import { clientCity } from "@/lib/templates/clientContent";
 import { motion } from "framer-motion"
 import { Reveal, gridOverlay, monoStyle, Label } from "../shared"
 import {
@@ -142,14 +143,17 @@ const values = [
   },
 ]
 
-const timeline = [
-  { year: "2016", event: "Vertex Studio founded by Valentin Milliand in Paris. First WebGL configurator shipped for a luxury watchmaker." },
+function timeline_LIVE() {
+  return [
+  { year: "2016", event: "Vertex Studio founded by Valentin Milliand in " + (clientCity(sessionData) ?? "Paris") + ". First WebGL configurator shipped for a luxury watchmaker." },
   { year: "2018", event: "Expanded to a 4-person team. First WebAR project shipped. First Awwwards nomination." },
   { year: "2020", event: "Pandemic pivot: virtual showrooms for retail brands. Built architecture that now serves 10k concurrent users." },
   { year: "2022", event: "First medical AR project (Helio Medical). First Fortune 500 client. Expanded team to 8." },
   { year: "2024", event: "FWA of the Day, Awwwards Site of the Month, CSS Design Awards. 200 projects milestone." },
   { year: "2025", event: "WebGPU R&D lab launched. First generative 3D brand system delivered. Team of 12." },
-]
+];
+}
+let timeline = timeline_LIVE();
 
 // ─── Tech Stack Section ───────────────────────────────────────────────────────
 
@@ -291,9 +295,11 @@ export default function StudioPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  timeline = timeline_LIVE();
 
   return (
     <div className="relative min-h-dvh">

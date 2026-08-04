@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
@@ -74,7 +75,7 @@ export default function ContactPage() {
                 <div>
                   <h4 className="text-xs font-black uppercase tracking-widest text-[#1a1814]/40 mb-2">Location</h4>
                   <p className="text-lg font-light text-[#1a1814]">
-                    75008 Paris, France
+                    75008 {clientCity(sessionData) ?? "Paris"}, France
                   </p>
                   <p className="text-xs text-[#1a1814]/40 mt-1 italic">
                     Adresse physique communiquée sur simple demande à {fd?.email ?? "contact@exemple.fr"}.

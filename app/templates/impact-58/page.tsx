@@ -48,12 +48,15 @@ let STATS_INLINE = STATS_INLINE_SOURCE;
 
 // L'équipe, jusqu'ici écrit(e)s dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
-const EQUIPE_INLINE_SOURCE = [
+function EQUIPE_INLINE_SOURCE_LIVE() {
+  return [
   { name: 'Léa Duval', role: 'Directrice Créative & Fondatrice', since: '2014', bio: 'Ancienne DOP chez Partizan, Léa a fondé le studio après 8 ans à diriger la photographie pour des marques comme Dior et Nike. Elle supervise toutes les directions artistiques.' },
                 { name: 'Marcus Stein', role: 'Directeur Technique / VFX Lead', since: '2015', bio: 'Formé au FxPhD, Marcus a développé le pipeline de rendu propriétaire du studio. Il a reçu deux prix AICP pour ses travaux sur la simulation de particules et de fluides.' },
-                { name: 'Camille Bouchard', role: 'Head of Strategy & Client Relations', since: '2019', bio: 'Ex-agence BBDO Paris, Camille gère les comptes stratégiques et l\'orchestration des projets multi-marchés. Elle parle 4 langues et gère simultanément 6 à 8 comptes actifs.' },
+                { name: 'Camille Bouchard', role: 'Head of Strategy & Client Relations', since: '2019', bio: 'Ex-agence BBDO ' + (clientCity(sessionData) ?? 'Paris') + ', Camille gère les comptes stratégiques et l\'orchestration des projets multi-marchés. Elle parle 4 langues et gère simultanément 6 à 8 comptes actifs.' },
                 { name: 'Tom Iwata', role: '3D Motion Director', since: '2021', bio: 'Spécialiste Cinema 4D + Houdini, Tom a développé les identités motion de trois maisons de luxe en 2023. Ses boucles génèrent régulièrement plus de 50M d\'impressions sur les réseaux.' }
 ];
+}
+let EQUIPE_INLINE_SOURCE = EQUIPE_INLINE_SOURCE_LIVE();
 let EQUIPE_INLINE = EQUIPE_INLINE_SOURCE;
 
 let c: any = null;
@@ -211,9 +214,11 @@ export default function SkewOSHome() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   memoriserSession(sessionData);
   c = session?.generatedContent;
+  EQUIPE_INLINE_SOURCE = EQUIPE_INLINE_SOURCE_LIVE();
 
   STATS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...STATS_SOURCE[i % STATS_SOURCE.length], label: s.title, n: s.desc || "" || "" })),

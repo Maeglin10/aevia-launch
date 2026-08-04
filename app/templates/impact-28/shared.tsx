@@ -1,7 +1,10 @@
 "use client"
 
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { clientPhotoAt } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+  clientPhotoAt,
+} from "@/lib/templates/clientContent";
 import { useRef, useEffect } from "react"
 import Image from "next/image"
 
@@ -49,7 +52,7 @@ function projects_LIVE() {
   return [
   { 
     name: "BLOC K — Social Housing Complex", 
-    loc: "Paris 19ème", 
+    loc: clientCityOr("Paris") + " 19ème", 
     year: "2024", 
     type: "Residential", 
     img: clientPhotoAt(7, "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=600&fit=crop&crop=center"),
@@ -185,19 +188,19 @@ export const processSteps = [
 ]
 
 export const awards = [
-  { year: "2024", award: "Grand Prix d'Architecture de France", cat: "Social Housing", project: "BLOC K, Paris 19ème" },
+  { year: "2024", award: "Grand Prix d'Architecture de France", cat: "Social Housing", project: "BLOC K, " + clientCityOr("Paris") + " 19ème" },
   { year: "2023", award: "European Concrete Award", cat: "Material Innovation", project: "Concrete Chapel, Marseille" },
   { year: "2022", award: "Prix National de la Construction", cat: "Mixed-Use Development", project: "SILOS, Lyon" },
   { year: "2021", award: "RIBA International Prize — Shortlist", cat: "Excellence in Architecture", project: "RAW TOWER, Bordeaux" },
   { year: "2020", award: "Mies van der Rohe Award — Nomination", cat: "European Architecture", project: "BUNKER OFFICE, La Défense" },
   { year: "2018", award: "Prix de la Fondation d'Architecture", cat: "Cultural Buildings", project: "Concrete Chapel, Marseille" },
   { year: "2017", award: "Grand Prix d'Architecture de France", cat: "Cultural Heritage", project: "Concrete Chapel, Marseille" },
-  { year: "2015", award: "Prix Spécial du Jury — Equerre d'Argent", cat: "Public Architecture", project: "BLOC K, Paris 19ème" },
+  { year: "2015", award: "Prix Spécial du Jury — Equerre d'Argent", cat: "Public Architecture", project: "BLOC K, " + clientCityOr("Paris") + " 19ème" },
 ]
 
 export const pressItems = [
   { pub: "Le Monde", quote: "\"Brutco is France's most uncompromising studio — and its most necessary.\"", year: "2025" },
-  { pub: "Dezeen", quote: "\"The Paris atelier that refuses to design for Instagram.\"", year: "2024" },
+  { pub: "Dezeen", quote: "\"The " + clientCityOr("Paris") + " atelier that refuses to design for Instagram.\"", year: "2024" },
   { pub: "Domus", quote: "\"Viktor Brunel has built more raw square metres than any firm of his size in Europe.\"", year: "2024" },
   { pub: "Le Figaro", quote: "\"In a sea of glass towers, Brutco chooses honesty.\"", year: "2023" },
 ]

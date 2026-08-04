@@ -700,7 +700,7 @@ function StudioTeaser() {
                 marginBottom: '3rem',
               }}
             >
-              Fondé à Paris en 2012, MASK_UNIT est un studio de design radical spécialisé dans les identités qui marquent les esprits. 4 personnes. 180+ projets. Une seule règle : refuser le médiocre.
+              Fondé à {clientCity(sessionData) ?? "Paris"} en 2012, MASK_UNIT est un studio de design radical spécialisé dans les identités qui marquent les esprits. 4 personnes. 180+ projets. Une seule règle : refuser le médiocre.
             </p>
           </Reveal>
           <Reveal delay={0.3}>

@@ -1,5 +1,8 @@
 "use client";
-import { clientHours } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientHours,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -465,7 +468,7 @@ function InfoPanel() {
         <h3 style={{ fontFamily: FONT_HEADING, fontSize: 20, fontWeight: 700, color: C.text, marginBottom: 20 }}>Nous contacter</h3>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {[
-            { icon: <MapPin size={18} color={C.accent} />, label: "Adresse", value: "18 Rue de la Paix, 69002 Lyon" },
+            { icon: <MapPin size={18} color={C.accent} />, label: "Adresse", value: "18 Rue de la Paix, 69002 " + (clientCity(sessionData) ?? "Lyon") },
             { icon: <Phone size={18} color={C.accent} />, label: "Téléphone", value: (fd?.phone ?? "04 72 34 56 78") },
             { icon: <Mail size={18} color={C.accent} />, label: "Email", value: (fd?.email ?? "namaste@anandaflow.fr") },
           ].map((item) => (

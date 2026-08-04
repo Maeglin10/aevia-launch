@@ -1,5 +1,8 @@
 "use client";
-import { clientPhotoAt } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+  clientPhotoAt,
+} from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
@@ -110,8 +113,8 @@ export let COLLECTIONS = COLLECTIONS_LIVE();
 export const HERITAGE = [
   {
     year: "1891",
-    title: "Fondation à Genève",
-    desc: "Édouard Drouet, maître horloger formé à l'École d'Horlogerie de Genève, ouvre son premier atelier rue de Rive. Cinq compagnons, un établi, l'ambition de l'excellence.",
+    title: "Fondation à " + clientCityOr("Genève"),
+    desc: "Édouard Drouet, maître horloger formé à l'École d'Horlogerie de " + clientCityOr("Genève") + ", ouvre son premier atelier rue de Rive. Cinq compagnons, un établi, l'ambition de l'excellence.",
   },
   {
     year: "1923",
@@ -200,7 +203,7 @@ export const BESPOKE_STEPS = [
   {
     n: "04",
     title: "Remise Solennelle",
-    desc: "Livraison en mains propres à Genève ou à domicile. Certificat d'authenticité numéroté, garantie à vie, passeport de service.",
+    desc: "Livraison en mains propres à " + clientCityOr("Genève") + " ou à domicile. Certificat d'authenticité numéroté, garantie à vie, passeport de service.",
   },
 ];
 

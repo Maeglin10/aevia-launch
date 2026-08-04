@@ -98,11 +98,11 @@ export default function BlueprintPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  memoriserSession(sessionData);
-  rafraichirPartage();
   EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
   PROGRAMMES_DEMO = PROGRAMMES_DEMO_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
+  memoriserSession(sessionData);
+  rafraichirPartage();
 
 
 

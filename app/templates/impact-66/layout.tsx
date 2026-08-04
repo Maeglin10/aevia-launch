@@ -1,5 +1,8 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -313,7 +316,7 @@ export default function AtelierLayout({
               </Link>
             </div>
             <div className="flex gap-10">
-              <span>Paris VIII // Lyon // Bordeaux</span>
+              <span>{clientCity(__layoutSession) ?? "Paris"} VIII // Lyon // Bordeaux</span>
               <span>The Art of Precision</span>
             </div>
           </div>

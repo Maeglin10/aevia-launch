@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientCity,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -219,7 +220,7 @@ export default function NeuronSecLayout({
                 NEURON<span style={{ color: C.text }}>SEC</span>
               </div>
               <p style={{ fontFamily: sans, fontSize: "0.82rem", color: C.textMuted, lineHeight: 1.7, maxWidth: "300px", marginBottom: "1.5rem" }}>
-                Centre opérationnel de cybersécurité. SOC 24/7, Red Team, ISO 27001. Qualifié PRIS ANSSI niveau Expert. Paris, France.
+                Centre opérationnel de cybersécurité. SOC 24/7, Red Team, ISO 27001. Qualifié PRIS ANSSI niveau Expert. {clientCity(__layoutSession) ?? "Paris"}, France.
               </p>
               <div style={{ display: "flex", gap: "0.75rem" }}>
                 {[{ icon: MessageSquare, label: "Contact" }, { icon: Link2, label: "LinkedIn" }, { icon: GitBranch, label: "GitHub" }].map((s, i) => {
@@ -254,7 +255,7 @@ export default function NeuronSecLayout({
                 { name: "CGU", href: "/templates/impact-64/legal/cgu" },
               ] },
               { title: "Contact", links: [
-                { name: "Paris — 10ème arr.", href: "/templates/impact-64/contact" },
+                { name: (clientCity(__layoutSession) ?? "Paris") + " — 10ème arr.", href: "/templates/impact-64/contact" },
                 { name: (fd?.email ?? "soc@neuronsec.fr"), href: "/templates/impact-64/contact" },
                 { name: "Urgence cyber", href: "/templates/impact-64/contact" },
               ] },

@@ -193,7 +193,7 @@ return (
         >
           <div className="flex flex-col items-end gap-3">
             <span className="text-[10px] font-bold text-[#f5efe0]/20 uppercase tracking-[0.5em]">
-              Paris // Geneva // Tokyo
+              {clientCity(sessionData) ?? "Paris"} // Geneva // Tokyo
             </span>
             <div className="w-24 h-[1px] bg-[var(--brand,#b8860b)]/30" />
           </div>

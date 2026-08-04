@@ -1,5 +1,8 @@
 "use client";
-import { clientHours } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientHours,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useEffect, useState } from "react";
@@ -54,7 +57,7 @@ export default function Contact() {
           <div>
             {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
               { Icon: Mail, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
-              { Icon: MapPin, label: "Cabinet", value: "Paris, France" },
+              { Icon: MapPin, label: "Cabinet", value: (clientCity(sessionData) ?? "Paris") + ", France" },
               { Icon: Clock, label: "Horaires", value: "Lun – Ven · 9h – 19h" },
               { Icon: Shield, label: "Confidentialité", value: "Secret professionnel garanti" },
             ]).map(({ Icon, label, value }) => (
