@@ -528,7 +528,7 @@ return (
               <div className="divide-y divide-white/5">
                 {[
                   { pub: "Wallpaper*", title: "Aether Studio and the precision of creative systems", year: "2025" },
-                  { pub: "It's Nice That", title: "How VOID_BREW became an industry benchmark", year: "2024" },
+                  { pub: "It's " + (clientCity(sessionData) ?? "Nice") + " That", title: "How VOID_BREW became an industry benchmark", year: "2024" },
                   { pub: "Brand New", title: "Aether's visual alchemy for Blue Bottle Coffee", year: "2024" },
                   { pub: "Eye Magazine", title: "When coffee meets computation", year: "2023" },
                   { pub: "Dezeen", title: "Motion, matter, and the molecular brand", year: "2022" },

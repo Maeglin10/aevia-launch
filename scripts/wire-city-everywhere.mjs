@@ -63,7 +63,12 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
       const n = (tout.match(new RegExp(`\\b${v.replace(/-/g, "\\-")}\\b`, "g")) || []).length;
       if (n > meilleurN) { meilleurN = n; ville = v; }
     }
-    if (meilleurN < 2) ville = null;
+    /*
+      Un seul passage suffit. Le seuil de deux laissait « Fait avec amour à
+      Paris » sur le site d'un client annécien : la ville n'y est citée qu'une
+      fois, dans le pied de page, à l'endroit le plus lu.
+    */
+    if (meilleurN < 1) ville = null;
   }
   if (!ville) continue;
 

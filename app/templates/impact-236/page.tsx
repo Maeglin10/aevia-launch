@@ -1956,7 +1956,7 @@ function Footer() {
     {
       title: 'Zone',
       items: [
-        { label: 'Paris (75)', href: '#contact' },
+        { label: (clientCity(sessionData) ?? 'Paris') + ' (75)', href: '#contact' },
         { label: 'Hauts-de-Seine (92)', href: '#contact' },
         { label: 'Yvelines (78)', href: '#contact' },
         { label: 'Essonne (91)', href: '#contact' },

@@ -93,7 +93,7 @@ export default function ZenithWatchPage() {
     })),
     [
       { quote: "The Chronos 01 is the only watch I've worn every day for four years. It has aged the way all great things do — with more character, not less.", name: "K. Lindqvist", origin: "Stockholm · Collector" },
-      { quote: "I compared it directly against Lange and Patek at my usual dealer. Zenith's movement finishing at this price point is simply audacious.", name: "H. Fournier", origin: "Paris · Horologist" },
+      { quote: "I compared it directly against Lange and Patek at my usual dealer. Zenith's movement finishing at this price point is simply audacious.", name: "H. Fournier", origin: (clientCity(sessionData) ?? "Paris") + " · Horologist" },
       { quote: "My Lunar Phase arrived with a personal letter from the atelier chief. That kind of craft and attention doesn't exist anymore. Except here.", name: "T. Okafor", origin: "Lagos · Collector" },
     ]
   );

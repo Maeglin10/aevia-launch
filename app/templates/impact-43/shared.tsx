@@ -1,5 +1,8 @@
 "use client";
-import { clientPhotoAt } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+  clientPhotoAt,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
@@ -174,7 +177,7 @@ export let TEAM = TEAM_LIVE();
 export const TESTIMONIALS = [
   { quote: "I have visited six spas across Europe. Serene Retreat is categorically different. The silence alone is worth the journey.", author: "Charlotte V.", location: "Geneva" },
   { quote: "The Equinox package changed something fundamental in me. I left lighter in a way I cannot explain to people who haven't experienced it.", author: "James K.", location: "London" },
-  { quote: "Ingrid's stone ritual addressed years of chronic tension in a single session. I wept. I recommend it without reservation.", author: "Sophie M.", location: "Paris" },
+  { quote: "Ingrid's stone ritual addressed years of chronic tension in a single session. I wept. I recommend it without reservation.", author: "Sophie M.", location: clientCityOr("Paris") },
   { quote: "The floatation chamber was terrifying for the first five minutes and transcendent for the next thirty-five.", author: "Daniel R.", location: "Zürich" },
   { quote: "We came as a couple for the Equinox package. It is now a twice-yearly ritual that we protect like nothing else.", author: "Elena & Pierre B.", location: "Lyon" },
 ];

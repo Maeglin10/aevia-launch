@@ -1236,7 +1236,7 @@ function Footer() {
           }}
         >
           <span>© 2026 NovaSaaS SAS. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span>Fait avec soin à Lyon, France.</span>
+          <span>Fait avec soin à {clientCity(sessionData) ?? "Lyon"}, France.</span>
         </div>
       </div>
     </footer>

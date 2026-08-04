@@ -1459,7 +1459,7 @@ export default function Impact114Page() {
                 { icon: Mail, label: "Email", value: (fd?.email ?? "contact@terra-photo.com") },
                 { icon: Instagram, label: "Instagram", value: "@terra.moreau" },
                 { icon: Globe, label: "Web", value: "terra-photo.com" },
-                { icon: MapPin, label: "Studio", value: "Paris, France" },
+                { icon: MapPin, label: "Studio", value: (clientCity(sessionData) ?? "Paris") + ", France" },
               ].map((item) => {
                 const Icon = item.icon
                 return (

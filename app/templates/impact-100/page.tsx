@@ -63,7 +63,7 @@ function PROJECTS_DEMO_LIVE() {
     id: 2,
     name: "Lumière Office HQ",
     category: "Commercial",
-    location: "Paris, FR",
+    location: (clientCity(sessionData) ?? "Paris") + ", FR",
     desc: "Redefining workspace through glass-brick acoustics and architectural light channeling.",
     img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80"),
   },

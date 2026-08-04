@@ -370,7 +370,7 @@ export default function AtelierInteriorPage() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)] block mb-4">Our Philosophy</span>
                   <h2 className="text-4xl md:text-5xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Crafting Space With <em className="text-[var(--brand,#8b7355)]">Intention.</em></>}</h2>
                   <p className="text-sm text-[#2a2520]/60 leading-relaxed mb-6">{c?.aboutText ?? <>
-                    At Atelier Interior, we believe your home should be a physical manifestation of your journey. Founded in Paris in 2018, we work closely with local artisans to curate bespoke, tactile environments.
+                    At Atelier Interior, we believe your home should be a physical manifestation of your journey. Founded in {clientCity(sessionData) ?? "Paris"} in 2018, we work closely with local artisans to curate bespoke, tactile environments.
                   </>}</p>
                   <p className="text-sm text-[#2a2520]/60 leading-relaxed">
                     We select organic, sustainably sourced materials—travertine, brass, raw linen, and white oak—to construct spaces that age beautifully and feel deeply authentic.

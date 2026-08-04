@@ -25,11 +25,14 @@ let fd: any = null;
 
 // Les avis, jusqu'ici écrit(e) dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
-const AVIS_INLINE_SOURCE = [
+function AVIS_INLINE_SOURCE_LIVE() {
+  return [
   { quote: "We installed the Studio Array in our film scoring stage. The first session, the composer wept. The clarity revealed things we had been missing for a decade.", name: "J. Wren", origin: "London · Scoring Stage B" },
-                { quote: "I've designed rooms with every major brand. None hold a candle to what their engineering team achieved at this price point. Extraordinary.", name: "M. Belfort", origin: "Paris · Studio Acoustics" },
+                { quote: "I've designed rooms with every major brand. None hold a candle to what their engineering team achieved at this price point. Extraordinary.", name: "M. Belfort", origin: (clientCity(sessionData) ?? "Paris") + " · Studio Acoustics" },
                 { quote: "The monitoring accuracy of the Reference Series changed my mixes. I'm hearing nuances I used to think only other engineers had the ears to perceive.", name: "T. Osei", origin: "Lagos · Mastering Engineer" }
 ];
+}
+let AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 let AVIS_INLINE = AVIS_INLINE_SOURCE;
 
 let c: any = null;
@@ -109,8 +112,10 @@ export default function AetherSoundPage() {
 
   fd = session?.formData;
 
+
   sessionData = session;
   c = session?.generatedContent;
+  AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
   PRODUCTS_DEMO_SOURCE = PRODUCTS_DEMO_SOURCE_LIVE();
 
   PRODUCTS_DEMO = resolveList(

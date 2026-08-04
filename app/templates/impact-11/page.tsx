@@ -423,7 +423,7 @@ return (
         </div>
         <div className="max-w-6xl mx-auto border-t border-gray-800 pt-8 flex justify-between items-center text-xs text-gray-500">
           <span>© 2026 EduPath. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span>Fait avec amour à Paris</span>
+          <span>Fait avec amour à {clientCity(sessionData) ?? "Paris"}</span>
         </div>
       </footer>
     </div>

@@ -377,7 +377,7 @@ export default function HavenEstatesPage() {
             <p className="text-sm text-white/30 leading-relaxed">Discreet luxury real estate advisory for the world's most exceptional properties.</p>
           </div>
           {[
-            { title: "Properties", links: ["New York", "London", "Paris", "Singapore"] },
+            { title: "Properties", links: ["New York", "London", (clientCity(sessionData) ?? "Paris"), "Singapore"] },
             { title: "Services", links: ["Acquisition", "Investment", "Off-Market", "Valuation"] },
             { title: "Company", links: ["About", "Team", "Press", "Contact"] },
           ].map((col, i) => (

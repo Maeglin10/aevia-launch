@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import { useEffect, useState } from "react";
 import { Reveal, GridBackground } from "../shared";
@@ -137,7 +138,7 @@ export default function ContactPage() {
                 <h3 className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#0070f3] mb-4">Location</h3>
                 <p className="text-sm font-light italic leading-relaxed">
                   Headquarters & Advanced Composite Testing Labs.<br />
-                  75010 Paris, France.
+                  75010 {clientCity(sessionData) ?? "Paris"}, France.
                 </p>
                 <p className="text-xs font-light italic leading-relaxed mt-4 opacity-50">
                   Adresse physique communiquée sur simple demande à {fd?.email ?? "contact@exemple.fr"}.

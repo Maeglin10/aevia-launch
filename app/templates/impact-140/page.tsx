@@ -90,7 +90,8 @@ function DESTINATIONS_DEMO_LIVE() {
 }
 let DESTINATIONS_DEMO = DESTINATIONS_DEMO_LIVE();
 
-const EXPERIENCES_DEMO = [
+function EXPERIENCES_DEMO_LIVE() {
+  return [
   {
     title: "Private Expeditions",
     icon: <Compass className="w-6 h-6 text-amber-500" />,
@@ -107,11 +108,13 @@ const EXPERIENCES_DEMO = [
     desc: "Spend time with indigenous communities, learning ancient survival and crafting techniques.",
   },
   {
-    title: "Photography Tours",
+    title: "Photography " + (clientCity(sessionData) ?? "Tours"),
     icon: <Camera className="w-6 h-6 text-amber-500" />,
     desc: "Led by National Geographic award winners. Master landscape and wildlife photography.",
   },
 ];
+}
+let EXPERIENCES_DEMO = EXPERIENCES_DEMO_LIVE();
 
 const REVIEWS_SOURCE = [
   {
@@ -199,9 +202,11 @@ export default function WanderlustPage() {
 
   fd = session?.formData;
 
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EXPERIENCES_DEMO = EXPERIENCES_DEMO_LIVE();
   DESTINATIONS_DEMO = DESTINATIONS_DEMO_LIVE();
 
   useEffect(() => {
