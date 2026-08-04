@@ -55,6 +55,7 @@ export default function LedgerPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -74,7 +75,9 @@ export default function LedgerPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
   bp = (session as any)?.businessProfile;
   HERO_MISSIONS = HERO_MISSIONS_DEMO.map((row, i) => ({

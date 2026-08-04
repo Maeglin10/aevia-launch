@@ -63,10 +63,15 @@ for (const [id, file] of FICHIERS) {
     continue;
   }
 
-  // `bp` manque presque partout : on le déclare à côté de `fd` et on l'alimente
-  // là où `fd` l'est.
+  // `bp` manque presque partout. Deux choses distinctes : la déclaration et
+  // l'affectation. Seize thèmes avaient la première sans la seconde — une passe
+  // antérieure avait déclaré `let bp` sans jamais l'alimenter, et la version
+  // précédente d'ici ne posait l'affectation que lorsqu'elle posait aussi la
+  // déclaration. `bp` restait donc nul, et le contrat vide.
   if (!/^let bp: any = null;/m.test(src)) {
     src = src.replace(/^let fd: any = null;/m, "let bp: any = null;\nlet fd: any = null;");
+  }
+  if (!/^\s+bp = (?:session|__session)/m.test(src)) {
     const a = /\n(\s*)fd = session\?\.formData;/.exec(src);
     if (!a) { restants.push(`${id} (pas de point de rendu)`); continue; }
     src = src.slice(0, a.index + a[0].length) + `\n${a[1]}bp = session?.businessProfile;` + src.slice(a.index + a[0].length);

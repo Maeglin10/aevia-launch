@@ -2146,12 +2146,12 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
-
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
   EDIT_ROWS = EDIT_ROWS_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
 
 
   // Client-uploaded photos (beyond the hero, which uses index 0) replace the

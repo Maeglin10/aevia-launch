@@ -175,9 +175,11 @@ export default function VoltPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
   CHANTIERS = CHANTIERS_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
+
 
 
   SERVICES_DEMO = resolveList(

@@ -108,6 +108,7 @@ export default function SummitCapitalPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -127,8 +128,10 @@ export default function SummitCapitalPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
   team = team_LIVE();
+
 
   theses = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...theses_SOURCE[i % theses_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),

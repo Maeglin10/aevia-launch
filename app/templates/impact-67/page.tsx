@@ -77,11 +77,11 @@ export default function VisionHomePage() {
   }, []);
 
   fd = session?.formData;
-
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
   PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
+
   SERVICES_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

@@ -144,7 +144,7 @@ export default function PricingPage() {
                   </p>
                   <div className="flex items-baseline gap-1 mb-8">
                     <span className="text-5xl font-black text-[#1E1B4B]">
-                      {billingAnnual && plan.price !== "0€"
+                      {billingAnnual && /* PRIX_CALCULABLE */ Number.isFinite(parseFloat(String(plan.price).replace(/[^0-9.]/g, ""))) && plan.price !== "0€"
                         ? `${Math.round(calculatedPrice / 12)}€`
                         : plan.price}
                     </span>

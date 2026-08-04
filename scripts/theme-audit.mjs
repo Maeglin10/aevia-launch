@@ -226,8 +226,13 @@ for (const id of ids) {
       // seule autre preuve que la donnée est passée. De même un tarif rendu
       // sans son symbole reste un tarif affiché.
       const ALT = { stat: ["9911", "ZZLIBELLE"], price1: ["ZZ8137 €", "ZZ8137", "8137"] };
+      // `innerText` rend le texte tel qu'il s'affiche : un thème qui met ses avis
+      // en capitales via `text-transform` donne « ZZAVIS LE CHANTIER FUT
+      // IMPECCABLE ». La comparaison sensible à la casse faisait passer pour
+      // manquants des avis parfaitement affichés.
+      const bas = text.toLowerCase();
       const vu = Object.fromEntries(
-        Object.entries(W).map(([k, v]) => [k, (ALT[k] ?? [v]).some((x) => text.includes(x))]),
+        Object.entries(W).map(([k, v]) => [k, (ALT[k] ?? [v]).some((x) => bas.includes(x.toLowerCase()))]),
       );
       // Chargée mais jamais peinte : une image dont un ancêtre proche s'est
       // effondré à moins de 2 px. C'est le seul contrôle qui attrape un hero

@@ -207,6 +207,7 @@ export default function FormeStudioPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -226,9 +227,11 @@ export default function FormeStudioPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
   timeline = timeline_LIVE();
   pricingTiers = pricingTiers_LIVE();
+
 
 
   disciplines = resolveList(

@@ -822,7 +822,9 @@ export default function Impact166Page() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
+
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,
