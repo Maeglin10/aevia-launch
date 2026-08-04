@@ -13,12 +13,22 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+// chiffres, jusqu'ici écrit dans le rendu sans constante nommée.
+const CHIFFRES_ANON_SOURCE = [
+                  { val: "120+", label: "Events per year", icon: <Calendar className="w-5 h-5 text-[var(--brand,#ec4899)]" /> },
+                  { val: "38", label: "Cities covered", icon: <MapPin className="w-5 h-5 text-[var(--brand,#ec4899)]" /> },
+                  { val: "290K", label: "Tickets sold in 2025", icon: <Ticket className="w-5 h-5 text-[var(--brand,#ec4899)]" /> },
+                  { val: "98%", label: "Sellout rate", icon: <Star className="w-5 h-5 text-[var(--brand,#ec4899)]" /> },
+                ];
+let CHIFFRES_ANON = CHIFFRES_ANON_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -134,6 +144,14 @@ export default function PulseEventsPage() {
   }, []);
 
   fd = session?.formData;
+
+  CHIFFRES_ANON = resolveList(
+
+    clientStats({ formData: fd })?.map((s: any, i: number) => ({ ...CHIFFRES_ANON_SOURCE[i % CHIFFRES_ANON_SOURCE.length], val: s.value, label: s.label })),
+
+    CHIFFRES_ANON_SOURCE,
+
+  );
 
   VENUES = VENUES_LIVE();
 
@@ -384,12 +402,7 @@ export default function PulseEventsPage() {
                 </div>
               </Reveal>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[
-                  { val: "120+", label: "Events per year", icon: <Calendar className="w-5 h-5 text-[var(--brand,#ec4899)]" /> },
-                  { val: "38", label: "Cities covered", icon: <MapPin className="w-5 h-5 text-[var(--brand,#ec4899)]" /> },
-                  { val: "290K", label: "Tickets sold in 2025", icon: <Ticket className="w-5 h-5 text-[var(--brand,#ec4899)]" /> },
-                  { val: "98%", label: "Sellout rate", icon: <Star className="w-5 h-5 text-[var(--brand,#ec4899)]" /> },
-                ].map((stat, i) => (
+                {CHIFFRES_ANON.map((stat, i) => (
                   <Reveal key={stat.label} delay={i * 0.1}>
                     <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[var(--brand,#ec4899)]/20 transition-colors">
                       <div className="mb-4">{stat.icon}</div>

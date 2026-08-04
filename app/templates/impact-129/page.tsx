@@ -19,6 +19,14 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+// avis, jusqu'ici écrit dans le rendu sans constante nommée.
+const AVIS_ANON_SOURCE = [
+                { quote: "Replaced our entire internal CLI tooling in a weekend. The DX is absurd — we shipped a production feature in the time our old flow took to configure.", handle: "@mia_builds", role: "Staff Engineer · Berlin", avatar: "MB" },
+                { quote: "The GitBranch integration is effortless. I've been a CLI nerd for 12 years — this is the first time I've felt genuinely excited about tooling.", handle: "@the_real_thorn", role: "Open Source Maintainer", avatar: "TR" },
+                { quote: "Our onboarding dropped from 3 days to 4 hours. Every new dev just runs one command and they're in the right environment immediately.", handle: "@priya_dev", role: "CTO, Singapore Startup", avatar: "PD" },
+              ];
+let AVIS_ANON = AVIS_ANON_SOURCE;
+
 
 // L'équipe, jusqu'ici écrit(e)s dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
@@ -143,6 +151,14 @@ export default function WaveFXPage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_ANON = resolveList(
+
+    clientReviews({ formData: fd })?.map((r: any, i: number) => ({ ...AVIS_ANON_SOURCE[i % AVIS_ANON_SOURCE.length], quote: r.text, role: r.author })),
+
+    AVIS_ANON_SOURCE,
+
+  );
 
   EQUIPE_INLINE = resolveList(
 
@@ -333,11 +349,7 @@ export default function WaveFXPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { quote: "Replaced our entire internal CLI tooling in a weekend. The DX is absurd — we shipped a production feature in the time our old flow took to configure.", handle: "@mia_builds", role: "Staff Engineer · Berlin", avatar: "MB" },
-                { quote: "The GitBranch integration is effortless. I've been a CLI nerd for 12 years — this is the first time I've felt genuinely excited about tooling.", handle: "@the_real_thorn", role: "Open Source Maintainer", avatar: "TR" },
-                { quote: "Our onboarding dropped from 3 days to 4 hours. Every new dev just runs one command and they're in the right environment immediately.", handle: "@priya_dev", role: "CTO, Singapore Startup", avatar: "PD" },
-              ].map((t, i) => (
+              {AVIS_ANON.map((t, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-[var(--brand,#6366f1)]/20 transition-all duration-500 flex flex-col gap-6 h-full">
                     <div className="flex gap-1">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[var(--brand,#818cf8)] text-[var(--brand,#818cf8)]" />)}</div>

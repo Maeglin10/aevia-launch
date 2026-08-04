@@ -1,5 +1,8 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientServices,
+} from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
@@ -14,6 +17,14 @@ import { resolveList } from "@/lib/templates/resolveList"
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+// tarifs, jusqu'ici écrit dans le rendu sans constante nommée.
+const TARIFS_ANON_SOURCE = [
+                { name: "Découverte", price: "€28", cadence: "/ bi-weekly", qty: "200g", desc: "One single-origin, chosen by our Q-Graders each cycle. Perfect for the curious palate.", features: ["1 origin per cycle", "Tasting notes card", "Compostable packaging"], highlight: false },
+                { name: "Connoisseur", price: "€52", cadence: "/ bi-weekly", qty: "400g", desc: "Two carefully paired origins — explore contrasts of terroir, altitude, and process.", features: ["2 origins per cycle", "Brew guide included", "SCA score transparency", "Free shipping"], highlight: true },
+                { name: "Maison", price: "€96", cadence: "/ bi-weekly", qty: "1kg", desc: "The full Torréfié experience. Four origins, access to pre-release lots, priority allocation.", features: ["4 origins per cycle", "Pre-release access", "Direct farmer profiles", "Free express shipping", "Private tastings"], highlight: false },
+              ];
+let TARIFS_ANON = TARIFS_ANON_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 let brand: any = null;
@@ -90,6 +101,14 @@ export default function TorrefieCoffeePage() {
   }, []);
 
   fd = session?.formData;
+
+  TARIFS_ANON = resolveList(
+
+    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...TARIFS_ANON_SOURCE[i % TARIFS_ANON_SOURCE.length], name: s.title, price: s.price ?? TARIFS_ANON_SOURCE[i % TARIFS_ANON_SOURCE.length].price })),
+
+    TARIFS_ANON_SOURCE,
+
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -337,11 +356,7 @@ export default function TorrefieCoffeePage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { name: "Découverte", price: "€28", cadence: "/ bi-weekly", qty: "200g", desc: "One single-origin, chosen by our Q-Graders each cycle. Perfect for the curious palate.", features: ["1 origin per cycle", "Tasting notes card", "Compostable packaging"], highlight: false },
-                { name: "Connoisseur", price: "€52", cadence: "/ bi-weekly", qty: "400g", desc: "Two carefully paired origins — explore contrasts of terroir, altitude, and process.", features: ["2 origins per cycle", "Brew guide included", "SCA score transparency", "Free shipping"], highlight: true },
-                { name: "Maison", price: "€96", cadence: "/ bi-weekly", qty: "1kg", desc: "The full Torréfié experience. Four origins, access to pre-release lots, priority allocation.", features: ["4 origins per cycle", "Pre-release access", "Direct farmer profiles", "Free express shipping", "Private tastings"], highlight: false },
-              ].map((plan, i) => (
+              {TARIFS_ANON.map((plan, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className={`flex flex-col h-full rounded-sm border p-10 ${plan.highlight ? "bg-[#2c1810] text-[#f5f0ea] border-[var(--brand,#6b3a24)]" : "bg-white border-[var(--brand,#6b3a24)]/10"}`}>
                     <div className={`text-[10px] font-bold uppercase tracking-[0.3em] mb-2 ${plan.highlight ? "text-[#c48a5a]" : "text-[var(--brand,#6b3a24)]"}`}>{plan.qty}</div>

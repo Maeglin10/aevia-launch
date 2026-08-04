@@ -11,12 +11,22 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+// equipe, jusqu'ici écrit dans le rendu sans constante nommée.
+const EQUIPE_ANON_SOURCE = [
+                { name: "Mia Versa", role: "Creative Director", yrs: "10yr", img: photo(1, "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400"), tags: ["Brand", "Identity"] },
+                { name: "Theo Nakamura", role: "Lead Product Designer", yrs: "7yr", img: photo(2, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400"), tags: ["UX", "Mobile"] },
+                { name: "Sasha Okafor", role: "Art Director", yrs: "8yr", img: photo(3, "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=400"), tags: ["Campaign", "Photo"] },
+                { name: "Remi Blanc", role: "Motion & 3D Lead", yrs: "5yr", img: photo(4, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400"), tags: ["Motion", "3D"] },
+              ];
+let EQUIPE_ANON = EQUIPE_ANON_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -129,6 +139,14 @@ export default function StudioVersaPage() {
   }, []);
 
   fd = session?.formData;
+
+  EQUIPE_ANON = resolveList(
+
+    clientTeam(sessionData)?.map((m: any, i: number) => ({ ...EQUIPE_ANON_SOURCE[i % EQUIPE_ANON_SOURCE.length], name: m.name, role: m.role })),
+
+    EQUIPE_ANON_SOURCE,
+
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -347,12 +365,7 @@ export default function StudioVersaPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[
-                { name: "Mia Versa", role: "Creative Director", yrs: "10yr", img: photo(1, "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400"), tags: ["Brand", "Identity"] },
-                { name: "Theo Nakamura", role: "Lead Product Designer", yrs: "7yr", img: photo(2, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400"), tags: ["UX", "Mobile"] },
-                { name: "Sasha Okafor", role: "Art Director", yrs: "8yr", img: photo(3, "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=400"), tags: ["Campaign", "Photo"] },
-                { name: "Remi Blanc", role: "Motion & 3D Lead", yrs: "5yr", img: photo(4, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400"), tags: ["Motion", "3D"] },
-              ].map((m, i) => (
+              {EQUIPE_ANON.map((m, i) => (
                 <Reveal key={i} delay={i * 0.08}>
                   <div className="group">
                     <div className="relative aspect-[3/4] overflow-hidden rounded-xl mb-6 bg-[#1a1a1a]">
