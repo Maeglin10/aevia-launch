@@ -1,5 +1,6 @@
 // @ts-nocheck
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -90,7 +91,9 @@ export default function ZenSpaceLayout({
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
-            ) : (
+            ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
+              <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-stone-400 mb-1 group-hover:text-[#c9a84c] transition-colors">{clientName(__layoutSession)}</span>
+            ) : (<>
               <>
             <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-stone-400 mb-1 group-hover:text-[#c9a84c] transition-colors">
               Sanctuary.
@@ -99,7 +102,7 @@ export default function ZenSpaceLayout({
               ZEN<span className="text-[#c9a84c]">SPACE</span>
             </span>
           </>
-            )}</Link>
+            </>))}</Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-stone-400">
             {navLinks.map((link) => (

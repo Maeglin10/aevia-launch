@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -69,7 +70,7 @@ export default function SegmentLayout({
             />
           ) : (
             <>
-          SEGMENT
+          {/* NOM_LOGO */ clientName(__layoutSession) ?? "SEGMENT"}
         </>
           )}</Link>
         <div id="mb61-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {navLinks.map((link) => (

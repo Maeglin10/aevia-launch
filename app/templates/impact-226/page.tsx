@@ -7,6 +7,7 @@ import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Camera, X } 
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -370,7 +371,7 @@ return (
               style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <>Encre <span style={{ fontStyle: "italic" }}>Noire</span></>
+            <>{/* NOM_LOGO */ clientName(sessionData) ?? "Encre"} <span style={{ fontStyle: "italic" }}>Noire</span></>
           )}
         </div>
         <div id="mb226-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (

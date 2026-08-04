@@ -19,6 +19,7 @@ import { Separator } from "@/components/ui/separator"
 import { ArrowUpRight, CheckCircle2, Menu, X, Play, ArrowRight, Circle, Square, Triangle, Hexagon, Star, Award, Trophy, Medal } from "lucide-react"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -284,7 +285,7 @@ export default function FolioStudioPage() {
             ) : (
               <>
                 <div className="w-6 h-6 bg-zinc-900 rounded-sm group-hover:rotate-45 transition-transform duration-500" />
-                FOLIO
+                {/* NOM_LOGO */ clientName({ formData: fd }) ?? "FOLIO"}
               </>
             )}
           </Link>

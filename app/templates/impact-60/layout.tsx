@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -56,7 +57,7 @@ export default function ZenithLayout({
             <div className="w-10 h-10 border border-[#c9a96e]/30 flex items-center justify-center group-hover:border-[#c9a96e] transition-all duration-700">
               <Watch className="w-5 h-5 text-[#c9a96e]" />
             </div>
-            <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Zenith <span className="font-bold">Watch</span></span>
+            <span className="text-xl font-light tracking-[0.4em] uppercase text-white">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>Zenith <span className="font-bold">Watch</span></>)}</span>
           </>
           )}</Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-white/30">

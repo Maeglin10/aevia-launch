@@ -1,4 +1,5 @@
 'use client';
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -95,7 +96,7 @@ export default function VMMaisonLayout({ children }: { children: React.ReactNode
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <>VM Maison</>
+            <>{/* NOM_LOGO */ clientName(__layoutSession) ?? "VM Maison"}</>
           )}
         </Link>
 

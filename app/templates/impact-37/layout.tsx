@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -96,9 +97,9 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
                 color: C.gold,
                 letterSpacing: "0.04em",
               }}
-            >
+            >{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               Clos du Soir
-            </span></>
+            </>)}</span></>
             )}
           </Link>
 

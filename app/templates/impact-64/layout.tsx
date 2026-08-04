@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -82,9 +83,9 @@ export default function NeuronSecLayout({
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <><span style={{ fontFamily: mono, fontSize: "0.9rem", fontWeight: 700, color: C.green, letterSpacing: "0.05em" }}>
+              <><span style={{ fontFamily: mono, fontSize: "0.9rem", fontWeight: 700, color: C.green, letterSpacing: "0.05em" }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               NEURON<span style={{ color: C.text }}>SEC</span>
-            </span></>
+            </>)}</span></>
             )}
           </Link>
           <div id="mb64-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {navLinks.map((l) => (

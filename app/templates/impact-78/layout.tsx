@@ -1,5 +1,6 @@
 // @ts-nocheck
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -69,7 +70,9 @@ export default function AetherRoastLayout({
                   alt={fd?.businessName ?? 'logo'}
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
-              ) : (
+              ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
+              <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-orange-500/40 mb-1">{clientName(__layoutSession)}</span>
+            ) : (<>
                 <>
               <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-orange-500/40 mb-1">
                 Artisanal.
@@ -78,7 +81,7 @@ export default function AetherRoastLayout({
                 AETHER<span className="text-orange-900">.ROAST</span>
               </span>
             </>
-              )}</Link>
+              </>))}</Link>
 
             <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em]">
               {navLinks.map((link) => (

@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -68,7 +69,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
             <div style={{ width: 38, height: 38, background: C.orange, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
               <Truck size={22} color={C.white} />
             </div>
-            <span style={{ fontWeight: 800, fontSize: 20, color: C.navy }}>Swift Move</span>
+            <span style={{ fontWeight: 800, fontSize: 20, color: C.navy }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>Swift Move</>)}</span>
               </>
             )}
           </Link>

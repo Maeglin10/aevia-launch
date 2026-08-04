@@ -1,3 +1,4 @@
+import { clientName } from "@/lib/templates/clientContent";
 "use client"
 
 import { useScroll, motion, AnimatePresence } from "framer-motion"
@@ -46,7 +47,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             />
           ) : (
             <>
-            BRUTCO
+            {/* NOM_LOGO */ clientName(__layoutSession) ?? "BRUTCO"}
           </>
           )}</Link>
           <div className="hidden md:flex items-center gap-10 text-sm font-semibold uppercase tracking-widest">

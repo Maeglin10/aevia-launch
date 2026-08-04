@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -65,7 +66,7 @@ export default function SkewLayout({
             />
           ) : (
             <>
-          SKEW<span style={{ color: C.violet }}>.</span>
+          {/* NOM_LOGO */ clientName(__layoutSession) ?? "SKEW"}<span style={{ color: C.violet }}>.</span>
         </>
           )}</Link>
         <div id="mb58-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((item) => (

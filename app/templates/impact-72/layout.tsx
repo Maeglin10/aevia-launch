@@ -1,5 +1,6 @@
 // @ts-nocheck
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -80,7 +81,7 @@ export default function StackUnitLayout({
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <><div>
+            <><div>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
             <span style={{ fontFamily: "'Archivo', sans-serif", fontSize: "0.9rem", fontWeight: 900, letterSpacing: "0.08em", color: C.text }}>
               STACK
             </span>
@@ -88,7 +89,7 @@ export default function StackUnitLayout({
             <span style={{ fontFamily: "'Archivo', sans-serif", fontSize: "0.9rem", fontWeight: 300, letterSpacing: "0.08em", color: C.text }}>
               UNIT
             </span>
-          </div></>
+          </>)}</div></>
           )}
         </Link>
         <div id="mb72-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {navLinks.map(({ label, href }) => (

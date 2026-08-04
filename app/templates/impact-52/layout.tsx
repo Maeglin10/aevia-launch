@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -83,9 +84,9 @@ export default function Impact52Layout({
               textShadow: `0 0 16px ${C.PINK}, 0 0 32px ${C.PINK}66`,
               letterSpacing: "0.08em",
             }}
-          >
+          >{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
             PARTICLE<span style={{ color: `${C.PINK}66` }}> // </span>FIELD
-          </span>
+          </>)}</span>
         </>
           )}</Link>
 

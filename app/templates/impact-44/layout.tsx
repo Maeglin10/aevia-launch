@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -230,7 +231,7 @@ export default function GhostProtocolLayout({ children }: { children: React.Reac
             />
           ) : (
             <>
-          GHOST<span style={{ color: C.white }}>PROTOCOL</span>
+          GHOST<span style={{ color: C.white }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? "PROTOCOL"}</span>
         </>
           )}</Link>
         <div id="mb44-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((link) => {

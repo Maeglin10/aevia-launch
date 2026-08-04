@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -113,9 +114,9 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
           >
             <UtensilsCrossed size={17} color={C.accent} />
           </div>
-          <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", fontWeight: 700, color: logoColor, transition: "color 0.3s" }}>
+          <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", fontWeight: 700, color: logoColor, transition: "color 0.3s" }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
             Gabriel Renaud
-          </span>
+          </>)}</span>
             </>
           )}
         </Link>

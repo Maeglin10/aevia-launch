@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -75,7 +76,7 @@ export default function VelvetLayout({
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#ff00ff] to-[#4b0082] flex items-center justify-center group-hover:rotate-180 transition-all duration-700 shadow-[0_0_20px_rgba(255,0,255,0.3)]">
               <Moon className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Velvet <span className="font-bold">Night</span></span>
+            <span className="text-xl font-light tracking-[0.4em] uppercase text-white">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>Velvet <span className="font-bold">Night</span></>)}</span>
           </>
             )}</Link>
 

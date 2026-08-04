@@ -627,11 +627,11 @@ export default function HorologsLuxePage() {
             <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">Collect.</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
-            {[
+            {/* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp })?.map((s: any) => ({ tier: s.title, ...(s.price ? { price: s.price } : {}) })), [
               { tier: "Archive Print", size: "30 × 40 cm", edition: "Edition of 50", price: "€ 1,200", detail: "Museum-grade Baryta paper · signed & numbered · certificate of authenticity" },
               { tier: "Studio Edition", size: "50 × 70 cm", edition: "Edition of 25", price: "€ 2,800", detail: "Hahnemühle Photo Rag · hand-signed · archival box included" },
               { tier: "Collector's Piece", size: "80 × 100 cm", edition: "Edition of 10", price: "€ 6,500", detail: "Platinum print on aluminium · bespoke framing · white-glove delivery worldwide" },
-            ].map((p, i) => (
+            ]).map((p, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#050505] p-10 group hover:bg-[#080808] transition-colors border-t-2 border-transparent hover:border-stone-600 h-full flex flex-col">
                   <span className="text-[10px] font-black text-stone-600/50 uppercase tracking-[0.5em] mb-6 block">{p.tier}</span>

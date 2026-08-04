@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -77,7 +78,7 @@ export default function MaskUnitLayout({
             />
           ) : (
             <>
-          MASK<span style={{ color: C.accent }}>_</span>UNIT
+          {/* NOM_LOGO */ clientName(__layoutSession) ?? "MASK"}<span style={{ color: C.accent }}>_</span>UNIT
         </>
           )}</Link>
         <div id="mb57-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((item) => (

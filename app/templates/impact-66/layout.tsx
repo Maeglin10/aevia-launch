@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -136,7 +137,9 @@ export default function AtelierLayout({
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : (
+          ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
+              <span className="text-[10px] md:text-[12px] font-light uppercase tracking-[0.6em] text-[#1a1814]/40 mb-1">{clientName(__layoutSession)}</span>
+            ) : (<>
             <>
             <span className="text-[10px] md:text-[12px] font-light uppercase tracking-[0.6em] text-[#1a1814]/40 mb-1">
               L'Atelier
@@ -145,7 +148,7 @@ export default function AtelierLayout({
               BEAUTÉ
             </span>
           </>
-          )}</Link>
+          </>))}</Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-[#1a1814]/30">
             {navLinks.map((link) => (

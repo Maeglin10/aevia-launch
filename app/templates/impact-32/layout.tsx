@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -76,14 +77,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             />
           ) : (
             <>
-          <motion.div style={{ display: "flex", alignItems: "center", gap: 10 }} whileHover={{ scale: 1.03 }}>
+          <motion.div style={{ display: "flex", alignItems: "center", gap: 10 }} whileHover={{ scale: 1.03 }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
             <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <TemplateIcon emoji="🐾" size={20} color="#fff" />
             </div>
             <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>
               Paw<span style={{ color: C.accent }}>Care</span>
             </span>
-          </motion.div>
+          </>)}</motion.div>
         </>
           )}</Link>
 

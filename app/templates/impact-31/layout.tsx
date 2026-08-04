@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -75,14 +76,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <><motion.div style={{ display: "flex", alignItems: "center", gap: 10 }} whileHover={{ scale: 1.03 }}>
+            <><motion.div style={{ display: "flex", alignItems: "center", gap: 10 }} whileHover={{ scale: 1.03 }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
             <div style={{ width: 38, height: 38, background: C.accent, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Leaf size={20} color={C.white} />
             </div>
             <span style={{ fontWeight: 700, fontSize: 21, color: C.text, fontFamily: FONT_HEADING, letterSpacing: -0.3 }}>
               Ananda<span style={{ color: C.accent }}>Flow</span>
             </span>
-          </motion.div></>
+          </>)}</motion.div></>
           )}
         </Link>
 

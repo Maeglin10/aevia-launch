@@ -26,7 +26,7 @@ if (ids.length === 0) {
   process.exit(1);
 }
 
-const NOM = ["name", "nom", "title", "titre", "label", "a", "t", "f", "offre", "formule"];
+const NOM = ["name", "nom", "title", "titre", "label", "tier", "offre", "formule", "a", "t", "f", "n"];
 const PRIX = ["price", "prix", "tarif", "p", "montant", "amount", "cout"];
 
 function ferme(s, i, o, c) {
@@ -45,14 +45,20 @@ for (const id of ids) {
   const file = path.join(ROOT, id, "page.tsx");
   if (!fs.existsSync(file)) { restants.push(`${id} (absent)`); continue; }
   let src = fs.readFileSync(file, "utf8");
-  if (src.includes("/* TARIFS */")) { restants.push(`${id} (déjà)`); continue; }
+
 
   // Les zones déjà câblées, pour ne pas les reprendre.
   const tabou = [...src.matchAll(/resolveList(?:<[^>]*>)?\(/g)]
     .map((m) => [m.index, ferme(src, m.index + m[0].length - 1, "(", ")")]);
   const dedans = (i) => tabou.some(([a, b]) => a <= i && i <= b);
 
-  let cible = null;
+  // Un thème porte souvent deux listes à prix : le catalogue et les formules.
+  // La grille tarifaire est celle qui porte les marques d'une carte de prix —
+  // des avantages, un bouton, une période. impact-11 a reçu ses tarifs dans son
+  // catalogue de cours, qui n'affiche aucun prix, tant que ce score n'existait
+  // pas.
+  const MARQUEURS = /\b(features|avantages|cta|period|periode|highlight|popular|recommande|mois|month|an|billing)\b/i;
+  let cible = null, meilleur = -1;
   for (const m of src.matchAll(/(?<![\w.])\[\s*\n?\s*\{/g)) {
     const j = m.index;
     if (dedans(j)) continue;
@@ -72,9 +78,17 @@ for (const id of ids) {
       ligne.slice(ligne.toLowerCase().indexOf(kPrix + ":")),
     );
     if (!valPrix) continue;
-    if (/use[A-Z]/.test(src.slice(fin + 1, fin + 700))) continue;
-    cible = { j, fin, kNom: cles.find((k) => k.toLowerCase() === kNom), kPrix: cles.find((k) => k.toLowerCase() === kPrix) };
-    break;
+    // On ne refuse que le `map` qui appelle un hook : sa longueur changerait
+    // avec celle de la liste du client, et React compte les hooks. La première
+    // version regardait les sept cents caractères suivants sans exiger le `map`,
+    // et rejetait toute liste écrite avant un `useState` — celle d'impact-11
+    // entre autres.
+    if (/^\s*\.map\(\s*\(?[^)]{0,80}\)?\s*=>\s*[\s\S]{0,600}?use[A-Z]/.test(src.slice(fin + 1, fin + 700))) continue;
+    const score = (MARQUEURS.test(ligne) ? 2 : 0) + (cles.length <= 6 ? 1 : 0);
+    if (score > meilleur) {
+      meilleur = score;
+      cible = { j, fin, kNom: cles.find((k) => k.toLowerCase() === kNom), kPrix: cles.find((k) => k.toLowerCase() === kPrix) };
+    }
   }
   if (!cible) { restants.push(`${id} (aucune grille tarifaire)`); continue; }
 

@@ -1,3 +1,4 @@
+import { clientName } from "@/lib/templates/clientContent";
 "use client"
 
 import React, { useState, useEffect } from "react"
@@ -66,12 +67,14 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
-            ) : (
+            ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
+              <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>{clientName(__layoutSession)}</span>
+            ) : (<>
               <>
             <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>Blueprint</span>
             <span className="text-[10px] tracking-[0.2em] uppercase text-[#C9A86C]">Développements Immobiliers</span>
               </>
-            )}
+            </>))}
           </Link>
           <div className="hidden md:flex items-center gap-10 text-sm font-light text-[#6B5A40]">
             {NAV_LINKS.map(link => (

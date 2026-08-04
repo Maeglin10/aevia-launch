@@ -20,6 +20,7 @@ import {
 } from "framer-motion";
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -754,7 +755,7 @@ export default function Impact115Page() {
               <line x1="11" y1="17" x2="7" y2="14" stroke={C.bg} strokeWidth="0.8" />
               <line x1="11" y1="13" x2="15" y2="10" stroke={C.bg} strokeWidth="0.8" />
             </svg>
-            Rostova Studio
+            {/* NOM_LOGO */ clientName({ formData: fd }) ?? "Rostova Studio"}
           </div>
         )}
 

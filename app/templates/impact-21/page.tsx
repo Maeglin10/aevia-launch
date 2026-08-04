@@ -165,7 +165,8 @@ const awards = [
   { name: "Good Design Award", count: 2, years: "2021, 2023" },
 ];
 
-const pricingTiers = [
+function pricingTiers_LIVE() {
+  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   {
     name: "Essentiel",
     price: "3 500 €",
@@ -185,7 +186,9 @@ const pricingTiers = [
     desc: "Collections, programmes multi-produits, consulting.",
     features: ["Audit design complet", "Direction artistique", "Prototypage illimité", "Suivi fournisseurs", "Assets marketing", "Support 12 mois"],
   },
-];
+]);
+}
+let pricingTiers = pricingTiers_LIVE();;
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -220,6 +223,8 @@ export default function FormeStudioPage() {
   }, []);
 
   fd = session?.formData;
+
+  pricingTiers = pricingTiers_LIVE();
   disciplines = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...disciplines_SOURCE[i % disciplines_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     disciplines_SOURCE,
