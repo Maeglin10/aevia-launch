@@ -76,11 +76,14 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PROJECTS_DEMO = [
+function PROJECTS_DEMO_LIVE() {
+  return [
   { title: "Piscine miroir Presqu'île", city: (clientCity({ formData: fd }) ?? "Lyon") + " 2ème", surface: "10 × 4 m", style: "Béton sur-mesure", img: "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200" },
   { title: "Villa Les Pins", city: "Tassin-la-Demi-Lune", surface: "12 × 5 m", style: "Bassin à débordement", img: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200" },
   { title: "Couloir de nage Croix-Rousse", city: (clientCity({ formData: fd }) ?? "Lyon") + " 4ème", surface: "12 × 2,5 m", style: "Contemporain", img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200" },
-]
+];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 const SERVICES_SOURCE = [
   { num: "01", title: "Construction sur-mesure", desc: "De l'étude 3D à la mise en eau — terrassement, structure béton ou coque, étanchéité, margelles et plage. Un bassin livré clé en main." },
@@ -156,7 +159,9 @@ export default function MaelleDumasPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,

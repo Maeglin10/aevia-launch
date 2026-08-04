@@ -16,6 +16,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -55,7 +56,7 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 function FORFAITS_LIVE() {
-  return /* TARIFS */ resolveList(clientServices({ formData: fd })?.map((s: any) => ({ n: s.title, ...(s.price ? { p: s.price } : {}) })), [
+  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ n: s.title, ...(s.price ? { p: s.price } : {}) })), [
   { n: "Échappée · 1 h 30", p: "95 €", d: "Un gommage au sel de Guérande, puis un modelage du dos aux huiles chaudes. Le format d'après-travail." },
   { n: "Parenthèse · 2 h 30", p: "165 €", d: "Soin du visage complet, modelage corps intégral, accès au hammam avant la séance. Thé et repos inclus." },
   { n: "Journée Éclat · 4 h", p: "265 €", d: "Hammam, gommage, enveloppement, modelage 90 minutes, soin du visage, déjeuner léger sur place." },
@@ -169,8 +170,11 @@ export default function EclatSpaPage() {
   }, []);
 
   fd = session?.formData;
-  c = session?.generatedContent;
+  bp = session?.businessProfile;
   FORFAITS = FORFAITS_LIVE();
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+
 
   SOINS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SOINS_SOURCE[i % SOINS_SOURCE.length], titre: s.title })),
@@ -191,7 +195,6 @@ export default function EclatSpaPage() {
   // back to. Field access in JSX uses `??` chains so both shapes render.
   // Note: businessProfile is a sibling of formData on SessionData, not
   // nested inside it — read from `session`, not `fd`.
-  const bp = session?.businessProfile;
   const soins = resolveList(clientServices(session), SOINS_DEMO);
   const avis = resolveList(clientReviews(session), AVIS_DEMO);
 

@@ -133,7 +133,8 @@ interface CertItem {
 /* ════════════════════════════════════════════════════════════════════════════
    Data
    ════════════════════════════════════════════════════════════════════════════ */
-const INTERVENTIONS_DEMO: Intervention[] = [
+function INTERVENTIONS_DEMO_LIVE() {
+  return [
   {
     img: ph('https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'I',
@@ -156,6 +157,8 @@ const INTERVENTIONS_DEMO: Intervention[] = [
     body: "Pompes à chaleur air/eau, chauffe-eau thermodynamique, solaire thermique — aides MaPrimeRénov' incluses.",
   },
 ];
+}
+let INTERVENTIONS_DEMO = INTERVENTIONS_DEMO_LIVE();
 let INTERVENTIONS = INTERVENTIONS_DEMO;
 
 function SERVICES_DEMO_LIVE() {
@@ -170,7 +173,8 @@ function SERVICES_DEMO_LIVE() {
 }
 let SERVICES_DEMO = SERVICES_DEMO_LIVE();;
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre engagement',
     img: ph('https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600') + '&w=800',
@@ -204,6 +208,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     ghost: '02',
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const CERTS: CertItem[] = [
@@ -2301,9 +2307,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+  INTERVENTIONS_DEMO = INTERVENTIONS_DEMO_LIVE();
   SERVICES_DEMO = SERVICES_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

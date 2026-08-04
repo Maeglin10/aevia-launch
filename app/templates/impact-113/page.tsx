@@ -27,6 +27,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -71,7 +72,7 @@ let FEATURES_DEMO = FEATURES_SOURCE;
 let FEATURES = FEATURES_DEMO;
 
 function PRICING_SOURCE_LIVE() {
-  return /* TARIFS */ resolveList(clientServices({ formData: fd })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
+  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   {
     name: "Developer",
     price: "$0",
@@ -221,6 +222,7 @@ export default function NexusSaaSPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -240,8 +242,10 @@ export default function NexusSaaSPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
   PRICING_SOURCE = PRICING_SOURCE_LIVE();
+
 
   PRICING = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].price })),

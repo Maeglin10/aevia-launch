@@ -38,8 +38,12 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
     // Une accolade en colonne zéro ferme le bloc de tête : sans cette remise à
     // zéro, une constante de données garde la main sur tout le reste du fichier
     // et fait passer pour gelés des appels écrits dans les composants.
-    if (/^[})\]]/.test(l)) tete = null;
+    // Toute ligne en colonne zéro ferme la déclaration précédente — le `];` d'un
+    // tableau comme le `}` d'une fonction. Sans cette remise à zéro, une
+    // constante de données garde la main sur tout le reste du fichier et fait
+    // passer pour gelés les appels écrits dans les composants.
     const m = TETE.exec(l);
+    if (!m && l.length > 0 && !/^\s/.test(l)) tete = null;
     if (m) {
       const apresEgal = l.includes("=") ? l.slice(l.indexOf("=") + 1) : "";
       const fonction =

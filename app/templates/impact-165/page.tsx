@@ -16,6 +16,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -96,7 +97,7 @@ const FEATURES_SOURCE = [
 let FEATURES = FEATURES_SOURCE;
 
 function PRICING_SOURCE_LIVE() {
-  return /* TARIFS */ resolveList(clientServices({ formData: fd })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
+  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   {
     name: "Starter",
     price: "0",
@@ -144,6 +145,7 @@ export default function PulseAppPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -163,8 +165,10 @@ export default function PulseAppPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
   c = session?.generatedContent;
   PRICING_SOURCE = PRICING_SOURCE_LIVE();
+
 
   FEATURES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
