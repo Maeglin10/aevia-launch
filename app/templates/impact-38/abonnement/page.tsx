@@ -6,6 +6,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { C, SERIF, SANS, ABONNEMENT_PLANS, SectionReveal, PageHeader, ORIGINS } from "../shared";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 // ─── Page-level constants ─────────────────────────────────────────────────────
 
 const GRIND_OPTIONS = [
@@ -160,12 +166,6 @@ function FreshnessTimeline() {
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function AbonnementPage() {
   const [__session, __setSession] = useState<any>(null);

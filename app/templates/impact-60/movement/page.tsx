@@ -5,12 +5,12 @@ import React from "react";
 import { Reveal, ParallaxImg } from "../shared";
 import { Settings, Shield, Cpu, RefreshCw } from "lucide-react";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function MovementPage() {
   const [__session, __setSession] = useState<any>(null);

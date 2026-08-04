@@ -30,6 +30,12 @@ import {
 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const FLEET = [
   {
     id: "vul-ty-01",
@@ -107,12 +113,6 @@ function HUD_Telemetry() {
   )
 }
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function EngineeringPage() {
   const [__session, __setSession] = useState<any>(null);

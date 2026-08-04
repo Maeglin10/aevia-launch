@@ -6,6 +6,12 @@ import { Users2, Users, Calendar, Star, ArrowRight, MessageSquare, Link2, Camera
 import Link from "next/link"
 import { C, SectionReveal, STATS } from "../shared"
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const MEMBERS_DATA = [
   { name: "Luminary SaaS", type: "Startup B2B", founding: "2023", avatar: "LS", color: "#3b82f6" },
   { name: "Sophie M.", type: "Freelance Design", founding: "2021", avatar: "SM", color: "#ec4899" },
@@ -63,12 +69,6 @@ const TESTIMONIALS_DATA = [
   },
 ]
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function CommunityPage() {
   const [__session, __setSession] = useState<any>(null);

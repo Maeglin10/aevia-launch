@@ -1,15 +1,17 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
+import { clientServices } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 import { Check, Star, Zap, Calendar, ArrowRight, User, Mail, Shield } from "lucide-react"
 import { C, PLANS_FR, SectionReveal, FONT } from "../shared"
-
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function PricingPage() {
   const [__session, __setSession] = useState<any>(null);
@@ -328,11 +330,11 @@ export default function PricingPage() {
           <div style={{ marginBottom: 72 }}>
             <h2 style={{ fontSize: 24, fontWeight: 800, color: C.slate, marginBottom: 24 }}>Salles de Réunion — Tarifs à la carte</h2>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: 16 }}>
-              {[
+              {/* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ label: s.title, desc: s.desc || "", ...(s.price ? { price: s.price } : {}) })), [
                 { label: "À l'heure", price: `${meetingRoom.heure}€/h`, desc: "Réservation flexible, disponibilité en temps réel" },
                 { label: "Demi-journée", price: `${meetingRoom.demiJournee}€`, desc: "4 heures consécutives, café et thé inclus" },
                 { label: "Journée complète", price: `${meetingRoom.journee}€`, desc: "8 heures, déjeuner de notre traiteur partenaire disponible" },
-              ].map((r) => (
+              ]).map((r) => (
                 <div
                   key={r.label}
                   style={{

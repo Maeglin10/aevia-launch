@@ -5,12 +5,12 @@ import { ArrowRight, Check, Users, Calendar } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { C, SectionReveal } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function ReservationPage() {
   const [__session, __setSession] = useState<any>(null);

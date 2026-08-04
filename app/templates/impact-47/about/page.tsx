@@ -7,15 +7,15 @@ import Link from "next/link";
 import { ArrowRight, Leaf, Heart, Package } from "lucide-react";
 import { C, PageHero } from "../shared";
 
-const SERIF = "'Libre Baskerville', Georgia, serif";
-const SANS = "'Poppins', system-ui";
-
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
+const SERIF = "'Libre Baskerville', Georgia, serif";
+const SANS = "'Poppins', system-ui";
+
 
 export default function About() {
   const [__session, __setSession] = useState<any>(null);

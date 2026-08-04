@@ -7,6 +7,12 @@ import { Menu, X } from "lucide-react";
 import { Award, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const useFonts = () => {
   useEffect(() => {
     if (document.getElementById("kp-fonts")) return;
@@ -24,12 +30,6 @@ const distinctions = [
   "Label Inventerre — Architecture Bioclimatique",
 ];
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function AgencePage() {
   const [__session, __setSession] = useState<any>(null);

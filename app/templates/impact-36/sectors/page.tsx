@@ -6,6 +6,12 @@ import { Globe, ArrowRight, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import { C, SECTORS, SectionReveal } from "../shared"
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const SECTORS_DETAIL = [
   {
     name: "Technology & SaaS",
@@ -69,12 +75,6 @@ const SECTORS_DETAIL = [
   },
 ]
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function SectorsPage() {
   const [__session, __setSession] = useState<any>(null);

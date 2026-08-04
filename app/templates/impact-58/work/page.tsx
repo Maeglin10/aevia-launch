@@ -6,6 +6,12 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Award, Clock } from 'lucide-react';
 import { C, PROJECTS, StyleInjector, Reveal } from '../shared';
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 // ── Filter tags ────────────────────────────────────────────────────────────────
 const ALL_TAGS = ['Tous', '3D', 'Motion', 'Film', 'Installation', 'Social'];
 
@@ -182,12 +188,6 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[0]; index: n
 }
 
 // ── Main Component ─────────────────────────────────────────────────────────────
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function WorkPage() {
   const [__session, __setSession] = useState<any>(null);

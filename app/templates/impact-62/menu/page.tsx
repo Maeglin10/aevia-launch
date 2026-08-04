@@ -6,12 +6,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Star } from "lucide-react";
 import { MENUS, WINE_PAIRINGS, Reveal } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function MenuPage() {
   const [__session, __setSession] = useState<any>(null);

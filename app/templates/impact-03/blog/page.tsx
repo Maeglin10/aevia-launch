@@ -5,6 +5,12 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import React, { useEffect, useState } from "react";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const BLOG_POSTS = [
   {
     id: 1,
@@ -32,12 +38,6 @@ const BLOG_POSTS = [
   }
 ];
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function BlogPage() {
   const [__session, __setSession] = useState<any>(null);

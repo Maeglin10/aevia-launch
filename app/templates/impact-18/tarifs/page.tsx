@@ -1,9 +1,17 @@
 "use client";
+import { clientServices } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, X, Layers, CheckCircle } from "lucide-react";
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
 
 const useFonts = () => {
   useEffect(() => {
@@ -15,12 +23,6 @@ const useFonts = () => {
   }, []);
 };
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function TarifsPage() {
   const [__session, __setSession] = useState<any>(null);
@@ -42,11 +44,11 @@ export default function TarifsPage() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [billingAnnual, setBillingAnnual] = useState(true);
 
-  const plans = [
+  const plans = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ name: s.title, desc: s.desc || "", ...(s.price ? { price: s.price } : {}) })), [
     { name: "Starter", price: "0", desc: "Pour les petites équipes", features: ["5 utilisateurs", "10 projets", "2 Go stockage", "Intégrations basiques", "Support communauté"], highlight: false, cta: "Gratuit pour toujours" },
     { name: "Growth", price: "29", desc: "Pour les équipes qui grandissent", features: ["Utilisateurs illimités", "Projets illimités", "100 Go stockage", "350+ intégrations", "Analytics avancés", "Support prioritaire"], highlight: true, cta: "Essai 14 jours" },
     { name: "Enterprise", price: "99", desc: "Pour les grandes organisations", features: ["Tout Growth inclus", "SSO & SAML", "SLA 99.99%", "Déploiement on-prem", "CISO dédié", "Support 24/7"], highlight: false, cta: "Contacter les ventes" },
-  ];
+  ]);
 
   return (
     <div className="min-h-dvh bg-[#0D1117] text-white overflow-x-clip flex flex-col" style={{ fontFamily: "'Inter', sans-serif" }}>

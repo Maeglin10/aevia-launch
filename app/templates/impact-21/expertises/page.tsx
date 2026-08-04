@@ -6,6 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, Layers, Cpu, Package, Eye, ChevronRight, Globe, Award, Users, Mail, Clock, Send, Calendar, CheckCircle, Star, Lightbulb, Target, Heart, Palette, Ruler, Cog, BookOpen } from "lucide-react";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const useFonts = () => {
   useEffect(() => {
     if (document.getElementById("fs-fonts")) return;
@@ -26,12 +32,6 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function ExpertisesPage() {
   const [__session, __setSession] = useState<any>(null);

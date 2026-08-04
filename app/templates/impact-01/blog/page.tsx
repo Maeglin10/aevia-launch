@@ -7,6 +7,12 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const T = {
   bg: "#0a0a0a",
   text: "#f0f0f0",
@@ -40,12 +46,6 @@ const BLOG_POSTS = [
   },
 ];
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function BlogPage() {
   const [__session, __setSession] = useState<any>(null);

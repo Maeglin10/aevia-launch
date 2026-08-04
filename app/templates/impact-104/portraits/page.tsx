@@ -6,12 +6,12 @@ import Link from "next/link";
 import { ArrowLeft, Sparkles } from "lucide-react";
 import { C, FONT, FONT_BODY , CSS_VARIABLES } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function Page() {
   const [__session, __setSession] = useState<any>(null);

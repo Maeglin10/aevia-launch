@@ -6,12 +6,12 @@ import Link from "next/link";
 import { Plane, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function CGU() {
   const [__session, __setSession] = useState<any>(null);

@@ -6,6 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, TrendingUp, BarChart3, Globe, Users, ChevronRight, Building2, DollarSign, Award, Mail, Phone, Calendar, Send } from "lucide-react";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const useFonts = () => {
   useEffect(() => {
     if (document.getElementById("sc-fonts")) return;
@@ -57,12 +63,6 @@ const milestones = [
   { year: "2024", label: "Fonds IV", value: "500M€ — focus IA & infrastructure" },
 ];
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function Page() {
   const [__session, __setSession] = useState<any>(null);

@@ -5,6 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Gem, X, Plus, Minus, Trash2, Check, ShoppingBag } from "lucide-react";
 import { C, FONT_HEADING, FONT_LABEL, FONT_BODY, COLLECTIONS, GemStoneSVG, Reveal } from "../shared";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 /* ============================================================
    CART / CHECKOUT — types & helpers
    ============================================================ */
@@ -483,12 +489,6 @@ function CartDrawer({
   );
 }
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function CollectionsPage() {
   const [__session, __setSession] = useState<any>(null);

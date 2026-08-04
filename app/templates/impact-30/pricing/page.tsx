@@ -1,16 +1,18 @@
 "use client";
+import { clientServices } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown, Calculator, FileText } from "lucide-react";
 import { C, FONT } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function PricingPage() {
   const [__session, __setSession] = useState<any>(null);
@@ -31,13 +33,13 @@ export default function PricingPage() {
   const [proc, setProc] = useState("Consultation");
   const [mutuelle, setMutuelle] = useState("100");
 
-  const procedures = [
+  const procedures = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ name: s.title, desc: s.desc || "" })), [
     { name: "Consultation", cost: 23, baseSecu: 23, rateSecu: 0.70, desc: "Bilan bucco-dentaire annuel de contrôle." },
     { name: "Détartrage", cost: 43.38, baseSecu: 43.38, rateSecu: 0.70, desc: "Détartrage professionnel des arcades supérieure et inférieure." },
     { name: "Blanchiment Zoom!", cost: 350, baseSecu: 0, rateSecu: 0, desc: "Blanchiment esthétique au fauteuil (non remboursé par la Sécurité Sociale)." },
     { name: "Facette céramique Emax", cost: 800, baseSecu: 0, rateSecu: 0, desc: "Facette esthétique unitaire en porcelaine (non remboursée par la Sécurité Sociale)." },
     { name: "Implant dentaire complet", cost: 1800, baseSecu: 120, rateSecu: 0.70, desc: "Implant titane Straumann + pilier + couronne céramique." },
-  ];
+  ]);
 
   const current = procedures.find(p => p.name === proc) || procedures[0];
 

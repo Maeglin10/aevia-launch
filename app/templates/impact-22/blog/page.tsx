@@ -6,6 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, Cloud, Cpu, Zap, Database, Lock, BarChart3, ChevronDown, CheckCircle, GitBranch, Globe, BookOpen, FileText, Tag, Clock, Users, Shield, Terminal, Code, Layers, Server, Eye, TrendingUp, Sparkles, ExternalLink } from "lucide-react";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 type ActivePage = "home" | "modeles" | "pricing" | "docs" | "blog" | "login" | "legal";
 
 const useFonts = () => {
@@ -83,12 +89,6 @@ const footerLinkMap: Record<string, ActivePage> = {
   "Status": "home",
 };
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function NimbusAIBlogPage() {
   const [__session, __setSession] = useState<any>(null);

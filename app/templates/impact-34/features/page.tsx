@@ -7,6 +7,12 @@ import { Mic, Rss, BarChart3, DollarSign, Zap, Globe, Check, ArrowRight } from "
 import Link from "next/link"
 import { C, Reveal, GlassCard } from "../shared"
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const DETAIL_FEATURES = [
   {
     id: "host",
@@ -94,12 +100,6 @@ const DETAIL_FEATURES = [
   },
 ]
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function FeaturesPage() {
   const [__session, __setSession] = useState<any>(null);

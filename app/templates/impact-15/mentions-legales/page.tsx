@@ -6,6 +6,12 @@ import { motion } from "framer-motion"
 import { ArrowLeft, Zap } from "lucide-react"
 import Link from "next/link"
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const C = {
   bg: "#f7f8fa",
   bgSection: "#eef1f5",
@@ -22,12 +28,6 @@ const C = {
 
 const FONT = "'Outfit', system-ui, sans-serif"
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function MentionsLegales() {
   const [__session, __setSession] = useState<any>(null);

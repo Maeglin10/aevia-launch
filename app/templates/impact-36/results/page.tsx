@@ -6,12 +6,12 @@ import { Award, ArrowRight, CheckCircle } from "lucide-react"
 import Link from "next/link"
 import { C, CASE_STUDIES, SectionReveal } from "../shared"
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function ResultsPage() {
   const [__session, __setSession] = useState<any>(null);

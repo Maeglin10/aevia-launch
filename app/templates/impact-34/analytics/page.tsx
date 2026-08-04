@@ -5,12 +5,12 @@ import { motion } from "framer-motion"
 import { BarChart3, TrendingUp, Globe, Users, Headphones, Play, Calendar } from "lucide-react"
 import { C, TOP_EPISODES, WEEKLY_DATA, Reveal, GlassCard, WeeklyChart } from "../shared"
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function AnalyticsPage() {
   const [__session, __setSession] = useState<any>(null);

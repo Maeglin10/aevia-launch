@@ -62,8 +62,12 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
     const exp = /export default function (\w+)\s*\([^)]*\)\s*\{/.exec(src);
     if (!exp) { restants.push(`${id}/${sous} (pas de composant exporté)`); continue; }
 
-    // Les variables de module vont juste avant le composant exporté.
-    src = src.slice(0, exp.index) + LOADER + "\n" + src.slice(exp.index);
+    // Les variables de module vont après les imports, pas juste avant le
+    // composant : une liste déclarée entre les deux les lirait avant leur
+    // déclaration, et TypeScript refuse — quinze sous-pages l'ont montré.
+    let apres = 0;
+    for (const m of src.matchAll(/^import [\s\S]*?from\s*["'][^"']+["'];?\n/gm)) apres = m.index + m[0].length;
+    src = src.slice(0, apres) + LOADER + "\n" + src.slice(apres);
     const exp2 = /export default function (\w+)\s*\([^)]*\)\s*\{/.exec(src);
     src = src.slice(0, exp2.index + exp2[0].length) + "\n" + CORPS + src.slice(exp2.index + exp2[0].length);
 

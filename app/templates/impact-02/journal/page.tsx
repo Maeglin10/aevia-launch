@@ -5,6 +5,12 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
 import "../../premium.css";
 
 const POSTS = [
@@ -13,12 +19,6 @@ const POSTS = [
   { id: 3, title: "Finding Geometry in the Sahara", category: "Travel", date: "Aug 15, 2026", image: "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?q=80&w=800&auto=format&fit=crop" },
 ];
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function JournalPage() {
   const [__session, __setSession] = useState<any>(null);

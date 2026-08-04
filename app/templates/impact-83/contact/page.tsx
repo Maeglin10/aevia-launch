@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { C, FONT_HEADING, FONT_LABEL, Reveal } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function ContactPage() {
   const [__session, __setSession] = useState<any>(null);

@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 
 import { PHILOSOPHY, Reveal } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function PhilosophyPage() {
   const [__session, __setSession] = useState<any>(null);

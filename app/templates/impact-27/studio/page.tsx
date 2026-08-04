@@ -11,6 +11,12 @@ import {
 import Image from "next/image"
 import Link from "next/link"
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const crew = [
@@ -272,12 +278,6 @@ function StudioTimeline() {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function StudioPage() {
   const [__session, __setSession] = useState<any>(null);

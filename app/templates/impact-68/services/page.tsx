@@ -5,14 +5,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PenTool, Eye, Layers, Globe, Check } from "lucide-react";
 import { C, SERVICES } from "../shared";
 
-const ICONS = [PenTool, Eye, Layers, Globe];
-
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
+const ICONS = [PenTool, Eye, Layers, Globe];
+
 
 export default function ServicesPage() {
   const [__session, __setSession] = useState<any>(null);

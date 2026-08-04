@@ -12,6 +12,12 @@ import {
   CustomCursor,
 } from '../shared';
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 // ── Project images (Unsplash) ────────────────────────────────────────────────
 const PROJECT_IMAGES: Record<string, string> = {
   '01': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1200&auto=format&fit=crop',
@@ -254,12 +260,6 @@ function ProjectCard({
 }
 
 // ── Main Work Page ────────────────────────────────────────────────────────────
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function WorkPage() {
   const [__session, __setSession] = useState<any>(null);

@@ -1,10 +1,18 @@
 "use client";
+import { clientServices } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 
 import { motion, useScroll, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, Film, ChevronRight, Clapperboard, Sparkles, MonitorPlay, PenLine } from "lucide-react";
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
 
 const useFonts = () => {
   useEffect(() => {
@@ -26,12 +34,6 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function Impact23ServicesPage() {
   const [__session, __setSession] = useState<any>(null);
@@ -286,12 +288,12 @@ export default function Impact23ServicesPage() {
                 <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Notre workflow de production</h2>
               </Reveal>
               <div className="grid md:grid-cols-4 gap-5">
-                {[
+                {/* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
                   { step: "01", title: "Lecture & Évaluation", desc: "Réception du scénario, analyse dramaturgique, évaluation du potentiel artistique et commercial." },
                   { step: "02", title: "Développement", desc: "Travail d'écriture, constitution du dossier de production, recherche de financements et casting." },
                   { step: "03", title: "Production", desc: "Préparation, tournage, supervision quotidienne. Rushes et assemblage en temps réel." },
                   { step: "04", title: "Diffusion", desc: "Post-production, soumission en festivals, ventes internationales, sorties salle et plateformes." },
-                ].map((phase, i) => (
+                ]).map((phase, i) => (
                   <Reveal key={phase.step} delay={i * 0.1}>
                     <div className="text-center">
                       <p className="text-[#C9A05A] text-4xl mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{phase.step}</p>

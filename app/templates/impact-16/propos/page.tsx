@@ -8,6 +8,12 @@ import Link from "next/link"
 import { Menu, Mail } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -34,12 +40,6 @@ const AWARDS = [
 
 const CLIENTS = ["Vogue France", "Le Monde", "LVMH", "Chanel", "Elle", "Air France"]
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function ProposPage() {
   const [__session, __setSession] = useState<any>(null);

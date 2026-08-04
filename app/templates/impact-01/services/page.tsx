@@ -1,10 +1,18 @@
 "use client";
+import { clientServices } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
 
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Monitor, Code2, Palette, Layers } from "lucide-react";
 import Link from "next/link";
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
 
 const T = {
   bg: "#0a0a0a",
@@ -22,7 +30,7 @@ const T = {
 const FONT_HEADING = "'Syne', sans-serif";
 const FONT_BODY = "'Inter', sans-serif";
 
-const SERVICES = [
+const SERVICES = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
   {
     icon: <Monitor size={28} />,
     title: "Web Design",
@@ -47,14 +55,8 @@ const SERVICES = [
     desc: "Data-driven growth strategies that compound over time, converting visitors into loyal brand advocates.",
     tag: "Growth",
   },
-];
+]);
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function ServicesPage() {
   const [__session, __setSession] = useState<any>(null);

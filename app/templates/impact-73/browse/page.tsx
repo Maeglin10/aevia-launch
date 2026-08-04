@@ -8,12 +8,12 @@ import { Radio, MessageSquare, Play, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { STREAMS, CHAT_LOGS, Reveal } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function BrowsePage() {
   const [__session, __setSession] = useState<any>(null);

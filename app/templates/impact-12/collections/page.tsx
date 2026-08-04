@@ -6,6 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, ChevronRight, ShoppingBag } from "lucide-react";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -119,12 +125,6 @@ function CollectionsSubPage({ activeCol, setActiveCol }: { activeCol: number; se
   );
 }
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function Page() {
   const [__session, __setSession] = useState<any>(null);
