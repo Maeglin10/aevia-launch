@@ -10765,7 +10765,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "bloc.liste1",
       "type": "liste",
-      "apercu": "ÉTOILÉ MICHELIN · CHEF ANATOL VOSS · PARIS"
+      "apercu": "ÉTOILÉ MICHELIN · CHEF ANATOL VOSS · Paris"
     }
   ],
   "impact-63": [

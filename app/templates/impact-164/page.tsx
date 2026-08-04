@@ -14,6 +14,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -536,7 +537,7 @@ return (
               <span style={{ color: C.accent, WebkitTextStroke: "0px" }}>QUI</span><br />
               MARCHENT
             </div>
-            <div style={{ fontFamily: C.mono, fontSize: 13, color: C.textMuted, lineHeight: 1.8, maxWidth: 380 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.texte") ?? (<>
+            <div style={{ fontFamily: C.mono, fontSize: 13, color: C.textMuted, lineHeight: 1.8, maxWidth: 380 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.texte") ?? clientTagline(sessionData) ?? (<>
               Branding, web, campagnes, direction artistique. On ne fait pas joli pour le portfolio — on fait efficace pour vos résultats.
             </>)}</div>
           </motion.div>

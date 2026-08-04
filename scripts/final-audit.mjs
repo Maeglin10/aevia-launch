@@ -159,19 +159,30 @@ for (const id of ids) {
   try {
     await p.goto(`${BASE}/templates/${id}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 30000 });
     await p.waitForTimeout(2600);
-    await p.evaluate(async () => {
+    /*
+      Le texte se récolte pendant la descente, pas à l'arrivée. Un compteur animé
+      qui remonte hors du champ se remet à zéro : impact-69 et impact-214
+      affichaient bien « 18 » au passage, et « 0 » une fois revenu en haut, d'où
+      deux chiffres comptés absents pendant deux campagnes de mesure.
+    */
+    const vus = await p.evaluate(async () => {
+      const morceaux = [];
       for (let y = 0; y < document.body.scrollHeight; y += 900) {
         window.scrollTo(0, y);
-        await new Promise((r) => setTimeout(r, 60));
+        await new Promise((r) => setTimeout(r, 260));
+        morceaux.push(document.body.innerText);
       }
       window.scrollTo(0, 0);
+      return morceaux.join("\n");
     });
     /*
       Un compteur animé part de zéro quand il entre dans le champ. Cinq cents
       millisecondes après le défilement, six thèmes affichaient encore « 0 » et
-      passaient pour ne pas montrer les chiffres du client.
+      passaient pour ne pas montrer les chiffres du client. Mille quatre cents ne
+      suffisaient pas non plus : impact-69 et impact-214 comptent lentement et
+      passaient encore pour muets. Deux mille cinq cents les rattrapent.
     */
-    await p.waitForTimeout(1400);
+    await p.waitForTimeout(2500);
 
     const { texte, images, couleurVue } = await p.evaluate((couleur) => {
       const hex = couleur.replace("#", "").toLowerCase();
@@ -206,7 +217,7 @@ for (const id of ids) {
       };
     }, d.couleur);
 
-    const bas = texte.toLowerCase();
+    const bas = `${vus}\n${texte}`.toLowerCase();
     const manquent = Object.entries({
       nom: d.nom, ville: d.ville, accroche: d.formData.tagline,
       prestation: `Prestation ${id}`, prix: "137 €", avis: `Travail impeccable chez ${d.nom}`,
@@ -224,14 +235,16 @@ for (const id of ids) {
       adresse: "rue des Alpes", horaires: "08:30", realisation: `Chantier ${id}`,
     }).filter(([, v]) => bas.includes(String(v).toLowerCase())).map(([k]) => k);
 
+    // Les restes se cherchent dans tout ce qu'on a vu, pas seulement dans la vue finale.
+    const tout = `${vus}\n${texte}`;
     const restes = [];
     for (const v of VILLES_DEMO) {
       if (v === d.ville) continue;
-      const m = new RegExp(`\\b${v}\\b`, "i").exec(texte);
+      const m = new RegExp(`\\b${v}\\b`, "i").exec(tout);
       if (!m) continue;
       restes.push(v);
       if (process.env.CONTEXTE) {
-        console.log(`   ↳ ${v} : …${texte.slice(Math.max(0, m.index - 60), m.index + 60).replace(/\n/g, " ⏎ ")}…`);
+        console.log(`   ↳ ${v} : …${tout.slice(Math.max(0, m.index - 60), m.index + 60).replace(/\n/g, " ⏎ ")}…`);
       }
     }
     for (const m of texte.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}/g) ?? [])

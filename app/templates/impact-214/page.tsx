@@ -1148,7 +1148,14 @@ export default function AquaPrestigePage() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,
   );
-  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  STATS = resolveList(
+    clientStats(sessionData)?.map((s: any) => ({
+      value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0,
+      suffix: String(s.value ?? "").replace(/[\d.\s]/g, ""),
+      label: s.label,
+    })),
+    STATS_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

@@ -20,6 +20,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
   clientText,
   memoriserSession,
 } from "@/lib/templates/clientContent";
@@ -280,7 +281,7 @@ export default function Impact52Page() {
               lineHeight: 2,
               textShadow: `0 0 12px ${C.PINK}33`,
             }}
-          >{c?.aboutText ?? <>
+          >{clientTagline(sessionData) ?? c?.aboutText ?? <>
             WE_BUILD_DIGITAL_FUTURES.EXE // NEON-GRADE DESIGN SYSTEMS,
             BYTE-PERFECT ARCHITECTURE, SIGNAL-DARK ENGINEERING.
           </>}</motion.p>

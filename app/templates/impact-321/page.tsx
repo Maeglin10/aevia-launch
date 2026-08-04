@@ -403,8 +403,13 @@ export default function AIHorizonsTemplate() {
 
   // --- SECTIONS DATA (Fallback to Premium French) ---
 
-  const heroTitle = clientTagline({ formData: fd, generatedContent: c }) || c?.heroTitle || "LE SOMMET DES INTELLIGENCES";
-  const heroSubtitle = c?.heroSubtitle || "Explorez les frontières de l'IA. 3 jours de conférences, d'ateliers techniques et de networking exclusif avec les pionniers du domaine.";
+  /*
+    Le titre s'anime lettre par lettre : l'accroche du client y perdait ses
+    espaces — « VOTREPLOMBIERÀANNECY ». Le titre reste celui du thème, et
+    l'accroche prend la ligne juste dessous.
+  */
+  const heroTitle = c?.heroTitle || "LE SOMMET DES INTELLIGENCES";
+  const heroSubtitle = clientTagline({ formData: fd, generatedContent: c }) || c?.heroSubtitle || "Explorez les frontières de l'IA. 3 jours de conférences, d'ateliers techniques et de networking exclusif avec les pionniers du domaine.";
 
   // Countdown logic
   const [timeLeft, setTimeLeft] = useState({

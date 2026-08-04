@@ -16,6 +16,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -207,7 +208,7 @@ return (
                 fontStyle: 'italic',
               }}
             >
-              Collection Perpétuelle — 2026
+              {clientTagline(sessionData) ?? "Collection Perpétuelle — 2026"}
             </div>
           </motion.div>
 
