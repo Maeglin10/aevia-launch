@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
@@ -92,7 +93,7 @@ export default function ContactPage() {
             <p>
               Email : {fd?.email ?? "contact@maison-elara.fr"}<br />
               Téléphone : +33 1 23 45 67 89<br />
-              Adresse : 15 Place Vendôme, 75001 Paris, France
+              Adresse : 15 Place Vendôme, 75001 {clientCity(sessionData) ?? "Paris"}, France
             </p>
           </div>
         </motion.div>

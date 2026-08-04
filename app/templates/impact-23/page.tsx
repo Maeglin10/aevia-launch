@@ -789,7 +789,7 @@ export default function StudioPelikanPage() {
                 </h1>
                 <p className="text-white/40 text-lg max-w-2xl leading-relaxed">
                   Studio Pelikan est une société de production cinématographique indépendante fondée en 2012
-                  à Paris. Nous croyons en un cinéma exigeant, singulier et universel.
+                  à {clientCity(sessionData) ?? "Paris"}. Nous croyons en un cinéma exigeant, singulier et universel.
                 </p>
               </Reveal>
             </div>
@@ -800,9 +800,9 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
               <Reveal>
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-6">Fondation</p>
-                <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Depuis 2012, Paris</h2>
+                <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Depuis 2012, {clientCity(sessionData) ?? "Paris"}</h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-4">
-                  Studio Pelikan naît en 2012 dans le 11e arrondissement de Paris, fondé par Julien Ferraro
+                  Studio Pelikan naît en 2012 dans le 11e arrondissement de {clientCity(sessionData) ?? "Paris"}, fondé par Julien Ferraro
                   et Nina Music après leurs études à La Fémis. Le nom est un hommage au Café Pelikan de Budapest,
                   lieu de rendez-vous des cinéastes de la Nouvelle Vague hongroise dans les années 60.
                 </p>

@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
@@ -87,10 +88,10 @@ export default function MentionsPage() {
           <div style={{ color: "rgba(240,236,224,0.7)", fontSize: 16, lineHeight: 1.8 }}>
             <p style={{ marginBottom: 24 }}>
               Éditeur du site: Maison Élara, société par actions simplifiée au capital de 100 000 €, 
-              immatriculée au Registre du Commerce et des Sociétés de Paris sous le numéro 123 456 789.
+              immatriculée au Registre du Commerce et des Sociétés de {clientCity(sessionData) ?? "Paris"} sous le numéro 123 456 789.
             </p>
             <p>
-              Siège social: 15 Place Vendôme, 75001 Paris, France.<br />
+              Siège social: 15 Place Vendôme, 75001 {clientCity(sessionData) ?? "Paris"}, France.<br />
               Directeur de la publication: Jean Dupont.<br />
               Hébergement: Vercel Inc.
             </p>

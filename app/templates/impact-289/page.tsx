@@ -46,7 +46,7 @@ let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    SCHREIBER & ASSOCIÉS — Expert-comptable & commissaires aux comptes
-   Strasbourg Neudorf · Alsace-Moselle
+   {clientCity(sessionData) ?? "Strasbourg"} Neudorf · Alsace-Moselle
    Page premium auto-suffisante. 'use client'. Framer Motion + Lucide React.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -519,7 +519,7 @@ function HeroSection() {
       >
         <Reveal y={18}>
           <Eyebrow color="rgba(255,255,255,0.78)" align="center">
-            Expert-comptable & commissaires aux comptes · Strasbourg Neudorf
+            Expert-comptable & commissaires aux comptes · {clientCity(sessionData) ?? "Strasbourg"} Neudorf
           </Eyebrow>
         </Reveal>
 
@@ -2100,7 +2100,7 @@ function SpecificiteSection() {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   9 · PartnersSection — Réseau de partenaires Strasbourg
+   9 · PartnersSection — Réseau de partenaires {clientCity(sessionData) ?? "Strasbourg"}
    ════════════════════════════════════════════════════════════════════════════ */
 type PartnerCategory = {
   category: string;
@@ -2169,7 +2169,7 @@ function PartnersSection() {
             }}
           >
             Nos partenaires{' '}
-            <span style={{ fontStyle: 'italic', fontWeight: 400 }}>à Strasbourg</span>
+            <span style={{ fontStyle: 'italic', fontWeight: 400 }}>à {clientCity(sessionData) ?? "Strasbourg"}</span>
           </h2>
         </Reveal>
         <Reveal delay={0.16}>

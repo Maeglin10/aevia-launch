@@ -363,7 +363,7 @@ export default function DuoPeinturesPage() {
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>
             Montrez-nous l'avant,<br /><em>on s'occupe de l'après.</em>
           </h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Visite gratuite à Orléans et 30 km. Envoyez des photos par mail pour un premier avis — on vous dit franchement si ça vaut un devis.</p>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Visite gratuite à {clientCity(sessionData) ?? "Orléans"} et 30 km. Envoyez des photos par mail pour un premier avis — on vous dit franchement si ça vaut un devis.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
               <Phone size={18} /> {phone}

@@ -580,7 +580,7 @@ return (
               Born from a passion<br />for <span className="italic">Provence</span>
             </h2>
             <p className="text-[#f5efe6]/50 font-sans leading-relaxed mb-6">
-              Chef Antoine Beaumont grew up among the lavender fields and olive groves of the Var, where his grandmother taught him that great cooking begins with reverence for the ingredient. After training at Le Cordon Bleu Paris and a seven-year apprenticeship under Alain Ducasse at Louis XV in Monaco, he opened L'Étoile in 2018 with a singular vision: cuisine that honours its origins.
+              Chef Antoine Beaumont grew up among the lavender fields and olive groves of the Var, where his grandmother taught him that great cooking begins with reverence for the ingredient. After training at Le Cordon Bleu {clientCity(sessionData) ?? "Paris"} and a seven-year apprenticeship under Alain Ducasse at Louis XV in Monaco, he opened L'Étoile in 2018 with a singular vision: cuisine that honours its origins.
             </p>
             <p className="text-[#f5efe6]/30 font-sans leading-relaxed mb-10">
               The first Michelin star arrived in 2020. The second followed in 2022. Today, L'Étoile holds a permanent position among France's most coveted dining destinations — a place where classical French technique and contemporary sensitivity produce something entirely its own.
@@ -790,7 +790,7 @@ return (
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
           <div className="col-span-2 md:col-span-1">
             <span className="text-2xl mb-4 block"><span className="font-light">L&apos;</span><span className="italic">Étoile</span></span>
-            <p className="text-sm font-sans text-[#f5efe6]/30 leading-relaxed">Two Michelin star restaurant in the heart of Paris. Cuisine driven by season, instinct, and provenance.</p>
+            <p className="text-sm font-sans text-[#f5efe6]/30 leading-relaxed">Two Michelin star restaurant in the heart of {clientCity(sessionData) ?? "Paris"}. Cuisine driven by season, instinct, and provenance.</p>
           </div>
           {[
             { title: "Experience", items: [{ label: "Menu", key: "menu" as const }, { label: "Reservations", key: "reservation" as const }] },
@@ -816,7 +816,7 @@ return (
         </div>
         <Separator className="bg-white/5 mb-10" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">&copy; 2026 L&apos;Étoile Paris · All Rights Reserved</span>
+          <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">&copy; 2026 L&apos;Étoile {clientCity(sessionData) ?? "Paris"} · All Rights Reserved</span>
           <div className="flex gap-4">
             {[<Globe key="ig" className="w-4 h-4" />, <Globe key="fb" className="w-4 h-4" />, <Globe key="tw" className="w-4 h-4" />, <Mail key="mail" className="w-4 h-4" />].map((icon, i) => (
               <a key={i} href="#hero" className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-[#f5efe6]/30 hover:text-amber-500 hover:border-amber-600 transition-all duration-200 cursor-pointer">
@@ -824,7 +824,7 @@ return (
               </a>
             ))}
           </div>
-          <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">Michelin ★★ · Paris, France</span>
+          <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">Michelin ★★ · {clientCity(sessionData) ?? "Paris"}, France</span>
         </div>
       </footer>
 
@@ -1017,7 +1017,7 @@ function AboutPage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 32, fontSize: 15, lineHeight: 1.8, color: 'rgba(245,239,230,0.6)' }}>
         <p>
-          Chef Antoine Beaumont grew up among the lavender fields and olive groves of the Var, where his grandmother taught him that great cooking begins with reverence for the ingredient. After training at Le Cordon Bleu Paris and a seven-year apprenticeship under Alain Ducasse at Louis XV in Monaco, he opened L&apos;Étoile in 2018 with a singular vision: cuisine that honours its origins.
+          Chef Antoine Beaumont grew up among the lavender fields and olive groves of the Var, where his grandmother taught him that great cooking begins with reverence for the ingredient. After training at Le Cordon Bleu {clientCity(sessionData) ?? "Paris"} and a seven-year apprenticeship under Alain Ducasse at Louis XV in Monaco, he opened L&apos;Étoile in 2018 with a singular vision: cuisine that honours its origins.
         </p>
         <p>
           The first Michelin star arrived in 2020. The second followed in 2022. Today, L&apos;Étoile holds a permanent position among France&apos;s most coveted dining destinations — a place where classical French technique and contemporary sensitivity produce something entirely its own.

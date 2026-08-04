@@ -162,7 +162,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     imgId: 'https://images.pexels.com/photos/4614208/pexels-photo-4614208.jpeg?auto=compress&cs=tinysrgb&w=1600',
     title: (
       <>
-        Lyon,{' '}
+        {clientCity(sessionData) ?? "Lyon"},{' '}
         <span style={{ fontStyle: 'italic' }}>
           la soie
           <br />
@@ -180,7 +180,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
       <>
         Vieux-Lyon
         <br />
-        <span style={{ fontStyle: 'italic' }}>&amp; Lyon 2e.</span>
+        <span style={{ fontStyle: 'italic' }}>&amp; {clientCity(sessionData) ?? "Lyon"} 2e.</span>
       </>
     ),
     body: "Deux ateliers, une même exigence. Le premier, dans le Vieux-Lyon, accueille consultations et essayages. Le second, dans le 2e arrondissement, abrite la salle de coupe et les métiers à broder. Visites sur rendez-vous. Visites de l'atelier possibles pour les curieux du geste.",
@@ -679,7 +679,7 @@ function Hero() {
           }}
         >
           Robes de soirée, robes de mariée, costumes de scène — confectionnés
-          à la main au cœur de Lyon, ville de la soie.
+          à la main au cœur de {clientCity(sessionData) ?? "Lyon"}, ville de la soie.
         </motion.p>
 
         <motion.div
@@ -1956,7 +1956,7 @@ function Footer() {
               margin: '0 0 22px',
             }}
           >
-            Couture &amp; Broderie sur-mesure. Lyon, capitale de la soie.
+            Couture &amp; Broderie sur-mesure. {clientCity(sessionData) ?? "Lyon"}, capitale de la soie.
           </p>
           <div
             style={{
@@ -1968,7 +1968,7 @@ function Footer() {
               opacity: 0.7,
             }}
           >
-            Lyon 2e · Vieux-Lyon
+            {clientCity(sessionData) ?? "Lyon"} 2e · Vieux-Lyon
           </div>
         </div>
 

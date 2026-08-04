@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
+import { clientCity } from "@/lib/templates/clientContent";
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -69,7 +70,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
         <div className="col-span-2 md:col-span-1">
           <span className="text-2xl mb-4 block"><span className="font-light">L&apos;</span><span className="italic">Étoile</span></span>
-          <p className="text-sm font-sans text-[#f5efe6]/30 leading-relaxed">Two Michelin star restaurant in the heart of Paris. Cuisine driven by season, instinct, and provenance.</p>
+          <p className="text-sm font-sans text-[#f5efe6]/30 leading-relaxed">Two Michelin star restaurant in the heart of {clientCity(sessionData) ?? "Paris"}. Cuisine driven by season, instinct, and provenance.</p>
         </div>
         {[
           { title: "Experience", items: [{ label: "Menu", path: "/templates/impact-04/menu" }, { label: "Reservations", path: "/templates/impact-04/reservation" }] },
@@ -95,7 +96,7 @@ function Footer() {
       </div>
       <Separator className="bg-white/5 mb-10" />
       <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-        <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">&copy; 2026 L&apos;Étoile Paris · All Rights Reserved</span>
+        <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">&copy; 2026 L&apos;Étoile {clientCity(sessionData) ?? "Paris"} · All Rights Reserved</span>
         <div className="flex gap-4">
           {[<Globe key="ig" className="w-4 h-4" />, <Globe key="fb" className="w-4 h-4" />, <Globe key="tw" className="w-4 h-4" />, <Mail key="mail" className="w-4 h-4" />].map((icon, i) => (
             <a key={i} href="/templates/impact-04" className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-[#f5efe6]/30 hover:text-amber-500 hover:border-amber-600 transition-all duration-200 cursor-pointer">
@@ -103,7 +104,7 @@ function Footer() {
             </a>
           ))}
         </div>
-        <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">Michelin ★★ · Paris, France</span>
+        <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">Michelin ★★ · {clientCity(sessionData) ?? "Paris"}, France</span>
       </div>
     </footer>
   )

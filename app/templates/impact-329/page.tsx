@@ -246,7 +246,7 @@ export default function CapDemenagementsPage() {
         <div style={{ position: "relative", zIndex: 1, maxWidth: 760 }}>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }} style={{ display: "inline-flex", alignItems: "center", gap: 8, border: `1px solid ${C.border}`, borderRadius: 999, padding: "7px 16px", fontSize: 12.5, color: C.textMuted, marginBottom: 26 }}>
             <span style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent }} />
-            Déménageur professionnel · Nantes & toute la France
+            Déménageur professionnel · {clientCity(sessionData) ?? "Nantes"} & toute la France
           </motion.div>
 
           {/* La coupe franche puis la reconstruction, élément par élément :

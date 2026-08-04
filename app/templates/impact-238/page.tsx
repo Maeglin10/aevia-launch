@@ -39,7 +39,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CENTRE KINÉ ATLANTIQUE — Cabinet de kinésithérapie · Rennes
+   CENTRE KINÉ ATLANTIQUE — Cabinet de kinésithérapie · {clientCity(sessionData) ?? "Rennes"}
    Template premium, scroll chorégraphié, composants décomposés.
    'use client' · Auto-suffisant · Polices Nunito + Merriweather.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -707,7 +707,7 @@ function Hero() {
             marginBottom: 'clamp(28px,4vw,48px)',
           }}
         >
-          Cabinet pluridisciplinaire à Rennes — bilan personnalisé, suivi rigoureux, résultats durables.
+          Cabinet pluridisciplinaire à {clientCity(sessionData) ?? "Rennes"} — bilan personnalisé, suivi rigoureux, résultats durables.
         </motion.p>
 
         <motion.div
@@ -2066,7 +2066,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Cabinet pluridisciplinaire de kinésithérapie au cœur de Rennes. Bilan personnalisé, suivi rigoureux.
+            Cabinet pluridisciplinaire de kinésithérapie au cœur de {clientCity(sessionData) ?? "Rennes"}. Bilan personnalisé, suivi rigoureux.
           </p>
           <div
             style={{
@@ -2083,7 +2083,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={2} />
-            Rennes, Bretagne
+            {clientCity(sessionData) ?? "Rennes"}, Bretagne
           </div>
           <div
             style={{

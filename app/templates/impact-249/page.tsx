@@ -34,7 +34,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DERMIS STUDIO — Tatouage & Piercing · Montpellier
+   DERMIS STUDIO — Tatouage & Piercing · {clientCity(sessionData) ?? "Montpellier"}
    Chorégraphie de défilement éditoriale. 'use client'. Auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -2015,7 +2015,7 @@ function Footer() {
               margin: '0 0 24px',
             }}
           >
-            Tatouage &amp; Piercing sur mesure. Montpellier Écusson.
+            Tatouage &amp; Piercing sur mesure. {clientCity(sessionData) ?? "Montpellier"} Écusson.
             Sur rendez-vous uniquement.
           </p>
           <div

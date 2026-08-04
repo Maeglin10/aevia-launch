@@ -306,7 +306,7 @@ export default function CabinetMoreauPage() {
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? fd?.tagline ?? <>
-            Psychologue clinicienne à Montpellier, je vous accompagne face aux difficultés émotionnelles, relationnelles et professionnelles avec bienveillance et méthodes fondées sur les preuves.
+            Psychologue clinicienne à {clientCity({ formData: fd }) ?? "Montpellier"}, je vous accompagne face aux difficultés émotionnelles, relationnelles et professionnelles avec bienveillance et méthodes fondées sur les preuves.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -460,7 +460,7 @@ export default function CabinetMoreauPage() {
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.warm }}>Prendre rendez-vous</span>
           <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Le premier pas<br /><em>est souvent le plus difficile.</em></>}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>{c?.aboutText ?? <>
-            Premier rendez-vous disponible sous 48h. Consultation en présentiel à Montpellier ou en visioconférence.
+            Premier rendez-vous disponible sous 48h. Consultation en présentiel à {clientCity({ formData: fd }) ?? "Montpellier"} ou en visioconférence.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={`tel:${fd?.phone ?? "+33434000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accentDark, scale: 1.03 }}>

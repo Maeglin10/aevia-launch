@@ -258,7 +258,7 @@ return (
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32 w-full">
           <Reveal>
-            <p className="text-[#C9A86C] text-xs tracking-[0.3em] uppercase mb-6">Torréfaction artisanale · Paris 11e</p>
+            <p className="text-[#C9A86C] text-xs tracking-[0.3em] uppercase mb-6">Torréfaction artisanale · {clientCity(sessionData) ?? "Paris"} 11e</p>
           </Reveal>
           <Reveal delay={0.1}>
             <h1 className="text-5xl md:text-7xl font-light text-white leading-[1.0] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{c?.heroHeadline ?? <>
@@ -367,7 +367,7 @@ return (
                 </div>
                 <div className="absolute -bottom-6 -right-6 bg-[var(--brand,#8B5E3C)] text-white p-6">
                   <div className="text-3xl font-light mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>2018</div>
-                  <div className="text-xs uppercase tracking-wide">Fondé à Paris</div>
+                  <div className="text-xs uppercase tracking-wide">Fondé à {clientCity(sessionData) ?? "Paris"}</div>
                 </div>
               </Reveal>
             </div>
@@ -635,7 +635,7 @@ return (
             <div>
               <p className="text-[#FDFAF5] text-xs tracking-widest uppercase mb-5">Contact</p>
               <p className="text-sm mb-2">{clientAddress(sessionData) ?? "34 rue de la Roquette"}</p>
-              <p className="text-sm mb-2">75011 Paris</p>
+              <p className="text-sm mb-2">75011 {clientCity(sessionData) ?? "Paris"}</p>
               <p className="text-sm mb-4">{fd?.phone ?? "+33 1 43 48 22 10"}</p>
               <Link href="#contact" className="flex items-center gap-2 text-sm hover:text-[#C9A86C] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /> @lematindore</Link>
             </div>

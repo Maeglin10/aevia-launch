@@ -23,7 +23,7 @@ let bp: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   COULEURS & CO PISCINES — Pisciniste / Constructeur de piscines (Lille)
+   COULEURS & CO PISCINES — Pisciniste / Constructeur de piscines ({clientCity({ formData: fd }) ?? "Lille"})
    Palette : blanc pur / vert sauge #4d7c5f / gris perle #e8e8e4 / encre #1a1a2e
    Fonts : Montserrat (titres) + Nunito (corps)
    Style : frais, propre, coloré, artisanal premium

@@ -292,7 +292,7 @@ export default function VisionClairePage() {
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? fd?.tagline ?? <>
-            Opticien indépendant à Nantes depuis 20 ans. Lunettes, lentilles, examens de vue complets — tiers-payant toutes mutuelles, conseils personnalisés, délais rapides.
+            Opticien indépendant à {clientCity({ formData: fd }) ?? "Nantes"} depuis 20 ans. Lunettes, lentilles, examens de vue complets — tiers-payant toutes mutuelles, conseils personnalisés, délais rapides.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>

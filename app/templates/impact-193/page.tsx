@@ -26,7 +26,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   OSTÉO GAÏA — Ostéopathe D.O. (Montpellier)
+   OSTÉO GAÏA — Ostéopathe D.O. ({clientCity(sessionData) ?? "Montpellier"})
    Palette : sable doux #f5f0e8 / terracotta #c26b4c / brun chaud #5a3825 / beige foncé #3a2e28
    Fonts : Libre Baskerville (titres humanistes) + Lato
    Style : bien-être, corps, soin, chaleureux, corporel, confiance
@@ -423,7 +423,7 @@ export default function OsteoGaiaPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Libre Baskerville', serif" }}>
               Un corps qui<br /><span className="italic">fonctionne bien.</span>
             </h2>
-            <p className="text-white/55 mb-10 text-sm">Consultation 60 min · Montpellier · Remboursement mutuelle partiel · Réservation en ligne</p>
+            <p className="text-white/55 mb-10 text-sm">Consultation 60 min · {clientCity(sessionData) ?? "Montpellier"} · Remboursement mutuelle partiel · Réservation en ligne</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#c26b4c)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f5f0e8] transition-colors rounded-lg shadow-lg">
                 Prendre rendez-vous
@@ -442,7 +442,7 @@ export default function OsteoGaiaPage() {
           <div>
             <div className="font-bold text-[#f5f0e8] mb-1 text-sm" style={{ fontFamily: "'Libre Baskerville', serif" }}>Ostéo Gaïa</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c26b4c)]/50 mb-5">Emma Dubois · D.O.</div>
-            <p className="text-[#f5f0e8]/20 text-sm leading-relaxed">Ostéopathe diplômée D.O. à Montpellier. Dos, nourrissons, sportifs, grossesse, viscéral, crânio-sacré.</p>
+            <p className="text-[#f5f0e8]/20 text-sm leading-relaxed">Ostéopathe diplômée D.O. à {clientCity(sessionData) ?? "Montpellier"}. Dos, nourrissons, sportifs, grossesse, viscéral, crânio-sacré.</p>
           </div>
           {[
             { t: "Soins", ls: ["Lombalgies & dos", "Nourrissons & bébés", "Grossesse & post-partum", "Sportifs", "Céphalées", "Viscéral"] },

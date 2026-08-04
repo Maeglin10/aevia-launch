@@ -32,7 +32,7 @@ let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    MAÎTRE GÉRALDINE VOSS — Avocate en Droit des Affaires & Contentieux
-   Commercial · Toulouse
+   Commercial · {clientCity(sessionData) ?? "Toulouse"}
    Template premium : chorégraphie de défilement éditoriale, police Spectral
    + Inter, palette ambre-or sur fond parchemin et encre.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -658,7 +658,7 @@ function Hero() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.accentLight}>
-            Avocate au Barreau de Toulouse
+            Avocate au Barreau de {clientCity(sessionData) ?? "Toulouse"}
           </Eyebrow>
         </Reveal>
 
@@ -1957,7 +1957,7 @@ function Footer() {
               margin: '0 0 24px',
             }}
           >
-            Avocate en Droit des Affaires & Contentieux Commercial. Barreau de Toulouse depuis 2008.
+            Avocate en Droit des Affaires & Contentieux Commercial. Barreau de {clientCity(sessionData) ?? "Toulouse"} depuis 2008.
           </p>
           <div
             style={{
@@ -1967,7 +1967,7 @@ function Footer() {
               color: 'rgba(255,255,255,0.38)',
             }}
           >
-            Toulouse · Place Wilson
+            {clientCity(sessionData) ?? "Toulouse"} · Place Wilson
           </div>
         </div>
 

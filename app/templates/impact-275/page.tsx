@@ -29,7 +29,7 @@ import {
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET FAURE — Maître Isabelle Faure · Avocate droit de la famille & succession
-   Marseille 6e · Barreau de Marseille
+   {clientCity(sessionData) ?? "Marseille"} 6e · Barreau de {clientCity(sessionData) ?? "Marseille"}
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -560,7 +560,7 @@ function HeroSection() {
             transform: 'rotate(180deg)',
           }}
         >
-          Marseille 6e · Barreau de Marseille
+          {clientCity(sessionData) ?? "Marseille"} 6e · Barreau de {clientCity(sessionData) ?? "Marseille"}
         </span>
         <div style={{ width: 1, height: 80, background: `rgba(201,168,76,0.50)` }} />
       </div>
@@ -1433,7 +1433,7 @@ function ProcessSection() {
                     marginTop: 4,
                   }}
                 >
-                  Avocate · Barreau de Marseille
+                  Avocate · Barreau de {clientCity(sessionData) ?? "Marseille"}
                 </div>
               </div>
             </div>
@@ -1918,7 +1918,7 @@ function ConsultationFormSection() {
             }}
           >
             La première consultation est l'occasion de faire le point sur votre
-            situation. Maître Faure vous reçoit au cabinet de Marseille 6e ou en
+            situation. Maître Faure vous reçoit au cabinet de {clientCity(sessionData) ?? "Marseille"} 6e ou en
             visioconférence, généralement sous 48h.
           </p>
 
@@ -2050,7 +2050,7 @@ function ConsultationFormSection() {
                   textTransform: 'uppercase',
                 }}
               >
-                Cabinet Faure · Marseille 6e
+                Cabinet Faure · {clientCity(sessionData) ?? "Marseille"} 6e
               </div>
             </motion.div>
           ) : (
@@ -2172,7 +2172,7 @@ function ConsultationFormSection() {
               >
                 * Champs obligatoires. Vos données sont traitées de façon
                 confidentielle, conformément au RGPD et aux règles déontologiques
-                du Barreau de Marseille.
+                du Barreau de {clientCity(sessionData) ?? "Marseille"}.
               </p>
 
               <button
@@ -2738,7 +2738,7 @@ function PracticalSection() {
                 maxWidth: 560,
               }}
             >
-              Le cabinet, au cœur de Marseille
+              Le cabinet, au cœur de {clientCity(sessionData) ?? "Marseille"}
             </h2>
           </div>
         </Reveal>
@@ -3045,7 +3045,7 @@ function FooterSection() {
                 marginBottom: 20,
               }}
             >
-              Barreau de Marseille · RPVA
+              Barreau de {clientCity(sessionData) ?? "Marseille"} · RPVA
             </div>
             <p
               style={{
@@ -3057,7 +3057,7 @@ function FooterSection() {
                 marginBottom: 24,
               }}
             >
-              Maître Isabelle Faure, avocate inscrite au Barreau de Marseille,
+              Maître Isabelle Faure, avocate inscrite au Barreau de {clientCity(sessionData) ?? "Marseille"},
               défend vos droits en droit de la famille et des successions depuis
               plus de 15 ans.
             </p>

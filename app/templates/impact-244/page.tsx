@@ -35,7 +35,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ATELIER CÉLESTE — Wedding Planner & Design Floral · Paris 8e
+   ATELIER CÉLESTE — Wedding Planner & Design Floral · {clientCity(sessionData) ?? "Paris"} 8e
    Chorégraphie de défilement éditoriale · Palettes rosées & terracotta.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -1933,7 +1933,7 @@ function Footer() {
               maxWidth: 300,
             }}
           >
-            Wedding Planner & Design Floral. Paris 8e. Chaque mariage est une histoire qui mérite d&apos;être parfaite.
+            Wedding Planner & Design Floral. {clientCity(sessionData) ?? "Paris"} 8e. Chaque mariage est une histoire qui mérite d&apos;être parfaite.
           </p>
           <div
             style={{
@@ -1945,7 +1945,7 @@ function Footer() {
               color: 'rgba(255,255,255,0.45)',
             }}
           >
-            Paris 8e · +33 1 00 00 00 00
+            {clientCity(sessionData) ?? "Paris"} 8e · +33 1 00 00 00 00
           </div>
         </div>
 

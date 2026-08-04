@@ -32,7 +32,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   VOLT & LUX — Électricien Certifié & Domotique · Toulouse
+   VOLT & LUX — Électricien Certifié & Domotique · {clientCity(sessionData) ?? "Toulouse"}
    Photographie réelle + chorégraphie de défilement éditoriale. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -1704,7 +1704,7 @@ function QuoteForm() {
             }}
           >
             Réponse sous 24h — diagnostic téléphonique inclus, sans engagement.
-            Interventions à Toulouse et dans un rayon de 30 km.
+            Interventions à {clientCity(sessionData) ?? "Toulouse"} et dans un rayon de 30 km.
           </p>
         </Reveal>
 
@@ -1952,7 +1952,7 @@ function Footer() {
               maxWidth: 300,
             }}
           >
-            Électricien certifié Qualifelec à Toulouse. Mise aux normes,
+            Électricien certifié Qualifelec à {clientCity(sessionData) ?? "Toulouse"}. Mise aux normes,
             domotique &amp; bornes IRVE depuis 2012.
           </p>
           <div

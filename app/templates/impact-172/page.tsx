@@ -215,7 +215,7 @@ export default function LegrandPage() {
             ) : (
               <>
                 <span className="text-lg font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Legrand & Associés"))}</span>
-                <span className="text-[10px] tracking-[0.2em] uppercase text-[var(--brand,#C9A855)]">Avocats au Barreau de Paris</span>
+                <span className="text-[10px] tracking-[0.2em] uppercase text-[var(--brand,#C9A855)]">Avocats au Barreau de {clientCity(sessionData) ?? "Paris"}</span>
               </>
             )}
           </Link>
@@ -281,7 +281,7 @@ export default function LegrandPage() {
         </motion.div>
         <div className="imx172-hero-content relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32">
           <Reveal>
-            <p className="text-[var(--brand,#C9A855)] text-xs tracking-[0.3em] uppercase mb-8">Fondé en 1991 · Paris · Bruxelles · Luxembourg</p>
+            <p className="text-[var(--brand,#C9A855)] text-xs tracking-[0.3em] uppercase mb-8">Fondé en 1991 · {clientCity(sessionData) ?? "Paris"} · Bruxelles · Luxembourg</p>
           </Reveal>
           <Reveal delay={0.1}>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.0] text-[#F9F6F0] mb-8 max-w-4xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.heroHeadline ?? <>
@@ -461,7 +461,7 @@ export default function LegrandPage() {
                 </div>
                 <div className="absolute -bottom-6 -left-6 bg-[var(--brand,#C9A855)] text-[#1A1510] p-6">
                   <div className="text-3xl font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>1991</div>
-                  <div className="text-xs uppercase tracking-wide">Fondé à Paris</div>
+                  <div className="text-xs uppercase tracking-wide">Fondé à {clientCity(sessionData) ?? "Paris"}</div>
                 </div>
               </div>
             </Reveal>
@@ -593,7 +593,7 @@ export default function LegrandPage() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
           <div>
             <div className="text-[#F9F6F0] font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Legrand & Associés"))}</div>
-            <div className="text-xs text-[var(--brand,#C9A855)] tracking-widest uppercase">Avocats au Barreau de Paris</div>
+            <div className="text-xs text-[var(--brand,#C9A855)] tracking-widest uppercase">Avocats au Barreau de {clientCity(sessionData) ?? "Paris"}</div>
           </div>
           <div className="flex flex-wrap gap-8 text-xs">
             {["Domaines", "Associés", "Cabinet", "Publications", "Contact"].map(l => (
@@ -602,7 +602,7 @@ export default function LegrandPage() {
           </div>
           <div className="text-xs">
             <p>© 2024 Legrand & Associés · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
-            <p className="mt-1">Barreau de Paris · SIRET 382 912 847 00025</p>
+            <p className="mt-1">Barreau de {clientCity(sessionData) ?? "Paris"} · SIRET 382 912 847 00025</p>
           </div>
         </div>
       </footer>

@@ -1308,7 +1308,7 @@ export default function LuxuryJewelryTemplate() {
                   fontFamily: "Georgia, serif",
                 }}
               >
-                Paris · Depuis 1947
+                {clientCity(sessionData) ?? "Paris"} · Depuis 1947
               </p>
             </div>
           </motion.div>
@@ -1412,7 +1412,7 @@ export default function LuxuryJewelryTemplate() {
                     fontFamily: "Georgia, serif",
                   }}
                 >
-                  Paris · Maison fondée en 1947
+                  {clientCity(sessionData) ?? "Paris"} · Maison fondée en 1947
                 </span>
               </div>
             </SectionReveal>
@@ -2174,7 +2174,7 @@ export default function LuxuryJewelryTemplate() {
                         fontFamily: "Georgia, serif",
                       }}
                     >
-                      Atelier Paris · 1er arr.
+                      Atelier {clientCity(sessionData) ?? "Paris"} · 1er arr.
                     </p>
                   </div>
                 </div>
@@ -2607,7 +2607,7 @@ export default function LuxuryJewelryTemplate() {
                   fontFamily: "Georgia, serif",
                 }}
               >
-                Haute Joaillerie · Paris · Depuis 1947
+                Haute Joaillerie · {clientCity(sessionData) ?? "Paris"} · Depuis 1947
               </p>
             </div>
 
@@ -3681,7 +3681,7 @@ function ContactPage() {
               L'Atelier
             </h2>
             <p style={{ color: "rgba(240,236,224,0.7)", fontSize: 15, lineHeight: 1.8, fontStyle: "italic" }}>
-              Place Vendôme, 75001 Paris (sur rendez-vous uniquement)<br />
+              Place Vendôme, 75001 {clientCity(sessionData) ?? "Paris"} (sur rendez-vous uniquement)<br />
               Téléphone : +33 1 42 60 00 00<br />
               E-mail : {fd?.email ?? "contact@exemple.fr"}
             </p>

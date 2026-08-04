@@ -520,7 +520,7 @@ function HeroSection() {
                 textTransform: 'uppercase' as const,
               }}
             >
-              Tour Silhouette — Paris 13e
+              Tour Silhouette — {clientCity(sessionData) ?? "Paris"} 13e
             </span>
             <span
               style={{
@@ -1831,7 +1831,7 @@ function StatsSection() {
               letterSpacing: '0.06em',
             }}
           >
-            Established Paris, 2001
+            Established {clientCity(sessionData) ?? "Paris"}, 2001
           </span>
           <div style={{ display: 'flex', gap: 32 }}>
             {['Venice Biennale', 'Grand Prix National', 'RIBA International'].map(

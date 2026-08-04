@@ -31,7 +31,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET DENTAIRE SORRENTO — Dr. Clara Sorrento & Associés · Nice
+   CABINET DENTAIRE SORRENTO — Dr. Clara Sorrento & Associés · {clientCity(sessionData) ?? "Nice"}
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2060,7 +2060,7 @@ function Footer() {
               marginBottom: 24,
             }}
           >
-            Cabinet dentaire Dr. Clara Sorrento &amp; Associés — 12 rue de la Liberté, 06000 Nice.
+            Cabinet dentaire Dr. Clara Sorrento &amp; Associés — 12 rue de la Liberté, 06000 {clientCity(sessionData) ?? "Nice"}.
           </p>
           <div
             style={{

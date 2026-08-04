@@ -32,7 +32,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   KINÉPÉDIATRIE BORDEAUX — Kinésithérapie Pédiatrique & Respiratoire · Bordeaux
+   KINÉPÉDIATRIE BORDEAUX — Kinésithérapie Pédiatrique & Respiratoire · {clientCity(sessionData) ?? "Bordeaux"}
    Photographie réelle + chorégraphie éditoriale au défilement (style cabinet
    premium pédiatrique × chaleur familiale). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -709,7 +709,7 @@ function Hero() {
           }}
         >
           Rééducation respiratoire, motrice et post-opératoire pour les
-          nourrissons, enfants et adolescents — au cœur de Bordeaux Mériadeck.
+          nourrissons, enfants et adolescents — au cœur de {clientCity(sessionData) ?? "Bordeaux"} Mériadeck.
         </motion.p>
 
         <motion.div
@@ -2065,7 +2065,7 @@ function Footer() {
               marginBottom: 22,
             }}
           >
-            Kinésithérapie pédiatrique et respiratoire à Bordeaux Mériadeck.
+            Kinésithérapie pédiatrique et respiratoire à {clientCity(sessionData) ?? "Bordeaux"} Mériadeck.
             Une prise en charge adaptée à chaque enfant, du nourrisson à
             l&apos;adolescent.
           </p>
@@ -2082,7 +2082,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accentLight} strokeWidth={1.5} />
-            Bordeaux · Mériadeck
+            {clientCity(sessionData) ?? "Bordeaux"} · Mériadeck
           </div>
         </div>
 

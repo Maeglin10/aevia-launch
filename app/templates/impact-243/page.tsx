@@ -47,7 +47,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DR. ÉLODIE BEAUMONT — Cabinet médecine générale & préventive · Strasbourg
+   DR. ÉLODIE BEAUMONT — Cabinet médecine générale & préventive · {clientCity(sessionData) ?? "Strasbourg"}
    Chorégraphie de défilement éditoriale, design calme et médical.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -698,7 +698,7 @@ function Hero() {
             marginBottom: 42,
           }}
         >
-          Cabinet de médecine générale et préventive au cœur de Strasbourg.
+          Cabinet de médecine générale et préventive au cœur de {clientCity(sessionData) ?? "Strasbourg"}.
           Consultations de 30 minutes, sans précipitation.
         </motion.p>
 
@@ -2087,7 +2087,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Cabinet de médecine générale & préventive au cœur de Strasbourg.
+            Cabinet de médecine générale & préventive au cœur de {clientCity(sessionData) ?? "Strasbourg"}.
             Consultations sans précipitation.
           </p>
           <div

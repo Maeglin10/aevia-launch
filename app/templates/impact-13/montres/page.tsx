@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -94,7 +95,7 @@ function Footer() {
       <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
         <div>
           <p className="text-[#B49A6A] text-lg mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>Atelier Mécanique</p>
-          <p className="text-white/30 text-sm leading-relaxed">Manufacture horlogère. Place Vendôme, Paris — Depuis 1887.</p>
+          <p className="text-white/30 text-sm leading-relaxed">Manufacture horlogère. Place Vendôme, {clientCity(sessionData) ?? "Paris"} — Depuis 1887.</p>
         </div>
         {[
           { title: "Montres", links: [{ name: "Tourbillons", url: "/templates/impact-13/montres" }, { name: "Chronographes", url: "/templates/impact-13/montres" }, { name: "Calendriers", url: "/templates/impact-13/montres" }, { name: "Éditions limitées", url: "/templates/impact-13/montres" }] },

@@ -36,7 +36,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO ATHLETIC — Coach sportif personnel · Lyon 6e
+   STUDIO ATHLETIC — Coach sportif personnel · {clientCity(sessionData) ?? "Lyon"} 6e
    Photographie réelle + chorégraphie de défilement éditoriale (athletic ×
    performance × coaching premium). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -685,7 +685,7 @@ function Hero() {
             marginBottom: 'clamp(28px,4vh,44px)',
           }}
         >
-          Coaching sportif premium à Lyon 6e. Résultats garantis ou remboursés.
+          Coaching sportif premium à {clientCity(sessionData) ?? "Lyon"} 6e. Résultats garantis ou remboursés.
           Bilan offert pour toute première séance.
         </motion.p>
 
@@ -2028,7 +2028,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Coach sportif personnel premium à Lyon 6e. Résultats garantis,
+            Coach sportif personnel premium à {clientCity(sessionData) ?? "Lyon"} 6e. Résultats garantis,
             méthode prouvée, suivi 24/7.
           </p>
           <div
@@ -2041,7 +2041,7 @@ function Footer() {
               color: C.textFaint,
             }}
           >
-            📍 Lyon 6e · Rhône · France
+            📍 {clientCity(sessionData) ?? "Lyon"} 6e · Rhône · France
           </div>
           <a
             href="#contact"

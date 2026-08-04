@@ -33,7 +33,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ATELIER TERRA — Paysagiste & Aménagement Extérieur · Nantes
+   ATELIER TERRA — Paysagiste & Aménagement Extérieur · {clientCity(sessionData) ?? "Nantes"}
    Chorégraphie de défilement éditoriale, fond clair/sombre, sticky parallax.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -624,7 +624,7 @@ function Hero() {
           {/* White, not accentLight (#c8dfc4): a pale green eyebrow on a green
               garden photo has almost no contrast. */}
           <Eyebrow color="#ffffff" light>
-            Paysagiste · Nantes &amp; Loire-Atlantique
+            Paysagiste · {clientCity(sessionData) ?? "Nantes"} &amp; Loire-Atlantique
           </Eyebrow>
         </Reveal>
 
@@ -1882,7 +1882,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Paysagiste & aménagement extérieur à Nantes depuis 2010. Jardins vivants, durables et sans chimie.
+            Paysagiste & aménagement extérieur à {clientCity(sessionData) ?? "Nantes"} depuis 2010. Jardins vivants, durables et sans chimie.
           </p>
           <div
             style={{
@@ -1899,7 +1899,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            Nantes, Loire-Atlantique
+            {clientCity(sessionData) ?? "Nantes"}, Loire-Atlantique
           </div>
         </div>
 

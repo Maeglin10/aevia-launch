@@ -809,7 +809,7 @@ function Hero() {
             className="text-[16px] font-[300] text-[#9D174D] leading-[1.75] max-w-[460px] mb-10"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Pose gel, nail art sur-mesure et extensions résine dans un salon premium au cœur de Paris. Des mains qui racontent votre style.
+            Pose gel, nail art sur-mesure et extensions résine dans un salon premium au cœur de {clientCity(sessionData) ?? "Paris"}. Des mains qui racontent votre style.
           </motion.p>
 
           <motion.div
@@ -1476,7 +1476,7 @@ function ContactFooter() {
                 </div>
                 <p className="text-white text-[14px] font-[300] leading-[1.7]" style={{ fontFamily: "'Inter', sans-serif" }}>
                   {clientAddress(sessionData) ?? "24 rue des Petites Écuries"}<br />
-                  75009 Paris<br />
+                  75009 {clientCity(sessionData) ?? "Paris"}<br />
                   Métro Bonne Nouvelle (L8/9)
                 </p>
               </div>
@@ -1595,7 +1595,7 @@ function ContactFooter() {
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-[#F9A8D4]" />
             <span className="text-[15px] font-[500] italic text-white" style={{ fontFamily: "'Playfair Display', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Velvet Nails")}</span>
-            <span className="text-white/40 text-[12px]" style={{ fontFamily: "'Inter', sans-serif" }}>· Paris 9e</span>
+            <span className="text-white/40 text-[12px]" style={{ fontFamily: "'Inter', sans-serif" }}>· {clientCity(sessionData) ?? "Paris"} 9e</span>
           </div>
           <p className="text-[11px] text-white/40 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
             © 2025 Velvet Nails — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}

@@ -1255,7 +1255,7 @@ export default function Impact167Page() {
                   marginBottom: 44,
                 }}
               >{c?.heroSubline ?? fd?.tagline ?? <>
-                Vingt-huit années à rechercher, négocier et transmettre les biens les plus rares de Paris. Un accès privilégié au marché invisible.
+                Vingt-huit années à rechercher, négocier et transmettre les biens les plus rares de {clientCity(sessionData) ?? "Paris"}. Un accès privilégié au marché invisible.
               </>}</p>
             </TextReveal>
 
@@ -1571,7 +1571,7 @@ export default function Impact167Page() {
                   fontStyle: "italic",
                 }}
               >
-                Paris, arrondissement<br />par arrondissement
+                {clientCity(sessionData) ?? "Paris"}, arrondissement<br />par arrondissement
               </h2>
             </TextReveal>
           </div>

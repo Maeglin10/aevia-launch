@@ -43,7 +43,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON CÉLESTE — Couture sur mesure & retouches luxe · Paris 8e (Madeleine)
+   MAISON CÉLESTE — Couture sur mesure & retouches luxe · {clientCity(sessionData) ?? "Paris"} 8e (Madeleine)
    Photographie Unsplash réelle + chorégraphie éditoriale au défilement.
    Auto-suffisant. 'use client'. Minimum 1900 lignes.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -521,7 +521,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.goldLight} align="center">
-            Couture sur mesure · Madeleine, Paris 8e
+            Couture sur mesure · Madeleine, {clientCity(sessionData) ?? "Paris"} 8e
           </Eyebrow>
         </Reveal>
 
@@ -560,7 +560,7 @@ function HeroSection() {
           }}
         >
           Depuis 1987, Maison Céleste perpétue l&apos;art de la coupe haute couture
-          dans le cœur du 8e arrondissement de Paris.
+          dans le cœur du 8e arrondissement de {clientCity(sessionData) ?? "Paris"}.
         </motion.p>
 
         <motion.div
@@ -2041,7 +2041,7 @@ function AtelierSection() {
               marginBottom: 40,
             }}
           >
-            Aujourd&apos;hui secondée par sa fille Sophie, également formée à l&apos;ESMOD Paris,
+            Aujourd&apos;hui secondée par sa fille Sophie, également formée à l&apos;ESMOD {clientCity(sessionData) ?? "Paris"},
             la maison accueille une clientèle d&apos;exception sur rendez-vous, dans un atelier
             intimiste où chaque tenue est traitée comme une œuvre unique.
           </p>
@@ -2440,7 +2440,7 @@ function FooterSection() {
             }}
           >
             <MapPin size={14} color={C.gold} strokeWidth={1.5} />
-            Rue de Surène · Paris 8e · Madeleine
+            Rue de Surène · {clientCity(sessionData) ?? "Paris"} 8e · Madeleine
           </div>
           <div
             style={{

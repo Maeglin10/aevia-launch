@@ -23,7 +23,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MAISON ÉLISE — Wedding planner & organisatrice événements (Nice)
+   MAISON ÉLISE — Wedding planner & organisatrice événements ({clientCity({ formData: fd }) ?? "Nice"})
    Palette : blanc ivoire #fdfaf7 / blush poudré #e8c5c5 / or rosé #c4a06a / nuit #1a1018
    Fonts : Didact Gothic (élégant, géométrique) + Lora (serif romantique)
    Style : romantique luxe, délicat, élégance intemporelle
@@ -158,7 +158,7 @@ export default function MaisonElisePage() {
             ) : (
               <>
                 <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ fontFamily: "'Lora', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Maison Élise"}</div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)]/60">Wedding Planner · Nice & Riviera</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)]/60">Wedding Planner · {clientCity({ formData: fd }) ?? "Nice"} & Riviera</div>
               </>
             )}
           </div>
@@ -199,7 +199,7 @@ export default function MaisonElisePage() {
         {/* Elegant vertical text */}
         <div className="absolute right-8 top-1/2 -translate-y-1/2 z-10 hidden xl:block">
           <div className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#c4a06a)]/25 writing-vertical" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
-            Nice · Cannes · Monaco · Riviera
+            {clientCity({ formData: fd }) ?? "Nice"} · Cannes · Monaco · Riviera
           </div>
         </div>
 
@@ -389,7 +389,7 @@ export default function MaisonElisePage() {
             <h2 className="text-4xl md:text-5xl font-bold text-[#fdfaf7] mb-5" style={{ fontFamily: "'Lora', serif" }}>
               Votre histoire<br /><span className="italic text-[var(--brand,#c4a06a)]">commence ici.</span>
             </h2>
-            <p className="text-[#fdfaf7]/28 mb-10 text-sm">Consultation gratuite · Nice & Côte d'Azur · Déplacements France entière & étranger</p>
+            <p className="text-[#fdfaf7]/28 mb-10 text-sm">Consultation gratuite · {clientCity({ formData: fd }) ?? "Nice"} & Côte d'Azur · Déplacements France entière & étranger</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[var(--brand,#c4a06a)] text-white font-bold text-[10px] uppercase tracking-[0.28em] hover:bg-[#a88550] transition-colors">
                 Consultation gratuite

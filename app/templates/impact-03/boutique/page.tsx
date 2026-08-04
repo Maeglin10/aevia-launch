@@ -1,4 +1,5 @@
 'use client';
+import { clientCity } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -441,7 +442,7 @@ export default function BoutiquePage() {
                   lineHeight: 1.6,
                 }}
               >
-                • Made to order in Paris<br />
+                • Made to order in {clientCity(sessionData) ?? "Paris"}<br />
                 • Complimentary worldwide shipping<br />
                 • Returns accepted within 14 days
               </div>

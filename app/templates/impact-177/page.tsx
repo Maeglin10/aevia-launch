@@ -23,7 +23,7 @@ let bp: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MAËLLE DUMAS PISCINES — Pisciniste / Concepteur de piscines (Lyon)
+   MAËLLE DUMAS PISCINES — Pisciniste / Concepteur de piscines ({clientCity({ formData: fd }) ?? "Lyon"})
    Palette : blanc chaud / terracotta / lin / noir doux
    Fonts : Cormorant Garamond (titres) + Inter (corps)
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -412,7 +412,7 @@ return (
               Parlons de votre<br /><span style={{ color: C.terraLight }}>prochain espace.</span>
             </h2>
             <p style={{ fontFamily: C.sans, fontSize: "0.85rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.7, marginBottom: "3rem" }}>
-              Premier rendez-vous gratuit (1h). Disponible à Lyon et région Auvergne-Rhône-Alpes.
+              Premier rendez-vous gratuit (1h). Disponible à {clientCity({ formData: fd }) ?? "Lyon"} et région Auvergne-Rhône-Alpes.
             </p>
             <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
               <button style={{ padding: "1.1rem 2.5rem", background: C.terra, color: "#fff", fontFamily: C.sans, fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", border: "none", cursor: "pointer" }}>

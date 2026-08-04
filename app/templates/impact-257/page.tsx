@@ -35,7 +35,7 @@ let c: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DR. ALEXANDRE MOULIN — Médecin Généraliste & Médecine Fonctionnelle · Bordeaux
+   DR. ALEXANDRE MOULIN — Médecin Généraliste & Médecine Fonctionnelle · {clientCity(sessionData) ?? "Bordeaux"}
    Chorégraphie de défilement éditoriale × photographie réelle.
    'use client'. Auto-suffisant. ~2000 lignes.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -218,7 +218,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     imgAlt: 'Cabinet médical du Dr. Moulin à Bordeaux Chartrons',
     title: (
       <>
-        Bordeaux /{' '}
+        {clientCity(sessionData) ?? "Bordeaux"} /{' '}
         <span style={{ fontStyle: 'italic' }}>Chartrons.</span>
       </>
     ),
@@ -1975,7 +1975,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Médecin généraliste &amp; médecine fonctionnelle à Bordeaux.
+            Médecin généraliste &amp; médecine fonctionnelle à {clientCity(sessionData) ?? "Bordeaux"}.
             Consultations approfondies, bilans personnalisés.
           </p>
           <div
@@ -1992,7 +1992,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            Bordeaux · Chartrons
+            {clientCity(sessionData) ?? "Bordeaux"} · Chartrons
           </div>
         </div>
 

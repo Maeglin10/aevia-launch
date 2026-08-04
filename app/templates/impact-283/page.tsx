@@ -53,7 +53,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   KINÉSITHÉRAPIE DU LANGUEDOC — Cabinet kiné & rééducation · Montpellier Antigone
+   KINÉSITHÉRAPIE DU LANGUEDOC — Cabinet kiné & rééducation · {clientCity(sessionData) ?? "Montpellier"} Antigone
    Palette méditerranéenne · Typographie Merriweather + Inter · Autonome.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -529,7 +529,7 @@ function HeroSection() {
       >
         <Reveal y={16}>
           <Eyebrow color={C.turqLight} align="center">
-            Cabinet kiné & rééducation · Montpellier Antigone
+            Cabinet kiné & rééducation · {clientCity(sessionData) ?? "Montpellier"} Antigone
           </Eyebrow>
         </Reveal>
 
@@ -2611,7 +2611,7 @@ function PracticalSection() {
                 <br />
                 Quartier Antigone
                 <br />
-                34000 Montpellier
+                34000 {clientCity(sessionData) ?? "Montpellier"}
               </p>
               <div
                 style={{
@@ -3031,7 +3031,7 @@ function FooterSection() {
               }}
             >
               Cabinet de kinésithérapie et rééducation fonctionnelle au cœur
-              du quartier Antigone de Montpellier. Soins remboursés Sécurité
+              du quartier Antigone de {clientCity(sessionData) ?? "Montpellier"}. Soins remboursés Sécurité
               Sociale.
             </p>
 

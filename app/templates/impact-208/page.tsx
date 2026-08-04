@@ -1819,7 +1819,7 @@ function Footer() {
             color: C.creamDim,
             letterSpacing: '0.08em',
           }}>
-            Entreprise générale de BTP — Fondée en 1986 — Lyon, France
+            Entreprise générale de BTP — Fondée en 1986 — {clientCity(sessionData) ?? "Lyon"}, France
           </div>
         </div>
 

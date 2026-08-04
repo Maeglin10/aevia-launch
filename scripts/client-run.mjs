@@ -62,6 +62,11 @@ const REPONSES = {
   ville: ville,
   accroche: `Votre ${metier.toLowerCase()} à ${ville}`,
   slogan: `Votre ${metier.toLowerCase()} à ${ville}`,
+  // L'étiquette du champ d'accroche est « Ce que vous faites », pas « accroche » :
+  // sans cette entrée, le harnais y écrivait son texte de repli et concluait que
+  // l'accroche du client ne s'affichait pas.
+  "ce que vous faites": `Votre ${metier.toLowerCase()} à ${ville}`,
+  "que vous faites": `Votre ${metier.toLowerCase()} à ${ville}`,
   "e-mail": "client@exemple.fr",
   email: "client@exemple.fr",
   téléphone: "04 78 00 00 00",
@@ -134,10 +139,29 @@ if (surApercu) {
   await p.waitForTimeout(4000);
   const frame = p.frames().find((f) => f.url().includes("/templates/"));
   const texte = frame ? await frame.evaluate(() => document.body.innerText) : "";
+  /*
+    Ce qui reste du thème après le passage du client. Une ville de démonstration
+    ou un e-mail d'exemple sur la page livrée est plus grave qu'un bloc générique :
+    le client y lit les coordonnées de quelqu'un d'autre sans s'en apercevoir.
+  */
+  const VILLES_DEMO = ["Bordeaux", "Paris", "Marseille", "Toulouse", "Nantes", "Lille",
+    "Strasbourg", "Rennes", "Montpellier", "Nice", "Grenoble", "Annecy", "Bourg-en-Bresse"]
+    .filter((v) => v.toLowerCase() !== ville.toLowerCase());
+  const restes = [];
+  for (const v of VILLES_DEMO) if (new RegExp(`\\b${v}\\b`).test(texte)) restes.push(`ville ${v}`);
+  for (const m of texte.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}/g) ?? [])
+    if (m !== "client@exemple.fr") restes.push(`e-mail ${m}`);
+  for (const m of texte.match(/\b0[1-9](?:[ .-]?\d{2}){4}\b/g) ?? [])
+    if (m.replace(/\D/g, "") !== "0478000000") restes.push(`téléphone ${m}`);
+  if (/Aevia WS|Valentin Milliand/.test(texte)) restes.push("éditeur Aevia");
+
   console.log(JSON.stringify({
     nomVu: texte.includes(entreprise),
     villeVue: texte.includes(ville),
+    accrocheVue: texte.includes(`Votre ${metier.toLowerCase()} à ${ville}`),
     plantee: /couldn.t load/i.test(texte),
+    theme: (frame?.url() ?? "").match(/templates\/(impact-[\w-]+)/)?.[1] ?? "?",
+    restesDemo: [...new Set(restes)].slice(0, 8),
     extrait: texte.slice(0, 160).replace(/\n/g, " | "),
   }, null, 1));
   await p.screenshot({ path: `/tmp/client-${metier.replace(/\W/g, "")}.png`, fullPage: false });

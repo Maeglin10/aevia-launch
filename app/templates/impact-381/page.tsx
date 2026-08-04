@@ -333,7 +333,7 @@ export default function CaveDesTerroirsPage() {
             <div style={{ textAlign: "center", marginBottom: 16 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Prix & services</span>
               <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>Du quotidien <em>à la grande occasion.</em></h2>
-              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Remise de 5 % dès 6 bouteilles, 10 % dès 12 (hors grands crus). Livraison offerte sur Tours dès 100 €.</p>
+              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Remise de 5 % dès 6 bouteilles, 10 % dès 12 (hors grands crus). Livraison offerte sur {clientCity(sessionData) ?? "Tours"} dès 100 €.</p>
             </div>
           </Reveal>
           <div style={{ marginTop: 38 }}>

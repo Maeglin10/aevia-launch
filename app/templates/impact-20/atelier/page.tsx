@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
@@ -86,7 +87,7 @@ export default function AtelierPage() {
           </h1>
           <div style={{ color: "rgba(240,236,224,0.7)", fontSize: 16, lineHeight: 1.8 }}>
             <p style={{ marginBottom: 24 }}>
-              Au cœur de Paris, notre atelier abrite des artisans joailliers qui perpétuent 
+              Au cœur de {clientCity(sessionData) ?? "Paris"}, notre atelier abrite des artisans joailliers qui perpétuent 
               un savoir-faire d'excellence depuis 1947. Chaque pièce est le fruit de centaines 
               d'heures de travail passionné.
             </p>
