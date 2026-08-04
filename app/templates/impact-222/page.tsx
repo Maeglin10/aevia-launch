@@ -1261,7 +1261,8 @@ type Signature = {
   detail: string;
 };
 
-const SIGNATURES: Signature[] = [
+function SIGNATURES_LIVE() {
+  return [
   {
     img: PHOTO.modern,
     city: "Côte d'Azur",
@@ -1284,6 +1285,8 @@ const SIGNATURES: Signature[] = [
       'Une façade classée du XVIIIᵉ siècle entièrement repensée, alliant patrimoine et confort de vie moderne.',
   },
 ];
+}
+let SIGNATURES = SIGNATURES_LIVE();
 
 const CrossImage: React.FC<{
   src: string;
@@ -2496,6 +2499,8 @@ export default function ImpactTemplate(): React.ReactElement {
   }, []);
 
   fd = session?.formData;
+
+  SIGNATURES = SIGNATURES_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

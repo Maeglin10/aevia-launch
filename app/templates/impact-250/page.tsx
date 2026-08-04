@@ -220,7 +220,8 @@ const PHILOSOPHY: PhilosophyItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote: "En trois mois, Atelier Terra a transformé 800 m² de béton nu en un jardin luxuriant que je n\'aurais jamais osé imaginer. Leur patience et leur vision ont été remarquables du premier plan jusqu\'à la dernière plante.",
     name: 'Isabelle Moreau',
@@ -232,6 +233,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     role: `Gérant · Restaurant Les Jardins de Loire, ${clientCity(sessionData) ?? "Nantes"}`,
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -2016,6 +2019,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_DEMO_SOURCE[i % EDIT_ROWS_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_DEMO_SOURCE,

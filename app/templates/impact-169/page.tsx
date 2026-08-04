@@ -174,7 +174,8 @@ const AUTHORS_SOURCE = [
 ];
 let AUTHORS = AUTHORS_SOURCE;
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote: "Fréquence est la seule newsletter que j'ouvre en premier le lundi matin. Pas de superflu, des idées qui tiennent et qui transforment ma manière de penser le business.",
     name: "Alexandre M.",
@@ -200,6 +201,8 @@ const TESTIMONIALS_SOURCE = [
     stars: 5,
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
@@ -461,6 +464,8 @@ export default function ImpactFrequencePage() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   AUTHORS = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...AUTHORS_SOURCE[i % AUTHORS_SOURCE.length], name: m.name, role: m.role })),
     AUTHORS_SOURCE,

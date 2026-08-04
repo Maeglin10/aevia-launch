@@ -1707,7 +1707,8 @@ type TeamMember = {
   credentials?: string;
 };
 
-const TEAM_MEMBERS_DEMO: TeamMember[] = [
+function TEAM_MEMBERS_DEMO_LIVE() {
+  return [
   {
     name: (clientName(sessionData) ?? "Dr. Sophie Renard"),
     role: 'Médecin généraliste — Praticienne responsable',
@@ -1727,6 +1728,8 @@ const TEAM_MEMBERS_DEMO: TeamMember[] = [
     initials: 'LF',
   },
 ];
+}
+let TEAM_MEMBERS_DEMO = TEAM_MEMBERS_DEMO_LIVE();
 
 function TeamSection() {
   const sec: React.CSSProperties = {
@@ -2717,6 +2720,8 @@ export default function Impact274Page() {
   }, []);
 
   fd = session?.formData;
+
+  TEAM_MEMBERS_DEMO = TEAM_MEMBERS_DEMO_LIVE();
   VALUES = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...VALUES_SOURCE[i % VALUES_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     VALUES_SOURCE,

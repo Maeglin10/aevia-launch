@@ -44,7 +44,8 @@ let brand: any = null;
    emptiness, entry), the wordmark splits around it from md up. Bottle
    photographs come from the lab, verified at the merge; the copy is the
    domain's own cuvées. */
-const HERO_CUVEES = [
+function HERO_CUVEES_LIVE() {
+  return [
   {
     left: "CHÂTEAU",
     right: "DE VALROC",
@@ -67,6 +68,8 @@ const HERO_CUVEES = [
     bottle: "https://images.unsplash.com/photo-1714377676631-bef738815d62?auto=format&fit=crop&q=85&w=620&h=1240",
   },
 ];
+}
+let HERO_CUVEES = HERO_CUVEES_LIVE();
 
 /* ==========================================================================
    DESIGN TOKENS
@@ -115,7 +118,8 @@ function useFonts() {
    WINES DATA
    ========================================================================== */
 
-const WINES_DEMO = [
+function WINES_DEMO_LIVE() {
+  return [
   {
     id: "prestige",
     name: (clientName({ formData: fd }) ?? "Cuvée Prestige"),
@@ -161,6 +165,8 @@ const WINES_DEMO = [
     aging: "Sur inox, 4 mois",
   },
 ];
+}
+let WINES_DEMO = WINES_DEMO_LIVE();
 
 /* ==========================================================================
    TERROIR TABS DATA
@@ -1069,6 +1075,10 @@ export default function WineryTemplate() {
   }, []);
 
   fd = session?.formData;
+
+  WINES_DEMO = WINES_DEMO_LIVE();
+
+  HERO_CUVEES = HERO_CUVEES_LIVE();
   TERROIR_TABS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...TERROIR_TABS_SOURCE[i % TERROIR_TABS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     TERROIR_TABS_SOURCE,

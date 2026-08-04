@@ -1683,14 +1683,17 @@ function PartnersSection() {
    SECTION: GLOBAL OFFICES
    ========================================================================== */
 
-const OFFICES = [
+function OFFICES_LIVE() {
+  return [
   { city: "London", role: "Global Headquarters", est: "Est. 1897" },
   { city: "New York", role: "Americas Practice Hub", est: "Est. 1954" },
   { city: "Singapore", role: "Asia-Pacific Centre", est: "Est. 1982" },
   { city: "Zurich", role: "Swiss Office", est: "Est. 2003" },
   { city: "Dubai", role: "MENA Practice", est: "Est. 2011" },
   { city: (clientCity(sessionData) ?? "Paris"), role: "Continental Europe", est: "Est. 1971" },
-]
+];
+}
+let OFFICES = OFFICES_LIVE();
 
 function OfficesSection() {
   return (
@@ -2158,6 +2161,8 @@ export default function LegalFirmTemplate() {
   }, []);
 
   fd = session?.formData;
+
+  OFFICES = OFFICES_LIVE();
   TRUST_METRICS = resolveList(
     clientStats(sessionData)?.map((s: any, i: number) => ({ ...TRUST_METRICS_SOURCE[i % TRUST_METRICS_SOURCE.length], value: s.value, label: s.label })),
     TRUST_METRICS_SOURCE,

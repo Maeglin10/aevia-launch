@@ -219,7 +219,8 @@ const PILLARS: PillarItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "J'ai lancé mon e-commerce à zéro et franchi les 2 M€ en deux ans. Axiom a structuré la comptabilité, la paie et la fiscalité dès le premier jour. Je n'aurais pas grandi aussi vite sans eux.",
@@ -233,6 +234,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     role: 'Restaurateur · Groupe Monceau, Gironde',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
@@ -2133,6 +2136,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

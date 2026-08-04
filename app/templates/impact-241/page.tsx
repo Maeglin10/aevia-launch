@@ -251,7 +251,8 @@ const EXPERTISE_ITEMS: ExpertiseItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Nous avions mis notre appartement des Chartrons en vente deux fois sans succès avec d'autres agences. Clé de Voûte l'a vendu en 8 jours, au-dessus de notre prix de réserve. Leur méthode est radicalement différente : photos de qualité studio, acheteurs ciblés, négociation sans concession. Nous ne saurions recommander personne d'autre.",
@@ -265,6 +266,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     role: 'Investisseur privé · Bordeaux & Lyon',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -2151,6 +2154,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

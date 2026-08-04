@@ -218,7 +218,8 @@ const EXPERTISE: ExpertiseItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       'Nous avons confié notre comptabilité à Vaillant lors de notre Série A. En six mois, ils ont restructuré nos process, formé notre CFO et nous ont servi de co-pilote financier tout au long de la levée. Un partenaire stratégique, pas un prestataire.',
@@ -232,6 +233,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     role: 'Dirigeant · Groupe restauration, 8 établissements',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -2097,6 +2100,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

@@ -219,7 +219,8 @@ const SERVICES_SOURCE = [
 ]
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const GALLERY_ITEMS_DEMO = [
+function GALLERY_ITEMS_DEMO_LIVE() {
+  return [
   {
     src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80",
     year: "2024",
@@ -268,7 +269,9 @@ const GALLERY_ITEMS_DEMO = [
     location: "Abbaye de Fontfroide",
     size: "large",
   },
-]
+];
+}
+let GALLERY_ITEMS_DEMO = GALLERY_ITEMS_DEMO_LIVE();
 
 const PACKAGES_DEMO = [
   {
@@ -451,6 +454,8 @@ export default function Impact200Page() {
   }, []);
 
   fd = session?.formData;
+
+  GALLERY_ITEMS_DEMO = GALLERY_ITEMS_DEMO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
