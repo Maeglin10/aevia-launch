@@ -150,17 +150,31 @@ async function semer(templateId) {
   return sessionId;
 }
 
-const browser = await chromium.launch();
-const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
-ctx.setDefaultTimeout(15000);
-await ctx.addInitScript(() => {
-  try {
-    localStorage.setItem(
-      "aevia-cookie-consent",
-      JSON.stringify({ essential: true, analytics: false, ts: Date.now() }),
-    );
-  } catch {}
-});
+/*
+  Le navigateur est recyclé tous les quarante thèmes.
+
+  Une seule instance pour les 373 accumule assez de mémoire pour faire passer la
+  mesure de 5 à 30 secondes par page — un balayage complet de trente minutes à
+  trois heures. Ce n'est pas le thème qui ralentit, c'est l'instrument.
+*/
+const PAR_LOT = 40;
+let browser = null;
+let ctx = null;
+
+async function ouvrir() {
+  browser = await chromium.launch();
+  ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  ctx.setDefaultTimeout(15000);
+  await ctx.addInitScript(() => {
+    try {
+      localStorage.setItem(
+        "aevia-cookie-consent",
+        JSON.stringify({ essential: true, analytics: false, ts: Date.now() }),
+      );
+    } catch {}
+  });
+}
+await ouvrir();
 
 function ligne(t) {
   if (t.erreur) return `${t.id}  ERREUR  ${t.erreur}`;
@@ -175,7 +189,13 @@ function ligne(t) {
 }
 
 const report = [];
+let n = 0;
 for (const id of ids) {
+  if (n > 0 && n % PAR_LOT === 0) {
+    await browser.close();
+    await ouvrir();
+  }
+  n++;
   const page = await ctx.newPage();
   try {
     const sid = await seed(id);
