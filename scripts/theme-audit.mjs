@@ -68,7 +68,29 @@ async function throttled(url, init) {
   return res;
 }
 
+/*
+  Une seule session pour tout le balayage.
+
+  Le harnais en créait une par thème. Sans jeton Blob elles vivent en mémoire
+  dans le processus du serveur, si bien qu'un balayage de 373 thèmes se ralentit
+  lui-même — de 5 secondes à plus de 30 par page en fin de course. On sème une
+  fois, puis on ne change que le template.
+*/
+let sessionUnique = null;
+
 async function seed(templateId) {
+  if (sessionUnique) {
+    await throttled(`${BASE}/api/sessions?id=${sessionUnique}`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ formData: { template: templateId } }),
+    });
+    return sessionUnique;
+  }
+  return (sessionUnique = await semer(templateId));
+}
+
+async function semer(templateId) {
   const post = await throttled(`${BASE}/api/sessions`, {
     method: "POST",
     headers: { "content-type": "application/json" },
