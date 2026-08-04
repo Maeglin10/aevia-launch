@@ -52,6 +52,15 @@ export default function StackUnitHome() {
   }, []);
 
   fd = session?.formData;
+  // `SERVICES` vient de ./shared et n'existe qu'à l'import : la liste vivante est
+  // recalculée ici, là où la session est arrivée.
+  const SERVICES_LIVE = resolveList(
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({
+      title: s.title,
+      desc: s.desc || "",
+    })),
+    SERVICES,
+  );
 
   bp = session?.businessProfile;
   c = session?.generatedContent;
@@ -77,8 +86,7 @@ export default function StackUnitHome() {
   const ctaRef = useRef<HTMLElement>(null);
   const ctaInView = useInView(ctaRef, { once: true, margin: "-80px" });
 
-  const PROCESS_STEPS = resolveList(
-    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
+  const PROCESS_STEPS = [
     {
       num: "01",
       title: "Développement",
@@ -99,51 +107,7 @@ export default function StackUnitHome() {
       title: "Distribution",
       desc: "Festivals, sorties salles, VOD. Réseau de 47 distributeurs dans 23 pays.",
     },
-  ])[i % ([
-    {
-      num: "01",
-      title: "Développement",
-      desc: "De la page blanche au scénario finalisé. Accompagnement des auteurs, recherche de financement, co-production internationale.",
-    },
-    {
-      num: "02",
-      title: "Production",
-      desc: "Casting, direction artistique, tournage. Notre équipe technique travaille avec les meilleurs talents européens.",
-    },
-    {
-      num: "03",
-      title: "Post-Production",
-      desc: "Montage Avid, étalonnage DaVinci Resolve, mixage 5.1 Dolby. Studio Paris 15e, 3 salles de montage.",
-    },
-    {
-      num: "04",
-      title: "Distribution",
-      desc: "Festivals, sorties salles, VOD. Réseau de 47 distributeurs dans 23 pays.",
-    },
-  ]).length], title: s.title, desc: s.desc || "" })),
-    [
-    {
-      num: "01",
-      title: "Développement",
-      desc: "De la page blanche au scénario finalisé. Accompagnement des auteurs, recherche de financement, co-production internationale.",
-    },
-    {
-      num: "02",
-      title: "Production",
-      desc: "Casting, direction artistique, tournage. Notre équipe technique travaille avec les meilleurs talents européens.",
-    },
-    {
-      num: "03",
-      title: "Post-Production",
-      desc: "Montage Avid, étalonnage DaVinci Resolve, mixage 5.1 Dolby. Studio Paris 15e, 3 salles de montage.",
-    },
-    {
-      num: "04",
-      title: "Distribution",
-      desc: "Festivals, sorties salles, VOD. Réseau de 47 distributeurs dans 23 pays.",
-    },
-  ],
-  );
+  ];
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
@@ -335,7 +299,7 @@ return (
             De l'idée à l'écran.
           </h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: "1px", background: C.border }}>
-            {SERVICES.map((svc, i) => <ServiceCard key={svc.code} svc={svc} index={i} />)}
+            {SERVICES_LIVE.map((svc: any, i: number) => <ServiceCard key={svc.code ?? i} svc={svc} index={i} />)}
           </div>
         </div>
       </section>

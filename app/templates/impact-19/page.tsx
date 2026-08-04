@@ -71,13 +71,16 @@ const theses_SOURCE = [
 ];
 let theses = theses_SOURCE;
 
-const team = resolveList(
+function team_LIVE() {
+  return resolveList(
 
   clientTeam({ formData: fd, businessProfile: bp })?.map((m: any, i: number) => ({ ...TEAM_SOURCE[i % TEAM_SOURCE.length], name: m.name, role: m.role })),
 
   TEAM_SOURCE,
 
 );
+}
+let team = team_LIVE();;
 
 const sectors = ["Tous", "HealthTech", "FinTech", "CleanTech", "Infrastructure", "EdTech", "CyberSec"];
 
@@ -124,6 +127,8 @@ export default function SummitCapitalPage() {
   }, []);
 
   fd = session?.formData;
+
+  team = team_LIVE();
   theses = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...theses_SOURCE[i % theses_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     theses_SOURCE,

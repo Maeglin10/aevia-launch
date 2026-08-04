@@ -666,7 +666,8 @@ interface Tier {
   cta: string;
 }
 
-const TIERS: Tier[] = /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
+function TIERS_LIVE() {
+  return resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   {
     name: 'Starter',
     price: '0€',
@@ -693,6 +694,8 @@ const TIERS: Tier[] = /* TARIFS */ resolveList(clientServices({ formData: fd, bu
     cta: 'Contacter les ventes',
   },
 ]);
+}
+let TIERS = TIERS_LIVE();
 
 function Pricing() {
   return (
@@ -1262,6 +1265,8 @@ export default function Impact219Page() {
   }, []);
 
   fd = session?.formData;
+
+  TIERS = TIERS_LIVE();
 
   bp = session?.businessProfile;
   BENEFITS = resolveList(

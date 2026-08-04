@@ -974,7 +974,7 @@ export default function Page() {
                 zIndex: 2
               }}>
                 {clientReviews(sessionData)?.[0]?.text
-                  ? `"${bp.reputation.featuredReviews[0].text}"`
+                  ? `"${clientReviews(sessionData)![0].text}"`
                   : "\"Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide.\""}
               </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 12 }}>

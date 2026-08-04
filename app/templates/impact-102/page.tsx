@@ -145,13 +145,16 @@ const STATS_SOURCE = [
 ]
 let STATS = STATS_SOURCE;
 
-const TEAM = resolveList(
+function TEAM_LIVE() {
+  return resolveList(
 
   clientTeam({ formData: fd, businessProfile: bp })?.map((m: any, i: number) => ({ ...TEAM_SOURCE[i % TEAM_SOURCE.length], name: m.name, role: m.role })),
 
   TEAM_SOURCE,
 
-)
+);
+}
+let TEAM = TEAM_LIVE();
 
 const NAV_LINKS = ["Research", "Publications", "Team", "Infrastructure", "Careers"]
 
@@ -221,6 +224,8 @@ export default function QBitLabsPage() {
   }, []);
 
   fd = session?.formData;
+
+  TEAM = TEAM_LIVE();
 
   RESEARCH_AREAS = resolveList(
 
