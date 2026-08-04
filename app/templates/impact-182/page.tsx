@@ -11,6 +11,7 @@ import {
   clientAreas,
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -89,11 +90,14 @@ function ZONES_DEMO_LIVE() {
 let ZONES_DEMO = ZONES_DEMO_LIVE();
 let ZONES = ZONES_DEMO;
 
-const REALISATIONS_DEMO = [
-  { title: "Extension 45 m² · Villa provençale", tag: "Extension gros œuvre", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Ravalement ITE · Immeuble R+4", tag: "Isolation thermique extérieure", img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Construction garage + dalle béton", tag: "Gros œuvre & dallage", img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200" },
-]
+function REALISATIONS_DEMO_LIVE() {
+  return [
+  { title: "Extension 45 m² · Villa provençale", tag: "Extension gros œuvre", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Ravalement ITE · Immeuble R+4", tag: "Isolation thermique extérieure", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Construction garage + dalle béton", tag: "Gros œuvre & dallage", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200") },
+];
+}
+let REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -129,9 +133,11 @@ export default function BatirSolidePage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
   ZONES_DEMO = ZONES_DEMO_LIVE();
 
 
@@ -251,7 +257,7 @@ export default function BatirSolidePage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=85&w=2400")} alt="Maçon construction gros œuvre" fill className="object-cover" priority style={{ filter: "brightness(0.5)" }} />
+          <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=85&w=2400"))} alt="Maçon construction gros œuvre" fill className="object-cover" priority style={{ filter: "brightness(0.5)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1a1008] via-[#1a1008]/45 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#1a1008]/65 to-transparent" />
         </motion.div>

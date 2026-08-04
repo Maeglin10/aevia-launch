@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -85,7 +86,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 const photo = (id: string) =>
-  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`);
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[0] || `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`));
 
 /* ════════════════════════════════════════════════════════════════════════════
    TypeScript interfaces
@@ -131,19 +132,20 @@ interface FlowerItem {
    ════════════════════════════════════════════════════════════════════════════ */
 
 /** CelebrationSequence — 3 phases de mood */
-const PHASES: Collection[] = [
+function PHASES_LIVE() {
+  return [
   {
     index: 'I',
     caption: 'CÉRÉMONIE',
     sub: 'Chaque cérémonie est une histoire unique. Nous la racontons avec des fleurs, de la lumière et des mots qui durent.',
-    imgId: 'https://images.pexels.com/photos/47014/pexels-photo-47014.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/47014/pexels-photo-47014.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: 'Fleurs romantiques de cérémonie de mariage',
   },
   {
     index: 'II',
     caption: 'RÉCEPTION',
     sub: 'De la mise en place au minuit, chaque table, chaque bougie, chaque détail porte votre vision.',
-    imgId: 'https://images.pexels.com/photos/31517332/pexels-photo-31517332.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/31517332/pexels-photo-31517332.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: 'Réception de mariage élégante',
   },
   {
@@ -154,6 +156,8 @@ const PHASES: Collection[] = [
     alt: 'Bouquet de mariée en gros plan',
   },
 ];
+}
+let PHASES = PHASES_LIVE();
 
 /** 6 cartes de services */
 const SERVICES_SOURCE: Service[] = [
@@ -195,7 +199,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre démarche',
-    imgId: 'https://images.pexels.com/photos/47014/pexels-photo-47014.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/47014/pexels-photo-47014.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: 'Cérémonie de mariage en fleurs',
     title: (
       <>
@@ -209,7 +213,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   },
   {
     eyebrow: (clientCity(sessionData) ?? 'Paris') + ' & environs',
-    imgId: 'https://images.pexels.com/photos/31517332/pexels-photo-31517332.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/31517332/pexels-photo-31517332.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: 'Réception élégante en Île-de-France',
     title: (
       <>
@@ -628,7 +632,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || `https://images.pexels.com/photos/17241550/pexels-photo-17241550.jpeg?auto=compress&cs=tinysrgb&w=2000`}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[5] || `https://images.pexels.com/photos/17241550/pexels-photo-17241550.jpeg?auto=compress&cs=tinysrgb&w=2000`)}
           alt="Cérémonie de mariage romantique fleurie"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1206,7 +1210,7 @@ function EditRowItem({ row }: { row: EditRow }) {
           position: 'relative',
         }}
       >
-        <ParallaxImg src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : `https://images.unsplash.com/photo-${row.imgId}?q=80&w=800&auto=format&fit=crop`)} alt={row.alt} />
+        <ParallaxImg src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : (clientPhotos(sessionData)[6] || `https://images.unsplash.com/photo-${row.imgId}?q=80&w=800&auto=format&fit=crop`))} alt={row.alt} />
         {/* Ghost numeral behind */}
         <span
           style={{
@@ -1342,7 +1346,7 @@ function FloralPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=900&auto=format&fit=crop`}
+              src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[7] || `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=900&auto=format&fit=crop`)}
               alt="Bouquet de mariée artisanal"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -1644,7 +1648,7 @@ function ContactForm() {
     >
       {/* Texture de fond subtile */}
       <img
-        src={`https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=1600&auto=format&fit=crop`}
+        src={(clientPhotos(sessionData)[8] || `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=1600&auto=format&fit=crop`)}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2075,9 +2079,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PHASES = PHASES_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 

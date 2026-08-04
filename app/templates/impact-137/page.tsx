@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientServices,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -56,12 +57,15 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const ORIGINS_DEMO = [
-  { name: "Ethiopian Yirgacheffe", region: "Sidamo, Ethiopia", altitude: "1,800m", process: "Washed", notes: "Jasmine, bergamot, stone fruit", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop", score: 92 },
-  { name: "Colombian Huila", region: "Huila, Colombia", altitude: "1,650m", process: "Honey", notes: "Chocolate, caramel, citrus", img: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800", score: 89 },
-  { name: "Kenyan Nyeri AA", region: "Nyeri, Kenya", altitude: "1,700m", process: "Washed", notes: "Blackcurrant, tomato, wine", img: "https://images.unsplash.com/photo-1504630083234-14187a9df0f5?auto=format&fit=crop&q=80&w=800", score: 91 },
-  { name: "Guatemala Antigua", region: "Antigua, Guatemala", altitude: "1,500m", process: "Natural", notes: "Dark chocolate, spice, smoke", img: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800", score: 88 },
-]
+function ORIGINS_DEMO_LIVE() {
+  return [
+  { name: "Ethiopian Yirgacheffe", region: "Sidamo, Ethiopia", altitude: "1,800m", process: "Washed", notes: "Jasmine, bergamot, stone fruit", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop"), score: 92 },
+  { name: "Colombian Huila", region: "Huila, Colombia", altitude: "1,650m", process: "Honey", notes: "Chocolate, caramel, citrus", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800"), score: 89 },
+  { name: "Kenyan Nyeri AA", region: "Nyeri, Kenya", altitude: "1,700m", process: "Washed", notes: "Blackcurrant, tomato, wine", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1504630083234-14187a9df0f5?auto=format&fit=crop&q=80&w=800"), score: 91 },
+  { name: "Guatemala Antigua", region: "Antigua, Guatemala", altitude: "1,500m", process: "Natural", notes: "Dark chocolate, spice, smoke", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800"), score: 88 },
+];
+}
+let ORIGINS_DEMO = ORIGINS_DEMO_LIVE();
 
 const PROCESS = [
   { step: "01", title: "Source", desc: "Direct trade with fourth-generation farming families across 14 origins.", icon: Mountain },
@@ -104,9 +108,11 @@ export default function TorrefieCoffeePage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  ORIGINS_DEMO = ORIGINS_DEMO_LIVE();
 
 
   TARIFS_ANON = resolveList(
@@ -212,7 +218,7 @@ export default function TorrefieCoffeePage() {
         {/* ── HERO ────────────────────────────── */}
         <section id="hero" className="relative h-[110vh] min-h-[640px] flex items-center overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src={photo(0, "https://images.pexels.com/photos/7091096/pexels-photo-7091096.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Coffee" fill className="object-cover" priority />
+            <Image src={photo(0, (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/7091096/pexels-photo-7091096.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Coffee" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-r from-[#f5f0ea] via-[#f5f0ea]/60 to-transparent" />
           </motion.div>
 
@@ -391,7 +397,7 @@ export default function TorrefieCoffeePage() {
         {/* ── CTA ────────────────────────────── */}
         <section id="contact" className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(1, "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
+            <Image src={photo(1, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=2400"))} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-[#2c1810]/70" />
           </div>
           <div className="relative z-10 text-center text-[#f5f0ea] px-6">

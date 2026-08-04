@@ -36,6 +36,7 @@ import {
   clientCity,
   clientHours,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -90,20 +91,23 @@ const SERIF = "'Libre Baskerville', Georgia, serif" as const;
 const SANS = "'Nunito', system-ui, sans-serif" as const;
 
 /* ── Photographie (URLs Unsplash pré-vérifiées — NE PAS modifier les IDs) ── */
-const PHOTO = {
+function PHOTO_LIVE() {
+  return {
   pain:
-    'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1600&auto=format&fit=crop'),
   croissants:
-    'https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1600&auto=format&fit=crop'),
   boulanger:
-    'https://images.unsplash.com/photo-1568254183919-78a4f43a2877?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1568254183919-78a4f43a2877?q=80&w=1600&auto=format&fit=crop'),
   patisseries:
-    'https://images.unsplash.com/photo-1486427944299-d1955d23e34d?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1486427944299-d1955d23e34d?q=80&w=1600&auto=format&fit=crop'),
   painHero:
-    'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1600&auto=format&fit=crop'),
   levain:
-    'https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1600&auto=format&fit=crop'),
 } as const;
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -2799,9 +2803,11 @@ export default function Impact282Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
 
   PRODUCTEURS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRODUCTEURS_SOURCE[i % PRODUCTEURS_SOURCE.length], nom: s.title, description: s.desc || "" || "" })),

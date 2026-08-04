@@ -52,7 +52,8 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================= */
 
-const FLEET_DEMO_SOURCE = [
+function FLEET_DEMO_SOURCE_LIVE() {
+  return [
   {
     id: 1,
     name: "Azure Odyssey",
@@ -60,7 +61,7 @@ const FLEET_DEMO_SOURCE = [
     guests: 12,
     price: "From €850k/week",
     desc: "A masterpiece of naval architecture featuring a glass-bottom infinity pool and private helipad.",
-    img: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80"),
   },
   {
     id: 2,
@@ -69,7 +70,7 @@ const FLEET_DEMO_SOURCE = [
     guests: 18,
     price: "From €1.2M/week",
     desc: "The pinnacle of luxury with a three-deck spa, underwater lounge, and Michelin-star culinary team.",
-    img: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80"),
   },
   {
     id: 3,
@@ -78,9 +79,11 @@ const FLEET_DEMO_SOURCE = [
     guests: 10,
     price: "From €620k/week",
     desc: "Sustainable exploration vessel equipped with hybrid propulsion and a sub-surface exploration pod.",
-    img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200&q=80",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200&q=80"),
   },
 ];
+}
+let FLEET_DEMO_SOURCE = FLEET_DEMO_SOURCE_LIVE();
 let FLEET_DEMO = FLEET_DEMO_SOURCE;
 let FLEET = FLEET_DEMO;
 
@@ -220,9 +223,11 @@ export default function HorizonYachtPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FLEET_DEMO_SOURCE = FLEET_DEMO_SOURCE_LIVE();
   FLEET_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length].price })),
     FLEET_DEMO_SOURCE,
@@ -374,7 +379,7 @@ export default function HorizonYachtPage() {
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1600&q=80")}
+            src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1600&q=80"))}
             alt="Yacht Deck"
             fill
             className="object-cover opacity-60 contrast-110"
@@ -587,7 +592,7 @@ export default function HorizonYachtPage() {
           <Reveal>
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
               <Image
-                src={photo(1, "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80")}
+                src={photo(1, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80"))}
                 alt="Destination"
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 transition-all duration-1000"

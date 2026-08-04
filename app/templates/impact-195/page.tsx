@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -195,7 +196,7 @@ export default function MaisonElisePage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[640px] flex [align-items:safe_flex-end] overflow-hidden pt-24 sm:pt-0">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=88&w=2400")} alt="Mariage élégant décoration florale" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38) saturate(0.85)" }} />
+          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=88&w=2400"))} alt="Mariage élégant décoration florale" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38) saturate(0.85)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#100b0f] via-[#100b0f]/45 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#100b0f]/65 to-transparent" />
         </motion.div>
@@ -300,11 +301,11 @@ export default function MaisonElisePage() {
             <h2 className="text-4xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "portfolio.titre") ?? (<>Des instants <span className="italic text-[var(--brand,#c4a06a)]">inoubliables.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 h-[65vh] min-h-[420px]">
-            <div className="relative overflow-hidden"><ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&q=85&w=600")} alt="Mariage" /></div>
-            <div className="row-span-2 relative overflow-hidden"><ParallaxImg src={photo(2, "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=85&w=800")} alt="Décoration florale" /></div>
-            <div className="relative overflow-hidden"><ParallaxImg src={photo(3, "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&q=85&w=600")} alt="Couple" /></div>
-            <div className="relative overflow-hidden"><ParallaxImg src={photo(4, "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=85&w=600")} alt="Table de mariage" /></div>
-            <div className="relative overflow-hidden"><ParallaxImg src={photo(5, "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=85&w=600")} alt="Gâteau" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&q=85&w=600"))} alt="Mariage" /></div>
+            <div className="row-span-2 relative overflow-hidden"><ParallaxImg src={photo(2, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=85&w=800"))} alt="Décoration florale" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src={photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&q=85&w=600"))} alt="Couple" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src={photo(4, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=85&w=600"))} alt="Table de mariage" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src={photo(5, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=85&w=600"))} alt="Gâteau" /></div>
           </div>
         </div>
       </section>

@@ -58,11 +58,14 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const EXPEDITIONS_DEMO_SOURCE = [
-  { title: "Karakoram Traverse", region: "Pakistan", duration: "18 days", difficulty: "Expert", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1200", desc: "Cross the world's most dramatic mountain range through ancient Silk Road passes." },
-  { title: "Svalbard Polar", region: "Arctic Norway", duration: "12 days", difficulty: "Moderate", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop", desc: "Glacier treks and polar wildlife encounters at 78°N latitude." },
-  { title: "Namib Desert Crossing", region: "Namibia", duration: "10 days", difficulty: "Challenging", img: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&q=80&w=1200", desc: "Navigate the world's oldest desert, from Deadvlei to the Skeleton Coast." },
-]
+function EXPEDITIONS_DEMO_SOURCE_LIVE() {
+  return [
+  { title: "Karakoram Traverse", region: "Pakistan", duration: "18 days", difficulty: "Expert", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1200"), desc: "Cross the world's most dramatic mountain range through ancient Silk Road passes." },
+  { title: "Svalbard Polar", region: "Arctic Norway", duration: "12 days", difficulty: "Moderate", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop"), desc: "Glacier treks and polar wildlife encounters at 78°N latitude." },
+  { title: "Namib Desert Crossing", region: "Namibia", duration: "10 days", difficulty: "Challenging", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&q=80&w=1200"), desc: "Navigate the world's oldest desert, from Deadvlei to the Skeleton Coast." },
+];
+}
+let EXPEDITIONS_DEMO_SOURCE = EXPEDITIONS_DEMO_SOURCE_LIVE();
 let EXPEDITIONS_DEMO = EXPEDITIONS_DEMO_SOURCE;
 let EXPEDITIONS = EXPEDITIONS_DEMO;
 
@@ -106,8 +109,10 @@ export default function MeridianJourneyPage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  EXPEDITIONS_DEMO_SOURCE = EXPEDITIONS_DEMO_SOURCE_LIVE();
 
   EXPEDITIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EXPEDITIONS_DEMO_SOURCE[i % EXPEDITIONS_DEMO_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
@@ -211,7 +216,7 @@ export default function MeridianJourneyPage() {
         {/* ── HERO ──────────────────────────── */}
         <section id="hero" className="relative h-[100dvh] md:h-[100dvh] min-h-[560px] md:min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src={photo(0, "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2400")} alt="Mountains" fill className="object-cover opacity-70" priority />
+            <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2400"))} alt="Mountains" fill className="object-cover opacity-70" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d1210] via-[#0d1210]/30 to-transparent" />
           </motion.div>
 
@@ -400,7 +405,7 @@ export default function MeridianJourneyPage() {
         {/* ── CTA ─────────────────────────── */}
         <section id="contact" className="relative h-[80vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(1, "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
+            <Image src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&q=80&w=2400"))} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-[#0d1210]/70" />
           </div>
           <div className="relative z-10 text-center px-6">

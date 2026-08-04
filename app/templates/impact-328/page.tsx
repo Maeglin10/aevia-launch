@@ -53,26 +53,29 @@ const NAV = [
 
 /* Trois temps de l'accompagnement, tenus lentement dans le hero.
    Photos : URLs déjà présentes dans le repo (nature, fleurs). */
-const HERO_TEMPS_DEMO = [
+function HERO_TEMPS_DEMO_LIVE() {
+  return [
   {
     k: "Obsèques",
     line: "Organiser des obsèques justes, à l'image de la personne.",
-    img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80"),
     alt: "Paysage calme au lever du jour",
   },
   {
     k: "Cérémonie",
     line: "Une cérémonie qui ressemble à celle ou celui qu'on entoure.",
-    img: "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=1200&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=1200&q=80"),
     alt: "Composition florale de cérémonie",
   },
   {
     k: "Prévoyance",
     line: "Décider pour soi, pour épargner ces choix à ses proches.",
-    img: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=1200&q=80",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=1200&q=80"),
     alt: "Massif de fleurs en pleine lumière",
   },
 ];
+}
+let HERO_TEMPS_DEMO = HERO_TEMPS_DEMO_LIVE();
 let HERO_TEMPS = HERO_TEMPS_DEMO;
 
 const SERVICES_SOURCE = [
@@ -144,9 +147,11 @@ export default function MaisonEstevePage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_TEMPS_DEMO = HERO_TEMPS_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -325,7 +330,7 @@ export default function MaisonEstevePage() {
       <section id="prevoyance" className="i328-pad" style={{ padding: "96px 64px", background: C.bg }}>
         <div className="i328-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80")} alt="Horizon paisible au petit matin" loading="lazy" style={{ width: "100%", borderRadius: 4, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(3, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80"))} alt="Horizon paisible au petit matin" loading="lazy" style={{ width: "100%", borderRadius: 4, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>

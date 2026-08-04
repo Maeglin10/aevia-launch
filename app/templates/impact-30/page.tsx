@@ -31,6 +31,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -410,10 +411,10 @@ function Hero() {
      the description and the price, which is the question a patient actually
      arrives with ("what does this cost, and does it hurt"). */
   const TREATMENT_MEDIA = [
-    { img: "https://images.pexels.com/photos/3762453/pexels-photo-3762453.jpeg?auto=compress&cs=tinysrgb&w=1600", meta: "1 séance · 90 min" },
-    { img: "https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=1600", meta: "Garantie 10 ans" },
-    { img: "https://images.pexels.com/photos/11887613/pexels-photo-11887613.jpeg?auto=compress&cs=tinysrgb&w=1600", meta: "6 à 18 mois" },
-    { img: "https://images.pexels.com/photos/12917374/pexels-photo-12917374.jpeg?auto=compress&cs=tinysrgb&w=1600", meta: "Dès 3 ans" },
+    { img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/3762453/pexels-photo-3762453.jpeg?auto=compress&cs=tinysrgb&w=1600"), meta: "1 séance · 90 min" },
+    { img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=1600"), meta: "Garantie 10 ans" },
+    { img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/11887613/pexels-photo-11887613.jpeg?auto=compress&cs=tinysrgb&w=1600"), meta: "6 à 18 mois" },
+    { img: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/12917374/pexels-photo-12917374.jpeg?auto=compress&cs=tinysrgb&w=1600"), meta: "Dès 3 ans" },
   ];
 
   const treatments = resolveList(

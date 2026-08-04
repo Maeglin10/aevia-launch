@@ -34,6 +34,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -74,15 +75,18 @@ const T = {
 } as const;
 
 // ─── Verified Unsplash Images ────────────────────────────────────────────────
-const IMGS = {
-  hero:        'https://images.pexels.com/photos/34149486/pexels-photo-34149486.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  movement:    'https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=80&w=1600&auto=format&fit=crop',
-  dial:        'https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1600&auto=format&fit=crop',
-  editorial1:  'https://images.unsplash.com/photo-1620625515032-6ed0c1790c75?q=80&w=1600&auto=format&fit=crop',
-  editorial2:  'https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?q=80&w=1600&auto=format&fit=crop',
-  collection1: 'https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?q=80&w=1600&auto=format&fit=crop',
-  collection2: 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?q=80&w=1600&auto=format&fit=crop',
+function IMGS_LIVE() {
+  return {
+  hero:        (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/34149486/pexels-photo-34149486.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+  movement:    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=80&w=1600&auto=format&fit=crop'),
+  dial:        (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1600&auto=format&fit=crop'),
+  editorial1:  (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1620625515032-6ed0c1790c75?q=80&w=1600&auto=format&fit=crop'),
+  editorial2:  (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?q=80&w=1600&auto=format&fit=crop'),
+  collection1: (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?q=80&w=1600&auto=format&fit=crop'),
+  collection2: (clientPhotos(sessionData)[6] || 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?q=80&w=1600&auto=format&fit=crop'),
 } as const;
+}
+let IMGS = IMGS_LIVE();
 
 // ─── Global Styles (injected once) ──────────────────────────────────────────
 const GLOBAL_CSS = `
@@ -2373,9 +2377,11 @@ export default function HoraVivaPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  IMGS = IMGS_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   EDITORIAL_ROWS = resolveList(

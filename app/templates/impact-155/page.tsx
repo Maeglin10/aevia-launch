@@ -64,12 +64,12 @@ let STATS = STATS_DEMO;
 
 function BIENS_DEMO_SOURCE_LIVE() {
   return [
-  { titre: "Appartement de standing", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "1 480 000 €", surface: "145 m²", pieces: 5, bains: 2, tag: "Exclusivité", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" },
-  { titre: "Maison familiale", lieu: "Neuilly-sur-Seine", prix: "2 250 000 €", surface: "280 m²", pieces: 7, bains: 3, tag: "Coup de cœur", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" },
-  { titre: "Penthouse vue Eiffel", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "3 900 000 €", surface: "210 m²", pieces: 5, bains: 3, tag: "Prestige", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" },
-  { titre: "Villa contemporaine", lieu: "Saint-Cloud", prix: "1 850 000 €", surface: "320 m²", pieces: 8, bains: 4, tag: "Jardin", img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" },
-  { titre: "Loft design", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "890 000 €", surface: "120 m²", pieces: 3, bains: 2, tag: "Atypique", img: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80" },
-  { titre: "Résidence Belle Époque", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "2 650 000 €", surface: "195 m²", pieces: 6, bains: 3, tag: "Haussmannien", img: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80" },
+  { titre: "Appartement de standing", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "1 480 000 €", surface: "145 m²", pieces: 5, bains: 2, tag: "Exclusivité", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80") },
+  { titre: "Maison familiale", lieu: "Neuilly-sur-Seine", prix: "2 250 000 €", surface: "280 m²", pieces: 7, bains: 3, tag: "Coup de cœur", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80") },
+  { titre: "Penthouse vue Eiffel", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "3 900 000 €", surface: "210 m²", pieces: 5, bains: 3, tag: "Prestige", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80") },
+  { titre: "Villa contemporaine", lieu: "Saint-Cloud", prix: "1 850 000 €", surface: "320 m²", pieces: 8, bains: 4, tag: "Jardin", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80") },
+  { titre: "Loft design", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "890 000 €", surface: "120 m²", pieces: 3, bains: 2, tag: "Atypique", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80") },
+  { titre: "Résidence Belle Époque", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "2 650 000 €", surface: "195 m²", pieces: 6, bains: 3, tag: "Haussmannien", img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80") },
 ];
 }
 let BIENS_DEMO_SOURCE = BIENS_DEMO_SOURCE_LIVE();
@@ -273,7 +273,7 @@ export default function PierreCoPage() {
       <style>{`@media (max-width: 640px) { #hero { height: 100dvh !important; min-height: 100dvh !important; } }`}</style>
       <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1920&q=80")} alt="Immobilier de prestige Pierre & Co" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1920&q=80"))} alt="Immobilier de prestige Pierre & Co" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(15,25,45,0.93) 0%, rgba(15,25,45,0.45) 45%, rgba(15,25,45,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}15 0%, transparent 55%)` }} />

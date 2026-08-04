@@ -115,14 +115,15 @@ const SERVICES_SOURCE = [
 ];
 let SERVICES = SERVICES_SOURCE;
 
-const PROJECTS_DEMO = [
+function PROJECTS_DEMO_LIVE() {
+  return [
   {
     id: 1,
     title: "Aether Labs",
     category: "Web Ecosystem",
     year: "2025",
     image:
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: 2,
@@ -130,7 +131,7 @@ const PROJECTS_DEMO = [
     category: "Brand Identity",
     year: "2025",
     image:
-      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: 3,
@@ -138,7 +139,7 @@ const PROJECTS_DEMO = [
     category: "Fintech App",
     year: "2024",
     image:
-      "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: 4,
@@ -146,7 +147,7 @@ const PROJECTS_DEMO = [
     category: "Healthcare Portal",
     year: "2024",
     image:
-      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: 5,
@@ -154,7 +155,7 @@ const PROJECTS_DEMO = [
     category: "E-commerce",
     year: "2024",
     image:
-      "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: 6,
@@ -162,9 +163,11 @@ const PROJECTS_DEMO = [
     category: "SaaS Platform",
     year: "2023",
     image:
-      "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?q=80&w=1200&auto=format&fit=crop"),
   },
 ];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 let PROJECTS = PROJECTS_DEMO;
 
 const PROCESS_STEPS = [
@@ -309,14 +312,15 @@ const SERVICE_DETAILS_SOURCE = [
 let SERVICE_DETAILS = SERVICE_DETAILS_SOURCE;
 
 /* ── Fuller portfolio for the Réalisations sub-page (reuses WorkCard styling) ── */
-const WORK_DETAILS_DEMO = [
+function WORK_DETAILS_DEMO_LIVE() {
+  return [
   {
     id: 1,
     title: "Aether Labs",
     category: "Web Ecosystem",
     year: "2025",
     image:
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop"),
     summary:
       "A complete overhaul of an R&D lab's web ecosystem: design system, corporate site, and client portal.",
     role: "Design, Development, Branding",
@@ -328,7 +332,7 @@ const WORK_DETAILS_DEMO = [
     category: "Brand Identity",
     year: "2025",
     image:
-      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop"),
     summary:
       "Crafting the visual identity of a production studio: logo, guidelines, print and digital applications.",
     role: "Branding, Art direction",
@@ -340,7 +344,7 @@ const WORK_DETAILS_DEMO = [
     category: "Fintech App",
     year: "2024",
     image:
-      "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop"),
     summary:
       "Design and development of a mobile-first fintech app, from wireframe to launch.",
     role: "UI/UX, Development",
@@ -352,7 +356,7 @@ const WORK_DETAILS_DEMO = [
     category: "Healthcare Portal",
     year: "2024",
     image:
-      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1200&auto=format&fit=crop"),
     summary:
       "A secure, accessible (WCAG 2.2 AA) patient portal for a healthcare provider.",
     role: "UX, Accessibility, Development",
@@ -364,7 +368,7 @@ const WORK_DETAILS_DEMO = [
     category: "E-commerce",
     year: "2024",
     image:
-      "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1200&auto=format&fit=crop"),
     summary:
       "An immersive, high-performance online store for an independent music label.",
     role: "Design, Development, Motion",
@@ -376,24 +380,27 @@ const WORK_DETAILS_DEMO = [
     category: "SaaS Platform",
     year: "2023",
     image:
-      "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?q=80&w=1200&auto=format&fit=crop"),
     summary:
       "An AI SaaS platform: marketing site, app, and design system.",
     role: "Design system, Development",
     result: "Faster onboarding and churn cut in half.",
   },
 ];
+}
+let WORK_DETAILS_DEMO = WORK_DETAILS_DEMO_LIVE();
 let WORK_DETAILS = WORK_DETAILS_DEMO;
 
 /* ── Blog mock articles (EN — web / design / marketing insights) ── */
-const BLOG_POSTS_DEMO = [
+function BLOG_POSTS_DEMO_LIVE() {
+  return [
   {
     slug: "core-web-vitals",
     title: "Core Web Vitals: why performance became a selling point",
     date: "June 4, 2026",
     category: "Performance",
     image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[12] || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop"),
     excerpt:
       "Beyond SEO, load speed directly shapes how your brand is perceived and how well your site converts.",
     body: [
@@ -409,7 +416,7 @@ const BLOG_POSTS_DEMO = [
     date: "May 22, 2026",
     category: "Design",
     image:
-      "https://images.unsplash.com/photo-1545235617-9465d2a55698?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[13] || "https://images.unsplash.com/photo-1545235617-9465d2a55698?q=80&w=1200&auto=format&fit=crop"),
     excerpt:
       "A well-built design system isn't an agency luxury: it's the tool that aligns design and development and cuts your timelines.",
     body: [
@@ -425,7 +432,7 @@ const BLOG_POSTS_DEMO = [
     date: "May 9, 2026",
     category: "Marketing",
     image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[14] || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop"),
     excerpt:
       "Most sites don't lose visitors for lack of traffic, but from too much friction. A review of the most common leak points.",
     body: [
@@ -441,7 +448,7 @@ const BLOG_POSTS_DEMO = [
     date: "April 24, 2026",
     category: "Design",
     image:
-      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[15] || "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop"),
     excerpt:
       "Used well, animation guides the eye and smooths the experience. Used badly, it slows things down and annoys. Where's the right balance?",
     body: [
@@ -452,6 +459,8 @@ const BLOG_POSTS_DEMO = [
     ],
   },
 ];
+}
+let BLOG_POSTS_DEMO = BLOG_POSTS_DEMO_LIVE();
 let BLOG_POSTS = BLOG_POSTS_DEMO;
 
 /* ── Team & values for the À propos sub-page ── */
@@ -796,9 +805,15 @@ export default function ImpactAgencyTemplate() {
   }, []);
 
   fd = session?.formData;
+
+
+
   bp = session?.businessProfile;
   sessionData = session;
   c = session?.generatedContent;
+  BLOG_POSTS_DEMO = BLOG_POSTS_DEMO_LIVE();
+  WORK_DETAILS_DEMO = WORK_DETAILS_DEMO_LIVE();
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   TEAM_DEMO = TEAM_DEMO_LIVE();
 
 
@@ -1150,7 +1165,7 @@ return (
           }}
         >
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1600&auto=format&fit=crop")}
+            src={photo(0, (clientPhotos(sessionData)[16] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1600&auto=format&fit=crop"))}
             alt="Hero background"
             fill
             priority

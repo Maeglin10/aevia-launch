@@ -30,6 +30,7 @@ import {
   clientAddress,
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -146,7 +147,8 @@ interface Testimonial {
    Data
    ════════════════════════════════════════════════════════════════════════════ */
 
-const PHASES: Phase[] = [
+function PHASES_LIVE() {
+  return [
   {
     id: 'generale',
     index: 'I',
@@ -166,9 +168,11 @@ const PHASES: Phase[] = [
     index: 'III',
     caption: 'MÉDECINE DU SPORT',
     sub: 'Certificats médicaux, suivi de performance, prévention des blessures — pour amateurs et licenciés.',
-    imgId: 'https://images.pexels.com/photos/8460095/pexels-photo-8460095.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/8460095/pexels-photo-8460095.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
 ];
+}
+let PHASES = PHASES_LIVE();
 
 const CONSULTATIONS_DEMO: Consultation[] = [
   {
@@ -280,7 +284,7 @@ const MOTIFS = [
    ════════════════════════════════════════════════════════════════════════════ */
 
 function photoUrl(id: string, w = 1600) {
-  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
+  return ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[1] || `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`));
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -1440,7 +1444,7 @@ function PreventionPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || photoUrl('https://images.pexels.com/photos/8460095/pexels-photo-8460095.jpeg?auto=compress&cs=tinysrgb&w=1600', 900)}
+              src={fd?.photoUrls?.[1] || photoUrl((clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/8460095/pexels-photo-8460095.jpeg?auto=compress&cs=tinysrgb&w=1600'), 900)}
               alt="Médecine préventive — cabinet Dr. Beaumont"
               loading="lazy"
               style={{
@@ -2267,9 +2271,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PHASES = PHASES_LIVE();
   EDIT_ROWS = EDIT_ROWS_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(

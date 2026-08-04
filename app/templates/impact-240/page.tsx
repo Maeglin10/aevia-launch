@@ -119,15 +119,16 @@ interface Transformation {
 }
 
 /* ── Data ────────────────────────────────────────────────────────────────── */
-const PHOTO_BASE = 'https://images.unsplash.com/photo-';
+const PHOTO_BASE = (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-');
 
-const PROGRAMS_DEMO: Program[] = [
+function PROGRAMS_DEMO_LIVE() {
+  return [
   {
     id: 'prive',
     number: '01',
     caption: 'COACHING PRIVÉ',
     sub: '1-on-1 avec votre coach. Bilan complet, programme sur mesure, ajusté chaque semaine selon vos résultats.',
-    img: 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    img: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     id: 'hiit',
@@ -141,9 +142,11 @@ const PROGRAMS_DEMO: Program[] = [
     number: '03',
     caption: 'NUTRITION & LIFESTYLE',
     sub: 'Plan alimentaire intégré, suivi macros, sommeil et récupération. Le corps change quand la vie change.',
-    img: 'https://images.pexels.com/photos/7444444/pexels-photo-7444444.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    img: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/7444444/pexels-photo-7444444.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
 ];
+}
+let PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();
 
 const OFFERS_DEMO: Offer[] = [
   {
@@ -183,7 +186,7 @@ function EDIT_ROWS_DEMO_LIVE() {
   {
     eyebrow: 'Votre transformation',
     ghostNumber: '01',
-    img: 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=800',
+    img: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=800'),
     imgAlt: 'Séance de coaching privé au Studio Athletic ' + (clientCity(sessionData) ?? 'Lyon'),
     title: (
       <>
@@ -607,7 +610,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=2000'}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=2000')}
           alt="Séance de coaching au Studio Athletic Lyon 6e"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -2180,9 +2183,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();
   EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();
 
 

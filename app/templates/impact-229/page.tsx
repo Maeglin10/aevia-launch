@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -288,7 +289,7 @@ export default function EclatSpaPage() {
 
       <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1920&q=80")} alt="Institut spa Éclat Nice" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1920&q=80"))} alt="Institut spa Éclat Nice" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,4,2,0.92) 0%, rgba(10,4,2,0.36) 45%, rgba(10,4,2,0.06) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}15 0%, transparent 55%)` }} />
@@ -363,7 +364,7 @@ export default function EclatSpaPage() {
               Réserver <ArrowRight size={16} />
             </motion.a>
           </div></Reveal>
-          <Reveal><img src={photo(1, "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=800&q=80")} alt="Soin visage naturel" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
+          <Reveal><img src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=800&q=80"))} alt="Soin visage naturel" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
         </div>
       </section>
 

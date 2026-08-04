@@ -8,6 +8,7 @@ import { Music, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Guita
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -270,7 +271,7 @@ export default function ConservatoireAccordPage() {
       {/* Hero */}
       <section id="mb73-hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1920&q=80")} alt="Conservatoire Accord école de musique Lyon" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1920&q=80"))} alt="Conservatoire Accord école de musique Lyon" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,3,22,0.93) 0%, rgba(8,3,22,0.42) 45%, rgba(8,3,22,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.purple}18 0%, transparent 55%)` }} />
@@ -385,7 +386,7 @@ export default function ConservatoireAccordPage() {
             </motion.a>
           </Reveal>
           <Reveal>
-            <img src={photo(1, "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80")} alt="Cours de musique enfant Lyon" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80"))} alt="Cours de musique enfant Lyon" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
         </div>
       </section>

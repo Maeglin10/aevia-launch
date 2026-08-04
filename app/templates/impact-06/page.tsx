@@ -32,10 +32,13 @@ let fd: any = null;
 
 // Les avis, jusqu'ici écrits dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
-const AVIS_INLINE_SOURCE = [
-  { name: "Soren Kvist", role: "Quantum Architect", text: "The Neural Link didn't just improve my workflow; it changed my perception of mathematical structures. I'm no longer visualizing data—I'm inhabiting it.", img: photo(3, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80") },
-                { name: "Emi Nakamura", role: "Synthetic Biologist", text: "Oxy-Flow is the first augmentation that feels truly native. The focus is sustained, clinical, and entirely without the jitters of chemical stimulants.", img: photo(4, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80") }
+function AVIS_INLINE_SOURCE_LIVE() {
+  return [
+  { name: "Soren Kvist", role: "Quantum Architect", text: "The Neural Link didn't just improve my workflow; it changed my perception of mathematical structures. I'm no longer visualizing data—I'm inhabiting it.", img: photo(3, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80")) },
+                { name: "Emi Nakamura", role: "Synthetic Biologist", text: "Oxy-Flow is the first augmentation that feels truly native. The focus is sustained, clinical, and entirely without the jitters of chemical stimulants.", img: photo(4, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80")) }
 ];
+}
+let AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 let AVIS_INLINE = AVIS_INLINE_SOURCE;
 
 let c: any = null;
@@ -45,14 +48,15 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================= */
 
-const PRODUCTS_SOURCE = [
+function PRODUCTS_SOURCE_LIVE() {
+  return [
   { 
     id: 1, 
     name: "Neural Link V2", 
     category: "Hardware", 
     price: "$2,450",
     desc: "A sub-dermal haptic relay providing 1:1 sensory mapping between physical and digital environments.",
-    img: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=1200&q=80"
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=1200&q=80")
   },
   { 
     id: 2, 
@@ -60,7 +64,7 @@ const PRODUCTS_SOURCE = [
     category: "Bio-Tech", 
     price: "$450",
     desc: "Synthetic blood enhancement that increases oxygen transport to the prefrontal cortex by 40%.",
-    img: "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=1200&q=80"
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=1200&q=80")
   },
   { 
     id: 3, 
@@ -68,9 +72,11 @@ const PRODUCTS_SOURCE = [
     category: "Optics", 
     price: "$1,800",
     desc: "Retinal projection system with 32k resolution and integrated neural eye-tracking.",
-    img: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=1200&q=80"
+    img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=1200&q=80")
   },
 ];
+}
+let PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
 let PRODUCTS_DEMO = PRODUCTS_SOURCE;
 let PRODUCTS = PRODUCTS_DEMO;
 
@@ -173,8 +179,12 @@ export default function NeuralisPage() {
   }, []);
 
   fd = session?.formData;
+
+
   sessionData = session;
   c = session?.generatedContent;
+  PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
+  AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 
 
   AVIS_INLINE = resolveList(
@@ -285,7 +295,7 @@ export default function NeuralisPage() {
       {/* ── HERO ── */}
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-36 md:pt-0">
         <div className="absolute inset-0">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1600&q=80")} alt="Cyber Grid" fill className="object-cover opacity-20 mix-blend-screen" priority />
+          <Image src={photo(0, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1600&q=80"))} alt="Cyber Grid" fill className="object-cover opacity-20 mix-blend-screen" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-[#020204] via-transparent to-[#020204]" />
         </div>
 
@@ -439,7 +449,7 @@ export default function NeuralisPage() {
          <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
             <Reveal>
                <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
-                  <Image src={photo(1, "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80")} alt="Bio Lab" fill className="object-cover group-hover:scale-110 transition-all duration-[3s] mix-blend-screen opacity-60" />
+                  <Image src={photo(1, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80"))} alt="Bio Lab" fill className="object-cover group-hover:scale-110 transition-all duration-[3s] mix-blend-screen opacity-60" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                   <div className="absolute bottom-16 left-16 text-white">
                      <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[var(--brand,#00f2ff)]">The Atelier</span>
@@ -509,7 +519,7 @@ export default function NeuralisPage() {
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
            <Reveal>
               <div className="relative aspect-video rounded-sm overflow-hidden border border-white/5 group">
-                 <Image src={photo(2, "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80")} alt="Security" fill className="object-cover opacity-40 group-hover:scale-110 transition-transform duration-[3s]" />
+                 <Image src={photo(2, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80"))} alt="Security" fill className="object-cover opacity-40 group-hover:scale-110 transition-transform duration-[3s]" />
                  <div className="absolute inset-0 bg-[var(--brand,#00f2ff)]/5 animate-pulse" />
                  <div className="absolute inset-0 flex items-center justify-center">
                     <ShieldCheck className="w-24 h-24 text-[var(--brand,#00f2ff)]" />

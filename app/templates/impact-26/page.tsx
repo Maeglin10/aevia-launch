@@ -11,6 +11,7 @@ import { ArrowRight, Heart, ChevronLeft, ChevronRight, Star, Leaf, Droplets, Win
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -74,12 +75,13 @@ function Reveal({ children, className = "", delay = 0 }: { children: React.React
 
 // Each fragrance is sold in three bottle sizes, each at its own price — the
 // size is a required variant choice before a fragrance can be added to bag.
-const fragrances = [
+function fragrances_LIVE() {
+  return [
   {
     name: "Nuit Absolue",
     desc: "Oud noir, rose de Turquie, ambre gris",
     family: "Oriental",
-    img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=600&fit=crop&crop=center",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=600&fit=crop&crop=center"),
     notes: ["Oud", "Rose", "Ambre"],
     sizes: [
       { ml: "30ml", price: 215 },
@@ -91,7 +93,7 @@ const fragrances = [
     name: "Aube Dorée",
     desc: "Bergamote italienne, jasmin sambac, santal blanc",
     family: "Floral",
-    img: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=600&fit=crop&crop=center",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=600&fit=crop&crop=center"),
     notes: ["Bergamote", "Jasmin", "Santal"],
     sizes: [
       { ml: "30ml", price: 185 },
@@ -103,7 +105,7 @@ const fragrances = [
     name: "Brume Sauvage",
     desc: "Cèdre de l'Atlas, vétiver fumé, mousse de chêne",
     family: "Boisé",
-    img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=600&fit=crop&crop=center",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=600&fit=crop&crop=center"),
     notes: ["Cèdre", "Vétiver", "Mousse"],
     sizes: [
       { ml: "30ml", price: 200 },
@@ -115,7 +117,7 @@ const fragrances = [
     name: "Lumière Claire",
     desc: "Fleur d'oranger, musc blanc, poivre rose",
     family: "Frais",
-    img: "https://images.unsplash.com/photo-1557170334-a9632e77c6e4?w=400&h=600&fit=crop&crop=center",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1557170334-a9632e77c6e4?w=400&h=600&fit=crop&crop=center"),
     notes: ["Oranger", "Musc", "Poivre"],
     sizes: [
       { ml: "30ml", price: 170 },
@@ -123,7 +125,9 @@ const fragrances = [
       { ml: "100ml", price: 310 },
     ],
   },
-]
+];
+}
+let fragrances = fragrances_LIVE();
 
 type CartItem = { id: string; name: string; price: number; qty: number; size: string };
 function formatEUR(n: number): string {
@@ -183,8 +187,10 @@ export default function Impact26() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  fragrances = fragrances_LIVE();
   testimonials_SOURCE = testimonials_SOURCE_LIVE();
 
   STATS_INLINE = resolveList(
@@ -437,7 +443,7 @@ export default function Impact26() {
           <section id="hero" className="min-h-dvh flex items-end relative overflow-hidden pt-20">
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=1600&h=900&fit=crop&crop=center")}
+            src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=1600&h=900&fit=crop&crop=center"))}
             alt="Éther Parfums"
             fill
             className="object-cover opacity-40"
@@ -617,7 +623,7 @@ export default function Impact26() {
               <div className="relative">
                 <div className="aspect-[4/5] overflow-hidden rounded-sm">
                   <Image
-                    src={photo(1, "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=750&fit=crop&crop=center")}
+                    src={photo(1, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=750&fit=crop&crop=center"))}
                     alt="Atelier Éther"
                     width={600}
                     height={750}

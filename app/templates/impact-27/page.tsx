@@ -16,6 +16,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -61,29 +62,32 @@ const filterMap: Record<string, string> = {
   "Branding": "Branding",
 }
 
-const testimonials_SOURCE = [
+function testimonials_SOURCE_LIVE() {
+  return [
   {
     quote: "Vertex turned our static product catalogue into a living, interactive 3D experience. Conversion rate jumped 340% in the first quarter.",
     author: "Marc Duval",
     role: "Head of Digital, Phantom Motors",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face",
+    avatar: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face"),
     rating: 5,
   },
   {
     quote: "The WebAR campaign they delivered was flawless on every device. Our 48-hour launch saw 2.1 million sessions. Truly unprecedented results.",
     author: "Sophia Nakamura",
     role: "VP Marketing, ArcSpace",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face",
+    avatar: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face"),
     rating: 5,
   },
   {
     quote: "Working with Vertex was like having a GPU wizard on the team. They optimised our 3D assets to 78% smaller with zero visual loss. Remarkable.",
     author: "Lucas Brandt",
     role: "CTO, Studio Levi",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face",
+    avatar: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face"),
     rating: 5,
   },
-]
+];
+}
+let testimonials_SOURCE = testimonials_SOURCE_LIVE();
 let testimonials = testimonials_SOURCE;
 
 const techStack_SOURCE = [
@@ -846,9 +850,11 @@ export default function Home() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  testimonials_SOURCE = testimonials_SOURCE_LIVE();
 
 
   testimonials = resolveList(

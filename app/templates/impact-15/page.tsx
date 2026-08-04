@@ -7,6 +7,7 @@ import { Zap, Phone, Mail, MapPin, Clock, CheckCircle, Star, ArrowRight, Shield,
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -294,7 +295,7 @@ return (
           aligned with the actual visible viewport bottom. */}
       <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "560px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?w=1920&q=80")} alt="Piscine sur-mesure" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?w=1920&q=80"))} alt="Piscine sur-mesure" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,20,40,0.92) 0%, rgba(10,20,40,0.45) 45%, rgba(10,20,40,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
@@ -423,7 +424,7 @@ return (
       <section style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(1, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80")} alt="Pisciniste certifié Toulouse" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"))} alt="Pisciniste certifié Toulouse" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Pourquoi nous choisir</span>

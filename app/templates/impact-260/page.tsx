@@ -90,7 +90,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 const ph = (id: string) =>
-  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`);
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[1] || `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`));
 
 /* ════════════════════════════════════════════════════════════════════════════
    Typed interfaces
@@ -137,14 +137,14 @@ interface CertItem {
 function INTERVENTIONS_DEMO_LIVE() {
   return [
   {
-    img: ph('https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+    img: ph((clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600')),
     index: 'I',
     label: 'PLOMBERIE',
     title: 'Plomberie',
     body: 'Fuites détectées à la caméra, réfection de réseaux, sanitaires — intervention le jour même sur ' + (clientCity(sessionData) ?? 'Lyon') + ' Métropole.',
   },
   {
-    img: 'https://images.pexels.com/photos/7859953/pexels-photo-7859953.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    img: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/7859953/pexels-photo-7859953.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'II',
     label: 'CHAUFFAGE',
     title: 'Chauffage',
@@ -178,7 +178,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre engagement',
-    img: ph('https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600') + '&w=800',
+    img: ph((clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600')) + '&w=800',
     alt: 'Plombier Aqua Confort Lyon au travail',
     title: (
       <>
@@ -649,7 +649,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || (ph('https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600') + '&w=2000')}
+          src={fd?.photoUrls?.[0] || (ph((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600')) + '&w=2000')}
           alt="Plombier Aqua Confort Lyon en intervention"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
@@ -1474,7 +1474,7 @@ function CertPanel() {
               }}
             >
               <img
-                src={fd?.photoUrls?.[1] || 'https://images.pexels.com/photos/7859953/pexels-photo-7859953.jpeg?auto=compress&cs=tinysrgb&w=900'}
+                src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/7859953/pexels-photo-7859953.jpeg?auto=compress&cs=tinysrgb&w=900')}
                 alt="Technicien certifié RGE Aqua Confort Lyon"
                 loading="lazy"
                 style={{

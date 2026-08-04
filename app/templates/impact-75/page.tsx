@@ -58,7 +58,8 @@ let brand: any = null;
    DATA
    ============================================================ */
 
-const HERO_PRODUCTS_DEMO_SOURCE = [
+function HERO_PRODUCTS_DEMO_SOURCE_LIVE() {
+  return [
   {
     id: 1,
     name: "Helix Noir",
@@ -66,7 +67,7 @@ const HERO_PRODUCTS_DEMO_SOURCE = [
     price: "€8 400",
     desc: "Boîtier grade 5 titane poli miroir. Mouvement mécanique automatique 72h de réserve. Verre saphir anti-reflets.",
     badge: "Édition Limitée — 150 pièces",
-    img: "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=1200"),
     accent: "#0a0a0a",
   },
   {
@@ -76,7 +77,7 @@ const HERO_PRODUCTS_DEMO_SOURCE = [
     price: "€12 900",
     desc: "Cadran en nacre rose naturelle. Complications : date, phases de lune. Bracelet alligator bordeaux cousu main.",
     badge: "New Season",
-    img: "https://images.pexels.com/photos/1228517/pexels-photo-1228517.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/1228517/pexels-photo-1228517.jpeg?auto=compress&cs=tinysrgb&w=1200"),
     accent: "var(--brand,#8B0000)",
   },
   {
@@ -86,20 +87,23 @@ const HERO_PRODUCTS_DEMO_SOURCE = [
     price: "€15 600",
     desc: "Fonction GMT double fuseau. Céramique haute pression noire absolue. Étanchéité 300m. Certifié COSC.",
     badge: "Best-Seller",
-    img: "https://images.pexels.com/photos/4484237/pexels-photo-4484237.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/4484237/pexels-photo-4484237.jpeg?auto=compress&cs=tinysrgb&w=1200"),
     accent: "#1a3a5c",
   },
 ];
+}
+let HERO_PRODUCTS_DEMO_SOURCE = HERO_PRODUCTS_DEMO_SOURCE_LIVE();
 let HERO_PRODUCTS_DEMO = HERO_PRODUCTS_DEMO_SOURCE;
 let HERO_PRODUCTS = HERO_PRODUCTS_DEMO;
 
-const PRODUCTS_SOURCE = [
+function PRODUCTS_SOURCE_LIVE() {
+  return [
   {
     id: 1,
     name: "Helix Noir",
     price: "€8 400",
     isNew: false,
-    img: "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=800"),
     category: "Monochrome",
   },
   {
@@ -107,7 +111,7 @@ const PRODUCTS_SOURCE = [
     name: "Aurora S",
     price: "€12 900",
     isNew: true,
-    img: "https://images.pexels.com/photos/1228517/pexels-photo-1228517.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/1228517/pexels-photo-1228517.jpeg?auto=compress&cs=tinysrgb&w=800"),
     category: "Cadrans",
   },
   {
@@ -115,7 +119,7 @@ const PRODUCTS_SOURCE = [
     name: "Meridian GMT",
     price: "€15 600",
     isNew: false,
-    img: "https://images.pexels.com/photos/4484237/pexels-photo-4484237.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/4484237/pexels-photo-4484237.jpeg?auto=compress&cs=tinysrgb&w=800"),
     category: "Exploration",
   },
   {
@@ -123,7 +127,7 @@ const PRODUCTS_SOURCE = [
     name: "Solstice Blanc",
     price: "€6 200",
     isNew: true,
-    img: "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?q=80&w=800&auto=format&fit=crop"),
     category: "Classique",
   },
   {
@@ -131,7 +135,7 @@ const PRODUCTS_SOURCE = [
     name: "Vertex Chronograph",
     price: "€19 800",
     isNew: false,
-    img: "https://images.unsplash.com/photo-1461141346587-763ab02bced9?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1461141346587-763ab02bced9?q=80&w=800&auto=format&fit=crop"),
     category: "Chronographe",
   },
   {
@@ -139,46 +143,52 @@ const PRODUCTS_SOURCE = [
     name: "Onyx Perpetual",
     price: "€24 500",
     isNew: false,
-    img: "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: (clientPhotos(sessionData)[8] || "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=800"),
     category: "Grande Complication",
   },
 ];
+}
+let PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
 let PRODUCTS = PRODUCTS_SOURCE;
 
-const MATERIALS_DEMO_SOURCE = [
+function MATERIALS_DEMO_SOURCE_LIVE() {
+  return [
   {
     name: "Swiss Movement",
     subtitle: "ETA 2824-2 / In-house",
     desc: "Chaque calibre est assemblé à la main par nos maîtres horlogers à Genève. Réglage chronomètre, 6 positions. Réserve de marche minimum 48h.",
-    img: "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=800&auto=format&fit=crop"),
   },
   {
     name: "Sapphire Crystal",
     subtitle: "Grade 9 · Anti-reflective",
     desc: "Verre saphir synthétique de grade 9, traitement anti-reflets double face. Dureté Mohs 9/10 — résistant aux rayures du quotidien.",
-    img: "https://images.unsplash.com/photo-1622434641406-a158123450f9?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1622434641406-a158123450f9?q=80&w=800&auto=format&fit=crop"),
   },
   {
     name: "Grade 5 Titanium",
     subtitle: "Ti6Al4V · DLC Coated",
     desc: "Alliage aérospatial grade 5 (Ti-6Al-4V), 40% plus léger que l'acier, 3× plus résistant. Revêtement DLC noir 5 microns en option.",
-    img: "https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=800&auto=format&fit=crop"),
   },
   {
     name: "Alligator Strap",
     subtitle: "Mississippi · Cousu main",
     desc: "Cuir alligator du Mississippi tannage végétal, cousu main double fil de soie, doublure veau nappa. Boucle déployante en titane massif.",
-    img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[12] || "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=800&auto=format&fit=crop"),
   },
 ];
+}
+let MATERIALS_DEMO_SOURCE = MATERIALS_DEMO_SOURCE_LIVE();
 let MATERIALS_DEMO = MATERIALS_DEMO_SOURCE;
 let MATERIALS = MATERIALS_DEMO;
 
-const BESTSELLERS_DEMO_SOURCE = [
+function BESTSELLERS_DEMO_SOURCE_LIVE() {
+  return [
   {
     name: "Meridian GMT",
     price: "€15 600",
-    img: "https://images.pexels.com/photos/4484237/pexels-photo-4484237.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: (clientPhotos(sessionData)[13] || "https://images.pexels.com/photos/4484237/pexels-photo-4484237.jpeg?auto=compress&cs=tinysrgb&w=800"),
     specs: [
       { label: "Mouvement", val: "Automatique In-house" },
       { label: "Boîtier", val: "Titane grade 5, 42mm" },
@@ -190,7 +200,7 @@ const BESTSELLERS_DEMO_SOURCE = [
   {
     name: "Aurora S",
     price: "€12 900",
-    img: "https://images.pexels.com/photos/1228517/pexels-photo-1228517.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: (clientPhotos(sessionData)[14] || "https://images.pexels.com/photos/1228517/pexels-photo-1228517.jpeg?auto=compress&cs=tinysrgb&w=800"),
     specs: [
       { label: "Mouvement", val: "ETA 2892 modifié" },
       { label: "Cadran", val: "Nacre rose naturelle" },
@@ -202,7 +212,7 @@ const BESTSELLERS_DEMO_SOURCE = [
   {
     name: "Onyx Perpetual",
     price: "€24 500",
-    img: "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: (clientPhotos(sessionData)[15] || "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=800"),
     specs: [
       { label: "Mouvement", val: "Calendrier Perpétuel maison" },
       { label: "Complications", val: "Quantième perpétuel, Chrono" },
@@ -212,6 +222,8 @@ const BESTSELLERS_DEMO_SOURCE = [
     ],
   },
 ];
+}
+let BESTSELLERS_DEMO_SOURCE = BESTSELLERS_DEMO_SOURCE_LIVE();
 let BESTSELLERS_DEMO = BESTSELLERS_DEMO_SOURCE;
 let BESTSELLERS = BESTSELLERS_DEMO;
 
@@ -654,8 +666,16 @@ export default function OrbitAIPage() {
   }, []);
 
   fd = session?.formData;
+
+
+
+
   sessionData = session;
   c = session?.generatedContent;
+  BESTSELLERS_DEMO_SOURCE = BESTSELLERS_DEMO_SOURCE_LIVE();
+  MATERIALS_DEMO_SOURCE = MATERIALS_DEMO_SOURCE_LIVE();
+  PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
+  HERO_PRODUCTS_DEMO_SOURCE = HERO_PRODUCTS_DEMO_SOURCE_LIVE();
 
   HERO_PRODUCTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length].price })),

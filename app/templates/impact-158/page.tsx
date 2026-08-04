@@ -54,7 +54,8 @@ const NAV = [
   { l: "Newsletter", h: "#newsletter" },
 ];
 
-const ARTICLES_DEMO = [
+function ARTICLES_DEMO_LIVE() {
+  return [
   {
     id: 1,
     region: "Asie du Sud-Est",
@@ -63,7 +64,7 @@ const ARTICLES_DEMO = [
     excerpt: "Novembre transforme les collines de Kyoto en une explosion de rouge et d'or. Carnet d'une semaine à marcher entre temples et jardins...",
     date: "12 novembre 2024",
     readTime: "11 min",
-    image: "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80",
+    image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80"),
     tag: "Récit",
   },
   {
@@ -74,7 +75,7 @@ const ARTICLES_DEMO = [
     excerpt: "Il faut arriver avant six heures du matin. La caravane de touristes n'est pas encore là et les parois de 160 mètres flamboient...",
     date: "3 octobre 2024",
     readTime: "8 min",
-    image: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=800&q=80",
+    image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=800&q=80"),
     tag: "Photographie",
   },
   {
@@ -85,7 +86,7 @@ const ARTICLES_DEMO = [
     excerpt: "Décembre en Islande est une folie douce. Cinq heures de clarté, des températures imprévisibles et le ciel qui danse...",
     date: "18 décembre 2024",
     readTime: "14 min",
-    image: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800&q=80",
+    image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800&q=80"),
     tag: "Aventure",
   },
   {
@@ -96,7 +97,7 @@ const ARTICLES_DEMO = [
     excerpt: "Tout le monde sait qu'il faut partir tôt. Mais « tôt » à Aguas Calientes, c'est 3h30 du matin, dans le brouillard...",
     date: "5 septembre 2024",
     readTime: "9 min",
-    image: "https://images.unsplash.com/photo-1526392060635-9d6019884377?w=800&q=80",
+    image: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1526392060635-9d6019884377?w=800&q=80"),
     tag: "Récit",
   },
   {
@@ -107,7 +108,7 @@ const ARTICLES_DEMO = [
     excerpt: "Pas de route, pas de wifi, pas d'heure. Juste la terre rouge, le ciel immense et les histoires du Temps du Rêve...",
     date: "22 juillet 2024",
     readTime: "16 min",
-    image: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=800&q=80",
+    image: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=800&q=80"),
     tag: "Immersion",
   },
   {
@@ -118,20 +119,25 @@ const ARTICLES_DEMO = [
     excerpt: "Comment des hommes du XIIe siècle ont-ils pu creuser onze cathédrales dans la roche basaltique ? Une question qui obsède.",
     date: "14 juin 2024",
     readTime: "12 min",
-    image: "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80",
+    image: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80"),
     tag: "Patrimoine",
   },
-]
+];
+}
+let ARTICLES_DEMO = ARTICLES_DEMO_LIVE();
 let ARTICLES = ARTICLES_DEMO;
 
-const DESTINATIONS_DEMO = [
-  { name: "Japon", articles: 12, image: "https://images.unsplash.com/photo-1480796927426-f609979314bd?w=400&q=80" },
-  { name: "Pérou", articles: 8, image: "https://images.unsplash.com/photo-1580502304784-8985b7eb7260?w=400&q=80" },
-  { name: "Islande", articles: 6, image: "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=400&q=80" },
-  { name: "Maroc", articles: 9, image: "https://images.unsplash.com/photo-1597212618440-806262de4f6b?w=400&q=80" },
-  { name: "Éthiopie", articles: 5, image: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400&q=80" },
-  { name: "Australie", articles: 7, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80" },
-]
+function DESTINATIONS_DEMO_LIVE() {
+  return [
+  { name: "Japon", articles: 12, image: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1480796927426-f609979314bd?w=400&q=80") },
+  { name: "Pérou", articles: 8, image: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1580502304784-8985b7eb7260?w=400&q=80") },
+  { name: "Islande", articles: 6, image: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=400&q=80") },
+  { name: "Maroc", articles: 9, image: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1597212618440-806262de4f6b?w=400&q=80") },
+  { name: "Éthiopie", articles: 5, image: (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400&q=80") },
+  { name: "Australie", articles: 7, image: (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80") },
+];
+}
+let DESTINATIONS_DEMO = DESTINATIONS_DEMO_LIVE();
 let DESTINATIONS = DESTINATIONS_DEMO;
 
 const REGIONS = ["Toutes", "Asie", "Afrique", "Europe", "Amériques", "Océanie"]
@@ -169,8 +175,12 @@ export default function AtlasPage() {
   }, []);
 
   fd = session?.formData;
+
+
   sessionData = session;
   c = session?.generatedContent;
+  DESTINATIONS_DEMO = DESTINATIONS_DEMO_LIVE();
+  ARTICLES_DEMO = ARTICLES_DEMO_LIVE();
 
   ARTICLES = ARTICLES_DEMO.map((row, i) => ({
     ...row,
@@ -305,11 +315,11 @@ export default function AtlasPage() {
         <motion.div className="absolute top-24 right-8 md:right-20 hidden md:block"
           initial={{ opacity: 0, rotate: -5 }} animate={{ opacity: 1, rotate: -5 }} transition={{ delay: 0.8 }}>
           <div className="relative w-40 h-28 bg-[#FFF8EF] shadow-2xl rounded-sm overflow-hidden rotate-[-5deg]">
-            <Image src={photo(0, "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=200&q=70")} alt="postcard" fill className="object-cover" />
+            <Image src={photo(0, (clientPhotos(sessionData)[12] || "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=200&q=70"))} alt="postcard" fill className="object-cover" />
             <div className="absolute bottom-1 left-2 text-[10px] text-[#2C1F0E] font-mono">Kyoto, JP — 11.2024</div>
           </div>
           <div className="absolute -top-4 -right-4 w-36 h-24 bg-[#FFF8EF] shadow-xl rounded-sm overflow-hidden rotate-[8deg]">
-            <Image src={photo(1, "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=200&q=70")} alt="postcard" fill className="object-cover" />
+            <Image src={photo(1, (clientPhotos(sessionData)[13] || "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=200&q=70"))} alt="postcard" fill className="object-cover" />
             <div className="absolute bottom-1 left-2 text-[10px] text-[#2C1F0E] font-mono">Todra, MA — 10.2024</div>
           </div>
         </motion.div>
@@ -451,7 +461,7 @@ export default function AtlasPage() {
           <Reveal>
             <div className="relative">
               <div className="aspect-[4/5] relative overflow-hidden">
-                <Image src={photo(2, "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80")} alt="Auteur" fill className="object-cover" />
+                <Image src={photo(2, (clientPhotos(sessionData)[14] || "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80"))} alt="Auteur" fill className="object-cover" />
               </div>
               <div className="absolute -bottom-8 -right-6 bg-[var(--brand,#C0392B)] text-white p-6">
                 <div className="text-3xl font-light mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>2012</div>

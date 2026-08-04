@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -306,7 +307,7 @@ export default function LumiereDoreePage() {
       >
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img
-            src={photo(0, "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80")}
+            src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80"))}
             alt="Cérémonie de mariage"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />

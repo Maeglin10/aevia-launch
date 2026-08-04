@@ -22,6 +22,7 @@ import {
   clientHours,
   clientList,
   clientName,
+  clientPhotos,
   clientServices,
   clientStats,
   clientTeam,
@@ -237,11 +238,11 @@ function BlueprintHero() {
      not a paragraph, and the blueprint grid stays layered over the photograph
      because it is this template's signature. */
   const PROJECT_MEDIA = [
-    "https://images.pexels.com/photos/37201905/pexels-photo-37201905.jpeg?auto=compress&cs=tinysrgb&w=2000",
-    "https://images.pexels.com/photos/14668116/pexels-photo-14668116.jpeg?auto=compress&cs=tinysrgb&w=2000",
-    "https://images.pexels.com/photos/9473066/pexels-photo-9473066.jpeg?auto=compress&cs=tinysrgb&w=2000",
-    "https://images.pexels.com/photos/19034547/pexels-photo-19034547.jpeg?auto=compress&cs=tinysrgb&w=2000",
-    "https://images.pexels.com/photos/31258538/pexels-photo-31258538.jpeg?auto=compress&cs=tinysrgb&w=2000",
+    (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/37201905/pexels-photo-37201905.jpeg?auto=compress&cs=tinysrgb&w=2000"),
+    (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/14668116/pexels-photo-14668116.jpeg?auto=compress&cs=tinysrgb&w=2000"),
+    (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/9473066/pexels-photo-9473066.jpeg?auto=compress&cs=tinysrgb&w=2000"),
+    (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/19034547/pexels-photo-19034547.jpeg?auto=compress&cs=tinysrgb&w=2000"),
+    (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/31258538/pexels-photo-31258538.jpeg?auto=compress&cs=tinysrgb&w=2000"),
   ];
 
   const projects = resolveList(

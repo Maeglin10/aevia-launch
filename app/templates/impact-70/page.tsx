@@ -13,6 +13,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -143,7 +144,7 @@ return (
         <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-28 pb-16 md:pt-16">
           <div className="absolute inset-0">
             <Image
-              src={photo(0, "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2400")}
+              src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2400"))}
               alt="Club Atmosphere"
               fill
               className="object-cover opacity-20 scale-105"

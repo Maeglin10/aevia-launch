@@ -12,6 +12,7 @@ import { Reveal, ScrollImage, projects as projects_DEMO, services as services_DE
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -163,7 +164,7 @@ export default function Home() {
         <div className="flex-1 relative overflow-hidden">
           <motion.div style={{ y: heroY, scale: heroScale }} className="absolute inset-0">
             <Image
-              src={photo(0, "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=900&fit=crop&crop=center")}
+              src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=900&fit=crop&crop=center"))}
               alt="Brutco Architecture"
               fill
               className="object-cover grayscale"
@@ -281,7 +282,7 @@ export default function Home() {
       <section className="py-0 bg-black text-white">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 min-h-[600px]">
           <ScrollImage
-            src={photo(1, "https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?w=800&h=600&fit=crop&crop=center")}
+            src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?w=800&h=600&fit=crop&crop=center"))}
             alt="Brutco studio"
             width={800}
             height={600}
@@ -363,9 +364,9 @@ export default function Home() {
             </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <ScrollImage src={photo(2, "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=600&h=800&fit=crop&crop=center")} alt="Concrete" width={600} height={800} className="rounded-none w-full aspect-[3/4]" dir={-1} yRange={80} />
-            <ScrollImage src={photo(3, "https://images.unsplash.com/photo-1460317442991-0ec209397118?w=600&h=800&fit=crop&crop=center")} alt="Structure" width={600} height={800} className="rounded-none w-full aspect-[3/4] mt-16" dir={1} yRange={60} />
-            <ScrollImage src={photo(4, "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=600&h=800&fit=crop&crop=center")} alt="Space" width={600} height={800} className="rounded-none w-full aspect-[3/4]" dir={-1} yRange={80} />
+            <ScrollImage src={photo(2, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=600&h=800&fit=crop&crop=center"))} alt="Concrete" width={600} height={800} className="rounded-none w-full aspect-[3/4]" dir={-1} yRange={80} />
+            <ScrollImage src={photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1460317442991-0ec209397118?w=600&h=800&fit=crop&crop=center"))} alt="Structure" width={600} height={800} className="rounded-none w-full aspect-[3/4] mt-16" dir={1} yRange={60} />
+            <ScrollImage src={photo(4, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=600&h=800&fit=crop&crop=center"))} alt="Space" width={600} height={800} className="rounded-none w-full aspect-[3/4]" dir={-1} yRange={80} />
           </div>
         </div>
       </section>
@@ -516,7 +517,7 @@ export default function Home() {
                     <div className="mt-8 w-full aspect-[4/3] relative overflow-hidden border border-white/20">
                       <Image
                         src={projects.find(p => p.name.includes(testimonials[activeTestimonial].project.split("—")[0].trim().toUpperCase()))?.img
-                          ?? photo(5, "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=600&h=400&fit=crop&crop=center")}
+                          ?? photo(5, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=600&h=400&fit=crop&crop=center"))}
                         alt="Project"
                         fill
                         className="object-cover grayscale opacity-80"
@@ -636,7 +637,7 @@ export default function Home() {
         <div className="relative overflow-hidden min-h-[480px] flex items-center">
           {/* Background image */}
           <ScrollImage
-            src={photo(6, "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=700&fit=crop&crop=center")}
+            src={photo(6, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=700&fit=crop&crop=center"))}
             alt="CTA architecture"
             width={1600}
             height={700}

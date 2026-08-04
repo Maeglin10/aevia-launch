@@ -71,11 +71,14 @@ let sessionData: any = null;
    slides left while the next arrives from the right — two passing shots,
    both subjects on screen for an instant, no fade. The three photos were
    already in this file (hero / about / special), verified at the merge. */
-const HERO_STYLES_DEMO = [
-  { k: 'Fineline', d: 'Traits fins, précision millimétrée', img: 'https://images.pexels.com/photos/5088473/pexels-photo-5088473.jpeg?auto=compress&cs=tinysrgb&w=1600' },
-  { k: 'Aquarelle', d: 'Couleurs diluées, contours libres', img: 'https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=1600&auto=format&fit=crop' },
-  { k: 'Botanique', d: 'Fleurs et feuillages sur mesure', img: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1600&auto=format&fit=crop' },
-];
+function HERO_STYLES_DEMO_LIVE() {
+  return [
+  { k: 'Fineline', d: 'Traits fins, précision millimétrée', img: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/5088473/pexels-photo-5088473.jpeg?auto=compress&cs=tinysrgb&w=1600') },
+  { k: 'Aquarelle', d: 'Couleurs diluées, contours libres', img: (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=1600&auto=format&fit=crop') },
+  { k: 'Botanique', d: 'Fleurs et feuillages sur mesure', img: (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1600&auto=format&fit=crop') },
+] as const;
+}
+let HERO_STYLES_DEMO = HERO_STYLES_DEMO_LIVE();
 let HERO_STYLES = HERO_STYLES_DEMO;
 
 // Custom Instagram icon component for compatibility
@@ -135,15 +138,18 @@ const SANS = "'DM Mono', monospace" as const;
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const PHOTO = {
-  hero: "https://images.pexels.com/photos/5088473/pexels-photo-5088473.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  about: "https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=1600&auto=format&fit=crop",
-  special: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1600&auto=format&fit=crop",
-  gallery1: "https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=800&auto=format&fit=crop",
-  gallery2: "https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=800&auto=format&fit=crop",
-  gallery3: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=800&auto=format&fit=crop",
-  gallery4: "https://images.pexels.com/photos/5088473/pexels-photo-5088473.jpeg?auto=compress&cs=tinysrgb&w=800"
-} as const;
+function PHOTO_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/5088473/pexels-photo-5088473.jpeg?auto=compress&cs=tinysrgb&w=1600"),
+  about: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=1600&auto=format&fit=crop"),
+  special: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1600&auto=format&fit=crop"),
+  gallery1: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=800&auto=format&fit=crop"),
+  gallery2: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=800&auto=format&fit=crop"),
+  gallery3: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=800&auto=format&fit=crop"),
+  gallery4: (clientPhotos(sessionData)[10] || "https://images.pexels.com/photos/5088473/pexels-photo-5088473.jpeg?auto=compress&cs=tinysrgb&w=800")
+};
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ── Primitives Reutilisables ─────────────────────────────────────────────── */
 
@@ -364,9 +370,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
+  HERO_STYLES_DEMO = HERO_STYLES_DEMO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

@@ -5,6 +5,7 @@ import {
   clientFaq,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -33,49 +34,55 @@ let brand: any = null;
    DATA
    ========================================================================== */
 
-const PROJECTS_DEMO = [
-  { id: 1, title: "Fluid Horizons", category: "Photography", year: "2026", image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop", color: "var(--brand,#6366f1)", desc: "Capturing the ephemeral dance between sky and sea along the Icelandic coastline. A study in vastness, silence, and the weight of light at dusk.", role: "Photographer & Art Director", client: "National Geographic", duration: "3 Months" },
-  { id: 2, title: "Tokyo Neon", category: "Street", year: "2025", image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1200&auto=format&fit=crop", color: "#f43f5e", desc: "A nocturnal exploration of Shinjuku's electric veins — where neon bleeds into rain-slicked asphalt and human stories unfold in 1/125th of a second.", role: "Street Photographer", client: "Personal Project", duration: "6 Weeks" },
-  { id: 3, title: "Concrete Poetry", category: "Architecture", year: "2025", image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=1200&auto=format&fit=crop", color: "#10b981", desc: "Brutalist structures reimagined as sculptural poems. Exploring the tension between mass and void in post-war European architecture.", role: "Architecture Photographer", client: "Wallpaper Magazine", duration: "4 Months" },
-  { id: 4, title: "Skin & Silk", category: "Fashion", year: "2024", image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200&auto=format&fit=crop", color: "#d97706", desc: "Editorial series for Maison Lumière's haute couture collection. Merging classical portraiture with contemporary fashion storytelling.", role: "Fashion Photographer", client: "Maison Lumière", duration: "2 Months" },
-  { id: 5, title: "Volcanic Silence", category: "Landscape", year: "2024", image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop", color: "#8b5cf6", desc: "The aftermath of eruption — where destruction creates a canvas more beautiful than any human could conceive. Shot over three expeditions.", role: "Documentary Photographer", client: "BBC Earth", duration: "8 Months" },
-  { id: 6, title: "Human Form", category: "Portrait", year: "2026", image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1200&auto=format&fit=crop", color: "#ec4899", desc: "An intimate portrait series celebrating the raw beauty of the human form — unretouched, unfiltered, unapologetically real.", role: "Portrait Photographer", client: "Vogue Italia", duration: "5 Weeks" },
-  { id: 7, title: "Desert Shadows", category: "Landscape", year: "2025", image: "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?q=80&w=1200&auto=format&fit=crop", color: "#f59e0b", desc: "A minimalist approach to the Sahara. Using harsh midday light to create striking geometric compositions out of shifting dunes.", role: "Photographer", client: "Condé Nast Traveler", duration: "4 Weeks" },
-  { id: 8, title: "Urban Pulse", category: "Street", year: "2023", image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop", color: "#3b82f6", desc: "The chaos of New York City distilled into frozen moments. A monochrome series focusing on the isolation within the crowd.", role: "Street Photographer", client: "The New Yorker", duration: "3 Months" },
+function PROJECTS_DEMO_LIVE() {
+  return [
+  { id: 1, title: "Fluid Horizons", category: "Photography", year: "2026", image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop"), color: "var(--brand,#6366f1)", desc: "Capturing the ephemeral dance between sky and sea along the Icelandic coastline. A study in vastness, silence, and the weight of light at dusk.", role: "Photographer & Art Director", client: "National Geographic", duration: "3 Months" },
+  { id: 2, title: "Tokyo Neon", category: "Street", year: "2025", image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1200&auto=format&fit=crop"), color: "#f43f5e", desc: "A nocturnal exploration of Shinjuku's electric veins — where neon bleeds into rain-slicked asphalt and human stories unfold in 1/125th of a second.", role: "Street Photographer", client: "Personal Project", duration: "6 Weeks" },
+  { id: 3, title: "Concrete Poetry", category: "Architecture", year: "2025", image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=1200&auto=format&fit=crop"), color: "#10b981", desc: "Brutalist structures reimagined as sculptural poems. Exploring the tension between mass and void in post-war European architecture.", role: "Architecture Photographer", client: "Wallpaper Magazine", duration: "4 Months" },
+  { id: 4, title: "Skin & Silk", category: "Fashion", year: "2024", image: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200&auto=format&fit=crop"), color: "#d97706", desc: "Editorial series for Maison Lumière's haute couture collection. Merging classical portraiture with contemporary fashion storytelling.", role: "Fashion Photographer", client: "Maison Lumière", duration: "2 Months" },
+  { id: 5, title: "Volcanic Silence", category: "Landscape", year: "2024", image: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop"), color: "#8b5cf6", desc: "The aftermath of eruption — where destruction creates a canvas more beautiful than any human could conceive. Shot over three expeditions.", role: "Documentary Photographer", client: "BBC Earth", duration: "8 Months" },
+  { id: 6, title: "Human Form", category: "Portrait", year: "2026", image: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1200&auto=format&fit=crop"), color: "#ec4899", desc: "An intimate portrait series celebrating the raw beauty of the human form — unretouched, unfiltered, unapologetically real.", role: "Portrait Photographer", client: "Vogue Italia", duration: "5 Weeks" },
+  { id: 7, title: "Desert Shadows", category: "Landscape", year: "2025", image: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?q=80&w=1200&auto=format&fit=crop"), color: "#f59e0b", desc: "A minimalist approach to the Sahara. Using harsh midday light to create striking geometric compositions out of shifting dunes.", role: "Photographer", client: "Condé Nast Traveler", duration: "4 Weeks" },
+  { id: 8, title: "Urban Pulse", category: "Street", year: "2023", image: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop"), color: "#3b82f6", desc: "The chaos of New York City distilled into frozen moments. A monochrome series focusing on the isolation within the crowd.", role: "Street Photographer", client: "The New Yorker", duration: "3 Months" },
 ];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 const CATEGORIES = ["All", "Photography", "Street", "Architecture", "Fashion", "Landscape", "Portrait"];
 
-const SERVICES_SOURCE = [
+function SERVICES_SOURCE_LIVE() {
+  return [
   {
     id: "01",
     title: "Editorial Photography",
     desc: "High-end fashion and lifestyle imagery for magazines and global campaigns. Focused on narrative-driven compositions that elevate brand storytelling.",
     colSpan: "lg:col-span-8",
-    bgImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop",
+    bgImage: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop"),
   },
   {
     id: "02",
     title: "Art Direction",
     desc: "Comprehensive visual strategy from concept to final execution, ensuring cohesive brand identity.",
     colSpan: "lg:col-span-4",
-    bgImage: "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?q=80&w=800&auto=format&fit=crop",
+    bgImage: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?q=80&w=800&auto=format&fit=crop"),
   },
   {
     id: "03",
     title: "Commercial",
     desc: "Product and brand photography designed to convert, crafted with meticulous attention to lighting and detail.",
     colSpan: "lg:col-span-4",
-    bgImage: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop",
+    bgImage: (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop"),
   },
   {
     id: "04",
     title: "Portraiture",
     desc: "Intimate, character-driven portraits for artists, executives, and public figures seeking authentic representation.",
     colSpan: "lg:col-span-8",
-    bgImage: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop",
+    bgImage: (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop"),
   },
 ];
+}
+let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
 
 const PROCESS = [
@@ -218,9 +225,13 @@ export default function CreativePortfolioSPA() {
   }, []);
 
   fd = session?.formData;
+
+
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   FAQS_DEMO = FAQS_DEMO_LIVE();
 
 
@@ -354,7 +365,7 @@ export default function CreativePortfolioSPA() {
           ========================================== */}
       <section id="hero" className="relative h-dvh w-full flex items-center justify-center overflow-hidden">
         <motion.div style={{ y: heroY, scale: scaleProgress }} className="absolute inset-0 z-0 origin-bottom">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1600&auto=format&fit=crop")} fill className="object-cover" alt="Hero" priority />
+          <Image src={photo(0, (clientPhotos(sessionData)[12] || "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1600&auto=format&fit=crop"))} fill className="object-cover" alt="Hero" priority />
           <div className="absolute inset-0 bg-black/50" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/60" />
         </motion.div>
@@ -494,7 +505,7 @@ export default function CreativePortfolioSPA() {
           <Reveal className="lg:col-span-5">
             <div className="relative">
               <div className="relative aspect-[3/4] rounded-3xl overflow-hidden bg-white/5">
-                <Image src={photo(1, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Elena Korr Portfolio"))} fill className="object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
+                <Image src={photo(1, (clientPhotos(sessionData)[13] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop"))} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Elena Korr Portfolio"))} fill className="object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
               </div>
               <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-amber-400 text-black flex items-center justify-center text-center shadow-[0_0_40px_rgba(251,191,36,0.3)] backdrop-blur-md">
                 <div>
@@ -662,7 +673,7 @@ export default function CreativePortfolioSPA() {
           9. CONTACT / CTA
           ========================================== */}
       <section id="contact" className="py-32 md:py-40 px-6 md:px-12 relative overflow-hidden bg-amber-400 text-black">
-        <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url(photo(2, "https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=800&auto=format&fit=crop"))', backgroundSize: 'cover' }} />
+        <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url(photo(2, (clientPhotos(sessionData)[14] || "https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=800&auto=format&fit=crop")))', backgroundSize: 'cover' }} />
         
         <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center text-center">
           <Reveal>

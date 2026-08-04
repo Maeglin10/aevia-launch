@@ -19,6 +19,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -39,7 +40,8 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================== */
 
-const DESTINATIONS_DEMO = [
+function DESTINATIONS_DEMO_LIVE() {
+  return [
   {
     id: "dst-01",
     title: "Namib Desert",
@@ -48,7 +50,7 @@ const DESTINATIONS_DEMO = [
     days: "8 Days",
     desc: "Traverse the oldest desert in the world. Witness the towering red dunes of Sossusvlei and the surreal dead-tree valleys of Deadvlei.",
     image:
-      "https://images.pexels.com/photos/18386168/pexels-photo-18386168.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/18386168/pexels-photo-18386168.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     color: "var(--brand,#d97736)",
   },
   {
@@ -59,7 +61,7 @@ const DESTINATIONS_DEMO = [
     days: "10 Days",
     desc: "High-altitude salt flats, active geysers, and the clearest night skies on Earth. An alien landscape waiting to be explored.",
     image:
-      "https://images.pexels.com/photos/20873970/pexels-photo-20873970.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/20873970/pexels-photo-20873970.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     color: "#b45309",
   },
   {
@@ -70,7 +72,7 @@ const DESTINATIONS_DEMO = [
     days: "6 Days",
     desc: "Fairy chimneys, underground cities, and dawn balloon flights over ancient volcanic valleys.",
     image:
-      "https://images.pexels.com/photos/6173322/pexels-photo-6173322.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/6173322/pexels-photo-6173322.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     color: "#c2410c",
   },
   {
@@ -81,10 +83,12 @@ const DESTINATIONS_DEMO = [
     days: "5 Days",
     desc: "The Valley of the Moon. Sleep in luxury glass domes under the stars and ride through sandstone canyons.",
     image:
-      "https://images.unsplash.com/photo-1547234935-80c7145ec969?q=80&w=1600&auto=format&fit=crop",
+      (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1547234935-80c7145ec969?q=80&w=1600&auto=format&fit=crop"),
     color: "#9a3412",
   },
 ];
+}
+let DESTINATIONS_DEMO = DESTINATIONS_DEMO_LIVE();
 
 const EXPERIENCES_DEMO = [
   {
@@ -194,9 +198,11 @@ export default function WanderlustPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  DESTINATIONS_DEMO = DESTINATIONS_DEMO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -552,7 +558,7 @@ export default function WanderlustPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <Reveal className="relative aspect-[4/5] rounded-2xl overflow-hidden order-2 lg:order-1">
               <Image
-                src={photo(0, "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=1200&auto=format&fit=crop")}
+                src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=1200&auto=format&fit=crop"))}
                 alt="Safari"
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-[2s]"

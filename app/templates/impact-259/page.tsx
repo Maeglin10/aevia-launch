@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -125,14 +126,15 @@ interface SourcingStep {
    Données
    ════════════════════════════════════════════════════════════════════════════ */
 
-const CREATIONS: Creation[] = [
+function CREATIONS_LIVE() {
+  return [
   {
     id: 'pains',
     index: 'I',
     label: 'LES PAINS',
     description:
       "Levain de seigle, semoule de blé dur, graines torréfiées maison — notre gamme s'inspire des terroirs alsacien et méditerranéen.",
-    imgId: 'https://images.pexels.com/photos/32459865/pexels-photo-32459865.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/32459865/pexels-photo-32459865.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     id: 'patisserie',
@@ -140,7 +142,7 @@ const CREATIONS: Creation[] = [
     label: 'LA PÂTISSERIE',
     description:
       'Kouglof, tarte flambée sucrée, millefeuille vanille Bourbon — tradition alsacienne réinterprétée avec légèreté.',
-    imgId: 'https://images.pexels.com/photos/29380149/pexels-photo-29380149.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/29380149/pexels-photo-29380149.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     id: 'cafe',
@@ -148,9 +150,11 @@ const CREATIONS: Creation[] = [
     label: 'LE CAFÉ',
     description:
       'Café de spécialité torréfié localement, brunch du samedi, lunch du mardi au vendredi — le carrefour du quartier.',
-    imgId: 'https://images.pexels.com/photos/34164441/pexels-photo-34164441.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/34164441/pexels-photo-34164441.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
 ];
+}
+let CREATIONS = CREATIONS_LIVE();
 
 const MENU_ITEMS_DEMO: MenuItem[] = [
   {
@@ -195,7 +199,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre ancrage',
-    imgId: 'https://images.pexels.com/photos/32459865/pexels-photo-32459865.jpeg?auto=compress&cs=tinysrgb&w=800',
+    imgId: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/32459865/pexels-photo-32459865.jpeg?auto=compress&cs=tinysrgb&w=800'),
     title: (
       <>
         {clientCity(sessionData) ?? "Strasbourg"} /{' '}
@@ -208,7 +212,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   },
   {
     eyebrow: "L'espace",
-    imgId: 'https://images.pexels.com/photos/34164441/pexels-photo-34164441.jpeg?auto=compress&cs=tinysrgb&w=800',
+    imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/34164441/pexels-photo-34164441.jpeg?auto=compress&cs=tinysrgb&w=800'),
     title: (
       <>
         50 couverts /{' '}
@@ -279,7 +283,7 @@ let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── Utilitaire photo ────────────────────────────────────────────────────── */
 const photo = (id: string) =>
-  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}&q=80&w=1600&auto=format&fit=crop`);
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[5] || `https://images.unsplash.com/photo-${id}&q=80&w=1600&auto=format&fit=crop`));
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -634,7 +638,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || `https://images.pexels.com/photos/8633662/pexels-photo-8633662.jpeg?auto=compress&cs=tinysrgb&w=2000`}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[6] || `https://images.pexels.com/photos/8633662/pexels-photo-8633662.jpeg?auto=compress&cs=tinysrgb&w=2000`)}
           alt="Fournil du Parlement — pains au levain en boulangerie artisanale"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
@@ -856,7 +860,7 @@ function CreationLayer({
   return (
     <motion.div style={{ position: 'absolute', inset: 0, opacity }}>
       <motion.img
-        src={creation.imgId.startsWith('http') ? creation.imgId : ((creation.imgId).startsWith('http') ? (creation.imgId) : `https://images.unsplash.com/photo-${creation.imgId}?q=80&w=1600&auto=format&fit=crop`)}
+        src={creation.imgId.startsWith('http') ? creation.imgId : ((creation.imgId).startsWith('http') ? (creation.imgId) : (clientPhotos(sessionData)[7] || `https://images.unsplash.com/photo-${creation.imgId}?q=80&w=1600&auto=format&fit=crop`))}
         alt={creation.label}
         loading="lazy"
         style={{
@@ -1261,7 +1265,7 @@ function EditorialRow({ row }: { row: EditRow }) {
     <div className="fp-editrow" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(36px,6vw,90px)', alignItems: 'center' }}>
       <Reveal y={50} style={imgWrap}>
         <ParallaxImg
-          src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : `https://images.unsplash.com/photo-${row.imgId}&q=80&w=1600&auto=format&fit=crop`)}
+          src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : (clientPhotos(sessionData)[8] || `https://images.unsplash.com/photo-${row.imgId}&q=80&w=1600&auto=format&fit=crop`))}
           alt={typeof row.title === 'string' ? row.title : row.eyebrow}
         />
       </Reveal>
@@ -1392,7 +1396,7 @@ function SourcingPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || "https://images.pexels.com/photos/8633662/pexels-photo-8633662.jpeg?auto=compress&cs=tinysrgb&w=900"}
+              src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[9] || "https://images.pexels.com/photos/8633662/pexels-photo-8633662.jpeg?auto=compress&cs=tinysrgb&w=900")}
               alt="Nos sourcing — ingrédients artisanaux au Fournil du Parlement"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -1725,7 +1729,7 @@ function ReservationForm() {
     <section style={sec} id="reservation">
       {/* Photo fantôme en fond */}
       <img
-        src={clientPhoto(0, "https://images.pexels.com/photos/8633662/pexels-photo-8633662.jpeg?auto=compress&cs=tinysrgb&w=2000")}
+        src={clientPhoto(0, (clientPhotos(sessionData)[10] || "https://images.pexels.com/photos/8633662/pexels-photo-8633662.jpeg?auto=compress&cs=tinysrgb&w=2000"))}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2209,9 +2213,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  CREATIONS = CREATIONS_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   SOURCING = SOURCING_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();

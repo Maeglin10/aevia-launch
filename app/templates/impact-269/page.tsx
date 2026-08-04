@@ -16,6 +16,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -124,14 +125,15 @@ interface CraftStep {
 /* ════════════════════════════════════════════════════════════════════════════
    Données
    ════════════════════════════════════════════════════════════════════════════ */
-const PHASES: Bread[] = [
+function PHASES_LIVE() {
+  return [
   {
     id: 'pain',
     roman: 'I',
     category: 'LES PAINS',
     description:
       "Seigle au miel des Landes, baguette à l'ancienne, pain aux noix du Périgord — le terroir de Gascogne dans chaque mie.",
-    imgId: 'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     id: 'patisserie',
@@ -139,7 +141,7 @@ const PHASES: Bread[] = [
     category: 'LA PÂTISSERIE',
     description:
       "Canelé bordelais, tarte aux pruneaux d'Agen, mille-feuille à la crème légère — les classiques revisités avec précision.",
-    imgId: 'https://images.pexels.com/photos/7405059/pexels-photo-7405059.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/7405059/pexels-photo-7405059.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     id: 'cafe',
@@ -147,9 +149,11 @@ const PHASES: Bread[] = [
     category: 'LE CAFÉ & BRUNCH',
     description:
       "Café d'Ethiopie en filtre, brunch du dimanche avec produits locaux, planches apéro — l'âme des Chartrons dans un verre.",
-    imgId: 'https://images.pexels.com/photos/9120377/pexels-photo-9120377.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/9120377/pexels-photo-9120377.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
 ];
+}
+let PHASES = PHASES_LIVE();
 
 const SPECIALTIES_DEMO: Specialty[] = [
   {
@@ -184,10 +188,11 @@ const SPECIALTIES_DEMO: Specialty[] = [
   },
 ];
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Nos valeurs',
-    imgId: 'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     imgW: 800,
     title: 'Bordelais / ',
     titleItalic: 'de cœur.',
@@ -197,7 +202,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
   },
   {
     eyebrow: 'Le lieu',
-    imgId: 'https://images.pexels.com/photos/9120377/pexels-photo-9120377.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/9120377/pexels-photo-9120377.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     imgW: 800,
     title: 'Chartrons, / ',
     titleItalic: 'depuis 2007.',
@@ -206,6 +211,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     ghostNum: '02',
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const CRAFT_STEPS: CraftStep[] = [
@@ -252,7 +259,7 @@ let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── URL helper ──────────────────────────────────────────────────────────── */
 function photo(id: string, w = 1600): string {
-  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
+  return ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[5] || `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`));
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -625,7 +632,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=2000'}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=2000')}
           alt="Devanture de la Boulangerie des Chartrons à Bordeaux"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1355,7 +1362,7 @@ function CraftPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || 'https://images.pexels.com/photos/7405059/pexels-photo-7405059.jpeg?auto=compress&cs=tinysrgb&w=900'}
+              src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/7405059/pexels-photo-7405059.jpeg?auto=compress&cs=tinysrgb&w=900')}
               alt="Pains artisanaux en cuisson au four à sole"
               loading="lazy"
               style={{
@@ -1667,7 +1674,7 @@ function OrderForm() {
     <section style={sec} id="commander">
       {/* Photo d'ambiance en fond */}
       <img
-        src={'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=1600'}
+        src={(clientPhotos(sessionData)[8] || 'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=1600')}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2200,9 +2207,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+  PHASES = PHASES_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   EDIT_ROWS = resolveList(

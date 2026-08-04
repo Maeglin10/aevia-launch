@@ -67,20 +67,23 @@ let MEDECINS_DEMO = MEDECINS_DEMO_LIVE();;
 /* MosaicPush + Retint: the clinic's two verified views push out tile by
    tile to the right and rebuild from the left — the dominant tile carries
    the current view. The caption plaque still re-tints with each frame. */
-const HERO_VIEWS_DEMO = [
+function HERO_VIEWS_DEMO_LIVE() {
+  return [
   {
     k: "Médecine faciale",
     d: "Injections ultra-précises, résultats invisibles — la morphologie d'abord.",
     tint: "#1c1712",
-    img: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1600&q=85&fit=crop",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1600&q=85&fit=crop"),
   },
   {
     k: "Médecine régénérative",
     d: "PRP, polynucléotides, bio-stimulateurs — la régénération avant la correction.",
     tint: "#151a17",
-    img: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1600&q=85",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1600&q=85"),
   },
 ];
+}
+let HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
 let HERO_VIEWS = HERO_VIEWS_DEMO;
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -116,8 +119,10 @@ export default function CypherClinicPage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
   MEDECINS_DEMO = MEDECINS_DEMO_LIVE();
 
 
@@ -246,7 +251,7 @@ return (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <Reveal>
               <div className="relative aspect-[4/5] overflow-hidden">
-                <Image src={photo(1, "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1200&q=85")} alt="Clinique Cypher" fill className="object-cover" />
+                <Image src={photo(1, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1200&q=85"))} alt="Clinique Cypher" fill className="object-cover" />
                 <div className="absolute inset-0 bg-[#0C0C0A]/20" />
               </div>
             </Reveal>

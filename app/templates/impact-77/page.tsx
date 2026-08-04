@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -56,64 +57,67 @@ const Instagram = (props: any) => (
   </svg>
 );
 
-const GRID_PHOTOS_DEMO = [
+function GRID_PHOTOS_DEMO_LIVE() {
+  return [
   {
     id: 1,
-    src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800&auto=format&fit=crop"),
     category: "Landscape",
     title: "Alpine Meridian",
     aspect: "aspect-[3/4]",
   },
   {
     id: 2,
-    src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop"),
     category: "Portrait",
     title: "Identity Study I",
     aspect: "aspect-[3/4]",
   },
   {
     id: 3,
-    src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop"),
     category: "Architecture",
     title: "Glass Tension",
     aspect: "aspect-square",
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=800&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=800&auto=format&fit=crop"),
     category: "Landscape",
     title: "Desert Void",
     aspect: "aspect-[4/3]",
   },
   {
     id: 5,
-    src: "https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=800&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=800&auto=format&fit=crop"),
     category: "Commercial",
     title: "Product Noir",
     aspect: "aspect-square",
   },
   {
     id: 6,
-    src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop"),
     category: "Portrait",
     title: "Luminance",
     aspect: "aspect-[3/4]",
   },
   {
     id: 7,
-    src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop"),
     category: "Architecture",
     title: "Vertical Logic",
     aspect: "aspect-[4/3]",
   },
   {
     id: 8,
-    src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=800&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=800&auto=format&fit=crop"),
     category: "Landscape",
     title: "Horizon Line",
     aspect: "aspect-[4/3]",
   },
 ];
+}
+let GRID_PHOTOS_DEMO = GRID_PHOTOS_DEMO_LIVE();
 
 const CATEGORIES = ["All", "Landscape", "Portrait", "Architecture", "Commercial"];
 
@@ -197,9 +201,11 @@ export default function HorologsLuxePage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  GRID_PHOTOS_DEMO = GRID_PHOTOS_DEMO_LIVE();
   AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 
 
@@ -277,7 +283,7 @@ export default function HorologsLuxePage() {
       >
         <motion.div style={{ y: heroY }} className="absolute inset-0 z-0">
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=85&w=2400&auto=format&fit=crop")}
+            src={photo(0, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=85&w=2400&auto=format&fit=crop"))}
             alt="Horologs — Luxury Photography Studio"
             fill
             className="object-cover brightness-[0.45] grayscale-[0.3]"
@@ -423,7 +429,7 @@ export default function HorologsLuxePage() {
             <Reveal>
               <div className="relative aspect-[3/4] overflow-hidden">
                 <Image
-                  src={photo(1, "https://images.unsplash.com/photo-1504257432389-52343af06ae3?q=80&w=800&auto=format&fit=crop")}
+                  src={photo(1, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1504257432389-52343af06ae3?q=80&w=800&auto=format&fit=crop"))}
                   alt="Photographer portrait"
                   fill
                   className="object-cover grayscale-[0.4] brightness-70"

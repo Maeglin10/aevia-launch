@@ -58,11 +58,14 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PROPERTIES_DEMO_SOURCE = [
-  { name: "The Obsidian Penthouse", loc: "New York, NY", price: "$24,500,000", img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1200" },
-  { name: "Azure Cliff Villa", loc: "Santorini, GR", price: "$12,800,000", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200" },
-  { name: "Veridian Estate", loc: "Kyoto, JP", price: "$18,200,000", img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200" },
-]
+function PROPERTIES_DEMO_SOURCE_LIVE() {
+  return [
+  { name: "The Obsidian Penthouse", loc: "New York, NY", price: "$24,500,000", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1200") },
+  { name: "Azure Cliff Villa", loc: "Santorini, GR", price: "$12,800,000", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200") },
+  { name: "Veridian Estate", loc: "Kyoto, JP", price: "$18,200,000", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200") },
+];
+}
+let PROPERTIES_DEMO_SOURCE = PROPERTIES_DEMO_SOURCE_LIVE();
 let PROPERTIES_DEMO = PROPERTIES_DEMO_SOURCE;
 let PROPERTIES = PROPERTIES_DEMO;
 
@@ -99,8 +102,10 @@ export default function ArcaneRealtyPage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  PROPERTIES_DEMO_SOURCE = PROPERTIES_DEMO_SOURCE_LIVE();
 
   PROPERTIES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length], name: s.title, price: s.price ?? PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length].price })),
@@ -200,7 +205,7 @@ export default function ArcaneRealtyPage() {
         {/* ── HERO ──────────────────── */}
         <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden pt-24 md:pt-0">
           <div className="absolute inset-0">
-             <Image src={photo(0, "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=2400")} alt="Luxury Property" fill className="object-cover opacity-50 scale-105" priority />
+             <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=2400"))} alt="Luxury Property" fill className="object-cover opacity-50 scale-105" priority />
              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
              <div className="absolute inset-0 bg-black/30" />
           </div>
@@ -304,7 +309,7 @@ export default function ArcaneRealtyPage() {
                </div>
                <Reveal delay={0.2}>
                   <div className="relative aspect-square grayscale hover:grayscale-0 transition-all duration-1000 p-2 bg-white/[0.02]">
-                     <ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200")} alt="Estate Interior" />
+                     <ParallaxImg src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200"))} alt="Estate Interior" />
                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[1px] bg-white/10 rotate-45" />
                   </div>
                </Reveal>

@@ -74,11 +74,14 @@ const MISSIONS = [
   { id: "AR-106", target: "Mars Alpha", payload: "Human Habitat", type: "Exploration", date: "Nov 28" },
 ]
 
-const FLEET_DEMO = [
-  { name: "Atlas Heavy", capacity: "150 Tons", orbit: "LEO / Lunar", img: "https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=80&w=1200" },
-  { name: "Nebula One", capacity: "12 Crew", orbit: "LEO / ISS", img: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200" },
-  { name: "Orbiter X", capacity: "Science Lab", orbit: "Deep Space", img: "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?auto=format&fit=crop&q=80&w=1200" },
-]
+function FLEET_DEMO_LIVE() {
+  return [
+  { name: "Atlas Heavy", capacity: "150 Tons", orbit: "LEO / Lunar", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=80&w=1200") },
+  { name: "Nebula One", capacity: "12 Crew", orbit: "LEO / ISS", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200") },
+  { name: "Orbiter X", capacity: "Science Lab", orbit: "Deep Space", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?auto=format&fit=crop&q=80&w=1200") },
+];
+}
+let FLEET_DEMO = FLEET_DEMO_LIVE();
 let FLEET = FLEET_DEMO;
 
 
@@ -114,8 +117,10 @@ export default function AstrumReachPage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  FLEET_DEMO = FLEET_DEMO_LIVE();
 
   FLEET = FLEET_DEMO.map((row, i) => ({
     ...row,
@@ -232,7 +237,7 @@ export default function AstrumReachPage() {
                  <div className="relative">
                     <div className="absolute -inset-10 bg-[var(--brand,#06b6d4)]/5 blur-[120px] rounded-full" />
                     <div className="relative aspect-square border border-white/5 p-2 bg-white/[0.02] rounded-full overflow-hidden">
-                       <Image src={photo(0, "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200")} alt="Orbital View" fill className="object-cover opacity-60 rounded-full" />
+                       <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200"))} alt="Orbital View" fill className="object-cover opacity-60 rounded-full" />
                        <div className="absolute inset-0 bg-gradient-to-t from-[#02040a] via-transparent to-transparent opacity-80" />
                        {/* Overlay HUD */}
                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

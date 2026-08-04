@@ -16,6 +16,7 @@ import {
   clientCity,
   clientHours,
   clientName,
+  clientPhotos,
   clientServices,
   clientTeam,
   clientText,
@@ -43,29 +44,32 @@ const PROGRAMS_DEMO = [
   { title: "Récup Active", intensity: "LOW", duration: "45 min", desc: "Stretching profond, mobilité articulaire et techniques de récupération musculaire accélérée.", tag: "Recovery" },
 ]
 
-const COACHES_DEMO = [
+function COACHES_DEMO_LIVE() {
+  return [
   {
     name: "Alexis Romain",
     role: "Head Coach — Force & Conditioning",
     certs: "CrossFit L3 · NSCA-CSCS · Olympic Lifting",
     quote: "La force n'est pas un don. C'est une décision que tu renouvelles chaque jour.",
-    img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=800&auto=format&fit=crop"),
   },
   {
     name: "Sofia Marchetti",
     role: "Coach HIIT & Nutrition",
     certs: "ACE Certified · Precision Nutrition L2",
     quote: "Chaque répétition est un choix. Chaque choix te rapproche de ta meilleure version.",
-    img: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=800&auto=format&fit=crop"),
   },
   {
     name: "Kenji Watanabe",
     role: "Coach Mobilité & Récupération",
     certs: "FRC Certified · ISSA · Yoga Alliance 500h",
     quote: "La récupération n'est pas de la faiblesse — c'est de la stratégie.",
-    img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop"),
   },
-]
+];
+}
+let COACHES_DEMO = COACHES_DEMO_LIVE();
 
 const SCHEDULE = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
   { day: "Lun", classes: [{ time: "6h30", name: "HIIT Circuit" }, { time: "12h00", name: "Force Brute" }, { time: "19h00", name: "CrossFit FORGE" }] },
@@ -174,9 +178,11 @@ export default function Impact174Page() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   sessionData = session;
   c = session?.generatedContent;
+  COACHES_DEMO = COACHES_DEMO_LIVE();
   MEMBERSHIPS_SOURCE = MEMBERSHIPS_SOURCE_LIVE();
 
   MEMBERSHIPS = resolveList(
@@ -351,7 +357,7 @@ export default function Impact174Page() {
         {/* Right — athlete image */}
         <div className="hidden lg:block w-1/2 relative overflow-hidden">
           <motion.div style={{ y: heroImageY }} className="absolute inset-0">
-            <Image src={photo(0, "https://images.unsplash.com/photo-1581009137042-c552e485697a?q=80&w=1200&auto=format&fit=crop")}
+            <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1581009137042-c552e485697a?q=80&w=1200&auto=format&fit=crop"))}
               alt="FORGE athlete" fill className="object-cover" />
           </motion.div>
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />

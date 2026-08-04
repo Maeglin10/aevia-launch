@@ -48,7 +48,10 @@ const FONT = "'Libre Baskerville', Georgia, serif";
 const FONT_BODY = "'Cabin', system-ui, sans-serif";
 
 const NAV = [{"l": "Prestations", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO_DEMO = [{"k": "Façades chêne brossé", "line": "Le bois qui se patine avec la maison.", "sub": "Massif ou plaqué, huilé à cœur.", "img": "https://images.pexels.com/photos/7546654/pexels-photo-7546654.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Façades bois et plan de travail"}, {"k": "Îlot central", "line": "Le point de gravité de la maison.", "sub": "Plans céramique, granit ou bois de bout.", "img": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80", "alt": "Pièce à vivre avec agencement sur mesure"}, {"k": "De l'atelier au mur", "line": "Chaque caisson ajusté avant de partir.", "sub": "Contrôle qualité en atelier, pose en 2 jours.", "img": "https://images.pexels.com/photos/6969818/pexels-photo-6969818.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Atelier de fabrication des caissons"}];
+function HERO_DEMO_LIVE() {
+  return [{"k": "Façades chêne brossé", "line": "Le bois qui se patine avec la maison.", "sub": "Massif ou plaqué, huilé à cœur.", "img": (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/7546654/pexels-photo-7546654.jpeg?auto=compress&cs=tinysrgb&w=1600"), "alt": "Façades bois et plan de travail"}, {"k": "Îlot central", "line": "Le point de gravité de la maison.", "sub": "Plans céramique, granit ou bois de bout.", "img": (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80"), "alt": "Pièce à vivre avec agencement sur mesure"}, {"k": "De l'atelier au mur", "line": "Chaque caisson ajusté avant de partir.", "sub": "Contrôle qualité en atelier, pose en 2 jours.", "img": (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/6969818/pexels-photo-6969818.jpeg?auto=compress&cs=tinysrgb&w=1600"), "alt": "Atelier de fabrication des caissons"}];
+}
+let HERO_DEMO = HERO_DEMO_LIVE();
 let HERO = HERO_DEMO;
 
 const SERVICES_SOURCE = [{"titre": "Cuisine complète", "desc": "Conception, fabrication européenne, pose par nos équipes. Charnières et coulisses garanties à vie, façades au choix du studio.", "tag": "Cuisine"}, {"titre": "Îlots & plans", "desc": "Céramique, granit, quartz, bois massif. Découpes ajustées sur place au gabarit — même sur murs qui ne sont pas droits.", "tag": "Plans"}, {"titre": "Électroménager intégré", "desc": "Sélection multi-marques au prix du web, intégrée au projet et livrée-posée avec la cuisine. SAV assuré par le studio.", "tag": "Équipement"}, {"titre": "Dressing & rangements", "desc": "Chambres, entrées, sous-pentes : les mêmes façades et finitions que votre cuisine, pour une maison cohérente.", "tag": "Rangement"}, {"titre": "Buanderie & arrière-cuisine", "desc": "La pièce qui rend la cuisine belle : tout ce qui déborde trouve sa place, plomberie et électricité coordonnées.", "tag": "Annexe"}, {"titre": "Rénovation coordonnée", "desc": "Sols, crédences, éclairage, peinture : nos artisans partenaires interviennent dans le même calendrier, sous notre coordination.", "tag": "Travaux"}];
@@ -102,9 +105,11 @@ export default function StudioCulinaPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_DEMO = HERO_DEMO_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
 
   SERVICES_DEMO = resolveList(
@@ -325,7 +330,7 @@ export default function StudioCulinaPage() {
       <section id="engagements" className="i334-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i334-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, "https://images.pexels.com/photos/6969818/pexels-photo-6969818.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Contrôle d'un caisson à l'atelier" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(3, (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/6969818/pexels-photo-6969818.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Contrôle d'un caisson à l'atelier" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>

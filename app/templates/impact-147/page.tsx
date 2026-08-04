@@ -39,23 +39,26 @@ let brand: any = null;
    part of the page that looked free. WordFlight + ExpandFrame from the law
    lab instead: the headline assembles word by word, one practice at a time,
    in the firm's own voice. */
-const HERO_CASES_DEMO = [
+function HERO_CASES_DEMO_LIVE() {
+  return [
   {
     k: "Asset Recovery",
     t: "Silent justice, executed across twelve jurisdictions",
-    img: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1400&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1400&q=80"),
   },
   {
     k: "Cyber-Legal Defense",
     t: "Breaches end in courtrooms, not in headlines",
-    img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1400&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1400&q=80"),
   },
   {
     k: "Intelligence",
     t: "We watch the adversary so counsel moves first",
-    img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1400&q=80",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1400&q=80"),
   },
-]
+];
+}
+let HERO_CASES_DEMO = HERO_CASES_DEMO_LIVE();
 let HERO_CASES = HERO_CASES_DEMO;
 
 function VanguardHero({ headline, subline }: { headline?: string; subline?: React.ReactNode }) {
@@ -199,9 +202,11 @@ export default function VanguardLegalPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_CASES_DEMO = HERO_CASES_DEMO_LIVE();
   HERO_CASES = HERO_CASES_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

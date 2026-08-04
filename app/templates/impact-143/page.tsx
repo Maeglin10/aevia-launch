@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -50,11 +51,14 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PROJECTS_DEMO = [
-  { title: "Villa Serena", type: "Residential", img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200", desc: "Minimalist coastal retreat with organic textures and panoramic ocean views." },
-  { title: "Maison Noire", type: "Penthouse", img: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=1200", desc: "Dark luxury penthouse with travertine, brass accents, and bespoke furniture." },
-  { title: "Bureau Lumière", type: "Commercial", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200", desc: "Biophilic office redesign for a tech company prioritizing employee wellbeing." },
-]
+function PROJECTS_DEMO_LIVE() {
+  return [
+  { title: "Villa Serena", type: "Residential", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200"), desc: "Minimalist coastal retreat with organic textures and panoramic ocean views." },
+  { title: "Maison Noire", type: "Penthouse", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=1200"), desc: "Dark luxury penthouse with travertine, brass accents, and bespoke furniture." },
+  { title: "Bureau Lumière", type: "Commercial", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"), desc: "Biophilic office redesign for a tech company prioritizing employee wellbeing." },
+];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 const SERVICES_SOURCE = [
   { icon: Palette, title: "Concept & Mood", desc: "Material palettes, mood boards, and spatial concepts tailored to your lifestyle." },
@@ -105,9 +109,11 @@ export default function AtelierInteriorPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -220,7 +226,7 @@ export default function AtelierInteriorPage() {
         {/* ── HERO ─────────────── */}
         <section id="hero" className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src={photo(0, "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=2400")} alt="Interior" fill className="object-cover" priority />
+            <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=2400"))} alt="Interior" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#f5f0eb] via-[#f5f0eb]/20 to-transparent" />
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-12 pb-24">
@@ -335,7 +341,7 @@ export default function AtelierInteriorPage() {
         {/* ── CTA ──────────────── */}
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(1, "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
+            <Image src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=2400"))} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-[#2a2520]/60" />
           </div>
           <div className="relative z-10 text-center text-[#f5f0eb] px-6">
@@ -356,7 +362,7 @@ export default function AtelierInteriorPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <Reveal>
                 <div className="relative aspect-[4/5] overflow-hidden rounded-sm">
-                  <ParallaxImg src={photo(2, "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=1200")} alt="Atelier workspace" />
+                  <ParallaxImg src={photo(2, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=1200"))} alt="Atelier workspace" />
                 </div>
               </Reveal>
               <div>

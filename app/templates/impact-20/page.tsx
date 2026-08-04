@@ -17,6 +17,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -616,10 +617,11 @@ function SectionReveal({
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
-const PRODUCTS_DEMO: ProductCard[] = [
+function PRODUCTS_DEMO_LIVE() {
+  return [
   {
     name: "Solitaire Éternité",
-    image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80",
+    image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80"),
     subtitle: "La pureté absolue",
     material: "Or blanc 18k · Diamant 1.2ct F/VS1",
     price: "12 400 €",
@@ -628,7 +630,7 @@ const PRODUCTS_DEMO: ProductCard[] = [
   },
   {
     name: "Collier Aube Dorée",
-    image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80",
+    image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80"),
     subtitle: "Lumière sur la peau",
     material: "Or jaune 18k · Diamants 0.85ct total",
     price: "8 750 €",
@@ -637,7 +639,7 @@ const PRODUCTS_DEMO: ProductCard[] = [
   },
   {
     name: "Bracelet Rivière",
-    image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&q=80",
+    image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&q=80"),
     subtitle: "Un fleuve de lumière",
     material: "Platine 950 · Diamants 2.4ct",
     price: "18 200 €",
@@ -646,7 +648,7 @@ const PRODUCTS_DEMO: ProductCard[] = [
   },
   {
     name: "Boucles Célestes",
-    image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&q=80",
+    image: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&q=80"),
     subtitle: "La grâce à l'oreille",
     material: "Or rose 18k · Perles Akoya & Brillants",
     price: "5 900 €",
@@ -655,7 +657,7 @@ const PRODUCTS_DEMO: ProductCard[] = [
   },
   {
     name: "Chevalière Crest",
-    image: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=800&q=80",
+    image: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=800&q=80"),
     subtitle: "Héritage gravé",
     material: "Or jaune 22k · Gravure à la main",
     price: "3 200 €",
@@ -664,7 +666,7 @@ const PRODUCTS_DEMO: ProductCard[] = [
   },
   {
     name: "Parure Impériale",
-    image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80",
+    image: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80"),
     subtitle: "L'ensemble souverain",
     material: "Or blanc 18k · Saphirs & Diamants",
     price: "34 000 €",
@@ -672,6 +674,8 @@ const PRODUCTS_DEMO: ProductCard[] = [
     color: "linear-gradient(145deg, #101218 0%, #161a28 60%, #101218 100%)",
   },
 ];
+}
+let PRODUCTS_DEMO = PRODUCTS_DEMO_LIVE();
 
 const MATERIALS_SOURCE = [
   {
@@ -697,11 +701,14 @@ const MATERIALS_SOURCE = [
 ];
 let MATERIALS = MATERIALS_SOURCE;
 
-const LOOKBOOK_DEMO = [
-  { title: "Printemps 2025", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80", items: 8 },
-  { title: "Édition Nuit", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80", items: 5 },
-  { title: "Sur Mesure", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80", items: "∞" },
+function LOOKBOOK_DEMO_LIVE() {
+  return [
+  { title: "Printemps 2025", image: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80"), items: 8 },
+  { title: "Édition Nuit", image: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80"), items: 5 },
+  { title: "Sur Mesure", image: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80"), items: "∞" },
 ];
+}
+let LOOKBOOK_DEMO = LOOKBOOK_DEMO_LIVE();
 
 // Product collections ← client's business profile (falls back to demo).
 function buildProducts(): ProductCard[] {
@@ -911,9 +918,13 @@ export default function LuxuryJewelryTemplate() {
   }, []);
 
   fd = session?.formData;
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  LOOKBOOK_DEMO = LOOKBOOK_DEMO_LIVE();
+  PRODUCTS_DEMO = PRODUCTS_DEMO_LIVE();
   MATERIALS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...MATERIALS_SOURCE[i % MATERIALS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     MATERIALS_SOURCE,

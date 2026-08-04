@@ -27,6 +27,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientServices,
   clientStats,
   clientText,
@@ -47,7 +48,8 @@ let brand: any = null;
    THE AETHELGARD DATASET (PREMIUM DENSITY)
    ========================================================================== */
 
-const VINTAGES_DEMO = [
+function VINTAGES_DEMO_LIVE() {
+  return [
   {
     id: "v-2022",
     name: "The Crimson Sovereign",
@@ -55,7 +57,7 @@ const VINTAGES_DEMO = [
     notes: ["Blackberry", "Leather", "Graphite"],
     score: "98 pts",
     stock: "Limited",
-    image: "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop"
+    image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop")
   },
   {
     id: "v-2024",
@@ -64,7 +66,7 @@ const VINTAGES_DEMO = [
     notes: ["Citrus", "Wet Stone", "Elderflower"],
     score: "96 pts",
     stock: "Pre-order",
-    image: "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop"
+    image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop")
   },
   {
     id: "s-spirit",
@@ -73,9 +75,11 @@ const VINTAGES_DEMO = [
     notes: ["Peat Smoke", "Sea Salt", "Dark Toffee"],
     score: "Platinum",
     stock: "In-Vault",
-    image: "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop"
+    image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop")
   }
-]
+];
+}
+let VINTAGES_DEMO = VINTAGES_DEMO_LIVE();
 
 const TERROIR_DATA_SOURCE = [
   { label: "Elevation", value: "450m", icon: <Layers className="w-4 h-4" /> },
@@ -157,9 +161,11 @@ export default function AethelgardEstatePremium() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  VINTAGES_DEMO = VINTAGES_DEMO_LIVE();
   TERROIR_DATA = resolveList(
     clientStats(sessionData)?.map((s: any, i: number) => ({ ...TERROIR_DATA_SOURCE[i % TERROIR_DATA_SOURCE.length], value: s.value, label: s.label })),
     TERROIR_DATA_SOURCE,
@@ -274,7 +280,7 @@ return (
         <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden pt-24 md:pt-0">
           <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="absolute inset-0 z-0">
              <Image 
-                src={photo(0, "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=2400&auto=format&fit=crop")} 
+                src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=2400&auto=format&fit=crop"))} 
                 alt="Morning Mist over Vineyards" 
                 fill 
                 className="object-cover opacity-30 grayscale"
@@ -430,7 +436,7 @@ return (
                  <div className="order-1 lg:order-2 relative aspect-square">
                     <Reveal delay={0.3}>
                        <Image 
-                          src={photo(1, "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop")} 
+                          src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop"))} 
                           alt="Copper Still" 
                           fill 
                           className="object-cover grayscale"

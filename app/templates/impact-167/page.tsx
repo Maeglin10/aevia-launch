@@ -65,7 +65,8 @@ let C: Record<string, string> = {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const NAV_LINKS = ["Properties", "Market", "Neighborhoods", "Process", "Contact"];
 
-const PROPERTIES_DEMO = [
+function PROPERTIES_DEMO_LIVE() {
+  return [
   {
     id: 1,
     title: "Hôtel Particulier",
@@ -75,7 +76,7 @@ const PROPERTIES_DEMO = [
     rooms: "7 pièces",
     floor: "Hôtel particulier",
     description: "An exceptional 18th-century private mansion entirely renovated by architect Pierre Margot. Original Versailles parquet, period fireplaces, private garden of 280m².",
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop"),
     tags: ["Jardin Privé", "Patrimoine", "Coup de Cœur"],
     featured: true,
   },
@@ -88,7 +89,7 @@ const PROPERTIES_DEMO = [
     rooms: "6 pièces",
     floor: "3e étage noble",
     description: "Perfectly preserved Haussmann apartment with Tour Eiffel view. Original mouldings, chevron parquet, and 4.2m ceiling heights throughout.",
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400&auto=format&fit=crop"),
     tags: ["Vue Tour Eiffel", "Duplex", "Terrasse"],
     featured: false,
   },
@@ -101,11 +102,13 @@ const PROPERTIES_DEMO = [
     rooms: "4 pièces",
     floor: "RDC avec jardin",
     description: "Former 19th-century workshop transformed into a singular loft with double-height volumes, steel structure exposed, and private patio.",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1400&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1400&auto=format&fit=crop"),
     tags: ["Loft", "Patio", "Architecte"],
     featured: false,
   },
 ];
+}
+let PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
 
 function STATS_DEMO_LIVE() {
   return [
@@ -125,28 +128,28 @@ function NEIGHBORHOODS_DEMO_LIVE() {
     arrondissement: "VIe",
     character: "Literary, artistic, refined. The spiritual home of the Parisian intellectual. Cafés where Sartre wrote, galleries where history was made.",
     priceRange: "€ 15 000 – 22 000 / m²",
-    image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1400&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1400&auto=format&fit=crop"),
   },
   {
     name: "Le Marais",
     arrondissement: "IVe",
     character: "Renaissance hôtels particuliers, contemporary galleries, and the best falafel in Europe. History layered on history.",
     priceRange: "€ 12 000 – 18 000 / m²",
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop"),
   },
   {
     name: "Trocadéro",
     arrondissement: "XVIe",
     character: "Monumental Haussmann architecture, the finest views of the Eiffel Tower, and quiet residential streets that feel like a village.",
     priceRange: "€ 13 000 – 20 000 / m²",
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400&auto=format&fit=crop"),
   },
   {
     name: "Île Saint-Louis",
     arrondissement: "IVe",
     character: "The most rarefied address in " + (clientCity(sessionData) ?? "Paris") + ". 17th-century private mansions on an island. Time moves differently here.",
     priceRange: "€ 16 000 – 28 000 / m²",
-    image: "https://images.unsplash.com/photo-1431274172761-fca41d930114?q=80&w=1400&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1431274172761-fca41d930114?q=80&w=1400&auto=format&fit=crop"),
   },
 ];
 }
@@ -414,7 +417,7 @@ function PropertyCard({
         }}
       >
         <img
-          src={property.image ?? property.photoUrl ?? photo(2 + index, "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop")}
+          src={property.image ?? property.photoUrl ?? photo(2 + index, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop"))}
           alt={property.title ?? property.name ?? "Bien"}
           style={{
             width: "100%",
@@ -821,9 +824,11 @@ export default function Impact167Page() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   NEIGHBORHOODS_DEMO = NEIGHBORHOODS_DEMO_LIVE();
   STATS_DEMO = STATS_DEMO_LIVE();
@@ -1205,7 +1210,7 @@ export default function Impact167Page() {
           }}
         >
           <motion.img
-            src={photo(0, "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop")}
+            src={photo(0, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop"))}
             alt="Paris luxury property"
             style={{
               position: "absolute",
@@ -1331,7 +1336,7 @@ export default function Impact167Page() {
           }}
         >
           <motion.img
-            src={photo(1, "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1400&auto=format&fit=crop")}
+            src={photo(1, (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1400&auto=format&fit=crop"))}
             alt="Paris streets"
             style={{
               position: "absolute",

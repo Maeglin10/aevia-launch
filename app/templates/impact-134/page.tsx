@@ -35,6 +35,7 @@ import {
 import {
   clientCity,
   clientList,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -1183,7 +1184,7 @@ function Hero() {
         style={{ y: yImg }}
       >
         <Image
-          src={photo(0, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop")}
+          src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop"))}
           alt="Lumière Beauty — Soins premium"
           fill
           className="object-cover"
@@ -1278,7 +1279,7 @@ function CollectionsSection() {
                     style={{ backgroundColor: C.pink }}
                   >
                     <Image
-                      src={`https://images.unsplash.com/${product.img}?q=80&w=600&auto=format&fit=crop`}
+                      src={(clientPhotos(sessionData)[1] || `https://images.unsplash.com/${product.img}?q=80&w=600&auto=format&fit=crop`)}
                       alt={product.name}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -1492,7 +1493,7 @@ function RituelsSection() {
           <Reveal x={40} y={0} className="lg:w-[55%] lg:sticky lg:top-28">
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden">
               <Image
-                src={photo(1, "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=800&auto=format&fit=crop")}
+                src={photo(1, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=800&auto=format&fit=crop"))}
                 alt="Rituel beauté Lumière"
                 fill
                 className="object-cover"
@@ -1646,7 +1647,7 @@ function AtelierSection() {
           <Reveal x={-40} y={0}>
             <div className="relative aspect-[3/4] rounded-3xl overflow-hidden">
               <Image
-                src={photo(2, "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?q=80&w=800&auto=format&fit=crop")}
+                src={photo(2, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?q=80&w=800&auto=format&fit=crop"))}
                 alt="Atelier Lumière Beauty"
                 fill
                 className="object-cover"

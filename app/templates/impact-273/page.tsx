@@ -125,29 +125,32 @@ interface TechItem {
 }
 
 /* ── Data ───────────────────────────────────────────────────────────────── */
-const PHASES_DEMO_SOURCE: Treatment[] = [
+function PHASES_DEMO_SOURCE_LIVE() {
+  return [
   {
     id: 'preventif',
-    src: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop',
+    src: (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop'),
     numeral: 'I',
     title: 'SOINS PRÉVENTIFS',
     body: 'Détartrage ultrason, scellement de sillons, fluoration professionnelle — prévenir pour ne pas avoir à soigner.',
   },
   {
     id: 'esthetique',
-    src: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1600&auto=format&fit=crop',
+    src: (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1600&auto=format&fit=crop'),
     numeral: 'II',
     title: 'DENTISTERIE ESTHÉTIQUE',
     body: 'Blanchiment Phillips Zoom, facettes composites directes, couronne céramique — le sourire qui correspond à votre visage.',
   },
   {
     id: 'implantologie',
-    src: 'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=1600&auto=format&fit=crop',
+    src: (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=1600&auto=format&fit=crop'),
     numeral: 'III',
     title: 'IMPLANTOLOGIE',
     body: 'Implants Nobel Biocare, all-on-4, bridge implanto-porté — retrouver une dentition complète sans compromis.',
   },
 ];
+}
+let PHASES_DEMO_SOURCE = PHASES_DEMO_SOURCE_LIVE();
 let PHASES_DEMO = PHASES_DEMO_SOURCE;
 let PHASES = PHASES_DEMO;
 
@@ -188,7 +191,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre engagement',
-    imgId: 'https://images.pexels.com/photos/6502305/pexels-photo-6502305.jpeg?auto=compress&cs=tinysrgb&w=800',
+    imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/6502305/pexels-photo-6502305.jpeg?auto=compress&cs=tinysrgb&w=800'),
     numeral: '01',
     title: (
       <>
@@ -201,7 +204,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   },
   {
     eyebrow: (clientCity(sessionData) ?? 'Strasbourg') + '-Centre',
-    imgId: 'https://images.pexels.com/photos/7789668/pexels-photo-7789668.jpeg?auto=compress&cs=tinysrgb&w=800',
+    imgId: (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/7789668/pexels-photo-7789668.jpeg?auto=compress&cs=tinysrgb&w=800'),
     numeral: '02',
     title: (
       <>
@@ -602,7 +605,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo(0, "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop")}
+          src={photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop"))}
           alt="Cabinet dentaire Rosenfeld Strasbourg"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1238,7 +1241,7 @@ function EditRow({ row }: { row: EditRow }) {
 
       <Reveal y={50} style={imgWrap}>
         <ParallaxImg
-          src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : `https://images.unsplash.com/photo-${row.imgId}&auto=format&fit=crop`)}
+          src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : (clientPhotos(sessionData)[7] || `https://images.unsplash.com/photo-${row.imgId}&auto=format&fit=crop`))}
           alt={`Cabinet Rosenfeld — ${row.eyebrow}`}
         />
       </Reveal>
@@ -1354,7 +1357,7 @@ function TechPanel() {
             }}
           >
             <img
-              src={photo(1, "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=900&auto=format&fit=crop")}
+              src={photo(1, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=900&auto=format&fit=crop"))}
               alt="Technologies de pointe Cabinet Rosenfeld"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -1643,7 +1646,7 @@ function AppointmentForm() {
     <section style={sec} id="contact">
       {/* Fond photo fantôme */}
       <img
-        src={photo(2, "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop")}
+        src={photo(2, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop"))}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2156,9 +2159,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHASES_DEMO_SOURCE = PHASES_DEMO_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 

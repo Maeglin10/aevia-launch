@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -121,29 +122,32 @@ interface EcoItem {
    Données
    ════════════════════════════════════════════════════════════════════════════ */
 
-const PROJECTS_DEMO: Project[] = [
+function PROJECTS_DEMO_LIVE() {
+  return [
   {
     id: 'proj-1',
-    src: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop',
+    src: (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop'),
     index: 'I',
     title: 'JARDINS PRIVATIFS',
     sub: 'Du plan 3D à la dernière pierre — jardins contemporains, anglais ou méditerranéens selon votre vision et votre sol.',
   },
   {
     id: 'proj-2',
-    src: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop',
+    src: (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop'),
     index: 'II',
     title: 'POTAGER & PERMACULTURE',
     sub: 'Buttes de culture, association de plantes, compost intégré — produire chez soi intelligemment et durablement.',
   },
   {
     id: 'proj-3',
-    src: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop',
+    src: (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop'),
     index: 'III',
     title: 'ESPACES PROS & COLLECTIFS',
     sub: "Cours d\'immeuble, jardins de copropriété, espaces verts d\'entreprise — le végétal au cœur de votre image.",
   },
 ];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 const SERVICES_SOURCE: Service[] = [
   { icon: '⬡', title: 'Conception 3D', desc: 'Plans en perspective, rendu photoréaliste et visite virtuelle avant la première pelletée de terre.' },
@@ -159,7 +163,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre démarche',
-    imgId: 'https://images.pexels.com/photos/4894653/pexels-photo-4894653.jpeg?auto=compress&cs=tinysrgb&w=800',
+    imgId: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/4894653/pexels-photo-4894653.jpeg?auto=compress&cs=tinysrgb&w=800'),
     title: (
       <>
         Le sol /{' '}
@@ -171,7 +175,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   },
   {
     eyebrow: (clientCity(sessionData) ?? 'Bordeaux'),
-    imgId: 'https://images.pexels.com/photos/16678645/pexels-photo-16678645.jpeg?auto=compress&cs=tinysrgb&w=800',
+    imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/16678645/pexels-photo-16678645.jpeg?auto=compress&cs=tinysrgb&w=800'),
     title: (
       <>
         Racines /{' '}
@@ -583,7 +587,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo(0, "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop")}
+          src={photo(0, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop"))}
           alt="Jardin paysager réalisé par Jardins Vivants à Bordeaux"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
@@ -1221,7 +1225,7 @@ function EditorialRow({ row, num }: { row: EditRow; num: string }) {
     <div style={wrap} className="jv-editrow">
       <Reveal y={52} style={imgWrap}>
         <ParallaxImg
-          src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : `https://images.unsplash.com/photo-${row.imgId}&auto=format&fit=crop`)}
+          src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : (clientPhotos(sessionData)[6] || `https://images.unsplash.com/photo-${row.imgId}&auto=format&fit=crop`))}
           alt={row.eyebrow}
         />
       </Reveal>
@@ -1403,7 +1407,7 @@ function EcoPanel() {
             }}
           >
             <img
-              src={photo(1, "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=900&auto=format&fit=crop")}
+              src={photo(1, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=900&auto=format&fit=crop"))}
               alt="Jardin écologique conçu selon les principes de la permaculture"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -1664,7 +1668,7 @@ function QuoteForm() {
     <section style={sec} id="devis">
       {/* Image de fond subtile */}
       <img
-        src={photo(2, "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop")}
+        src={photo(2, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop"))}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2194,9 +2198,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 

@@ -11,6 +11,7 @@ import { Menu, X, ArrowRight, TrendingUp, BarChart3, Globe, Users, ChevronRight,
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -266,7 +267,7 @@ return (
                 of clipping, and the h1 is now sized to actually fit. */}
             <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-center py-24 md:py-0">
               <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
-                <Image src={photo(0, "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))} fill className="object-cover opacity-30" priority />
+                <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85"))} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))} fill className="object-cover opacity-30" priority />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#09090B] via-[#09090B]/80 to-[#09090B]" />
               </motion.div>
               <motion.div className="relative z-10 max-w-6xl mx-auto px-6 w-full" style={{ opacity: heroOpacity }}>

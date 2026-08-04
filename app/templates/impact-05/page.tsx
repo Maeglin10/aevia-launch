@@ -59,7 +59,8 @@ const STATS_DEMO = [
 ]
 let STATS = STATS_DEMO;
 
-const FEATURE_TABS_DEMO_SOURCE = [
+function FEATURE_TABS_DEMO_SOURCE_LIVE() {
+  return [
   {
     id: "performance",
     label: "Performance",
@@ -74,7 +75,7 @@ const FEATURE_TABS_DEMO_SOURCE = [
       "Real-time performance dashboards with 1-second granularity",
     ],
     metric: { value: "78ms", label: "P99 Global Latency" },
-    img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80"),
   },
   {
     id: "security",
@@ -90,7 +91,7 @@ const FEATURE_TABS_DEMO_SOURCE = [
       "GDPR, HIPAA, and CCPA compliant by default",
     ],
     metric: { value: "0", label: "Security Breaches in 6 Years" },
-    img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80"),
   },
   {
     id: "developer",
@@ -106,17 +107,20 @@ const FEATURE_TABS_DEMO_SOURCE = [
       "VS Code extension with 4.8★ rating (62K installs)",
     ],
     metric: { value: "14", label: "Official SDK Languages" },
-    img: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80"),
   },
-]
+];
+}
+let FEATURE_TABS_DEMO_SOURCE = FEATURE_TABS_DEMO_SOURCE_LIVE();
 let FEATURE_TABS_DEMO = FEATURE_TABS_DEMO_SOURCE;
 let FEATURE_TABS = FEATURE_TABS_DEMO;
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: "Sarah Chen",
     role: "CTO, Flowmatic",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
+    avatar: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80"),
     rating: 5,
     text: "We migrated from three separate tools to NovaPlatform over a single weekend. Our engineering velocity doubled in the first month, and the on-call burden dropped by 70%. I wish we had switched sooner.",
     metric: "2× velocity",
@@ -125,7 +129,7 @@ const TESTIMONIALS_SOURCE = [
   {
     name: "David Kim",
     role: "CEO, CloudScale",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80",
+    avatar: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80"),
     rating: 5,
     text: "The analytics dashboard surfaced a $2.3M revenue opportunity in our first week that we had completely missed. The AI-powered anomaly detection is not a marketing claim — it genuinely works.",
     metric: "$2.3M found",
@@ -134,7 +138,7 @@ const TESTIMONIALS_SOURCE = [
   {
     name: "Elena Ruiz",
     role: "VP Engineering, DataNest",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80",
+    avatar: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80"),
     rating: 5,
     text: "Best developer experience I have encountered in 15 years of writing software. The API documentation is genuinely a work of art, and the TypeScript SDK is the best I have ever used — period.",
     metric: "10× DX",
@@ -143,7 +147,7 @@ const TESTIMONIALS_SOURCE = [
   {
     name: "Marcus Lin",
     role: "Platform Lead, FinEdge",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80",
+    avatar: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80"),
     rating: 5,
     text: "We process $180M in transactions per month through NovaPlatform's payment orchestration layer. In 18 months of production, we have had zero data incidents and three nines of uptime. That's the number that matters.",
     metric: "$180M/mo",
@@ -152,13 +156,15 @@ const TESTIMONIALS_SOURCE = [
   {
     name: "Amara Osei",
     role: "Head of Product, Arkive",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80",
+    avatar: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80"),
     rating: 5,
     text: "The branch preview environment feature alone saved us two engineering hires. Our QA cycle went from 4 days to 6 hours, and our deployment frequency tripled within the first quarter. Transformative.",
     metric: "3× deploys",
     metricColor: "pink",
   },
-]
+];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
@@ -235,14 +241,17 @@ const FAQS_DEMO = [
 ]
 let FAQS = FAQS_DEMO;
 
-const LOGOS_DEMO = [
-  { name: "Vercel", img: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=120&q=80" },
-  { name: "Stripe", img: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=120&q=80" },
-  { name: "Notion", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80" },
-  { name: "Linear", img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=120&q=80" },
-  { name: "Globe", img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=120&q=80" },
-  { name: "GitHub", img: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=120&q=80" },
-]
+function LOGOS_DEMO_LIVE() {
+  return [
+  { name: "Vercel", img: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=120&q=80") },
+  { name: "Stripe", img: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=120&q=80") },
+  { name: "Notion", img: (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80") },
+  { name: "Linear", img: (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1518770660439-4636190af475?w=120&q=80") },
+  { name: "Globe", img: (clientPhotos(sessionData)[12] || "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=120&q=80") },
+  { name: "GitHub", img: (clientPhotos(sessionData)[13] || "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=120&q=80") },
+];
+}
+let LOGOS_DEMO = LOGOS_DEMO_LIVE();
 let LOGOS = LOGOS_DEMO;
 
 
@@ -279,9 +288,15 @@ export default function NovaPlatformSaaS() {
   }, []);
 
   fd = session?.formData;
+
+
+
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  LOGOS_DEMO = LOGOS_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  FEATURE_TABS_DEMO_SOURCE = FEATURE_TABS_DEMO_SOURCE_LIVE();
   PRICING_SOURCE = PRICING_SOURCE_LIVE();
 
 
@@ -459,11 +474,11 @@ return (
           {/* Social proof */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.6 }} className="flex flex-col items-center gap-4">
             <div className="flex -space-x-2">
-              {[photo(0, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80"),
-                photo(1, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80"),
-                photo(2, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&q=80"),
-                photo(3, "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&q=80"),
-                photo(4, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&q=80")].map((src, i) => (
+              {[photo(0, (clientPhotos(sessionData)[14] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80")),
+                photo(1, (clientPhotos(sessionData)[15] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80")),
+                photo(2, (clientPhotos(sessionData)[16] || "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&q=80")),
+                photo(3, (clientPhotos(sessionData)[17] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&q=80")),
+                photo(4, (clientPhotos(sessionData)[18] || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&q=80"))].map((src, i) => (
                 <Avatar key={i} className="w-8 h-8 border-2 border-[#09090b]">
                   <AvatarImage src={src} />
                   <AvatarFallback className="bg-[var(--brand,#7c3aed)] text-[10px]">U</AvatarFallback>

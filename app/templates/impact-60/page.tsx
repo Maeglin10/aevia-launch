@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -95,7 +96,7 @@ return (
         <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-10 md:py-20">
           <div className="absolute inset-0">
             <Image
-              src={photo(0, "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=2400")}
+              src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=2400"))}
               alt="Watch Macro"
               fill
               className="object-cover opacity-20 scale-105"
@@ -151,7 +152,7 @@ return (
               <Reveal>
                 <div className="relative aspect-square p-2 bg-white/[0.02] border border-white/5 group overflow-hidden">
                   <ParallaxImg
-                    src={photo(1, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200")}
+                    src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200"))}
                     alt="Watch Gears"
                   />
                   <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all duration-1000" />
@@ -321,7 +322,7 @@ return (
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative aspect-[3/4] overflow-hidden grayscale hover:grayscale-0 transition-all duration-[2000ms] border border-white/5">
-                  <ParallaxImg src={photo(2, "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?auto=format&fit=crop&q=80&w=1200")} alt="Atelier" />
+                  <ParallaxImg src={photo(2, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?auto=format&fit=crop&q=80&w=1200"))} alt="Atelier" />
                 </div>
               </Reveal>
             </div>

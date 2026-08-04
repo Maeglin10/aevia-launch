@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -50,12 +51,15 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PROPERTIES_DEMO = [
-  { title: "The Belvedere Penthouse", location: "Upper East Side, NY", price: "$12.5M", beds: 5, baths: 4, sqft: "6,200", img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200", tag: "Exclusive" },
-  { title: "Château des Vignes", location: "Provence, France", price: "€8.9M", beds: 7, baths: 5, sqft: "9,400", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200", tag: "New Listing" },
-  { title: "Marina Bay Residence", location: "Singapore", price: "S$18.2M", beds: 4, baths: 3, sqft: "4,800", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=1200", tag: "Penthouse" },
-  { title: "Hampstead Manor", location: "London, UK", price: "£14.7M", beds: 8, baths: 6, sqft: "11,200", img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200", tag: "Heritage" },
-]
+function PROPERTIES_DEMO_LIVE() {
+  return [
+  { title: "The Belvedere Penthouse", location: "Upper East Side, NY", price: "$12.5M", beds: 5, baths: 4, sqft: "6,200", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200"), tag: "Exclusive" },
+  { title: "Château des Vignes", location: "Provence, France", price: "€8.9M", beds: 7, baths: 5, sqft: "9,400", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200"), tag: "New Listing" },
+  { title: "Marina Bay Residence", location: "Singapore", price: "S$18.2M", beds: 4, baths: 3, sqft: "4,800", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=1200"), tag: "Penthouse" },
+  { title: "Hampstead Manor", location: "London, UK", price: "£14.7M", beds: 8, baths: 6, sqft: "11,200", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200"), tag: "Heritage" },
+];
+}
+let PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
 
 const TESTIMONIALS_SOURCE = [
   { quote: "Haven Estates found our Hampstead estate entirely off-market. Their discretion and global network are simply unmatched.", name: "Lord A. Thornton", role: "London · Private Estate" },
@@ -106,9 +110,11 @@ export default function HavenEstatesPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -185,7 +191,7 @@ export default function HavenEstatesPage() {
         {/* ── HERO ────────────────────────── */}
         <section id="hero" className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src={photo(0, "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2400")} alt="Estate" fill className="object-cover" priority />
+            <Image src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2400"))} alt="Estate" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#faf9f6] via-[#faf9f6]/20 to-transparent" />
           </motion.div>
 
@@ -221,7 +227,7 @@ export default function HavenEstatesPage() {
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group cursor-pointer">
                     <div className="relative aspect-[16/10] overflow-hidden rounded-sm mb-6">
-                      <ParallaxImg src={p.img ?? p.photoUrl ?? photo(2 + i, "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200")} alt={p.title ?? p.name ?? "Property"} />
+                      <ParallaxImg src={p.img ?? p.photoUrl ?? photo(2 + i, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200"))} alt={p.title ?? p.name ?? "Property"} />
                       {(p.tag ?? p.status) && (
                         <div className="absolute top-6 left-6 flex gap-2">
                           <span className="px-3 py-1 bg-[var(--brand,#b8860b)] text-white text-[10px] font-bold uppercase tracking-widest rounded-full">{p.tag ?? p.status}</span>
@@ -344,7 +350,7 @@ export default function HavenEstatesPage() {
         {/* ── CTA ──────────────────────────── */}
         <section id="contact" className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(1, "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
+            <Image src={photo(1, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=2400"))} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-black/50" />
           </div>
           <div className="relative z-10 text-center text-white px-6">

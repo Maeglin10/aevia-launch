@@ -20,6 +20,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -79,17 +80,20 @@ const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 const u = (id: string, w = 1600, q = 80): string =>
   id.startsWith('http')
     ? id
-    : `https://images.unsplash.com/photo-${id}?q=${q}&w=${w}&auto=format&fit=crop`;
+    : (clientPhotos(sessionData)[0] || `https://images.unsplash.com/photo-${id}?q=${q}&w=${w}&auto=format&fit=crop`);
 
-const IMG = {
+function IMG_LIVE() {
+  return {
   hero: u('1558769132-cb1aea458c5e', 2000, 85),
   seq1: u('1558769132-cb1aea458c5e', 1600, 80),
-  seq2: u('https://images.pexels.com/photos/36731337/pexels-photo-36731337.jpeg?auto=compress&cs=tinysrgb&w=1600', 1600, 80),
-  seq3: u('https://images.pexels.com/photos/9850419/pexels-photo-9850419.jpeg?auto=compress&cs=tinysrgb&w=1600', 1600, 80),
-  atelier: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80&auto=format&fit=crop',
-  fabric: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80&auto=format&fit=crop',
-  sticky: u('https://images.pexels.com/photos/36731337/pexels-photo-36731337.jpeg?auto=compress&cs=tinysrgb&w=1600', 1400, 85),
+  seq2: u((clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/36731337/pexels-photo-36731337.jpeg?auto=compress&cs=tinysrgb&w=1600'), 1600, 80),
+  seq3: u((clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/9850419/pexels-photo-9850419.jpeg?auto=compress&cs=tinysrgb&w=1600'), 1600, 80),
+  atelier: (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80&auto=format&fit=crop'),
+  fabric: (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80&auto=format&fit=crop'),
+  sticky: u((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/36731337/pexels-photo-36731337.jpeg?auto=compress&cs=tinysrgb&w=1600'), 1400, 85),
 } as const;
+}
+let IMG = IMG_LIVE();
 
 /* ════════════════════════════════════════════════════════════════════════════
    Data interfaces + constants
@@ -1842,9 +1846,11 @@ export default function AtlierMargueriteVossPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  IMG = IMG_LIVE();
   PRESS_DEMO = PRESS_DEMO_LIVE();
 
   MATERIALS = resolveList(

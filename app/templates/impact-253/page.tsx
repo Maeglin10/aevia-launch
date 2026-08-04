@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -123,14 +124,15 @@ interface MethodItem {
    Data
    ════════════════════════════════════════════════════════════════════════════ */
 
-const PROTOCOLS: Protocol[] = [
+function PROTOCOLS_LIVE() {
+  return [
   {
     id: 'sport',
     index: 'I',
     label: 'BLESSURES SPORTIVES',
     title: 'Blessures sportives',
     body: 'Entorses, déchirures musculaires, tendinites — protocoles de récupération validés par les staffs de ligue 1.',
-    imgId: 'https://images.pexels.com/photos/20860607/pexels-photo-20860607.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/20860607/pexels-photo-20860607.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     id: 'postop',
@@ -138,7 +140,7 @@ const PROTOCOLS: Protocol[] = [
     label: 'POST-OPÉRATOIRE',
     title: 'Post-opératoire',
     body: 'Ligament croisé, ménisque, épaule — rééducation progressive avec objectifs de reprise fixés dès J1.',
-    imgId: 'https://images.pexels.com/photos/20860622/pexels-photo-20860622.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/20860622/pexels-photo-20860622.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     id: 'perf',
@@ -146,9 +148,11 @@ const PROTOCOLS: Protocol[] = [
     label: 'PERFORMANCE',
     title: 'Performance',
     body: 'Biomécanique de course, prévention des blessures, optimisation gestuelle — pour aller plus loin sans se blesser.',
-    imgId: 'https://images.pexels.com/photos/20860616/pexels-photo-20860616.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/20860616/pexels-photo-20860616.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
 ];
+}
+let PROTOCOLS = PROTOCOLS_LIVE();
 
 const SPECIALTIES_DEMO: Specialty[] = [
   { title: 'Blessures sportives', icon: '⚡' },
@@ -159,10 +163,11 @@ const SPECIALTIES_DEMO: Specialty[] = [
   { title: 'Électrothérapie & ultrasons', icon: '⚙️' },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+function EDIT_ROWS_LIVE() {
+  return [
   {
     eyebrow: 'Notre expertise',
-    imgId: 'https://images.pexels.com/photos/20860607/pexels-photo-20860607.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/20860607/pexels-photo-20860607.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     imgW: 800,
     reverse: false,
     romanNumeral: 'I',
@@ -175,7 +180,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: "L'équipement",
-    imgId: 'https://images.pexels.com/photos/20860622/pexels-photo-20860622.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/20860622/pexels-photo-20860622.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     imgW: 800,
     reverse: true,
     romanNumeral: 'II',
@@ -187,6 +192,8 @@ const EDIT_ROWS: EditRow[] = [
     ],
   },
 ];
+}
+let EDIT_ROWS = EDIT_ROWS_LIVE();
 
 const METHOD_ITEMS: MethodItem[] = [
   {
@@ -232,7 +239,7 @@ let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── Photo helper ─────────────────────────────────────────────────────────── */
 function photo(id: string, w = 1600): string {
-  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
+  return ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[5] || `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`));
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -610,7 +617,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/20860607/pexels-photo-20860607.jpeg?auto=compress&cs=tinysrgb&w=2000'}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/20860607/pexels-photo-20860607.jpeg?auto=compress&cs=tinysrgb&w=2000')}
           alt="Kinésithérapeute du sport au travail"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1376,7 +1383,7 @@ function MethodPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || 'https://images.pexels.com/photos/20860616/pexels-photo-20860616.jpeg?auto=compress&cs=tinysrgb&w=900'}
+              src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/20860616/pexels-photo-20860616.jpeg?auto=compress&cs=tinysrgb&w=900')}
               alt="Rééducation sportive — méthode KinéSport Élite"
               loading="lazy"
               style={{
@@ -1702,7 +1709,7 @@ function AppointmentForm() {
     <section style={sec} id="rdv">
       {/* Fond subtil */}
       <img
-        src={'https://images.pexels.com/photos/20860616/pexels-photo-20860616.jpeg?auto=compress&cs=tinysrgb&w=1600'}
+        src={(clientPhotos(sessionData)[8] || 'https://images.pexels.com/photos/20860616/pexels-photo-20860616.jpeg?auto=compress&cs=tinysrgb&w=1600')}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2197,9 +2204,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EDIT_ROWS = EDIT_ROWS_LIVE();
+  PROTOCOLS = PROTOCOLS_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(

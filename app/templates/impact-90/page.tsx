@@ -41,11 +41,14 @@ let brand: any = null;
    like a curtain, contents included, while the photograph changes behind.
    Photographs were verified at the merge; names, prices and copy are this
    bakery's own. */
-const HERO_BREADS_DEMO_SOURCE = [
-  { name: "Miche au Levain", price: "8.50", c: "#8a6234", d: "Fermentation de 24 h, farine T65 moulue sur meule, mie ouverte, croûte caramélisée.", img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&q=80&w=1600" },
-  { name: "Pain de Seigle", price: "6.90", c: "#6b4423", d: "40 % de seigle sombre, légère acidité, mie dense et moelleuse. Le mardi, jeudi et samedi.", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1600" },
-  { name: "Brioche Feuilletée", price: "3.80", c: "#d9ae6c", d: "Beurre AOP, six tours, deux jours de repos au froid. Le week-end uniquement.", img: "https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&q=80&w=1600" },
+function HERO_BREADS_DEMO_SOURCE_LIVE() {
+  return [
+  { name: "Miche au Levain", price: "8.50", c: "#8a6234", d: "Fermentation de 24 h, farine T65 moulue sur meule, mie ouverte, croûte caramélisée.", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&q=80&w=1600") },
+  { name: "Pain de Seigle", price: "6.90", c: "#6b4423", d: "40 % de seigle sombre, légère acidité, mie dense et moelleuse. Le mardi, jeudi et samedi.", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1600") },
+  { name: "Brioche Feuilletée", price: "3.80", c: "#d9ae6c", d: "Beurre AOP, six tours, deux jours de repos au froid. Le week-end uniquement.", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&q=80&w=1600") },
 ];
+}
+let HERO_BREADS_DEMO_SOURCE = HERO_BREADS_DEMO_SOURCE_LIVE();
 let HERO_BREADS_DEMO = HERO_BREADS_DEMO_SOURCE;
 let HERO_BREADS = HERO_BREADS_DEMO;
 
@@ -1013,9 +1016,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  HERO_BREADS_DEMO_SOURCE = HERO_BREADS_DEMO_SOURCE_LIVE();
   TESTIMONIALS_90_DEMO = TESTIMONIALS_90_DEMO_LIVE();
 
   HERO_BREADS_DEMO = resolveList(

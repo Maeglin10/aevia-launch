@@ -127,13 +127,14 @@ function useFonts() {
 
 const NAV_LINKS = ["Collections", "Tirages", "Terrain", "À propos", "Contact"]
 
-const SLIDES_DEMO_SOURCE = [
+function SLIDES_DEMO_SOURCE_LIVE() {
+  return [
   {
     id: 1,
     title: "Forêts Primaires",
     subtitle: "Amazonie, Brésil",
     desc: "Dans les profondeurs de la forêt amazonienne, là où la lumière ne touche jamais le sol.",
-    img: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1800&q=90&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1800&q=90&auto=format&fit=crop"),
     season: "Saison des pluies",
     year: "2024",
   },
@@ -142,7 +143,7 @@ const SLIDES_DEMO_SOURCE = [
     title: "Sommets Alpins",
     subtitle: "Mont-Blanc, France",
     desc: "Le silence absolu des hauteurs, où chaque pas laisse une empreinte dans l'éternité.",
-    img: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1800&q=90&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1800&q=90&auto=format&fit=crop"),
     season: "Hiver",
     year: "2023",
   },
@@ -151,7 +152,7 @@ const SLIDES_DEMO_SOURCE = [
     title: "Océans Profonds",
     subtitle: "Pacifique Sud",
     desc: "La frontière entre le monde connu et l'inconnu infini. L'horizon qui appelle.",
-    img: "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=1800&q=90&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=1800&q=90&auto=format&fit=crop"),
     season: "Tempête",
     year: "2024",
   },
@@ -160,7 +161,7 @@ const SLIDES_DEMO_SOURCE = [
     title: "Déserts Dorés",
     subtitle: "Sahara, Maroc",
     desc: "Les dunes sculptées par le vent racontent l'histoire de millions d'années.",
-    img: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1800&q=90&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1800&q=90&auto=format&fit=crop"),
     season: "Aube",
     year: "2023",
   },
@@ -169,58 +170,63 @@ const SLIDES_DEMO_SOURCE = [
     title: "Arctique Bleu",
     subtitle: "Spitzberg, Norvège",
     desc: "La dernière frontière. Un monde de glace et de lumière qui disparaît trop vite.",
-    img: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=1800&q=90&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=1800&q=90&auto=format&fit=crop"),
     season: "Nuit polaire",
     year: "2025",
   },
-]
+];
+}
+let SLIDES_DEMO_SOURCE = SLIDES_DEMO_SOURCE_LIVE();
 let SLIDES_DEMO = SLIDES_DEMO_SOURCE;
 let SLIDES = SLIDES_DEMO;
 
-const COLLECTIONS_DEMO = [
+function COLLECTIONS_DEMO_LIVE() {
+  return [
   {
     name: "Forêts Primaires",
     count: 42,
     location: "Amazonie, Borneo, Congo",
     icon: Leaf,
-    img: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80&auto=format&fit=crop"),
   },
   {
     name: "Sommets Alpins",
     count: 38,
     location: "Alpes, Himalaya, Andes",
     icon: Mountain,
-    img: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=80&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=80&auto=format&fit=crop"),
   },
   {
     name: "Océans Profonds",
     count: 55,
     location: "Pacifique, Atlantique, Indien",
     icon: Wind,
-    img: "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=600&q=80&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=600&q=80&auto=format&fit=crop"),
   },
   {
     name: "Déserts Dorés",
     count: 29,
     location: "Sahara, Atacama, Gobi",
     icon: Sun,
-    img: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600&q=80&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600&q=80&auto=format&fit=crop"),
   },
   {
     name: "Steppes Sauvages",
     count: 33,
     location: "Mongolie, Kazakhstan, Patagonie",
     icon: Wind,
-    img: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&q=80&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&q=80&auto=format&fit=crop"),
   },
   {
     name: "Arctique Bleu",
     count: 21,
     location: "Spitzberg, Islande, Groenland",
     icon: Wind,
-    img: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&q=80&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&q=80&auto=format&fit=crop"),
   },
-]
+];
+}
+let COLLECTIONS_DEMO = COLLECTIONS_DEMO_LIVE();
 let COLLECTIONS = COLLECTIONS_DEMO;
 
 const PRINTS_SOURCE = [
@@ -584,8 +590,12 @@ export default function Impact114Page() {
   }, []);
 
   fd = session?.formData;
+
+
   sessionData = session;
   c = session?.generatedContent;
+  COLLECTIONS_DEMO = COLLECTIONS_DEMO_LIVE();
+  SLIDES_DEMO_SOURCE = SLIDES_DEMO_SOURCE_LIVE();
 
   SLIDES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SLIDES_DEMO_SOURCE[i % SLIDES_DEMO_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
@@ -1074,7 +1084,7 @@ export default function Impact114Page() {
                 style={{ top: "-60px", bottom: "-60px", left: 0, right: 0, y: aboutImgY }}
               >
                 <Image
-                  src={photo(0, "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900&q=85&auto=format&fit=crop")}
+                  src={photo(0, (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900&q=85&auto=format&fit=crop"))}
                   alt="Julien Moreau photographe"
                   fill
                   className="object-cover"

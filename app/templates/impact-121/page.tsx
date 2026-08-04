@@ -20,6 +20,7 @@ import { ArrowUpRight, CheckCircle2, Menu, X, Play, ArrowRight, Circle, Square, 
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -111,7 +112,7 @@ function MANIFEST_LIVE() {
       year: "2026",
       role: "Art Direction, WebGL",
       category: "E-Commerce",
-      img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1600&q=80",
+      img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1600&q=80"),
       color: "#f3f4f6"
     },
     {
@@ -119,7 +120,7 @@ function MANIFEST_LIVE() {
       year: "2025",
       role: "Brand Identity, UI/UX",
       category: "Fintech",
-      img: "https://images.unsplash.com/photo-1600607686527-6fb886090705?w=1600&q=80",
+      img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600607686527-6fb886090705?w=1600&q=80"),
       color: "#e5e7eb"
     },
     {
@@ -127,7 +128,7 @@ function MANIFEST_LIVE() {
       year: "2025",
       role: "Motion Design",
       category: "SaaS",
-      img: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1600&q=80",
+      img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1600&q=80"),
       color: "#d1d5db"
     },
     {
@@ -135,7 +136,7 @@ function MANIFEST_LIVE() {
       year: "2024",
       role: "E-Commerce, Strategy",
       category: "Luxury",
-      img: "https://images.unsplash.com/photo-1549490349-8643362247b5?w=1600&q=80",
+      img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1549490349-8643362247b5?w=1600&q=80"),
       color: "var(--brand,#9ca3af)"
     }
   ],
@@ -164,10 +165,10 @@ function MANIFEST_LIVE() {
     { title: "Detail Obsession", desc: "The difference between good and great is in the details. We sweat the micro-interactions." }
   ]),
   team: [
-    { name: "Elias Valenti", role: "Design Director", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80" },
-    { name: "Sarah Chen", role: "Technical Lead", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80" },
-    { name: "Marcus Thorne", role: "Creative Strategist", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" },
-    { name: "Lena Volkov", role: "Motion Designer", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80" }
+    { name: "Elias Valenti", role: "Design Director", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80") },
+    { name: "Sarah Chen", role: "Technical Lead", img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80") },
+    { name: "Marcus Thorne", role: "Creative Strategist", img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80") },
+    { name: "Lena Volkov", role: "Motion Designer", img: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80") }
   ],
   pricing: resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { name: "Consult", price: "5K", desc: "Audit and strategy direction", features: ["UX Audit", "Brand Positioning", "Technical Review", "Actionable Roadmap"] },
@@ -425,7 +426,7 @@ export default function FolioStudioPage() {
 
         {/* ─── FULL WIDTH IMAGE PARALLAX ─────────────────────────────────── */}
         <section className="py-20">
-          <ParallaxImg src={photo(0, "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80")} alt="Office" className="h-[60vh] md:h-[80vh] w-full" />
+          <ParallaxImg src={photo(0, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80"))} alt="Office" className="h-[60vh] md:h-[80vh] w-full" />
         </section>
 
         {/* ─── SERVICES GRID ─────────────────────────────────────────────── */}

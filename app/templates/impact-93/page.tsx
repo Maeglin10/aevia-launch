@@ -52,7 +52,8 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================= */
 
-const FLEET_DEMO_SOURCE = [
+function FLEET_DEMO_SOURCE_LIVE() {
+  return [
   {
     id: 1,
     name: "Global 7500",
@@ -60,7 +61,7 @@ const FLEET_DEMO_SOURCE = [
     range: "7,700 nm",
     pax: "19",
     speed: "Mach 0.925",
-    img: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80"),
     desc: "The world's largest and longest-range business jet. A masterclass in luxury and range.",
   },
   {
@@ -70,7 +71,7 @@ const FLEET_DEMO_SOURCE = [
     range: "7,500 nm",
     pax: "16",
     speed: "Mach 0.90",
-    img: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80"),
     desc: "Speed and range redefined. The industry standard for international executive travel.",
   },
   {
@@ -80,10 +81,12 @@ const FLEET_DEMO_SOURCE = [
     range: "3,500 nm",
     pax: "12",
     speed: "Mach 0.84",
-    img: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80"),
     desc: "Revolutionary comfort with the lowest cabin altitude in its class.",
   },
 ];
+}
+let FLEET_DEMO_SOURCE = FLEET_DEMO_SOURCE_LIVE();
 let FLEET_DEMO = FLEET_DEMO_SOURCE;
 let FLEET = FLEET_DEMO;
 
@@ -233,9 +236,11 @@ export default function VelocityJetsPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FLEET_DEMO_SOURCE = FLEET_DEMO_SOURCE_LIVE();
   FLEET_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     FLEET_DEMO_SOURCE,
@@ -437,7 +442,7 @@ export default function VelocityJetsPage() {
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=1600&q=80")}
+            src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=1600&q=80"))}
             alt="Private Jet"
             fill
             className="object-cover opacity-60"
@@ -566,7 +571,7 @@ export default function VelocityJetsPage() {
           <Reveal delay={0.2}>
             <div className="relative aspect-video lg:aspect-[4/3] bg-neutral-950 border border-white/5">
               <Image
-                src={photo(1, "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80")}
+                src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80"))}
                 alt="Velocity Jet Hangar"
                 fill
                 className="object-cover opacity-60"

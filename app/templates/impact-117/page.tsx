@@ -43,11 +43,14 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
   )
 }
 
-const FLEET_DEMO = [
-  { name: "V1 Courier", range: "350km", payload: "1.5 Tons", type: "Electric Van", img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200" },
-  { name: "V2 Hauler", range: "800km", payload: "18 Tons", type: "Semi-Truck", img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200" },
-  { name: "V-Drone X", range: "40km", payload: "25kg", type: "Autonomous Drone", img: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=1200" },
-]
+function FLEET_DEMO_LIVE() {
+  return [
+  { name: "V1 Courier", range: "350km", payload: "1.5 Tons", type: "Electric Van", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200") },
+  { name: "V2 Hauler", range: "800km", payload: "18 Tons", type: "Semi-Truck", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200") },
+  { name: "V-Drone X", range: "40km", payload: "25kg", type: "Autonomous Drone", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=1200") },
+];
+}
+let FLEET_DEMO = FLEET_DEMO_LIVE();
 let FLEET = FLEET_DEMO;
 
 const FEATURES_SOURCE = [
@@ -91,8 +94,10 @@ export default function VoltLogisticsPage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  FLEET_DEMO = FLEET_DEMO_LIVE();
 
   FEATURES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
@@ -216,7 +221,7 @@ export default function VoltLogisticsPage() {
                   <div className="absolute -inset-10 bg-[var(--brand,#ffb400)]/10 blur-[100px] rounded-full" />
                   <div className="relative bg-white/5 border border-white/10 p-1 rounded-2xl overflow-hidden backdrop-blur-sm">
                     <div className="aspect-[4/3] relative">
-                      <Image src={photo(0, "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200")} alt="E-Mobility" fill className="object-cover opacity-70 group-hover:scale-110 transition-transform duration-700" />
+                      <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200"))} alt="E-Mobility" fill className="object-cover opacity-70 group-hover:scale-110 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
                       <div className="absolute bottom-8 left-8 right-8">
                         <div className="flex justify-between items-end">

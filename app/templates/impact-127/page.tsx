@@ -71,10 +71,10 @@ function EqBars({ active = false }: { active?: boolean }) {
 
 function EVENTS_DEMO_SOURCE_LIVE() {
   return [
-  { title: "NEON PULSE", artist: "Nova Collective", date: "May 24, 2026", time: "21:00", venue: "Warehouse IX", city: "Berlin", img: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=1200", price: "€45", status: "On Sale", genre: "Electronic" },
-  { title: "MIDNIGHT CRESCENDO", artist: "The Archivists", date: "Jun 7, 2026", time: "20:00", venue: "Hall Meridian", city: "London", img: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&q=80&w=1200", price: "£65", status: "Selling Fast", genre: "Orchestral" },
-  { title: "BASS COMMUNION", artist: "Drift Engine", date: "Jun 21, 2026", time: "23:00", venue: "Sublevel", city: "London", img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=1200", price: "£35", status: "On Sale", genre: "Techno" },
-  { title: "AURORA SESSIONS", artist: "Halcyon Drift", date: "Jul 5, 2026", time: "19:30", venue: "Le Ratio", city: (clientCity({ formData: fd }) ?? "Paris"), img: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=1200", price: "€55", status: "Limited", genre: "Indie" },
+  { title: "NEON PULSE", artist: "Nova Collective", date: "May 24, 2026", time: "21:00", venue: "Warehouse IX", city: "Berlin", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=1200"), price: "€45", status: "On Sale", genre: "Electronic" },
+  { title: "MIDNIGHT CRESCENDO", artist: "The Archivists", date: "Jun 7, 2026", time: "20:00", venue: "Hall Meridian", city: "London", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&q=80&w=1200"), price: "£65", status: "Selling Fast", genre: "Orchestral" },
+  { title: "BASS COMMUNION", artist: "Drift Engine", date: "Jun 21, 2026", time: "23:00", venue: "Sublevel", city: "London", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=1200"), price: "£35", status: "On Sale", genre: "Techno" },
+  { title: "AURORA SESSIONS", artist: "Halcyon Drift", date: "Jul 5, 2026", time: "19:30", venue: "Le Ratio", city: (clientCity({ formData: fd }) ?? "Paris"), img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=1200"), price: "€55", status: "Limited", genre: "Indie" },
 ];
 }
 let EVENTS_DEMO_SOURCE = EVENTS_DEMO_SOURCE_LIVE();
@@ -263,7 +263,7 @@ export default function PulseEventsPage() {
         {/* ── HERO ─────────────────────── */}
         <section id="hero" className="relative h-[110vh] min-h-[640px] flex items-center overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src={photo(0, "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=2400")} alt="Concert" fill className="object-cover opacity-50" priority />
+            <Image src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=2400"))} alt="Concert" fill className="object-cover opacity-50" priority />
             <div className="absolute inset-0 bg-gradient-to-r from-[#08050a] via-[#08050a]/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#08050a] to-transparent" />
           </motion.div>
@@ -344,10 +344,10 @@ export default function PulseEventsPage() {
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { name: "Nova Collective", genre: "Electronic", origin: "Berlin", img: photo(1, "https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=600&q=80"), events: 3, followers: "182K" },
-                { name: "The Archivists", genre: "Orchestral", origin: "London", img: photo(2, "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&q=80"), events: 2, followers: "94K" },
-                { name: "Drift Engine", genre: "Techno", origin: "London", img: photo(3, "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&q=80"), events: 4, followers: "312K" },
-                { name: "Halcyon Drift", genre: "Indie", origin: "Manchester", img: photo(4, "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&q=80"), events: 2, followers: "280K" },
+                { name: "Nova Collective", genre: "Electronic", origin: "Berlin", img: photo(1, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=600&q=80")), events: 3, followers: "182K" },
+                { name: "The Archivists", genre: "Orchestral", origin: "London", img: photo(2, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&q=80")), events: 2, followers: "94K" },
+                { name: "Drift Engine", genre: "Techno", origin: "London", img: photo(3, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&q=80")), events: 4, followers: "312K" },
+                { name: "Halcyon Drift", genre: "Indie", origin: "Manchester", img: photo(4, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&q=80")), events: 2, followers: "280K" },
               ].map((artist, i) => (
                 <Reveal key={artist.name} delay={i * 0.08}>
                   <motion.div
@@ -518,7 +518,7 @@ export default function PulseEventsPage() {
         {/* ── CTA ────────────────────── */}
         <section id="contact" className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(5, "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
+            <Image src={photo(5, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=2400"))} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-[var(--brand,#831843)]/60 mix-blend-multiply" />
             <div className="absolute inset-0 bg-black/40" />
           </div>

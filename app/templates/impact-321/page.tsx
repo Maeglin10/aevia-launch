@@ -4,6 +4,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientServices,
   clientStats,
   clientTagline,
@@ -108,27 +109,30 @@ const SANS = "'Inter', sans-serif";
 const EASE = [0.16, 1, 0.3, 1];
 
 // --- FALLBACK IMAGES ---
-const PHOTOS = {
-  hero: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop",
-  about: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?q=80&w=2070&auto=format&fit=crop",
+function PHOTOS_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop"),
+  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1591115765373-5207764f72e7?q=80&w=2070&auto=format&fit=crop"),
   speakers: [
-    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1974&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1974&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop"
+    (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop"),
+    (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1974&auto=format&fit=crop"),
+    (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop"),
+    (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1974&auto=format&fit=crop"),
+    (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop"),
+    (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop")
   ],
   gallery: [
-    "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=2012&auto=format&fit=crop",
-    "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=2070",
-    "https://images.unsplash.com/photo-1558008258-3256797b43f3?q=80&w=2069&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2069&auto=format&fit=crop"
+    (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=2012&auto=format&fit=crop"),
+    (clientPhotos(sessionData)[9] || "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=2070"),
+    (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1558008258-3256797b43f3?q=80&w=2069&auto=format&fit=crop"),
+    (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2069&auto=format&fit=crop")
   ],
   // Fictional partners: real company marks can't be shown as sponsors of a
   // demo event, and the Wikipedia SVGs they pointed at 404 anyway.
   sponsors: ["Northbeam", "Kaleido Cloud", "Vantix", "Orbital Systems"]
 };
+}
+let PHOTOS = PHOTOS_LIVE();
 
 
 // --- UTILS & COMPONENTS ---
@@ -365,6 +369,8 @@ export default function AIHorizonsTemplate() {
   const fd = session?.formData;
 
   sessionData = session;
+  PHOTOS = PHOTOS_LIVE();
+
   const c = session?.generatedContent;
 
   const businessName = fd?.businessName || "AI Horizons '26";

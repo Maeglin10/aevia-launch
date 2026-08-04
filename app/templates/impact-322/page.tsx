@@ -44,6 +44,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -86,19 +87,22 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const DEFAULT_BRAND_COLOR = "var(--brand,#c5a880)";
 
-const PHOTOS = {
-  hero: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&q=80&w=2070", // Elegant venue
-  about: "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&q=80&w=2070", // Event planning
-  service1: "https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?auto=format&fit=crop&q=80&w=2065", // Gala
-  service2: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=2070", // Conference
-  service3: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=2098", // Fine dining
-  gallery1: "https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&fit=crop&q=80&w=2070",
-  gallery2: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&q=80&w=2070",
-  gallery3: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2070",
-  gallery4: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=2070",
-  gallery5: "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&q=80&w=2070",
-  gallery6: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=2069"
+function PHOTOS_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&q=80&w=2070"), // Elegant venue
+  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&q=80&w=2070"), // Event planning
+  service1: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?auto=format&fit=crop&q=80&w=2065"), // Gala
+  service2: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=2070"), // Conference
+  service3: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=2098"), // Fine dining
+  gallery1: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&fit=crop&q=80&w=2070"),
+  gallery2: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&q=80&w=2070"),
+  gallery3: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2070"),
+  gallery4: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=2070"),
+  gallery5: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&q=80&w=2070"),
+  gallery6: (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=2069")
 };
+}
+let PHOTOS = PHOTOS_LIVE();
 
 // --- COMPONENTS ---
 
@@ -204,6 +208,8 @@ export default function Impact322() {
   const fd = session?.formData || {};
 
   sessionData = session;
+  PHOTOS = PHOTOS_LIVE();
+
   const c = session?.generatedContent || {};
   const bp = session?.businessProfile || {};
 

@@ -61,7 +61,7 @@ function COLLECTIONS_SOURCE_LIVE() {
     status: "Private_Vault",
     location: "Zurich Node",
     desc: "Une étude rare attribuée au cercle de Vinci, conservée dans des conditions atmosphériques contrôlées.",
-    image: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=1200&auto=format&fit=crop"
+    image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=1200&auto=format&fit=crop")
   },
   {
     id: "art-02",
@@ -70,7 +70,7 @@ function COLLECTIONS_SOURCE_LIVE() {
     status: "In_Exhibition",
     location: (clientCity({ formData: fd }) ?? "Paris") + " Annex",
     desc: "Sculptures hellénistiques retrouvées lors de l'expédition de 1924 en mer Égée.",
-    image: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=1200&auto=format&fit=crop"
+    image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=1200&auto=format&fit=crop")
   },
   {
     id: "art-03",
@@ -79,7 +79,7 @@ function COLLECTIONS_SOURCE_LIVE() {
     status: "Restoration",
     location: "London Lab",
     desc: "Enluminures byzantines sur parchemin de soie, en cours de stabilisation pigmentaire.",
-    image: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1200&auto=format&fit=crop"
+    image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1200&auto=format&fit=crop")
   }
 ];
 }
@@ -117,7 +117,7 @@ function ARCHIVE_WORKS_DEMO_SOURCE_LIVE() {
     status: "Private_Vault",
     location: "Tokyo Node",
     desc: "Triptyque dévotionnel sur bois d'ébène, rehaussé de feuille d'or, attribué à un maître flamand anonyme.",
-    image: "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?q=80&w=1200&auto=format&fit=crop"
+    image: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?q=80&w=1200&auto=format&fit=crop")
   },
   {
     id: "art-05",
@@ -126,7 +126,7 @@ function ARCHIVE_WORKS_DEMO_SOURCE_LIVE() {
     status: "In_Exhibition",
     location: (clientCity({ formData: fd }) ?? "Paris") + " Annex",
     desc: "Vue capricieuse à l'huile d'une cité engloutie, étude topographique d'une précision saisissante.",
-    image: "https://images.unsplash.com/photo-1549289524-06cf8837ace5?q=80&w=1200&auto=format&fit=crop"
+    image: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1549289524-06cf8837ace5?q=80&w=1200&auto=format&fit=crop")
   },
   {
     id: "art-06",
@@ -135,7 +135,7 @@ function ARCHIVE_WORKS_DEMO_SOURCE_LIVE() {
     status: "Restoration",
     location: "London Lab",
     desc: "Reliquaire en argent niellé, serti de pierres semi-précieuses, en cours d'analyse métallurgique.",
-    image: "https://images.unsplash.com/photo-1620503374956-c942862f0372?q=80&w=1200&auto=format&fit=crop"
+    image: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1620503374956-c942862f0372?q=80&w=1200&auto=format&fit=crop")
   }
 ];
 }
@@ -213,14 +213,15 @@ const WORK_DETAILS: Record<string, {
 }
 
 // Journal — editorial articles in the maison's register (index + article view).
-const JOURNAL_DEMO = [
+function JOURNAL_DEMO_LIVE() {
+  return [
   {
     slug: "silence-du-temps",
     title: "Le silence du temps : philosophie de la conservation",
     date: "4 juin 2026",
     category: "Conservation",
     excerpt: "Conserver n'est pas figer. C'est offrir à l'œuvre les conditions de son propre silence, pour que l'histoire continue de parler à travers elle.",
-    image: "https://images.unsplash.com/photo-1518998053901-5348d3961a04?q=80&w=1200&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1518998053901-5348d3961a04?q=80&w=1200&auto=format&fit=crop"),
     body: [
       "La conservation est souvent perçue comme un acte de fixation, une lutte contre l'écoulement du temps. Cette vision, séduisante, est profondément erronée. Conserver, ce n'est pas arrêter le temps : c'est le ralentir avec assez de douceur pour que l'œuvre demeure lisible par les générations à venir.",
       "Chaque chef-d'œuvre porte en lui une double mémoire : celle de sa création et celle de son parcours. Le rôle du conservateur consiste à respecter ces deux strates, sans jamais imposer une lecture contemporaine qui trahirait l'intention première.",
@@ -234,7 +235,7 @@ const JOURNAL_DEMO = [
     date: "19 mai 2026",
     category: "Le Laboratoire",
     excerpt: "Réflectographie infrarouge, fluorescence ultraviolette, radiographie : autant de regards qui dévoilent ce que l'œil seul ne peut percevoir.",
-    image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=1200&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=1200&auto=format&fit=crop"),
     body: [
       "Avant toute intervention, l'œuvre est interrogée. Non par la parole, mais par la lumière. L'imagerie multispectrale permet de cartographier ce qui se dérobe au regard : dessins sous-jacents, repentirs, restaurations anciennes, altérations naissantes.",
       "La réflectographie infrarouge traverse les couches picturales pour révéler le tracé préparatoire. La fluorescence ultraviolette met en évidence les vernis et les retouches. La radiographie, enfin, dévoile la structure interne du support.",
@@ -248,7 +249,7 @@ const JOURNAL_DEMO = [
     date: "2 mai 2026",
     category: "Provenance",
     excerpt: "Une œuvre sans histoire documentée est une œuvre orpheline. La traçabilité de la provenance est le fondement même de l'authenticité.",
-    image: "https://images.unsplash.com/photo-1554907984-15263bfd63bd?q=80&w=1200&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1554907984-15263bfd63bd?q=80&w=1200&auto=format&fit=crop"),
     body: [
       "La provenance n'est pas un détail administratif. Elle est le récit continu d'une œuvre, depuis sa création jusqu'à son entrée dans nos coffres. Chaque maillon manquant fragilise l'authenticité ; chaque maillon documenté la consolide.",
       "Notre registre privé consigne, pour chaque pièce, l'ensemble des transferts, expositions, restaurations et expertises. Cette chronologie, scellée sur protocole privé, garantit l'intégrité de l'histoire que l'œuvre porte en elle.",
@@ -262,7 +263,7 @@ const JOURNAL_DEMO = [
     date: "16 avril 2026",
     category: "Registre",
     excerpt: "Acquérir une œuvre, c'est en accepter la responsabilité morale. Notre registre n'accueille que des pièces dont la légitimité est irréprochable.",
-    image: "https://images.unsplash.com/photo-1545989253-02cc26577f88?q=80&w=1200&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1545989253-02cc26577f88?q=80&w=1200&auto=format&fit=crop"),
     body: [
       "Toute acquisition engage une responsabilité qui dépasse la simple transaction. Accueillir une œuvre dans le registre de l'Archive, c'est se porter garant de la légitimité de son parcours et de la rectitude des conditions de sa sortie d'origine.",
       "Nous appliquons une procédure de diligence raisonnée à chaque pièce envisagée : vérification de la provenance, consultation des bases de biens spoliés, et expertise indépendante. Le moindre doute entraîne le refus.",
@@ -270,7 +271,9 @@ const JOURNAL_DEMO = [
       "Le discernement, dans notre métier, n'est jamais un luxe. Il est un devoir."
     ]
   }
-]
+];
+}
+let JOURNAL_DEMO = JOURNAL_DEMO_LIVE();
 let JOURNAL = JOURNAL_DEMO;
 
 /* ==========================================================================
@@ -400,9 +403,11 @@ export default function IvoryArchivePremium() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  JOURNAL_DEMO = JOURNAL_DEMO_LIVE();
   ARCHIVE_WORKS_DEMO_SOURCE = ARCHIVE_WORKS_DEMO_SOURCE_LIVE();
   COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
 
@@ -564,7 +569,7 @@ return (
         <section className="relative h-dvh flex items-center justify-center overflow-hidden">
           <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="absolute inset-0 z-0">
              <Image
-                src={photo(0, "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1600&q=80")}
+                src={photo(0, (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1600&q=80"))}
                 alt="Classical Sculpture in Museum"
                 fill
                 className="object-cover opacity-20 grayscale"
@@ -730,7 +735,7 @@ return (
               <div className="grid lg:grid-cols-2 gap-32 items-center">
                  <div className="relative aspect-[4/5] overflow-hidden group">
                     <Image
-                       src={photo(1, "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop")}
+                       src={photo(1, (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop"))}
                        alt="Art Restorer Working"
                        fill
                        className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"

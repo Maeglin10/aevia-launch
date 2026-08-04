@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -75,11 +76,14 @@ const SERVICES_SOURCE = [
 ]
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const REALIZATIONS_DEMO = [
-  { label: "Villa contemporaine · 280 m²", tag: "Installation complète", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=1200" },
-  { label: "Immeuble 12 logements · Bordeaux", tag: "Mise en conformité NFC15-100", img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&q=80&w=1200" },
-  { label: "Commerce · Cuisine industrielle", tag: "Triphasé + TGBT", img: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=1200" },
-]
+function REALIZATIONS_DEMO_LIVE() {
+  return [
+  { label: "Villa contemporaine · 280 m²", tag: "Installation complète", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=1200") },
+  { label: "Immeuble 12 logements · Bordeaux", tag: "Mise en conformité NFC15-100", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&q=80&w=1200") },
+  { label: "Commerce · Cuisine industrielle", tag: "Triphasé + TGBT", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=1200") },
+];
+}
+let REALIZATIONS_DEMO = REALIZATIONS_DEMO_LIVE();
 
 const STEPS = [
   { num: "01", title: "Devis gratuit sous 24h", desc: "Prise de contact, visite technique si nécessaire, chiffrage précis et transparent. Sans engagement." },
@@ -122,9 +126,11 @@ export default function VoltProPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  REALIZATIONS_DEMO = REALIZATIONS_DEMO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -259,7 +265,7 @@ export default function VoltProPage() {
         <section id="hero" className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image
-              src={photo(0, "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=85&w=2400")}
+              src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=85&w=2400"))}
               alt="Électricien au travail sur tableau électrique"
               fill className="object-cover opacity-50" priority
             />
@@ -563,7 +569,7 @@ export default function VoltProPage() {
         {/* ── CTA ── */}
         <section id="contact" className="relative py-48 flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(1, "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=2400")} alt="Câblage électrique moderne" fill className="object-cover opacity-30" />
+            <Image src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=2400"))} alt="Câblage électrique moderne" fill className="object-cover opacity-30" />
             <div className="absolute inset-0 bg-[#080a0c]/80" />
           </div>
           <Reveal className="relative z-10 text-center px-6">

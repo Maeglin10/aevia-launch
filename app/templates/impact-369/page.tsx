@@ -48,7 +48,10 @@ const FONT = "Georgia, 'Times New Roman', serif";
 const FONT_BODY = "system-ui, -apple-system, sans-serif";
 
 const NAV = [{"l": "Les espaces", "h": "#services"}, {"l": "Votre événement", "h": "#methode"}, {"l": "Formules", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO_DEMO = [{"k": "La grande salle", "sub": "220 convives assis, pierre apparente et poutres de chêne.", "img": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80", "alt": "La grande salle dressée pour un dîner"}, {"k": "La cérémonie au parc", "sub": "L'allée de charmes, l'arche, et quatre hectares pour les photos.", "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80", "alt": "Cérémonie dressée dans le parc"}, {"k": "Les lendemains", "sub": "12 chambres sur place — le brunch se fait en peignoir.", "img": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80", "alt": "Le parc au matin"}];
+function HERO_DEMO_LIVE() {
+  return [{"k": "La grande salle", "sub": "220 convives assis, pierre apparente et poutres de chêne.", "img": (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80"), "alt": "La grande salle dressée pour un dîner"}, {"k": "La cérémonie au parc", "sub": "L'allée de charmes, l'arche, et quatre hectares pour les photos.", "img": (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80"), "alt": "Cérémonie dressée dans le parc"}, {"k": "Les lendemains", "sub": "12 chambres sur place — le brunch se fait en peignoir.", "img": (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80"), "alt": "Le parc au matin"}];
+}
+let HERO_DEMO = HERO_DEMO_LIVE();
 let HERO = HERO_DEMO;
 
 const SERVICES_SOURCE = [{"titre": "La grande salle", "desc": "320 m² de tuffeau et de chêne, 220 couverts, office traiteur professionnel attenant, sono et lumières installées.", "tag": "Salle"}, {"titre": "Le parc & la cérémonie", "desc": "Cérémonie laïque sous l'allée de charmes, cocktail sur la terrasse ouest au couchant, plan B pluie prévu et beau.", "tag": "Parc"}, {"titre": "L'hébergement", "desc": "12 chambres (26 couchages) dans la longère et les dépendances : les proches restent, le brunch du lendemain a lieu ici.", "tag": "Nuits"}, {"titre": "Séminaires & journées d'équipe", "desc": "En semaine : salle plénière lumineuse, sous-commissions dans les dépendances, parc pour les formats qui respirent.", "tag": "Entreprise"}, {"titre": "Traiteurs : libres ou conseillés", "desc": "Cuisine professionnelle aux normes pour le traiteur de votre choix — ou notre liste de cinq maisons éprouvées.", "tag": "Traiteur"}, {"titre": "Coordination du jour J", "desc": "Notre intendante orchestre prestataires et timing le jour même : vous êtes invités chez vous.", "tag": "Jour J"}];
@@ -91,9 +94,12 @@ export default function DomaineCharmillesPage() {
 
 
   fd = session?.formData;
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_DEMO = HERO_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -303,7 +309,7 @@ export default function DomaineCharmillesPage() {
       <section id="engagements" className="i369-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i369-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80")} alt="Cérémonie dans le parc du domaine" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(3, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80"))} alt="Cérémonie dans le parc du domaine" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>

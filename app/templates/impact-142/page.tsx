@@ -68,11 +68,14 @@ const IMPACT_SOURCE = [
 ]
 let IMPACT = IMPACT_SOURCE;
 
-const PROGRAMS_DEMO_SOURCE = [
-  { icon: TreePine, title: "Reforestation", desc: "Large-scale tree planting programs in deforested regions with indigenous community partnerships.", img: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=800" },
-  { icon: Droplets, title: "Ocean Cleanup", desc: "AI-guided autonomous systems removing plastic from waterways before it reaches open ocean.", img: "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&q=80&w=800" },
-  { icon: Sun, title: "Clean Energy", desc: "Community solar installations providing renewable energy to underserved populations.", img: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=800" },
-]
+function PROGRAMS_DEMO_SOURCE_LIVE() {
+  return [
+  { icon: TreePine, title: "Reforestation", desc: "Large-scale tree planting programs in deforested regions with indigenous community partnerships.", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=800") },
+  { icon: Droplets, title: "Ocean Cleanup", desc: "AI-guided autonomous systems removing plastic from waterways before it reaches open ocean.", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&q=80&w=800") },
+  { icon: Sun, title: "Clean Energy", desc: "Community solar installations providing renewable energy to underserved populations.", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=800") },
+];
+}
+let PROGRAMS_DEMO_SOURCE = PROGRAMS_DEMO_SOURCE_LIVE();
 let PROGRAMS_DEMO = PROGRAMS_DEMO_SOURCE;
 let PROGRAMS = PROGRAMS_DEMO;
 
@@ -116,8 +119,10 @@ export default function VerdantImpactPage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  PROGRAMS_DEMO_SOURCE = PROGRAMS_DEMO_SOURCE_LIVE();
 
   IMPACT = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...IMPACT_SOURCE[i % IMPACT_SOURCE.length], value: s.value, label: s.label })),
@@ -230,7 +235,7 @@ export default function VerdantImpactPage() {
         {/* ── HERO ────────── */}
         <section id="hero" className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src={photo(0, "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2400")} alt="Forest" fill className="object-cover" priority />
+            <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2400"))} alt="Forest" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#f6faf4] via-[#f6faf4]/20 to-transparent" />
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-24">
@@ -334,7 +339,7 @@ export default function VerdantImpactPage() {
         {/* ── CTA ──────────── */}
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(1, "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
+            <Image src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=2400"))} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-emerald-900/60" />
           </div>
           <div className="relative z-10 text-center text-white px-6">
@@ -355,7 +360,7 @@ export default function VerdantImpactPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <Reveal>
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                  <ParallaxImg src={photo(2, "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1200")} alt="Sustainability work" />
+                  <ParallaxImg src={photo(2, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1200"))} alt="Sustainability work" />
                 </div>
               </Reveal>
               <div>

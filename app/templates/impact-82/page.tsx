@@ -11,6 +11,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientTeam,
   clientText,
@@ -32,19 +33,19 @@ let sessionData: any = null;
 // the same JSX renders either shape.
 function PROGRAMMES_DEMO_LIVE() {
   return [
-  { name: "Résidence Ithaque", loc: (clientCity(sessionData) ?? "Paris"), type: "Résidentiel premium", units: "28 appartements", delivery: "T2 2026", price: "À partir de 1,4 M€", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85", badge: "Commercialisation" },
-  { name: "Le Domaine de Chambord", loc: "Neuilly-sur-Seine", type: "Résidentiel de prestige", units: "42 appartements", delivery: "T4 2026", price: "À partir de 920 k€", img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85", badge: "Pré-vente" },
-  { name: "Horizon Business Center", loc: "La Défense", type: "Bureaux class A", units: "8 500 m² de bureaux", delivery: "T1 2027", price: "Sur demande", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=85", badge: "Investisseurs" },
+  { name: "Résidence Ithaque", loc: (clientCity(sessionData) ?? "Paris"), type: "Résidentiel premium", units: "28 appartements", delivery: "T2 2026", price: "À partir de 1,4 M€", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85"), badge: "Commercialisation" },
+  { name: "Le Domaine de Chambord", loc: "Neuilly-sur-Seine", type: "Résidentiel de prestige", units: "42 appartements", delivery: "T4 2026", price: "À partir de 920 k€", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85"), badge: "Pré-vente" },
+  { name: "Horizon Business Center", loc: "La Défense", type: "Bureaux class A", units: "8 500 m² de bureaux", delivery: "T1 2027", price: "Sur demande", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=85"), badge: "Investisseurs" },
 ];
 }
 let PROGRAMMES_DEMO = PROGRAMMES_DEMO_LIVE();
 
 function EQUIPE_DEMO_LIVE() {
   return [
-  { name: "Édouard Marchand", role: "Président Fondateur", bio: "35 ans d'immobilier. Fondateur de Blueprint en 1989, il a piloté plus de 2,4 Md€ de réalisations.", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80" },
-  { name: "Claire Fontaine", role: "DGA — Développement", bio: "15 ans dans le foncier grand " + (clientCity(sessionData) ?? "Paris") + ". En charge de l'acquisition et du montage de tous les programmes.", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80" },
-  { name: "Thomas Renard", role: "Directeur Financier", bio: "Ex-Goldman Sachs Real Estate. Pilote la relation investisseurs et la structuration des fonds.", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80" },
-  { name: "Sophie Leroux", role: "Directrice Commerciale", bio: "Spécialiste résidentiel de prestige. A lancé 18 programmes depuis 2015, avec un taux de vente VEFA de 94%.", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80" },
+  { name: "Édouard Marchand", role: "Président Fondateur", bio: "35 ans d'immobilier. Fondateur de Blueprint en 1989, il a piloté plus de 2,4 Md€ de réalisations.", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80") },
+  { name: "Claire Fontaine", role: "DGA — Développement", bio: "15 ans dans le foncier grand " + (clientCity(sessionData) ?? "Paris") + ". En charge de l'acquisition et du montage de tous les programmes.", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80") },
+  { name: "Thomas Renard", role: "Directeur Financier", bio: "Ex-Goldman Sachs Real Estate. Pilote la relation investisseurs et la structuration des fonds.", img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80") },
+  { name: "Sophie Leroux", role: "Directrice Commerciale", bio: "Spécialiste résidentiel de prestige. A lancé 18 programmes depuis 2015, avec un taux de vente VEFA de 94%.", img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80") },
 ];
 }
 let EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
@@ -128,7 +129,7 @@ return (
       <section ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-center">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?w=1600&q=85")}
+            src={photo(0, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?w=1600&q=85"))}
             alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Blueprint Developments"))}
             fill
             className="object-cover"
@@ -241,7 +242,7 @@ return (
               <Reveal key={p.title ?? p.name ?? i} delay={i * 0.1}>
                 <div className="group cursor-pointer">
                   <div className="relative aspect-video overflow-hidden mb-6">
-                    <Image src={p.img ?? p.photoUrl ?? photo(1 + i, "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85")} alt={p.title ?? p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <Image src={p.img ?? p.photoUrl ?? photo(1 + i, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85"))} alt={p.title ?? p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1A1612]/60 to-transparent" />
                     {(p.badge ?? p.status) && <span className="absolute top-4 left-4 px-3 py-1 bg-[var(--brand,#C9A86C)] text-[#1A1612] text-[10px] uppercase tracking-widest font-medium">{p.badge ?? p.status}</span>}
                   </div>

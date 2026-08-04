@@ -48,7 +48,10 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Services", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO_DEMO = [{"k": "Lunettes de vue", "line": "La monture essayée, ajustée, assumée.", "sub": "300 modèles, créateurs indépendants inclus.", "img": "https://images.unsplash.com/photo-1516826957135-700dedea698c?w=800&q=80", "alt": "Conseil monture à la boutique"}, {"k": "Examen de vue", "line": "Votre correction vérifiée sur place.", "sub": "Renouvellement d'ordonnance dans le cadre légal.", "img": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80", "alt": "Salle d'examen de vue"}, {"k": "Solaires", "line": "Protéger, sans renoncer au style.", "sub": "Verres polarisants, UV 400 certifié.", "img": "https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=800&q=80", "alt": "Présentoir de montures solaires"}];
+function HERO_DEMO_LIVE() {
+  return [{"k": "Lunettes de vue", "line": "La monture essayée, ajustée, assumée.", "sub": "300 modèles, créateurs indépendants inclus.", "img": (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1516826957135-700dedea698c?w=800&q=80"), "alt": "Conseil monture à la boutique"}, {"k": "Examen de vue", "line": "Votre correction vérifiée sur place.", "sub": "Renouvellement d'ordonnance dans le cadre légal.", "img": (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80"), "alt": "Salle d'examen de vue"}, {"k": "Solaires", "line": "Protéger, sans renoncer au style.", "sub": "Verres polarisants, UV 400 certifié.", "img": (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=800&q=80"), "alt": "Présentoir de montures solaires"}];
+}
+let HERO_DEMO = HERO_DEMO_LIVE();
 let HERO = HERO_DEMO;
 
 const SERVICES_SOURCE = [{"titre": "Lunettes de vue", "desc": "Montures acétate, métal, titane. Créateurs français et indépendants, du classique au plus affirmé — jamais deux fois la même vitrine.", "tag": "Vue"}, {"titre": "Examen de vue", "desc": "Réfraction complète en salle dédiée. Depuis 2016, l'opticien peut adapter votre correction jusqu'à 5 ans après l'ordonnance.", "tag": "Examen"}, {"titre": "Verres & montage atelier", "desc": "Verres français amincis, anti-reflets, lumière bleue. Montage et ajustage dans notre atelier, retouches gratuites à vie.", "tag": "Atelier"}, {"titre": "Lentilles de contact", "desc": "Adaptation par opticien diplômé, essai encadré, suivi à un mois. Journalières, mensuelles, toriques et multifocales.", "tag": "Lentilles"}, {"titre": "Basse vision", "desc": "Aides visuelles pour DMLA et malvoyance : loupes électroniques, éclairages, filtres. Essais à domicile possibles.", "tag": "Basse vision"}, {"titre": "Enfants", "desc": "Montures indestructibles garanties, verres adaptés au traitement de l'amblyopie, contrôles de croissance tous les six mois.", "tag": "Enfants"}];
@@ -91,9 +94,12 @@ export default function RegardNordPage() {
 
 
   fd = session?.formData;
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_DEMO = HERO_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

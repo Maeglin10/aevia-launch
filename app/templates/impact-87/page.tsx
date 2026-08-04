@@ -9,6 +9,7 @@ import {
   clientAddress,
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -287,7 +288,7 @@ export default function IronClubPage() {
       >
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img
-            src={photo(0, "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=80")}
+            src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=80"))}
             alt="Salle CrossFit Iron Club Lyon"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
@@ -575,7 +576,7 @@ export default function IronClubPage() {
       >
         <div style={{ overflow: "hidden" }}>
           <img
-            src={photo(1, "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80")}
+            src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80"))}
             alt="Entraînement CrossFit"
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />

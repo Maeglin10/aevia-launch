@@ -22,6 +22,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -123,10 +124,11 @@ interface Review {
 const PHOTO = (id: string, w = 1600) =>
   id.startsWith('http')
     ? id
-    : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+    : (clientPhotos(sessionData)[0] || `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
 
 /* ── Work Sequence phases (3) ─────────────────────────────────────────────── */
-const PHASES: Phase[] = [
+function PHASES_LIVE() {
+  return [
   {
     id: 'phase-1',
     img: PHOTO('1621905251189-08b45d6a269e'),
@@ -141,11 +143,13 @@ const PHASES: Phase[] = [
   },
   {
     id: 'phase-3',
-    img: PHOTO('https://images.pexels.com/photos/17924298/pexels-photo-17924298.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+    img: PHOTO((clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/17924298/pexels-photo-17924298.jpeg?auto=compress&cs=tinysrgb&w=1600')),
     caption: 'MISE AUX NORMES',
     sub: 'Diagnostic, CONSUEL, ERDF — conformité garantie avant vente ou location.',
   },
 ];
+}
+let PHASES = PHASES_LIVE();
 
 /* ── Services (6) ─────────────────────────────────────────────────────────── */
 const SERVICES_SOURCE: Service[] = [
@@ -1404,7 +1408,7 @@ function TechPanel() {
             }}
           >
             <img
-              src={PHOTO('https://images.pexels.com/photos/17924298/pexels-photo-17924298.jpeg?auto=compress&cs=tinysrgb&w=1600')}
+              src={PHOTO((clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/17924298/pexels-photo-17924298.jpeg?auto=compress&cs=tinysrgb&w=1600'))}
               alt="Certification et habilitations ÉlectroPro"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -2157,9 +2161,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHASES = PHASES_LIVE();
   SPECS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPECS_SOURCE[i % SPECS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     SPECS_SOURCE,

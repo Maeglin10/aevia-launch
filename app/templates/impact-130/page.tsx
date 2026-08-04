@@ -89,7 +89,8 @@ let C: Record<string, string> = {
   gold: "#b8994a",
 };
 
-const PROJECTS_DEMO = [
+function PROJECTS_DEMO_LIVE() {
+  return [
   {
     id: "01",
     title: "Folio Maison",
@@ -98,7 +99,7 @@ const PROJECTS_DEMO = [
     tags: ["Logotype", "Visual Identity", "Motion"],
     desc: "Rebranding complet d'une maison d'édition genevoise fondée en 1932. Nouveau système typographique, palette chromatique et guidelines motion pour le digital.",
     result: "+340% engagement brand",
-    image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?q=80&w=1200&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?q=80&w=1200&auto=format&fit=crop"),
     color: C.emeraldBright,
   },
   {
@@ -109,7 +110,7 @@ const PROJECTS_DEMO = [
     tags: ["Web Design", "3D", "Interaction"],
     desc: "Plateforme digitale pour un collectif d'artistes alpins. Navigation immersive avec rendu 3D en temps réel et système de galerie dynamique.",
     result: "Awwwards Site of the Day",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1200&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1200&auto=format&fit=crop"),
     color: C.gold,
   },
   {
@@ -120,7 +121,7 @@ const PROJECTS_DEMO = [
     tags: ["Corporate ID", "Packaging", "Guidelines"],
     desc: "Identité institutionnelle pour une biotech lausannoise cotée en bourse. Du logo au rapport annuel, un système visuel cohérent et évolutif.",
     result: "Brand Value +2.4M CHF",
-    image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=1200&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=1200&auto=format&fit=crop"),
     color: C.emeraldBright,
   },
   {
@@ -131,7 +132,7 @@ const PROJECTS_DEMO = [
     tags: ["Art Direction", "Print", "OOH"],
     desc: "Campagne 360° pour le lancement d'un nouveau quartier résidentiel premium à Carouge. Direction artistique et production pour presse, affichage et digital.",
     result: "94% des unités vendues",
-    image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=1200&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=1200&auto=format&fit=crop"),
     color: C.gold,
   },
   {
@@ -142,7 +143,7 @@ const PROJECTS_DEMO = [
     tags: ["Packaging", "Luxury", "Retail"],
     desc: "Collection packaging premium pour une marque de cosmétiques suisse axée sur la durabilité. Matériaux recyclés, impression végétale, unboxing experience.",
     result: "Red Dot Award 2024",
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop"),
     color: C.emeraldBright,
   },
   {
@@ -153,10 +154,12 @@ const PROJECTS_DEMO = [
     tags: ["Spatial Design", "Type", "Archive"],
     desc: "Scénographie de l'exposition centenaire des CFF au Musée National. Typographie murale monumentale et système de navigation spatiale immersif.",
     result: "220,000 visiteurs",
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200&auto=format&fit=crop"),
     color: C.gold,
   },
 ];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 let PROJECTS = PROJECTS_DEMO;
 
 const SERVICES_SOURCE = [
@@ -368,9 +371,9 @@ function SplitRevealHero() {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const [activeSlide, setActiveSlide] = useState(0);
   const slides = [
-    { label: "Brand Identity", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1400&auto=format&fit=crop" },
-    { label: "Digital Experience", image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?q=80&w=1400&auto=format&fit=crop" },
-    { label: "Art Direction", image: "https://images.unsplash.com/photo-1614624532983-4ce03382d63d?q=80&w=1400&auto=format&fit=crop" },
+    { label: "Brand Identity", image: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1400&auto=format&fit=crop") },
+    { label: "Digital Experience", image: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?q=80&w=1400&auto=format&fit=crop") },
+    { label: "Art Direction", image: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1614624532983-4ce03382d63d?q=80&w=1400&auto=format&fit=crop") },
   ];
 
   useEffect(() => {
@@ -640,8 +643,10 @@ export default function Impact130Page() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   FAQS_DEMO = FAQS_DEMO_LIVE();
   TEAM_DEMO = TEAM_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

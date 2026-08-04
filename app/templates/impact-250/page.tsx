@@ -84,7 +84,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 const photo = (id: string, w = 1600) =>
-  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[1] || `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`));
 
 /* ════════════════════════════════════════════════════════════════════════════
    TypeScript interfaces
@@ -129,9 +129,10 @@ interface Testimonial {
 /* ════════════════════════════════════════════════════════════════════════════
    Data
    ════════════════════════════════════════════════════════════════════════════ */
-const PROJECTS_DEMO: Project[] = [
+function PROJECTS_DEMO_LIVE() {
+  return [
   {
-    img: 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    img: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: 'Conception de jardin à la française — Atelier Terra',
     index: 'I',
     label: 'CONCEPTION',
@@ -139,7 +140,7 @@ const PROJECTS_DEMO: Project[] = [
     sub: "Plan 3D, sélection végétale, coordination des corps de métier — votre jardin imaginé avant d\'être creusé.",
   },
   {
-    img: 'https://images.pexels.com/photos/37144291/pexels-photo-37144291.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    img: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/37144291/pexels-photo-37144291.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: 'Plantation naturaliste à Nantes — Atelier Terra',
     index: 'II',
     label: 'PLANTATION',
@@ -155,6 +156,8 @@ const PROJECTS_DEMO: Project[] = [
     sub: "Terrasses pierre, allées dallage, bassin naturel, éclairage LED — l\'extérieur comme une pièce de plus.",
   },
 ];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 const SERVICES_SOURCE: Service[] = [
   { title: 'Création de jardin', desc: 'Conception sur-mesure, plan 3D et réalisation complète — de la terre nue au jardin abouti.', icon: '🌿' },
@@ -170,7 +173,7 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre démarche',
-    img: 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=800',
+    img: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=800'),
     alt: 'Jardin écologique conçu par Atelier Terra',
     title: (
       <>
@@ -184,7 +187,7 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
   },
   {
     eyebrow: 'Notre territoire',
-    img: 'https://images.pexels.com/photos/37144291/pexels-photo-37144291.jpeg?auto=compress&cs=tinysrgb&w=800',
+    img: (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/37144291/pexels-photo-37144291.jpeg?auto=compress&cs=tinysrgb&w=800'),
     alt: 'Plantation naturaliste Loire-Atlantique',
     title: (
       <>
@@ -583,7 +586,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=2000'}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=2000')}
           alt="Jardin formel conçu par Atelier Terra à Nantes"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1597,7 +1600,7 @@ function QuoteForm() {
     <section style={sec} id="devis">
       {/* Fond subtil */}
       <img
-        src={'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=1200'}
+        src={(clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=1200')}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2024,9 +2027,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

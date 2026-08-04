@@ -85,7 +85,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 const photo = (id: string) =>
-  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`);
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[1] || `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`));
 
 /* ════════════════════════════════════════════════════════════════════════════
    TypeScript Interfaces
@@ -127,29 +127,32 @@ interface AtélierStep {
    Data
    ════════════════════════════════════════════════════════════════════════════ */
 
-const COLLECTIONS_DEMO: Collection[] = [
+function COLLECTIONS_DEMO_LIVE() {
+  return [
   {
-    img: 'https://images.pexels.com/photos/36731349/pexels-photo-36731349.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    img: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/36731349/pexels-photo-36731349.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'I',
     label: 'ROBES DE SOIRÉE',
     caption:
       'Soie, organza, broderies main — chaque robe est pensée pour la femme qui la portera, pas pour un catalogue.',
   },
   {
-    img: 'https://images.pexels.com/photos/9850074/pexels-photo-9850074.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    img: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/9850074/pexels-photo-9850074.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'II',
     label: 'MARIÉES',
     caption:
       'Robe de mariée sur-mesure, ajustements en 5 essayages, finitions à la main — le vêtement le plus important de votre vie.',
   },
   {
-    img: 'https://images.pexels.com/photos/6461069/pexels-photo-6461069.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    img: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/6461069/pexels-photo-6461069.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'III',
     label: 'TAILLEUR & COSTUME',
     caption:
       'Tailleur femme, smoking, costume homme — la coupe italienne interprétée par des mains marseillaises.',
   },
 ];
+}
+let COLLECTIONS_DEMO = COLLECTIONS_DEMO_LIVE();
 
 const PIECES_DEMO: Piece[] = [
   { title: 'Robe de soirée', sub: 'Soie · Organza · Dentelle' },
@@ -164,7 +167,7 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre philosophie',
-    img: 'https://images.pexels.com/photos/36731349/pexels-photo-36731349.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
+    img: (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/36731349/pexels-photo-36731349.jpeg?auto=compress&cs=tinysrgb&w=1600') + '&w=800',
     title: (
       <>
         La coupe /{' '}
@@ -176,7 +179,7 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
   },
   {
     eyebrow: "L'atelier",
-    img: 'https://images.pexels.com/photos/9850074/pexels-photo-9850074.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
+    img: (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/9850074/pexels-photo-9850074.jpeg?auto=compress&cs=tinysrgb&w=1600') + '&w=800',
     title: (
       <>
         Le Panier, /{' '}
@@ -586,7 +589,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || `https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=2000&auto=format&fit=crop`}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[7] || `https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=2000&auto=format&fit=crop`)}
           alt="Détail de couture — Maison Solal Marseille"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1338,7 +1341,7 @@ function AtélierPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || `https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=900&auto=format&fit=crop`}
+              src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[8] || `https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=900&auto=format&fit=crop`)}
               alt="L'atelier Maison Solal — Le Panier, Marseille"
               loading="lazy"
               style={{
@@ -1645,7 +1648,7 @@ function OrderForm() {
     <section style={sec} id="contact">
       {/* Fond photo fantôme */}
       <img
-        src={`https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1600&auto=format&fit=crop`}
+        src={(clientPhotos(sessionData)[9] || `https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1600&auto=format&fit=crop`)}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2120,9 +2123,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  COLLECTIONS_DEMO = COLLECTIONS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
 

@@ -124,13 +124,14 @@ interface Testimonial {
 }
 
 /* ── Données ─────────────────────────────────────────────────────────────── */
-const PHASES_DEMO: Service[] = [
+function PHASES_DEMO_LIVE() {
+  return [
   {
     id: 'comptabilite',
     num: '01',
     caption: 'COMPTABILITÉ & FISCALITÉ',
     sub: 'Tenue comptable, déclarations TVA, liasses fiscales, optimisation IS — accompagnement complet pour TPE et PME.',
-    img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1600&auto=format&fit=crop',
+    img: (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1600&auto=format&fit=crop'),
     alt: 'Expert-comptable analysant des liasses fiscales',
   },
   {
@@ -138,7 +139,7 @@ const PHASES_DEMO: Service[] = [
     num: '02',
     caption: 'CONSEIL EN GESTION',
     sub: 'Tableaux de bord, prévisionnel, analyse de rentabilité — prenez vos décisions avec des chiffres clairs.',
-    img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1600&auto=format&fit=crop',
+    img: (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1600&auto=format&fit=crop'),
     alt: "Réunion de conseil en gestion d'entreprise",
   },
   {
@@ -146,10 +147,12 @@ const PHASES_DEMO: Service[] = [
     num: '03',
     caption: 'CRÉATION & JURIDIQUE',
     sub: 'Choix de statut, rédaction des statuts, formalités — nous constituons votre société de A à Z.',
-    img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop',
+    img: (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop'),
     alt: "Documents juridiques de création d'entreprise",
   },
 ];
+}
+let PHASES_DEMO = PHASES_DEMO_LIVE();
 let PHASES = PHASES_DEMO;
 
 const OFFERS_DEMO: Offer[] = [
@@ -610,7 +613,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo(0, "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2000&auto=format&fit=crop")}
+          src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2000&auto=format&fit=crop"))}
           alt="Cabinet expert-comptable Marchand & Partners Nantes"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1286,7 +1289,7 @@ function EditorialRow({ row, index }: { row: EditRow; index: number }) {
           }}
         >
           <ParallaxImg
-            src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : `https://images.unsplash.com/photo-${row.imgId}&auto=format&fit=crop`)}
+            src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : (clientPhotos(sessionData)[5] || `https://images.unsplash.com/photo-${row.imgId}&auto=format&fit=crop`))}
             alt={row.alt}
           />
         </Reveal>
@@ -1414,7 +1417,7 @@ function ExpertisePanel() {
               }}
             >
               <img
-                src={photo(1, "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=900&auto=format&fit=crop")}
+                src={photo(1, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=900&auto=format&fit=crop"))}
                 alt="Cabinet Marchand & Partners — expertise et proximité"
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -2257,9 +2260,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHASES_DEMO = PHASES_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   EDIT_ROWS = resolveList(

@@ -62,26 +62,29 @@ const NAV = [
 
 /* Trois projets pour le hero. Photos : URLs déjà présentes dans le repo
    (atelier bois du donneur, intérieur design) — sujets à contrôler en prod. */
-const HERO_PROJETS_DEMO = [
+function HERO_PROJETS_DEMO_LIVE() {
+  return [
   {
     k: "Cuisine chêne & laque",
     sub: "Îlot central, façades sans poignée, plan de travail céramique.",
-    img: "https://images.pexels.com/photos/6920452/pexels-photo-6920452.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/6920452/pexels-photo-6920452.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     alt: "Plan de travail et façades bois d'une cuisine sur mesure",
   },
   {
     k: "De l'atelier à la pièce",
     sub: "Caissons et façades fabriqués en France, ajustés au millimètre.",
-    img: "https://images.pexels.com/photos/7546654/pexels-photo-7546654.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/7546654/pexels-photo-7546654.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     alt: "Atelier de fabrication des caissons et façades",
   },
   {
     k: "Agencement séjour",
     sub: "Bibliothèque toute hauteur et meuble TV, mêmes essences que la cuisine.",
-    img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80"),
     alt: "Intérieur aménagé avec rangements sur mesure",
   },
 ];
+}
+let HERO_PROJETS_DEMO = HERO_PROJETS_DEMO_LIVE();
 let HERO_PROJETS = HERO_PROJETS_DEMO;
 
 const PRESTATIONS_SOURCE = [
@@ -154,9 +157,11 @@ export default function LignesEtBoisPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_PROJETS_DEMO = HERO_PROJETS_DEMO_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
 
   PRESTATIONS_DEMO = resolveList(
@@ -368,7 +373,7 @@ export default function LignesEtBoisPage() {
       <section className="i327-pad" style={{ padding: "100px 64px", background: C.bg }}>
         <div className="i327-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, "https://images.pexels.com/photos/7546654/pexels-photo-7546654.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Menuisier ajustant une façade à l'atelier" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(3, (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/7546654/pexels-photo-7546654.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Menuisier ajustant une façade à l'atelier" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>

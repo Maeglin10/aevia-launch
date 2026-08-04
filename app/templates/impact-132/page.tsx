@@ -66,7 +66,8 @@ const TYPEWRITER_HEADLINES = [
   "Journalism for the curious mind",
 ]
 
-const FEATURED_SOURCE = {
+function FEATURED_SOURCE_LIVE() {
+  return {
   id: 0,
   title: "The Generative AI Revolution Is Rewriting the Rules of Every Industry",
   subtitle: "From healthcare diagnostics to supply chain logistics, machine intelligence has crossed the threshold from experiment to infrastructure. We examine what that means for the next ten years.",
@@ -75,11 +76,14 @@ const FEATURED_SOURCE = {
   author: "Sarah Chen",
   role: "Technology Editor",
   date: "May 13, 2026",
-  img: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1600&q=85",
+  img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1600&q=85"),
 };
+}
+let FEATURED_SOURCE = FEATURED_SOURCE_LIVE();
 let FEATURED = FEATURED_SOURCE;
 
-const ARTICLES_DEMO = [
+function ARTICLES_DEMO_LIVE() {
+  return [
   {
     id: 1,
     title: "Why Global Supply Chains Are Rewiring Toward Regional Hubs",
@@ -88,7 +92,7 @@ const ARTICLES_DEMO = [
     reading: "12 min",
     author: "Marcus Thompson",
     date: "May 12, 2026",
-    img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80"),
     size: "large",
   },
   {
@@ -99,7 +103,7 @@ const ARTICLES_DEMO = [
     reading: "15 min",
     author: "Elena Rodriguez",
     date: "May 11, 2026",
-    img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&q=80"),
     size: "small",
   },
   {
@@ -110,7 +114,7 @@ const ARTICLES_DEMO = [
     reading: "10 min",
     author: "James Liu",
     date: "May 10, 2026",
-    img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80"),
     size: "small",
   },
   {
@@ -121,7 +125,7 @@ const ARTICLES_DEMO = [
     reading: "18 min",
     author: "Olivia Park",
     date: "May 9, 2026",
-    img: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&q=80",
+    img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&q=80"),
     size: "medium",
   },
   {
@@ -132,20 +136,23 @@ const ARTICLES_DEMO = [
     reading: "13 min",
     author: "Priya Shah",
     date: "May 8, 2026",
-    img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80",
+    img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80"),
     size: "medium",
   },
-]
+];
+}
+let ARTICLES_DEMO = ARTICLES_DEMO_LIVE();
 let ARTICLES = ARTICLES_DEMO;
 
-const EDITORS_PICKS_DEMO = [
+function EDITORS_PICKS_DEMO_LIVE() {
+  return [
   {
     id: 1,
     title: "The Loneliness Economy and What It Tells Us About Late Capitalism",
     topic: "Culture",
     author: "Leo Müller",
     reading: "19 min",
-    img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80",
+    img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80"),
   },
   {
     id: 2,
@@ -153,7 +160,7 @@ const EDITORS_PICKS_DEMO = [
     topic: "Science",
     author: "Aiko Tanaka",
     reading: "14 min",
-    img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80",
+    img: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80"),
   },
   {
     id: 3,
@@ -161,9 +168,11 @@ const EDITORS_PICKS_DEMO = [
     topic: "Business",
     author: "Marcus Thompson",
     reading: "16 min",
-    img: "https://images.unsplash.com/photo-1565372195458-9de0b320ef04?w=600&q=80",
+    img: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1565372195458-9de0b320ef04?w=600&q=80"),
   },
-]
+];
+}
+let EDITORS_PICKS_DEMO = EDITORS_PICKS_DEMO_LIVE();
 let EDITORS_PICKS = EDITORS_PICKS_DEMO;
 
 // ─── TypewriterHeadline ───────────────────────────────────────────────────────
@@ -456,8 +465,14 @@ export default function Impact132() {
   }, []);
 
   fd = session?.formData;
+
+
+
   sessionData = session;
   c = session?.generatedContent;
+  EDITORS_PICKS_DEMO = EDITORS_PICKS_DEMO_LIVE();
+  ARTICLES_DEMO = ARTICLES_DEMO_LIVE();
+  FEATURED_SOURCE = FEATURED_SOURCE_LIVE();
 
 
   // La une porte l'accroche du client : c'est le seul titre de cette page
@@ -709,7 +724,7 @@ return (
           }}
         >
           <img
-            src={photo(0, "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1800&q=85")}
+            src={photo(0, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1800&q=85"))}
             alt="Hero"
             style={{ width: "100%", height: "110%", objectFit: "cover", display: "block" }}
           />

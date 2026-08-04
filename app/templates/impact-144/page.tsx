@@ -53,12 +53,15 @@ function Marquee({ children, reverse = false }: { children: React.ReactNode; rev
 const WORDS_1 = ["DESIGN", "MOTION", "IDENTITY", "STRATEGY", "CONTENT", "DIGITAL", "BRAND"]
 const WORDS_2 = ["CREATE", "LAUNCH", "SCALE", "DISRUPT", "CONVERT", "ENGAGE", "GROW"]
 
-const WORK_DEMO = [
-  { title: "Neon Drift", client: "Pulse Gaming", type: "Brand Launch", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=1200&auto=format&fit=crop" },
-  { title: "Apex Protocol", client: "Velos Finance", type: "Web3 Campaign", img: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Silk Thread", client: "Maison Versa", type: "Motion Design", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Gravity Shift", client: "Prism Analytics", type: "Product Campaign", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200" },
-]
+function WORK_DEMO_LIVE() {
+  return [
+  { title: "Neon Drift", client: "Pulse Gaming", type: "Brand Launch", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=1200&auto=format&fit=crop") },
+  { title: "Apex Protocol", client: "Velos Finance", type: "Web3 Campaign", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Silk Thread", client: "Maison Versa", type: "Motion Design", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Gravity Shift", client: "Prism Analytics", type: "Product Campaign", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200") },
+];
+}
+let WORK_DEMO = WORK_DEMO_LIVE();
 let WORK = WORK_DEMO;
 
 const SERVICES_SOURCE = [
@@ -111,8 +114,10 @@ export default function KineticMarqueePage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  WORK_DEMO = WORK_DEMO_LIVE();
 
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
@@ -346,9 +351,9 @@ export default function KineticMarqueePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
-                { name: "Aki Sato", role: "Creative Director", img: photo(0, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600") },
-                { name: "Leo Croft", role: "Lead Motion Designer", img: photo(1, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600") },
-                { name: "Zoë Vane", role: "Head of Brand Strategy", img: photo(2, "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=600") }
+                { name: "Aki Sato", role: "Creative Director", img: photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600")) },
+                { name: "Leo Croft", role: "Lead Motion Designer", img: photo(1, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600")) },
+                { name: "Zoë Vane", role: "Head of Brand Strategy", img: photo(2, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=600")) }
               ].map((member, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group">

@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Quote, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -79,15 +80,18 @@ const SANS = "'DM Sans', system-ui, sans-serif" as const;
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
-const PHOTO_BASE = 'https://images.unsplash.com/photo-';
-const P = {
-  clinic: 'https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=2000',
-  clinicMed: 'https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  clinicSm: 'https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=800',
+const PHOTO_BASE = (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+function P_LIVE() {
+  return {
+  clinic: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=2000'),
+  clinicMed: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+  clinicSm: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=800'),
   treatment: `${PHOTO_BASE}1606811971618-4486d14f3f99?q=80&w=1600&auto=format&fit=crop`,
   treatmentSm: `${PHOTO_BASE}1606811971618-4486d14f3f99?q=80&w=800&auto=format&fit=crop`,
-  implant: 'https://images.pexels.com/photos/6812453/pexels-photo-6812453.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  implant: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/6812453/pexels-photo-6812453.jpeg?auto=compress&cs=tinysrgb&w=1600'),
 } as const;
+}
+let P = P_LIVE();
 
 /* ════════════════════════════════════════════════════════════════════════════
    Types
@@ -2214,9 +2218,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  P = P_LIVE();
   REVIEWS_SOURCE = REVIEWS_SOURCE_LIVE();
 
   PHASES = resolveList(

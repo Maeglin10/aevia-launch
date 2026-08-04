@@ -48,7 +48,10 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Le champ", "h": "#services"}, {"l": "L'AMAP", "h": "#methode"}, {"l": "Contrats & prix", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO_DEMO = [{"k": "Printemps", "sub": "Semis, plants, premières bottes — le champ redémarre.", "img": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1920&q=80", "alt": "Le champ au printemps"}, {"k": "Été", "sub": "Tomates, courgettes, haricots : la pleine saison des paniers lourds.", "img": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1920&q=80", "alt": "Cultures d'été en pleine terre"}, {"k": "Hiver", "sub": "Courges, poireaux, choux — la saison qu'on apprend à aimer.", "img": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1920&q=80", "alt": "Travail au champ en morte saison"}];
+function HERO_DEMO_LIVE() {
+  return [{"k": "Printemps", "sub": "Semis, plants, premières bottes — le champ redémarre.", "img": (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1920&q=80"), "alt": "Le champ au printemps"}, {"k": "Été", "sub": "Tomates, courgettes, haricots : la pleine saison des paniers lourds.", "img": (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1920&q=80"), "alt": "Cultures d'été en pleine terre"}, {"k": "Hiver", "sub": "Courges, poireaux, choux — la saison qu'on apprend à aimer.", "img": (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1920&q=80"), "alt": "Travail au champ en morte saison"}];
+}
+let HERO_DEMO = HERO_DEMO_LIVE();
 let HERO = HERO_DEMO;
 
 const SERVICES_SOURCE = [{"titre": "Paniers AMAP", "desc": "Un contrat de saison (6 mois), un panier chaque mardi : vous partagez la récolte — l'abondance de juillet comme la sobriété de février.", "tag": "AMAP"}, {"titre": "Marché des Lices", "desc": "Le samedi matin : l'étal complet, pour ceux qui préfèrent choisir. Les amapiens y ont leurs habitudes aussi.", "tag": "Marché"}, {"titre": "Légumes de plein champ", "desc": "Pommes de terre, courges, oignons : les gros volumes d'hiver, stockés à la ferme, vendus au cageot pour les conserves familiales.", "tag": "Stock"}, {"titre": "Plants de printemps", "desc": "En avril-mai : nos plants de tomates, courgettes et aromatiques, ceux-là mêmes que nous plantons — pas des invendus de jardinerie.", "tag": "Plants"}, {"titre": "Chantiers participatifs", "desc": "Plantation de printemps, récolte des courges : les amapiens qui veulent mettre les mains viennent — jamais obligatoire, toujours joyeux.", "tag": "Participatif"}, {"titre": "Écoles & visites", "desc": "Les classes de Vannes viennent voir pousser ce qu'elles mangent à la cantine — on livre aussi deux cantines de la ville.", "tag": "Pédagogie"}];
@@ -91,9 +94,12 @@ export default function PotagerEstuairePage() {
 
 
   fd = session?.formData;
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_DEMO = HERO_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -303,7 +309,7 @@ export default function PotagerEstuairePage() {
       <section id="engagements" className="i366-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i366-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80")} alt="Les rangs du potager en été" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(3, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80"))} alt="Les rangs du potager en été" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>

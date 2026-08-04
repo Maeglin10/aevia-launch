@@ -82,7 +82,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Unsplash helper ─────────────────────────────────────────────────────── */
 const photo = (id: string) =>
-  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`);
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[4] || `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`));
 
 /* ── Types ───────────────────────────────────────────────────────────────── */
 interface Domain {
@@ -117,26 +117,29 @@ interface Testimonial {
 }
 
 /* ── Data ────────────────────────────────────────────────────────────────── */
-const DOMAINS_DEMO: Domain[] = [
+function DOMAINS_DEMO_LIVE() {
+  return [
   {
-    img: 'https://images.pexels.com/photos/4506218/pexels-photo-4506218.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    img: (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/4506218/pexels-photo-4506218.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'I',
     title: 'MUSCULO-SQUELETTIQUE',
     body: 'Colonne vertébrale, articulations, muscles — libérer les tensions pour rétablir le mouvement naturel du corps.',
   },
   {
-    img: 'https://images.pexels.com/photos/4506109/pexels-photo-4506109.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    img: (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/4506109/pexels-photo-4506109.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'II',
     title: 'VISCÉRAL & FONCTIONNEL',
     body: "Foie, intestins, poumons — les organes ont leur propre rythme que l'ostéopathie apprend à lire et à respecter.",
   },
   {
-    img: 'https://images.pexels.com/photos/4506077/pexels-photo-4506077.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    img: (clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/4506077/pexels-photo-4506077.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'III',
     title: 'PÉDIATRIE & PÉRINATAL',
     body: "Nourrissons, grossesse, post-partum — le corps en transformation a besoin d'un accompagnement doux et précis.",
   },
 ];
+}
+let DOMAINS_DEMO = DOMAINS_DEMO_LIVE();
 let DOMAINS = DOMAINS_DEMO;
 
 const SPECIALTIES_DEMO: Specialty[] = [
@@ -152,7 +155,7 @@ function EDIT_ROWS_DEMO_LIVE() {
   return [
   {
     eyebrow: 'Notre pratique',
-    img: 'https://images.pexels.com/photos/4506218/pexels-photo-4506218.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
+    img: (clientPhotos(sessionData)[8] || 'https://images.pexels.com/photos/4506218/pexels-photo-4506218.jpeg?auto=compress&cs=tinysrgb&w=1600') + '&w=800',
     titleNode: (
       <>
         Le corps{' '}
@@ -164,7 +167,7 @@ function EDIT_ROWS_DEMO_LIVE() {
   },
   {
     eyebrow: 'Le cabinet',
-    img: 'https://images.pexels.com/photos/4506109/pexels-photo-4506109.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
+    img: (clientPhotos(sessionData)[9] || 'https://images.pexels.com/photos/4506109/pexels-photo-4506109.jpeg?auto=compress&cs=tinysrgb&w=1600') + '&w=800',
     titleNode: (
       <>
         {clientCity(sessionData) ?? "Nantes"}{' '}
@@ -564,7 +567,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || `https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=2000&auto=format&fit=crop`}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[10] || `https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=2000&auto=format&fit=crop`)}
           alt="Cabinet Ostéo Atlantique — salle de soin lumineuse"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1291,7 +1294,7 @@ function PrinciplesPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || `https://images.unsplash.com/photo-1519824145371-296894a0daa9?q=80&w=900&auto=format&fit=crop`}
+              src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[11] || `https://images.unsplash.com/photo-1519824145371-296894a0daa9?q=80&w=900&auto=format&fit=crop`)}
               alt="Soin ostéopathique doux — Ostéo Atlantique"
               loading="lazy"
               style={{
@@ -1608,7 +1611,7 @@ function BookingForm() {
     <section style={sec} id="reserver">
       {/* Background image subtle */}
       <img
-        src={`https://images.unsplash.com/photo-1519824145371-296894a0daa9?q=80&w=1600&auto=format&fit=crop`}
+        src={(clientPhotos(sessionData)[12] || `https://images.unsplash.com/photo-1519824145371-296894a0daa9?q=80&w=1600&auto=format&fit=crop`)}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2074,9 +2077,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  DOMAINS_DEMO = DOMAINS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();
 

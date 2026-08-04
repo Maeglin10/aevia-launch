@@ -37,6 +37,7 @@ import {
   clientFaq,
   clientHours,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -181,46 +182,50 @@ function RevealRight({
 
 /* --- Data ------------------------------------------------------------------ */
 
-const STYLES_DEMO = [
+function STYLES_DEMO_LIVE() {
+  return [
   {
     name: "Traditional",
     desc: "Couleurs audacieuses, contours épais — les racines du tatouage américain revisitées.",
-    image: "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=600&q=80",
+    image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=600&q=80"),
     tag: "Old School",
   },
   {
     name: "Japanese",
     desc: "Irezumi — légendes, koi et chrysanthèmes dans un seul récit visuel enveloppant.",
-    image: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=600&q=80",
+    image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=600&q=80"),
     tag: "Irezumi",
   },
   {
     name: "Blackwork",
     desc: "Noir absolu et géométrie sacrée pour une déclaration sans compromis.",
-    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80",
+    image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80"),
     tag: "Contemporain",
   },
   {
     name: "Neo-Traditional",
     desc: "Symbolisme vintage rencontrant la palette moderne — élégance narrative.",
-    image: "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=600&q=80",
+    image: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=600&q=80"),
     tag: "Évolutif",
   },
   {
     name: "Fineline",
     desc: "Précision chirurgicale, aiguilles fines, résultats d'une délicatesse époustouflante.",
-    image: "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=600&q=80",
+    image: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=600&q=80"),
     tag: "Délicat",
   },
   {
     name: "Geometric",
     desc: "Mandalas, sacred geometry et patterns mathématiques gravés à jamais.",
-    image: "https://images.unsplash.com/photo-1605902711622-cfb43c4437b5?w=600&q=80",
+    image: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1605902711622-cfb43c4437b5?w=600&q=80"),
     tag: "Sacred",
   },
-]
+];
+}
+let STYLES_DEMO = STYLES_DEMO_LIVE();
 
-const ARTISTS_DEMO = [
+function ARTISTS_DEMO_LIVE() {
+  return [
   {
     name: "Kira Voss",
     specialty: "Japanese & Neo-Traditional",
@@ -228,7 +233,7 @@ const ARTISTS_DEMO = [
     bio: "Formée à Tokyo pendant 3 ans, Kira apporte une profondeur narrative unique à chaque pièce. Sa maîtrise du Irezumi traditionnel mêlée à sa vision contemporaine crée des œuvres d'une intensité rare.",
     slots: 4,
     tag: "Disponible",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80",
+    image: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80"),
   },
   {
     name: "Théo Marck",
@@ -237,7 +242,7 @@ const ARTISTS_DEMO = [
     bio: "Architecte reconverti en tatoueur, Théo voit la peau comme une surface d'architecture. Chaque trait est calculé, chaque espace négatif intentionnel. Ses mandalas géométriques sont recherchés en Europe.",
     slots: 2,
     tag: "Dernières places",
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80",
+    image: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80"),
   },
   {
     name: "Léa Sorel",
@@ -246,9 +251,11 @@ const ARTISTS_DEMO = [
     bio: "Née à Lyon, Léa a développé une signature inimitable : la finesse aquarelle. Ses tatouages semblent peints sur la peau. Spécialisée dans les pièces féminines et les portraits botaniques ultra-fins.",
     slots: 0,
     tag: "Complet",
-    image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80",
+    image: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80"),
   },
-]
+];
+}
+let ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
 
 const FLASH_PIECES_DEMO = [
   { name: "Serpent Tribal", price: 80, size: "5cm", style: "Traditional" },
@@ -360,17 +367,20 @@ const FAQS_DEMO = [
   },
 ]
 
-const GALLERY_IMAGES_DEMO = [
-  "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=800&q=80",
-  "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=800&q=80",
-  "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80",
-  "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=800&q=80",
-  "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=800&q=80",
-  "https://images.unsplash.com/photo-1605902711622-cfb43c4437b5?w=800&q=80",
-  "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=800&q=80",
-  "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=800&q=80",
-  "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=800&q=80",
-]
+function GALLERY_IMAGES_DEMO_LIVE() {
+  return [
+  (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=800&q=80"),
+  (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=800&q=80"),
+  (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80"),
+  (clientPhotos(sessionData)[12] || "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=800&q=80"),
+  (clientPhotos(sessionData)[13] || "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=800&q=80"),
+  (clientPhotos(sessionData)[14] || "https://images.unsplash.com/photo-1605902711622-cfb43c4437b5?w=800&q=80"),
+  (clientPhotos(sessionData)[15] || "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=800&q=80"),
+  (clientPhotos(sessionData)[16] || "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=800&q=80"),
+  (clientPhotos(sessionData)[17] || "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=800&q=80"),
+];
+}
+let GALLERY_IMAGES_DEMO = GALLERY_IMAGES_DEMO_LIVE();
 
 /* ==========================================================================
    MAIN PAGE
@@ -410,9 +420,15 @@ export default function Impact199Page() {
   }, []);
 
   fd = session?.formData;
+
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  GALLERY_IMAGES_DEMO = GALLERY_IMAGES_DEMO_LIVE();
+  ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
+  STYLES_DEMO = STYLES_DEMO_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -663,7 +679,7 @@ export default function Impact199Page() {
         {/* Parallax Image */}
         <motion.div className="absolute inset-0 z-0" style={{ y: heroY, opacity: heroOpacity }}>
           <Image
-            src={photo(0, "https://images.pexels.com/photos/4125522/pexels-photo-4125522.jpeg?auto=compress&cs=tinysrgb&w=1920")}
+            src={photo(0, (clientPhotos(sessionData)[18] || "https://images.pexels.com/photos/4125522/pexels-photo-4125522.jpeg?auto=compress&cs=tinysrgb&w=1920"))}
             alt="Studio Encre & Âme"
             fill
             className="object-cover"

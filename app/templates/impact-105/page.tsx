@@ -8,6 +8,7 @@ import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight } from "lucid
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -299,7 +300,7 @@ export default function AtelierBloomPage() {
       {/* Hero */}
       <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=1920&q=80")} alt="Atelier Bloom fleuriste Strasbourg" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=1920&q=80"))} alt="Atelier Bloom fleuriste Strasbourg" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,20,5,0.90) 0%, rgba(10,20,5,0.35) 45%, rgba(10,20,5,0.05) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}22 0%, transparent 60%)` }} />
@@ -391,7 +392,7 @@ export default function AtelierBloomPage() {
             </motion.a>
           </Reveal>
           <Reveal>
-            <img src={photo(1, "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=800&q=80")} alt="Fleurs saisonnières artisanales" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=800&q=80"))} alt="Fleurs saisonnières artisanales" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
         </div>
       </section>

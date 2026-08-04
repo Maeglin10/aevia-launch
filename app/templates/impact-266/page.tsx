@@ -80,7 +80,7 @@ const SANS = "'Raleway', system-ui, sans-serif" as const;
 
 /* ── Photo URL helper ────────────────────────────────────────────────────── */
 const ph = (id: string) =>
-  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`);
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[1] || `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`));
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -127,17 +127,18 @@ interface ProcessStep {
    Data
    ════════════════════════════════════════════════════════════════════════════ */
 
-const PHASES: EventPhase[] = [
+function PHASES_LIVE() {
+  return [
   {
     id: 'villa',
-    img: ph('https://images.pexels.com/photos/17023018/pexels-photo-17023018.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+    img: ph((clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/17023018/pexels-photo-17023018.jpeg?auto=compress&cs=tinysrgb&w=1600')),
     index: 'I',
     label: 'VILLA PRIVÉE',
     body: "Villas Belle Époque, bastides de Provence, domaines viticoles — des lieux d'exception pour des mariages inoubliables.",
   },
   {
     id: 'plage',
-    img: ph('https://images.pexels.com/photos/16120229/pexels-photo-16120229.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+    img: ph((clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/16120229/pexels-photo-16120229.jpeg?auto=compress&cs=tinysrgb&w=1600')),
     index: 'II',
     label: 'PLAGE & MER',
     body: "Cérémonie au coucher du soleil sur la Méditerranée, cocktail les pieds dans l'eau — l'azur comme décor absolu.",
@@ -150,6 +151,8 @@ const PHASES: EventPhase[] = [
     body: "Chefs étoilés, caves à champagne, fleurs exotiques — chaque détail de table pensé comme une œuvre d'art.",
   },
 ];
+}
+let PHASES = PHASES_LIVE();
 
 const SERVICES_SOURCE: Service[] = [
   {
@@ -185,10 +188,11 @@ const SERVICES_SOURCE: Service[] = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
+function EDIT_ROWS_DEMO_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre territoire',
-    img: `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=800&auto=format&fit=crop`,
+    img: (clientPhotos(sessionData)[4] || `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=800&auto=format&fit=crop`),
     title: (
       <>
         Côte d'Azur /{' '}
@@ -200,7 +204,7 @@ const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
   },
   {
     eyebrow: 'Notre signature',
-    img: `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=800&auto=format&fit=crop`,
+    img: (clientPhotos(sessionData)[5] || `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=800&auto=format&fit=crop`),
     title: (
       <>
         Jamais / deux fois / <span style={{ fontStyle: 'italic' }}>pareil.</span>
@@ -210,6 +214,8 @@ const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
 let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_SOURCE;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
@@ -1358,7 +1364,7 @@ function ProcessPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=900&auto=format&fit=crop`}
+              src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[6] || `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=900&auto=format&fit=crop`)}
               alt="Planning de mariage Côte d'Azur"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -1664,7 +1670,7 @@ function ContactForm() {
     >
       {/* Background image très atténuée */}
       <img
-        src={ph('https://images.pexels.com/photos/17023018/pexels-photo-17023018.jpeg?auto=compress&cs=tinysrgb&w=1600')}
+        src={ph((clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/17023018/pexels-photo-17023018.jpeg?auto=compress&cs=tinysrgb&w=1600'))}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2219,9 +2225,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
+  PHASES = PHASES_LIVE();
   PROCESS_STEPS = PROCESS_STEPS_LIVE();
 
   EDIT_ROWS_DEMO = resolveList(

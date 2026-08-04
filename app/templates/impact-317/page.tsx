@@ -45,6 +45,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -84,21 +85,24 @@ const EASE = [0.16, 1, 0.3, 1];
 const SERIF = "'Poppins', sans-serif";
 const SANS = "'Inter', sans-serif";
 
-const PHOTO = {
-  hero: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=2000",
-  about: "https://images.pexels.com/photos/4239127/pexels-photo-4239127.jpeg?auto=compress&cs=tinysrgb&w=1000",
+function PHOTO_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=2000"),
+  about: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/4239127/pexels-photo-4239127.jpeg?auto=compress&cs=tinysrgb&w=1000"),
   services: [
-    "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=800",
+    (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&q=80&w=800"),
+    (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800"),
+    (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=800"),
   ],
   gallery: [
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=600",
-    "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&q=80&w=600",
-    "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&q=80&w=600",
-    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=600",
+    (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=600"),
+    (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&q=80&w=600"),
+    (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&q=80&w=600"),
+    (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=600"),
   ],
 };
+}
+let PHOTO = PHOTO_LIVE();
 
 const Instagram = ({ size = 24, color = "currentColor", style = {} }) => (
   <svg
@@ -234,6 +238,8 @@ export default function TemplatePage({ session: initialSession }: { session?: an
   const fd = session?.formData || {};
 
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
+
   const c = session?.generatedContent || {};
   const bp = session?.businessProfile;
 

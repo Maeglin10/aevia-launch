@@ -16,6 +16,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -630,7 +631,7 @@ function ExperienceCard({
     >
       <div style={{ position: "relative", aspectRatio: "4/5", overflow: "hidden" }}>
         <motion.img
-          src={exp.photoUrl || `https://images.unsplash.com/${exp.img ?? demoImg}?q=80&w=700&auto=format&fit=crop`}
+          src={exp.photoUrl || (clientPhotos(sessionData)[0] || `https://images.unsplash.com/${exp.img ?? demoImg}?q=80&w=700&auto=format&fit=crop`)}
           alt={exp.title ?? exp.name}
           style={{
             width: "100%",
@@ -1101,7 +1102,7 @@ return (
           }}
         >
           <img
-            src={photo(0, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1400&auto=format&fit=crop")}
+            src={photo(0, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1400&auto=format&fit=crop"))}
             alt="Gastronomie"
             style={{
               width: "100%",
@@ -1384,7 +1385,7 @@ return (
             }}
           >
             <img
-              src={photo(1, "https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=800&auto=format&fit=crop")}
+              src={photo(1, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=800&auto=format&fit=crop"))}
               alt="Chef Antoine Lefèvre"
               style={{
                 width: "100%",

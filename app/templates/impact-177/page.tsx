@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -80,9 +81,9 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 
 function PROJECTS_DEMO_LIVE() {
   return [
-  { title: "Piscine miroir Presqu'île", city: (clientCity({ formData: fd }) ?? "Lyon") + " 2ème", surface: "10 × 4 m", style: "Béton sur-mesure", img: "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Villa Les Pins", city: "Tassin-la-Demi-Lune", surface: "12 × 5 m", style: "Bassin à débordement", img: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Couloir de nage Croix-Rousse", city: (clientCity({ formData: fd }) ?? "Lyon") + " 4ème", surface: "12 × 2,5 m", style: "Contemporain", img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Piscine miroir Presqu'île", city: (clientCity({ formData: fd }) ?? "Lyon") + " 2ème", surface: "10 × 4 m", style: "Béton sur-mesure", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Villa Les Pins", city: "Tassin-la-Demi-Lune", surface: "12 × 5 m", style: "Bassin à débordement", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Couloir de nage Croix-Rousse", city: (clientCity({ formData: fd }) ?? "Lyon") + " 4ème", surface: "12 × 2,5 m", style: "Contemporain", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200") },
 ];
 }
 let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
@@ -266,7 +267,7 @@ return (
       `}</style>
       <section id="hero" ref={heroRef} className="imx177-hero" style={{ position: "relative", height: "100dvh", minHeight: 640, overflow: "hidden", display: "flex", alignItems: "safe flex-end" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <Image src={photo(0, "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=85&w=2400")} alt="Piscine sur-mesure" fill className="object-cover" priority style={{ filter: "brightness(0.75)" }} />
+          <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=85&w=2400"))} alt="Piscine sur-mesure" fill className="object-cover" priority style={{ filter: "brightness(0.75)" }} />
           <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${C.dark} 0%, rgba(28,26,24,0.3) 50%, transparent 100%)` }} />
           <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, rgba(28,26,24,0.5) 0%, transparent 60%)` }} />
         </motion.div>

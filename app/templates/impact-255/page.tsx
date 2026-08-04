@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Shield, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -82,7 +83,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 function img(id: string, w = 1600) {
-  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
+  return ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[0] || `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`));
 }
 
 /* ── TypeScript interfaces ───────────────────────────────────────────────── */
@@ -621,7 +622,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/7876088/pexels-photo-7876088.jpeg?auto=compress&cs=tinysrgb&w=2000'}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/7876088/pexels-photo-7876088.jpeg?auto=compress&cs=tinysrgb&w=2000')}
           alt="Cabinet d'avocats — bureau élégant à Toulouse"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1345,7 +1346,7 @@ function ValuesPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || 'https://images.pexels.com/photos/8111826/pexels-photo-8111826.jpeg?auto=compress&cs=tinysrgb&w=900'}
+              src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/8111826/pexels-photo-8111826.jpeg?auto=compress&cs=tinysrgb&w=900')}
               alt="Maître Voss — Tribunal de Commerce de Toulouse"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

@@ -11,6 +11,7 @@ import {
   clientCity,
   clientHours,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -219,7 +220,7 @@ export default function OsteoGaiaPage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=85&w=2400")} alt="Traitement ostéopathique manuel" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38) saturate(0.8)" }} />
+          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=85&w=2400"))} alt="Traitement ostéopathique manuel" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38) saturate(0.8)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#231a14] via-[#231a14]/45 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#231a14]/70 to-transparent" />
         </motion.div>
@@ -322,7 +323,7 @@ export default function OsteoGaiaPage() {
           </Reveal>
           <Reveal delay={0.15}>
             <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
-              <Image src={photo(1, "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=85&w=800")} alt="Cabinet ostéopathie" fill className="object-cover" style={{ filter: "brightness(0.7) saturate(0.8)" }} />
+              <Image src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=85&w=800"))} alt="Cabinet ostéopathie" fill className="object-cover" style={{ filter: "brightness(0.7) saturate(0.8)" }} />
             </div>
           </Reveal>
         </div>

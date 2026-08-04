@@ -62,29 +62,32 @@ const NAV = [
 
 /* Les trois faces de la plaque du hero. Photos : uniquement des URLs déjà
    présentes dans le repo et vérifiées (cabinets juridiques / documents). */
-const HERO_DOMAINES_DEMO = [
+function HERO_DOMAINES_DEMO_LIVE() {
+  return [
   {
     k: "Immobilier",
     line: "L'acte authentique qui sécurise la vente.",
     sub: "Compromis, vente, VEFA — chaque clause vérifiée avant signature.",
-    img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80"),
     alt: "Dossier d'acte de vente sur le bureau de l'étude",
   },
   {
     k: "Famille",
     line: "Transmettre sans laisser de conflit derrière soi.",
     sub: "Donations, testaments authentiques, successions réglées au clair.",
-    img: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80"),
     alt: "Signature d'une donation, stylo et documents",
   },
   {
     k: "Entreprise",
     line: "Des statuts aux murs, l'entreprise sur des bases saines.",
     sub: "Cessions de fonds, baux commerciaux, garanties et sûretés.",
-    img: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80"),
     alt: "Bibliothèque juridique du bureau des notaires",
   },
 ];
+}
+let HERO_DOMAINES_DEMO = HERO_DOMAINES_DEMO_LIVE();
 let HERO_DOMAINES = HERO_DOMAINES_DEMO;
 
 const DOMAINES_DEMO = [
@@ -146,9 +149,11 @@ export default function EtudeNotarialePage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_DOMAINES_DEMO = HERO_DOMAINES_DEMO_LIVE();
   AVIS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
     AVIS_SOURCE,
@@ -335,7 +340,7 @@ export default function EtudeNotarialePage() {
       <section id="etude" className="i326-pad" style={{ padding: "100px 64px", background: C.bgSection }}>
         <div className="i326-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80")} alt="Notaire associé de l'étude" loading="lazy" style={{ width: "100%", borderRadius: 4, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(3, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80"))} alt="Notaire associé de l'étude" loading="lazy" style={{ width: "100%", borderRadius: 4, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>

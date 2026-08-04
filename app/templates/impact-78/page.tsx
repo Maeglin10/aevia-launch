@@ -27,36 +27,39 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 
-const WORK_REEL_DEMO = [
+function WORK_REEL_DEMO_LIVE() {
+  return [
   {
     id: 1,
     title: "VOID_BREW",
     client: "Nespresso Professional",
     tags: ["Branding", "Packaging", "Digital"],
-    img: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800&auto=format&fit=crop"),
   },
   {
     id: 2,
     title: "SOLAR_ORIGIN",
     client: "Starbucks Reserve",
     tags: ["Campaign", "Art Direction", "Film"],
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=800&auto=format&fit=crop"),
   },
   {
     id: 3,
     title: "DARK_MATTER",
     client: "Blue Bottle Coffee",
     tags: ["Identity", "Motion", "Web"],
-    img: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800&auto=format&fit=crop"),
   },
   {
     id: 4,
     title: "LUNAR_FREQ",
     client: "Intelligentsia",
     tags: ["Branding", "Retail", "3D"],
-    img: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=800&auto=format&fit=crop"),
   },
 ];
+}
+let WORK_REEL_DEMO = WORK_REEL_DEMO_LIVE();
 let WORK_REEL = WORK_REEL_DEMO;
 
 const EXPERTISE_SOURCE = [
@@ -165,8 +168,10 @@ export default function AetherRoasteryPage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  WORK_REEL_DEMO = WORK_REEL_DEMO_LIVE();
 
   EXPERTISE = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EXPERTISE_SOURCE[i % EXPERTISE_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
@@ -230,7 +235,7 @@ return (
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=80")}
+            src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=80"))}
             alt="Aether Hero"
             fill
             className="object-cover brightness-50 contrast-125 grayscale-[0.3]"

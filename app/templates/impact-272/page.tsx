@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -77,16 +78,19 @@ const SERIF = "'Merriweather', Georgia, serif" as const;
 const SANS = "'Nunito', system-ui, sans-serif" as const;
 
 /* ── Photos Unsplash ──────────────────────────────────────────────────────── */
-const BASE = 'https://images.unsplash.com/photo-';
-const P = {
-  hero: `https://images.pexels.com/photos/7447003/pexels-photo-7447003.jpeg?auto=compress&cs=tinysrgb&w=2000`,
-  resp: `https://images.pexels.com/photos/7447003/pexels-photo-7447003.jpeg?auto=compress&cs=tinysrgb&w=1600`,
-  motor: `https://images.pexels.com/photos/18830315/pexels-photo-18830315.jpeg?auto=compress&cs=tinysrgb&w=1600`,
-  postop: `https://images.pexels.com/photos/7447001/pexels-photo-7447001.jpeg?auto=compress&cs=tinysrgb&w=1600`,
-  editorial1: `https://images.pexels.com/photos/7447003/pexels-photo-7447003.jpeg?auto=compress&cs=tinysrgb&w=800`,
-  editorial2: `https://images.pexels.com/photos/18830315/pexels-photo-18830315.jpeg?auto=compress&cs=tinysrgb&w=800`,
-  method: `https://images.pexels.com/photos/7447001/pexels-photo-7447001.jpeg?auto=compress&cs=tinysrgb&w=900`,
+const BASE = (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+function P_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[1] || `https://images.pexels.com/photos/7447003/pexels-photo-7447003.jpeg?auto=compress&cs=tinysrgb&w=2000`),
+  resp: (clientPhotos(sessionData)[2] || `https://images.pexels.com/photos/7447003/pexels-photo-7447003.jpeg?auto=compress&cs=tinysrgb&w=1600`),
+  motor: (clientPhotos(sessionData)[3] || `https://images.pexels.com/photos/18830315/pexels-photo-18830315.jpeg?auto=compress&cs=tinysrgb&w=1600`),
+  postop: (clientPhotos(sessionData)[4] || `https://images.pexels.com/photos/7447001/pexels-photo-7447001.jpeg?auto=compress&cs=tinysrgb&w=1600`),
+  editorial1: (clientPhotos(sessionData)[5] || `https://images.pexels.com/photos/7447003/pexels-photo-7447003.jpeg?auto=compress&cs=tinysrgb&w=800`),
+  editorial2: (clientPhotos(sessionData)[6] || `https://images.pexels.com/photos/18830315/pexels-photo-18830315.jpeg?auto=compress&cs=tinysrgb&w=800`),
+  method: (clientPhotos(sessionData)[7] || `https://images.pexels.com/photos/7447001/pexels-photo-7447001.jpeg?auto=compress&cs=tinysrgb&w=900`),
 } as const;
+}
+let P = P_LIVE();
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -2217,9 +2221,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  P = P_LIVE();
   EDIT_ROWS = EDIT_ROWS_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(

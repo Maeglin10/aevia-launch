@@ -12,29 +12,33 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientServices,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
 // equipe, jusqu'ici écrit dans le rendu sans constante nommée.
-const EQUIPE_ANON_SOURCE = [
-                { name: "Mia Versa", role: "Creative Director", yrs: "10yr", img: photo(1, "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400"), tags: ["Brand", "Identity"] },
-                { name: "Theo Nakamura", role: "Lead Product Designer", yrs: "7yr", img: photo(2, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400"), tags: ["UX", "Mobile"] },
-                { name: "Sasha Okafor", role: "Art Director", yrs: "8yr", img: photo(3, "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=400"), tags: ["Campaign", "Photo"] },
-                { name: "Remi Blanc", role: "Motion & 3D Lead", yrs: "5yr", img: photo(4, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400"), tags: ["Motion", "3D"] },
+function EQUIPE_ANON_SOURCE_LIVE() {
+  return [
+                { name: "Mia Versa", role: "Creative Director", yrs: "10yr", img: photo(1, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400")), tags: ["Brand", "Identity"] },
+                { name: "Theo Nakamura", role: "Lead Product Designer", yrs: "7yr", img: photo(2, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400")), tags: ["UX", "Mobile"] },
+                { name: "Sasha Okafor", role: "Art Director", yrs: "8yr", img: photo(3, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=400")), tags: ["Campaign", "Photo"] },
+                { name: "Remi Blanc", role: "Motion & 3D Lead", yrs: "5yr", img: photo(4, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400")), tags: ["Motion", "3D"] },
               ];
+}
+let EQUIPE_ANON_SOURCE = EQUIPE_ANON_SOURCE_LIVE();
 let EQUIPE_ANON = EQUIPE_ANON_SOURCE;
 
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 let brand: any = null;
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
@@ -61,12 +65,15 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PROJECTS_DEMO = [
-  { title: "Flux Identity", client: "Flux Labs", type: "Brand System", img: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200", year: "2024" },
-  { title: "Prism Launch", client: "Prism Analytics", type: "Product Design", img: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200", year: "2024" },
-  { title: "Ember Editorial", client: "Ember Magazine", type: "Editorial + Web", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1200", year: "2023" },
-  { title: "Vertex Motion", client: "Vertex Films", type: "Motion Design", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200", year: "2023" },
-]
+function PROJECTS_DEMO_LIVE() {
+  return [
+  { title: "Flux Identity", client: "Flux Labs", type: "Brand System", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200"), year: "2024" },
+  { title: "Prism Launch", client: "Prism Analytics", type: "Product Design", img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200"), year: "2024" },
+  { title: "Ember Editorial", client: "Ember Magazine", type: "Editorial + Web", img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1200"), year: "2023" },
+  { title: "Vertex Motion", client: "Vertex Films", type: "Motion Design", img: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200"), year: "2023" },
+];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 const CAPABILITIES_DEMO = [
   { icon: Palette, title: "Visual Identity", desc: "Logo, color system, typography, and brand guidelines that scale from app icon to billboard." },
@@ -145,9 +152,13 @@ export default function StudioVersaPage() {
   }, []);
 
   fd = session?.formData;
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
+  EQUIPE_ANON_SOURCE = EQUIPE_ANON_SOURCE_LIVE();
   CAREERS = CAREERS_LIVE();
 
 
@@ -260,7 +271,7 @@ export default function StudioVersaPage() {
         {/* ── HERO ─────────────────── */}
         <section id="hero" className="relative min-h-[90vh] flex items-center pt-40 pb-20 overflow-hidden">
           <div className="absolute top-0 right-0 w-[50vw] h-full hidden lg:block">
-            <ParallaxImg src={photo(0, "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1600")} alt="Studio" />
+            <ParallaxImg src={photo(0, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1600"))} alt="Studio" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#faf5f0] via-[#faf5f0]/40 to-transparent" />
           </div>
 

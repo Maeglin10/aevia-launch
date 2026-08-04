@@ -14,6 +14,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -592,7 +593,7 @@ return (
           <div
             style={{
               position: "absolute", inset: 0,
-              backgroundImage: `url(${fd?.photoUrls?.[0] || `https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1800&q=85`})`,
+              backgroundImage: `url(${fd?.photoUrls?.[0] || (clientPhotos(sessionData)[0] || `https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1800&q=85`)})`,
               backgroundSize: "cover", backgroundPosition: "center",
             }}
           />
@@ -743,7 +744,7 @@ return (
                       <div
                         style={{
                           width: "100%", height: "100%",
-                          backgroundImage: `url(${fd?.photoUrls?.[i + 1] || `https://images.unsplash.com/${dest.img}?w=600&q=85`})`,
+                          backgroundImage: `url(${fd?.photoUrls?.[i + 1] || (clientPhotos(sessionData)[1] || `https://images.unsplash.com/${dest.img}?w=600&q=85`)})`,
                           backgroundSize: "cover", backgroundPosition: "center",
                         }}
                       />
@@ -1265,7 +1266,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                 <div
                   style={{
                     width: "100%", height: "100%",
-                    backgroundImage: `url(${fd?.photoUrls?.[i + 1] || `https://images.unsplash.com/${dest.img}?w=800&q=85`})`,
+                    backgroundImage: `url(${fd?.photoUrls?.[i + 1] || (clientPhotos(sessionData)[2] || `https://images.unsplash.com/${dest.img}?w=800&q=85`)})`,
                     backgroundSize: "cover", backgroundPosition: "center",
                   }}
                 />

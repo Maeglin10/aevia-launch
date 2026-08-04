@@ -100,14 +100,15 @@ const NAV_LINKS = [
 
 const STYLE_FILTERS = ["All", "Réaliste", "Géométrique", "Old School", "Japonais", "Blackwork", "Fine Line"];
 
-const PORTFOLIO_DEMO = [
+function PORTFOLIO_DEMO_LIVE() {
+  return [
   {
     id: 1,
     title: "Koi Dragon Sleeve",
     artist: "Viktor Rein",
     style: "Japonais",
     size: "tall",
-    img: "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=600&q=80",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=600&q=80"),
     duration: "18h",
     year: "2024",
   },
@@ -117,7 +118,7 @@ const PORTFOLIO_DEMO = [
     artist: "Léa Morel",
     style: "Géométrique",
     size: "wide",
-    img: "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=800&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=800&q=80"),
     duration: "6h",
     year: "2024",
   },
@@ -127,7 +128,7 @@ const PORTFOLIO_DEMO = [
     artist: "Viktor Rein",
     style: "Réaliste",
     size: "square",
-    img: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=600&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=600&q=80"),
     duration: "12h",
     year: "2025",
   },
@@ -137,7 +138,7 @@ const PORTFOLIO_DEMO = [
     artist: "James Wolfe",
     style: "Old School",
     size: "square",
-    img: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=600&q=80",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=600&q=80"),
     duration: "5h",
     year: "2024",
   },
@@ -147,7 +148,7 @@ const PORTFOLIO_DEMO = [
     artist: "Léa Morel",
     style: "Fine Line",
     size: "tall",
-    img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80",
+    img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80"),
     duration: "4h",
     year: "2025",
   },
@@ -157,7 +158,7 @@ const PORTFOLIO_DEMO = [
     artist: "Viktor Rein",
     style: "Blackwork",
     size: "wide",
-    img: "https://images.unsplash.com/photo-1550159930-40066082a4fc?w=800&q=80",
+    img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1550159930-40066082a4fc?w=800&q=80"),
     duration: "24h",
     year: "2025",
   },
@@ -167,7 +168,7 @@ const PORTFOLIO_DEMO = [
     artist: "James Wolfe",
     style: "Japonais",
     size: "square",
-    img: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=600&q=80",
+    img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=600&q=80"),
     duration: "9h",
     year: "2024",
   },
@@ -177,11 +178,13 @@ const PORTFOLIO_DEMO = [
     artist: "Léa Morel",
     style: "Géométrique",
     size: "square",
-    img: "https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?w=600&q=80",
+    img: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?w=600&q=80"),
     duration: "7h",
     year: "2025",
   },
 ];
+}
+let PORTFOLIO_DEMO = PORTFOLIO_DEMO_LIVE();
 let PORTFOLIO = PORTFOLIO_DEMO;
 
 function ARTISTS_LIVE() {
@@ -443,7 +446,7 @@ function AboutSection() {
             <div style={{
               width: "100%",
               aspectRatio: "3/4",
-              backgroundImage: `url(${photo(0, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80")})`,
+              backgroundImage: `url(${photo(0, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80"))})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               border: `1px solid ${C.borderAccent}`,
@@ -568,8 +571,10 @@ export default function Impact89Page() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  PORTFOLIO_DEMO = PORTFOLIO_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   ARTISTS = ARTISTS_LIVE();
 
@@ -832,7 +837,7 @@ return (
           style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: `url(photo(0, "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=1600&q=60"))`,
+            backgroundImage: `url(photo(0, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=1600&q=60")))`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             scale: heroScale,
