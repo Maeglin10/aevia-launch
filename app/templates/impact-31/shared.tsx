@@ -228,7 +228,8 @@ export const SERVICES = [
 ];
 
 // ─── Instructors Data ──────────────────────────────────────────────────────────
-export const INSTRUCTORS = [
+function INSTRUCTORS_LIVE() {
+  return [
   {
     name: "Emma Dubois",
     role: "Hatha & Yin Yoga",
@@ -282,6 +283,8 @@ export const INSTRUCTORS = [
     initials: "SM",
   },
 ];
+}
+export let INSTRUCTORS = INSTRUCTORS_LIVE();
 
 // ─── Week Schedule Data ────────────────────────────────────────────────────────
 export const WEEK_SCHEDULE = [
@@ -432,3 +435,13 @@ export const CONTACT_FAQS = [
   { q: "Quels modes de paiement acceptez-vous ?", a: "Nous acceptons les cartes bancaires, les virements SEPA, le chèque et les espèces. Le paiement par carte bancaire est disponible directement à l'accueil et en ligne via notre système sécurisé." },
   { q: "Proposez-vous des cours adaptés aux personnes avec blessures ?", a: "Absolument. Nos professeurs sont formés au yoga thérapeutique. Mentionnez vos blessures ou conditions lors de l'inscription — nous vous orienterons vers les cours les plus adaptés et pourrons proposer des modifications personnalisées." },
 ];
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  INSTRUCTORS = INSTRUCTORS_LIVE();
+}

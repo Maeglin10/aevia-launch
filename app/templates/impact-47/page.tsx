@@ -27,14 +27,15 @@ let HERO_BOUQUETS_DEMO = HERO_BOUQUETS_DEMO_SOURCE;
 let HERO_BOUQUETS = HERO_BOUQUETS_DEMO;
 import {
   C,
-  seasons,
-  occasions,
-  testimonials,
-  subscriptionTiers,
-  faqs,
   FallingPetal,
+  faqs,
+  occasions,
   petalPaths,
-  useCart
+  rafraichirPartage,
+  seasons,
+  subscriptionTiers,
+  testimonials,
+  useCart,
 } from "./shared";
 import {
   clientAddress,
@@ -610,6 +611,7 @@ export default function FloristHome() {
   c = session?.generatedContent;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   HERO_BOUQUETS_DEMO_SOURCE = HERO_BOUQUETS_DEMO_SOURCE_LIVE();
 
   STATS_INLINE = resolveList(

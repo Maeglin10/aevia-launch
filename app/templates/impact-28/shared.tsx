@@ -45,7 +45,8 @@ export function Reveal({ children, className = "", delay = 0, from = "bottom" }:
   )
 }
 
-export const projects = [
+function projects_LIVE() {
+  return [
   { 
     name: "BLOC K — Social Housing Complex", 
     loc: "Paris 19ème", 
@@ -101,7 +102,9 @@ export const projects = [
     structure: "Post-tensioned suspended slabs & core shear walls",
     description: "An imposing dark concrete tower asserting its presence on the skyline. Uses horizontal wood-formwork impressions to soften light reflection."
   },
-]
+];
+}
+export let projects = projects_LIVE();
 
 export const services = [
   { n: "01", title: "Architecture", desc: "New construction from concept to delivery. We design buildings that endure." },
@@ -111,14 +114,18 @@ export const services = [
   { n: "05", title: "Competition", desc: "Architectural competition strategy. We win because we think differently." },
 ]
 
-export const team = [
+function team_LIVE() {
+  return [
   { name: "Viktor Brunel", role: "Founding Partner", img: clientPhotoAt(12, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face") },
   { name: "Anaïs Cornet", role: "Associate Architect", img: clientPhotoAt(13, "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face") },
   { name: "Marc Delvaux", role: "Urban Planning", img: clientPhotoAt(14, "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face") },
   { name: "Sonia Lehmann", role: "Project Director", img: clientPhotoAt(15, "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face") },
-]
+];
+}
+export let team = team_LIVE();
 
-export const testimonials = [
+function testimonials_LIVE() {
+  return [
   {
     quote: "Brutco doesn't deliver a building. They deliver a manifesto in concrete. We had no brief — only the ambition to create something that would outlast us. They made that real.",
     author: "Jean-Luc Marais",
@@ -140,7 +147,9 @@ export const testimonials = [
     project: "CONCRETE CHAPEL — Marseille",
     img: clientPhotoAt(18, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=face")
   },
-]
+];
+}
+export let testimonials = testimonials_LIVE();
 
 export const processSteps = [
   {
@@ -192,3 +201,15 @@ export const pressItems = [
   { pub: "Domus", quote: "\"Viktor Brunel has built more raw square metres than any firm of his size in Europe.\"", year: "2024" },
   { pub: "Le Figaro", quote: "\"In a sea of glass towers, Brutco chooses honesty.\"", year: "2023" },
 ]
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  projects = projects_LIVE();
+  team = team_LIVE();
+  testimonials = testimonials_LIVE();
+}

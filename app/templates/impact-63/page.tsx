@@ -4,7 +4,17 @@
 import React, {useRef, useState, useEffect} from 'react';
 import Link from "next/link";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { C, StatNumber, SectionLabel, OrbitalComplication, HERITAGE, PRESS, AWARDS, COLLECTIONS } from "./shared";
+import {
+  AWARDS,
+  C,
+  COLLECTIONS,
+  HERITAGE,
+  OrbitalComplication,
+  PRESS,
+  SectionLabel,
+  StatNumber,
+  rafraichirPartage,
+} from "./shared";
 import { AnimatePresence } from "framer-motion";
 import {
   useHeroSelector, GhostMark, Rise, SelectorRail,
@@ -241,6 +251,7 @@ export default function MaisonDrouetHome() {
   fd = session?.formData;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   c = session?.generatedContent;
 
 

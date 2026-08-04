@@ -6,7 +6,11 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Terminal, Radio } from "lucide-react";
-import { Reveal, MagneticBtn } from "./shared";
+import {
+  MagneticBtn,
+  Reveal,
+  rafraichirPartage,
+} from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import "../premium.css";
@@ -110,6 +114,7 @@ export default function VisionHomePage() {
   bp = session?.businessProfile;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
 
   STATS_INLINE = resolveList(

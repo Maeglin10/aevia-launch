@@ -9,7 +9,15 @@ import Link from "next/link";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ArrowRight, Heart, Search, Droplets, Zap, Flower2, Quote, Check, Star } from "lucide-react";
-import { SERVICES, REVIEWS, PROTOCOLS, Reveal, Counter, MagneticBtn } from "./shared";
+import {
+  Counter,
+  MagneticBtn,
+  PROTOCOLS,
+  REVIEWS,
+  Reveal,
+  SERVICES,
+  rafraichirPartage,
+} from "./shared";
 import {
   clientCity,
   clientName,
@@ -86,6 +94,7 @@ export default function AtelierBeautePage() {
   fd = session?.formData;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   c = session?.generatedContent;
 
 

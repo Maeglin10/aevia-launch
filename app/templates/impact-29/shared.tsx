@@ -42,7 +42,8 @@ export function Reveal({ children, className = "", delay = 0 }: { children: Reac
   )
 }
 
-export const projects = [
+function projects_LIVE() {
+  return [
   {
     name: "noctua.dev",
     desc: "Real-time collaborative code editor. WebSockets, Monaco Editor, Y.js CRDT.",
@@ -70,7 +71,9 @@ export const projects = [
     installation: "cargo install vaultkey-cli\nvaultkey init --vault ~/.vk",
     img: clientPhotoAt(8, "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&h=500&fit=crop&crop=center"),
   },
-]
+];
+}
+export let projects = projects_LIVE();
 
 export const skills = [
   { cat: "Languages", items: ["TypeScript", "Rust", "Go", "Python", "SQL"] },
@@ -146,7 +149,8 @@ export const process = [
   },
 ]
 
-export const testimonials = [
+function testimonials_LIVE() {
+  return [
   {
     name: "Léa Fontaine",
     role: "CTO, Finary",
@@ -171,7 +175,9 @@ export const testimonials = [
     avatar: clientPhotoAt(12, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face"),
     quote: "Open source advisory from someone who's actually shipped and maintained large OSS projects. Not just theory. Would work with him again immediately.",
   },
-]
+];
+}
+export let testimonials = testimonials_LIVE();
 
 export const clients = [
   { name: "Stripe", logo: "STRIPE" },
@@ -184,7 +190,8 @@ export const clients = [
   { name: "Pennylane", logo: "PENNYLANE" },
 ]
 
-export const allProjects = [
+function allProjects_LIVE() {
+  return [
   {
     name: "noctua.dev",
     category: "Open Source",
@@ -257,7 +264,9 @@ export const allProjects = [
     img: clientPhotoAt(18, "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=500&fit=crop&crop=center"),
     href: "https://github.com",
   },
-]
+];
+}
+export let allProjects = allProjects_LIVE();
 
 export const timeline = [
   { 
@@ -305,3 +314,15 @@ export const timeline = [
     ]
   },
 ]
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  projects = projects_LIVE();
+  testimonials = testimonials_LIVE();
+  allProjects = allProjects_LIVE();
+}

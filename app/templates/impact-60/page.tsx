@@ -5,7 +5,12 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Play, Settings, Shield, Clock } from "lucide-react";
-import { Reveal, ParallaxImg, MODELS } from "./shared";
+import {
+  MODELS,
+  ParallaxImg,
+  Reveal,
+  rafraichirPartage,
+} from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
@@ -66,6 +71,7 @@ export default function ZenithWatchPage() {
   bp = session?.businessProfile;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Product collection ← client's business profile (falls back to demo).

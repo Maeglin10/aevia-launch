@@ -23,7 +23,8 @@ export const FONT = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
 `;
 
-export const COLLECTIONS = [
+function COLLECTIONS_LIVE() {
+  return [
   {
     id: "perpetuelle",
     name: "Perpétuelle",
@@ -103,6 +104,8 @@ export const COLLECTIONS = [
     image: clientPhotoAt(5, "https://images.pexels.com/photos/34182730/pexels-photo-34182730.jpeg?auto=compress&cs=tinysrgb&w=1200"),
   },
 ];
+}
+export let COLLECTIONS = COLLECTIONS_LIVE();
 
 export const HERITAGE = [
   {
@@ -337,4 +340,14 @@ export function StyleInjector() {
     };
   }, []);
   return null;
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  COLLECTIONS = COLLECTIONS_LIVE();
 }

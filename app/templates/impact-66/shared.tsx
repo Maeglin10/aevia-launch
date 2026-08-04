@@ -4,7 +4,8 @@ import { clientPhotoAt } from "@/lib/templates/clientContent";
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 
-export const SERVICES = [
+function SERVICES_LIVE() {
+  return [
   {
     id: 1,
     name: "Architectural Nails",
@@ -38,6 +39,8 @@ export const SERVICES = [
     desc: "Framing the face through geometric mapping and custom pigment blending.",
   },
 ];
+}
+export let SERVICES = SERVICES_LIVE();
 
 export const PROTOCOLS = [
   {
@@ -180,4 +183,14 @@ export function MagneticBtn({
       {children}
     </motion.button>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  SERVICES = SERVICES_LIVE();
 }

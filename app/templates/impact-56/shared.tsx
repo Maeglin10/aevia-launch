@@ -31,7 +31,8 @@ export const STATS = [
   { value: "12", label: "Générations", suffix: "" },
 ];
 
-export const FEATURES = [
+function FEATURES_LIVE() {
+  return [
   {
     id: "terroir",
     title: "Le Terroir",
@@ -72,8 +73,11 @@ export const FEATURES = [
     image: clientPhotoAt(4, "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&q=80&fit=crop")
   }
 ];
+}
+export let FEATURES = FEATURES_LIVE();
 
-export const TESTIMONIALS = [
+function TESTIMONIALS_LIVE() {
+  return [
   {
     name: "Jean-Marc Quarin",
     role: "Critique Indépendant",
@@ -107,6 +111,8 @@ export const TESTIMONIALS = [
     score: "97/100"
   }
 ];
+}
+export let TESTIMONIALS = TESTIMONIALS_LIVE();
 
 export const FAQS = [
   {
@@ -135,7 +141,8 @@ export const FAQS = [
   }
 ];
 
-export const WINES = [
+function WINES_LIVE() {
+  return [
   {
     id: "grand-vin",
     name: "Château Vestige",
@@ -205,6 +212,8 @@ export const WINES = [
     badge: "Cadeau"
   }
 ];
+}
+export let WINES = WINES_LIVE();
 
 export const NAV_LINKS = [
   { label: "Nos Vins", href: "/templates/impact-56/vins" },
@@ -213,3 +222,15 @@ export const NAV_LINKS = [
   { label: "Commander", href: "/templates/impact-56/commande" },
   { label: "Contact", href: "/templates/impact-56/contact" },
 ] as const;
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  FEATURES = FEATURES_LIVE();
+  TESTIMONIALS = TESTIMONIALS_LIVE();
+  WINES = WINES_LIVE();
+}

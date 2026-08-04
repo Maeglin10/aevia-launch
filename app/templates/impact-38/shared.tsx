@@ -36,7 +36,8 @@ export const SERIF = "'Fraunces', Georgia, serif";
 export const SANS = "'DM Sans', system-ui, sans-serif";
 
 // ─── Datasets ─────────────────────────────────────────────────────────────────
-export const ORIGINS = [
+function ORIGINS_LIVE() {
+  return [
   {
     name: "Ethiopian Yirgacheffe",
     origin: "Ethiopia",
@@ -98,6 +99,8 @@ export const ORIGINS = [
     image: clientPhotoAt(3, "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=800&q=80&fit=crop"),
   },
 ];
+}
+export let ORIGINS = ORIGINS_LIVE();
 
 export const PROCESS_STEPS = [
   {
@@ -196,7 +199,8 @@ export const STATS = [
   { value: "4.9", label: "Avg. Rating" },
 ];
 
-export const WORKSHOPS = [
+function WORKSHOPS_LIVE() {
+  return [
   {
     title: "Initiation à la dégustation",
     duration: "2h",
@@ -252,6 +256,8 @@ export const WORKSHOPS = [
     level: "Tout niveau",
   },
 ];
+}
+export let WORKSHOPS = WORKSHOPS_LIVE();
 
 export const ABONNEMENT_PLANS = [
   {
@@ -475,4 +481,15 @@ export function PageHeader({ title, subtitle, dark = false }: { title: string; s
       </div>
     </div>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  ORIGINS = ORIGINS_LIVE();
+  WORKSHOPS = WORKSHOPS_LIVE();
 }

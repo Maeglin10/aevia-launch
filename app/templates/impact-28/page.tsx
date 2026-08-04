@@ -1,4 +1,5 @@
 "use client";
+import { rafraichirPartage } from "./shared";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
@@ -100,6 +101,7 @@ export default function Home() {
   bp = session?.businessProfile;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const projects: any[] = resolveList(

@@ -6,7 +6,8 @@ import { motion, useInView, useMotionValue, useSpring, useTransform } from "fram
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Watch } from "lucide-react";
 
-export const WATCHES = [
+function WATCHES_LIVE() {
+  return [
   {
     id: 1,
     name: "AETHER_G1",
@@ -44,6 +45,8 @@ export const WATCHES = [
     desc: "Skeletonized movement. Grade 5 titanium components.",
   },
 ];
+}
+export let WATCHES = WATCHES_LIVE();
 
 export function Reveal({
   children,
@@ -197,4 +200,14 @@ export function TiltCard({
       {children}
     </motion.div>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  WATCHES = WATCHES_LIVE();
 }

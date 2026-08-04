@@ -6,7 +6,10 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Reveal } from "./shared";
+import {
+  Reveal,
+  rafraichirPartage,
+} from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   DWELL,
@@ -124,6 +127,8 @@ export default function CypherClinicPage() {
   sessionData = session;
 
   memoriserSession(sessionData);
+
+  rafraichirPartage();
   c = session?.generatedContent;
   HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
   MEDECINS_DEMO = MEDECINS_DEMO_LIVE();

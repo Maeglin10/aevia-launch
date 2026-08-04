@@ -1,4 +1,5 @@
 "use client";
+import { rafraichirPartage } from "./shared";
 // @ts-nocheck
 
 import { useRef, useState, useEffect } from "react";
@@ -801,6 +802,7 @@ export default function Impact33() {
   c = session?.generatedContent;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
 

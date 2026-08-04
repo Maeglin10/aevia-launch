@@ -4,7 +4,8 @@ import { clientPhotoAt } from "@/lib/templates/clientContent";
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 
-export const RETREATS = [
+function RETREATS_LIVE() {
+  return [
   {
     id: 1,
     name: "Sonoran Silence",
@@ -57,6 +58,8 @@ export const RETREATS = [
     ],
   },
 ];
+}
+export let RETREATS = RETREATS_LIVE();
 
 export const LINEAGE = [
   {
@@ -209,4 +212,14 @@ export function StyleInjector() {
     };
   }, []);
   return null;
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  RETREATS = RETREATS_LIVE();
 }

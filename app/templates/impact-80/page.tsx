@@ -7,7 +7,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Compass, ArrowUpRight, Plus, Minus } from "lucide-react";
-import { Reveal, ParallaxImg } from "./shared";
+import {
+  ParallaxImg,
+  Reveal,
+  rafraichirPartage,
+} from "./shared";
 import {
   clientCity,
   clientFaq,
@@ -211,6 +215,9 @@ export default function SymmetryStudioPage() {
 
 
   memoriserSession(sessionData);
+
+
+  rafraichirPartage();
   c = session?.generatedContent;
   TEAM_DEMO = TEAM_DEMO_LIVE();
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();

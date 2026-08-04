@@ -9,7 +9,8 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
    DATA STRUCTURES
    ========================================================================= */
 
-export const STREAMS = [
+function STREAMS_LIVE() {
+  return [
   {
     id: 1,
     title: "NEON_NIGHTS // 4K 60FPS // CHILL BEATS",
@@ -47,6 +48,8 @@ export const STREAMS = [
     status: "LIVE",
   },
 ];
+}
+export let STREAMS = STREAMS_LIVE();
 
 export const CHAT_LOGS = [
   {
@@ -67,7 +70,8 @@ export const CHAT_LOGS = [
   },
 ];
 
-export const CREATORS = [
+function CREATORS_LIVE() {
+  return [
   {
     name: "AURA_VOID",
     sub: "1.2M",
@@ -84,6 +88,8 @@ export const CREATORS = [
     img: clientPhotoAt(8, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80"),
   },
 ];
+}
+export let CREATORS = CREATORS_LIVE();
 
 /* ==========================================================================
    UTILITY COMPONENTS
@@ -190,4 +196,15 @@ export function MagneticBtn({
       {children}
     </motion.button>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  STREAMS = STREAMS_LIVE();
+  CREATORS = CREATORS_LIVE();
 }

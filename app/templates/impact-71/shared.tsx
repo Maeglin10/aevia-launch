@@ -9,7 +9,8 @@ import { useState, useRef, useEffect, useCallback } from "react";
    DATA STRUCTURES
    ========================================================================= */
 
-export const CLASSES = [
+function CLASSES_LIVE() {
+  return [
   {
     id: 1,
     title: "Vinyasa Flow",
@@ -47,8 +48,11 @@ export const CLASSES = [
     desc: "Foundational postures held longer to align the body and quiet the central nervous system.",
   },
 ];
+}
+export let CLASSES = CLASSES_LIVE();
 
-export const TEACHERS = [
+function TEACHERS_LIVE() {
+  return [
   {
     name: "Maya Sterling",
     specialty: "Vinyasa & Meditation",
@@ -68,6 +72,8 @@ export const TEACHERS = [
     img: clientPhotoAt(7, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80"),
   },
 ];
+}
+export let TEACHERS = TEACHERS_LIVE();
 
 export const SCHEDULE = [
   {
@@ -210,4 +216,15 @@ export function MagneticBtn({
       {children}
     </motion.button>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  CLASSES = CLASSES_LIVE();
+  TEACHERS = TEACHERS_LIVE();
 }

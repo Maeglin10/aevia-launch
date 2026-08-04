@@ -6,19 +6,20 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowRight, Star, ChevronRight, Coffee, Leaf, Package, Flame, Clock, Zap, ChevronLeft, ChevronDown, Globe, Award, Heart, Users, TrendingUp, CheckCircle, Play } from "lucide-react";
 import Link from "next/link";
 import {
-  C,
-  SERIF,
-  SANS,
-  STATS,
-  PROCESS_STEPS,
-  ORIGINS,
-  REVIEWS,
-  FAQS,
   ABONNEMENT_PLANS,
+  C,
   CoffeeBeanSVG,
-  OriginMap,
   FAQItem,
+  FAQS,
+  ORIGINS,
+  OriginMap,
+  PROCESS_STEPS,
+  REVIEWS,
+  SANS,
+  SERIF,
+  STATS,
   SectionReveal,
+  rafraichirPartage,
 } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
@@ -774,6 +775,7 @@ export default function OriginRoastPage() {
   c = session?.generatedContent;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
   SUBSCRIPTION_HIGHLIGHTS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SUBSCRIPTION_HIGHLIGHTS_SOURCE[i % SUBSCRIPTION_HIGHLIGHTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     SUBSCRIPTION_HIGHLIGHTS_SOURCE,

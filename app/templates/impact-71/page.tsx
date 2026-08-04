@@ -7,7 +7,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Leaf, Sun, Wind, Activity, Sparkles } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
-import { Reveal, Counter, MagneticBtn } from "./shared";
+import {
+  Counter,
+  MagneticBtn,
+  Reveal,
+  rafraichirPartage,
+} from "./shared";
 import {
   clientCity,
   clientName,
@@ -93,6 +98,7 @@ export default function ZenSpaceHome() {
   bp = session?.businessProfile;
   sessionData = session;
   memoriserSession(sessionData);
+  rafraichirPartage();
 
   STATS_INLINE = resolveList(
 

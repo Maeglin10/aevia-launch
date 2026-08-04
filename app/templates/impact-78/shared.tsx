@@ -6,7 +6,8 @@ import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Coffee, Thermometer } from "lucide-react";
 
-export const BEANS = [
+function BEANS_LIVE() {
+  return [
   {
     id: 1,
     name: "VOID_BREW",
@@ -35,6 +36,8 @@ export const BEANS = [
     img: clientPhotoAt(7, "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80"),
   },
 ];
+}
+export let BEANS = BEANS_LIVE();
 
 export const BREW_METHODS = [
   { name: "V60", temp: "92°C", time: "3:30", ratio: "1:15" },
@@ -143,4 +146,14 @@ export function MagneticBtn({
       {children}
     </motion.button>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  BEANS = BEANS_LIVE();
 }

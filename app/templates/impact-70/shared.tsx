@@ -5,11 +5,14 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Image from "next/image";
 
-export const EVENTS = [
+function EVENTS_LIVE() {
+  return [
   { id: "01", name: "Neon Masquerade", cat: "Exclusive Event", img: clientPhotoAt(1, "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=1200") },
   { id: "02", name: "Midnight Solace", cat: "Rooftop Party", img: clientPhotoAt(2, "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=1200") },
   { id: "03", name: "Ethereal Beats", cat: "Private Club", img: clientPhotoAt(3, "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=1200") },
 ];
+}
+export let EVENTS = EVENTS_LIVE();
 
 export function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null);
@@ -33,4 +36,14 @@ export function ParallaxImg({ src, alt }: { src: string; alt: string }) {
       </motion.div>
     </div>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  EVENTS = EVENTS_LIVE();
 }

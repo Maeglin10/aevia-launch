@@ -101,11 +101,14 @@ export const TEMOIGNAGES = [
   },
 ];
 
-export const GALERIE = [
+function GALERIE_LIVE() {
+  return [
   clientPhotoAt(1, "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80"),
   clientPhotoAt(2, "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80"),
   clientPhotoAt(3, "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&q=80"),
 ];
+}
+export let GALERIE = GALERIE_LIVE();
 
 export function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -120,4 +123,14 @@ export function Reveal({ children, delay = 0 }: { children: React.ReactNode; del
       {children}
     </motion.div>
   );
+}
+
+
+/*
+  Rappelé par la page une fois la session retenue : sans cet appel, les
+  tableaux ci-dessus gardent la valeur qu'ils avaient à l'import, quand le
+  client n'existait pas encore.
+*/
+export function rafraichirPartage(): void {
+  GALERIE = GALERIE_LIVE();
 }
