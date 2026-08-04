@@ -1,5 +1,6 @@
 
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -801,10 +802,10 @@ function LegalPage() {
           <div className="border-b border-white/10 pb-4">
              <div className="text-white/30 text-[10px] font-black uppercase mb-2">EDITEUR</div>
              <p className="text-white font-medium uppercase">
-                Aevia WS — Valentin Milliand<br />
-                Entrepreneur Individuel<br />
+                {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
+                {clientName(sessionData) ? "" : "Entrepreneur Individuel"}<br />
                 SIREN : <LegalIdentity /><br />
-                RCS : Bourg-en-Bresse<br />
+                {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
                 Email : {fd?.email ?? "valentinmilliand@aevia.services"}<br />
                 Adresse : Communiquée sur demande
              </p>

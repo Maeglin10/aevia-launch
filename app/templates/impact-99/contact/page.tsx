@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
@@ -932,7 +933,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
                 Valentin Milliand
               </LegalBlock>
               <LegalBlock title="Immatriculation">
-                SIREN <LegalIdentity /> — RCS Bourg-en-Bresse
+                SIREN <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}
               </LegalBlock>
               <LegalBlock title="Contact">{fd?.email ?? "valentinmilliand@aevia.services"}</LegalBlock>
               <LegalBlock title="Siège social">

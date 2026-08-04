@@ -238,6 +238,17 @@ export function clientAddress(s: SessionLike | null | undefined): string | undef
   );
 }
 
+/**
+ * La forme juridique du client — « SAS », « entreprise individuelle ».
+ *
+ * Elle complète le nom dans le bloc éditeur des mentions légales : depuis que
+ * l'acheteur d'un thème en devient l'éditeur, c'est sa forme qui doit y figurer
+ * et non celle d'Aevia.
+ */
+export function clientLegalForm(s: SessionLike | null | undefined): string | undefined {
+  return trimmed(s?.businessProfile?.legal?.legalForm) || undefined;
+}
+
 /** Les photos du client. Jamais de photo de stock à la place. */
 export function clientPhotos(s: SessionLike | null | undefined): string[] {
   const rows = (s?.formData?.photoUrls ?? []) as any[];

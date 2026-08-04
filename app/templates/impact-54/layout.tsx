@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -370,7 +372,7 @@ export default function Impact54Layout({
           }}
         >
           <span>
-            © 2026 AEVIA WS — SIREN <LegalIdentity />. ALL RIGHTS RESERVED.
+            © 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. ALL RIGHTS RESERVED.
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             <Link

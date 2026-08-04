@@ -413,7 +413,7 @@ export default function Halle1897Page() {
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
               © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Halle 1897"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
             </span>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
+            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>
         </div>
       </footer>

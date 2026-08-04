@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -268,7 +270,7 @@ export default function Impact51Layout({
 
           <div className="pt-8 border-t border-[#e4e4e7] flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-[#6b7280]">
             <span>
-              © 2026 Aevia WS — SIREN <LegalIdentity />. Tous droits réservés.
+              © 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. Tous droits réservés.
             </span>
             <div className="flex gap-8">
               <Link

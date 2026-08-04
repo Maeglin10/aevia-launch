@@ -1,6 +1,8 @@
 "use client"
 
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
 import Link from "next/link"
@@ -386,7 +388,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             }}
           >
             <p style={{ fontSize: 13, color: "#475569" }}>
-              © 2026 Aevia WS — SIREN <LegalIdentity />. Tous droits réservés.
+              © 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. Tous droits réservés.
             </p>
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
               <Link href="/templates/impact-35/legal" style={{ fontSize: 13, color: "#475569", textDecoration: "none" }}>

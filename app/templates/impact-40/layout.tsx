@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -284,7 +286,7 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
 
           <div style={{ borderTop: "1px solid rgba(253,249,238,0.08)", paddingTop: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
             <p style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", color: "rgba(253,249,238,0.35)", margin: 0 }}>
-              © 2026 Aevia WS — SIREN <LegalIdentity />. Tous droits réservés.
+              © 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. Tous droits réservés.
             </p>
             <div style={{ display: "flex", gap: "1.5rem" }}>
               <Link href="/templates/impact-40/legal" style={{ textDecoration: "none", fontFamily: C.bodyFont, fontSize: "0.78rem", color: "rgba(253,249,238,0.35)" }}>

@@ -743,7 +743,7 @@ function LegalPage() {
               <strong>Aevia WS — Valentin Milliand</strong><br />
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
-              RCS : Bourg-en-Bresse<br />
+              {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               Email : {fd?.email ?? "contact@exemple.fr"}<br />
               Adresse : Communiquée sur demande
             </p>

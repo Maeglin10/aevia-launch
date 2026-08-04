@@ -884,10 +884,10 @@ function LegalPage() {
           <div className="border-b border-white/10 pb-4">
              <div className="text-white/30 text-[10px] font-black uppercase mb-2">EDITEUR</div>
              <p className="text-white font-medium uppercase">
-                Aevia WS — Valentin Milliand<br />
-                Entrepreneur Individuel<br />
+                {clientName({ formData: fd }) ?? "Aevia WS — Valentin Milliand"}<br />
+                {clientName({ formData: fd }) ? "" : "Entrepreneur Individuel"}<br />
                 SIREN : <LegalIdentity /><br />
-                RCS : Bourg-en-Bresse<br />
+                {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
                 Email : {fd?.email ?? "contact@exemple.fr"}<br />
                 Adresse : Communiquée sur demande
              </p>

@@ -968,8 +968,8 @@ function LegalPage() {
           <div className="border border-white/10 bg-[#080808] p-8 rounded">
             <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[var(--brand,#d4af37)] mb-4">Publisher & Host</h3>
             <p className="space-y-1">
-              <strong>Publisher:</strong> Aevia WS — Valentin Milliand<br />
-              Sole Proprietorship — SIREN <LegalIdentity /> — RCS Bourg-en-Bresse<br />
+              <strong>Publisher:</strong> {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
+              Sole Proprietorship — SIREN <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               <strong>Email:</strong>{fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Address:</strong> communicated upon request<br />
               <strong>Host:</strong> Vercel Inc.

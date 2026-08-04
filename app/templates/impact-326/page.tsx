@@ -11,6 +11,7 @@ import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -453,7 +454,7 @@ export default function EtudeNotarialePage() {
             <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>
               © 2026 {fd?.businessName ?? "Vasseur & Delmas"} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
             </span>
-            <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
+            <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>
         </div>
       </footer>
