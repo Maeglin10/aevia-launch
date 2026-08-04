@@ -32,6 +32,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -671,6 +672,11 @@ export default function OrbitAIPage() {
 
 
   sessionData = session;
+
+
+
+
+  memoriserSession(sessionData);
   c = session?.generatedContent;
   BESTSELLERS_DEMO_SOURCE = BESTSELLERS_DEMO_SOURCE_LIVE();
   MATERIALS_DEMO_SOURCE = MATERIALS_DEMO_SOURCE_LIVE();

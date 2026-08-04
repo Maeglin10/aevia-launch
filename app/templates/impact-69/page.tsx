@@ -4,6 +4,7 @@ import {
   clientName,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
@@ -78,6 +79,7 @@ export default function LeaHomePage() {
 
   fd = session?.formData;
   sessionData = session;
+  memoriserSession(sessionData);
   bp = session?.businessProfile;
   c = session?.generatedContent;
 

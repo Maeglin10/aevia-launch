@@ -1,4 +1,5 @@
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -235,7 +236,7 @@ export const INSTRUCTORS = [
     specialties: ["Hatha", "Yin", "Thérapeutique", "Méditation"],
     experience: "12 ans d'enseignement",
     cert: "RYT-500",
-    photo: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=240&h=240&fit=crop&crop=face",
+    photo: clientPhotoAt(0, "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=240&h=240&fit=crop&crop=face"),
     bgFrom: "#e8f0e8",
     bgTo: "#fdf9f5",
     accentColor: "#6b8f6b",
@@ -248,7 +249,7 @@ export const INSTRUCTORS = [
     specialties: ["Vinyasa", "Ashtanga", "Inversions", "Bandhas"],
     experience: "8 ans d'enseignement",
     cert: "RYT-300",
-    photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=240&h=240&fit=crop&crop=face",
+    photo: clientPhotoAt(1, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=240&h=240&fit=crop&crop=face"),
     bgFrom: "#fbeae6",
     bgTo: "#fdf9f5",
     accentColor: "#c0614a",
@@ -261,7 +262,7 @@ export const INSTRUCTORS = [
     specialties: ["Kundalini", "Pranayama", "Kriyas", "Mantras"],
     experience: "10 ans d'enseignement",
     cert: "KRI Level 2",
-    photo: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=240&h=240&fit=crop&crop=face",
+    photo: clientPhotoAt(2, "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=240&h=240&fit=crop&crop=face"),
     bgFrom: "#e8f0e8",
     bgTo: "#fbeae6",
     accentColor: "#9b7b6b",
@@ -274,7 +275,7 @@ export const INSTRUCTORS = [
     specialties: ["Yoga Nidra", "MBSR", "Pleine conscience", "Stress"],
     experience: "7 ans d'enseignement",
     cert: "RYT-200 + MBSR",
-    photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=240&h=240&fit=crop&crop=face",
+    photo: clientPhotoAt(3, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=240&h=240&fit=crop&crop=face"),
     bgFrom: "#fbeae6",
     bgTo: "#e8f0e8",
     accentColor: "#c0614a",

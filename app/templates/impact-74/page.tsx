@@ -16,6 +16,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -239,6 +240,7 @@ export default function AeviaKitchenPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  memoriserSession(sessionData);
   GALLERY_PHOTOS_DEMO = GALLERY_PHOTOS_DEMO_LIVE();
 
   STATS_INLINE = resolveList(

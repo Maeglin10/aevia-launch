@@ -1,4 +1,5 @@
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useTransform, useInView, useScroll } from "framer-motion";
@@ -49,7 +50,7 @@ export const ORIGINS = [
       "A floral, tea-like cup from the birthplace of coffee. Hand-picked from small family farms in the Gedeo Zone.",
     longDescription:
       "L'Ethiopian Yirgacheffe est considéré comme l'un des cafés les plus exceptionnels au monde. Cultivé à plus de 1 800 mètres d'altitude dans la zone Gedeo, chaque cerise est récoltée à la main par des familles qui pratiquent la caféiculture depuis des générations. Le processus washed révèle toute la complexité florale du grain — jasmin, bergamote, fruits à noyau — avec une acidité lumineuse caractéristique des grands cafés d'Éthiopie.",
-    image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80&fit=crop",
+    image: clientPhotoAt(0, "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80&fit=crop"),
   },
   {
     name: "Colombian Huila Natural",
@@ -64,7 +65,7 @@ export const ORIGINS = [
       "Rich and fruit-forward from Colombia's most celebrated region. Sun-dried for 25 days on raised beds.",
     longDescription:
       "La région de Huila, au sud de la Colombie, produit certains des meilleurs cafés d'Amérique Latine. Ce lot Natural est séché au soleil pendant 25 jours sur des lits surélevés, ce qui développe une richesse fruitée exceptionnelle. La cerise fermente doucement autour du grain, conférant des notes de cerise noire, de chocolat noir et de cassonade avec un corps plein et velouté.",
-    image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80&fit=crop",
+    image: clientPhotoAt(1, "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80&fit=crop"),
   },
   {
     name: "Sumatra Mandheling",
@@ -79,7 +80,7 @@ export const ORIGINS = [
       "A unique wet-hulled processing gives this Sumatran coffee its distinctively earthy, full-bodied character.",
     longDescription:
       "Le Sumatra Mandheling est l'un des cafés les plus distinctifs au monde, grâce au processus de déparchage humide unique à l'Indonésie (Giling Basah). Cette méthode confère au café ses notes terreuses caractéristiques, évoquant le cèdre, la forêt après la pluie et le chocolat amer. Faible en acidité, il convient parfaitement aux amateurs de cafés foncés et intenses.",
-    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80&fit=crop",
+    image: clientPhotoAt(2, "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80&fit=crop"),
   },
   {
     name: "Guatemala Antigua",
@@ -94,7 +95,7 @@ export const ORIGINS = [
       "Volcanic soil and consistent climate produce a balanced, approachable cup with classic Central American character.",
     longDescription:
       "Cultivé sur les flancs des volcans entourant la vallée d'Antigua, ce café bénéficie d'un sol volcanique riche en minéraux et d'un microclimat exceptionnel. Le processus washed met en valeur la clarté et la balance de ce terroir unique — des notes de caramel, toffee et agrumes légers pour une tasse équilibrée et accessible, idéale pour découvrir les cafés d'Amérique Centrale.",
-    image: "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=800&q=80&fit=crop",
+    image: clientPhotoAt(3, "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=800&q=80&fit=crop"),
   },
 ];
 
@@ -201,7 +202,7 @@ export const WORKSHOPS = [
     duration: "2h",
     price: "45",
     unit: "pers",
-    image: "https://images.unsplash.com/photo-1516743619420-154b70a65fea?w=800&q=80&fit=crop",
+    image: clientPhotoAt(4, "https://images.unsplash.com/photo-1516743619420-154b70a65fea?w=800&q=80&fit=crop"),
     description:
       "Découvrez les fondamentaux de la dégustation du café — arômes, textures, acidité, amertume — guidé par notre responsable torréfaction.",
     whatYouLearn: [
@@ -219,7 +220,7 @@ export const WORKSHOPS = [
     duration: "3h",
     price: "75",
     unit: "pers",
-    image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80&fit=crop",
+    image: clientPhotoAt(5, "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80&fit=crop"),
     description:
       "Maîtrisez l'extraction espresso et les bases du latte art lors d'une session intensive derrière le comptoir de notre café.",
     whatYouLearn: [
@@ -237,7 +238,7 @@ export const WORKSHOPS = [
     duration: "4h",
     price: "120",
     unit: "pers",
-    image: "https://images.unsplash.com/photo-1606791422814-b32c705e3e2f?w=800&q=80&fit=crop",
+    image: clientPhotoAt(6, "https://images.unsplash.com/photo-1606791422814-b32c705e3e2f?w=800&q=80&fit=crop"),
     description:
       "Plongez dans l'univers de la torréfaction artisanale : de la sélection du café vert jusqu'à la dégustation du lot que vous aurez torréfié.",
     whatYouLearn: [

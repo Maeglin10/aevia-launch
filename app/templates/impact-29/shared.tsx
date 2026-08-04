@@ -1,6 +1,7 @@
 "use client"
 
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 import { useRef, useEffect } from "react"
 import Image from "next/image"
 
@@ -49,7 +50,7 @@ export const projects = [
     stars: "2.1k",
     forks: "210",
     installation: "npm install -g @noctua/core\nnoctua dev --port 4000",
-    img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=500&fit=crop&crop=center",
+    img: clientPhotoAt(6, "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=500&fit=crop&crop=center"),
   },
   {
     name: "argos-cli",
@@ -58,7 +59,7 @@ export const projects = [
     stars: "847",
     forks: "94",
     installation: "npm install -g argos-cli\nargos test ./api/specs --diff",
-    img: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&h=500&fit=crop&crop=center",
+    img: clientPhotoAt(7, "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&h=500&fit=crop&crop=center"),
   },
   {
     name: "vaultkey",
@@ -67,7 +68,7 @@ export const projects = [
     stars: "3.4k",
     forks: "482",
     installation: "cargo install vaultkey-cli\nvaultkey init --vault ~/.vk",
-    img: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&h=500&fit=crop&crop=center",
+    img: clientPhotoAt(8, "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&h=500&fit=crop&crop=center"),
   },
 ]
 
@@ -149,25 +150,25 @@ export const testimonials = [
   {
     name: "Léa Fontaine",
     role: "CTO, Finary",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face",
+    avatar: clientPhotoAt(9, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face"),
     quote: "Raphaël rewrote our transaction reconciliation service in four weeks. P99 dropped from 900ms to 120ms. The codebase he left behind is the cleanest we have — and that's saying something.",
   },
   {
     name: "Yohan Mbeki",
     role: "VP Engineering, Alan",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face",
+    avatar: clientPhotoAt(10, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face"),
     quote: "His performance audit found three systemic query patterns we'd missed for two years. The fix was deployed in one sprint. Worth ten times the fee.",
   },
   {
     name: "Sara Molina",
     role: "Engineering Lead, Pennylane",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face",
+    avatar: clientPhotoAt(11, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face"),
     quote: "Detailed, precise, communicates tradeoffs instead of opinions. He delivered a 25-page architecture RFC on our data layer that we shipped almost verbatim. Rare.",
   },
   {
     name: "Thomas Kühn",
     role: "Principal Engineer, Datadog",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face",
+    avatar: clientPhotoAt(12, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face"),
     quote: "Open source advisory from someone who's actually shipped and maintained large OSS projects. Not just theory. Would work with him again immediately.",
   },
 ]
@@ -193,7 +194,7 @@ export const allProjects = [
     stars: "2.1k",
     forks: "210",
     installation: "npm install -g @noctua/core\nnoctua dev --port 4000",
-    img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=500&fit=crop&crop=center",
+    img: clientPhotoAt(13, "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=500&fit=crop&crop=center"),
     href: "https://github.com",
   },
   {
@@ -205,7 +206,7 @@ export const allProjects = [
     stars: "847",
     forks: "94",
     installation: "npm install -g argos-cli\nargos test ./api/specs --diff",
-    img: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&h=500&fit=crop&crop=center",
+    img: clientPhotoAt(14, "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&h=500&fit=crop&crop=center"),
     href: "https://github.com",
   },
   {
@@ -217,7 +218,7 @@ export const allProjects = [
     stars: "3.4k",
     forks: "482",
     installation: "cargo install vaultkey-cli\nvaultkey init --vault ~/.vk",
-    img: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&h=500&fit=crop&crop=center",
+    img: clientPhotoAt(15, "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&h=500&fit=crop&crop=center"),
     href: "https://github.com",
   },
   {
@@ -229,7 +230,7 @@ export const allProjects = [
     stars: "1.2k",
     forks: "131",
     installation: "cargo install axon-query\naxon analyze --dsn $DATABASE_URL",
-    img: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=800&h=500&fit=crop&crop=center",
+    img: clientPhotoAt(16, "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=800&h=500&fit=crop&crop=center"),
     href: "https://github.com",
   },
   {
@@ -241,7 +242,7 @@ export const allProjects = [
     stars: "590",
     forks: "67",
     installation: "go install github.com/glitchdev/sigline@latest",
-    img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop&crop=center",
+    img: clientPhotoAt(17, "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop&crop=center"),
     href: "https://github.com",
   },
   {
@@ -253,7 +254,7 @@ export const allProjects = [
     stars: "764",
     forks: "88",
     installation: "cargo install krate\nkrate cache --remote s3://my-bucket",
-    img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=500&fit=crop&crop=center",
+    img: clientPhotoAt(18, "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=500&fit=crop&crop=center"),
     href: "https://github.com",
   },
 ]

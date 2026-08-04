@@ -14,6 +14,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -171,6 +172,7 @@ export default function TattooStudioHome() {
 
   fd = session?.formData;
   sessionData = session;
+  memoriserSession(sessionData);
   c = session?.generatedContent;
 
   brand = fd?.brandColor ?? null; // null = keep template's original color

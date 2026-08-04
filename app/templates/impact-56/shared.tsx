@@ -1,4 +1,5 @@
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
@@ -42,7 +43,7 @@ export const FEATURES = [
       "Micro-climat exceptionnel",
       "Rendements naturellement limités"
     ],
-    image: "https://images.unsplash.com/photo-1559131397-f94da358f7ca?w=800&q=80&fit=crop"
+    image: clientPhotoAt(2, "https://images.unsplash.com/photo-1559131397-f94da358f7ca?w=800&q=80&fit=crop")
   },
   {
     id: "vinification",
@@ -55,7 +56,7 @@ export const FEATURES = [
       "Extraction douce et lente",
       "Zéro intrant de synthèse"
     ],
-    image: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&q=80&fit=crop"
+    image: clientPhotoAt(3, "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&q=80&fit=crop")
   },
   {
     id: "elevage",
@@ -68,7 +69,7 @@ export const FEATURES = [
       "Soutirage traditionnel à la bougie",
       "Collage au blanc d'œuf frais"
     ],
-    image: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&q=80&fit=crop"
+    image: clientPhotoAt(4, "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&q=80&fit=crop")
   }
 ];
 
@@ -76,7 +77,7 @@ export const TESTIMONIALS = [
   {
     name: "Jean-Marc Quarin",
     role: "Critique Indépendant",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80",
+    avatar: clientPhotoAt(5, "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80"),
     content: "Le Château Vestige 2026 redéfinit l'élégance de l'appellation. Une texture de velours qui enveloppe un fruit d'une pureté saisissante. Magistral.",
     rating: 5,
     score: "98/100"
@@ -84,7 +85,7 @@ export const TESTIMONIALS = [
   {
     name: "Jancis Robinson",
     role: "Master of Wine",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
+    avatar: clientPhotoAt(6, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80"),
     content: "Un vin d'une aristocratie naturelle. Les tanins sont d'une finesse incomparable, promettant une garde de plusieurs décennies.",
     rating: 5,
     score: "19/20"
@@ -92,7 +93,7 @@ export const TESTIMONIALS = [
   {
     name: "Robert Parker",
     role: "The Wine Advocate",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80",
+    avatar: clientPhotoAt(7, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80"),
     content: "Probablement le plus grand millésime produit par la propriété depuis 1982. La complexité aromatique est vertigineuse.",
     rating: 5,
     score: "99/100"
@@ -100,7 +101,7 @@ export const TESTIMONIALS = [
   {
     name: "Antonio Galloni",
     role: "Vinous",
-    avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80",
+    avatar: clientPhotoAt(8, "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80"),
     content: "L'assemblage est d'une symétrie parfaite. Le Cabernet Sauvignon y dicte sa structure avec une grâce souveraine.",
     rating: 5,
     score: "97/100"
@@ -149,7 +150,7 @@ export const WINES = [
     bouche: "Tanins soyeux et précis, finale longue et minérale",
     service: "17–18°C",
     garde: "20–25 ans et au-delà",
-    image: "https://images.unsplash.com/photo-1559131397-f94da358f7ca?w=800&q=80&fit=crop",
+    image: clientPhotoAt(9, "https://images.unsplash.com/photo-1559131397-f94da358f7ca?w=800&q=80&fit=crop"),
     badge: "Signature"
   },
   {
@@ -166,7 +167,7 @@ export const WINES = [
     bouche: "Souple et gourmand, tanins fondus, belle fraîcheur",
     service: "16–17°C",
     garde: "10–15 ans",
-    image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80&fit=crop",
+    image: clientPhotoAt(10, "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80&fit=crop"),
     badge: null
   },
   {
@@ -183,7 +184,7 @@ export const WINES = [
     bouche: "Vif et élégant, belle tension minérale, finale citronnée",
     service: "10–12°C",
     garde: "5–8 ans",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&fit=crop",
+    image: clientPhotoAt(11, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&fit=crop"),
     badge: null
   },
   {
@@ -200,7 +201,7 @@ export const WINES = [
     bouche: "Livraison sous température dirigée, certificat d'authenticité inclus",
     service: "Voir chaque vin",
     garde: "Voir chaque vin",
-    image: "https://images.unsplash.com/photo-1569919659476-f0852f6834b7?w=800&q=80&fit=crop",
+    image: clientPhotoAt(12, "https://images.unsplash.com/photo-1569919659476-f0852f6834b7?w=800&q=80&fit=crop"),
     badge: "Cadeau"
   }
 ];

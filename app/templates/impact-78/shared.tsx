@@ -1,5 +1,6 @@
 // @ts-nocheck
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -13,7 +14,7 @@ export const BEANS = [
     notes: ["Blueberry", "Bergamot", "Jasmine"],
     roast: "Light",
     process: "Washed",
-    img: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80",
+    img: clientPhotoAt(5, "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80"),
   },
   {
     id: 2,
@@ -22,7 +23,7 @@ export const BEANS = [
     notes: ["Chocolate", "Caramel", "Orange"],
     roast: "Medium",
     process: "Natural",
-    img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+    img: clientPhotoAt(6, "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80"),
   },
   {
     id: 3,
@@ -31,7 +32,7 @@ export const BEANS = [
     notes: ["Earthy", "Spicy", "Tobacco"],
     roast: "Dark",
     process: "Giling Basah",
-    img: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80",
+    img: clientPhotoAt(7, "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80"),
   },
 ];
 

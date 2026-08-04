@@ -1,5 +1,6 @@
 // @ts-nocheck
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -13,7 +14,7 @@ export const PROJECTS = [
     year: "2025",
     type: "Residential",
     area: "850m²",
-    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80",
+    img: clientPhotoAt(9, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80"),
     desc: "A brutalist concrete sanctuary suspended over the valley. Zero-carbon geothermal integration.",
   },
   {
@@ -23,7 +24,7 @@ export const PROJECTS = [
     year: "2024",
     type: "Commercial",
     area: "42,000m²",
-    img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80",
+    img: clientPhotoAt(10, "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80"),
     desc: "Adaptive facade systems that react to solar intensity. Real-time thermal optimization.",
   },
   {
@@ -33,7 +34,7 @@ export const PROJECTS = [
     year: "2026",
     type: "Cultural",
     area: "1,200m²",
-    img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=1200&auto=format&fit=crop",
+    img: clientPhotoAt(11, "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=1200&auto=format&fit=crop"),
     desc: "Subterranean art gallery utilizing natural light diffraction through glass fissures.",
   },
 ];

@@ -18,6 +18,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -207,6 +208,9 @@ export default function SymmetryStudioPage() {
 
 
   sessionData = session;
+
+
+  memoriserSession(sessionData);
   c = session?.generatedContent;
   TEAM_DEMO = TEAM_DEMO_LIVE();
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();

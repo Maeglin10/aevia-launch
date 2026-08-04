@@ -22,6 +22,7 @@ import {
   clientTagline,
   clientTeam,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -2622,6 +2623,7 @@ export default function ArchitectureTemplate() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  memoriserSession(sessionData);
 
   STATS_INLINE = resolveList(
 

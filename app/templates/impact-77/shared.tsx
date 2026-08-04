@@ -1,5 +1,6 @@
 // @ts-nocheck
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -12,7 +13,7 @@ export const WATCHES = [
     collection: "Celestial",
     price: "€14,200",
     movement: "Calibre V8.4",
-    img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80",
+    img: clientPhotoAt(10, "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80"),
     desc: "Titanium chassis with meteorite dial. 72-hour power reserve.",
   },
   {
@@ -21,7 +22,7 @@ export const WATCHES = [
     collection: "Dark Matter",
     price: "€28,500",
     movement: "Quantum Tourbillon",
-    img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=800&q=80",
+    img: clientPhotoAt(11, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=800&q=80"),
     desc: "Forged carbon case. Nanoparticle black finish.",
   },
   {
@@ -30,7 +31,7 @@ export const WATCHES = [
     collection: "Ecliptic",
     price: "€42,000",
     movement: "Eternal Perpetual",
-    img: "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=800&q=80",
+    img: clientPhotoAt(12, "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=800&q=80"),
     desc: "18K White Gold. Moonphase complication with ceramic inlay.",
   },
   {
@@ -39,7 +40,7 @@ export const WATCHES = [
     collection: "Celestial",
     price: "€18,900",
     movement: "Flux Automatic",
-    img: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=80",
+    img: clientPhotoAt(13, "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=80"),
     desc: "Skeletonized movement. Grade 5 titanium components.",
   },
 ];

@@ -34,6 +34,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -799,6 +800,7 @@ export default function Impact33() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  memoriserSession(sessionData);
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
 

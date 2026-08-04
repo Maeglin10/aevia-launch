@@ -1,4 +1,5 @@
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
@@ -9,7 +10,7 @@ export const SERVICES = [
     name: "Architectural Nails",
     tag: "Sculpted & Structured",
     price: "from €85",
-    img: "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1200&q=80",
+    img: clientPhotoAt(4, "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1200&q=80"),
     desc: "A minimalist approach to nail architecture. Focused on structural health and clean aesthetic lines.",
   },
   {
@@ -17,7 +18,7 @@ export const SERVICES = [
     name: "Velvet Lashes",
     tag: "Couture Volume",
     price: "from €120",
-    img: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=1200&q=80",
+    img: clientPhotoAt(5, "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=1200&q=80"),
     desc: "Weightless silk extensions applied with surgical precision for a natural yet profound gaze.",
   },
   {
@@ -25,7 +26,7 @@ export const SERVICES = [
     name: "Pure Facial Ritual",
     tag: "Bio-Active Glow",
     price: "from €145",
-    img: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=1200&q=80",
+    img: clientPhotoAt(6, "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=1200&q=80"),
     desc: "Cellular rejuvenation using botanical extracts and lymphatic drainage techniques.",
   },
   {
@@ -33,7 +34,7 @@ export const SERVICES = [
     name: "Brow Architecture",
     tag: "Lamination & Tint",
     price: "from €65",
-    img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1200&auto=format&fit=crop",
+    img: clientPhotoAt(7, "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1200&auto=format&fit=crop"),
     desc: "Framing the face through geometric mapping and custom pigment blending.",
   },
 ];

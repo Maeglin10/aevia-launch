@@ -4,6 +4,7 @@ import {
   clientName,
   clientTagline,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -331,6 +332,7 @@ export default function GamingTemplatePage() {
 
   fd = session?.formData;
   sessionData = session;
+  memoriserSession(sessionData);
   c = session?.generatedContent;
   bp = session?.businessProfile;
 

@@ -34,6 +34,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -90,6 +91,7 @@ export default function EchoChamberPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  memoriserSession(sessionData);
 
   STATS_INLINE = resolveList(
 

@@ -1,4 +1,5 @@
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
@@ -8,28 +9,28 @@ export const ROOMS = [
   {
     id: 1,
     name: "The Obsidian Atrium",
-    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80",
+    img: clientPhotoAt(4, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80"),
     area: "120m²",
     tech: "LiDAR Scan 4.0",
   },
   {
     id: 2,
     name: "Lumina Gallery",
-    img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1600&q=80",
+    img: clientPhotoAt(5, "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1600&q=80"),
     area: "85m²",
     tech: "Neural Rendering",
   },
   {
     id: 3,
     name: "Skyline Suite",
-    img: "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=1600&q=80",
+    img: clientPhotoAt(6, "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=1600&q=80"),
     area: "65m²",
     tech: "Digital Twin v2",
   },
   {
     id: 4,
     name: "Zenith Lounge",
-    img: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1600&q=80",
+    img: clientPhotoAt(7, "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1600&q=80"),
     area: "45m²",
     tech: "360° Volumetric",
   },

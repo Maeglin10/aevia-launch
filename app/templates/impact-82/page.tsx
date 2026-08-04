@@ -15,6 +15,7 @@ import {
   clientReviews,
   clientTeam,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -96,6 +97,7 @@ export default function BlueprintPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  memoriserSession(sessionData);
   EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
   PROGRAMMES_DEMO = PROGRAMMES_DEMO_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();

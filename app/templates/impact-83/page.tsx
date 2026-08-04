@@ -26,6 +26,7 @@ import {
   clientServices,
   clientTeam,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -76,6 +77,7 @@ export default function Impact83Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  memoriserSession(sessionData);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Product collections ← client's business profile (falls back to demo).

@@ -22,6 +22,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -176,6 +177,7 @@ export default function CabinetMoreauPage() {
 
   fd = session?.formData;
   sessionData = session;
+  memoriserSession(sessionData);
   c = session?.generatedContent;
   HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
 

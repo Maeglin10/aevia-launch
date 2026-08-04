@@ -22,6 +22,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -852,6 +853,8 @@ export default function Home() {
   fd = session?.formData;
 
   sessionData = session;
+
+  memoriserSession(sessionData);
   bp = session?.businessProfile;
   c = session?.generatedContent;
   testimonials_SOURCE = testimonials_SOURCE_LIVE();

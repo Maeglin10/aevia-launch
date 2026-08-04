@@ -28,6 +28,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -149,6 +150,7 @@ export default function Impact53Page() {
 
   fd = session?.formData;
   sessionData = session;
+  memoriserSession(sessionData);
   c = session?.generatedContent;
 
 
