@@ -575,7 +575,7 @@ export default function ImpactFrequencePage() {
         }}
       >
         <span style={{ fontFamily: C.mono, fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2 }}>
-          INDÉPENDANT · FONDÉ EN 2019 · PARIS
+          INDÉPENDANT · FONDÉ EN 2019 · {clientCity(sessionData) ?? "PARIS"}
         </span>
         <span style={{ fontFamily: C.mono, fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2 }}>
           № 047 · Lundi 5 mai 2025 · +15 200 abonnés

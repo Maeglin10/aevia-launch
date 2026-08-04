@@ -292,7 +292,7 @@ return (
           {/* Floating label */}
           <div style={{ position: 'absolute', top: '2rem', right: '3rem' }}>
             <div style={{ fontFamily: "'Syne Mono', monospace", fontSize: '0.6rem', color: C.textDim }}>
-              MOTION DESIGN STUDIO · PARIS
+              MOTION DESIGN STUDIO · {clientCity(sessionData) ?? "PARIS"}
             </div>
           </div>
 

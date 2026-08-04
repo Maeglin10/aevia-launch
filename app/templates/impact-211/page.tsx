@@ -1020,7 +1020,7 @@ export default function Impact211Page() {
                 <line x1="150" y1="30" x2="150" y2="370" stroke={C.gold} strokeWidth="0.3" opacity="0.4" />
                 <path d="M 70 120 Q 150 80 230 120 Q 270 200 230 280 Q 150 320 70 280 Q 30 200 70 120 Z" fill="none" stroke={C.gold} strokeWidth="0.5" />
                 <text x="150" y="205" textAnchor="middle" fill={C.gold} fontSize="12" fontFamily={font.serif} fontStyle="italic" opacity="0.8">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maison Éclat"))}</text>
-                <text x="150" y="222" textAnchor="middle" fill={C.creamMuted} fontSize="7" fontFamily={font.sans} opacity="0.6" letterSpacing="3">PARIS · MMXXVI</text>
+                <text x="150" y="222" textAnchor="middle" fill={C.creamMuted} fontSize="7" fontFamily={font.sans} opacity="0.6" letterSpacing="3">{clientCity(sessionData) ?? "PARIS"} · MMXXVI</text>
               </svg>
 
               {/* Corner decorations */}

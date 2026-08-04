@@ -109,14 +109,17 @@ function HUBS_LIVE() {
 let HUBS = HUBS_LIVE();
 
 // Routes: pairs of hub keys
-const ROUTES: [string, string][] = [
-  ["paris", "rotterdam"],
-  ["paris", "dubai"],
+function ROUTES_LIVE() {
+  return [
+  [(clientCity(sessionData) ?? "Paris"), "rotterdam"],
+  [(clientCity(sessionData) ?? "Paris"), "dubai"],
   ["dubai", "singapore"],
-  ["chicago", "paris"],
+  ["chicago", (clientCity(sessionData) ?? "Paris")],
   ["chicago", "saopaulo"],
   ["singapore", "dubai"],
-]
+];
+}
+let ROUTES = ROUTES_LIVE();
 
 // Simplified world map path data (major continents — rough outlines)
 const CONTINENTS = [
@@ -2327,9 +2330,11 @@ export default function Impact207() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  ROUTES = ROUTES_LIVE();
   HUBS = HUBS_LIVE();
 
   STATS_INLINE = resolveList(

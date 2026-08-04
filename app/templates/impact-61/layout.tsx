@@ -1,5 +1,8 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -153,7 +156,7 @@ export default function SegmentLayout({
               SEGMENT
             </div>
             <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.2em", color: "#444", marginBottom: "1.5rem" }}>
-              ARCHITECTES · PARIS
+              ARCHITECTES · {clientCity(__layoutSession) ?? "PARIS"}
             </div>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.8rem", color: "#666", lineHeight: 1.65, maxWidth: "30ch" }}>
               Architecture pour ceux qui croient que la forme suit le vide autant que la fonction.

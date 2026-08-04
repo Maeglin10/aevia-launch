@@ -715,7 +715,7 @@ function BLOG_POSTS_LIVE() {
     ],
   },
   {
-    slug: "lookbook-biarritz",
+    slug: "lookbook-" + (clientCity(sessionData) ?? "Biarritz"),
     title: "Dans les coulisses du lookbook à " + (clientCity(sessionData) ?? "Biarritz"),
     date: "9 mai 2025",
     category: "Coulisses",

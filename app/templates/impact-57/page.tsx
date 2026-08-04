@@ -784,7 +784,7 @@ function StudioTeaser() {
                 letterSpacing: '0.15em',
               }}
             >
-              PARIS · 2012
+              {clientCity(sessionData) ?? "PARIS"} · 2012
             </div>
           </div>
         </Reveal>
@@ -1038,7 +1038,7 @@ return (
               marginTop: '0.25rem',
             }}
           >
-            EST. 2012 · PARIS
+            EST. 2012 · {clientCity(sessionData) ?? "PARIS"}
           </div>
         </div>
 

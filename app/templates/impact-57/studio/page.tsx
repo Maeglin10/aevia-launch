@@ -1,5 +1,7 @@
 'use client';
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from 'next/link';
@@ -501,7 +503,7 @@ export default function StudioPage() {
                 letterSpacing: '0.15em',
               }}
             >
-              MASK_UNIT · PARIS · 2012
+              MASK_UNIT · {clientCity(sessionData) ?? "PARIS"} · 2012
             </div>
           </Reveal>
         </div>

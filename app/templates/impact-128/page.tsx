@@ -391,7 +391,7 @@ export default function HavenEstatesPage() {
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
           <span>© 2026 HAVEN ESTATES.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
-          <span>NEW YORK · LONDON · PARIS · SINGAPORE</span>
+          <span>NEW YORK · LONDON · {clientCity(sessionData) ?? "PARIS"} · SINGAPORE</span>
         </div>
       </footer>
     </div>

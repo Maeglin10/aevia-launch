@@ -1,5 +1,8 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -107,7 +110,7 @@ export default function MaisonDrouetLayout({
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem", fontWeight: 400, letterSpacing: "0.15em", color: C.text, lineHeight: 1 }}>
             DROUET
           </div>
-          <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.5rem", letterSpacing: "0.3em", color: C.textDim }}>GENÈVE · 1891</div>
+          <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.5rem", letterSpacing: "0.3em", color: C.textDim }}>{clientCity(__layoutSession) ?? "GENÈVE"} · 1891</div>
         </>
             </>))}</Link>
 

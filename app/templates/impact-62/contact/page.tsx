@@ -1,5 +1,7 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { ArrowRight, MapPin, Mail, Phone } from "lucide-react";
@@ -90,7 +92,7 @@ export default function ContactPage() {
             <div className="space-y-8 text-sm font-sans text-[#f5efe0]/50 leading-relaxed">
               <div className="border-l-2 border-[#b8860b]/30 pl-6 space-y-2">
                 <h4 className="font-bold text-white text-xs uppercase tracking-widest flex items-center gap-3">
-                  <MapPin className="w-4 h-4 text-[#b8860b]" /> SATORI PARIS
+                  <MapPin className="w-4 h-4 text-[#b8860b]" /> SATORI {clientCity(sessionData) ?? "PARIS"}
                 </h4>
                 <p>18 Rue Troyon, 75017 {clientCity(sessionData) ?? "Paris"}, France</p>
                 <p>{fd?.email ?? "paris@satori-gastronomy.com"} · +33 1 42 68 90 20</p>
