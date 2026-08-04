@@ -21,6 +21,9 @@ dans le texte de la page.
 | 11 | 337 | ordre des recalculs, mentions légales |
 | 12 | 341 | tarifs, manifestes corrigés |
 | 13 | 348 | la ville d'exemple sur la moitié du catalogue qui ne la nommait pas |
+| 15 | 352 | `bp` déclaré jamais alimenté, calculs sur le tarif |
+| 16 | 357 | l'accroche du client devant le sous-titre rédigé pour lui |
+| 17 | 359 | constantes gelées dans les sous-pages |
 
 ## Ce qui a coûté le plus cher
 
@@ -46,14 +49,18 @@ surveille ça maintenant.
 
 ## Ce qui reste
 
-Vingt-cinq thèmes ont encore un manque, aucun bloquant :
+Quatorze thèmes ont encore un manque, aucun bloquant :
 
-- **13 accroches** — le titre du hero est découpé lettre par lettre ou mot par mot
-  par un composant d'animation. Y injecter une chaîne casserait le thème ; son
-  accroche d'origine reste, tout le reste de la page est au client.
-- **5 avis, 2 auteurs** — listes lues par index plutôt que par `map`.
-- **3 tarifs, 2 prestations, 1 nom** — formes qui ne se ramènent à aucune des
-  règles écrites ; à traiter à la main.
+- **8 accroches** — le titre du hero est découpé lettre par lettre par un
+  composant d'animation, ou dessiné. Y injecter une chaîne casserait le thème ;
+  son accroche d'origine reste et le sous-titre porte celle du client.
+- **impact-14, impact-16, impact-18, impact-21** — leurs prestations, avis ou
+  tarifs vivent sur une vue interne que la mesure ne visite pas. Ces pages-là sont
+  câblées ; c'est le manifeste de la page d'accueil qui les déclarait à tort.
+- **impact-275** — ses avis n'affichent que les initiales de l'auteur, à dessein :
+  c'est un thème de pompes funèbres.
+- **impact-215** — le nom s'affiche, mais pas toujours selon ce que le client
+  remplit par ailleurs. À reprendre.
 
 ## Le test client
 
