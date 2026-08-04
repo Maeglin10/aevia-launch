@@ -156,7 +156,7 @@ const PROJECTS_DEMO = [
 ];
 let PROJECTS = PROJECTS_DEMO;
 
-const SERVICES = [
+const SERVICES_SOURCE = [
   {
     icon: <Palette size={22} />,
     title: "Brand Identity",
@@ -200,6 +200,7 @@ const SERVICES = [
     deliverables: ["Logo animé", "Transitions brand", "Social formats", "Export multi-formats"],
   },
 ];
+let SERVICES = SERVICES_SOURCE;
 
 const PROCESS = [
   {
@@ -627,6 +628,10 @@ export default function Impact130Page() {
   }, []);
 
   fd = session?.formData;
+  SERVICES = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "", price: s.price ?? SERVICES_SOURCE[i % SERVICES_SOURCE.length].price })),
+    SERVICES_SOURCE,
+  );
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,

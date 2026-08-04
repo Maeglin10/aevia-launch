@@ -23,6 +23,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les prestations, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const PRESTATIONS_INLINE_SOURCE = [
+  { title: "Light", body: "Every space is designed from its light source outward. Natural illumination is the primary material — all structure serves it." },
+              { title: "Materiality", body: "Raw concrete, unfinished oak, and oxidized copper. We select materials for their capacity to age with grace and accumulate meaning." },
+              { title: "Void", body: "The absence of form is form. Empty space is designed with the same rigour as occupied volume." }
+];
+let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -186,6 +196,20 @@ export default function SymmetryStudioPage() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_INLINE = resolveList(
+
+    clientServices(session)?.map((s: any, i: number) => ({
+
+      ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
+
+      title: s.title, body: s.desc || "",
+
+    })),
+
+    PRESTATIONS_INLINE_SOURCE,
+
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
     ...row,
@@ -367,11 +391,7 @@ return (
             </blockquote>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16 pt-20 border-t border-black/5">
-            {[
-              { title: "Light", body: "Every space is designed from its light source outward. Natural illumination is the primary material — all structure serves it." },
-              { title: "Materiality", body: "Raw concrete, unfinished oak, and oxidized copper. We select materials for their capacity to age with grace and accumulate meaning." },
-              { title: "Void", body: "The absence of form is form. Empty space is designed with the same rigour as occupied volume." },
-            ].map((item, i) => (
+            {PRESTATIONS_INLINE.map((item, i) => (
               <Reveal key={i} delay={0.15 + i * 0.1}>
                 <div>
                   <div className="w-8 h-[1px] bg-black/20 mb-6" />

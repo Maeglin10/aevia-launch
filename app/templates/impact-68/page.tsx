@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
@@ -20,6 +21,17 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les prestations, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const PRESTATIONS_INLINE_SOURCE = [
+  { num: "01", name: "Solstice Energy", cat: "Brand Identity · Digital", desc: "Complete brand redesign for a €2B clean energy challenger entering 8 European markets.", year: "2025" },
+              { num: "02", name: "Maison Obrecht", cat: "Visual Identity · Packaging", desc: "Heritage repositioning for a 4th-generation Alsatian wine domaine targeting international collectors.", year: "2024" },
+              { num: "03", name: "FORM Studio", cat: "Website · Art Direction", desc: "Digital experience for the Brutalist architecture studio behind the Prix d'Architecture 2024 laureate.", year: "2024" },
+              { num: "04", name: "Kova Athletics", cat: "Brand System · Campaign", desc: "Full brand system and launch campaign for a DTC athletic brand hitting €1.2M GMV in month one.", year: "2023" }
+];
+let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -51,6 +63,20 @@ export default function OrbitHomePage() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_INLINE = resolveList(
+
+    clientServices(session)?.map((s: any, i: number) => ({
+
+      ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
+
+      name: s.title, desc: s.desc || "",
+
+    })),
+
+    PRESTATIONS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -339,12 +365,7 @@ return (
             </h2>
           </motion.div>
           <div style={{ display: "flex", flexDirection: "column", gap: "1px", background: C.border }}>
-            {[
-              { num: "01", name: "Solstice Energy", cat: "Brand Identity · Digital", desc: "Complete brand redesign for a €2B clean energy challenger entering 8 European markets.", year: "2025" },
-              { num: "02", name: "Maison Obrecht", cat: "Visual Identity · Packaging", desc: "Heritage repositioning for a 4th-generation Alsatian wine domaine targeting international collectors.", year: "2024" },
-              { num: "03", name: "FORM Studio", cat: "Website · Art Direction", desc: "Digital experience for the Brutalist architecture studio behind the Prix d'Architecture 2024 laureate.", year: "2024" },
-              { num: "04", name: "Kova Athletics", cat: "Brand System · Campaign", desc: "Full brand system and launch campaign for a DTC athletic brand hitting €1.2M GMV in month one.", year: "2023" },
-            ].map((w, i) => (
+            {PRESTATIONS_INLINE.map((w, i) => (
               <motion.div key={w.num} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07, duration: 0.5 }}>
                 <div
                   style={{ background: C.bgAlt, padding: "2.5rem", display: "grid", gridTemplateColumns: "64px 1fr 160px 80px", gap: "2rem", alignItems: "center", cursor: "pointer", transition: "background 0.2s" }}

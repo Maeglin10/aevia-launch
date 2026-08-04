@@ -1,5 +1,6 @@
 
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -19,6 +20,17 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les prestations, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const PRESTATIONS_INLINE_SOURCE = [
+  { icon: <Globe className="w-5 h-5" />, label: "€500K investment", desc: "No strings, no advisor shares, no board seat required." },
+                      { icon: <Users className="w-5 h-5" />, label: "120+ mentor network", desc: "Access to operators who've built $100M+ companies." },
+                      { icon: <TrendingUp className="w-5 h-5" />, label: "Investor warm intros", desc: "200+ VCs and angels at Demo Day. Warm intros to the right ones." },
+                      { icon: <Clock className="w-5 h-5" />, label: "Lifetime alumni access", desc: "Perks, events, and co-founder matching — forever." }
+];
+let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -108,6 +120,20 @@ export default function Impact24() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_INLINE = resolveList(
+
+    clientServices(session)?.map((s: any, i: number) => ({
+
+      ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
+
+      label: s.title, desc: s.desc || "",
+
+    })),
+
+    PRESTATIONS_INLINE_SOURCE,
+
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -403,12 +429,7 @@ return (
                     We built Zero to One because we know what founders actually need. Not just money — but the right introductions, the hard feedback, and the community that keeps you going.
                   </>}</p>
                   <div className="space-y-4">
-                    {[
-                      { icon: <Globe className="w-5 h-5" />, label: "€500K investment", desc: "No strings, no advisor shares, no board seat required." },
-                      { icon: <Users className="w-5 h-5" />, label: "120+ mentor network", desc: "Access to operators who've built $100M+ companies." },
-                      { icon: <TrendingUp className="w-5 h-5" />, label: "Investor warm intros", desc: "200+ VCs and angels at Demo Day. Warm intros to the right ones." },
-                      { icon: <Clock className="w-5 h-5" />, label: "Lifetime alumni access", desc: "Perks, events, and co-founder matching — forever." },
-                    ].map(({ icon, label, desc }) => (
+                    {PRESTATIONS_INLINE.map(({ icon, label, desc }) => (
                       <div key={label} className="flex items-start gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors cursor-default">
                         <div className="w-10 h-10 bg-[var(--brand,#A3E635)]/10 text-[var(--brand,#A3E635)] rounded-xl flex items-center justify-center shrink-0">
                           {icon}

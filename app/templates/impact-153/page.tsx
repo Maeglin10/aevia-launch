@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
@@ -73,7 +74,7 @@ let C: Record<string, string> = {
    EXPEDITION DATA
    ========================================================================== */
 
-const EXPEDITIONS = [
+const EXPEDITIONS_SOURCE = [
   {
     id:          "k2",
     name:        "K2 North Face",
@@ -123,6 +124,7 @@ const EXPEDITIONS = [
     description: "The gateway to the Eight-Thousanders. High-altitude acclimatisation above 5,500m with exposed ridge traverses and violent Viento Blanco winds.",
   },
 ]
+let EXPEDITIONS = EXPEDITIONS_SOURCE;
 
 /* ==========================================================================
    GEAR DATA
@@ -2298,6 +2300,10 @@ export default function ExpeditionTemplatePage() {
   }, []);
 
   fd = session?.formData;
+  EXPEDITIONS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...EXPEDITIONS_SOURCE[i % EXPEDITIONS_SOURCE.length], name: s.title, description: s.desc || "" || "", price: s.price ?? EXPEDITIONS_SOURCE[i % EXPEDITIONS_SOURCE.length].price })),
+    EXPEDITIONS_SOURCE,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

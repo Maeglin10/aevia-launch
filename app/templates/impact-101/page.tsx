@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import {
@@ -27,6 +28,28 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les prestations, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const PRESTATIONS_INLINE_SOURCE = [
+  {
+                    title: "Sub-Second Indexing",
+                    desc: "Data indexed and available via API in less than 200ms from block finality.",
+                    icon: <Activity className="w-5 h-5" />,
+                  },
+                  {
+                    title: "ZK-Proof Verification",
+                    desc: "Integrated circuits for ultra-fast zero-knowledge proof generation and validation.",
+                    icon: <Lock className="w-5 h-5" />,
+                  },
+                  {
+                    title: "Multi-Chain Mesh",
+                    desc: "Seamless indexed data across 40+ L1 and L2 networks via a single unified API.",
+                    icon: <Layers className="w-5 h-5" />,
+                  }
+];
+let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -178,6 +201,20 @@ export default function BlockBasePage() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_INLINE = resolveList(
+
+    clientServices(session)?.map((s: any, i: number) => ({
+
+      ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
+
+      title: s.title, desc: s.desc || "",
+
+    })),
+
+    PRESTATIONS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -466,23 +503,7 @@ export default function BlockBasePage() {
                 <span className="text-white/20">Validation.</span>
               </h2>
               <div className="space-y-12">
-                {[
-                  {
-                    title: "Sub-Second Indexing",
-                    desc: "Data indexed and available via API in less than 200ms from block finality.",
-                    icon: <Activity className="w-5 h-5" />,
-                  },
-                  {
-                    title: "ZK-Proof Verification",
-                    desc: "Integrated circuits for ultra-fast zero-knowledge proof generation and validation.",
-                    icon: <Lock className="w-5 h-5" />,
-                  },
-                  {
-                    title: "Multi-Chain Mesh",
-                    desc: "Seamless indexed data across 40+ L1 and L2 networks via a single unified API.",
-                    icon: <Layers className="w-5 h-5" />,
-                  },
-                ].map((item, i) => (
+                {PRESTATIONS_INLINE.map((item, i) => (
                   <div key={i} className="flex gap-8 group">
                     <div className="w-12 h-12 bg-white/5 border border-white/5 flex items-center justify-center text-white/20 group-hover:text-[var(--brand,#00f2ff)] transition-colors">
                       {item.icon}

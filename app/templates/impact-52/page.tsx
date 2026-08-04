@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef } from "react";
@@ -25,6 +26,19 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les prestations, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const PRESTATIONS_INLINE_SOURCE = [
+  { code: "01", title: "Design Systems", color: C.CYAN, desc: "Token-based, component-first systems engineered to scale across 100+ screens without losing coherence. Zero-drift guarantees." },
+              { code: "02", title: "Creative Direction", color: C.PINK, desc: "Brand DNA distilled into visual language. We set the aesthetic laws so your teams never have to guess what 'on-brand' means." },
+              { code: "03", title: "Motion & Film", color: C.PURPLE, desc: "Identity animation, brand films, scroll-driven experiences. We direct, produce, and deliver in WebGL, Lottie, or Cinema 4D." },
+              { code: "04", title: "WebGL Environments", color: C.CYAN, desc: "Three.js and WebGL scenes that turn product pages into immersive brand moments. 60fps on any device, any browser." },
+              { code: "05", title: "Brand Architecture", color: C.PINK, desc: "Multi-brand hierarchies, naming systems, and sub-brand structures built for scale without cannibalization." },
+              { code: "06", title: "AI Creative", color: C.PURPLE, desc: "LoRA fine-tuning, diffusion pipelines, and AI-assisted workflows integrated into your production stack." }
+];
+let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -56,6 +70,20 @@ export default function Impact52Page() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_INLINE = resolveList(
+
+    clientServices(session)?.map((s: any, i: number) => ({
+
+      ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
+
+      title: s.title, desc: s.desc || "",
+
+    })),
+
+    PRESTATIONS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -404,14 +432,7 @@ export default function Impact52Page() {
               background: `${C.CYAN}12`,
             }}
           >
-            {[
-              { code: "01", title: "Design Systems", color: C.CYAN, desc: "Token-based, component-first systems engineered to scale across 100+ screens without losing coherence. Zero-drift guarantees." },
-              { code: "02", title: "Creative Direction", color: C.PINK, desc: "Brand DNA distilled into visual language. We set the aesthetic laws so your teams never have to guess what 'on-brand' means." },
-              { code: "03", title: "Motion & Film", color: C.PURPLE, desc: "Identity animation, brand films, scroll-driven experiences. We direct, produce, and deliver in WebGL, Lottie, or Cinema 4D." },
-              { code: "04", title: "WebGL Environments", color: C.CYAN, desc: "Three.js and WebGL scenes that turn product pages into immersive brand moments. 60fps on any device, any browser." },
-              { code: "05", title: "Brand Architecture", color: C.PINK, desc: "Multi-brand hierarchies, naming systems, and sub-brand structures built for scale without cannibalization." },
-              { code: "06", title: "AI Creative", color: C.PURPLE, desc: "LoRA fine-tuning, diffusion pipelines, and AI-assisted workflows integrated into your production stack." },
-            ].map((s) => (
+            {PRESTATIONS_INLINE.map((s) => (
               <Reveal key={s.code}>
                 <div
                   style={{

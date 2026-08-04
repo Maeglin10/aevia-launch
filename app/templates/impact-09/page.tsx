@@ -1,5 +1,6 @@
 
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -54,7 +55,7 @@ let brand: any = null;
    ASTRUM REACH ORBITAL DATASET (ULTRA DENSITY)
    ========================================================================== */
 
-const MISSIONS_DEMO = [
+const MISSIONS_DEMO_SOURCE = [
   {
     id: "mis-lh-01",
     name: "Lunar Descent",
@@ -89,6 +90,7 @@ const MISSIONS_DEMO = [
     color: "#f43f5e"
   }
 ]
+let MISSIONS_DEMO = MISSIONS_DEMO_SOURCE;
 let MISSIONS = MISSIONS_DEMO;
 
 const CRAFT_SPECS = [
@@ -233,6 +235,10 @@ export default function AstrumReachPremium() {
   }, []);
 
   fd = session?.formData;
+  MISSIONS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...MISSIONS_DEMO_SOURCE[i % MISSIONS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
+    MISSIONS_DEMO_SOURCE,
+  );
   MISSIONS = MISSIONS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

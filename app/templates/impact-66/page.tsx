@@ -23,6 +23,17 @@ import {
 // Global state variables for subpage compatibility
 let fd: any = null;
 
+// Les prestations, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const PRESTATIONS_INLINE_SOURCE = [
+  { title: "Consultation", desc: "Mapping facial geometry and identifying skin bio-types.", icon: <Search className="w-5 h-5" /> },
+                    { title: "Preparation", desc: "Deep thermal cleansing using ozonated steam.", icon: <Droplets className="w-5 h-5" /> },
+                    { title: "Infusion", desc: "Active serum delivery through micro-current technology.", icon: <Zap className="w-5 h-5" /> },
+                    { title: "Regeneration", desc: "Cold-pressed botanical mask for immediate recovery.", icon: <Flower2 className="w-5 h-5" /> }
+];
+let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
+
+
 // Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
 // saisir, le thème ne les lisait pas.
 const STATS_INLINE_SOURCE = [
@@ -69,6 +80,20 @@ export default function AtelierBeautePage() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_INLINE = resolveList(
+
+    clientServices(session)?.map((s: any, i: number) => ({
+
+      ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
+
+      title: s.title, desc: s.desc || "",
+
+    })),
+
+    PRESTATIONS_INLINE_SOURCE,
+
+  );
 
   STATS_INLINE = resolveList(
 
@@ -254,12 +279,7 @@ return (
                 </p>
 
                 <div className="space-y-8">
-                  {[
-                    { title: "Consultation", desc: "Mapping facial geometry and identifying skin bio-types.", icon: <Search className="w-5 h-5" /> },
-                    { title: "Preparation", desc: "Deep thermal cleansing using ozonated steam.", icon: <Droplets className="w-5 h-5" /> },
-                    { title: "Infusion", desc: "Active serum delivery through micro-current technology.", icon: <Zap className="w-5 h-5" /> },
-                    { title: "Regeneration", desc: "Cold-pressed botanical mask for immediate recovery.", icon: <Flower2 className="w-5 h-5" /> }
-                  ].map((item, i) => (
+                  {PRESTATIONS_INLINE.map((item, i) => (
                     <div
                       key={i}
                       className="group flex gap-8 items-start border-l border-black/[0.05] pl-8 hover:border-[var(--brand,#c9b7a1)] transition-all"

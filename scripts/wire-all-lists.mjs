@@ -153,9 +153,31 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
       du client dans la mauvaise couche.
     */
     if (/\{[^{}]*\[/.test(corps)) continue;
-    const premiere = /\{([^{}]{0,400})\}/.exec(corps);
-    if (!premiere) continue;
-    const cles = [...premiere[1].matchAll(/["']?(\w+)["']?\s*:/g)].map((x) => x[1].toLowerCase());
+    /*
+      La première ligne, accolades imbriquées comprises. Une ligne contenant
+      « icon: <Monitor size={28} /> » se terminait à l'accolade de size, et seul
+      « icon » était vu — d'où des listes de prestations jugées sans forme.
+    */
+    const oq = corps.indexOf("{");
+    if (oq === -1) continue;
+    let prof = 0;
+    let fq = -1;
+    for (let k = oq; k < corps.length; k++) {
+      if (corps[k] === "{") prof++;
+      else if (corps[k] === "}") {
+        prof--;
+        if (prof === 0) {
+          fq = k;
+          break;
+        }
+      }
+    }
+    if (fq === -1) continue;
+    const ligne = corps.slice(oq + 1, fq);
+    // Ne garder que les clés du premier niveau : celles d'un attribut JSX
+    // imbriqué ne décrivent pas la ligne.
+    const sansImbrique = ligne.replace(/<[^>]*>/g, "").replace(/\{[^{}]*\}/g, "");
+    const cles = [...sansImbrique.matchAll(/["']?(\w+)["']?\s*:/g)].map((x) => x[1].toLowerCase());
     if ((corps.match(/\{/g) || []).length < 2) continue;
 
     // hooks dans le map de cette liste ?
