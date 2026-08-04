@@ -264,11 +264,14 @@ const TESTIMONIALS_SOURCE = [
 ];
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
-const PLANS_SOURCE = [
+function PLANS_SOURCE_LIVE() {
+  return /* TARIFS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   { name: "Essentiel", price: "49", unit: "/passage", features: ["2h de ménage", "Cuisine & sanitaires", "Aspiration & lavage sols", "Produits fournis"], popular: false },
   { name: "Confort", price: "89", unit: "/passage", features: ["3h30 de ménage", "Toutes pièces", "Repassage inclus (10 pièces)", "Vitres intérieures", "Produits éco fournis"], popular: true },
   { name: "Premium", price: "149", unit: "/passage", features: ["5h de ménage complet", "Toutes pièces + rangement", "Repassage illimité", "Vitres int. & ext.", "Nettoyage frigo/four", "Intervenante attitrée"], popular: false },
-];
+]);
+}
+let PLANS_SOURCE = PLANS_SOURCE_LIVE();;
 let PLANS = PLANS_SOURCE;
 
 export default function Page() {
@@ -300,6 +303,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  PLANS_SOURCE = PLANS_SOURCE_LIVE();
   PLANS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
     PLANS_SOURCE,

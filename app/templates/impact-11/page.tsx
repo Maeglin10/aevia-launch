@@ -90,11 +90,14 @@ const instructors = [
   { name: "Théo Bernardin", specialty: "Développement Web", courses: 15, students: "61k", rating: 4.9 },
 ];
 
-const plans = [
+function plans_LIVE() {
+  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   { name: "Starter", price: "29", period: "mois", features: ["50 cours inclus", "Projets pratiques", "Forum communauté", "Certificat de suivi"], cta: "Commencer", highlight: false },
   { name: "Pro", price: "79", period: "mois", features: ["Tous les cours", "Mentoring mensuel", "Projets guidés", "Certificats officiels", "Support prioritaire"], cta: "Essai 7 jours gratuit", highlight: true },
   { name: "Équipe", price: "199", period: "mois", features: ["10 sièges inclus", "Dashboard équipe", "Rapports de progression", "Onboarding dédié", "Formateur attitré"], cta: "Contacter l'équipe", highlight: false },
-];
+]);
+}
+let plans = plans_LIVE();;
 
 
 export default function EduPathPage() {
@@ -125,6 +128,8 @@ export default function EduPathPage() {
   }, []);
 
   fd = session?.formData;
+
+  plans = plans_LIVE();
 
   courses = courses_LIVE();
 

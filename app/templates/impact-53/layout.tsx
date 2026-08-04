@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -96,7 +97,7 @@ export default function Impact53Layout({
             />
           ) : (
             <>
-          MESH<span style={{ color: C.red }}>·</span>WARP
+          {/* NOM_LOGO */ clientName(__layoutSession) ?? "MESH"}<span style={{ color: C.red }}>·</span>WARP
         </>
           )}</Link>
 

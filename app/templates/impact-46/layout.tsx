@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -89,7 +90,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <><div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <><div style={{ display: "flex", alignItems: "center", gap: 14 }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               <div style={{ width: 36, height: 36, border: `1.5px solid ${C.accent}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Scale size={18} color={C.accent} />
               </div>
@@ -97,7 +98,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                 <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white, letterSpacing: "0.04em" }}>Dumont & Associés</div>
                 <div style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 10, color: C.accent, letterSpacing: "0.16em", textTransform: "uppercase" as const }}>Avocats au Barreau de Paris</div>
               </div>
-            </div></>
+            </>)}</div></>
             )}
           </Link>
 

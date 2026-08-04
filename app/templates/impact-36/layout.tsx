@@ -1,3 +1,4 @@
+import { clientName } from "@/lib/templates/clientContent";
 "use client"
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -105,9 +106,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 fontSize: 20,
                 color: C.white,
               }}
-            >
+            >{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               Apex Talent
-            </span>
+            </>)}</span>
           </>
           )}</Link>
 

@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -128,7 +129,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
               </div>
               <div>
                 <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.accent, letterSpacing: "0.02em" }}>Pétales & Co</div>
-                <div style={{ fontFamily: "'Poppins', system-ui", fontSize: 10, color: C.sage, letterSpacing: "0.18em", textTransform: "uppercase" as const }}>Artisan Florist</div>
+                <div style={{ fontFamily: "'Poppins', system-ui", fontSize: 10, color: C.sage, letterSpacing: "0.18em", textTransform: "uppercase" as const }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? "Artisan Florist"}</div>
               </div>
             </div></>
             )}

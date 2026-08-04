@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -70,9 +71,9 @@ export default function Impact49Layout({
             <div className="w-8 h-8 rounded-lg bg-[#6366F1] flex items-center justify-center">
               <BookOpen className="w-4 h-4 text-white" />
             </div>
-            <span className="text-lg font-extrabold text-[#1E1B4B]">
+            <span className="text-lg font-extrabold text-[#1E1B4B]">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               SKILLBRIDGE
-            </span>
+            </>)}</span>
           </>
           )}</Link>
 

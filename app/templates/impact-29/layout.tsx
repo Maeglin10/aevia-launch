@@ -1,3 +1,4 @@
+import { clientName } from "@/lib/templates/clientContent";
 "use client"
 
 import { useScroll, motion, AnimatePresence } from "framer-motion"
@@ -41,13 +42,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : (
+          ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
+              <span className="font-bold text-[#00F5D4]">{clientName(__layoutSession)}</span>
+            ) : (<>
             <>
             <Terminal className="w-5 h-5 text-[#00F5D4]" />
             <span className="font-bold text-[#00F5D4]">glitch</span>
             <span className="text-[#475569]">.dev</span>
           </>
-          )}</Link>
+          </>))}</Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-[#475569]">
             <Link href="/templates/impact-29/work" className={`hover:text-[#00F5D4] transition-colors cursor-pointer ${isActive('/templates/impact-29/work') ? 'text-[#00F5D4]' : ''}`}>
               <span className="text-[#00F5D4]">// </span>work

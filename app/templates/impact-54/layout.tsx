@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -112,9 +113,9 @@ export default function Impact54Layout({
               color: "#e8e8ff",
               letterSpacing: "-0.02em",
             }}
-          >
+          >{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
             ARTGEN
-          </span>
+          </>)}</span>
         </>
           )}</Link>
 

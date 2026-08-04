@@ -23,6 +23,11 @@ import path from "node:path";
 
 const ROOT = path.join(process.cwd(), "app/templates");
 const dry = process.argv.includes("--dry");
+// Beaucoup de thèmes rendent leur en-tête et leur pied dans un `layout.tsx` à
+// eux, jamais touché par les passes précédentes : soixante-deux fichiers, dont
+// cinquante-trois avec un bloc de marque. C'est là que se lit le nom sur ces
+// thèmes-là, et la page ne le montre alors nulle part.
+const FICHIER = process.argv.includes("--layout") ? "layout.tsx" : "page.tsx";
 const ids = process.argv.slice(2).filter((a) => a.startsWith("impact-"));
 if (ids.length === 0) {
   console.error("usage: node scripts/wire-logo-fallback.mjs impact-02 [...] [--dry]");
@@ -45,13 +50,17 @@ let faits = 0;
 const restants = [];
 
 for (const id of ids) {
-  const file = path.join(ROOT, id, "page.tsx");
+  const file = path.join(ROOT, id, FICHIER);
   if (!fs.existsSync(file)) { restants.push(`${id} (absent)`); continue; }
   let src = fs.readFileSync(file, "utf8");
   if (src.includes("/* NOM_LOGO */")) { restants.push(`${id} (déjà)`); continue; }
 
   const decl = /\blet (?:fd|sessionData): any = null;/.exec(src);
-  const arg = /sessionData = session;/.test(src) ? "sessionData" : "{ formData: fd }";
+  const arg = /__layoutSession/.test(src)
+    ? "__layoutSession"
+    : /sessionData = session;/.test(src)
+      ? "sessionData"
+      : "{ formData: fd }";
 
   // Le repli du logo : la branche « : ( … ) » du ternaire sur logoBase64.
   const t = /fd\?\.logo(?:Base64|Url)\s*\?/.exec(src);
@@ -71,7 +80,11 @@ for (const id of ids) {
   // marque — pas forcément le plus extérieur. Beaucoup d'en-têtes posent un
   // pictogramme (un cercle en CSS, un svg) à côté du mot : remplacer le conteneur
   // ferait disparaître le dessin, remplacer le mot le garde.
-  const DESSIN = /<svg\b|<img\b|border-?[Rr]adius|borderRadius|width:\s*\d|height:\s*\d/;
+  // Seuls un svg et une image interdisent de céder la place : un cercle dessiné
+  // en CSS ne porte aucun texte, il ne sera donc jamais l'élément choisi — la
+  // règle du texte entier s'en charge. Les rejeter sur leur style écartait aussi
+  // les en-têtes « pictogramme + nom », les plus courantes.
+  const DESSIN = /<svg\b|<img\b/;
   const noeuds = [];
   {
     const pile = [];
@@ -121,7 +134,7 @@ for (const id of ids) {
       return texte(sous).length >= 2 && !DESSIN.test(sous) && !DESSIN.test(nd.attrs);
     })
     .sort((a, b) => a.prof - b.prof || (b.finEnfants - b.debEnfants) - (a.finEnfants - a.debEnfants));
-  if (bons.length === 0) { restants.push(`${id} (aucun texte de marque)`); continue; }
+
 
   // Le nom ne prend la place du texte de marque que s'il n'en laisse rien
   // d'inline dehors : une en-tête « Vulcan · Motor Group Modena » coupée en deux
@@ -140,28 +153,51 @@ for (const id of ids) {
     .replace(/\s+/g, " ")
     .trim();
   const toutEspace = espace(repli);
-  const cible = bons.find(
+  const cible = bons.length === 0 ? null : (bons.find(
     (nd) => texte(repli.slice(nd.debEnfants, nd.finEnfants)) === texte(repli),
-  ) ?? null;
+  ) ?? null);
   // Quand le repli est un fragment de plusieurs éléments frères — « Vulcan » puis
   // « Motor Group Modena » — aucun élément ne porte le texte entier. Le nom du
   // client prend alors la place du fragment, dans la typographie du premier
   // frère : la seconde ligne décrit l'entreprise de démonstration, pas la sienne.
   let fragment = null;
-  if (!cible) {
+  if (!cible && bons.length > 0) {
     const racines = noeuds.filter((nd) => nd.prof === 0);
     const premier = racines.sort((a, b) => a.debEnfants - b.debEnfants)[0];
     if (racines.length >= 2 && premier && !DESSIN.test(premier.attrs)) fragment = premier;
   }
-  if (!cible && !fragment) { restants.push(`${id} (marque en plusieurs morceaux)`); continue; }
+  // Dernier cas : la marque n'est pas dans un élément à elle mais posée en clair
+  // à côté d'un pictogramme — `<div><svg …/>Rostova Studio</div>`. C'est alors le
+  // texte lui-même qu'on remplace, ce qui laisse le dessin en place.
+  let texteNu = null;
+  if (!cible && !fragment) {
+    let meilleur = null;
+    const re = /(^|>)([^<>{}]+)(?=<|\{|$)/g;
+    let mm;
+    while ((mm = re.exec(repli))) {
+      const brut = mm[2];
+      if (brut.replace(/[\s·—–|/,.-]/g, "").length < 3) continue;
+      if (!meilleur || brut.trim().length > meilleur.brut.trim().length) {
+        meilleur = { brut, deb: mm.index + mm[1].length };
+      }
+    }
+    if (meilleur) texteNu = meilleur;
+  }
+  if (!cible && !fragment && !texteNu) { restants.push(`${id} (marque en plusieurs morceaux)`); continue; }
   // Un repli déjà branché sur l'accroche n'est pas un bloc de marque.
   if (/heroHeadline|clientTagline/.test(repli)) { restants.push(`${id} (repli déjà câblé ailleurs)`); continue; }
-  const tag = cible ? cible.tag : fragment.tag;
+  const tag = cible ? cible.tag : fragment ? fragment.tag : "texte";
   const marque = cible ? repli.slice(cible.debEnfants, cible.finEnfants) : "";
 
   const nom = `clientName(${arg})`;
   let remplace;
-  if (cible) {
+  if (texteNu) {
+    const avant = repli.slice(0, texteNu.deb);
+    const apres = repli.slice(texteNu.deb + texteNu.brut.length);
+    const garde = texteNu.brut.trim().replace(/"/g, "&quot;");
+    const [g, d] = [texteNu.brut.match(/^\s*/)[0], texteNu.brut.match(/\s*$/)[0]];
+    remplace = `${avant}${g}{/* NOM_LOGO */ ${nom} ?? "${garde}"}${d}${apres}`;
+  } else if (cible) {
     const remp = `{/* NOM_LOGO */ ${nom} ?? (<>${marque}</>)}`;
     remplace = repli.slice(0, cible.debEnfants) + remp + repli.slice(cible.finEnfants);
   } else {
@@ -196,7 +232,7 @@ for (const id of ids) {
 
   if (!dry) fs.writeFileSync(file, src);
   faits++;
-  console.log(`${id}  ${tag} « ${marque.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 40)} »`);
+  console.log(`${id}  ${tag} « ${(texteNu ? texteNu.brut : marque).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 40)} »`);
 }
 
 console.log(`\n${dry ? "[à blanc] " : ""}${faits} thème(s) câblé(s)`);

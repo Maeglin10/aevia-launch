@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -115,7 +116,9 @@ export default function AureliusHeritageLayout({
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : (
+          ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
+              <span style={{ fontFamily: FONT_HEADING, fontSize: 22, fontWeight: 300, color: C.accent, letterSpacing: "0.12em" }}>{clientName(__layoutSession)}</span>
+            ) : (<>
             <>
           <span style={{ fontFamily: FONT_HEADING, fontSize: 22, fontWeight: 300, color: C.accent, letterSpacing: "0.12em" }}>
             AURELIUS
@@ -124,7 +127,7 @@ export default function AureliusHeritageLayout({
             Heritage · Est. 1887
           </span>
             </>
-          )}
+          </>))}
         </Link>
 
         <div id="mb83-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {links.map((link) => {

@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -76,7 +77,9 @@ export default function SatoriLayout({
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : (
+          ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
+              <span className="text-[10px] md:text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8860b] mb-1">{clientName(__layoutSession)}</span>
+            ) : (<>
             <>
             <span className="text-[10px] md:text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8860b] mb-1">
               Restaurant
@@ -85,7 +88,7 @@ export default function SatoriLayout({
               SATORI
             </span>
           </>
-          )}</Link>
+          </>))}</Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-[#f5efe0]/30">
             {navLinks.map((link) => (

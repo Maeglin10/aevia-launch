@@ -65,12 +65,15 @@ const NAV = [
   { l: "Tarifs", h: "#tarifs" },
   { l: "Contact", h: "#contact" },
 ];
-const OFFRES = [
+function OFFRES_LIVE() {
+  return /* TARIFS */ resolveList(clientServices({ formData: fd })?.map((s: any) => ({ n: s.title, ...(s.price ? { p: s.price } : {}) })), [
   { n: "Site vitrine", p: "à partir de 2 400 €", d: "Cinq à huit pages, rédaction comprise, mise en ligne et formation à la prise en main. Livré en 4 semaines." },
   { n: "E-commerce", p: "à partir de 6 800 €", d: "Catalogue, paiement, transporteurs, e-mails transactionnels. Migration d'un catalogue existant possible." },
   { n: "Refonte", p: "sur devis", d: "Audit d'abord : trafic, positions, conversion. On ne refait que ce qui coûte de l'argent aujourd'hui." },
   { n: "Accompagnement mensuel", p: "590 € / mois", d: "Corrections, contenus, suivi des positions, rapport mensuel commenté. Sans engagement de durée." },
-];
+]);
+}
+let OFFRES = OFFRES_LIVE();;
 
 const SERVICES_SOURCE = [
   { titre: "Sites web & landing pages", desc: "Conception et développement de sites vitrines, e-commerce et landing pages haute conversion. Next.js, Webflow ou sur mesure selon vos besoins.", tag: "Web" },
@@ -148,6 +151,8 @@ export default function PixelRepublicPage() {
   }, []);
 
   fd = session?.formData;
+
+  OFFRES = OFFRES_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

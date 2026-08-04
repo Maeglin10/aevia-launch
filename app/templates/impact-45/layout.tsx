@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -62,12 +63,12 @@ export default function TattooStudioLayout({ children }: { children: React.React
             />
           ) : (
             <>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               <div style={{ width: 32, height: 32, background: C.accent, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <span style={{ color: C.white, fontSize: 16, fontFamily: "'Cinzel', serif", fontWeight: 700 }}>N</span>
               </div>
               <span style={{ fontFamily: "'Cinzel', serif", fontSize: 18, fontWeight: 700, color: C.white, letterSpacing: "0.12em" }}>NOIR INK</span>
-            </div>
+            </>)}</div>
           </>
           )}</Link>
 

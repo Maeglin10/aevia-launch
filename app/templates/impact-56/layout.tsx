@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -59,14 +60,16 @@ export default function ChateauVestigeLayout({
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : (
+          ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
+              <span className="text-2xl font-serif tracking-[0.2em] uppercase text-[#2D1B0E]">{clientName(__layoutSession)}</span>
+            ) : (<>
             <>
             <span className="text-2xl font-serif tracking-[0.2em] uppercase text-[#2D1B0E]">
               Château Vestige
             </span>
             <span className="text-[10px] tracking-widest uppercase text-zinc-500 mt-1 font-sans">Margaux</span>
           </>
-          )}</Link>
+          </>))}</Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-10">

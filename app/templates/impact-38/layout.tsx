@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -66,9 +67,9 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
             <div style={{ width: 32, height: 32, background: C.caramel, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Coffee size={16} color={C.espresso} />
             </div>
-            <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 20, color: C.cream }}>
+            <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 20, color: C.cream }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               Origin Roast
-            </span>
+            </>)}</span>
               </>
             )}
           </Link>

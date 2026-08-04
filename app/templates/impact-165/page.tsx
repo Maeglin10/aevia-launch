@@ -95,7 +95,8 @@ const FEATURES_SOURCE = [
 ]
 let FEATURES = FEATURES_SOURCE;
 
-const PRICING_SOURCE = [
+function PRICING_SOURCE_LIVE() {
+  return /* TARIFS */ resolveList(clientServices({ formData: fd })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   {
     name: "Starter",
     price: "0",
@@ -120,7 +121,9 @@ const PRICING_SOURCE = [
     cta: "Contacter les ventes",
     highlight: false,
   },
-]
+]);
+}
+let PRICING_SOURCE = PRICING_SOURCE_LIVE();
 let PRICING = PRICING_SOURCE;
 
 const TESTIMONIALS_SOURCE = [
@@ -160,6 +163,8 @@ export default function PulseAppPage() {
   }, []);
 
   fd = session?.formData;
+
+  PRICING_SOURCE = PRICING_SOURCE_LIVE();
   FEATURES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     FEATURES_SOURCE,

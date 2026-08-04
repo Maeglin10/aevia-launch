@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -117,7 +118,7 @@ export default function ArchitectureLayout({ children }: { children: React.React
               />
             ) : (
               <>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               <span
                 style={{
                   fontFamily: F.sans,
@@ -142,7 +143,7 @@ export default function ArchitectureLayout({ children }: { children: React.React
               >
                 MOREAU · LEROY
               </span>
-            </div>
+            </>)}</div>
           </>
             )}</Link>
 

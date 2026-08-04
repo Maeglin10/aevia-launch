@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -63,7 +64,7 @@ export default function CarbonLayout({
             <div className="w-10 h-10 bg-[#0070f3] flex items-center justify-center group-hover:-skew-x-12 transition-transform duration-500">
               <Layers className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-black tracking-tighter uppercase italic text-white">Carbon<span className="text-[#0070f3]">Lab</span></span>
+            <span className="text-2xl font-black tracking-tighter uppercase italic text-white">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>Carbon<span className="text-[#0070f3]">Lab</span></>)}</span>
           </>
           )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">

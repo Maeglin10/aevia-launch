@@ -1,3 +1,4 @@
+import { clientName } from "@/lib/templates/clientContent";
 "use client"
 
 import React, { useState, useEffect } from "react"
@@ -72,7 +73,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             />
           ) : (
             <>
-            <div className="relative flex items-center gap-1.5">
+            <div className="relative flex items-center gap-1.5">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               <Radio className="w-5 h-5 text-[#F97316]" />
               <span className="text-lg font-black tracking-tight text-white">WAVEFORM</span>
               {/* Pulse dot */}
@@ -80,7 +81,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F97316] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F97316]" />
               </span>
-            </div>
+            </>)}</div>
           </>
           )}</Link>
 

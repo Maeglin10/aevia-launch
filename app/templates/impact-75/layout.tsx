@@ -1,5 +1,6 @@
 // @ts-nocheck
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -72,9 +73,9 @@ export default function OrbitAILayout({
               <div className="w-10 h-10 bg-cyan-500 flex items-center justify-center group-hover:rotate-90 transition-transform duration-500 shadow-[0_0_20px_rgba(6,182,212,0.3)]">
                 <Satellite className="w-6 h-6 text-black" />
               </div>
-              <span className="text-xl font-bold tracking-tighter uppercase text-white italic">
+              <span className="text-xl font-bold tracking-tighter uppercase text-white italic">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
                 Orbit<span className="text-cyan-500">AI</span>
-              </span>
+              </>)}</span>
             </>
           )}</Link>
             <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em]">

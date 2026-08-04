@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -60,14 +61,16 @@ export default function CypherClinicLayout({
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
-            ) : (
+            ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
+              <span className="text-xl font-light tracking-[0.25em] uppercase" style={{ fontFamily: "'Bodoni Moda', serif" }}>{clientName(__layoutSession)}</span>
+            ) : (<>
               <>
             <span className="text-xl font-light tracking-[0.25em] uppercase" style={{ fontFamily: "'Bodoni Moda', serif" }}>
               Cypher Clinic
             </span>
             <span className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mt-0.5">Médecine Esthétique & Lasers</span>
           </>
-            )}</Link>
+            </>))}</Link>
           <div className="hidden md:flex items-center gap-10 text-xs tracking-[0.2em] uppercase text-[#8A8278]">
             {links.map((link) => {
               const isActive = pathname === link.href;

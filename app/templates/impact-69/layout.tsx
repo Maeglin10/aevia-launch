@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -67,7 +68,7 @@ export default function LeaLayout({
             <path d="M12 2C6 2 2 8 2 12c0 5.5 4 9 9 9 1 0 2-.2 3-.5C8 19 6 15 6 12c0-4 4-6 8-6s8 2 8 6-2 7-5 8" />
             <line x1="12" y1="12" x2="12" y2="22" />
           </svg>
-          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.15em", color: C.cream, textTransform: "uppercase" }}>Léa Rousseau</span>
+          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.15em", color: C.cream, textTransform: "uppercase" }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>Léa Rousseau</>)}</span>
         </>
           )}</Link>
         <div id="mb69-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {navLinks.map((link) => (

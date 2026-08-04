@@ -70,7 +70,8 @@ const FEATURES_SOURCE = [
 let FEATURES_DEMO = FEATURES_SOURCE;
 let FEATURES = FEATURES_DEMO;
 
-const PRICING_SOURCE = [
+function PRICING_SOURCE_LIVE() {
+  return /* TARIFS */ resolveList(clientServices({ formData: fd })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   {
     name: "Developer",
     price: "$0",
@@ -115,7 +116,9 @@ const PRICING_SOURCE = [
     cta: "Contact Sales",
     popular: false,
   },
-];
+]);
+}
+let PRICING_SOURCE = PRICING_SOURCE_LIVE();;
 let PRICING = PRICING_SOURCE;
 
 const TESTIMONIALS_SOURCE = [
@@ -237,6 +240,8 @@ export default function NexusSaaSPage() {
   }, []);
 
   fd = session?.formData;
+
+  PRICING_SOURCE = PRICING_SOURCE_LIVE();
   PRICING = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].price })),
     PRICING_SOURCE,

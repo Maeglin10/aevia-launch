@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -98,7 +99,9 @@ export default function MaisonDrouetLayout({
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block', margin: '0 auto' }}
               />
-            ) : (
+            ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
+              <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.goldDim }}>{clientName(__layoutSession)}</div>
+            ) : (<>
               <>
           <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.goldDim }}>MAISON</div>
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem", fontWeight: 400, letterSpacing: "0.15em", color: C.text, lineHeight: 1 }}>
@@ -106,7 +109,7 @@ export default function MaisonDrouetLayout({
           </div>
           <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.5rem", letterSpacing: "0.3em", color: C.textDim }}>GENÈVE · 1891</div>
         </>
-            )}</Link>
+            </>))}</Link>
 
         {/* Right nav links */}
         <div id="mb63-right" style={{ display: "flex", gap: "2rem", flex: 1, justifyContent: "flex-end" }}>

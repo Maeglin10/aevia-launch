@@ -158,7 +158,8 @@ const TESTIMONIALS_SOURCE = [
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
-const PRICING_SOURCE = [
+function PRICING_SOURCE_LIVE() {
+  return /* TARIFS */ resolveList(clientServices({ formData: fd })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   {
     name: "Starter",
     price: "0",
@@ -214,7 +215,9 @@ const PRICING_SOURCE = [
     popular: false,
     badge: null,
   },
-]
+]);
+}
+let PRICING_SOURCE = PRICING_SOURCE_LIVE();
 let PRICING = PRICING_SOURCE;
 
 const FAQS_DEMO = [
@@ -271,6 +274,8 @@ export default function NovaPlatformSaaS() {
   }, []);
 
   fd = session?.formData;
+
+  PRICING_SOURCE = PRICING_SOURCE_LIVE();
   FEATURE_TABS_DEMO = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...FEATURE_TABS_DEMO_SOURCE[i % FEATURE_TABS_DEMO_SOURCE.length], value: s.value, label: s.label })),
     FEATURE_TABS_DEMO_SOURCE,

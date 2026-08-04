@@ -1,3 +1,4 @@
+import { clientName } from "@/lib/templates/clientContent";
 "use client"
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -102,7 +103,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             >
               <Building2 size={20} color={C.white} />
             </div>
-            <span style={{ fontWeight: 700, fontSize: 20, color: C.slate }}>Nexus Hub</span>
+            <span style={{ fontWeight: 700, fontSize: 20, color: C.slate }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>Nexus Hub</>)}</span>
           </>
           )}</Link>
 

@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -73,7 +74,7 @@ export default function LuminalLayout({
             <div className="w-8 h-8 rounded-full bg-[#3d7a5e] flex items-center justify-center text-white">
               <Leaf className="w-4 h-4" />
             </div>
-            LUMINAL
+            {/* NOM_LOGO */ clientName(__layoutSession) ?? "LUMINAL"}
           </>
           )}</Link>
 

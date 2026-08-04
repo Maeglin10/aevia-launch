@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -64,7 +65,7 @@ export default function VogueNoireLayout({
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <>Vogue Noire</>
+              <>{/* NOM_LOGO */ clientName(__layoutSession) ?? "Vogue Noire"}</>
             )}
           </Link>
           <div className="hidden md:flex items-center gap-10 text-xs tracking-[0.15em] uppercase text-[#A0988A]">

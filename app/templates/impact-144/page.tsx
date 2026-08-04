@@ -9,6 +9,7 @@ import { Sparkles, ArrowRight, Menu, Star, Layers, Eye, Zap, Megaphone, PenTool,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -177,7 +178,7 @@ export default function KineticMarqueePage() {
               />
             ) : (
               <>
-            KIN<span className="text-[var(--brand,#f97316)]">ETIC</span>
+            KIN<span className="text-[var(--brand,#f97316)]">{/* NOM_LOGO */ clientName({ formData: fd }) ?? "ETIC"}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">

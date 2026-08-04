@@ -54,14 +54,17 @@ const NAV = [
   { l: "Cadeaux", h: "#cadeaux" },
   { l: "Contact", h: "#contact" },
 ];
-const FORFAITS = [
+function FORFAITS_LIVE() {
+  return /* TARIFS */ resolveList(clientServices({ formData: fd })?.map((s: any) => ({ n: s.title, ...(s.price ? { p: s.price } : {}) })), [
   { n: "Échappée · 1 h 30", p: "95 €", d: "Un gommage au sel de Guérande, puis un modelage du dos aux huiles chaudes. Le format d'après-travail." },
   { n: "Parenthèse · 2 h 30", p: "165 €", d: "Soin du visage complet, modelage corps intégral, accès au hammam avant la séance. Thé et repos inclus." },
   { n: "Journée Éclat · 4 h", p: "265 €", d: "Hammam, gommage, enveloppement, modelage 90 minutes, soin du visage, déjeuner léger sur place." },
   { n: "Duo · 1 h 30", p: "185 €", d: "Deux praticiennes, une cabine double. Le seul forfait qu'on ne peut pas réserver à moins de 72 h." },
   { n: "Abonnement Rituel", p: "89 € / mois", d: "Un soin de 60 minutes par mois, reportable une fois. Sans engagement au-delà de trois mois." },
   { n: "Future maman · 1 h", p: "78 €", d: "À partir du quatrième mois, sur table adaptée. Huiles sans huiles essentielles." },
-];
+]);
+}
+let FORFAITS = FORFAITS_LIVE();;
 
 const CADEAUX = [
   { t: "Carte cadeau en montant libre", d: "À partir de 40 €, sans montant maximum. Valable dix-huit mois sur tous les soins et les produits." },
@@ -166,6 +169,8 @@ export default function EclatSpaPage() {
   }, []);
 
   fd = session?.formData;
+
+  FORFAITS = FORFAITS_LIVE();
   SOINS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SOINS_SOURCE[i % SOINS_SOURCE.length], titre: s.title })),
     SOINS_SOURCE,

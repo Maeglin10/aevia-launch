@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -113,9 +114,9 @@ export default function OrbitLayout({
               letterSpacing: "-0.02em",
               color: C.text,
             }}
-          >
+          >{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
             Orbit<span style={{ color: C.accent }}>.</span>
-          </span>
+          </>)}</span>
         </>
           )}</Link>
 
