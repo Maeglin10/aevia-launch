@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
@@ -52,7 +53,7 @@ export default function ContactPage() {
                   <MapPin size={20} color={C.accent} />
                   <div>
                     <div style={{ fontFamily: FONT_LABEL, fontSize: 10, color: C.accent, textTransform: "uppercase" }}>Adresse</div>
-                    <div style={{ fontSize: 15, color: C.text }}>Place Vendôme, 75001 Paris (Détails sur rdv)</div>
+                    <div style={{ fontSize: 15, color: C.text }}>Place Vendôme, 75001 {clientCity(sessionData) ?? "Paris"} (Détails sur rdv)</div>
                   </div>
                 </div>
                 <div style={{ display: "flex", gap: 20, alignItems: "center" }}>

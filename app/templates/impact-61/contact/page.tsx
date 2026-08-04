@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { C, TextReveal, MagneticButton } from "../shared";
@@ -152,7 +153,7 @@ export default function ContactPage() {
             <h4 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.05em", color: C.text, marginBottom: "1rem" }}>SEGMENT PARIS</h4>
             <p style={{ fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.6 }}>
               42 Rue du Faubourg Saint-Antoine<br />
-              75012 Paris, France<br />
+              75012 {clientCity(sessionData) ?? "Paris"}, France<br />
               +33 1 45 78 92 10
             </p>
           </div>

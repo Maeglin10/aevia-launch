@@ -113,9 +113,9 @@ export default function VisionHomePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
   memoriserSession(sessionData);
   rafraichirPartage();
-  PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
 
   STATS_INLINE = resolveList(
 

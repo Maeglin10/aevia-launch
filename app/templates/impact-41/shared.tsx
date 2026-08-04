@@ -1,4 +1,5 @@
 'use client';
+import { clientCityOr } from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect } from 'react';
 import {
@@ -894,7 +895,7 @@ export function PressSection({ scene }: { scene: (typeof SCENES)[number] }) {
     },
     {
       text: 'La coupe VM est la plus architecturale de sa génération.',
-      source: 'Vogue Paris',
+      source: 'Vogue ' + clientCityOr('Paris'),
     },
     {
       text: 'Un vestiaire pour l\'éternité, sculpté dans la perfection.',
@@ -1059,7 +1060,7 @@ export function ContactSection({ scene }: { scene: (typeof SCENES)[number] }) {
           {[
             { label: 'Presse & Médias', value: 'presse@vm-maison.com' },
             { label: 'Boutiques & Commandes', value: '+33 1 44 72 90 00' },
-            { label: 'Atelier Paris', value: '12 rue du Faubourg Saint-Honoré' },
+            { label: 'Atelier ' + clientCityOr('Paris'), value: '12 rue du Faubourg Saint-Honoré' },
           ].map((item) => (
             <div
               key={item.label}

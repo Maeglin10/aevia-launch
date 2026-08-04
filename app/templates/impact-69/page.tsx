@@ -299,7 +299,7 @@ return (
           <h2 style={{ fontSize: "clamp(28px, 5vw, 56px)", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.03em", color: C.cream, marginBottom: 56 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>What they say.</>)}</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 1, background: C.border }}>
             {[
-              { quote: "I've collected fine art photography for 15 years. Lea's work is the first I've bought solely based on an emotional reaction — not investment. That's rare.", name: "D. Laurent", origin: "Paris · Collector" },
+              { quote: "I've collected fine art photography for 15 years. Lea's work is the first I've bought solely based on an emotional reaction — not investment. That's rare.", name: "D. Laurent", origin: (clientCity(sessionData) ?? "Paris") + " · Collector" },
               { quote: "The Boreal Silence series hangs in my studio. Every morning it changes the way I think about light. That's worth more than the print.", name: "M. Björn", origin: "Stockholm · Architect" },
               { quote: "I discovered Lea through an editorial, bought the last print in the Mountain series. Three years later, I still can't imagine the room without it.", name: "R. Whitmore", origin: "London · Film Director" },
             ].map((t, i) => (

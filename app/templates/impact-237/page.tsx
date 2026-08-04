@@ -80,7 +80,10 @@ const SANS = "'DM Sans', system-ui, sans-serif" as const;
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
-const PHOTO_BASE = (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+function PHOTO_BASE_LIVE() {
+  return (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+}
+let PHOTO_BASE = PHOTO_BASE_LIVE();
 function P_LIVE() {
   return {
   clinic: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=2000'),
@@ -2219,9 +2222,11 @@ export default function Page() {
 
   fd = session?.formData;
 
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO_BASE = PHOTO_BASE_LIVE();
   P = P_LIVE();
   REVIEWS_SOURCE = REVIEWS_SOURCE_LIVE();
 

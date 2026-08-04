@@ -221,14 +221,17 @@ const CONTACT_LINES = [
   { t: "Press & artist enquiries", d: "One inbox, read by a person. Demos welcome; we answer all of them, eventually." },
 ];
 
-const MOCK_EVENTS = [
-  { id: "e1", title: "Midnight Neon Tour", artist: "Syntax Error", date: "2026-08-15", time: "21:00", venue: "The Grand Arena, Paris", price: 45, image: PHOTOS.event1, category: "Electronic" },
+function MOCK_EVENTS_LIVE() {
+  return [
+  { id: "e1", title: "Midnight Neon Tour", artist: "Syntax Error", date: "2026-08-15", time: "21:00", venue: "The Grand Arena, " + (clientCity(sessionData) ?? "Paris"), price: 45, image: PHOTOS.event1, category: "Electronic" },
   { id: "e2", title: "Acoustic Sessions", artist: "Elena Rossi", date: "2026-08-20", time: "19:30", venue: "Intimate Hall, Lyon", price: 35, image: PHOTOS.event2, category: "Acoustic" },
   { id: "e3", title: "Summer Vibes Festival", artist: "Various Artists", date: "2026-09-05", time: "14:00", venue: "Open Air Park, Marseille", price: 89, image: PHOTOS.event3, category: "Festival" },
-  { id: "e4", title: "Symphony of the Night", artist: "Orchestre de Paris", date: "2026-09-12", time: "20:00", venue: "Philharmonie, Paris", price: 60, image: PHOTOS.event4, category: "Classical" },
+  { id: "e4", title: "Symphony of the Night", artist: "Orchestre de " + (clientCity(sessionData) ?? "Paris"), date: "2026-09-12", time: "20:00", venue: "Philharmonie, " + (clientCity(sessionData) ?? "Paris"), price: 60, image: PHOTOS.event4, category: "Classical" },
   { id: "e5", title: "Rock Revival", artist: "The Thunders", date: "2026-09-25", time: "20:30", venue: "Zénith, Lille", price: 50, image: PHOTOS.gallery[0], category: "Rock" },
   { id: "e6", title: "Jazz & Wine Night", artist: "Blue Note Quartet", date: "2026-10-02", time: "20:00", venue: "Jazz Club, Bordeaux", price: 40, image: PHOTOS.gallery[1], category: "Jazz" },
 ];
+}
+let MOCK_EVENTS = MOCK_EVENTS_LIVE();
 
 // --- MAIN PAGE COMPONENT ---
 
@@ -249,7 +252,9 @@ export default function Impact324TicketStore({ session: initialSession }) {
   const fd = session?.formData || {};
 
   sessionData = session;
+  MOCK_EVENTS = MOCK_EVENTS_LIVE();
   PHOTOS = PHOTOS_LIVE();
+
 
   const c = session?.generatedContent || {};
 

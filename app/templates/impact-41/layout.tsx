@@ -1,5 +1,6 @@
 'use client';
 import {
+  clientCity,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -225,7 +226,7 @@ export default function VMMaisonLayout({ children }: { children: React.ReactNode
                 textTransform: 'uppercase',
               }}
             >
-              Haute Couture — Paris — Est. 2008
+              Haute Couture — {clientCity(__layoutSession) ?? "Paris"} — Est. 2008
             </div>
           </div>
 

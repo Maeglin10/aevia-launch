@@ -1,4 +1,5 @@
 "use client";
+import { clientCityOr } from "@/lib/templates/clientContent";
 
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
@@ -81,7 +82,7 @@ export const AVIS = [
   },
   {
     nom: "Marc L.",
-    texte: "La meilleure salle de Lyon sans hésitation. Équipements pro, box propre, ambiance incroyable. Les WOD du matin à 6h sont dingues !",
+    texte: "La meilleure salle de " + clientCityOr("Lyon") + " sans hésitation. Équipements pro, box propre, ambiance incroyable. Les WOD du matin à 6h sont dingues !",
     note: 5,
     depuis: "Membre depuis 3 ans",
   },

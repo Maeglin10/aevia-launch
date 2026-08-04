@@ -48,7 +48,10 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Finitions", "h": "#services"}, {"l": "Le chantier", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Terracotta de Nîmes", "line": "La teinte qui réchauffe un salon plein nord.", "sub": "Peinture minérale mate, échantillon posé avant."}, {"k": "Chaux ferrée", "line": "L'enduit qui donne de la profondeur aux murs.", "sub": "Salle de bain, crédence, pièce à vivre."}, {"k": "Panoramique", "line": "Le papier peint qui devient le tableau.", "sub": "Pose au millimètre, raccords invisibles."}];
+function HERO_LIVE() {
+  return [{"k": "Terracotta de " + (clientCity(sessionData) ?? "Nîmes"), "line": "La teinte qui réchauffe un salon plein nord.", "sub": "Peinture minérale mate, échantillon posé avant."}, {"k": "Chaux ferrée", "line": "L'enduit qui donne de la profondeur aux murs.", "sub": "Salle de bain, crédence, pièce à vivre."}, {"k": "Panoramique", "line": "Le papier peint qui devient le tableau.", "sub": "Pose au millimètre, raccords invisibles."}];
+}
+let HERO = HERO_LIVE();
 
 const SERVICES_SOURCE = [{"titre": "Peinture intérieure", "desc": "Murs, plafonds, boiseries : préparation soignée (rebouchage, ponçage, sous-couche), finitions mates profondes ou satinées lessivables.", "tag": "Intérieur"}, {"titre": "Conseil couleur", "desc": "Une décoratrice à domicile, des échantillons A4 posés sur VOS murs, regardés à VOTRE lumière — le nuancier ment, la lumière non.", "tag": "Couleur"}, {"titre": "Enduits décoratifs", "desc": "Chaux ferrée, tadelakt, béton ciré mural : les matières qui donnent aux murs une profondeur que la peinture seule n'a pas.", "tag": "Matière"}, {"titre": "Papiers peints", "desc": "Panoramiques, intissés, raccords complexes : posés au plomb et au millimètre. On répare aussi les catastrophes des week-ends de motivation.", "tag": "Papier"}, {"titre": "Façades & extérieurs", "desc": "Ravalement, chaux sur pierre, volets et ferronneries : la façade nîmoise traitée dans les règles, échafaudage déclaré compris.", "tag": "Façade"}, {"titre": "Peintures saines", "desc": "Gammes A+ faibles émissions, peintures dépolluantes pour chambres d'enfant, chantier ventilé et aspiré chaque soir.", "tag": "Santé"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
@@ -90,9 +93,12 @@ export default function AtelierTeintesPage() {
 
 
   fd = session?.formData;
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO = HERO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -387,7 +393,7 @@ export default function AtelierTeintesPage() {
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Vos murs ont du potentiel.<br /><em>Venez le voir en couleur.</em>
           </>)}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Visite et devis gratuits à Nîmes et alentours. Conseil couleur à domicile, déduit si le chantier se fait.</p>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Visite et devis gratuits à {clientCity(sessionData) ?? "Nîmes"} et alentours. Conseil couleur à domicile, déduit si le chantier se fait.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
               <Phone size={18} /> {phone}
@@ -408,7 +414,7 @@ export default function AtelierTeintesPage() {
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Peinture & décoration · {clientCity(sessionData) ?? "Nîmes"}<br />Garantie décennale, applicateur agréé enduits à la chaux</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Nîmes, Gard" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 8h–18h30" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Nîmes") + ", Gard" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 8h–18h30" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

@@ -1,4 +1,5 @@
 'use client';
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import Link from 'next/link';
@@ -507,7 +508,7 @@ export default function ContactPage() {
               >
                 8 Rue de la Paix
                 <br />
-                75002 Paris, France
+                75002 {clientCity(sessionData) ?? "Paris"}, France
               </div>
             </div>
 

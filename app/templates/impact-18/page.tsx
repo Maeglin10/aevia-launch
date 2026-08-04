@@ -460,7 +460,7 @@ return (
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
           <span>© 2026 Streamline. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span>Made in 🇫🇷 Paris</span>
+          <span>Made in 🇫🇷 {clientCity(sessionData) ?? "Paris"}</span>
         </div>
       </footer>
     </div>

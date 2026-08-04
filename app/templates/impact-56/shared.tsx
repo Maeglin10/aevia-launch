@@ -1,5 +1,8 @@
 "use client";
-import { clientPhotoAt } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+  clientPhotoAt,
+} from "@/lib/templates/clientContent";
 
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
@@ -180,8 +183,8 @@ function WINES_LIVE() {
   {
     id: "blanc",
     name: "Blanc du Domaine",
-    subtitle: "Bordeaux Blanc Sec",
-    appellation: "Bordeaux Blanc AOC",
+    subtitle: clientCityOr("Bordeaux") + " Blanc Sec",
+    appellation: clientCityOr("Bordeaux") + " Blanc AOC",
     millesimes: ["2023", "2022"],
     price: 65,
     priceRange: "65 €",

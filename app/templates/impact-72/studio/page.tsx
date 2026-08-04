@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import React, { useEffect, useRef, useState } from "react";
@@ -40,7 +41,7 @@ export default function StudioPage() {
             Maison Fondée en 2001
           </TextReveal>
           <p style={{ fontSize: "1.05rem", color: C.textMuted, lineHeight: 1.8, marginBottom: "2rem" }}>
-            Fondée à Paris au début du millénaire, Stack Unit s'est construite sur une conviction simple : le grand cinéma nécessite un accompagnement sans compromis. D'abord spécialisés dans les courts-métrages d'auteur, nous avons élargi notre champ d'action aux documentaires engagés et aux longs-métrages de fiction distribués à l'international.
+            Fondée à {clientCity(sessionData) ?? "Paris"} au début du millénaire, Stack Unit s'est construite sur une conviction simple : le grand cinéma nécessite un accompagnement sans compromis. D'abord spécialisés dans les courts-métrages d'auteur, nous avons élargi notre champ d'action aux documentaires engagés et aux longs-métrages de fiction distribués à l'international.
           </p>
           <p style={{ fontSize: "1.05rem", color: C.textMuted, lineHeight: 1.8 }}>
             Aujourd'hui agréés par le CNC et membres actifs du SPI (Syndicat des Producteurs Indépendants), nous continuons de défendre une liberté artistique absolue pour chacun de nos créateurs associés.

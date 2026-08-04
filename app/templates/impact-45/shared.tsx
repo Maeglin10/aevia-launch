@@ -1,4 +1,5 @@
 "use client";
+import { clientCityOr } from "@/lib/templates/clientContent";
 
 import React, { useEffect } from "react";
 import { motion, useMotionValue, useSpring, animate } from "framer-motion";
@@ -43,7 +44,7 @@ export const artists = [
     name: "Théo Marchais",
     role: "Blackwork & Dark Art",
     experience: "12 years",
-    bio: "Théo works in bold darkness — heavy blackwork, neo-tribal, dark illustrative sleeves. His compositions are monumental and his black saturation unmatched in Paris.",
+    bio: "Théo works in bold darkness — heavy blackwork, neo-tribal, dark illustrative sleeves. His compositions are monumental and his black saturation unmatched in " + clientCityOr("Paris") + ".",
     styles: ["Blackwork", "Neo-Tribal", "Dark Illustrative", "Sleeve Work"],
     bookingLead: "10–14 weeks",
     startingAt: "€300",
@@ -89,7 +90,7 @@ export const styleGuide = [
 export const testimonials = [
   {
     name: "Camille R.",
-    location: "Paris, 11e",
+    location: clientCityOr("Paris") + ", 11e",
     rating: 5,
     text: "Mara did a full forearm botanical piece for me. The line quality is unreal — three years later it still looks fresh. The studio is the cleanest I've ever been in, and the process was completely stress-free.",
     style: "Fine Line Botanical",
@@ -103,7 +104,7 @@ export const testimonials = [
   },
   {
     name: "Léa M.",
-    location: "Paris, 3e",
+    location: clientCityOr("Paris") + ", 3e",
     rating: 5,
     text: "I was nervous for my first tattoo and the team made the entire experience remarkable. The design consultation alone felt like working with a fine artist. Noir Ink is a cut above.",
     style: "Minimalist Fine Line",
@@ -185,7 +186,7 @@ export const faqs = [
 
 export const stats = [
   { value: "2,400+", label: "Pieces Completed" },
-  { value: "12", label: "Years in Paris" },
+  { value: "12", label: "Years in " + clientCityOr("Paris") },
   { value: "98%", label: "Client Return Rate" },
   { value: "4.9", label: "Average Rating" },
 ];

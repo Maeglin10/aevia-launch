@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -146,7 +147,7 @@ export default function BlogPage() {
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
           <span>© 2026 Streamline. Tous droits réservés.</span>
-          <span>Made in 🇫🇷 Paris</span>
+          <span>Made in 🇫🇷 {clientCity(sessionData) ?? "Paris"}</span>
         </div>
       </footer>
     </div>

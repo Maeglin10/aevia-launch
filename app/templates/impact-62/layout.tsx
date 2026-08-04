@@ -1,5 +1,8 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -241,7 +244,7 @@ export default function SatoriLayout({
               </Link>
             </div>
             <div className="flex gap-10">
-              <span>Paris // Geneva // Tokyo</span>
+              <span>{clientCity(__layoutSession) ?? "Paris"} // Geneva // Tokyo</span>
               <span>Surrender to Fire</span>
             </div>
           </div>

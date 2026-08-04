@@ -541,8 +541,8 @@ export default function ClosDuSoirPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  memoriserSession(sessionData);
   WINES_DEMO = WINES_DEMO_LIVE();
+  memoriserSession(sessionData);
 
   STATS_INLINE = resolveList(
 

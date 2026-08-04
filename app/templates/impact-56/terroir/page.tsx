@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -44,7 +45,7 @@ export default function TerroirPage() {
           <Reveal>
             <div className="flex items-center gap-4 mb-4">
               <div className="h-px w-8 bg-[#C4A265]" />
-              <span className="text-xs uppercase tracking-[0.3em] text-[#C4A265] font-sans font-bold">Médoc · Bordeaux</span>
+              <span className="text-xs uppercase tracking-[0.3em] text-[#C4A265] font-sans font-bold">Médoc · {clientCity(sessionData) ?? "Bordeaux"}</span>
             </div>
             <h1 className="text-5xl md:text-6xl font-serif text-white tracking-tight leading-none pb-2">Le Terroir</h1>
           </Reveal>

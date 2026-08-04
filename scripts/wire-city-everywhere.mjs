@@ -1,0 +1,142 @@
+// La ville de démonstration, dans tous les fichiers d'un thème.
+//
+//   node scripts/wire-city-everywhere.mjs [--dry]
+//
+// Les passes précédentes déduisaient la ville d'exemple du seul `page.tsx` et ne
+// visitaient ni les modules partagés ni certaines sous-pages. Cent vingt-neuf
+// thèmes gardaient donc « Paris » ou « Bordeaux » quelque part sur le site d'un
+// client annécien — le plus souvent dans une adresse de pied de page ou une
+// légende de réalisation.
+//
+// Ici la ville se déduit de l'ensemble du dossier — page, layout, module
+// partagé, sous-pages — et la substitution s'applique aux mêmes fichiers. Les
+// lignes qui parlent du registre du commerce d'Aevia sont ignorées : sinon
+// Bourg-en-Bresse gagne partout.
+//
+// Deux façons d'écrire selon l'endroit : `{clientCity(sessionData) ?? "Paris"}`
+// dans le JSX d'une page, `clientCityOr("Paris")` dans un module partagé qui n'a
+// pas de session à lui.
+
+import fs from "node:fs";
+import path from "node:path";
+
+const ROOT = path.join(process.cwd(), "app/templates");
+const dry = process.argv.includes("--dry");
+
+const VILLES = ["Paris", "Lyon", "Marseille", "Bordeaux", "Toulouse", "Nantes", "Lille", "Strasbourg",
+  "Rennes", "Montpellier", "Nice", "Grenoble", "Annecy", "Villeurbanne", "Aix-en-Provence", "Rouen",
+  "Reims", "Dijon", "Angers", "Toulon", "Brest", "Tours", "Nancy", "Metz", "Caen", "Avignon",
+  "Poitiers", "La Rochelle", "Biarritz", "Bayonne", "Chambéry", "Genève", "Lausanne", "Bruxelles"];
+
+function finitParBarre(x) {
+  const m = /\\+$/.exec(x);
+  return Boolean(m) && m[0].length % 2 === 1;
+}
+
+let faits = 0;
+const touches = [];
+
+for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
+  const dossier = path.join(ROOT, id);
+  if (!fs.statSync(dossier).isDirectory()) continue;
+
+  const fichiers = [path.join(dossier, "page.tsx"), path.join(dossier, "layout.tsx"), path.join(dossier, "shared.tsx")];
+  for (const sous of fs.readdirSync(dossier)) {
+    const f = path.join(dossier, sous, "page.tsx");
+    if (fs.existsSync(f)) fichiers.push(f);
+  }
+  const presents = fichiers.filter((f) => fs.existsSync(f));
+  if (presents.length === 0) continue;
+
+  // La ville d'exemple : celle que le thème nomme lui-même, sinon la plus
+  // fréquente de tout le dossier.
+  let ville = null;
+  for (const f of presents) {
+    const m = /clientCity\([^)]*\)\s*\?\?\s*"([^"]+)"/.exec(fs.readFileSync(f, "utf8"));
+    if (m) { ville = m[1]; break; }
+  }
+  if (!ville) {
+    const tout = presents.map((f) => fs.readFileSync(f, "utf8")).join("\n")
+      .split("\n").filter((l) => !/RCS|Aevia|SIREN/.test(l)).join("\n");
+    let meilleurN = 0;
+    for (const v of VILLES) {
+      const n = (tout.match(new RegExp(`\\b${v.replace(/-/g, "\\-")}\\b`, "g")) || []).length;
+      if (n > meilleurN) { meilleurN = n; ville = v; }
+    }
+    if (meilleurN < 2) ville = null;
+  }
+  if (!ville) continue;
+
+  const motCle = new RegExp(`\\b${ville.replace(/-/g, "\\-")}\\b`);
+  let n = 0;
+
+  for (const f of presents) {
+    let src = fs.readFileSync(f, "utf8");
+    const partage = f.endsWith("shared.tsx");
+    const arg = partage
+      ? null
+      : /^let sessionData: any = null;/m.test(src) ? "sessionData" : /__layoutSession/.test(src) ? "__layoutSession" : null;
+    if (!partage && !arg) continue;
+
+    let k = 0;
+    const lignes = src.split("\n").map((ligne) => {
+      if (/^\s*(import|export type|\/\/|\*)/.test(ligne)) return ligne;
+      if (/alt=|alt:|aria|href=|placeholder|content=|@type|schema|clientCity/.test(ligne)) return ligne;
+      if (/RCS|Aevia|SIREN/.test(ligne)) return ligne;
+
+      // Les chaînes de données, propres au guillemet ouvrant.
+      let out = ligne.replace(/"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)'/g, (m0, dbl, sgl, pos) => {
+        const q = dbl !== undefined ? '"' : "'";
+        const valeur = dbl !== undefined ? dbl : sgl;
+        const avantChar = ligne.slice(0, pos).replace(/\s+$/, "").slice(-1);
+        const apresChar = ligne.slice(pos + m0.length).replace(/^\s+/, "").slice(0, 1);
+        if (!"[,:".includes(avantChar)) return m0;
+        if (apresChar && !"],}".includes(apresChar)) return m0;
+        if (valeur.includes("${") || !motCle.test(valeur)) return m0;
+        const morceaux = valeur.split(motCle);
+        if (morceaux.some(finitParBarre)) return m0;
+        k++;
+        const appel = partage ? `clientCityOr(${q}${ville}${q})` : `(clientCity(${arg}) ?? ${q}${ville}${q})`;
+        return morceaux.map((x) => (x ? `${q}${x}${q}` : null))
+          .reduce((acc, x, i) => { if (i > 0) acc.push(appel); if (x) acc.push(x); return acc; }, [])
+          .join(" + ");
+      });
+
+      // Le texte JSX, seulement dans un fichier qui a une session.
+      if (!partage) {
+        out = out.replace(new RegExp(`(^|[\\s>(,·—–])(${ville})(?=[\\s<{.,;:!?·—–)]|$)`, "g"), (m0, avant, v, pos) => {
+          const seg = out.slice(0, pos);
+          const impair = (re) => (seg.match(re) || []).length % 2 === 1;
+          if (impair(/(?<!\\)"/g) || impair(/(?<!\\)'/g) || impair(/(?<!\\)`/g)) return m0;
+          k++;
+          return `${avant}{clientCity(${arg}) ?? "${v}"}`;
+        });
+      }
+      return out;
+    });
+
+    if (k === 0) continue;
+    src = lignes.join("\n");
+    const besoin = partage ? "clientCityOr" : "clientCity";
+    if (/import \{([^}]*)\} from "@\/lib\/templates\/clientContent";/.test(src)) {
+      src = src.replace(/import \{([^}]*)\} from "@\/lib\/templates\/clientContent";/, (m, g) => {
+        const noms = new Set(g.split("\n").map((x) => x.trim().replace(/,$/, "")).filter(Boolean));
+        noms.add(besoin);
+        return "import {\n" + [...noms].sort().map((x) => `  ${x},\n`).join("") + '} from "@/lib/templates/clientContent";';
+      });
+    } else {
+      const d = /(^|\n)\s*("use client"|'use client')\s*;?[^\n]*\n/.exec(src);
+      const at = d ? d.index + d[0].length : 0;
+      src = src.slice(0, at) + `import { ${besoin} } from "@/lib/templates/clientContent";\n` + src.slice(at);
+    }
+    if (!dry) fs.writeFileSync(f, src);
+    n += k;
+  }
+
+  if (n === 0) continue;
+  faits += n;
+  touches.push(`${id} (${n}× ${ville})`);
+}
+
+console.log(`${dry ? "[à blanc] " : ""}${faits} mention(s) de ville sur ${touches.length} thème(s)`);
+console.log(touches.slice(0, 12).join("  ·  "));

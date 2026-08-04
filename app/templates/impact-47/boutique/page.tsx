@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -122,7 +123,7 @@ function ProductDetail({ p, onBack, onAddToCart }: { p: typeof PRODUCTS[0]; onBa
               style={{ width: "100%", maxWidth: 460, padding: "17px", background: added ? C.sage : C.accent, color: C.white, border: "none", fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, cursor: "pointer", transition: "all 0.2s", fontFamily: SANS, borderRadius: 2, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
             >{added ? (<><Check size={16} /> Ajouté au panier</>) : (<><ShoppingBag size={16} /> Ajouter au panier</>)}</button>
             <div style={{ display: "flex", gap: 20, marginTop: 24, flexWrap: "wrap" as const }}>
-              <span style={{ fontSize: 12, color: C.textMuted, fontFamily: SANS, display: "flex", alignItems: "center", gap: 6 }}><Leaf size={13} color={C.sage} /> Livraison Paris offerte</span>
+              <span style={{ fontSize: 12, color: C.textMuted, fontFamily: SANS, display: "flex", alignItems: "center", gap: 6 }}><Leaf size={13} color={C.sage} /> Livraison {clientCity(sessionData) ?? "Paris"} offerte</span>
               <span style={{ fontSize: 12, color: C.textMuted, fontFamily: SANS, display: "flex", alignItems: "center", gap: 6 }}><Leaf size={13} color={C.sage} /> Fleurs fraîches de saison</span>
             </div>
           </motion.div>

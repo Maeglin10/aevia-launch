@@ -1,4 +1,5 @@
 "use client";
+import { clientCityOr } from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useInView, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
@@ -85,7 +86,7 @@ export const SERIES = [
 ];
 
 export const EXHIBITIONS = [
-  { year: "2025", title: "Primordial", venue: "Galerie Binôme", city: "Paris" },
+  { year: "2025", title: "Primordial", venue: "Galerie Binôme", city: clientCityOr("Paris") },
   { year: "2024", title: "Undisturbed", venue: "FOAM Photography Museum", city: "Amsterdam" },
   { year: "2024", title: "Depth of Field", venue: "Aperture Foundation", city: "New York" },
   { year: "2023", title: "Threshold", venue: "Rencontres d'Arles", city: "Arles" },

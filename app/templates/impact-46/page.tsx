@@ -91,7 +91,7 @@ function HeroSection() {
           <Rise beat="first" style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
             <span style={{ width: 40, height: 1, background: C.accent, display: "block" }} />
             <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.32em", textTransform: "uppercase", color: C.accent }}>
-              Paris · Cabinet d’affaires
+              {clientCity(sessionData) ?? "Paris"} · Cabinet d’affaires
             </span>
           </Rise>
 

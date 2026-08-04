@@ -67,7 +67,10 @@ const SERIF = "'Playfair Display', Georgia, serif" as const;
 const SANS = "'Space Grotesk', system-ui, sans-serif" as const;
 
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
-const BASE = (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+function BASE_LIVE() {
+  return (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+}
+let BASE = BASE_LIVE();
 function PHOTO_LIVE() {
   return {
   electrical: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/7937305/pexels-photo-7937305.jpeg?auto=compress&cs=tinysrgb&w=1600'),
@@ -2099,9 +2102,11 @@ export default function Page() {
 
   fd = session?.formData;
 
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  BASE = BASE_LIVE();
   PHOTO = PHOTO_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();

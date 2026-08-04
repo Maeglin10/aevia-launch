@@ -119,7 +119,10 @@ interface Transformation {
 }
 
 /* ── Data ────────────────────────────────────────────────────────────────── */
-const PHOTO_BASE = (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-');
+function PHOTO_BASE_LIVE() {
+  return (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-');
+}
+let PHOTO_BASE = PHOTO_BASE_LIVE();
 
 function PROGRAMS_DEMO_LIVE() {
   return [
@@ -2184,9 +2187,11 @@ export default function Page() {
 
   fd = session?.formData;
 
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO_BASE = PHOTO_BASE_LIVE();
   PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();
   EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();
 

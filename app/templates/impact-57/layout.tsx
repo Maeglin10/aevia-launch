@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientCity,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -169,7 +170,7 @@ export default function MaskUnitLayout({
               MASK<span style={{ color: C.accent }}>_</span>UNIT
             </Link>
             <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.7rem", color: C.textDim, lineHeight: 1.8, maxWidth: "32ch" }}>
-              Studio créatif indépendant. Paris, France. Branding · Motion · Digital.
+              Studio créatif indépendant. {clientCity(__layoutSession) ?? "Paris"}, France. Branding · Motion · Digital.
             </p>
           </div>
           {[

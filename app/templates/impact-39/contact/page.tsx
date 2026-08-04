@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useEffect, useState } from "react";
@@ -85,7 +86,7 @@ export default function ContactPage() {
               <div style={{ marginTop: 36, background: C.bgAlt, borderRadius: 16, padding: "24px", border: `1px solid ${C.border}` }}>
                 <div style={{ fontWeight: 800, color: C.navy, marginBottom: 12, fontSize: 15 }}>Zone d'intervention principale</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {["Paris (75)", "Hauts-de-Seine (92)", "Seine-Saint-Denis (93)", "Val-de-Marne (94)", "Yvelines (78)", "Essonne (91)", "Val-d'Oise (95)", "Seine-et-Marne (77)", "France entière sur devis"].map((zone) => (
+                  {[(clientCity(sessionData) ?? "Paris") + " (75)", "Hauts-de-Seine (92)", "Seine-Saint-Denis (93)", "Val-de-Marne (94)", "Yvelines (78)", "Essonne (91)", "Val-d'Oise (95)", "Seine-et-Marne (77)", "France entière sur devis"].map((zone) => (
                     <span key={zone} style={{ background: C.orangeLight, color: C.orange, fontSize: 12, fontWeight: 700, padding: "5px 12px", borderRadius: 20 }}>{zone}</span>
                   ))}
                 </div>

@@ -1,4 +1,5 @@
 "use client";
+import { clientCityOr } from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
@@ -131,7 +132,7 @@ export const COLLECTIONS = [
         stone: "Pierre de votre choix",
         metal: "Métal de votre choix",
         gem: "diamond",
-        desc: "Nos maîtres joailliers créent votre pièce unique. Consultation privée à Paris, Monaco ou à domicile. Délai : 6 à 18 mois.",
+        desc: "Nos maîtres joailliers créent votre pièce unique. Consultation privée à " + clientCityOr("Paris") + ", Monaco ou à domicile. Délai : 6 à 18 mois.",
         limited: false,
       },
       {
@@ -171,7 +172,7 @@ export const COLLECTIONS = [
 export const TESTIMONIALS = [
   {
     name: "Isabelle de Montfort",
-    role: "Collectionneuse, Paris VIIe",
+    role: "Collectionneuse, " + clientCityOr("Paris") + " VIIe",
     note: 5,
     text: "La Constellation Noir surpasse tout ce que j'ai vu chez Van Cleef ou Cartier. L'attention au détail est simplement bouleversante.",
     piece: "Constellation Noir",
@@ -263,7 +264,7 @@ export const TEAM = [
   {
     name: "Amélie Rousseau",
     role: "Designer Joaillier",
-    bio: "École Boulle, puis ESMA Paris. Primée au Grand Prix de la Création de la Ville de Paris. Auteure de 47 collections.",
+    bio: "École Boulle, puis ESMA " + clientCityOr("Paris") + ". Primée au Grand Prix de la Création de la Ville de " + clientCityOr("Paris") + ". Auteure de 47 collections.",
     exp: "15 ans",
   },
 ];

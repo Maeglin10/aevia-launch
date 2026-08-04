@@ -78,7 +78,10 @@ const SERIF = "'Merriweather', Georgia, serif" as const;
 const SANS = "'Nunito', system-ui, sans-serif" as const;
 
 /* ── Photos Unsplash ──────────────────────────────────────────────────────── */
-const BASE = (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+function BASE_LIVE() {
+  return (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+}
+let BASE = BASE_LIVE();
 function P_LIVE() {
   return {
   hero: (clientPhotos(sessionData)[1] || `https://images.pexels.com/photos/7447003/pexels-photo-7447003.jpeg?auto=compress&cs=tinysrgb&w=2000`),
@@ -2222,9 +2225,11 @@ export default function Page() {
 
   fd = session?.formData;
 
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  BASE = BASE_LIVE();
   P = P_LIVE();
   EDIT_ROWS = EDIT_ROWS_LIVE();
 

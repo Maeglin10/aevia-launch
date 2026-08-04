@@ -1,4 +1,5 @@
 "use client";
+import { clientCityOr } from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
@@ -39,7 +40,7 @@ export const PROJECTS = [
     category: "Visual Identity",
     year: "2024",
     deliverables: ["Wordmark", "Collateral", "Digital Suite"],
-    desc: "Minimal system for a Paris-based architecture firm. Geometry as language — every element earns its place.",
+    desc: "Minimal system for a " + clientCityOr("Paris") + "-based architecture firm. Geometry as language — every element earns its place.",
     color: "#6bcfb2",
     tags: ["Architecture", "Minimal", "Print"],
     result: "7 international awards",
@@ -196,7 +197,7 @@ export const TEAM = [
   {
     name: "Léa Marchetti",
     role: "Founder & Creative Director",
-    bio: "15 years building brands across Paris, Berlin, and New York. Former CD at Bureau de Style. Led identity programs for 3 Fortune 500s before founding Orbit.",
+    bio: "15 years building brands across " + clientCityOr("Paris") + ", Berlin, and New York. Former CD at Bureau de Style. Led identity programs for 3 Fortune 500s before founding Orbit.",
     initials: "LM",
   },
   {

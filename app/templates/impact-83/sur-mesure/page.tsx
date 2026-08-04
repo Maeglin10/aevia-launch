@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
@@ -227,7 +228,7 @@ export default function SurMesurePage() {
                   </motion.div>
                   <h3 style={{ fontFamily: FONT_HEADING, fontSize: 26, color: C.text, marginBottom: 12 }}>Demande reçue</h3>
                   <p style={{ fontFamily: FONT_BODY, fontSize: 15, color: C.textMuted, lineHeight: 1.7 }}>
-                    Merci. Un membre de notre atelier vous contactera personnellement sous 24h pour organiser votre consultation privée à Paris, Monaco ou à domicile.
+                    Merci. Un membre de notre atelier vous contactera personnellement sous 24h pour organiser votre consultation privée à {clientCity(sessionData) ?? "Paris"}, Monaco ou à domicile.
                   </p>
                 </motion.div>
               ) : (

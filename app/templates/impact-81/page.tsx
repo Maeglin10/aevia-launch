@@ -31,11 +31,14 @@ let fd: any = null;
 
 // Les avis, jusqu'ici écrit(e) dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
-const AVIS_INLINE_SOURCE = [
-  { quote: "Vogue Noire est la seule publication qui parle de mode avec une intelligence que je reconnais. Chaque numéro m'apprend quelque chose.", name: "Amara K.", role: "Styliste · Paris" },
+function AVIS_INLINE_SOURCE_LIVE() {
+  return [
+  { quote: "Vogue Noire est la seule publication qui parle de mode avec une intelligence que je reconnais. Chaque numéro m'apprend quelque chose.", name: "Amara K.", role: "Styliste · " + (clientCity(sessionData) ?? "Paris") },
               { quote: "J'ai découvert trois créateurs majeurs grâce à Vogue Noire avant qu'ils ne défilent à Milan. C'est la définition d'un vrai média de mode.", name: "Lilas T.", role: "Buyer · Montréal" },
               { quote: "Le seul magazine que je garde. La photographie, les mots, le silence entre les deux — rien d'autre n'approche ce niveau d'exigence.", name: "Sonia B.", role: "Photographe · Dakar" }
 ];
+}
+let AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 let AVIS_INLINE = AVIS_INLINE_SOURCE;
 
 let c: any = null;
@@ -74,10 +77,12 @@ export default function VogueNoirePage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   memoriserSession(sessionData);
   rafraichirPartage();
   c = session?.generatedContent;
+  AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 
 
   AVIS_INLINE = resolveList(

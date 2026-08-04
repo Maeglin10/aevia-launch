@@ -1,4 +1,5 @@
 'use client';
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from 'next/link';
@@ -360,7 +361,7 @@ export default function StudioPage() {
                   lineHeight: 1.9,
                 }}
               >
-                Fondé en 2012 à Paris, MASK_UNIT est un studio de design radical spécialisé dans les identités visuelles qui marquent les esprits. Quatre personnes. Une obsession commune : refuser le médiocre.
+                Fondé en 2012 à {clientCity(sessionData) ?? "Paris"}, MASK_UNIT est un studio de design radical spécialisé dans les identités visuelles qui marquent les esprits. Quatre personnes. Une obsession commune : refuser le médiocre.
               </p>
               <p
                 style={{

@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientCity,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -157,7 +158,7 @@ export default function SkewLayout({
               SKEW<span style={{ color: C.violet }}>.</span>
             </Link>
             <p style={{ fontFamily: "'Syne Mono', monospace", fontSize: "0.7rem", color: C.textDim, lineHeight: 1.8 }}>
-              Motion design · Brand films · VFX<br />Paris, France
+              Motion design · Brand films · VFX<br />{clientCity(__layoutSession) ?? "Paris"}, France
             </p>
           </div>
           {[

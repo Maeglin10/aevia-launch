@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -53,7 +54,7 @@ export default function CGV() {
           <p style={para}>Le règlement s'effectue par carte bancaire via un prestataire de paiement sécurisé. Aucune donnée bancaire n'est conservée par Pétales & Co.</p>
 
           <h2 style={sectionTitle}>Article 5 — Livraison</h2>
-          <p style={para}>Nous livrons dans Paris et l'Île-de-France. La livraison est offerte dans Paris ; un supplément peut s'appliquer en Île-de-France pour les commandes ponctuelles. Les fleurs étant des produits périssables, le client veille à être disponible au créneau de livraison convenu.</p>
+          <p style={para}>Nous livrons dans {clientCity(sessionData) ?? "Paris"} et l'Île-de-France. La livraison est offerte dans Paris ; un supplément peut s'appliquer en Île-de-France pour les commandes ponctuelles. Les fleurs étant des produits périssables, le client veille à être disponible au créneau de livraison convenu.</p>
 
           <h2 style={sectionTitle}>Article 6 — Droit de rétractation</h2>
           <p style={para}>Conformément à l'article L221-28 du Code de la consommation, le droit de rétractation ne s'applique pas aux biens périssables tels que les fleurs fraîches et compositions florales. Toute réclamation relative à la fraîcheur doit être signalée dans les 24h suivant la réception, photo à l'appui.</p>
