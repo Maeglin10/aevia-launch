@@ -967,6 +967,7 @@ return (
               </Reveal>
 
               {/* Marcus Reid */}
+              {mentors[1] && (
               <Reveal delay={0.1}>
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:border-[var(--brand,#A3E635)]/30 transition-colors">
                   <div className="flex flex-col md:flex-row gap-8">
@@ -1005,8 +1006,10 @@ return (
                   </div>
                 </div>
               </Reveal>
+              )}
 
               {/* Priya Nair */}
+              {mentors[2] && (
               <Reveal delay={0.15}>
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:border-[var(--brand,#A3E635)]/30 transition-colors">
                   <div className="flex flex-col md:flex-row gap-8">
@@ -1045,8 +1048,10 @@ return (
                   </div>
                 </div>
               </Reveal>
+              )}
 
               {/* Tom Brandt */}
+              {mentors[3] && (
               <Reveal delay={0.2}>
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:border-[var(--brand,#A3E635)]/30 transition-colors">
                   <div className="flex flex-col md:flex-row gap-8">
@@ -1085,6 +1090,7 @@ return (
                   </div>
                 </div>
               </Reveal>
+              )}
             </div>
 
             {/* CTA */}

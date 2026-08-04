@@ -48,12 +48,15 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 
-const TARIFS = /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ f: s.title, ...(s.price ? { p: s.price } : {}) })), [
+function TARIFS_LIVE() {
+  return resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ f: s.title, ...(s.price ? { p: s.price } : {}) })), [
   { f: "Séance à l'unité", p: "65 €", n: "Une heure en solo. Aucun engagement, valable un an." },
   { f: "Carnet de 10", p: "550 €", n: "55 € la séance. Transférable à un proche, non remboursable." },
   { f: "Suivi mensuel", p: "320 €/mois", n: "Deux séances par semaine, programme écrit, ajustements toutes les trois semaines." },
   { f: "Duo", p: "45 €/personne", n: "À deux, même niveau souhaitable. Créneaux du soir uniquement." },
 ]);
+}
+let TARIFS = TARIFS_LIVE();
 
 const PROGRAMMES_SOURCE = [
   { icon: Target, title: "Coaching privatif", desc: "Séances 1-on-1, 60 ou 90 minutes. Programme sur mesure selon vos objectifs : perte de poids, prise de masse, endurance, rééducation." },
@@ -99,6 +102,8 @@ export default function MaxPerformancePage() {
   }, []);
 
   fd = session?.formData;
+
+  TARIFS = TARIFS_LIVE();
 
   bp = session?.businessProfile;
   PROGRAMMES = resolveList(

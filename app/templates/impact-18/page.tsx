@@ -86,13 +86,17 @@ const kanban = [
   { col: "Terminé", color: "#065F46", items: ["Lancement v3.0", "Audit RGPD", "Formation équipes"] },
 ];
 
-const plans = /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
+function plans_LIVE() {
+  return resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   { name: "Starter", price: "0", desc: "Pour les petites équipes", features: ["5 utilisateurs", "10 projets", "2 Go stockage", "Intégrations basiques", "Support communauté"], highlight: false, cta: "Gratuit pour toujours" },
   { name: "Growth", price: "29", desc: "Pour les équipes qui grandissent", features: ["Utilisateurs illimités", "Projets illimités", "100 Go stockage", "350+ intégrations", "Analytics avancés", "Support prioritaire"], highlight: true, cta: "Essai 14 jours" },
   { name: "Enterprise", price: "99", desc: "Pour les grandes organisations", features: ["Tout Growth inclus", "SSO & SAML", "SLA 99.99%", "Déploiement on-prem", "CISO dédié", "Support 24/7"], highlight: false, cta: "Contacter les ventes" },
 ]);
+}
+let plans = plans_LIVE();
 
-const testimonials = resolveList(
+function testimonials_LIVE() {
+  return resolveList(
 
   clientReviews({ formData: fd, businessProfile: bp, generatedContent: c })?.map((r: any, i: number) => ({ ...([
   { name: "Aurélie Marchand", role: "COO — Fintech Scale-up", text: "Streamline a réduit notre temps de réunion de 40%. Tout le monde sait exactement quoi faire et quand. Indispensable.", rating: 5 },
@@ -111,6 +115,8 @@ const testimonials = resolveList(
 ],
 
 );
+}
+let testimonials = testimonials_LIVE();;
 
 const integrations = ["Slack", "Salesforce", "HubSpot", "Notion", "GitHub", "Figma", "Stripe", "Zapier", "Linear", "Intercom"];
 
@@ -145,6 +151,10 @@ export default function StreamlinePage() {
   }, []);
 
   fd = session?.formData;
+
+  testimonials = testimonials_LIVE();
+
+  plans = plans_LIVE();
 
   bp = session?.businessProfile;
   features = resolveList(

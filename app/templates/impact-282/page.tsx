@@ -1770,7 +1770,8 @@ function CommandeFormSection() {
 type MenuItem = { nom: string; detail: string; prix: string };
 type MenuCat = { titre: string; items: MenuItem[] };
 
-const MENU_CATEGORIES_DEMO: MenuCat[] = /* TARIFS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ nom: s.title, ...(s.price ? { prix: s.price } : {}) })), [
+function MENU_CATEGORIES_DEMO_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any) => ({ nom: s.title, ...(s.price ? { prix: s.price } : {}) })), [
   {
     titre: 'Pains',
     items: [
@@ -1802,6 +1803,8 @@ const MENU_CATEGORIES_DEMO: MenuCat[] = /* TARIFS */ resolveList(clientServices(
     ],
   },
 ]);
+}
+let MENU_CATEGORIES_DEMO = MENU_CATEGORIES_DEMO_LIVE();
 
 function MenuCatBlock({ cat, i }: { cat: MenuCat; i: number }) {
   return (
@@ -2788,6 +2791,8 @@ export default function Impact282Page() {
   }, []);
 
   fd = session?.formData;
+
+  MENU_CATEGORIES_DEMO = MENU_CATEGORIES_DEMO_LIVE();
   PRODUCTEURS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRODUCTEURS_SOURCE[i % PRODUCTEURS_SOURCE.length], nom: s.title, description: s.desc || "" || "" })),
     PRODUCTEURS_SOURCE,

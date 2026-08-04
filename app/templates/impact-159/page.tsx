@@ -97,7 +97,8 @@ type Material = {
   origin: string
 }
 
-const MATERIALS: Material[] = resolveList(
+function MATERIALS_LIVE(): Material[] {
+  return resolveList(
 
   clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
   {
@@ -322,7 +323,9 @@ const MATERIALS: Material[] = resolveList(
   },
 ],
 
-)
+);
+}
+let MATERIALS = MATERIALS_LIVE();
 
 const APPLICATIONS = [
   { label: "Defense & Aerospace", count: "14 contracts", icon: "◈" },
@@ -2150,6 +2153,8 @@ export default function SmartTextilesPremium() {
   }, []);
 
   fd = session?.formData;
+
+  MATERIALS = MATERIALS_LIVE();
 
   bp = session?.businessProfile;
   c = session?.generatedContent;

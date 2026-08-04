@@ -82,7 +82,8 @@ const FONT = "'DM Sans', sans-serif";
 /* ─── DATA ────────────────────────────────────────────────────── */
 const NAV_LINKS = ["Boutique", "Collections", "Atelier", "Philosophie", "Contact"];
 
-const PRODUCTS_SOURCE = /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
+function PRODUCTS_SOURCE_LIVE() {
+  return resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   {
     id: "p1",
     name: "Bol Wabi-Sabi",
@@ -156,6 +157,8 @@ const PRODUCTS_SOURCE = /* TARIFS */ resolveList(clientServices({ formData: fd, 
     gradient: "linear-gradient(135deg, #D4A070 0%, #9B5020 100%)",
   },
 ]);
+}
+let PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
 let PRODUCTS = PRODUCTS_SOURCE;
 
 const COLLECTIONS = ["Tout voir", "Céramique", "Art de la table", "Jardin"];
@@ -1036,6 +1039,8 @@ export default function ArtisanMinimalPage() {
   }, []);
 
   fd = session?.formData;
+
+  PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
 
   bp = session?.businessProfile;
 

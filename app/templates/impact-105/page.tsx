@@ -83,7 +83,8 @@ const ENTREPRISES = [
   { t: "Livraison sur Strasbourg", p: "incluse", d: "Comprise dans l'abonnement en centre-ville, à la Krutenau et à la Robertsau. Hors zone, 12 € par passage." },
 ];
 
-const CREATIONS = resolveList(
+function CREATIONS_LIVE() {
+  return resolveList(
 
   clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
   { titre: "Bouquets & compositions", desc: "Bouquets de fleurs fraîches de saison, compositions table, centres de table et décorations personnalisées pour toutes occasions.", tag: "Frais" },
@@ -110,7 +111,9 @@ const CREATIONS = resolveList(
   { titre: "Livraison & abonnements", desc: "Livraison à domicile sur Strasbourg et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
 ],
 
-)
+);
+}
+let CREATIONS = CREATIONS_LIVE();
 
 const ATOUTS = [
   "Fleurs sourcées auprès de producteurs locaux et certifiés",
@@ -171,6 +174,8 @@ export default function AtelierBloomPage() {
   }, []);
 
   fd = session?.formData;
+
+  CREATIONS = CREATIONS_LIVE();
 
   bp = session?.businessProfile;
   AVIS_DEMO = resolveList(

@@ -1139,7 +1139,7 @@ return (
               </div>
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
                 {clientReviews(sessionData)?.[0]?.name
-                  ? `${bp.reputation.featuredReviews[0].name}${bp.reputation.featuredReviews[0].location ? ` · ${bp.reputation.featuredReviews[0].location}` : ""}`
+                  ? `${clientReviews(sessionData)![0].author}${clientReviews(sessionData)![0].detail ? ` · ${clientReviews(sessionData)![0].detail}` : ""}`
                   : "Marie Lauret · Bordeaux"}
               </div>
             </div>

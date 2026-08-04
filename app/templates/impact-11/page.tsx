@@ -64,12 +64,15 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const courses = /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ title: s.title, ...(s.price ? { price: s.price } : {}) })), [
+function courses_LIVE() {
+  return resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ title: s.title, ...(s.price ? { price: s.price } : {}) })), [
   { title: "Data Science & IA", level: "Intermédiaire", duration: "48h", students: "12 400", rating: 4.9, price: "199€", tag: "Populaire", color: "#7C3AED" },
   { title: "UX Design System", level: "Débutant", duration: "32h", students: "8 200", rating: 4.8, price: "149€", tag: "Nouveau", color: "#0EA5E9" },
   { title: "Full-Stack React/Node", level: "Avancé", duration: "64h", students: "9 800", rating: 4.9, price: "249€", tag: "Bestseller", color: "#10B981" },
   { title: "Marketing Digital", level: "Débutant", duration: "24h", students: "15 600", rating: 4.7, price: "99€", tag: "Certifiant", color: "#F59E0B" },
 ]);
+}
+let courses = courses_LIVE();
 
 const categories = ["Tous", "Tech", "Design", "Business", "Données", "Créativité"];
 
@@ -122,6 +125,8 @@ export default function EduPathPage() {
   }, []);
 
   fd = session?.formData;
+
+  courses = courses_LIVE();
 
   bp = session?.businessProfile;
   features = resolveList(

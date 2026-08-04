@@ -179,7 +179,8 @@ const testimonials_SOURCE = [
 ];
 let testimonials = testimonials_SOURCE;
 
-const plans = resolveList(
+function plans_LIVE() {
+  return resolveList(
 
   clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
   {
@@ -339,6 +340,8 @@ const plans = resolveList(
 ],
 
 );
+}
+let plans = plans_LIVE();;
 
 const faqs_SOURCE = [
   {
@@ -614,6 +617,8 @@ export default function TerreVivantePage() {
   }, []);
 
   fd = session?.formData;
+
+  plans = plans_LIVE();
 
   bp = session?.businessProfile;
   testimonials = resolveList(
