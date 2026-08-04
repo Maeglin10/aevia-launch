@@ -33,6 +33,13 @@ function finDeclaration(src, depart) {
     if ("([{".includes(ch)) prof++;
     else if (")]}".includes(ch)) prof--;
     else if (ch === ";" && prof === 0 && /^\s*$/.test(src.slice(k + 1, src.indexOf("\n", k) + 1 || undefined))) return k;
+    // Le point-virgule n'est pas toujours écrit : `const X = [ … ]` suivi d'un
+    // saut de ligne ferme aussi la déclaration. Sans ce cas, les tableaux sans
+    // point-virgule échappaient entièrement à la passe.
+    else if ((ch === "]" || ch === "}") && prof === 0) {
+      const suite = src.slice(k + 1, src.indexOf("\n", k) + 1 || undefined);
+      if (/^\s*;?\s*$/.test(suite)) return k + (suite.trim() === ";" ? 2 : 1);
+    }
     else if (ch === "\n" && prof === 0 && /^\s*(?:export )?(?:const|let|var|function|\/\/)/.test(src.slice(k + 1, k + 40))) return k;
   }
   return -1;

@@ -68,14 +68,17 @@ const STATS_DEMO = [
 ]
 let STATS = STATS_DEMO;
 
-const PROJETS_DEMO = [
+function PROJETS_DEMO_LIVE() {
+  return [
   { titre: "Villa contemporaine", lieu: "Lyon 5e", surface: "220 m²", style: "Minimaliste", tag: "Résidentiel", img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80" },
   { titre: "Penthouse panoramique", lieu: "Lyon 2e", surface: "160 m²", style: "Art Déco moderne", tag: "Prestige", img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80" },
   { titre: "Maison de maître", lieu: (clientCity({ formData: fd }) ?? "Villeurbanne"), surface: "310 m²", style: "Classique revisité", tag: "Rénovation", img: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80" },
   { titre: "Loft industriel", lieu: "Lyon 7e", surface: "140 m²", style: "Industriel chic", tag: "Loft", img: "https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80" },
   { titre: "Appartement haussmannien", lieu: "Lyon 1er", surface: "180 m²", style: "Parisien épuré", tag: "Résidentiel", img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80" },
   { titre: "Boutique concept store", lieu: "Part-Dieu", surface: "95 m²", style: "Retail design", tag: "Commercial", img: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" },
-]
+];
+}
+let PROJETS_DEMO = PROJETS_DEMO_LIVE();
 let PROJETS = PROJETS_DEMO;
 
 
@@ -151,7 +154,9 @@ export default function StudioNomaPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
+  PROJETS_DEMO = PROJETS_DEMO_LIVE();
   TEMOIGNAGES_SOURCE = TEMOIGNAGES_SOURCE_LIVE();
 
   SERVICES_DEMO = resolveList(

@@ -17,6 +17,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -66,7 +67,7 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 function OFFRES_LIVE() {
-  return /* TARIFS */ resolveList(clientServices({ formData: fd })?.map((s: any) => ({ n: s.title, ...(s.price ? { p: s.price } : {}) })), [
+  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ n: s.title, ...(s.price ? { p: s.price } : {}) })), [
   { n: "Site vitrine", p: "à partir de 2 400 €", d: "Cinq à huit pages, rédaction comprise, mise en ligne et formation à la prise en main. Livré en 4 semaines." },
   { n: "E-commerce", p: "à partir de 6 800 €", d: "Catalogue, paiement, transporteurs, e-mails transactionnels. Migration d'un catalogue existant possible." },
   { n: "Refonte", p: "sur devis", d: "Audit d'abord : trafic, positions, conversion. On ne refait que ce qui coûte de l'argent aujourd'hui." },
@@ -86,11 +87,14 @@ const SERVICES_SOURCE = [
 let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
-const REALISATIONS_DEMO = [
+function REALISATIONS_DEMO_LIVE() {
+  return [
   { client: "MaisonDéco " + (clientCity({ formData: fd }) ?? "Paris"), sector: "E-commerce", desc: "Refonte UX + boutique Shopify. +68% de taux de conversion en 3 mois.", img: "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80" },
   { client: "Cabinet Forêt & Associés", sector: "Juridique", desc: "Site vitrine + SEO local. Page 1 sur 8 requêtes cibles en 4 mois.", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80" },
   { client: "Startup Finly", sector: "FinTech", desc: "MVP SaaS de 0 à prod en 6 semaines. Levée de fonds facilités par la démo.", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" },
-]
+];
+}
+let REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
 let REALISATIONS = REALISATIONS_DEMO;
 
 const ATOUTS = [
@@ -132,6 +136,7 @@ export default function PixelRepublicPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -151,8 +156,12 @@ export default function PixelRepublicPage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   c = session?.generatedContent;
+  REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
   OFFRES = OFFRES_LIVE();
+
 
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),

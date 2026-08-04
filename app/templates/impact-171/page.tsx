@@ -20,6 +20,11 @@ import {
   clientTeam,
 } from "@/lib/templates/clientContent";
 
+function navLinks_LIVE() {
+  return ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs", "Contact"];
+}
+let navLinks = navLinks_LIVE();
+
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
@@ -250,9 +255,11 @@ export default function Impact171Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  navLinks = navLinks_LIVE();
   DOCTORS_DEMO = DOCTORS_DEMO_LIVE();
 
   SCIENCE = resolveList(
@@ -330,7 +337,6 @@ export default function Impact171Page() {
     return () => window.removeEventListener("scroll", fn)
   }, []);
 
-const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs", "Contact"]
   const activeSpecData = specialties.find((s: any) => s.id === activeSpec) ?? specialties[0]
 
   return (

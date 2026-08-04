@@ -27,14 +27,41 @@ let faits = 0;
 const touches = [];
 const restants = [];
 
+// Le défaut se reproduit à chaque nouvelle passe de câblage : les layouts et les
+// sous-pages en portent aussi.
+const FICHIERS = [];
 for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
-  const file = path.join(ROOT, id, "page.tsx");
+  const dossier = path.join(ROOT, id);
+  if (!fs.statSync(dossier).isDirectory()) continue;
+  FICHIERS.push([id, path.join(dossier, "page.tsx")], [id, path.join(dossier, "layout.tsx")]);
+  for (const sous of fs.readdirSync(dossier)) {
+    const f = path.join(dossier, sous, "page.tsx");
+    if (fs.existsSync(f)) FICHIERS.push([`${id}/${sous}`, f]);
+  }
+}
+
+for (const [id, file] of FICHIERS) {
   if (!fs.existsSync(file)) continue;
   let src = fs.readFileSync(file, "utf8");
   const n = [...src.matchAll(HORS_FORMULAIRE)].length;
   if (n === 0) continue;
 
-  if (!/^let fd: any = null;/m.test(src)) { restants.push(`${id} (pas de variable de module)`); continue; }
+  // Les layouts et les sous-pages déclarent leur session autrement : on y écrit
+  // l'objet complet directement, sans passer par des variables de module.
+  if (!/^let fd: any = null;/m.test(src)) {
+    if (/__layoutSession/.test(src)) {
+      src = src.replace(HORS_FORMULAIRE, (m0, quoi) => `client${quoi}(__layoutSession)`);
+    } else if (/let sessionData: any = null;/.test(src)) {
+      src = src.replace(HORS_FORMULAIRE, (m0, quoi) => `client${quoi}(sessionData)`);
+    } else {
+      restants.push(`${id} (pas de variable de module)`);
+      continue;
+    }
+    if (!dry) fs.writeFileSync(file, src);
+    faits += n;
+    touches.push(`${id} (${n})`);
+    continue;
+  }
 
   // `bp` manque presque partout : on le déclare à côté de `fd` et on l'alimente
   // là où `fd` l'est.
