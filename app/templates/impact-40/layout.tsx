@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientEmail,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -278,7 +279,7 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
                 </div>
                 <div style={{ display: "flex", gap: "0.5rem" }}>
                   <Mail size={15} color={C.accent} />
-                  <span>contact@exemple.fr</span>
+                  <span>{clientEmail(__layoutSession) ?? "contact@exemple.fr"}</span>
                 </div>
               </div>
             </div>

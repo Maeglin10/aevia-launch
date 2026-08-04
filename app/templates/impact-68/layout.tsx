@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -435,7 +436,7 @@ export default function OrbitLayout({
             © {new Date().getFullYear()} Orbit Studio. All rights reserved.
           </p>
           <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "12px", color: C.textMuted }}>
-            {clientCity(__layoutSession) ?? "Paris"} · contact@exemple.fr · +33 1 XX XX XX XX
+            {clientCity(__layoutSession) ?? "Paris"} · {clientEmail(__layoutSession) ?? "contact@exemple.fr"} · +33 1 XX XX XX XX
           </p>
         </div>
       </footer>

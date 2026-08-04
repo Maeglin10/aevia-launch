@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -299,7 +300,7 @@ export default function AtelierLayout({
                 </li>
                 <li>
                   <Link href="/templates/impact-66/contact" className="hover:text-[#c9b7a1] transition-colors flex items-center gap-3" style={{ textDecoration: "none", color: "inherit" }}>
-                    <Mail className="w-3 h-3" /> contact@exemple.fr
+                    <Mail className="w-3 h-3" /> {clientEmail(__layoutSession) ?? "contact@exemple.fr"}
                   </Link>
                 </li>
               </ul>

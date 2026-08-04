@@ -380,6 +380,11 @@ export function clientNameOr(repli: string): string {
   return clientName(sessionCourante) ?? repli;
 }
 
+/** L'adresse e-mail du client, ou celle de la démonstration. Modules partagés. */
+export function clientEmailOr(repli: string): string {
+  return clientEmail(sessionCourante) ?? repli;
+}
+
 /** La photo du client à cet emplacement, ou celle du thème. */
 export function clientPhotoAt(i: number, repli: string): string {
   return clientPhotos(sessionCourante)[i] || repli;
