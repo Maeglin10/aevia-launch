@@ -458,9 +458,9 @@ function Logos() {
   return (
     <section id="realisations" style={{ ...pad, paddingBlock: 48, borderBlock: `1px solid ${C.border}`, background: C.bgSoft }}>
       <div style={{ ...maxw, textAlign: 'center' }}>
-        <p style={{ fontSize: 13, color: C.muted, fontWeight: 600, letterSpacing: '0.06em', marginBottom: 28 }}>
+        <p style={{ fontSize: 13, color: C.muted, fontWeight: 600, letterSpacing: '0.06em', marginBottom: 28 }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.texte") ?? (<>
           PLUS DE 4 000 ÉQUIPES NOUS FONT CONFIANCE
-        </p>
+        </>)}</p>
         <div
           style={{
             display: 'flex',

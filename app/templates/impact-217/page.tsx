@@ -936,7 +936,7 @@ function CrossfadeSequence() {
             textAlign: 'right',
           }}
         >
-          <Eyebrow style={{ justifyContent: 'flex-end' }}>The Anatomy</Eyebrow>
+          <Eyebrow style={{ justifyContent: 'flex-end' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>The Anatomy</>)}</Eyebrow>
         </div>
 
         {SEQUENCE.map((p, i) => (

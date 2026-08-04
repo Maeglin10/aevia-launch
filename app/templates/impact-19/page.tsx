@@ -300,7 +300,7 @@ return (
             {/* Stats */}
             <section className="py-12 bg-[var(--brand,#C9A86C)]">
               <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
-                {[["500M€", "Sous gestion"], ["47", "Participations actives"], ["3", "Licornes portefeuille"], ["8.4×", "Multiple moyen (exits)"]].map(([n, l]) => (
+                {(clientStats(sessionData)?.map((s: any) => [s.value, s.label]) ?? [["500M€", "Sous gestion"], ["47", "Participations actives"], ["3", "Licornes portefeuille"], ["8.4×", "Multiple moyen (exits)"]]).map(([n, l]) => (
                   <div key={l} className="text-center">
                     <p className="text-black text-3xl font-bold mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{n}</p>
                     <p className="text-black/50 text-xs uppercase tracking-widest">{l}</p>

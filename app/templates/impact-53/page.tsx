@@ -28,6 +28,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -281,8 +282,8 @@ return (
       >
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2.5rem" }}>
           <div style={{ marginBottom: "5rem" }}>
-            <SectionLabel>SELECTED PORTFOLIO</SectionLabel>
-            <SectionHeading>PROJECTS</SectionHeading>
+            <SectionLabel>{/* TEXTE_SECTION */ clientText(sessionData, "work.texte") ?? (<>SELECTED PORTFOLIO</>)}</SectionLabel>
+            <SectionHeading>{/* TEXTE_SECTION */ clientText(sessionData, "work.texte-2") ?? (<>PROJECTS</>)}</SectionHeading>
           </div>
         </div>
 

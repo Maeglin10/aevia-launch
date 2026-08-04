@@ -658,7 +658,7 @@ return (
                 +
               </motion.span>
             </div>
-            <AnimatePresence>
+            <AnimatePresence>{/* TEXTE_SECTION */ clientText(sessionData, "services.texte") ?? (<>
               {activeService === i && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
@@ -676,7 +676,7 @@ return (
                   </div>
                 </motion.div>
               )}
-            </AnimatePresence>
+            </>)}</AnimatePresence>
           </motion.div>
         ))}
       </section>

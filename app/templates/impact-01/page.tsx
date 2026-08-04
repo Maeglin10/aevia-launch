@@ -3457,9 +3457,9 @@ function BlogPage({
                 fontSize: "0.9rem",
                 color: T.dimmed,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-12.texte") ?? (<>
               Written by the IMPACT Studio team. Provided for informational purposes.
-            </div>
+            </>)}</div>
           </div>
         </section>
       </div>
@@ -3656,11 +3656,11 @@ function AboutPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
       {/* Story */}
       <section style={{ padding: "100px 48px", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 780, margin: "0 auto" }}>
-          {[
+          {(clientList(sessionData, "bloc-116043.liste") ?? [
             "Founded in 2018, IMPACT Studio was born from a simple conviction: digital deserves the same standards as the brands it serves. We bring design, engineering, and strategy under one roof to deliver work that consistently outperforms.",
             "Ours is a boutique studio model. Every project is run end to end by a small, senior team — a guarantee of responsiveness, consistency, and a level of care that shows in the final result.",
             "In eight years, we've partnered with more than 147 clients worldwide, from seed-stage startups to large accounts, with a 98% satisfaction rate. Beautiful work that doesn't convert is just decoration: we measure our success by yours.",
-          ].map((paraTxt, i) => (
+          ]).map((paraTxt, i) => (
             <p
               key={i}
               style={{

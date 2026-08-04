@@ -22,6 +22,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 
@@ -484,36 +485,20 @@ export default function WanderlustPage() {
       <section className="py-12 bg-amber-500 text-[#0c0a09] relative z-20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-amber-600/30">
           <div className="text-center px-4">
-            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">
-              15+
-            </div>
-            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">
-              Years Experience
-            </div>
+            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">{clientStats(sessionData)?.[0]?.value ?? "15+"}</div>
+            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">{clientStats(sessionData)?.[0]?.label ?? "Years Experience"}</div>
           </div>
           <div className="text-center px-4">
-            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">
-              42
-            </div>
-            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">
-              Remote Destinations
-            </div>
+            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">{clientStats(sessionData)?.[1]?.value ?? "42"}</div>
+            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">{clientStats(sessionData)?.[1]?.label ?? "Remote Destinations"}</div>
           </div>
           <div className="text-center px-4">
-            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">
-              4.9/5
-            </div>
-            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">
-              Guest Satisfaction
-            </div>
+            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">{clientStats(sessionData)?.[2]?.value ?? "4.9/5"}</div>
+            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">{clientStats(sessionData)?.[2]?.label ?? "Guest Satisfaction"}</div>
           </div>
           <div className="text-center px-4">
-            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">
-              100%
-            </div>
-            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">
-              Carbon Offset
-            </div>
+            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">{clientStats(sessionData)?.[3]?.value ?? "100%"}</div>
+            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">{clientStats(sessionData)?.[3]?.label ?? "Carbon Offset"}</div>
           </div>
         </div>
       </section>

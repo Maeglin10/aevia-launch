@@ -14,6 +14,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -355,7 +356,7 @@ return (
             {/* Stats */}
             <section id="about" className="py-16 bg-[#161B27] border-y border-white/5">
               <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
-                {[["12 000+", "Équipes actives"], ["350+", "Intégrations"], ["99.99%", "Uptime SLA"], ["-40%", "Temps de réunion"]].map(([n, l]) => (
+                {(clientStats(sessionData)?.map((s: any) => [s.value, s.label]) ?? [["12 000+", "Équipes actives"], ["350+", "Intégrations"], ["99.99%", "Uptime SLA"], ["-40%", "Temps de réunion"]]).map(([n, l]) => (
                   <div key={l} className="text-center">
                     <p className="text-white text-3xl font-extrabold mb-1">{n}</p>
                     <p className="text-gray-500 text-xs">{l}</p>

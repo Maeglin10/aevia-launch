@@ -1014,11 +1014,11 @@ export default function StudioPelikanPage() {
 
           <section className="py-24 px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <Reveal>
+              <Reveal>{/* TEXTE_SECTION */ clientText(sessionData, "section-27.texte") ?? (<>
                 <button onClick={() => goTo("home")} className="border border-[var(--brand,#C9A05A)]/30 text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[var(--brand,#C9A05A)] hover:text-black transition-all cursor-pointer">
                   Retour à l&apos;accueil
                 </button>
-              </Reveal>
+              </>)}</Reveal>
             </div>
           </section>
         </div>

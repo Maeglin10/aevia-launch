@@ -1344,14 +1344,14 @@ export default function Impact200Page() {
       {/* ── PARTENAIRES ───────────────────────────────────────────── */}
       <section className="py-16 bg-white/40 border-y border-[var(--brand,#DB2777)]/10">
         <div className="max-w-7xl mx-auto px-6">
-          <Reveal>
+          <Reveal>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.texte") ?? (<>
             <p
               className="text-center text-[#831843]/40 text-sm tracking-[0.2em] uppercase mb-10"
               style={{ fontFamily: "'Cormorant Infant', serif" }}
             >
               Nos lieux partenaires d'exception
             </p>
-          </Reveal>
+          </>)}</Reveal>
           <Marquee items={PARTNERS} speed={30} />
         </div>
       </section>

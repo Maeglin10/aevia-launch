@@ -517,7 +517,7 @@ return (
           {/* Clients */}
           <section className="py-16 px-6 border-y border-gray-100">
             <div className="max-w-6xl mx-auto">
-              <Reveal className="text-center mb-8"><p className="text-gray-400 text-sm">Ils nous ont fait confiance</p></Reveal>
+              <Reveal className="text-center mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.texte") ?? (<><p className="text-gray-400 text-sm">Ils nous ont fait confiance</p></>)}</Reveal>
               <div className="flex flex-wrap justify-center gap-8">
                 {clients.map((c, i) => <Reveal key={c} delay={i * 0.04}><span className="text-gray-300 text-sm font-medium hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer">{c}</span></Reveal>)}
               </div>
