@@ -19,6 +19,7 @@ import "../premium.css";
 import {
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -471,12 +472,12 @@ export default function NexusSaaSPage() {
               <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
                 {/* Metrics */}
                 <div className="col-span-1 md:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {[
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? [
                     "Requests/sec",
                     "Latency (p99)",
                     "Bandwidth",
                     "Active Nodes",
-                  ].map((metric, i) => (
+                  ]).map((metric, i) => (
                     <div
                       key={i}
                       className="p-4 rounded-xl border border-white/5 bg-white/[0.02]"
@@ -617,11 +618,11 @@ export default function NexusSaaSPage() {
               they are.
             </p>
             <ul className="space-y-4 mb-10">
-              {[
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "realisations.liste2") ?? [
                 "0ms Cold starts for edge functions",
                 "Global database replication under 50ms",
                 "Built-in Redis-compatible distributed cache",
-              ].map((item, i) => (
+              ]).map((item, i) => (
                 <li
                   key={i}
                   className="flex items-center gap-3 text-sm font-medium"

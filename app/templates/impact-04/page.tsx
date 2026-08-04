@@ -24,6 +24,7 @@ import {
   clientCity,
   clientFaq,
   clientHours,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -607,7 +608,7 @@ return (
             </div>
 
             <div className="mt-10 flex flex-wrap gap-3">
-              {["Seasonal ingredients", "Biodynamic wines", "Zero food waste", "Local producers"].map(tag => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "story.liste1") ?? ["Seasonal ingredients", "Biodynamic wines", "Zero food waste", "Local producers"]).map(tag => (
                 <div key={tag} className="flex items-center gap-1.5 text-[10px] font-sans uppercase tracking-wider text-[#f5efe6]/40">
                   <CheckCircle2 className="w-3 h-3 text-amber-600" />{tag}
                 </div>

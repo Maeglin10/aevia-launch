@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientList,
   clientReviews,
   clientServices,
   clientStats,
@@ -424,7 +425,7 @@ return (
               The world's fastest cloud platform for building and scaling high-performance applications at the edge.
             </>}</p>
             <div className="flex gap-4">
-              {["github", "twitter", "discord"].map(s => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["github", "twitter", "discord"]).map(s => (
                 <div key={s} className="w-10 h-10 rounded-lg bg-slate-900 border border-white/5 flex items-center justify-center hover:bg-slate-800 transition-colors cursor-pointer text-slate-400 hover:text-white uppercase text-[10px] font-bold tracking-widest">{s}</div>
               ))}
             </div>

@@ -38,6 +38,7 @@ import {
   clientCity,
   clientFaq,
   clientHours,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -923,7 +924,7 @@ function SavoirFaireSection() {
                 Fondée dans les ateliers du Marais, Aurelia perpétue les techniques de l'orfèvrerie française transmises de maître en apprenti depuis cinq générations. Chaque pièce est le fruit d'un minimum de 200 heures de travail à la main.
               </p>
               <div className="flex flex-wrap gap-6">
-                {["Certification Hallmark 18K", "Membre du Comité Vendôme", "Label Entreprise du Patrimoine Vivant"].map((badge) => (
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "savoir-faire.liste1") ?? ["Certification Hallmark 18K", "Membre du Comité Vendôme", "Label Entreprise du Patrimoine Vivant"]).map((badge) => (
                   <div key={badge} className="flex items-center gap-2">
                     <Award size={14} color={C.gold} />
                     <span

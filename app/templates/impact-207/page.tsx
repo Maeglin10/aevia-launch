@@ -16,6 +16,7 @@ import Link from "next/link"
 import { TemplateIcon } from '@/components/TemplateIcon'
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -918,7 +919,7 @@ function StatsSection() {
             <span style={{ fontSize: 13, fontWeight: 600, color: T.text }}>All Systems Operational</span>
           </div>
           <div style={{ height: 1, flex: 1, background: T.border, minWidth: 20 }} />
-          {["Tracking API", "Route Engine", "Customs Hub", "Fleet Comms", "ETA Prediction"].map((sys) => (
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "stats.liste1") ?? ["Tracking API", "Route Engine", "Customs Hub", "Fleet Comms", "ETA Prediction"]).map((sys) => (
             <div key={sys} style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <div style={{ width: 7, height: 7, borderRadius: "50%", background: T.green }} />
               <span style={{ fontSize: 12, color: T.textMuted }}>{sys}</span>
@@ -1776,7 +1777,7 @@ function TestimonialsSection() {
           }}
         >
           <span style={{ fontSize: 11, color: T.textMuted, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>Trusted by</span>
-          {["MAISON BEAUTÉ", "ROTTERDAM COMPONENTS", "MEDLINX ASIA", "DELTA PHARMA", "GLOBEX TRADE", "IRONSTONE MINING"].map((brand) => (
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste2") ?? ["MAISON BEAUTÉ", "ROTTERDAM COMPONENTS", "MEDLINX ASIA", "DELTA PHARMA", "GLOBEX TRADE", "IRONSTONE MINING"]).map((brand) => (
             <span
               key={brand}
               style={{
@@ -2175,7 +2176,7 @@ function Footer() {
             </p>
 
             <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
-              {["LinkedIn", "Twitter", "YouTube"].map((net) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste3") ?? ["LinkedIn", "Twitter", "YouTube"]).map((net) => (
                 <div
                   key={net}
                   style={{

@@ -38,6 +38,7 @@ import {
 import {
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1651,13 +1652,13 @@ return (
               Chaque aiguille est ouverte devant vous. Notre autoclave est contrôlé chaque semaine. Les surfaces sont stérilisées entre chaque client. Nous respectons et dépassons toutes les normes DDPP en vigueur.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {[
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
                 "Aiguilles à usage unique, ouvertes devant le client",
                 "Autoclave validé — contrôle hebdomadaire",
                 "Stérilisation complète entre chaque client",
                 "Audit sanitaire DDPP annuel affiché en studio",
                 "Formation continue aux bonnes pratiques d'hygiène",
-              ].map((item) => (
+              ]).map((item) => (
                 <div key={item} style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
                   <div style={{
                     width: 20, height: 20,

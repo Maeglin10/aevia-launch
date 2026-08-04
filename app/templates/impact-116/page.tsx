@@ -18,6 +18,7 @@ import { Progress } from "@/components/ui/progress"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientList,
   clientName,
   clientServices,
   clientStats,
@@ -390,7 +391,7 @@ export default function KineticStudio() {
           <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Trusted By Top Brands</>)}</h2>
         </Reveal>
         <div className="flex justify-center gap-12 flex-wrap">
-          {["Vantage", "Orbital", "Meridian Labs", "Northwind", "Cascade", "Fathom", "Halcyon", "Ember & Co"].map((brand, idx) => (
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["Vantage", "Orbital", "Meridian Labs", "Northwind", "Cascade", "Fathom", "Halcyon", "Ember & Co"]).map((brand, idx) => (
             <Reveal key={idx} delay={idx * 0.05}>
               <p className="text-white/40 font-light">{brand}</p>
             </Reveal>
@@ -605,7 +606,7 @@ export default function KineticStudio() {
           <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-13.titre") ?? (<>Awards & Recognition</>)}</h2>
         </Reveal>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {["Cannes Lions", "D&AD Awards", "The Webby Awards", "Graphis Award", "One Show", "Indie Short Fest", "Vimeo Awards", "IATSE Choice"].map((award, idx) => (
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste2") ?? ["Cannes Lions", "D&AD Awards", "The Webby Awards", "Graphis Award", "One Show", "Indie Short Fest", "Vimeo Awards", "IATSE Choice"]).map((award, idx) => (
             <Reveal key={idx} delay={idx * 0.05}>
               <Card className="bg-[#06060a] border-[var(--brand,#ff5500)]/20 text-center">
                 <CardContent className="p-6">

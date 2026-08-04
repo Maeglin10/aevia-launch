@@ -19,6 +19,7 @@ import {
   clientCity,
   clientFaq,
   clientHours,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -2781,7 +2782,7 @@ function Footer() {
             © {currentYear} Bâtisseurs Durand SARL — Tous droits réservés. Maçonnerie Lyon.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-            {['Qualibat RGE', 'Décennale', '4.9/5 Google'].map((badge) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ['Qualibat RGE', 'Décennale', '4.9/5 Google']).map((badge) => (
               <span
                 key={badge}
                 style={{

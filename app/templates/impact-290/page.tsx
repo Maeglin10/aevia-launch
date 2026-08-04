@@ -34,6 +34,7 @@ import {
   clientAddress,
   clientCertifications,
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -3018,7 +3019,7 @@ function FooterSection() {
                 flexWrap: 'wrap',
               }}
             >
-              {['RGE', 'QualiPAC', 'QualiSol', 'Décennale'].map((b) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "certifications.liste1") ?? ['RGE', 'QualiPAC', 'QualiSol', 'Décennale']).map((b) => (
                 <span
                   key={b}
                   style={{

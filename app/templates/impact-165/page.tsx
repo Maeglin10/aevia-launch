@@ -9,6 +9,7 @@ import Link from "next/link"
 import { Menu, X, ArrowRight, Check, Star, Zap, Shield, BarChart2, Bell, MessageSquare, Users, Smartphone, Apple, Play, ChevronRight } from "lucide-react"
 import {
   clientCity,
+  clientList,
   clientReviews,
   clientServices,
   clientText,
@@ -368,7 +369,7 @@ export default function PulseAppPage() {
                     </div>
                     {/* Notifications */}
                     <div className="space-y-2">
-                      {["Rapport hebdomadaire prêt", "3 tâches en retard", "Objectif atteint"].map(notif => (
+                      {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? ["Rapport hebdomadaire prêt", "3 tâches en retard", "Objectif atteint"]).map(notif => (
                         <div key={notif} className="bg-[#252150] rounded-xl p-3 flex items-center gap-3">
                           <div className="w-2 h-2 rounded-full bg-[var(--brand,#6366F1)] flex-shrink-0" />
                           <span className="text-[11px] text-[#C8C4E8]">{notif}</span>
@@ -397,7 +398,7 @@ export default function PulseAppPage() {
         <div className="mt-20 pt-10 border-t border-[#E8E5FF]">
           <p className="text-xs tracking-widest uppercase text-[#8B87B0] text-center mb-8">Ils utilisent Pulse</p>
           <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16 opacity-40">
-            {["Flowly", "Nimble", "DataBrick", "Kynda", "Axiom", "Serenity"].map(brand => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste2") ?? ["Flowly", "Nimble", "DataBrick", "Kynda", "Axiom", "Serenity"]).map(brand => (
               <span key={brand} className="text-sm font-bold tracking-wide">{brand}</span>
             ))}
           </div>

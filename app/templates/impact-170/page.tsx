@@ -14,6 +14,7 @@ import {
 } from "framer-motion";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -1463,7 +1464,7 @@ export default function Impact170Page() {
               }}
             >
               <div style={{ display: "flex", gap: 6 }}>
-                {["#ff5f57", "#ffbd2e", "#28c840"].map((c, i) => (
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? ["#ff5f57", "#ffbd2e", "#28c840"]).map((c, i) => (
                   <div
                     key={i}
                     style={{

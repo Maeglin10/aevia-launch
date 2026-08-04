@@ -3,6 +3,7 @@ import {
   clientAddress,
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -518,7 +519,7 @@ export default function CreativePortfolioSPA() {
             </p>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-8">
-              {["Leica M11", "Hasselblad H6D", "Profoto Lighting", "Phase One", "Capture One Pro", "Analog 35mm"].map((gear, i) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "about.liste1") ?? ["Leica M11", "Hasselblad H6D", "Profoto Lighting", "Phase One", "Capture One Pro", "Analog 35mm"]).map((gear, i) => (
                 <div key={i} className="flex items-center gap-3 group">
                   <div className="w-1 h-1 bg-white/20 group-hover:bg-amber-400 transition-colors" />
                   <span className="text-sm font-mono text-white/50 group-hover:text-amber-400 transition-colors">{gear}</span>

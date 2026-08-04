@@ -16,6 +16,7 @@ import { C, F, projects, teamMembers, processSteps } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientList,
   clientServices,
   clientTagline,
   clientTeam,
@@ -1835,7 +1836,7 @@ function StatsSection() {
             Established {clientCity(sessionData) ?? "Paris"}, 2001
           </span>
           <div style={{ display: 'flex', gap: 32 }}>
-            {['Venice Biennale', 'Grand Prix National', 'RIBA International'].map(
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ['Venice Biennale', 'Grand Prix National', 'RIBA International']).map(
               (award) => (
                 <span
                   key={award}
@@ -2512,7 +2513,7 @@ function ContactSection() {
                     <option value="" style={{ background: C.bgDark }}>
                       Project Type
                     </option>
-                    {[
+                    {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste2") ?? [
                       'Private Residence',
                       'Mixed-Use Development',
                       'Cultural Institution',
@@ -2521,7 +2522,7 @@ function ContactSection() {
                       'Urban Planning',
                       'Interior Design',
                       'Other',
-                    ].map((t) => (
+                    ]).map((t) => (
                       <option
                         key={t}
                         value={t}

@@ -35,6 +35,7 @@ import {
   clientAddress,
   clientCity,
   clientHours,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -2622,12 +2623,12 @@ function PracticalSection() {
                   gap: 10,
                 }}
               >
-                {[
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "pratique.liste1") ?? [
                   'Tram ligne 1 — arrêt Antigone (2 min à pied)',
                   "Parking gratuit Place du Nombre d'Or",
                   'Accessible PMR — ascenseur + rampe',
                   'À 10 min du centre-ville à vélo',
-                ].map((t) => (
+                ]).map((t) => (
                   <div
                     key={t}
                     style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}

@@ -20,6 +20,7 @@ import {
 } from "framer-motion";
 import {
   clientCity,
+  clientList,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1981,7 +1982,7 @@ export default function Impact115Page() {
               >
                 Studios
               </div>
-              {["Oslo (HQ)", "Singapore", "Bali Studio"].map((s) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["Oslo (HQ)", "Singapore", "Bali Studio"]).map((s) => (
                 <div
                   key={s}
                   style={{

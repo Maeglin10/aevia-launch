@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Coffee, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -1855,14 +1856,14 @@ function OrderForm() {
                   <option value="" style={{ color: '#000', background: '#fff' }}>
                     Choisir un type…
                   </option>
-                  {[
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "commander.liste1") ?? [
                     'Brunch privatif',
                     'Wedding cake',
                     'Plateau petits-fours',
                     'Pain personnalisé',
                     'Buffet événement',
                     'Autre',
-                  ].map((opt) => (
+                  ]).map((opt) => (
                     <option
                       key={opt}
                       value={opt}

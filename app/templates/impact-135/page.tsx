@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, 
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -1499,7 +1500,7 @@ export default function Impact135Page() {
               flexWrap: "wrap",
             }}
           >
-            {["No subscription lock-in", "14-day free trial", "48K+ active traders", "SOC 2 certified"].map(
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? ["No subscription lock-in", "14-day free trial", "48K+ active traders", "SOC 2 certified"]).map(
               (t) => (
                 <div
                   key={t}

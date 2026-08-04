@@ -34,6 +34,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCertifications,
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -587,7 +588,7 @@ function HeroSection() {
           transition={{ duration: 1.0, ease: EASE, delay: 0.62 }}
           style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 36 }}
         >
-          {['7j/7 · 24h/24', 'Devis gratuit', 'Qualifelec RGE'].map((badge) => (
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? ['7j/7 · 24h/24', 'Devis gratuit', 'Qualifelec RGE']).map((badge) => (
             <span
               key={badge}
               style={{

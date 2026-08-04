@@ -9,6 +9,7 @@ import { ChefHat, Star, Phone, MapPin, Clock, CheckCircle, Utensils, Wine, Users
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -223,7 +224,7 @@ export default function TableExceptionPage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }} className="flex flex-wrap gap-5">
-            {["Devis 24h", "Chef & service inclus", "Certifié HACCP"].map((b, i) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? ["Devis 24h", "Chef & service inclus", "Certifié HACCP"]).map((b, i) => (
               <div key={i} className="flex items-center gap-2">
                 <CheckCircle className="w-3.5 h-3.5 text-[var(--brand,#d4a853)]" />
                 <span className="text-[10px] font-bold text-[#fefcf8]/28 uppercase tracking-wide">{b}</span>

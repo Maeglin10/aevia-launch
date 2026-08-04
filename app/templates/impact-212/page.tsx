@@ -18,6 +18,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -1726,7 +1727,7 @@ return (
               <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 16, fontWeight: 700, color: C.white, marginBottom: '1.25rem', letterSpacing: '0.04em' }}>
                 Zone d'intervention
               </div>
-              {['Lyon (tous arrondissements)', (clientCity(sessionData) ?? 'Villeurbanne'), 'Bron', 'Caluire-et-Cuire', 'Décines-Charpieu', 'Écully', 'Vénissieux', 'Tassin-la-Demi-Lune'].map(z => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ['Lyon (tous arrondissements)', (clientCity(sessionData) ?? 'Villeurbanne'), 'Bron', 'Caluire-et-Cuire', 'Décines-Charpieu', 'Écully', 'Vénissieux', 'Tassin-la-Demi-Lune']).map(z => (
                 <div key={z} style={{ marginBottom: 9 }}>
                   <span style={{ color: C.textMuted, fontSize: 13.5 }}>{z}</span>
                 </div>
@@ -1760,7 +1761,7 @@ return (
               © 2024 Therma Pro SAS · SIRET 123 456 789 00012 · RGE n° E-E200050{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </div>
             <div className="footer-badges" style={{ display: 'flex', gap: '0.75rem' }}>
-              {['RGE Certifié', '4.9/5 Google', 'Garantie 5 ans'].map(badge => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste2") ?? ['RGE Certifié', '4.9/5 Google', 'Garantie 5 ans']).map(badge => (
                 <span key={badge} style={{
                   color: C.textMuted, fontSize: 12,
                   background: C.bgCard, border: `1px solid ${C.border}`,

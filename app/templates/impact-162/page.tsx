@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientText,
@@ -585,7 +586,7 @@ return (
                         <div>
                           <label htmlFor="reservation-guests" className="block text-xs text-[#8A7560] mb-2">Nombre de personnes</label>
                           <select id="reservation-guests" className="w-full bg-[#FDFAF5] border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors cursor-pointer">
-                            {["1 personne", "2 personnes", "3 personnes", "4 personnes", "5+ personnes"].map(n => <option key={n}>{n}</option>)}
+                            {/* LISTE_LIBELLES */ (clientList(sessionData, "nous-trouver.liste1") ?? ["1 personne", "2 personnes", "3 personnes", "4 personnes", "5+ personnes"]).map(n => <option key={n}>{n}</option>)}
                           </select>
                         </div>
                         <div>

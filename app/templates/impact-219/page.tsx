@@ -22,6 +22,7 @@ import {
 import {
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -253,7 +254,7 @@ function DashboardMockup() {
           background: C.bgSoft,
         }}
       >
-        {['#ff5f57', '#febc2e', '#28c840'].map((c) => (
+        {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ['#ff5f57', '#febc2e', '#28c840']).map((c) => (
           <span key={c} style={{ width: 11, height: 11, borderRadius: 999, background: c }} />
         ))}
         <span style={{ marginLeft: 12, fontSize: 12, color: C.muted, fontWeight: 600 }}>
@@ -1031,7 +1032,7 @@ function FinalCTA() {
           {/* social proof */}
           <div style={{ marginTop: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, flexWrap: 'wrap' }}>
             <div style={{ display: 'flex' }}>
-              {['#fff', '#e0d9ff', '#c7b8ff', '#b1a0ff', '#9d88ff'].map((c, i) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "cta.liste2") ?? ['#fff', '#e0d9ff', '#c7b8ff', '#b1a0ff', '#9d88ff']).map((c, i) => (
                 <span
                   key={i}
                   style={{

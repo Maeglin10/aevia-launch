@@ -9,6 +9,7 @@ import { ArrowRight, ArrowUpRight, X, Menu, Check } from "lucide-react";
 import {
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -571,7 +572,7 @@ return (
               06 disciplines
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 40 }}>
-              {["Branding", "Web", "Campagnes", "Direction Art", "UX", "Consulting"].map((tag, i) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? ["Branding", "Web", "Campagnes", "Direction Art", "UX", "Consulting"]).map((tag, i) => (
                 <span key={i} style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 2, padding: "5px 12px", border: `1px solid ${C.bgDark}`, color: C.text, textTransform: "uppercase" }}>
                   {tag}
                 </span>
@@ -929,7 +930,7 @@ return (
           </div>
         </div>
         <div style={{ padding: "80px 64px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 16 }}>
-          {["Votre email", "Budget approximatif", "Votre besoin en quelques mots"].map((ph, i) =>
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste2") ?? ["Votre email", "Budget approximatif", "Votre besoin en quelques mots"]).map((ph, i) =>
             i < 2 ? (
               <input key={i} placeholder={ph}
                 style={{ width: "100%", padding: "18px 24px", background: "transparent", border: `1.5px solid ${C.borderLight}`, color: C.text, fontFamily: C.mono, fontSize: 12, letterSpacing: 1, outline: "none" }} />

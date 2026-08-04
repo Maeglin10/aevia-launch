@@ -9,6 +9,7 @@ import { Volume2, ArrowRight, Menu, Star, Activity, Shield, Mic2, Speaker, Headp
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientList,
   clientName,
   clientPhotos,
   clientReviews,
@@ -376,7 +377,7 @@ export default function AetherSoundPage() {
               <div className="flex flex-wrap items-center justify-between gap-8 mb-16 border-b border-white/5 pb-12">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Recognised by</span>
                 <div className="flex flex-wrap gap-8">
-                  {["AES Gold Medal 2024", "TEC Award Best Hardware", "Mix Magazine Premier Award", "Pro Sound Europe"].map(a => (
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["AES Gold Medal 2024", "TEC Award Best Hardware", "Mix Magazine Premier Award", "Pro Sound Europe"]).map(a => (
                     <span key={a} className="text-[10px] font-bold uppercase tracking-widest text-white/15 hover:text-white/40 transition-colors">{a}</span>
                   ))}
                 </div>

@@ -51,6 +51,7 @@ import {
 } from "lucide-react";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -1765,13 +1766,13 @@ export default function HorizonMaritimePage() {
               </Reveal>
 
               {/* Services list */}
-              {[
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
                 "Private aviation coordination & helipad arrivals",
                 "Onboard Michelin-starred culinary programmes",
                 "Submarine, tender & water sport fleet included",
                 "Medical officer & security detail on request",
                 "Art, museum & government access facilitation",
-              ].map((service, i) => (
+              ]).map((service, i) => (
                 <Reveal key={service} delay={0.35 + i * 0.06}>
                   <div
                     style={{
@@ -2209,7 +2210,7 @@ export default function HorizonMaritimePage() {
                   Vessel Type Preference
                 </label>
                 <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-                  {["Motor Yacht", "Sailing Yacht", "Catamaran", "Explorer Yacht", "No Preference"].map((type) => (
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste2") ?? ["Motor Yacht", "Sailing Yacht", "Catamaran", "Explorer Yacht", "No Preference"]).map((type) => (
                     <label
                       key={type}
                       style={{

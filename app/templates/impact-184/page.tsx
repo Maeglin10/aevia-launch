@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientAreas,
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -242,7 +243,7 @@ export default function BrilloNetPage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2, duration: 0.7 }} className="flex flex-wrap items-center gap-6">
-            {["Assurés RC Pro", "Ponctualité garantie", "Devis gratuit 2h"].map((b, i) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? ["Assurés RC Pro", "Ponctualité garantie", "Devis gratuit 2h"]).map((b, i) => (
               <div key={i} className="flex items-center gap-2">
                 <CheckCircle className="w-3.5 h-3.5 text-[var(--brand,#0d9488)]" />
                 <span className="text-[10px] font-bold text-white/35 uppercase tracking-wide">{b}</span>

@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { Reveal, EVENTS, ParallaxImg } from "./shared";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -224,7 +225,7 @@ return (
             >
               {Array.from({ length: 2 }).map((_, rep) => (
                 <React.Fragment key={rep}>
-                  {[
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
                     "RÉSERVATIONS PRIVÉES",
                     "BERLIN",
                     "IBIZA",
@@ -234,7 +235,7 @@ return (
                     "NOCTURNE",
                     "VIP LOUNGE",
                     "VELVET",
-                  ].map((word, i) => (
+                  ]).map((word, i) => (
                     <React.Fragment key={`${rep}-${i}`}>
                       <span>{word}</span>
                       <span className="text-white/10">·</span>

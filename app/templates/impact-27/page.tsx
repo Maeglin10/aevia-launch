@@ -14,6 +14,7 @@ import {
 import { Reveal, projects, gridOverlay, monoStyle, Label } from "./shared"
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -989,7 +990,7 @@ return (
           <Reveal className="text-center">
             <p className="text-[var(--brand,#9B5CF6)] text-xs tracking-widest uppercase mb-6" style={monoStyle}>Trusted by</p>
             <div className="flex flex-wrap justify-center gap-8 text-white/30 font-semibold text-lg">
-              {["Phantom Motors", "ArcSpace", "Luminary", "Valo Corp", "Studio Levi", "Forma", "Nexus Cloud", "Helio Medical"].map(c => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["Phantom Motors", "ArcSpace", "Luminary", "Valo Corp", "Studio Levi", "Forma", "Nexus Cloud", "Helio Medical"]).map(c => (
                 <span key={c} className="hover:text-white/60 transition-colors cursor-default">{c}</span>
               ))}
             </div>

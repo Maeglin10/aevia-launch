@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -2125,7 +2126,7 @@ function Footer() {
               flexWrap: 'wrap',
             }}
           >
-            {['Illustration', 'Neo-Trad', 'Botanica'].map((tag) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "reservation.liste1") ?? ['Illustration', 'Neo-Trad', 'Botanica']).map((tag) => (
               <span
                 key={tag}
                 style={{

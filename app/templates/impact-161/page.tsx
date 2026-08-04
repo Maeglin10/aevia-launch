@@ -9,6 +9,7 @@ import Link from "next/link"
 import { Menu, X, ArrowRight, Check, Star, Zap, BarChart2, Shield, Users, Clock, Globe, ChevronRight, Play, Sparkles } from "lucide-react"
 import {
   clientCity,
+  clientList,
   clientReviews,
   clientServices,
   clientText,
@@ -325,7 +326,7 @@ export default function EssentialSaaSPage() {
         <div className="mt-16 pt-10 border-t border-slate-100">
           <p className="text-sm text-slate-400 mb-6">Utilisé par +2 400 équipes dans 45 pays</p>
           <div className="flex flex-wrap items-center justify-center gap-10 opacity-30">
-            {["Flowly", "Nimble", "DataBrick", "Kynda", "Axiom", "Serenity"].map(b => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? ["Flowly", "Nimble", "DataBrick", "Kynda", "Axiom", "Serenity"]).map(b => (
               <span key={b} className="text-sm font-bold tracking-wide">{b}</span>
             ))}
           </div>

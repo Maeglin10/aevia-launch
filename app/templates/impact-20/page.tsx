@@ -15,6 +15,7 @@ import Link from "next/link";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -1689,7 +1690,7 @@ export default function LuxuryJewelryTemplate() {
           style={{ display: "flex", gap: 56, whiteSpace: "nowrap" }}
         >
           {Array.from({ length: 8 }).flatMap((_, i) =>
-            [
+            /* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
               "Haute Joaillerie",
               "✦",
               "Or 18 Carats",
@@ -1700,7 +1701,7 @@ export default function LuxuryJewelryTemplate() {
               "✦",
               "Sur Mesure",
               "✦",
-            ].map((t, j) => (
+            ]).map((t, j) => (
               <span
                 key={`${i}-${j}`}
                 style={{

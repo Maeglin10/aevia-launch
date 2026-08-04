@@ -23,6 +23,7 @@ import { DWELL, useSlides, BentoCascade, SlideIndex, HairlineArrows } from "@/li
 import { DifferentialExit } from "@/lib/templates/hero-kit-3";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -360,7 +361,7 @@ return (
         <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
           <div style={{ fontFamily: FONT_MONO, fontSize: "0.6rem", color: "rgba(255,255,255,0.2)", letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: "4rem" }}>SELECT CLIENTS //</div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(160px, 100%), 1fr))", gap: "2px", background: C.dim }}>
-            {["PHANTOM", "ATLAS CO.", "NOVA SYS", "MERIDIAN", "CIPHER", "HELIX"].map((name) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["PHANTOM", "ATLAS CO.", "NOVA SYS", "MERIDIAN", "CIPHER", "HELIX"]).map((name) => (
               <div key={name} style={{ background: C.black, padding: "2.5rem 2rem", textAlign: "center" }}>
                 <div style={{ fontFamily: FONT_SYNE, fontSize: "0.75rem", fontWeight: 900, color: "rgba(255,255,255,0.2)", textTransform: "uppercase", letterSpacing: "0.15em" }}>{name}</div>
               </div>

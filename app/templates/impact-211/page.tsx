@@ -3,6 +3,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHours,
+  clientList,
   clientName,
   clientServices,
   clientText,
@@ -998,7 +999,7 @@ export default function Impact211Page() {
               </svg>
 
               {/* Corner decorations */}
-              {["top-left", "top-right", "bottom-left", "bottom-right"].map((pos) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "histoire.liste1") ?? ["top-left", "top-right", "bottom-left", "bottom-right"]).map((pos) => (
                 <div key={pos} style={{
                   position: "absolute",
                   [pos.includes("top") ? "top" : "bottom"]: 16,
@@ -1386,11 +1387,11 @@ export default function Impact211Page() {
 
               {/* Accolades */}
               <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem", marginTop: "2.5rem" }}>
-                {[
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "chef.liste2") ?? [
                   "★★ Michelin — depuis 2019",
                   "17/20 Gault & Millau — Chef de l'Année 2022",
                   "Meilleur Ouvrier de France — 2016",
-                ].map((item) => (
+                ]).map((item) => (
                   <div key={item} style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                     <div style={{ width: 24, height: 1, background: C.gold, flexShrink: 0 }} />
                     <span style={{ fontFamily: font.sans, fontSize: "0.8rem", fontWeight: 300, color: C.creamMuted, letterSpacing: "0.06em" }}>{item}</span>
