@@ -1059,6 +1059,7 @@ export function StepForm() {
               <Field label={t.fPhotos}>
                 <p className="text-zinc-500 text-xs mb-3">{t.fPhotosHint}</p>
                 <PhotoSlotsField
+                metier={SECTORS.find((x) => x.id === form.sector)?.label ?? form.sector}
                   templateId={form.template}
                   photoUrls={form.photoUrls}
                   onChange={(next) => set("photoUrls", next)}
