@@ -375,7 +375,7 @@ export default function EssentialBlogPage() {
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,
   );
-  STATS = resolveList(clientStats(session), STATS_DEMO);
+  STATS = resolveList(clientStats(session)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
     TESTIMONIALS_DEMO,

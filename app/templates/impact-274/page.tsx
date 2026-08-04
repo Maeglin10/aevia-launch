@@ -1186,7 +1186,7 @@ function PracticeSection() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {resolveList<any>(clientServices(sessionData), PRACTICES_DEMO).map((p: any, i: number) => (
+            {resolveList<any>(clientServices(sessionData)?.map((r: any) => ({ title: r.title, body: r.desc })), PRACTICES_DEMO).map((p: any, i: number) => (
               <Reveal key={p.title ?? p.name ?? i} delay={0.06 * i}>
                 <div
                   style={{

@@ -303,7 +303,7 @@ return (
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Des réponses concrètes<br /><em>à chaque situation.</em></h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
-          {resolveList<any>(clientServices(sessionData), ACCOMPAGNEMENTS_DEMO).map((s: any, i: number) => (
+          {resolveList<any>(clientServices(sessionData)?.map((r: any) => ({ titre: r.title, desc: r.desc })), ACCOMPAGNEMENTS_DEMO).map((s: any, i: number) => (
             <Reveal key={s.titre ?? s.name ?? i} delay={i * 0.07}>
               <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 10, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
                 {(s.tag || s.price) && <span style={{ background: C.accentLight, color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag ?? s.price}</span>}
@@ -384,7 +384,7 @@ return (
                   <NJField label="Adresse e-mail" type="email" />
                   <NJField label="Type de consultation" type="select">
                     <option value="">Choisir un accompagnement</option>
-                    {resolveList<any>(clientServices(sessionData), ACCOMPAGNEMENTS_DEMO).map((s: any, i: number) => (
+                    {resolveList<any>(clientServices(sessionData)?.map((r: any) => ({ titre: r.title, desc: r.desc })), ACCOMPAGNEMENTS_DEMO).map((s: any, i: number) => (
                       <option key={s.titre ?? s.name ?? i} value={s.titre ?? s.name}>{s.titre ?? s.name}</option>
                     ))}
                   </NJField>

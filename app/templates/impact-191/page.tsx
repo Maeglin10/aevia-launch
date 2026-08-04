@@ -164,7 +164,7 @@ export default function JardinsVivantsPage() {
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
   const prestations = resolveList(clientServices(session), PRESTATIONS_DEMO);
-  const temoignages = resolveList(clientReviews(session), TEMOIGNAGES_DEMO);
+  const temoignages = resolveList(clientReviews(session)?.map((r: any) => ({ q: r.text, n: r.author, l: r.detail })), TEMOIGNAGES_DEMO);
 
   return (
     <div className="bg-[#fafaf7] text-[#1e2a1c] overflow-x-hidden" style={{ fontFamily: "'Source Sans 3', 'Inter', system-ui, sans-serif" }}>

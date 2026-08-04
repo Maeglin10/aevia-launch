@@ -2090,7 +2090,7 @@ return (
       <Nav />
       <Hero />
       <Intro />
-      <TreatmentSequence treatments={resolveList<any>(clientServices(sessionData), TREATMENTS_DEMO)} />
+      <TreatmentSequence treatments={resolveList<any>(clientServices(sessionData)?.map((r: any) => ({ label: r.title, description: r.desc })), TREATMENTS_DEMO)} />
       {/* SpecialtyCards left demo-only: sparse icon+title tags with no clean
           BusinessProfile field — wiring real data here would just duplicate
           TREATMENTS_DEMO's substance with a worse (title-only) shape. */}

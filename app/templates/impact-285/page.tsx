@@ -1208,7 +1208,7 @@ function ConsultationSection() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {resolveList<any>(clientServices(sessionData), CONSULT_TYPES_DEMO).map((ct: any, i: number) => (
+            {resolveList<any>(clientServices(sessionData)?.map((r: any) => ({ titre: r.title, body: r.desc })), CONSULT_TYPES_DEMO).map((ct: any, i: number) => (
               <Reveal key={ct.num ?? ct.titre ?? ct.name ?? i} delay={0.05 * i}>
                 <div
                   style={{

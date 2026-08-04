@@ -517,7 +517,7 @@ export default function UrbanPulsePage() {
     clientServices(session)?.map((s, i) => ({ ...PRICING_DEMO[i % PRICING_DEMO.length], name: s.title, price: s.price ?? PRICING_DEMO[i % PRICING_DEMO.length].price, desc: s.desc || PRICING_DEMO[i % PRICING_DEMO.length].desc })),
     PRICING_DEMO,
   );
-  STATS = resolveList(clientStats(session), STATS_DEMO);
+  STATS = resolveList(clientStats(session)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
   c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color

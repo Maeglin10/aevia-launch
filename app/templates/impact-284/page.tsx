@@ -1148,7 +1148,7 @@ function SoinsSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(clientServices(sessionData), SOINS_DEMO).map((s: any, i: number) => (
+        {resolveList<any>(clientServices(sessionData)?.map((r: any) => ({ titre: r.title, description: r.desc })), SOINS_DEMO).map((s: any, i: number) => (
           <SoinCard key={s.titre ?? s.name ?? i} soin={s} i={i} />
         ))}
       </div>
@@ -1465,7 +1465,7 @@ function TestimonialsSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(clientReviews(sessionData), TEMOIGNAGES_DEMO).map((t: any, i: number) => (
+        {resolveList<any>(clientReviews(sessionData)?.map((r: any) => ({ quote: r.text, prenom: r.author, role: r.detail, etoiles: r.rating })), TEMOIGNAGES_DEMO).map((t: any, i: number) => (
           <Reveal key={t.prenom ?? t.author ?? i} delay={i * 0.10} style={{ height: '100%' }}>
             <figure
               style={{
@@ -2448,7 +2448,7 @@ function EquipeSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(clientTeam(sessionData), EQUIPE_DEMO).map((m: any, i: number) => (
+        {resolveList<any>(clientTeam(sessionData)?.map((r: any) => ({ prenom: r.name, titre: r.role })), EQUIPE_DEMO).map((m: any, i: number) => (
           <MembreCard key={m.nom ?? m.name ?? i} m={m} i={i} />
         ))}
       </div>
