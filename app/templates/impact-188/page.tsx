@@ -14,6 +14,7 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -289,9 +290,9 @@ export default function CliniqueBoisVertPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#3a7d44)] mb-4">Nos soins</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "soins.titre") ?? (<>
                 Tout ce dont votre<br /><span className="text-[var(--brand,#3a7d44)]">animal a besoin.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -334,7 +335,7 @@ export default function CliniqueBoisVertPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#3a7d44)] mb-4">Ils nous font confiance</div>
-            <h2 className="text-4xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>Nos patients <span className="text-[var(--brand,#3a7d44)]">& leurs familles.</span></h2>
+            <h2 className="text-4xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Nos patients <span className="text-[var(--brand,#3a7d44)]">& leurs familles.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {AVIS.map((t: any, i: number) => (
@@ -360,7 +361,7 @@ export default function CliniqueBoisVertPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#3a7d44)] mb-4">L'équipe</div>
-            <h2 className="text-4xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>Ceux qui <span className="text-[var(--brand,#3a7d44)]">vous reçoivent.</span></h2>
+            <h2 className="text-4xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>Ceux qui <span className="text-[var(--brand,#3a7d44)]">vous reçoivent.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {EQUIPE.map((m, i) => (
@@ -381,7 +382,7 @@ export default function CliniqueBoisVertPage() {
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-12">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#3a7d44)] mb-4">Urgences</div>
-            <h2 className="text-4xl font-bold" style={{ fontFamily: "'Lora', serif" }}>Un souci <span className="text-[var(--brand,#3a7d44)]">maintenant ?</span></h2>
+            <h2 className="text-4xl font-bold" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "urgences.titre") ?? (<>Un souci <span className="text-[var(--brand,#3a7d44)]">maintenant ?</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
             {[
@@ -412,7 +413,7 @@ export default function CliniqueBoisVertPage() {
         <div className="max-w-[1000px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#3a7d44)] mb-4">Tarifs</div>
-            <h2 className="text-4xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>Les prix, <span className="text-[var(--brand,#3a7d44)]">annoncés.</span></h2>
+            <h2 className="text-4xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Les prix, <span className="text-[var(--brand,#3a7d44)]">annoncés.</span></>)}</h2>
           </div></Reveal>
           <div className="rounded-2xl border border-[#e8f5eb] overflow-hidden">
             {TARIFS.map((t, i) => (
@@ -440,7 +441,7 @@ export default function CliniqueBoisVertPage() {
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#3a7d44)] mb-4">Nous trouver</div>
-            <h2 className="text-4xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>Où et <span className="text-[var(--brand,#3a7d44)]">quand.</span></h2>
+            <h2 className="text-4xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "nous-trouver.titre") ?? (<>Où et <span className="text-[var(--brand,#3a7d44)]">quand.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <Reveal>
@@ -484,9 +485,9 @@ export default function CliniqueBoisVertPage() {
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-6">Rendez-vous</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Lora', serif" }}>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Votre compagnon<br /><span className="italic">mérite le meilleur.</span>
-            </h2>
+            </>)}</h2>
             <p className="text-white/50 mb-10 text-sm">Consultation en ligne ou par téléphone · Urgences 7j/7 · {clientCity(sessionData) ?? "Toulouse"} Rangueil</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#3a7d44)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f9f1] transition-colors rounded-xl shadow-lg">

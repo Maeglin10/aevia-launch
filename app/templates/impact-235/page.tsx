@@ -23,6 +23,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1159,9 +1160,9 @@ function MaterialsPanel() {
                   margin: '12px 0 0',
                   lineHeight: 1.15,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Nos tissus ont une biographie
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -1257,9 +1258,9 @@ function Press() {
             color: C.anthracite,
             margin: 0,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "presse.titre") ?? (<>
           Ils en parlent
-        </h2>
+        </>)}</h2>
       </Reveal>
 
       <div
@@ -1416,9 +1417,9 @@ function OrderForm() {
               color: C.ecru,
               margin: '12px 0 16px',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Prenons rendez-vous
-          </h2>
+          </>)}</h2>
           <p
             style={{
               fontFamily: SANS,

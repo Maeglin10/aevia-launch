@@ -13,7 +13,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -75,8 +77,10 @@ export default function LedgerPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
 
   bp = (session as any)?.businessProfile;
@@ -493,10 +497,10 @@ export default function LedgerPage() {
                   letterSpacing: -0.5,
                   lineHeight: 1.1,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Une expertise complète<br />
                 <span style={{ color: C.accent }}>pour votre entreprise</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
@@ -609,10 +613,10 @@ export default function LedgerPage() {
                 marginBottom: 32,
                 lineHeight: 1.15,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "approche.titre") ?? (<>
               Votre comptable devient<br />
               <span style={{ color: C.accent }}>votre allié stratégique</span>
-            </h2>
+            </>)}</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {[
                 "Un interlocuteur unique dédié à votre dossier, disponible et réactif",
@@ -676,9 +680,9 @@ export default function LedgerPage() {
                   color: C.text,
                   letterSpacing: -0.3,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Ce que disent nos clients
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>

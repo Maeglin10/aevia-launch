@@ -45,6 +45,7 @@ import {
   clientServices,
   clientStats,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1053,9 +1054,9 @@ function ExpertiseSection() {
               margin: '20px auto 18px',
               maxWidth: 700,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "expertises.titre") ?? (<>
             Trois piliers, une seule conviction
-          </h2>
+          </>)}</h2>
           <p
             style={{
               fontFamily: SANS,
@@ -1371,9 +1372,9 @@ function ProcessSection() {
                 lineHeight: 1.12,
                 margin: '20px 0 28px',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>
               Quatre étapes pour défendre vos droits
-            </h2>
+            </>)}</h2>
             <p
               style={{
                 fontFamily: SANS,
@@ -1652,9 +1653,9 @@ function TestimonialsSection() {
                 margin: '20px auto 0',
                 maxWidth: 620,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
               Ce que disent nos clients
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
 
@@ -1905,9 +1906,9 @@ function ConsultationFormSection() {
               lineHeight: 1.12,
               margin: '20px 0 20px',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Prenez rendez-vous pour votre première consultation
-          </h2>
+          </>)}</h2>
           <p
             style={{
               fontFamily: SANS,
@@ -2503,9 +2504,9 @@ function PublicationsSection() {
                   margin: '18px 0 0',
                   maxWidth: 580,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "publications.titre") ?? (<>
                 Comprendre vos droits avant d'agir
-              </h2>
+              </>)}</h2>
             </div>
             <GoldButton href="#publications">
               Toutes les publications
@@ -2737,9 +2738,9 @@ function PracticalSection() {
                 margin: '20px auto 0',
                 maxWidth: 560,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
               Le cabinet, au cœur de {clientCity(sessionData) ?? "Marseille"}
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
 

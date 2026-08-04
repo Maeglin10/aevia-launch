@@ -20,6 +20,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1160,12 +1161,12 @@ function ServiceCards() {
                 margin: '18px 0 0',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
               Une présence à chaque{' '}
               <span style={{ fontStyle: 'italic', color: C.accentDark }}>
                 étape.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
         <div
@@ -1405,12 +1406,12 @@ function ProcessPanel() {
                 margin: '18px 0 52px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "processus.titre") ?? (<>
               De la vision à la{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 réalité.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1509,12 +1510,12 @@ function Testimonials() {
                 margin: '18px 0 0',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
               Des mariages{' '}
               <span style={{ fontStyle: 'italic', color: C.accentDark }}>
                 inoubliables.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
 
@@ -1708,12 +1709,12 @@ function ContactForm() {
                 margin: '18px 0 16px',
                 lineHeight: 1.04,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Votre mariage{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 commence ici.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.16}>
             <p

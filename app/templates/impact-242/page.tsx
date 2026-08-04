@@ -24,6 +24,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1190,11 +1191,11 @@ function OfferCards() {
                   lineHeight: 1.06,
                   letterSpacing: '-0.02em',
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                 Tout ce dont votre
                 <br />
                 entreprise a besoin.
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
           <Reveal delay={0.15}>
@@ -1467,13 +1468,13 @@ function ExpertisePanel() {
                 lineHeight: 1.1,
                 letterSpacing: '-0.02em',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "resultats.titre") ?? (<>
               Un niveau de service
               <br />
               que vous sentirez
               <br />
               dès le premier jour.
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1660,11 +1661,11 @@ function Testimonials() {
                 letterSpacing: '-0.02em',
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Ce que disent
               <br />
               nos clients.
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
 
@@ -1791,11 +1792,11 @@ function ContactForm() {
               lineHeight: 1.06,
               letterSpacing: '-0.02em',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Parlons de votre
             <br />
             projet.
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p

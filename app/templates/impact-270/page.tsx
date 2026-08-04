@@ -19,6 +19,7 @@ import {
   clientServices,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1206,12 +1207,12 @@ function ArtistCards() {
               margin: 'clamp(14px,2vw,22px) 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "artistes.titre") ?? (<>
             Quatre regards,{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               une école
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1449,12 +1450,12 @@ function SafetyPanel() {
                 margin: 'clamp(14px,2vw,22px) 0 clamp(40px,5vw,60px)',
                 lineHeight: 1.08,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hygiene.titre") ?? (<>
               Des standards{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 sans compromis
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1567,12 +1568,12 @@ function Testimonials() {
               margin: 'clamp(14px,2vw,22px) 0 0',
               lineHeight: 1.08,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
             Des encres qui{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               voyagent
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1732,12 +1733,12 @@ function BookingForm() {
               margin: 'clamp(14px,2vw,22px) 0 clamp(12px,1.8vw,18px)',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "reserver.titre") ?? (<>
             Démarrons{' '}
             <span style={{ fontStyle: 'italic', color: C.accentLight }}>
               votre projet
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

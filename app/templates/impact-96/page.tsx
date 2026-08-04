@@ -37,7 +37,9 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -518,11 +520,13 @@ export default function UrbanPulsePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   STATS_DEMO = STATS_DEMO_LIVE();
   SERVICES_DEMO = SERVICES_DEMO_LIVE();
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
+
 
 
 
@@ -936,7 +940,7 @@ return (
                 color: C.text,
                 marginBottom: 32,
               }}
-            >{c?.heroHeadline ?? <>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
               Faire exister
               <br />
               <span
@@ -948,7 +952,7 @@ return (
                 l'image
               </span>
               <span style={{ color: "rgba(240,234,216,0.18)" }}>.</span>
-            </>}</motion.h1>
+            </>}</>)}</motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -1340,9 +1344,9 @@ return (
                 letterSpacing: "-0.02em",
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
               Quatre disciplines,<br />une seule exigence
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           {/* Tab bar */}
@@ -1657,9 +1661,9 @@ return (
                 letterSpacing: "-0.02em",
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "clients.titre") ?? (<>
               Des collaborations<br />qui comptent
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           <div className="imx-mobstack"
@@ -1941,9 +1945,9 @@ return (
                 letterSpacing: "-0.02em",
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "studio.titre") ?? (<>
               Chaque projet mérite<br />son propre cadre
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           <div
@@ -2142,9 +2146,9 @@ return (
                 letterSpacing: "-0.02em",
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
               Ce que nos clients<br />nous demandent
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           <div style={{ display: "flex", flexDirection: "column" }}>
@@ -2312,10 +2316,10 @@ return (
                 marginBottom: 24,
                 color: C.text,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Parlons de<br />
               <span style={{ color: C.amber }}>votre projet</span>
-            </h2>
+            </>)}</h2>
 
             <p
               style={{

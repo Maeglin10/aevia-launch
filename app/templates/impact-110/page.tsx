@@ -12,7 +12,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -102,7 +104,9 @@ export default function OasisWellnessPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   PHILOSOPHY = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length], title: s.title, text: s.desc || "" || "" })),
     PHILOSOPHY_SOURCE,
@@ -244,9 +248,9 @@ export default function OasisWellnessPage() {
               <div className="flex flex-col lg:flex-row items-end justify-between mb-24 gap-8">
                 <div className="max-w-2xl">
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2c3e2d)]/40 block mb-4">The Rituals</span>
-                  <h2 className="text-5xl md:text-7xl font-light italic" style={{ fontFamily: "serif" }}>
+                  <h2 className="text-5xl md:text-7xl font-light italic" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "treatments.titre") ?? (<>
                     Signature <span className="font-bold not-italic">Healing.</span>
-                  </h2>
+                  </>)}</h2>
                 </div>
                 <p className="text-lg text-[var(--brand,#2c3e2d)]/40 font-light max-w-sm mb-4">
                   Each session is tailored to your biometric profile and emotional state of being.
@@ -317,9 +321,9 @@ export default function OasisWellnessPage() {
           <div className="absolute inset-0 bg-[#d4e2d4]/30" />
           <div className="relative z-10 max-w-3xl mx-auto">
             <Reveal>
-              <h2 className="text-5xl md:text-8xl font-light mb-12" style={{ fontFamily: "serif" }}>
+              <h2 className="text-5xl md:text-8xl font-light mb-12" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Begin Your <span className="italic">Awakening.</span>
-              </h2>
+              </>)}</h2>
               <p className="text-xl text-[var(--brand,#2c3e2d)]/60 font-light mb-12 leading-relaxed">
                 Experience the profound power of true rest. Book your first consultation and let our practitioners guide you home.
               </p>
@@ -342,7 +346,7 @@ export default function OasisWellnessPage() {
               <div>
                 <Reveal>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2c3e2d)]/40 block mb-4">Our Essence</span>
-                  <h2 className="text-5xl font-light mb-8" style={{ fontFamily: "serif" }}>Returning to Your <span className="font-bold italic">Natural Rhythms.</span></h2>
+                  <h2 className="text-5xl font-light mb-8" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>Returning to Your <span className="font-bold italic">Natural Rhythms.</span></>)}</h2>
                   <p className="text-lg text-[var(--brand,#2c3e2d)]/60 font-light leading-relaxed mb-6">
                     Oasis was created as a refuge from modern acceleration. We believe that true healing begins when we slow down to match the gentle cadence of nature.
                   </p>
@@ -391,7 +395,7 @@ export default function OasisWellnessPage() {
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2c3e2d)]/40 block mb-4">Guest Reviews</span>
-                <h2 className="text-5xl font-light" style={{ fontFamily: "serif" }}>Voices of <span className="font-bold italic">Sanctuary.</span></h2>
+                <h2 className="text-5xl font-light" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Voices of <span className="font-bold italic">Sanctuary.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -415,7 +419,7 @@ export default function OasisWellnessPage() {
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2c3e2d)]/40 block mb-4">Reserve</span>
-              <h2 className="text-5xl md:text-6xl font-light mb-12" style={{ fontFamily: "serif" }}>Begin Your <span className="italic">Restoration.</span></h2>
+              <h2 className="text-5xl md:text-6xl font-light mb-12" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Begin Your <span className="italic">Restoration.</span></>)}</h2>
             </Reveal>
             <Reveal delay={0.15}>
               {contactSubmitted ? (

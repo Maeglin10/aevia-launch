@@ -32,6 +32,7 @@ import {
   clientName,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -441,9 +442,9 @@ export default function ZenithWatchesPage() {
           <Reveal>
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
               <div>
-                <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">
+                <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "collections.titre") ?? (<>
                   The <br /> <span className="text-[var(--brand,#d4af37)]">Archive.</span>
-                </h2>
+                </>)}</h2>
                 <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
                   Internal Reference // Swiss Quality Index // 2024
                 </p>
@@ -528,10 +529,10 @@ export default function ZenithWatchesPage() {
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] mb-8 block">
                 Atelier Excellence
               </span>
-              <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">
+              <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Swiss{" "}
                 <span className="text-[var(--brand,#d4af37)] not-italic">Savoir-Faire.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 

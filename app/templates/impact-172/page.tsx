@@ -12,6 +12,7 @@ import {
   clientName,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -402,9 +403,9 @@ export default function LegrandPage() {
           <div className="mb-16">
             <Reveal>
               <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#C9A855)] mb-4">L&apos;équipe dirigeante</p>
-              <h2 className="text-4xl md:text-5xl font-light leading-tight" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+              <h2 className="text-4xl md:text-5xl font-light leading-tight" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                 Les <em>associés</em>
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-[#3A3020]">
@@ -438,9 +439,9 @@ export default function LegrandPage() {
             <div>
               <Reveal>
                 <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#C9A855)] mb-4">Le cabinet</p>
-                <h2 className="text-4xl md:text-5xl font-light leading-tight mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                <h2 className="text-4xl md:text-5xl font-light leading-tight mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "cabinet.titre") ?? (<>
                   Trente ans de<br /><em>confiance</em><br />construite
-                </h2>
+                </>)}</h2>
                 <p className="text-[#5A5040] leading-relaxed mb-6">
                   Fondé en 1991 par Philippe Legrand, le cabinet s&apos;est construit sur des valeurs d&apos;indépendance, d&apos;excellence et de disponibilité. Nous refusons le gigantisme qui dilue la relation client et préférons une structure à taille humaine, où chaque associé s&apos;engage personnellement.
                 </p>
@@ -479,9 +480,9 @@ export default function LegrandPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#C9A855)] mb-4 text-center">Références sectorielles</p>
-            <h2 className="text-3xl font-light text-center mb-12" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+            <h2 className="text-3xl font-light text-center mb-12" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               Des relations au long cours
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid md:grid-cols-4 gap-px bg-[#D0C8B8]">
             {REFERENCES.map((r, i) => (
@@ -502,7 +503,7 @@ export default function LegrandPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#C9A855)] mb-4">Actualités & Publications</p>
-            <h2 className="text-3xl font-light mb-12" style={{ fontFamily: "'Libre Baskerville', serif" }}>Dernières analyses</h2>
+            <h2 className="text-3xl font-light mb-12" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "publications.titre") ?? (<>Dernières analyses</>)}</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -534,9 +535,9 @@ export default function LegrandPage() {
             <div>
               <Reveal>
                 <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#C9A855)] mb-4">Nous contacter</p>
-                <h2 className="text-4xl md:text-5xl font-light leading-tight mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                <h2 className="text-4xl md:text-5xl font-light leading-tight mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                   Votre dossier<br />mérite notre<br /><em>attention</em>
-                </h2>
+                </>)}</h2>
                 <p className="text-[#8A7860] leading-relaxed mb-12">
                   Nous répondons à toute demande de premier contact sous 24 heures ouvrées. La confidentialité de vos échanges est garantie dès le premier contact.
                 </p>

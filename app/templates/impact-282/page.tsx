@@ -39,6 +39,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1020,12 +1021,12 @@ function SpecialitesSection() {
               margin: '20px 0 0',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "specialites.titre") ?? (<>
             L&apos;artisanat au{' '}
             <span style={{ fontStyle: 'italic', color: C.wheatLight }}>
               quotidien
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p
@@ -1208,12 +1209,12 @@ function ProcessSection() {
                 margin: '20px 0 52px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "processus.titre") ?? (<>
               De la nuit au{' '}
               <span style={{ fontStyle: 'italic', color: C.red }}>
                 matin
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {PROCESS_ETAPES.map((e, i) => (
@@ -1437,12 +1438,12 @@ function TestimonialsSection() {
               color: C.ink,
               margin: '20px 0 0',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
             Clients fidèles du{' '}
             <span style={{ fontStyle: 'italic', color: C.red }}>
               Vieux-Bourg
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1555,12 +1556,12 @@ function CommandeFormSection() {
               margin: '22px 0 18px',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "commande.titre") ?? (<>
             Votre{' '}
             <span style={{ fontStyle: 'italic', color: C.wheatLight }}>
               commande sur mesure
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p
@@ -1957,12 +1958,12 @@ function MenuSection() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "menu.titre") ?? (<>
             Nos créations du{' '}
             <span style={{ fontStyle: 'italic', color: C.red }}>
               four
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p
@@ -2155,12 +2156,12 @@ function AgriculteurSection() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "agriculteurs.titre") ?? (<>
             Agriculteurs du{' '}
             <span style={{ fontStyle: 'italic', color: C.wheatLight }}>
               Nord
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p
@@ -2235,12 +2236,12 @@ function HorairesSection() {
                 margin: '20px 0 36px',
                 lineHeight: 1.08,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "horaires.titre") ?? (<>
               Quand nous{' '}
               <span style={{ fontStyle: 'italic', color: C.red }}>
                 trouver
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.12}>
             <div>

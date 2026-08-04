@@ -22,6 +22,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -346,7 +347,7 @@ export default function AetherWellnessPage() {
                  <div className="flex flex-col lg:flex-row items-end justify-between mb-32 gap-8 border-b border-black/5 pb-16">
                     <div className="max-w-2xl">
                        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30 block mb-6">The Sanctuary</span>
-                       <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-[#1a1a1a] leading-none" style={{ fontFamily: "serif" }}>Architectural <br/> <span className="italic">Healing.</span></h2>
+                       <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-[#1a1a1a] leading-none" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Architectural <br/> <span className="italic">Healing.</span></>)}</h2>
                     </div>
                     <Link href="#hero" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-black text-black/40 transition-colors group italic">
                        View Retreat Schedule <ChevronRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
@@ -392,7 +393,7 @@ export default function AetherWellnessPage() {
                  <div className="flex flex-col md:flex-row items-end justify-between mb-24 border-b border-black/5 pb-12 gap-6">
                     <div>
                        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30 block mb-4">Immersive Programmes</span>
-                       <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter text-[#1a1a1a] leading-none" style={{ fontFamily: "serif" }}>Choose Your <span className="italic">Journey.</span></h2>
+                       <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter text-[#1a1a1a] leading-none" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Choose Your <span className="italic">Journey.</span></>)}</h2>
                     </div>
                  </div>
               </Reveal>
@@ -425,7 +426,7 @@ export default function AetherWellnessPage() {
               <Reveal>
                  <div className="text-center mb-20">
                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/30 block mb-4">Guest Reflections</span>
-                    <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter text-[#1a1a1a] leading-none" style={{ fontFamily: "serif" }}>Voices of <span className="italic">Rest.</span></h2>
+                    <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter text-[#1a1a1a] leading-none" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Voices of <span className="italic">Rest.</span></>)}</h2>
                  </div>
               </Reveal>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -454,9 +455,9 @@ export default function AetherWellnessPage() {
            </div>
            <div className="max-w-4xl mx-auto px-6 relative z-10">
               <Reveal>
-                 <h2 className="text-7xl md:text-[15vw] font-light uppercase tracking-tighter leading-[0.8] mb-16 italic" style={{ fontFamily: "serif" }}>
+                 <h2 className="text-7xl md:text-[15vw] font-light uppercase tracking-tighter leading-[0.8] mb-16 italic" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>
                     Hold The <br/> <span className="not-italic font-bold opacity-10">Stillness.</span>
-                 </h2>
+                 </>)}</h2>
                  <p className="text-xl text-black/40 font-light mb-20 leading-relaxed italic max-w-2xl mx-auto">
                     Limited memberships available for our 2026 Season. Begin your journey into the Aether today.
                  </p>

@@ -13,6 +13,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -313,7 +314,7 @@ export default function BatirSolidePage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#5c3317] mb-4">Savoir-faire</div>
-              <h2 className="text-4xl md:text-6xl font-black uppercase text-[#1a1008]">Ce qu'on <span className="text-[#5c3317]">sait faire.</span></h2>
+              <h2 className="text-4xl md:text-6xl font-black uppercase text-[#1a1008]">{/* TEXTE_SECTION */ clientText(sessionData, "savoir-faire.titre") ?? (<>Ce qu'on <span className="text-[#5c3317]">sait faire.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -337,7 +338,7 @@ export default function BatirSolidePage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a96a)] mb-4">Portfolio chantiers</div>
-            <h2 className="text-4xl md:text-6xl font-black uppercase text-white">Nos <span className="text-[var(--brand,#d4a96a)]">chantiers.</span></h2>
+            <h2 className="text-4xl md:text-6xl font-black uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "chantiers.titre") ?? (<>Nos <span className="text-[var(--brand,#d4a96a)]">chantiers.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {REALISATIONS.map((r, i) => (
@@ -363,7 +364,7 @@ export default function BatirSolidePage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#5c3317] mb-4">Matériaux</div>
-              <h2 className="text-4xl md:text-6xl font-black uppercase text-[#1a1008]">Ce qu'on <span className="text-[#5c3317]">met dedans.</span></h2>
+              <h2 className="text-4xl md:text-6xl font-black uppercase text-[#1a1008]">{/* TEXTE_SECTION */ clientText(sessionData, "materiaux.titre") ?? (<>Ce qu'on <span className="text-[#5c3317]">met dedans.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1a1008]/10 border border-[#1a1008]/10">
@@ -386,7 +387,7 @@ export default function BatirSolidePage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a96a)] mb-4">Zone d'intervention</div>
-              <h2 className="text-4xl md:text-6xl font-black uppercase">Où l'on <span className="text-[var(--brand,#d4a96a)]">se déplace.</span></h2>
+              <h2 className="text-4xl md:text-6xl font-black uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "zone.titre") ?? (<>Où l'on <span className="text-[var(--brand,#d4a96a)]">se déplace.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
@@ -408,7 +409,7 @@ export default function BatirSolidePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#5c3317] mb-4">Avis clients</div>
-            <h2 className="text-4xl font-black uppercase text-[#1a1008]">Ce qu'ils <span className="text-[#5c3317]">disent.</span></h2>
+            <h2 className="text-4xl font-black uppercase text-[#1a1008]">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce qu'ils <span className="text-[#5c3317]">disent.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {AVIS.map((t, i) => (
@@ -434,7 +435,7 @@ export default function BatirSolidePage() {
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a96a)] mb-6">Votre projet</div>
-            <h2 className="text-4xl md:text-6xl font-black uppercase text-white mb-6">Un projet<br /><span className="text-[var(--brand,#d4a96a)]">de construction ?</span></h2>
+            <h2 className="text-4xl md:text-6xl font-black uppercase text-white mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Un projet<br /><span className="text-[var(--brand,#d4a96a)]">de construction ?</span></>)}</h2>
             <p className="text-white/35 mb-10 text-sm leading-relaxed">Devis gratuit sous 48h · Garantie décennale · Qualibat 3311</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[var(--brand,#d4a96a)] text-[#1a1008] font-black text-[10px] uppercase tracking-[0.25em] hover:bg-[#e8bf85] transition-colors">

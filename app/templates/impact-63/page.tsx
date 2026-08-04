@@ -15,7 +15,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -83,9 +85,9 @@ function HeroWatch() {
               animate={{ opacity: 1, rotateY: 0, clipPath: "inset(0 0% 0 0)" }}
               transition={{ duration: 0.9, ease: EASE_4 }}
               style={{ fontFamily: SERIF, fontSize: "clamp(40px, 5vw, 74px)", fontWeight: 300, color: C.text, lineHeight: 1.04, margin: "0 0 16px", transformOrigin: "left center" }}
-            >{c?.heroHeadline ?? <>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
               Le temps comme<br /><em style={{ fontStyle: "italic", color: C.gold }}>philosophie</em>
-            </>}</motion.h1>
+            </>}</>)}</motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 18 }}
@@ -236,7 +238,9 @@ export default function MaisonDrouetHome() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -303,9 +307,9 @@ return (
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <div style={{ marginBottom: "5rem" }}>
             <SectionLabel>Notre Patrimoine</SectionLabel>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text, lineHeight: 1.15, paddingBottom: "0.15em" }}>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text, lineHeight: 1.15, paddingBottom: "0.15em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
               133 Ans<br /><em style={{ color: C.gold }}>de Continuité</em>
-            </h2>
+            </>)}</h2>
           </div>
           <div style={{ position: "relative" }}>
             <div style={{ position: "absolute", left: "6rem", top: 0, bottom: 0, width: "1px", background: `linear-gradient(180deg, transparent, ${C.border} 10%, ${C.border} 90%, transparent)` }} />
@@ -343,9 +347,9 @@ return (
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "5rem" }}>
             <SectionLabel>Nos Garde-Temps</SectionLabel>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text, lineHeight: 1.15, paddingBottom: "0.15em" }}>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text, lineHeight: 1.15, paddingBottom: "0.15em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Les Collections<br /><em style={{ color: C.gold }}>Maison Drouet</em>
-            </h2>
+            </>)}</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: "2px", background: C.border }}>
             {COLLECTIONS.map((col, i) => {
@@ -405,9 +409,9 @@ return (
       <section style={{ padding: "8rem clamp(2rem, 6vw, 6rem)", background: C.bgSection, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
           <SectionLabel>Commande Privée</SectionLabel>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text, lineHeight: 1.2, paddingBottom: "0.15em", marginBottom: "1.5rem" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text, lineHeight: 1.2, paddingBottom: "0.15em", marginBottom: "1.5rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>
             Une Montre<br /><em style={{ color: C.gold }}>Créée Pour Vous</em>
-          </>}</h2>
+          </>}</>)}</h2>
           <p style={{ fontFamily: "'EB Garamond', serif", fontSize: "1.1rem", fontStyle: "italic", color: C.textMuted, lineHeight: 1.8, maxWidth: "50ch", margin: "0 auto 2.5rem" }}>{c?.aboutText ?? <>
             Chaque maison Drouet Bespoke commence par une conversation. Un maître-horloger, votre vision, 14 mois de fabrication. La montre que vous transmettrez.
           </>}</p>
@@ -429,9 +433,9 @@ return (
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "5rem" }}>
             <SectionLabel>Presse & Distinctions</SectionLabel>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text, lineHeight: 1.15, paddingBottom: "0.15em" }}>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text, lineHeight: 1.15, paddingBottom: "0.15em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Ce Que l'On Dit<br /><em style={{ color: C.gold }}>de Drouet</em>
-            </h2>
+            </>)}</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: "2px", background: C.border, marginBottom: "4rem" }}>
             {PRESS.map((item, i) => {

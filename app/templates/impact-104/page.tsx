@@ -4,6 +4,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -12,6 +13,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { C, FONT, FONT_BODY, STATS, PRESTATIONS as PRESTATIONS_DEMO, TEMOIGNAGES as TEMOIGNAGES_DEMO, GALERIE as GALERIE_DEMO, Reveal, CSS_VARIABLES } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -79,8 +81,10 @@ export default function LumiereDoreePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -349,10 +353,10 @@ export default function LumiereDoreePage() {
               marginBottom: 24,
               fontStyle: "italic",
             }}
-          >{c?.heroHeadline ?? <>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
             Chaque amour mérite<br />
             <span style={{ color: C.accent, fontStyle: "italic" }}>d&apos;être raconté</span>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
@@ -509,9 +513,9 @@ export default function LumiereDoreePage() {
                   color: C.text,
                   letterSpacing: 0.5,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "prestations.titre") ?? (<>
                 Prestations photographiques
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
@@ -583,9 +587,9 @@ export default function LumiereDoreePage() {
                   fontStyle: "italic",
                   color: C.text,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>
                 Quelques instants
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr", gap: 16, alignItems: "stretch" }}>
@@ -642,9 +646,9 @@ export default function LumiereDoreePage() {
                   fontStyle: "italic",
                   color: C.text,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Ce qu&apos;ils disent
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>

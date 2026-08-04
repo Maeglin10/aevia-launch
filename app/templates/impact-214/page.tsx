@@ -22,6 +22,7 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1624,7 +1625,7 @@ export default function AquaPrestigePage() {
               marginBottom: '1.5rem',
               color: C.white,
             }}
-          >{c?.heroHeadline ?? <>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             Votre Plombier{' '}
             <span
               style={{
@@ -1638,7 +1639,7 @@ export default function AquaPrestigePage() {
             </span>
             <br />
             À {clientCity(sessionData) ?? "Paris"}
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -1862,11 +1863,11 @@ export default function AquaPrestigePage() {
                     lineHeight: 1,
                     marginBottom: '1rem',
                   }}
-                >{c?.aboutTitle ?? fd?.businessName ?? <>
+                >{/* TEXTE_SECTION */ clientText(sessionData, "urgences.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>
                   Fuite ? Dégât des eaux ?
                   <br />
                   <span style={{ color: C.accentLight }}>Appelez Maintenant.</span>
-                </>}</h2>
+                </>}</>)}</h2>
                 <p style={{ color: C.textMuted, fontSize: '1rem', lineHeight: 1.7, marginBottom: '2rem', maxWidth: '480px' }}>{c?.aboutText ?? <>
                   Notre équipe d&apos;urgence est disponible 24h/24, 7j/7, 365 jours par an. Intervention garantie en moins de 30 minutes dans {clientCity(sessionData) ?? "Paris"} et petite couronne.
                 </>}</p>
@@ -2156,10 +2157,10 @@ export default function AquaPrestigePage() {
                   lineHeight: 1.05,
                   marginBottom: '1rem',
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Parlons de votre{' '}
                 <span style={{ color: C.accent }}>projet</span>
-              </h2>
+              </>)}</h2>
               <p style={{ color: C.textMuted, fontSize: '0.95rem', lineHeight: 1.75, marginBottom: '2.5rem' }}>
                 Urgence ou projet de rénovation, notre équipe est à votre écoute. Devis gratuit sous 1h, intervention rapide garantie.
               </p>

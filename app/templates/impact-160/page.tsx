@@ -33,7 +33,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -174,7 +176,9 @@ export default function MonolithPremium() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   SYSTEM_METRICS = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...SYSTEM_METRICS_SOURCE[i % SYSTEM_METRICS_SOURCE.length], value: s.value, label: s.label })),
     SYSTEM_METRICS_SOURCE,
@@ -267,7 +271,7 @@ return (
               <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
                  <Reveal>
                     <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/40 block mb-6 italic underline underline-offset-8 decoration-white/10">Global // Server // Farm</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">Registry.</h2>
+                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Registry.</>)}</h2>
                  </Reveal>
                  <div className="text-right">
                     <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Infrastructure_Audit</span>
@@ -425,7 +429,7 @@ return (
                     <Reveal>
                        <div className="mb-24 text-left">
                           <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/40 mb-8 block italic">Chapitre III // Reliability</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none">Hard_State.</h2>
+                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Hard_State.</>)}</h2>
                        </div>
                        <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
                           La redondance n'est pas un luxe, c'est une fondation. Chaque fragment de donnée est répliqué instantanément à travers plusieurs fuseaux horaires pour une résilience absolue.

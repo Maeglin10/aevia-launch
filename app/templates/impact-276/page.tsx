@@ -41,6 +41,7 @@ import {
   clientServices,
   clientStats,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1111,10 +1112,10 @@ function ProgramsSection() {
                 lineHeight: 0.92,
                 margin: '20px 0 0',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "programmes.titre") ?? (<>
               CHOISIS<br />
               <span style={{ color: C.orange }}>TON OBJECTIF</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.2}>
             <p
@@ -1461,10 +1462,10 @@ function MethodSection() {
                   lineHeight: 0.92,
                   margin: '20px 0 48px',
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
                 4 ÉTAPES<br />
                 <span style={{ color: C.orange }}>VERS LA VICTOIRE</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
@@ -1644,11 +1645,11 @@ function TransformationSection() {
                 textAlign: 'center',
                 margin: '20px 0 0',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "transformations.titre") ?? (<>
               ILS ONT<br />
               <span style={{ color: C.orange }}>TRANSFORMÉ</span><br />
               LEUR VIE
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="r276-testi-grid">
@@ -1857,11 +1858,11 @@ function BilanFormSection() {
                     lineHeight: 0.9,
                     margin: '20px 0 28px',
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "bilan.titre") ?? (<>
                   BILAN<br />
                   <span style={{ color: C.orange }}>GRATUIT</span><br />
                   45 MIN
-                </h2>
+                </>)}</h2>
               </Reveal>
               <Reveal delay={0.2}>
                 <p
@@ -2371,10 +2372,10 @@ function ScheduleSection() {
                 lineHeight: 0.92,
                 margin: '20px 0 0',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "planning.titre") ?? (<>
               TROUVE<br />
               <span style={{ color: C.orange }}>TON CRÉNEAU</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.15}>
             <p style={{ fontFamily: SANS, fontSize: 16, color: C.muted, maxWidth: 500, lineHeight: 1.65, marginTop: 16 }}>
@@ -2691,10 +2692,10 @@ function NutritionSection() {
                     lineHeight: 0.92,
                     margin: '20px 0 40px',
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
                   MANGE MIEUX,<br />
                   <span style={{ color: C.orange }}>PERFORME PLUS</span>
-                </h2>
+                </>)}</h2>
               </Reveal>
 
               <div className="r276-nutri-principles">

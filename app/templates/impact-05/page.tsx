@@ -26,7 +26,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -276,9 +278,11 @@ export default function NovaPlatformSaaS() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   PRICING_SOURCE = PRICING_SOURCE_LIVE();
+
 
 
   FEATURE_TABS_DEMO = resolveList(
@@ -554,10 +558,10 @@ return (
           <Reveal>
             <div className="text-center mb-16">
               <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">Features</span>
-              <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-5">
+              <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-5">{/* TEXTE_SECTION */ clientText(sessionData, "features.titre") ?? (<>
                 Everything you need.<br />
                 <span className="text-zinc-500">Nothing you don&apos;t.</span>
-              </h2>
+              </>)}</h2>
               <p className="text-zinc-400 text-lg max-w-2xl mx-auto">Built from the ground up for modern teams who refuse to compromise on speed, security, or developer experience.</p>
             </div>
           </Reveal>
@@ -614,9 +618,9 @@ return (
           <Reveal>
             <div className="text-center mb-20">
               <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">How It Works</span>
-              <h2 className="text-4xl md:text-6xl font-black tracking-tight">
+              <h2 className="text-4xl md:text-6xl font-black tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
                 Three steps to <span className="bg-gradient-to-r from-[var(--brand,#a78bfa)] to-fuchsia-400 bg-clip-text text-transparent">liftoff</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -648,9 +652,9 @@ return (
           <Reveal>
             <div className="text-center mb-16">
               <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">{tr({ formData: fd }, "Testimonials")}</span>
-              <h2 className="text-4xl md:text-6xl font-black tracking-tight">
+              <h2 className="text-4xl md:text-6xl font-black tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "testimonials.titre") ?? (<>
                 Loved by <span className="bg-gradient-to-r from-[var(--brand,#a78bfa)] to-fuchsia-400 bg-clip-text text-transparent">builders</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -697,9 +701,9 @@ return (
           <Reveal>
             <div className="text-center mb-16">
               <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">{tr({ formData: fd }, "Pricing")}</span>
-              <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
+              <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "pricing.titre") ?? (<>
                 Start free, <span className="text-zinc-500">scale infinitely.</span>
-              </h2>
+              </>)}</h2>
               <div className="inline-flex items-center gap-3 mt-4 bg-white/5 rounded-full p-1 border border-white/10 cursor-pointer">
                 <button onClick={() => setBillingAnnual(false)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${!billingAnnual ? "bg-[var(--brand,#7c3aed)] text-white" : "text-zinc-400 hover:text-white"}`}>
                   Monthly
@@ -761,7 +765,7 @@ return (
           <Reveal>
             <div className="text-center mb-16">
               <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">FAQ</span>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight">Common <span className="text-zinc-500">Questions</span></h2>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>Common <span className="text-zinc-500">Questions</span></>)}</h2>
             </div>
           </Reveal>
 
@@ -785,10 +789,10 @@ return (
         <Reveal>
           <div className="max-w-4xl mx-auto text-center relative">
             <div className="absolute inset-0 -z-10" style={{ background: "radial-gradient(ellipse at center, rgba(139,92,246,0.18) 0%, transparent 65%)" }} />
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Ready to build the<br />
               <span className="bg-gradient-to-r from-[var(--brand,#a78bfa)] via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">future?</span>
-            </h2>
+            </>)}</h2>
             <p className="text-zinc-400 text-lg max-w-xl mx-auto mb-10">
               Join 14,200+ teams shipping faster with NovaPlatform. Free forever plan — no credit card required.
             </p>

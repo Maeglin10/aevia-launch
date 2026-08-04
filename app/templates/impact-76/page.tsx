@@ -17,7 +17,9 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -153,7 +155,9 @@ export default function StructuraArchPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -288,10 +292,10 @@ return (
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-500 mb-4 block">
                   PROJECT_ARCHIVE // 2022–2026
                 </span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic text-white leading-[1.1] pb-2">
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic text-white leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
                   Selected<br />
                   <span className="text-stone-500">Work.</span>
-                </h2>
+                </>)}</h2>
               </div>
               <Link href="/templates/impact-76/archive" className="hidden md:flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 hover:text-white transition-colors">
                 Full Archive <ArrowUpRight className="w-4 h-4" />
@@ -383,9 +387,9 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-500 mb-6 block">
               SERVICE_MATRIX // ACTIVE
             </span>
-            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Expertise.
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
@@ -442,9 +446,9 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-500 mb-6 block">
               THE_STUDIO // CORE_TEAM
             </span>
-            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Architects.
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
@@ -485,7 +489,7 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-500 mb-6 block">PROCESS_SEQUENCE // HOW_WE_WORK</span>
-            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">Method.</h2>
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Method.</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
             {[
@@ -517,7 +521,7 @@ return (
             <div>
               <Reveal>
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-500 mb-6 block">RECOGNITION_LOG // AWARDS</span>
-                <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">Honours.</h2>
+                <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Honours.</>)}</h2>
               </Reveal>
               <div className="divide-y divide-white/5">
                 {[

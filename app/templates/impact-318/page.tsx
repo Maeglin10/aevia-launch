@@ -45,6 +45,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -357,9 +358,9 @@ export default function Page() {
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
             <Reveal>
               <Eyebrow align="center">Types d'interventions</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Chaque situation exige un protocole adapté
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: 24 }}>
@@ -385,9 +386,9 @@ export default function Page() {
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
             <Reveal>
               <Eyebrow align="center">Protocole d'intervention</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>
                 4 étapes pour une restitution parfaite
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(240px, 100%), 1fr))', gap: 32 }}>
@@ -449,7 +450,7 @@ export default function Page() {
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
             <Reveal>
               <Eyebrow align="center">Retours terrain</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>Ce que disent nos clients</h2>
+              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce que disent nos clients</>)}</h2>
             </Reveal>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: 24 }}>
@@ -478,7 +479,7 @@ export default function Page() {
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <Reveal>
               <Eyebrow align="center">FAQ technique</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>Questions fréquentes</h2>
+              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>Questions fréquentes</>)}</h2>
             </Reveal>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -516,7 +517,7 @@ export default function Page() {
             <div>
               <Reveal>
                 <Eyebrow>Urgence & Devis</Eyebrow>
-                <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.text, marginBottom: 24, fontWeight: 700 }}>Intervention rapide</h2>
+                <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.text, marginBottom: 24, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Intervention rapide</>)}</h2>
                 <p style={{ fontSize: 15, lineHeight: 1.6, color: C.textMuted, marginBottom: 40 }}>
                   Sinistre en cours ? Appelez-nous directement. Pour un devis planifié, remplissez le formulaire ci-contre.
                 </p>

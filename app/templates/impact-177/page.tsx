@@ -4,6 +4,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
@@ -13,6 +14,7 @@ import Link from "next/link"
 import { ArrowRight, ArrowUpRight, Star, Quote, MapPin, Phone, Mail, Menu } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -159,9 +161,11 @@ export default function MaelleDumasPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
+
 
 
   SERVICES_DEMO = resolveList(
@@ -276,9 +280,9 @@ return (
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontFamily: C.serif, fontSize: "clamp(3.5rem,9vw,8.5rem)", fontWeight: 400, lineHeight: 0.9, letterSpacing: "-0.01em", color: "#fff", marginBottom: "1.5rem", fontStyle: "italic" }}>{c?.heroHeadline ?? <>
+            style={{ fontFamily: C.serif, fontSize: "clamp(3.5rem,9vw,8.5rem)", fontWeight: 400, lineHeight: 0.9, letterSpacing: "-0.01em", color: "#fff", marginBottom: "1.5rem", fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             Des piscines<br />qui vous<br /><span style={{ color: C.terraLight }}>ressemblent.</span>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
             style={{ fontFamily: C.sans, fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 480, marginBottom: "2.5rem" }}>{fd?.tagline ?? c?.heroSubline ?? <>
@@ -329,7 +333,7 @@ return (
           <Reveal>
             <div style={{ marginBottom: "4rem" }}>
               <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.4em", color: C.terra, marginBottom: "1rem" }}>Portfolio</div>
-              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2.5rem,5vw,5rem)", fontWeight: 400, color: C.dark, fontStyle: "italic", lineHeight: 1 }}>Réalisations récentes.</h2>
+              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2.5rem,5vw,5rem)", fontWeight: 400, color: C.dark, fontStyle: "italic", lineHeight: 1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Réalisations récentes.</>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: "2rem" }}>
@@ -367,7 +371,7 @@ return (
           <Reveal>
             <div style={{ marginBottom: "4rem" }}>
               <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.4em", color: C.terra, marginBottom: "1rem" }}>Prestations</div>
-              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 400, color: C.dark, fontStyle: "italic" }}>Comment je travaille.</h2>
+              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 400, color: C.dark, fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Comment je travaille.</>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "0" }}>
@@ -390,7 +394,7 @@ return (
           <Reveal>
             <div style={{ marginBottom: "4rem", textAlign: "center" }}>
               <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.4em", color: C.terra, marginBottom: "1rem" }}>Témoignages</div>
-              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 400, color: C.dark, fontStyle: "italic" }}>Ce que disent mes clients.</h2>
+              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 400, color: C.dark, fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Ce que disent mes clients.</>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "2rem" }}>
@@ -415,9 +419,9 @@ return (
         <Reveal>
           <div style={{ maxWidth: 700, margin: "0 auto", padding: "0 2.5rem" }}>
             <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.4em", color: C.terra, marginBottom: "1.5rem" }}>Démarrer un projet</div>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2.5rem,6vw,5.5rem)", fontWeight: 400, color: "#fff", fontStyle: "italic", lineHeight: 1, marginBottom: "2rem" }}>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2.5rem,6vw,5.5rem)", fontWeight: 400, color: "#fff", fontStyle: "italic", lineHeight: 1, marginBottom: "2rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Parlons de votre<br /><span style={{ color: C.terraLight }}>prochain espace.</span>
-            </h2>
+            </>)}</h2>
             <p style={{ fontFamily: C.sans, fontSize: "0.85rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.7, marginBottom: "3rem" }}>
               Premier rendez-vous gratuit (1h). Disponible à {clientCity({ formData: fd }) ?? "Lyon"} et région Auvergne-Rhône-Alpes.
             </p>

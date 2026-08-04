@@ -39,7 +39,10 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let bp: any = null;
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -772,6 +775,7 @@ export default function ImpactAgencyTemplate() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -791,8 +795,12 @@ export default function ImpactAgencyTemplate() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  sessionData = session;
   c = session?.generatedContent;
+
   TEAM_DEMO = TEAM_DEMO_LIVE();
+
 
   SERVICES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
@@ -1389,13 +1397,13 @@ return (
                 lineHeight: 0.95,
                 margin: 0,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
               We don&apos;t just
               <br />
               <span style={{ color: T.accent }}>build websites.</span>
               <br />
               We build empires.
-            </h2>
+            </>)}</h2>
           </ClipRevealHeading>
         </FadeUp>
 
@@ -1525,11 +1533,11 @@ return (
                   margin: 0,
                   color: T.text,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Services built
                 <br />
                 <span style={{ color: T.dimmed }}>for impact.</span>
-              </h2>
+              </>)}</h2>
             </ClipRevealHeading>
           </div>
 
@@ -1596,11 +1604,11 @@ return (
                 margin: 0,
                 color: T.text,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>
               Our process,
               <br />
               <span style={{ color: T.dimmed }}>step by step.</span>
-            </h2>
+            </>)}</h2>
           </ClipRevealHeading>
         </div>
 
@@ -1823,11 +1831,11 @@ return (
                     margin: 0,
                     color: T.text,
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "work.titre") ?? (<>
                   Recent
                   <br />
                   <span style={{ color: T.dimmed }}>projects.</span>
-                </h2>
+                </>)}</h2>
               </ClipRevealHeading>
             </div>
             <FadeUp>
@@ -1926,11 +1934,11 @@ return (
                 margin: "0 0 32px",
                 color: T.text,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Ready to build
               <br />
               something great?
-            </h2>
+            </>)}</h2>
           </ClipRevealHeading>
 
           <FadeUp delay={0.15}>
@@ -2815,7 +2823,7 @@ function PageHero({
               margin: 0,
               color: T.text,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
             {title}
             {accent && (
               <>
@@ -2823,7 +2831,7 @@ function PageHero({
                 <span style={{ color: T.accent }}>{accent}</span>
               </>
             )}
-          </h1>
+          </>)}</h1>
         </ClipRevealHeading>
         {subtitle && (
           <FadeUp delay={0.15}>
@@ -3692,9 +3700,9 @@ function AboutPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
                   margin: 0,
                   color: T.text,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-15.titre") ?? (<>
                 What <span style={{ color: T.dimmed }}>guides us.</span>
-              </h2>
+              </>)}</h2>
             </ClipRevealHeading>
           </div>
           <div
@@ -3795,9 +3803,9 @@ function AboutPage({ goTo }: { goTo: (p: AgencyPage) => void }) {
                   margin: 0,
                   color: T.text,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-16.titre") ?? (<>
                 The minds <span style={{ color: T.dimmed }}>behind it.</span>
-              </h2>
+              </>)}</h2>
             </ClipRevealHeading>
           </div>
           <div
@@ -4183,7 +4191,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
         <PageHero eyebrow="Legal information" title="Legal notice" />
         <section style={{ padding: "80px 48px 100px", boxSizing: "border-box" }}>
           <div style={{ maxWidth: 780, margin: "0 auto" }}>
-            <h2 style={{ ...sectionTitle, marginTop: 0 }}>Site publisher</h2>
+            <h2 style={{ ...sectionTitle, marginTop: 0 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-18.titre") ?? (<>Site publisher</>)}</h2>
             <p style={para}>
               <span style={strong}>Aevia WS</span> — sole proprietor (auto-entrepreneur).
             </p>
@@ -4235,7 +4243,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
             Last updated: June 2026.
           </p>
 
-          <h2 style={{ ...sectionTitle, marginTop: 24 }}>Data controller</h2>
+          <h2 style={{ ...sectionTitle, marginTop: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-19.titre") ?? (<>Data controller</>)}</h2>
           <p style={para}>
             The controller of personal data is{" "}
             <span style={strong}>Aevia WS</span>, the site publisher. For any question,

@@ -25,7 +25,9 @@ import {
   clientServices,
   clientStats,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -1320,9 +1322,9 @@ function MaterialsSection() {
                 letterSpacing: "-0.03em",
                 lineHeight: 1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "materials.titre") ?? (<>
               Three Breakthroughs.<br/>One Collection.
-            </motion.h2>
+            </>)}</motion.h2>
           </div>
           <motion.p
             initial={{ opacity: 0 }}
@@ -1424,9 +1426,9 @@ function ApplicationsSection() {
             marginBottom: 72,
             lineHeight: 1.05,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "applications.titre") ?? (<>
           Engineered for<br/>Extreme Environments.
-        </motion.h2>
+        </>)}</motion.h2>
 
         <div
           style={{
@@ -1602,9 +1604,9 @@ function SpecDeepDive() {
             marginBottom: 56,
             lineHeight: 1.05,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "specs.titre") ?? (<>
           Spec Sheet.<br/>Terminal Read.
-        </motion.h2>
+        </>)}</motion.h2>
 
         {/* Tab selectors */}
         <div
@@ -1837,7 +1839,7 @@ function CTASection() {
             lineHeight: 0.95,
             marginBottom: 32,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
           Request Your<br/>
           <span
             style={{
@@ -1849,7 +1851,7 @@ function CTASection() {
           >
             Material Sample.
           </span>
-        </motion.h2>
+        </>)}</motion.h2>
 
         <motion.p
           initial={{ opacity: 0 }}
@@ -2153,9 +2155,11 @@ export default function SmartTextilesPremium() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   MATERIALS = MATERIALS_LIVE();
+
 
 
   brand = fd?.brandColor ?? null; // null = keep template's original color

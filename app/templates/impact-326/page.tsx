@@ -16,6 +16,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -254,9 +255,9 @@ export default function EtudeNotarialePage() {
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
             Étude notariale · {clientCity(sessionData) ?? "Bordeaux"}
           </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 62px)", color: C.text, lineHeight: 1.12, margin: "18px 0 22px" }}>
+          <motion.h1 initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 62px)", color: C.text, lineHeight: 1.12, margin: "18px 0 22px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
             {c?.heroHeadline ?? (<>Un acte qui engage,<br /><em style={{ color: C.accent }}>un conseil qui protège.</em></>)}
-          </motion.h1>
+          </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 34 }}>
             {fd?.tagline ?? c?.heroSubline ?? "Immobilier, famille, entreprise : deux notaires associés reçoivent, expliquent et sécurisent chacun de vos engagements — au tarif réglementé, le même partout en France."}
           </motion.p>
@@ -311,9 +312,9 @@ export default function EtudeNotarialePage() {
           <Reveal>
             <div style={{ marginBottom: 52 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Domaines d'intervention</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 48px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 48px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "domaines.titre") ?? (<>
                 Quatre domaines,<br /><em>une même exigence.</em>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(270px, 100%), 1fr))", gap: 18 }}>
@@ -339,9 +340,9 @@ export default function EtudeNotarialePage() {
           <Reveal delay={0.15}>
             <div>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>L'étude</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 42px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.2 }}>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 42px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "etude.titre") ?? (<>
                 Un officier public<br /><em>à votre service.</em>
-              </h2>
+              </>)}</h2>
               {ENGAGEMENT.map((e, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
                   <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
@@ -362,7 +363,7 @@ export default function EtudeNotarialePage() {
           <Reveal>
             <div style={{ textAlign: "center", marginBottom: 18 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Tarifs</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 46px)", color: C.text, marginTop: 10 }}>Des émoluments <em>réglementés.</em></h2>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 46px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Des émoluments <em>réglementés.</em></>)}</h2>
               <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>
                 La rémunération du notaire est fixée par l'État (barème national) : pour un même acte, l'émolument est identique dans toute la France. Hors débours, droits et taxes collectés pour le Trésor public.
               </p>
@@ -388,9 +389,9 @@ export default function EtudeNotarialePage() {
       <section className="i326-pad" style={{ padding: "100px 64px", background: C.bgDark }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 50 }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 44px)", color: "#fff" }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 44px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Ils nous ont confié <em style={{ color: "#cfb37a" }}>leurs actes</em>.
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
@@ -415,9 +416,9 @@ export default function EtudeNotarialePage() {
       <section id="contact" className="i326-pad" style={{ padding: "100px 64px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Premier rendez-vous</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 50px)", color: C.text, margin: "14px 0 16px" }}>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 50px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Votre situation mérite<br /><em>un conseil posé.</em>
-          </h2>
+          </>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>
             Premier échange au téléphone sans engagement. Rendez-vous à l'étude sous huit jours, en soirée le jeudi.
           </p>

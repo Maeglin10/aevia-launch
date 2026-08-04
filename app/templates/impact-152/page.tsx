@@ -13,7 +13,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -154,9 +156,11 @@ export default function StudioNomaPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   PROJETS_DEMO = PROJETS_DEMO_LIVE();
   TEMOIGNAGES_SOURCE = TEMOIGNAGES_SOURCE_LIVE();
+
 
 
   SERVICES_DEMO = resolveList(
@@ -283,9 +287,9 @@ export default function StudioNomaPage() {
 
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 820, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(52px, 7vw, 96px)", fontWeight: 300, color: "#fff", lineHeight: 1.0, letterSpacing: -1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
+            style={{ fontFamily: FONT, fontSize: "clamp(52px, 7vw, 96px)", fontWeight: 300, color: "#fff", lineHeight: 1.0, letterSpacing: -1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             L'espace comme<br /><em style={{ color: C.accent }}>œuvre d'art.</em>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520, fontFamily: FONT_SANS }}>{fd?.tagline ?? c?.heroSubline ?? <>
@@ -329,9 +333,9 @@ export default function StudioNomaPage() {
         <Reveal>
           <div style={{ marginBottom: 64 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT_SANS }}>Nos réalisations</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(36px, 4vw, 60px)", fontWeight: 300, color: C.text, marginTop: 12, lineHeight: 1.1 }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(36px, 4vw, 60px)", fontWeight: 300, color: C.text, marginTop: 12, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "projets.titre") ?? (<>
               Chaque projet, une <em>signature</em>.
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 24, maxWidth: 1200, margin: "0 auto" }}>
@@ -361,7 +365,7 @@ export default function StudioNomaPage() {
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 60 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT_SANS }}>Notre offre</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 300, color: C.text, marginTop: 12 }}>Un accompagnement <em>sur-mesure</em>.</h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 300, color: C.text, marginTop: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Un accompagnement <em>sur-mesure</em>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28, maxWidth: 1000, margin: "0 auto" }}>
@@ -382,7 +386,7 @@ export default function StudioNomaPage() {
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT_SANS }}>Ce qu'ils disent</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 300, color: "#fff", marginTop: 12 }}>La confiance de nos <em style={{ color: C.accent }}>clients</em>.</h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 300, color: "#fff", marginTop: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>La confiance de nos <em style={{ color: C.accent }}>clients</em>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
@@ -406,7 +410,7 @@ export default function StudioNomaPage() {
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 60 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT_SANS }}>L&apos;atelier</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 300, color: C.text, marginTop: 12 }}>Où les projets <em>prennent forme</em>.</h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 300, color: C.text, marginTop: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "atelier.titre") ?? (<>Où les projets <em>prennent forme</em>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28, maxWidth: 1000, margin: "0 auto" }}>

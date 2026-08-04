@@ -18,6 +18,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1175,12 +1176,12 @@ function SpecialtyCards() {
               margin: '18px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Chaque blessure,{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               un protocole.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1429,13 +1430,13 @@ function MethodPanel() {
                 margin: '18px 0 52px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
               En 4 étapes /
               <br />
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 vers la reprise.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1551,12 +1552,12 @@ function Testimonials() {
               margin: '18px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
             Des sportifs{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               qui reviennent.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1739,9 +1740,9 @@ function AppointmentForm() {
               lineHeight: 1.04,
               textAlign: 'center',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "rdv.titre") ?? (<>
             Prendre rendez-vous.
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

@@ -13,7 +13,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -89,7 +91,9 @@ export default function VoltLogisticsPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   FEATURES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
     FEATURES_SOURCE,
@@ -263,7 +267,7 @@ export default function VoltLogisticsPage() {
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
                 <div className="max-w-2xl">
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#ffb400)] block mb-4">The Fleet</span>
-                  <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase italic">Future <span className="text-white/20">Mobility.</span></h2>
+                  <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase italic">{/* TEXTE_SECTION */ clientText(sessionData, "fleet.titre") ?? (<>Future <span className="text-white/20">Mobility.</span></>)}</h2>
                 </div>
                 <button className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-[var(--brand,#ffb400)] transition-colors group">
                   View Specifications <MoveRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
@@ -304,9 +308,9 @@ export default function VoltLogisticsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
                 <Reveal>
-                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-12 leading-tight">
+                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-12 leading-tight">{/* TEXTE_SECTION */ clientText(sessionData, "technology.titre") ?? (<>
                     Powered By<br/>The <span className="text-[var(--brand,#ffb400)]">Volt Hub.</span>
-                  </h2>
+                  </>)}</h2>
                   <div className="space-y-12">
                     {FEATURES.map((f, i) => (
                       <div key={i} className="flex gap-8 group">
@@ -363,9 +367,9 @@ export default function VoltLogisticsPage() {
         <section id="contact" className="py-32 bg-[var(--brand,#ffb400)]">
           <div className="max-w-[1000px] mx-auto px-6 text-center">
             <Reveal>
-              <h2 className="text-6xl md:text-[8rem] font-black tracking-tighter uppercase italic leading-[0.8] text-black mb-12">
+              <h2 className="text-6xl md:text-[8rem] font-black tracking-tighter uppercase italic leading-[0.8] text-black mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Shift Your<br/>Strategy.
-              </h2>
+              </>)}</h2>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                 <button className="px-14 py-6 bg-black text-white font-black uppercase tracking-[0.2em] text-sm hover:px-16 transition-all duration-700">
                    Contact Enterprise

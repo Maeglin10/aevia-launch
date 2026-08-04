@@ -21,6 +21,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -566,7 +567,7 @@ export default function WanderlustPage() {
                     12 Days
                   </span>
                 </div>
-                <h3 className="text-3xl font-bold">The Great Migration</h3>
+                <h3 className="text-3xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>The Great Migration</>)}</h3>
               </div>
             </Reveal>
 
@@ -630,9 +631,9 @@ export default function WanderlustPage() {
           <span className="text-[10px] uppercase tracking-widest font-bold text-amber-500 block mb-4">
             Traveler Stories
           </span>
-          <h2 className="text-4xl font-bold tracking-tighter">
+          <h2 className="text-4xl font-bold tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
             Words from the Wild
-          </h2>
+          </>)}</h2>
         </div>
 
         <div className="relative flex whitespace-nowrap">

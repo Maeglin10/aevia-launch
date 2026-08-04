@@ -13,7 +13,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -76,7 +78,9 @@ export default function CarbonLabPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   PRESTATIONS_INLINE = resolveList(
 
@@ -197,9 +201,9 @@ return (
             <div className="flex flex-col md:flex-row items-end justify-between mb-32 gap-8 border-b border-white/5 pb-16">
               <div className="max-w-2xl">
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#0070f3)] block mb-6">Sector Integration</span>
-                <h2 className="text-7xl md:text-[9vw] font-black uppercase tracking-tighter text-white leading-[1.15] pb-4 italic">
+                <h2 className="text-7xl md:text-[9vw] font-black uppercase tracking-tighter text-white leading-[1.15] pb-4 italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                   Hard <br /> <span className="font-light not-italic opacity-10">Logic.</span>
-                </h2>
+                </>)}</h2>
               </div>
               <Link
                 href="/templates/impact-65/research"
@@ -300,9 +304,9 @@ return (
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#0070f3)]/60 mb-6">Trusted by builders</p>
-            <h2 className="text-5xl md:text-8xl font-black text-white leading-none tracking-tighter mb-20">
+            <h2 className="text-5xl md:text-8xl font-black text-white leading-none tracking-tighter mb-20">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               WHAT THEY<br /><span className="text-white/10">BUILD.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
             {AVIS_INLINE.map((t, i) => (
@@ -326,9 +330,9 @@ return (
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#0070f3)]/60 mb-6">Case studies</p>
-            <h2 className="text-5xl md:text-8xl font-black text-white leading-none tracking-tighter mb-20">
+            <h2 className="text-5xl md:text-8xl font-black text-white leading-none tracking-tighter mb-20">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               IN THE<br /><span className="text-white/10">WILD.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
             {[
@@ -353,9 +357,9 @@ return (
         <GridBackground />
         <div className="max-w-4xl mx-auto px-6 relative z-10">
           <Reveal>
-            <h2 className="text-8xl md:text-[15vw] font-black uppercase tracking-tighter leading-[1.15] pb-4 mb-16 italic">
+            <h2 className="text-8xl md:text-[15vw] font-black uppercase tracking-tighter leading-[1.15] pb-4 mb-16 italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
               Build <br /> <span className="font-light not-italic opacity-20 text-black">Fast.</span>
-            </h2>
+            </>)}</h2>
             <p className="text-2xl text-black/40 font-light mb-20 leading-relaxed italic max-w-2xl mx-auto">
               Transform your structural requirements into high-performance assets. We are currently accepting R&D partnerships for Q3 2026.
             </p>

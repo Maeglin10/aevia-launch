@@ -14,6 +14,7 @@ import {
   clientCity,
   clientName,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -291,7 +292,7 @@ return (
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
                     <div>
                       <p className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-3">Portfolio</p>
-                      <h2 className="text-white text-4xl md:text-5xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Œuvres sélectionnées</h2>
+                      <h2 className="text-white text-4xl md:text-5xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "portfolio.titre") ?? (<>Œuvres sélectionnées</>)}</h2>
                     </div>
                     <button onClick={() => goTo("portfolio")} className="text-[var(--brand,#C9A86C)] text-sm font-bold flex items-center gap-2 hover:underline font-mono tracking-widest uppercase mt-6 md:mt-0">
                       Explorer la Galerie <ArrowRight className="w-4 h-4" />
@@ -597,7 +598,7 @@ function ProposPage() {
           </div>
           <div className="lg:col-span-7">
             <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-4 block font-mono">Elena Korr</span>
-            <h2 className="text-4xl md:text-6xl font-light leading-tight mb-8 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Capturer le <span className="italic">temps suspendu.</span></h2>
+            <h2 className="text-4xl md:text-6xl font-light leading-tight mb-8 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Capturer le <span className="italic">temps suspendu.</span></>)}</h2>
             <p className="text-white/60 text-lg leading-relaxed mb-6 font-sans font-light">
               Diplômée de l'École Nationale Supérieure des Arts Décoratifs de Paris, je consacre ma pratique photographique à l'étude des ambiances lumineuses contrastées et à la géométrie rigoureuse des lignes architecturales.
             </p>

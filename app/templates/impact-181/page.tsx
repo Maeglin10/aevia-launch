@@ -11,8 +11,10 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -165,9 +167,11 @@ export default function ToitPierrePiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   ZONES_DEMO = ZONES_DEMO_LIVE();
+
 
 
   SERVICES_DEMO = resolveList(
@@ -325,7 +329,7 @@ export default function ToitPierrePiscinesPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-4">Nos savoir-faire</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#1f2937]">Nos <span className="text-[#374151]">prestations.</span></h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1f2937]">{/* TEXTE_SECTION */ clientText(sessionData, "prestations.titre") ?? (<>Nos <span className="text-[#374151]">prestations.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -349,7 +353,7 @@ export default function ToitPierrePiscinesPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-4">Portfolio</div>
-            <h2 className="text-4xl font-bold text-[#1f2937]">Chantiers <span className="text-[#374151]">récents.</span></h2>
+            <h2 className="text-4xl font-bold text-[#1f2937]">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Chantiers <span className="text-[#374151]">récents.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {REALISATIONS.map((r, i) => (
@@ -374,7 +378,7 @@ export default function ToitPierrePiscinesPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-4">Avis clients</div>
-            <h2 className="text-4xl font-bold text-[#1f2937]">La confiance, <span className="text-[#374151]">ça se mérite.</span></h2>
+            <h2 className="text-4xl font-bold text-[#1f2937]">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>La confiance, <span className="text-[#374151]">ça se mérite.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {AVIS.map((t: any, i: number) => (
@@ -401,7 +405,7 @@ export default function ToitPierrePiscinesPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-4">Matériaux</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#1f2937]">Ce qu&apos;on <span className="text-[#374151]">construit avec.</span></h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1f2937]">{/* TEXTE_SECTION */ clientText(sessionData, "materiaux.titre") ?? (<>Ce qu&apos;on <span className="text-[#374151]">construit avec.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -424,7 +428,7 @@ export default function ToitPierrePiscinesPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-4">Zone d&apos;intervention</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#1f2937]">Jusqu&apos;où <span className="text-[#374151]">on va.</span></h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1f2937]">{/* TEXTE_SECTION */ clientText(sessionData, "zone.titre") ?? (<>Jusqu&apos;où <span className="text-[#374151]">on va.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-slate-200 border border-slate-200">
@@ -447,7 +451,7 @@ export default function ToitPierrePiscinesPage() {
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-6">Votre projet</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Un projet de piscine ?<br /><span className="text-[#fca5a5]">Parlons-en.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "projet.titre") ?? (<>Un projet de piscine ?<br /><span className="text-[#fca5a5]">Parlons-en.</span></>)}</h2>
             <p className="text-white/40 mb-10 text-sm leading-relaxed">Devis gratuit et sans engagement · Garantie décennale · Artisan Qualibat</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[var(--brand,#b91c1c)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#dc2626] transition-colors">

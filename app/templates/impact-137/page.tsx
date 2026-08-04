@@ -3,6 +3,7 @@ import {
   clientCity,
   clientName,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
@@ -13,6 +14,7 @@ import Link from "next/link"
 import { Coffee, Leaf, MapPin, Star, ArrowRight, Menu, Thermometer, Droplets, Mountain, Award, ChevronRight } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -102,8 +104,10 @@ export default function TorrefieCoffeePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+
 
   TARIFS_ANON = resolveList(
 
@@ -239,9 +243,9 @@ export default function TorrefieCoffeePage() {
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c48a5a] block mb-4">The Method</span>
-                <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
                   Our <em className="text-[#c48a5a]">Process.</em>
-                </h2>
+                </>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -268,9 +272,9 @@ export default function TorrefieCoffeePage() {
               <div className="flex justify-between items-end mb-20">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#6b3a24)] block mb-4">Current Selection</span>
-                  <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                  <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                     Single <em className="text-[var(--brand,#6b3a24)]">Origins.</em>
-                  </h2>
+                  </>)}</h2>
                 </div>
               </div>
             </Reveal>
@@ -313,9 +317,9 @@ export default function TorrefieCoffeePage() {
             <Reveal>
               <div className="text-center mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c48a5a] block mb-4">What Clients Say</span>
-                <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
                   The <em className="text-[#c48a5a]">Reviews.</em>
-                </h2>
+                </>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -348,9 +352,9 @@ export default function TorrefieCoffeePage() {
             <Reveal>
               <div className="text-center mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#6b3a24)] block mb-4">{tr({ formData: fd }, "Subscribe")}</span>
-                <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
                   Your <em className="text-[var(--brand,#6b3a24)]">Plan.</em>
-                </h2>
+                </>)}</h2>
                 <p className="text-lg text-[#2c1810]/40 font-light max-w-md mx-auto mt-4">
                   Roasted to order, shipped every two weeks. Pause or cancel anytime.
                 </p>

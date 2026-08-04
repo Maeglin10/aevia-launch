@@ -13,7 +13,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -130,10 +132,12 @@ export default function SecurFastPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   ZONES_DEMO = ZONES_DEMO_LIVE();
+
 
 
 
@@ -296,7 +300,7 @@ export default function SecurFastPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/55 mb-4">— Nos interventions</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">Sécurité & <span className="text-[var(--brand,#2563eb)]">sérénité.</span></h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Sécurité & <span className="text-[var(--brand,#2563eb)]">sérénité.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -322,7 +326,7 @@ export default function SecurFastPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/55 mb-4">— Urgences</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">Dehors, <span className="text-[var(--brand,#2563eb)]">à 2 h du matin.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">{/* TEXTE_SECTION */ clientText(sessionData, "urgences.titre") ?? (<>Dehors, <span className="text-[var(--brand,#2563eb)]">à 2 h du matin.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
             {[
@@ -353,7 +357,7 @@ export default function SecurFastPage() {
         <div className="max-w-[1000px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/55 mb-4">— Tarifs</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">Écrits <span className="text-[var(--brand,#2563eb)]">noir sur blanc.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Écrits <span className="text-[var(--brand,#2563eb)]">noir sur blanc.</span></>)}</h2>
           </div></Reveal>
           <div className="border border-[#f0f4ff]/8">
             {TARIFS.map((t, i) => (
@@ -376,7 +380,7 @@ export default function SecurFastPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/55 mb-4">— Zone d'intervention</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">Où l'on <span className="text-[var(--brand,#2563eb)]">arrive vite.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">{/* TEXTE_SECTION */ clientText(sessionData, "zone.titre") ?? (<>Où l'on <span className="text-[var(--brand,#2563eb)]">arrive vite.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {ZONES.map((z, i) => (
@@ -398,7 +402,7 @@ export default function SecurFastPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/50 mb-4">— Avis clients</div>
-            <h2 className="text-4xl font-bold text-[#f0f4ff]">Ils ont pu <span className="text-[var(--brand,#2563eb)]">rentrer chez eux.</span></h2>
+            <h2 className="text-4xl font-bold text-[#f0f4ff]">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ils ont pu <span className="text-[var(--brand,#2563eb)]">rentrer chez eux.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {temoignages.map((t: any, i: number) => (
@@ -426,7 +430,7 @@ export default function SecurFastPage() {
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-5">Urgence · 24h/24 · 7j/7</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5">Un appel suffit.<br />On s'occupe du reste.</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Un appel suffit.<br />On s'occupe du reste.</>)}</h2>
             <p className="text-white/55 mb-10 text-sm">Intervention sous 30 min · {clientCity({ formData: fd }) ?? "Strasbourg"} & Bas-Rhin · Devis avant travaux</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 px-10 py-4 bg-white text-[var(--brand,#2563eb)] font-bold text-sm hover:bg-[#f0f4ff] transition-colors shadow-lg">

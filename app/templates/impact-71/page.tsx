@@ -13,6 +13,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -298,9 +299,9 @@ return (
           <Reveal>
             <div className="mb-16">
               <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#c9a84c)] mb-4 block">Disciplines</span>
-              <h2 className="text-5xl md:text-7xl font-light tracking-tighter leading-tight text-[#33302c] uppercase italic pb-2">
+              <h2 className="text-5xl md:text-7xl font-light tracking-tighter leading-tight text-[#33302c] uppercase italic pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                 Our <span className="text-[var(--brand,#c9a84c)]">Practices.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-stone-200/30">
@@ -339,9 +340,9 @@ return (
           <Reveal>
             <div className="mb-16">
               <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#c9a84c)] mb-4 block">Community</span>
-              <h2 className="text-5xl md:text-6xl font-light tracking-tighter text-[#33302c] uppercase italic pb-2">
+              <h2 className="text-5xl md:text-6xl font-light tracking-tighter text-[#33302c] uppercase italic pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                 Voices from the <span className="text-[var(--brand,#c9a84c)]">Sanctuary.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -375,9 +376,9 @@ return (
       <section className="py-24 bg-[#faf9f6]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 text-center">
           <Reveal>
-            <h3 className="text-3xl md:text-5xl font-light uppercase tracking-widest text-[#33302c] mb-8 italic">
+            <h3 className="text-3xl md:text-5xl font-light uppercase tracking-widest text-[#33302c] mb-8 italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               Ready to begin your <span className="text-[var(--brand,#c9a84c)]">Journey</span>?
-            </h3>
+            </>)}</h3>
             <div className="flex flex-wrap justify-center gap-6">
               <Link href="/templates/impact-71/practices" className="no-underline">
                 <span className="px-10 py-4 bg-[#33302c] hover:bg-[var(--brand,#c9a84c)] text-white text-[10px] font-bold uppercase tracking-widest rounded-full cursor-pointer transition-all border-none">

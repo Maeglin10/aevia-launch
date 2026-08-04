@@ -13,6 +13,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -337,9 +338,9 @@ export default function LumiereYogaPage() {
 
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(46px, 6vw, 82px)", fontWeight: 400, color: "#fff", lineHeight: 1.08, marginBottom: 24 }}>{c?.heroHeadline ?? <>
+            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(46px, 6vw, 82px)", fontWeight: 400, color: "#fff", lineHeight: 1.08, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             Trouver l'équilibre,<br /><em style={{ color: C.accentLight }}>en soi et dans le monde.</em>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{fd?.tagline ?? c?.heroSubline ?? <>
@@ -383,9 +384,9 @@ export default function LumiereYogaPage() {
         <Reveal>
           <div style={{ marginBottom: 64 }}>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Programme</span>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 4vw, 54px)", fontWeight: 400, color: C.text, marginTop: 12, lineHeight: 1.1 }}>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 4vw, 54px)", fontWeight: 400, color: C.text, marginTop: 12, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "cours.titre") ?? (<>
               Des cours pour <em>chaque besoin</em>.
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
@@ -426,9 +427,9 @@ export default function LumiereYogaPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }} className="grid-cols-1 md:grid-cols-2 imx-mobstack">
           <Reveal>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre philosophie</span>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 400, color: C.text, margin: "12px 0 32px", lineHeight: 1.15 }}>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 400, color: C.text, margin: "12px 0 32px", lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Le yoga comme <em>pratique de vie</em>, pas comme performance.
-            </h2>
+            </>)}</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {APPROCHE.map((a) => (
                 <div key={a.titre} style={{ borderLeft: `3px solid ${C.accent}`, paddingLeft: 20 }}>
@@ -451,9 +452,9 @@ export default function LumiereYogaPage() {
         <Reveal>
           <div style={{ marginBottom: 64 }}>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Planning</span>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 4vw, 54px)", fontWeight: 400, color: C.text, marginTop: 12, lineHeight: 1.1 }}>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 4vw, 54px)", fontWeight: 400, color: C.text, marginTop: 12, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "planning.titre") ?? (<>
               La semaine, <em>heure par heure</em>.
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
@@ -485,7 +486,7 @@ export default function LumiereYogaPage() {
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Ce qu'ils vivent</span>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 400, color: "#fff", marginTop: 12 }}>Des transformations <em style={{ color: C.accentLight }}>réelles</em>.</h2>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 400, color: "#fff", marginTop: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Des transformations <em style={{ color: C.accentLight }}>réelles</em>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 22, maxWidth: 1100, margin: "0 auto" }}>
@@ -509,9 +510,9 @@ export default function LumiereYogaPage() {
         <Reveal>
           <div style={{ marginBottom: 64 }}>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 4vw, 54px)", fontWeight: 400, color: C.text, marginTop: 12, lineHeight: 1.1 }}>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 4vw, 54px)", fontWeight: 400, color: C.text, marginTop: 12, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
               Sans frais d&apos;inscription, <em>ni engagement</em>.
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ maxWidth: 900, margin: "0 auto", background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadow, overflow: "hidden" }}>

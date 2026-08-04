@@ -21,7 +21,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -1137,7 +1139,9 @@ export default function Impact176Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   PLANS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
     PLANS_SOURCE,
@@ -1642,9 +1646,9 @@ export default function Impact176Page() {
                 color: C.text,
                 marginBottom: 16,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "features.titre") ?? (<>
               Everything your team needs.
-            </h2>
+            </>)}</h2>
           </TextReveal>
           <p style={{ fontSize: 18, color: C.muted }}>
             Analytics, alerts, reports. All-in-one. No compromises.
@@ -1681,9 +1685,9 @@ export default function Impact176Page() {
                 color: C.text,
                 marginBottom: 12,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "integrations.titre") ?? (<>
               Connect everything you use.
-            </h2>
+            </>)}</h2>
           </TextReveal>
           <p style={{ fontSize: 16, color: C.muted }}>
             200+ native integrations. REST SDK for the rest.
@@ -1808,11 +1812,11 @@ export default function Impact176Page() {
                   lineHeight: 1.15,
                   color: C.text,
                 }}
-              >{c?.aboutTitle ?? fd?.businessName ?? <>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>
                 Decisions that{" "}
                 <span style={{ color: C.accent }}>actually move</span>{" "}
                 the needle.
-              </>}</h2>
+              </>}</>)}</h2>
             </TextReveal>
             <p
               style={{
@@ -1907,9 +1911,9 @@ export default function Impact176Page() {
                 color: C.text,
                 marginBottom: 16,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "testimonials.titre") ?? (<>
               Teams who chose Metric.
-            </h2>
+            </>)}</h2>
           </TextReveal>
         </div>
 
@@ -1946,9 +1950,9 @@ export default function Impact176Page() {
                   color: C.text,
                   marginBottom: 16,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "pricing.titre") ?? (<>
                 Simple, predictable pricing.
-              </h2>
+              </>)}</h2>
             </TextReveal>
             <p style={{ fontSize: 18, color: C.muted }}>
               14 days free on all plans. No credit card required.
@@ -1988,9 +1992,9 @@ export default function Impact176Page() {
                 letterSpacing: "-2px",
                 color: C.text,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
               Frequently asked questions
-            </h2>
+            </>)}</h2>
           </TextReveal>
         </div>
 
@@ -2038,9 +2042,9 @@ export default function Impact176Page() {
               color: C.text,
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Your data is waiting for you.
-          </h2>
+          </>)}</h2>
         </TextReveal>
 
         <motion.p

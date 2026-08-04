@@ -26,6 +26,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1117,12 +1118,12 @@ function Vintages() {
               margin: '20px 0 0',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "millesimes.titre") ?? (<>
             Une signature,{' '}
             <span style={{ fontStyle: 'italic', color: C.goldLight }}>
               chaque année
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1382,12 +1383,12 @@ function TastingSticky() {
                 margin: '20px 0 56px',
                 lineHeight: 1.05,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "degustation.titre") ?? (<>
               L&apos;expérience du{' '}
               <span style={{ fontStyle: 'italic', color: C.goldLight }}>
                 palais
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {TASTING.map((t, i) => (
@@ -1514,12 +1515,12 @@ function CellarExperience() {
               margin: '22px 0 26px',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "chai.titre") ?? (<>
             Descendre dans{' '}
             <span style={{ fontStyle: 'italic', color: C.goldLight }}>
               le silence
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.18}>
           <p
@@ -1647,12 +1648,12 @@ function Testimonials() {
               color: C.ink,
               margin: '20px 0 0',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
             La parole des{' '}
             <span style={{ fontStyle: 'italic', color: C.burgundy }}>
               amateurs
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1807,10 +1808,10 @@ function AllocationForm() {
               margin: '22px 0 18px',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "allocation.titre") ?? (<>
             Rejoindre la{' '}
             <span style={{ fontStyle: 'italic', color: C.goldLight }}>liste</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p

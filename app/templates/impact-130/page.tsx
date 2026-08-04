@@ -47,7 +47,9 @@ import {
   clientStats,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -638,10 +640,12 @@ export default function Impact130Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   FAQS_DEMO = FAQS_DEMO_LIVE();
   TEAM_DEMO = TEAM_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
 
 
 
@@ -862,9 +866,9 @@ return (
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
                 style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 700, color: C.text, letterSpacing: "-0.03em", lineHeight: 1.1 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "projets.titre") ?? (<>
                 Projets récents
-              </motion.h2>
+              </>)}</motion.h2>
             </div>
             <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} style={{ color: C.textMuted, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}>
               Voir tout <ArrowUpRight size={14} />
@@ -988,9 +992,9 @@ return (
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 700, color: C.text, letterSpacing: "-0.03em", lineHeight: 1.1, maxWidth: 480 }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
               Ce que nous créons pour vous
-            </motion.h2>
+            </>)}</motion.h2>
             <p style={{ color: C.textMuted, maxWidth: 320, fontSize: 16, lineHeight: 1.6 }}>
               Chaque service est un continuum — pas une prestation isolée. Nous pensons en systèmes.
             </p>
@@ -1048,9 +1052,9 @@ return (
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 700, color: C.text, letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 80 }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>
             4 phases, zéro surprise
-          </motion.h2>
+          </>)}</motion.h2>
 
           <div style={{ position: "relative" }}>
             {/* Timeline line */}
@@ -1104,9 +1108,9 @@ return (
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 700, color: C.text, letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 72 }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             Ce que disent nos clients
-          </motion.h2>
+          </>)}</motion.h2>
 
           <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 24 }}>
             {TESTIMONIALS.map((t, i) => (
@@ -1156,9 +1160,9 @@ return (
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 700, color: C.text, letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 72 }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "studio.titre") ?? (<>
             Qui sommes-nous
-          </motion.h2>
+          </>)}</motion.h2>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }}>
             {TEAM.map((member, i) => (
@@ -1199,9 +1203,9 @@ return (
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             style={{ fontSize: "clamp(32px, 3.5vw, 48px)", fontWeight: 700, color: C.text, letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 56 }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
             Vos questions, nos réponses
-          </motion.h2>
+          </>)}</motion.h2>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {FAQS.map((faq, i) => (
@@ -1252,11 +1256,11 @@ return (
             transition={{ duration: 0.7 }}
           >
             <p style={{ color: C.emeraldGlow, fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, marginBottom: 24 }}>Nouveau projet</p>
-            <h2 style={{ fontSize: "clamp(40px, 5vw, 72px)", fontWeight: 700, color: C.text, letterSpacing: "-0.03em", lineHeight: 1.0, marginBottom: 24 }}>
+            <h2 style={{ fontSize: "clamp(40px, 5vw, 72px)", fontWeight: 700, color: C.text, letterSpacing: "-0.03em", lineHeight: 1.0, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Prêt à bâtir
               <br />
               votre identité ?
-            </h2>
+            </>)}</h2>
             <p style={{ color: C.textMuted, fontSize: 18, lineHeight: 1.6, marginBottom: 48, maxWidth: 480, margin: "0 auto 48px" }}>
               Parlez-nous de votre projet. Nous répondons sous 24h avec une première analyse gratuite.
             </p>

@@ -13,6 +13,7 @@ import {
   clientName,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -362,7 +363,7 @@ export default function StudioPelikanPage() {
               <Reveal className="flex flex-col md:flex-row md:items-end justify-between mb-10">
                 <div>
                   <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Filmographie</p>
-                  <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Nos productions</h2>
+                  <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Nos productions</>)}</h2>
                 </div>
                 <div className="flex gap-2 flex-wrap mt-6 md:mt-0">
                   {categories.map(cat => (
@@ -400,7 +401,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Expertise</p>
-                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Nos services</h2>
+                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Nos services</>)}</h2>
               </Reveal>
               <div className="grid md:grid-cols-2 gap-5">
                 {services.map((s, i) => (
@@ -423,7 +424,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-4xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Distinctions</p>
-                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Palmarès</h2>
+                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Palmarès</>)}</h2>
               </Reveal>
               <div className="space-y-0">
                 {awards.map((a, i) => (
@@ -471,9 +472,9 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto">
               <Reveal>
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Catalogue complet</p>
-                <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+                <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                   Nos <em>Films</em>
-                </h1>
+                </>)}</h1>
                 <p className="text-white/40 text-lg max-w-2xl leading-relaxed">
                   Depuis 2012, Studio Pelikan développe, produit et accompagne des œuvres cinématographiques
                   exigeantes. Chaque film est une aventure humaine, artistique et technique unique.
@@ -543,9 +544,9 @@ export default function StudioPelikanPage() {
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Vous avez un projet ?</p>
-                <h2 className="text-white text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+                <h2 className="text-white text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
                   Soumettre un scénario
-                </h2>
+                </>)}</h2>
                 <p className="text-white/40 text-sm leading-relaxed max-w-md mx-auto mb-10">
                   Nous lisons chaque scénario avec attention. Envoyez-nous votre note d&apos;intention
                   et votre traitement pour une première lecture.
@@ -564,9 +565,9 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto">
               <Reveal>
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Notre expertise</p>
-                <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+                <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
                   Nos <em>{tr(sessionData, "Services")}</em>
-                </h1>
+                </>)}</h1>
                 <p className="text-white/40 text-lg max-w-2xl leading-relaxed">
                   De la première idée à la diffusion internationale, nous accompagnons chaque projet avec
                   rigueur, passion et un savoir-faire acquis sur plus de trente-huit productions.
@@ -585,7 +586,7 @@ export default function StudioPelikanPage() {
                   </div>
                   <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase">Phase 1</p>
                 </div>
-                <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Écriture &amp; Développement</h2>
+                <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-11.titre") ?? (<>Écriture &amp; Développement</>)}</h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-6">
                   Chaque film commence par une histoire. Nous accompagnons les auteurs dès la note d&apos;intention,
                   à travers les résidences d&apos;écriture, le développement dramaturgique et la construction du dossier
@@ -625,7 +626,7 @@ export default function StudioPelikanPage() {
                   </div>
                   <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase">Phase 2</p>
                 </div>
-                <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Réalisation &amp; Tournage</h2>
+                <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Réalisation &amp; Tournage</>)}</h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-6">
                   Notre équipe de production assure la logistique complète du tournage : repérages, casting,
                   direction de production, régissage. Nous travaillons avec les meilleurs techniciens français
@@ -653,7 +654,7 @@ export default function StudioPelikanPage() {
                   </div>
                   <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase">Phase 3</p>
                 </div>
-                <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Post-production &amp; VFX</h2>
+                <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-13.titre") ?? (<>Post-production &amp; VFX</>)}</h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-6">
                   Montage image, montage son, mixage, étalonnage, effets visuels : chaque étape de la
                   post-production est supervisée avec la plus grande attention. Nous disposons de partenariats
@@ -693,7 +694,7 @@ export default function StudioPelikanPage() {
                   </div>
                   <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase">Sur mesure</p>
                 </div>
-                <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Spots de marque &amp; Brand Content</h2>
+                <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-14.titre") ?? (<>Spots de marque &amp; Brand Content</>)}</h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-6">
                   Nous mettons notre regard cinématographique au service des marques. Films institutionnels,
                   spots publicitaires, content digital : chaque projet bénéficie de la même exigence narrative
@@ -716,7 +717,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Parc technique</p>
-                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Notre équipement</h2>
+                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Notre équipement</>)}</h2>
               </Reveal>
               <div className="grid md:grid-cols-3 gap-5">
                 {[
@@ -744,7 +745,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Processus</p>
-                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Notre workflow de production</h2>
+                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-16.titre") ?? (<>Notre workflow de production</>)}</h2>
               </Reveal>
               <div className="grid md:grid-cols-4 gap-5">
                 {[
@@ -770,7 +771,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Prêt à produire ?</p>
-                <h2 className="text-white text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Discutons de votre projet</h2>
+                <h2 className="text-white text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-17.titre") ?? (<>Discutons de votre projet</>)}</h2>
                 <p className="text-white/40 text-sm leading-relaxed max-w-md mx-auto mb-10">
                   Que vous soyez réalisateur, auteur ou marque, nous serions ravis d&apos;étudier votre projet
                   et de vous proposer un accompagnement sur mesure.
@@ -789,9 +790,9 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto">
               <Reveal>
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Notre histoire</p>
-                <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+                <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-18.titre") ?? (<>
                   À <em>propos</em>
-                </h1>
+                </>)}</h1>
                 <p className="text-white/40 text-lg max-w-2xl leading-relaxed">
                   Studio Pelikan est une société de production cinématographique indépendante fondée en 2012
                   à {clientCity(sessionData) ?? "Paris"}. Nous croyons en un cinéma exigeant, singulier et universel.
@@ -805,7 +806,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
               <Reveal>
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-6">Fondation</p>
-                <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Depuis 2012, {clientCity(sessionData) ?? "Paris"}</h2>
+                <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-19.titre") ?? (<>Depuis 2012, {clientCity(sessionData) ?? "Paris"}</>)}</h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-4">
                   Studio Pelikan naît en 2012 dans le 11e arrondissement de {clientCity(sessionData) ?? "Paris"}, fondé par Julien Ferraro
                   et Nina Music après leurs études à La Fémis. Le nom est un hommage au Café Pelikan de Budapest,
@@ -837,7 +838,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-6">Manifeste artistique</p>
-                <h2 className="text-white text-4xl mb-10" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Ce que nous défendons</h2>
+                <h2 className="text-white text-4xl mb-10" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-20.titre") ?? (<>Ce que nous défendons</>)}</h2>
               </Reveal>
               <div className="space-y-8">
                 {[
@@ -862,7 +863,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Réseau international</p>
-                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Distribution &amp; Partenaires</h2>
+                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-21.titre") ?? (<>Distribution &amp; Partenaires</>)}</h2>
               </Reveal>
               <div className="grid md:grid-cols-3 gap-5">
                 {[
@@ -893,7 +894,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">L&apos;équipe</p>
-                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Les visages du studio</h2>
+                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-22.titre") ?? (<>Les visages du studio</>)}</h2>
               </Reveal>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
                 {[
@@ -926,7 +927,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-4xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Presse</p>
-                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Ils parlent de nous</h2>
+                <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>Ils parlent de nous</>)}</h2>
               </Reveal>
               <div className="space-y-6">
                 {[
@@ -952,7 +953,7 @@ export default function StudioPelikanPage() {
           <section className="py-24 px-6">
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
-                <h2 className="text-white text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Rejoignez l&apos;aventure</h2>
+                <h2 className="text-white text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-24.titre") ?? (<>Rejoignez l&apos;aventure</>)}</h2>
                 <p className="text-white/40 text-sm leading-relaxed max-w-md mx-auto mb-10">
                   Vous êtes cinéaste, auteur, technicien ou journaliste ? Nous serions ravis d&apos;échanger avec vous.
                 </p>
@@ -975,9 +976,9 @@ export default function StudioPelikanPage() {
             <div className="max-w-4xl mx-auto">
               <Reveal>
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Informations légales</p>
-                <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+                <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-25.titre") ?? (<>
                   Mentions <em>légales</em>
-                </h1>
+                </>)}</h1>
               </Reveal>
             </div>
           </section>

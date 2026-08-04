@@ -21,7 +21,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -180,7 +182,9 @@ export default function SonicPlayerPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   RELEASES = RELEASES_DEMO.map((row, i) => ({
     ...row,
     image: clientPhotos(session)[0 + i] || row.image,
@@ -474,9 +478,9 @@ export default function SonicPlayerPage() {
               <span className="text-[10px] uppercase tracking-widest font-bold text-[var(--brand,#a855f7)] block mb-4">
                 About the Album
               </span>
-              <h3 className="text-3xl font-bold mb-6">
+              <h3 className="text-3xl font-bold mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
                 A Journey Through Synthetic Soundscapes.
-              </h3>
+              </>)}</h3>
               <p className="text-slate-400 text-sm leading-relaxed mb-8">{fd?.tagline ?? c?.heroSubline ?? <>
                 The highly anticipated sophomore album fuses vintage analog
                 synthesis with cutting-edge spatial audio production. It's a
@@ -549,9 +553,9 @@ export default function SonicPlayerPage() {
       <section id="contact" className="py-32 bg-[#030014]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal className="mb-16 text-center">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-4">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               The Collective
-            </h2>
+            </>)}</h2>
             <p className="text-slate-400">
               Discover the minds behind the frequencies.
             </p>
@@ -646,9 +650,9 @@ export default function SonicPlayerPage() {
               <span className="text-[10px] uppercase tracking-widest font-bold text-[var(--brand,#a855f7)] block mb-4">
                 Live Experiences
               </span>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tighter">
+              <h2 className="text-4xl md:text-5xl font-black tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                 Global Tour '24
-              </h2>
+              </>)}</h2>
             </div>
             <button className="hidden md:block px-6 py-3 border border-white/20 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-colors rounded-sm">
               All Dates

@@ -45,7 +45,10 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let bp: any = null;
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -405,7 +408,12 @@ export default function AuraWellnessPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  sessionData = session;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
+
+
   amenities = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...amenities_SOURCE[i % amenities_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),
     amenities_SOURCE,
@@ -439,7 +447,6 @@ export default function AuraWellnessPage() {
   // back to. Field access in JSX uses `??` chains so both shapes render.
   // Note: businessProfile is a sibling of formData on SessionData, not
   // nested inside it — read from `session`, not `fd`.
-  const bp = session?.businessProfile;
   const rituals = resolveList(clientServices(session), RITUALS_DEMO);
   const team = resolveList(clientTeam(session), TEAM_DEMO);
   const testimonials = resolveList(clientReviews(session), TESTIMONIALS_DEMO);
@@ -652,9 +659,9 @@ export default function AuraWellnessPage() {
               <h2
                 className="text-[#2C2820] text-4xl md:text-5xl"
                 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "soins.titre") ?? (<>
                 Choisissez votre voyage
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="flex gap-3 mb-10 flex-wrap">
@@ -748,9 +755,9 @@ export default function AuraWellnessPage() {
               <h2
                 className="text-[#2C2820] text-4xl md:text-5xl"
                 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "amenities.titre") ?? (<>
                 Un sanctuaire complet
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -799,9 +806,9 @@ export default function AuraWellnessPage() {
               <h2
                 className="text-white text-4xl md:text-5xl"
                 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "botanicals.titre") ?? (<>
                 Des actifs d'exception
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -846,9 +853,9 @@ export default function AuraWellnessPage() {
               <h2
                 className="text-[#2C2820] text-4xl md:text-5xl"
                 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>
                 Des thérapeutes d'exception
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
@@ -938,9 +945,9 @@ export default function AuraWellnessPage() {
             <span className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3 block">
               Sourcing & Éthique
             </span>
-            <h2 className="text-3xl md:text-5xl font-serif italic text-[#2C2820]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl md:text-5xl font-serif italic text-[#2C2820]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
               Audit Botanique & FAQ
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <Accordion type="single" collapsible className="space-y-6">
@@ -967,9 +974,9 @@ export default function AuraWellnessPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">Réservation</p>
-            <h2 className="text-[#2C2820] text-3xl md:text-5xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+            <h2 className="text-[#2C2820] text-3xl md:text-5xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "reservation.titre") ?? (<>
               Réserver votre rituel
-            </h2>
+            </>)}</h2>
           </div>
           <div className="grid lg:grid-cols-[1.6fr_1fr] gap-8">
             {/* Form */}
@@ -1082,9 +1089,9 @@ export default function AuraWellnessPage() {
           <Reveal>
             <div className="bg-[#EDE9E2] rounded-3xl border border-[#D8D0C4] p-8 md:p-10 h-full">
               <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">Coordonnées</p>
-              <h3 className="text-[#2C2820] text-2xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              <h3 className="text-[#2C2820] text-2xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Aura Wellness — {clientCity({ formData: fd }) ?? "Bordeaux"}
-              </h3>
+              </>)}</h3>
               <ul className="space-y-5 text-sm text-[#6B5E52]">
                 <li className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-[var(--brand,#7C9E87)] shrink-0 mt-0.5" />

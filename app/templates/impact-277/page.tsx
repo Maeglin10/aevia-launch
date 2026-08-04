@@ -38,6 +38,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1116,10 +1117,10 @@ function ServicesSection() {
               textTransform: 'uppercase',
               maxWidth: 760,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             3 expertises,{' '}
             <span style={{ color: C.yellow }}>1 interlocuteur</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1293,10 +1294,10 @@ function ProcessSection() {
                 lineHeight: 1.0,
                 textTransform: 'uppercase',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "processus.titre") ?? (<>
               4 étapes,{' '}
               <span style={{ color: C.yellow }}>zéro stress</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {STEPS.map((step, i) => (
@@ -1525,10 +1526,10 @@ function TestimonialsSection() {
               textTransform: 'uppercase',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
             Ils nous font{' '}
             <span style={{ color: C.electric }}>confiance</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1633,10 +1634,10 @@ function DevisFormSection() {
               textAlign: 'center',
               textTransform: 'uppercase',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "devis.titre") ?? (<>
             Votre devis{' '}
             <span style={{ color: C.yellow }}>gratuit</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p
@@ -1972,10 +1973,10 @@ function CertificationsSection() {
               textTransform: 'uppercase',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "certifications.titre") ?? (<>
             Certifié,{' '}
             <span style={{ color: C.yellow }}>assuré, garanti</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -2177,10 +2178,10 @@ function ProjectsSection() {
               lineHeight: 1.02,
               maxWidth: 720,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "projets.titre") ?? (<>
             Chantiers <span style={{ color: C.yellow }}>livrés</span>,
             clients <span style={{ color: C.yellow }}>satisfaits</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -2263,11 +2264,11 @@ function UrgencySection() {
               lineHeight: 1.0,
               textTransform: 'uppercase',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "urgence.titre") ?? (<>
             Panne ? Coupure ?
             <br />
             <span style={{ color: C.yellow }}>On arrive.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

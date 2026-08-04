@@ -11,8 +11,10 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -156,9 +158,11 @@ export default function CouleursCOPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   ZONES_DEMO = ZONES_DEMO_LIVE();
+
 
 
   SERVICES_DEMO = resolveList(
@@ -288,7 +292,7 @@ return (
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#4d7c5f)] mb-4">Nos prestations</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a2e]">Ce qu'on <span className="text-[var(--brand,#4d7c5f)]">maîtrise.</span></h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a2e]">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Ce qu'on <span className="text-[var(--brand,#4d7c5f)]">maîtrise.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -313,7 +317,7 @@ return (
           <Reveal>
             <div className="mb-12">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#4d7c5f)] mb-4">Palette 2025-2026</div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">Finitions <span className="text-[var(--brand,#4d7c5f)]">& teintes.</span></h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">{/* TEXTE_SECTION */ clientText(sessionData, "couleurs.titre") ?? (<>Finitions <span className="text-[var(--brand,#4d7c5f)]">& teintes.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -341,7 +345,7 @@ return (
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#4d7c5f)] mb-4">Nos chantiers</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">Ce que nous avons <span className="text-[var(--brand,#4d7c5f)]">construit.</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Ce que nous avons <span className="text-[var(--brand,#4d7c5f)]">construit.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {CHANTIERS.map((c, i) => (
@@ -367,7 +371,7 @@ return (
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#4d7c5f)] mb-4">Zone d’intervention</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">Où nous <span className="text-[var(--brand,#4d7c5f)]">nous déplaçons.</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">{/* TEXTE_SECTION */ clientText(sessionData, "zone.titre") ?? (<>Où nous <span className="text-[var(--brand,#4d7c5f)]">nous déplaçons.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#e8e8e4] border border-[#e8e8e4]">
             {ZONES.map((z, i) => (
@@ -386,7 +390,7 @@ return (
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#4d7c5f)] mb-4">Avis clients</div>
-            <h2 className="text-4xl font-bold text-[#1a1a2e]">Ils adorent <span className="text-[var(--brand,#4d7c5f)]">le résultat.</span></h2>
+            <h2 className="text-4xl font-bold text-[#1a1a2e]">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ils adorent <span className="text-[var(--brand,#4d7c5f)]">le résultat.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {AVIS.map((t: any, i: number) => (
@@ -412,7 +416,7 @@ return (
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/50 mb-6">Votre projet</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Une pièce à<br />transformer ?</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Une pièce à<br />transformer ?</>)}</h2>
             <p className="text-white/60 mb-10 text-sm leading-relaxed" style={{ fontFamily: "'Nunito', sans-serif" }}>Devis gratuit sous 24h · Conseil couleur inclus · Travaux garantis 5 ans</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#4d7c5f)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f7f3] transition-colors">

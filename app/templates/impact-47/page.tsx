@@ -41,6 +41,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -208,7 +209,7 @@ function CollectionsSection() {
             <div style={{ width: 32, height: 1, background: C.accent }} />
             <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.accent }}>Seasonal Collections</span>
           </div>
-          <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.text, margin: 0, fontWeight: 700 }}>Nature's Calendar</h2>
+          <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.text, margin: 0, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "collections.titre") ?? (<>Nature's Calendar</>)}</h2>
         </motion.div>
 
         {/* Season tabs */}
@@ -294,7 +295,7 @@ function OccasionsSection() {
             <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.accent }}>Occasions</span>
             <div style={{ width: 32, height: 1, background: C.accent }} />
           </div>
-          <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.text, margin: "0 0 16px", fontWeight: 700 }}>Flowers for Every Chapter</h2>
+          <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.text, margin: "0 0 16px", fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "occasions.titre") ?? (<>Flowers for Every Chapter</>)}</h2>
           <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 17, color: C.textMuted, maxWidth: 480, margin: "0 auto" }}>From the most joyful celebration to the most tender farewell — we're here for every occasion that matters.</p>
         </motion.div>
 
@@ -354,7 +355,7 @@ function WorkshopSection() {
             <div style={{ width: 32, height: 1, background: C.sage }} />
             <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.sage }}>{tr(sessionData, "Our Story")}</span>
           </div>
-          <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(32px, 4vw, 48px)", color: C.text, margin: "0 0 24px", fontWeight: 700 }}>Made by Hand,<br />With Intention.</h2>
+          <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(32px, 4vw, 48px)", color: C.text, margin: "0 0 24px", fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "workshop.titre") ?? (<>Made by Hand,<br />With Intention.</>)}</h2>
           <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 16, color: C.textMuted, lineHeight: 1.75, marginBottom: 24 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Pétales & Co")} was born from a simple belief: flowers shouldn't be an afterthought. Founded in 2014 by florist Amélie Rousseau, our studio in the 11th arrondissement has become a gathering place for people who care about natural beauty.</p>
           <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 16, color: C.textMuted, lineHeight: 1.75, marginBottom: 40 }}>We work with small French growers wherever possible, choose seasonal flowers over imported blooms, and make every arrangement by hand — from a single stem to a wedding arch.</p>
           <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginBottom: 40 }}>
@@ -409,7 +410,7 @@ function TestimonialsSection() {
             <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.accent }}>{tr(sessionData, "Testimonials")}</span>
             <div style={{ width: 32, height: 1, background: C.accent }} />
           </div>
-          <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.text, margin: 0, fontWeight: 700 }}>What Our Clients Say</h2>
+          <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.text, margin: 0, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "testimonials.titre") ?? (<>What Our Clients Say</>)}</h2>
         </motion.div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 20 }}>
@@ -463,7 +464,7 @@ function SubscribeSection() {
             <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.accent }}>Bouquet Subscriptions</span>
             <div style={{ width: 32, height: 1, background: C.accent }} />
           </div>
-          <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.text, margin: "0 0 16px", fontWeight: 700 }}>Always Fresh. Never Repeated.</h2>
+          <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.text, margin: "0 0 16px", fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "subscribe.titre") ?? (<>Always Fresh. Never Repeated.</>)}</h2>
           <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 17, color: C.textMuted, maxWidth: 480, margin: "0 auto" }}>Seasonal bouquets, curated by hand, delivered to your door on schedule. Pause or cancel anytime.</p>
         </motion.div>
 
@@ -529,7 +530,7 @@ function FAQSection() {
             <div style={{ width: 32, height: 1, background: C.accent }} />
             <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.accent }}>FAQ</span>
           </div>
-          <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(36px, 4vw, 52px)", color: C.text, margin: 0, fontWeight: 700 }}>Questions & Answers</h2>
+          <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(36px, 4vw, 52px)", color: C.text, margin: 0, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>Questions & Answers</>)}</h2>
         </motion.div>
 
         {faqList.map((faq: any, i: number) => (

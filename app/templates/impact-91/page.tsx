@@ -43,6 +43,7 @@ import {
   clientServices,
   clientStats,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -637,9 +638,9 @@ function CollectionsSection() {
               color: C.navyDeep,
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "collections.titre") ?? (<>
             Collections Saisonnières
-          </h2>
+          </>)}</h2>
           <div className="w-16 h-[1px] mx-auto" style={{ backgroundColor: C.gold }} />
         </Reveal>
 
@@ -801,11 +802,11 @@ function BespokeSection() {
               color: C.cream,
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "bespoke.titre") ?? (<>
             Votre Vision,
             <br />
             <span style={{ color: C.gold }}>Notre Savoir-Faire</span>
-          </h2>
+          </>)}</h2>
           <p
             className="text-[15px] leading-[1.8] max-w-[520px] mx-auto"
             style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}80` }}
@@ -910,11 +911,11 @@ function SavoirFaireSection() {
                   color: C.cream,
                   lineHeight: 1.1,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "savoir-faire.titre") ?? (<>
                 L'Excellence
                 <br />
                 <span style={{ color: C.gold }}>depuis 1977</span>
-              </h2>
+              </>)}</h2>
               <p
                 className="text-[14px] leading-[2] mb-8 max-w-[440px]"
                 style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}75` }}
@@ -1030,11 +1031,11 @@ function AteliersSection() {
                   color: C.navyDeep,
                   lineHeight: 1.1,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "ateliers.titre") ?? (<>
                 Un Art
                 <br />
                 à Contempler
-              </h2>
+              </>)}</h2>
             </Reveal>
 
             {/* Pullquote */}
@@ -1128,11 +1129,11 @@ function TestimonialsSection() {
               color: C.navyDeep,
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             Ce que Disent
             <br />
             <span style={{ color: C.gold }}>Nos Clients</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -1218,9 +1219,9 @@ function PressSection() {
               color: C.cream,
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "presse.titre") ?? (<>
             Presse & Médias
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
@@ -1351,9 +1352,9 @@ function FaqSection() {
               color: C.navyDeep,
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
             Questions Fréquentes
-          </h2>
+          </>)}</h2>
           <div className="w-16 h-[1px] mx-auto" style={{ backgroundColor: C.gold }} />
         </Reveal>
 
@@ -1459,9 +1460,9 @@ function ContactSection() {
                 color: C.navyDeep,
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Rencontrons-nous
-            </h2>
+            </>)}</h2>
             <p
               className="text-[14px] leading-[2] mb-12"
               style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: C.textMuted }}

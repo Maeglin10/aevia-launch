@@ -13,7 +13,9 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -118,7 +120,9 @@ export default function MaisonElisePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   FORMULES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FORMULES_SOURCE[i % FORMULES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     FORMULES_SOURCE,
@@ -267,9 +271,9 @@ export default function MaisonElisePage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)] mb-4">Nos formules</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "formules.titre") ?? (<>
                 Un service pour<br /><span className="italic text-[var(--brand,#c4a06a)]">chaque vision.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -293,7 +297,7 @@ export default function MaisonElisePage() {
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-12">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)] mb-4">Portfolio</div>
-            <h2 className="text-4xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>Des instants <span className="italic text-[var(--brand,#c4a06a)]">inoubliables.</span></h2>
+            <h2 className="text-4xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "portfolio.titre") ?? (<>Des instants <span className="italic text-[var(--brand,#c4a06a)]">inoubliables.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 h-[65vh] min-h-[420px]">
             <div className="relative overflow-hidden"><ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&q=85&w=600")} alt="Mariage" /></div>
@@ -310,7 +314,7 @@ export default function MaisonElisePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)] mb-4">Ils ont dit oui</div>
-            <h2 className="text-4xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>Leurs <span className="italic text-[var(--brand,#c4a06a)]">mots.</span></h2>
+            <h2 className="text-4xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Leurs <span className="italic text-[var(--brand,#c4a06a)]">mots.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
@@ -340,7 +344,7 @@ export default function MaisonElisePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)] mb-4">L'équipe</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>Quatre personnes, <span className="italic text-[var(--brand,#c4a06a)]">pas une agence.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>Quatre personnes, <span className="italic text-[var(--brand,#c4a06a)]">pas une agence.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {EQUIPE.map((m, i) => (
@@ -361,7 +365,7 @@ export default function MaisonElisePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)] mb-4">Journal</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>Ce qu'on aurait <span className="italic text-[var(--brand,#c4a06a)]">aimé lire.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "blog.titre") ?? (<>Ce qu'on aurait <span className="italic text-[var(--brand,#c4a06a)]">aimé lire.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {BLOG.map((p, i) => (
@@ -386,9 +390,9 @@ export default function MaisonElisePage() {
               <Heart className="w-4 h-4 text-[var(--brand,#c4a06a)]/40" />
               <div className="h-[1px] w-16 bg-[var(--brand,#c4a06a)]/30" />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#fdfaf7] mb-5" style={{ fontFamily: "'Lora', serif" }}>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#fdfaf7] mb-5" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Votre histoire<br /><span className="italic text-[var(--brand,#c4a06a)]">commence ici.</span>
-            </h2>
+            </>)}</h2>
             <p className="text-[#fdfaf7]/28 mb-10 text-sm">Consultation gratuite · {clientCity({ formData: fd }) ?? "Nice"} & Côte d'Azur · Déplacements France entière & étranger</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[var(--brand,#c4a06a)] text-white font-bold text-[10px] uppercase tracking-[0.28em] hover:bg-[#a88550] transition-colors">

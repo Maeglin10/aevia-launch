@@ -14,6 +14,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -413,9 +414,9 @@ export default function AeviaKitchenPage() {
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] mb-4">
                 La Carte
               </p>
-              <h2 className="font-serif text-4xl md:text-6xl text-[#11182a] mb-4">
+              <h2 className="font-serif text-4xl md:text-6xl text-[#11182a] mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "menus.titre") ?? (<>
                 Menus de saison
-              </h2>
+              </>)}</h2>
               <p className="text-[#11182a]/50 text-sm max-w-md mx-auto leading-relaxed">
                 Le chef compose sa carte au rythme des saisons et des producteurs locaux.
               </p>
@@ -572,9 +573,9 @@ export default function AeviaKitchenPage() {
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] mb-4">
                 L&apos;Ambiance
               </p>
-              <h2 className="font-serif text-4xl md:text-5xl text-[#11182a]">
+              <h2 className="font-serif text-4xl md:text-5xl text-[#11182a]">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                 Un cadre hors du temps
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -606,9 +607,9 @@ export default function AeviaKitchenPage() {
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] mb-4">
                 Nos Propositions
               </p>
-              <h2 className="font-serif text-4xl md:text-5xl text-[#11182a]">
+              <h2 className="font-serif text-4xl md:text-5xl text-[#11182a]">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Chaque moment mérite le meilleur
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -718,9 +719,9 @@ export default function AeviaKitchenPage() {
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] mb-4">
                 Avis Invités
               </p>
-              <h2 className="font-serif text-4xl md:text-5xl text-[#11182a]">
+              <h2 className="font-serif text-4xl md:text-5xl text-[#11182a]">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                 Ce qu&apos;ils en disent
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -762,9 +763,9 @@ export default function AeviaKitchenPage() {
             <div>
               <Reveal>
                 <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] font-bold mb-6">Presse</p>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-12" style={{ fontFamily: "Playfair Display, Georgia, serif" }}>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-12" style={{ fontFamily: "Playfair Display, Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                   Ils ont <em>écrit</em> sur nous.
-                </h2>
+                </>)}</h2>
               </Reveal>
               <div className="space-y-8">
                 {[
@@ -829,10 +830,10 @@ export default function AeviaKitchenPage() {
                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] mb-6">
                   Réservation
                 </p>
-                <h2 className="font-serif text-4xl md:text-5xl text-white mb-6 leading-tight">
+                <h2 className="font-serif text-4xl md:text-5xl text-white mb-6 leading-tight">{/* TEXTE_SECTION */ clientText(sessionData, "reservation.titre") ?? (<>
                   Réservez votre <br />
                   <em className="text-[var(--brand,#c9a855)]">table</em>
-                </h2>
+                </>)}</h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-10">
                   Pour toute demande spéciale ou réservation de plus de 8 couverts,
                   contactez-nous directement au{" "}

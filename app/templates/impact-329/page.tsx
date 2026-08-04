@@ -16,6 +16,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -307,9 +308,9 @@ export default function CapDemenagementsPage() {
           <Reveal>
             <div style={{ marginBottom: 52 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Trois formules</span>
-              <h2 style={{ fontSize: "clamp(28px, 3.8vw, 48px)", fontWeight: 900, letterSpacing: -1, marginTop: 10, lineHeight: 1.1 }}>
+              <h2 style={{ fontSize: "clamp(28px, 3.8vw, 48px)", fontWeight: 900, letterSpacing: -1, marginTop: 10, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "formules.titre") ?? (<>
                 Vous choisissez où<br />vous vous arrêtez.
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 18 }}>
@@ -336,9 +337,9 @@ export default function CapDemenagementsPage() {
           <Reveal>
             <div style={{ marginBottom: 52 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>{tr(sessionData, "Services")}</span>
-              <h2 style={{ fontSize: "clamp(28px, 3.8vw, 48px)", fontWeight: 900, letterSpacing: -1, marginTop: 10, lineHeight: 1.1 }}>
+              <h2 style={{ fontSize: "clamp(28px, 3.8vw, 48px)", fontWeight: 900, letterSpacing: -1, marginTop: 10, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Tout ce qui roule,<br />porte et protège.
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
@@ -361,9 +362,9 @@ export default function CapDemenagementsPage() {
           <Reveal>
             <div style={{ marginBottom: 52 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>La méthode</span>
-              <h2 style={{ fontSize: "clamp(28px, 3.8vw, 48px)", fontWeight: 900, letterSpacing: -1, marginTop: 10, lineHeight: 1.1 }}>
+              <h2 style={{ fontSize: "clamp(28px, 3.8vw, 48px)", fontWeight: 900, letterSpacing: -1, marginTop: 10, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
                 Démonté. Roulé.<br />Remonté.
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
@@ -395,9 +396,9 @@ export default function CapDemenagementsPage() {
       <section className="i329-pad" style={{ padding: "100px 64px", background: C.bgCard, borderTop: `1px solid ${C.border}` }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 50 }}>
-            <h2 style={{ fontSize: "clamp(26px, 3.4vw, 44px)", fontWeight: 900, letterSpacing: -1 }}>
+            <h2 style={{ fontSize: "clamp(26px, 3.4vw, 44px)", fontWeight: 900, letterSpacing: -1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Ils ont posé leurs cartons<span style={{ color: C.accent }}>.</span>
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
@@ -422,9 +423,9 @@ export default function CapDemenagementsPage() {
       <section id="contact" className="i329-pad" style={{ padding: "100px 64px", textAlign: "center" }}>
         <Reveal>
           <Package size={30} color={C.accent} style={{ margin: "0 auto 18px" }} />
-          <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 900, letterSpacing: -1, marginBottom: 16 }}>
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 900, letterSpacing: -1, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             On chiffre votre volume<br />en 45 minutes.
-          </h2>
+          </>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>
             Visite à domicile ou en visio, devis ferme sous 24 h. Cartons offerts dès la formule Standard.
           </p>

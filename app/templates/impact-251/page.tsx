@@ -18,6 +18,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1230,10 +1231,10 @@ function ServiceCards() {
                 margin: '20px 0 0',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
               Tout ce dont votre{' '}
               <span style={{ color: C.accent }}>mariage</span> a besoin.
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
         <div
@@ -1495,10 +1496,10 @@ function ProcessPanel() {
                 margin: '20px 0 52px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               De la première rencontre{' '}
               <span style={{ color: C.accentLight }}>au Jour J.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1595,10 +1596,10 @@ function Testimonials() {
                 color: C.ink,
                 margin: '20px 0 0',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
               Des histoires{' '}
               <span style={{ color: C.accent }}>inoubliables.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
 
@@ -1775,10 +1776,10 @@ function ContactForm() {
               margin: '22px 0 18px',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Commençons à{' '}
             <span style={{ color: C.accentLight }}>imaginer.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.18}>
           <p

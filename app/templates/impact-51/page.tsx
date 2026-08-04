@@ -21,7 +21,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -58,7 +60,9 @@ export default function NexusPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [email, setEmail] = useState("");
@@ -219,9 +223,9 @@ return (
               textAlign: "center",
               fontFamily: T.bodyFont,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
             Connected to your entire software ecosystem
-          </h3>
+          </>)}</h3>
         </div>
         <IntegrationMarquee />
       </section>
@@ -320,9 +324,9 @@ return (
                   color: T.text,
                   fontFamily: T.headingFont,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 What builders are saying
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 

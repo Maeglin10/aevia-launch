@@ -18,6 +18,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1162,10 +1163,10 @@ function ServiceCards() {
               margin: '18px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Six expertises,{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>un seul engagement.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1451,12 +1452,12 @@ function EcoPanel() {
                 margin: '18px 0 32px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "eco.titre") ?? (<>
               Design écologique /{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 quatre principes.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div>
             {ECO_ITEMS.map((item, i) => (
@@ -1576,10 +1577,10 @@ function Testimonials() {
               margin: '18px 0 0',
               lineHeight: 1.08,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             Des jardins qui{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>parlent d&apos;eux-mêmes.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1702,9 +1703,9 @@ function QuoteForm() {
               margin: '20px 0 16px',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "devis.titre") ?? (<>
             Parlons de votre jardin.
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

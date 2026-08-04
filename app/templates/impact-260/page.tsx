@@ -27,6 +27,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1303,12 +1304,12 @@ function ServiceCards() {
               margin: 'clamp(14px,2vw,22px) 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
             Tous vos besoins,{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               un seul artisan.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1518,12 +1519,12 @@ function CertPanel() {
                 margin: 'clamp(14px,2vw,24px) 0 clamp(32px,4vw,56px)',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "certifications.titre") ?? (<>
               Des garanties{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 vérifiables.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div>
             {CERTS.map((cert, i) => (
@@ -1637,12 +1638,12 @@ function Testimonials() {
               margin: 'clamp(14px,2vw,22px) 0 0',
               lineHeight: 1.08,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             Ils nous font{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               confiance.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1820,12 +1821,12 @@ function QuoteForm() {
               margin: 'clamp(14px,2vw,22px) 0 clamp(10px,1.5vw,18px)',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "devis.titre") ?? (<>
             Votre projet,{' '}
             <span style={{ fontStyle: 'italic', color: C.accentLight }}>
               notre réponse.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

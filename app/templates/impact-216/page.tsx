@@ -20,6 +20,8 @@ import {
   clientStats,
   clientTagline,
 } from "@/lib/templates/clientContent";
+let bp: any = null;
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -1714,6 +1716,7 @@ export default function MeridianFreightPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -1733,9 +1736,13 @@ export default function MeridianFreightPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  sessionData = session;
   c = session?.generatedContent;
+
   AGENCIES = AGENCIES_LIVE();
   SHIPMENTS = SHIPMENTS_LIVE();
+
 
 
   SERVICES = resolveList(

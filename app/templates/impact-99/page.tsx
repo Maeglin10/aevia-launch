@@ -6,6 +6,7 @@ import {
   clientPhotos,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -33,6 +34,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { Flame, UtensilsCrossed, Wine, Star, Award, Globe, Mail, MapPin, ChevronRight, ArrowRight, X, Menu, Clock, Phone, Search, ShoppingBag, ChefHat, Beef, Droplets, GlassWater } from "lucide-react";
+let sessionData: any = null;
 
 import "../premium.css";
 
@@ -466,9 +468,9 @@ function ReservationPage() {
               {sent ? (
                 <div className="p-16 border border-[var(--brand,#ff4d00)]/30 bg-[var(--brand,#ff4d00)]/5 rounded-sm">
                   <Flame className="w-10 h-10 text-[var(--brand,#ff4d00)] mb-8" />
-                  <h3 className="text-3xl font-black italic uppercase tracking-tighter text-white mb-4">
+                  <h3 className="text-3xl font-black italic uppercase tracking-tighter text-white mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
                     Demande Reçue.
-                  </h3>
+                  </>)}</h3>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic leading-loose">
                     Merci. Notre maître d'hôtel vous confirmera votre table par
                     téléphone dans les meilleurs délais.
@@ -782,10 +784,10 @@ function AboutPage({ goTo }: { goTo: (p: EmberPage) => void }) {
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#ff4d00)] mb-8 block">
               Nos Valeurs
             </span>
-            <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter uppercase text-white">
+            <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Feu. <span className="text-[var(--brand,#ff4d00)] not-italic">Temps.</span>{" "}
               Produit.
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
 
@@ -884,9 +886,9 @@ function ContactPage() {
               {sent ? (
                 <div className="p-16 border border-[var(--brand,#ff4d00)]/30 bg-[var(--brand,#ff4d00)]/5 rounded-sm">
                   <Mail className="w-10 h-10 text-[var(--brand,#ff4d00)] mb-8" />
-                  <h3 className="text-3xl font-black italic uppercase tracking-tighter text-white mb-4">
+                  <h3 className="text-3xl font-black italic uppercase tracking-tighter text-white mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                     Message Envoyé.
-                  </h3>
+                  </>)}</h3>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic leading-loose">
                     Merci de nous avoir écrit. Nous vous répondrons dans les plus
                     brefs délais.
@@ -1090,8 +1092,10 @@ export default function EmberGrillPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+
   MENU_HIGHLIGHTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...MENU_HIGHLIGHTS_DEMO_SOURCE[i % MENU_HIGHLIGHTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? MENU_HIGHLIGHTS_DEMO_SOURCE[i % MENU_HIGHLIGHTS_DEMO_SOURCE.length].price })),
     MENU_HIGHLIGHTS_DEMO_SOURCE,
@@ -1331,9 +1335,9 @@ export default function EmberGrillPage() {
               <Reveal>
                 <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
                   <div>
-                    <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">
+                    <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "menu.titre") ?? (<>
                       The <br /> <span className="text-[var(--brand,#ff4d00)]">Cuts.</span>
-                    </h2>
+                    </>)}</h2>
                     <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
                       Seasonal Manifest // Wood-Fired Daily // Summer 2024
                     </p>
@@ -1419,10 +1423,10 @@ export default function EmberGrillPage() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#ff4d00)] mb-8 block">
                     The Fire Lab
                   </span>
-                  <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">
+                  <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                     Elemental{" "}
                     <span className="text-[var(--brand,#ff4d00)] not-italic">Mastery.</span>
-                  </h2>
+                  </>)}</h2>
                 </div>
               </Reveal>
 

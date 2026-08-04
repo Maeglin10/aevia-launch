@@ -13,7 +13,9 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -467,9 +469,11 @@ export default function ImpactFrequencePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   AUTHORS_SOURCE = AUTHORS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
 
 
   AUTHORS = resolveList(
@@ -1088,9 +1092,9 @@ export default function ImpactFrequencePage() {
                 letterSpacing: -0.5,
                 color: C.text,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
               Dernières éditions
-            </h2>
+            </>)}</h2>
             <a
               href="#contact"
               style={{
@@ -1262,9 +1266,9 @@ export default function ImpactFrequencePage() {
               letterSpacing: -1,
               color: C.text,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "auteurs.titre") ?? (<>
             Notre équipe
-          </h2>
+          </>)}</h2>
           <span style={{ fontFamily: C.mono, fontSize: 10, color: C.textMuted, letterSpacing: 3, textTransform: "uppercase" }}>
             4 rédacteurs permanents
           </span>
@@ -1359,9 +1363,9 @@ export default function ImpactFrequencePage() {
               color: C.text,
               marginBottom: 12,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "apropos.titre") ?? (<>
             Ce que nos lecteurs disent.
-          </h2>
+          </>)}</h2>
           <p style={{ fontFamily: C.sans, fontSize: 15, color: C.textMuted }}>
             +15 200 abonnés actifs · 89% de taux d'ouverture
           </p>
@@ -1456,9 +1460,9 @@ export default function ImpactFrequencePage() {
                 letterSpacing: -1,
                 color: C.text,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Abonnements
-            </h2>
+            </>)}</h2>
           </div>
           <div
             style={{
@@ -1607,9 +1611,9 @@ export default function ImpactFrequencePage() {
               letterSpacing: -0.5,
               color: C.text,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "archives.titre") ?? (<>
             Archives par mois
-          </h2>
+          </>)}</h2>
           <span style={{ fontFamily: C.mono, fontSize: 10, color: C.textMuted, letterSpacing: 2 }}>
             {ARCHIVE_MONTHS.reduce((a, m) => a + m.issues, 0)} numéros depuis 2019
           </span>
@@ -1698,9 +1702,9 @@ export default function ImpactFrequencePage() {
             color: C.text,
             marginBottom: 48,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
           Questions fréquentes
-        </h2>
+        </>)}</h2>
         {FAQS.map((f, i) => (
           <div key={i} style={{ borderBottom: `1px solid ${C.border}` }}>
             <button
@@ -1790,9 +1794,9 @@ export default function ImpactFrequencePage() {
               color: "#fff",
               marginBottom: 24,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Lisez tout.<br />Pensez mieux.
-          </h2>
+          </>)}</h2>
           <p style={{ fontFamily: C.sans, fontSize: 16, color: "rgba(255,255,255,0.75)", lineHeight: 1.7 }}>
             9 €/mois. Archives complètes depuis 2019. Podcast inclus. Sans publicité. Sans algorithme.
           </p>

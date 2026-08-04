@@ -36,7 +36,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -1039,10 +1041,12 @@ export default function ArtisanMinimalPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
   TESTIMONIALS = TESTIMONIALS_LIVE();
+
 
 
 
@@ -1389,13 +1393,13 @@ return (
                   color: C.text,
                   marginBottom: 28,
                 }}
-              >{c?.heroHeadline ?? <>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
                 La main,
                 <br />
                 la flamme,
                 <br />
                 <span style={{ color: C.terracotta }}>l'objet.</span>
-              </>}</motion.h1>
+              </>}</>)}</motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -1694,9 +1698,9 @@ return (
                 lineHeight: 1.1,
                 marginBottom: 32,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "boutique.titre") ?? (<>
               Pièces disponibles
-            </h2>
+            </>)}</h2>
 
             {/* Filters */}
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -1889,10 +1893,10 @@ return (
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "atelier.titre") ?? (<>
               De la terre à l'objet,<br />
               <span style={{ color: C.terracotta }}>quatre étapes</span>
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           <div
@@ -2028,9 +2032,9 @@ return (
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Ce qu'ils disent
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           {/* Testimonial card */}
@@ -2276,9 +2280,9 @@ return (
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Trouvez la formule<br />qui vous convient
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           <div
@@ -2473,9 +2477,9 @@ return (
                 letterSpacing: "-0.03em",
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
               Tout ce que vous<br />voulez savoir
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           <div style={{ display: "flex", flexDirection: "column" }}>
@@ -2622,10 +2626,10 @@ return (
                 marginBottom: 24,
                 color: C.white,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Parlons de<br />
               <span style={{ color: C.terracottaLight }}>votre pièce</span>
-            </h2>
+            </>)}</h2>
 
             <p
               style={{

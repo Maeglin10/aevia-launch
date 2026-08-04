@@ -12,6 +12,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -211,12 +212,12 @@ return (
                   <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a96e)] block mb-6">
                     Active Portfolio
                   </span>
-                  <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-white leading-[1.15] pb-4 italic">
+                  <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-white leading-[1.15] pb-4 italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                     The{" "}
                     <span className="font-light not-italic opacity-10 text-white">
                       Holdings.
                     </span>
-                  </h2>
+                  </>)}</h2>
                 </div>
               </div>
             </Reveal>
@@ -264,7 +265,7 @@ return (
               <div className="flex items-end justify-between mb-20 border-b border-white/5 pb-12">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a96e)] block mb-6">Connoisseurs</span>
-                  <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic text-white leading-none">In Their <span className="font-light not-italic opacity-10">Hands.</span></h2>
+                  <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic text-white leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>In Their <span className="font-light not-italic opacity-10">Hands.</span></>)}</h2>
                 </div>
               </div>
             </Reveal>
@@ -291,7 +292,7 @@ return (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
               <Reveal>
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a96e)] block mb-8">The Workshop</span>
-                <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter italic text-white leading-none mb-12">Made By <br /><span className="font-light not-italic opacity-20">Hand.</span></h2>
+                <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter italic text-white leading-none mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Made By <br /><span className="font-light not-italic opacity-20">Hand.</span></>)}</h2>
                 <div className="space-y-8">
                   {[
                     { icon: Settings, t: "Hand-Finished Movement", d: "Every calibre is assembled and regulated by a single watchmaker. Tolerances held to 0.004mm." },
@@ -338,12 +339,12 @@ return (
               <div className="w-16 h-16 border-2 border-black mx-auto mb-20 flex items-center justify-center font-black text-black text-2xl uppercase">
                 Z
               </div>
-              <h2 className="text-7xl md:text-[10vw] font-black uppercase tracking-tighter leading-[1.1] pb-6 mb-16 italic">
+              <h2 className="text-7xl md:text-[10vw] font-black uppercase tracking-tighter leading-[1.1] pb-6 mb-16 italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                 OWN THE <br />{" "}
                 <span className="font-light not-italic opacity-20 text-black">
                   ETERNAL.
                 </span>
-              </h2>
+              </>)}</h2>
               <p className="text-2xl text-black/40 font-light mb-20 leading-relaxed italic max-w-2xl mx-auto">
                 Limited production runs. Each piece is individually numbered and accompanied by a digital certificate of authenticity on the Zenith mesh.
               </p>

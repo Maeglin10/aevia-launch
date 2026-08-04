@@ -20,6 +20,7 @@ import {
   clientServices,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1216,12 +1217,12 @@ function ArtistCards() {
               margin: 'clamp(16px,2vw,22px) 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "artistes.titre") ?? (<>
             Nos{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               artistes
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1458,12 +1459,12 @@ function SafetyPanel() {
                 margin: 'clamp(16px,2vw,22px) 0 clamp(36px,5vw,56px)',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hygiene.titre") ?? (<>
               Votre sécurité,{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 notre priorité
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1573,10 +1574,10 @@ function Testimonials() {
               margin: 'clamp(16px,2vw,22px) 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             La parole de nos{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>clients</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1750,12 +1751,12 @@ function BookingForm() {
               margin: 'clamp(18px,2vw,24px) 0 clamp(14px,2vw,20px)',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "reserver.titre") ?? (<>
             Votre projet,{' '}
             <span style={{ fontStyle: 'italic', color: C.accentLight }}>
               notre art.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

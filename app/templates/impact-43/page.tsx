@@ -28,6 +28,7 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -447,9 +448,9 @@ export default function SereneRetreatHome() {
                   fontStyle: "italic",
                   marginBottom: 28,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "circuit.titre") ?? (<>
                 The Thermal Circuit
-              </h2>
+              </>)}</h2>
             </TextReveal>
             <p
               style={{fontFamily: C.fontSans,
@@ -565,9 +566,9 @@ export default function SereneRetreatHome() {
                   lineHeight: 1.1,
                   fontStyle: "italic",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "packages.titre") ?? (<>
                 Choose your depth<br />of immersion
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
 
@@ -674,9 +675,9 @@ export default function SereneRetreatHome() {
                     fontStyle: "italic",
                     marginBottom: 24,
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "philosophy.titre") ?? (<>
                   The art of<br />doing nothing
-                </h2>
+                </>)}</h2>
               </TextReveal>
               <Link href="/templates/impact-43/philosophy" style={{ textDecoration: "none" }}>
                 <span style={{ fontFamily: C.fontSans, color: C.gold, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.15em", fontWeight: 600 }}>
@@ -754,9 +755,9 @@ export default function SereneRetreatHome() {
                   lineHeight: 1.1,
                   fontStyle: "italic",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "team.titre") ?? (<>
                 Hands you can trust
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
 
@@ -830,9 +831,9 @@ export default function SereneRetreatHome() {
                   color: C.charcoal,
                   fontStyle: "italic",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                 What our guests say
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
 
@@ -893,9 +894,9 @@ export default function SereneRetreatHome() {
             </div>
           </TextReveal>
           <TextReveal delay={0.15}>
-            <h2 style={{ fontFamily: C.font, fontSize: "clamp(36px, 4vw, 58px)", fontWeight: 300, color: C.charcoal, fontStyle: "italic", marginBottom: 24 }}>
+            <h2 style={{ fontFamily: C.font, fontSize: "clamp(36px, 4vw, 58px)", fontWeight: 300, color: C.charcoal, fontStyle: "italic", marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
               Begin your retreat
-            </h2>
+            </>)}</h2>
           </TextReveal>
           <p style={{fontFamily: C.fontSans, fontSize: 15, color: brand ?? '#6b7265', lineHeight: 1.8, marginBottom: 40, fontWeight: 300 }}>
             Availability is limited to thirty guests per day. We recommend booking at least two weeks in advance for weekend visits.

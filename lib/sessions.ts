@@ -125,6 +125,18 @@ export interface SessionData {
   // itself look up whether its owner already has an active Inbox webchat
   // widget and auto-embed it, no manual snippet copy-paste needed.
   accountId?: string;
+  /*
+    Les retouches du client, section par section.
+
+    La clé est stable et lisible : « contact.titre », « methode.sous-titre ». Le
+    thème lit `clientText(session, "contact.titre") ?? "…"` — sans retouche, il
+    affiche son propre texte, exactement comme avant.
+
+    C'est le seul mécanisme qui rend éditable chaque section des 373 thèmes sans
+    poser vingt questions de plus dans le wizard : le wizard recueille la donnée
+    structurée — prestations, tarifs, horaires — et ceci couvre la prose.
+  */
+  sectionOverrides?: Record<string, string>;
 }
 
 // In-memory cache (warm path)

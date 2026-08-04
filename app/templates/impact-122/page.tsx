@@ -21,7 +21,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -169,7 +171,9 @@ export default function ChronicleEditorialPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -285,7 +289,7 @@ export default function ChronicleEditorialPage() {
             
             {/* LATEST NEWS SIDEBAR (LEFT) */}
             <div className="lg:col-span-3 order-2 lg:order-1 hidden md:block">
-              <h3 className="text-xs font-black uppercase tracking-widest border-b-2 border-[#1a1814] pb-4 mb-6">The Latest</h3>
+              <h3 className="text-xs font-black uppercase tracking-widest border-b-2 border-[#1a1814] pb-4 mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>The Latest</>)}</h3>
               <div className="flex flex-col gap-6">
                 {MANIFEST.latestNews.map((news, i) => (
                   <Reveal key={i} delay={i * 0.1}>
@@ -372,7 +376,7 @@ export default function ChronicleEditorialPage() {
         <section className="bg-[#f2efe9] py-24 border-y border-[#1a1814]/10">
           <div className="max-w-[1400px] mx-auto px-6">
             <div className="flex items-center justify-between mb-12">
-              <h3 className="text-3xl font-serif italic">Editors' Picks</h3>
+              <h3 className="text-3xl font-serif italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Editors' Picks</>)}</h3>
               <Link href="#subscribe" className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:text-[var(--brand,#d64000)] transition-colors">
                 {tr({ formData: fd }, "View All")} <ArrowRight className="w-4 h-4" />
               </Link>
@@ -459,7 +463,7 @@ export default function ChronicleEditorialPage() {
             <div className="text-center mb-20">
               <Reveal>
                 <Sparkles className="w-8 h-8 mx-auto text-[var(--brand,#d64000)] mb-6" />
-                <h2 className="text-4xl md:text-6xl font-serif mb-6">Support Independent Journalism</h2>
+                <h2 className="text-4xl md:text-6xl font-serif mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "subscribe.titre") ?? (<>Support Independent Journalism</>)}</h2>
                 <p className="text-[#fcfaf7]/60 max-w-xl mx-auto text-lg italic font-serif">
                   No clickbait. No intrusive ads. Just rigorous reporting and thoughtful cultural analysis. 
                   Choose the plan that suits you best.
@@ -502,7 +506,7 @@ export default function ChronicleEditorialPage() {
         <section className="py-32 max-w-[800px] mx-auto px-6">
           <div className="text-center mb-16">
             <Reveal>
-              <h2 className="text-4xl font-serif mb-4">Questions?</h2>
+              <h2 className="text-4xl font-serif mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Questions?</>)}</h2>
               <p className="text-[#1a1814]/60 italic font-serif">Details regarding our subscriptions and publishing schedule.</p>
             </Reveal>
           </div>
@@ -528,7 +532,7 @@ export default function ChronicleEditorialPage() {
           <div className="max-w-[1000px] mx-auto px-6 text-center">
             <Reveal>
               <Newspaper className="w-10 h-10 mx-auto text-[var(--brand,#d64000)] mb-8" />
-              <h2 className="text-4xl md:text-5xl font-serif mb-6">The Daily Chronicle</h2>
+              <h2 className="text-4xl md:text-5xl font-serif mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>The Daily Chronicle</>)}</h2>
               <p className="text-[#1a1814]/70 max-w-lg mx-auto mb-10 font-serif italic text-lg">
                 Our award-winning daily newsletter. The day's most important stories, curated by our editors and delivered straight to your inbox.
               </p>

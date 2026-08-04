@@ -13,6 +13,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -276,9 +277,9 @@ export default function OsteoGaiaPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c26b4c)] mb-4">Prises en charge</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#3a2e28]" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#3a2e28]" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "soins.titre") ?? (<>
                 Votre corps mérite<br /><span className="text-[var(--brand,#c26b4c)] italic">d'être écouté.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -332,7 +333,7 @@ export default function OsteoGaiaPage() {
         <div className="max-w-[1000px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c26b4c)] mb-4">Tarifs</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#3a2e28]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Un prix, <span className="text-[var(--brand,#c26b4c)] italic">une séance.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#3a2e28]" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Un prix, <span className="text-[var(--brand,#c26b4c)] italic">une séance.</span></>)}</h2>
           </div></Reveal>
           <div className="bg-white">
             {TARIFS.map((t, i) => (
@@ -362,7 +363,7 @@ export default function OsteoGaiaPage() {
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c26b4c)] mb-4">Agenda</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#3a2e28]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Quand je <span className="text-[var(--brand,#c26b4c)] italic">consulte.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#3a2e28]" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "agenda.titre") ?? (<>Quand je <span className="text-[var(--brand,#c26b4c)] italic">consulte.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <Reveal>
@@ -405,7 +406,7 @@ export default function OsteoGaiaPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c26b4c)] mb-4">Patients</div>
-            <h2 className="text-4xl font-bold text-[#3a2e28]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Ce qu'ils <span className="text-[var(--brand,#c26b4c)] italic">ressentent.</span></h2>
+            <h2 className="text-4xl font-bold text-[#3a2e28]" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce qu'ils <span className="text-[var(--brand,#c26b4c)] italic">ressentent.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {AVIS.map((t, i) => (
@@ -431,9 +432,9 @@ export default function OsteoGaiaPage() {
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-5">Rendez-vous</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Un corps qui<br /><span className="italic">fonctionne bien.</span>
-            </h2>
+            </>)}</h2>
             <p className="text-white/55 mb-10 text-sm">Consultation 60 min · {clientCity(sessionData) ?? "Montpellier"} · Remboursement mutuelle partiel · Réservation en ligne</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#c26b4c)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f5f0e8] transition-colors rounded-lg shadow-lg">

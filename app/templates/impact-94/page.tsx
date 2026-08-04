@@ -42,6 +42,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1122,11 +1123,11 @@ export default function Impact94Page() {
               <h2
                 className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-none text-[#0C0A09] mb-10"
                 style={{ fontFamily: "'Bodoni Moda', serif" }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Parlons de
                 <br />
                 <span className="italic text-[var(--brand,#CA8A04)]">votre projet</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
 
             <Reveal delay={0.1}>

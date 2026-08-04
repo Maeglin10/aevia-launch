@@ -12,7 +12,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -156,10 +158,12 @@ export default function PixelRepublicPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
   OFFRES = OFFRES_LIVE();
+
 
 
 
@@ -312,9 +316,9 @@ export default function PixelRepublicPage() {
 
         <motion.div className="imx25-hero-content md:!px-20" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.5vw, 72px)", fontWeight: 700, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{c?.heroHeadline ?? <>
+            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.5vw, 72px)", fontWeight: 700, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
             Votre présence digitale,<br /><span style={{ background: `linear-gradient(135deg, ${C.accent}, ${C.violet2})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>enfin à votre niveau.</span>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{fd?.tagline ?? c?.heroSubline ?? <>
@@ -358,9 +362,9 @@ export default function PixelRepublicPage() {
         <Reveal>
           <div style={{ marginBottom: 60 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT }}>Nos services</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 700, color: C.text, marginTop: 10, lineHeight: 1.1 }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 700, color: C.text, marginTop: 10, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
               Tout ce dont votre business<br />a besoin en ligne.
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
@@ -381,7 +385,7 @@ export default function PixelRepublicPage() {
         <Reveal>
           <div style={{ marginBottom: 52 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT }}>Réalisations</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 700, color: C.text, marginTop: 10 }}>Projets récents.</h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 700, color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Projets récents.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 22, maxWidth: 1200, margin: "0 auto" }}>
@@ -407,9 +411,9 @@ export default function PixelRepublicPage() {
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal delay={0.1}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT }}>Notre différence</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", fontWeight: 700, color: C.text, margin: "12px 0 28px", lineHeight: 1.15 }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", fontWeight: 700, color: C.text, margin: "12px 0 28px", lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               Une agence qui mesure<br />ses résultats.
-            </h2>
+            </>)}</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {ATOUTS.map((a, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
@@ -433,7 +437,7 @@ export default function PixelRepublicPage() {
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT }}>Témoignages</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 700, color: "#fff", marginTop: 10 }}>Ce que disent <span style={{ color: C.accent }}>nos clients</span>.</h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 700, color: "#fff", marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Ce que disent <span style={{ color: C.accent }}>nos clients</span>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>
@@ -458,9 +462,9 @@ export default function PixelRepublicPage() {
         <Reveal>
           <div style={{ marginBottom: 60 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT }}>Tarifs</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 700, color: C.text, marginTop: 10, lineHeight: 1.1 }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 700, color: C.text, marginTop: 10, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
               Ce que ça coûte,<br />avant le premier rendez-vous.
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>

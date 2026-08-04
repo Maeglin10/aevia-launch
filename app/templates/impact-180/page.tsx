@@ -13,7 +13,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -144,9 +146,11 @@ export default function ThermotekChauffagePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   ZONES_DEMO = ZONES_DEMO_LIVE();
   REALISATIONS = REALISATIONS_LIVE();
+
 
 
   SERVICES_DEMO = resolveList(
@@ -296,7 +300,7 @@ export default function ThermotekChauffagePage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#ea580c)] mb-4" style={{ fontFamily: "'Fira Code', monospace" }}>// Nos métiers</div>
-              <h2 className="text-4xl md:text-5xl font-bold">Ce que nous <span className="text-[var(--brand,#ea580c)]">maîtrisons.</span></h2>
+              <h2 className="text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Ce que nous <span className="text-[var(--brand,#ea580c)]">maîtrisons.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
@@ -325,7 +329,7 @@ export default function ThermotekChauffagePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#ea580c)] mb-4" style={{ fontFamily: "'Fira Code', monospace" }}>// Réalisations</div>
-            <h2 className="text-4xl md:text-5xl font-bold">Des chantiers <span className="text-[var(--brand,#ea580c)]">terminés.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Des chantiers <span className="text-[var(--brand,#ea580c)]">terminés.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
             {REALISATIONS.map((r, i) => (
@@ -346,7 +350,7 @@ export default function ThermotekChauffagePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#ea580c)] mb-4" style={{ fontFamily: "'Fira Code', monospace" }}>// Contrats d'entretien</div>
-            <h2 className="text-4xl md:text-5xl font-bold">Une visite par an, <span className="text-[var(--brand,#ea580c)]">au minimum.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "contrats.titre") ?? (<>Une visite par an, <span className="text-[var(--brand,#ea580c)]">au minimum.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {CONTRATS.map((c, i) => (
@@ -374,7 +378,7 @@ export default function ThermotekChauffagePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#ea580c)] mb-4" style={{ fontFamily: "'Fira Code', monospace" }}>// Zone d'intervention</div>
-            <h2 className="text-4xl md:text-5xl font-bold">Où l'on <span className="text-[var(--brand,#ea580c)]">se déplace.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "zone.titre") ?? (<>Où l'on <span className="text-[var(--brand,#ea580c)]">se déplace.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5 border border-white/5">
             {ZONES.map((z, i) => (
@@ -396,7 +400,7 @@ export default function ThermotekChauffagePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#ea580c)] mb-4" style={{ fontFamily: "'Fira Code', monospace" }}>// Avis clients</div>
-            <h2 className="text-4xl font-bold">Ce qu'ils <span className="text-[var(--brand,#ea580c)]">disent.</span></h2>
+            <h2 className="text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce qu'ils <span className="text-[var(--brand,#ea580c)]">disent.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {temoignages.map((t: any, i: number) => (
@@ -422,7 +426,7 @@ export default function ThermotekChauffagePage() {
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/60 mb-6" style={{ fontFamily: "'Fira Code', monospace" }}>// Prendre contact</div>
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">Besoin de chaleur ?<br />On s'en occupe.</h2>
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Besoin de chaleur ?<br />On s'en occupe.</>)}</h2>
             <p className="text-white/60 mb-10 text-sm leading-relaxed">Devis gratuit sous 24h · Éligible MaPrimeRénov' · Certifié RGE</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#ea580c)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-orange-50 transition-colors">

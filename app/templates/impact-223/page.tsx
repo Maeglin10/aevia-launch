@@ -12,6 +12,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -348,7 +349,7 @@ export default function VoltProPage() {
             <Reveal>
               <div className="mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#facc15)] block mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>// Ce que nous faisons</span>
-                <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter uppercase">Nos <span className="text-[var(--brand,#facc15)]">prestations.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Nos <span className="text-[var(--brand,#facc15)]">prestations.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
@@ -379,7 +380,7 @@ export default function VoltProPage() {
               <div className="flex items-end justify-between mb-20 gap-6">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#facc15)] block mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>// Portfolio</span>
-                  <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter uppercase">Nos <span className="text-[var(--brand,#facc15)]">réalisations.</span></h2>
+                  <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Nos <span className="text-[var(--brand,#facc15)]">réalisations.</span></>)}</h2>
                 </div>
                 <button className="hidden md:flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-[var(--brand,#facc15)] transition-colors">
                   Voir tout <ArrowRight className="w-4 h-4" />
@@ -412,7 +413,7 @@ export default function VoltProPage() {
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#facc15)] block mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>// Comment ça marche</span>
-                <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter uppercase">Notre <span className="text-[var(--brand,#facc15)]">méthode.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Notre <span className="text-[var(--brand,#facc15)]">méthode.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
@@ -437,7 +438,7 @@ export default function VoltProPage() {
             <Reveal>
               <div className="mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#facc15)] block mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>// À propos</span>
-                <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter uppercase">Qui on <span className="text-[var(--brand,#facc15)]">est.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "apropos.titre") ?? (<>Qui on <span className="text-[var(--brand,#facc15)]">est.</span></>)}</h2>
               </div>
             </Reveal>
             <Reveal>
@@ -466,7 +467,7 @@ export default function VoltProPage() {
             <Reveal>
               <div className="mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#facc15)] block mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>// Avis clients</span>
-                <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter uppercase">Ce qu'ils <span className="text-[var(--brand,#facc15)]">disent.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce qu'ils <span className="text-[var(--brand,#facc15)]">disent.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -496,7 +497,7 @@ export default function VoltProPage() {
             <Reveal>
               <div className="mb-16 text-center">
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#facc15)] block mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>// Qualifications</span>
-                <h2 className="text-4xl font-extrabold uppercase tracking-tighter">Certifié, assuré, <span className="text-[var(--brand,#facc15)]">garanti.</span></h2>
+                <h2 className="text-4xl font-extrabold uppercase tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>Certifié, assuré, <span className="text-[var(--brand,#facc15)]">garanti.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5">
@@ -567,9 +568,9 @@ export default function VoltProPage() {
           </div>
           <Reveal className="relative z-10 text-center px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#facc15)] mb-6" style={{ fontFamily: "'Space Mono', monospace" }}>// Prendre contact</div>
-            <h2 className="text-6xl md:text-8xl font-extrabold tracking-tighter uppercase mb-8">
+            <h2 className="text-6xl md:text-8xl font-extrabold tracking-tighter uppercase mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Un projet ?<br /><span className="text-[var(--brand,#facc15)]">Parlons-en.</span>
-            </h2>
+            </>)}</h2>
             <p className="text-white/40 max-w-md mx-auto mb-10 leading-relaxed text-sm" style={{ fontFamily: "'Space Mono', monospace" }}>
               Devis gratuit et sans engagement sous 24h.<br />Réponse garantie le jour même.
             </p>

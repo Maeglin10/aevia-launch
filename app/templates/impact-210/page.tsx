@@ -26,6 +26,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -917,10 +918,10 @@ function ServicesSection({ accentColor }: { accentColor: string }) {
             color: brand ?? '#1a0a10',
             lineHeight: 1.1,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
           Services &amp;{' '}
           <span style={{ color: accentColor }}>Tarifs</span>
-        </h2>
+        </>)}</h2>
         <p
           style={{
             fontSize: 16,
@@ -1000,10 +1001,10 @@ function PaletteSection({
             color: brand ?? '#1a0a10',
             marginBottom: 20,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "palette.titre") ?? (<>
           Your Perfect{' '}
           <span style={{ color: accentColor }}>Color</span>
-        </h2>
+        </>)}</h2>
         <p
           style={{
             fontSize: 16,
@@ -1173,9 +1174,9 @@ function BeforeAfterSection({ accentColor }: { accentColor: string }) {
             color: brand ?? '#1a0a10',
             marginBottom: 16,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
           Before &amp; After
-        </h2>
+        </>)}</h2>
         <p
           style={{
             fontSize: 16,
@@ -1418,9 +1419,9 @@ function GallerySection({ accentColor }: { accentColor: string }) {
               letterSpacing: '-0.03em',
               color: brand ?? '#1a0a10',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>
             Galerie <span style={{ color: accentColor }}>d&apos;art</span>
-          </h2>
+          </>)}</h2>
         </motion.div>
 
         {/* Masonry grid */}
@@ -1583,10 +1584,10 @@ function BookingSection({ accentColor }: { accentColor: string }) {
             color: brand ?? '#1a0a10',
             marginBottom: 16,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "booking.titre") ?? (<>
           Réservez votre{' '}
           <span style={{ color: accentColor }}>créneau</span>
-        </h2>
+        </>)}</h2>
         <p style={{ fontSize: 16, color: 'var(--brand,#7a5060)', fontWeight: 300 }}>
           Semaine du 19 au 24 mai — sélectionnez un créneau disponible.
         </p>
@@ -1937,10 +1938,10 @@ function TestimonialsSection({ accentColor }: { accentColor: string }) {
               letterSpacing: '-0.03em',
               color: brand ?? '#1a0a10',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Elles nous font{' '}
             <span style={{ color: accentColor }}>confiance</span>
-          </h2>
+          </>)}</h2>
         </motion.div>
 
         <div
@@ -2046,10 +2047,10 @@ function ContactSection({ accentColor }: { accentColor: string }) {
             color: brand ?? '#1a0a10',
             marginBottom: 48,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
           Venez nous rendre{' '}
           <span style={{ color: accentColor }}>visite</span>
-        </h2>
+        </>)}</h2>
 
         <div
           style={{

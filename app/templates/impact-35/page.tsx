@@ -19,7 +19,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -56,7 +58,9 @@ export default function Home() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null)
@@ -140,9 +144,9 @@ return (
                   lineHeight: 1.1,
                   marginBottom: 24,
                 }}
-              >{c?.heroHeadline ?? <>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
                 Travaillez là où <span style={{ color: C.accent }}>l'ambition</span> prend vie
-              </>}</motion.h1>
+              </>}</>)}</motion.h1>
 
               <motion.p
                 initial={{ opacity: 0 }}
@@ -268,9 +272,9 @@ return (
                 <Building2 size={14} color={C.accentDark} />
                 <span style={{ color: C.accentDark, fontSize: 13, fontWeight: 600 }}>Nos Espaces</span>
               </div>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.slate, marginBottom: 16 }}>
+              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.slate, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "spaces.titre") ?? (<>
                 Un espace pour chaque façon de travailler
-              </h2>
+              </>)}</h2>
               <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
                 Du Day Pass spontané au bureau privatif permanent — {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Nexus Hub"))} s'adapte à votre rythme.
               </p>
@@ -371,9 +375,9 @@ return (
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <SectionReveal>
             <div style={{ textAlign: "center", marginBottom: 64 }}>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.white, marginBottom: 16 }}>
+              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.white, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                 Tout est inclus, dès le premier jour
-              </h2>
+              </>)}</h2>
               <p style={{fontSize: 17, color: brand ?? 'var(--brand,#94a3b8)', maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
                 Pas de frais cachés. Chaque équipement fait partie de votre abonnement.
               </p>
@@ -460,9 +464,9 @@ return (
                 <Building2 size={14} color={C.accentDark} />
                 <span style={{ color: C.accentDark, fontSize: 13, fontWeight: 600 }}>Témoignages membres</span>
               </div>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.slate, marginBottom: 16 }}>
+              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.slate, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Rejoignez 250+ membres satisfaits
-              </h2>
+              </>)}</h2>
             </div>
           </SectionReveal>
 

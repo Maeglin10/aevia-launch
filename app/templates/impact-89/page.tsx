@@ -43,7 +43,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -457,9 +459,9 @@ function AboutSection() {
             <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 4, textTransform: "uppercase", color: C.accent, marginBottom: 24 }}>
               — Notre Philosophie
             </div>
-            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 72px)", lineHeight: 0.95, color: C.text, marginBottom: 32 }}>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 72px)", lineHeight: 0.95, color: C.text, marginBottom: 32 }}>{/* TEXTE_SECTION */ clientText(sessionData, "philosophy.titre") ?? (<>
               L'ART DANS<br /><span style={{ color: C.accent }}>LA PEAU.</span>
-            </h2>
+            </>)}</h2>
             <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 24 }}>
               Ink & Iron n'est pas un simple salon de tatouage ; c'est un sanctuaire d'expression artistique et de rigueur technique. Situé au cœur du 11e arrondissement de Paris, notre atelier réunit trois artistes résidents de renommée internationale.
             </p>
@@ -501,9 +503,9 @@ function ServicesSection() {
             <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 4, textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>
               — Nos Services
             </div>
-            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.95, color: C.text }}>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.95, color: C.text }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
               NOS PRESTATIONS
-            </h2>
+            </>)}</h2>
           </div>
           <p style={{ fontFamily: FONT_BODY, fontSize: 15, color: C.textMuted, maxWidth: 360, lineHeight: 1.7, fontWeight: 300 }}>
             Du petit flash au grand projet corporel sur-mesure, découvrez nos formules adaptées à chaque création.
@@ -565,9 +567,11 @@ export default function Impact89Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   ARTISTS = ARTISTS_LIVE();
+
 
 
   STYLE_GUIDE = resolveList(
@@ -1062,9 +1066,9 @@ return (
               lineHeight: 0.95,
               color: C.text,
               marginBottom: 40,
-            }}>
+            }}>{/* TEXTE_SECTION */ clientText(sessionData, "portfolio.titre") ?? (<>
               NOTRE TRAVAIL
-            </h2>
+            </>)}</h2>
 
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {STYLE_FILTERS.map((filter) => (
@@ -1210,9 +1214,9 @@ return (
             <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 4, textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>
               — L'équipe
             </div>
-            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.95, color: C.text }}>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.95, color: C.text }}>{/* TEXTE_SECTION */ clientText(sessionData, "artists.titre") ?? (<>
               NOS ARTISTES
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -1307,9 +1311,9 @@ return (
             <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 4, textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>
               — Disciplines
             </div>
-            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.95, color: C.text }}>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.95, color: C.text }}>{/* TEXTE_SECTION */ clientText(sessionData, "styles.titre") ?? (<>
               NOS STYLES
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
@@ -1500,9 +1504,9 @@ return (
             <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 4, textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>
               — Notre méthode
             </div>
-            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.95, color: C.text }}>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.95, color: C.text }}>{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>
               LE PROCESSUS
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           <div style={{ position: "relative" }}>
@@ -1582,9 +1586,9 @@ return (
             <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 4, textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>
               — Témoignages
             </div>
-            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.95, color: C.text }}>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)", lineHeight: 0.95, color: C.text }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
               ILS NOUS FONT CONFIANCE
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
@@ -1640,9 +1644,9 @@ return (
             <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 4, textTransform: "uppercase", color: C.accent, marginBottom: 20 }}>
               — Hygiène & sécurité
             </div>
-            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(36px, 5vw, 64px)", lineHeight: 0.95, color: C.text, marginBottom: 32 }}>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(36px, 5vw, 64px)", lineHeight: 0.95, color: C.text, marginBottom: 32 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-11.titre") ?? (<>
               ZÉRO COMPROMIS
-            </h2>
+            </>)}</h2>
             <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, marginBottom: 40 }}>
               Chaque aiguille est ouverte devant vous. Notre autoclave est contrôlé chaque semaine. Les surfaces sont stérilisées entre chaque client. Nous respectons et dépassons toutes les normes DDPP en vigueur.
             </p>
@@ -1719,9 +1723,9 @@ return (
             <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 4, textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>
               — Questions fréquentes
             </div>
-            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(36px, 5vw, 64px)", lineHeight: 0.95, color: C.text }}>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(36px, 5vw, 64px)", lineHeight: 0.95, color: C.text }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
               FAQ
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           <div style={{ display: "flex", flexDirection: "column" }}>
@@ -1830,9 +1834,9 @@ return (
           <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 4, textTransform: "uppercase", color: C.accent, marginBottom: 24 }}>
             — Votre prochain tatouage
           </div>
-          <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(48px, 8vw, 100px)", lineHeight: 0.9, color: C.text, marginBottom: 24 }}>
+          <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(48px, 8vw, 100px)", lineHeight: 0.9, color: C.text, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             PRÊT À<br />COMMENCER ?
-          </h2>
+          </>)}</h2>
           <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, maxWidth: 480, margin: "0 auto 48px", lineHeight: 1.7 }}>
             Consultation gratuite avec l'artiste de votre choix. Pas d'engagement — juste une conversation sur votre projet.
           </p>

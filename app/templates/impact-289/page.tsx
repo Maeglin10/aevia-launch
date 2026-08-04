@@ -31,6 +31,7 @@ import {
   clientServices,
   clientStats,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1105,12 +1106,12 @@ function ServicesSection() {
               margin: '18px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Un accompagnement{' '}
             <span style={{ fontStyle: 'italic', fontWeight: 400 }}>
               complet
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p
@@ -1270,12 +1271,12 @@ function ProcessSection() {
                 margin: '18px 0 50px',
                 lineHeight: 1.07,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "processus.titre") ?? (<>
               Quatre étapes,{' '}
               <span style={{ fontStyle: 'italic', fontWeight: 400 }}>
                 zéro incertitude
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {PROCESS_STEPS.map((step, i) => (
@@ -1433,12 +1434,12 @@ function TestimonialsSection() {
               margin: '18px 0 0',
               lineHeight: 1.07,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             La parole de{' '}
             <span style={{ fontStyle: 'italic', fontWeight: 400, color: C.silverDeep }}>
               nos clients
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1638,10 +1639,10 @@ function ContactFormSection() {
               margin: '18px 0 16px',
               lineHeight: 1.07,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Votre bilan{' '}
             <span style={{ fontStyle: 'italic', fontWeight: 400 }}>gratuit</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p
@@ -2000,13 +2001,13 @@ function SpecificiteSection() {
               lineHeight: 1.07,
               maxWidth: 780,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "specificites.titre") ?? (<>
             Droit local{' '}
             <span style={{ fontStyle: 'italic', fontWeight: 400 }}>
               Alsace-Moselle
             </span>{' '}
             : 3 particularités que votre expert doit maîtriser
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p
@@ -2179,10 +2180,10 @@ function PartnersSection() {
               margin: '18px 0 16px',
               lineHeight: 1.07,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
             Nos partenaires{' '}
             <span style={{ fontStyle: 'italic', fontWeight: 400 }}>à {clientCity(sessionData) ?? "Strasbourg"}</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p

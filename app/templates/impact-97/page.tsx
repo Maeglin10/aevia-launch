@@ -34,6 +34,7 @@ import {
   clientPhotos,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -442,9 +443,9 @@ export default function HorizonYachtPage() {
           <Reveal>
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
               <div>
-                <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">
+                <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "fleet.titre") ?? (<>
                   The <br /> <span className="text-[var(--brand,#c5a059)]">Vessels.</span>
-                </h2>
+                </>)}</h2>
                 <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
                   Charter Manifest // Global Availability // Summer 2024
                 </p>
@@ -532,12 +533,12 @@ export default function HorizonYachtPage() {
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c5a059)] mb-8 block">
                 Operational Mastery
               </span>
-              <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">
+              <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Naval{" "}
                 <span className="text-[var(--brand,#c5a059)] not-italic">
                   Infrastructure.
                 </span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 

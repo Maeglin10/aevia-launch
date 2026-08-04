@@ -27,7 +27,9 @@ import {
   clientServices,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -506,9 +508,9 @@ function Benefits() {
       <div style={{ ...maxw }}>
         <div style={{ textAlign: 'center', maxWidth: 620, margin: '0 auto 56px' }}>
           <span style={pill}>Fonctionnalités</span>
-          <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', margin: '18px 0 14px' }}>
+          <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', margin: '18px 0 14px' }}>{/* TEXTE_SECTION */ clientText(sessionData, "features.titre") ?? (<>
             Tout ce qu&apos;il faut pour aller vite
-          </h2>
+          </>)}</h2>
           <p style={{ fontSize: 17, color: C.inkSoft, lineHeight: 1.6 }}>
             Une plateforme pensée pour les équipes produit, marketing et data qui
             veulent décider sur la donnée — pas sur l&apos;intuition.
@@ -588,9 +590,9 @@ function HowItWorks() {
       <div style={{ ...maxw }}>
         <div style={{ textAlign: 'center', maxWidth: 560, margin: '0 auto 64px' }}>
           <span style={pill}>Comment ça marche</span>
-          <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', margin: '18px 0 0' }}>
+          <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', margin: '18px 0 0' }}>{/* TEXTE_SECTION */ clientText(sessionData, "how.titre") ?? (<>
             Opérationnel en 3 étapes
-          </h2>
+          </>)}</h2>
         </div>
 
         <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: 36 }}>
@@ -703,9 +705,9 @@ function Pricing() {
       <div style={{ ...maxw }}>
         <div style={{ textAlign: 'center', maxWidth: 560, margin: '0 auto 56px' }}>
           <span style={pill}>Tarifs</span>
-          <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', margin: '18px 0 14px' }}>
+          <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', margin: '18px 0 14px' }}>{/* TEXTE_SECTION */ clientText(sessionData, "pricing.titre") ?? (<>
             Une tarification simple et transparente
-          </h2>
+          </>)}</h2>
           <p style={{ fontSize: 17, color: C.inkSoft }}>Sans frais cachés. Changez ou annulez à tout moment.</p>
         </div>
 
@@ -832,9 +834,9 @@ function Testimonials() {
       <div style={{ ...maxw }}>
         <div style={{ textAlign: 'center', maxWidth: 560, margin: '0 auto 56px' }}>
           <span style={pill}>Témoignages</span>
-          <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', margin: '18px 0 0' }}>
+          <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', margin: '18px 0 0' }}>{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
             Aimé par les équipes qui livrent
-          </h2>
+          </>)}</h2>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: 22 }}>
@@ -950,9 +952,9 @@ function FAQ() {
       <div style={{ ...maxw, maxWidth: 820 }}>
         <div style={{ textAlign: 'center', marginBottom: 48 }}>
           <span style={pill}>FAQ</span>
-          <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', margin: '18px 0 0' }}>
+          <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', margin: '18px 0 0' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Questions fréquentes
-          </h2>
+          </>)}</h2>
         </div>
         <div>
           {FAQS.map((f, i) => (
@@ -1002,9 +1004,9 @@ function FinalCTA() {
           }}
         />
         <div style={{ position: 'relative', zIndex: 1 }}>
-          <h2 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.08, margin: '0 0 18px' }}>
+          <h2 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.08, margin: '0 0 18px' }}>{/* TEXTE_SECTION */ clientText(sessionData, "cta.titre") ?? (<>
             Prêt à piloter votre croissance ?
-          </h2>
+          </>)}</h2>
           <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.85)', maxWidth: 520, margin: '0 auto 32px', lineHeight: 1.6 }}>
             Lancez votre premier tableau de bord en moins de cinq minutes. Gratuit, sans carte bancaire.
           </p>
@@ -1074,9 +1076,9 @@ function ContactSection() {
       }}
     >
       <div style={{ ...maxw, maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
-        <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', margin: '18px 0 14px', color: C.ink }}>
+        <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', margin: '18px 0 14px', color: C.ink }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
           Contactez-nous
-        </h2>
+        </>)}</h2>
         <p style={{ fontSize: 16, color: C.muted, margin: '0 0 32px', lineHeight: 1.6 }}>
           Une question ? Notre équipe vous répond sous 24 heures.
         </p>
@@ -1265,9 +1267,11 @@ export default function Impact219Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   TIERS = TIERS_LIVE();
+
 
 
   BENEFITS = resolveList(

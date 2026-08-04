@@ -18,6 +18,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1280,10 +1281,10 @@ function OfferCards() {
               lineHeight: 0.92,
               letterSpacing: '-0.01em',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
             INVESTISSEZ<br />
             <span style={{ color: C.accent }}>EN VOUS.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1517,10 +1518,10 @@ function PillarPanel() {
                 lineHeight: 0.92,
                 letterSpacing: '-0.01em',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               UNE APPROCHE<br />
               <span style={{ color: C.accent }}>SANS COMPROMIS.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {PILLARS.map((pillar, i) => (
@@ -1635,10 +1636,10 @@ function Testimonials() {
               lineHeight: 0.9,
               letterSpacing: '-0.01em',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             ILS ONT<br />
             <span style={{ color: C.accent }}>CHANGÉ.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1814,10 +1815,10 @@ function BookingForm() {
               lineHeight: 0.9,
               letterSpacing: '-0.01em',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             COMMENÇONS<br />
             <span style={{ color: C.accent }}>MAINTENANT.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p

@@ -12,7 +12,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -61,7 +63,9 @@ export default function Impact64Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   PRESTATIONS_INLINE = resolveList(
 
@@ -137,13 +141,13 @@ return (
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.7 }}
               style={{ fontFamily: mono, fontSize: "clamp(34px, 6vw, 88px)", fontWeight: 700, lineHeight: 1.15, paddingBottom: "0.15em", letterSpacing: "-0.02em", marginBottom: "1.25rem" }}
-            >{c?.heroHeadline ?? <>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
               <span style={{ color: C.text }}>Votre infrastructure.</span>
               <br />
               <span style={{ color: C.green }}>Nos sentinelles.</span>
               <br />
               <span style={{ color: C.textMuted, fontSize: "0.55em", fontWeight: 400 }}>SOC · Red Team · ISO 27001</span>
-            </>}</motion.h1>
+            </>}</>)}</motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -246,9 +250,9 @@ return (
             style={{ marginBottom: "5rem", textAlign: "center" }}
           >
             <span style={{ fontFamily: mono, fontSize: "0.7rem", color: C.green, letterSpacing: "0.15em", display: "block", marginBottom: "1rem" }}>// PROCESSUS</span>
-            <h2 style={{ fontFamily: mono, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 700, lineHeight: 1.2, paddingBottom: "0.15em", color: C.text }}>
+            <h2 style={{ fontFamily: mono, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 700, lineHeight: 1.2, paddingBottom: "0.15em", color: C.text }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
               Opérationnel en <span style={{ color: C.green }}>5 à 15 jours.</span>
-            </h2>
+            </>)}</h2>
           </motion.div>
           <div className="i64-process-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "0", position: "relative" }}>
             <div className="i64-process-line" style={{ position: "absolute", top: "28px", left: "10%", right: "10%", height: "1px", background: C.greenBorder, zIndex: 0 }} />
@@ -287,9 +291,9 @@ return (
             transition={{ duration: 0.7 }}
           >
             <span style={{ fontFamily: mono, fontSize: "0.7rem", color: C.green, letterSpacing: "0.15em", display: "block", marginBottom: "1.5rem" }}>// SIGNATURE ELEMENT — SOC LIVE</span>
-            <h2 style={{ fontFamily: mono, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 700, lineHeight: 1.2, paddingBottom: "0.15em", color: C.text, marginBottom: "1.5rem" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
+            <h2 style={{ fontFamily: mono, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 700, lineHeight: 1.2, paddingBottom: "0.15em", color: C.text, marginBottom: "1.5rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>
               Chaque menace, en<br /><span style={{ color: C.green }}>temps réel.</span>
-            </>}</h2>
+            </>}</>)}</h2>
             <p style={{ fontFamily: sans, fontSize: "1rem", color: C.textMuted, lineHeight: 1.75, marginBottom: "2.5rem" }}>{c?.aboutText ?? <>
               Notre SOC surveille en permanence 50 000+ événements par seconde. Ce flux en direct représente le type d'activité que nous traitons pour nos clients.
             </>}</p>
@@ -337,7 +341,7 @@ return (
             style={{ marginBottom: "4rem" }}
           >
             <span style={{ fontFamily: mono, fontSize: "0.7rem", color: C.green, letterSpacing: "0.15em", display: "block", marginBottom: "1rem" }}>// CLIENTS</span>
-            <h2 style={{ fontFamily: mono, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 700, lineHeight: 1.2, paddingBottom: "0.15em", color: C.text }}>Ils nous font confiance.</h2>
+            <h2 style={{ fontFamily: mono, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 700, lineHeight: 1.2, paddingBottom: "0.15em", color: C.text }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Ils nous font confiance.</>)}</h2>
           </motion.div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: "1px", background: C.greenBorder }}>
             {TESTIMONIALS.slice(0, 3).map((t, i) => (
@@ -400,9 +404,9 @@ return (
           style={{ position: "relative" }}
         >
           <span style={{ fontFamily: mono, fontSize: "0.7rem", color: C.green, letterSpacing: "0.15em", display: "block", marginBottom: "1.5rem" }}>// COMMENCER</span>
-          <h2 style={{ fontFamily: mono, fontSize: "clamp(32px, 5vw, 72px)", fontWeight: 700, lineHeight: 1.2, paddingBottom: "0.15em", color: C.text, marginBottom: "1.5rem" }}>
+          <h2 style={{ fontFamily: mono, fontSize: "clamp(32px, 5vw, 72px)", fontWeight: 700, lineHeight: 1.2, paddingBottom: "0.15em", color: C.text, marginBottom: "1.5rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             Audit de sécurité<br /><span style={{ color: C.green }}>offert.</span> Sans engagement.
-          </h2>
+          </>)}</h2>
           <p style={{ fontFamily: sans, fontSize: "1.1rem", color: C.textMuted, maxWidth: "560px", margin: "0 auto 3rem", lineHeight: 1.7 }}>
             2 heures avec nos experts. Rapport complet offert. Vous repartez avec une vision claire de votre exposition aux risques.
           </p>

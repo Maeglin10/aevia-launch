@@ -38,6 +38,7 @@ import {
   clientServices,
   clientStats,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1166,9 +1167,9 @@ function Collections() {
                 marginTop: '16px',
                 marginBottom: '20px',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "collections.titre") ?? (<>
               Les Collections
-            </h2>
+            </>)}</h2>
             <GoldRule className="" style={{ maxWidth: '120px', margin: '0 auto' } as React.CSSProperties} />
           </div>
         </FadeUp>
@@ -1316,9 +1317,9 @@ function CraftsmanshipEditorial() {
                 color: T.white,
                 marginTop: '16px',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               La manufacture en détail
-            </h2>
+            </>)}</h2>
           </div>
         </FadeUp>
       </div>
@@ -1374,9 +1375,9 @@ function StickySpecs() {
                 color: T.white,
                 marginTop: '16px',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "collections.titre") ?? (<>
               Le Calibre HV-190A
-            </h2>
+            </>)}</h2>
           </div>
         </FadeUp>
 
@@ -1506,11 +1507,11 @@ function Heritage() {
                 color: T.white,
                 marginTop: '16px',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Une chronologie
               <br />
               <em style={{ fontStyle: 'italic' }}>de l'excellence</em>
-            </h2>
+            </>)}</h2>
           </div>
         </FadeUp>
 
@@ -1639,9 +1640,9 @@ function Testimonials() {
                 color: T.white,
                 marginTop: '16px',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
               Ils portent Hora Viva
-            </h2>
+            </>)}</h2>
           </div>
         </FadeUp>
 
@@ -1810,9 +1811,9 @@ function AppointmentForm() {
                 marginTop: '16px',
                 marginBottom: '16px',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "rendez-vous.titre") ?? (<>
               Demander un rendez-vous
-            </h2>
+            </>)}</h2>
             <p
               style={{
                 fontFamily: "'EB Garamond', serif",

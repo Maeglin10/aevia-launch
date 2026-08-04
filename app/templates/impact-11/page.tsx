@@ -12,7 +12,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -128,10 +130,12 @@ export default function EduPathPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   plans = plans_LIVE();
   courses = courses_LIVE();
+
 
 
 
@@ -267,7 +271,7 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal className="text-center mb-16">
             <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Pourquoi EduPath</p>
-            <h2 className="text-gray-900 text-4xl md:text-5xl font-bold">Tout ce dont vous avez besoin</h2>
+            <h2 className="text-gray-900 text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Tout ce dont vous avez besoin</>)}</h2>
           </Reveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((f, i) => (
@@ -289,7 +293,7 @@ return (
           <Reveal className="flex flex-col md:flex-row md:items-end justify-between mb-10">
             <div>
               <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Catalogue</p>
-              <h2 className="text-gray-900 text-4xl font-bold">Cours populaires</h2>
+              <h2 className="text-gray-900 text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Cours populaires</>)}</h2>
             </div>
             <div className="flex gap-2 flex-wrap mt-6 md:mt-0">
               {categories.map(cat => (
@@ -337,7 +341,7 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal className="mb-12">
             <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Formateurs</p>
-            <h2 className="text-gray-900 text-4xl font-bold">Apprenez des meilleurs</h2>
+            <h2 className="text-gray-900 text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Apprenez des meilleurs</>)}</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {instructors.map((inst, i) => (
@@ -365,7 +369,7 @@ return (
         <div className="max-w-5xl mx-auto">
           <Reveal className="text-center mb-16">
             <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Tarifs</p>
-            <h2 className="text-gray-900 text-4xl font-bold">Investissez dans votre carrière</h2>
+            <h2 className="text-gray-900 text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Investissez dans votre carrière</>)}</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {plans.map((plan, i) => (

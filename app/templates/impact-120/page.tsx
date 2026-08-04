@@ -24,7 +24,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -293,9 +295,11 @@ export default function EclatLuxuryPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   MANIFEST = MANIFEST_LIVE();
+
 
 
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -579,9 +583,9 @@ export default function EclatLuxuryPage() {
         <section id="collection" className="py-40 relative">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12 mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8">
             <Reveal>
-              <h2 className="text-5xl md:text-7xl font-light text-white tracking-tight uppercase" style={{ fontFamily: "Georgia, serif" }}>
+              <h2 className="text-5xl md:text-7xl font-light text-white tracking-tight uppercase" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "collection.titre") ?? (<>
                 The <span className="italic text-zinc-500">Collection</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="text-zinc-400 max-w-sm text-sm tracking-widest uppercase leading-relaxed">
@@ -649,9 +653,9 @@ export default function EclatLuxuryPage() {
                   <Droplets className="w-4 h-4" />
                   <span>The Raw Materials</span>
                 </div>
-                <h2 className="text-5xl md:text-7xl font-light text-white tracking-tight uppercase mb-8" style={{ fontFamily: "Georgia, serif" }}>
+                <h2 className="text-5xl md:text-7xl font-light text-white tracking-tight uppercase mb-8" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "science.titre") ?? (<>
                   Molecular <span className="italic text-zinc-500">Sourcing</span>
-                </h2>
+                </>)}</h2>
               </Reveal>
             </div>
 
@@ -736,9 +740,9 @@ export default function EclatLuxuryPage() {
             <Reveal>
               <div className="mb-24 max-w-2xl">
                 <div className="text-[10px] text-fuchsia-500 font-black tracking-[0.3em] mb-6">BESPOKE</div>
-                <h2 className="text-5xl md:text-7xl font-light text-white tracking-tight uppercase mb-8" style={{ fontFamily: "Georgia, serif" }}>
+                <h2 className="text-5xl md:text-7xl font-light text-white tracking-tight uppercase mb-8" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "bespoke.titre") ?? (<>
                   A fragrance <span className="italic text-zinc-500">that exists once</span>
-                </h2>
+                </>)}</h2>
                 <p className="text-zinc-400 text-lg tracking-wide italic font-light leading-relaxed">
                   Two commissions are accepted each year. The work takes between twelve and eighteen months, and we
                   have declined more of them than we have taken.
@@ -771,9 +775,9 @@ export default function EclatLuxuryPage() {
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <div className="text-center mb-24">
               <Reveal>
-                <h2 className="text-5xl md:text-7xl font-light text-white tracking-tight uppercase mb-6" style={{ fontFamily: "Georgia, serif" }}>
+                <h2 className="text-5xl md:text-7xl font-light text-white tracking-tight uppercase mb-6" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "boutique.titre") ?? (<>
                   Acquire <span className="italic text-zinc-500">Éclat</span>
-                </h2>
+                </>)}</h2>
               </Reveal>
             </div>
 
@@ -845,9 +849,9 @@ export default function EclatLuxuryPage() {
           <div className="max-w-[800px] mx-auto px-6 md:px-12">
             <div className="text-center mb-20">
               <Reveal>
-                <h2 className="text-4xl md:text-6xl font-light text-white tracking-tight uppercase" style={{ fontFamily: "Georgia, serif" }}>
+                <h2 className="text-4xl md:text-6xl font-light text-white tracking-tight uppercase" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
                   Client <span className="italic text-zinc-500">Concierge</span>
-                </h2>
+                </>)}</h2>
               </Reveal>
             </div>
 
@@ -876,9 +880,9 @@ export default function EclatLuxuryPage() {
           
           <div className="max-w-[1200px] mx-auto px-6 relative z-10 text-center">
             <Reveal>
-              <h2 className="text-6xl md:text-9xl text-white tracking-tighter uppercase mb-8" style={{ fontFamily: "Georgia, serif" }}>
+              <h2 className="text-6xl md:text-9xl text-white tracking-tighter uppercase mb-8" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Unveil Your <br/> <span className="italic text-fuchsia-300 font-light">Signature</span>
-              </h2>
+              </>)}</h2>
               <p className="text-xl text-zinc-300 font-light italic mb-12 max-w-2xl mx-auto">
                 Join the exclusive Éclat registry. Limited editions and private commissions await.
               </p>

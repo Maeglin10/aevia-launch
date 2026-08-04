@@ -4,6 +4,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -18,6 +19,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { resolveList } from "@/lib/templates/resolveList";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -822,8 +824,10 @@ export default function Impact166Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
@@ -1190,7 +1194,7 @@ return (
                 letterSpacing: "-0.01em",
                 marginBottom: 0,
               }}
-            >{c?.heroHeadline ?? <>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
               L'image
               <br />
               <em
@@ -1204,7 +1208,7 @@ return (
               </em>
               <br />
               mémoire
-            </>}</h1>
+            </>}</>)}</h1>
           </TextReveal>
 
           <motion.p
@@ -1343,9 +1347,9 @@ return (
                 letterSpacing: "-0.01em",
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "series.titre") ?? (<>
               Séries photographiques
-            </h2>
+            </>)}</h2>
           </TextReveal>
         </div>
 
@@ -1606,9 +1610,9 @@ return (
                   lineHeight: 1.1,
                   marginBottom: 24,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Chaque mission, une approche sur mesure
-              </h2>
+              </>)}</h2>
             </TextReveal>
             <p
               style={{
@@ -1667,9 +1671,9 @@ return (
                   color: C.text,
                   letterSpacing: "-0.01em",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "testimonials.titre") ?? (<>
                 Ce que disent ceux qui ont osé
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
 
@@ -1763,9 +1767,9 @@ return (
                   letterSpacing: "-0.01em",
                   marginBottom: 32,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Parlons de votre projet
-              </h2>
+              </>)}</h2>
             </TextReveal>
             <p
               style={{

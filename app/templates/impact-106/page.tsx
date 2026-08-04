@@ -13,6 +13,7 @@ import {
   clientName,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -303,7 +304,7 @@ export default function StudioVersaPage() {
               <div className="flex justify-between items-end mb-20">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#f97316)] block mb-4">Portfolio</span>
-                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Selected <span className="text-[var(--brand,#f97316)] italic">Work.</span></h2>
+                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "work.titre") ?? (<>Selected <span className="text-[var(--brand,#f97316)] italic">Work.</span></>)}</h2>
                 </div>
               </div>
             </Reveal>
@@ -338,7 +339,7 @@ export default function StudioVersaPage() {
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#fb923c)] block mb-4">What We Do</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Our <span className="text-[var(--brand,#fb923c)] italic">Craft.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "capabilities.titre") ?? (<>Our <span className="text-[var(--brand,#fb923c)] italic">Craft.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -367,7 +368,7 @@ export default function StudioVersaPage() {
             <Reveal>
               <div className="mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#f97316)] block mb-4">The People</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Behind the <span className="text-[var(--brand,#f97316)] italic">Work.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "team.titre") ?? (<>Behind the <span className="text-[var(--brand,#f97316)] italic">Work.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -426,7 +427,7 @@ export default function StudioVersaPage() {
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-wrap items-end justify-between gap-6 mb-16 border-b border-black/10 pb-8">
-                <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">Journal.</h2>
+                <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "journal.titre") ?? (<>Journal.</>)}</h2>
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/40">Notes from the studio</span>
               </div>
             </Reveal>
@@ -449,7 +450,7 @@ export default function StudioVersaPage() {
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-wrap items-end justify-between gap-6 mb-16 border-b border-white/10 pb-8">
-                <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">Careers.</h2>
+                <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "careers.titre") ?? (<>Careers.</>)}</h2>
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">We hire slowly, on purpose</span>
               </div>
             </Reveal>
@@ -478,7 +479,7 @@ export default function StudioVersaPage() {
         <section id="press" className="py-32 bg-[#faf5f0]">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
-              <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-16 border-b border-black/10 pb-8">Press.</h2>
+              <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-16 border-b border-black/10 pb-8">{/* TEXTE_SECTION */ clientText(sessionData, "press.titre") ?? (<>Press.</>)}</h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
               {PRESS.map((p, i) => (
@@ -497,7 +498,7 @@ export default function StudioVersaPage() {
         <section id="newsletter" className="py-24 bg-[#1a1a1a] text-white">
           <div className="max-w-[900px] mx-auto px-6 md:px-12 text-center">
             <Reveal>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tighter mb-4">Six emails a year. No more.</h2>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tighter mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "newsletter.titre") ?? (<>Six emails a year. No more.</>)}</h2>
               <p className="text-sm text-white/45 leading-relaxed max-w-[60ch] mx-auto mb-8">
                 What we shipped, what we learned, and the occasional thing we got wrong.
                 No campaigns, no drip sequence, unsubscribe in one click.

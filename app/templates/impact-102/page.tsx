@@ -13,7 +13,9 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -225,9 +227,11 @@ export default function QBitLabsPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   TEAM = TEAM_LIVE();
+
 
 
 
@@ -474,10 +478,10 @@ export default function QBitLabsPage() {
                     letterSpacing: "-0.02em",
                     maxWidth: 640,
                   }}
-                >{c?.heroHeadline ?? <>
+                >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
                   The future of computation{" "}
                   <span style={{ fontWeight: 700 }}>is quantum.</span>
-                </>}</h1>
+                </>}</>)}</h1>
               </Reveal>
 
               <Reveal delay={0.1}>
@@ -730,10 +734,10 @@ export default function QBitLabsPage() {
                     letterSpacing: "-0.01em",
                     margin: 0,
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                   Research{" "}
                   <span style={{ fontWeight: 700 }}>domains</span>
-                </h2>
+                </>)}</h2>
               </div>
             </Reveal>
 
@@ -872,10 +876,10 @@ export default function QBitLabsPage() {
                       letterSpacing: "-0.01em",
                       margin: 0,
                     }}
-                  >
+                  >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                     Selected{" "}
                     <span style={{ fontWeight: 700 }}>publications</span>
-                  </h2>
+                  </>)}</h2>
                 </div>
                 <Link
                   href="#hero"
@@ -1079,10 +1083,10 @@ export default function QBitLabsPage() {
                     letterSpacing: "-0.01em",
                     margin: 0,
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                   Research{" "}
                   <span style={{ fontWeight: 700 }}>leadership</span>
-                </h2>
+                </>)}</h2>
               </div>
             </Reveal>
 
@@ -1254,10 +1258,10 @@ export default function QBitLabsPage() {
                     letterSpacing: "-0.01em",
                     margin: "0 0 20px",
                   }}
-                >{c?.aboutTitle ?? fd?.businessName ?? <>
+                >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>
                   Research access{" "}
                   <span style={{ fontWeight: 700 }}>& collaboration</span>
-                </>}</h2>
+                </>}</>)}</h2>
                 <p
                   style={{
                     fontSize: 14,

@@ -19,6 +19,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1182,10 +1183,10 @@ function ServiceCards() {
               margin: 'clamp(16px,2vw,24px) 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Tout pour votre{' '}
             <span style={{ color: C.accent }}>jardin</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1416,10 +1417,10 @@ function SeasonPanel() {
                 margin: 'clamp(16px,2vw,22px) 0 clamp(40px,5vw,60px)',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "saisons.titre") ?? (<>
               Un jardin en{' '}
               <span style={{ color: C.accentLight }}>mouvement</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {SEASONS.map((item, i) => (
@@ -1517,10 +1518,10 @@ function Testimonials() {
               margin: 'clamp(16px,2vw,24px) 0 0',
               lineHeight: 1.08,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             La confiance de{' '}
             <span style={{ color: C.accent }}>nos clients</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1695,10 +1696,10 @@ function QuoteForm() {
               margin: 'clamp(16px,2vw,22px) 0 clamp(14px,2vw,20px)',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "devis.titre") ?? (<>
             Parlons de votre{' '}
             <span style={{ color: C.accentLight }}>projet</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.17}>
           <p

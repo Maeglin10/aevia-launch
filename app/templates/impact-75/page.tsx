@@ -31,7 +31,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -652,7 +654,9 @@ export default function OrbitAIPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   HERO_PRODUCTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length].price })),
     HERO_PRODUCTS_DEMO_SOURCE,
@@ -936,9 +940,9 @@ return (
                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0a0a0a]/30 mb-3">
                   Collection
                 </p>
-                <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#0a0a0a]">
+                <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#0a0a0a]">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
                   Toutes les pièces
-                </h2>
+                </>)}</h2>
               </div>
               <Link href="/templates/impact-75/telemetry">
                 <span className="text-[10px] font-black uppercase tracking-widest text-[#0a0a0a]/30 hover:text-[#0a0a0a] transition-colors cursor-pointer flex items-center gap-2 group">
@@ -1004,9 +1008,9 @@ return (
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 mb-4">
                 Savoir-Faire
               </p>
-              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white italic">
+              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                 Matières d&apos;exception
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -1050,9 +1054,9 @@ return (
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0a0a0a]/30 mb-3">
                 Best-Sellers
               </p>
-              <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#0a0a0a]">
+              <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#0a0a0a]">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                 Les incontournables
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -1116,9 +1120,9 @@ return (
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 mb-4">
                 Presse & Médias
               </p>
-              <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white italic">
+              <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Ils parlent de nous
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -1174,10 +1178,10 @@ return (
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0a0a0a]/30 mb-4">
                 Notre Engagement
               </p>
-              <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#0a0a0a] italic">
+              <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#0a0a0a] italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                 L&apos;excellence, <br />
                 <span className="text-[#0a0a0a]/20">sans compromis.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -1208,9 +1212,9 @@ return (
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 mb-4">Avis vérifiés</p>
-                <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
+                <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                   Ce qu'ils disent.<br /><span className="text-white/20">Sans filtre.</span>
-                </h2>
+                </>)}</h2>
               </div>
               <div className="flex items-center gap-4">
                 <div className="text-5xl font-black text-white">4.9</div>
@@ -1260,7 +1264,7 @@ return (
         <div className="max-w-[900px] mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/20 mb-4">Questions fréquentes</p>
-            <h2 className="text-4xl md:text-5xl font-black text-black tracking-tight mb-16">FAQ</h2>
+            <h2 className="text-4xl md:text-5xl font-black text-black tracking-tight mb-16">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>FAQ</>)}</h2>
           </Reveal>
           <div className="divide-y divide-black/5">
             {FAQ_INLINE.map((faq, i) => (

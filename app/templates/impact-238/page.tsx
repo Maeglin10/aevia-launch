@@ -25,6 +25,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1211,10 +1212,10 @@ function SpecialtyCards() {
                 lineHeight: 1.06,
                 letterSpacing: '-0.02em',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "specialites.titre") ?? (<>
               Ce que nous{' '}
               <span style={{ color: C.accent }}>traitons</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
 
@@ -1499,14 +1500,14 @@ function MethodPanel() {
                 lineHeight: 1.08,
                 letterSpacing: '-0.02em',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
               Un cadre{' '}
               <span style={{ color: C.accentLight }}>structuré</span>{' '}
               pour des résultats{' '}
               <span style={{ fontStyle: 'italic', fontFamily: SERIF, fontWeight: 400 }}>
                 prévisibles
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1674,10 +1675,10 @@ function Reviews() {
                 lineHeight: 1.06,
                 letterSpacing: '-0.02em',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
               Ce que disent nos{' '}
               <span style={{ color: C.accent }}>patients</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
         <div
@@ -1790,10 +1791,10 @@ function BookingForm() {
               lineHeight: 1.06,
               letterSpacing: '-0.02em',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "rdv.titre") ?? (<>
             Commençons{' '}
             <span style={{ color: C.accentLight }}>ensemble</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

@@ -12,7 +12,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -102,9 +104,11 @@ export default function MaxPerformancePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   TARIFS = TARIFS_LIVE();
+
 
 
   PROGRAMMES = resolveList(
@@ -251,9 +255,9 @@ export default function MaxPerformancePage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/60 mb-4">— Mes programmes</div>
-              <h2 className="font-black uppercase text-[#f8f5f0]" style={{ fontFamily: "'Anton', sans-serif", fontSize: "clamp(36px,4vw,56px)" }}>
+              <h2 className="font-black uppercase text-[#f8f5f0]" style={{ fontFamily: "'Anton', sans-serif", fontSize: "clamp(36px,4vw,56px)" }}>{/* TEXTE_SECTION */ clientText(sessionData, "programmes.titre") ?? (<>
                 Ce qu'on fait<br /><span className="text-[var(--brand,#f97316)]">ensemble.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -277,7 +281,7 @@ export default function MaxPerformancePage() {
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/50 mb-4">La méthode</div>
-            <h2 className="font-black uppercase text-[#f8f5f0] text-4xl" style={{ fontFamily: "'Anton', sans-serif" }}>4 semaines <span className="text-[var(--brand,#f97316)]">pour tout changer.</span></h2>
+            <h2 className="font-black uppercase text-[#f8f5f0] text-4xl" style={{ fontFamily: "'Anton', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>4 semaines <span className="text-[var(--brand,#f97316)]">pour tout changer.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {[
@@ -303,7 +307,7 @@ export default function MaxPerformancePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/50 mb-4">— Résultats clients</div>
-            <h2 className="font-black uppercase text-[#f8f5f0] text-4xl" style={{ fontFamily: "'Anton', sans-serif" }}>Ils ont <span className="text-[var(--brand,#f97316)]">tout donné.</span></h2>
+            <h2 className="font-black uppercase text-[#f8f5f0] text-4xl" style={{ fontFamily: "'Anton', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "resultats.titre") ?? (<>Ils ont <span className="text-[var(--brand,#f97316)]">tout donné.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
@@ -333,7 +337,7 @@ export default function MaxPerformancePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/50 mb-4">— Tarifs</div>
-            <h2 className="font-black uppercase text-[#f8f5f0] text-4xl" style={{ fontFamily: "'Anton', sans-serif" }}>Pas de <span className="text-[var(--brand,#f97316)]">frais cachés.</span></h2>
+            <h2 className="font-black uppercase text-[#f8f5f0] text-4xl" style={{ fontFamily: "'Anton', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Pas de <span className="text-[var(--brand,#f97316)]">frais cachés.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             {TARIFS.map((t, i) => (
@@ -365,9 +369,9 @@ export default function MaxPerformancePage() {
       <section id="contact" className="py-28 bg-[var(--brand,#f97316)]">
         <Reveal>
           <div className="max-w-2xl mx-auto px-6 text-center">
-            <h2 className="font-black uppercase text-[#0a0a0a] mb-6" style={{ fontFamily: "'Anton', sans-serif", fontSize: "clamp(40px,5vw,64px)" }}>
+            <h2 className="font-black uppercase text-[#0a0a0a] mb-6" style={{ fontFamily: "'Anton', sans-serif", fontSize: "clamp(40px,5vw,64px)" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Prêt à vraiment<br />te dépasser ?
-            </h2>
+            </>)}</h2>
             <p className="text-[#0a0a0a]/55 mb-10 text-sm leading-relaxed">1ère séance gratuite · Engagement 0 · Résultats visibles en 4 semaines garantis</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[#0a0a0a] text-[#f8f5f0] font-black text-[11px] uppercase tracking-[0.3em] hover:bg-[#1a1a1a] transition-colors" style={{ fontFamily: "'Anton', sans-serif" }}>

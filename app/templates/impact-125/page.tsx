@@ -12,7 +12,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -112,7 +114,9 @@ export default function AstrumReachPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   FLEET = FLEET_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
@@ -250,7 +254,7 @@ export default function AstrumReachPage() {
             <Reveal>
               <div className="mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#06b6d4)] block mb-4">Mission Manifest</span>
-                <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter">Scheduled <span className="font-bold">Flights.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "missions.titre") ?? (<>Scheduled <span className="font-bold">Flights.</span></>)}</h2>
               </div>
             </Reveal>
 
@@ -290,7 +294,7 @@ export default function AstrumReachPage() {
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
                 <div className="max-w-2xl">
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#06b6d4)] block mb-4">The Fleet</span>
-                  <h2 className="text-4xl md:text-8xl font-light uppercase tracking-tighter italic leading-none">Space <span className="text-white/20">Infrastructure.</span></h2>
+                  <h2 className="text-4xl md:text-8xl font-light uppercase tracking-tighter italic leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Space <span className="text-white/20">Infrastructure.</span></>)}</h2>
                 </div>
                 <div className="flex gap-4">
                    <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all cursor-pointer"><ArrowRight className="w-5 h-5 rotate-180" /></div>
@@ -338,7 +342,7 @@ export default function AstrumReachPage() {
               <div>
                 <Reveal>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#06b6d4)] block mb-4">Advancements</span>
-                  <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter mb-12 leading-tight italic">Propelling <br/>The <span className="font-bold text-white not-italic">Future.</span></h2>
+                  <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter mb-12 leading-tight italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Propelling <br/>The <span className="font-bold text-white not-italic">Future.</span></>)}</h2>
                   <div className="space-y-12">
                     {[
                       { icon: Cpu, t: "Autonomous Navigation", d: "Next-gen flight computers capable of sub-meter orbital docking with zero human intervention." },

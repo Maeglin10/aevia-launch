@@ -41,7 +41,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -315,8 +317,10 @@ export default function VulcanMotorPremium() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
   FLEET_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
@@ -458,7 +462,7 @@ return (
                 style={{ y: bgTextY }}
                 className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-[0.03] pointer-events-none select-none z-0"
               >
-                 <h2 className="text-[35vw] font-black uppercase tracking-tighter leading-none italic">VULCAN</h2>
+                 <h2 className="text-[35vw] font-black uppercase tracking-tighter leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>VULCAN</>)}</h2>
               </motion.div>
 
               <div className="relative z-10 w-full max-w-7xl">
@@ -546,9 +550,9 @@ return (
                   <div className="lg:col-span-2">
                      <Reveal>
                         <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-8">Performance_Matrix</div>
-                        <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-16 italic">
+                        <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-16 italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                            Advanced <br/> <span className="opacity-20">Dynamics.</span>
-                        </h2>
+                        </>)}</h2>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                            {PERFORMANCE_METRICS.map((metric, i) => (
@@ -618,9 +622,9 @@ return (
                   <div className="lg:col-span-5">
                      <Reveal>
                         <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-8">Bespoke_Atelier</div>
-                        <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic">
+                        <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic">{/* TEXTE_SECTION */ clientText(sessionData, "atelier.titre") ?? (<>
                            Tailored <br/> <span className="opacity-20">Velocity.</span>
-                        </h2>
+                        </>)}</h2>
                         <p className="text-lg font-light italic text-white/40 leading-relaxed uppercase tracking-[0.1em] mb-16">
                            Votre Vulcan est unique. Notre programme de personnalisation permet de choisir chaque détail, des textures de carbone aux coutures intérieures, pour refléter votre vision de la performance.
                         </p>
@@ -755,9 +759,9 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       <div className="max-w-7xl mx-auto">
         <div className="mb-20">
           <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-6">Specification_Register</div>
-          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">
+          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
             The <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Fleet.</span>
-          </h1>
+          </>)}</h1>
           <p className="max-w-2xl text-base text-white/40 uppercase font-light italic leading-relaxed">
             Consultez le registre complet de nos trois modèles de haute performance, réglés de manière optimale pour repousser les limites de la force centrifuge et de l'accélération linéaire.
           </p>
@@ -816,9 +820,9 @@ function EngineeringPage() {
       <div className="max-w-7xl mx-auto">
         <div className="mb-20 text-center">
           <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-6">Dynamics_Lab</div>
-          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">
+          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
             Advanced <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Science.</span>
-          </h1>
+          </>)}</h1>
           <p className="max-w-xl mx-auto text-sm text-white/40 uppercase font-light italic leading-relaxed">
             Chez Vulcan, la physique n'est pas une limite, c'est notre matière première. Découvrez les innovations qui séparent nos unités du reste de la production mondiale.
           </p>
@@ -874,9 +878,9 @@ function AtelierPage() {
       <div className="max-w-7xl mx-auto">
         <div className="mb-20 text-center">
           <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-6">Bespoke_Program</div>
-          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">
+          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             The <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Atelier.</span>
-          </h1>
+          </>)}</h1>
           <p className="max-w-xl mx-auto text-sm text-white/40 uppercase font-light italic leading-relaxed">
             Chaque Vulcan est construite sur mesure à Modena. Notre programme de personnalisation totale vous permet de concevoir une œuvre d'art aérodynamique unique au monde.
           </p>
@@ -919,9 +923,9 @@ function SupportPage() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-20">
           <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#2563eb)] mb-6">Support_Department</div>
-          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">
+          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
             Common <span className="opacity-20">Queries.</span>
-          </h1>
+          </>)}</h1>
           <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/30 italic">Logistics // Maintenance // Worldwide Assistance</p>
         </div>
 

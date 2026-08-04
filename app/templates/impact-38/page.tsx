@@ -27,6 +27,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -836,11 +837,11 @@ export default function OriginRoastPage() {
                 Specialty Coffee Roastery — Direct Trade
               </motion.div>
               <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-                style={{ fontFamily: SERIF, fontSize: "clamp(48px, 6vw, 82px)", fontWeight: 900, color: C.cream, lineHeight: 1.03, marginBottom: 28 }}>{c?.heroHeadline ?? <>
+                style={{ fontFamily: SERIF, fontSize: "clamp(48px, 6vw, 82px)", fontWeight: 900, color: C.cream, lineHeight: 1.03, marginBottom: 28 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
                 From Bean
                 <br />
                 <span style={{ color: C.caramel, fontStyle: "italic" }}>to Cup.</span>
-              </>}</motion.h1>
+              </>}</>)}</motion.h1>
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}
                 style={{ fontFamily: SANS, fontSize: 18, color: C.sand, lineHeight: 1.8, marginBottom: 44, maxWidth: 480, fontWeight: 300 }}>{fd?.tagline ?? c?.heroSubline ?? <>
                 Café de spécialité en petits lots — 47 fermes partenaires, 18 pays. Torréfié à la commande et expédié au pic de fraîcheur.
@@ -897,9 +898,9 @@ export default function OriginRoastPage() {
               <div style={{ fontFamily: SERIF, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", color: C.caramel, marginBottom: 12 }}>
                 Notre impact
               </div>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 3.5vw, 46px)", fontWeight: 900, color: C.espresso }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 3.5vw, 46px)", fontWeight: 900, color: C.espresso }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
                 Des chiffres qui parlent
-              </h2>
+              </>)}</h2>
             </div>
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(140px, 100%), 1fr))", gap: 16 }}>
@@ -1012,9 +1013,9 @@ export default function OriginRoastPage() {
               <div style={{ fontFamily: SERIF, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", color: C.caramel, marginBottom: 16 }}>
                 De l'origine à votre tasse
               </div>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 50px)", fontWeight: 900, color: C.cream, marginBottom: 16 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 50px)", fontWeight: 900, color: C.cream, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                 Un processus sans compromis
-              </h2>
+              </>)}</h2>
               <p style={{ fontSize: 16, color: C.sand, maxWidth: 480, margin: "0 auto", lineHeight: 1.8, fontWeight: 300 }}>
                 Aucun raccourci. Chaque étape est délibérée, documentée et traçable jusqu'au producteur.
               </p>
@@ -1090,9 +1091,9 @@ export default function OriginRoastPage() {
               <div style={{ fontFamily: SERIF, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", color: C.caramel, marginBottom: 16 }}>
                 L'abonnement mensuel
               </div>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 900, color: C.espresso, marginBottom: 16 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 900, color: C.espresso, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Votre café, chaque mois. Sans effort.
-              </h2>
+              </>)}</h2>
               <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 500, margin: "0 auto", lineHeight: 1.8, fontWeight: 300 }}>
                 Torréfié à la commande, reposé à la perfection, livré à domicile. Pas d'engagement — résiliez en un clic.
               </p>
@@ -1166,9 +1167,9 @@ export default function OriginRoastPage() {
                 <div style={{ fontFamily: SERIF, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", color: C.caramel, marginBottom: 16 }}>
                   Vocabulaire sensoriel
                 </div>
-                <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 3.5vw, 46px)", fontWeight: 900, color: C.espresso, marginBottom: 20 }}>
+                <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 3.5vw, 46px)", fontWeight: 900, color: C.espresso, marginBottom: 20 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                   La roue aromatique du café de spécialité
-                </h2>
+                </>)}</h2>
                 <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.85, fontWeight: 300, marginBottom: 32 }}>
                   Chaque café de spécialité est évalué selon le protocole SCA (Specialty Coffee Association). Nos notes de dégustation vous guident pour identifier ce que vous percevez dans votre tasse.
                 </p>
@@ -1197,9 +1198,9 @@ export default function OriginRoastPage() {
               <div style={{ fontFamily: SERIF, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", color: C.caramel, marginBottom: 16 }}>
                 Ils nous font confiance
               </div>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 50px)", fontWeight: 900, color: C.cream, marginBottom: 12 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 50px)", fontWeight: 900, color: C.cream, marginBottom: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                 Ce que disent nos abonnés
-              </h2>
+              </>)}</h2>
               <p style={{ fontSize: 16, color: C.sand, maxWidth: 440, margin: "0 auto", lineHeight: 1.8, fontWeight: 300 }}>
                 Baristas professionnels, amateurs passionnés, chefs étoilés — ils ont tous trouvé leur café.
               </p>
@@ -1219,9 +1220,9 @@ export default function OriginRoastPage() {
               <div style={{ fontFamily: SERIF, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", color: C.caramel, marginBottom: 16 }}>
                 Traçabilité totale
               </div>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 3.5vw, 46px)", fontWeight: 900, color: C.espresso }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 3.5vw, 46px)", fontWeight: 900, color: C.espresso }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
                 D'où vient votre café ?
-              </h2>
+              </>)}</h2>
             </div>
           </SectionReveal>
           <SectionReveal delay={0.1}>
@@ -1247,9 +1248,9 @@ export default function OriginRoastPage() {
               <div style={{ fontFamily: SERIF, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", color: C.caramel, marginBottom: 16 }}>
                 FAQ
               </div>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, color: C.espresso, marginBottom: 12 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, color: C.espresso, marginBottom: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
                 Questions fréquentes
-              </h2>
+              </>)}</h2>
             </div>
           </SectionReveal>
           <div style={{ display: "flex", flexDirection: "column" }}>
@@ -1273,10 +1274,10 @@ export default function OriginRoastPage() {
               <div style={{ fontFamily: SERIF, fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", color: C.caramel, marginBottom: 20 }}>
                 Prêt à commencer ?
               </div>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(36px, 5vw, 66px)", fontWeight: 900, color: C.cream, lineHeight: 1.08, marginBottom: 24 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(36px, 5vw, 66px)", fontWeight: 900, color: C.cream, lineHeight: 1.08, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
                 Votre premier sac à{" "}
                 <span style={{ color: C.caramel, fontStyle: "italic" }}>13€</span>.
-              </h2>
+              </>)}</h2>
               <p style={{ fontSize: 17, color: C.sand, lineHeight: 1.8, marginBottom: 44, maxWidth: 440, margin: "0 auto 44px", fontWeight: 300 }}>
                 Torréfié demain, livré cette semaine. Aucun abonnement requis pour la première commande.
               </p>

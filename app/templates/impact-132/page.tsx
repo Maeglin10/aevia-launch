@@ -11,7 +11,9 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -453,7 +455,9 @@ export default function Impact132() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   // La une porte l'accroche du client : c'est le seul titre de cette page
 
@@ -977,9 +981,9 @@ return (
           <h2 style={{
             fontFamily: C.serif, fontWeight: 700, fontSize: 32,
             color: C.dark, marginBottom: 36, letterSpacing: "-0.02em",
-          }}>
+          }}>{/* TEXTE_SECTION */ clientText(sessionData, "topics.titre") ?? (<>
             Browse by Topic
-          </h2>
+          </>)}</h2>
         </TextReveal>
 
         {/* Filter pills */}
@@ -1091,9 +1095,9 @@ return (
               lineHeight: 1.22,
               margin: "0 0 20px",
               letterSpacing: "-0.02em",
-            }}>
+            }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               The world's best editorial journalism, in your inbox every Sunday.
-            </h2>
+            </>)}</h2>
           </TextReveal>
 
           <TextReveal delay={0.2}>
@@ -1293,9 +1297,9 @@ return (
                 lineHeight: 1.2,
                 margin: "0 0 28px",
                 letterSpacing: "-0.02em",
-              }}>
+              }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 We exist to make the world's most important ideas accessible to anyone curious enough to seek them.
-              </h2>
+              </>)}</h2>
             </TextReveal>
             <TextReveal delay={0.2}>
               <p style={{

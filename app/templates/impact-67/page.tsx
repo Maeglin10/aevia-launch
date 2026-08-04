@@ -14,6 +14,7 @@ import {
   clientCity,
   clientName,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -334,9 +335,9 @@ return (
           <Reveal>
             <div className="mb-20">
               <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#e11d48)] mb-4 block">Portfolio</span>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight uppercase italic text-white">
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight uppercase italic text-white">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                 Properties<br /><span className="text-[var(--brand,#e11d48)]">Scanned.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
@@ -374,9 +375,9 @@ return (
           <Reveal>
             <div className="mb-20">
               <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#e11d48)] mb-4 block">{tr(sessionData, "Services")}</span>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight uppercase italic text-white">
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight uppercase italic text-white">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                 Full-Spectrum<br /><span className="text-[var(--brand,#e11d48)]">Capture.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
@@ -402,9 +403,9 @@ return (
         <div className="relative max-w-3xl mx-auto px-6">
           <Reveal>
             <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#e11d48)] mb-6 block font-mono">Initialize Scan</span>
-            <h2 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white mb-8 leading-[0.95]">
+            <h2 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white mb-8 leading-[0.95]">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               Book Your<br /><span className="text-[var(--brand,#e11d48)]">First Scan.</span>
-            </h2>
+            </>)}</h2>
             <p className="text-white/30 font-mono text-sm leading-relaxed mb-12 max-w-lg mx-auto uppercase tracking-wide">
               Première visite de repérage gratuite. Devis sous 24h. Livraison du scan en 5 jours ouvrés.
             </p>

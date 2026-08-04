@@ -24,6 +24,7 @@ import {
   clientFaq,
   clientName,
   clientReviews,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -792,12 +793,12 @@ export default function ClosDuSoirPage() {
                     lineHeight: 1.15,
                     marginBottom: 24,
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                   Guided by Claire Vidal,{" "}
                   <span style={{ fontStyle: "italic", color: C.rose }}>
                     Master of Wine
                   </span>
-                </h2>
+                </>)}</h2>
                 <p
                   style={{fontSize: 16,
                     color: brand ?? 'var(--brand,#c4a882)',
@@ -952,9 +953,9 @@ export default function ClosDuSoirPage() {
                   color: C.burgundy,
                   marginBottom: 14,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                 Prochaines Dégustations
-              </h2>
+              </>)}</h2>
               <p
                 style={{
                   fontSize: 15,
@@ -1136,9 +1137,9 @@ export default function ClosDuSoirPage() {
                   color: C.burgundy,
                   marginBottom: 12,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Ce qu'en disent nos membres
-              </h2>
+              </>)}</h2>
             </div>
           </SectionReveal>
           <div
@@ -1261,9 +1262,9 @@ export default function ClosDuSoirPage() {
                   color: C.cream,
                   marginBottom: 16,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                 Rejoignez le Club
-              </h2>
+              </>)}</h2>
               <p
                 style={{fontSize: 15,
                   color: brand ?? 'var(--brand,#c4a882)',
@@ -1440,9 +1441,9 @@ export default function ClosDuSoirPage() {
                   color: C.burgundy,
                   marginBottom: 12,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                 Questions Fréquentes
-              </h2>
+              </>)}</h2>
             </div>
           </SectionReveal>
           <div style={{ display: "flex", flexDirection: "column" }}>

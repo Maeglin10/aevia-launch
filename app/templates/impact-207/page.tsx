@@ -20,7 +20,9 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -711,10 +713,10 @@ function FleetParallax() {
           transition={{ duration: 0.6 }}
         >
           <div className="n207-label">Fleet Operations</div>
-          <h2 className="n207-h2">
+          <h2 className="n207-h2">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
             2,400+ vehicles.<br />
             <span style={{ color: T.accent }}>Always moving.</span>
-          </h2>
+          </>)}</h2>
           <p className="n207-body" style={{ maxWidth: 520 }}>
             Our fleet spans short-haul urban delivery vans to long-haul articulated trucks —
             every vehicle GPS-tracked, temperature-monitored, and route-optimized in real time.
@@ -846,7 +848,7 @@ function StatsSection() {
       <div className="n207-container">
         <div style={{ textAlign: "center", marginBottom: 64 }}>
           <div className="n207-label">Live Operations</div>
-          <h2 className="n207-h2">Numbers that speak</h2>
+          <h2 className="n207-h2">{/* TEXTE_SECTION */ clientText(sessionData, "stats.titre") ?? (<>Numbers that speak</>)}</h2>
           <p className="n207-body" style={{ maxWidth: 520, margin: "0 auto" }}>
             Real-time performance metrics from our global operations center — updated every 60 seconds.
           </p>
@@ -1354,10 +1356,10 @@ function ServicesSection() {
       <div className="n207-container">
         <div style={{ marginBottom: 60 }}>
           <div className="n207-label">What We Move</div>
-          <h2 className="n207-h2">
+          <h2 className="n207-h2">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Every mode.<br />
             <span style={{ color: T.accent }}>One partner.</span>
-          </h2>
+          </>)}</h2>
           <p className="n207-body" style={{ maxWidth: 520 }}>
             Multimodal freight solutions engineered for complex global supply chains — from
             single pallets to full charter aircraft loads.
@@ -1459,10 +1461,10 @@ function DeliveryTimeline() {
             {/* Left: stage info */}
             <div>
               <div className="n207-label">Delivery Journey</div>
-              <h2 className="n207-h2" style={{ marginBottom: 40 }}>
+              <h2 className="n207-h2" style={{ marginBottom: 40 }}>{/* TEXTE_SECTION */ clientText(sessionData, "timeline.titre") ?? (<>
                 From pickup to<br />
                 <span style={{ color: T.accent }}>proof of delivery.</span>
-              </h2>
+              </>)}</h2>
 
               {/* Progress bar */}
               <div style={{ marginBottom: 40 }}>
@@ -1691,7 +1693,7 @@ function TestimonialsSection() {
       <div className="n207-container">
         <div style={{ textAlign: "center", marginBottom: 64 }}>
           <div className="n207-label">Client Voices</div>
-          <h2 className="n207-h2">Trusted by supply chain leaders</h2>
+          <h2 className="n207-h2">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Trusted by supply chain leaders</>)}</h2>
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24 }}>
@@ -1857,11 +1859,11 @@ function ContactSection() {
             transition={{ duration: 0.6 }}
           >
             <div className="n207-label">{tr({ formData: fd }, "Get a Quote")}</div>
-            <h2 className="n207-h2" style={{ marginBottom: 24 }}>
+            <h2 className="n207-h2" style={{ marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Ready to move?
               <br />
               <span style={{ color: T.accent }}>Let&apos;s talk.</span>
-            </h2>
+            </>)}</h2>
             <p className="n207-body" style={{ marginBottom: 40 }}>
               Tell us where you need to go — we&apos;ll build a tailored freight solution with
               competitive rates and a dedicated account manager.
@@ -2317,9 +2319,11 @@ export default function Impact207() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   HUBS = HUBS_LIVE();
+
 
 
   STAGES = resolveList(

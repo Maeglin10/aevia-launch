@@ -21,7 +21,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -171,7 +173,9 @@ export default function AetherSoundPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   ENGINEERING = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...ENGINEERING_SOURCE[i % ENGINEERING_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     ENGINEERING_SOURCE,
@@ -347,7 +351,7 @@ export default function AetherSoundPage() {
           <Reveal>
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
                <div>
-                  <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">The <br/> <span className="text-[var(--brand,#c9a84c)]">Line.</span></h2>
+                  <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "reference.titre") ?? (<>The <br/> <span className="text-[var(--brand,#c9a84c)]">Line.</span></>)}</h2>
                   <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">Reference Manifest // Hand-Crafted // Series 07</p>
                </div>
                <Link href="/templates/impact-07/technical-archive" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)] border-b border-[var(--brand,#c9a84c)] pb-2 hover:text-white hover:border-white transition-all">Download Technical Archive</Link>
@@ -401,7 +405,7 @@ export default function AetherSoundPage() {
             <Reveal>
                <div className="text-center mb-32">
                   <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)] mb-8 block">Sonic Integrity</span>
-                  <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">Physical <span className="text-[var(--brand,#c9a84c)] not-italic">Acoustics.</span></h2>
+                  <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Physical <span className="text-[var(--brand,#c9a84c)] not-italic">Acoustics.</span></>)}</h2>
                </div>
             </Reveal>
 
@@ -474,9 +478,9 @@ export default function AetherSoundPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
                <Reveal>
                   <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)] mb-8 block">The Chronology</span>
-                  <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">
+                  <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
                     Three <br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Decades.</span>
-                  </h2>
+                  </>)}</h2>
                   <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic leading-loose">
                     Since 1994, Aether has operated at the intersection of material science and auditory emotion. Our journey began in a small workshop in Kreuzberg and has evolved into a global benchmark for reference sound.
                   </p>
@@ -509,7 +513,7 @@ export default function AetherSoundPage() {
            <Reveal>
               <div className="mb-32">
                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)] mb-8 block">Acoustic Manifest</span>
-                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Full <br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Spectrum.</span></h2>
+                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Full <br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Spectrum.</span></>)}</h2>
               </div>
            </Reveal>
 
@@ -550,7 +554,7 @@ export default function AetherSoundPage() {
            <Reveal>
               <div className="mb-32 text-center">
                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)] mb-8 block">The Craftsmen</span>
-                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Human <span className="text-[var(--brand,#c9a84c)] not-italic">Element.</span></h2>
+                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Human <span className="text-[var(--brand,#c9a84c)] not-italic">Element.</span></>)}</h2>
               </div>
            </Reveal>
 
@@ -580,7 +584,7 @@ export default function AetherSoundPage() {
         <div className="max-w-4xl mx-auto px-6">
            <Reveal>
               <div className="mb-24 text-center">
-                 <h2 className="text-5xl font-black italic uppercase tracking-tighter text-white mb-8">Sonic <span className="text-[var(--brand,#c9a84c)] not-italic">Dialogues.</span></h2>
+                 <h2 className="text-5xl font-black italic uppercase tracking-tighter text-white mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Sonic <span className="text-[var(--brand,#c9a84c)] not-italic">Dialogues.</span></>)}</h2>
                  <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20">Acquisition // Setup // Integrity</p>
               </div>
            </Reveal>

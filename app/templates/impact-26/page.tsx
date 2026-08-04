@@ -13,7 +13,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -170,8 +172,10 @@ export default function Impact26() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   testimonials_SOURCE = testimonials_SOURCE_LIVE();
+
 
   testimonials = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], text: r.text, name: r.author })),
@@ -469,9 +473,9 @@ export default function Impact26() {
         <div className="max-w-6xl mx-auto">
           <Reveal className="mb-16">
             <p className="text-[var(--brand,#c9956a)] text-xs tracking-[0.4em] uppercase mb-4">Collection 2026</p>
-            <h2 className="text-5xl md:text-6xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+            <h2 className="text-5xl md:text-6xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "collection.titre") ?? (<>
               Quatre essences,<br /><em>un monde.</em>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           {/* Main feature */}
@@ -633,9 +637,9 @@ export default function Impact26() {
         <div className="max-w-6xl mx-auto">
           <Reveal className="text-center mb-16">
             <p className="text-[var(--brand,#c9956a)] text-xs tracking-[0.4em] uppercase mb-4">Savoir-Faire</p>
-            <h2 className="text-4xl md:text-5xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+            <h2 className="text-4xl md:text-5xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "savoir-faire.titre") ?? (<>
               Le processus de création
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {PRESTATIONS_INLINE.map((s, i) => (
@@ -698,9 +702,9 @@ export default function Impact26() {
         <div className="max-w-4xl mx-auto text-center">
           <Reveal>
             <p className="text-[var(--brand,#c9956a)] text-xs tracking-[0.4em] uppercase mb-6">Commander</p>
-            <h2 className="text-5xl md:text-7xl mb-8 leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+            <h2 className="text-5xl md:text-7xl mb-8 leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Votre parfum<br /><em>vous attend.</em>
-            </h2>
+            </>)}</h2>
             <p className="text-[#F5EDE8]/50 text-lg mb-12 max-w-lg mx-auto">
               Livraison mondiale. Emballage cadeau offert. Retours sous 30 jours.
             </p>

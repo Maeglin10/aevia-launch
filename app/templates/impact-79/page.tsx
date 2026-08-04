@@ -49,7 +49,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -264,7 +266,9 @@ export default function BoulangerieNoirePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   PRODUCTS_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), PRODUCTS_SOURCE);
   PRODUCTS = PRODUCTS_DEMO.map((row, i) => ({
     ...row,
@@ -487,10 +491,10 @@ export default function BoulangerieNoirePage() {
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-24">
           <Reveal>
-            <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase leading-[1.15] text-white italic pb-2">
+            <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase leading-[1.15] text-white italic pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "collection.titre") ?? (<>
               The{" "}
               <span className="text-stone-800 not-italic">Daily Batch.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
 
@@ -664,9 +668,9 @@ export default function BoulangerieNoirePage() {
       <section id="subscription" className="py-32 bg-[#0a0a0a]">
         <div className="max-w-3xl mx-auto px-6">
           <Reveal className="text-center mb-24">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tighter leading-none uppercase italic text-white">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tighter leading-none uppercase italic text-white">{/* TEXTE_SECTION */ clientText(sessionData, "subscription.titre") ?? (<>
               Bake_Buffer
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <Accordion type="single" collapsible className="space-y-4">

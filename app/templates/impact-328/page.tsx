@@ -14,6 +14,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -260,9 +261,9 @@ export default function MaisonEstevePage() {
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.8 }} style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>
             Pompes funèbres & prévoyance · {clientCity(sessionData) ?? "Toulouse"}
           </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 1.0, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(36px, 4.8vw, 64px)", fontWeight: 400, color: C.text, lineHeight: 1.12, margin: "18px 0 22px" }}>
+          <motion.h1 initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 1.0, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(36px, 4.8vw, 64px)", fontWeight: 400, color: C.text, lineHeight: 1.12, margin: "18px 0 22px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
             {c?.heroHeadline ?? (<>Accompagner,<br /><em style={{ color: C.accent }}>avec calme et clarté.</em></>)}
-          </motion.h1>
+          </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.9 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.8, maxWidth: 470, marginBottom: 34 }}>
             {fd?.tagline ?? c?.heroSubline ?? "Depuis trois générations, notre maison organise des obsèques dignes et des cérémonies fidèles à la personne — au prix annoncé, sans jamais rien presser."}
           </motion.p>
@@ -301,9 +302,9 @@ export default function MaisonEstevePage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre accompagnement</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 48px)", fontWeight: 400, color: C.text, marginTop: 10, lineHeight: 1.15 }}>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 48px)", fontWeight: 400, color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "accompagnement.titre") ?? (<>
                 Tout est pris en charge.<br /><em>Rien ne vous est imposé.</em>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
@@ -329,9 +330,9 @@ export default function MaisonEstevePage() {
           <Reveal delay={0.15}>
             <div>
               <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Une maison de confiance</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 400, color: C.text, margin: "12px 0 26px", lineHeight: 1.2 }}>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 400, color: C.text, margin: "12px 0 26px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "prevoyance.titre") ?? (<>
                 Ce que la loi garantit,<br /><em>ce que nous y ajoutons.</em>
-              </h2>
+              </>)}</h2>
               {ENGAGEMENT.map((e, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
                   <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
@@ -352,7 +353,7 @@ export default function MaisonEstevePage() {
           <Reveal>
             <div style={{ textAlign: "center", marginBottom: 16 }}>
               <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 46px)", fontWeight: 400, color: C.text, marginTop: 10 }}>Des prix <em>annoncés avant tout.</em></h2>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 46px)", fontWeight: 400, color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Des prix <em>annoncés avant tout.</em></>)}</h2>
               <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.75 }}>
                 Le devis-type réglementé distingue prestations obligatoires, courantes et optionnelles. Il est gratuit, remis avant tout engagement, et reste valable si vous consultez d'autres maisons.
               </p>
@@ -378,9 +379,9 @@ export default function MaisonEstevePage() {
       <section className="i328-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 44px)", fontWeight: 400, color: "#fff" }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 44px)", fontWeight: 400, color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               Des familles <em style={{ color: C.gold }}>nous écrivent</em>.
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
@@ -402,9 +403,9 @@ export default function MaisonEstevePage() {
       <section id="contact" className="i328-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>À votre écoute</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 50px)", fontWeight: 400, color: C.text, margin: "14px 0 16px" }}>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 50px)", fontWeight: 400, color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             À toute heure,<br /><em>quelqu'un répond.</em>
-          </h2>
+          </>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.75 }}>
             En cas de décès, appelez-nous : nous nous déplaçons et prenons le relais immédiatement, de jour comme de nuit.
           </p>

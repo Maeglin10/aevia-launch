@@ -34,6 +34,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1241,11 +1242,11 @@ function FeaturedDrops({ onAdd }: { onAdd: (product: Product, size: string) => v
                   textTransform: 'uppercase',
                   color: C.white,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "drops.titre") ?? (<>
                 This season&apos;s
                 <br />
                 forged icons
-              </h2>
+              </>)}</h2>
             </div>
             <a
               href="#shop"
@@ -1339,10 +1340,10 @@ function EditorialRows() {
                 textTransform: 'uppercase',
                 color: C.white,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "craft.titre") ?? (<>
               Obsession, forged
               <br /> into every pair
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
 
@@ -1489,10 +1490,10 @@ function SpecShowcase() {
                 textTransform: 'uppercase',
                 color: C.white,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               Engineered down
               <br /> to the stitch
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1578,9 +1579,9 @@ function Lookbook() {
                 textTransform: 'uppercase',
                 color: C.white,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "lookbook.titre") ?? (<>
               On the street
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
 
@@ -1694,10 +1695,10 @@ function Reviews() {
                   textTransform: 'uppercase',
                   color: C.white,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                 4.9 / 5 from
                 <br /> 12,400 forgers
-              </h2>
+              </>)}</h2>
             </div>
             <div style={{ display: 'flex', gap: 4 }}>
               {Array.from({ length: 5 }).map((_, i) => (
@@ -1844,9 +1845,9 @@ function FinalCTA() {
               color: C.white,
               maxWidth: '12ch',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "shop.titre") ?? (<>
             Get the next drop first
-          </h2>
+          </>)}</h2>
           <p
             style={{
               margin: '0 0 36px',

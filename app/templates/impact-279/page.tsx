@@ -33,6 +33,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1071,12 +1072,12 @@ function IndicationsSection() {
               margin: '20px 0 0',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "indications.titre") ?? (<>
             Trois spécialités,{' '}
             <span style={{ fontStyle: 'italic', color: C.terra }}>
               une approche globale
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p
@@ -1219,12 +1220,12 @@ function TechniqueSection() {
                 margin: '20px 0 52px',
                 lineHeight: 1.05,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "techniques.titre") ?? (<>
               Quatre techniques,{' '}
               <span style={{ fontStyle: 'italic', color: C.terra }}>
                 un seul objectif
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {TECHNIQUES.map((t, i) => (
@@ -1366,12 +1367,12 @@ function TestimonialsSection() {
               color: C.forest,
               margin: '20px 0 0',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             Ce que disent{' '}
             <span style={{ fontStyle: 'italic', color: C.terra }}>
               nos patients
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1536,12 +1537,12 @@ function AppointmentFormSection() {
               margin: '22px 0 18px',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "rdv.titre") ?? (<>
             Commencer{' '}
             <span style={{ fontStyle: 'italic', color: C.terraLight }}>
               votre suivi
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p
@@ -1835,12 +1836,12 @@ function PhilosophySection() {
                 margin: '22px 0 0',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "philosophie.titre") ?? (<>
               Soigner la personne,{' '}
               <span style={{ fontStyle: 'italic', color: C.terraLight }}>
                 pas le symptôme
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
 
@@ -1965,9 +1966,9 @@ function PractitionerSection() {
                 margin: '20px 0 8px',
                 lineHeight: 1.05,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "praticien.titre") ?? (<>
               Dr. Antoine Soler
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.12}>
             <p
@@ -2186,12 +2187,12 @@ function PracticalSection() {
                   margin: '20px 0 0',
                   lineHeight: 1.06,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "cabinet.titre") ?? (<>
                 Cabinet {clientCity(sessionData) ?? "Lyon"},{' '}
                 <span style={{ fontStyle: 'italic', color: C.terraLight }}>
                   Brotteaux
                 </span>
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
           <Reveal delay={0.16}>

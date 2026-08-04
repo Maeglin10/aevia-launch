@@ -33,6 +33,7 @@ import {
   clientServices,
   clientStats,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -318,9 +319,9 @@ function MenuSection() {
         <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           Notre carte
         </div>
-        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>
+        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>{/* TEXTE_SECTION */ clientText(sessionData, "menu.titre") ?? (<>
           Fait avec amour, chaque matin
-        </h2>
+        </>)}</h2>
       </motion.div>
 
       {/* Category tabs */}
@@ -391,9 +392,9 @@ function Story() {
           <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 24, textTransform: "uppercase", letterSpacing: 0.8 }}>
             Notre histoire
           </div>
-          <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 700, color: C.text, lineHeight: 1.2, letterSpacing: -0.5, marginBottom: 24 }}>
+          <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 700, color: C.text, lineHeight: 1.2, letterSpacing: -0.5, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
             Une boulangerie de quartier, <em style={{ color: C.accent }}>depuis 1987</em>
-          </h2>
+          </>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.8, marginBottom: 20 }}>
             La Fournée est née de la passion de Marcel Girard pour le pain au levain naturel. À l'époque où les industriels envahissaient les boulangeries, Marcel choisissait l'artisanat, la lenteur et le respect des céréales.
           </p>
@@ -524,9 +525,9 @@ function ProductsShowcase() {
         <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           À emporter
         </div>
-        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>
+        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
           Nos offres spéciales
-        </h2>
+        </>)}</h2>
       </motion.div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
@@ -590,9 +591,9 @@ function Testimonials() {
         <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           Avis clients
         </div>
-        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>
+        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
           Ils nous font confiance
-        </h2>
+        </>)}</h2>
       </motion.div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 24, maxWidth: 1000, margin: "0 auto" }}>
@@ -636,9 +637,9 @@ function HorairesContact() {
           <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 24, textTransform: "uppercase", letterSpacing: 0.8 }}>
             Horaires
           </div>
-          <h2 style={{ fontFamily: FONT_HEADING, fontSize: 30, fontWeight: 700, color: C.text, marginBottom: 32, letterSpacing: -0.3 }}>
+          <h2 style={{ fontFamily: FONT_HEADING, fontSize: 30, fontWeight: 700, color: C.text, marginBottom: 32, letterSpacing: -0.3 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Quand nous rendre visite
-          </h2>
+          </>)}</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {horaires.map((h) => (
               <div
@@ -726,9 +727,9 @@ function FAQ() {
         <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           FAQ
         </div>
-        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>
+        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
           Vos questions, nos réponses
-        </h2>
+        </>)}</h2>
       </motion.div>
 
       <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>

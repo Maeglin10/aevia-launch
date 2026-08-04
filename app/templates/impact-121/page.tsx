@@ -22,7 +22,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -227,9 +229,11 @@ export default function FolioStudioPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   MANIFEST = MANIFEST_LIVE();
+
 
 
 
@@ -360,7 +364,7 @@ export default function FolioStudioPage() {
         <section id="work" className="py-32 px-6 md:px-12 max-w-[1800px] mx-auto">
           <Reveal>
             <div className="flex items-center justify-between mb-20 border-b border-zinc-200 pb-8">
-              <h2 className="text-4xl md:text-5xl font-medium tracking-tight">Selected Work</h2>
+              <h2 className="text-4xl md:text-5xl font-medium tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "work.titre") ?? (<>Selected Work</>)}</h2>
               <span className="text-sm font-bold uppercase tracking-widest text-zinc-400">2024—2026</span>
             </div>
           </Reveal>
@@ -429,7 +433,7 @@ export default function FolioStudioPage() {
           <div className="max-w-[1800px] mx-auto">
             <Reveal>
               <div className="flex items-center justify-between mb-24 border-b border-zinc-200 pb-8">
-                <h2 className="text-4xl md:text-5xl font-medium tracking-tight">Expertise</h2>
+                <h2 className="text-4xl md:text-5xl font-medium tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Expertise</>)}</h2>
                 <span className="text-sm font-bold uppercase tracking-widest text-zinc-400">{tr({ formData: fd }, "Services")}</span>
               </div>
             </Reveal>
@@ -494,9 +498,9 @@ export default function FolioStudioPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
               <div className="lg:col-span-5">
                 <Reveal>
-                  <h2 className="text-5xl md:text-7xl font-medium tracking-tighter mb-10">
+                  <h2 className="text-5xl md:text-7xl font-medium tracking-tighter mb-10">{/* TEXTE_SECTION */ clientText(sessionData, "studio.titre") ?? (<>
                     A culture of <br /> extreme craft.
-                  </h2>
+                  </>)}</h2>
                   <p className="text-xl text-zinc-400 max-w-md mb-12 leading-relaxed">
                     We're a tight-knit team of specialists who care deeply about the details. We operate with high autonomy and high alignment.
                   </p>
@@ -552,7 +556,7 @@ export default function FolioStudioPage() {
         <section id="tarifs" className="py-32 px-6 md:px-12 max-w-[1800px] mx-auto">
           <Reveal>
             <div className="text-center mb-24">
-              <h2 className="text-5xl md:text-7xl font-medium tracking-tighter mb-6">Engagement Models</h2>
+              <h2 className="text-5xl md:text-7xl font-medium tracking-tighter mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Engagement Models</>)}</h2>
               <p className="text-xl text-zinc-500 max-w-2xl mx-auto">We partner with teams at various stages, offering flexible engagement structures tailored to your immediate needs.</p>
             </div>
           </Reveal>
@@ -597,7 +601,7 @@ export default function FolioStudioPage() {
         <section className="py-32 bg-zinc-50 px-6 md:px-12">
           <div className="max-w-[1000px] mx-auto">
             <Reveal>
-              <h2 className="text-4xl md:text-6xl font-medium tracking-tighter mb-16 text-center">Frequent Questions</h2>
+              <h2 className="text-4xl md:text-6xl font-medium tracking-tighter mb-16 text-center">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Frequent Questions</>)}</h2>
             </Reveal>
             
             <Accordion type="single" collapsible className="w-full">
@@ -625,9 +629,9 @@ export default function FolioStudioPage() {
           
           <div className="max-w-[1800px] mx-auto relative z-10 text-center">
             <Reveal>
-              <h2 className="text-7xl md:text-[10rem] font-medium tracking-tighter leading-[0.85] mb-12">
+              <h2 className="text-7xl md:text-[10rem] font-medium tracking-tighter leading-[0.85] mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Let's build <br /> something <span className="text-zinc-500">epic.</span>
-              </h2>
+              </>)}</h2>
               <div className="flex justify-center mb-24">
                 <Magnetic strength={0.3}>
                   <Link href={`mailto:${fd?.email ?? "hello@foliostudio.com"}`} className="group flex items-center justify-center w-40 h-40 md:w-48 md:h-48 bg-white text-zinc-900 rounded-full text-xl font-medium hover:scale-110 transition-transform duration-500 shadow-2xl">

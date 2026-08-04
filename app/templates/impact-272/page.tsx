@@ -18,6 +18,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1186,12 +1187,12 @@ function CareCards() {
               margin: '18px 0 52px',
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
             Six domaines,{' '}
             <span style={{ color: C.accent, fontStyle: 'normal', fontWeight: 400 }}>
               une seule priorité.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <div
           style={{
@@ -1464,12 +1465,12 @@ function MethodPanel() {
                 margin: '18px 0 52px',
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
               Quatre étapes,{' '}
               <span style={{ color: C.accentLight, fontStyle: 'normal' }}>
                 un engagement.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {METHOD_ITEMS.map((item, i) => (
@@ -1579,12 +1580,12 @@ function Testimonials() {
                 margin: '18px 0 0',
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
               Ils nous font{' '}
               <span style={{ color: C.accent, fontStyle: 'normal', fontWeight: 400 }}>
                 confiance.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
         <div
@@ -1773,9 +1774,9 @@ function AppointmentForm() {
               margin: '20px 0 16px',
               lineHeight: 1.08,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "rdv.titre") ?? (<>
             Parlons-nous de votre enfant.
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.15}>
           <p

@@ -13,6 +13,7 @@ import {
   clientCity,
   clientName,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -339,7 +340,7 @@ export default function NoirCouturePage() {
             <div className="max-w-6xl mx-auto">
               <Reveal>
                 <div className="flex items-end justify-between mb-12">
-                  <h2 className="text-white text-4xl md:text-5xl" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300 }}>Collections</h2>
+                  <h2 className="text-white text-4xl md:text-5xl" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Collections</>)}</h2>
                   <a href="/templates/impact-12" onClick={(e) => { e.preventDefault(); goTo("collections"); }} className="text-white/40 text-xs tracking-widest uppercase hover:text-white transition-colors cursor-pointer flex items-center gap-2">
                     Voir tout <ChevronRight className="w-3 h-3" />
                   </a>
@@ -378,7 +379,7 @@ export default function NoirCouturePage() {
             <div className="max-w-6xl mx-auto">
               <Reveal>
                 <div className="flex items-end justify-between mb-12">
-                  <h2 className="text-black text-4xl" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300 }}>Editorial</h2>
+                  <h2 className="text-black text-4xl" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Editorial</>)}</h2>
                   <a href="/templates/impact-12" onClick={(e) => { e.preventDefault(); goTo("editorial"); }} className="text-black/40 text-xs tracking-widest uppercase hover:text-black transition-colors cursor-pointer">Tout voir</a>
                 </div>
               </Reveal>
@@ -411,7 +412,7 @@ export default function NoirCouturePage() {
             <div className="max-w-6xl mx-auto">
               <Reveal>
                 <div className="flex items-end justify-between mb-12">
-                  <h2 className="text-white text-4xl" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300 }}>Boutique</h2>
+                  <h2 className="text-white text-4xl" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Boutique</>)}</h2>
                   <a href="/templates/impact-12" onClick={(e) => { e.preventDefault(); goTo("boutique"); }} className="text-white/40 text-xs tracking-widest uppercase hover:text-white transition-colors cursor-pointer">Tout voir</a>
                 </div>
               </Reveal>
@@ -445,7 +446,7 @@ export default function NoirCouturePage() {
           <section className="py-24 px-6 bg-white">
             <div className="max-w-2xl mx-auto text-center">
               <Reveal>
-                <h2 className="text-black text-4xl mb-4" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300 }}>L'avant-première</h2>
+                <h2 className="text-black text-4xl mb-4" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>L'avant-première</>)}</h2>
                 <p className="text-black/50 text-sm leading-relaxed mb-8">Soyez les premiers informés des nouvelles collections, des défilés et des événements exclusifs Noir Couture.</p>
                 <div className="flex gap-3 max-w-md mx-auto">
                   <input type="email" placeholder="votre@email.com" className="flex-1 border border-black/20 px-4 py-3 text-sm outline-none focus:border-black" />
@@ -623,9 +624,9 @@ function CollectionsSubPage({ goTo, activeCol, setActiveCol }: { goTo: (p: any) 
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <p className="text-white/40 text-xs tracking-widest uppercase mb-4">Les Collections</p>
-          <h1 className="text-5xl md:text-7xl font-light mb-16" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h1 className="text-5xl md:text-7xl font-light mb-16" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             Manifestes de <em>style</em>
-          </h1>
+          </>)}</h1>
         </Reveal>
 
         <div className="flex gap-6 border-b border-white/10 pb-6 mb-12 flex-wrap">
@@ -697,9 +698,9 @@ function EditorialSubPage() {
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <p className="text-black/40 text-xs tracking-widest uppercase mb-4">Editorial</p>
-          <h1 className="text-5xl md:text-7xl font-light mb-16" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h1 className="text-5xl md:text-7xl font-light mb-16" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Récits & <em>Visions</em>
-          </h1>
+          </>)}</h1>
         </Reveal>
 
         <div className="space-y-24">
@@ -1059,9 +1060,9 @@ function BoutiqueSubPage({ onAddToCart }: { onAddToCart: (item: { name: string; 
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
             <div>
               <p className="text-white/40 text-xs tracking-widest uppercase mb-4">La Boutique</p>
-              <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
                 Les <em>Pièces</em>
-              </h1>
+              </>)}</h1>
             </div>
             <div className="flex gap-6 mt-8 md:mt-0 border-b border-white/10 pb-2">
               {["Tout", "Prêt-à-porter", "Accessoires"].map(cat => (
@@ -1102,9 +1103,9 @@ function AtelierSubPage({ goTo }: { goTo: (p: any) => void }) {
         <Reveal>
           <div className="text-center space-y-4">
             <p className="text-black/40 text-xs tracking-widest uppercase">L'Atelier</p>
-            <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
               Savoir-Faire & <em>Rigueur</em>
-            </h1>
+            </>)}</h1>
             <p className="text-black/50 text-sm max-w-xl mx-auto leading-relaxed">
               Dans le secret de notre atelier de la place Vendôme, nos artisans façonnent des pièces uniques qui unissent tradition et innovation technique.
             </p>
@@ -1175,9 +1176,9 @@ function ContactSubPage() {
         <Reveal>
           <div className="text-center mb-16 space-y-4">
             <p className="text-white/40 text-xs tracking-widest uppercase">Contact & Rendez-Vous</p>
-            <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
               Le <em>Showroom</em>
-            </h1>
+            </>)}</h1>
             <p className="text-white/50 text-sm max-w-xl mx-auto leading-relaxed">
               Notre salon privé de la Place Vendôme vous accueille exclusivement sur rendez-vous pour la présentation des collections et les essayages de haute couture.
             </p>
@@ -1287,9 +1288,9 @@ function LegalSubPage() {
   return (
     <section id="contact" className="py-32 px-6 bg-white text-black min-h-dvh">
       <div className="max-w-3xl mx-auto space-y-8" style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
-        <h1 className="text-4xl font-light mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>
+        <h1 className="text-4xl font-light mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
           Mentions <em>Légales</em>
-        </h1>
+        </>)}</h1>
         
         <div className="bg-neutral-50 border border-neutral-100 p-8 rounded-lg space-y-6 text-sm text-neutral-600 leading-relaxed">
           <div>

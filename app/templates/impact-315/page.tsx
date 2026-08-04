@@ -46,6 +46,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -729,9 +730,9 @@ export default function Page() {
                 color: C.text,
                 marginBottom: 16,
                 fontWeight: 700,
-              }}>
+              }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Un service complet pour votre intérieur
-              </h2>
+              </>)}</h2>
               <p style={{ fontSize: 15, lineHeight: 1.6, color: C.textMuted, maxWidth: 600, margin: '0 auto' }}>
                 Du ménage hebdomadaire au grand nettoyage ponctuel, nos intervenant·es prennent soin de chaque détail.
               </p>
@@ -804,9 +805,9 @@ export default function Page() {
                 color: C.text,
                 marginBottom: 16,
                 fontWeight: 700,
-              }}>
+              }}>{/* TEXTE_SECTION */ clientText(sessionData, "formules.titre") ?? (<>
                 Choisissez la formule qui vous convient
-              </h2>
+              </>)}</h2>
               <p style={{ fontSize: 15, lineHeight: 1.6, color: C.textMuted, maxWidth: 550, margin: '0 auto' }}>
                 Tarifs transparents, sans engagement. Payez en ligne et planifiez votre ménage en toute simplicité.
               </p>
@@ -934,9 +935,9 @@ export default function Page() {
                   color: C.text,
                   marginBottom: 32,
                   fontWeight: 700,
-                }}>
+                }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                   La tranquillité d'esprit, en plus de la propreté
-                </h2>
+                </>)}</h2>
 
                 {[
                   { icon: <Shield size={22} />, title: "Assurance complète", desc: "Chaque intervention est couverte par notre assurance responsabilité civile professionnelle." },
@@ -994,9 +995,9 @@ export default function Page() {
                 color: C.text,
                 marginBottom: 16,
                 fontWeight: 700,
-              }}>
+              }}>{/* TEXTE_SECTION */ clientText(sessionData, "gallery.titre") ?? (<>
                 Avant / Après : la différence Brise
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -1032,9 +1033,9 @@ export default function Page() {
                 color: C.text,
                 marginBottom: 16,
                 fontWeight: 700,
-              }}>
+              }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
                 Ils nous font confiance
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -1090,9 +1091,9 @@ export default function Page() {
                 color: C.text,
                 marginBottom: 16,
                 fontWeight: 700,
-              }}>
+              }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
                 Questions fréquentes
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -1179,9 +1180,9 @@ export default function Page() {
                   color: C.text,
                   marginBottom: 24,
                   fontWeight: 700,
-                }}>
+                }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                   Réservez votre ménage
-                </h2>
+                </>)}</h2>
                 <p style={{ fontSize: 15, lineHeight: 1.6, color: C.textMuted, marginBottom: 40 }}>
                   Remplissez le formulaire et nous vous recontacterons sous 2h avec un créneau disponible. Devis gratuit et sans engagement.
                 </p>

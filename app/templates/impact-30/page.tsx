@@ -35,6 +35,7 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -465,9 +466,9 @@ function Hero() {
               animate={{ opacity: 1, rotateY: 0, clipPath: "inset(0 0% 0 0)" }}
               transition={{ duration: 0.85, ease: EASE_4 }}
               style={{ fontSize: "clamp(36px, 4.4vw, 60px)", fontWeight: 800, color: C.text, lineHeight: 1.08, letterSpacing: "-0.02em", margin: "0 0 18px", transformOrigin: "left center" }}
-            >{c?.heroHeadline ?? <>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
               Votre sourire,<br /><span style={{ color: C.accent }}>notre passion</span>
-            </>}</motion.h1>
+            </>}</>)}</motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 18 }}
@@ -655,9 +656,9 @@ function Services() {
             letterSpacing: -1,
             marginBottom: 16,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
           Des traitements d'excellence
-        </h2>
+        </>)}</h2>
         <p style={{ fontSize: 18, color: C.textMuted, maxWidth: 520, margin: "0 auto" }}>
           Chaque soin est réalisé avec les technologies les plus récentes pour votre confort maximal.
         </p>
@@ -882,9 +883,9 @@ function Testimonials() {
             color: C.text,
             letterSpacing: -1,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
           Avant / Après — Ils nous font confiance
-        </h2>
+        </>)}</h2>
       </motion.div>
 
       <div
@@ -1000,9 +1001,9 @@ function Team() {
         >
           Notre équipe
         </div>
-        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1 }}>
+        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "team.titre") ?? (<>
           Des experts à votre service
-        </h2>
+        </>)}</h2>
       </motion.div>
 
       <div
@@ -1134,9 +1135,9 @@ function Pricing() {
         >
           Tarifs
         </div>
-        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1, marginBottom: 14 }}>
+        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1, marginBottom: 14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "pricing.titre") ?? (<>
           Des prix transparents
-        </h2>
+        </>)}</h2>
         <p style={{ color: C.textMuted, fontSize: 16 }}>
           Remboursement Sécurité Sociale & mutuelles — Financement possible
         </p>
@@ -1314,9 +1315,9 @@ function FAQ() {
         >
           FAQ
         </div>
-        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1 }}>
+        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
           Questions fréquentes
-        </h2>
+        </>)}</h2>
       </motion.div>
 
       <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>

@@ -40,6 +40,7 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -835,9 +836,9 @@ export default function Impact199Page() {
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-4"
               style={{ fontFamily: "'Bebas Neue', cursive" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "artistes.titre") ?? (<>
               NOS ARTISTES
-            </h2>
+            </>)}</h2>
             <p className="text-white/50 max-w-xl text-base leading-relaxed mb-20">
               Trois talents différents, une même obsession : l'excellence technique au service de votre vision.
             </p>
@@ -934,9 +935,9 @@ export default function Impact199Page() {
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-4"
               style={{ fontFamily: "'Bebas Neue', cursive" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "flash.titre") ?? (<>
               FLASH TATTOOS
-            </h2>
+            </>)}</h2>
             <p className="text-white/50 max-w-xl text-base leading-relaxed mb-4">
               Designs prêts à tatouer. Sélectionnez un flash, choisissez votre artiste — rendez-vous disponible sous 72h.
             </p>
@@ -1017,9 +1018,9 @@ export default function Impact199Page() {
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-4"
               style={{ fontFamily: "'Bebas Neue', cursive" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "processus.titre") ?? (<>
               COMMENT ÇA MARCHE
-            </h2>
+            </>)}</h2>
             <p className="text-white/50 max-w-xl text-base leading-relaxed mb-20">
               De votre première idée à la cicatrisation complète — nous vous accompagnons à chaque étape.
             </p>
@@ -1069,9 +1070,9 @@ export default function Impact199Page() {
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-4"
               style={{ fontFamily: "'Bebas Neue', cursive" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
               NOS TARIFS
-            </h2>
+            </>)}</h2>
             <p className="text-white/50 max-w-xl text-base leading-relaxed mb-6">
               Les prix varient selon la complexité du design, l'emplacement, la durée de séance et l'artiste choisi. Chaque devis est personnalisé.
             </p>
@@ -1168,9 +1169,9 @@ export default function Impact199Page() {
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-16"
               style={{ fontFamily: "'Bebas Neue', cursive" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               FAQ
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="space-y-2">
@@ -1224,9 +1225,9 @@ export default function Impact199Page() {
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-4"
               style={{ fontFamily: "'Bebas Neue', cursive" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>
               LA GALERIE
-            </h2>
+            </>)}</h2>
             <p className="text-white/50 max-w-xl text-base leading-relaxed mb-16">
               Chaque tatouage est une conversation entre l'artiste et son client. Voici quelques-unes de nos œuvres récentes.
             </p>
@@ -1287,9 +1288,9 @@ export default function Impact199Page() {
               <h2
                 className="text-[clamp(3rem,6vw,5rem)] leading-none text-white mb-8"
                 style={{ fontFamily: "'Bebas Neue', cursive" }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 PRENDRE RENDEZ-VOUS
-              </h2>
+              </>)}</h2>
               <p className="text-white/50 text-base leading-relaxed mb-12 max-w-md">
                 Complétez le formulaire ci-contre ou contactez-nous directement. Nous répondons sous 24h pour confirmer votre créneau.
               </p>
@@ -1496,9 +1497,9 @@ export default function Impact199Page() {
             <h2
               className="text-[clamp(3rem,8vw,5rem)] leading-none text-white mb-16"
               style={{ fontFamily: "'Bebas Neue', cursive" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
               POURQUOI NOUS CHOISIR
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1552,9 +1553,9 @@ export default function Impact199Page() {
             <h2
               className="text-[clamp(3rem,8vw,5rem)] leading-none text-white"
               style={{ fontFamily: "'Bebas Neue', cursive" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
               TÉMOIGNAGES
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
 

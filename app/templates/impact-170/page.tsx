@@ -17,7 +17,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -946,7 +948,9 @@ export default function Impact170Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   PROJECTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PROJECTS_SOURCE[i % PROJECTS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     PROJECTS_SOURCE,
@@ -1351,11 +1355,11 @@ export default function Impact170Page() {
                   lineHeight: 1.1,
                   letterSpacing: "-0.02em",
                 }}
-              >{c?.heroHeadline ?? <>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
                 Rafaël
                 <br />
                 <span style={{ color: C.green }}>Moreau</span>
-              </>}</h1>
+              </>}</>)}</h1>
             </TextReveal>
 
             <TextReveal immediate delay={0.1}>
@@ -1653,9 +1657,9 @@ export default function Impact170Page() {
                   letterSpacing: "-0.02em",
                   lineHeight: 1.15,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "experience.titre") ?? (<>
                 Expérience
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
 
@@ -1706,9 +1710,9 @@ export default function Impact170Page() {
                 letterSpacing: "-0.02em",
                 lineHeight: 1.15,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "projects.titre") ?? (<>
               Projets notables
-            </h2>
+            </>)}</h2>
           </TextReveal>
         </div>
 
@@ -1761,9 +1765,9 @@ export default function Impact170Page() {
                   letterSpacing: "-0.02em",
                   lineHeight: 1.15,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "oss.titre") ?? (<>
                 Open Source
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
 
@@ -1874,9 +1878,9 @@ export default function Impact170Page() {
                   lineHeight: 1.15,
                   marginBottom: 24,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Travaillons ensemble
-              </h2>
+              </>)}</h2>
             </TextReveal>
             <p
               style={{

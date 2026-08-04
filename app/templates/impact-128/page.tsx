@@ -12,6 +12,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -209,9 +210,9 @@ export default function HavenEstatesPage() {
               <div className="flex justify-between items-end mb-20">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b8860b)] block mb-4">Current Portfolio</span>
-                  <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                  <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
                     Featured <em className="text-[var(--brand,#b8860b)]">Listings.</em>
-                  </h2>
+                  </>)}</h2>
                 </div>
               </div>
             </Reveal>
@@ -257,9 +258,9 @@ export default function HavenEstatesPage() {
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b8860b)] block mb-4">Advisory</span>
-                <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                   Private <em className="text-[var(--brand,#b8860b)]">Services.</em>
-                </h2>
+                </>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -284,9 +285,9 @@ export default function HavenEstatesPage() {
             <Reveal>
               <div className="text-center mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b8860b)] block mb-4">Client Voices</span>
-                <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
                   Trusted by the <em className="text-[var(--brand,#b8860b)]">World&apos;s Best.</em>
-                </h2>
+                </>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -348,9 +349,9 @@ export default function HavenEstatesPage() {
           </div>
           <div className="relative z-10 text-center text-white px-6">
             <Reveal>
-              <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>
+              <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Find Your<br/><em className="text-[var(--brand,#b8860b)]">Haven.</em>
-              </h2>
+              </>)}</h2>
               <button className="px-12 py-5 bg-white text-[#1a1a1a] font-bold rounded-full hover:bg-[var(--brand,#b8860b)] hover:text-white transition-all duration-500">
                 Schedule Private Viewing
               </button>

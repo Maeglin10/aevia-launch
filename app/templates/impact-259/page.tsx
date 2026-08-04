@@ -18,6 +18,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1205,12 +1206,12 @@ function MenuCards() {
               margin: '18px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "menu.titre") ?? (<>
             De 7h à 18h,{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               tout est fait maison.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1440,12 +1441,12 @@ function SourcingPanel() {
                 margin: '18px 0 52px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "sourcing.titre") ?? (<>
               Local par{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 conviction.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1569,12 +1570,12 @@ function Testimonials() {
               margin: '18px 0 0',
               lineHeight: 1.08,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             La parole de{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               nos habitués.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
 
@@ -1763,12 +1764,12 @@ function ReservationForm() {
               margin: '20px 0 14px',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "reservation.titre") ?? (<>
             Votre commande,{' '}
             <span style={{ fontStyle: 'italic', color: C.accentLight }}>
               sur mesure.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <Reveal delay={0.14}>

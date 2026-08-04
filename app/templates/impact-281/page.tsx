@@ -26,6 +26,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1051,12 +1052,12 @@ function ServicesSection() {
               margin: '20px 0 0',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Trois savoir-faire,{' '}
             <span style={{ fontStyle: 'italic', color: C.goldLight }}>
               une exigence
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1194,12 +1195,12 @@ function ProcessSection() {
                 margin: '20px 0 56px',
                 lineHeight: 1.05,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "processus.titre") ?? (<>
               De la première mesure{' '}
               <span style={{fontStyle: 'italic', color: brand ?? 'var(--brand,#7a5c2e)' }}>
                 à la dernière épingle
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1435,12 +1436,12 @@ function TestimonialsSection() {
               color: C.ink,
               margin: '20px 0 0',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             Des moments{' '}
             <span style={{fontStyle: 'italic', color: brand ?? 'var(--brand,#7a5c2e)' }}>
               inoubliables
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1562,10 +1563,10 @@ function AppointmentFormSection() {
               margin: '22px 0 18px',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "rendez-vous.titre") ?? (<>
             Votre projet{' '}
             <span style={{ fontStyle: 'italic', color: C.goldLight }}>commence ici</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p
@@ -1907,12 +1908,12 @@ function MaterialsSection() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "materiaux.titre") ?? (<>
             L&apos;étoffe fait{' '}
             <span style={{fontStyle: 'italic', color: brand ?? 'var(--brand,#7a5c2e)' }}>
               la tenue
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p
@@ -2006,12 +2007,12 @@ function AtelierSection() {
               margin: '22px 0 26px',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "atelier.titre") ?? (<>
             Trente-cinq ans{' '}
             <span style={{ fontStyle: 'italic', color: C.goldLight }}>
               d&apos;excellence
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.18}>
           <p
@@ -2301,12 +2302,12 @@ function CreationsSection() {
               margin: '20px 0 0',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "creations.titre") ?? (<>
             L&apos;art de la{' '}
             <span style={{ fontStyle: 'italic', color: C.goldLight }}>
               silhouette
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p

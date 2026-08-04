@@ -12,7 +12,9 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -167,7 +169,9 @@ export default function TattooStudioHome() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   
@@ -192,7 +196,7 @@ return (
               <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: C.accent }}>The Artists</span>
               <div style={{ width: 32, height: 1, background: C.accent }} />
             </div>
-            <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(36px, 5vw, 60px)", color: C.white, margin: "0 0 16px", fontWeight: 700 }}>Two Masters. One Studio.</h2>
+            <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(36px, 5vw, 60px)", color: C.white, margin: "0 0 16px", fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Two Masters. One Studio.</>)}</h2>
             <p style={{ fontFamily: "'Barlow', system-ui", fontSize: 16, color: C.textMuted, lineHeight: 1.7, maxWidth: 520, margin: "0 auto" }}>
               Paris's finest fine-line and blackwork artists, each with a decade-plus of mastery.
             </p>
@@ -267,7 +271,7 @@ return (
                 <div style={{ width: 32, height: 1, background: C.accent }} />
                 <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: C.accent }}>Portfolio Gallery</span>
               </div>
-              <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(32px, 4vw, 52px)", color: C.white, margin: 0, fontWeight: 700 }}>Selected Works</h2>
+              <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(32px, 4vw, 52px)", color: C.white, margin: 0, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Selected Works</>)}</h2>
             </div>
             <Link href="/templates/impact-45/portfolio" style={{ textDecoration: "none", fontFamily: "'Barlow', system-ui", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: C.textMuted, borderBottom: `1px solid ${C.border}`, paddingBottom: 2 }}>
               View All →
@@ -315,7 +319,7 @@ return (
       <section style={{ background: C.bgAlt, padding: "120px 24px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 64, textAlign: "center" }}>
-            <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(32px, 4vw, 52px)", color: C.white, margin: 0, fontWeight: 700 }}>Client Testimonials</h2>
+            <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(32px, 4vw, 52px)", color: C.white, margin: 0, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Client Testimonials</>)}</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="two-col imx-mobstack">
             {testimonials.slice(0, 2).map((t) => (
@@ -339,7 +343,7 @@ return (
       {/* Booking CTA */}
       <section style={{ background: C.bg, padding: "120px 24px", textAlign: "center" }}>
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(36px, 5vw, 60px)", color: C.white, margin: "0 0 24px", fontWeight: 700 }}>Start Your Project</h2>
+          <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(36px, 5vw, 60px)", color: C.white, margin: "0 0 24px", fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Start Your Project</>)}</h2>
           <p style={{ fontFamily: "'Barlow', system-ui", fontSize: 17, color: C.textMuted, lineHeight: 1.75, marginBottom: 40 }}>
             Ready to secure your spot with Mara or Théo? Request your consultation session today.
           </p>

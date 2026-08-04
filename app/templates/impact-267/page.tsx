@@ -20,6 +20,7 @@ import {
   clientServices,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1212,10 +1213,10 @@ function ArtistCards() {
               margin: 'clamp(16px,2.5vw,28px) 0 0',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "artistes.titre") ?? (<>
             Quatre artistes,{' '}
             <span style={{ color: C.accent }}>un seul standard.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1445,10 +1446,10 @@ function SafetyPanel() {
                 margin: 'clamp(16px,2.2vw,28px) 0 clamp(40px,5vw,72px)',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hygiene.titre") ?? (<>
               Votre peau mérite{' '}
               <span style={{ color: C.accent }}>le meilleur.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1560,10 +1561,10 @@ function Testimonials() {
               margin: 'clamp(16px,2.2vw,26px) 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             L&apos;encre raconte{' '}
             <span style={{ color: C.accent }}>leurs histoires.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
 
@@ -1732,9 +1733,9 @@ function BookingForm() {
                   margin: 'clamp(18px,3vw,28px) 0 clamp(12px,2vw,18px)',
                   lineHeight: 1.1,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "reservation.titre") ?? (<>
                 Merci {prenom},
-              </h3>
+              </>)}</h3>
               <p
                 style={{
                   fontFamily: SANS,
@@ -1795,10 +1796,10 @@ function BookingForm() {
               margin: 'clamp(18px,2.5vw,30px) 0 clamp(14px,2vw,20px)',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "reservation.titre") ?? (<>
             Votre projet{' '}
             <span style={{ color: C.accent }}>commence ici.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.18}>
           <p

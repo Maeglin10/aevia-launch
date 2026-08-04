@@ -15,7 +15,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -162,7 +164,9 @@ export default function AetherRoasteryPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   EXPERTISE = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EXPERTISE_SOURCE[i % EXPERTISE_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     EXPERTISE_SOURCE,
@@ -284,9 +288,9 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">
               WORK_REEL // SELECTED_PROJECTS
             </span>
-            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter italic text-white mb-20 pb-2 leading-[1.1]">
+            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter italic text-white mb-20 pb-2 leading-[1.1]">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
               Projects.
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
@@ -341,9 +345,9 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">
               EXPERTISE_MATRIX // CORE_DOMAINS
             </span>
-            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 pb-2 leading-[1.1]">
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 pb-2 leading-[1.1]">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
               What we do.
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
@@ -386,9 +390,9 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">
               PROCESS_SEQUENCE // HOW_WE_WORK
             </span>
-            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 pb-2 leading-[1.1]">
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 pb-2 leading-[1.1]">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Method.
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
@@ -442,9 +446,9 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">
               CLIENT_SIGNALS // TESTIMONIALS
             </span>
-            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 pb-2 leading-[1.1]">
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 pb-2 leading-[1.1]">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               They said.
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
@@ -479,7 +483,7 @@ return (
             <div>
               <Reveal>
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">RECOGNITION_LOG // AWARDS</span>
-                <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">Awards.</h2>
+                <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Awards.</>)}</h2>
               </Reveal>
               <div className="divide-y divide-white/5">
                 {[
@@ -550,7 +554,7 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">ENGAGEMENT_MODEL // PRICING</span>
-            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">Investment.</h2>
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>Investment.</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
             {[

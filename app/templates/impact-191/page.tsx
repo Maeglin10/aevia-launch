@@ -13,7 +13,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -139,9 +141,11 @@ export default function JardinsVivantsPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
   ZONES_DEMO = ZONES_DEMO_LIVE();
+
 
 
   PRESTATIONS_DEMO = resolveList(
@@ -298,9 +302,9 @@ export default function JardinsVivantsPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2d5a27)] mb-4">Ce qu'on sait faire</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "prestations.titre") ?? (<>
                 De la graine<br /><span className="text-[var(--brand,#2d5a27)] italic">au paradis vert.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -326,7 +330,7 @@ export default function JardinsVivantsPage() {
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-12">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2d5a27)] mb-4">Portfolio</div>
-            <h2 className="text-4xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>Nos <span className="text-[var(--brand,#2d5a27)] italic">créations.</span></h2>
+            <h2 className="text-4xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Nos <span className="text-[var(--brand,#2d5a27)] italic">créations.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 h-[65vh] min-h-[420px]">
             <div className="col-span-2 relative overflow-hidden rounded-xl"><ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=85&w=1200")} alt="Jardin créé" /></div>
@@ -343,7 +347,7 @@ export default function JardinsVivantsPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2d5a27)] mb-4">Devis</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>Comment on <span className="italic text-[var(--brand,#2d5a27)]">chiffre.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "devis.titre") ?? (<>Comment on <span className="italic text-[var(--brand,#2d5a27)]">chiffre.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {DEVIS_ETAPES.map((e, i) => (
@@ -364,7 +368,7 @@ export default function JardinsVivantsPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#7cb342)] mb-4">Zone d'intervention</div>
-            <h2 className="text-4xl md:text-5xl font-bold" style={{ fontFamily: "'Cardo', serif" }}>Jusqu'où on <span className="italic text-[var(--brand,#7cb342)]">se déplace.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold" style={{ fontFamily: "'Cardo', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "zone.titre") ?? (<>Jusqu'où on <span className="italic text-[var(--brand,#7cb342)]">se déplace.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
             {ZONES.map((z, i) => (
@@ -386,7 +390,7 @@ export default function JardinsVivantsPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2d5a27)] mb-4">Avis clients</div>
-            <h2 className="text-4xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>Ils ont un <span className="text-[var(--brand,#2d5a27)] italic">jardin dont ils sont fiers.</span></h2>
+            <h2 className="text-4xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ils ont un <span className="text-[var(--brand,#2d5a27)] italic">jardin dont ils sont fiers.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {temoignages.map((t: any, i: number) => (
@@ -414,9 +418,9 @@ export default function JardinsVivantsPage() {
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-6">Votre projet</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Cardo', serif" }}>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Cardo', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Et si votre jardin<br /><span className="italic">devenait vivant ?</span>
-            </h2>
+            </>)}</h2>
             <p className="text-white/50 mb-10 text-sm">Devis gratuit sous 48h · {clientCity({ formData: fd }) ?? "Annecy"} & Haute-Savoie · Paysagiste qualifié RGE</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#2d5a27)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f7f0] transition-colors rounded-lg shadow-lg">

@@ -38,6 +38,7 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -761,12 +762,12 @@ export default function Impact173Page() {
               textTransform: "uppercase",
               color: C.text,
               marginBottom: 0,
-            }}>{c?.heroHeadline ?? <>
+            }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
               ON<br />
               <span style={{ WebkitTextStroke: `2px ${C.orange}`, WebkitTextFillColor: "transparent", color: "transparent" }}>
                 BÂTIT.
               </span>
-            </>}</h1>
+            </>}</>)}</h1>
             <div className="imx-hero173-h1" style={{
               fontFamily: FONT_HEADING,
               fontSize: "clamp(72px, 11vw, 160px)",
@@ -899,9 +900,9 @@ export default function Impact173Page() {
               <h2 style={{
                 fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)",
                 fontWeight: 700, letterSpacing: -2, textTransform: "uppercase", lineHeight: 0.95,
-              }}>
+              }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                 NOS<br />CHANTIERS
-              </h2>
+              </>)}</h2>
             </div>
             {/* Filters */}
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -1083,7 +1084,7 @@ export default function Impact173Page() {
           <h2 style={{
             fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)",
             fontWeight: 700, letterSpacing: -2, textTransform: "uppercase", lineHeight: 0.95, marginBottom: 72,
-          }}>NOS MÉTIERS</h2>
+          }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>NOS MÉTIERS</>)}</h2>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
             {METIERS.map((s, i) => {
@@ -1143,7 +1144,7 @@ export default function Impact173Page() {
               <h2 style={{
                 fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)",
                 fontWeight: 700, letterSpacing: -2, textTransform: "uppercase", lineHeight: 0.95,
-              }}>L'ÉQUIPE<br />DIRIGEANTE</h2>
+              }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>L'ÉQUIPE<br />DIRIGEANTE</>)}</h2>
             </div>
             <p style={{ maxWidth: 380, fontSize: 15, color: C.textSub, lineHeight: 1.9 }}>
               Des ingénieurs et managers formés sur le terrain. Chaque décision de chantier est prise par des techniciens qui connaissent le béton, le bois et l'acier.
@@ -1195,9 +1196,9 @@ export default function Impact173Page() {
             fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)",
             fontWeight: 700, letterSpacing: -2, textTransform: "uppercase",
             lineHeight: 0.95, marginBottom: 72,
-          }}>
+          }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             ILS NOUS FONT<br />CONFIANCE
-          </h2>
+          </>)}</h2>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32 }}>
             {TESTIMONIALS.map((t, i) => (
@@ -1247,7 +1248,7 @@ export default function Impact173Page() {
             <h2 style={{
               fontFamily: FONT_HEADING, fontSize: "clamp(40px, 6vw, 80px)",
               fontWeight: 700, letterSpacing: -2, textTransform: "uppercase", lineHeight: 0.95,
-            }}>COMMENT TRAVAILLER<br />AVEC NOUS</h2>
+            }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>COMMENT TRAVAILLER<br />AVEC NOUS</>)}</h2>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
@@ -1318,7 +1319,7 @@ export default function Impact173Page() {
           <h2 style={{
             fontFamily: FONT_HEADING, fontSize: "clamp(36px, 5vw, 60px)",
             fontWeight: 700, letterSpacing: -1, textTransform: "uppercase", marginBottom: 64,
-          }}>FAQ</h2>
+          }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>FAQ</>)}</h2>
 
           {FAQS.map((f, i) => (
             <div key={i} style={{ borderBottom: `1px solid ${C.border}` }}>
@@ -1391,9 +1392,9 @@ export default function Impact173Page() {
               fontFamily: FONT_HEADING, fontSize: "clamp(44px, 7vw, 96px)",
               fontWeight: 700, letterSpacing: -3, textTransform: "uppercase",
               color: "#fff", lineHeight: 0.9, marginBottom: 36,
-            }}>
+            }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               VOTRE PROJET,<br />NOTRE<br />CHANTIER.
-            </h2>
+            </>)}</h2>
             <p style={{ fontSize: 15, color: "rgba(255,255,255,0.8)", lineHeight: 1.9, maxWidth: 400 }}>
               Envoyez-nous vos plans, cahier des charges, ou juste quelques lignes sur votre projet. Nous revenons vers vous avec une approche et une première estimation.
             </p>

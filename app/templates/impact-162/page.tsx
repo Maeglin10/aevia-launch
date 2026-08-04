@@ -12,6 +12,7 @@ import {
   clientCity,
   clientName,
   clientReviews,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -321,9 +322,9 @@ return (
           <div className="text-center mb-14">
             <Reveal>
               <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B5E3C)] mb-4">La carte</p>
-              <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "menu.titre") ?? (<>
                 Ce que nous vous <em>proposons</em>
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -404,7 +405,7 @@ return (
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
             <div className="flex items-center justify-between mb-10">
-              <h2 className="text-3xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>L&apos;ambiance du lieu</h2>
+              <h2 className="text-3xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>L&apos;ambiance du lieu</>)}</h2>
               <Link href="#galerie" className="flex items-center gap-2 text-sm text-[var(--brand,#8B5E3C)] cursor-pointer hover:gap-3 transition-all duration-200">
                 <Instagram className="w-4 h-4" /> @lematindore
               </Link>
@@ -437,9 +438,9 @@ return (
         <div className="max-w-5xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-xs tracking-[0.25em] uppercase text-[#C9A86C] mb-4 text-center">Avis</p>
-            <h2 className="text-3xl font-light text-center mb-14" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h2 className="text-3xl font-light text-center mb-14" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Ce qu&apos;ils <em>disent</em>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-8">
             {TESTIMONIALS.map((t, i) => (
@@ -464,9 +465,9 @@ return (
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B5E3C)] mb-4">Agenda</p>
-            <h2 className="text-3xl font-light mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h2 className="text-3xl font-light mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               À venir au café
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {[
@@ -497,9 +498,9 @@ return (
             <div>
               <Reveal>
                 <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B5E3C)] mb-4">Nous trouver</p>
-                <h2 className="text-4xl md:text-5xl font-light leading-tight mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>
+                <h2 className="text-4xl md:text-5xl font-light leading-tight mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "nous-trouver.titre") ?? (<>
                   Venez nous <em>rendre visite</em>
-                </h2>
+                </>)}</h2>
                 <div className="space-y-5 mb-10">
                   {[{ Icon: MapPin, text: `34 rue de la Roquette, 75011 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: "+33 1 43 48 22 10" }, { Icon: Mail, text: (fd?.email ?? "bonjour@lematindore.fr") }, { Icon: Instagram, text: "@lematindore" }].map(({ Icon, text }) => (
                     <div key={text} className="flex items-center gap-4 text-sm text-[#6B5A40]">

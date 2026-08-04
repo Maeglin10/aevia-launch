@@ -13,7 +13,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -227,10 +229,12 @@ export default function FormeStudioPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   timeline = timeline_LIVE();
   pricingTiers = pricingTiers_LIVE();
+
 
 
 
@@ -414,7 +418,7 @@ return (
               <Reveal className="flex items-end justify-between mb-12">
                 <div>
                   <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Travaux récents</p>
-                  <h2 className="text-gray-900 text-4xl font-bold">Projets sélectionnés</h2>
+                  <h2 className="text-gray-900 text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Projets sélectionnés</>)}</h2>
                 </div>
                 <button onClick={() => goTo("travaux")} className="text-gray-400 text-sm hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer flex items-center gap-1 bg-transparent border-none p-0">
                   Tout voir <ChevronRight className="w-4 h-4" />
@@ -461,7 +465,7 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Expertises</p>
-                <h2 className="text-gray-900 text-4xl font-bold">Ce que nous faisons</h2>
+                <h2 className="text-gray-900 text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Ce que nous faisons</>)}</h2>
               </Reveal>
               <div className="grid md:grid-cols-2 gap-5">
                 {disciplines.map((d, i) => (
@@ -482,7 +486,7 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Notre méthode</p>
-                <h2 className="text-white text-4xl font-bold">Du brief au lancement</h2>
+                <h2 className="text-white text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Du brief au lancement</>)}</h2>
               </Reveal>
               <div className="grid md:grid-cols-4 gap-6">
                 {process.map((step, i) => (
@@ -513,7 +517,7 @@ return (
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
                 <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-4">Travaillons ensemble</p>
-                <h2 className="text-gray-900 text-5xl font-bold mb-4">Vous avez un projet ?</h2>
+                <h2 className="text-gray-900 text-5xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Vous avez un projet ?</>)}</h2>
                 <p className="text-gray-500 text-lg max-w-md mx-auto mb-10">On est curieux. Parlez-nous de votre produit, de vos contraintes et de vos ambitions.</p>
                 <button onClick={() => goTo("contact")} className="bg-gray-900 text-white font-bold px-10 py-4 rounded-xl hover:bg-[var(--brand,#F97316)] transition-colors cursor-pointer text-lg flex items-center gap-2 mx-auto">
                   <Mail className="w-5 h-5" />{fd?.email ?? "hello@formedstudio.fr"}</button>
@@ -532,9 +536,9 @@ return (
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
-                <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-none mb-6">
+                <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-none mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
                   Nos <em className="font-light text-[var(--brand,#F97316)]">travaux</em>
-                </h1>
+                </>)}</h1>
               </Reveal>
               <Reveal delay={0.2}>
                 <p className="text-gray-500 text-xl max-w-2xl leading-relaxed">{c?.aboutText ?? <>
@@ -594,7 +598,7 @@ return (
           <section className="py-20 px-6 bg-gray-900">
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
-                <h2 className="text-white text-4xl font-bold mb-4">Votre produit pourrait être ici</h2>
+                <h2 className="text-white text-4xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>Votre produit pourrait être ici</>)}</h2>
                 <p className="text-gray-400 text-lg mb-8">Rejoignez les marques qui nous ont fait confiance pour donner forme à leurs idées.</p>
                 <button onClick={() => goTo("contact")} className="bg-[var(--brand,#F97316)] text-white font-bold px-8 py-4 rounded-xl hover:bg-[var(--brand,#F97316)]/90 transition-colors cursor-pointer flex items-center gap-2 mx-auto">
                   Lancer un projet <ArrowRight className="w-4 h-4" />
@@ -614,9 +618,9 @@ return (
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
-                <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-none mb-6">
+                <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-none mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                   Nos <em className="font-light text-[var(--brand,#F97316)]">expertises</em>
-                </h1>
+                </>)}</h1>
               </Reveal>
               <Reveal delay={0.2}>
                 <p className="text-gray-500 text-xl max-w-2xl leading-relaxed">
@@ -636,7 +640,7 @@ return (
                     <div className="w-14 h-14 rounded-2xl bg-[var(--brand,#F97316)]/10 flex items-center justify-center text-[var(--brand,#F97316)] mb-6">
                       <Package className="w-7 h-7" />
                     </div>
-                    <h2 className="text-gray-900 text-3xl font-bold mb-4">Packaging & Branding</h2>
+                    <h2 className="text-gray-900 text-3xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>Packaging & Branding</>)}</h2>
                     <p className="text-gray-500 leading-relaxed mb-6">
                       Nous concevons des packagings qui capturent l'essence de votre marque. Du concept au fichier de production, chaque détail est pensé pour maximiser l'impact en rayon et sur les réseaux sociaux.
                     </p>
@@ -754,7 +758,7 @@ return (
                 <div className="w-14 h-14 rounded-2xl bg-[var(--brand,#F97316)]/10 flex items-center justify-center text-[var(--brand,#F97316)] mx-auto mb-6">
                   <Lightbulb className="w-7 h-7" />
                 </div>
-                <h2 className="text-gray-900 text-4xl font-bold mb-4">Workshops de co-design</h2>
+                <h2 className="text-gray-900 text-4xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-12.titre") ?? (<>Workshops de co-design</>)}</h2>
                 <p className="text-gray-500 text-lg max-w-xl mx-auto mb-8">
                   Deux jours d'immersion créative avec notre équipe. Idéation, prototypage rapide et feuille de route design pour votre prochain lancement.
                 </p>
@@ -778,9 +782,9 @@ return (
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
-                <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-none mb-6">
+                <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-none mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "section-13.titre") ?? (<>
                   Le <em className="font-light text-[var(--brand,#F97316)]">studio</em>
-                </h1>
+                </>)}</h1>
               </Reveal>
               <Reveal delay={0.2}>
                 <p className="text-gray-500 text-xl max-w-2xl leading-relaxed">
@@ -797,7 +801,7 @@ return (
                 <Reveal>
                   <div>
                     <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Notre manifeste</p>
-                    <h2 className="text-gray-900 text-4xl font-bold mb-8">Le design qui dure est un acte de responsabilité</h2>
+                    <h2 className="text-gray-900 text-4xl font-bold mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-14.titre") ?? (<>Le design qui dure est un acte de responsabilité</>)}</h2>
                     <div className="space-y-6 text-gray-500 leading-relaxed">
                       <p>
                         Nous refusons l'obsolescence programmée et le design cosmétique. Chaque ligne que nous traçons, chaque matériau que nous choisissons, est pensé pour créer un objet qui accompagnera son utilisateur pendant des années.
@@ -838,7 +842,7 @@ return (
             <div className="max-w-4xl mx-auto">
               <Reveal className="mb-16 text-center">
                 <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Notre parcours</p>
-                <h2 className="text-gray-900 text-4xl font-bold">Une décennie de design</h2>
+                <h2 className="text-gray-900 text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-15.titre") ?? (<>Une décennie de design</>)}</h2>
               </Reveal>
               <div className="relative">
                 <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gray-200 -translate-x-1/2" />
@@ -873,7 +877,7 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Reconnaissance</p>
-                <h2 className="text-white text-4xl font-bold">18 prix internationaux</h2>
+                <h2 className="text-white text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>18 prix internationaux</>)}</h2>
               </Reveal>
               <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-5">
                 {awards.map((a, i) => (
@@ -897,7 +901,7 @@ return (
                 <div className="w-14 h-14 rounded-2xl bg-[var(--brand,#F97316)]/10 flex items-center justify-center text-[var(--brand,#F97316)] mx-auto mb-6">
                   <Globe className="w-7 h-7" />
                 </div>
-                <h2 className="text-gray-900 text-4xl font-bold mb-6">Design durable</h2>
+                <h2 className="text-gray-900 text-4xl font-bold mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "section-17.titre") ?? (<>Design durable</>)}</h2>
                 <p className="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed mb-10">
                   Depuis 2021, Forme Studio est certifié B Corp. Nous avons réduit de 40% l'empreinte carbone de nos processus de prototypage en adoptant des matériaux biosourcés et des filières de recyclage locales. Chaque projet intègre une analyse de cycle de vie dès la phase de concept.
                 </p>
@@ -926,9 +930,9 @@ return (
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
-                <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-none mb-6">
+                <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-none mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "section-18.titre") ?? (<>
                   Nouveau <em className="font-light text-[var(--brand,#F97316)]">projet</em>
-                </h1>
+                </>)}</h1>
               </Reveal>
               <Reveal delay={0.2}>
                 <p className="text-gray-500 text-xl max-w-2xl leading-relaxed">
@@ -944,7 +948,7 @@ return (
               <div className="grid md:grid-cols-5 gap-12">
                 <div className="md:col-span-3">
                   <Reveal>
-                    <h2 className="text-gray-900 text-2xl font-bold mb-8">Décrivez votre projet</h2>
+                    <h2 className="text-gray-900 text-2xl font-bold mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-19.titre") ?? (<>Décrivez votre projet</>)}</h2>
                     <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -1034,7 +1038,7 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal className="text-center mb-16">
                 <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Tarification indicative</p>
-                <h2 className="text-gray-900 text-4xl font-bold mb-4">Nos formules</h2>
+                <h2 className="text-gray-900 text-4xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-20.titre") ?? (<>Nos formules</>)}</h2>
                 <p className="text-gray-500 max-w-lg mx-auto">Chaque projet est unique. Ces tarifs sont indicatifs et servent de base à la discussion.</p>
               </Reveal>
               <div className="grid md:grid-cols-3 gap-6">
@@ -1083,7 +1087,7 @@ return (
               <Reveal>
                 <div className="space-y-8">
                   <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100">
-                    <h3 className="text-gray-900 text-lg font-bold mb-4">Éditeur du site</h3>
+                    <h3 className="text-gray-900 text-lg font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Éditeur du site</>)}</h3>
                     <p className="text-gray-600 leading-relaxed">
                       Aevia WS — Valentin Milliand, entrepreneur individuel.<br />
                       SIREN : <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.<br />

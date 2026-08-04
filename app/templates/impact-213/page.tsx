@@ -24,6 +24,7 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1002,10 +1003,10 @@ function Services() {
               marginTop: 12,
               letterSpacing: 1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Des métiers du bâtiment{' '}
             <span style={{ color: C.accent }}>maîtrisés</span>
-          </h2>
+          </>)}</h2>
         </div>
 
         <div
@@ -1166,10 +1167,10 @@ function Process() {
               marginTop: 12,
               letterSpacing: 1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
             Un processus <span style={{ color: C.accent }}>clair</span>{' '}
             du premier contact à la livraison
-          </h2>
+          </>)}</h2>
         </div>
         <div className="grid-process">
           {steps.map((s, i) => (
@@ -1354,10 +1355,10 @@ function APropos() {
                 marginBottom: 28,
                 letterSpacing: 1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "apropos.titre") ?? (<>
               22 ans au service{' '}
               <span style={{ color: C.accent }}>du bâti lyonnais</span>
-            </h2>
+            </>)}</h2>
             <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.8, marginBottom: 20 }}>
               Fondée en 2002 par Marc Durand, compagnon du devoir, l'entreprise Bâtisseurs Durand s'est
               bâtie sur un principe simple : un chantier bien fait, c'est un chantier dont le client est
@@ -1637,10 +1638,10 @@ function Realisations() {
               marginTop: 12,
               letterSpacing: 1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
             Nos dernières{' '}
             <span style={{ color: C.accent }}>réalisations</span>
-          </h2>
+          </>)}</h2>
           <motion.p
             initial={{ opacity: 0 }}
             animate={titleInView ? { opacity: 1 } : {}}
@@ -1839,10 +1840,10 @@ function Team() {
               marginTop: 12,
               letterSpacing: 1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>
             Des experts{' '}
             <span style={{ color: C.accent }}>passionnés</span>
-          </h2>
+          </>)}</h2>
           <motion.p
             initial={{ opacity: 0 }}
             animate={titleInView ? { opacity: 1 } : {}}
@@ -2013,10 +2014,10 @@ function Testimonials() {
               marginTop: 12,
               letterSpacing: 1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
             La confiance de nos{' '}
             <span style={{ color: C.accent }}>clients</span>
-          </h2>
+          </>)}</h2>
           <motion.div
             initial={{ opacity: 0 }}
             animate={titleInView ? { opacity: 1 } : {}}
@@ -2221,10 +2222,10 @@ function FAQ() {
               marginTop: 12,
               letterSpacing: 1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
             Vos questions,{' '}
             <span style={{ color: C.accent }}>nos réponses</span>
-          </h2>
+          </>)}</h2>
         </div>
 
         <motion.div
@@ -2330,10 +2331,10 @@ function ContactForm() {
                 letterSpacing: 1,
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Devis gratuit{' '}
               <span style={{ color: C.accent }}>en 48h</span>
-            </h2>
+            </>)}</h2>
             <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.8, marginBottom: 48 }}>
               Décrivez votre projet, nous vous rappelons rapidement pour organiser une visite technique
               sans engagement. Chaque devis est détaillé, transparent et gratuit.

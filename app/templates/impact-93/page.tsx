@@ -34,6 +34,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -496,12 +497,12 @@ export default function VelocityJetsPage() {
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-4 block">
                 The Velocity Standard
               </span>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Aerodynamic{" "}
                 <span className="not-italic font-thin text-white">
                   Efficiency.
                 </span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -589,9 +590,9 @@ export default function VelocityJetsPage() {
           <Reveal>
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
               <div>
-                <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-6 uppercase">
+                <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-6 uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "fleet.titre") ?? (<>
                   The <br /> <span className="text-[var(--brand,#00f2ff)]">Fleet.</span>
-                </h2>
+                </>)}</h2>
                 <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
                   Curated Aircraft for Global Reach
                 </p>
@@ -689,10 +690,10 @@ export default function VelocityJetsPage() {
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-4 block">
                 Telemetry of Trust
               </span>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">{/* TEXTE_SECTION */ clientText(sessionData, "testimonials.titre") ?? (<>
                 Endorsed by <br />
                 <span className="not-italic font-thin text-white">Global Operators.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           
@@ -726,9 +727,9 @@ export default function VelocityJetsPage() {
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-8 block">
               Live Network Status
             </span>
-            <h2 className="text-5xl md:text-8xl font-black italic tracking-tighter leading-[0.8] mb-10 uppercase">
+            <h2 className="text-5xl md:text-8xl font-black italic tracking-tighter leading-[0.8] mb-10 uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
               Terminal <br /> <span className="text-white">Telemetry.</span>
-            </h2>
+            </>)}</h2>
             <p className="text-black/60 text-lg leading-relaxed mb-12 italic font-light">
               Our proprietary dispatch AI monitors 2,800 aircraft across 5
               partner networks to ensure 100% mission readiness at any
@@ -807,10 +808,10 @@ export default function VelocityJetsPage() {
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-4 block">
                 Aviation Operations FAQ
               </span>
-              <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic">
+              <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic">{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
                 Frequently <br />
                 <span className="not-italic font-thin text-white">Asked Questions.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -838,10 +839,10 @@ export default function VelocityJetsPage() {
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-8 block">
               Flight Dispatch Desk
             </span>
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Request <br />
               <span className="not-italic font-thin text-white">A Quote.</span>
-            </h2>
+            </>)}</h2>
             <p className="text-white/40 text-lg leading-relaxed mb-12 font-light italic">
               Contact our operations desk to coordinate your next flight. Instant logistics mapping for any destination worldwide.
             </p>

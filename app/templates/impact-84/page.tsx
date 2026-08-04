@@ -24,7 +24,9 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -114,8 +116,10 @@ export default function CypherClinicPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   MEDECINS_DEMO = MEDECINS_DEMO_LIVE();
+
 
   TEMOIGNAGES_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], name: r.author, text: r.text })),
@@ -212,9 +216,9 @@ return (
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand)] mb-6">Nos Expertises</p>
-            <h2 className="text-4xl md:text-5xl font-light mb-20 max-w-xl leading-snug" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+            <h2 className="text-4xl md:text-5xl font-light mb-20 max-w-xl leading-snug" style={{ fontFamily: "'Bodoni Moda', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
               Des protocoles conçus<br />pour <em>votre morphologie</em>.
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {protocoles.map((p: any, i: number) => (
@@ -277,7 +281,7 @@ return (
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand)] mb-6">Patients</p>
-            <h2 className="text-3xl font-light mb-16" style={{ fontFamily: "'Bodoni Moda', serif" }}>Ce qu'ils ont vécu.</h2>
+            <h2 className="text-3xl font-light mb-16" style={{ fontFamily: "'Bodoni Moda', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Ce qu'ils ont vécu.</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {temoignages.map((t: any, i: number) => (
@@ -300,7 +304,7 @@ return (
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand)] mb-6">Notre équipe</p>
-            <h2 className="text-3xl font-light mb-16" style={{ fontFamily: "'Bodoni Moda', serif" }}>Les médecins.</h2>
+            <h2 className="text-3xl font-light mb-16" style={{ fontFamily: "'Bodoni Moda', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Les médecins.</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {medecins.map((m: any, i: number) => (
@@ -329,9 +333,9 @@ return (
         <div className="max-w-3xl mx-auto px-6 text-center">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.5em] text-[#0C0C0A]/60 mb-6">Premier rendez-vous</p>
-            <h2 className="text-4xl font-light text-[#0C0C0A] mb-8 leading-snug" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+            <h2 className="text-4xl font-light text-[#0C0C0A] mb-8 leading-snug" style={{ fontFamily: "'Bodoni Moda', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Commençons par<br /><em>vous écouter.</em>
-            </h2>
+            </>)}</h2>
             <p className="text-[#0C0C0A]/60 mb-10 max-w-md mx-auto leading-relaxed text-sm">
               Votre première consultation avec l'un de nos médecins est dédiée à l'écoute et au diagnostic. Aucun acte n'est réalisé lors de cette séance.
             </p>

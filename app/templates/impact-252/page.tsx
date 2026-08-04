@@ -18,6 +18,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1114,12 +1115,12 @@ function SpecialtyCards({ specialties }: { specialties: any[] }) {
               margin: '20px 0 0',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "esthetique.titre") ?? (<>
             Un soin,{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               une expertise
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1332,13 +1333,13 @@ function TechPanel() {
                 margin: '20px 0 56px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "technologie.titre") ?? (<>
               Une clinique,{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 quatre technologies
               </span>{' '}
               exclusives
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1441,12 +1442,12 @@ function Testimonials({ testimonials }: { testimonials: any[] }) {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Ils ont retrouvé{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               confiance
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1620,13 +1621,13 @@ function AppointmentForm() {
               margin: '22px 0 18px',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "rdv.titre") ?? (<>
             Votre premier
             <br />
             <span style={{ fontStyle: 'normal', color: C.accentLight }}>
               rendez-vous
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p

@@ -23,6 +23,7 @@ import {
   clientServices,
   clientStats,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -859,9 +860,9 @@ function RoomsSection({ goTo }: { goTo: (p: HotelPage) => void }) {
                 color: DARK,
                 lineHeight: 1.05,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
               Rooms &amp; Suites
-            </h2>
+            </>)}</h2>
           </BlurReveal>
         </div>
 
@@ -1060,10 +1061,10 @@ function ExperienceSection() {
                 lineHeight: 1.1,
                 maxWidth: '28rem',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
               Every Sense,<br />
               <em>Attended To</em>
-            </h2>
+            </>)}</h2>
           </div>
         </BlurReveal>
 
@@ -1254,10 +1255,10 @@ function DiningSection() {
                   lineHeight: 1.1,
                   marginBottom: '1.75rem',
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                 L'Atelier<br />
                 <em style={{ fontStyle: 'italic', color: GOLD_DIM }}>Restaurant</em>
-              </h2>
+              </>)}</h2>
               <p
                 style={{
                   fontFamily: SERIF,
@@ -1341,10 +1342,10 @@ function LocationSection() {
                   lineHeight: 1.1,
                   marginBottom: '2rem',
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 At the Heart of<br />
                 <em>the City of Light</em>
-              </h2>
+              </>)}</h2>
               <p
                 style={{
                   fontFamily: SERIF,
@@ -2288,7 +2289,7 @@ function ContactPage() {
             {sent ? (
               <div style={{ background: DARK, padding: '3.5rem 2.5rem', textAlign: 'center', borderTop: `2px solid ${GOLD}` }}>
                 <p style={{ fontSize: '1.8rem', color: GOLD, marginBottom: '1rem' }}>✦</p>
-                <h3 style={{ fontFamily: SERIF, fontSize: '1.8rem', fontWeight: 300, color: CREAM, marginBottom: '0.8rem' }}>Request sent</h3>
+                <h3 style={{ fontFamily: SERIF, fontSize: '1.8rem', fontWeight: 300, color: CREAM, marginBottom: '0.8rem' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-13.titre") ?? (<>Request sent</>)}</h3>
                 <p style={{ fontFamily: SERIF, fontSize: '1rem', fontStyle: 'italic', color: `${CREAM}70`, lineHeight: 1.7, margin: 0 }}>
                   Thank you. Our concierge will reply within 24 hours.
                 </p>
@@ -2352,7 +2353,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
         />
         <section style={{ background: CREAM, padding: '5rem 0 7rem' }}>
           <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>
-            <h2 style={{ ...sectionTitle, marginTop: 0 }}>Site publisher</h2>
+            <h2 style={{ ...sectionTitle, marginTop: 0 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-14.titre") ?? (<>Site publisher</>)}</h2>
             <p style={para}><span style={strong}>Aevia WS</span> — sole trader (auto-entrepreneur).</p>
             <p style={para}>Publication director: <span style={strong}>Valentin Milliand</span>.</p>
             <p style={para}>SIREN: <span style={strong}><LegalIdentity /></span> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}.</p>
@@ -2393,7 +2394,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
         <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>
           <p style={{ ...para, fontStyle: 'italic', color: `${DARK}60` }}>Last updated: June 2026.</p>
 
-          <h2 style={{ ...sectionTitle, marginTop: '1.5rem' }}>Data controller</h2>
+          <h2 style={{ ...sectionTitle, marginTop: '1.5rem' }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Data controller</>)}</h2>
           <p style={para}>
             The controller of personal data is <span style={strong}>Aevia WS</span>, publisher of the site. For any
             question, write to <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span>.

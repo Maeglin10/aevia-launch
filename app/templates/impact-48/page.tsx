@@ -19,6 +19,7 @@ import {
   clientServices,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -624,13 +625,13 @@ function PhilosophySection() {
                 letterSpacing: '-0.03em',
                 margin: '0 0 40px',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "philosophy.titre") ?? (<>
               We build
               <br />
               for the
               <br />
               <span style={{ color: C.accent }}>next century.</span>
-            </motion.h2>
+            </>)}</motion.h2>
 
             <motion.p
               initial={{ opacity: 0, y: 24 }}
@@ -814,9 +815,9 @@ function ProjectsSection() {
                 lineHeight: 1.0,
                 margin: 0,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "projects.titre") ?? (<>
               Projects
-            </h2>
+            </>)}</h2>
           </div>
           <span
             style={{
@@ -1299,11 +1300,11 @@ function FloorPlanSection() {
                 lineHeight: 1.0,
                 margin: 0,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>
               Process
               <br />
               as Method
-            </h2>
+            </>)}</h2>
           </div>
 
           <div
@@ -2048,9 +2049,9 @@ function TeamSection() {
               lineHeight: 1.0,
               margin: 0,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "team.titre") ?? (<>
             Who We Are
-          </h2>
+          </>)}</h2>
         </motion.div>
 
         {/* Blueprint drawing */}
@@ -2364,11 +2365,11 @@ function ContactSection() {
                   lineHeight: 1.0,
                   margin: '0 0 40px',
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Start a
                 <br />
                 <span style={{ color: C.accent }}>Conversation</span>
-              </h2>
+              </>)}</h2>
 
               <p
                 style={{

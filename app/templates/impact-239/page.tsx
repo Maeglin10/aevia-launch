@@ -23,6 +23,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1188,12 +1189,12 @@ function DomainCards() {
               margin: '20px 0 0',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "domaines.titre") ?? (<>
             Six piliers d&apos;{' '}
             <span style={{ fontStyle: 'italic', color: C.accentDark }}>
               expertise
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1396,12 +1397,12 @@ function ExpertisePanel() {
                 margin: '20px 0 54px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Ce que nous{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 faisons
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {EXPERTISE_ITEMS.map((item, i) => (
@@ -1514,12 +1515,12 @@ function Testimonials() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             La parole de nos{' '}
             <span style={{ fontStyle: 'italic', color: C.accentDark }}>
               clients
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1681,12 +1682,12 @@ function ContactForm() {
               margin: '22px 0 18px',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Prenez{' '}
             <span style={{ fontStyle: 'italic', color: C.accentLight }}>
               rendez-vous
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p

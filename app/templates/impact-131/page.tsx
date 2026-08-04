@@ -4,6 +4,7 @@ import {
   clientName,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -20,6 +21,7 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, HeldSwap, BlurThrough, CircularLabel, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -1075,10 +1077,12 @@ export default function WineryTemplate() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   WINES_DEMO = WINES_DEMO_LIVE();
   HERO_CUVEES = HERO_CUVEES_LIVE();
+
 
 
   TERROIR_TABS = resolveList(
@@ -1605,11 +1609,11 @@ export default function WineryTemplate() {
               lineHeight: 1.15,
               margin: "0 0 28px",
             }}
-          >{c?.aboutTitle ?? fd?.businessName ?? <>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>
             La vigne comme{" "}
             <em style={{ color: C.burgundy, fontStyle: "italic" }}>expression</em>{" "}
             d'un lieu
-          </>}</h2>
+          </>}</>)}</h2>
           <p
             style={{
               fontFamily: C.fontSerif,
@@ -1675,9 +1679,9 @@ export default function WineryTemplate() {
                 lineHeight: 1.1,
                 margin: 0,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
               Nos Grandes Cuvées
-            </h2>
+            </>)}</h2>
           </div>
 
           {/* Vintage selector with AnimatePresence */}
@@ -1786,9 +1790,9 @@ export default function WineryTemplate() {
                 lineHeight: 1.12,
                 margin: 0,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Sol, Climat & Culture
-            </h2>
+            </>)}</h2>
           </div>
 
           {/* Tabs */}
@@ -1934,9 +1938,9 @@ export default function WineryTemplate() {
               lineHeight: 1.1,
               margin: "0 0 24px",
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
             La Salle de Dégustation
-          </h2>
+          </>)}</h2>
           <p
             style={{
               fontFamily: C.fontSerif,
@@ -2046,10 +2050,10 @@ export default function WineryTemplate() {
                 lineHeight: 1.15,
                 margin: "0 0 28px",
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Jean-Pierre Valroc,{" "}
               <em style={{ color: C.burgundy }}>Chef de Cave</em>
-            </h2>
+            </>)}</h2>
             <p
               style={{
                 fontFamily: C.fontSerif,
@@ -2140,9 +2144,9 @@ export default function WineryTemplate() {
                 lineHeight: 1.12,
                 margin: "0 0 20px",
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Vivre le Domaine
-            </h2>
+            </>)}</h2>
             <p
               style={{
                 fontFamily: C.fontSerif,
@@ -2290,10 +2294,10 @@ export default function WineryTemplate() {
                   lineHeight: 1.12,
                   margin: "0 0 32px",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Commandez, visitez,{" "}
                 <em style={{ color: C.gold }}>échangez</em>
-              </h2>
+              </>)}</h2>
               <p
                 style={{
                   fontFamily: C.fontSerif,

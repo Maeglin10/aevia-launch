@@ -12,6 +12,7 @@ import {
   clientName,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -267,7 +268,7 @@ export default function VulcanMotorsPage() {
               <div>
                 <Reveal>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-red-600 block mb-4">Engineering Manifesto</span>
-                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-12 leading-tight">Hand-Forged <br/>In <span className="text-white/20 italic">The Dark.</span></h2>
+                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-12 leading-tight">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Hand-Forged <br/>In <span className="text-white/20 italic">The Dark.</span></>)}</h2>
                   <div className="space-y-12">
                     {[
                       { icon: Settings, t: "Mechanical Purity", d: "Naturally aspirated power plants without digital intervention. Raw, unfiltered combustion." },
@@ -304,7 +305,7 @@ export default function VulcanMotorsPage() {
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
                 <div className="max-w-2xl">
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-red-600 block mb-4">Active Fleet</span>
-                  <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-none">The <span className="text-white/20">Lineup.</span></h2>
+                  <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>The <span className="text-white/20">Lineup.</span></>)}</h2>
                 </div>
                 <button className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-red-600 text-white/40 transition-colors group">
                   Private Inventory <MoveRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
@@ -346,7 +347,7 @@ export default function VulcanMotorsPage() {
               <div className="flex flex-col md:flex-row items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-red-600 block mb-4">Performance Data</span>
-                  <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-none">The <span className="text-white/20">Numbers.</span></h2>
+                  <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>The <span className="text-white/20">Numbers.</span></>)}</h2>
                 </div>
                 <div className="text-sm text-white/30 font-light italic">Tested at Portimão circuit under FIA-sanctioned conditions. All figures SAE certified.</div>
               </div>
@@ -391,7 +392,7 @@ export default function VulcanMotorsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
               <Reveal>
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-red-600 block mb-8">Beyond the Road</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic leading-none mb-12">Born On <br /><span className="font-light not-italic text-white/20">Track.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic leading-none mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Born On <br /><span className="font-light not-italic text-white/20">Track.</span></>)}</h2>
                 <div className="space-y-8">
                   {[
                     { icon: Timer, t: "Owner Track Days", d: "Quarterly invitations to Portimão, Spa, and Suzuka. Vulcan engineering crew on-site." },
@@ -426,9 +427,9 @@ export default function VulcanMotorsPage() {
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-30" />
           <div className="relative z-10 text-center px-6">
             <Reveal>
-              <h2 className="text-7xl md:text-[12rem] font-black tracking-tighter uppercase italic leading-[0.75] text-black mb-12">
+              <h2 className="text-7xl md:text-[12rem] font-black tracking-tighter uppercase italic leading-[0.75] text-black mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                 Command<br/>Gravity.
-              </h2>
+              </>)}</h2>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
                 <button
                   onClick={() => setBookingOpen(true)}

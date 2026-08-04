@@ -13,6 +13,7 @@ import {
   clientName,
   clientReviews,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -226,9 +227,9 @@ return (
             <div className="flex items-end justify-between mb-16">
               <div>
                 <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#C9A86C)] mb-4">Programmes en cours</p>
-                <h2 className="text-4xl font-normal leading-tight" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                <h2 className="text-4xl font-normal leading-tight" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                   Nos réalisations<br /><em>à la livraison</em>
-                </h2>
+                </>)}</h2>
               </div>
               <Link href="/templates/impact-82/programmes" className="text-sm text-[var(--brand,#C9A86C)] flex items-center gap-2 hover:gap-4 transition-all hidden md:flex">
                 Tous les programmes <ArrowRight className="w-4 h-4" />
@@ -265,9 +266,9 @@ return (
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#C9A86C)] mb-4">Direction</p>
-            <h2 className="text-4xl font-normal mb-16" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+            <h2 className="text-4xl font-normal mb-16" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               L'équipe Blueprint
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {equipe.map((m: any, i: number) => (
@@ -293,9 +294,9 @@ return (
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#C9A86C)] mb-6">Ils nous font confiance</p>
-            <h2 className="text-4xl md:text-6xl font-light text-[#1A1612] mb-20 leading-snug" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+            <h2 className="text-4xl md:text-6xl font-light text-[#1A1612] mb-20 leading-snug" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               La parole de <em>nos clients</em>.
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#2A2820]/10">
             {avis.map((t: any, i: number) => (
@@ -318,9 +319,9 @@ return (
       <section className="py-24 bg-[#F0EBE0] text-[#1A1612]">
         <div className="max-w-4xl mx-auto text-center px-6">
           <Reveal>
-            <h2 className="text-3xl md:text-4xl font-normal mb-6 font-serif" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+            <h2 className="text-3xl md:text-4xl font-normal mb-6 font-serif" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Prêt à concevoir <em>votre projet</em> ?
-            </h2>
+            </>)}</h2>
             <p className="text-[#6B5A40] max-w-xl mx-auto mb-10 leading-relaxed font-light">
               Que vous soyez investisseur, collectivité ou à la recherche de votre future résidence d&apos;exception, nos équipes vous accompagnent à chaque étape.
             </p>

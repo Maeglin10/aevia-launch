@@ -45,6 +45,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -398,9 +399,9 @@ export default function Page() {
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
             <Reveal>
               <Eyebrow align="center">Nos prestations B2B</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Des solutions sur mesure pour chaque espace
-              </h2>
+              </>)}</h2>
               <p style={{ fontSize: 15, lineHeight: 1.6, color: C.textMuted, maxWidth: 600, margin: '0 auto' }}>
                 Bureaux, commerces, copropriétés ou établissements de santé — nous adaptons nos protocoles à chaque environnement.
               </p>
@@ -430,9 +431,9 @@ export default function Page() {
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
             <Reveal>
               <Eyebrow align="center" color={C.primary}>Notre processus</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.white, marginBottom: 16, fontWeight: 700 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.white, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Du premier contact à l'excellence quotidienne
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -461,9 +462,9 @@ export default function Page() {
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
             <Reveal>
               <Eyebrow align="center">Réalisations</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "gallery.titre") ?? (<>
                 Des espaces qui inspirent confiance
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(250px, 100%), 1fr))', gap: 16 }}>
@@ -484,7 +485,7 @@ export default function Page() {
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
             <Reveal>
               <Eyebrow align="center">Références clients</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>Ce que disent nos partenaires</h2>
+              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce que disent nos partenaires</>)}</h2>
             </Reveal>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: 24 }}>
@@ -513,7 +514,7 @@ export default function Page() {
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <Reveal>
               <Eyebrow align="center">FAQ</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>Questions fréquentes</h2>
+              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>Questions fréquentes</>)}</h2>
             </Reveal>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -548,9 +549,9 @@ export default function Page() {
       <section style={{ padding: '100px 24px', background: C.accent, textAlign: 'center' }}>
         <div style={{ maxWidth: 700, margin: '0 auto' }}>
           <Reveal>
-            <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.white, marginBottom: 20, fontWeight: 700 }}>
+            <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.white, marginBottom: 20, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
               Prêt à transformer vos espaces ?
-            </h2>
+            </>)}</h2>
             <p style={{ fontSize: 16, lineHeight: 1.6, color: 'rgba(255,255,255,0.75)', marginBottom: 36 }}>
               Audit gratuit de vos locaux. Devis sous 48h. Sans engagement.
             </p>
@@ -566,7 +567,7 @@ export default function Page() {
             <div>
               <Reveal>
                 <Eyebrow>Contact commercial</Eyebrow>
-                <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.text, marginBottom: 24, fontWeight: 700 }}>Demandez votre devis personnalisé</h2>
+                <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.text, marginBottom: 24, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Demandez votre devis personnalisé</>)}</h2>
                 <p style={{ fontSize: 15, lineHeight: 1.6, color: C.textMuted, marginBottom: 40 }}>
                   Notre équipe commerciale vous recontacte sous 24h pour organiser un audit gratuit de vos locaux.
                 </p>

@@ -14,6 +14,7 @@ import {
   clientName,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -338,7 +339,7 @@ return (
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
                     <div>
                       <p className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-3">Réalisations</p>
-                      <h2 className="text-[#1A1510] text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Nos projets</h2>
+                      <h2 className="text-[#1A1510] text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Nos projets</>)}</h2>
                     </div>
                     <button onClick={() => goTo("projets")} className="mt-4 md:mt-0 text-[var(--brand,#C46A3E)] font-medium flex items-center gap-2 hover:underline cursor-pointer">
                       Tous nos projets <ArrowRight className="w-4 h-4" />
@@ -594,7 +595,7 @@ function AgencePage() {
           </div>
           <div className="lg:col-span-7">
             <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Notre histoire</span>
-            <h2 className="text-4xl md:text-5xl font-light leading-tight mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Bâtir l'avenir sur des fondations durables.</h2>
+            <h2 className="text-4xl md:text-5xl font-light leading-tight mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Bâtir l'avenir sur des fondations durables.</>)}</h2>
             <p className="text-[#1A1510]/70 text-lg leading-relaxed mb-4">
               Fondée en 2004 par Nadia Kéops, l'agence s'est forgé une solide réputation nationale dans la conception d'architectures bioclimatiques et d'espaces durables.
             </p>

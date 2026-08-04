@@ -11,7 +11,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -56,8 +58,10 @@ export default function IronClubPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
 
   bp = (session as any)?.businessProfile;
@@ -330,10 +334,10 @@ export default function IronClubPage() {
               letterSpacing: 2,
               marginBottom: 24,
             }}
-          >{c?.heroHeadline ?? <>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
             Plus fort.<br />
             <span style={{ color: C.accent }}>Chaque jour.</span>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
@@ -489,9 +493,9 @@ export default function IronClubPage() {
                   color: C.text,
                   letterSpacing: 2,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "cours.titre") ?? (<>
                 40 cours par semaine
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div
@@ -609,10 +613,10 @@ export default function IronClubPage() {
                 marginBottom: 32,
                 lineHeight: 1.05,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Le sport comme<br />
               <span style={{ color: C.accent }}>mode de vie</span>
-            </h2>
+            </>)}</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {[
                 "Des entraînements variés qui ne laissent jamais place à la routine",
@@ -677,9 +681,9 @@ export default function IronClubPage() {
                   color: C.text,
                   letterSpacing: 2,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Témoignages
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
@@ -741,9 +745,9 @@ export default function IronClubPage() {
               letterSpacing: 3,
               marginBottom: 16,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             Prêt à changer de vie ?
-          </h2>
+          </>)}</h2>
           <p
             style={{
               fontFamily: FONT_BODY,

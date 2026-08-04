@@ -22,6 +22,7 @@ import {
   clientFaq,
   clientName,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -356,7 +357,7 @@ export default function MorphStudioPage() {
             <Reveal>
               <div className="mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-400 mb-4 block">Core Modules</span>
-                <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">System <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-[var(--brand,#22d3ee)]">Capabilities.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>System <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-[var(--brand,#22d3ee)]">Capabilities.</span></>)}</h2>
               </div>
             </Reveal>
 
@@ -386,7 +387,7 @@ export default function MorphStudioPage() {
               <div className="flex items-end justify-between mb-20">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#22d3ee)] mb-4 block">Case Studies</span>
-                  <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">Rendered <span className="text-zinc-600">Outputs.</span></h2>
+                  <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Rendered <span className="text-zinc-600">Outputs.</span></>)}</h2>
                 </div>
                 <Link href="#realisations" className="hidden md:flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-[var(--brand,#22d3ee)] hover:text-white transition-colors">
                   View Repository <ArrowRight className="w-4 h-4" />
@@ -425,7 +426,7 @@ export default function MorphStudioPage() {
         <section className="py-32 border-y border-white/10 bg-gradient-to-b from-black/0 via-cyan-900/10 to-black/0 relative">
           <div className="max-w-[1600px] mx-auto px-6 text-center">
             <Reveal>
-              <h2 className="text-3xl font-black uppercase tracking-[0.3em] text-zinc-600 mb-16">Technology Stack</h2>
+              <h2 className="text-3xl font-black uppercase tracking-[0.3em] text-zinc-600 mb-16">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Technology Stack</>)}</h2>
               <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
                 {MANIFEST.stack.map((tech, i) => (
                   <div key={i} className="px-6 py-3 bg-black/50 border border-white/10 rounded-full text-sm font-bold uppercase tracking-widest text-white hover:border-[var(--brand,#22d3ee)] hover:text-[var(--brand,#22d3ee)] hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all cursor-default">
@@ -443,7 +444,7 @@ export default function MorphStudioPage() {
             <Reveal>
               <div className="text-center mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-400 mb-4 block">Deployment Plans</span>
-                <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">Licensing <span className="text-zinc-600">Models.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Licensing <span className="text-zinc-600">Models.</span></>)}</h2>
               </div>
             </Reveal>
 
@@ -487,7 +488,7 @@ export default function MorphStudioPage() {
           <Reveal>
             <div className="flex items-center gap-4 mb-16">
               <Activity className="w-8 h-8 text-[var(--brand,#22d3ee)]" />
-              <h2 className="text-4xl font-black uppercase tracking-widest">System Queries</h2>
+              <h2 className="text-4xl font-black uppercase tracking-widest">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>System Queries</>)}</h2>
             </div>
           </Reveal>
           

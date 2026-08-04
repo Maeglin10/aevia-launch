@@ -3,6 +3,7 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -13,6 +14,7 @@ import Link from "next/link";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { Reveal, MagneticBtn, TiltCard, Counter } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -195,9 +197,11 @@ export default function HorologsLuxePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
+
 
 
 
@@ -357,9 +361,9 @@ export default function HorologsLuxePage() {
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-6 block">
               VISUAL_ARCHIVE // SERIES_2022–2026
             </span>
-            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter italic text-white mb-12 pb-2 leading-[1.1]">
+            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter italic text-white mb-12 pb-2 leading-[1.1]">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
               Work.
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           {/* Filter tabs */}
@@ -509,9 +513,9 @@ export default function HorologsLuxePage() {
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-6 block">
               SERVICE_LEDGER // ACTIVE
             </span>
-            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               Services.
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
@@ -546,7 +550,7 @@ export default function HorologsLuxePage() {
             <div>
               <Reveal>
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-6 block">EXHIBITION_LOG // SOLO_SHOWS</span>
-                <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">Exhibitions.</h2>
+                <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Exhibitions.</>)}</h2>
               </Reveal>
               <div className="divide-y divide-white/5">
                 {[
@@ -605,7 +609,7 @@ export default function HorologsLuxePage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-6 block">CLIENT_SIGNALS // TESTIMONIALS</span>
-            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">They said.</h2>
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>They said.</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
             {AVIS_INLINE.map((t, i) => (
@@ -631,7 +635,7 @@ export default function HorologsLuxePage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-6 block">FINE_PRINTS // EDITIONS</span>
-            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">Collect.</h2>
+            <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Collect.</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
             {/* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp })?.map((s: any) => ({ tier: s.title, ...(s.price ? { price: s.price } : {}) })), [
@@ -664,10 +668,10 @@ export default function HorologsLuxePage() {
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-8 block">
               CONTACT_NODE // OPEN
             </span>
-            <h2 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white leading-[1.05] mb-12 pb-4">
+            <h2 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white leading-[1.05] mb-12 pb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
               Work<br />
               <span className="text-stone-600">together.</span>
-            </h2>
+            </>)}</h2>
             <p className="max-w-md mx-auto text-[11px] text-white/20 uppercase tracking-widest leading-relaxed font-bold italic mb-16">
               Available for editorial, commercial, and fine print commissions. Response within 48 hours.
             </p>

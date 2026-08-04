@@ -18,7 +18,9 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -131,9 +133,11 @@ export default function Impact24() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   faqs_SOURCE = faqs_SOURCE_LIVE();
+
 
 
   mentors = resolveList(
@@ -350,7 +354,7 @@ return (
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                   <div>
                     <p className="text-[var(--brand,#A3E635)] text-sm font-semibold tracking-widest uppercase mb-3">Portfolio</p>
-                    <h2 className="text-4xl md:text-5xl font-bold">Companies we&apos;ve backed</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "portfolio.titre") ?? (<>Companies we&apos;ve backed</>)}</h2>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {sectors.map(s => (
@@ -410,7 +414,7 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal className="text-center mb-16">
                 <p className="text-[var(--brand,#A3E635)] text-sm font-semibold tracking-widest uppercase mb-4">The Program</p>
-                <h2 className="text-4xl md:text-5xl font-bold mb-4">12 weeks. Zero fluff.</h2>
+                <h2 className="text-4xl md:text-5xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "program.titre") ?? (<>12 weeks. Zero fluff.</>)}</h2>
                 <p className="text-white/50 text-lg max-w-2xl mx-auto">A structured sprint from idea validation to Series A readiness. Every week has a purpose.</p>
               </Reveal>
 
@@ -512,7 +516,7 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal className="text-center mb-16">
                 <p className="text-[var(--brand,#A3E635)] text-sm font-semibold tracking-widest uppercase mb-4">Mentors</p>
-                <h2 className="text-4xl md:text-5xl font-bold">Learn from the best.</h2>
+                <h2 className="text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "mentors.titre") ?? (<>Learn from the best.</>)}</h2>
               </Reveal>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {mentors.map((m, i) => (
@@ -542,7 +546,7 @@ return (
             <div className="max-w-3xl mx-auto">
               <Reveal className="text-center mb-16">
                 <p className="text-[var(--brand,#A3E635)] text-sm font-semibold tracking-widest uppercase mb-4">FAQ</p>
-                <h2 className="text-4xl font-bold">Common questions</h2>
+                <h2 className="text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Common questions</>)}</h2>
               </Reveal>
               <div className="space-y-3">
                 {faqs.map((faq, i) => (
@@ -585,7 +589,7 @@ return (
               <Reveal>
                 <div className="bg-[var(--brand,#A3E635)]/5 border border-[var(--brand,#A3E635)]/20 rounded-3xl p-16">
                   <p className="text-[var(--brand,#A3E635)] text-sm font-semibold tracking-widest uppercase mb-4">Apply Now</p>
-                  <h2 className="text-5xl md:text-6xl font-bold mb-6">Build something<br />that matters.</h2>
+                  <h2 className="text-5xl md:text-6xl font-bold mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "apply.titre") ?? (<>Build something<br />that matters.</>)}</h2>
                   <p className="text-white/50 text-lg mb-10 max-w-xl mx-auto">
                     Applications for Cohort W24 are open. 20 companies selected. We read every application.
                   </p>
