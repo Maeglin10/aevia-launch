@@ -1,5 +1,8 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -247,7 +250,7 @@ export default function ChateauVestigeLayout({
                   <Phone className="w-5 h-5 text-[#C4A265]" /> +33 (0)5 56 00 00 00
                 </li>
                 <li className="flex items-center gap-4 text-sm">
-                  <Mail className="w-5 h-5 text-[#C4A265]" /> contact@exemple.fr
+                  <Mail className="w-5 h-5 text-[#C4A265]" /> {clientEmail(__layoutSession) ?? "contact@exemple.fr"}
                 </li>
               </ul>
             </div>

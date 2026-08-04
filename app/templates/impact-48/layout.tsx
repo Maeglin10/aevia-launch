@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -265,7 +266,7 @@ export default function ArchitectureLayout({ children }: { children: React.React
               </Link>
               <p style={{ fontFamily: F.sans, fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>Studio d'architecture et d'urbanisme. Conception de bâtiments pérennes, sobres et généreux. {clientCity(__layoutSession) ?? "Paris"} · Genève.</p>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.35)" }}>contact@exemple.fr</span>
+                <span style={{ fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.35)" }}>{clientEmail(__layoutSession) ?? "contact@exemple.fr"}</span>
               </div>
             </div>
 
