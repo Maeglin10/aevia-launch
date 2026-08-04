@@ -37,6 +37,7 @@ import {
   clientAddress,
   clientCity,
   clientFaq,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -1490,12 +1491,12 @@ function ContactFooter() {
                   <span className="text-[11px] font-[600] uppercase tracking-[0.2em] text-[#F9A8D4]" style={{ fontFamily: "'Inter', sans-serif" }}>Horaires</span>
                 </div>
                 <div className="space-y-2">
-                  {[
+                  {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ j: h.day, h: h.hours })), [
                     { j: "Lun", h: "Fermé" },
                     { j: "Mar – Ven", h: "9h – 19h" },
                     { j: "Samedi", h: "9h – 18h" },
                     { j: "Dimanche", h: "Fermé" },
-                  ].map(({ j, h }) => (
+                  ]).map(({ j, h }) => (
                     <div key={j} className="flex justify-between items-center">
                       <span className="text-[13px] text-white/60 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>{j}</span>
                       <span className={`text-[13px] font-[400] ${h === "Fermé" ? "text-white/40" : "text-white"}`} style={{ fontFamily: "'Inter', sans-serif" }}>{h}</span>

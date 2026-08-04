@@ -36,6 +36,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHours,
   clientReviews,
   clientServices,
   clientStats,
@@ -2264,7 +2265,7 @@ type ScheduleItem = {
   sessions: { time: string; label: string; duration: string }[];
 };
 
-const SCHEDULE: ScheduleItem[] = [
+const SCHEDULE: ScheduleItem[] = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
   {
     day: 'Lundi',
     type: 'individuel',
@@ -2317,7 +2318,7 @@ const SCHEDULE: ScheduleItem[] = [
       { time: '10:00', label: 'Outdoor parc Bordelais — Trail & circuit', duration: '90 min' },
     ],
   },
-];
+]);
 
 const TYPE_COLORS = {
   individuel: C.orange,

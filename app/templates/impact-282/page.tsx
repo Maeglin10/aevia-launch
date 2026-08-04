@@ -34,6 +34,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -2192,7 +2193,7 @@ function AgriculteurSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type JourHoraire = { jour: string; heures: string; ferme?: boolean };
 
-const HORAIRES: JourHoraire[] = [
+const HORAIRES: JourHoraire[] = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ jour: h.day, heures: h.hours })), [
   { jour: 'Lundi', heures: 'Fermé', ferme: true },
   { jour: 'Mardi', heures: '7h00 – 19h30' },
   { jour: 'Mercredi', heures: '7h00 – 19h30' },
@@ -2200,7 +2201,7 @@ const HORAIRES: JourHoraire[] = [
   { jour: 'Vendredi', heures: '7h00 – 20h00' },
   { jour: 'Samedi', heures: '7h00 – 20h00' },
   { jour: 'Dimanche', heures: '7h30 – 13h00' },
-];
+]);
 
 function HorairesSection() {
   const sec: React.CSSProperties = {

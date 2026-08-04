@@ -2,6 +2,7 @@
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHours,
   clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -1817,12 +1818,12 @@ return (
               Orari
             </span>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {[
+              {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ day: h.day, hours: h.hours })), [
                 { day: "Lun", hours: "Chiuso" },
                 { day: "Mar – Ven", hours: "19:30 – 23:00" },
                 { day: "Sab", hours: "12:30–14:30 · 19:30–23:30" },
                 { day: "Dom", hours: "12:30 – 14:30" },
-              ].map((row) => (
+              ]).map((row) => (
                 <div
                   key={row.day}
                   style={{

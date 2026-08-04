@@ -14,6 +14,7 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientCity,
   clientFaq,
+  clientHours,
   clientReviews,
   clientServices,
   clientStats,
@@ -1521,11 +1522,11 @@ function ContactSection() {
             <p style={{ fontFamily: C.fontBody, fontSize: 'clamp(14px,1.5vw,16px)', color: C.textMuted, lineHeight: 1.8, marginBottom: 36 }}>
               Remplissez le formulaire et notre équipe commerciale vous contacte sous 2h ouvrées pour une simulation tarifaire personnalisée et sans engagement.
             </p>
-            {[
+            {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ label: h.day, value: h.hours })), [
               { icon: '📞', label: 'Téléphone',  value: '+33 1 84 88 92 10' },
               { icon: '✉️', label: 'Email',      value: (fd?.email ?? 'contact@meridian-freight.fr') },
               { icon: '🕐', label: 'Horaires',   value: 'Lun–Ven 8h–19h | Sam 9h–13h' },
-            ].map((info, i) => (
+            ]).map((info, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
                 <div style={{
                   width: 44, height: 44, borderRadius: 12, background: `${C.accent}15`,

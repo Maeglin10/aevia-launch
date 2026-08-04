@@ -14,6 +14,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHours,
   clientName,
   clientServices,
   clientTeam,
@@ -65,7 +66,7 @@ const COACHES_DEMO = [
   },
 ]
 
-const SCHEDULE = [
+const SCHEDULE = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
   { day: "Lun", classes: [{ time: "6h30", name: "HIIT Circuit" }, { time: "12h00", name: "Force Brute" }, { time: "19h00", name: "CrossFit FORGE" }] },
   { day: "Mar", classes: [{ time: "7h00", name: "Yoga Power" }, { time: "12h30", name: "Cardio Boost" }, { time: "18h30", name: "Force Brute" }] },
   { day: "Mer", classes: [{ time: "6h30", name: "CrossFit FORGE" }, { time: "12h00", name: "HIIT Circuit" }, { time: "19h00", name: "Récup Active" }] },
@@ -73,7 +74,7 @@ const SCHEDULE = [
   { day: "Ven", classes: [{ time: "6h30", name: "Cardio Boost" }, { time: "12h00", name: "CrossFit FORGE" }, { time: "19h00", name: "Force Brute" }] },
   { day: "Sam", classes: [{ time: "9h00", name: "HIIT Circuit" }, { time: "10h30", name: "Yoga Power" }, { time: "12h00", name: "Récup Active" }] },
   { day: "Dim", classes: [{ time: "10h00", name: "CrossFit FORGE" }, { time: "11h30", name: "Récup Active" }] },
-]
+])
 
 function MEMBERSHIPS_SOURCE_LIVE() {
   return [

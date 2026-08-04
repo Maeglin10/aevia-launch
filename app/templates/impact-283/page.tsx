@@ -34,6 +34,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -2497,7 +2498,7 @@ function MaterialCard({
    9 · INFOS PRATIQUES — adresse, transport, horaires, remboursements
    ════════════════════════════════════════════════════════════════════════════ */
 function PracticalSection() {
-  const horaires = [
+  const horaires = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ jour: h.day, h: h.hours })), [
     { jour: 'Lundi', h: '8h00 – 19h00' },
     { jour: 'Mardi', h: '8h00 – 19h00' },
     { jour: 'Mercredi', h: '8h00 – 19h00' },
@@ -2505,7 +2506,7 @@ function PracticalSection() {
     { jour: 'Vendredi', h: '8h00 – 18h00' },
     { jour: 'Samedi', h: '9h00 – 13h00' },
     { jour: 'Dimanche', h: 'Fermé' },
-  ];
+  ]);
 
   return (
     <section

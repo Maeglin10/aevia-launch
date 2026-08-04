@@ -27,6 +27,7 @@ import {
 import {
   clientCity,
   clientFaq,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -478,14 +479,14 @@ function Hero() {
 }
 
 // ─── Class Schedule ────────────────────────────────────────────────────────────
-const CLASSES = [
+const CLASSES = /* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ day: h.day, time: h.hours })), [
   { day: "Lundi", time: "07h00", name: "Hatha Flow", level: "Débutant", teacher: "Emma D.", spots: 8, icon: <Sunrise size={18} color="var(--brand-light,#c0614a)" /> },
   { day: "Lundi", time: "19h00", name: "Vinyasa Power", level: "Intermédiaire", teacher: "Lucas R.", spots: 4, icon: <Wind size={18} color="var(--brand,#6b8f6b)" /> },
   { day: "Mercredi", time: "09h30", name: "Yin & Méditation", level: "Tous niveaux", teacher: "Sophie M.", spots: 12, icon: <Heart size={18} color="var(--brand-light,#c0614a)" /> },
   { day: "Jeudi", time: "18h30", name: "Ashtanga", level: "Avancé", teacher: "Lucas R.", spots: 6, icon: <Award size={18} color="var(--brand,#6b8f6b)" /> },
   { day: "Samedi", time: "10h00", name: "Yoga Nidra", level: "Tous niveaux", teacher: "Emma D.", spots: 14, icon: <Leaf size={18} color="var(--brand-light,#c0614a)" /> },
   { day: "Dimanche", time: "09h00", name: "Kundalini", level: "Intermédiaire", teacher: "Amara B.", spots: 2, icon: <Sunrise size={18} color="var(--brand,#6b8f6b)" /> },
-];
+]);
 
 type ClassInfo = { day: string; time: string; name: string; level: string; teacher: string };
 

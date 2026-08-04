@@ -9,6 +9,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -3212,12 +3213,12 @@ function ContactPage() {
       <section style={{ padding: "clamp(40px, 6vw, 72px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "clamp(32px, 5vw, 64px)", maxWidth: 1000, margin: "0 auto" }}>
           <div>
-            {[
+            {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
               { label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
               { label: "Téléphone", value: "+33 4 91 00 00 00" },
               { label: "Ville", value: "Marseille, France" },
               { label: "Horaires", value: "Lun – Ven · 9h – 18h" },
-            ].map(item => (
+            ]).map(item => (
               <div key={item.label} style={{ marginBottom: 28, borderBottom: `1px solid ${C.borderLight}`, paddingBottom: 20 }}>
                 <div style={{ fontSize: 11, color: C.gold, letterSpacing: 2, textTransform: "uppercase", fontFamily: C.sans, marginBottom: 8 }}>
                   {item.label}

@@ -12,6 +12,7 @@ import { ArrowRight, Zap, Users, TrendingUp, Globe, CheckCircle, ChevronDown, Ro
 import {
   clientCity,
   clientFaq,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -885,7 +886,7 @@ return (
               <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-8 mb-16">
                 <h3 className="text-2xl font-bold mb-6">Weekly Schedule</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
-                  {[
+                  {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ day: h.day, time: h.hours })), [
                     { day: "Monday", time: "9:00 AM", event: "Cohort standup & weekly sprint planning" },
                     { day: "Monday", time: "2:00 PM", event: "Workshop session (rotating topics)" },
                     { day: "Tuesday", time: "10:00 AM", event: "1:1 office hours with assigned mentor" },
@@ -896,7 +897,7 @@ return (
                     { day: "Thursday", time: "3:00 PM", event: "Investor readiness session" },
                     { day: "Friday", time: "10:00 AM", event: "Demo & progress review" },
                     { day: "Friday", time: "6:00 PM", event: "Cohort social & networking dinner" },
-                  ].map((s, i) => (
+                  ]).map((s, i) => (
                     <div key={i} className="flex items-center gap-4 py-2 border-b border-white/5">
                       <div className="text-xs text-[var(--brand,#A3E635)] font-semibold w-24 shrink-0">{s.day}</div>
                       <div className="text-xs text-white/40 w-16 shrink-0">{s.time}</div>

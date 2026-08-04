@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import {
   clientCity,
+  clientHours,
   clientName,
   clientPhotos,
   clientReviews,
@@ -3952,7 +3953,7 @@ function ContactPage() {
         >
           {/* Info */}
           <div>
-            {[
+            {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ label: h.day, value: h.hours })), [
               { icon: <Mail size={18} />, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
               { icon: <MapPin size={18} />, label: "Studio", value: (clientCity({ formData: fd }) ?? "Paris") + ", France" },
               {
@@ -3960,7 +3961,7 @@ function ContactPage() {
                 label: "Hours",
                 value: "Mon – Fri · 9am – 7pm",
               },
-            ].map((item) => (
+            ]).map((item) => (
               <div
                 key={item.label}
                 style={{

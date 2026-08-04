@@ -28,6 +28,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -2156,7 +2157,7 @@ type ClassItem = {
   icon: React.ReactNode;
 };
 
-const WEEKLY_CLASSES: ClassItem[] = [
+const WEEKLY_CLASSES: ClassItem[] = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
   {
     day: 'Lundi',
     dayShort: 'LUN',
@@ -2202,7 +2203,7 @@ const WEEKLY_CLASSES: ClassItem[] = [
     spots: 15,
     icon: <Mountain size={20} color={C.azure} strokeWidth={2} />,
   },
-];
+]);
 
 function PlanningSection() {
   const sec: React.CSSProperties = {

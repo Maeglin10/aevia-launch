@@ -35,6 +35,7 @@ import {
   clientAddress,
   clientCity,
   clientFaq,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -1295,7 +1296,7 @@ export default function Impact199Page() {
 
               {/* Contact info */}
               <div className="space-y-6 mb-12">
-                {[
+                {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
                   {
                     icon: <MapPin className="w-5 h-5" />,
                     label: "Adresse",
@@ -1320,7 +1321,7 @@ export default function Impact199Page() {
                     value: "Mar – Sam : 10h – 20h",
                     sub: "Fermé dimanche et lundi",
                   },
-                ].map((item) => (
+                ]).map((item) => (
                   <div key={item.label} className="flex items-start gap-4 group">
                     <div className="text-[var(--brand,#DC2626)] mt-0.5 flex-shrink-0">{item.icon}</div>
                     <div>
