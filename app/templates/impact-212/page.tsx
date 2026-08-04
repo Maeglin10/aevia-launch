@@ -851,7 +851,7 @@ export default function ThermaProPage() {
 
   const projects_DEMO = [
     { type: 'PAC air/eau + plancher chauffant',       location: 'Lyon 6e',            surface: '180 m²',   year: '2024', tag: 'Résidentiel' },
-    { type: 'Chaudière condensation gaz',              location: 'Villeurbanne',       surface: '95 m²',    year: '2024', tag: 'Résidentiel' },
+    { type: 'Chaudière condensation gaz',              location: (clientCity(sessionData) ?? 'Villeurbanne'),       surface: '95 m²',    year: '2024', tag: 'Résidentiel' },
     { type: 'Climatisation multisplit 5 groupes',      location: 'Bron',               surface: '220 m²',   year: '2024', tag: 'Commercial'  },
     { type: 'PAC géothermique sol/eau',                location: 'Caluire-et-Cuire',   surface: '350 m²',   year: '2023', tag: 'Résidentiel' },
     { type: 'Remplacement fuel → PAC air/eau',         location: 'Écully',             surface: '145 m²',   year: '2023', tag: 'Rénovation'  },
@@ -1725,7 +1725,7 @@ return (
               <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 16, fontWeight: 700, color: C.white, marginBottom: '1.25rem', letterSpacing: '0.04em' }}>
                 Zone d'intervention
               </div>
-              {['Lyon (tous arrondissements)', 'Villeurbanne', 'Bron', 'Caluire-et-Cuire', 'Décines-Charpieu', 'Écully', 'Vénissieux', 'Tassin-la-Demi-Lune'].map(z => (
+              {['Lyon (tous arrondissements)', (clientCity(sessionData) ?? 'Villeurbanne'), 'Bron', 'Caluire-et-Cuire', 'Décines-Charpieu', 'Écully', 'Vénissieux', 'Tassin-la-Demi-Lune'].map(z => (
                 <div key={z} style={{ marginBottom: 9 }}>
                   <span style={{ color: C.textMuted, fontSize: 13.5 }}>{z}</span>
                 </div>

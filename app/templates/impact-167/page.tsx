@@ -106,15 +106,19 @@ const PROPERTIES_DEMO = [
   },
 ];
 
-const STATS_DEMO = [
-  { value: "€ 14 200", label: "Prix médian / m² — Paris Centre", suffix: "" },
+function STATS_DEMO_LIVE() {
+  return [
+  { value: "€ 14 200", label: "Prix médian / m² — " + (clientCity(sessionData) ?? "Paris") + " Centre", suffix: "" },
   { value: "28", label: "Années d'expertise sur le marché parisien", suffix: "ans" },
   { value: "94", label: "Transactions réussies en 2024", suffix: "%" },
   { value: "340", label: "Biens vendus ces 5 dernières années", suffix: "+" },
 ];
+}
+let STATS_DEMO = STATS_DEMO_LIVE();;
 let STATS = STATS_DEMO;
 
-const NEIGHBORHOODS_DEMO = [
+function NEIGHBORHOODS_DEMO_LIVE() {
+  return [
   {
     name: "Saint-Germain",
     arrondissement: "VIe",
@@ -139,11 +143,13 @@ const NEIGHBORHOODS_DEMO = [
   {
     name: "Île Saint-Louis",
     arrondissement: "IVe",
-    character: "The most rarefied address in Paris. 17th-century private mansions on an island. Time moves differently here.",
+    character: "The most rarefied address in " + (clientCity(sessionData) ?? "Paris") + ". 17th-century private mansions on an island. Time moves differently here.",
     priceRange: "€ 16 000 – 28 000 / m²",
     image: "https://images.unsplash.com/photo-1431274172761-fca41d930114?q=80&w=1400&auto=format&fit=crop",
   },
 ];
+}
+let NEIGHBORHOODS_DEMO = NEIGHBORHOODS_DEMO_LIVE();;
 let NEIGHBORHOODS = NEIGHBORHOODS_DEMO;
 
 const PROCESS_STEPS = [
@@ -169,11 +175,14 @@ const PROCESS_STEPS = [
   },
 ];
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   { quote: "Rive Gauche found us our apartment in four weeks. Three off-market viewings, one offer. They know this city in a way that takes decades to learn.", author: "Edward & Caroline H.", origin: "London" },
-  { quote: "I had worked with three agencies before. This was different from the first meeting. They asked questions no one had asked.", author: "Mathieu L.", origin: "Paris" },
+  { quote: "I had worked with three agencies before. This was different from the first meeting. They asked questions no one had asked.", author: "Mathieu L.", origin: (clientCity(sessionData) ?? "Paris") },
   { quote: "The negotiation they conducted on our behalf saved us €180,000. Quietly, professionally, without drama.", author: "Ingrid S.", origin: "Stockholm" },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const MARQUEE_ITEMS_DEMO = [
@@ -811,6 +820,12 @@ export default function Impact167Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
+  NEIGHBORHOODS_DEMO = NEIGHBORHOODS_DEMO_LIVE();
+
+  STATS_DEMO = STATS_DEMO_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

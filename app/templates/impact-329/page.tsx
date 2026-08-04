@@ -105,11 +105,14 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const AVIS_SOURCE = [
-  { texte: "Formule clé en main pour un T4 avec piano. Le monte-meubles était en place à 8h, le piano remonté au salon à 14h, et pas une rayure sur les murs — ni les leurs, ni les nôtres.", auteur: "Sophie & Marc D.", detail: "Nantes → Rennes, clé en main" },
+function AVIS_SOURCE_LIVE() {
+  return [
+  { texte: "Formule clé en main pour un T4 avec piano. Le monte-meubles était en place à 8h, le piano remonté au salon à 14h, et pas une rayure sur les murs — ni les leurs, ni les nôtres.", auteur: "Sophie & Marc D.", detail: (clientCity(sessionData) ?? "Nantes") + " → Rennes, clé en main" },
   { texte: "Le devis n'a pas bougé d'un euro alors qu'on avait sous-estimé la cave. L'équipe a absorbé la différence sans commentaire. C'est rare et ça mérite d'être écrit.", auteur: "Antoine G.", detail: "T2, formule éco" },
   { texte: "Transfert de nos bureaux un samedi : le lundi matin, chaque poste était remonté, branché, étiqueté. Aucune heure d'activité perdue.", auteur: "Cabinet Ligeria", detail: "Transfert d'entreprise" },
 ];
+}
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();;
 let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -136,6 +139,8 @@ export default function CapDemenagementsPage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -445,7 +450,7 @@ export default function CapDemenagementsPage() {
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Nantes, Loire-Atlantique" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Sam 8h–19h" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Nantes") + ", Loire-Atlantique" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Sam 8h–19h" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: C.textMuted, fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
                 </div>

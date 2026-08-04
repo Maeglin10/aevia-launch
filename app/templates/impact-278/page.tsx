@@ -1395,12 +1395,13 @@ type Testimonial278 = {
   work: string;
 };
 
-const TESTIMONIALS278_DEMO: Testimonial278[] = [
+function TESTIMONIALS278_DEMO_LIVE() {
+  return [
   {
     quote:
       'Plomberie Garonne a rénové notre salle de bain en 8 jours, exactement dans le budget prévu. Le résultat est magnifique — douche à l\'italienne, plan vasque suspendu, tout est parfait. Je recommande les yeux fermés.',
     name: 'Sophie M.',
-    role: 'Toulouse — Quartier Saint-Aubin',
+    role: (clientCity(sessionData) ?? 'Toulouse') + ' — Quartier Saint-Aubin',
     work: 'Rénovation salle de bain complète',
   },
   {
@@ -1418,6 +1419,8 @@ const TESTIMONIALS278_DEMO: Testimonial278[] = [
     work: 'Installation chaudière condensation',
   },
 ];
+}
+let TESTIMONIALS278_DEMO = TESTIMONIALS278_DEMO_LIVE();;
 
 function TestimonialCard({ t, i }: { t: Testimonial278; i: number }) {
   return (
@@ -2488,7 +2491,7 @@ function UrgencySection() {
    ════════════════════════════════════════════════════════════════════════════ */
 function FooterSection() {
   const zones = [
-    'Toulouse',
+    (clientCity(sessionData) ?? 'Toulouse'),
     'Blagnac',
     'Colomiers',
     'Tournefeuille',
@@ -2854,6 +2857,8 @@ function Impact278Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS278_DEMO = TESTIMONIALS278_DEMO_LIVE();
 
   PROCESS_STEPS = PROCESS_STEPS_LIVE();
 

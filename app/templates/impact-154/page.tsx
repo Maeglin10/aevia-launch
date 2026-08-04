@@ -48,7 +48,8 @@ let brand: any = null;
    IVORY ARCHIVE DATASET (ULTRA DENSITY)
    ========================================================================== */
 
-const COLLECTIONS_SOURCE = [
+function COLLECTIONS_SOURCE_LIVE() {
+  return [
   {
     id: "art-01",
     title: "The Renaissance Veil",
@@ -63,7 +64,7 @@ const COLLECTIONS_SOURCE = [
     title: "Celestial Marbles",
     period: "Classical Era",
     status: "In_Exhibition",
-    location: "Paris Annex",
+    location: (clientCity({ formData: fd }) ?? "Paris") + " Annex",
     desc: "Sculptures hellénistiques retrouvées lors de l'expédition de 1924 en mer Égée.",
     image: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=1200&auto=format&fit=crop"
   },
@@ -76,7 +77,9 @@ const COLLECTIONS_SOURCE = [
     desc: "Enluminures byzantines sur parchemin de soie, en cours de stabilisation pigmentaire.",
     image: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1200&auto=format&fit=crop"
   }
-]
+];
+}
+let COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
 let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;
 let COLLECTIONS = COLLECTIONS_DEMO;
 
@@ -100,7 +103,8 @@ let LAB_METRICS = LAB_METRICS_SOURCE;
    ========================================================================== */
 
 // Full curated collection for the Collection / Œuvres page (extends COLLECTIONS).
-const ARCHIVE_WORKS_DEMO_SOURCE = [
+function ARCHIVE_WORKS_DEMO_SOURCE_LIVE() {
+  return [
   ...COLLECTIONS,
   {
     id: "art-04",
@@ -116,7 +120,7 @@ const ARCHIVE_WORKS_DEMO_SOURCE = [
     title: "Veduta of the Lost City",
     period: "18th Century",
     status: "In_Exhibition",
-    location: "Paris Annex",
+    location: (clientCity({ formData: fd }) ?? "Paris") + " Annex",
     desc: "Vue capricieuse à l'huile d'une cité engloutie, étude topographique d'une précision saisissante.",
     image: "https://images.unsplash.com/photo-1549289524-06cf8837ace5?q=80&w=1200&auto=format&fit=crop"
   },
@@ -129,7 +133,9 @@ const ARCHIVE_WORKS_DEMO_SOURCE = [
     desc: "Reliquaire en argent niellé, serti de pierres semi-précieuses, en cours d'analyse métallurgique.",
     image: "https://images.unsplash.com/photo-1620503374956-c942862f0372?q=80&w=1200&auto=format&fit=crop"
   }
-]
+];
+}
+let ARCHIVE_WORKS_DEMO_SOURCE = ARCHIVE_WORKS_DEMO_SOURCE_LIVE();
 let ARCHIVE_WORKS_DEMO = ARCHIVE_WORKS_DEMO_SOURCE;
 let ARCHIVE_WORKS = ARCHIVE_WORKS_DEMO;
 
@@ -390,6 +396,10 @@ export default function IvoryArchivePremium() {
   }, []);
 
   fd = session?.formData;
+
+  ARCHIVE_WORKS_DEMO_SOURCE = ARCHIVE_WORKS_DEMO_SOURCE_LIVE();
+
+  COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
   bp = session?.businessProfile;
 
   LAB_METRICS = resolveList(

@@ -177,12 +177,13 @@ const OFFERS_DEMO: Offer[] = [
   },
 ];
 
-const EDIT_ROWS_DEMO: EditRow[] = [
+function EDIT_ROWS_DEMO_LIVE() {
+  return [
   {
     eyebrow: 'Votre transformation',
     ghostNumber: '01',
     img: 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=800',
-    imgAlt: 'Séance de coaching privé au Studio Athletic Lyon',
+    imgAlt: 'Séance de coaching privé au Studio Athletic ' + (clientCity(sessionData) ?? 'Lyon'),
     title: (
       <>
         PAS DE MIRACLE.{' '}
@@ -196,7 +197,7 @@ const EDIT_ROWS_DEMO: EditRow[] = [
     eyebrow: 'Le studio',
     ghostNumber: '02',
     img: `${PHOTO_BASE}1571019613454-1cb2f99b2d8b?q=80&w=800&auto=format&fit=crop`,
-    imgAlt: 'Studio Athletic Lyon 6e — équipements professionnels',
+    imgAlt: 'Studio Athletic ' + (clientCity(sessionData) ?? 'Lyon') + ' 6e — équipements professionnels',
     title: (
       <>
         LYON 6E,{' '}
@@ -209,6 +210,8 @@ const EDIT_ROWS_DEMO: EditRow[] = [
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const METHOD_ITEMS: MethodItem[] = [
@@ -2176,6 +2179,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();
 
   // Client-uploaded photos (beyond the hero, which uses index 0) replace the
   // template's stock Unsplash photography in the editorial rows.

@@ -56,14 +56,17 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const ZONES_DEMO = [
-  { v: "Lyon 1er — 9e", d: "Tous arrondissements, sans supplément" },
+function ZONES_DEMO_LIVE() {
+  return [
+  { v: (clientCity({ formData: fd }) ?? "Lyon") + " 1er — 9e", d: "Tous arrondissements, sans supplément" },
   { v: "Villeurbanne", d: "Sans supplément" },
   { v: "Caluire · Rillieux", d: "Sans supplément" },
   { v: "Écully · Tassin · Sainte-Foy", d: "Sans supplément" },
   { v: "Bron · Vénissieux · Saint-Priest", d: "Supplément déplacement 6 €" },
   { v: "Reste du Rhône", d: "Sur étude, à partir de 4 h par passage" },
 ];
+}
+let ZONES_DEMO = ZONES_DEMO_LIVE();;
 let ZONES = ZONES_DEMO;
 
 function SERVICES_SOURCE_LIVE() {
@@ -113,6 +116,8 @@ export default function BrilloNetPage() {
   }, []);
 
   fd = session?.formData;
+
+  ZONES_DEMO = ZONES_DEMO_LIVE();
 
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   c = session?.generatedContent;
@@ -438,7 +443,7 @@ export default function BrilloNetPage() {
           {[
             { t: "Services", ls: ["Ménage domicile", "Nettoyage bureaux", "Fin de chantier", "Nettoyage écologique", "Vitres & surfaces"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Zone d'intervention", "Tarifs indicatifs", "Avis clients", "Blog nettoyage"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 78 12 34 56"), (fd?.email ?? "contact@brillonet.fr"), "Lyon Métropole", "7j/7 8h-20h", "Devis gratuit en 2h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 78 12 34 56"), (fd?.email ?? "contact@brillonet.fr"), (clientCity({ formData: fd }) ?? "Lyon") + " Métropole", "7j/7 8h-20h", "Devis gratuit en 2h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#0d9488)] mb-5">{col.t}</h4>

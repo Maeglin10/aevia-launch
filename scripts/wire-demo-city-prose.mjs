@@ -63,7 +63,7 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
     if (!argIci) continue;
 
     let n = 0;
-    const motif = new RegExp(`(^|[\\s>(,·—–])(${ville})(?=[\\s<.,;:!?·—–)]|$)`, "g");
+    const motif = new RegExp(`(^|[\\s>(,·—–])(${ville})(?=[\\s<{.,;:!?·—–)]|$)`, "g");
     const lignes = src.split("\n").map((l) => {
       if (/^\s*(import|const|let|var|function|export|\/\/|\*)/.test(l)) return l;
       if (/alt=|src=|href=|clientCity|content=|title=|aria-label=/.test(l)) return l;

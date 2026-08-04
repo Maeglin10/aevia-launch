@@ -1,5 +1,8 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
@@ -232,7 +235,7 @@ const testimonials: Testimonial[] = [
   },
   {
     name: "Édouard de Villeneuve",
-    title: "Family Charter, Paris",
+    title: "Family Charter, " + (clientCity(sessionData) ?? "Paris"),
     text: "We have chartered through three agencies over twenty years. Horizon Maritime is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.",
     yacht: "S/Y Ariel — 42m",
     stars: 5,

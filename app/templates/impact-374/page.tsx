@@ -54,7 +54,10 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "On cale vos trajets", "d": "Un appel pour poser les habitudes : jours, heures, adresses, particularités. Tout est écrit."}, {"n": "02", "t": "Confirmation la veille", "d": "SMS la veille au soir avec l'heure et le chauffeur. Pas de doute au réveil."}, {"n": "03", "t": "Le trajet, soigné", "d": "Ponctualité, aide à la montée, conduite souple : les habitués choisissent leur musique — ou le silence."}, {"n": "04", "t": "La facturation simple", "d": "Tiers payant pour le médical conventionné, facture mensuelle pour les abonnés, reçu immédiat sinon."}];
 const ENGAGEMENT_DEMO = ["Carte professionnelle VTC, entreprise au registre REVTC, assurance transport de personnes", "Conventionné transport assis (TAP) : le médical sur prescription, sans avance de frais", "Chauffeurs stables : vos trajets réguliers gardent le même visage", "SMS de confirmation la veille et d'arrivée à destination pour les proches qui s'inquiètent"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS_DEMO = [{"a": "Transport médical assis (TAP)", "p": "conventionné", "n": "Sur prescription médicale de transport — tiers payant, zéro avance."}, {"a": "Trajet en ville", "p": "dès 12 €", "n": "Prix ferme annoncé à la réservation, attente raisonnable incluse."}, {"a": "Abonnement hebdo (4 trajets)", "p": "dès 44 €/sem.", "n": "Mêmes trajets, même chauffeur, facturé au mois."}, {"a": "Gare de Rennes (départ 6h-8h)", "p": "18 €", "n": "Prise en charge à domicile, dépose au plus près du quai."}];
+function TARIFS_DEMO_LIVE() {
+  return [{"a": "Transport médical assis (TAP)", "p": "conventionné", "n": "Sur prescription médicale de transport — tiers payant, zéro avance."}, {"a": "Trajet en ville", "p": "dès 12 €", "n": "Prix ferme annoncé à la réservation, attente raisonnable incluse."}, {"a": "Abonnement hebdo (4 trajets)", "p": "dès 44 €/sem.", "n": "Mêmes trajets, même chauffeur, facturé au mois."}, {"a": "Gare de " + (clientCity(sessionData) ?? "Rennes") + " (départ 6h-8h)", "p": "18 €", "n": "Prise en charge à domicile, dépose au plus près du quai."}];
+}
+let TARIFS_DEMO = TARIFS_DEMO_LIVE();;
 let TARIFS = TARIFS_DEMO;
 const AVIS_SOURCE = [{"texte": "Trois dialyses par semaine depuis un an : toujours à l'heure, toujours le même chauffeur, la prescription gérée avec la CPAM sans que je m'en occupe. Ce service tient ma semaine debout.", "auteur": "Gérard L., 71 ans", "detail": "Transport médical TAP"}, {"texte": "Ma fille va au conservatoire le mercredi avec Cap Chauffeur depuis deux ans. SMS au départ, SMS à l'arrivée : je travaille tranquille, elle est autonome en sécurité.", "auteur": "Maman de Jeanne, 11 ans", "detail": "Abonnement famille"}, {"texte": "TGV de 6h38 tous les lundis : le chauffeur sonne à 6h05, le café est encore chaud à Montparnasse. La régularité parfaite, sans y penser.", "auteur": "Consultant rennais", "detail": "Abonnement gare"}];
 let AVIS_DEMO = AVIS_SOURCE;
@@ -89,6 +92,9 @@ export default function CapChauffeurPage() {
 
 
   fd = session?.formData;
+
+
+  TARIFS_DEMO = TARIFS_DEMO_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -389,7 +395,7 @@ export default function CapChauffeurPage() {
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>VTC & transport assis · {clientCity(sessionData) ?? "Rennes"}<br />REVTC — conventionné transport assis professionnalisé (TAP)</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Rennes, Ille-et-Vilaine" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Sam 6h–22h · abonnés 7j/7" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Rennes") + ", Ille-et-Vilaine" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Sam 6h–22h · abonnés 7j/7" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

@@ -420,7 +420,7 @@ export default function HalleAuxFromagesPage() {
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Fromagerie-crèmerie affineur · {clientCity(sessionData) ?? "Chambéry"}<br />Cave d'affinage sur place, AOP de Savoie en direct des fermes</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Chambéry, Savoie" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Mar–Sam 8h30–13h / 15h–19h30 · Dim 8h30–12h30" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Chambéry") + ", Savoie" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Mar–Sam 8h30–13h / 15h–19h30 · Dim 8h30–12h30" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

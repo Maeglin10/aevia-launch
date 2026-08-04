@@ -210,7 +210,8 @@ const OFFERS_DEMO: Offer[] = [
   },
 ];
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'La méthode',
     img: PHOTO.weightsEdit,
@@ -227,7 +228,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
   {
     eyebrow: 'Où vous entraîner',
     img: PHOTO.outdoorEdit,
-    imgAlt: 'Coaching sportif en extérieur à Marseille',
+    imgAlt: 'Coaching sportif en extérieur à ' + (clientCity(sessionData) ?? 'Marseille'),
     title: (
       <>
         À domicile /{' '}
@@ -239,6 +240,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const PILLARS: PillarItem[] = [
@@ -264,11 +267,12 @@ const PILLARS: PillarItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote: "Après 10 régimes ratés, je n'y croyais plus. En 5 mois avec lui, j'ai perdu 18 kg sans jamais me sentir privée. Sa méthode change tout.",
     name: 'Sandrine M.',
-    role: 'Cadre administrative · Marseille',
+    role: 'Cadre administrative · ' + (clientCity(sessionData) ?? 'Marseille'),
     result: '−18 kg en 5 mois',
   },
   {
@@ -278,6 +282,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     result: 'Triathlon complété',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -2006,7 +2012,7 @@ function Footer() {
     },
     {
       title: 'Contact',
-      items: ['Séance offerte', 'Réserver', 'Marseille · Aix · Aubagne', (fd?.email ?? 'contact@forcebrute.fr')],
+      items: ['Séance offerte', 'Réserver', (clientCity(sessionData) ?? 'Marseille') + ' · Aix · Aubagne', (fd?.email ?? 'contact@forcebrute.fr')],
       hrefs: ['#contact', '#contact', '#contact', '#contact'],
     },
   ];
@@ -2204,6 +2210,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

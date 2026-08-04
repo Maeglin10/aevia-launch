@@ -52,25 +52,33 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
     if (!arg) continue;
 
     let n = 0;
-    // Une valeur de propriété, écrite en apostrophes ou en guillemets, qui cite
-    // la ville comme un mot entier. Les clés d'objet et les attributs JSX sont
-    // hors sujet : ils ne s'affichent pas.
-    const motif = new RegExp(
-      `(\\b(?:desc|description|text|texte|body|sub|subtitle|blurb|resume|answer|a|content|excerpt|intro)\\s*:\\s*)(['"])((?:[^'"\\\\]|\\\\.)*?\\b${ville}\\b(?:[^'"\\\\]|\\\\.)*?)\\2`,
-      "g",
-    );
-    src = src.replace(motif, (m0, cle, q, valeur) => {
-      if (valeur.includes("${") || valeur.includes("clientCity")) return m0;
-      const morceaux = valeur.split(new RegExp(`\\b${ville}\\b`));
-      if (morceaux.length < 2) return m0;
-      n++;
-      const rendu = morceaux
-        .map((x) => `${q}${x}${q}`)
-        .join(` + (clientCity(${arg}) ?? ${q}${ville}${q}) + `)
-        .replace(new RegExp(`${q}${q} \\+ `, "g"), "")
-        .replace(new RegExp(` \\+ ${q}${q}`, "g"), "");
-      return `${cle}${rendu}`;
-    });
+    // Toute chaîne en position de donnée — élément de tableau ou valeur de
+    // propriété — qui cite la ville comme un mot entier. La première version
+    // n'acceptait qu'une liste de clés (desc, body, text…) et laissait passer
+    // `role: 'Propriétaires · Toulouse Lardenne'`, `bio: "… chez Dessange à
+    // Paris …"` et `items: ['📍 Toulouse & agglomération']`.
+    const motCle = new RegExp(`\\b${ville}\\b`);
+    src = src.split("\n").map((ligne) => {
+      if (/^\s*(import|export|\/\/|\*)/.test(ligne)) return ligne;
+      if (/href=|alt=|alt:|aria|placeholder|content=|@type|schema|clientCity/.test(ligne)) return ligne;
+      return ligne.replace(/(['"])((?:[^'"\\]|\\.)*)\1/g, (m0, q, valeur, pos) => {
+        const avantChar = ligne.slice(0, pos).replace(/\s+$/, "").slice(-1);
+        const apresChar = ligne.slice(pos + m0.length).replace(/^\s+/, "").slice(0, 1);
+        if (!"[,:".includes(avantChar)) return m0;
+        if (apresChar && !"],}".includes(apresChar)) return m0;
+        if (valeur.includes("${") || valeur.includes("\\") || !motCle.test(valeur)) return m0;
+        const morceaux = valeur.split(motCle);
+        n++;
+        return morceaux
+          .map((x) => (x ? `${q}${x}${q}` : null))
+          .reduce((acc, x, i) => {
+            if (i > 0) acc.push(`(clientCity(${arg}) ?? ${q}${ville}${q})`);
+            if (x) acc.push(x);
+            return acc;
+          }, [])
+          .join(" + ");
+      });
+    }).join("\n");
 
     if (n === 0) continue;
 

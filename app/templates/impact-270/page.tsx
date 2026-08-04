@@ -202,7 +202,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     body: "Nos quatre artistes ont tous étudié les beaux-arts avant de poser l'aiguille sur peau. Chaque tatouage est une œuvre unique, dessinée à la main, jamais reproduite à l'identique. Ce n'est pas un motif choisi dans un catalogue — c'est une conversation entre vous et l'artiste.",
   },
   {
-    eyebrow: 'Lille',
+    eyebrow: (clientCity(sessionData) ?? 'Lille'),
     img: ph('https://images.pexels.com/photos/29547854/pexels-photo-29547854.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
     alt: 'Atelier lumineux Peau & Plume — Vieux-Lille',
     numeral: '02',
@@ -1967,7 +1967,7 @@ function Footer() {
     },
     {
       title: 'Atelier',
-      items: ['Notre univers', 'Vieux-Lille', 'Hygiène & sécurité', 'Réserver'],
+      items: ['Notre univers', 'Vieux-' + (clientCity(sessionData) ?? 'Lille'), 'Hygiène & sécurité', 'Réserver'],
     },
   ];
 

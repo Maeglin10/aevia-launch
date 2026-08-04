@@ -421,7 +421,7 @@ export default function AquaThermPage() {
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Plombier chauffagiste RGE · {clientCity(sessionData) ?? "Lille"}<br />Urgences 24h/24 · 7j/7</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: "Lille, Nord" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "03 20 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 24h/24" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lille") + ", Nord" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "03 20 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 24h/24" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

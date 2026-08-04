@@ -81,12 +81,13 @@ const STATS_DEMO = [
 ]
 let STATS = STATS_DEMO;
 
-const PROJECTS_DEMO = [
+function PROJECTS_DEMO_LIVE() {
+  return [
   {
     id: 1,
     name: 'Tour Confluence',
     category: 'Immobilier d\'entreprise',
-    location: 'Lyon, France',
+    location: (clientCity(sessionData) ?? 'Lyon') + ', France',
     year: '2023',
     surface: '42 000 m²',
     floors: 28,
@@ -122,7 +123,9 @@ const PROJECTS_DEMO = [
     floors: 3,
     color: '#2a3d4a',
   },
-]
+];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 const MATERIALS_SOURCE = [
   {
@@ -2001,6 +2004,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;

@@ -87,7 +87,7 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
 const REALISATIONS_DEMO = [
-  { client: "MaisonDéco Paris", sector: "E-commerce", desc: "Refonte UX + boutique Shopify. +68% de taux de conversion en 3 mois.", img: "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80" },
+  { client: "MaisonDéco " + (clientCity({ formData: fd }) ?? "Paris"), sector: "E-commerce", desc: "Refonte UX + boutique Shopify. +68% de taux de conversion en 3 mois.", img: "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80" },
   { client: "Cabinet Forêt & Associés", sector: "Juridique", desc: "Site vitrine + SEO local. Page 1 sur 8 requêtes cibles en 4 mois.", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80" },
   { client: "Startup Finly", sector: "FinTech", desc: "MVP SaaS de 0 à prod en 6 semaines. Levée de fonds facilités par la démo.", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" },
 ]
@@ -501,7 +501,7 @@ export default function PixelRepublicPage() {
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Agence digitale · {clientCity({ formData: fd }) ?? "Paris"}<br />Lun–Ven 9h–18h30</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: "Paris, Île-de-France" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "01 44 00 00 00") }, { icon: <Mail size={13} />, t: (fd?.email ?? "hello@pixelrepublic.fr") }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "01 44 00 00 00") }, { icon: <Mail size={13} />, t: (fd?.email ?? "hello@pixelrepublic.fr") }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

@@ -55,14 +55,17 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 
-const CHANTIERS = [
+function CHANTIERS_LIVE() {
+  return [
   { t: "Piscine miroir 9 × 4 m", v: "Balma", d: "Béton armé, débordement sur trois côtés, local technique enterré. Livrée en 11 semaines, terrasse comprise." },
   { t: "Rénovation complète", v: "Colomiers", d: "Bassin de 1994 : liner remplacé par du carrelage, filtration et hydraulique refaits, éclairage LED." },
   { t: "Couloir de nage 12 m", v: "Castanet-Tolosan", d: "Nage à contre-courant, volet immergé, chauffage par pompe à chaleur. Terrain en pente, soutènement inclus." },
   { t: "Piscine familiale 8 × 4 m", v: "Tournefeuille", d: "Escalier d'angle, plage en pierre reconstituée, abri bas télescopique. Le chantier le plus fréquent." },
   { t: "Spa de nage encastré", v: "Ramonville", d: "Installation sur dalle existante, raccordement électrique dédié, mise en service et formation à l'entretien." },
-  { t: "Sécurisation & mise aux normes", v: "Toulouse Nord", d: "Barrière NF P90-306 et alarme immergée sur un bassin hérité. Attestation de conformité remise au propriétaire." },
+  { t: "Sécurisation & mise aux normes", v: (clientCity({ formData: fd }) ?? "Toulouse") + " Nord", d: "Barrière NF P90-306 et alarme immergée sur un bassin hérité. Attestation de conformité remise au propriétaire." },
 ];
+}
+let CHANTIERS = CHANTIERS_LIVE();;
 
 const TARIFS_DEMO = [
   { a: "Piscine coque polyester posée", p: "à partir de 18 500 €", n: "Terrassement, pose, filtration, mise en eau. 7 × 3,5 m." },
@@ -172,6 +175,8 @@ export default function VoltPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+
+  CHANTIERS = CHANTIERS_LIVE();
   c = session?.generatedContent;
 
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
@@ -488,7 +493,7 @@ return (
             <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6, maxWidth: 220 }}>Pisciniste certifié FPP<br />{clientCity({ formData: fd }) ?? "Toulouse"} & agglomération</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: "Toulouse, Haute-Garonne" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "05 61 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 7j/7 · 24h/24" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Toulouse") + ", Haute-Garonne" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "05 61 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 7j/7 · 24h/24" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

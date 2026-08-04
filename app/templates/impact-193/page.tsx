@@ -78,11 +78,14 @@ const PRISES_EN_CHARGE_DEMO = [
   { icon: Calendar, title: "Sportifs & préparation physique", desc: "Bilan ostéo préventif avant saison, récupération post-blessure, optimisation mobilité articulaire. Suivi de sportifs amateurs et semi-professionnels." },
 ]
 
-const AVIS_DEMO = [
-  { q: "Sciatique depuis 3 mois, aucun soulagement avec les médicaments. Après 2 séances avec Emma, la douleur a diminué de 70%. Je recommence à marcher normalement.", n: "Frédéric H.", l: "Montpellier" },
+function AVIS_DEMO_LIVE() {
+  return [
+  { q: "Sciatique depuis 3 mois, aucun soulagement avec les médicaments. Après 2 séances avec Emma, la douleur a diminué de 70%. Je recommence à marcher normalement.", n: "Frédéric H.", l: (clientCity(sessionData) ?? "Montpellier") },
   { q: "Mon fils de 6 semaines avait des coliques intenses. Deux séances d'ostéopathie crânienne et les cris nocturnes ont quasiment disparu. Je n'aurais pas cru si je ne l'avais pas vécu.", n: "Camille & Maxime D.", l: "Lattes (34)" },
   { q: "Suivi trimestriel depuis ma grossesse jusqu'à maintenant (14 mois post-partum). Emma est bienveillante, pédagogue, ses mains savent exactement où aller. Une vraie experte.", n: "Louise M.", l: "Palavas-les-Flots" },
-]
+];
+}
+let AVIS_DEMO = AVIS_DEMO_LIVE();
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -118,6 +121,8 @@ export default function OsteoGaiaPage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_DEMO = AVIS_DEMO_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -248,7 +253,7 @@ export default function OsteoGaiaPage() {
       {/* ── CONFIANCE ── */}
       <section className="py-10 bg-[#ede6d9]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12 flex flex-wrap gap-6 justify-center md:justify-between">
-          {["Diplômée IFSO Montpellier", "Remboursement mutuelle", "Nourrissons & grossesse", "Suivi sportifs"].map((b, i) => (
+          {["Diplômée IFSO " + (clientCity(sessionData) ?? "Montpellier"), "Remboursement mutuelle", "Nourrissons & grossesse", "Suivi sportifs"].map((b, i) => (
             <Reveal key={i} delay={i * 0.06}>
               <div className="flex items-center gap-3">
                 <CheckCircle className="w-4 h-4 text-[var(--brand,#c26b4c)]" />
@@ -447,7 +452,7 @@ export default function OsteoGaiaPage() {
           {[
             { t: "Soins", ls: ["Lombalgies & dos", "Nourrissons & bébés", "Grossesse & post-partum", "Sportifs", "Céphalées", "Viscéral"] },
             { t: "Cabinet", ls: ["L'approche", "Mon parcours", "Tarifs & remboursements", "Avis patients", "FAQ"] },
-            { t: "RDV", ls: ["8 rue de la Merci", "34000 Montpellier", "Mar-Sam 8h30-19h", (fd?.phone ?? "04 67 89 12 34"), (fd?.email ?? "contact@osteo-gaia.fr")] },
+            { t: "RDV", ls: ["8 rue de la Merci", "34000 " + (clientCity(sessionData) ?? "Montpellier"), "Mar-Sam 8h30-19h", (fd?.phone ?? "04 67 89 12 34"), (fd?.email ?? "contact@osteo-gaia.fr")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c26b4c)]/40 mb-5">{col.t}</h4>

@@ -1315,7 +1315,7 @@ function LocationSection() {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {[
-                  { icon: '◎', label: 'Address', val: '8 Avenue de la Paix, 75009 Paris' },
+                  { icon: '◎', label: 'Address', val: '8 Avenue de la Paix, 75009 ' + (clientCity(sessionData) ?? 'Paris') },
                   { icon: '◎', label: 'Telephone', val: '+33 1 40 00 00 00' },
                   { icon: '◎', label: 'Reservations', val: (fd?.email ?? 'reservations@grandpalais.fr') },
                   { icon: '◎', label: 'Concierge', val: 'Available 24 hours' },
@@ -1372,7 +1372,7 @@ function LocationSection() {
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
 const TESTIMONIALS = [
-  { name: 'Sophie R.', origin: 'Paris', text: 'An experience that redefined our expectations of hospitality. Every detail, every gesture — flawless.', stars: 5 },
+  { name: 'Sophie R.', origin: (clientCity(sessionData) ?? 'Paris'), text: 'An experience that redefined our expectations of hospitality. Every detail, every gesture — flawless.', stars: 5 },
   { name: 'James W.', origin: 'London', text: 'The Grand Palais is beyond comparison. The suite views, the silence, the staff — we return every autumn.', stars: 5 },
   { name: 'Hana T.', origin: 'Tokyo', text: 'The most extraordinary stay of our lives. Nothing prepares you for the quiet perfection of this place.', stars: 5 },
 ];
@@ -2202,7 +2202,7 @@ function ContactPage() {
             {[
               { label: 'Telephone', val: '+33 1 40 00 00 00' },
               { label: 'Reservations', val: (fd?.email ?? 'reservations@grandpalais.fr') },
-              { label: 'Address', val: '8 Avenue de la Paix, 75009 Paris' },
+              { label: 'Address', val: '8 Avenue de la Paix, 75009 ' + (clientCity(sessionData) ?? 'Paris') },
               { label: 'Concierge', val: 'Available 24 hours a day' },
             ].map((item) => (
               <div key={item.label} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start', marginBottom: '1.75rem', borderBottom: `1px solid ${GOLD}30`, paddingBottom: '1.4rem' }}>

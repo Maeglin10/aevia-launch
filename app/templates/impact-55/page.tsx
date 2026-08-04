@@ -84,12 +84,15 @@ const DOMAINES_SOURCE = [
 ]
 let DOMAINES = DOMAINES_SOURCE;
 
-const ENGAGEMENTS_DEMO = [
-  "Membre du Barreau de Paris depuis 2002",
+function ENGAGEMENTS_DEMO_LIVE() {
+  return [
+  "Membre du Barreau de " + (clientCity({ formData: fd }) ?? "Paris") + " depuis 2002",
   "Devis honoraires transparents avant tout engagement",
   "Convention d'honoraires systématique et détaillée",
   "Aide juridictionnelle acceptée sous conditions",
-]
+];
+}
+let ENGAGEMENTS_DEMO = ENGAGEMENTS_DEMO_LIVE();
 let ENGAGEMENTS = ENGAGEMENTS_DEMO;
 
 const AVIS_SOURCE = [
@@ -143,6 +146,8 @@ export default function CabinetRenardPage() {
   }, []);
 
   fd = session?.formData;
+
+  ENGAGEMENTS_DEMO = ENGAGEMENTS_DEMO_LIVE();
   c = session?.generatedContent;
   DOMAINES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...DOMAINES_SOURCE[i % DOMAINES_SOURCE.length], titre: s.title, desc: s.desc || "" || "" })),
@@ -425,7 +430,7 @@ export default function CabinetRenardPage() {
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Cabinet d'avocats · {clientCity({ formData: fd }) ?? "Paris"}<br />Barreau de Paris</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: "Paris, Île-de-France" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "01 44 00 00 01") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "01 44 00 00 01") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.gold }}>{item.icon}</span>{item.t}
               </div>

@@ -2024,7 +2024,7 @@ function EquipeSection() {
       prenom: 'Dr. Sophie',
       nom: 'Marchetti',
       specialite: 'Rééducation orthopédique & sportive',
-      diplome: 'D.E. Kinésithérapie · Université de Montpellier 2006',
+      diplome: 'D.E. Kinésithérapie · Université de ' + (clientCity(sessionData) ?? 'Montpellier') + ' 2006',
       formation: 'DU Traumatologie du sport · Physiothérapie manuelle ORTHO',
       annees: "18 ans d'expérience",
       langues: 'Français · Anglais · Italien',

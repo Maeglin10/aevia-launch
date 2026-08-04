@@ -216,7 +216,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   {
     eyebrow: 'Le cabinet',
     img: P.wellnessMd,
-    imgAlt: 'Cabinet médical du Dr. Moulin à Bordeaux Chartrons',
+    imgAlt: 'Cabinet médical du Dr. Moulin à ' + (clientCity(sessionData) ?? 'Bordeaux') + ' Chartrons',
     title: (
       <>
         {clientCity(sessionData) ?? "Bordeaux"} /{' '}
@@ -255,20 +255,23 @@ const APPROACH_ITEMS: ApproachItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       'Cinq ans de fatigue inexpliquée, trois spécialistes, aucune réponse. En deux consultations, le Dr. Moulin a identifié une hypothyroïdie fonctionnelle couplée à une dysbiose intestinale. Six mois plus tard, je me sens enfin vivante.',
     name: 'Sophie L.',
-    role: 'Patiente · Bordeaux',
+    role: 'Patiente · ' + (clientCity(sessionData) ?? 'Bordeaux'),
   },
   {
     quote:
       "Burn-out complet après quinze ans de direction. Grâce au protocole micronutrition et au suivi mensuel du Dr. Moulin, j'ai retrouvé toute ma capacité en quatre mois. Une approche qui va vraiment au fond des choses.",
     name: 'Thomas R.',
-    role: 'Dirigeant · Bordeaux',
+    role: 'Dirigeant · ' + (clientCity(sessionData) ?? 'Bordeaux'),
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -1926,7 +1929,7 @@ function Footer() {
       items: [
         { label: 'Prendre RDV', href: '#rdv' },
         { label: 'Téléconsultation', href: '#rdv' },
-        { label: 'Bordeaux · Chartrons', href: '#rdv' },
+        { label: (clientCity(sessionData) ?? 'Bordeaux') + ' · Chartrons', href: '#rdv' },
         { label: (fd?.email ?? 'dr.moulin@exemple.fr'), href: '#rdv' },
       ],
     },
@@ -2131,6 +2134,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   bp = session?.businessProfile;

@@ -1887,7 +1887,7 @@ function Footer() {
     },
     {
       title: 'Contact',
-      items: ['Prendre rendez-vous', '9 rue de Monceau, Paris 8e', (fd?.email ?? 'cabinet@vaillant-assoc.fr'), '+33 1 40 00 00 00'],
+      items: ['Prendre rendez-vous', '9 rue de Monceau, ' + (clientCity(sessionData) ?? 'Paris') + ' 8e', (fd?.email ?? 'cabinet@vaillant-assoc.fr'), '+33 1 40 00 00 00'],
     },
   ];
 

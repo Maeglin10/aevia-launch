@@ -1399,12 +1399,13 @@ type Temoignage = {
   etoiles: number;
 };
 
-const TEMOIGNAGES_DEMO: Temoignage[] = [
+function TEMOIGNAGES_DEMO_LIVE() {
+  return [
   {
     quote:
       "Après des années à sourire la bouche fermée, deux implants ont tout changé. La mise en charge immédiate m'a permis de repartir avec une couronne provisoire dès le lendemain de l'intervention. Le résultat définitif est bluffant de naturel — aucun de mes proches ne devine que ce n'est pas ma vraie dent.",
     prenom: 'Sophie R.',
-    role: 'Cadre, 52 ans · Bordeaux',
+    role: 'Cadre, 52 ans · ' + (clientCity(sessionData) ?? 'Bordeaux'),
     resultat: 'Implant unitaire + couronne céramique',
     etoiles: 5,
   },
@@ -1420,11 +1421,13 @@ const TEMOIGNAGES_DEMO: Temoignage[] = [
     quote:
       "Le blanchiment Phillips Zoom suivi de 6 facettes en céramique : le résultat est spectaculaire mais complètement naturel. Dr Prévost a pris le temps de choisir la teinte avec moi, et le laboratoire a réalisé des facettes ultra-fines qui respectent ma morphologie dentaire. Je souris enfin librement.",
     prenom: 'Antoine M.',
-    role: 'Avocat, 44 ans · Bordeaux Chartrons',
+    role: 'Avocat, 44 ans · ' + (clientCity(sessionData) ?? 'Bordeaux') + ' Chartrons',
     resultat: 'Blanchiment + 6 facettes céramique',
     etoiles: 5,
   },
 ];
+}
+let TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();;
 
 function TestimonialsSection() {
   const sec: React.CSSProperties = {
@@ -2794,6 +2797,8 @@ export default function Impact284Page() {
   }, []);
 
   fd = session?.formData;
+
+  TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
   EQUIPEMENTS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EQUIPEMENTS_SOURCE[i % EQUIPEMENTS_SOURCE.length], nom: s.title, description: s.desc || "" || "" })),
     EQUIPEMENTS_SOURCE,

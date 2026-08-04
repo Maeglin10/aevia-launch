@@ -254,12 +254,13 @@ const SPECS: Spec[] = [
   },
 ];
 
-const REVIEWS_SOURCE: Review[] = [
+function REVIEWS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "J'avais une phobie du dentiste depuis 20 ans. La première consultation avec le Dr Sorrento a tout changé. Zéro douleur, équipe rassurante, résultat parfait. Je ne savais pas que ça pouvait être aussi simple.",
     name: 'Isabelle M.',
-    role: 'Patiente depuis 2 ans · Nice',
+    role: 'Patiente depuis 2 ans · ' + (clientCity(sessionData) ?? 'Nice'),
   },
   {
     quote:
@@ -274,6 +275,8 @@ const REVIEWS_SOURCE: Review[] = [
     role: 'Implantologie · Antibes',
   },
 ];
+}
+let REVIEWS_SOURCE = REVIEWS_SOURCE_LIVE();;
 let REVIEWS_DEMO = REVIEWS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -2210,6 +2213,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  REVIEWS_SOURCE = REVIEWS_SOURCE_LIVE();
   PHASES = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PHASES_SOURCE[i % PHASES_SOURCE.length], label: s.title, sub: s.desc || "" || "" })),
     PHASES_SOURCE,

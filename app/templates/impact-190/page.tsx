@@ -382,7 +382,7 @@ export default function AutoExpertPage() {
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              { q: "Devis transparent, délai respecté à la journée. Ma Megane 4 révisée + plaquettes changées en une journée. Propre, professionnel, prix juste. Je reviens.", n: "Sébastien P.", l: "Rennes Villejean" },
+              { q: "Devis transparent, délai respecté à la journée. Ma Megane 4 révisée + plaquettes changées en une journée. Propre, professionnel, prix juste. Je reviens.", n: "Sébastien P.", l: (clientCity({ formData: fd }) ?? "Rennes") + " Villejean" },
               { q: "Carrosserie après accrochage prise en charge à 100% par mon assurance. Voiture comme neuve en 4 jours. La couleur est identique, on ne voit rien. Merci !", n: "Nathalie L.", l: "Cesson-Sévigné (35)" },
               { q: "Seul garage du coin qui accepte les Tesla Model 3. Diagnostic précis, pièces d'origine, et personnel vraiment compétent sur les EV. Une adresse à garder.", n: "Kevin T.", l: "Saint-Grégoire (35)" },
             ].map((t, i) => (
@@ -437,7 +437,7 @@ export default function AutoExpertPage() {
           {[
             { t: "Services", ls: ["Entretien & révision", "Carrosserie & peinture", "Diagnostic électronique", "Véhicules électriques", "Dépannage 7j/7"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Nos agréments", "Prise en charge assurance", "Tarifs", "FAQ"] },
-            { t: "Adresse", ls: ["45 zone Industrielle Nord", "35000 Rennes", "Lun-Ven 8h-18h30", "Sam 8h-17h", (fd?.phone ?? "02 99 34 56 78")] },
+            { t: "Adresse", ls: ["45 zone Industrielle Nord", "35000 " + (clientCity({ formData: fd }) ?? "Rennes"), "Lun-Ven 8h-18h30", "Sam 8h-17h", (fd?.phone ?? "02 99 34 56 78")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#dc2626)]/40 mb-5">{col.t}</h4>

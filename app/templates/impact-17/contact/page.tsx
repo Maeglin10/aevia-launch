@@ -1,5 +1,7 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+} from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -191,7 +193,7 @@ export default function ContactPage() {
             ]},
             { title: "Contact", links: [
               { name: "Prendre rendez-vous", path: "/templates/impact-17/contact" },
-              { name: "Paris Showroom", path: "/templates/impact-17/contact" },
+              { name: (clientCity(sessionData) ?? "Paris") + " Showroom", path: "/templates/impact-17/contact" },
               { name: "Faire une demande", path: "/templates/impact-17/contact" }
             ]},
           ].map(col => (

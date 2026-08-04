@@ -474,7 +474,7 @@ export default function VisionClairePage() {
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Opticien indépendant · {clientCity({ formData: fd }) ?? "Nantes"}<br />Mar–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: "Nantes, Loire-Atlantique" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "02 40 00 00 01") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Nantes") + ", Loire-Atlantique" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "02 40 00 00 01") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.cyan }}>{item.icon}</span>{item.t}
               </div>

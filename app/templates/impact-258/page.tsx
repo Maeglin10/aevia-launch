@@ -214,12 +214,13 @@ const ATELIER_STEPS: AtélierStep[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Ma robe de mariée a été confectionnée ici, en cinq essayages d'une patience extraordinaire. L'atelier a capturé quelque chose que je n'aurais su décrire — une présence que je n'avais jamais eue dans un vêtement.",
     name: 'Camille R.',
-    role: 'Mariée · Marseille',
+    role: 'Mariée · ' + (clientCity(sessionData) ?? 'Marseille'),
   },
   {
     quote:
@@ -228,6 +229,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     role: 'Directrice générale · Aix-en-Provence',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const PIECE_TYPES_DEMO = [
@@ -2116,6 +2119,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
   bp = session?.businessProfile;

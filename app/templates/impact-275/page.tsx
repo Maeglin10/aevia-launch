@@ -2691,7 +2691,7 @@ function PracticalSection() {
     {
       icon: MapPin,
       label: 'Adresse',
-      lines: ['18, rue Breteuil', '13006 Marseille — 6e arrondissement', 'Proche Préfecture · Parking Préfecture'],
+      lines: ['18, rue Breteuil', '13006 ' + (clientCity(sessionData) ?? 'Marseille') + ' — 6e arrondissement', 'Proche Préfecture · Parking Préfecture'],
     },
     {
       icon: Clock,
@@ -3065,7 +3065,7 @@ function FooterSection() {
             {/* Badges légaux */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
-                'Barreau de Marseille — Toque DF 1204',
+                'Barreau de ' + (clientCity(sessionData) ?? 'Marseille') + ' — Toque DF 1204',
                 'CARPA — Maniement de fonds sécurisé',
                 'RPVA — Procédure dématérialisée',
               ].map((b, i) => (

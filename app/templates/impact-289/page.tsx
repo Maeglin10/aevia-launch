@@ -1361,7 +1361,8 @@ type Testimonial = {
   stars: number;
 };
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Je suis artisan plombier depuis 18 ans. Schreiber & Associés ont restructuré ma comptabilité en 3 mois. Aujourd'hui, je comprends mes chiffres et j'ai récupéré 6 800 € de trop-perçu fiscal sur les deux dernières années.",
@@ -1374,7 +1375,7 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     quote:
       "Nous avons créé notre SAS en 2021. Grâce à leur accompagnement, nous avons optimisé nos rémunérations dirigeants et mis en place un plan d'intéressement. Le conseil dépasse largement la simple comptabilité.",
     name: 'Ambre & Julien Wittmer',
-    role: 'Co-gérants SAS Wittmer Traiteur — Strasbourg',
+    role: 'Co-gérants SAS Wittmer Traiteur — ' + (clientCity(sessionData) ?? 'Strasbourg'),
     saving: "14 200 € d'économies annuelles",
     stars: 5,
   },
@@ -1382,11 +1383,13 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     quote:
       "Notre holding familiale gère cinq SCI. Les équipes de Schreiber ont restructuré l'ensemble du schéma fiscal. La réactivité et la profondeur de leur analyse sont celles d'un grand cabinet parisien — avec la proximité alsacienne en plus.",
     name: 'Famille Obermeyer',
-    role: 'Holding familiale · 5 entités · Strasbourg Neudorf',
+    role: 'Holding familiale · 5 entités · ' + (clientCity(sessionData) ?? 'Strasbourg') + ' Neudorf',
     saving: "38 500 € d'optimisation annuelle",
     stars: 5,
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialsSection() {
@@ -2110,18 +2113,19 @@ type PartnerCategory = {
   partners: { name: string; detail: string }[];
 };
 
-const PARTNER_CATEGORIES: PartnerCategory[] = [
+function PARTNER_CATEGORIES_LIVE() {
+  return [
   {
     category: 'Notaires',
     partners: [
-      { name: 'Étude Schmitt & Kœnig', detail: 'Strasbourg — Patrimoine & transmission' },
+      { name: 'Étude Schmitt & Kœnig', detail: (clientCity(sessionData) ?? 'Strasbourg') + ' — Patrimoine & transmission' },
       { name: 'Maître Hoffmann', detail: 'Neudorf — Immobilier & SCI' },
     ],
   },
   {
     category: 'Avocats',
     partners: [
-      { name: 'Cabinet Reiss Droit des Affaires', detail: 'Strasbourg — M&A, cessions' },
+      { name: 'Cabinet Reiss Droit des Affaires', detail: (clientCity(sessionData) ?? 'Strasbourg') + ' — M&A, cessions' },
       { name: 'Me Burger & Associés', detail: 'Droit social & contentieux prud\'homal' },
     ],
   },
@@ -2129,7 +2133,7 @@ const PARTNER_CATEGORIES: PartnerCategory[] = [
     category: 'Banques',
     partners: [
       { name: "Caisse d\'Épargne Grand Est Europe", detail: 'Crédit entreprise & financement' },
-      { name: 'BNP Paribas Strasbourg Centre', detail: 'Trésorerie & placements dirigeants' },
+      { name: 'BNP Paribas ' + (clientCity(sessionData) ?? 'Strasbourg') + ' Centre', detail: 'Trésorerie & placements dirigeants' },
     ],
   },
   {
@@ -2140,6 +2144,8 @@ const PARTNER_CATEGORIES: PartnerCategory[] = [
     ],
   },
 ];
+}
+let PARTNER_CATEGORIES = PARTNER_CATEGORIES_LIVE();;
 
 function PartnersSection() {
   const sec: React.CSSProperties = {
@@ -2614,6 +2620,10 @@ export default function Impact289Page() {
   }, []);
 
   fd = session?.formData;
+
+  PARTNER_CATEGORIES = PARTNER_CATEGORIES_LIVE();
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   STATS_DEMO = STATS_DEMO_LIVE();
 

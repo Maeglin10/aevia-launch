@@ -1553,7 +1553,7 @@ function Realisations() {
   const projects_DEMO = [
     {
       type: 'Ravalement ITE',
-      location: 'Immeuble copropriété — Lyon 8e',
+      location: 'Immeuble copropriété — ' + (clientCity(sessionData) ?? 'Lyon') + ' 8e',
       surface: '620 m² de façade',
       year: '2024',
       description: "Isolation thermique par l\'extérieur sur immeuble R+4, enduit minéral teinté dans la masse. Subvention copropriété obtenue.",
@@ -1569,7 +1569,7 @@ function Realisations() {
     },
     {
       type: 'Étanchéité toiture',
-      location: 'Restaurant Le Gourmet — Vieux-Lyon',
+      location: 'Restaurant Le Gourmet — Vieux-' + (clientCity(sessionData) ?? 'Lyon'),
       surface: '210 m² terrasse',
       year: '2023',
       description: "Reprise complète de l\'étanchéité bitumineuse d\'une toiture-terrasse accessible, relevés carrelés, évacuations refaites.",
@@ -1940,7 +1940,7 @@ function Testimonials() {
     {
       text: "Ravalement complet de notre immeuble de 12 lots, travaux terminés en avance sur le planning et dans le budget. Marc et son équipe ont été d'une professionnalisme exemplaire. Le syndic a déjà signé pour le prochain chantier.",
       author: 'Isabelle Roux',
-      role: 'Présidente du conseil syndical — Lyon 6e',
+      role: 'Présidente du conseil syndical — ' + (clientCity(sessionData) ?? 'Lyon') + ' 6e',
       rating: 5,
     },
     {
@@ -1952,13 +1952,13 @@ function Testimonials() {
     {
       text: "Rénovation complète de la salle de bain et des WC en 6 jours chrono. Carrelage parfaitement posé, douche italienne réalisée sans aucune fuite. Le chef de chantier était joignable à toute heure.",
       author: 'Léa Fontaine',
-      role: 'Propriétaire — Lyon 3e',
+      role: 'Propriétaire — ' + (clientCity(sessionData) ?? 'Lyon') + ' 3e',
       rating: 5,
     },
     {
       text: "Notre restaurant avait des problèmes d'infiltration sur la toiture-terrasse depuis 3 ans. Deux entreprises n'avaient pas réussi. Bâtisseurs Durand a diagnostiqué le problème en une heure et réparé définitivement. Merci !",
       author: 'Aurélien Gastaud',
-      role: 'Restaurateur — Vieux-Lyon',
+      role: 'Restaurateur — Vieux-' + (clientCity(sessionData) ?? 'Lyon'),
       rating: 5,
     },
     {
@@ -2722,7 +2722,7 @@ function Footer() {
               Zones
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {['Lyon & Métropole', 'Villeurbanne', 'Caluire-et-Cuire', 'Vienne', 'Bourgoin-Jallieu', 'Villefranche-sur-Saône'].map((z) => (
+              {[(clientCity(sessionData) ?? 'Lyon') + ' & Métropole', 'Villeurbanne', 'Caluire-et-Cuire', 'Vienne', 'Bourgoin-Jallieu', 'Villefranche-sur-Saône'].map((z) => (
                 <span key={z} style={{ fontSize: 13, color: C.textMuted }}>{z}</span>
               ))}
             </div>

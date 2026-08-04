@@ -79,7 +79,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 const PROJECTS_DEMO = [
   { title: "Piscine miroir Presqu'île", city: "Lyon 2ème", surface: "10 × 4 m", style: "Béton sur-mesure", img: "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200" },
   { title: "Villa Les Pins", city: "Tassin-la-Demi-Lune", surface: "12 × 5 m", style: "Bassin à débordement", img: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Couloir de nage Croix-Rousse", city: "Lyon 4ème", surface: "12 × 2,5 m", style: "Contemporain", img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Couloir de nage Croix-Rousse", city: (clientCity({ formData: fd }) ?? "Lyon") + " 4ème", surface: "12 × 2,5 m", style: "Contemporain", img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200" },
 ]
 
 const SERVICES_SOURCE = [
@@ -140,8 +140,8 @@ export default function MaelleDumasPiscinesPage() {
       loc: r.location ?? r.context ?? "",
     })),
     [
-      { quote: "Maëlle a conçu notre piscine miroir avec un goût sûr : intégration paysagère parfaite, matériaux nobles. Un vrai talent au service de nos envies.", name: "Claire & Antoine R.", loc: "Lyon 6ème" },
-      { quote: "Écoute parfaite, respect du budget, délais tenus. Notre couloir de nage est devenu le coeur de notre jardin. On en rêvait depuis des années.", name: "Thomas M.", loc: "Lyon 4ème" },
+      { quote: "Maëlle a conçu notre piscine miroir avec un goût sûr : intégration paysagère parfaite, matériaux nobles. Un vrai talent au service de nos envies.", name: "Claire & Antoine R.", loc: (clientCity({ formData: fd }) ?? "Lyon") + " 6ème" },
+      { quote: "Écoute parfaite, respect du budget, délais tenus. Notre couloir de nage est devenu le coeur de notre jardin. On en rêvait depuis des années.", name: "Thomas M.", loc: (clientCity({ formData: fd }) ?? "Lyon") + " 4ème" },
       { quote: "La rénovation de notre bassin a tout changé : nouveau liner, plage et éclairage. L'espace inspire calme et élégance. Au-delà de nos espérances.", name: "Dr. Sophie L.", loc: "Tassin-la-Demi-Lune" },
     ]
   );
@@ -435,7 +435,7 @@ return (
           </div>
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Conception & étude 3D", "Rénovation de bassin", "Aménagement & pool house"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 78 12 34 56"), (fd?.email ?? "contact@maelledumas.fr"), "Lyon · Auvergne-Rhône-Alpes", "Devis sous 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 78 12 34 56"), (fd?.email ?? "contact@maelledumas.fr"), (clientCity({ formData: fd }) ?? "Lyon") + " · Auvergne-Rhône-Alpes", "Devis sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.3em", color: C.terra, marginBottom: "1.25rem" }}>{col.t}</div>

@@ -166,7 +166,7 @@ function EDIT_ROWS_DEMO_LIVE() {
     img: 'https://images.pexels.com/photos/4506109/pexels-photo-4506109.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
     titleNode: (
       <>
-        Nantes{' '}
+        {clientCity(sessionData) ?? "Nantes"}{' '}
         <span style={{ fontStyle: 'italic' }}>/ Île de {clientCity(sessionData) ?? "Nantes"}.</span>
       </>
     ),
@@ -201,12 +201,13 @@ const PRINCIPLES: PrincipleItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Maçon depuis vingt ans, j'avais des lombalgies chroniques depuis sept ans. Quatre séances ont suffi à résoudre complètement le problème. Je n'aurais jamais cru ça possible.",
     name: 'Thierry M.',
-    role: 'Artisan · Nantes',
+    role: 'Artisan · ' + (clientCity(sessionData) ?? 'Nantes'),
   },
   {
     quote:
@@ -215,6 +216,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     role: 'Parents · Saint-Herblain',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -1863,7 +1866,7 @@ function Footer() {
     {
       title: 'Cabinet',
       items: [
-        'Île de Nantes',
+        'Île de ' + (clientCity(sessionData) ?? 'Nantes'),
         'Tram ligne 1',
         'Téléconsultation',
         'Contact',
@@ -2070,6 +2073,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();
   c = session?.generatedContent;

@@ -1317,12 +1317,13 @@ type Testimonial = {
   stars: number;
 };
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Le Dr. Lecomte suit mon diabète depuis cinq ans avec une rigueur et une humanité remarquables. Il prend le temps d'expliquer chaque résultat et adapte le traitement sans jamais perdre le contact humain. Je me sens vraiment entre de bonnes mains.",
     name: 'Christine M.',
-    context: 'Suivi diabète de type 2 · Nantes',
+    context: 'Suivi diabète de type 2 · ' + (clientCity(sessionData) ?? 'Nantes'),
     stars: 5,
   },
   {
@@ -1336,10 +1337,12 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     quote:
       "Nous avons choisi le Dr. Lecomte comme médecin traitant pour toute la famille. Il connaît nos antécédents, prend en charge les petits comme les adultes, et répond toujours présent. C'est exactement la médecine de famille dont on avait besoin.",
     name: 'Famille Garnier',
-    context: 'Médecin traitant famille · Nantes Centre',
+    context: 'Médecin traitant famille · ' + (clientCity(sessionData) ?? 'Nantes') + ' Centre',
     stars: 5,
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialCard({ t, i }: { t: any; i: number }) {
@@ -2290,7 +2293,7 @@ function TEAM_DEMO_LIVE() {
   {
     nom: (clientName(sessionData) ?? "Dr. Marc Lecomte"),
     role: 'Médecin généraliste & médecin du voyageur',
-    bio: 'Diplômé de la Faculté de Médecine de Nantes, le Dr. Lecomte exerce en libéral depuis 2008. Titulaire du Diplôme Universitaire de Médecine des Voyages, il assure un suivi global de ses patients et une prise en charge personnalisée des pathologies chroniques.',
+    bio: 'Diplômé de la Faculté de Médecine de ' + (clientCity(sessionData) ?? 'Nantes') + ', le Dr. Lecomte exerce en libéral depuis 2008. Titulaire du Diplôme Universitaire de Médecine des Voyages, il assure un suivi global de ses patients et une prise en charge personnalisée des pathologies chroniques.',
     img: PHOTO.medecin,
     accent: C.emerald,
   },
@@ -2794,6 +2797,8 @@ function Impact285Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;

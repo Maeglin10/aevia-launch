@@ -166,12 +166,13 @@ const STATS_DEMO = [
 ]
 let STATS = STATS_DEMO;
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote: "Aurelia a créé la bague de fiançailles de mes rêves. Chaque détail dépasse ce que j'avais imaginé. Une maison d'exception.",
     author: "Isabelle M.",
     occasion: "Fiançailles",
-    location: "Paris",
+    location: (clientCity(sessionData) ?? "Paris"),
     rating: 5,
   },
   {
@@ -195,7 +196,9 @@ const TESTIMONIALS_SOURCE = [
     location: "Bordeaux",
     rating: 5,
   },
-]
+];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const PRESS_DEMO = [
@@ -1853,6 +1856,8 @@ export default function Impact91Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

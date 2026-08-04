@@ -53,7 +53,10 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "Le malt d'à côté", "d": "Orges de Flandre maltées à 30 km : la matière première voyage moins que nos bouteilles."}, {"n": "02", "t": "Le brassin de 20 hL", "d": "Petits volumes, brassage tous les mardis : on peut se permettre d'arrêter une recette qui ne nous plaît plus."}, {"n": "03", "t": "Fermentation lente", "d": "Trois semaines minimum, garde à froid : le temps que le brasseur industriel n'a pas et que le goût réclame."}, {"n": "04", "t": "Ni filtrée ni pasteurisée", "d": "La bière reste vivante, un léger dépôt est normal — c'est la preuve, pas le défaut."}];
 const ENGAGEMENT_DEMO = ["Brasserie indépendante : aucun groupe au capital, aucune bière brassée pour d'autres", "Malts d'orge de Flandre, houblons tracés, aucun additif ni arôme", "Bières non filtrées, non pasteurisées — DLUO courte, goût long", "Consigne bouteilles et fûts : rapportez, on reprend, on relave"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS_DEMO = [{"a": "Bouteille 33 cl (boutique)", "p": "3,20 €", "n": "Consigne 0,20 € rendue au retour."}, {"a": "Caisse de 12 (assortie)", "p": "34 €", "n": "Composez avec les permanentes et la saisonnière du moment."}, {"a": "Fût 20 L + tireuse prêtée", "p": "145 €", "n": "Caution tireuse, livraison sur Lille comprise."}, {"a": "Visite-dégustation (1 h 30)", "p": "12 €", "n": "Cuves, brassin en cours, 4 dégustations. Le samedi à 15 h."}];
+function TARIFS_DEMO_LIVE() {
+  return [{"a": "Bouteille 33 cl (boutique)", "p": "3,20 €", "n": "Consigne 0,20 € rendue au retour."}, {"a": "Caisse de 12 (assortie)", "p": "34 €", "n": "Composez avec les permanentes et la saisonnière du moment."}, {"a": "Fût 20 L + tireuse prêtée", "p": "145 €", "n": "Caution tireuse, livraison sur " + (clientCity(sessionData) ?? "Lille") + " comprise."}, {"a": "Visite-dégustation (1 h 30)", "p": "12 €", "n": "Cuves, brassin en cours, 4 dégustations. Le samedi à 15 h."}];
+}
+let TARIFS_DEMO = TARIFS_DEMO_LIVE();;
 let TARIFS = TARIFS_DEMO;
 const AVIS_SOURCE = [{"texte": "L'IPA du Beffroi est devenue la bière officielle de nos vendredis. Le taproom au pied des cuves, avec le brasseur qui passe expliquer le brassin en cours : c'est ça, boire local.", "auteur": "Habitué du taproom", "detail": "Taproom"}, {"texte": "Fûts et tireuse pour notre mariage de 120 personnes : livrés, installés, repris le lundi. La blanche a fait l'unanimité, même chez les non-buveurs de bière.", "auteur": "Marion & Cédric", "detail": "Fûts événement"}, {"texte": "La visite du samedi avec dégustation vaut largement les 12 €. On a compris pourquoi une bière artisanale coûte ce qu'elle coûte — et on l'achète sans broncher depuis.", "auteur": "Groupe d'amis lillois", "detail": "Visite-dégustation"}];
 let AVIS_DEMO = AVIS_SOURCE;
@@ -88,6 +91,9 @@ export default function BrasserieHoublonPage() {
 
 
   fd = session?.formData;
+
+
+  TARIFS_DEMO = TARIFS_DEMO_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -388,7 +394,7 @@ export default function BrasserieHoublonPage() {
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Brasserie artisanale indépendante · {clientCity(sessionData) ?? "Lille"}<br />Bières non filtrées, non pasteurisées — vente directe et CHR</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Lille, Nord" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Taproom : Jeu–Sam 17h–00h · boutique Mer–Sam 14h–19h" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lille") + ", Nord" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Taproom : Jeu–Sam 17h–00h · boutique Mer–Sam 14h–19h" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

@@ -183,7 +183,8 @@ const CARE_CARDS_DEMO: Care[] = [
   },
 ];
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre engagement',
     imgId: 'https://images.pexels.com/photos/6502305/pexels-photo-6502305.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -198,7 +199,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     reverse: false,
   },
   {
-    eyebrow: 'Strasbourg-Centre',
+    eyebrow: (clientCity(sessionData) ?? 'Strasbourg') + '-Centre',
     imgId: 'https://images.pexels.com/photos/7789668/pexels-photo-7789668.jpeg?auto=compress&cs=tinysrgb&w=800',
     numeral: '02',
     title: (
@@ -211,6 +212,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const TECH_ITEMS: TechItem[] = [
@@ -236,12 +239,13 @@ const TECH_ITEMS: TechItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "J'avais une phobie du dentiste depuis 15 ans. Le protocole MEOPA du Dr Rosenfeld a tout changé. Je viens maintenant tous les 6 mois sans appréhension. Une équipe qui écoute vraiment.",
     name: 'Nathalie B.',
-    role: 'Patiente · Strasbourg',
+    role: 'Patiente · ' + (clientCity(sessionData) ?? 'Strasbourg'),
   },
   {
     quote:
@@ -250,6 +254,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     role: 'Patient · Schiltigheim',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -2149,6 +2155,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   PHASES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PHASES_DEMO_SOURCE[i % PHASES_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     PHASES_DEMO_SOURCE,

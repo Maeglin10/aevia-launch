@@ -179,7 +179,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     quote: "Fréquence est la seule newsletter que j'ouvre en premier le lundi matin. Pas de superflu, des idées qui tiennent et qui transforment ma manière de penser le business.",
     name: "Alexandre M.",
-    role: "Directeur Produit, Scale-up Paris",
+    role: "Directeur Produit, Scale-up " + (clientCity({ formData: fd }) ?? "Paris"),
     stars: 5,
   },
   {

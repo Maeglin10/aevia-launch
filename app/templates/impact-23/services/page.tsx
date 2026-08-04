@@ -1,5 +1,8 @@
 "use client";
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientServices,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import { motion, useScroll, AnimatePresence, useInView } from "framer-motion";
@@ -173,7 +176,7 @@ export default function Impact23ServicesPage() {
                   et européens pour garantir une qualité d&apos;image et de son irréprochable.
                 </p>
                 <div className="space-y-3">
-                  {["Direction de production et plan de travail", "Casting sur Paris, régions et international", "Repérages et autorisations de tournage", "Coordination avec les prestataires techniques", "Suivi quotidien et rushes dailies"].map(item => (
+                  {["Direction de production et plan de travail", "Casting sur " + (clientCity(sessionData) ?? "Paris") + ", régions et international", "Repérages et autorisations de tournage", "Coordination avec les prestataires techniques", "Suivi quotidien et rushes dailies"].map(item => (
                     <div key={item} className="flex items-start gap-2">
                       <ChevronRight className="w-3 h-3 text-[#C9A05A] mt-1 shrink-0" />
                       <p className="text-white/50 text-sm">{item}</p>

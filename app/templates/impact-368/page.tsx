@@ -53,7 +53,10 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "Un dossier partagé", "d": "Vos informations suivies par les trois praticiennes : en congé ou en garde, quelqu'un qui VOUS connaît répond."}, {"n": "02", "t": "Des créneaux réels", "d": "Soirs jusqu'à 20 h, samedi matin, urgences quotidiennes : l'agenda est fait pour les gens qui travaillent."}, {"n": "03", "t": "La visio quand il faut", "d": "Alitement, distance, bébé endormi : préparation et consultations de suivi possibles en visio remboursée."}, {"n": "04", "t": "Le relais organisé", "d": "Maternités, PMI, ostéopathes, psychologues périnatales : on adresse, on suit, on ne lâche pas le fil."}];
 const ENGAGEMENT_DEMO = ["Trois sages-femmes diplômées d'État, conventionnées, inscrites à l'Ordre", "Secrétariat téléphonique humain en semaine, agenda en ligne 24h/24", "Astreinte 7j/7 pour la patientèle en fin de grossesse et post-partum", "Tiers payant systématique — la maternité ne devrait rien coûter d'avance"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS_DEMO = [{"a": "Consultation (suivi, gynéco)", "p": "tarif conventionné", "n": "Tiers payant : carte Vitale, zéro avance."}, {"a": "Préparation naissance (×8)", "p": "100 % prises en charge", "n": "Présentiel, piscine ou visio."}, {"a": "Visite à domicile post-partum", "p": "prise en charge", "n": "PRADO et au-delà si nécessaire, sur Caen et 15 km."}, {"a": "Pose de DIU", "p": "tarif conventionné", "n": "Consultation préalable + pose, remboursées."}];
+function TARIFS_DEMO_LIVE() {
+  return [{"a": "Consultation (suivi, gynéco)", "p": "tarif conventionné", "n": "Tiers payant : carte Vitale, zéro avance."}, {"a": "Préparation naissance (×8)", "p": "100 % prises en charge", "n": "Présentiel, piscine ou visio."}, {"a": "Visite à domicile post-partum", "p": "prise en charge", "n": "PRADO et au-delà si nécessaire, sur " + (clientCity(sessionData) ?? "Caen") + " et 15 km."}, {"a": "Pose de DIU", "p": "tarif conventionné", "n": "Consultation préalable + pose, remboursées."}];
+}
+let TARIFS_DEMO = TARIFS_DEMO_LIVE();;
 let TARIFS = TARIFS_DEMO;
 const AVIS_SOURCE = [{"texte": "Rendez-vous à 19h30 après le travail, urgence allaitement vue un dimanche matin par la sage-femme de garde qui avait tout mon dossier : ce cabinet est organisé comme on en rêve.", "auteur": "Pauline D.", "detail": "Suivi + urgence allaitement"}, {"texte": "Grossesse alitée : toute la préparation en visio, sans rien rater. Le co-parent assistait depuis son bureau. On est arrivés au jour J prêts tous les deux.", "auteur": "Margaux & Thibault", "detail": "Préparation en visio"}, {"texte": "La rééducation à 19h45, c'est ce qui m'a permis de la faire vraiment, au lieu d'abandonner comme pour l'aîné. Dix séances tenues.", "auteur": "Charlotte V.", "detail": "Rééducation périnéale"}];
 let AVIS_DEMO = AVIS_SOURCE;
@@ -88,6 +91,9 @@ export default function NeufMoisPage() {
 
 
   fd = session?.formData;
+
+
+  TARIFS_DEMO = TARIFS_DEMO_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -388,7 +394,7 @@ export default function NeufMoisPage() {
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Cabinet de sages-femmes · {clientCity(sessionData) ?? "Caen"}<br />Conventionnées CPAM — Ordre des sages-femmes</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Caen, Calvados" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Sam 8h–20h" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Caen") + ", Calvados" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Sam 8h–20h" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>
