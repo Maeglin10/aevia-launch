@@ -373,7 +373,7 @@ export default function GentlemansCutPage() {
           </motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-sm text-sm text-[#f5f0e8]/30 leading-relaxed mb-12" style={{ fontFamily: "'DM Mono', monospace", fontStyle: "normal" }}>{c?.heroSubline ?? fd?.tagline ?? <>
+            className="max-w-sm text-sm text-[#f5f0e8]/30 leading-relaxed mb-12" style={{ fontFamily: "'DM Mono', monospace", fontStyle: "normal" }}>{fd?.tagline ?? c?.heroSubline ?? <>
             Coupe au ciseau, rasage droit, taille de barbe. Techniques ancestrales, produits artisanaux, précision chirurgicale.
           </>}</motion.p>
 

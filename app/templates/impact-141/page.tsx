@@ -477,7 +477,7 @@ export default function SonicPlayerPage() {
               <h3 className="text-3xl font-bold mb-6">
                 A Journey Through Synthetic Soundscapes.
               </h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-8">{c?.heroSubline ?? fd?.tagline ?? <>
+              <p className="text-slate-400 text-sm leading-relaxed mb-8">{fd?.tagline ?? c?.heroSubline ?? <>
                 The highly anticipated sophomore album fuses vintage analog
                 synthesis with cutting-edge spatial audio production. It's a
                 cinematic experience designed for late-night drives and

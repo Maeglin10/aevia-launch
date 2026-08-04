@@ -320,7 +320,7 @@ export default function NoirCouturePage() {
                     </>}</h1>
                   </Reveal>
                   <Reveal delay={0.2}>
-                    <p className="text-white/60 text-sm leading-relaxed max-w-xs mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+                    <p className="text-white/60 text-sm leading-relaxed max-w-xs mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
                       L'art de la silhouette. Chaque pièce est une déclaration. Chaque collection, un manifeste.
                     </>}</p>
                   </Reveal>

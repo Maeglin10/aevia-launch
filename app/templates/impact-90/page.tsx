@@ -1194,7 +1194,7 @@ export default function Page() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.1 }}
             style={{ fontFamily: "'Cabin', sans-serif", fontSize: 16, color: C.muted, lineHeight: 1.75, maxWidth: 520, margin: "0 auto 48px", fontWeight: 400 }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Boulangerie artisanale à {clientCity(sessionData) ?? "Lyon"} depuis 1987. Pains au levain, viennoiseries feuilletées, et ateliers de boulangerie. Tout est fait à la main, dans le respect du temps.
           </>}</motion.p>
 

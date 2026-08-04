@@ -305,7 +305,7 @@ export default function ChronicleEditorialPage() {
               <div className="mt-8 p-6 bg-[#f0eee9] border border-[#1a1814]/10">
                 <Newspaper className="w-8 h-8 text-[var(--brand,#d64000)] mb-4" />
                 <h4 className="font-serif italic text-xl mb-2">Morning Briefing</h4>
-                <p className="text-sm text-[#1a1814]/60 mb-4 leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>Start your day with what you need to know.</>}</p>
+                <p className="text-sm text-[#1a1814]/60 mb-4 leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>Start your day with what you need to know.</>}</p>
                 <button className="w-full py-2 bg-[#1a1814] text-white text-xs font-bold uppercase tracking-widest hover:bg-[var(--brand,#d64000)] transition-colors">{c?.ctaText ?? <>
                   Sign Up
                 </>}</button>

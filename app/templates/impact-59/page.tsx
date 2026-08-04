@@ -163,7 +163,7 @@ return (
               Rest is <br />{" "}
               <span className="italic font-light">the work.</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-black/50 leading-relaxed font-light mb-12">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-black/50 leading-relaxed font-light mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
               Luminal designs profound retreat experiences in the world&apos;s most
               transformative landscapes. We create the conditions for genuine
               rest through carefully calibrated stillness.

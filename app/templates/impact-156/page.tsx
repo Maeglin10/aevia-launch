@@ -341,7 +341,7 @@ export default function LumiereYogaPage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? fd?.tagline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{fd?.tagline ?? c?.heroSubline ?? <>
             Lumière Yoga accueille tous les niveaux dans un espace chaleureux et bienveillant à {clientCity(sessionData) ?? "Bordeaux"}. Vinyasa, Yin, méditation — une pratique complète pour le corps et l'esprit.
           </>}</motion.p>
 

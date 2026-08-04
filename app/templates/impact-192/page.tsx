@@ -243,7 +243,7 @@ export default function SecurFastPage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-[#f0f4ff]/28 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+            className="max-w-md text-sm text-[#f0f4ff]/28 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
             Serrurier professionnel à {clientCity({ formData: fd }) ?? "Strasbourg"}. Urgences 24h/24, 7j/7. Ouverture de porte, changement de serrure, porte blindée. Intervention sous 30 min. Devis avant intervention.
           </>}</motion.p>
 

@@ -294,7 +294,7 @@ export default function EclatSpaPage() {
             Révélez votre éclat,<br /><em style={{ color: C.rose }}>corps et âme.</em>
           </>}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? fd?.tagline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{fd?.tagline ?? c?.heroSubline ?? <>
             Institut de beauté et spa à {clientCity({ formData: fd }) ?? "Nice"}. Soins visage, massages, épilation, maquillage — des rituels de bien-être avec des produits biologiques et une expertise de 14 ans.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>

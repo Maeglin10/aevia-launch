@@ -270,7 +270,7 @@ export default function PulseEventsPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.25}>
-              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
                 Curated live music experiences in the world's most iconic venues. Electronic, orchestral, indie — all unforgettable.
               </>}</p>
             </Reveal>

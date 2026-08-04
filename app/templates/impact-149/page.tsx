@@ -314,7 +314,7 @@ export default function AetherWellnessPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <AetherHero headline={c?.heroHeadline} subline={c?.heroSubline ?? fd?.tagline} />
+        <AetherHero headline={c?.heroHeadline} subline={fd?.tagline ?? c?.heroSubline} />
 
         {/* ── PILLARS ───────────────── */}
         <section className="py-40 bg-white border-y border-black/5">

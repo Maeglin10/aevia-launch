@@ -324,7 +324,7 @@ export default function AtlasPage() {
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#D4C9B0] text-lg leading-relaxed max-w-xl mb-8" style={{ fontFamily: "'EB Garamond', serif" }}>{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="text-[#D4C9B0] text-lg leading-relaxed max-w-xl mb-8" style={{ fontFamily: "'EB Garamond', serif" }}>{fd?.tagline ?? c?.heroSubline ?? <>
               {featuredArticle.excerpt}
             </>}</p>
             <Link href="#articles" className="inline-flex items-center gap-3 text-[#F5F0E8] text-sm border-b border-[var(--brand,#C0392B)] pb-0.5 hover:text-[var(--brand,#C0392B)] transition-colors cursor-pointer">

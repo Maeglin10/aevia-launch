@@ -240,7 +240,7 @@ export default function Impact83Page() {
                 lineHeight: 1.7,
                 fontStyle: "italic",
               }}
-            >{c?.heroSubline ?? fd?.tagline ?? <>
+            >{fd?.tagline ?? c?.heroSubline ?? <>
               Depuis 1887, Aurelius Heritage perpétue l&apos;excellence de la joaillerie française et l&apos;art horloger suisse pour les collectionneurs du monde entier.
             </>}</motion.p>
 

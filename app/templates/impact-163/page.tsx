@@ -606,7 +606,7 @@ export default function EssentialBlogPage() {
                 }}>{c?.heroHeadline ?? <>
                   {FEATURED_ARTICLE.title}
                 </>}</h1>
-                <p className="imx-hero-sub" style={{ fontSize: 16, color: "rgba(250,250,250,0.55)", fontFamily: C.sans, lineHeight: 1.75, marginBottom: 32, maxWidth: 580 }}>{c?.heroSubline ?? fd?.tagline ?? <>
+                <p className="imx-hero-sub" style={{ fontSize: 16, color: "rgba(250,250,250,0.55)", fontFamily: C.sans, lineHeight: 1.75, marginBottom: 32, maxWidth: 580 }}>{fd?.tagline ?? c?.heroSubline ?? <>
                   {FEATURED_ARTICLE.excerpt}
                 </>}</p>
                 <div className="imx-hero-meta" style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 36, flexWrap: "wrap" }}>

@@ -272,7 +272,7 @@ export default function LuminaLawPage() {
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <p className="text-base md:text-xl text-black/60 font-light max-w-lg leading-relaxed mb-6 md:mb-12">{c?.heroSubline ?? fd?.tagline ?? <>
+                  <p className="text-base md:text-xl text-black/60 font-light max-w-lg leading-relaxed mb-6 md:mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
                     Lumina Law is a high-stakes firm dedicated to complex litigation and corporate strategy. When the outcome defines your legacy, we are the standard.
                   </>}</p>
                 </Reveal>

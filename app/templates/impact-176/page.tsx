@@ -1481,7 +1481,7 @@ export default function Impact176Page() {
               marginBottom: 48,
               maxWidth: 460,
             }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Metric turns raw data into actionable insights.
             Dashboards, alerts, and automated reports — all in one platform built for serious teams.
           </>}</motion.p>

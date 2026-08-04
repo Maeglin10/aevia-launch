@@ -191,7 +191,7 @@ export default function VoltLogisticsPage() {
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.25}>
-                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12">{c?.heroSubline ?? fd?.tagline ?? <>
+                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
                     Autonomous, all-electric, and AI-driven logistics. We don't just deliver packages; we engineer time and efficiency.
                   </>}</p>
                 </Reveal>

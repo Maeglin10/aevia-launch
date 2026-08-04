@@ -111,7 +111,7 @@ function HeroSection() {
             transition={{ duration: 0.6, ease: EASE_3, delay: BEAT.second }}
             className="hero-lede"
             style={{ fontFamily: SANS, fontSize: 16, color: "rgba(255,255,255,0.66)", lineHeight: 1.7, maxWidth: 460, margin: "0 0 26px" }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             {fd?.businessName ?? "Dumont & Associés"} conseille dirigeants, fondateurs et conseils d’administration là où l’issue compte vraiment.
           </>}</motion.p>
 

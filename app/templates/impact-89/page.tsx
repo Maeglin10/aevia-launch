@@ -902,7 +902,7 @@ return (
               lineHeight: 1.7,
               fontWeight: 300,
             }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Tatouage luxury à {clientCity({ formData: fd }) ?? "Paris"}. Trois artistes. Un standard absolu d'excellence — de la consultation à la cicatrisation.
           </>}</motion.p>
 

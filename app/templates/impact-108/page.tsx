@@ -360,7 +360,7 @@ export default function LedgerPage() {
               marginBottom: 40,
               maxWidth: 520,
             }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Cabinet d&apos;expertise comptable à {clientCity({ formData: fd }) ?? "Bordeaux"} depuis 25 ans. Nous transformons vos obligations comptables en leviers de décision pour votre entreprise.
           </>}</motion.p>
           <motion.div

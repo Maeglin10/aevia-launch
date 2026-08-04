@@ -528,7 +528,7 @@ export default function EclatLuxuryPage() {
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1 }}
               className="max-w-2xl mx-auto text-lg md:text-xl text-zinc-400 font-light italic tracking-wide"
-            >{c?.heroSubline ?? fd?.tagline ?? <>
+            >{fd?.tagline ?? c?.heroSubline ?? <>
               Architectural scent structures crafted in Grasse. Where botanical rarity meets quantum precision.
             </>}</motion.p>
           </div>

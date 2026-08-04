@@ -221,7 +221,7 @@ export default function RivesBlanchesPage() {
             {c?.heroHeadline ?? (<>Ce qui compte,<br /><em style={{ color: C.accentDark }}>c'est comment on entoure.</em></>)}
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {c?.heroSubline ?? fd?.tagline ?? "Une maison familiale face à la mer, pour organiser des obsèques dignes — inhumation, crémation, cérémonies civiles ou religieuses. Au prix écrit, jamais pressé."}
+            {fd?.tagline ?? c?.heroSubline ?? "Une maison familiale face à la mer, pour organiser des obsèques dignes — inhumation, crémation, cérémonies civiles ou religieuses. Au prix écrit, jamais pressé."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

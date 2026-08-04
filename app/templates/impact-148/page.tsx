@@ -229,7 +229,7 @@ export default function NeonPulsePage() {
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">{c?.heroSubline ?? fd?.tagline ?? <>
+                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">{fd?.tagline ?? c?.heroSubline ?? <>
                     The ultra-high-fidelity marketplace for digital artists. Own a piece of the neon future on the most secure neural mesh.
                   </>}</p>
                 </Reveal>

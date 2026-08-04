@@ -275,7 +275,7 @@ return (
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
-                  <p className="text-white/60 text-base sm:text-xl max-w-lg leading-relaxed mb-6 md:mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+                  <p className="text-white/60 text-base sm:text-xl max-w-lg leading-relaxed mb-6 md:mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
                     500M€ sous gestion. 47 participations actives. Un seul objectif : accompagner les entrepreneurs qui redéfinissent des marchés entiers.
                   </>}</p>
                 </Reveal>

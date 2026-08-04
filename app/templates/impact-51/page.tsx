@@ -137,7 +137,7 @@ return (
                   maxWidth: 600,
                   margin: "0 auto 40px",
                 }}
-              >{c?.heroSubline ?? fd?.tagline ?? <>
+              >{fd?.tagline ?? c?.heroSubline ?? <>
                 Nexus gives your team deep analytics, pipeline connections, and
                 enterprise-grade security in a single, unified workflow.
               </>}</p>

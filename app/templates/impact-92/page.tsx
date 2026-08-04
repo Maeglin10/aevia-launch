@@ -410,7 +410,7 @@ export default function SkylineConciergePage() {
                 Absolute Luxury.
               </span>
             </>}</h1>
-            <p className="max-w-2xl text-lg text-white/40 leading-relaxed font-light italic mb-12">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="max-w-2xl text-lg text-white/40 leading-relaxed font-light italic mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
               Confidential brokerage and lifestyle management for the world's
               most discerning families. From off-market penthouses to global
               asset security.

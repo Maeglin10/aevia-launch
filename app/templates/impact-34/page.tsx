@@ -141,7 +141,7 @@ return (
           </Reveal>
 
           <Reveal delay={0.2}>
-            <p className="text-base md:text-xl text-[#94A3B8] max-w-2xl mx-auto leading-relaxed mb-6 md:mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="text-base md:text-xl text-[#94A3B8] max-w-2xl mx-auto leading-relaxed mb-6 md:mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
               Host, distribute, and monetize your podcast on 15+ platforms — all from one
               dashboard. No tech skills required. Start in minutes.
             </>}</p>

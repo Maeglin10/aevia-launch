@@ -868,7 +868,7 @@ export default function Impact211Page() {
             fontWeight: 300,
             color: C.cream,
             marginBottom: "0.5rem",
-          }}>{c?.heroSubline ?? fd?.tagline ?? <>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maison Éclat"))}</>}</p>
+          }}>{fd?.tagline ?? c?.heroSubline ?? <>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maison Éclat"))}</>}</p>
           <p style={{ ...eyebrowStyle, textAlign: "center", marginBottom: "2rem" }}>
             7ème arrondissement · {clientCity({ formData: fd }) ?? "Paris"}
           </p>

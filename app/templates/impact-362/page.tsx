@@ -209,7 +209,7 @@ export default function DuoPeinturesPage() {
               {c?.heroHeadline ?? (<>Avant, après :<br /><em style={{ color: C.accent }}>c'est tout notre métier.</em></>)}
             </h1>
             <p style={{ fontSize: 16.5, opacity: 0.75, lineHeight: 1.75, maxWidth: 560, marginBottom: 32 }}>
-              {c?.heroSubline ?? fd?.tagline ?? "Un père compagnon, une fille reprise d'entreprise : deux peintres qui rénovent cages d'escalier, appartements locatifs et maisons familiales — vite, proprement, au prix écrit."}
+              {fd?.tagline ?? c?.heroSubline ?? "Un père compagnon, une fille reprise d'entreprise : deux peintres qui rénovent cages d'escalier, appartements locatifs et maisons familiales — vite, proprement, au prix écrit."}
             </p>
             <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
               <a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none" }}>Demander un devis</a>

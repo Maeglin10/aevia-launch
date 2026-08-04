@@ -255,7 +255,7 @@ export default function EssentialSaaSPage() {
           </>}</h1>
         </Reveal>
         <Reveal delay={0.2}>
-          <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>
+          <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
             Flowbase réunit vos projets, votre équipe et vos analytics dans une plateforme unique. Moins d&apos;outils, plus d&apos;impact.
           </>}</p>
         </Reveal>

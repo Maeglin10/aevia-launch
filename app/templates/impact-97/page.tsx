@@ -388,7 +388,7 @@ export default function HorizonYachtPage() {
               Mastering <br />{" "}
               <span className="text-[var(--brand,#c5a059)] not-italic">The Deep.</span>
             </>}</h1>
-            <p className="max-w-md text-lg text-white/50 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="max-w-md text-lg text-white/50 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{fd?.tagline ?? c?.heroSubline ?? <>
               The world's most exclusive superyacht fleet, curated for the
               modern navigator.
             </>}</p>

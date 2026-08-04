@@ -944,7 +944,7 @@ export default function Impact175Page() {
               margin: "0 auto 44px",
               lineHeight: 1.75,
             }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Nous créons des événements d'exception pour les maisons de prestige, les institutions et les particuliers exigeants.
           </>}</motion.p>
 

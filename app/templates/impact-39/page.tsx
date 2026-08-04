@@ -137,7 +137,7 @@ return (
               </>}</motion.h1>
 
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}
-                style={{fontSize: 18, color: brand ?? 'var(--brand,#93c5fd)', lineHeight: 1.8, marginBottom: 40, maxWidth: 460, fontWeight: 400 }}>{c?.heroSubline ?? fd?.tagline ?? <>
+                style={{fontSize: 18, color: brand ?? 'var(--brand,#93c5fd)', lineHeight: 1.8, marginBottom: 40, maxWidth: 460, fontWeight: 400 }}>{fd?.tagline ?? c?.heroSubline ?? <>
                 Déménagement local, longue distance, international, garde-meuble. Équipes professionnelles, estimation ferme sous 24 h.
               </>}</motion.p>
 

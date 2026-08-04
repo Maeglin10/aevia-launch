@@ -381,7 +381,7 @@ return (
                 </>}</h1>
               </Reveal>
               <Reveal delay={0.2}>
-                <p className="text-gray-500 text-xl max-w-lg leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+                <p className="text-gray-500 text-xl max-w-lg leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
                   Packaging, mobilier, objets tech. Forme Studio crée des produits qui se distinguent, se vendent, et résistent au temps.
                 </>}</p>
               </Reveal>

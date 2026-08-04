@@ -261,7 +261,7 @@ export default function SereneRetreatHome() {
                 maxWidth: 500,
                 margin: "0 auto 48px",
               }}
-            >{c?.heroSubline ?? fd?.tagline ?? <>
+            >{fd?.tagline ?? c?.heroSubline ?? <>
               A curated sanctuary of thermal waters, ancient botanicals,
               and silence. Sixty kilometres from the city. A world apart.
             </>}</p>

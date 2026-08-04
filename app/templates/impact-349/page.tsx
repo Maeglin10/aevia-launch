@@ -199,7 +199,7 @@ export default function ControleRhodanienPage() {
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Contrôle technique · Valence</span>
         <div style={{ margin: "18px 0 8px" }}><GhostSolid ghost="VOTRE VÉHICULE" solid="VALIDÉ." accent={C.accent} className="" /></div>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {c?.heroSubline ?? fd?.tagline ?? "Un contrôle honnête, expliqué point par point, sans vente forcée : nous ne réparons pas, nous contrôlons — c'est la garantie de notre indépendance. Rendez-vous en ligne, résultat en 45 minutes."}
+          {fd?.tagline ?? c?.heroSubline ?? "Un contrôle honnête, expliqué point par point, sans vente forcée : nous ne réparons pas, nous contrôlons — c'est la garantie de notre indépendance. Rendez-vous en ligne, résultat en 45 minutes."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

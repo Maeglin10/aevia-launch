@@ -1277,7 +1277,7 @@ export default function EmberGrillPage() {
                   Primitive <br />{" "}
                   <span className="text-[var(--brand,#ff4d00)] not-italic">Refinement.</span>
                 </>}</h1>
-                <p className="max-w-md text-xl text-white/50 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? fd?.tagline ?? <>
+                <p className="max-w-md text-xl text-white/50 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{fd?.tagline ?? c?.heroSubline ?? <>
                   Where wood-fired alchemy meets contemporary culinary precision.
                 </>}</p>
                 <div className="flex flex-col sm:flex-row gap-6">

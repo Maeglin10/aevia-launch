@@ -236,7 +236,7 @@ export default function VerdantImpactPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[var(--brand,#1a2e1a)]/50 font-light leading-relaxed mb-8">{c?.heroSubline ?? fd?.tagline ?? <>
+              <p className="max-w-lg text-lg text-[var(--brand,#1a2e1a)]/50 font-light leading-relaxed mb-8">{fd?.tagline ?? c?.heroSubline ?? <>
                 Measurable climate action for individuals and businesses. Track your carbon footprint, offset with verified projects.
               </>}</p>
               <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-4 bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-emerald-700 transition-colors">

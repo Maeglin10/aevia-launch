@@ -243,7 +243,7 @@ return (
               The Alchemy <br />{" "}
               <span className="text-[var(--brand,#7c2d12)] italic">of Extraction.</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 uppercase tracking-tight italic">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 uppercase tracking-tight italic">{fd?.tagline ?? c?.heroSubline ?? <>
               Precision-roasted molecular coffee. Sourced at origin. Analyzed in
               lab. Delivered in spectrum.
             </>}</p>

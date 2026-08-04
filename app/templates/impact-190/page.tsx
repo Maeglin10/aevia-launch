@@ -214,7 +214,7 @@ export default function AutoExpertPage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-[#f1f3f5]/30 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+            className="max-w-md text-sm text-[#f1f3f5]/30 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
             Garage multimarque à {clientCity({ formData: fd }) ?? "Rennes"}. Entretien, carrosserie, diagnostic électronique, VE & hybrides. Devis gratuit sous 30 min. Prise en charge assurance directe.
           </>}</motion.p>
 

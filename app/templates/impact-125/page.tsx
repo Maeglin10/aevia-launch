@@ -208,7 +208,7 @@ export default function AstrumReachPage() {
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">{c?.heroSubline ?? fd?.tagline ?? <>
+                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">{fd?.tagline ?? c?.heroSubline ?? <>
                     Reliable, cost-effective orbital transport for the next generation of space exploration. From LEO to deep space, we bridge the gap.
                   </>}</p>
                 </Reveal>

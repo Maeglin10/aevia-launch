@@ -15,6 +15,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -46,7 +47,8 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Analyses", "h": "#services"}, {"l": "Votre parcours", "h": "#methode"}, {"l": "Prise en charge", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Résultats du jour", "word": "précis.", "sub": "Bilan sanguin prélevé le matin, rendu avant 17 h."}, {"k": "Sans rendez-vous", "word": "rapide.", "sub": "Dès 7 h, à jeun servi d'abord — moins de 15 min d'attente en moyenne."}, {"k": "Accrédité COFRAC", "word": "fiable.", "sub": "ISO 15189 : chaque mesure tracée, chaque automate contrôlé."}];
+const HERO_SOURCE = [{"k": "Résultats du jour", "word": "précis.", "sub": "Bilan sanguin prélevé le matin, rendu avant 17 h."}, {"k": "Sans rendez-vous", "word": "rapide.", "sub": "Dès 7 h, à jeun servi d'abord — moins de 15 min d'attente en moyenne."}, {"k": "Accrédité COFRAC", "word": "fiable.", "sub": "ISO 15189 : chaque mesure tracée, chaque automate contrôlé."}];
+let HERO = HERO_SOURCE;
 
 const SERVICES_SOURCE = [{"titre": "Biologie de routine", "desc": "NFS, glycémie, cholestérol, bilan hépatique et rénal : prélevés le matin, validés par un biologiste, en ligne le jour même.", "tag": "Routine"}, {"titre": "Prélèvements à domicile", "desc": "Infirmiers préleveurs du laboratoire en tournée chaque matin : mêmes tubes, même traçabilité, pour les patients qui ne se déplacent pas.", "tag": "Domicile"}, {"titre": "Suivi de grossesse", "desc": "Toxoplasmose, HT21, glycosurie : le calendrier complet suivi site par site, résultats transmis à votre sage-femme ou gynécologue.", "tag": "Maternité"}, {"titre": "Microbiologie", "desc": "ECBU, coprocultures, prélèvements de gorge : cultures et antibiogrammes rendus avec commentaires du biologiste.", "tag": "Microbio"}, {"titre": "Dépistage IST", "desc": "Sans ordonnance pour le VIH (et sur ordonnance pour le reste), en toute confidentialité. Résultats sécurisés, biologiste disponible.", "tag": "Dépistage"}, {"titre": "Bilans entreprise & sport", "desc": "Médecine du travail, licences sportives, check-up : conventions entreprises et créneaux dédiés du samedi.", "tag": "Prévention"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
@@ -88,6 +90,21 @@ export default function AxisBioPage() {
 
 
   fd = session?.formData;
+
+
+  // Le mot animé du hero ne peut pas porter une phrase : c'est le sous-titre
+
+
+  // de la première diapositive qui reçoit l'accroche du client.
+
+
+  HERO = clientTagline({ formData: fd, generatedContent: c })
+
+
+    ? HERO_SOURCE.map((h, i) => (i === 0 ? { ...h, sub: clientTagline({ formData: fd, generatedContent: c })! } : h))
+
+
+    : HERO_SOURCE;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -200,7 +217,7 @@ export default function AxisBioPage() {
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Biologie médicale · {clientCity(sessionData) ?? "Metz"}</span>
         <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 62px)", color: C.text, lineHeight: 1.1, margin: "18px 0 8px" }}>Un résultat juste,<br /><TrackingCollapse word={S.word} index={i} from="0.34em" to="0.04em" style={{ color: C.accentDark }} /></h1>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {c?.heroSubline ?? fd?.tagline ?? "Sans rendez-vous dès 7 h, résultats du jour avant 17 h sur le serveur sécurisé, biologistes joignables pour interpréter. La biologie médicale accréditée COFRAC, au coin de la rue."}
+          {fd?.tagline ?? c?.heroSubline ?? "Sans rendez-vous dès 7 h, résultats du jour avant 17 h sur le serveur sécurisé, biologistes joignables pour interpréter. La biologie médicale accréditée COFRAC, au coin de la rue."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

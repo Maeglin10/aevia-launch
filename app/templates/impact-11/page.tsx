@@ -231,7 +231,7 @@ return (
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-gray-500 text-base sm:text-xl leading-relaxed mb-6 md:mb-10 max-w-xl">{c?.heroSubline ?? fd?.tagline ?? <>
+              <p className="text-gray-500 text-base sm:text-xl leading-relaxed mb-6 md:mb-10 max-w-xl">{fd?.tagline ?? c?.heroSubline ?? <>
                 Des cours en ligne créés par des experts, des certifications reconnues, et un mentoring personnalisé pour accélérer votre carrière.
               </>}</p>
             </Reveal>

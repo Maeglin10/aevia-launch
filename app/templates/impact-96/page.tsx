@@ -962,7 +962,7 @@ return (
                 marginBottom: 44,
                 fontWeight: 400,
               }}
-            >{c?.heroSubline ?? fd?.tagline ?? <>
+            >{fd?.tagline ?? c?.heroSubline ?? <>
               Maison de production parisienne. Fiction, documentaire, publicité de prestige.
               Nous fabriquons des images qui traversent le temps.
             </>}</motion.p>

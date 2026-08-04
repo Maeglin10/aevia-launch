@@ -372,7 +372,7 @@ export default function CreativePortfolioSPA() {
             </motion.h1>
           </div>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }} className="text-base md:text-xl text-white/50 max-w-2xl mx-auto leading-relaxed font-light">{c?.heroSubline ?? fd?.tagline ?? <>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }} className="text-base md:text-xl text-white/50 max-w-2xl mx-auto leading-relaxed font-light">{fd?.tagline ?? c?.heroSubline ?? <>
             Capturing the world through a lens of emotion, light, and uncompromising beauty. Cinematic photography for global brands.
           </>}</motion.p>
         </motion.div>

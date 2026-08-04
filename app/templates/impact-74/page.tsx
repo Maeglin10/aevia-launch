@@ -369,7 +369,7 @@ export default function AeviaKitchenPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-xl text-base md:text-lg text-white/45 leading-relaxed mb-12 font-light"
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Une cuisine de saison ancrée dans la tradition, portée par l&apos;excellence du produit et la passion de l&apos;artisanat culinaire. Table étoilée — 12 couverts par service.
           </>}</motion.p>
 

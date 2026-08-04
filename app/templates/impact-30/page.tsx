@@ -475,7 +475,7 @@ function Hero() {
               transition={{ duration: 0.55, ease: EASE_3, delay: BEAT.second }}
               className="hero-lede"
               style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.75, maxWidth: 440, margin: "0 0 26px" }}
-            >{c?.heroSubline ?? fd?.tagline ?? <>
+            >{fd?.tagline ?? c?.heroSubline ?? <>
               Soins conservateurs, esthétique et implantologie. Devis détaillé avant chaque acte, sans engagement.
             </>}</motion.p>
 

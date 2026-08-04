@@ -220,7 +220,7 @@ export default function CapAssurancesPage() {
             {c?.heroHeadline ?? (<>Assuré pour ce qui compte,<br /><em style={{ color: C.accentDark }}>pas pour remplir un contrat.</em></>)}
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {c?.heroSubline ?? fd?.tagline ?? "Un courtier indépendant compare pour vous auto, habitation, santé et prévoyance auprès de vingt compagnies — et reste votre interlocuteur au moment du sinistre."}
+            {fd?.tagline ?? c?.heroSubline ?? "Un courtier indépendant compare pour vous auto, habitation, santé et prévoyance auprès de vingt compagnies — et reste votre interlocuteur au moment du sinistre."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

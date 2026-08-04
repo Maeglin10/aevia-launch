@@ -837,7 +837,7 @@ export default function ImpactFrequencePage() {
                     borderTop: `3px solid ${C.red}`,
                     paddingTop: 18,
                   }}
-                >{c?.heroSubline ?? fd?.tagline ?? <>
+                >{fd?.tagline ?? c?.heroSubline ?? <>
                   {FEATURED_ARTICLE.subtitle.length > 200
                     ? FEATURED_ARTICLE.subtitle.slice(0, 200).replace(/\s+\S*$/, "") + "…"
                     : FEATURED_ARTICLE.subtitle}

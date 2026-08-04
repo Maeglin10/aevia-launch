@@ -38,6 +38,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -608,6 +609,9 @@ export default function Impact114Page() {
   );
   SLIDES = SLIDES_DEMO.map((row, i) => ({
     ...row,
+    // La première diapositive porte l'accroche du client ; les suivantes
+    // gardent les titres du thème, qui décrivent des collections.
+    title: i === 0 ? clientTagline(session) ?? row.title : row.title,
     img: clientPhotos(session)[0 + i] || row.img,
   }));
   COLLECTIONS = COLLECTIONS_DEMO.map((row, i) => ({

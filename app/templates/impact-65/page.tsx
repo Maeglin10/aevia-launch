@@ -136,7 +136,7 @@ return (
               </Reveal>
               <Reveal delay={0.3}>
                 <div className="flex flex-col sm:flex-row gap-12 items-center">
-                  <p className="text-xl text-white/30 font-light max-w-sm leading-relaxed uppercase italic">{c?.heroSubline ?? fd?.tagline ?? <>
+                  <p className="text-xl text-white/30 font-light max-w-sm leading-relaxed uppercase italic">{fd?.tagline ?? c?.heroSubline ?? <>
                     Uncompromising structural engineering. We deliver the highest strength-to-weight ratio in the industry.
                   </>}</p>
                   <div className="h-px w-20 bg-[var(--brand,#0070f3)] hidden sm:block" />

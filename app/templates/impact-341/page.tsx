@@ -15,6 +15,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -46,7 +47,8 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Formations", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Formules", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Permis B", "word": "sereinement.", "sub": "La boîte manuelle, sans les sueurs froides."}, {"k": "Conduite accompagnée", "word": "tôt.", "sub": "Dès 15 ans — 74 % de réussite nationale, la nôtre : 85 %."}, {"k": "Boîte automatique", "word": "simplement.", "sub": "13 h de minimum légal, examen identique."}];
+const HERO_SOURCE = [{"k": "Permis B", "word": "sereinement.", "sub": "La boîte manuelle, sans les sueurs froides."}, {"k": "Conduite accompagnée", "word": "tôt.", "sub": "Dès 15 ans — 74 % de réussite nationale, la nôtre : 85 %."}, {"k": "Boîte automatique", "word": "simplement.", "sub": "13 h de minimum légal, examen identique."}];
+let HERO = HERO_SOURCE;
 
 const SERVICES_SOURCE = [{"titre": "Code de la route", "desc": "Salle connectée + application illimitée, séances thématiques animées par un moniteur — pas seulement des QCM en boucle.", "tag": "Code"}, {"titre": "Permis B manuel", "desc": "20 h de minimum légal, évaluation de départ offerte pour estimer VOTRE volume réel. Livret numérique suivi à chaque leçon.", "tag": "Permis B"}, {"titre": "Conduite accompagnée (AAC)", "desc": "Dès 15 ans : formation initiale, rendez-vous pédagogiques inclus, assurance guidée pour les parents.", "tag": "AAC"}, {"titre": "Boîte automatique", "desc": "13 h de minimum légal, passerelle possible vers la manuelle après 3 mois. Idéal reprise de confiance.", "tag": "Automatique"}, {"titre": "Perfectionnement & post-permis", "desc": "Autoroute, nuit, pluie, créneaux : des heures ciblées pour les jeunes permis — et la formation post-permis qui réduit la période probatoire.", "tag": "Post-permis"}, {"titre": "Financements", "desc": "CPF (permis B éligible), permis à 1 €/jour pour les 15-25 ans, paiement en 4 fois sans frais au secrétariat.", "tag": "Financement"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
@@ -91,6 +93,21 @@ export default function ConduiteZeroStressPage() {
 
 
   fd = session?.formData;
+
+
+  // Le mot animé du hero ne peut pas porter une phrase : c'est le sous-titre
+
+
+  // de la première diapositive qui reçoit l'accroche du client.
+
+
+  HERO = clientTagline({ formData: fd, generatedContent: c })
+
+
+    ? HERO_SOURCE.map((h, i) => (i === 0 ? { ...h, sub: clientTagline({ formData: fd, generatedContent: c })! } : h))
+
+
+    : HERO_SOURCE;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -206,7 +223,7 @@ export default function ConduiteZeroStressPage() {
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Auto-école · {clientCity(sessionData) ?? "Toulouse"}</span>
         <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 62px)", color: C.text, lineHeight: 1.1, margin: "18px 0 8px" }}>Apprendre à conduire,<br /><TrackingCollapse word={S.word} index={i} from="0.34em" to="0.04em" style={{ color: C.accentDark }} /></h1>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {c?.heroSubline ?? fd?.tagline ?? "Des moniteurs diplômés qui ne crient jamais, des voitures récentes, et une méthode par étapes validées. 78 % de réussite au premier passage — affiché, parce que c'est vérifiable."}
+          {fd?.tagline ?? c?.heroSubline ?? "Des moniteurs diplômés qui ne crient jamais, des voitures récentes, et une méthode par étapes validées. 78 % de réussite au premier passage — affiché, parce que c'est vérifiable."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

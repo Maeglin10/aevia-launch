@@ -154,7 +154,7 @@ return (
                   marginBottom: 40,
                   maxWidth: 480,
                 }}
-              >{c?.heroSubline ?? fd?.tagline ?? <>
+              >{fd?.tagline ?? c?.heroSubline ?? <>
                 Un espace de coworking premium à Paris. Hot desks, bureaux dédiés, salles de réunion, studio podcast — et une communauté pensée pour grandir.
               </>}</motion.p>
 

@@ -161,7 +161,7 @@ return (
                   marginBottom: 40,
                   maxWidth: 460,
                 }}
-              >{c?.heroSubline ?? fd?.tagline ?? <>
+              >{fd?.tagline ?? c?.heroSubline ?? <>
                 Apex Talent places C-suite leaders and senior executives for companies that refuse to compromise on talent. Executive search, RPO, and HR consulting.
               </>}</motion.p>
 

@@ -149,7 +149,7 @@ return (
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.1 }}
             style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 17, color: C.muted, lineHeight: 1.7, maxWidth: 540, margin: "0 auto 48px", fontWeight: 300 }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Documentary and fine art landscapes from the world's most remote wilderness areas. Limited edition prints, each signed and numbered.
           </>}</motion.p>
 

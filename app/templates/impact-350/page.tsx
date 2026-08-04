@@ -200,7 +200,7 @@ export default function CTLumierePage() {
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Contrôle technique · {clientCity(sessionData) ?? "Lyon"}</span>
         <div style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.6vw, 58px)", color: C.text, lineHeight: 1.14, margin: "18px 0 8px" }}><LineMask lines={S.lines} index={i} /></div>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {c?.heroSubline ?? fd?.tagline ?? "Le contrôle technique sans la boule au ventre : créneaux du soir, résultat expliqué avec des mots simples, espace enfants, café correct. Et un rapport qu'on comprend enfin."}
+          {fd?.tagline ?? c?.heroSubline ?? "Le contrôle technique sans la boule au ventre : créneaux du soir, résultat expliqué avec des mots simples, espace enfants, café correct. Et un rapport qu'on comprend enfin."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

@@ -2223,7 +2223,7 @@ export default function FlammeEtCoPage() {
                 maxWidth: '620px',
                 margin: '0 auto 2.5rem',
               }}
-            >{c?.heroSubline ?? fd?.tagline ?? <>
+            >{fd?.tagline ?? c?.heroSubline ?? <>
               Découvrez notre sélection de poêles à bois, poêles à granulés et cheminées design. 
               Expédition rapide, installation professionnelle, service après-vente réactif.
             </>}</motion.p>

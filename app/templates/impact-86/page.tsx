@@ -601,7 +601,7 @@ export default function AuraWellnessPage() {
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-white/80 text-lg max-w-lg mb-10 leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="text-white/80 text-lg max-w-lg mb-10 leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
               Un sanctuaire de soins botaniques et de rituels ancestraux pour celles et ceux qui cherchent à s'ancrer, se restaurer, s'éveiller.
             </>}</p>
           </Reveal>

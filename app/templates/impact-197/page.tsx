@@ -623,7 +623,7 @@ return (
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
             style={{ fontSize: "clamp(16px, 2vw, 20px)", color: "rgba(255,255,255,0.65)", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 48, maxWidth: 520, fontWeight: 300 }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Voyages sur mesure en classe affaires et première. Expériences exclusives inaccessibles au grand public. Conciergerie 24h/24 sur tous les continents.
           </>}</motion.p>
 

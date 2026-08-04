@@ -272,7 +272,7 @@ return (
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
-                  <p className="text-white/60 text-lg max-w-md leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+                  <p className="text-white/60 text-lg max-w-md leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
                     Chaque montre est une œuvre de précision. Assemblée à la main par nos maîtres horlogers dans notre manufacture de La Vallée de Joux.
                   </>}</p>
                 </Reveal>

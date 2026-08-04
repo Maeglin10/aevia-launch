@@ -199,7 +199,7 @@ export default function FaubourgSerruresPage() {
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Serrurerie de sécurité · {clientCity(sessionData) ?? "Marseille"}</span>
         <div style={{ margin: "18px 0 8px" }}><GhostSolid ghost="VOTRE PORTE" solid="BLINDÉE." accent={C.accent} className="" /></div>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {c?.heroSubline ?? fd?.tagline ?? "Pas de dépannage à 3 h du matin ici : du blindage pensé à froid. Portes blindées, serrures A2P, coffres — étudiés, posés, garantis par des serruriers salariés."}
+          {fd?.tagline ?? c?.heroSubline ?? "Pas de dépannage à 3 h du matin ici : du blindage pensé à froid. Portes blindées, serrures A2P, coffres — étudiés, posés, garantis par des serruriers salariés."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

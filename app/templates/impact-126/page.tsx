@@ -930,7 +930,7 @@ return (
               maxWidth: 500,
               margin: "0 auto 48px",
             }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             A celebration of Roman culinary heritage — sourced daily from Campo de' Fiori, prepared with the rigor of a centuries-old tradition.
           </>}</motion.p>
 

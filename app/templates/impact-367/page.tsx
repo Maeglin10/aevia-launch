@@ -211,7 +211,7 @@ export default function CabinetNaissancesPage() {
             {c?.heroHeadline ?? (<>Neuf mois, une naissance,<br /><em style={{ color: C.accentDark }}>et tout ce qui vient après.</em></>)}
           </h1>
           <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.78, maxWidth: 560, margin: "0 auto 32px" }}>
-            {c?.heroSubline ?? fd?.tagline ?? "Suivi de grossesse, préparation à la naissance, retour à la maison, rééducation : une sage-femme conventionnée vous accompagne du test positif aux premiers mois — et pour votre suivi gynécologique ensuite."}
+            {fd?.tagline ?? c?.heroSubline ?? "Suivi de grossesse, préparation à la naissance, retour à la maison, rééducation : une sage-femme conventionnée vous accompagne du test positif aux premiers mois — et pour votre suivi gynécologique ensuite."}
           </p>
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 999, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>

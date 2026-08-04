@@ -371,7 +371,7 @@ export default function ZenithWatchesPage() {
               Taming <br />{" "}
               <span className="text-[var(--brand,#d4af37)] not-italic">Entropy.</span>
             </>}</h1>
-            <p className="max-w-md text-xl text-white/50 leading-relaxed font-light mb-12 uppercase tracking-wide italic">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="max-w-md text-xl text-white/50 leading-relaxed font-light mb-12 uppercase tracking-wide italic">{fd?.tagline ?? c?.heroSubline ?? <>
               The absolute mechanical mastery of time. Engineered for the next
               millennium.
             </>}</p>

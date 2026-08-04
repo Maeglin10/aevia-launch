@@ -402,7 +402,7 @@ return (
             <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.6 }} className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-light tracking-[-0.02em] leading-[0.85] text-[#f5efe6]">{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "L'Étoile Restaurant"))}</>}</motion.h1>
           </div>
           <div className="overflow-hidden mb-12">
-            <motion.p initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 0.9, delay: 0.85 }} className="text-xl md:text-2xl text-[#f5efe6]/35 font-light italic">{c?.heroSubline ?? fd?.tagline ?? <>
+            <motion.p initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 0.9, delay: 0.85 }} className="text-xl md:text-2xl text-[#f5efe6]/35 font-light italic">{fd?.tagline ?? c?.heroSubline ?? <>
               Where every dish tells a story
             </>}</motion.p>
           </div>
