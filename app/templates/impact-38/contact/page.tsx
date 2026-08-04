@@ -8,6 +8,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { C, SERIF, SANS, SectionReveal, PageHeader, FAQS } from "../shared";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 // ─── Page-level constants ─────────────────────────────────────────────────────
 
 const CONTACT_SUBJECTS = [
@@ -160,12 +166,6 @@ function ContactFAQItem({ faq, delay }: { faq: { q: string; a: string }; delay: 
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function ContactPage() {
   const [__session, __setSession] = useState<any>(null);

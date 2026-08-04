@@ -5,6 +5,12 @@ import Link from 'next/link';
 import { ArrowLeft, X, ShoppingBag, Check, Loader2, Trash2 } from 'lucide-react';
 import React, { useEffect, useState } from "react";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
 
 type CartItem = { id: number; name: string; price: number; size: string; qty: number };
@@ -209,12 +215,6 @@ function CartDrawer({
   );
 }
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function BoutiquePage() {
   const [__session, __setSession] = useState<any>(null);

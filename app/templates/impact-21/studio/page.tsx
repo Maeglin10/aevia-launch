@@ -5,6 +5,12 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Menu, X, Globe, Award, Target, Heart, Star } from "lucide-react";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const useFonts = () => {
   useEffect(() => {
     if (document.getElementById("fs-fonts")) return;
@@ -43,12 +49,6 @@ const awards = [
   { name: "Good Design Award", count: 2, years: "2021, 2023" },
 ];
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function StudioPage() {
   const [__session, __setSession] = useState<any>(null);

@@ -6,6 +6,12 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Code2, Layers, Palette } from "lucide-react";
 import Link from "next/link";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const T = {
   bg: "#0a0a0a",
   text: "#f0f0f0",
@@ -40,12 +46,6 @@ const VALUES = [
   },
 ];
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function AboutPage() {
   const [__session, __setSession] = useState<any>(null);

@@ -4,15 +4,15 @@ import React, { useEffect, useState } from "react";
 import { Mail, Phone, MapPin, Clock, Check } from "lucide-react";
 import { C, PageHero } from "../shared";
 
-const SERIF = "'Libre Baskerville', Georgia, serif";
-const SANS = "'Poppins', system-ui";
-
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
+const SERIF = "'Libre Baskerville', Georgia, serif";
+const SANS = "'Poppins', system-ui";
+
 
 export default function Contact() {
   const [__session, __setSession] = useState<any>(null);

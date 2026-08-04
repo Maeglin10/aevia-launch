@@ -1,12 +1,20 @@
 "use client"
 
 import React from "react"
+import { clientServices } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
 import { MessageSquare, Wifi, Bike, Coffee, FileText, PartyPopper, Zap, Check } from "lucide-react"
 import Link from "next/link"
 import { C, SectionReveal } from "../shared"
 
-const SERVICES_DATA = [
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
+const SERVICES_DATA = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
   {
     icon: MessageSquare,
     title: "Conciergerie",
@@ -85,14 +93,8 @@ const SERVICES_DATA = [
       "Réseau alumni actif",
     ],
   },
-]
+])
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function ServicesPage() {
   const [__session, __setSession] = useState<any>(null);

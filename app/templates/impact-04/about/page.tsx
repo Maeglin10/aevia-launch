@@ -7,6 +7,12 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
 import { Menu as MenuIcon, Globe, Mail, ArrowRight } from "lucide-react"
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const LINKS = [
   { name: 'Home', path: '/templates/impact-04' },
   { name: 'Menu', path: '/templates/impact-04/menu' },
@@ -103,12 +109,6 @@ function Footer() {
   )
 }
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function AboutPage() {
   const [__session, __setSession] = useState<any>(null);

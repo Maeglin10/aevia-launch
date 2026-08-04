@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { Globe, Terminal, Database } from "lucide-react";
 import { THREATS, Reveal } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function MonitoringPage() {
   const [__session, __setSession] = useState<any>(null);

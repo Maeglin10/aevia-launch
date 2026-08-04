@@ -7,6 +7,12 @@ import Image from "next/image"
 import { ArrowRight, GitBranch, Monitor, Cpu, Wifi, Terminal, Code2 } from "lucide-react"
 import { Reveal, ScrollImage, skills, services, process } from "../shared"
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const setup = [
   {
     category: "Workstation",
@@ -120,12 +126,6 @@ const env = [
   },
 ]
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function StudioPage() {
   const [__session, __setSession] = useState<any>(null);

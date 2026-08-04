@@ -1,14 +1,16 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import { clientServices } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 import { Reveal } from "../shared"
-
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function ServicesPage() {
   const [__session, __setSession] = useState<any>(null);
@@ -71,7 +73,7 @@ export default function ServicesPage() {
 
       {/* Detailed Services Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-        {[
+        {/* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, body: s.desc || "" })), [
           {
             num: "01",
             title: "ARCHITECTURAL DESIGN",
@@ -102,7 +104,7 @@ export default function ServicesPage() {
             scope: ["Massing Prototypes", "Structural Studies", "Feasibility Audits", "Render Layouts"],
             body: "We collaborate with developers and public committees on international tenders, creating robust, cost-effective design solutions."
           }
-        ].map((s) => (
+        ]).map((s) => (
           <div key={s.num} className="border-4 border-black p-8 bg-white flex flex-col justify-between">
             <div>
               <div className="font-black text-6xl text-gray-200 mb-4" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{s.num}</div>

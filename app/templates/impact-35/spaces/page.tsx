@@ -6,6 +6,12 @@ import { Building2, Check, Clock, Users, ArrowRight, Layers } from "lucide-react
 import Link from "next/link"
 import { C, SectionReveal, FloorPlan } from "../shared"
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const SPACES_DATA = [
   {
     id: "openspace",
@@ -64,12 +70,6 @@ const SPACES_DATA = [
   },
 ]
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function SpacesPage() {
   const [__session, __setSession] = useState<any>(null);

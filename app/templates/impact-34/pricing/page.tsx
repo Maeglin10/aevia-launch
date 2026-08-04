@@ -5,6 +5,12 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Check, HelpCircle, ArrowRight } from "lucide-react"
 import { C, PLANS, Reveal, GlassCard } from "../shared"
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const COMPARISON_ROWS = [
   { feature: "Stockage audio / mois", Starter: "5 heures", Creator: "Illimité", Studio: "Illimité" },
   { feature: "Distribution automatique", Starter: "3 plateformes", Creator: "15+ plateformes", Studio: "15+ plateformes" },
@@ -17,12 +23,6 @@ const COMPARISON_ROWS = [
   { feature: "Support client", Starter: "Standard", Creator: "Prioritaire (24h)", Studio: "Dédié + Tél" },
 ]
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function PricingPage() {
   const [__session, __setSession] = useState<any>(null);

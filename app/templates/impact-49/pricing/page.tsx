@@ -5,14 +5,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle, X } from "lucide-react";
 import { Reveal, PLANS } from "../shared";
 
-type Plan = (typeof PLANS)[number];
-
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
+type Plan = (typeof PLANS)[number];
+
 
 export default function PricingPage() {
   const [__session, __setSession] = useState<any>(null);

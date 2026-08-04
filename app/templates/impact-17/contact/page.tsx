@@ -6,6 +6,12 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { MapPin, Mail, Phone } from "lucide-react";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const useFonts = () => {
   useEffect(() => {
     if (document.getElementById("kp-fonts")) return;
@@ -18,12 +24,6 @@ const useFonts = () => {
 
 
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function ContactPage() {
   const [__session, __setSession] = useState<any>(null);

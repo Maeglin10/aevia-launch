@@ -1,5 +1,9 @@
 'use client';
-import { clientName } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientName,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
@@ -13,6 +17,12 @@ import {
   AnimatePresence,
 } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from "react";
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
 
 // ─── Font Loader ─────────────────────────────────────────────────────────────
 const useFonts = () => {
@@ -39,7 +49,7 @@ const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
 const SANS  = "'Jost', system-ui, sans-serif";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
-const ROOMS = [
+const ROOMS = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ name: s.title, desc: s.desc || "", ...(s.price ? { price: s.price } : {}) })), [
   {
     num: '01',
     name: 'Prestige Room',
@@ -70,7 +80,7 @@ const ROOMS = [
     desc: 'Our most coveted address. A private dining room, butler antechamber, and a rooftop terrace overlooking the golden skyline at dusk.',
     img: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85',
   },
-];
+]);
 
 const EXPERIENCES = [
   {
@@ -2361,12 +2371,6 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
 }
 
 // ─── Root Page ────────────────────────────────────────────────────────────────
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function GrandPalaisPage() {
   const [__session, __setSession] = useState<any>(null);

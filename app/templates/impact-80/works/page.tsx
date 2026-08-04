@@ -7,6 +7,12 @@ import Link from "next/link";
 import { ArrowUpRight, Filter } from "lucide-react";
 import { Reveal } from "../shared";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const ALL_PROJECTS = [
   {
     name: "The Obsidian Villa",
@@ -92,12 +98,6 @@ const ALL_PROJECTS = [
 
 const TYPES = ["All", "Residential", "Commercial", "Cultural"];
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function WorksPage() {
   const [__session, __setSession] = useState<any>(null);

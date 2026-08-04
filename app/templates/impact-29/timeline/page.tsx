@@ -4,12 +4,12 @@ import { Reveal, timeline } from "../shared"
 import { useEffect, useState } from "react";
 import { Check } from "lucide-react"
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function TimelinePage() {
   const [__session, __setSession] = useState<any>(null);

@@ -6,6 +6,12 @@ import { motion, useInView } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Award } from 'lucide-react';
 import { C, AWARDS_LIST, StyleInjector, Reveal } from '../shared';
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 // ── Team data ──────────────────────────────────────────────────────────────────
 const TEAM = [
   {
@@ -182,12 +188,6 @@ function TeamCard({ member, index }: { member: typeof TEAM[0]; index: number }) 
 }
 
 // ── Main Component ─────────────────────────────────────────────────────────────
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function StudioPage() {
   const [__session, __setSession] = useState<any>(null);

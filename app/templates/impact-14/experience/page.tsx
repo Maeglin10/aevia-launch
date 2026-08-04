@@ -25,6 +25,12 @@ import {
   Wind,
 } from "lucide-react";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 /* ─────────────────────────────────────────────
    GLOBAL KEYFRAME STYLES
 ───────────────────────────────────────────── */
@@ -766,12 +772,6 @@ function CounterStat({ stat, triggered }: { stat: StatItem; triggered: boolean }
 ───────────────────────────────────────────── */
 type ActivePage = "home" | "fleet" | "destinations" | "experience" | "contact" | "legal";
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function HorizonMaritimePage() {
   const [__session, __setSession] = useState<any>(null);

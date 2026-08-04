@@ -6,12 +6,12 @@ import Image from "next/image";
 import { Map, Leaf, Droplets, CheckCircle2, Award, Grape } from "lucide-react";
 import { Reveal } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function TerroirPage() {
   const [__session, __setSession] = useState<any>(null);

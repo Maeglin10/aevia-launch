@@ -1,4 +1,6 @@
 "use client";
+import { clientServices } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
@@ -10,9 +12,15 @@ import {
 } from "lucide-react";
 import { C, FONT, SectionBadge, FULL_SERVICES } from "../shared";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
-const PROCESS_STEPS = [
+const PROCESS_STEPS = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
   {
     step: "01",
     title: "Prise de rendez-vous",
@@ -49,7 +57,7 @@ const PROCESS_STEPS = [
     desc: "Compte-rendu digital remis en fin de consultation. Suivi par email ou téléconsultation. Ordonnances numérisées accessible dans votre espace client.",
     icon: <Shield size={22} color={C.accent} />,
   },
-];
+]);
 
 const EQUIPMENT = [
   {
@@ -858,12 +866,6 @@ function InsuranceSection() {
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function ServicesPage() {
   const [__session, __setSession] = useState<any>(null);

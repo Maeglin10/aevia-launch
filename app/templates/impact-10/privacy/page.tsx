@@ -14,6 +14,12 @@ import {
 } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from "react";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 // ─── Font Loader ─────────────────────────────────────────────────────────────
 const useFonts = () => {
   useEffect(() => {
@@ -2361,12 +2367,6 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
 }
 
 // ─── Root Page ────────────────────────────────────────────────────────────────
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function GrandPalaisPage() {
   const [__session, __setSession] = useState<any>(null);

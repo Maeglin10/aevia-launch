@@ -5,6 +5,12 @@ import { motion } from "framer-motion";
 import { Camera, Star, ArrowRight, ChevronLeft, Check, ShoppingBag, Leaf } from "lucide-react";
 import { C, PageHero, PRODUCTS, useCart } from "../shared";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const SERIF = "'Libre Baskerville', Georgia, serif";
 const SANS = "'Poppins', system-ui";
 
@@ -126,12 +132,6 @@ function ProductDetail({ p, onBack, onAddToCart }: { p: typeof PRODUCTS[0]; onBa
   );
 }
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function Boutique() {
   const [__session, __setSession] = useState<any>(null);

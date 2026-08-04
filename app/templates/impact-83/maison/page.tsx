@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import { Shield, Clock, Users } from "lucide-react";
 import { C, FONT_HEADING, FONT_LABEL, STATS, TEAM, FAQ, Reveal, Counter } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function MaisonPage() {
   const [__session, __setSession] = useState<any>(null);

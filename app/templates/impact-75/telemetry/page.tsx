@@ -6,12 +6,12 @@ import { motion } from "framer-motion";
 import { Radio, Shield, Binary, Cpu, Activity, Terminal } from "lucide-react";
 import { Reveal, GridBackground } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function TelemetryPage() {
   const [__session, __setSession] = useState<any>(null);

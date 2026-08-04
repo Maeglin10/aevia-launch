@@ -1,16 +1,18 @@
 "use client"
 
 import { Reveal } from "../shared"
+import { clientServices } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
 import { Box, Layers, Globe, Cpu, ArrowRight, Shield, Rocket, Check } from "lucide-react"
 import Link from "next/link"
-
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function ServicesPage() {
   const [__session, __setSession] = useState<any>(null);
@@ -28,7 +30,7 @@ export default function ServicesPage() {
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
-  const fullServices = [
+  const fullServices = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
     {
       icon: <Box className="w-8 h-8" />,
       title: "3D Product Visualization",
@@ -57,7 +59,7 @@ export default function ServicesPage() {
       desc: "We push WebGL to its limits. We write custom vertex and fragment shaders in GLSL, compile heavy physics engines to WebAssembly, and optimize asset pipelines to run smoothly at 60 FPS on low-end mobile devices.",
       deliverables: ["Custom GLSL shaders", "Wasm physics simulation libraries", "LOD (Level of Detail) scripting", "GPU profile auditing & refactoring"]
     }
-  ]
+  ])
 
   return (
     <div className="pt-32 pb-24 px-6 max-w-6xl mx-auto">

@@ -6,6 +6,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, MapPin, ArrowRight, CheckCircle } from 'lucide-react';
 import { C, Reveal, StyleInjector, CustomCursor } from '../shared';
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 // ── Form field types ─────────────────────────────────────────────────────────
 interface FormState {
   nom: string;
@@ -50,12 +56,6 @@ const labelStyle: React.CSSProperties = {
 };
 
 // ── Contact Page ──────────────────────────────────────────────────────────────
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function ContactPage() {
   const [__session, __setSession] = useState<any>(null);

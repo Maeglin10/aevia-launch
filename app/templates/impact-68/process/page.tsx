@@ -4,12 +4,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { C, PROCESS_STEPS, FAQS } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function ProcessPage() {
   const [__session, __setSession] = useState<any>(null);

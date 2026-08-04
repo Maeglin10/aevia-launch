@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion"
 import { ArrowLeft, Volume2, Speaker, Waves, Activity } from "lucide-react"
 import Link from "next/link"
-import "../../premium.css"
-
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+import "../../premium.css"
+
 
 export default function SystemPage() {
   const [__session, __setSession] = useState<any>(null);

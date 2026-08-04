@@ -1,4 +1,6 @@
 "use client";
+import { clientServices } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
 // @ts-nocheck
 
@@ -6,12 +8,12 @@ import { Check, Terminal } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Reveal } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function PricingPage() {
   const [__session, __setSession] = useState<any>(null);
@@ -42,7 +44,7 @@ export default function PricingPage() {
         </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
-          {[
+          {/* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "", ...(s.price ? { price: s.price } : {}) })), [
             {
               title: "Standard",
               price: "$1,400",
@@ -78,7 +80,7 @@ export default function PricingPage() {
                 "Tactical Response Unit",
               ],
             },
-          ].map((tier, i) => (
+          ]).map((tier, i) => (
             <Reveal key={i} delay={i * 0.1}>
               <div
                 className={`p-12 border ${tier.title === "Institutional" ? "bg-emerald-600/5 border-emerald-500/40 shadow-2xl shadow-emerald-500/5" : "bg-white/[0.02] border-white/5"} rounded-3xl flex flex-col h-full hover:border-emerald-500/20 transition-all`}

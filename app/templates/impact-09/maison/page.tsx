@@ -38,6 +38,12 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 /* ==========================================================================
    ASTRUM REACH ORBITAL DATASET (ULTRA DENSITY)
    ========================================================================== */
@@ -187,12 +193,6 @@ function HUD_Sidebar({ page, goTo }: { page: ActivePage, goTo: (p: ActivePage) =
    )
 }
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function AstrumReachPremiumMaison() {
   const [__session, __setSession] = useState<any>(null);

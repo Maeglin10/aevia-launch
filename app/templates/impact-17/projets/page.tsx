@@ -7,6 +7,12 @@ import { Menu, X } from "lucide-react";
 import { MapPin } from "lucide-react";
 import Image from "next/image";
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 const useFonts = () => {
   useEffect(() => {
     if (document.getElementById("kp-fonts")) return;
@@ -28,12 +34,6 @@ const projects = [
 
 const filters = ["Tous", "Résidentiel", "Cultural", "Bureau mixte", "Public"];
 
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function ProjetsPage() {
   const [__session, __setSession] = useState<any>(null);

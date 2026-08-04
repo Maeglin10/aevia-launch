@@ -1,4 +1,6 @@
 "use client";
+import { clientServices } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -6,12 +8,12 @@ import { CheckCircle, Shield, Send, Phone, Clock } from "lucide-react";
 import { TemplateIcon } from "@/components/TemplateIcon";
 import { C, FONT, SectionBadge, PLANS } from "../shared";
 
-
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
 let fd: any = null;
 let bp: any = null;
 let c: any = null;
+
 
 export default function PricingPage() {
   const [__session, __setSession] = useState<any>(null);
@@ -176,10 +178,10 @@ export default function PricingPage() {
           )}
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 28 }}>
-            {[
+            {/* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, text: s.desc || "" })), [
               { icon: <Phone size={16} color={C.accent} />, title: "Urgences", text: "Ligne 24h/7j" },
               { icon: <Clock size={16} color={C.accent} />, title: "Horaires", text: "Lun–Sam 8h–20h" },
-            ].map((item) => (
+            ]).map((item) => (
               <div key={item.title} style={{ background: C.white, borderRadius: 14, padding: "18px 20px", border: `1px solid ${C.border}`, display: "flex", gap: 12, alignItems: "center" }}>
                 <div style={{ width: 40, height: 40, background: C.accentLight, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{item.icon}</div>
                 <div>

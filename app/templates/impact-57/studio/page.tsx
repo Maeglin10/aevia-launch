@@ -12,6 +12,12 @@ import {
   CustomCursor,
 } from '../shared';
 
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 // ── Awards data ──────────────────────────────────────────────────────────────
 const AWARDS = [
   { n: '01', title: 'AWWWARDS Site of the Year', year: '2023', org: 'AWWWARDS' },
@@ -218,12 +224,6 @@ function AwardRow({
 }
 
 // ── Studio Page ───────────────────────────────────────────────────────────────
-
-// Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
-let bp: any = null;
-let c: any = null;
 
 export default function StudioPage() {
   const [__session, __setSession] = useState<any>(null);
