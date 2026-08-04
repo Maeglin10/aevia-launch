@@ -26,6 +26,7 @@ import {
   clientCity,
   clientName,
   clientReviews,
+  clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
 
@@ -801,7 +802,7 @@ type Property = {
   type: string;
 };
 
-const PROPERTIES_DEMO: Property[] = [
+const PROPERTIES_DEMO_SOURCE: Property[] = [
   {
     name: 'Le Domaine des Cèdres',
     img: PHOTO.villa,
@@ -827,6 +828,7 @@ const PROPERTIES_DEMO: Property[] = [
     type: 'Mas de caractère',
   },
 ];
+let PROPERTIES_DEMO = PROPERTIES_DEMO_SOURCE;
 
 const PropertyCard: React.FC<{ p: any; delay: number; index?: number }> = ({
   p,
@@ -2499,6 +2501,10 @@ export default function ImpactTemplate(): React.ReactElement {
   }, []);
 
   fd = session?.formData;
+  PROPERTIES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length], name: s.title, price: s.price ?? PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length].price })),
+    PROPERTIES_DEMO_SOURCE,
+  );
 
   SIGNATURES = SIGNATURES_LIVE();
 

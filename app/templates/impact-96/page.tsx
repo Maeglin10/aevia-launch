@@ -36,6 +36,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -194,7 +195,7 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_DEMO_SOURCE = [
   {
     q: "Urban Pulse a capturé quelque chose que nous ne savions pas mettre en mots. 'Le Geste Juste' est désormais notre film de référence interne — une lecture cinématographique de notre ADN de maison.",
     name: "Isabelle Fontaine",
@@ -228,6 +229,7 @@ const TESTIMONIALS_DEMO = [
     stars: 5,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_DEMO_SOURCE;
 
 const PRICING_DEMO = [
   {
@@ -507,6 +509,10 @@ export default function UrbanPulsePage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientTeam(session)?.map((m: any, i: number) => ({ ...TESTIMONIALS_DEMO_SOURCE[i % TESTIMONIALS_DEMO_SOURCE.length], name: m.name, role: m.role })),
+    TESTIMONIALS_DEMO_SOURCE,
+  );
   PRICING = resolveList(
     clientServices(session)?.map((s, i) => ({ ...PRICING_DEMO[i % PRICING_DEMO.length], name: s.title, price: s.price ?? PRICING_DEMO[i % PRICING_DEMO.length].price, desc: s.desc || PRICING_DEMO[i % PRICING_DEMO.length].desc })),
     PRICING_DEMO,
