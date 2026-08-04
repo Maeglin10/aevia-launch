@@ -126,13 +126,13 @@ export default function AtelierMecaniquePage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
   savoirFaire = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...savoirFaire_SOURCE[i % savoirFaire_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     savoirFaire_SOURCE,
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Product collection ← client's business profile (falls back to demo).

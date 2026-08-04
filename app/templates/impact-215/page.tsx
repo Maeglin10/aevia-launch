@@ -1820,6 +1820,9 @@ export default function FlammeEtCoPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
 
   EXTRA_TESTIMONIALS_SOURCE = EXTRA_TESTIMONIALS_SOURCE_LIVE();
 
@@ -1836,9 +1839,6 @@ export default function FlammeEtCoPage() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...EXTRA_TESTIMONIALS_SOURCE[i % EXTRA_TESTIMONIALS_SOURCE.length], text: r.text, name: r.author })),
     EXTRA_TESTIMONIALS_SOURCE,
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,

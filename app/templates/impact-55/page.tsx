@@ -143,6 +143,7 @@ export default function CabinetRenardPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   DOMAINES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...DOMAINES_SOURCE[i % DOMAINES_SOURCE.length], titre: s.title, desc: s.desc || "" || "" })),
     DOMAINES_SOURCE,
@@ -161,7 +162,6 @@ export default function CabinetRenardPage() {
     clientTeam(session)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
     EQUIPE_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand };

@@ -363,6 +363,7 @@ export default function EssentialBlogPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   AUTHORS = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...AUTHORS_SOURCE[i % AUTHORS_SOURCE.length], name: m.name, role: m.role })),
     AUTHORS_SOURCE,
@@ -384,7 +385,6 @@ export default function EssentialBlogPage() {
     clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
     FAQS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

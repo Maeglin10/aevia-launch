@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -288,7 +290,7 @@ export default function ArchitectureLayout({ children }: { children: React.React
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap" as const }}>
               <span style={{ fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.3)" }}>Paris · Genève</span>
             </div>
-            <p style={{ fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 Atelier Moreau · Leroy. Tous droits réservés.</p>
+            <p style={{ fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Atelier Moreau"} · Leroy. Tous droits réservés.</p>
           </div>
         </div>
       </footer>

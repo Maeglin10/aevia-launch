@@ -912,15 +912,15 @@ export default function HorizonMaritimePage() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+  c = session?.generatedContent;
+
 
   testimonials = testimonials_LIVE();
   stats = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...stats_SOURCE[i % stats_SOURCE.length], value: s.value, label: s.label })),
     stats_SOURCE,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [page, setPage] = useState<ActivePage>("home");

@@ -946,11 +946,11 @@ export default function Impact170Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   PROJECTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PROJECTS_SOURCE[i % PROJECTS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     PROJECTS_SOURCE,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

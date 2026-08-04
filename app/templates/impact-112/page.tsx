@@ -1039,10 +1039,11 @@ export default function ArtisanMinimalPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
 
   PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
 
-  bp = session?.businessProfile;
 
   TESTIMONIALS = TESTIMONIALS_LIVE();
   PRICING = resolveList(
@@ -1054,7 +1055,6 @@ export default function ArtisanMinimalPage() {
     clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
     FAQS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, terracotta: brand };

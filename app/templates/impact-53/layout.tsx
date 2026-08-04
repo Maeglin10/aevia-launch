@@ -325,7 +325,7 @@ export default function Impact53Layout({
               TRANSMISSIONS
             </span>
             <a
-              href="mailto:contact@meshwarp.studio"
+              href={`mailto:${fd?.email ?? "contact@meshwarp.studio"}`}
               style={{
                 fontFamily: FONT_SYNE,
                 fontWeight: 700,

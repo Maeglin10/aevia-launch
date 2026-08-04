@@ -238,8 +238,8 @@ export default function AstrumReachPremium() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+
   MISSIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...MISSIONS_DEMO_SOURCE[i % MISSIONS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     MISSIONS_DEMO_SOURCE,

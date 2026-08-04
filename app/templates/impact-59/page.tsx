@@ -86,8 +86,9 @@ export default function LuminalHome() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+  c = session?.generatedContent;
+
 
   STATS_INLINE = resolveList(
 
@@ -118,7 +119,6 @@ export default function LuminalHome() {
     PRESTATIONS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null);

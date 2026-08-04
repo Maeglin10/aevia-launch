@@ -224,6 +224,7 @@ export default function QBitLabsPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   TEAM = TEAM_LIVE();
 
@@ -240,7 +241,6 @@ export default function QBitLabsPage() {
   );
 
   bp = (session as any)?.businessProfile;
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [menuOpen, setMenuOpen] = useState(false)

@@ -127,6 +127,7 @@ export default function SummitCapitalPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   team = team_LIVE();
   theses = resolveList(
@@ -139,7 +140,6 @@ export default function SummitCapitalPage() {
   );
 
   bp = (session as any)?.businessProfile;
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts();

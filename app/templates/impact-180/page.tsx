@@ -141,6 +141,7 @@ export default function ThermotekChauffagePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   REALISATIONS = REALISATIONS_LIVE();
   SERVICES_DEMO = resolveList(
@@ -151,7 +152,6 @@ export default function ThermotekChauffagePage() {
     clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], v: z })),
     ZONES_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Real business data (resolveList) replaces demo content wholesale when

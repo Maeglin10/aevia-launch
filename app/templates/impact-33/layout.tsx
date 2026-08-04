@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -241,7 +243,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>
-            © 2026 La Fournée — Site réalisé par <Link href="/templates/impact-33/legal" style={{ color: "rgba(255,255,255,0.38)", textDecoration: "none" }}>Aevia WS</Link>
+            © 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "La Fournée"} — Site réalisé par <Link href="/templates/impact-33/legal" style={{ color: "rgba(255,255,255,0.38)", textDecoration: "none" }}>Aevia WS</Link>
           </p>
           <div style={{ display: "flex", gap: 20 }}>
             <Link href="/templates/impact-33/legal" style={{ color: "rgba(255,255,255,0.55)", fontSize: 13, textDecoration: "none", display: "inline-flex", alignItems: "center", minHeight: 44, padding: "0 10px" }}>Mentions légales</Link>

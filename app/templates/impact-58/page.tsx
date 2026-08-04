@@ -208,6 +208,7 @@ export default function SkewOSHome() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   STATS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...STATS_SOURCE[i % STATS_SOURCE.length], label: s.title, n: s.desc || "" || "" })),
     STATS_SOURCE,
@@ -242,7 +243,6 @@ export default function SkewOSHome() {
     EQUIPE_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [showreel, setShowreel] = useState(false);

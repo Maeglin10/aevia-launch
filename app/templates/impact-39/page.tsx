@@ -72,6 +72,7 @@ export default function SwiftMovePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   STATS_INLINE = resolveList(
 
@@ -88,7 +89,6 @@ export default function SwiftMovePage() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null);

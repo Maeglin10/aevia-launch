@@ -593,13 +593,13 @@ export default function FloristHome() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
   HERO_BOUQUETS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...HERO_BOUQUETS_DEMO_SOURCE[i % HERO_BOUQUETS_DEMO_SOURCE.length], name: s.title, price: s.price ?? HERO_BOUQUETS_DEMO_SOURCE[i % HERO_BOUQUETS_DEMO_SOURCE.length].price })),
     HERO_BOUQUETS_DEMO_SOURCE,
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   HERO_BOUQUETS = HERO_BOUQUETS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

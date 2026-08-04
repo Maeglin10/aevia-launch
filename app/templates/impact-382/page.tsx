@@ -89,6 +89,9 @@ export default function TrajectoiresRhPage() {
 
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
 
 
   // L'accroche du client remplace la première ligne du carrousel : c'est la
@@ -104,9 +107,6 @@ export default function TrajectoiresRhPage() {
 
 
     : HERO_SOURCE;
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

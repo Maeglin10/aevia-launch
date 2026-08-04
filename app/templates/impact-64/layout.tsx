@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -273,7 +275,7 @@ export default function NeuronSecLayout({
             ))}
           </div>
           <div style={{ borderTop: `1px solid ${C.greenBorder}`, paddingTop: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontFamily: mono, fontSize: "0.65rem", color: C.textMuted }}>© 2026 NeuronSec SAS — Tous droits réservés</span>
+            <span style={{ fontFamily: mono, fontSize: "0.65rem", color: C.textMuted }}>© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "NeuronSec SAS"} — Tous droits réservés</span>
             <div style={{ display: "flex", gap: "2rem" }}>
               <Link href="/templates/impact-64/legal" style={{ fontFamily: mono, fontSize: "0.62rem", color: C.textMuted, textDecoration: "none", letterSpacing: "0.05em" }}>Mentions légales</Link>
               <Link href="/templates/impact-64/legal" style={{ fontFamily: mono, fontSize: "0.62rem", color: C.textMuted, textDecoration: "none", letterSpacing: "0.05em" }}>Confidentialité</Link>

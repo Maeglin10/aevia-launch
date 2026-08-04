@@ -81,6 +81,7 @@ export default function VelvetHomePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   AVIS_INLINE = resolveList(
 
@@ -95,7 +96,6 @@ export default function VelvetHomePage() {
     AVIS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const router = useRouter();

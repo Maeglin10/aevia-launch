@@ -106,8 +106,8 @@ export default function TerraArchitecturePage() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+
 
   EQUIPE_ANON = resolveList(
 

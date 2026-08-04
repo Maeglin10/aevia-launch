@@ -76,6 +76,7 @@ export default function CarbonLabPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   PRESTATIONS_INLINE = resolveList(
 
@@ -104,7 +105,6 @@ export default function CarbonLabPage() {
     AVIS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   

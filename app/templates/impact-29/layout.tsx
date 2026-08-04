@@ -1,6 +1,9 @@
 "use client"
 
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 import { useScroll, motion, AnimatePresence } from "framer-motion"
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link"
@@ -131,7 +134,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/templates/impact-29/legal" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Confidentialité</Link>
             <Link href="/templates/impact-29/legal" className="hover:text-[#00F5D4] transition-colors cursor-pointer">CGU</Link>
           </div>
-          <div className="text-[#475569] text-xs">© 2026 Raphaël Genet · Paris, France</div>
+          <div className="text-[#475569] text-xs">© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Raphaël Genet"} · {clientCity(__layoutSession) ?? "Paris"}, France</div>
         </div>
       </footer>
     </div>

@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -161,7 +163,7 @@ export default function CarbonLayout({
            ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
-           <span>© 2026 CARBON LAB ADVANCED MATERIALS AG. STRENGTH IN WEIGHT.</span>
+           <span>© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "CARBON LAB ADVANCED MATERIALS AG"}. STRENGTH IN WEIGHT.</span>
            <div className="flex gap-12">
               <Link href="/templates/impact-65/legal" className="hover:text-white transition-all underline decoration-[#0070f3]/30">Mentions Légales</Link>
               <Link href="/templates/impact-65/legal" className="hover:text-white transition-all underline decoration-[#0070f3]/30">Confidentialité</Link>

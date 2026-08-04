@@ -790,13 +790,13 @@ export default function LumiereCliniquePage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
   SCIENCE = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SCIENCE_SOURCE[i % SCIENCE_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     SCIENCE_SOURCE,
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   FAQ_ITEMS = resolveList(
     clientFaq(sessionData)?.map((r, i) => ({ ...FAQ_ITEMS_DEMO[i % FAQ_ITEMS_DEMO.length], q: r.q, a: r.a })),
     FAQ_ITEMS_DEMO,

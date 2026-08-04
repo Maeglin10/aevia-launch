@@ -1,6 +1,8 @@
 "use client"
 
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 import { useScroll, motion, AnimatePresence } from "framer-motion"
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link"
@@ -107,7 +109,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/templates/impact-27/legal" className="hover:text-white transition-colors">Confidentialité</Link>
             <Link href="/templates/impact-27/legal" className="hover:text-white transition-colors">CGU</Link>
           </div>
-          <p className="text-white/20 text-sm">© 2026 Vertex Studio</p>
+          <p className="text-white/20 text-sm">© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Vertex Studio"}</p>
         </div>
       </footer>
     </div>

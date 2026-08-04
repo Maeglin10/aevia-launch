@@ -1008,6 +1008,9 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
   HERO_BREADS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...HERO_BREADS_DEMO_SOURCE[i % HERO_BREADS_DEMO_SOURCE.length], name: s.title, price: s.price ?? HERO_BREADS_DEMO_SOURCE[i % HERO_BREADS_DEMO_SOURCE.length].price })),
     HERO_BREADS_DEMO_SOURCE,
@@ -1016,9 +1019,6 @@ export default function Page() {
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...WORKSHOPS_SOURCE[i % WORKSHOPS_SOURCE.length], name: s.title, price: s.price ?? WORKSHOPS_SOURCE[i % WORKSHOPS_SOURCE.length].price })),
     WORKSHOPS_SOURCE,
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   HERO_BREADS = HERO_BREADS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -269,7 +271,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
               ·
               <Link href="/templates/impact-47/legal" style={{ color: "rgba(255,255,255,0.25)", textDecoration: "none" }}
                 onMouseEnter={e => (e.currentTarget.style.color = C.rose)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.25)")}>CGV</Link>
-              · © 2026 Pétales & Co.
+              · © 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Pétales & Co"}.
             </p>
           </div>
         </div>

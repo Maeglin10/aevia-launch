@@ -2610,6 +2610,9 @@ export default function ArchitectureTemplate() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
 
   PRESTATIONS_INLINE = resolveList(
 
@@ -2624,9 +2627,6 @@ export default function ArchitectureTemplate() {
     PRESTATIONS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
 return (

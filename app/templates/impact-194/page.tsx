@@ -105,6 +105,7 @@ export default function TableExceptionPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   PRESTATIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title })),
     PRESTATIONS_SOURCE,
@@ -113,7 +114,6 @@ export default function TableExceptionPage() {
     clientServices(session)?.map((s, i) => ({ ...PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length], title: s.title })),
     PRESTATIONS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null)

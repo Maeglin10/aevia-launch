@@ -74,13 +74,13 @@ export default function LedgerPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   bp = (session as any)?.businessProfile;
   HERO_MISSIONS = HERO_MISSIONS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
   }));
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef<HTMLElement>(null);

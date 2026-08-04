@@ -127,8 +127,8 @@ export default function Impact24() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+
   mentors = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...mentors_SOURCE[i % mentors_SOURCE.length], name: m.name, role: m.role })),
     mentors_SOURCE,

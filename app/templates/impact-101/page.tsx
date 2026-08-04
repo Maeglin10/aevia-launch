@@ -217,8 +217,9 @@ export default function BlockBasePage() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+  c = session?.generatedContent;
+
 
   BLOCK_MANIFESTS = BLOCK_MANIFESTS_LIVE();
 
@@ -235,7 +236,6 @@ export default function BlockBasePage() {
     PRESTATIONS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false);

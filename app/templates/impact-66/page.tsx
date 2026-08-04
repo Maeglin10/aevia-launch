@@ -80,6 +80,7 @@ export default function AtelierBeautePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   PRESTATIONS_INLINE = resolveList(
 
@@ -110,7 +111,6 @@ export default function AtelierBeautePage() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null);

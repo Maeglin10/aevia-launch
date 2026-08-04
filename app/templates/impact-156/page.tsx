@@ -159,13 +159,13 @@ export default function LumiereYogaPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
   APPROCHE = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...APPROCHE_SOURCE[i % APPROCHE_SOURCE.length], titre: s.title, desc: s.desc || "" || "" })),
     APPROCHE_SOURCE,
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   TEMOIGNAGES_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text })),
     TEMOIGNAGES_SOURCE,

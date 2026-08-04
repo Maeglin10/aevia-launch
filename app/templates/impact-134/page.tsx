@@ -2347,6 +2347,7 @@ export default function Impact134Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   INGREDIENTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...INGREDIENTS_SOURCE[i % INGREDIENTS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     INGREDIENTS_SOURCE,
@@ -2364,7 +2365,6 @@ export default function Impact134Page() {
     clientReviews(session)?.map((r, i) => ({ ...REVIEWS_DEMO[i % REVIEWS_DEMO.length], text: r.text, author: r.author })),
     REVIEWS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };

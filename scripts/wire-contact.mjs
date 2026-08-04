@@ -17,13 +17,16 @@ import path from "node:path";
 
 const ROOT = path.join(process.cwd(), "app/templates");
 const dry = process.argv.includes("--dry");
+// Les layouts portent l'en-tête et le pied de soixante-deux thèmes : c'est là
+// que vivent leurs liens « appeler » et « écrire ».
+const FICHIER = process.argv.includes("--layout") ? "layout.tsx" : "page.tsx";
 const ids = fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"));
 
 let tel = 0, mail = 0, touched = 0;
 const skipped = [];
 
 for (const id of ids) {
-  const file = path.join(ROOT, id, "page.tsx");
+  const file = path.join(ROOT, id, FICHIER);
   if (!fs.existsSync(file)) continue;
   let src = fs.readFileSync(file, "utf8");
   const before = src;
@@ -40,8 +43,9 @@ for (const id of ids) {
   });
 
   if (src === before) continue;
-  // Le repli lit `fd` : sans lui on introduirait une référence morte.
-  if (!/\blet fd: any = null;/.test(src)) {
+  // Le repli lit `fd` : sans lui on introduirait une référence morte. Les
+  // layouts le déclarent en `const fd = __layoutSession?.formData;`.
+  if (!/\blet fd: any = null;/.test(src) && !/\bconst fd = __layoutSession\?\.formData;/.test(src)) {
     skipped.push(id);
     continue;
   }

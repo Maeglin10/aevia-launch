@@ -138,13 +138,13 @@ export default function AquaThermPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
   ENTRETIEN = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...ENTRETIEN_SOURCE[i % ENTRETIEN_SOURCE.length], a: s.title, n: s.desc || "" || "", p: s.price ?? ENTRETIEN_SOURCE[i % ENTRETIEN_SOURCE.length].p })),
     ENTRETIEN_SOURCE,
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

@@ -163,6 +163,7 @@ export default function PulseAppPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   PRICING_SOURCE = PRICING_SOURCE_LIVE();
   FEATURES = resolveList(
@@ -181,7 +182,6 @@ export default function PulseAppPage() {
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
     TESTIMONIALS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()

@@ -617,10 +617,11 @@ export default function TerreVivantePage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
 
   plans = plans_LIVE();
 
-  bp = session?.businessProfile;
   testimonials = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], text: r.text, name: r.author })),
     testimonials_SOURCE,
@@ -629,7 +630,6 @@ export default function TerreVivantePage() {
     clientFaq(session)?.map((f: any, i: number) => ({ ...faqs_SOURCE[i % faqs_SOURCE.length], q: f.q, a: f.a })),
     faqs_SOURCE,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentDark: shadeColor(brand, -20) };

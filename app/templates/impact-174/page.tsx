@@ -172,14 +172,14 @@ export default function Impact174Page() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   MEMBERSHIPS_SOURCE = MEMBERSHIPS_SOURCE_LIVE();
   MEMBERSHIPS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...MEMBERSHIPS_SOURCE[i % MEMBERSHIPS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? MEMBERSHIPS_SOURCE[i % MEMBERSHIPS_SOURCE.length].price })),
     MEMBERSHIPS_SOURCE,
   );
-  bp = session?.businessProfile;
-  sessionData = session;
 
   const PROGRAMS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({

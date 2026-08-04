@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -239,7 +241,7 @@ export default function Impact49Layout({
           {/* Bottom footer */}
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-[#6366F1]/60">
-              © 2026 Skillbridge. Tous droits réservés.
+              © 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Skillbridge"}. Tous droits réservés.
             </p>
             <div className="flex gap-6">
               {[

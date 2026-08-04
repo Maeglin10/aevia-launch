@@ -174,10 +174,11 @@ export default function AtelierBloomPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
 
   CREATIONS = CREATIONS_LIVE();
 
-  bp = session?.businessProfile;
   AVIS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
     AVIS_SOURCE,
@@ -187,7 +188,6 @@ export default function AtelierBloomPage() {
     clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author })),
     AVIS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, peach: brand, peachLight: shadeColor(brand, 25) };

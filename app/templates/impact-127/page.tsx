@@ -147,8 +147,8 @@ export default function PulseEventsPage() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+
 
   CHIFFRES_ANON = resolveList(
 

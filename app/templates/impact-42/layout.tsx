@@ -1,5 +1,7 @@
 'use client';
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -251,7 +253,7 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
 
           <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
             <p style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", color: C.textMuted }}>
-              © 2026 Echo Chamber — Aevia WS, SIREN <LegalIdentity />
+              © 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Echo Chamber"} — Aevia WS, SIREN <LegalIdentity />
             </p>
             <div style={{ display: "flex", gap: "1.75rem" }}>
               <Link
