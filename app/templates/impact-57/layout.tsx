@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -197,7 +199,7 @@ export default function MaskUnitLayout({
         </div>
         <div style={{ maxWidth: "1300px", margin: "2.5rem auto 0", paddingTop: "2rem", borderTop: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between" }} className="flex flex-col md:row items-center gap-4 text-center">
           <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", color: C.textDim }}>
-            © 2025 MASK UNIT STUDIO — Valentin Milliand. ALL RIGHTS RESERVED.
+            © 2025 {/* NOM_PIED */ clientName(__layoutSession) ?? "MASK UNIT STUDIO"} — Valentin Milliand. ALL RIGHTS RESERVED.
           </div>
           <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", color: C.textDim }}>
             PARIS · BRANDING · MOTION · DIGITAL

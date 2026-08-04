@@ -102,15 +102,15 @@ export default function MaxPerformancePage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
 
   TARIFS = TARIFS_LIVE();
 
-  bp = session?.businessProfile;
   PROGRAMMES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PROGRAMMES_SOURCE[i % PROGRAMMES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     PROGRAMMES_SOURCE,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null)

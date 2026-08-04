@@ -65,6 +65,7 @@ export default function SegmentOS() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   PRESTATIONS_INLINE = resolveList(
 
@@ -79,7 +80,6 @@ export default function SegmentOS() {
     PRESTATIONS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const quoteRef = useRef<HTMLDivElement>(null);

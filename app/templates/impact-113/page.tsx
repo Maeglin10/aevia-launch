@@ -240,6 +240,7 @@ export default function NexusSaaSPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   PRICING_SOURCE = PRICING_SOURCE_LIVE();
   PRICING = resolveList(
@@ -266,7 +267,6 @@ export default function NexusSaaSPage() {
     clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], question: r.q, answer: r.a })),
     FAQS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [menuOpen, setMenuOpen] = useState(false);

@@ -170,6 +170,7 @@ export default function CabinetMoreauPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   ACCOMPAGNEMENTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...ACCOMPAGNEMENTS_SOURCE[i % ACCOMPAGNEMENTS_SOURCE.length], titre: s.title, desc: s.desc || "" || "" })),
     ACCOMPAGNEMENTS_SOURCE,
@@ -187,7 +188,6 @@ export default function CabinetMoreauPage() {
     clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author })),
     AVIS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

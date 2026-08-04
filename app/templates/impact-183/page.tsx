@@ -156,6 +156,7 @@ export default function CouleursCOPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   ZONES_DEMO = ZONES_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
@@ -166,7 +167,6 @@ export default function CouleursCOPiscinesPage() {
     clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], ville: z })),
     ZONES_DEMO,
   );
-  c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

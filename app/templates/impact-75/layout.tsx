@@ -1,6 +1,8 @@
 // @ts-nocheck
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -222,7 +224,7 @@ export default function OrbitAILayout({
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
-          <span>© 2026 ORBIT AI GLOBAL NETWORK AG. THE UNIVERSAL EYE.</span>
+          <span>© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "ORBIT AI GLOBAL NETWORK AG"}. THE UNIVERSAL EYE.</span>
           <div className="flex gap-12">
             <Link
               href="/templates/impact-75/telemetry"

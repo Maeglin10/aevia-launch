@@ -476,12 +476,12 @@ export default function ImpactRestaurantPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
   WINES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...WINES_SOURCE[i % WINES_SOURCE.length], name: s.title, price: s.price ?? WINES_SOURCE[i % WINES_SOURCE.length].price })),
     WINES_SOURCE,
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, terracotta: brand };

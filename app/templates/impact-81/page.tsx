@@ -65,6 +65,7 @@ export default function VogueNoirePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   AVIS_INLINE = resolveList(
 
@@ -79,7 +80,6 @@ export default function VogueNoirePage() {
     AVIS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef<HTMLDivElement>(null);

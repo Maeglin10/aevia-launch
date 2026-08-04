@@ -111,6 +111,7 @@ export default function CypherClinicPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   TEMOIGNAGES_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], name: r.author, text: r.text })),
     TEMOIGNAGES_SOURCE,
@@ -119,7 +120,6 @@ export default function CypherClinicPage() {
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
   }));
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef<HTMLDivElement>(null);

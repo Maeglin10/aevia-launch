@@ -154,8 +154,9 @@ export default function WaveFXPage() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+  c = session?.generatedContent;
+
 
   AVIS_ANON = resolveList(
 
@@ -187,7 +188,6 @@ export default function WaveFXPage() {
     clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
     FEATURES_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

@@ -85,6 +85,9 @@ export default function NebulaCloudPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
 
   NODES = resolveList(
 
@@ -93,9 +96,6 @@ export default function NebulaCloudPage() {
     NODES_DEMO,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

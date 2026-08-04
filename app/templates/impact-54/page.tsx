@@ -79,11 +79,11 @@ export default function Impact54Page() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+  c = session?.generatedContent;
+
 
   PRESTATIONS_ANON = resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...PRESTATIONS_ANON_SOURCE[i % PRESTATIONS_ANON_SOURCE.length], name: s.title, desc: s.desc || "" , ...(s.price ? { price: s.price } : {})})), PRESTATIONS_ANON_SOURCE);
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const pageRef = useRef<HTMLDivElement>(null);

@@ -2153,11 +2153,11 @@ export default function SmartTextilesPremium() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
 
   MATERIALS = MATERIALS_LIVE();
 
-  bp = session?.businessProfile;
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const containerRef = useRef<HTMLDivElement>(null)

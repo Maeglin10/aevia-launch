@@ -102,6 +102,7 @@ export default function OasisWellnessPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   PHILOSOPHY = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length], title: s.title, text: s.desc || "" || "" })),
     PHILOSOPHY_SOURCE,
@@ -121,7 +122,6 @@ export default function OasisWellnessPage() {
 
   );
   TREATMENTS = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...TREATMENTS_SOURCE[i % TREATMENTS_SOURCE.length], title: s.title , ...(s.price ? { price: s.price } : {})})), TREATMENTS_SOURCE);
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)

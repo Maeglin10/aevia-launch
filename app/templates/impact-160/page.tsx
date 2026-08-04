@@ -174,11 +174,11 @@ export default function MonolithPremium() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   SYSTEM_METRICS = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...SYSTEM_METRICS_SOURCE[i % SYSTEM_METRICS_SOURCE.length], value: s.value, label: s.label })),
     SYSTEM_METRICS_SOURCE,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [activeNode, setActiveNode] = useState(0)

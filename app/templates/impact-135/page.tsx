@@ -1037,6 +1037,7 @@ export default function Impact135Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   MARKET_CARDS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...MARKET_CARDS_SOURCE[i % MARKET_CARDS_SOURCE.length], name: s.title, price: s.price ?? MARKET_CARDS_SOURCE[i % MARKET_CARDS_SOURCE.length].price })),
     MARKET_CARDS_SOURCE,
@@ -1066,7 +1067,6 @@ export default function Impact135Page() {
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
     TESTIMONIALS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

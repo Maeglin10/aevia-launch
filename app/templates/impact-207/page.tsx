@@ -2314,8 +2314,9 @@ export default function Impact207() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+  c = session?.generatedContent;
+
   STAGES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...STAGES_SOURCE[i % STAGES_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),
     STAGES_SOURCE,
@@ -2328,7 +2329,6 @@ export default function Impact207() {
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, author: r.author })),
     TESTIMONIALS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()

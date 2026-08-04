@@ -1726,6 +1726,7 @@ export default function MeridianFreightPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   SERVICES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     SERVICES_SOURCE,
@@ -1747,7 +1748,6 @@ export default function MeridianFreightPage() {
     clientFaq(session)?.map((r, i) => ({ ...FAQ_ITEMS_DEMO[i % FAQ_ITEMS_DEMO.length], q: r.q, a: r.a })),
     FAQ_ITEMS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

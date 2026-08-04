@@ -128,6 +128,7 @@ export default function CabinetKinePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   TEMOIGNAGES_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text })),
     TEMOIGNAGES_SOURCE,
@@ -141,7 +142,6 @@ export default function CabinetKinePage() {
     clientServices(session)?.map((s, i) => ({ ...SPECIALITES_DEMO[i % SPECIALITES_DEMO.length], titre: s.title })),
     SPECIALITES_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -206,7 +208,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
                 Contact
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <a href="mailto:contact@exemple.fr" style={{ fontSize: 13, color: "#7a5c3a", textDecoration: "none", fontWeight: 300 }}>contact@exemple.fr</a>
+                <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 13, color: "#7a5c3a", textDecoration: "none", fontWeight: 300 }}>contact@exemple.fr</a>
                 <Link href="/templates/impact-38/contact"
                   style={{ textDecoration: "none", fontSize: 13, color: "#7a5c3a", textAlign: "left", padding: 0, fontWeight: 300 }}>
                   Nous écrire
@@ -216,7 +218,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
             </div>
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-            <p style={{ fontSize: 13, color: "#3d2010", margin: 0 }}>© 2025 Origin Roast — Aevia WS</p>
+            <p style={{ fontSize: 13, color: "#3d2010", margin: 0 }}>© 2025 {/* NOM_PIED */ clientName(__layoutSession) ?? "Origin Roast"} — Aevia WS</p>
             <div style={{ display: "flex", gap: 24 }}>
               <Link href="/templates/impact-38/legal" style={{ fontSize: 13, color: "#3d2010", textDecoration: "none" }}>
                 Mentions légales

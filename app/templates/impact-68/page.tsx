@@ -63,6 +63,7 @@ export default function OrbitHomePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   PRESTATIONS_INLINE = resolveList(
 
@@ -77,7 +78,6 @@ export default function OrbitHomePage() {
     PRESTATIONS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   

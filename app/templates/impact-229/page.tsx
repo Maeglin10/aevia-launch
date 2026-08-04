@@ -169,6 +169,7 @@ export default function EclatSpaPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   FORFAITS = FORFAITS_LIVE();
   SOINS_DEMO = resolveList(
@@ -180,7 +181,6 @@ export default function EclatSpaPage() {
     AVIS_SOURCE,
   );
   STATS = resolveList(clientStats(session), STATS_DEMO);
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

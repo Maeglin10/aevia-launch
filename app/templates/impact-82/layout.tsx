@@ -1,6 +1,8 @@
 "use client"
 
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence, useScroll } from "framer-motion"
 import Link from "next/link"
@@ -165,7 +167,7 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
             </div>
           </div>
           <div className="pt-8 border-t border-[#2A1E12] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 Blueprint Developments — Tous droits réservés</span>
+            <span>© 2024 {/* NOM_PIED */ clientName(__layoutSession) ?? "Blueprint Developments"} — Tous droits réservés</span>
             <div className="flex gap-6">
               <Link href="/templates/impact-82/legal" className="hover:text-[#F7F5F2] transition-colors cursor-pointer">
                 Mentions légales

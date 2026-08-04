@@ -437,12 +437,12 @@ export default function Impact94Page() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  sessionData = session;
   EVENTS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EVENTS_SOURCE[i % EVENTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     EVENTS_SOURCE,
   );
-  bp = session?.businessProfile;
-  sessionData = session;
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

@@ -3217,6 +3217,9 @@ function Impact290Page() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
 
   ENGAGEMENTS = resolveList(
 
@@ -3231,9 +3234,6 @@ function Impact290Page() {
     ENGAGEMENTS_SOURCE,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, forest: brand, forestLight: shadeColor(brand, 25) };

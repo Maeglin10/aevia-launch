@@ -55,9 +55,9 @@ export default function IronClubPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   bp = (session as any)?.businessProfile;
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef<HTMLElement>(null);

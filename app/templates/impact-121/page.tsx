@@ -227,8 +227,8 @@ export default function FolioStudioPage() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+
 
   MANIFEST = MANIFEST_LIVE();
 

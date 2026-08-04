@@ -315,8 +315,8 @@ export default function VulcanMotorPremium() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+
   FLEET_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     FLEET_DEMO_SOURCE,

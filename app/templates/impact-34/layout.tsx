@@ -1,6 +1,8 @@
 "use client"
 
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
@@ -284,7 +286,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Bottom bar */}
           <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-[#334155]">
-              © 2024 WaveForm. All rights reserved.
+              © 2024 {/* NOM_PIED */ clientName(__layoutSession) ?? "WaveForm"}. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
               <Link href="/templates/impact-34/legal" className="text-xs text-[#334155] hover:text-[#F97316] transition-colors">

@@ -1033,8 +1033,9 @@ export default function Impact31() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+  c = session?.generatedContent;
+
   TEACHERS = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...TEACHERS_SOURCE[i % TEACHERS_SOURCE.length], name: m.name, role: m.role })),
     TEACHERS_SOURCE,
@@ -1071,7 +1072,6 @@ export default function Impact31() {
     clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
     FAQS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

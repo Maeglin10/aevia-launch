@@ -926,8 +926,9 @@ export default function MaskUnitHome() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+  c = session?.generatedContent;
+
   SERVICES_LIVE = resolveList(
     clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({
       n: String(i + 1).padStart(2, "0"),
@@ -944,7 +945,6 @@ export default function MaskUnitHome() {
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
     TESTIMONIALS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef<HTMLDivElement>(null);

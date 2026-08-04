@@ -154,6 +154,7 @@ export default function VisionClairePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   LENTILLES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...LENTILLES_SOURCE[i % LENTILLES_SOURCE.length], a: s.title, n: s.desc || "" || "", p: s.price ?? LENTILLES_SOURCE[i % LENTILLES_SOURCE.length].p })),
     LENTILLES_SOURCE,
@@ -176,7 +177,6 @@ export default function VisionClairePage() {
     clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author })),
     AVIS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, cyan: brand, cyanLight: shadeColor(brand, 25) };

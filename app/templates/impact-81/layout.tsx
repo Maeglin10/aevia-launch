@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -148,7 +150,7 @@ export default function VogueNoireLayout({
             </div>
           </div>
           <div className="pt-8 border-t border-[#1A1A14] flex flex-col md:flex-row justify-between gap-4 text-xs text-[#3A3028]">
-            <span>© 2025 Vogue Noire — Tous droits réservés</span>
+            <span>© 2025 {/* NOM_PIED */ clientName(__layoutSession) ?? "Vogue Noire"} — Tous droits réservés</span>
             <div className="flex gap-6">
               <Link href="/templates/impact-81/legal" className="hover:text-[#F0EBE0] transition-colors cursor-pointer">Mentions légales</Link>
               <Link href="/templates/impact-81/legal" className="hover:text-[#F0EBE0] transition-colors cursor-pointer">Politique de confidentialité</Link>

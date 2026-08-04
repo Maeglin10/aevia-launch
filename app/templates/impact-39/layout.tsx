@@ -105,7 +105,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
             {/* the anchor had no nowrap/flexShrink guard, so under tight tablet
                 width it wrapped onto a second line and broke out of the 72px
                 nav row, overlapping the row below it */}
-            <a href="tel:+33100000000" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 700, color: C.navy, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>
+            <a href={`tel:${fd?.phone ?? "+33100000000"}`} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 700, color: C.navy, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>
               <Phone size={15} color={C.orange} />
               +33 1 XX XX XX XX
             </a>
@@ -147,7 +147,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
               </Link>
             ))}
             <div style={{ padding: "12px 0 0", display: "flex", flexDirection: "column", gap: 12 }}>
-              <a href="tel:+33100000000" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 16, fontWeight: 700, color: C.navy, textDecoration: "none" }}>
+              <a href={`tel:${fd?.phone ?? "+33100000000"}`} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 16, fontWeight: 700, color: C.navy, textDecoration: "none" }}>
                 <Phone size={16} color={C.orange} />
                 +33 1 XX XX XX XX
               </a>
@@ -192,7 +192,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
               </div>
               <div style={{ marginTop: 20, display: "flex", alignItems: "center", gap: 8 }}>
                 <Phone size={15} color={C.orange} />
-                <a href="tel:+33100000000" style={{ fontSize: 16, fontWeight: 800, color: C.white, textDecoration: "none" }}>+33 1 XX XX XX XX</a>
+                <a href={`tel:${fd?.phone ?? "+33100000000"}`} style={{ fontSize: 16, fontWeight: 800, color: C.white, textDecoration: "none" }}>+33 1 XX XX XX XX</a>
               </div>
             </div>
             <div>

@@ -118,6 +118,7 @@ export default function MaisonElisePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   FORMULES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FORMULES_SOURCE[i % FORMULES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     FORMULES_SOURCE,
@@ -126,7 +127,6 @@ export default function MaisonElisePage() {
     clientTeam(session)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
     EQUIPE_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null)

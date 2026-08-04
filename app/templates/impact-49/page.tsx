@@ -117,6 +117,7 @@ export default function Impact49Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   PARCOURS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PARCOURS_SOURCE[i % PARCOURS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     PARCOURS_SOURCE,
@@ -135,7 +136,6 @@ export default function Impact49Page() {
     AVIS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [searchQuery, setSearchQuery] = useState("");

@@ -75,6 +75,7 @@ export default function LeaHomePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   STATS_INLINE = resolveList(
 
@@ -91,7 +92,6 @@ export default function LeaHomePage() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

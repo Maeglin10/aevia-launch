@@ -172,6 +172,7 @@ export default function VoltPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
   SERVICES_DEMO = resolveList(
@@ -187,7 +188,6 @@ export default function VoltPiscinesPage() {
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(session), STATS_DEMO);
-  c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

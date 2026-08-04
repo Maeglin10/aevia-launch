@@ -424,12 +424,12 @@ export default function Impact211Page() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
   EVENTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EVENTS_SOURCE[i % EVENTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     EVENTS_SOURCE,
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // businessProfile.menu (structured wizard step) takes priority over the

@@ -2223,6 +2223,7 @@ export default function Impact133Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   PROJECTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PROJECTS_SOURCE[i % PROJECTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     PROJECTS_SOURCE,
@@ -2243,7 +2244,6 @@ export default function Impact133Page() {
     clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], label: s.title, desc: s.desc })),
     SERVICES_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, violet: brand };

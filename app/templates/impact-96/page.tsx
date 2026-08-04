@@ -509,6 +509,7 @@ export default function UrbanPulsePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   TESTIMONIALS_DEMO = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...TESTIMONIALS_DEMO_SOURCE[i % TESTIMONIALS_DEMO_SOURCE.length], name: m.name, role: m.role })),
     TESTIMONIALS_DEMO_SOURCE,
@@ -518,7 +519,6 @@ export default function UrbanPulsePage() {
     PRICING_DEMO,
   );
   STATS = resolveList(clientStats(session)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
-  c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

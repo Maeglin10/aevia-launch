@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -215,7 +217,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                 </div>
               ))}
             </div>
-            <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 Dumont & Associés. Tous droits réservés. Barreau de Paris.</p>
+            <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Dumont & Associés"}. Tous droits réservés. Barreau de Paris.</p>
           </div>
         </div>
       </footer>

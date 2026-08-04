@@ -150,6 +150,7 @@ export default function ConservatoireAccordPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   TEMOIGNAGES_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text })),
     TEMOIGNAGES_SOURCE,
@@ -163,7 +164,6 @@ export default function ConservatoireAccordPage() {
     clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),
     TEMOIGNAGES_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, amber: brand };

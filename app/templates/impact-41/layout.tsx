@@ -1,5 +1,7 @@
 'use client';
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -307,7 +309,7 @@ export default function VMMaisonLayout({ children }: { children: React.ReactNode
               textTransform: 'uppercase',
             }}
           >
-            © 2026 VM Maison — Tous droits réservés
+            © 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "VM Maison"} — Tous droits réservés
           </div>
           <div style={{ display: 'flex', gap: '2rem' }}>
             <Link

@@ -390,8 +390,8 @@ export default function IvoryArchivePremium() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+
   LAB_METRICS = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...LAB_METRICS_SOURCE[i % LAB_METRICS_SOURCE.length], value: s.value, label: s.label })),
     LAB_METRICS_SOURCE,

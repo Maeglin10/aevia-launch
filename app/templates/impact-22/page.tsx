@@ -129,6 +129,7 @@ export default function NimbusAIPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   features = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...features_SOURCE[i % features_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     features_SOURCE,
@@ -137,7 +138,6 @@ export default function NimbusAIPage() {
     clientFaq(session)?.map((f: any, i: number) => ({ ...faqs_SOURCE[i % faqs_SOURCE.length], q: f.q, a: f.a })),
     faqs_SOURCE,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts();

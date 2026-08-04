@@ -1265,10 +1265,11 @@ export default function Impact219Page() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
 
   TIERS = TIERS_LIVE();
 
-  bp = session?.businessProfile;
   BENEFITS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...BENEFITS_SOURCE[i % BENEFITS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     BENEFITS_SOURCE,
@@ -1281,7 +1282,6 @@ export default function Impact219Page() {
     clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
     FAQS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };

@@ -1075,6 +1075,8 @@ export default function WineryTemplate() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
 
   WINES_DEMO = WINES_DEMO_LIVE();
 
@@ -1099,8 +1101,6 @@ export default function WineryTemplate() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Wines ← bp.menu (real bottle list) else demo. vintage/notes/abv/aging

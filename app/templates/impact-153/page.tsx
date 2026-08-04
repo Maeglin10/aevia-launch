@@ -2301,11 +2301,11 @@ export default function ExpeditionTemplatePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
   EXPEDITIONS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EXPEDITIONS_SOURCE[i % EXPEDITIONS_SOURCE.length], name: s.title, description: s.desc || "" || "", price: s.price ?? EXPEDITIONS_SOURCE[i % EXPEDITIONS_SOURCE.length].price })),
     EXPEDITIONS_SOURCE,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

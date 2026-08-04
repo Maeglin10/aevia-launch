@@ -1,6 +1,8 @@
 "use client"
 
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 import { useScroll, motion, AnimatePresence } from "framer-motion"
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link"
@@ -110,7 +112,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/templates/impact-28/legal" className="hover:text-white transition-colors cursor-pointer">Confidentialité</Link>
             <Link href="/templates/impact-28/legal" className="hover:text-white transition-colors cursor-pointer">CGU</Link>
           </div>
-          <div className="text-white/30 text-xs uppercase tracking-widest">© 2026 Brutco Architecture</div>
+          <div className="text-white/30 text-xs uppercase tracking-widest">© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Brutco Architecture"}</div>
         </div>
       </footer>
     </div>

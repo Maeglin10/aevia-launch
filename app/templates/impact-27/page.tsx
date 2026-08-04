@@ -843,8 +843,8 @@ export default function Home() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
+
   testimonials = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], quote: r.text, author: r.author })),
     testimonials_SOURCE,

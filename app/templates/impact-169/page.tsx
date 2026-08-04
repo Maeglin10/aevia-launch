@@ -464,6 +464,7 @@ export default function ImpactFrequencePage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   AUTHORS = resolveList(
@@ -487,7 +488,6 @@ export default function ImpactFrequencePage() {
     clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
     FAQS_DEMO,
   );
-  c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, red: brand };
