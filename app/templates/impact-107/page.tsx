@@ -24,11 +24,14 @@ let fd: any = null;
 
 // Les avis, jusqu'ici écrit(e) dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
-const AVIS_INLINE_SOURCE = [
+function AVIS_INLINE_SOURCE_LIVE() {
+  return [
   { quote: "The Patagonia expedition changed my life. Not hyperbole — I genuinely made different career and family decisions in the weeks after. Meridian creates that kind of space.", name: "A. Fischer", origin: "Berlin · Software Engineer", exp: "Patagonia Wind Routes" },
                 { quote: "I've done 11 expeditions with various companies. Meridian is the only one where the guide knows when to speak and when not to. That's rare and priceless.", name: "P. Nakamura", origin: "Osaka · Surgeon", exp: "Iceland Ice Shelf" },
-                { quote: "My son and I did the Greenland coastal route. He's 14. He still talks about it. I'll never find a better investment of two weeks.", name: "D. Morel", origin: "Lyon · Architect", exp: "Greenland Coastal" }
+                { quote: "My son and I did the Greenland coastal route. He's 14. He still talks about it. I'll never find a better investment of two weeks.", name: "D. Morel", origin: (clientCity(sessionData) ?? "Lyon") + " · Architect", exp: "Greenland Coastal" }
 ];
+}
+let AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 let AVIS_INLINE = AVIS_INLINE_SOURCE;
 
 let c: any = null;
@@ -110,8 +113,10 @@ export default function MeridianJourneyPage() {
 
   fd = session?.formData;
 
+
   sessionData = session;
   c = session?.generatedContent;
+  AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
   EXPEDITIONS_DEMO_SOURCE = EXPEDITIONS_DEMO_SOURCE_LIVE();
 
   EXPEDITIONS_DEMO = resolveList(

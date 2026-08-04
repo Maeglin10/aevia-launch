@@ -878,7 +878,7 @@ export default function BoulangerieNoirePage() {
               </Link>
             </div>
             <div className="flex gap-10">
-              <span>Paris // Berlin // Tokyo</span>
+              <span>{clientCity(sessionData) ?? "Paris"} // Berlin // Tokyo</span>
               <span>In Grain We Trust</span>
             </div>
           </div>

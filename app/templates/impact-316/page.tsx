@@ -174,11 +174,14 @@ const SERVICES_DEMO = [
   { icon: <ClipboardCheck size={28} />, title: "Audit & Qualité", desc: "Contrôles qualité réguliers, reporting mensuel, interlocuteur dédié. Certification ISO 14001." },
 ];
 
-const TESTIMONIALS_SOURCE = [
-  { name: "Laurent P.", role: "Directeur Général, TechCorp Paris", text: "Pro-Nettoyage assure l'entretien de nos 2 000 m² de bureaux depuis 3 ans. Fiabilité exemplaire, équipes discrètes et résultats constants.", rating: 5 },
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
+  { name: "Laurent P.", role: "Directeur Général, TechCorp " + (clientCity(sessionData) ?? "Paris"), text: "Pro-Nettoyage assure l'entretien de nos 2 000 m² de bureaux depuis 3 ans. Fiabilité exemplaire, équipes discrètes et résultats constants.", rating: 5 },
   { name: "Nathalie F.", role: "Syndic, Résidence Les Érables", text: "Les parties communes n'ont jamais été aussi propres. Les résidents sont unanimes. Le reporting mensuel est un vrai plus.", rating: 5 },
   { name: "Stéphane R.", role: "DRH, Cabinet Juridique Bordeaux", text: "Passage quotidien impeccable, équipe stable et professionnelle. Notre cabinet a un standing irréprochable grâce à leur travail.", rating: 5 },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 export default function Page() {
@@ -207,9 +210,11 @@ export default function Page() {
 
   fd = session?.formData;
 
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   PHOTO = PHOTO_LIVE();
 
   STATS_INLINE = resolveList(

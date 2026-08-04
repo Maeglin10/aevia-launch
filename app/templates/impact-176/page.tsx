@@ -204,10 +204,11 @@ const PLANS_SOURCE = [
 ];
 let PLANS = PLANS_SOURCE;
 
-const FAQS_DEMO = [
+function FAQS_DEMO_LIVE() {
+  return [
   {
     q: "Is your data stored in Europe?",
-    a: "Yes — 100% EU infrastructure (AWS Paris + Frankfurt). GDPR-native, DPA available, ISO 27001 certified.",
+    a: "Yes — 100% EU infrastructure (AWS " + (clientCity(sessionData) ?? "Paris") + " + Frankfurt). GDPR-native, DPA available, ISO 27001 certified.",
   },
   {
     q: "Do you offer a free trial?",
@@ -226,6 +227,8 @@ const FAQS_DEMO = [
     a: "Yes — full REST API documented at docs.metric.io. Webhooks, JavaScript and Python SDKs available.",
   },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_LIVE();
 let FAQS = FAQS_DEMO;
 
 const LIVE_METRICS_SOURCE = [
@@ -1141,8 +1144,10 @@ export default function Impact176Page() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  FAQS_DEMO = FAQS_DEMO_LIVE();
 
   PLANS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),

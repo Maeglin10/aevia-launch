@@ -26,12 +26,15 @@ let sessionData: any = null;
 
 // Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
 // saisir, le thème ne les lisait pas.
-const STATS_INLINE_SOURCE = [
+function STATS_INLINE_SOURCE_LIVE() {
+  return [
   { label: "email", value: (fd?.email ?? "rafael@moreau.dev") },
                 { label: "linkedin", value: "/in/rafael-moreau" },
                 { label: "github", value: "@rafael-moreau" },
-                { label: "location", value: "Paris, France (remote OK)" }
+                { label: "location", value: (clientCity(sessionData) ?? "Paris") + ", France (remote OK)" }
 ];
+}
+let STATS_INLINE_SOURCE = STATS_INLINE_SOURCE_LIVE();
 let STATS_INLINE = STATS_INLINE_SOURCE;
 
 
@@ -961,8 +964,10 @@ export default function Impact170Page() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  STATS_INLINE_SOURCE = STATS_INLINE_SOURCE_LIVE();
 
   STATS_INLINE = resolveList(
 

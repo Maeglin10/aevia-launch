@@ -360,7 +360,7 @@ export default function ArcaneRealtyPage() {
               {[
                 { name: "Elara Voss", role: "Senior Acquisitions", markets: ["NYC", "London"], yrs: "16yr" },
                 { name: "Ryo Tanaka", role: "Asia Pacific Lead", markets: ["Tokyo", "Singapore"], yrs: "11yr" },
-                { name: "Margaux Delbos", role: "European Director", markets: ["Paris", "Monaco"], yrs: "19yr" },
+                { name: "Margaux Delbos", role: "European Director", markets: [(clientCity(sessionData) ?? "Paris"), "Monaco"], yrs: "19yr" },
                 { name: "Omar Al Farsi", role: "MENA Portfolio", markets: ["Dubai", "Riyadh"], yrs: "13yr" },
               ].map((a, i) => (
                 <Reveal key={i} delay={i * 0.1}>
