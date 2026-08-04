@@ -20,7 +20,7 @@ const dry = process.argv.includes("--dry");
 // Ce qui ne se dit que d'une ville précise : arrondissement, département,
 // région, pays.
 const SUFFIXE =
-  /^(\s*(?:\d{1,2}(?:er|e|ᵉ)|[IVX]{1,4}))(?=[\s<.,;:!?·—–)]|$)|^(\s*&\s*(?:Gironde|Rhône|Ain|Savoie|Isère|Var|Hérault|Loire|Nord|Alsace|Bretagne|Normandie|Occitanie|Provence|Île-de-France|IDF))(?=[\s<.,;:!?·—–)]|$)|^(\s*et\s+l(?:&apos;|')Île-de-France)/;
+  /^(\s*(?:\d{1,2}(?:er|e|ᵉ)|[IVX]{1,4}))(?=[\s<.,;:!?·—–)]|$)|^(\s*(?:&amp;|&)\s*(?:Gironde|Rhône|Ain|Savoie|Isère|Var|Hérault|Loire|Nord|Alsace|Bretagne|Normandie|Occitanie|Provence|Île-de-France|IDF))(?=[\s<.,;:!?·—–)]|$)|^(\s*et\s+l(?:&apos;|')Île-de-France)/;
 
 let faits = 0;
 const touches = [];
