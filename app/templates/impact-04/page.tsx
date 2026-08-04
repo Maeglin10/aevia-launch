@@ -1092,7 +1092,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
                 Aevia WS — Valentin Milliand<br />
                 Entrepreneur individuel<br />
                 SIREN <LegalIdentity /><br />
-                RCS Bourg-en-Bresse<br />{fd?.email ?? "contact@exemple.fr"}</p>
+                {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />{fd?.email ?? "contact@exemple.fr"}</p>
             </div>
             <div>
               <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: 'rgb(217, 119, 6)', marginBottom: 12 }} className="text-amber-500">Hébergeur</h2>

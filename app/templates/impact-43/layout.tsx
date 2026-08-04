@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -288,7 +290,7 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
             letterSpacing: "0.05em",
           }}
         >
-          © 2026 Aevia WS — SIREN <LegalIdentity />. Tous droits réservés. Chartreuse Massif, France.
+          © 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. Tous droits réservés. Chartreuse Massif, France.
         </div>
         {/* legal links ran off the right edge on a phone without wrapping */}
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 24 }}>

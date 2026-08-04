@@ -982,7 +982,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
                 Valentin Milliand
               </LegalBlock>
               <LegalBlock title="Immatriculation">
-                SIREN <LegalIdentity /> — RCS Bourg-en-Bresse
+                SIREN <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}
               </LegalBlock>
               <LegalBlock title="Contact">{fd?.email ?? "contact@exemple.fr"}</LegalBlock>
               <LegalBlock title="Siège social">

@@ -1508,8 +1508,8 @@ function LegalPage() {
               Édition et Hébergement
             </h3>
             <p>
-              <strong>Éditeur :</strong> Aevia WS — Valentin Milliand<br />
-              Entrepreneur individuel — SIREN <LegalIdentity /> — RCS Bourg-en-Bresse<br />
+              <strong>Éditeur :</strong> {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
+              Entrepreneur individuel — SIREN <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               <strong>Contact :</strong>{fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Hébergeur :</strong> Vercel Inc., 650 2nd St, San Francisco, CA 94107, USA.<br />
               <strong>Adresse physique :</strong> communiquée sur demande.

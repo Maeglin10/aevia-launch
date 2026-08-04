@@ -2,6 +2,7 @@
 "use client"
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
+import { clientName } from "@/lib/templates/clientContent";
 import React, { useEffect, useState } from "react";
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -140,7 +141,7 @@ export default function MentionsPage() {
               Aevia WS — Valentin Milliand<br />
               Entrepreneur individuel<br />
               SIREN <LegalIdentity /><br />
-              RCS Bourg-en-Bresse<br />
+              {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               {fd?.email ?? "valentinmilliand@aevia.services"}
             </p>
           </div>

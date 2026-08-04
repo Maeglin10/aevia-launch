@@ -1297,7 +1297,7 @@ function LegalSubPage() {
             <p>
               Le site Noir Couture est édité par :<br />
               <strong>Aevia WS — Valentin Milliand</strong><br />
-              Entrepreneur individuel — SIREN : <LegalIdentity /> — RCS Bourg-en-Bresse<br />
+              Entrepreneur individuel — SIREN : <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               <strong>Contact :</strong>{fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Adresse physique :</strong> communiquée sur demande.
             </p>

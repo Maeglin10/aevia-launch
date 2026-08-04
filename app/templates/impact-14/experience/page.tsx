@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
@@ -2959,8 +2960,8 @@ function LegalPage() {
               Publisher & Host Information
             </h3>
             <p style={{ margin: 0 }}>
-              <strong>Publisher:</strong> Aevia WS — Valentin Milliand<br />
-              Sole Proprietorship — SIREN <LegalIdentity /> — RCS Bourg-en-Bresse<br />
+              <strong>Publisher:</strong> {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
+              Sole Proprietorship — SIREN <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               <strong>Contact Email:</strong> {fd?.email ?? "valentinmilliand@aevia.services"}<br />
               <strong>Address:</strong> communicated upon request<br />
               <strong>Host:</strong> Vercel Inc.

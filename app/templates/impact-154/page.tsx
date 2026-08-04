@@ -1436,7 +1436,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <Heading>Éditeur</Heading>
               <Para><Strong>Aevia WS</Strong> — entrepreneur individuel (auto-entrepreneur).</Para>
               <Para>Directeur de la publication : <Strong>Valentin Milliand</Strong>.</Para>
-              <Para>SIREN : <Strong><LegalIdentity /></Strong> — RCS Bourg-en-Bresse.</Para>
+              <Para>SIREN : <Strong><LegalIdentity /></Strong> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.</Para>
               <Para>Contact : <Strong>{fd?.email ?? "contact@exemple.fr"}</Strong></Para>
               <Para>Adresse du siège social communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}.</Para>
 

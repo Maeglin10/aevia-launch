@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useEffect, useState } from "react";
@@ -266,7 +267,7 @@ export default function ContactPage() {
                 </div>
                 <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.75, fontWeight: 300, marginBottom: 10 }}>
                   Valentin Milliand, SIREN <LegalIdentity /><br />
-                  RCS Bourg-en-Bresse<br />
+                  {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
                   Adresse communiquée sur rendez-vous.
                 </p>
                 <a href={`mailto:${fd?.email ?? "contact@originroast.co"}`} style={{ fontSize: 13, color: C.caramel, fontWeight: 600, textDecoration: "none" }}>

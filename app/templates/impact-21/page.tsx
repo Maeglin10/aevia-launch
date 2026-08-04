@@ -1078,7 +1078,7 @@ return (
                     <h3 className="text-gray-900 text-lg font-bold mb-4">Éditeur du site</h3>
                     <p className="text-gray-600 leading-relaxed">
                       Aevia WS — Valentin Milliand, entrepreneur individuel.<br />
-                      SIREN : <LegalIdentity /> — RCS Bourg-en-Bresse.<br />
+                      SIREN : <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.<br />
                       Contact : <span className="text-[var(--brand,#F97316)]">{fd?.email ?? "contact@exemple.fr"}</span>
                     </p>
                   </div>

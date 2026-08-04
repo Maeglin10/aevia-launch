@@ -1,5 +1,7 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -404,7 +406,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
             }}
           >
             <p style={{ fontSize: 13, color: "#7a5c40" }}>
-              © 2026 Aevia WS — SIREN <LegalIdentity />. Tous droits réservés.
+              © 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. Tous droits réservés.
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               <Link href="/templates/impact-37/legal" style={{ fontSize: 13, color: "#7a5c40", textDecoration: "none" }}>Mentions Légales</Link>

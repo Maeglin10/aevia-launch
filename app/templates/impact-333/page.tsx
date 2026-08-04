@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, WordFlight, useSlides } from "@/lib/
 import {
   clientCertifications,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -413,7 +414,7 @@ export default function EtudeDuCanalPage() {
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
               © 2026 {fd?.businessName ?? "Étude du Canal"} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
             </span>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
+            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>
         </div>
       </footer>

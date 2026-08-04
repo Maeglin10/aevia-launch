@@ -3248,8 +3248,8 @@ function LegalPage() {
               Publisher & Host Information
             </h3>
             <p style={{ margin: 0 }}>
-              <strong>Publisher:</strong> Aevia WS — Valentin Milliand<br />
-              Sole Proprietorship — SIREN <LegalIdentity /> — RCS Bourg-en-Bresse<br />
+              <strong>Publisher:</strong> {clientName({ formData: fd }) ?? "Aevia WS — Valentin Milliand"}<br />
+              Sole Proprietorship — SIREN <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
               <strong>Contact Email:</strong>{fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Address:</strong> communicated upon request<br />
               <strong>Host:</strong> Vercel Inc.
