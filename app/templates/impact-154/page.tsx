@@ -1337,7 +1337,7 @@ function ContactPage() {
             {/* Info */}
             <div>
                {[
-                 { icon: Mail, label: "Email", value: "contact@exemple.fr" },
+                 { icon: Mail, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
                  { icon: MapPin, label: "Siège", value: "Adresse communiquée sur demande" },
                  { icon: Clock, label: "Horaires", value: "Lun – Ven · 9h – 19h" },
                  { icon: ShieldCheck, label: "Confidentialité", value: "Discrétion absolue garantie" }

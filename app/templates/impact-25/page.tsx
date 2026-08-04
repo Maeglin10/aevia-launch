@@ -501,7 +501,7 @@ export default function PixelRepublicPage() {
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Agence digitale · {clientCity({ formData: fd }) ?? "Paris"}<br />Lun–Ven 9h–18h30</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: "Paris, Île-de-France" }, { icon: <Phone size={13} />, t: "01 44 00 00 00" }, { icon: <Mail size={13} />, t: "hello@pixelrepublic.fr" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: "Paris, Île-de-France" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "01 44 00 00 00") }, { icon: <Mail size={13} />, t: (fd?.email ?? "hello@pixelrepublic.fr") }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

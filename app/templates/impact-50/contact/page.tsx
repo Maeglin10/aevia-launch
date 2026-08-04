@@ -117,7 +117,7 @@ export default function ContactPage() {
             {
               icon: <Mail className="w-6 h-6 text-cyan-400" />,
               title: "Email Channels",
-              value: "mesh@neuralmesh.org",
+              value: (fd?.email ?? "mesh@neuralmesh.org"),
               desc: "For node operations, developer access, and security reports.",
             },
             {

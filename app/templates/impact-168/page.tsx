@@ -3198,7 +3198,7 @@ function ContactPage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "clamp(32px, 5vw, 64px)", maxWidth: 1000, margin: "0 auto" }}>
           <div>
             {[
-              { label: "Email", value: "contact@exemple.fr" },
+              { label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
               { label: "Téléphone", value: "+33 4 91 00 00 00" },
               { label: "Ville", value: "Marseille, France" },
               { label: "Horaires", value: "Lun – Ven · 9h – 18h" },

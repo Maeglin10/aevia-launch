@@ -596,7 +596,7 @@ export default function AtelierLeoniePage() {
           {[
             { t: "Prestations", ls: ["Coupe & brushing", "Couleur & balayage", "Soins & traitements", "Extensions", "Coiffure mariée"] },
             { t: "Salon", ls: ["L'équipe", "Nos produits", "Tarifs", "Galerie", "FAQ"] },
-            { t: "Nous trouver", ls: ["38 av. Victor Hugo", "75016 Paris", "Mar-Sam 9h-19h", "01 45 67 89 01", "contact@atelier-leonie.fr"] },
+            { t: "Nous trouver", ls: ["38 av. Victor Hugo", "75016 Paris", "Mar-Sam 9h-19h", (fd?.phone ?? "01 45 67 89 01"), (fd?.email ?? "contact@atelier-leonie.fr")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c97b7b)]/40 mb-5">{col.t}</h4>

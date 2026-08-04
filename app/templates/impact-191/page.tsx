@@ -430,7 +430,7 @@ export default function JardinsVivantsPage() {
           {[
             { t: "Prestations", ls: ["Création jardin", "Entretien régulier", "Élagage & abattage", "Potager & verger", "Arrosage automatique"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Portfolio réalisations", "Zone d'intervention", "Tarifs", "Blog jardinage"] },
-            { t: "Contact", ls: ["04 50 12 34 56", "contact@jardins-vivants.fr", "Annecy & Haute-Savoie", "Lun-Sam 7h30-18h", "Devis gratuit 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 50 12 34 56"), (fd?.email ?? "contact@jardins-vivants.fr"), "Annecy & Haute-Savoie", "Lun-Sam 7h30-18h", "Devis gratuit 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/60 mb-5">{col.t}</h4>

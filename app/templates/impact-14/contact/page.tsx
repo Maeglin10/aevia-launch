@@ -2821,9 +2821,9 @@ function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
 function ContactPage() {
   const offices = [
-    { city: "Monaco", address: "Port Hercules, 98000 Monaco", phone: "+377 93 25 45 67", email: "monaco@horizonmaritime.com" },
-    { city: "Geneva", address: "Rue du Rhône 42, 1204 Genève, Switzerland", phone: "+41 22 310 12 34", email: "geneva@horizonmaritime.com" },
-    { city: "Singapore", address: "Marina Bay Sands Office, 018956 Singapore", phone: "+65 6688 8888", email: "singapore@horizonmaritime.com" },
+    { city: "Monaco", address: "Port Hercules, 98000 Monaco", phone: "+377 93 25 45 67", email: (fd?.email ?? "monaco@horizonmaritime.com") },
+    { city: "Geneva", address: "Rue du Rhône 42, 1204 Genève, Switzerland", phone: "+41 22 310 12 34", email: (fd?.email ?? "geneva@horizonmaritime.com") },
+    { city: "Singapore", address: "Marina Bay Sands Office, 018956 Singapore", phone: "+65 6688 8888", email: (fd?.email ?? "singapore@horizonmaritime.com") },
   ];
 
   return (

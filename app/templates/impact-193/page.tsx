@@ -447,7 +447,7 @@ export default function OsteoGaiaPage() {
           {[
             { t: "Soins", ls: ["Lombalgies & dos", "Nourrissons & bébés", "Grossesse & post-partum", "Sportifs", "Céphalées", "Viscéral"] },
             { t: "Cabinet", ls: ["L'approche", "Mon parcours", "Tarifs & remboursements", "Avis patients", "FAQ"] },
-            { t: "RDV", ls: ["8 rue de la Merci", "34000 Montpellier", "Mar-Sam 8h30-19h", "04 67 89 12 34", "contact@osteo-gaia.fr"] },
+            { t: "RDV", ls: ["8 rue de la Merci", "34000 Montpellier", "Mar-Sam 8h30-19h", (fd?.phone ?? "04 67 89 12 34"), (fd?.email ?? "contact@osteo-gaia.fr")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c26b4c)]/40 mb-5">{col.t}</h4>

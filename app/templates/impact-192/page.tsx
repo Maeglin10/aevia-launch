@@ -435,7 +435,7 @@ export default function SecurFastPage() {
           {[
             { t: "Services", ls: ["Urgence 24h/24", "Changement serrure", "Porte blindée", "Contrôle d'accès", "Coffre-fort"] },
             { t: "Infos", ls: ["Agréments & certifications", "Zone d'intervention", "Tarifs & devis", "Avis clients", "FAQ"] },
-            { t: "Contact", ls: ["03 88 23 45 67", "contact@securfast.fr", "Strasbourg & 67", "24h/24 — 7j/7", "Devis gratuit"] },
+            { t: "Contact", ls: [(fd?.phone ?? "03 88 23 45 67"), (fd?.email ?? "contact@securfast.fr"), "Strasbourg & 67", "24h/24 — 7j/7", "Devis gratuit"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2563eb)]/40 mb-5">{col.t}</h4>

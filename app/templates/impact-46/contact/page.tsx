@@ -51,7 +51,7 @@ export default function Contact() {
           {/* Info */}
           <div>
             {[
-              { Icon: Mail, label: "Email", value: "contact@exemple.fr" },
+              { Icon: Mail, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
               { Icon: MapPin, label: "Cabinet", value: "Paris, France" },
               { Icon: Clock, label: "Horaires", value: "Lun – Ven · 9h – 19h" },
               { Icon: Shield, label: "Confidentialité", value: "Secret professionnel garanti" },

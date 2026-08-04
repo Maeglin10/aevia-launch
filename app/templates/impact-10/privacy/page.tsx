@@ -1317,7 +1317,7 @@ function LocationSection() {
                 {[
                   { icon: '◎', label: 'Address', val: '8 Avenue de la Paix, 75009 Paris' },
                   { icon: '◎', label: 'Telephone', val: '+33 1 40 00 00 00' },
-                  { icon: '◎', label: 'Reservations', val: 'reservations@grandpalais.fr' },
+                  { icon: '◎', label: 'Reservations', val: (fd?.email ?? 'reservations@grandpalais.fr') },
                   { icon: '◎', label: 'Concierge', val: 'Available 24 hours' },
                 ].map(({ icon, label, val }) => (
                   <div key={label} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
@@ -2201,7 +2201,7 @@ function ContactPage() {
           <div>
             {[
               { label: 'Telephone', val: '+33 1 40 00 00 00' },
-              { label: 'Reservations', val: 'reservations@grandpalais.fr' },
+              { label: 'Reservations', val: (fd?.email ?? 'reservations@grandpalais.fr') },
               { label: 'Address', val: '8 Avenue de la Paix, 75009 Paris' },
               { label: 'Concierge', val: 'Available 24 hours a day' },
             ].map((item) => (

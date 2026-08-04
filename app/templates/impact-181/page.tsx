@@ -467,7 +467,7 @@ export default function ToitPierrePiscinesPage() {
           {[
             { t: "Prestations", ls: ["Construction sur-mesure", "Rénovation de bassin", "Sécurité & couverture", "Recherche de fuite", "Local technique", "Entretien & hivernage"] },
             { t: "Matériaux", ls: ["Béton projeté", "Coque polyester", "Bloc à bancher", "Liner armé", "Carrelage & mosaïque"] },
-            { t: "Contact", ls: ["02 40 12 34 56", "devis@toitpierre.fr", "Pays de la Loire", "Étude 3D offerte", "Devis gratuit sous 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "02 40 12 34 56"), (fd?.email ?? "devis@toitpierre.fr"), "Pays de la Loire", "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b91c1c)] mb-5">{col.t}</h4>

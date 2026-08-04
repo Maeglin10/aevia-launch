@@ -464,8 +464,8 @@ function InfoPanel() {
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {[
             { icon: <MapPin size={18} color={C.accent} />, label: "Adresse", value: "18 Rue de la Paix, 69002 Lyon" },
-            { icon: <Phone size={18} color={C.accent} />, label: "Téléphone", value: "04 72 34 56 78" },
-            { icon: <Mail size={18} color={C.accent} />, label: "Email", value: "namaste@anandaflow.fr" },
+            { icon: <Phone size={18} color={C.accent} />, label: "Téléphone", value: (fd?.phone ?? "04 72 34 56 78") },
+            { icon: <Mail size={18} color={C.accent} />, label: "Email", value: (fd?.email ?? "namaste@anandaflow.fr") },
           ].map((item) => (
             <div key={item.label} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
               <div style={{ width: 38, height: 38, borderRadius: 10, background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>

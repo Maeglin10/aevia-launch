@@ -190,7 +190,7 @@ export default function ContactPage() {
               {
                 icon: <Mail style={{ width: 18, height: 18, color: T.accent }} />,
                 title: "Email Channels",
-                value: "hello@nexus.io",
+                value: (fd?.email ?? "hello@nexus.io"),
                 desc: "General inquiries, developer reports, partnerships.",
               },
               {

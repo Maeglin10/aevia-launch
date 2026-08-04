@@ -560,7 +560,7 @@ export default function LumiereYogaPage() {
             <p style={{ color: "rgba(255,255,255,0.40)", fontSize: 13, lineHeight: 1.6, maxWidth: 240 }}>Studio de yoga & méditation à Bordeaux. Ouvert 7j/7.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={13} />, t: "Bordeaux, Gironde" }, { icon: <Mail size={13} />, t: "contact@lumiereyoga.fr" }, { icon: <Clock size={13} />, t: "Lun–Dim 6h30–21h00" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: "Bordeaux, Gironde" }, { icon: <Mail size={13} />, t: (fd?.email ?? "contact@lumiereyoga.fr") }, { icon: <Clock size={13} />, t: "Lun–Dim 6h30–21h00" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.48)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

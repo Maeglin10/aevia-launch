@@ -475,7 +475,7 @@ export default function AtelierBloomPage() {
             <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6 }}>Fleuriste artisanale · {clientCity({ formData: fd }) ?? "Strasbourg"}<br />Lun–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: "Strasbourg, Bas-Rhin" }, { icon: <Phone size={13} />, t: "03 88 00 00 00" }, { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: "Strasbourg, Bas-Rhin" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "03 88 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13 }}>
                 <span style={{ color: C.peach }}>{item.icon}</span>{item.t}
               </div>

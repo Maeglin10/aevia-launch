@@ -981,7 +981,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-4xl mx-auto space-y-12">
               {[
                 { title: "Éditeur du site", content: "Aevia WS — Valentin Milliand, entrepreneur individuel.\nSIREN : <LegalIdentity /> — RCS Bourg-en-Bresse." },
-                { title: "Contact", content: "contact@exemple.fr" },
+                { title: "Contact", content: (fd?.email ?? "contact@exemple.fr") },
                 { title: "Hébergement", content: "Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA." },
                 { title: "Propriété intellectuelle", content: "L'ensemble des contenus (textes, images, code, design) est protégé. Toute reproduction non autorisée est interdite." },
                 { title: "Données personnelles", content: "Aucune donnée personnelle n'est collectée sans consentement explicite. Conformité RGPD." },

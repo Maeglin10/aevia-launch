@@ -434,7 +434,7 @@ return (
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Revêtement & finitions", "Rénovation de bassin", "Aménagement extérieur", "Entretien & hivernage"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Nos réalisations", "Zone d'intervention", "Avis clients", "Conseils piscine"] },
-            { t: "Contact", ls: ["03 20 45 67 89", "contact@couleurs-co.fr", "Lille Métropole", "Lundi-Vendredi 8h-18h", "Devis gratuit 24h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "03 20 45 67 89"), (fd?.email ?? "contact@couleurs-co.fr"), "Lille Métropole", "Lundi-Vendredi 8h-18h", "Devis gratuit 24h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#4d7c5f)] mb-5">{col.t}</h4>

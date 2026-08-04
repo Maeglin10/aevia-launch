@@ -1709,7 +1709,7 @@ function RdvFormSection() {
           <Reveal delay={0.28}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {[
-                { icon: Phone, text: '04 67 XX XX XX — Lun-Ven 8h–19h' },
+                { icon: Phone, text: (fd?.phone ?? '04 67 XX XX XX') + ' — Lun-Ven 8h–19h' },
                 { icon: MapPin, text: `12 Avenue de Palavas, 34000 ${clientCity(sessionData) ?? "Montpellier"}` },
                 { icon: FileText, text: 'Ordonnance médicale requise' },
                 { icon: CreditCard, text: 'Secteur 1 & 2 — CB, chèque, espèces' },

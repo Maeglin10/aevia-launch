@@ -2310,7 +2310,7 @@ export default function WineryTemplate() {
               {[
                 { label: "Adresse", value: "Château de Valroc, Route des Graves, 33760 Escoussans" },
                 { label: "Téléphone", value: "+33 5 56 23 78 90" },
-                { label: "Email", value: "contact@chateau-valroc.fr" },
+                { label: "Email", value: (fd?.email ?? "contact@chateau-valroc.fr") },
               ].map((c) => (
                 <div key={c.label} style={{ marginBottom: 20 }}>
                   <p

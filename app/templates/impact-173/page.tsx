@@ -1385,7 +1385,7 @@ export default function Impact173Page() {
             <div style={{ marginTop: 48, display: "flex", flexDirection: "column", gap: 16 }}>
               {[
                 { icon: Phone, text: "+33 4 76 XX XX XX" },
-                { icon: Mail, text: "contact@structure-batisseurs.fr" },
+                { icon: Mail, text: (fd?.email ?? "contact@structure-batisseurs.fr") },
                 { icon: MapPin, text: "Grenoble · Montpellier · Nantes" },
               ].map((c, i) => {
                 const Icon = c.icon;
@@ -1509,7 +1509,7 @@ export default function Impact173Page() {
             {[
               { title: "Missions", links: ["Construction Neuve", "Réhabilitation", "Gros Œuvre", "Promotion & AMO"] },
               { title: "Projets", links: ["Résidentiel", "Tertiaire", "Équipements publics", "Génie civil"] },
-              { title: "Contact", links: ["Grenoble (siège)", "Montpellier", "Nantes", "contact@structure-batisseurs.fr"] },
+              { title: "Contact", links: ["Grenoble (siège)", "Montpellier", "Nantes", (fd?.email ?? "contact@structure-batisseurs.fr")] },
             ].map(col => (
               <div key={col.title}>
                 <div style={{ fontSize: 11, color: C.orange, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>{col.title}</div>

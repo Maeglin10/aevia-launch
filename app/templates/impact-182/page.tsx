@@ -458,7 +458,7 @@ export default function BatirSolidePage() {
           {[
             { t: "Savoir-faire", ls: ["Gros œuvre", "Extensions", "Ravalement ITE", "Rénovation structurelle", "Dallage & terrassement"] },
             { t: "Certifications", ls: ["Qualibat 3311", "Garantie Décennale", "RGE ITE", "MaPrimeRénov' éligible", "Assurance civile"] },
-            { t: "Contact", ls: ["04 91 23 45 67", "devis@batirsolide.fr", "Marseille & PACA", "Lundi-Vendredi 7h-18h", "Devis gratuit 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 91 23 45 67"), (fd?.email ?? "devis@batirsolide.fr"), "Marseille & PACA", "Lundi-Vendredi 7h-18h", "Devis gratuit 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a96a)] mb-5">{col.t}</h4>

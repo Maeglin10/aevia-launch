@@ -1633,7 +1633,7 @@ export default function Page() {
             {[
               { icon: '📍', label: 'Adresse', lines: ['14 rue de Varenne', '75007 Paris'] },
               { icon: '📞', label: 'Téléphone', lines: ['+33 1 42 22 33 44'] },
-              { icon: '✉️', label: 'Email', lines: ['contact@latelier-coiffure.fr'] },
+              { icon: '✉️', label: 'Email', lines: [(fd?.email ?? 'contact@latelier-coiffure.fr')] },
               { icon: '🕐', label: 'Horaires', lines: ['Mar–Sam : 9h – 19h', 'Dim–Lun : Fermé'] },
             ].map((item) => (
               <motion.div

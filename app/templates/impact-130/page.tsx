@@ -1290,7 +1290,7 @@ return (
             {[
               { title: "Studio", links: ["À propos", "L'équipe", "Méthode", "Clients"] },
               { title: "Services", links: ["Brand Identity", "Digital Experience", "Art Direction", "Packaging"] },
-              { title: "Contact", links: ["hello@verso-studio.ch", "+41 22 500 00 00", "Geneva, Suisse", "Disponibilités"] },
+              { title: "Contact", links: [(fd?.email ?? "hello@verso-studio.ch"), "+41 22 500 00 00", "Geneva, Suisse", "Disponibilités"] },
             ].map((col, i) => (
               <div key={i}>
                 <h4 style={{ color: C.textMuted, fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>{col.title}</h4>

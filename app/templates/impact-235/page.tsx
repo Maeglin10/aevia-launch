@@ -1625,7 +1625,7 @@ function Footer() {
     {
       heading: 'Contact',
       href: '#contact',
-      links: ['Prendre RDV', '12 avenue Hoche, Paris 8e', 'contact@ateliervoss.fr', '+33 1 44 XX XX XX'],
+      links: ['Prendre RDV', '12 avenue Hoche, Paris 8e', (fd?.email ?? 'contact@ateliervoss.fr'), '+33 1 44 XX XX XX'],
     },
   ];
 

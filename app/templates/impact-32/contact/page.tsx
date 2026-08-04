@@ -133,7 +133,7 @@ const CONTACT_INFO = [
   {
     icon: <Mail size={20} color={C.accent} />,
     title: "Email",
-    details: ["Réponse sous 4h ouvrées", "contact@pawcare-bordeaux.fr"],
+    details: ["Réponse sous 4h ouvrées", (fd?.email ?? "contact@pawcare-bordeaux.fr")],
     urgent: false,
   },
   {

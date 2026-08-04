@@ -2160,8 +2160,8 @@ function PracticalSection() {
       icon: <Phone size={26} color={C.terra} strokeWidth={1.4} />,
       title: 'Contact',
       lines: [
-        '04 78 XX XX XX',
-        'cabinet.soler@gmail.com',
+        (fd?.phone ?? '04 78 XX XX XX'),
+        (fd?.email ?? 'cabinet.soler@gmail.com'),
         'Urgences : via Doctolib',
         'Réponse sous 24h',
       ],

@@ -955,7 +955,7 @@ return (
         {[
           { title: "Services", links: ["Branding", "Web & Dev", "Campagnes", "Direction Art", "UX Design"] },
           { title: "Agence", links: ["À propos", "Travaux", "Manifeste", "Carrières", "Blog"] },
-          { title: "Contact", links: ["Réserver un call", "hello@bureau.co", "+33 1 23 45 67 89", "Paris 75011"] },
+          { title: "Contact", links: ["Réserver un call", (fd?.email ?? "hello@bureau.co"), "+33 1 23 45 67 89", "Paris 75011"] },
         ].map((col, i) => (
           <div key={i} style={{ padding: "48px 44px", borderRight: i < 2 ? `1px solid ${C.borderLight}` : undefined }}>
             <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 4, color: C.accent, marginBottom: 20, textTransform: "uppercase", fontWeight: 700 }}>{col.title}</div>

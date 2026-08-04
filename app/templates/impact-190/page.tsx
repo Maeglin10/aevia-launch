@@ -437,7 +437,7 @@ export default function AutoExpertPage() {
           {[
             { t: "Services", ls: ["Entretien & révision", "Carrosserie & peinture", "Diagnostic électronique", "Véhicules électriques", "Dépannage 7j/7"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Nos agréments", "Prise en charge assurance", "Tarifs", "FAQ"] },
-            { t: "Adresse", ls: ["45 zone Industrielle Nord", "35000 Rennes", "Lun-Ven 8h-18h30", "Sam 8h-17h", "02 99 34 56 78"] },
+            { t: "Adresse", ls: ["45 zone Industrielle Nord", "35000 Rennes", "Lun-Ven 8h-18h30", "Sam 8h-17h", (fd?.phone ?? "02 99 34 56 78")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#dc2626)]/40 mb-5">{col.t}</h4>

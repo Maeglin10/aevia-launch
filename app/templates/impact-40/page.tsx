@@ -1399,8 +1399,8 @@ export default function TerreVivantePage() {
               <div style={{ marginTop: "1.75rem", display: "flex", flexDirection: "column", gap: "0.55rem" }}>
                 {[
                   { icon: <MapPin size={13} />, text: "Route de Belleville, 69220 Lancié" },
-                  { icon: <Phone size={13} />, text: "04 74 66 08 31" },
-                  { icon: <Mail size={13} />, text: "contact@terrevivante.fr" },
+                  { icon: <Phone size={13} />, text: (fd?.phone ?? "04 74 66 08 31") },
+                  { icon: <Mail size={13} />, text: (fd?.email ?? "contact@terrevivante.fr") },
                 ].map((item) => (
                   <div key={item.text} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                     <span style={{ color: C.accent }}>{item.icon}</span>

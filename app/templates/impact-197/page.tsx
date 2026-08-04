@@ -1136,7 +1136,7 @@ return (
             {[
               { title: "Destinations", links: ["Maldives", "Japon", "Kenya", "Patagonie", "Grèce", "Rajasthan"] },
               { title: "Services", links: ["Voyages sur mesure", "Classe affaires", "Conciergerie 24h", "Voyages famille", "Lune de miel"] },
-              { title: "Contact", links: ["Consultation gratuite", "+33 1 42 68 90 00", "paris@evasion-doree.fr", "Mentions légales", "CGV"] },
+              { title: "Contact", links: ["Consultation gratuite", "+33 1 42 68 90 00", (fd?.email ?? "paris@evasion-doree.fr"), "Mentions légales", "CGV"] },
             ].map(col => (
               <div key={col.title}>
                 <h4 style={{ fontSize: 11, fontWeight: 600, color: C.accent, letterSpacing: "0.12em", marginBottom: 20, fontFamily: "system-ui" }}>

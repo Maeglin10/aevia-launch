@@ -18,7 +18,7 @@ const offices = [
     label: "Main Atelier",
     address: "14 Rue de la Roquette, 75011 Paris",
     phone: "+33 1 42 78 91 00",
-    email: "paris@brutco-architecture.com",
+    email: (fd?.email ?? "paris@brutco-architecture.com"),
     hours: "Mon – Fri, 09:00 – 18:30",
     img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&h=500&fit=crop&crop=center",
   },
@@ -27,7 +27,7 @@ const offices = [
     label: "South-East Bureau",
     address: "3 Quai Saint-Vincent, 69001 Lyon",
     phone: "+33 4 72 41 88 60",
-    email: "lyon@brutco-architecture.com",
+    email: (fd?.email ?? "lyon@brutco-architecture.com"),
     hours: "Mon – Fri, 09:00 – 18:00",
     img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=500&fit=crop&crop=center",
   },
@@ -36,7 +36,7 @@ const offices = [
     label: "Mediterranean Studio",
     address: "7 Rue de la République, 13001 Marseille",
     phone: "+33 4 91 33 72 50",
-    email: "marseille@brutco-architecture.com",
+    email: (fd?.email ?? "marseille@brutco-architecture.com"),
     hours: "Mon – Thu, 09:30 – 17:30",
     img: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&h=500&fit=crop&crop=center",
   },
@@ -184,7 +184,7 @@ export default function ContactPage() {
           {[
             { icon: Clock, label: "Response time", val: "48 hours" },
             { icon: MapPin, label: "Offices", val: "Paris · Lyon · Marseille" },
-            { icon: Mail, label: "General enquiries", val: "contact@brutco-architecture.com" },
+            { icon: Mail, label: "General enquiries", val: (fd?.email ?? "contact@brutco-architecture.com") },
             { icon: Phone, label: "Phone (Paris)", val: "+33 1 42 78 91 00" },
           ].map(({ icon: Icon, label, val }) => (
             <div key={label} className="py-6 px-6 first:pl-0 last:pr-0">

@@ -92,7 +92,7 @@ export default function Contact() {
               {[
                 { label: 'Studio Paris', val: '14 Rue du Dragon, 75006 Paris' },
                 { label: 'Bureau Genève', val: '12 Quai du Mont-Blanc, 1201 Genève' },
-                { label: 'Email', val: 'contact@exemple.fr' },
+                { label: 'Email', val: (fd?.email ?? 'contact@exemple.fr') },
                 { label: 'Horaires', val: 'Lun – Ven · 9h – 19h' },
               ].map((item) => (
                 <div

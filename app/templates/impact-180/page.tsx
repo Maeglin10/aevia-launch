@@ -444,7 +444,7 @@ export default function ThermotekChauffagePage() {
           {[
             { t: "Services", ls: ["Chaudière gaz/condensation", "Pompe à chaleur", "Plancher chauffant", "VMC double flux", "Entretien annuel", "Dépannage urgent"] },
             { t: "Aides", ls: ["MaPrimeRénov'", "CEE (Certificats Économie Énergie)", "Eco-prêt taux zéro", "TVA à 5,5%", "Dossiers pris en charge"] },
-            { t: "Contact", ls: ["05 56 12 34 56", "contact@thermotek.fr", "Bordeaux Métropole", "Astreinte hiver 24h/24", "Devis gratuit 24h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "05 56 12 34 56"), (fd?.email ?? "contact@thermotek.fr"), "Bordeaux Métropole", "Astreinte hiver 24h/24", "Devis gratuit 24h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#ea580c)] mb-5" style={{ fontFamily: "'Fira Code', monospace" }}>{col.t}</h4>

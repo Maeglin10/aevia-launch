@@ -515,7 +515,7 @@ export default function AquanovaPiscinesPage() {
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Rénovation de piscine", "Sécurité & conformité", "Local technique", "Entretien & hivernage"] },
             { t: "Informations", ls: ["Qui sommes-nous", "Certifications & garanties", "Zone d'intervention", "Témoignages", "Conseils piscine"] },
-            { t: "Contact", ls: ["04 78 98 76 54", "contact@aquanova.fr", "Zone Grand Lyon", "Étude 3D offerte", "Devis gratuit sous 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 78 98 76 54"), (fd?.email ?? "contact@aquanova.fr"), "Zone Grand Lyon", "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand-light)] mb-5">{col.t}</h4>

@@ -604,7 +604,7 @@ export default function VoltProPage() {
           {[
             { title: "Services", links: ["Installation électrique", "Mise en conformité", "Domotique & Smart Home", "Bornes IRVE", "Éclairage LED", "Dépannage urgent"] },
             { title: "Informations", links: ["Qui sommes-nous", "Certifications", "Zone d'intervention", "Témoignages", "Blog & conseils"] },
-            { title: "Contact", links: ["Devis gratuit", "06 12 34 56 78", "contact@voltpro.fr", "Horaires : 8h–19h", "Urgences 24h/24"] },
+            { title: "Contact", links: ["Devis gratuit", (fd?.phone ?? "06 12 34 56 78"), (fd?.email ?? "contact@voltpro.fr"), "Horaires : 8h–19h", "Urgences 24h/24"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#facc15)] mb-6" style={{ fontFamily: "'Space Mono', monospace" }}>{col.title}</h4>

@@ -435,7 +435,7 @@ return (
           </div>
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Conception & étude 3D", "Rénovation de bassin", "Aménagement & pool house"] },
-            { t: "Contact", ls: ["04 78 12 34 56", "contact@maelledumas.fr", "Lyon · Auvergne-Rhône-Alpes", "Devis sous 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 78 12 34 56"), (fd?.email ?? "contact@maelledumas.fr"), "Lyon · Auvergne-Rhône-Alpes", "Devis sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.3em", color: C.terra, marginBottom: "1.25rem" }}>{col.t}</div>

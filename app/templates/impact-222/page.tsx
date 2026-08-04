@@ -1930,7 +1930,7 @@ const Contact: React.FC = () => {
     {
       icon: <Mail size={18} />,
       label: 'Email',
-      value: 'contact@solis-immobilier.fr',
+      value: (fd?.email ?? 'contact@solis-immobilier.fr'),
     },
     {
       icon: <Clock size={18} />,
@@ -1951,7 +1951,7 @@ const Contact: React.FC = () => {
     {
       icon: <Mail size={18} />,
       label: 'Email',
-      value: 'contact@solis-immobilier.fr',
+      value: (fd?.email ?? 'contact@solis-immobilier.fr'),
     },
     {
       icon: <Clock size={18} />,
@@ -1973,7 +1973,7 @@ const Contact: React.FC = () => {
     {
       icon: <Mail size={18} />,
       label: 'Email',
-      value: 'contact@solis-immobilier.fr',
+      value: (fd?.email ?? 'contact@solis-immobilier.fr'),
     },
     {
       icon: <Clock size={18} />,

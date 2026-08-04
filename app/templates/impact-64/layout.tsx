@@ -255,7 +255,7 @@ export default function NeuronSecLayout({
               ] },
               { title: "Contact", links: [
                 { name: "Paris — 10ème arr.", href: "/templates/impact-64/contact" },
-                { name: "soc@neuronsec.fr", href: "/templates/impact-64/contact" },
+                { name: (fd?.email ?? "soc@neuronsec.fr"), href: "/templates/impact-64/contact" },
                 { name: "Urgence cyber", href: "/templates/impact-64/contact" },
               ] },
             ].map((col) => (

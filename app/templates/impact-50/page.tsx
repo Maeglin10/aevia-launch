@@ -481,7 +481,7 @@ export default function CabinetMoreauPage() {
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Psychologue clinicienne · {clientCity({ formData: fd }) ?? "Montpellier"}<br />Lun–Ven 9h–19h | Sam 9h–13h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: "Montpellier, Hérault" }, { icon: <Phone size={13} />, t: "04 34 00 00 00" }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: "Montpellier, Hérault" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 34 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{color: brand ?? 'var(--brand,#9fd4c9)' }}>{item.icon}</span>{item.t}
               </div>
