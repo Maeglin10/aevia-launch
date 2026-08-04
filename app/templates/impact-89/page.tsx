@@ -1958,7 +1958,7 @@ return (
             gap: 16,
           }}>
             <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.textDim, letterSpacing: 2 }}>
-              © 2025 INK & IRON STUDIO — PARIS 11E{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2025 INK & IRON STUDIO — {clientCity(sessionData) ?? "PARIS"} 11E{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {[

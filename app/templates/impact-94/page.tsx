@@ -1301,7 +1301,7 @@ export default function Impact94Page() {
           </div>
 
           <p className="text-[10px] text-[#FAFAF9]/30 uppercase tracking-[0.2em] text-center">
-            © 2024 Botanica Atelier Floral — Paris · Marais · 4e arrondissement{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2024 Botanica Atelier Floral — {clientCity(sessionData) ?? "Paris"} · Marais · 4e arrondissement{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
 
           <div className="flex items-center gap-4">

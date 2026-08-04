@@ -42,7 +42,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AQUA CONFORT LYON — Plombier-Chauffagiste & Énergies Renouvelables · {clientCity(sessionData) ?? "Lyon"}
+   AQUA CONFORT {clientCity(sessionData) ?? "LYON"} — Plombier-Chauffagiste & Énergies Renouvelables · {clientCity(sessionData) ?? "Lyon"}
    Scroll choreography éditoriale (InterventionSequence 320vh crossfade + sticky
    CertPanel). 'use client'. Autonome, sans layout.tsx.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2249,7 +2249,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Aqua Confort Lyon — SIRET 000 000 000 00000 · RGE certifié{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 Aqua Confort {clientCity(sessionData) ?? "Lyon"} — SIRET 000 000 000 00000 · RGE certifié{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="/templates/impact-260" style={{ color: 'inherit', textDecoration: 'none' }}>

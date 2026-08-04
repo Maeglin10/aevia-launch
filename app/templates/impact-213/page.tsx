@@ -2779,7 +2779,7 @@ function Footer() {
           }}
         >
           <p style={{ fontSize: 12, color: C.textMuted }}>
-            © {currentYear} Bâtisseurs Durand SARL — Tous droits réservés. Maçonnerie Lyon.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {currentYear} Bâtisseurs Durand SARL — Tous droits réservés. Maçonnerie {clientCity(sessionData) ?? "Lyon"}.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
             {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ['Qualibat RGE', 'Décennale', '4.9/5 Google']).map((badge) => (

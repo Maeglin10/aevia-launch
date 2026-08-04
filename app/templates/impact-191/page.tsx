@@ -457,7 +457,7 @@ export default function JardinsVivantsPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 Jardins Vivants · SIRET 456 789 012 00033 · Paysagiste qualifié · Annecy (74){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 Jardins Vivants · SIRET 456 789 012 00033 · Paysagiste qualifié · {clientCity(sessionData) ?? "Annecy"} (74){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#2d5a27)]/25">Paysagiste · Haute-Savoie</span>
         </div>
       </footer>

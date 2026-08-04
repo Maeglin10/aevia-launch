@@ -85,7 +85,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   KINÉPRO SPORT LYON — Kinésithérapeute du sport {clientCity(sessionData) ?? "Lyon"} Confluence — athlètes, rééducation post-op, dry needling. Barlow Condensed, bleu / orange.
+   KINÉPRO SPORT {clientCity(sessionData) ?? "LYON"} — Kinésithérapeute du sport {clientCity(sessionData) ?? "Lyon"} Confluence — athlètes, rééducation post-op, dry needling. Barlow Condensed, bleu / orange.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -1298,7 +1298,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} KinéPro Sport Lyon. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} KinéPro Sport {clientCity(sessionData) ?? "Lyon"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

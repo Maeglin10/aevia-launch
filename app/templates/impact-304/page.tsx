@@ -85,7 +85,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   RAPIDO PLOMBERIE PARIS — Plombier-chauffagiste {clientCity(sessionData) ?? "Paris"} — urgences 24h/7j, PAC, rénovation. Montserrat, rouge / blanc.
+   RAPIDO PLOMBERIE {clientCity(sessionData) ?? "PARIS"} — Plombier-chauffagiste {clientCity(sessionData) ?? "Paris"} — urgences 24h/7j, PAC, rénovation. Montserrat, rouge / blanc.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -1307,7 +1307,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Rapido Plomberie Paris. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} Rapido Plomberie {clientCity(sessionData) ?? "Paris"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

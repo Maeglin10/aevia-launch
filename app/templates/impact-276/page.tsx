@@ -3049,7 +3049,7 @@ function FooterSection() {
                 margin: 0,
               }}
             >
-              © 2025 Thomas Lebrun Coach — Bordeaux Caudéran. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2025 Thomas Lebrun Coach — {clientCity(sessionData) ?? "Bordeaux"} Caudéran. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               {LINKS.map((l) => (

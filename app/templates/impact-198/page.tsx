@@ -2056,7 +2056,7 @@ export default function Impact198Page() {
             letterSpacing: "0.05em",
           }}
         >
-          © 2025 Lumière Beauty · 12 Rue de Grenelle, Paris 7ème · Institut certifié bio{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+          © 2025 Lumière Beauty · 12 Rue de Grenelle, {clientCity(sessionData) ?? "Paris"} 7ème · Institut certifié bio{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
         </div>
       </footer>
 

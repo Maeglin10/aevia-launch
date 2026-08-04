@@ -2518,7 +2518,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024–2026 Ostéopathie Alsace — Strasbourg. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024–2026 Ostéopathie Alsace — {clientCity(sessionData) ?? "Strasbourg"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#cabinet" style={{ color: 'inherit', textDecoration: 'none' }}>

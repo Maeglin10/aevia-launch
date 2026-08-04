@@ -614,7 +614,7 @@ export default function AtelierLeoniePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/8">
-          <span>© 2026 Atelier Léonie · SIRET 234 567 890 00011 · Paris (75016){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 Atelier Léonie · SIRET 234 567 890 00011 · {clientCity(sessionData) ?? "Paris"} (75016){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#c97b7b)]/20">L'art de la coiffure</span>
         </div>
       </footer>

@@ -88,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉO PÉRINATAL NICE — Ostéopathe périnatal {clientCity(sessionData) ?? "Nice"} Cimiez — nourrissons, grossesse, post-partum. Merriweather, rose / vert sauge.
+   OSTÉO PÉRINATAL {clientCity(sessionData) ?? "NICE"} — Ostéopathe périnatal {clientCity(sessionData) ?? "Nice"} Cimiez — nourrissons, grossesse, post-partum. Merriweather, rose / vert sauge.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -1301,7 +1301,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Ostéo Périnatal Nice. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} Ostéo Périnatal {clientCity(sessionData) ?? "Nice"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

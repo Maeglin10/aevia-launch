@@ -2022,7 +2022,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2026 Ostéo Atlantique · Nantes{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 Ostéo Atlantique · {clientCity(sessionData) ?? "Nantes"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#reserver" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

@@ -471,7 +471,7 @@ export default function OsteoGaiaPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f5f0e8]/8">
-          <span>© 2026 Ostéo Gaïa · Emma Dubois D.O. · ADELI 340012345 · Montpellier (34){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 Ostéo Gaïa · Emma Dubois D.O. · ADELI 340012345 · {clientCity(sessionData) ?? "Montpellier"} (34){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#c26b4c)]/20">Ostéopathe · {clientCity(sessionData) ?? "Montpellier"}</span>
         </div>
       </footer>

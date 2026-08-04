@@ -611,7 +611,7 @@ export default function DrFontainePage() {
           </div>
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 Dr. Léa Fontaine · RPPS 10234567890 · Secteur 2 · Nantes (44){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 Dr. Léa Fontaine · RPPS 10234567890 · Secteur 2 · {clientCity(sessionData) ?? "Nantes"} (44){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#1d6fa4)]/25">Cabinet dentaire · {clientCity(sessionData) ?? "Nantes"}</span>
         </div>
       </footer>
