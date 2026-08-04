@@ -176,7 +176,7 @@ const DOMAINS_DEMO: Domain[] = [
   { numeral: 'VI', title: 'Droit international', tag: 'International' },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_SOURCE: EditRow[] = [
   {
     numeral: 'I',
     eyebrow: 'Notre histoire',
@@ -204,8 +204,9 @@ const EDIT_ROWS: EditRow[] = [
     alt: 'Bibliothèque de droit du cabinet',
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
-const EXPERTISE_ITEMS: Spec[] = [
+const EXPERTISE_ITEMS_SOURCE: Spec[] = [
   {
     numeral: 'I',
     label: 'Analyse et conseil juridique préventif',
@@ -231,6 +232,7 @@ const EXPERTISE_ITEMS: Spec[] = [
       'Au-delà du dossier ponctuel, nous devenons votre partenaire juridique de long terme — disponibles, réactifs, impliqués dans la durée de votre projet.',
   },
 ];
+let EXPERTISE_ITEMS = EXPERTISE_ITEMS_SOURCE;
 
 const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
@@ -2148,6 +2150,14 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_SOURCE,
+  );
+  EXPERTISE_ITEMS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EXPERTISE_ITEMS_SOURCE[i % EXPERTISE_ITEMS_SOURCE.length], label: s.title, description: s.desc || "" || "" })),
+    EXPERTISE_ITEMS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

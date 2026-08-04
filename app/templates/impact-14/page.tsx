@@ -54,6 +54,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -306,12 +307,13 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-const stats: StatItem[] = [
+const stats_SOURCE: StatItem[] = [
   { value: 34127, decimals: 2, suffix: "", label: "Nautical Miles Sailed" },
   { value: 87, decimals: 2, suffix: "", label: "Private Destinations" },
   { value: 28, decimals: 2, suffix: "", label: "Years of Excellence" },
   { value: 99.8, decimals: 1, suffix: "%", label: "Client Return Rate" },
 ];
+let stats = stats_SOURCE;
 
 /* ─────────────────────────────────────────────
    HOOKS
@@ -861,6 +863,10 @@ export default function HorizonMaritimePage() {
   }, []);
 
   fd = session?.formData;
+  stats = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...stats_SOURCE[i % stats_SOURCE.length], value: s.value, label: s.label })),
+    stats_SOURCE,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

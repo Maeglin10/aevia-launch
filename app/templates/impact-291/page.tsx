@@ -1681,7 +1681,7 @@ function AppointmentFormSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type PedItem = { title: string; body: string; age: string };
 
-const PED_ITEMS: PedItem[] = [
+const PED_ITEMS_SOURCE: PedItem[] = [
   {
     title: 'Torticolis congénital',
     body: 'Raideur cervicale présente dès la naissance, souvent liée à la position in utero ou à l\'accouchement. Les techniques crânio-sacrées et myofasciales libèrent la tension musculaire et articulaire, permettant à bébé de tourner la tête librement.',
@@ -1703,6 +1703,7 @@ const PED_ITEMS: PedItem[] = [
     age: 'Enfant — 1-12 ans',
   },
 ];
+let PED_ITEMS = PED_ITEMS_SOURCE;
 
 function PediatricSection() {
   const sec: React.CSSProperties = {
@@ -1857,7 +1858,7 @@ function PediatricSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type SportBenefit = { title: string; body: string };
 
-const SPORT_BENEFITS: SportBenefit[] = [
+const SPORT_BENEFITS_SOURCE: SportBenefit[] = [
   {
     title: 'Blessures sportives',
     body: 'Entorses, tendinites, contractures, périostites, pubalgie — l\'ostéopathie lève les blocages mécaniques qui freinent la guérison et prévient les récidives en traitant les compensations posturales.',
@@ -1871,6 +1872,7 @@ const SPORT_BENEFITS: SportBenefit[] = [
     body: 'Après une compétition intense ou une préparation physique, l\'ostéopathie facilite l\'évacuation des tensions accumulées et restaure la circulation lymphatique et veineuse pour une récupération plus rapide.',
   },
 ];
+let SPORT_BENEFITS = SPORT_BENEFITS_SOURCE;
 
 const SPORTS_TRAITES = [
   'Running', 'Cyclisme', 'Natation', 'Football', 'Tennis', 'Arts martiaux',
@@ -2587,6 +2589,14 @@ export default function Impact291Page() {
   }, []);
 
   fd = session?.formData;
+  PED_ITEMS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PED_ITEMS_SOURCE[i % PED_ITEMS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    PED_ITEMS_SOURCE,
+  );
+  SPORT_BENEFITS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPORT_BENEFITS_SOURCE[i % SPORT_BENEFITS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    SPORT_BENEFITS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

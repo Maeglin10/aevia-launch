@@ -26,6 +26,7 @@ import {
   clientCity,
   clientName,
   clientReviews,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1908,7 +1909,8 @@ const Contact: React.FC = () => {
     e.currentTarget.style.boxShadow = 'none';
   };
 
-  const OFFICE: { icon: React.ReactNode; label: string; value: string }[] = [
+  const OFFICE: { icon: React.ReactNode; label: string; value: string }[] = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       icon: <MapPin size={18} />,
       label: 'Bureau principal',
@@ -1929,7 +1931,51 @@ const Contact: React.FC = () => {
       label: 'Horaires',
       value: 'Lun – Sam · 9h00 – 19h00',
     },
-  ];
+  ])[i % ([
+    {
+      icon: <MapPin size={18} />,
+      label: 'Bureau principal',
+      value: `18 cours Mirabeau, 13100 ${clientCity(sessionData) ?? "Aix-en-Provence"}`,
+    },
+    {
+      icon: <Phone size={18} />,
+      label: 'Téléphone',
+      value: '+33 4 42 00 18 90',
+    },
+    {
+      icon: <Mail size={18} />,
+      label: 'Email',
+      value: 'contact@solis-immobilier.fr',
+    },
+    {
+      icon: <Clock size={18} />,
+      label: 'Horaires',
+      value: 'Lun – Sam · 9h00 – 19h00',
+    },
+  ]).length], value: s.value, label: s.label })),
+    [
+    {
+      icon: <MapPin size={18} />,
+      label: 'Bureau principal',
+      value: `18 cours Mirabeau, 13100 ${clientCity(sessionData) ?? "Aix-en-Provence"}`,
+    },
+    {
+      icon: <Phone size={18} />,
+      label: 'Téléphone',
+      value: '+33 4 42 00 18 90',
+    },
+    {
+      icon: <Mail size={18} />,
+      label: 'Email',
+      value: 'contact@solis-immobilier.fr',
+    },
+    {
+      icon: <Clock size={18} />,
+      label: 'Horaires',
+      value: 'Lun – Sam · 9h00 – 19h00',
+    },
+  ],
+  );
 
   return (
     <Section id="contact" style={{ background: C.navy }}>

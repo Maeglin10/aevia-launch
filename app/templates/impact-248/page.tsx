@@ -185,7 +185,7 @@ const SPECIALTIES_DEMO: Specialty[] = [
   },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_SOURCE: EditRow[] = [
   {
     eyebrow: 'Notre approche',
     title: (
@@ -215,6 +215,7 @@ const EDIT_ROWS: EditRow[] = [
     numeralLabel: 'II',
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const PRINCIPLES: PrincipleItem[] = [
   {
@@ -2203,6 +2204,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

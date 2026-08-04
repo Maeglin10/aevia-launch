@@ -131,7 +131,7 @@ interface Phase {
 /* ════════════════════════════════════════════════════════════════════════════
    Data
    ════════════════════════════════════════════════════════════════════════════ */
-const PHASES: Phase[] = [
+const PHASES_SOURCE: Phase[] = [
   {
     src: P.clinicMed,
     alt: 'Cabinet dentaire Sorrento — salle de soins',
@@ -157,6 +157,7 @@ const PHASES: Phase[] = [
     sub: 'Implants Nobel Biocare, pose en cabinet, protocole numérique — sans chirurgie hospitalière.',
   },
 ];
+let PHASES = PHASES_SOURCE;
 
 const TREATMENTS_SOURCE: Treatment[] = [
   {
@@ -2208,6 +2209,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  PHASES = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PHASES_SOURCE[i % PHASES_SOURCE.length], label: s.title, sub: s.desc || "" || "" })),
+    PHASES_SOURCE,
+  );
 
   // Client-uploaded photos (beyond the hero, which uses index 0) replace the
   // template's stock Unsplash photography in the editorial rows.

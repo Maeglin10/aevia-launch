@@ -1763,7 +1763,7 @@ type Material = {
   accent: string;
 };
 
-const MATERIALS: Material[] = [
+const MATERIALS_SOURCE: Material[] = [
   {
     nom: 'Soie',
     origine: 'Soie de Lyon · France',
@@ -1793,6 +1793,7 @@ const MATERIALS: Material[] = [
     accent: 'Naturel · Structure · Authenticité',
   },
 ];
+let MATERIALS = MATERIALS_SOURCE;
 
 function MaterialCard({ mat, i }: { mat: Material; i: number }) {
   const [hover, setHover] = useState(false);
@@ -2592,6 +2593,10 @@ export default function Impact281Page() {
   }, []);
 
   fd = session?.formData;
+  MATERIALS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...MATERIALS_SOURCE[i % MATERIALS_SOURCE.length], nom: s.title, description: s.desc || "" || "" })),
+    MATERIALS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

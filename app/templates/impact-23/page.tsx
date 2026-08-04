@@ -12,6 +12,7 @@ import {
   clientCity,
   clientName,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -219,13 +220,28 @@ export default function StudioPelikanPage() {
     setMobileOpen(false);
   };
 
-  const navItems: { label: string; target: ActivePage }[] = [
+  const navItems: { label: string; target: ActivePage }[] = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...([
     { label: "Films", target: "films" },
     { label: "Services", target: "services" },
     { label: "À propos", target: "propos" },
     { label: "Presse", target: "propos" },
     { label: "Contact", target: "home" },
-  ];
+  ])[i % ([
+    { label: "Films", target: "films" },
+    { label: "Services", target: "services" },
+    { label: "À propos", target: "propos" },
+    { label: "Presse", target: "propos" },
+    { label: "Contact", target: "home" },
+  ]).length], target: s.value, label: s.label })),
+    [
+    { label: "Films", target: "films" },
+    { label: "Services", target: "services" },
+    { label: "À propos", target: "propos" },
+    { label: "Presse", target: "propos" },
+    { label: "Contact", target: "home" },
+  ],
+  );
 
   const { scrollYProgress } = useScroll();
   const heroRef = useRef(null);

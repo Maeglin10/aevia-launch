@@ -164,7 +164,7 @@ const SERVICES_SOURCE: Service[] = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const EDIT_ROWS_DEMO: EditRow[] = [
+const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
   {
     eyebrow: 'Notre démarche',
     img: 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -194,6 +194,7 @@ const EDIT_ROWS_DEMO: EditRow[] = [
     roman: 'II',
   },
 ];
+let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_SOURCE;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const PHILOSOPHY: PhilosophyItem[] = [
@@ -2015,6 +2016,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_DEMO_SOURCE[i % EDIT_ROWS_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_DEMO_SOURCE,
+  );
 
   // Client-uploaded photos (beyond the hero, which uses index 0) replace the
   // template's stock Unsplash photography in the editorial rows.

@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -25,7 +26,6 @@ import {
   Camera,
   Activity,
 } from 'lucide-react';
-import { resolveList } from '@/lib/templates/resolveList';
 import {
   clientAddress,
   clientCity,
@@ -2050,7 +2050,7 @@ type Equip = {
   badge: string;
 };
 
-const EQUIPEMENTS: Equip[] = [
+const EQUIPEMENTS_SOURCE: Equip[] = [
   {
     icon: <Camera size={30} strokeWidth={1.4} color={C.gold} />,
     nom: 'Scanner CBCT 3D',
@@ -2080,6 +2080,7 @@ const EQUIPEMENTS: Equip[] = [
     badge: 'Sirona Intego Pro',
   },
 ];
+let EQUIPEMENTS = EQUIPEMENTS_SOURCE;
 
 function TechnoSection() {
   const ref = useRef<HTMLElement>(null);
@@ -2792,6 +2793,10 @@ export default function Impact284Page() {
   }, []);
 
   fd = session?.formData;
+  EQUIPEMENTS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EQUIPEMENTS_SOURCE[i % EQUIPEMENTS_SOURCE.length], nom: s.title, description: s.desc || "" || "" })),
+    EQUIPEMENTS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

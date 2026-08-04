@@ -183,7 +183,7 @@ const SERVICES_SOURCE: Service[] = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const EDIT_ROWS_DEMO: EditRow[] = [
+const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
   {
     eyebrow: 'Notre territoire',
     img: `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=800&auto=format&fit=crop`,
@@ -208,6 +208,7 @@ const EDIT_ROWS_DEMO: EditRow[] = [
     reverse: true,
   },
 ];
+let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_SOURCE;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const PROCESS_STEPS: ProcessStep[] = [
@@ -2213,6 +2214,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_DEMO_SOURCE[i % EDIT_ROWS_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_DEMO_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

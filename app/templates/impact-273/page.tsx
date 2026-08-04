@@ -123,7 +123,7 @@ interface TechItem {
 }
 
 /* ── Data ───────────────────────────────────────────────────────────────── */
-const PHASES_DEMO: Treatment[] = [
+const PHASES_DEMO_SOURCE: Treatment[] = [
   {
     id: 'preventif',
     src: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop',
@@ -146,6 +146,7 @@ const PHASES_DEMO: Treatment[] = [
     body: 'Implants Nobel Biocare, all-on-4, bridge implanto-porté — retrouver une dentition complète sans compromis.',
   },
 ];
+let PHASES_DEMO = PHASES_DEMO_SOURCE;
 let PHASES = PHASES_DEMO;
 
 const CARE_CARDS_DEMO: Care[] = [
@@ -181,7 +182,7 @@ const CARE_CARDS_DEMO: Care[] = [
   },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_SOURCE: EditRow[] = [
   {
     eyebrow: 'Notre engagement',
     imgId: 'https://images.pexels.com/photos/6502305/pexels-photo-6502305.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -209,6 +210,7 @@ const EDIT_ROWS: EditRow[] = [
     reverse: true,
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const TECH_ITEMS: TechItem[] = [
   {
@@ -2146,6 +2148,14 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  PHASES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PHASES_DEMO_SOURCE[i % PHASES_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    PHASES_DEMO_SOURCE,
+  );
+  EDIT_ROWS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

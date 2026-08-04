@@ -175,7 +175,7 @@ const SERVICES_SOURCE: Service[] = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const EDIT_ROWS_DEMO: EditRow[] = [
+const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
   {
     eyebrow: 'Notre territoire',
     img: 'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -201,6 +201,7 @@ const EDIT_ROWS_DEMO: EditRow[] = [
     reverse: true,
   },
 ];
+let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_SOURCE;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const SEASONS: SeasonItem[] = [
@@ -2154,6 +2155,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_DEMO_SOURCE[i % EDIT_ROWS_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_DEMO_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

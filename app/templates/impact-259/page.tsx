@@ -16,6 +16,7 @@ import {
   clientCity,
   clientName,
   clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -188,7 +189,7 @@ const MENU_ITEMS_DEMO: MenuItem[] = [
   },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_SOURCE: EditRow[] = [
   {
     eyebrow: 'Notre ancrage',
     imgId: 'https://images.pexels.com/photos/32459865/pexels-photo-32459865.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -216,6 +217,7 @@ const EDIT_ROWS: EditRow[] = [
     numeral: '02',
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const SOURCING: SourcingStep[] = [
   {
@@ -2196,6 +2198,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

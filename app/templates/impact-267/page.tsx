@@ -176,7 +176,7 @@ const ARTISTS_DEMO: Artist[] = [
   },
 ];
 
-const EDIT_ROWS_DEMO: EditRow[] = [
+const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
   {
     eyebrow: "L'atelier",
     title: (
@@ -204,6 +204,7 @@ const EDIT_ROWS_DEMO: EditRow[] = [
     reverse: true,
   },
 ];
+let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_SOURCE;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const SAFETY_ITEMS: SafetyItem[] = [
@@ -2189,6 +2190,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_DEMO_SOURCE[i % EDIT_ROWS_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_DEMO_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

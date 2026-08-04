@@ -148,7 +148,12 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
     const decl = new RegExp(`^const ${nom}\\b\\s*(?::[^=]+)?=\\s*\\[`, "m");
     const pos = src.search(decl);
     if (pos === -1) continue;
-    const fin = ferme(src, pos);
+    /*
+      Le crochet d'ouverture se cherche après le « = » : une annotation comme
+      « : Testimonial[] » porte les siens, et compter à partir du nom fermait le
+      tableau sur le vide.
+    */
+    const fin = ferme(src, src.indexOf("=", pos));
     if (fin === -1) continue;
     const corps = src.slice(pos, fin);
     if (/\$\{|=>/.test(corps)) continue; // évaluée à l'import : pas d'expression
@@ -201,7 +206,8 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
 
     const source = `${nom}_SOURCE`;
     src = src.slice(0, pos) + `const ${source}` + src.slice(pos + `const ${nom}`.length);
-    const fin2 = ferme(src, src.indexOf(`const ${source}`));
+    const p2 = src.indexOf(`const ${source}`);
+    const fin2 = ferme(src, src.indexOf("=", p2));
     /*
       Un tableau figé par « as const » est en lecture seule : resolveList rend un
       tableau modifiable, et le compilateur refuse. On dégèle ce tableau-là.
@@ -209,7 +215,7 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
     if (src.startsWith("] as const", fin2)) {
       src = src.slice(0, fin2) + "];" + src.slice(fin2 + "] as const;".length);
     }
-    const fin2b = ferme(src, src.indexOf(`const ${source}`));
+    const fin2b = ferme(src, src.indexOf("=", src.indexOf(`const ${source}`)));
     const eol = src.indexOf("\n", fin2b);
     src = `${src.slice(0, eol + 1)}let ${nom} = ${source};\n${src.slice(eol + 1)}`;
 

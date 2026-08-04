@@ -166,7 +166,7 @@ const SERVICES_DEMO: Service[] = [
   { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Rénovation salle de bain', desc: 'Refonte complète : carrelage, mobilier, plomberie — devis offert sur place.' },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_SOURCE: EditRow[] = [
   {
     eyebrow: 'Notre engagement',
     img: ph('https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600') + '&w=800',
@@ -200,6 +200,7 @@ const EDIT_ROWS: EditRow[] = [
     ghost: '02',
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const CERTS: CertItem[] = [
   {
@@ -2293,6 +2294,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  EDIT_ROWS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDIT_ROWS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

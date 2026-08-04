@@ -2414,7 +2414,7 @@ type OutdoorSpot = {
   icon: React.ReactNode;
 };
 
-const OUTDOOR_SPOTS: OutdoorSpot[] = [
+const OUTDOOR_SPOTS_SOURCE: OutdoorSpot[] = [
   {
     name: "Prom' des Anglais",
     subtitle: 'Running & cardio face à la mer',
@@ -2448,6 +2448,7 @@ const OUTDOOR_SPOTS: OutdoorSpot[] = [
     icon: <Sun size={28} color={C.coral} strokeWidth={1.8} />,
   },
 ];
+let OUTDOOR_SPOTS = OUTDOOR_SPOTS_SOURCE;
 
 function OutdoorSection() {
   const sec: React.CSSProperties = {
@@ -3146,6 +3147,10 @@ export default function Impact287Page() {
   }, []);
 
   fd = session?.formData;
+  OUTDOOR_SPOTS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...OUTDOOR_SPOTS_SOURCE[i % OUTDOOR_SPOTS_SOURCE.length], name: s.title, description: s.desc || "" || "" })),
+    OUTDOOR_SPOTS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
