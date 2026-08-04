@@ -72,7 +72,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 };
 
 const features_SOURCE = [
-  { icon: <Zap className="w-5 h-5" />, title: "Automatisation intelligente", desc: "Automatisez vos workflows en quelques clics. Connectez vos outils préférés sans code.", color: "#3B82F6" },
+  { icon: <Zap className="w-5 h-5" />, title: "Automatisation intelligente", desc: "Automatisez vos workflows en quelques clics. Connectez vos outils préférés sans code.", color: "var(--brand, #3B82F6)" },
   { icon: <BarChart3 className="w-5 h-5" />, title: "Analytics en temps réel", desc: "Tableaux de bord personnalisables avec vos KPIs les plus importants mis à jour en direct.", color: "#8B5CF6" },
   { icon: <Users className="w-5 h-5" />, title: "Collaboration d'équipe", desc: "Travaillez ensemble avec des espaces de travail partagés, commentaires et permissions granulaires.", color: "#06B6D4" },
   { icon: <Shield className="w-5 h-5" />, title: "Sécurité enterprise", desc: "SSO, 2FA, chiffrement AES-256 et conformité RGPD, SOC2 & ISO 27001.", color: "#10B981" },

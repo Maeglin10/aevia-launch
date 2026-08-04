@@ -304,7 +304,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <p
                 style={{
                   fontSize: 14,
-                  color: "#64748b",
+                  color: "var(--brand, #64748b)",
                   lineHeight: 1.75,
                   maxWidth: 280,
                 }}
@@ -327,7 +327,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       textDecoration: "none",
                     }}
                   >
-                    <Icon size={16} color="#64748b" />
+                    <Icon size={16} color="var(--brand, #64748b)" />
                   </a>
                 ))}
               </div>
@@ -338,9 +338,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Services
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <Link href="/templates/impact-36/services" style={{ fontSize: 14, color: "#64748b", textDecoration: "none" }}>Executive Search</Link>
-                <Link href="/templates/impact-36/services" style={{ fontSize: 14, color: "#64748b", textDecoration: "none" }}>RPO Solutions</Link>
-                <Link href="/templates/impact-36/services" style={{ fontSize: 14, color: "#64748b", textDecoration: "none" }}>HR Consulting</Link>
+                <Link href="/templates/impact-36/services" style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>Executive Search</Link>
+                <Link href="/templates/impact-36/services" style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>RPO Solutions</Link>
+                <Link href="/templates/impact-36/services" style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>HR Consulting</Link>
               </div>
             </div>
 
@@ -349,8 +349,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Results
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <Link href="/templates/impact-36/results" style={{ fontSize: 14, color: "#64748b", textDecoration: "none" }}>Case Studies</Link>
-                <Link href="/templates/impact-36/sectors" style={{ fontSize: 14, color: "#64748b", textDecoration: "none" }}>Sectors Served</Link>
+                <Link href="/templates/impact-36/results" style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>Case Studies</Link>
+                <Link href="/templates/impact-36/sectors" style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>Sectors Served</Link>
               </div>
             </div>
 
@@ -359,10 +359,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Contact
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 14, color: "#64748b", textDecoration: "none" }}>contact@exemple.fr</a>
-                <span style={{ fontSize: 14, color: "#64748b" }}>+1 212 555 0190</span>
-                <span style={{ fontSize: 14, color: "#64748b" }}>New York, NY 10022</span>
-                <span style={{ fontSize: 14, color: "#64748b" }}>Mon-Fri 8am-7pm ET</span>
+                <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>contact@exemple.fr</a>
+                <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>+1 212 555 0190</span>
+                <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>New York, NY 10022</span>
+                <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>Mon-Fri 8am-7pm ET</span>
               </div>
             </div>
           </div>

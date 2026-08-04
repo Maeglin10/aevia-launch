@@ -80,7 +80,7 @@ export default function LuminalLayout({
 
           <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-black/40">
             {NAV_LINKS.map(link => (
-              <Link key={link.href} href={link.href} className="hover:text-[#3d7a5e] transition-colors" style={{ textDecoration: "none", color: isActive(link.href) ? "#3d7a5e" : "inherit" }}>
+              <Link key={link.href} href={link.href} className="hover:text-[#3d7a5e] transition-colors" style={{ textDecoration: "none", color: isActive(link.href) ? "var(--brand, #3d7a5e)" : "inherit" }}>
                 {link.label}
               </Link>
             ))}

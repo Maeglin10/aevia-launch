@@ -303,7 +303,7 @@ export default function EtudeNotarialePage() {
           {STATS.map((s, idx) => (
             <Reveal key={s.label} delay={idx * 0.08}>
               <div className="i326-statcell" style={{ padding: "30px 8px", textAlign: "center", borderRight: idx < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
-                <div style={{ fontFamily: FONT, fontSize: 34, color: "#cfb37a", lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontFamily: FONT, fontSize: 34, color: "var(--brand, #cfb37a)", lineHeight: 1 }}>{s.value}</div>
                 <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 7 }}>{s.label}</div>
               </div>
             </Reveal>
@@ -395,7 +395,7 @@ export default function EtudeNotarialePage() {
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 50 }}>
             <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 44px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
-              Ils nous ont confié <em style={{ color: "#cfb37a" }}>leurs actes</em>.
+              Ils nous ont confié <em style={{ color: "var(--brand, #cfb37a)" }}>leurs actes</em>.
             </>)}</h2>
           </div>
         </Reveal>
@@ -404,12 +404,12 @@ export default function EtudeNotarialePage() {
             <Reveal key={a.auteur} delay={idx * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 4, padding: "26px 24px", height: "100%" }}>
                 <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>
-                  {[...Array(5)].map((_, j) => <Star key={j} size={13} fill="#cfb37a" color="#cfb37a" />)}
+                  {[...Array(5)].map((_, j) => <Star key={j} size={13} fill="var(--brand, #cfb37a)" color="var(--brand, #cfb37a)" />)}
                 </div>
                 <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.80)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
                 <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 14 }}>
                   <div style={{ fontWeight: 600, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: "#cfb37a", fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                  <div style={{ color: "var(--brand, #cfb37a)", fontSize: 12, marginTop: 4 }}>{a.detail}</div>
                 </div>
               </div>
             </Reveal>
@@ -443,7 +443,7 @@ export default function EtudeNotarialePage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: "#cfb37a", marginBottom: 8 }}>{fd?.businessName ?? "Vasseur & Delmas"} — Notaires associés</div>
+              <div style={{ fontFamily: FONT, fontSize: 18, color: "var(--brand, #cfb37a)", marginBottom: 8 }}>{fd?.businessName ?? "Vasseur & Delmas"} — Notaires associés</div>
               <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.7 }}>
                 Officiers publics et ministériels · {clientCity(sessionData) ?? "Bordeaux"}<br />Membres de la Chambre des notaires de la Gironde
               </p>
@@ -451,7 +451,7 @@ export default function EtudeNotarialePage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Bordeaux") + ", Gironde" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h, jeudi jusqu'à 20h" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13, alignItems: "center" }}>
-                  <span style={{ color: "#cfb37a" }}>{item.icon}</span>{item.t}
+                  <span style={{ color: "var(--brand, #cfb37a)" }}>{item.icon}</span>{item.t}
                 </div>
               ))}
             </div>

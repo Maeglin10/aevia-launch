@@ -34,7 +34,7 @@ export const FILMS = [
     year: "2024",
     runtime: "1h 48min",
     festival: "Cannes — Compétition officielle",
-    color: "#CA8A04",
+    color: "var(--brand, #CA8A04)",
     desc: "Un détective se retrouve piégé dans une enquête qui efface la frontière entre le rêve et la réalité. Lauréat de la Caméra d'Or.",
   },
   {

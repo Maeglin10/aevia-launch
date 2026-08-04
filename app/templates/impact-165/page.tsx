@@ -363,7 +363,7 @@ export default function PulseAppPage() {
                       <p className="text-[11px] text-[#8B87B0] mb-3">Activité 7 jours</p>
                       <div className="flex items-end gap-1.5 h-16">
                         {[40, 65, 45, 80, 70, 90, 75].map((h, i) => (
-                          <div key={i} className="flex-1 rounded-t-sm" style={{ height: `${h}%`, background: i === 5 ? "#6366F1" : "#3D3770" }} />
+                          <div key={i} className="flex-1 rounded-t-sm" style={{ height: `${h}%`, background: i === 5 ? "var(--brand, #6366F1)" : "#3D3770" }} />
                         ))}
                       </div>
                     </div>

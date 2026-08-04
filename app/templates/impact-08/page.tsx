@@ -69,7 +69,7 @@ function FLEET_DEMO_SOURCE_LIVE() {
     accel: "2.1s",
     desc: "L'apogée du Grand Tourisme. Un moteur V12 bi-turbo couplé à un système hybride de récupération d'énergie issu de la Formule 1.",
     img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=1600&q=80"),
-    color: "#3b82f6"
+    color: "var(--brand, #3b82f6)"
   },
   {
     id: "vul-ap-08",
@@ -149,9 +149,9 @@ function FluidAeroVisualizer() {
        <svg width="100%" height="100%" className="w-full h-full">
           <defs>
             <linearGradient id="aero-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0" />
-              <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+              <stop offset="0%" stopColor="var(--brand, #3b82f6)" stopOpacity="0" />
+              <stop offset="50%" stopColor="var(--brand, #3b82f6)" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="var(--brand, #3b82f6)" stopOpacity="0" />
             </linearGradient>
           </defs>
           {[...Array(20)].map((_, i) => (
@@ -177,7 +177,7 @@ function FluidAeroVisualizer() {
                 cx={Math.random() * 2000}
                 cy={Math.random() * 1000}
                 r="1"
-                fill="#3b82f6"
+                fill="var(--brand, #3b82f6)"
                 animate={{
                    x: [0, 2000],
                    opacity: [0, 1, 0]

@@ -86,7 +86,7 @@ export default function VelvetLayout({
                 key={link.href}
                 href={link.href}
                 className="hover:text-[#ff00ff] transition-colors"
-                style={{ textDecoration: "none", color: isActive(link.href) ? "#ff00ff" : "inherit" }}
+                style={{ textDecoration: "none", color: isActive(link.href) ? "var(--brand, #ff00ff)" : "inherit" }}
               >
                 {link.label}
               </Link>

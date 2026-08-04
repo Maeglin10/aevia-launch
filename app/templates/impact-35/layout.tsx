@@ -277,7 +277,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </div>
                 <span style={{ fontWeight: 700, fontSize: 20, color: C.white }}>Nexus Hub</span>
               </div>
-              <p style={{ fontSize: 14, color: "#94a3b8", lineHeight: 1.75, maxWidth: 280 }}>
+              <p style={{ fontSize: 14, color: "var(--brand, #94a3b8)", lineHeight: 1.75, maxWidth: 280 }}>
                 Un espace de coworking premium à {clientCity(__layoutSession) ?? "Paris"} où freelances, startups et scale-ups réalisent leurs meilleures ambitions.
               </p>
               <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
@@ -296,7 +296,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       textDecoration: "none",
                     }}
                   >
-                    <Icon size={16} color="#94a3b8" />
+                    <Icon size={16} color="var(--brand, #94a3b8)" />
                   </a>
                 ))}
               </div>
@@ -317,13 +317,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Espaces
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <Link href="/templates/impact-35/spaces" style={{ fontSize: 14, color: "#94a3b8", textDecoration: "none" }}>
+                <Link href="/templates/impact-35/spaces" style={{ fontSize: 14, color: "var(--brand, #94a3b8)", textDecoration: "none" }}>
                   Nos espaces
                 </Link>
-                <Link href="/templates/impact-35/pricing" style={{ fontSize: 14, color: "#94a3b8", textDecoration: "none" }}>
+                <Link href="/templates/impact-35/pricing" style={{ fontSize: 14, color: "var(--brand, #94a3b8)", textDecoration: "none" }}>
                   Tarifs
                 </Link>
-                <Link href="/templates/impact-35/services" style={{ fontSize: 14, color: "#94a3b8", textDecoration: "none" }}>
+                <Link href="/templates/impact-35/services" style={{ fontSize: 14, color: "var(--brand, #94a3b8)", textDecoration: "none" }}>
                   Services
                 </Link>
               </div>
@@ -344,10 +344,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Communauté
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <Link href="/templates/impact-35/community" style={{ fontSize: 14, color: "#94a3b8", textDecoration: "none" }}>
+                <Link href="/templates/impact-35/community" style={{ fontSize: 14, color: "var(--brand, #94a3b8)", textDecoration: "none" }}>
                   Notre communauté
                 </Link>
-                <Link href="/templates/impact-35/pricing#visite" style={{ fontSize: 14, color: "#94a3b8", textDecoration: "none" }}>
+                <Link href="/templates/impact-35/pricing#visite" style={{ fontSize: 14, color: "var(--brand, #94a3b8)", textDecoration: "none" }}>
                   Visites
                 </Link>
               </div>
@@ -368,12 +368,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Contact
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 14, color: "#94a3b8", textDecoration: "none" }}>
+                <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 14, color: "var(--brand, #94a3b8)", textDecoration: "none" }}>
                   {clientEmail(__layoutSession) ?? "contact@exemple.fr"}
                 </a>
-                <span style={{ fontSize: 14, color: "#94a3b8" }}>+33 1 23 45 67 89</span>
-                <span style={{ fontSize: 14, color: "#94a3b8" }}>{clientCity(__layoutSession) ?? "Paris"} — sur demande</span>
-                <span style={{ fontSize: 14, color: "#94a3b8" }}>Lun–Ven 9h–19h</span>
+                <span style={{ fontSize: 14, color: "var(--brand, #94a3b8)" }}>+33 1 23 45 67 89</span>
+                <span style={{ fontSize: 14, color: "var(--brand, #94a3b8)" }}>{clientCity(__layoutSession) ?? "Paris"} — sur demande</span>
+                <span style={{ fontSize: 14, color: "var(--brand, #94a3b8)" }}>Lun–Ven 9h–19h</span>
               </div>
             </div>
           </div>

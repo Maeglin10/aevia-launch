@@ -159,13 +159,13 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
                   Origin Roast
                 </div>
               </Link>
-              <p style={{ fontSize: 14, color: "#7a5c3a", lineHeight: 1.75, maxWidth: 260, fontWeight: 300 }}>
+              <p style={{ fontSize: 14, color: "var(--brand, #7a5c3a)", lineHeight: 1.75, maxWidth: 260, fontWeight: 300 }}>
                 Specialty coffee sourced directly from farms, roasted in small batches, shipped at peak freshness.
               </p>
               <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
                 {[Camera, MessageSquare, Link2].map((Icon, i) => (
                   <a key={i} href="/templates/impact-38" style={{ width: 36, height: 36, background: "rgba(255,255,255,0.06)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none" }}>
-                    <Icon size={15} color="#7a5c3a" />
+                    <Icon size={15} color="var(--brand, #7a5c3a)" />
                   </a>
                 ))}
               </div>
@@ -177,7 +177,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {NAV_LINKS.map((link) => (
                   <Link key={link.label} href={link.href}
-                    style={{ textDecoration: "none", fontSize: 13, color: "#7a5c3a", textAlign: "left", padding: 0, fontWeight: 300 }}>
+                    style={{ textDecoration: "none", fontSize: 13, color: "var(--brand, #7a5c3a)", textAlign: "left", padding: 0, fontWeight: 300 }}>
                     {link.label}
                   </Link>
                 ))}
@@ -196,7 +196,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
                         ? "/templates/impact-38/origins"
                         : "/templates/impact-38/workshops"
                     }
-                    style={{ fontSize: 13, color: "#7a5c3a", textDecoration: "none", fontWeight: 300 }}
+                    style={{ fontSize: 13, color: "var(--brand, #7a5c3a)", textDecoration: "none", fontWeight: 300 }}
                   >
                     {link}
                   </Link>
@@ -208,9 +208,9 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
                 Contact
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 13, color: "#7a5c3a", textDecoration: "none", fontWeight: 300 }}>contact@exemple.fr</a>
+                <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 13, color: "var(--brand, #7a5c3a)", textDecoration: "none", fontWeight: 300 }}>contact@exemple.fr</a>
                 <Link href="/templates/impact-38/contact"
-                  style={{ textDecoration: "none", fontSize: 13, color: "#7a5c3a", textAlign: "left", padding: 0, fontWeight: 300 }}>
+                  style={{ textDecoration: "none", fontSize: 13, color: "var(--brand, #7a5c3a)", textAlign: "left", padding: 0, fontWeight: 300 }}>
                   Nous écrire
                 </Link>
                 <span style={{ fontSize: 13, color: "#3d2010", fontWeight: 300 }}>Lun–Ven 7h–19h</span>

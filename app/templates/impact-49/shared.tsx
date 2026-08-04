@@ -15,7 +15,7 @@ import { Star } from "lucide-react";
 
 export const C = {
   bg: "#F5F3FF",
-  primary: "#6366F1",
+  primary: "var(--brand, #6366F1)",
   secondary: "#818CF8",
   cta: "#10B981",
   ctaHover: "#059669",
@@ -65,7 +65,7 @@ export const GLOBAL_CSS = `
    ========================================================================== */
 
 export const CATEGORIES = [
-  { label: "Design", color: "#6366F1", count: 420 },
+  { label: "Design", color: "var(--brand, #6366F1)", count: 420 },
   { label: "Développement", color: "#818CF8", count: 980 },
   { label: "Marketing", color: "#10B981", count: 340 },
   { label: "Data & IA", color: "#F59E0B", count: 260 },
@@ -101,7 +101,7 @@ export const COURSES = [
     originalPrice: "159€",
     category: "Design",
     badge: "Nouveau" as string | null,
-    categoryColor: "#6366F1",
+    categoryColor: "var(--brand, #6366F1)",
     img: "photo-1522202176988-66273c2fd55f",
   },
   {
@@ -168,7 +168,7 @@ export const SKILL_PATHS = [
     title: "Développeur Frontend",
     subtitle: "12 cours · 120h de contenu",
     icon: "Zap" as const,
-    color: "#6366F1",
+    color: "var(--brand, #6366F1)",
     bg: "#EEF2FF",
     steps: ["HTML & CSS", "JavaScript ES6+", "React", "Next.js", "TypeScript", "Tests & CI/CD"],
     progress: 68,

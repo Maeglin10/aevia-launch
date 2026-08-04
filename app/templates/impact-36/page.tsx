@@ -257,7 +257,7 @@ return (
                     <div style={{ color: C.white, fontWeight: 700, fontSize: 16 }}>
                       Candidate Match Report
                     </div>
-                    <div style={{ color: "#64748b", fontSize: 13 }}>
+                    <div style={{ color: "var(--brand, #64748b)", fontSize: 13 }}>
                       VP of Engineering — NovaTech Capital
                     </div>
                   </div>
@@ -591,7 +591,7 @@ return (
                     </div>
                     <div>
                       <div style={{ fontWeight: 700, fontSize: 15, color: C.white }}>{t.name}</div>
-                      <div style={{ fontSize: 13, color: "#64748b" }}>{t.role}</div>
+                      <div style={{ fontSize: 13, color: "var(--brand, #64748b)" }}>{t.role}</div>
                     </div>
                   </div>
                 </div>

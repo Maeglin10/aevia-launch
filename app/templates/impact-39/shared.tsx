@@ -267,7 +267,7 @@ export function StatCard({ stat, delay }: { stat: typeof STATS[0]; delay: number
   return (
     <motion.div ref={ref} initial={{ opacity: 0, scale: 0.9 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.5, delay }} style={{ textAlign: "center" }}>
       <div style={{ fontFamily: SANS, fontSize: "clamp(36px, 4vw, 52px)", fontWeight: 900, color: C.white }}>{stat.value}</div>
-      <div style={{ fontSize: 15, color: "#93c5fd", marginTop: 6, fontWeight: 500 }}>{stat.label}</div>
+      <div style={{ fontSize: 15, color: "var(--brand, #93c5fd)", marginTop: 6, fontWeight: 500 }}>{stat.label}</div>
     </motion.div>
   );
 }
@@ -278,7 +278,7 @@ export function TruckSVG({ truckX }: { truckX: any }) {
       <svg viewBox="0 0 200 80" style={{ width: 220, height: 88 }}>
         <rect x="60" y="10" width="130" height="50" rx="4" fill={C.orange} />
         <rect x="10" y="20" width="55" height="40" rx="4" fill={C.orangeDark} />
-        <rect x="15" y="24" width="42" height="22" rx="2" fill="#93c5fd" opacity="0.7" />
+        <rect x="15" y="24" width="42" height="22" rx="2" fill="var(--brand, #93c5fd)" opacity="0.7" />
         <circle cx="35" cy="62" r="12" fill={C.navy} />
         <circle cx="35" cy="62" r="6" fill="#94a3b8" />
         <circle cx="155" cy="62" r="12" fill={C.navy} />

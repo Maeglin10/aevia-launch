@@ -38,7 +38,7 @@ let C: Record<string, string> = {
   text: "#14231c",
   textMuted: "#57675e",
   accent: "var(--brand,#1a7a52)",
-  accentDark: "#125c3d",
+  accentDark: "var(--brand, #125c3d)",
   accentLight: "#dcefe5",
   hi: "#7fc7a4",
   white: "#ffffff",
@@ -50,9 +50,9 @@ const FONT_BODY = FONT;
 const NAV = [{"l": "Analyses", "h": "#services"}, {"l": "Le circuit", "h": "#methode"}, {"l": "Prise en charge", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 function HERO_LIVE() {
   return [
-  { k: "Au comptoir", sub: "Le prélèvement, sans rendez-vous, près de chez vous.", tiles: [{ icon: MapPin, t: "3 sites de la vallée", d: (clientCity(sessionData) ?? "Avignon") + ", Carpentras, Cavaillon — dès 7 h en semaine.", bg: "#dcefe5", fg: "#125c3d" }, { icon: FlaskConical, t: "À jeun servi d'abord", d: "File dédiée le matin, moins d'un quart d'heure d'attente.", bg: "#123528", fg: "#dcefe5" }, { icon: Truck, t: "Domicile en tournée", d: "Préleveurs du labo chaque matin dans les villages.", bg: "#eef4f0", fg: "#125c3d" }] },
-  { k: "Au plateau", sub: "La navette réfrigérée nourrit les automates toutes les 2 h.", tiles: [{ icon: Truck, t: "Navette 2 h", d: "Tubes tracés, température enregistrée de bout en bout.", bg: "#123528", fg: "#dcefe5" }, { icon: Microscope, t: "Plateau technique central", d: "Automates dernière génération, contrôles quotidiens COFRAC.", bg: "#dcefe5", fg: "#125c3d" }, { icon: FlaskConical, t: "Urgences priorisées", d: "CRP, troponine, INR urgents rendus dans l'heure au médecin.", bg: "#eef4f0", fg: "#125c3d" }] },
-  { k: "Chez vous", sub: "Le résultat, et quelqu'un pour le lire.", tiles: [{ icon: FlaskConical, t: "Serveur sécurisé", d: "Résultats du jour en ligne avant 17 h 30, envoi au médecin.", bg: "#eef4f0", fg: "#125c3d" }, { icon: Microscope, t: "Un biologiste rappelle", d: "Valeur inhabituelle : on vous appelle, on explique.", bg: "#dcefe5", fg: "#125c3d" }, { icon: MapPin, t: "Historique conservé", d: "Vos courbes sur cinq ans, utiles à chaque nouveau bilan.", bg: "#123528", fg: "#dcefe5" }] }
+  { k: "Au comptoir", sub: "Le prélèvement, sans rendez-vous, près de chez vous.", tiles: [{ icon: MapPin, t: "3 sites de la vallée", d: (clientCity(sessionData) ?? "Avignon") + ", Carpentras, Cavaillon — dès 7 h en semaine.", bg: "#dcefe5", fg: "var(--brand, #125c3d)" }, { icon: FlaskConical, t: "À jeun servi d'abord", d: "File dédiée le matin, moins d'un quart d'heure d'attente.", bg: "#123528", fg: "#dcefe5" }, { icon: Truck, t: "Domicile en tournée", d: "Préleveurs du labo chaque matin dans les villages.", bg: "#eef4f0", fg: "var(--brand, #125c3d)" }] },
+  { k: "Au plateau", sub: "La navette réfrigérée nourrit les automates toutes les 2 h.", tiles: [{ icon: Truck, t: "Navette 2 h", d: "Tubes tracés, température enregistrée de bout en bout.", bg: "#123528", fg: "#dcefe5" }, { icon: Microscope, t: "Plateau technique central", d: "Automates dernière génération, contrôles quotidiens COFRAC.", bg: "#dcefe5", fg: "var(--brand, #125c3d)" }, { icon: FlaskConical, t: "Urgences priorisées", d: "CRP, troponine, INR urgents rendus dans l'heure au médecin.", bg: "#eef4f0", fg: "var(--brand, #125c3d)" }] },
+  { k: "Chez vous", sub: "Le résultat, et quelqu'un pour le lire.", tiles: [{ icon: FlaskConical, t: "Serveur sécurisé", d: "Résultats du jour en ligne avant 17 h 30, envoi au médecin.", bg: "#eef4f0", fg: "var(--brand, #125c3d)" }, { icon: Microscope, t: "Un biologiste rappelle", d: "Valeur inhabituelle : on vous appelle, on explique.", bg: "#dcefe5", fg: "var(--brand, #125c3d)" }, { icon: MapPin, t: "Historique conservé", d: "Vos courbes sur cinq ans, utiles à chaque nouveau bilan.", bg: "#123528", fg: "#dcefe5" }] }
 ];
 }
 let HERO = HERO_LIVE();;

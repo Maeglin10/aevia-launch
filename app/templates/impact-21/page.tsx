@@ -61,7 +61,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 
 function projects_LIVE() {
   return [
-  { name: "Capsule Pro", category: "Packaging", client: "L'Oréal", year: "2025", angle: "-3deg", color: "#F97316", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80") },
+  { name: "Capsule Pro", category: "Packaging", client: "L'Oréal", year: "2025", angle: "-3deg", color: "var(--brand, #F97316)", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80") },
   { name: "Archeus Chair", category: "Furniture", client: "Cassina", year: "2025", angle: "2deg", color: "#6366F1", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80") },
   { name: "HaloKit", category: "Consumer Electronics", client: "Sony Design", year: "2024", angle: "-2deg", color: "#0EA5E9", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80") },
   { name: "Bloom Series", category: "Tableware", client: "Seletti", year: "2024", angle: "4deg", color: "#10B981", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1556742393-d75f468bfcb0?w=600&q=80") },
@@ -96,7 +96,7 @@ function projectDetails_SOURCE_LIVE() {
     category: "Packaging",
     client: "L'Oréal",
     year: "2025",
-    color: "#F97316",
+    color: "var(--brand, #F97316)",
     src: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80"),
     description: "Une gamme de flacons rechargeables en aluminium recyclé pour la ligne premium L'Oréal Professionnel. Le système de capsules magnétiques simplifie le rechargement tout en maintenant l'élégance du packaging.",
     materials: "Aluminium recyclé 100%, ABS biosourcé, aimants néodyme",

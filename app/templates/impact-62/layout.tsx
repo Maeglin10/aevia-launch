@@ -99,7 +99,7 @@ export default function SatoriLayout({
                 key={link.href}
                 href={link.href}
                 className="hover:text-[#b8860b] transition-colors"
-                style={{ textDecoration: "none", color: isActive(link.href) ? "#b8860b" : "inherit" }}
+                style={{ textDecoration: "none", color: isActive(link.href) ? "var(--brand, #b8860b)" : "inherit" }}
               >
                 {link.label}
               </Link>

@@ -138,7 +138,7 @@ export default function Impact54Layout({
               href={link.href}
               style={{
                 textDecoration: "none",
-                color: isActive(link.href) ? "#00ffd1" : "inherit",
+                color: isActive(link.href) ? "var(--brand, #00ffd1)" : "inherit",
                 transition: "color 0.2s",
               }}
             >
@@ -231,7 +231,7 @@ export default function Impact54Layout({
                 onClick={() => setMobileMenuOpen(false)}
                 style={{
                   textDecoration: "none",
-                  color: isActive(link.href) ? "#00ffd1" : "rgba(232,232,255,0.7)",
+                  color: isActive(link.href) ? "var(--brand, #00ffd1)" : "rgba(232,232,255,0.7)",
                   fontSize: 16,
                   fontWeight: 600,
                 }}

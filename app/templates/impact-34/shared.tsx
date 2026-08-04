@@ -20,7 +20,7 @@ export const C = {
   textMuted: "#94A3B8",
   textDark: "#64748B",
   textCharcoal: "#475569",
-  accent: "#F97316",
+  accent: "var(--brand, #F97316)",
   accentLight: "#FB923C",
   accentGlow: "rgba(249, 115, 22, 0.35)",
   border: "rgba(255, 255, 255, 0.08)",

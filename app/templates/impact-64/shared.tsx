@@ -35,17 +35,17 @@ export const sans = "system-ui, -apple-system, sans-serif";
 
 // ─── LIVE THREAT FEED ────────────────────────────────────────────────────────
 export const THREAT_POOL = [
-  { severity: "CRIT", msg: "Brute-force SSH bloquée — 185.234.219.4 → srv-db-02", color: "#ef5350" },
+  { severity: "CRIT", msg: "Brute-force SSH bloquée — 185.234.219.4 → srv-db-02", color: "var(--brand, #ef5350)" },
   { severity: "HIGH", msg: "SQL injection tentée — endpoint /api/auth — IP 91.108.4.18", color: "#ffb74d" },
-  { severity: "CRIT", msg: "Scan de ports détecté — 0.0.0.0/0 — 4 096 ports en 2.3s", color: "#ef5350" },
+  { severity: "CRIT", msg: "Scan de ports détecté — 0.0.0.0/0 — 4 096 ports en 2.3s", color: "var(--brand, #ef5350)" },
   { severity: "BLOCK", msg: "DDoS SYN flood mitigé — 2.4Gbps absorbés — origin AS16509", color: "#00e676" },
   { severity: "WARN", msg: "Certificat TLS expiré — cdn-static.prod.internal", color: "#ffb74d" },
   { severity: "HIGH", msg: "Exfiltration DNS suspectée — domaine: exfil-c2-87.ru", color: "#ffb74d" },
-  { severity: "CRIT", msg: "Privilege escalation — user 'deploy' → root — srv-api-01", color: "#ef5350" },
+  { severity: "CRIT", msg: "Privilege escalation — user 'deploy' → root — srv-api-01", color: "var(--brand, #ef5350)" },
   { severity: "BLOCK", msg: "XSS persistant neutralisé — payload injecté via cookie", color: "#00e676" },
   { severity: "INFO", msg: "Patch CVE-2025-1337 appliqué — 14 hosts mis à jour", color: "rgba(0,230,118,0.65)" },
   { severity: "HIGH", msg: "RDP exposé — 3389/tcp public — violation policy ISO 27001", color: "#ffb74d" },
-  { severity: "CRIT", msg: "Ransomware signature détectée — LockBit 3.0 — quarantaine", color: "#ef5350" },
+  { severity: "CRIT", msg: "Ransomware signature détectée — LockBit 3.0 — quarantaine", color: "var(--brand, #ef5350)" },
   { severity: "BLOCK", msg: "C2 callback bloqué — beacon Cobalt Strike — IP 104.21.98.7", color: "#00e676" },
 ];
 
@@ -313,7 +313,7 @@ export function LiveTerminal() {
           gap: "0.5rem",
         }}
       >
-        <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ef5350" }} />
+        <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "var(--brand, #ef5350)" }} />
         <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ffb74d" }} />
         <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#00e676" }} />
         <span style={{ marginLeft: "0.75rem", fontSize: "0.7rem", color: C.textMuted }}>

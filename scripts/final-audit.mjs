@@ -106,6 +106,12 @@ const BLOC_DE = {
   chiffre: "chiffres", equipier: "equipe", label: "engagements", question: "faq",
 };
 
+const EMPLACEMENTS = fs.readFileSync(path.join(process.cwd(), "lib/templates/photoSlots.ts"), "utf8");
+const SANS_PHOTO = new Set();
+for (const m of EMPLACEMENTS.matchAll(/"(impact-[\w-]+)":\s*\{[^}]*?total:\s*(\d+)/g)) {
+  if (Number(m[2]) === 0) SANS_PHOTO.add(m[1]);
+}
+
 const b = await chromium.launch();
 const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
 let n = 0;
@@ -143,14 +149,31 @@ for (const id of ids) {
       const hex = couleur.replace("#", "").toLowerCase();
       const rgb = [0, 2, 4].map((k) => parseInt(hex.slice(k, k + 2), 16));
       const cible = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+      /*
+        La couleur de marque se pose rarement en aplat : le plus souvent dans un
+        dégradé, un liseré, un remplissage de svg, une ombre. Ne regarder que
+        `color`, `background-color` et `border-color` faisait conclure qu'un
+        thème ne la peignait pas alors qu'elle était partout.
+      */
       let vue = false;
+      const cibleCourte = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
       for (const e of document.querySelectorAll("*")) {
         const s = getComputedStyle(e);
-        if (s.color === cible || s.backgroundColor === cible || s.borderColor === cible) { vue = true; break; }
+        const tout = [s.color, s.backgroundColor, s.borderColor, s.backgroundImage,
+          s.boxShadow, s.outlineColor, s.fill, s.stroke, s.textDecorationColor].join(" ");
+        if (tout.includes(cible) || tout.includes(cibleCourte)) { vue = true; break; }
       }
+      /*
+        Une photo peut être une image ou un fond CSS. Ne regarder que les
+        balises `img` faisait conclure qu'un thème n'affichait pas les photos du
+        client alors qu'il les peignait en arrière-plan.
+      */
+      const fonds = [...document.querySelectorAll("*")]
+        .map((e) => getComputedStyle(e).backgroundImage)
+        .filter((v) => v && v !== "none");
       return {
         texte: document.body.innerText,
-        images: [...document.querySelectorAll("img")].map((i) => i.currentSrc || i.src),
+        images: [...document.querySelectorAll("img")].map((i) => i.currentSrc || i.src).concat(fonds),
         couleurVue: vue,
       };
     }, d.couleur);
@@ -178,8 +201,16 @@ for (const id of ids) {
       le navigateur a réellement chargé.
     */
     const empreinte = (u) => (u.match(/\/([\w-]{6,})\.(jpe?g|png|webp)/i)?.[1] ?? u.split("/").pop() ?? "").slice(0, 24);
-    const chargees = images.join(" ") + " " + decodeURIComponent(images.join(" "));
-    const photosVues = photos.length === 0 ? "—" : (photos.some((u) => chargees.includes(empreinte(u))) ? "oui" : "non");
+    // Un fond CSS contient des parenthèses et des guillemets que `decodeURIComponent`
+    // refuse : on décode ce qui se décode, on garde le reste tel quel.
+    const brut = images.join(" ");
+    let decode = brut;
+    try { decode = decodeURIComponent(brut); } catch { /* adresse non décodable */ }
+    const chargees = brut + " " + decode;
+    // Un thème sans emplacement photo n'a rien à montrer : ce n'est pas un manque.
+    const photosVues = SANS_PHOTO.has(id) || photos.length === 0
+      ? "—"
+      : photos.some((u) => chargees.includes(empreinte(u))) ? "oui" : "non";
 
     console.log(
       `${id.padEnd(12)} manquent:${manquent.join(",") || "rien"}` +

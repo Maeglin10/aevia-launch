@@ -110,7 +110,7 @@ export default function ZenSpaceLayout({
                 key={link.href}
                 href={link.href}
                 className="hover:text-[#c9a84c] transition-colors"
-                style={{ textDecoration: "none", color: isActive(link.href) ? "#c9a84c" : "inherit" }}
+                style={{ textDecoration: "none", color: isActive(link.href) ? "var(--brand, #c9a84c)" : "inherit" }}
               >
                 {link.label}
               </Link>
