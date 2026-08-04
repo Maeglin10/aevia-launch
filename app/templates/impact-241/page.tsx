@@ -1430,7 +1430,7 @@ function ExpertisePanel() {
                 color: C.textFaint,
               }}
             >
-              {clientCity(sessionData) ?? "Bordeaux"} & Gironde
+              {clientCity(sessionData) ?? "Bordeaux"}
             </span>
           </div>
         </div>

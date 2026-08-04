@@ -520,7 +520,7 @@ function HeroSection() {
                 textTransform: 'uppercase' as const,
               }}
             >
-              Tour Silhouette — {clientCity(sessionData) ?? "Paris"} 13e
+              Tour Silhouette — {clientCity(sessionData) ?? "Paris"}
             </span>
             <span
               style={{

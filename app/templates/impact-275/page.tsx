@@ -29,7 +29,7 @@ import {
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET FAURE — Maître Isabelle Faure · Avocate droit de la famille & succession
-   {clientCity(sessionData) ?? "Marseille"} 6e · Barreau de {clientCity(sessionData) ?? "Marseille"}
+   {clientCity(sessionData) ?? "Marseille"} · Barreau de {clientCity(sessionData) ?? "Marseille"}
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -560,7 +560,7 @@ function HeroSection() {
             transform: 'rotate(180deg)',
           }}
         >
-          {clientCity(sessionData) ?? "Marseille"} 6e · Barreau de {clientCity(sessionData) ?? "Marseille"}
+          {clientCity(sessionData) ?? "Marseille"} · Barreau de {clientCity(sessionData) ?? "Marseille"}
         </span>
         <div style={{ width: 1, height: 80, background: `rgba(201,168,76,0.50)` }} />
       </div>
@@ -1918,7 +1918,7 @@ function ConsultationFormSection() {
             }}
           >
             La première consultation est l'occasion de faire le point sur votre
-            situation. Maître Faure vous reçoit au cabinet de {clientCity(sessionData) ?? "Marseille"} 6e ou en
+            situation. Maître Faure vous reçoit au cabinet de {clientCity(sessionData) ?? "Marseille"} ou en
             visioconférence, généralement sous 48h.
           </p>
 
@@ -2050,7 +2050,7 @@ function ConsultationFormSection() {
                   textTransform: 'uppercase',
                 }}
               >
-                Cabinet Faure · {clientCity(sessionData) ?? "Marseille"} 6e
+                Cabinet Faure · {clientCity(sessionData) ?? "Marseille"}
               </div>
             </motion.div>
           ) : (

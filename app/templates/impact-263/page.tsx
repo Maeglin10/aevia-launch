@@ -169,7 +169,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
     reverse: false,
   },
   {
-    eyebrow: (clientCity(sessionData) ?? 'Bordeaux') + ' & Gironde',
+    eyebrow: (clientCity(sessionData) ?? 'Bordeaux'),
     imgId: 'https://images.pexels.com/photos/16678645/pexels-photo-16678645.jpeg?auto=compress&cs=tinysrgb&w=800',
     title: (
       <>
@@ -1990,7 +1990,7 @@ function Footer() {
       title: 'Contact',
       items: [
         { label: 'Devis gratuit', href: '#devis' },
-        { label: (clientCity(sessionData) ?? 'Bordeaux') + ' & Gironde', href: '#devis' },
+        { label: (clientCity(sessionData) ?? 'Bordeaux'), href: '#devis' },
         { label: 'Dordogne · L47', href: '#devis' },
         { label: (fd?.email ?? 'contact@jardins-vivants.fr'), href: '#devis' },
       ],

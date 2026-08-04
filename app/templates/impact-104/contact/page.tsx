@@ -307,7 +307,7 @@ export default function LumiereDoreeContactPage() {
               Informations pratiques
             </h3>
             <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, color: C.textMuted, lineHeight: 1.8 }}>
-              {clientCity(sessionData) ?? "Paris"} 11e (Bastille)<br />
+              {clientCity(sessionData) ?? "Paris"} (Bastille)<br />
               <a href={`tel:${fd?.phone ?? "+33612345678"}`} style={{ color: C.accent, textDecoration: "none" }}>06 12 XX XX XX</a><br />
               <a href={`mailto:${fd?.email ?? "contact@lumieredoree.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>contact@lumieredoree.fr</a>
             </p>

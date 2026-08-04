@@ -258,7 +258,7 @@ return (
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32 w-full">
           <Reveal>
-            <p className="text-[#C9A86C] text-xs tracking-[0.3em] uppercase mb-6">Torréfaction artisanale · {clientCity(sessionData) ?? "Paris"} 11e</p>
+            <p className="text-[#C9A86C] text-xs tracking-[0.3em] uppercase mb-6">Torréfaction artisanale · {clientCity(sessionData) ?? "Paris"}</p>
           </Reveal>
           <Reveal delay={0.1}>
             <h1 className="text-5xl md:text-7xl font-light text-white leading-[1.0] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{c?.heroHeadline ?? <>

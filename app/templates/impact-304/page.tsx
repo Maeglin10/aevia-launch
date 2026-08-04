@@ -669,7 +669,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Rapido Plomberie intervient en urgence sur tout {clientCity(sessionData) ?? "Paris"} et l'Île-de-France. Fuite d'eau, chaudière en panne, installation PAC ou rénovation complète de salle de bain. Devis gratuit, travaux garantis.
+                  Rapido Plomberie intervient en urgence sur tout {clientCity(sessionData) ?? "Paris"}. Fuite d'eau, chaudière en panne, installation PAC ou rénovation complète de salle de bain. Devis gratuit, travaux garantis.
                 </>}</p>
                 <p style={{
                   fontSize: 15,

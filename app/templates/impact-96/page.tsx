@@ -186,7 +186,7 @@ function SERVICES_DEMO_LIVE() {
     icon: Award,
     title: "Post-Production",
     sub: "Étalonnage, son, VFX",
-    desc: "Studio intégré à " + (clientCity({ formData: fd }) ?? "Paris") + " 11e : étalonnage 4K HDR Dolby Vision, mixage Atmos 7.1.4, VFX Unreal Engine, sous-titrage 28 langues. Prestation externe acceptée.",
+    desc: "Studio intégré à " + (clientCity({ formData: fd }) ?? "Paris") + " : étalonnage 4K HDR Dolby Vision, mixage Atmos 7.1.4, VFX Unreal Engine, sous-titrage 28 langues. Prestation externe acceptée.",
     items: ["Étalonnage DCI 4K", "Mixage Dolby Atmos", "VFX Unreal Engine", "Localisation 28 langues"],
   },
 ];

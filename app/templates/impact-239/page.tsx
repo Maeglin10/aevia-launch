@@ -1365,7 +1365,7 @@ function ExpertisePanel() {
                 marginBottom: 8,
               }}
             >
-              Moreau Delacroix · {clientCity(sessionData) ?? "Paris"} 16e
+              Moreau Delacroix · {clientCity(sessionData) ?? "Paris"}
             </div>
             <div
               style={{
@@ -1939,7 +1939,7 @@ function Footer() {
       title: 'Contact',
       items: [
         { label: 'Prendre rendez-vous', href: '#contact' },
-        { label: (clientCity(sessionData) ?? 'Paris') + ' 16e', href: '#contact' },
+        { label: (clientCity(sessionData) ?? 'Paris'), href: '#contact' },
         { label: '+33 1 45 00 00 00', href: 'tel:+33145000000' },
         { label: 'contact@mda-avocats.fr', href: 'mailto:contact@mda-avocats.fr' },
       ],
@@ -2006,7 +2006,7 @@ function Footer() {
             }}
           >
             <MapPin size={14} color={C.accent} strokeWidth={1.5} />
-            {clientCity(sessionData) ?? "Paris"} 16e · Barreau de {clientCity(sessionData) ?? "Paris"}
+            {clientCity(sessionData) ?? "Paris"} · Barreau de {clientCity(sessionData) ?? "Paris"}
           </div>
         </div>
 

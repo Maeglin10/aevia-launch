@@ -73,7 +73,7 @@ let TARIFS = TARIFS_DEMO;
 
 function ZONES_DEMO_LIVE() {
   return [
-  { v: (clientCity({ formData: fd }) ?? "Lyon") + " 1er — 9e", d: "Intervention sous 2 h en urgence" },
+  { v: (clientCity({ formData: fd }) ?? "Lyon") + " — 9e", d: "Intervention sous 2 h en urgence" },
   { v: "Villeurbanne · Vaulx-en-Velin", d: "Sous 2 h" },
   { v: "Caluire · Rillieux", d: "Sous 3 h" },
   { v: "Écully · Tassin · Francheville", d: "Sous 3 h" },

@@ -259,7 +259,7 @@ const SERVICES_DEMO = [
 
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
-  { name: "Sophie L.", role: (clientCity(sessionData) ?? "Paris") + " 15e", text: "Un service impeccable ! L'intervenante est ponctuelle, soigneuse et très professionnelle. Mon appartement n'a jamais été aussi propre.", rating: 5 },
+  { name: "Sophie L.", role: (clientCity(sessionData) ?? "Paris"), text: "Un service impeccable ! L'intervenante est ponctuelle, soigneuse et très professionnelle. Mon appartement n'a jamais été aussi propre.", rating: 5 },
   { name: "Marc D.", role: "Boulogne-Billancourt", text: "Abonnement ménage bi-mensuel depuis 6 mois. Fiabilité totale, qualité constante. Je recommande sans hésiter.", rating: 5 },
   { name: "Émilie R.", role: "Neuilly-sur-Seine", text: "Grand nettoyage après travaux : résultat bluffant. L'équipe a redonné vie à tout l'appartement en une journée.", rating: 5 },
 ];

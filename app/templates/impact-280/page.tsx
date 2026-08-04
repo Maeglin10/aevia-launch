@@ -1386,7 +1386,7 @@ function ProcessSection() {
                     letterSpacing: '0.10em',
                   }}
                 >
-                  {clientCity(sessionData) ?? "Strasbourg"} & Alsace
+                  {clientCity(sessionData) ?? "Strasbourg"}
                 </span>
               </div>
             </div>

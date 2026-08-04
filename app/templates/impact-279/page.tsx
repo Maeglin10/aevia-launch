@@ -50,7 +50,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET SOLER — Ostéopathe D.O., {clientCity(sessionData) ?? "Lyon"} 6e · Brotteaux
+   CABINET SOLER — Ostéopathe D.O., {clientCity(sessionData) ?? "Lyon"} · Brotteaux
    Template premium holistique. Palette forêt × beige lin × terracotta.
    Auto-suffisant. 'use client'. Calqué sur le style éditorial impact-218.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -526,7 +526,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.terraLight} align="center">
-            Ostéopathe D.O. · {clientCity(sessionData) ?? "Lyon"} 6e · Brotteaux
+            Ostéopathe D.O. · {clientCity(sessionData) ?? "Lyon"} · Brotteaux
           </Eyebrow>
         </Reveal>
 
@@ -1557,7 +1557,7 @@ function AppointmentFormSection() {
           >
             Décrivez votre situation ci-dessous. Le Dr Soler reviendra vers vous
             dans les 24 heures pour confirmer votre rendez-vous au cabinet de
-            {clientCity(sessionData) ?? "Lyon"} 6e.
+            {clientCity(sessionData) ?? "Lyon"}.
           </p>
         </Reveal>
 
@@ -2111,7 +2111,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   9 · PracticalSection — Cabinet {clientCity(sessionData) ?? "Lyon"} 6e Brotteaux
+   9 · PracticalSection — Cabinet {clientCity(sessionData) ?? "Lyon"} Brotteaux
    ════════════════════════════════════════════════════════════════════════════ */
 type InfoBlock = {
   icon: React.ReactNode;
@@ -2187,7 +2187,7 @@ function PracticalSection() {
                   lineHeight: 1.06,
                 }}
               >
-                Cabinet {clientCity(sessionData) ?? "Lyon"} 6e,{' '}
+                Cabinet {clientCity(sessionData) ?? "Lyon"},{' '}
                 <span style={{ fontStyle: 'italic', color: C.terraLight }}>
                   Brotteaux
                 </span>
@@ -2347,7 +2347,7 @@ function FooterSection() {
     {
       title: 'Accès',
       items: [
-        { label: (clientCity(sessionData) ?? 'Lyon') + ' 6e — Brotteaux', href: '#cabinet' },
+        { label: (clientCity(sessionData) ?? 'Lyon') + ' — Brotteaux', href: '#cabinet' },
         { label: 'Métro A — Foch', href: '#cabinet' },
         { label: '04 78 XX XX XX', href: 'tel:+33478000000' },
         { label: 'Email', href: 'mailto:cabinet.soler@gmail.com' },
@@ -2404,7 +2404,7 @@ function FooterSection() {
               maxWidth: 320,
             }}
           >
-            Ostéopathie holistique · {clientCity(sessionData) ?? "Lyon"} 6e Brotteaux · Depuis 2010.
+            Ostéopathie holistique · {clientCity(sessionData) ?? "Lyon"} Brotteaux · Depuis 2010.
           </p>
           <div
             style={{

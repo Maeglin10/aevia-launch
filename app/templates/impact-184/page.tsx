@@ -58,7 +58,7 @@ let TARIFS = TARIFS_DEMO;
 
 function ZONES_DEMO_LIVE() {
   return [
-  { v: (clientCity({ formData: fd }) ?? "Lyon") + " 1er — 9e", d: "Tous arrondissements, sans supplément" },
+  { v: (clientCity({ formData: fd }) ?? "Lyon") + " — 9e", d: "Tous arrondissements, sans supplément" },
   { v: "Villeurbanne", d: "Sans supplément" },
   { v: "Caluire · Rillieux", d: "Sans supplément" },
   { v: "Écully · Tassin · Sainte-Foy", d: "Sans supplément" },
@@ -391,9 +391,9 @@ export default function BrilloNetPage() {
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
-              { q: "Intervenante ponctuelle, souriante, impeccable. Notre appartement n'a jamais été aussi propre. On renouvelle chaque semaine sans hésitation.", n: "Claire & Thomas M.", l: (clientCity({ formData: fd }) ?? "Lyon") + " 6e" },
+              { q: "Intervenante ponctuelle, souriante, impeccable. Notre appartement n'a jamais été aussi propre. On renouvelle chaque semaine sans hésitation.", n: "Claire & Thomas M.", l: (clientCity({ formData: fd }) ?? "Lyon") },
               { q: "Nettoyage fin de chantier parfait. La cuisine et les vitres étincelaient. Équipe rapide, pro et avec les bons produits. Vraiment recommandé.", n: "Mathieu V.", l: "Villeurbanne" },
-              { q: "Nos bureaux sont nettoyés 3 fois par semaine. Zéro problème depuis 2 ans, intervenantes discrètes, travail remarquable. C'est pas donné à tout le monde.", n: "Agence ARBO", l: (clientCity({ formData: fd }) ?? "Lyon") + " 2e" },
+              { q: "Nos bureaux sont nettoyés 3 fois par semaine. Zéro problème depuis 2 ans, intervenantes discrètes, travail remarquable. C'est pas donné à tout le monde.", n: "Agence ARBO", l: (clientCity({ formData: fd }) ?? "Lyon") },
             ].map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-8 rounded-2xl bg-[#f0fafa] border border-[var(--brand,#0d9488)]/10 h-full flex flex-col">

@@ -41,7 +41,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AQUA CONFORT LYON — Plombier-Chauffagiste & Énergies Renouvelables · {clientCity(sessionData) ?? "Lyon"} 7e
+   AQUA CONFORT LYON — Plombier-Chauffagiste & Énergies Renouvelables · {clientCity(sessionData) ?? "Lyon"}
    Scroll choreography éditoriale (InterventionSequence 320vh crossfade + sticky
    CertPanel). 'use client'. Autonome, sans layout.tsx.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -241,7 +241,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Nous avons remplacé notre vieille chaudière et installé une pompe à chaleur air/eau. Aqua Confort a géré MaPrimeRénov' de A à Z — 65 % financés, et on économise 800 € par an sur nos factures. Équipe sérieuse, délais tenus.",
     name: 'Famille Renard',
-    role: 'Propriétaires · ' + (clientCity(sessionData) ?? 'Lyon') + ' 7e',
+    role: 'Propriétaires · ' + (clientCity(sessionData) ?? 'Lyon'),
   },
   {
     quote:
@@ -2169,7 +2169,7 @@ function Footer() {
               }}
             >
               <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-              {clientCity(sessionData) ?? "Lyon"} 7e · Villeurbanne · Bron · Vénissieux
+              {clientCity(sessionData) ?? "Lyon"} · Villeurbanne · Bron · Vénissieux
             </div>
           </div>
         </div>

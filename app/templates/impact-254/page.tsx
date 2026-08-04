@@ -33,7 +33,7 @@ let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET VAILLANT & ASSOCIÉS — Expert-Comptable & Commissariat aux Comptes
-   {clientCity(sessionData) ?? "Paris"} 8e · Photographie réelle + chorégraphie éditoriale au défilement.
+   {clientCity(sessionData) ?? "Paris"} · Photographie réelle + chorégraphie éditoriale au défilement.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -187,7 +187,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
     alt: 'Équipe Vaillant & Associés — Paris 8e',
     title: (
       <>
-        {clientCity(sessionData) ?? "Paris"} 8e,{' '}
+        {clientCity(sessionData) ?? "Paris"},{' '}
         <span style={{ fontStyle: 'italic' }}>35 ans d'expertise.</span>
       </>
     ),
@@ -635,7 +635,7 @@ function Hero() {
       >
         <Reveal y={16}>
           <Eyebrow color="rgba(212,221,240,0.90)">
-            Expert-Comptable &amp; Commissaire aux Comptes · {clientCity(sessionData) ?? "Paris"} 8e
+            Expert-Comptable &amp; Commissaire aux Comptes · {clientCity(sessionData) ?? "Paris"}
           </Eyebrow>
         </Reveal>
 
@@ -1887,7 +1887,7 @@ function Footer() {
     },
     {
       title: 'Contact',
-      items: ['Prendre rendez-vous', '9 rue de Monceau, ' + (clientCity(sessionData) ?? 'Paris') + ' 8e', (fd?.email ?? 'cabinet@vaillant-assoc.fr'), '+33 1 40 00 00 00'],
+      items: ['Prendre rendez-vous', '9 rue de Monceau, ' + (clientCity(sessionData) ?? 'Paris'), (fd?.email ?? 'cabinet@vaillant-assoc.fr'), '+33 1 40 00 00 00'],
     },
   ];
 
@@ -1934,7 +1934,7 @@ function Footer() {
               margin: '0 0 24px',
             }}
           >
-            Expert-Comptable &amp; Commissariat aux Comptes. {clientCity(sessionData) ?? "Paris"} 8e depuis 1990. Membre de l&apos;OEC.
+            Expert-Comptable &amp; Commissariat aux Comptes. {clientCity(sessionData) ?? "Paris"} depuis 1990. Membre de l&apos;OEC.
           </p>
           <div
             style={{
@@ -1957,7 +1957,7 @@ function Footer() {
                 display: 'inline-block',
               }}
             />
-            {clientCity(sessionData) ?? "Paris"} 8e · France
+            {clientCity(sessionData) ?? "Paris"} · France
           </div>
         </div>
 

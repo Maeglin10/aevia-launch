@@ -217,7 +217,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     quote: "En tant que syndic de notre immeuble parisien (15e), j\'avais besoin d\'un prestataire fiable pour végétaliser notre toit-terrasse commun. Depuis la livraison, l\'espace est utilisé quotidiennement par les résidents.",
     name: 'Thierry B.',
-    role: 'Gestionnaire de copropriété, ' + (clientCity(sessionData) ?? 'Paris') + ' 15e',
+    role: 'Gestionnaire de copropriété, ' + (clientCity(sessionData) ?? 'Paris'),
   },
 ];
 }
@@ -1979,7 +1979,7 @@ function Footer() {
           }}
         >
           <MapPin size={13} color={C.textFaint} strokeWidth={1.5} />
-          {clientCity(sessionData) ?? "Paris"} & Île-de-France
+          {clientCity(sessionData) ?? "Paris"}
         </div>
       </div>
 

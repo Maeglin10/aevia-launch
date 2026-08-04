@@ -184,7 +184,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
       <>
         Vieux-Lyon
         <br />
-        <span style={{ fontStyle: 'italic' }}>&amp; {clientCity(sessionData) ?? "Lyon"} 2e.</span>
+        <span style={{ fontStyle: 'italic' }}>&amp; {clientCity(sessionData) ?? "Lyon"}.</span>
       </>
     ),
     body: "Deux ateliers, une même exigence. Le premier, dans le Vieux-" + (clientCity(sessionData) ?? "Lyon") + ", accueille consultations et essayages. Le second, dans le 2e arrondissement, abrite la salle de coupe et les métiers à broder. Visites sur rendez-vous. Visites de l'atelier possibles pour les curieux du geste.",
@@ -1912,7 +1912,7 @@ function Footer() {
     {
       title: 'Informations',
       items: [
-        { label: (clientCity(sessionData) ?? 'Lyon') + ' 2e — sur rendez-vous', href: '#commande' },
+        { label: (clientCity(sessionData) ?? 'Lyon') + ' — sur rendez-vous', href: '#commande' },
         { label: 'Vieux-' + (clientCity(sessionData) ?? 'Lyon') + ' — sur rendez-vous', href: '#commande' },
         { label: 'Mentions légales', href: "/templates/impact-265" },
         { label: 'Confidentialité', href: "/templates/impact-265" },
@@ -1977,7 +1977,7 @@ function Footer() {
               opacity: 0.7,
             }}
           >
-            {clientCity(sessionData) ?? "Lyon"} 2e · Vieux-Lyon
+            {clientCity(sessionData) ?? "Lyon"} · Vieux-Lyon
           </div>
         </div>
 

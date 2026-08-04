@@ -32,7 +32,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   KINESPORT ÉLITE — Kinésithérapie du Sport & Rééducation · {clientCity(sessionData) ?? "Paris"} 15e
+   KINESPORT ÉLITE — Kinésithérapie du Sport & Rééducation · {clientCity(sessionData) ?? "Paris"}
    Template premium Next.js 'use client'. Chorégraphie de défilement éditoriale,
    crossfade 320vh, panneau collant, formulaire interactif.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -222,7 +222,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Opéré du ligament croisé en janvier, les médecins m'annonçaient 9 mois de rééducation. Grâce au protocole individualisé de l'équipe, j'ai repris avec mon club de handball 6 mois avant le calendrier prévu.",
     name: 'Yasmine B.',
-    role: 'Handballeuse semi-pro · ' + (clientCity(sessionData) ?? 'Paris') + ' 15e',
+    role: 'Handballeuse semi-pro · ' + (clientCity(sessionData) ?? 'Paris'),
   },
 ];
 }
@@ -651,7 +651,7 @@ function Hero() {
       >
         <Reveal y={18}>
           <Eyebrow color="rgba(196,220,204,0.9)">
-            Kinésithérapie du sport · {clientCity(sessionData) ?? "Paris"} 15e
+            Kinésithérapie du sport · {clientCity(sessionData) ?? "Paris"}
           </Eyebrow>
         </Reveal>
 
@@ -1967,7 +1967,7 @@ function Footer() {
       title: 'Contact',
       items: [
         { label: 'Prendre RDV', href: '#rdv' },
-        { label: 'Cabinet ' + (clientCity(sessionData) ?? 'Paris') + ' 15e', href: '#rdv' },
+        { label: 'Cabinet ' + (clientCity(sessionData) ?? 'Paris'), href: '#rdv' },
         { label: 'Urgence sportive', href: '#rdv' },
         { label: 'Partenariats clubs', href: '#rdv' },
       ],
@@ -2043,7 +2043,7 @@ function Footer() {
               color: 'rgba(196,220,204,0.58)',
             }}
           >
-            <MapPin size={13} color={C.accent} strokeWidth={1.6} /> {clientCity(sessionData) ?? "Paris"} 15e
+            <MapPin size={13} color={C.accent} strokeWidth={1.6} /> {clientCity(sessionData) ?? "Paris"}
           </div>
         </div>
 

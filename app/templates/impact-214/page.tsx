@@ -164,11 +164,11 @@ let ZONES = ZONES_LIVE();;
 
 function PORTFOLIO_DEMO_LIVE() {
   return [
-  { style: 'Industriel Chic', surface: '8 m²', budget: '4 500 – 6 000 €', city: (clientCity(sessionData) ?? 'Paris') + ' 11e', before: '🏚️', after: '✨' },
+  { style: 'Industriel Chic', surface: '8 m²', budget: '4 500 – 6 000 €', city: (clientCity(sessionData) ?? 'Paris'), before: '🏚️', after: '✨' },
   { style: 'Scandinave Épuré', surface: '12 m²', budget: '6 000 – 8 500 €', city: 'Boulogne-B.', before: '🏚️', after: '✨' },
   { style: 'Marbre & Laiton', surface: '10 m²', budget: '7 000 – 10 000 €', city: 'Neuilly', before: '🏚️', after: '✨' },
   { style: 'Zen Japonais', surface: '6 m²', budget: '3 800 – 5 500 €', city: 'Vincennes', before: '🏚️', after: '✨' },
-  { style: 'Rétro Carreaux', surface: '9 m²', budget: '5 200 – 7 200 €', city: (clientCity(sessionData) ?? 'Paris') + ' 18e', before: '🏚️', after: '✨' },
+  { style: 'Rétro Carreaux', surface: '9 m²', budget: '5 200 – 7 200 €', city: (clientCity(sessionData) ?? 'Paris'), before: '🏚️', after: '✨' },
   { style: 'Contemporain Dark', surface: '14 m²', budget: '8 000 – 12 000 €', city: 'Levallois', before: '🏚️', after: '✨' },
 ];
 }
@@ -208,7 +208,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     name: 'Isabelle M.',
-    city: (clientCity(sessionData) ?? 'Paris') + ' 11e',
+    city: (clientCity(sessionData) ?? 'Paris'),
     rating: 5,
     text: "Fuite sous l\'évier un dimanche soir — Karim était là en 25 minutes ! Travail impeccable, prix honnête. Je recommande vivement Aqua Prestige.",
     service: 'Dépannage fuite',
@@ -236,7 +236,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     name: 'Sophie L.',
-    city: (clientCity(sessionData) ?? 'Paris') + ' 18e',
+    city: (clientCity(sessionData) ?? 'Paris'),
     rating: 5,
     text: "Installation de mon nouveau chauffe-eau thermodynamique en une journée. Économies d\'énergie visibles dès la première facture !",
     service: 'Chauffe-eau',
@@ -1652,7 +1652,7 @@ export default function AquaPrestigePage() {
               margin: '0 auto 2.5rem',
             }}
           >{c?.heroSubline ?? fd?.tagline ?? <>
-            Dépannage, installation et rénovation de salles de bains. Artisans certifiés, tarifs transparents, intervention rapide dans tout {clientCity(sessionData) ?? "Paris"} et l&apos;Île-de-France.
+            Dépannage, installation et rénovation de salles de bains. Artisans certifiés, tarifs transparents, intervention rapide dans tout {clientCity(sessionData) ?? "Paris"}.
           </>}</motion.p>
 
           <motion.div
@@ -2168,7 +2168,7 @@ export default function AquaPrestigePage() {
                 {[
                   { icon: '📞', label: 'Téléphone', value: (fd?.phone ?? '01 42 00 00 00'), sub: 'Urgences 24h/24' },
                   { icon: '📧', label: 'Email', value: (fd?.email ?? 'contact@aquaprestige.fr'), sub: 'Réponse sous 2h en journée' },
-                  { icon: '📍', label: 'Adresse', value: '15 Rue de la Pompe, ' + (clientCity(sessionData) ?? 'Paris') + ' 16e', sub: 'Bureau ouvert lun-sam 8h-19h' },
+                  { icon: '📍', label: 'Adresse', value: '15 Rue de la Pompe, ' + (clientCity(sessionData) ?? 'Paris'), sub: 'Bureau ouvert lun-sam 8h-19h' },
                 ].map((info) => (
                   <div key={info.label} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
                     <div

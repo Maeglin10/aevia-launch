@@ -39,7 +39,7 @@ export default function RealisationsPage() {
     {
       name: "Hôtel Particulier Victor Hugo",
       type: "Résidentiel d'exception",
-      location: (clientCity(sessionData) ?? "Paris") + " 16e",
+      location: (clientCity(sessionData) ?? "Paris"),
       size: "1 200 m²",
       status: "Livré 2023",
       image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800&q=80"

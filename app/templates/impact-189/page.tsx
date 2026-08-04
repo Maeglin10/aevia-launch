@@ -27,7 +27,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   ATELIER LÉONIE — Salon de coiffure premium femmes ({clientCity(sessionData) ?? "Paris"} 16e)
+   ATELIER LÉONIE — Salon de coiffure premium femmes ({clientCity(sessionData) ?? "Paris"})
    Palette : crème #faf6f1 / vieux rose #c97b7b / or rosé #d4a5a5 / encre #1a1218
    Fonts : Bodoni Moda (titres élégants) + Lato (corps épuré)
    Style : luxe accessible, féminin, chaud, boudoir élégant
@@ -94,7 +94,7 @@ let PRESTATIONS = PRESTATIONS_DEMO;
 
 function TESTIMONIALS_DEMO_LIVE() {
   return [
-  { q: "Léonie a transformé mes cheveux abîmés en quelque chose de sublime. Le balayage est naturel, la couleur exactement ce que je voulais. Enfin une vraie experte.", n: "Sophie M.", l: (clientCity(sessionData) ?? "Paris") + " 16e" },
+  { q: "Léonie a transformé mes cheveux abîmés en quelque chose de sublime. Le balayage est naturel, la couleur exactement ce que je voulais. Enfin une vraie experte.", n: "Sophie M.", l: (clientCity(sessionData) ?? "Paris") },
   { q: "Coiffure de mariée parfaite le jour J. L'essai en amont m'a permis d'ajuster chaque détail. On s'est senti chouchouté du début à la fin. Merci Atelier Léonie !", n: "Clémence R.", l: (clientCity(sessionData) ?? "Paris") + " 75" },
   { q: "Lissage brésilien impeccable. Résultat qui dure 4 mois, aucun problème aux repousses. Pour moi c'est devenu un rituel bi-annuel incontournable.", n: "Aïcha D.", l: "Neuilly-sur-Seine" },
 ];
@@ -335,7 +335,7 @@ export default function AtelierLeoniePage() {
             ) : (
               <>
                 <div className="font-bold text-[#1a1218] tracking-widest text-sm" style={{ fontFamily: "'Bodoni Moda', 'Georgia', serif" }}>{clientName(sessionData) ?? "ATELIER LÉONIE"}</div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)]/60">Salon de coiffure · {clientCity(sessionData) ?? "Paris"} 16e</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)]/60">Salon de coiffure · {clientCity(sessionData) ?? "Paris"}</div>
               </>
             )}
           </div>
@@ -382,7 +382,7 @@ export default function AtelierLeoniePage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[var(--brand,#c97b7b)]/60" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#d4a5a5]">Salon de coiffure & atelier capillaire · {clientCity(sessionData) ?? "Paris"} 16e</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#d4a5a5]">Salon de coiffure & atelier capillaire · {clientCity(sessionData) ?? "Paris"}</span>
             </div>
           </motion.div>
 
@@ -397,7 +397,7 @@ export default function AtelierLeoniePage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
             className="max-w-sm text-sm text-white/32 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
-            Salon de coiffure premium à {clientCity(sessionData) ?? "Paris"} 16e. Coupe, couleur, soins, extensions, coiffure de mariée. Stylistes passionnées, produits haut de gamme, résultat sur mesure.
+            Salon de coiffure premium à {clientCity(sessionData) ?? "Paris"}. Coupe, couleur, soins, extensions, coiffure de mariée. Stylistes passionnées, produits haut de gamme, résultat sur mesure.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4">
@@ -575,7 +575,7 @@ export default function AtelierLeoniePage() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Bodoni Moda', serif" }}>
               Révélez la beauté<br /><span className="italic text-[var(--brand,#c97b7b)]">qui est en vous.</span>
             </h2>
-            <p className="text-white/30 mb-10 text-sm">Réservation en ligne 24h/24 · {clientCity(sessionData) ?? "Paris"} 16e · Consultation capillaire offerte</p>
+            <p className="text-white/30 mb-10 text-sm">Réservation en ligne 24h/24 · {clientCity(sessionData) ?? "Paris"} · Consultation capillaire offerte</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button onClick={() => openBooking(null)} className="min-h-[44px] px-10 py-4 bg-[var(--brand,#c97b7b)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors cursor-pointer">
                 Réserver maintenant
@@ -595,7 +595,7 @@ export default function AtelierLeoniePage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-bold text-white mb-1 text-sm" style={{ fontFamily: "'Bodoni Moda', serif" }}>Atelier Léonie</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c97b7b)]/40 mb-5">Salon · {clientCity(sessionData) ?? "Paris"} 16e</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c97b7b)]/40 mb-5">Salon · {clientCity(sessionData) ?? "Paris"}</div>
             <p className="text-white/20 text-sm leading-relaxed">Salon de coiffure premium. Coupe, couleur, soins, extensions, coiffure de mariée. Produits Kérastase & Olaplex.</p>
           </div>
           {[

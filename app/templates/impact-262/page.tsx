@@ -34,7 +34,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO NOIR ABSOLU — Tatouage Fine Art & Illustration · {clientCity(sessionData) ?? "Paris"} 3e Marais
+   STUDIO NOIR ABSOLU — Tatouage Fine Art & Illustration · {clientCity(sessionData) ?? "Paris"} Marais
    Chorégraphie de défilement éditoriale : crossfade 320vh + panneau collant
    hygiènes + formulaire de réservation artistique. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -207,7 +207,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
     title: (
       <>
         Marais, /{' '}
-        <span style={{ fontStyle: 'italic' }}>{clientCity(sessionData) ?? "Paris"} 3e.</span>
+        <span style={{ fontStyle: 'italic' }}>{clientCity(sessionData) ?? "Paris"}.</span>
       </>
     ),
     body: 'Studio lumineux en cœur de Marais, sur rendez-vous uniquement. Quatre artistes travaillent simultanément dans un espace ouvert. Collectionneurs internationaux, clients locaux — même exigence.',
@@ -655,7 +655,7 @@ function Hero() {
       >
         <Reveal y={16}>
           <Eyebrow color={C.accentLight} align="left">
-            Fine Art Tattoo · {clientCity(sessionData) ?? "Paris"} 3e Marais
+            Fine Art Tattoo · {clientCity(sessionData) ?? "Paris"} Marais
           </Eyebrow>
         </Reveal>
 
@@ -2065,7 +2065,7 @@ function Footer() {
       {
         title: 'Contact',
         items: [
-          { label: (clientCity(sessionData) ?? 'Paris') + ' 3e Marais', href: '#reservation' },
+          { label: (clientCity(sessionData) ?? 'Paris') + ' Marais', href: '#reservation' },
           { label: 'Sur rendez-vous', href: '#reservation' },
           { label: 'studio@noirAbsolu.fr', href: 'mailto:studio@noirAbsolu.fr' },
           { label: 'Instagram', href: "/templates/impact-262" },
@@ -2114,7 +2114,7 @@ function Footer() {
               marginBottom: 22,
             }}
           >
-            Tatouage Fine Art & Illustration sur mesure. {clientCity(sessionData) ?? "Paris"} 3e Marais, sur
+            Tatouage Fine Art & Illustration sur mesure. {clientCity(sessionData) ?? "Paris"} Marais, sur
             rendez-vous uniquement.
           </p>
           <div
