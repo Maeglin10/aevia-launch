@@ -36,7 +36,8 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const features = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
+function features_LIVE() {
+  return /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
   { icon: <Cloud className="w-6 h-6" />, title: "Cloud Inference", desc: "Exécutez n'importe quel modèle en millisecondes sur notre infrastructure distribuée dans 12 régions.", color: "#06B6D4" },
   { icon: <Cpu className="w-6 h-6" />, title: "GPU à la demande", desc: "A100, H100, L40S. Scalez de 0 à 1 000 GPU en 90 secondes avec auto-scaling intelligent.", color: "#8B5CF6" },
   { icon: <Zap className="w-6 h-6" />, title: "Latence < 100ms", desc: "Edge computing mondial. Vos modèles tournent au plus proche de vos utilisateurs finaux.", color: "#F59E0B" },
@@ -44,6 +45,8 @@ const features = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map(
   { icon: <Lock className="w-6 h-6" />, title: "Déploiement privé", desc: "VPC dédié, encryption at rest + in transit, conformité RGPD, HIPAA, SOC2 Type II.", color: "#EF4444" },
   { icon: <BarChart3 className="w-6 h-6" />, title: "Observabilité IA", desc: "Monitoring des coûts d'inférence, traces LLM, drift detection et alertes automatiques.", color: "#3B82F6" },
 ]);
+}
+let features = features_LIVE();
 
 const models = [
   { name: "LLaMA 3.1 405B", type: "LLM", latency: "90ms", cost: "0.70$ / 1M tokens", badge: "Recommandé" },
@@ -104,9 +107,11 @@ export default function NimbusAIPricingPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  features = features_LIVE();
 
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);

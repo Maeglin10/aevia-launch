@@ -27,12 +27,15 @@ const useFonts = () => {
   }, []);
 };
 
-const services = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
+function services_LIVE() {
+  return /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
   { icon: <Building2 className="w-5 h-5" />, title: "Architecture résidentielle", desc: "Villas, maisons individuelles et ensembles résidentiels. Du concept à la livraison." },
   { icon: <Layers className="w-5 h-5" />, title: "Espaces culturels & publics", desc: "Musées, bibliothèques, espaces éducatifs. Architecture au service du vivre-ensemble." },
   { icon: <Users className="w-5 h-5" />, title: "Programmes mixtes", desc: "Bureaux, commerces, logements intégrés. Quartiers vivants conçus pour le long terme." },
   { icon: <Award className="w-5 h-5" />, title: "Réhabilitation & Patrimoine", desc: "Transformation de bâtiments existants. Dialogue entre mémoire architecturale et contemporain." },
 ]);
+}
+let services = services_LIVE();
 
 
 export default function ServicesPage() {
@@ -47,9 +50,11 @@ export default function ServicesPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  services = services_LIVE();
 
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);

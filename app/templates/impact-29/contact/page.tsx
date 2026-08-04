@@ -35,7 +35,8 @@ const Linkedin = (props: any) => (
   </svg>
 )
 
-const faq = [
+function faq_LIVE() {
+  return [
   {
     q: "What does a typical engagement look like?",
     a: "Most engagements start with a 1-week discovery, then move to 4–8 week delivery sprints with weekly Loom updates. I document everything as I go — no scramble at the end.",
@@ -68,7 +69,9 @@ const faq = [
     q: "What's the fastest way to get a response?",
     a: "Email. I check it twice daily (09:00 and 16:00 " + (clientCity(sessionData) ?? "Paris") + " time) and respond within one business day. LinkedIn is slower — I batch it weekly.",
   },
-]
+];
+}
+let faq = faq_LIVE();
 
 const channels = [
   {
@@ -118,9 +121,11 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  faq = faq_LIVE();
 
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [formState, setFormState] = useState({

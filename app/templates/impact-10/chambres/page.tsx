@@ -1371,11 +1371,14 @@ function LocationSection() {
 }
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
-const TESTIMONIALS = [
+function TESTIMONIALS_LIVE() {
+  return [
   { name: 'Sophie R.', origin: (clientCity(sessionData) ?? 'Paris'), text: 'An experience that redefined our expectations of hospitality. Every detail, every gesture — flawless.', stars: 5 },
   { name: 'James W.', origin: 'London', text: 'The Grand Palais is beyond comparison. The suite views, the silence, the staff — we return every autumn.', stars: 5 },
   { name: 'Hana T.', origin: 'Tokyo', text: 'The most extraordinary stay of our lives. Nothing prepares you for the quiet perfection of this place.', stars: 5 },
 ];
+}
+let TESTIMONIALS = TESTIMONIALS_LIVE();
 
 function TestimonialsSection() {
   const [active, setActive] = useState(0);
@@ -2383,9 +2386,11 @@ export default function GrandPalaisPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  TESTIMONIALS = TESTIMONIALS_LIVE();
 
   useFonts();
 

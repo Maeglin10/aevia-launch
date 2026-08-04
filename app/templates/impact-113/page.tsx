@@ -773,7 +773,7 @@ export default function NexusSaaSPage() {
                     <span className="text-5xl font-bold tracking-tighter">
                       {plan.price !== "Custom" &&
                       annualBilling &&
-                      /* PRIX_CALCULABLE */ Number.isFinite(parseFloat(String(plan.price).replace(/[^0-9.]/g, ""))) && plan.price !== "$0"
+                      /* PRIX_CALCULABLE */ Number.isFinite(parseInt(plan.price.slice(1))) && plan.price !== "$0"
                         ? `$${parseInt(plan.price.slice(1)) * 0.8}`
                         : plan.price}
                     </span>

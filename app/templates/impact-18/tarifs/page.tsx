@@ -110,7 +110,7 @@ export default function TarifsPage() {
                     <h3 className="font-bold text-xl mb-1 text-white">{plan.name}</h3>
                     <p className={`text-sm mb-4 ${plan.highlight ? "text-blue-200" : "text-gray-500"}`}>{plan.desc}</p>
                     <div className="mb-6">
-                      <span className="text-4xl font-extrabold text-white">{plan.price === "0" ? "Gratuit" : `${billingAnnual ? Math.round(parseInt(plan.price) * 0.8) : plan.price}€`}</span>
+                      <span className="text-4xl font-extrabold text-white">{plan.price === "0" ? "Gratuit" : /* PRIX_CALCULABLE */ !Number.isFinite(parseInt(plan.price)) ? plan.price : `${billingAnnual ? Math.round(parseInt(plan.price) * 0.8) : plan.price}€`}</span>
                       {plan.price !== "0" && <span className={`text-sm ${plan.highlight ? "text-blue-200" : "text-gray-500"}`}>/mois</span>}
                     </div>
                     <ul className="space-y-3 mb-8">

@@ -30,7 +30,8 @@ const T = {
 const FONT_HEADING = "'Syne', sans-serif";
 const FONT_BODY = "'Inter', sans-serif";
 
-const SERVICES = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
+function SERVICES_LIVE() {
+  return /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
   {
     icon: <Monitor size={28} />,
     title: "Web Design",
@@ -56,6 +57,8 @@ const SERVICES = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map(
     tag: "Growth",
   },
 ]);
+}
+let SERVICES = SERVICES_LIVE();
 
 
 export default function ServicesPage() {
@@ -70,9 +73,11 @@ export default function ServicesPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  SERVICES = SERVICES_LIVE();
 
   return (
     <div style={{ minHeight: "100dvh", backgroundColor: T.bg, color: T.text, fontFamily: FONT_BODY }}>
