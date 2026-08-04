@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -306,7 +307,7 @@ export default function LumiereDoreeContactPage() {
               Informations pratiques
             </h3>
             <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, color: C.textMuted, lineHeight: 1.8 }}>
-              Paris 11e (Bastille)<br />
+              {clientCity(sessionData) ?? "Paris"} 11e (Bastille)<br />
               <a href={`tel:${fd?.phone ?? "+33612345678"}`} style={{ color: C.accent, textDecoration: "none" }}>06 12 XX XX XX</a><br />
               <a href={`mailto:${fd?.email ?? "contact@lumieredoree.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>contact@lumieredoree.fr</a>
             </p>
@@ -365,7 +366,7 @@ export default function LumiereDoreeContactPage() {
               Zone de déplacement
             </h4>
             <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, color: C.textMuted, lineHeight: 1.65 }}>
-              Basée à Paris, je me déplace sur toute la France métropolitaine et à l&apos;international sur demande.
+              Basée à {clientCity(sessionData) ?? "Paris"}, je me déplace sur toute la France métropolitaine et à l&apos;international sur demande.
             </p>
           </div>
         </div>

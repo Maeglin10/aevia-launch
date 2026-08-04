@@ -769,7 +769,7 @@ export default function AeviaKitchenPage() {
               <div className="space-y-8">
                 {[
                   { pub: "Le Monde", date: "Mars 2025", quote: "Une table qui réconcilie la haute gastronomie avec l'émotion. Chaque plat est une narration en soi." },
-                  { pub: "Vogue France", date: "Octobre 2024", quote: "L'adresse de l'année. Aevia Kitchen redéfinit ce que signifie dîner à Paris." },
+                  { pub: "Vogue France", date: "Octobre 2024", quote: "L'adresse de l'année. Aevia Kitchen redéfinit ce que signifie dîner à " + (clientCity(sessionData) ?? "Paris") + "." },
                   { pub: "Financial Times", date: "Septembre 2024", quote: "Rarely does a restaurant achieve this level of precision without sacrificing soul. Aevia Kitchen does both." },
                   { pub: "Libération", date: "Juin 2024", quote: "Un lieu où l'on revient non pour ce qu'on a mangé, mais pour ce qu'on a ressenti." },
                 ].map((p, i) => (
@@ -796,7 +796,7 @@ export default function AeviaKitchenPage() {
               <div className="space-y-6">
                 {[
                   { year: "2025", award: "2 Étoiles Michelin", body: "Guide Michelin France", icon: "✦✦" },
-                  { year: "2024", award: "Meilleur Restaurant de Paris", body: "Gault & Millau — 17/20", icon: "◆" },
+                  { year: "2024", award: "Meilleur Restaurant de " + (clientCity(sessionData) ?? "Paris"), body: "Gault & Millau — 17/20", icon: "◆" },
                   { year: "2024", award: "Prix de la Cuisine Durable", body: "Chefs for Climate", icon: "◆" },
                   { year: "2023", award: "Jeune Chef de l'Année", body: "Prix Omnivore — Chef Élise Mercier", icon: "◆" },
                   { year: "2023", award: "1 Étoile Michelin", body: "Guide Michelin France", icon: "✦" },
@@ -842,7 +842,7 @@ export default function AeviaKitchenPage() {
                 <div className="space-y-6">
                   {[
                     { icon: <Clock className="w-4 h-4" />, title: "Horaires", val: "Mardi – Samedi\n12h00 – 14h30 · 19h30 – 22h00" },
-                    { icon: <MapPin className="w-4 h-4" />, title: "Adresse", val: "14, avenue Montaigne\n75008 Paris" },
+                    { icon: <MapPin className="w-4 h-4" />, title: "Adresse", val: "14, avenue Montaigne\n75008 " + (clientCity(sessionData) ?? "Paris") },
                     { icon: <Car className="w-4 h-4" />, title: "Parking", val: "Parking Montaigne à 200m\nVoiturier disponible le soir" },
                   ].map((item) => (
                     <div key={item.title} className="flex items-start gap-4">

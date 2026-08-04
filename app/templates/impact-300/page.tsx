@@ -86,7 +86,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉO PÉRINATAL NICE — Ostéopathe périnatal Nice Cimiez — nourrissons, grossesse, post-partum. Merriweather, rose / vert sauge.
+   OSTÉO PÉRINATAL NICE — Ostéopathe périnatal {clientCity(sessionData) ?? "Nice"} Cimiez — nourrissons, grossesse, post-partum. Merriweather, rose / vert sauge.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -528,7 +528,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? fd?.tagline ?? <>
-              Nourrissons, femmes enceintes, post-partum. Cabinet doux et bienveillant, Nice Cimiez.
+              Nourrissons, femmes enceintes, post-partum. Cabinet doux et bienveillant, {clientCity(sessionData) ?? "Nice"} Cimiez.
             </>}</p>
           </Reveal>
 
@@ -1130,7 +1130,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        Nice Cimiez
+                        {clientCity(sessionData) ?? "Nice"} Cimiez
                       </div>
                     </div>
                   </div>
@@ -1250,7 +1250,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Ostéo Périnatal Nice"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Ostéopathe périnatal Nice Cimiez
+                Ostéopathe périnatal {clientCity(sessionData) ?? "Nice"} Cimiez
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1281,7 +1281,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Ostéo Périnatal Nice<br />
+                Responsable de publication: Ostéo Périnatal {clientCity(sessionData) ?? "Nice"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -62,7 +63,7 @@ export default function MentionsPage() {
             <section>
               <h2 style={{ fontFamily: FONT_HEADING, fontSize: "1.5rem", color: T.text, marginBottom: 16 }}>1. Éditeur du site</h2>
               <p>Le présent site est édité par Impact Agency, Société à Responsabilité Limitée (SARL) au capital de 10 000€, immatriculée au Registre du Commerce et des Sociétés sous le numéro 123 456 789.</p>
-              <p style={{ marginTop: 8 }}>Siège social : 123 Creative Ave, 75000 Paris, France.<br/>Email : {fd?.email ?? "hello@impact-agency.com"}<br/>Téléphone : +33 1 23 45 67 89</p>
+              <p style={{ marginTop: 8 }}>Siège social : 123 Creative Ave, 75000 {clientCity(sessionData) ?? "Paris"}, France.<br/>Email : {fd?.email ?? "hello@impact-agency.com"}<br/>Téléphone : +33 1 23 45 67 89</p>
             </section>
 
             <section>

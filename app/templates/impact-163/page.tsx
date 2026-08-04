@@ -173,7 +173,8 @@ const AUTHORS_SOURCE = [
 ];
 let AUTHORS = AUTHORS_SOURCE;
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: "Claire Dupont",
     role: "CMO, Spendr",
@@ -190,7 +191,7 @@ const TESTIMONIALS_SOURCE = [
   },
   {
     name: "Sophie Renard",
-    role: "Partner, Accel Paris",
+    role: "Partner, Accel " + (clientCity({ formData: fd }) ?? "Paris"),
     rating: 5,
     text: "Je partage les articles à tous mes portfolios. Qualité proche de HBR mais avec une praticité que HBR n'a pas.",
     avatar: "SR",
@@ -217,6 +218,8 @@ const TESTIMONIALS_SOURCE = [
     avatar: "JB",
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
@@ -364,6 +367,8 @@ export default function EssentialBlogPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
   AUTHORS = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...AUTHORS_SOURCE[i % AUTHORS_SOURCE.length], name: m.name, role: m.role })),
     AUTHORS_SOURCE,

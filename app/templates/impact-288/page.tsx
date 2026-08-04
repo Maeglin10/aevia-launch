@@ -51,7 +51,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AMPÈRE & FILS — Électricien artisan · Nantes & Loire-Atlantique
+   AMPÈRE & FILS — Électricien artisan · {clientCity(sessionData) ?? "Nantes"} & Loire-Atlantique
    Template premium calqué sur impact-218. Auto-suffisant. 'use client'.
    10 sous-composants : Hero · Crossfade · Services · Process · Testimonials
                         DevisForm · IRVE · Solaire · Certif · Footer
@@ -578,7 +578,7 @@ function HeroSection() {
           }}
         >
           Installations électriques, bornes IRVE et panneaux photovoltaïques à
-          Nantes et partout en Loire-Atlantique. Certifié RGE, QualiPV, Qualifelec.
+          {clientCity(sessionData) ?? "Nantes"} et partout en Loire-Atlantique. Certifié RGE, QualiPV, Qualifelec.
         </motion.p>
 
         <motion.div
@@ -1425,7 +1425,7 @@ function ProcessSection() {
                 }}
               >
                 <MapPin size={12} color={C.green} />
-                Nantes · Loire-Atlantique
+                {clientCity(sessionData) ?? "Nantes"} · Loire-Atlantique
               </div>
             </div>
           </div>
@@ -1451,10 +1451,11 @@ function ProcessSection() {
 /* ════════════════════════════════════════════════════════════════════════════
    5 · TESTIMONIALS SECTION — 3 avis clients avec étoiles
    ════════════════════════════════════════════════════════════════════════════ */
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: 'Sophie M.',
-    city: 'Nantes (44000)',
+    city: (clientCity(sessionData) ?? 'Nantes') + ' (44000)',
     project: 'Rénovation électrique complète',
     text: "Ampère & Fils a refait l'intégralité de notre installation dans une maison de 1972. Travail soigné, tableau flambant neuf, CONSUEL obtenu en une semaine. Tarif juste et équipe très pro. Je recommande sans hésitation !",
     stars: 5,
@@ -1474,6 +1475,8 @@ const TESTIMONIALS_SOURCE = [
     stars: 5,
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialCard({ t, i }: { t: (typeof TESTIMONIALS_DEMO)[number]; i: number }) {
@@ -2740,11 +2743,14 @@ function CertifSection() {
    10 · FOOTER SECTION
    Logo Ampère & Fils, zones Loire-Atlantique, mentions RGE/IRVE, SIRET
    ════════════════════════════════════════════════════════════════════════════ */
-const ZONES = [
-  'Nantes', 'Saint-Nazaire', 'Saint-Herblain', 'Rezé',
+function ZONES_LIVE() {
+  return [
+  (clientCity(sessionData) ?? 'Nantes'), 'Saint-Nazaire', 'Saint-Herblain', 'Rezé',
   'Orvault', 'Vertou', 'Carquefou', 'La Baule',
   'Ancenis', 'Châteaubriant', 'Machecoul', 'Pornic',
 ];
+}
+let ZONES = ZONES_LIVE();;
 
 const NAV_LINKS = [
   { label: 'Accueil', href: '#hero' },
@@ -2860,7 +2866,7 @@ function FooterSection() {
                 margin: '0 0 22px',
               }}
             >
-              Électricien artisan à Nantes depuis 1989. Installation, rénovation,
+              Électricien artisan à {clientCity(sessionData) ?? "Nantes"} depuis 1989. Installation, rénovation,
               bornes IRVE et panneaux solaires en Loire-Atlantique.
             </p>
 
@@ -3002,7 +3008,7 @@ function FooterSection() {
               >
                 {clientAddress(sessionData) ?? "12 rue de la Chabossière"}
                 <br />
-                44300 Nantes
+                44300 {clientCity(sessionData) ?? "Nantes"}
               </div>
 
               {/* Devis CTA footer */}
@@ -3117,6 +3123,10 @@ export default function Impact288Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  ZONES = ZONES_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

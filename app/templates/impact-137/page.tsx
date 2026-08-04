@@ -320,7 +320,7 @@ export default function TorrefieCoffeePage() {
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
-                { quote: "The Ethiopian Yirgacheffe changed the way I think about coffee. I've tried every specialty roaster in Paris — Torréfié is in a class of its own.", name: "Hélène Duval", location: "Paris, FR", origin: "Ethiopian Yirgacheffe" },
+                { quote: "The Ethiopian Yirgacheffe changed the way I think about coffee. I've tried every specialty roaster in " + (clientCity({ formData: fd }) ?? "Paris") + " — Torréfié is in a class of its own.", name: "Hélène Duval", location: (clientCity({ formData: fd }) ?? "Paris") + ", FR", origin: "Ethiopian Yirgacheffe" },
                 { quote: "Freshness is unreal. Roasted Tuesday, on my desk Thursday. The Kenyan Nyeri AA is extraordinary — the blackcurrant notes are no marketing gimmick.", name: "James Whitfield", location: "London, UK", origin: "Kenyan Nyeri AA" },
                 { quote: "Finally a subscription that actually rotates origins intelligently. My palate has evolved more in three months than in three years.", name: "Rafael Soto", location: "Barcelona, ES", origin: "Colombian Huila" },
               ].map((t, i) => (

@@ -665,7 +665,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.05 }}
         >
           <Eyebrow color={C.accentLight}>
-            Cabinet d&apos;avocats · Paris · Depuis 1998
+            Cabinet d&apos;avocats · {clientCity(sessionData) ?? "Paris"} · Depuis 1998
           </Eyebrow>
         </motion.div>
 
@@ -1365,7 +1365,7 @@ function ExpertisePanel() {
                 marginBottom: 8,
               }}
             >
-              Moreau Delacroix · Paris 16e
+              Moreau Delacroix · {clientCity(sessionData) ?? "Paris"} 16e
             </div>
             <div
               style={{
@@ -1939,7 +1939,7 @@ function Footer() {
       title: 'Contact',
       items: [
         { label: 'Prendre rendez-vous', href: '#contact' },
-        { label: 'Paris 16e', href: '#contact' },
+        { label: (clientCity(sessionData) ?? 'Paris') + ' 16e', href: '#contact' },
         { label: '+33 1 45 00 00 00', href: 'tel:+33145000000' },
         { label: 'contact@mda-avocats.fr', href: 'mailto:contact@mda-avocats.fr' },
       ],
@@ -1990,7 +1990,7 @@ function Footer() {
               margin: '0 0 22px',
             }}
           >
-            Cabinet d&apos;avocats fondé à Paris en 1998. Trois associés,
+            Cabinet d&apos;avocats fondé à {clientCity(sessionData) ?? "Paris"} en 1998. Trois associés,
             une exigence : le droit au service de vos intérêts.
           </p>
           <div
@@ -2006,7 +2006,7 @@ function Footer() {
             }}
           >
             <MapPin size={14} color={C.accent} strokeWidth={1.5} />
-            Paris 16e · Barreau de Paris
+            {clientCity(sessionData) ?? "Paris"} 16e · Barreau de {clientCity(sessionData) ?? "Paris"}
           </div>
         </div>
 
@@ -2103,7 +2103,7 @@ function Footer() {
             href="#cabinet"
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
-            Barreau de Paris
+            Barreau de {clientCity(sessionData) ?? "Paris"}
           </a>
         </span>
       </div>

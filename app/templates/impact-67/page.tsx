@@ -27,11 +27,14 @@ let bp: any = null;
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
 let sessionData: any = null;
 
-const PROPERTIES_DEMO = [
-  { id: "PRJ-0047", name: "Penthouse Trinity", loc: "Paris 8e", type: "Résidentiel", size: "340 m²", pts: "2.8B pts", imgFallback: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" },
-  { id: "PRJ-0031", name: "HQ Montparnasse", loc: "Paris 14e", type: "Commercial", size: "4 200 m²", pts: "18.4B pts", imgFallback: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80" },
+function PROPERTIES_DEMO_LIVE() {
+  return [
+  { id: "PRJ-0047", name: "Penthouse Trinity", loc: (clientCity(sessionData) ?? "Paris") + " 8e", type: "Résidentiel", size: "340 m²", pts: "2.8B pts", imgFallback: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" },
+  { id: "PRJ-0031", name: "HQ Montparnasse", loc: (clientCity(sessionData) ?? "Paris") + " 14e", type: "Commercial", size: "4 200 m²", pts: "18.4B pts", imgFallback: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80" },
   { id: "PRJ-0018", name: "Villa Antibes", loc: "Côte d'Azur", type: "Prestige", size: "820 m²", pts: "6.1B pts", imgFallback: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" },
 ];
+}
+let PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
 
 const SERVICES_SOURCE = [
   { code: "01", title: "Residential", price: "À partir de 2 400€", desc: "Scan complet appartements et maisons. Modèle 3D HD, plan de coupe, visite virtuelle haute résolution." },
@@ -74,9 +77,11 @@ export default function VisionHomePage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
   SERVICES_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

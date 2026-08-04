@@ -128,7 +128,8 @@ interface DesignStep {
    Data
    ════════════════════════════════════════════════════════════════════════════ */
 
-const PHASES_DEMO: Project[] = [
+function PHASES_DEMO_LIVE() {
+  return [
   {
     imgId: 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'I',
@@ -139,7 +140,7 @@ const PHASES_DEMO: Project[] = [
     imgId: 'https://images.pexels.com/photos/37680757/pexels-photo-37680757.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'II',
     title: 'POTAGERS & JARDINS NOURRICIERS',
-    sub: "Carrés surélevés, serre tunnel, composteur intégré — produire bio à 30min de Paris, c\'est possible.",
+    sub: "Carrés surélevés, serre tunnel, composteur intégré — produire bio à 30min de " + (clientCity(sessionData) ?? "Paris") + ", c\'est possible.",
   },
   {
     imgId: '1578662996442-48f60103fc96',
@@ -148,6 +149,8 @@ const PHASES_DEMO: Project[] = [
     sub: 'Bacs sur mesure, pergola végétalisée, éclairage doux — transformer un toit parisien en espace de vie.',
   },
 ];
+}
+let PHASES_DEMO = PHASES_DEMO_LIVE();;
 
 const SERVICES_SOURCE: Service[] = [
   { label: 'Conception paysagère', desc: 'Étude de site, relevé topographique, plan masse et palette végétale adaptée à votre micro-climat.' },
@@ -159,7 +162,8 @@ const SERVICES_SOURCE: Service[] = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const EDIT_ROWS: EditRow[] = [
+function EDIT_ROWS_LIVE() {
+  return [
   {
     eyebrow: 'Notre approche',
     imgId: 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -173,10 +177,12 @@ const EDIT_ROWS: EditRow[] = [
     imgId: 'https://images.pexels.com/photos/37680757/pexels-photo-37680757.jpeg?auto=compress&cs=tinysrgb&w=1600',
     imgW: 800,
     reverse: true,
-    titleLines: ['Paris &', 'petite couronne.'],
-    body: "Nous intervenons dans les huit départements franciliens. Paris intra-muros, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne, Essonne, Yvelines, Val-d\'Oise, Seine-et-Marne — chaque territoire impose ses spécificités : argile des Limons, sable des Moraines, calcaire des plateaux. Cette connaissance fine du sol local nourrit chaque plan.",
+    titleLines: [(clientCity(sessionData) ?? 'Paris') + ' &', 'petite couronne.'],
+    body: "Nous intervenons dans les huit départements franciliens. " + (clientCity(sessionData) ?? "Paris") + " intra-muros, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne, Essonne, Yvelines, Val-d\'Oise, Seine-et-Marne — chaque territoire impose ses spécificités : argile des Limons, sable des Moraines, calcaire des plateaux. Cette connaissance fine du sol local nourrit chaque plan.",
   },
 ];
+}
+let EDIT_ROWS = EDIT_ROWS_LIVE();;
 
 const DESIGN_STEPS: DesignStep[] = [
   {
@@ -201,7 +207,8 @@ const DESIGN_STEPS: DesignStep[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote: "J\'avais une cour bétonnée de 40 m² à Neuilly — un no man\'s land gris. Vert Horizon l\'a transformée en jardin japonais luxuriant. Les voisins me demandent leur contact sans arrêt.",
     name: 'Sophie M.',
@@ -210,9 +217,11 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote: "En tant que syndic de notre immeuble parisien (15e), j\'avais besoin d\'un prestataire fiable pour végétaliser notre toit-terrasse commun. Depuis la livraison, l\'espace est utilisé quotidiennement par les résidents.",
     name: 'Thierry B.',
-    role: 'Gestionnaire de copropriété, Paris 15e',
+    role: 'Gestionnaire de copropriété, ' + (clientCity(sessionData) ?? 'Paris') + ' 15e',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -681,7 +690,7 @@ function Hero() {
             marginBottom: 38,
           }}
         >
-          Architecture paysagère sur mesure pour Paris et la petite couronne.
+          Architecture paysagère sur mesure pour {clientCity(sessionData) ?? "Paris"} et la petite couronne.
           Du potager biologique au rooftop végétalisé.
         </motion.p>
 
@@ -762,7 +771,7 @@ function Intro() {
             margin: '0 auto',
           }}
         >
-          À Paris, chaque m² de verdure est un acte de résistance.
+          À {clientCity(sessionData) ?? "Paris"}, chaque m² de verdure est un acte de résistance.
           <br />
           Nous les plantons un à un.
         </p>
@@ -1970,7 +1979,7 @@ function Footer() {
           }}
         >
           <MapPin size={13} color={C.textFaint} strokeWidth={1.5} />
-          Paris & Île-de-France
+          {clientCity(sessionData) ?? "Paris"} & Île-de-France
         </div>
       </div>
 
@@ -2120,6 +2129,12 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  EDIT_ROWS = EDIT_ROWS_LIVE();
+  PHASES_DEMO = PHASES_DEMO_LIVE();
+
+
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], label: s.title })),
     SERVICES_SOURCE,

@@ -32,7 +32,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   BOULANGERIE DES CHARTRONS — Boulangerie-Pâtisserie & Café · Bordeaux
+   BOULANGERIE DES CHARTRONS — Boulangerie-Pâtisserie & Café · {clientCity(sessionData) ?? "Bordeaux"}
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -229,7 +229,8 @@ const CRAFT_STEPS: CraftStep[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Je passais devant leur vitrine chaque matin en allant chez le fromager d'à côté. Un jour j'ai poussé la porte. Maintenant le brunch du dimanche aux Chartrons est un rituel que rien ne déplace — ni voyage, ni rhume, ni mauvais temps.",
@@ -240,9 +241,11 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     quote:
       "J'ai confié à leur équipe le buffet de notre conférence annuelle — 120 personnes. La ponctualité, la présentation, la qualité des produits : tout était irréprochable. Trois mois plus tard, j'en entends encore parler par nos participants.",
     name: 'Thomas Lefranc',
-    role: "Organisateur d'événements · Bordeaux",
+    role: "Organisateur d'événements · " + (clientCity(sessionData) ?? "Bordeaux"),
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── URL helper ──────────────────────────────────────────────────────────── */
@@ -664,7 +667,7 @@ function Hero() {
           transition={{ duration: 1.2, ease: EASE, delay: 0.1 }}
         >
           <Eyebrow color={C.accentLight}>
-            Boulangerie-Café · Bordeaux Chartrons
+            Boulangerie-Café · {clientCity(sessionData) ?? "Bordeaux"} Chartrons
           </Eyebrow>
         </motion.div>
 
@@ -684,7 +687,7 @@ function Hero() {
             textShadow: '0 10px 50px rgba(0,0,0,0.45)',
           }}
         >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
-          Le pain&nbsp;/ de Bordeaux.
+          Le pain&nbsp;/ de {clientCity(sessionData) ?? "Bordeaux"}.
         </>)}</motion.h1>
 
         <motion.p
@@ -799,7 +802,7 @@ function Intro() {
             color: C.ink,
           }}
         >
-          À Bordeaux, le bon pain est aussi sérieux que le bon vin.
+          À {clientCity(sessionData) ?? "Bordeaux"}, le bon pain est aussi sérieux que le bon vin.
           C'est ainsi depuis toujours.
         </p>
       </Reveal>
@@ -2040,7 +2043,7 @@ function Footer() {
             }}
           >
             Pains au levain, pâtisserie bordelaise &amp; brunch du dimanche.
-            Quartier des Chartrons, Bordeaux — depuis 2007.
+            Quartier des Chartrons, {clientCity(sessionData) ?? "Bordeaux"} — depuis 2007.
           </p>
           <div
             style={{
@@ -2055,7 +2058,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            Bordeaux Chartrons · France
+            {clientCity(sessionData) ?? "Bordeaux"} Chartrons · France
           </div>
           <div
             style={{
@@ -2198,6 +2201,8 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

@@ -1,5 +1,8 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -147,7 +150,7 @@ export default function CypherClinicLayout({
           </div>
           <div className="pt-8 border-t border-[#1A1715] flex flex-col md:flex-row justify-between gap-4 text-xs text-[#3A3028]">
             <span>© {new Date().getFullYear()} Cypher Clinic — Tous droits réservés</span>
-            <span>Paris // France</span>
+            <span>{clientCity(__layoutSession) ?? "Paris"} // France</span>
           </div>
         </div>
       </footer>

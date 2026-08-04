@@ -122,11 +122,12 @@ const INGREDIENTS = [
   { name: "Beurre de Karité", origin: "Ghana", benefit: "Protection & Douceur", img: "photo-1620916566398-39f1143ab7be" },
 ];
 
-const TEAM_DEMO = [
+function TEAM_DEMO_LIVE() {
+  return [
   {
     name: "Camille Rousseau",
     role: "Fondatrice & Esthéticienne",
-    bio: "15 ans d'expérience, formée à Paris et Tokyo. Spécialiste des soins visage et techniques de drainage lymphatique. Camille a révolutionné l'approche holistique du soin chez Lumière.",
+    bio: "15 ans d'expérience, formée à " + (clientCity({ formData: fd }) ?? "Paris") + " et Tokyo. Spécialiste des soins visage et techniques de drainage lymphatique. Camille a révolutionné l'approche holistique du soin chez Lumière.",
     img: "photo-1487412947147-5cebf100ffc2",
     specialties: ["Soins visage", "Drainage", "Anti-âge"],
   },
@@ -152,6 +153,8 @@ const TEAM_DEMO = [
     specialties: ["Rituels corps", "Ayurveda", "Massages"],
   },
 ];
+}
+let TEAM_DEMO = TEAM_DEMO_LIVE();;
 
 const TESTIMONIALS_SOURCE = [
   {
@@ -961,6 +964,8 @@ export default function Impact198Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  TEAM_DEMO = TEAM_DEMO_LIVE();
+
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -1294,7 +1299,7 @@ export default function Impact198Page() {
               fontWeight: 500,
             }}
           >
-            Institut de Beauté · Paris 7ème
+            Institut de Beauté · {clientCity({ formData: fd }) ?? "Paris"} 7ème
           </motion.div>
 
           <TextReveal immediate delay={0.3}>

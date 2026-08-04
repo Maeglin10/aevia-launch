@@ -599,16 +599,17 @@ function Hero() {
 }
 
 // ─── 3. LIVE TRACKER WIDGET ───────────────────────────────────────────────────
-const SHIPMENTS = [
+function SHIPMENTS_LIVE() {
+  return [
   {
     id: 'MF-2406-8821', from: 'Paris CDG', to: 'Lyon Part-Dieu',
     status: 'En transit', progress: 68, eta: "Aujourd'hui 17h30",
     steps: ['Enlèvement', 'Tri CDG', 'En route', 'Livraison'], currentStep: 2,
   },
   {
-    id: 'MF-2406-4437', from: 'Bordeaux', to: 'Lille Métropole',
+    id: 'MF-2406-4437', from: (clientCity({ formData: fd }) ?? 'Bordeaux'), to: 'Lille Métropole',
     status: 'En cours de tri', progress: 34, eta: 'Demain 10h00',
-    steps: ['Enlèvement', 'Tri Bordeaux', 'En route', 'Livraison'], currentStep: 1,
+    steps: ['Enlèvement', 'Tri ' + (clientCity({ formData: fd }) ?? 'Bordeaux'), 'En route', 'Livraison'], currentStep: 1,
   },
   {
     id: 'MF-2406-9904', from: 'Strasbourg', to: 'Marseille',
@@ -616,6 +617,8 @@ const SHIPMENTS = [
     steps: ['Enlèvement', 'Tri Strasbourg', 'En route', 'Livraison'], currentStep: 3,
   },
 ];
+}
+let SHIPMENTS = SHIPMENTS_LIVE();;
 
 function ShipmentStep({ label, active, done }: { label: string; active: boolean; done: boolean }) {
   return (
@@ -1034,15 +1037,18 @@ function PricingSection() {
 }
 
 // ─── 7. COVERAGE MAP ──────────────────────────────────────────────────────────
-const AGENCIES = [
+function AGENCIES_LIVE() {
+  return [
   { name: 'Paris',      cx: 370, cy: 210, main: true },
   { name: 'Lyon',       cx: 420, cy: 345, main: true },
   { name: 'Marseille',  cx: 415, cy: 455, main: true },
-  { name: 'Bordeaux',   cx: 235, cy: 390, main: false },
+  { name: (clientCity({ formData: fd }) ?? 'Bordeaux'),   cx: 235, cy: 390, main: false },
   { name: 'Lille',      cx: 355, cy: 130, main: false },
   { name: 'Strasbourg', cx: 525, cy: 195, main: false },
   { name: 'Nantes',     cx: 210, cy: 290, main: false },
 ];
+}
+let AGENCIES = AGENCIES_LIVE();;
 
 const MAP_ROUTES = [
   { x1: 370, y1: 210, x2: 355, y2: 130 },
@@ -1727,6 +1733,10 @@ export default function MeridianFreightPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  AGENCIES = AGENCIES_LIVE();
+  SHIPMENTS = SHIPMENTS_LIVE();
+
+
   SERVICES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     SERVICES_SOURCE,

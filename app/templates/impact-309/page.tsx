@@ -99,7 +99,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ENCRE DÉLICATE — Studio tatouage fineline Bordeaux — aquarelle, fineline féminin, sur RDV. Playfair Display, blanc / rose poudré.
+   ENCRE DÉLICATE — Studio tatouage fineline {clientCity(sessionData) ?? "Bordeaux"} — aquarelle, fineline féminin, sur RDV. Playfair Display, blanc / rose poudré.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -652,7 +652,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? fd?.tagline ?? <>
-              Studio féminin sur rendez-vous. Fineline, aquarelle, tatouages délicats et durables. Bordeaux.
+              Studio féminin sur rendez-vous. Fineline, aquarelle, tatouages délicats et durables. {clientCity(sessionData) ?? "Bordeaux"}.
             </>}</p>
           </Reveal>
 
@@ -1140,7 +1140,7 @@ return (
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
                 {clientReviews(sessionData)?.[0]?.name
                   ? `${clientReviews(sessionData)![0].author}${clientReviews(sessionData)![0].detail ? ` · ${clientReviews(sessionData)![0].detail}` : ""}`
-                  : "Marie Lauret · Bordeaux"}
+                  : "Marie Lauret · " + (clientCity(sessionData) ?? "Bordeaux")}
               </div>
             </div>
           </Reveal>
@@ -1307,7 +1307,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        tatouage fineline Bordeaux
+                        tatouage fineline {clientCity(sessionData) ?? "Bordeaux"}
                       </div>
                     </div>
                   </div>
@@ -1537,7 +1537,7 @@ return (
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? "Encre Délicate"}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Studio tatouage fineline Bordeaux
+                Studio tatouage fineline {clientCity(sessionData) ?? "Bordeaux"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

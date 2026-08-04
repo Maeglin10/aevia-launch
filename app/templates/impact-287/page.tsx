@@ -521,7 +521,7 @@ function HeroSection() {
       >
         <Reveal y={18}>
           <Eyebrow color={C.sand} align="center">
-            Coach bien-être & remise en forme · Nice Promenade
+            Coach bien-être & remise en forme · {clientCity(sessionData) ?? "Nice"} Promenade
           </Eyebrow>
         </Reveal>
 
@@ -958,13 +958,14 @@ type Program = {
   highlight: boolean;
 };
 
-const PROGRAMS_DEMO: Program[] = [
+function PROGRAMS_DEMO_LIVE() {
+  return [
   {
     icon: <Sun size={34} color={C.coral} strokeWidth={1.8} />,
-    name: 'Coaching outdoor Nice',
+    name: 'Coaching outdoor ' + (clientCity(sessionData) ?? 'Nice'),
     tagline: 'Séances personnalisées en plein air',
     description:
-      'Entraînements sur mesure face à la Méditerranée. Circuit training, renforcement musculaire et cardio sur les spots emblématiques de Nice.',
+      'Entraînements sur mesure face à la Méditerranée. Circuit training, renforcement musculaire et cardio sur les spots emblématiques de ' + (clientCity(sessionData) ?? 'Nice') + '.',
     price: '75 € / séance',
     features: [
       'Bilan initial complet',
@@ -1008,6 +1009,8 @@ const PROGRAMS_DEMO: Program[] = [
     highlight: false,
   },
 ];
+}
+let PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();;
 
 function ProgramCard({ p, i }: { p: Program; i: number }) {
   const [hover, setHover] = useState(false);
@@ -1400,7 +1403,7 @@ function MethodSection() {
                   fontWeight: 400,
                 }}
               >
-                Coach diplômé d&apos;État · 8 ans d&apos;expérience à Nice
+                Coach diplômé d&apos;État · 8 ans d&apos;expérience à {clientCity(sessionData) ?? "Nice"}
               </div>
             </div>
           </div>
@@ -1514,12 +1517,13 @@ type Testimonial = {
   resultLabel: string;
 };
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       'En 3 mois avec Thomas, j&apos;ai perdu 12 kg sans jamais me sentir à court d&apos;énergie. Les séances outdoor me donnaient envie de me lever le matin. La Prom&apos; des Anglais, c&apos;est devenu mon terrain de jeu.',
     name: 'Céline R.',
-    role: 'Responsable marketing · Nice',
+    role: 'Responsable marketing · ' + (clientCity(sessionData) ?? 'Nice'),
     result: '-12 kg',
     resultLabel: 'en 3 mois',
   },
@@ -1533,13 +1537,15 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
   },
   {
     quote:
-      'Objectif : terminer le marathon de Nice. Mission accomplie. Thomas a adapté le plan à mes contraintes de boulot, les entraînements collines m&apos;ont préparé à tout. Je recommande les yeux fermés.',
+      'Objectif : terminer le marathon de ' + (clientCity(sessionData) ?? 'Nice') + '. Mission accomplie. Thomas a adapté le plan à mes contraintes de boulot, les entraînements collines m&apos;ont préparé à tout. Je recommande les yeux fermés.',
     name: 'Amandine T.',
     role: 'Infirmière · Antibes',
     result: '4h12',
-    resultLabel: 'marathon de Nice',
+    resultLabel: 'marathon de ' + (clientCity(sessionData) ?? 'Nice'),
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TransformationSection() {
@@ -2405,7 +2411,7 @@ function PlanningRow({ item, i }: { item: ClassItem; i: number }) {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   8 · OutdoorSection — séances emblématiques de Nice
+   8 · OutdoorSection — séances emblématiques de {clientCity(sessionData) ?? "Nice"}
    ════════════════════════════════════════════════════════════════════════════ */
 type OutdoorSpot = {
   name: string;
@@ -2488,7 +2494,7 @@ function OutdoorSection() {
                   lineHeight: 1.06,
                 }}
               >
-                Nice comme{' '}
+                {clientCity(sessionData) ?? "Nice"} comme{' '}
                 <span style={{ color: C.coral }}>terrain de jeu</span>
               </h2>
             </Reveal>
@@ -2846,7 +2852,7 @@ function FooterSection() {
       ],
     },
     {
-      title: 'Spots Nice',
+      title: 'Spots ' + (clientCity(sessionData) ?? 'Nice'),
       items: [
         { label: "Prom' des Anglais", href: '#outdoor' },
         { label: 'Colline du Château', href: '#outdoor' },
@@ -2907,7 +2913,7 @@ function FooterSection() {
                   fontWeight: 400,
                 }}
               >
-                Nice Promenade
+                {clientCity(sessionData) ?? "Nice"} Promenade
               </div>
             </div>
           </div>
@@ -2941,7 +2947,7 @@ function FooterSection() {
             }}
           >
             <MapPin size={15} color={C.coral} strokeWidth={2} />
-            Nice, Côte d&apos;Azur — 06000
+            {clientCity(sessionData) ?? "Nice"}, Côte d&apos;Azur — 06000
           </div>
 
           {/* Instagram */}
@@ -3151,6 +3157,10 @@ export default function Impact287Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();
+
+
   OUTDOOR_SPOTS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...OUTDOOR_SPOTS_SOURCE[i % OUTDOOR_SPOTS_SOURCE.length], name: s.title, description: s.desc || "" || "" })),
     OUTDOOR_SPOTS_SOURCE,

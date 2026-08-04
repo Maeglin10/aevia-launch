@@ -52,7 +52,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   BOULANGERIE DU BEFFROI — Boulangerie artisanale & pâtisserie · Lille Vieux-Bourg
+   BOULANGERIE DU BEFFROI — Boulangerie artisanale & pâtisserie · {clientCity(sessionData) ?? "Lille"} Vieux-Bourg
    Pain chaud + chorégraphie de défilement éditoriale (style artisan ×
    chaleur chapitrée). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2585,7 +2585,7 @@ function FooterSection() {
               <MapPin size={14} color={C.wheat} strokeWidth={1.5} style={{ marginTop: 3, flexShrink: 0 }} />
               <span>
                 {clientAddress(sessionData) ?? "12 rue du Grand-Beffroi"}<br />
-                Vieux-Bourg · 59000 Lille
+                Vieux-Bourg · 59000 {clientCity(sessionData) ?? "Lille"}
               </span>
             </div>
           </div>

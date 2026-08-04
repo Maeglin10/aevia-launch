@@ -358,7 +358,7 @@ export default function LedgerPage() {
               maxWidth: 520,
             }}
           >{c?.heroSubline ?? fd?.tagline ?? <>
-            Cabinet d&apos;expertise comptable à Bordeaux depuis 25 ans. Nous transformons vos obligations comptables en leviers de décision pour votre entreprise.
+            Cabinet d&apos;expertise comptable à {clientCity({ formData: fd }) ?? "Bordeaux"} depuis 25 ans. Nous transformons vos obligations comptables en leviers de décision pour votre entreprise.
           </>}</motion.p>
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -795,7 +795,7 @@ export default function LedgerPage() {
               </div>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 1.8 }}>
                 Cabinet d&apos;expertise comptable<br />
-                Bordeaux · Depuis 1999
+                {clientCity({ formData: fd }) ?? "Bordeaux"} · Depuis 1999
               </p>
               <div
                 style={{
@@ -824,7 +824,7 @@ export default function LedgerPage() {
               </p>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
                 {clientAddress({ businessProfile: bp }) ?? "14 allée de Tourny"}<br />
-                33000 Bordeaux<br />
+                33000 {clientCity({ formData: fd }) ?? "Bordeaux"}<br />
                 <a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>05 56 XX XX XX</a><br />
                 <a href={`mailto:${fd?.email ?? "contact@ledger-associes.fr"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{fd?.email ?? "contact@ledger-associes.fr"}</a>
               </p>

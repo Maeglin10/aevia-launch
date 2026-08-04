@@ -135,7 +135,8 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: "Hélène & Bertrand Favre",
     origin: "Lyon",
@@ -146,7 +147,7 @@ const TESTIMONIALS_SOURCE = [
   },
   {
     name: "Jean-Philippe Moreau",
-    origin: "Paris",
+    origin: (clientCity(sessionData) ?? "Paris"),
     trip: "Japon Imperial, 12 nuits",
     rating: 5,
     text: "Je voyage beaucoup pour mes affaires, mais jamais comme ça. L'accès au ryokan centenaire, la cérémonie du thé privée avec une maîtresse de thé octogénaire — c'est le genre d'expérience qu'on ne trouve pas seul.",
@@ -185,6 +186,8 @@ const TESTIMONIALS_SOURCE = [
     avatar: "AR",
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const SERVICES_DETAIL_DEMO = [
@@ -411,6 +414,8 @@ export default function EvasionDoree() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,
@@ -1118,7 +1123,7 @@ return (
                 <span style={{ fontSize: 20, fontWeight: 400, color: C.white, letterSpacing: "0.08em" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Évasion Dorée"))}</span>
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", fontFamily: "system-ui", lineHeight: 1.8, maxWidth: 280, marginBottom: 24 }}>
-                Agence de voyages de luxe sur mesure depuis 2006. Paris · Genève · Monaco. IATA 88-2-0456.
+                Agence de voyages de luxe sur mesure depuis 2006. {clientCity(sessionData) ?? "Paris"} · Genève · Monaco. IATA 88-2-0456.
               </p>
               <div style={{ display: "flex", gap: 12 }}>
                 {[Camera, MessageSquare, Users2].map((Icon, i) => (

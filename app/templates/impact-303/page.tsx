@@ -83,7 +83,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO PEAK PERFORMANCE — Coach sportif Paris Est — transformation physique, nutrition, suivi app. Poppins, noir / vert néon.
+   STUDIO PEAK PERFORMANCE — Coach sportif {clientCity(sessionData) ?? "Paris"} Est — transformation physique, nutrition, suivi app. Poppins, noir / vert néon.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -526,7 +526,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? fd?.tagline ?? <>
-              Coaching sportif online et présentiel Paris Est. Nutrition, suivi app, transformation garantie.
+              Coaching sportif online et présentiel {clientCity(sessionData) ?? "Paris"} Est. Nutrition, suivi app, transformation garantie.
             </>}</p>
           </Reveal>
 
@@ -997,7 +997,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Où se déroulent les séances ?","a":"Dans notre studio privé tout équipé situé à Paris Est. Les séances sont limitées à 3 personnes maximum sur le plateau en simultané."},{"q":"Quelles sont les qualifications des coaches ?","a":"Tous nos entraîneurs possèdent un diplôme d'État (BPJEPS AGFF ou Master STAPS) et une certification en nutrition sportive."},{"q":"Puis-je annuler ou reporter une séance ?","a":"Oui, sans frais jusqu'à 24h avant l'heure prévue du rendez-vous depuis l'application mobile."}] as any[]).map((item: any, i: number) => (
+            {resolveList(clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Où se déroulent les séances ?","a":"Dans notre studio privé tout équipé situé à " + (clientCity(sessionData) ?? "Paris") + " Est. Les séances sont limitées à 3 personnes maximum sur le plateau en simultané."},{"q":"Quelles sont les qualifications des coaches ?","a":"Tous nos entraîneurs possèdent un diplôme d'État (BPJEPS AGFF ou Master STAPS) et une certification en nutrition sportive."},{"q":"Puis-je annuler ou reporter une séance ?","a":"Oui, sans frais jusqu'à 24h avant l'heure prévue du rendez-vous depuis l'application mobile."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,
@@ -1138,7 +1138,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        Paris Est
+                        {clientCity(sessionData) ?? "Paris"} Est
                       </div>
                     </div>
                   </div>
@@ -1258,7 +1258,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Peak Performance"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Coach sportif Paris Est
+                Coach sportif {clientCity(sessionData) ?? "Paris"} Est
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

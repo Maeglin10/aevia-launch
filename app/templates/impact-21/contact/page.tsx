@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -215,7 +216,7 @@ export default function ContactPage() {
                       <Globe className="w-5 h-5 text-[#F97316]" />
                       <h4 className="text-gray-900 font-bold">Studio</h4>
                     </div>
-                    <p className="text-gray-500 text-sm">42 rue Oberkampf<br />75011 Paris, France</p>
+                    <p className="text-gray-500 text-sm">42 rue Oberkampf<br />75011 {clientCity(sessionData) ?? "Paris"}, France</p>
                   </div>
                   <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                     <div className="flex items-center gap-3 mb-3">

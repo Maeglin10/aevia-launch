@@ -68,7 +68,7 @@ const navHref = (label: unknown) =>
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   THOMAS LEBRUN COACH — Coach sportif & nutrition · Bordeaux Caudéran
+   THOMAS LEBRUN COACH — Coach sportif & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran
    Template Skylaunch premium · style sport/impact · 'use client' · auto-suffisant.
    Palette : noir intense / orange vif / blanc pur / gris acier
    ════════════════════════════════════════════════════════════════════════════ */
@@ -543,7 +543,7 @@ function HeroSection() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
           >
-            <Eyebrow>Coach sportif & nutrition · Bordeaux Caudéran</Eyebrow>
+            <Eyebrow>Coach sportif & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran</Eyebrow>
           </motion.div>
 
           <motion.h1
@@ -566,7 +566,7 @@ function HeroSection() {
             style={{ marginTop: 28, marginBottom: 36 }}
           >
             Coaching personnalisé pour des résultats réels et durables.
-            Performance, nutrition et suivi sur-mesure à Bordeaux.
+            Performance, nutrition et suivi sur-mesure à {clientCity(sessionData) ?? "Bordeaux"}.
           </motion.p>
 
           <motion.div
@@ -1558,11 +1558,12 @@ function MethodSection() {
 /* ════════════════════════════════════════════════════════════════════════════
    5 · TransformationSection — 3 témoignages avec résultats chiffrés
    ════════════════════════════════════════════════════════════════════════════ */
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: 'Margaux D.',
     age: 34,
-    city: 'Bordeaux Caudéran',
+    city: (clientCity(sessionData) ?? 'Bordeaux') + ' Caudéran',
     result: '-12 kg en 4 mois',
     program: 'Programme Perte de Poids',
     stars: 5,
@@ -1587,6 +1588,8 @@ const TESTIMONIALS_SOURCE = [
     quote: "Je voulais courir mon premier semi-marathon. Thomas m'a préparé physiquement et mentalement. Résultat : 1h52 au finish et aucune blessure. Son plan était parfaitement adapté à mon niveau.",
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TransformationSection() {
@@ -2873,7 +2876,7 @@ function FooterSection() {
                   marginBottom: 28,
                 }}
               >
-                Coach sportif & nutritionnel certifié BPJEPS à Bordeaux Caudéran.
+                Coach sportif & nutritionnel certifié BPJEPS à {clientCity(sessionData) ?? "Bordeaux"} Caudéran.
                 Transformations réelles, méthode personnalisée, résultats garantis.
               </p>
 
@@ -2966,7 +2969,7 @@ function FooterSection() {
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {[
-                  { icon: MapPin, label: 'Bordeaux Caudéran, 33200' },
+                  { icon: MapPin, label: (clientCity(sessionData) ?? 'Bordeaux') + ' Caudéran, 33200' },
                   { icon: Phone, label: (fd?.phone ?? '06 XX XX XX XX') },
                   { icon: Mail, label: (fd?.email ?? 'thomas@lebruncoach.fr') },
                   { icon: Clock, label: 'Lun–Sam · 7h–20h' },
@@ -3156,6 +3159,8 @@ function Impact276Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

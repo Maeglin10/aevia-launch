@@ -34,7 +34,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   VILLA ÉMERAUDE EVENTS — Wedding Planner & Événements Luxe · Nice & Côte d'Azur
+   VILLA ÉMERAUDE EVENTS — Wedding Planner & Événements Luxe · {clientCity(sessionData) ?? "Nice"} & Côte d'Azur
    Chorégraphie de défilement éditoriale premium. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -212,10 +212,11 @@ const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
 let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_SOURCE;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
-const PROCESS_STEPS: ProcessStep[] = [
+function PROCESS_STEPS_LIVE() {
+  return [
   {
     number: '01',
-    title: 'Rencontre découverte à Nice ou en visio',
+    title: 'Rencontre découverte à ' + (clientCity(sessionData) ?? 'Nice') + ' ou en visio',
     body: '90 minutes sans engagement pour comprendre votre vision, votre histoire et vos envies. Un échange humain avant tout.',
   },
   {
@@ -234,6 +235,8 @@ const PROCESS_STEPS: ProcessStep[] = [
     body: "Notre équipe gère chaque détail en coulisse pour que vous ne pensiez à rien d'autre qu'à vivre ce moment unique.",
   },
 ];
+}
+let PROCESS_STEPS = PROCESS_STEPS_LIVE();;
 
 const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
@@ -640,7 +643,7 @@ function Hero() {
           transition={{ duration: 1.2, ease: EASE, delay: 0.1 }}
         >
           <Eyebrow color={C.accentLight} align="center">
-            Wedding Planner · Nice &amp; Côte d&apos;Azur
+            Wedding Planner · {clientCity(sessionData) ?? "Nice"} &amp; Côte d&apos;Azur
           </Eyebrow>
         </motion.div>
 
@@ -2066,7 +2069,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Wedding Planner de luxe sur la Côte d&apos;Azur. Nice, Cannes,
+            Wedding Planner de luxe sur la Côte d&apos;Azur. {clientCity(sessionData) ?? "Nice"}, Cannes,
             Monaco, Antibes — et partout où la lumière mérite un mariage.
           </p>
           <div
@@ -2083,7 +2086,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            Nice · Côte d&apos;Azur · France
+            {clientCity(sessionData) ?? "Nice"} · Côte d&apos;Azur · France
           </div>
         </div>
 
@@ -2218,6 +2221,8 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PROCESS_STEPS = PROCESS_STEPS_LIVE();
+
   EDIT_ROWS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_DEMO_SOURCE[i % EDIT_ROWS_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_DEMO_SOURCE,

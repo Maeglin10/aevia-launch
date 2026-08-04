@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   Atelier Marguerite Voss — Couturière créatrice sur mesure, Paris 8e
+   Atelier Marguerite Voss — Couturière créatrice sur mesure, {clientCity(sessionData) ?? "Paris"} 8e
    Premium haute couture landing page
    (Vogue × Maison Margiela × Azzedine Alaïa editorial aesthetic)
    ════════════════════════════════════════════════════════════════════════════ */
@@ -166,9 +166,10 @@ interface PressItem {
   issue: string;
 }
 
-const PRESS_DEMO: PressItem[] = [
+function PRESS_DEMO_LIVE() {
+  return [
   {
-    outlet: 'Vogue Paris',
+    outlet: 'Vogue ' + (clientCity(sessionData) ?? 'Paris'),
     quote: "« La couturière qui réenchante le tailleur féminin. Une technique d\'une rigueur absolue au service d\'une sensibilité rare. »",
     issue: 'Septembre 2024',
   },
@@ -183,6 +184,8 @@ const PRESS_DEMO: PressItem[] = [
     issue: 'Hors-série Mode 2025',
   },
 ];
+}
+let PRESS_DEMO = PRESS_DEMO_LIVE();;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Shared motion helpers
@@ -1625,7 +1628,7 @@ function Footer() {
     {
       heading: 'Contact',
       href: '#contact',
-      links: ['Prendre RDV', '12 avenue Hoche, Paris 8e', (fd?.email ?? 'contact@ateliervoss.fr'), '+33 1 44 XX XX XX'],
+      links: ['Prendre RDV', '12 avenue Hoche, ' + (clientCity(sessionData) ?? 'Paris') + ' 8e', (fd?.email ?? 'contact@ateliervoss.fr'), '+33 1 44 XX XX XX'],
     },
   ];
 
@@ -1677,7 +1680,7 @@ function Footer() {
               maxWidth: 240,
             }}
           >
-            Couture sur mesure au cœur de Paris 8e. Depuis 2008, chaque vêtement est une promesse tenue.
+            Couture sur mesure au cœur de {clientCity(sessionData) ?? "Paris"} 8e. Depuis 2008, chaque vêtement est une promesse tenue.
           </p>
           <div
             style={{
@@ -1841,6 +1844,8 @@ export default function AtlierMargueriteVossPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PRESS_DEMO = PRESS_DEMO_LIVE();
+
   MATERIALS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...MATERIALS_SOURCE[i % MATERIALS_SOURCE.length], name: s.title, description: s.desc || "" || "" })),
     MATERIALS_SOURCE,

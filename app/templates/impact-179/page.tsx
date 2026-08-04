@@ -23,7 +23,7 @@ let bp: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   AQUANOVA PISCINES — Pisciniste / Constructeur de piscines (Lyon)
+   AQUANOVA PISCINES — Pisciniste / Constructeur de piscines ({clientCity({ formData: fd }) ?? "Lyon"})
    Palette : blanc / bleu atlantique var(--brand) / ardoise / acier
    Fonts : Outfit (titres) + Roboto Mono (accents)
    Style : clair, propre, professionnel, confiance
@@ -71,14 +71,17 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const ZONES_DEMO = [
-  { v: "Lyon 1er — 9e", d: "Intervention sous 2 h en urgence" },
+function ZONES_DEMO_LIVE() {
+  return [
+  { v: (clientCity({ formData: fd }) ?? "Lyon") + " 1er — 9e", d: "Intervention sous 2 h en urgence" },
   { v: "Villeurbanne · Vaulx-en-Velin", d: "Sous 2 h" },
   { v: "Caluire · Rillieux", d: "Sous 3 h" },
   { v: "Écully · Tassin · Francheville", d: "Sous 3 h" },
   { v: "Vénissieux · Saint-Priest · Bron", d: "Sous 3 h" },
   { v: "Reste du Rhône", d: "Sur rendez-vous, hors urgence" },
 ];
+}
+let ZONES_DEMO = ZONES_DEMO_LIVE();;
 let ZONES = ZONES_DEMO;
 
 const SERVICE_ICONS = [Droplets, Wrench, ShieldCheck, Droplets, Wrench, ShieldCheck]
@@ -147,9 +150,9 @@ export default function AquanovaPiscinesPage() {
       s: r.stars ?? r.rating ?? 5,
     })),
     [
-      { q: "Notre piscine miroir est une pure merveille. De l'étude 3D à la mise en eau, l'équipe a été d'un professionnalisme rare. Délais tenus, budget respecté.", n: "Sandrine M.", l: "Lyon 3ème", s: 5 },
+      { q: "Notre piscine miroir est une pure merveille. De l'étude 3D à la mise en eau, l'équipe a été d'un professionnalisme rare. Délais tenus, budget respecté.", n: "Sandrine M.", l: (clientCity({ formData: fd }) ?? "Lyon") + " 3ème", s: 5 },
       { q: "Rénovation complète de notre bassin des années 90 : nouveau liner, margelles, filtration au sel. Résultat bluffant. On se croirait dans une piscine neuve.", n: "Patrick & Aurélie F.", l: "Villeurbanne", s: 5 },
-      { q: "Couloir de nage installé en 6 semaines, chantier propre et bien organisé. Le système de nage à contre-courant est top. Je recommande les yeux fermés.", n: "Luc B.", l: "Lyon 6ème", s: 5 },
+      { q: "Couloir de nage installé en 6 semaines, chantier propre et bien organisé. Le système de nage à contre-courant est top. Je recommande les yeux fermés.", n: "Luc B.", l: (clientCity({ formData: fd }) ?? "Lyon") + " 6ème", s: 5 },
     ]
   );
 
@@ -164,6 +167,8 @@ export default function AquanovaPiscinesPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  ZONES_DEMO = ZONES_DEMO_LIVE();
+
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -271,7 +276,7 @@ export default function AquanovaPiscinesPage() {
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{c?.heroHeadline ?? <>
-            Votre piscine<br />sur-<span className="text-[var(--brand-light)]">mesure</span><br />à Lyon.
+            Votre piscine<br />sur-<span className="text-[var(--brand-light)]">mesure</span><br />à {clientCity({ formData: fd }) ?? "Lyon"}.
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
@@ -510,12 +515,12 @@ export default function AquanovaPiscinesPage() {
               </div>
               <span className="font-bold text-white text-sm">{fd?.businessName ?? "AquaNova Piscines"}</span>
             </div>
-            <p className="text-white/25 text-sm leading-relaxed">Pisciniste certifié · Grand Lyon. Construction, rénovation et entretien de piscines depuis 2006.</p>
+            <p className="text-white/25 text-sm leading-relaxed">Pisciniste certifié · Grand {clientCity({ formData: fd }) ?? "Lyon"}. Construction, rénovation et entretien de piscines depuis 2006.</p>
           </div>
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Rénovation de piscine", "Sécurité & conformité", "Local technique", "Entretien & hivernage"] },
             { t: "Informations", ls: ["Qui sommes-nous", "Certifications & garanties", "Zone d'intervention", "Témoignages", "Conseils piscine"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 78 98 76 54"), (fd?.email ?? "contact@aquanova.fr"), "Zone Grand Lyon", "Étude 3D offerte", "Devis gratuit sous 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 78 98 76 54"), (fd?.email ?? "contact@aquanova.fr"), "Zone Grand " + (clientCity({ formData: fd }) ?? "Lyon"), "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand-light)] mb-5">{col.t}</h4>
@@ -527,7 +532,7 @@ export default function AquanovaPiscinesPage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 {fd?.businessName ?? "AquaNova Piscines"} · SIRET 234 567 890 00056 · Garantie Décennale · Assurance RC Pro{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span className="text-[var(--brand-light)]/30">Pisciniste certifié · Grand Lyon</span>
+          <span className="text-[var(--brand-light)]/30">Pisciniste certifié · Grand {clientCity({ formData: fd }) ?? "Lyon"}</span>
         </div>
       </footer>
     </div>

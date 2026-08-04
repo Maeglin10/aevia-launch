@@ -238,11 +238,12 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: "Mathieu Rosset",
     role: "CEO, Folio Maison",
-    city: "Genève",
+    city: (clientCity({ formData: fd }) ?? "Genève"),
     avatar: "MR",
     rating: 5,
     text: "Verso a transformé notre marque centenaire en identité contemporaine sans trahir notre héritage. Un travail d'orfèvre, une écoute exceptionnelle.",
@@ -272,14 +273,17 @@ const TESTIMONIALS_SOURCE = [
     text: "Concevoir une expo pour 200K visiteurs avec un budget muséal serré — ils ont relevé le défi avec une élégance remarquable.",
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
-const TEAM_DEMO = [
+function TEAM_DEMO_LIVE() {
+  return [
   {
     name: "Lucas Berger",
     role: "Creative Director & Fondateur",
-    bio: "15 ans de direction artistique entre Paris, Berlin et Genève. Ex-Pentagram, ex-BBDO.",
+    bio: "15 ans de direction artistique entre Paris, Berlin et " + (clientCity({ formData: fd }) ?? "Genève") + ". Ex-Pentagram, ex-BBDO.",
     initials: "LB",
   },
   {
@@ -301,12 +305,15 @@ const TEAM_DEMO = [
     initials: "CM",
   },
 ];
+}
+let TEAM_DEMO = TEAM_DEMO_LIVE();;
 let TEAM = TEAM_DEMO;
 
-const FAQS_DEMO = [
+function FAQS_DEMO_LIVE() {
+  return [
   {
     q: "Travaillez-vous uniquement avec des entreprises suisses ?",
-    a: "Non — notre portfolio s'étend à la France, l'Allemagne et le Royaume-Uni. Nous travaillons à distance avec une aisance totale. Les ateliers de brief peuvent se tenir en présentiel à Genève ou via Zoom.",
+    a: "Non — notre portfolio s'étend à la France, l'Allemagne et le Royaume-Uni. Nous travaillons à distance avec une aisance totale. Les ateliers de brief peuvent se tenir en présentiel à " + (clientCity({ formData: fd }) ?? "Genève") + " ou via Zoom.",
   },
   {
     q: "Quelle est votre disponibilité actuelle ?",
@@ -325,6 +332,8 @@ const FAQS_DEMO = [
     a: "Deux cycles complets par phase. Nous constatons que des briefs solides en amont réduisent drastiquement le besoin de révisions — c'est pourquoi nous investissons dans la phase découverte.",
   },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_LIVE();;
 let FAQS = FAQS_DEMO;
 
 // Counter animé
@@ -630,6 +639,12 @@ export default function Impact130Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  FAQS_DEMO = FAQS_DEMO_LIVE();
+  TEAM_DEMO = TEAM_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
+
+
   SERVICES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "", price: s.price ?? SERVICES_SOURCE[i % SERVICES_SOURCE.length].price })),
     SERVICES_SOURCE,
@@ -1263,7 +1278,7 @@ return (
               </motion.a>
             </div>
             <div style={{ display: "flex", justifyContent: "center", gap: 32, marginTop: 48, paddingTop: 40, borderTop: `1px solid ${C.borderLight}` }}>
-              {[{ icon: <MapPin size={15} />, text: "Rue du Rhône 24, 1204 Genève" }, { icon: <Clock size={15} />, text: "Lun–Ven 9h–18h" }].map((item, i) => (
+              {[{ icon: <MapPin size={15} />, text: "Rue du Rhône 24, 1204 " + (clientCity({ formData: fd }) ?? "Genève") }, { icon: <Clock size={15} />, text: "Lun–Ven 9h–18h" }].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, color: C.textMuted, fontSize: 14 }}>
                   <span style={{ color: C.emeraldGlow }}>{item.icon}</span>
                   {item.text}
@@ -1285,7 +1300,7 @@ return (
                 </div>
                 <span style={{ fontSize: 16, fontWeight: 700, color: C.text }}>Verso</span>
               </div>
-              <p style={{ color: C.textMuted, fontSize: 14, lineHeight: 1.6, maxWidth: 220 }}>Studio de design basé à Genève. Identités visuelles, digital, direction artistique.</p>
+              <p style={{ color: C.textMuted, fontSize: 14, lineHeight: 1.6, maxWidth: 220 }}>Studio de design basé à {clientCity({ formData: fd }) ?? "Genève"}. Identités visuelles, digital, direction artistique.</p>
             </div>
             {[
               { title: "Studio", links: ["À propos", "L'équipe", "Méthode", "Clients"] },

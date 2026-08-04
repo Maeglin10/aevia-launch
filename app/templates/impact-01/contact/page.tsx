@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -111,7 +112,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div style={{ fontSize: "0.875rem", marginBottom: 4 }}>Visit Us</div>
-                    <div style={{ color: T.text, fontWeight: 500 }}>123 Creative Ave, Paris, France</div>
+                    <div style={{ color: T.text, fontWeight: 500 }}>123 Creative Ave, {clientCity(sessionData) ?? "Paris"}, France</div>
                   </div>
                 </div>
               </div>

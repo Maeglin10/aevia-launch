@@ -63,7 +63,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   EAU & HABITAT BRETAGNE — Plombier-chauffagiste Rennes & agglo
+   EAU & HABITAT BRETAGNE — Plombier-chauffagiste {clientCity(sessionData) ?? "Rennes"} & agglo
    Template premium autonome. 'use client'. Framer Motion + Lucide React.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -379,7 +379,7 @@ function HeroSection() {
           }}
         >
           Plomberie, sanitaires, pompes à chaleur air-eau et chauffe-eau solaires —
-          installation, rénovation &amp; entretien à Rennes Thabor et toute l'agglo.
+          installation, rénovation &amp; entretien à {clientCity(sessionData) ?? "Rennes"} Thabor et toute l'agglo.
         </motion.p>
 
         <motion.div
@@ -871,7 +871,7 @@ function ServicesSection() {
           >
             Plombier-chauffagiste qualifié RGE, nous couvrons l'ensemble des besoins
             en eau chaude et en chauffage des logements et locaux professionnels
-            de Rennes et de l'Ille-et-Vilaine.
+            de {clientCity(sessionData) ?? "Rennes"} et de l'Ille-et-Vilaine.
           </p>
         </Reveal>
 
@@ -1299,7 +1299,7 @@ function TestimonialsSection() {
   const reviews_DEMO = [
     {
       name: 'Bertrand M.',
-      location: 'Rennes Thabor',
+      location: (clientCity(sessionData) ?? 'Rennes') + ' Thabor',
       service: 'Installation PAC air-eau',
       stars: 5,
       text:
@@ -1317,7 +1317,7 @@ function TestimonialsSection() {
     },
     {
       name: 'Martine L.',
-      location: 'Rennes Sud',
+      location: (clientCity(sessionData) ?? 'Rennes') + ' Sud',
       service: 'Chauffe-eau solaire',
       stars: 5,
       text:
@@ -2862,7 +2862,7 @@ function CertifBadge({
    ════════════════════════════════════════════════════════════════════════════ */
 function FooterSection() {
   const zones = [
-    'Rennes (Thabor, Villejean, Beaulieu)',
+    (clientCity(sessionData) ?? 'Rennes') + ' (Thabor, Villejean, Beaulieu)',
     'Cesson-Sévigné',
     'Saint-Grégoire',
     'Bruz',
@@ -2962,9 +2962,9 @@ function FooterSection() {
                 maxWidth: 320,
               }}
             >
-              Plombier-chauffagiste certifié RGE à Rennes depuis 2012.
+              Plombier-chauffagiste certifié RGE à {clientCity(sessionData) ?? "Rennes"} depuis 2012.
               Plomberie, pompes à chaleur, chauffe-eau solaires —
-              installation, rénovation et entretien à Rennes Thabor
+              installation, rénovation et entretien à {clientCity(sessionData) ?? "Rennes"} Thabor
               et dans toute l'Ille-et-Vilaine.
             </p>
 
@@ -3003,7 +3003,7 @@ function FooterSection() {
                 >
                   {clientAddress(sessionData) ?? "12 allée des Artisans,"}
                   <br />
-                  35000 Rennes
+                  35000 {clientCity(sessionData) ?? "Rennes"}
                 </span>
               </div>
             </div>

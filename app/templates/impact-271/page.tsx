@@ -224,7 +224,8 @@ const SEASONS: SeasonItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Nous rêvions d\'un jardin de rosiers comme on en voyait autrefois dans les fermes alsaciennes. L\'équipe a planté 45 variétés en respectant nos envies et le terrain. Notre jardin a même remporté le prix du plus beau jardin fleuri de la commune l\'année suivante.",
@@ -235,9 +236,11 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     quote:
       "J\'avais besoin d\'une terrasse qui évoque l\'Alsace pour mes clients. Jardins d\'Alsace a créé un véritable écrin végétal avec géraniums, vignes vierges et buis sculptés. Notre terrasse est désormais dans plusieurs guides touristiques de la région.",
     name: 'Christophe Wagner',
-    role: 'Restaurateur · Strasbourg',
+    role: 'Restaurateur · ' + (clientCity(sessionData) ?? 'Strasbourg'),
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -646,7 +649,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
         >
           <Eyebrow color={C.accentLight}>
-            Paysagiste · Strasbourg &amp; Bas-Rhin
+            Paysagiste · {clientCity(sessionData) ?? "Strasbourg"} &amp; Bas-Rhin
           </Eyebrow>
         </motion.div>
 
@@ -1957,7 +1960,7 @@ function Footer() {
         { label: 'Devis gratuit', href: '#devis' },
         { label: 'Notre histoire', href: '#histoire' },
         { label: 'Témoignages', href: '#temoignages' },
-        { label: 'Strasbourg & Bas-Rhin', href: '#devis' },
+        { label: (clientCity(sessionData) ?? 'Strasbourg') + ' & Bas-Rhin', href: '#devis' },
       ],
     },
   ];
@@ -2022,7 +2025,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.6} />
-            Strasbourg · Bas-Rhin
+            {clientCity(sessionData) ?? "Strasbourg"} · Bas-Rhin
           </div>
         </div>
 
@@ -2159,6 +2162,8 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
   EDIT_ROWS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_DEMO_SOURCE[i % EDIT_ROWS_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_DEMO_SOURCE,

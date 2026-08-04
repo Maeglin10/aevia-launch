@@ -83,7 +83,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LUMIÈRE & VŒUX LYON — Wedding planner Lyon — mariages intimistes, cérémonies laïques, floral organique. Cinzel, champagne / eucalyptus.
+   LUMIÈRE & VŒUX LYON — Wedding planner {clientCity(sessionData) ?? "Lyon"} — mariages intimistes, cérémonies laïques, floral organique. Cinzel, champagne / eucalyptus.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -520,7 +520,7 @@ return (
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
             }}>{c?.heroHeadline ?? <>
-              Mariages Intimistes<br />à Lyon
+              Mariages Intimistes<br />à {clientCity(sessionData) ?? "Lyon"}
             </>}</h1>
           </Reveal>
 
@@ -533,7 +533,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? fd?.tagline ?? <>
-              Cérémonies laïques, décoration florale organique, 20 à 80 personnes. Wedding planner Lyon.
+              Cérémonies laïques, décoration florale organique, 20 à 80 personnes. Wedding planner {clientCity(sessionData) ?? "Lyon"}.
             </>}</p>
           </Reveal>
 
@@ -1253,7 +1253,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Lumière & Vœux Lyon"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Wedding planner Lyon
+                Wedding planner {clientCity(sessionData) ?? "Lyon"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1284,7 +1284,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Lumière & Vœux Lyon<br />
+                Responsable de publication: Lumière & Vœux {clientCity(sessionData) ?? "Lyon"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

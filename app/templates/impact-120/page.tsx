@@ -215,7 +215,7 @@ function MANIFEST_LIVE() {
   ],
   testimonials: resolveList(clientReviews({ formData: fd, businessProfile: bp, generatedContent: c })?.map((r: any) => ({ text: r.text, name: r.author })), [
     { name: "J. L. Thorne", role: "Fragrance Critic", text: "Éclat has redefined the boundaries of niche perfumery. A masterclass in tension and release." },
-    { name: "M. Vreeland", role: "Vogue Paris", text: "To wear Nocturne is to wrap oneself in an invisible armor of pure, liquid luxury." },
+    { name: "M. Vreeland", role: "Vogue " + (clientCity({ formData: fd }) ?? "Paris"), text: "To wear Nocturne is to wrap oneself in an invisible armor of pure, liquid luxury." },
     { name: "A. Sterling", role: "Collector", text: "The longevity is simply supernatural. A single drop lasts well into the next sunrise." }
   ]),
   tiers: resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, price: s.price ?? '' })), [
@@ -905,7 +905,7 @@ export default function EclatLuxuryPage() {
                 <span className="text-lg tracking-[0.3em] font-light text-white uppercase">ÉCLAT</span>
               </Link>
               <p className="text-xs text-zinc-500 uppercase tracking-[0.2em] leading-relaxed max-w-md italic">
-                Haute parfumerie crafted with uncompromising precision. Paris, Grasse, New York.
+                Haute parfumerie crafted with uncompromising precision. {clientCity({ formData: fd }) ?? "Paris"}, Grasse, New York.
               </p>
             </div>
             

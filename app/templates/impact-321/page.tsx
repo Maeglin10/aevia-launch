@@ -1371,7 +1371,7 @@ export default function AIHorizonsTemplate() {
                 <Mail size={16} /> {fd?.email ?? "contact@aihorizons.com"}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <MapPin size={16} /> Station F, Paris
+                <MapPin size={16} /> Station F, {clientCity({ formData: fd }) ?? "Paris"}
               </div>
             </div>
           </div>

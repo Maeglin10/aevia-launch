@@ -849,7 +849,7 @@ export default function Impact324TicketStore({ session: initialSession }) {
                   <Mail size={16} /> {contactEmail}
                 </li>
                 <li style={{ display: "flex", alignItems: "center", gap: "8px", color: C.textMuted, fontSize: "14px" }}>
-                  <MapPin size={16} /> 123 Live Ave, Paris, FR
+                  <MapPin size={16} /> 123 Live Ave, {clientCity({ formData: fd }) ?? "Paris"}, FR
                 </li>
               </ul>
             </div>

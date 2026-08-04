@@ -365,7 +365,7 @@ export default function LumiereDoreePage() {
               maxWidth: 500,
             }}
           >{c?.heroSubline ?? fd?.tagline ?? <>
-            Photographe de mariage basée à Paris, je capture vos émotions avec discrétion et sensibilité pour des souvenirs qui durent toute une vie.
+            Photographe de mariage basée à {clientCity({ formData: fd }) ?? "Paris"}, je capture vos émotions avec discrétion et sensibilité pour des souvenirs qui durent toute une vie.
           </>}</motion.p>
           <motion.div
             className="i104-hero-cta"
@@ -762,7 +762,7 @@ export default function LumiereDoreePage() {
               </div>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 1.8 }}>
                 Photographe mariage &amp; portraits.<br />
-                Paris &amp; déplacements France entière.
+                {clientCity({ formData: fd }) ?? "Paris"} &amp; déplacements France entière.
               </p>
             </div>
             <div>
@@ -770,7 +770,7 @@ export default function LumiereDoreePage() {
                 Contact
               </p>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
-                Paris 11e<br />
+                {clientCity({ formData: fd }) ?? "Paris"} 11e<br />
                 <a href={`tel:${fd?.phone ?? "+33612345678"}`} style={{ color: C.accent, textDecoration: "none" }}>06 12 XX XX XX</a><br />
                 <a href={`mailto:${fd?.email ?? "contact@lumieredoree.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>{fd?.email ?? "contact@lumieredoree.fr"}</a>
               </p>

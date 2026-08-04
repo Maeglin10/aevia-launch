@@ -450,12 +450,13 @@ const BLOG_POSTS_DEMO = [
 let BLOG_POSTS = BLOG_POSTS_DEMO;
 
 /* ── Team & values for the À propos sub-page ── */
-const TEAM_DEMO = [
+function TEAM_DEMO_LIVE() {
+  return [
   {
     name: "Léa Fontaine",
     role: "Creative Director",
     focus: "Art direction, Branding",
-    bio: "Léa drives the studio's creative vision. Fifteen years of experience between Paris and London, serving brands that want to leave a mark.",
+    bio: "Léa drives the studio's creative vision. Fifteen years of experience between " + (clientCity({ formData: fd }) ?? "Paris") + " and London, serving brands that want to leave a mark.",
   },
   {
     name: "Thomas Reyes",
@@ -470,6 +471,8 @@ const TEAM_DEMO = [
     bio: "Camille connects creativity to results. User research, conversion optimization, and data-driven growth strategy.",
   },
 ];
+}
+let TEAM_DEMO = TEAM_DEMO_LIVE();;
 let TEAM = TEAM_DEMO;
 
 const VALUES_SOURCE = [
@@ -788,6 +791,8 @@ export default function ImpactAgencyTemplate() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  TEAM_DEMO = TEAM_DEMO_LIVE();
+
   SERVICES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     SERVICES_SOURCE,
@@ -2023,7 +2028,7 @@ return (
               {[
                 { icon: <Mail size={14} />, value: (fd?.email ?? "hello@impact.studio") },
                 { icon: <Phone size={14} />, value: "+33 1 42 86 00 00" },
-                { icon: <MapPin size={14} />, value: "Paris, France" },
+                { icon: <MapPin size={14} />, value: (clientCity({ formData: fd }) ?? "Paris") + ", France" },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -3949,7 +3954,7 @@ function ContactPage() {
           <div>
             {[
               { icon: <Mail size={18} />, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
-              { icon: <MapPin size={18} />, label: "Studio", value: "Paris, France" },
+              { icon: <MapPin size={18} />, label: "Studio", value: (clientCity({ formData: fd }) ?? "Paris") + ", France" },
               {
                 icon: <Phone size={18} />,
                 label: "Hours",

@@ -155,10 +155,11 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: "Isabelle Moreau",
-    location: "Paris, 8ème",
+    location: (clientCity(sessionData) ?? "Paris") + ", 8ème",
     stars: 5,
     text: "La bague Éternité que j'ai commandée pour nos 20 ans est au-delà de mes espérances. Le platine, le diamant — une pièce pour l'éternité. Le service était d'une discrétion et d'une élégance parfaites.",
     purchase: "Bague solitaire Éternité — Platine 950, 1.2ct GVS",
@@ -199,6 +200,8 @@ const TESTIMONIALS_SOURCE = [
     purchase: "Alliances sur-mesure — Platine 950 avec gravure",
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const CERTIFICATIONS_DEMO = [
@@ -250,7 +253,8 @@ const SERVICES_SOURCE = [
 let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
-const FAQS_DEMO = [
+function FAQS_DEMO_LIVE() {
+  return [
   {
     q: "Comment fonctionne la gravure personnalisée ?",
     a: "Tous nos anneaux (bagues, alliances, bracelets) peuvent être gravés manuellement par nos artisans. Lors de votre commande, vous indiquez le texte souhaité (jusqu'à 30 caractères). La gravure est incluse sans supplément. Délai : 5 jours ouvrés supplémentaires.",
@@ -261,7 +265,7 @@ const FAQS_DEMO = [
   },
   {
     q: "Puis-je commander sur-mesure ?",
-    a: "Oui — c'est même l'une de nos spécialités depuis 1947. Le processus bespoke commence par une consultation gratuite (en boutique Paris ou en visio). Nous travaillons ensemble sur le design, vous validez un dessin technique, puis nos artisans créent votre pièce unique en 4 à 8 semaines selon la complexité.",
+    a: "Oui — c'est même l'une de nos spécialités depuis 1947. Le processus bespoke commence par une consultation gratuite (en boutique " + (clientCity(sessionData) ?? "Paris") + " ou en visio). Nous travaillons ensemble sur le design, vous validez un dessin technique, puis nos artisans créent votre pièce unique en 4 à 8 semaines selon la complexité.",
   },
   {
     q: "Quelle est votre politique de retour ?",
@@ -269,13 +273,15 @@ const FAQS_DEMO = [
   },
   {
     q: "La livraison internationale est-elle sécurisée ?",
-    a: "Nous expédions dans 67 pays avec DHL Express et Malca-Amit (transporteur spécialisé joaillerie de luxe). Chaque envoi est assuré pour sa valeur totale. Le délai est de 2-4 jours ouvrés en Europe, 5-7 jours hors Europe. La livraison en boutique Paris est disponible sous 24h.",
+    a: "Nous expédions dans 67 pays avec DHL Express et Malca-Amit (transporteur spécialisé joaillerie de luxe). Chaque envoi est assuré pour sa valeur totale. Le délai est de 2-4 jours ouvrés en Europe, 5-7 jours hors Europe. La livraison en boutique " + (clientCity(sessionData) ?? "Paris") + " est disponible sous 24h.",
   },
   {
     q: "Proposez-vous des consultations en boutique ?",
-    a: "Notre boutique est située au 24, rue de la Paix, Paris 75002, sur rendez-vous. Consultations disponibles du mardi au samedi de 10h à 19h. Pour les clients internationaux, nous proposons des consultations en visio avec présentation des pièces en direct. Prise de rendez-vous via notre site ou au +33 1 42 60 XX XX.",
+    a: "Notre boutique est située au 24, rue de la Paix, " + (clientCity(sessionData) ?? "Paris") + " 75002, sur rendez-vous. Consultations disponibles du mardi au samedi de 10h à 19h. Pour les clients internationaux, nous proposons des consultations en visio avec présentation des pièces en direct. Prise de rendez-vous via notre site ou au +33 1 42 60 XX XX.",
   },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_LIVE();;
 
 const ENGRAVING_FONTS = ["Élégante Script", "Classic Serif", "Fine Sans", "Art Nouveau"];
 
@@ -407,6 +413,10 @@ export default function Impact157Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FAQS_DEMO = FAQS_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -810,7 +820,7 @@ return (
             >{c?.heroSubline ?? fd?.tagline ?? <>
               Depuis 1947, Aurum Jewelry crée des bijoux qui traversent les
               générations. Diamants GIA certifiés, or 18K, platine 950 — chaque
-              pièce est une œuvre unique taillée à Paris.
+              pièce est une œuvre unique taillée à {clientCity(sessionData) ?? "Paris"}.
             </>}</p>
 
             <div style={{ display: "flex", gap: 16, marginBottom: 48 }}>
@@ -2090,7 +2100,7 @@ return (
             },
             {
               title: "Maison",
-              links: ["Notre histoire", "Artisans", "Ateliers Paris", "Certifications", "Presse"],
+              links: ["Notre histoire", "Artisans", "Ateliers " + (clientCity(sessionData) ?? "Paris"), "Certifications", "Presse"],
             },
             {
               title: "Service",

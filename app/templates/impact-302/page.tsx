@@ -83,7 +83,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   NEXUS COMPTA — Expert-comptable Toulouse — e-commerce, créateurs de contenu, auto-entrepreneurs. Raleway, indigo / corail.
+   NEXUS COMPTA — Expert-comptable {clientCity(sessionData) ?? "Toulouse"} — e-commerce, créateurs de contenu, auto-entrepreneurs. Raleway, indigo / corail.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -988,7 +988,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Quels outils logiciels fournissez-vous ?","a":"Chaque forfait intègre un accès à notre application partenaire Penylane permettant de prendre en photo vos factures et de suivre votre trésorerie en temps réel."},{"q":"Comment s'effectue la transition depuis mon ancien comptable ?","a":"Nous nous occupons de tout. Nous envoyons la lettre de résiliation à votre ancien cabinet et récupérons vos historiques sans coupure."},{"q":"Puis-je vous rencontrer physiquement à Toulouse ?","a":"Absolument. Nos bureaux sont basés à Toulouse, vous pouvez y prendre rendez-vous pour des points fiscaux réguliers."}]).map((item, i) => (
+            {resolveList(clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Quels outils logiciels fournissez-vous ?","a":"Chaque forfait intègre un accès à notre application partenaire Penylane permettant de prendre en photo vos factures et de suivre votre trésorerie en temps réel."},{"q":"Comment s'effectue la transition depuis mon ancien comptable ?","a":"Nous nous occupons de tout. Nous envoyons la lettre de résiliation à votre ancien cabinet et récupérons vos historiques sans coupure."},{"q":"Puis-je vous rencontrer physiquement à " + (clientCity(sessionData) ?? "Toulouse") + " ?","a":"Absolument. Nos bureaux sont basés à " + (clientCity(sessionData) ?? "Toulouse") + ", vous pouvez y prendre rendez-vous pour des points fiscaux réguliers."}]).map((item, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,
@@ -1245,7 +1245,7 @@ return (
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Nexus Compta"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Expert-comptable Toulouse
+                Expert-comptable {clientCity(sessionData) ?? "Toulouse"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import { clientCity } from "@/lib/templates/clientContent";
 import { RefreshCw } from "lucide-react"
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
@@ -57,7 +58,7 @@ export default function SkillsPage() {
           "Credentials:",
           "  NAME: Raphaël Genet",
           "  ROLE: Staff Engineer & Open Source Advocate",
-          "  LOC:  Paris, France",
+          "  LOC:  " + (clientCity(sessionData) ?? "Paris") + ", France",
           "  AVAIL: Q3 2026 contracts"
         ]
         break

@@ -1,6 +1,9 @@
 "use client"
 
 import Image from "next/image"
+import {
+  clientCity,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 import Link from "next/link"
 import { Reveal, ScrollImage, team, awards, pressItems } from "../shared"
@@ -97,10 +100,10 @@ export default function StudioPage() {
             FOUNDED IN PARIS, 2008.
           </h2>
           <p className="text-gray-600 leading-relaxed mb-6">
-            Atelier Brunel was founded by Viktor Brunel in Paris with a simple commitment: to return architecture to its raw, structural roots. Rejecting the glass-and-plasterboard standards of commercial offices, the studio pioneered raw concrete formulations suited for both residential and institutional buildings.
+            Atelier Brunel was founded by Viktor Brunel in {clientCity(sessionData) ?? "Paris"} with a simple commitment: to return architecture to its raw, structural roots. Rejecting the glass-and-plasterboard standards of commercial offices, the studio pioneered raw concrete formulations suited for both residential and institutional buildings.
           </p>
           <p className="text-gray-600 leading-relaxed">
-            Today, the office comprises 24 architects, engineers, and material scientists, working from three ateliers in Paris, Lyon, and Marseille. We maintain our own aggregate testing facility to ensure concrete composition complies with structural and thermal requirements.
+            Today, the office comprises 24 architects, engineers, and material scientists, working from three ateliers in {clientCity(sessionData) ?? "Paris"}, Lyon, and Marseille. We maintain our own aggregate testing facility to ensure concrete composition complies with structural and thermal requirements.
           </p>
         </div>
 
@@ -111,7 +114,7 @@ export default function StudioPage() {
 
           <div className="space-y-6">
             {[
-              { y: "2008", t: "Atelier Founded", d: "Viktor Brunel establishes the office in the 10th Arrondissement of Paris." },
+              { y: "2008", t: "Atelier Founded", d: "Viktor Brunel establishes the office in the 10th Arrondissement of " + (clientCity(sessionData) ?? "Paris") + "." },
               { y: "2013", t: "First Major Public Commission", d: "Awarded contract for the Lyon Industrial Heritage Silos refurbishment." },
               { y: "2017", t: "National Brutalist Award", d: "Winner of the Grand Prix d'Architecture for the Concrete Chapel in Marseille." },
               { y: "2021", t: "Research Laboratory", d: "Launches the 'Material Truth' research program investigating zero-carbon structural concrete." },

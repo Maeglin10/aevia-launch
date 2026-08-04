@@ -96,13 +96,14 @@ const FONT_BODY = "'Inter', system-ui, sans-serif";
 
 const NAV_LINKS = ["Projets", "Métiers", "Équipe", "Références", "Contact"];
 
-const PROJECTS_DEMO = [
+function PROJECTS_DEMO_LIVE() {
+  return [
   {
     id: "01",
     name: "Résidence Les Cèdres",
     type: "Logements collectifs",
     category: "residential",
-    location: "Grenoble, 38",
+    location: (clientCity(sessionData) ?? "Grenoble") + ", 38",
     surface: "12 400 m²",
     units: 84,
     budget: "28M€",
@@ -188,6 +189,8 @@ const PROJECTS_DEMO = [
     desc: "Reconstruction totale du lycée sur site occupé. Phasage en 4 tranches. Structure bois-béton, label E+C-. Marché public régional.",
   },
 ];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();;
 
 const METIERS_DEMO = [
   {
@@ -270,7 +273,8 @@ const TEAM_DEMO = [
   },
 ];
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote: "Livré 3 semaines avant le délai contractuel. 84 logements, zéro malfaçon à la réception. Du jamais-vu sur un chantier de cette envergure.",
     name: "Laurent Duchamp",
@@ -296,7 +300,7 @@ const TESTIMONIALS_SOURCE = [
     quote: "Leur cellule études a identifié une optimisation de fondation qui nous a économisé 340k€. Le devis initial était déjà compétitif.",
     name: "Véronique Astorg",
     role: "DGA",
-    company: "Mairie de Grenoble",
+    company: "Mairie de " + (clientCity(sessionData) ?? "Grenoble"),
     stars: 5,
   },
   {
@@ -314,6 +318,8 @@ const TESTIMONIALS_SOURCE = [
     stars: 5,
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const FORMULES_DEMO = [
@@ -393,10 +399,13 @@ const FAQS_DEMO = [
   },
 ];
 
-const PARTENAIRES = [
+function PARTENAIRES_LIVE() {
+  return [
   "Bouygues Immobilier", "Vinci Construction", "Foncière du Sud", "SNCF Réseau",
-  "Ville de Grenoble", "Région Occitanie", "Archipel Habitat", "BNP Paribas REIM",
+  "Ville de " + (clientCity(sessionData) ?? "Grenoble"), "Région Occitanie", "Archipel Habitat", "BNP Paribas REIM",
 ];
+}
+let PARTENAIRES = PARTENAIRES_LIVE();;
 
 function CountUp({ target, suffix = "", duration = 2 }: { target: number; suffix?: string; duration?: number }) {
   const [count, setCount] = useState(0);
@@ -449,6 +458,12 @@ export default function Impact173Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PARTENAIRES = PARTENAIRES_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
+
+
+
 
   STATS_INLINE = resolveList(
 
@@ -1386,7 +1401,7 @@ export default function Impact173Page() {
               {[
                 { icon: Phone, text: "+33 4 76 XX XX XX" },
                 { icon: Mail, text: (fd?.email ?? "contact@structure-batisseurs.fr") },
-                { icon: MapPin, text: "Grenoble · Montpellier · Nantes" },
+                { icon: MapPin, text: (clientCity(sessionData) ?? "Grenoble") + " · Montpellier · Nantes" },
               ].map((c, i) => {
                 const Icon = c.icon;
                 return (
@@ -1509,7 +1524,7 @@ export default function Impact173Page() {
             {[
               { title: "Missions", links: ["Construction Neuve", "Réhabilitation", "Gros Œuvre", "Promotion & AMO"] },
               { title: "Projets", links: ["Résidentiel", "Tertiaire", "Équipements publics", "Génie civil"] },
-              { title: "Contact", links: ["Grenoble (siège)", "Montpellier", "Nantes", (fd?.email ?? "contact@structure-batisseurs.fr")] },
+              { title: "Contact", links: [(clientCity(sessionData) ?? "Grenoble") + " (siège)", "Montpellier", "Nantes", (fd?.email ?? "contact@structure-batisseurs.fr")] },
             ].map(col => (
               <div key={col.title}>
                 <div style={{ fontSize: 11, color: C.orange, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>{col.title}</div>

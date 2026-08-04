@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -169,7 +170,7 @@ export default function Page() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 text-sm text-white/50">
                     <Building2 className="w-4 h-4 text-[#C9A86C] shrink-0" />
-                    <span>Paris (Showroom), Berlin, Dubaï</span>
+                    <span>{clientCity(sessionData) ?? "Paris"} (Showroom), Berlin, Dubaï</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-white/50">
                     <Mail className="w-4 h-4 text-[#C9A86C] shrink-0" />

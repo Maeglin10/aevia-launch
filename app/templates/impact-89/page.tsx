@@ -181,12 +181,13 @@ const PORTFOLIO_DEMO = [
 ];
 let PORTFOLIO = PORTFOLIO_DEMO;
 
-const ARTISTS = [
+function ARTISTS_LIVE() {
+  return [
   {
     name: "Viktor Rein",
     role: "Directeur artistique & Réalisme",
     exp: "14 ans",
-    city: "Paris — Ancien de Mumbai & Berlin",
+    city: (clientCity({ formData: fd }) ?? "Paris") + " — Ancien de Mumbai & Berlin",
     bio: "Viktor travaille à la frontière entre l'hyperréalisme photographique et l'art noir. Ses portraits sont reconnaissables pour leur profondeur de noir et leurs dégradés impossible à distinguer d'une photo.",
     styles: ["Réaliste", "Japonais", "Blackwork"],
     wait: "12–16 semaines",
@@ -198,7 +199,7 @@ const ARTISTS = [
     name: "Léa Morel",
     role: "Fine Line & Architecture géométrique",
     exp: "8 ans",
-    city: "Paris — Formation à Amsterdam",
+    city: (clientCity({ formData: fd }) ?? "Paris") + " — Formation à Amsterdam",
     bio: "Léa pousse la précision du trait jusqu'aux limites physiques de l'aiguille. Ses compositions géométriques suivent des règles mathématiques propres, créant des pièces qui semblent générées par algorithme.",
     styles: ["Fine Line", "Géométrique", "Botanique"],
     wait: "8–10 semaines",
@@ -210,7 +211,7 @@ const ARTISTS = [
     name: "James Wolfe",
     role: "Old School & Japonais traditionnel",
     exp: "11 ans",
-    city: "Paris — Apprentissage à San Francisco",
+    city: (clientCity({ formData: fd }) ?? "Paris") + " — Apprentissage à San Francisco",
     bio: "James maîtrise le vocabulaire iconographique du tatouage traditionnel américain et japonais. Ses couleurs saturées et ses outlines épais sont la définition de l'old school à son meilleur.",
     styles: ["Old School", "Japonais", "Neo-Traditional"],
     wait: "6–8 semaines",
@@ -219,6 +220,8 @@ const ARTISTS = [
     color: "var(--brand,#4a90d9)",
   },
 ];
+}
+let ARTISTS = ARTISTS_LIVE();;
 
 const STATS_DEMO = [
   { value: 2560, label: "Pièces réalisées", suffix: "+" },
@@ -323,17 +326,18 @@ const PROCESS = [
   },
 ];
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: "Maxime L.",
-    city: "Paris 11e",
+    city: (clientCity({ formData: fd }) ?? "Paris") + " 11e",
     rating: 5,
     artist: "Viktor Rein",
     text: "Viktor a fait mon portrait de chien sur l'avant-bras. Les poils sont tellement fins qu'on croirait une photo. Trois ans plus tard, c'est encore parfait. Le studio est d'une propreté chirurgicale.",
   },
   {
     name: "Anais D.",
-    city: "Paris 9e",
+    city: (clientCity({ formData: fd }) ?? "Paris") + " 9e",
     rating: 5,
     artist: "Léa Morel",
     text: "Ma géométrie sternal par Léa est une œuvre d'art. Elle a passé 2 semaines à concevoir le design avant de poser la moindre aiguille. Ce niveau de sérieux, ça se paie, et ça en vaut absolument la peine.",
@@ -354,7 +358,7 @@ const TESTIMONIALS_SOURCE = [
   },
   {
     name: "Romain F.",
-    city: "Paris 20e",
+    city: (clientCity({ formData: fd }) ?? "Paris") + " 20e",
     rating: 5,
     artist: "Viktor Rein",
     text: "Full back blackwork avec Viktor sur 3 sessions de 8h. Le noir est d'une saturation absolue, les zones détaillées sont nettes comme des gravures. C'est de la haute couture portée sur la peau.",
@@ -367,6 +371,8 @@ const TESTIMONIALS_SOURCE = [
     text: "Mes deux roses old school sont parfaites. James maîtrise les couleurs comme personne — après 18 mois, elles brillent encore. Son accueil est chaleureux, l'expérience était incroyable.",
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
@@ -560,6 +566,10 @@ export default function Impact89Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  ARTISTS = ARTISTS_LIVE();
+
+
   STYLE_GUIDE = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...STYLE_GUIDE_SOURCE[i % STYLE_GUIDE_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     STYLE_GUIDE_SOURCE,
@@ -893,7 +903,7 @@ return (
               fontWeight: 300,
             }}
           >{c?.heroSubline ?? fd?.tagline ?? <>
-            Tatouage luxury à Paris. Trois artistes. Un standard absolu d'excellence — de la consultation à la cicatrisation.
+            Tatouage luxury à {clientCity({ formData: fd }) ?? "Paris"}. Trois artistes. Un standard absolu d'excellence — de la consultation à la cicatrisation.
           </>}</motion.p>
 
           <motion.div
@@ -1863,7 +1873,7 @@ return (
                 {clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "INK & IRON"))}
               </div>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: C.textMuted, lineHeight: 1.7, marginBottom: 24, maxWidth: 280 }}>
-                Studio de tatouage luxury à Paris depuis 2010. Trois artistes, un standard absolu. Rue de la Roquette, Paris 11e.
+                Studio de tatouage luxury à {clientCity({ formData: fd }) ?? "Paris"} depuis 2010. Trois artistes, un standard absolu. Rue de la Roquette, {clientCity({ formData: fd }) ?? "Paris"} 11e.
               </p>
               <div style={{ display: "flex", gap: 12 }}>
                 {[Camera, MessageSquare, Users2].map((Icon, i) => (

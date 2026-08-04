@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 import Image from "next/image"
 import { MapPin, CheckCircle } from "lucide-react"
@@ -38,7 +39,7 @@ export default function RealisationsPage() {
     {
       name: "Hôtel Particulier Victor Hugo",
       type: "Résidentiel d'exception",
-      location: "Paris 16e",
+      location: (clientCity(sessionData) ?? "Paris") + " 16e",
       size: "1 200 m²",
       status: "Livré 2023",
       image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800&q=80"

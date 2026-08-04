@@ -26,7 +26,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   ALTA TRANSACTIONS — Agence immobilière premium (Paris)
+   ALTA TRANSACTIONS — Agence immobilière premium ({clientCity(sessionData) ?? "Paris"})
    Palette : bleu nuit profond / or champagne / blanc chaud
    Fonts : Libre Baskerville (titres) + Inter (corps) — Tailwind Reveal style
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -55,11 +55,14 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const BIENS_DEMO = [
-  { type: "Appartement", title: "Haussmannien d'exception", loc: "Paris 8ème", price: "2 450 000 €", surface: 185, pieces: 6, chambres: 4, sdb: 2, img: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&q=80&w=1200", badge: "Exclusivité" },
+function BIENS_DEMO_LIVE() {
+  return [
+  { type: "Appartement", title: "Haussmannien d'exception", loc: (clientCity(sessionData) ?? "Paris") + " 8ème", price: "2 450 000 €", surface: 185, pieces: 6, chambres: 4, sdb: 2, img: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&q=80&w=1200", badge: "Exclusivité" },
   { type: "Maison", title: "Villa contemporaine à toit-terrasse", loc: "Neuilly-sur-Seine", price: "3 200 000 €", surface: 260, pieces: 8, chambres: 5, sdb: 3, img: "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?auto=format&fit=crop&q=80&w=1200", badge: "Nouveau" },
-  { type: "Penthouse", title: "Duplex vue panoramique", loc: "Paris 16ème", price: "4 800 000 €", surface: 220, pieces: 7, chambres: 4, sdb: 3, img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1200", badge: "Coup de cœur" },
-]
+  { type: "Penthouse", title: "Duplex vue panoramique", loc: (clientCity(sessionData) ?? "Paris") + " 16ème", price: "4 800 000 €", surface: 220, pieces: 7, chambres: 4, sdb: 3, img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1200", badge: "Coup de cœur" },
+];
+}
+let BIENS_DEMO = BIENS_DEMO_LIVE();
 
 const SERVICES_SOURCE = [
   { num: "01", title: "Estimation gratuite", desc: "Évaluation précise de votre bien basée sur 15 ans de données de marché et une analyse comparative approfondie." },
@@ -262,9 +265,11 @@ export default function AltaTransactionsPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  BIENS_DEMO = BIENS_DEMO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -384,7 +389,7 @@ export default function AltaTransactionsPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-6">
               <div className="w-10 h-[1px] bg-[var(--brand,#b8944a)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8944a)]">Immobilier de prestige · Paris & Île-de-France</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8944a)]">Immobilier de prestige · {clientCity(sessionData) ?? "Paris"} & Île-de-France</span>
             </div>
           </motion.div>
 
@@ -520,7 +525,7 @@ export default function AltaTransactionsPage() {
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {resolveList(clientReviews(sessionData)?.map((r: any) => ({ q: r.text ?? r.quote, a: r.name ?? r.author, p: r.location ?? r.detail ?? "" })), [
-              { q: "Vente de notre appartement en 11 jours au prix demandé. L'équipe Alta est d'une efficacité remarquable. Vrais professionnels, vrais résultats.", a: "Jean-Michel & Corinne T.", p: "Vendeurs · Paris 8ème" },
+              { q: "Vente de notre appartement en 11 jours au prix demandé. L'équipe Alta est d'une efficacité remarquable. Vrais professionnels, vrais résultats.", a: "Jean-Michel & Corinne T.", p: "Vendeurs · " + (clientCity(sessionData) ?? "Paris") + " 8ème" },
               { q: "Après 6 mois de recherche infructueuse avec d'autres agences, Alta m'a trouvé mon appartement en 3 semaines. Un réseau et une réactivité hors norme.", a: "Sophie A.", p: "Acquéreur · Neuilly" },
               { q: "La gestion locative d'Alta est irréprochable. Zéro vacance depuis 4 ans sur mes 3 biens. Un vrai partenaire patrimonial.", a: "François D.", p: "Bailleur · Portfoli 3 biens" },
             ] as any[]).map((t: any, i: number) => (
@@ -576,7 +581,7 @@ export default function AltaTransactionsPage() {
               <Building2 className="w-5 h-5 text-[var(--brand,#b8944a)]" />
               <span className="font-bold tracking-[0.2em] uppercase text-white text-sm">{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Alta Transactions"))}</span>
             </div>
-            <p className="text-sm text-white/25 leading-relaxed">Immobilier de prestige · Paris & Île-de-France · Expertise depuis 2009.</p>
+            <p className="text-sm text-white/25 leading-relaxed">Immobilier de prestige · {clientCity(sessionData) ?? "Paris"} & Île-de-France · Expertise depuis 2009.</p>
           </div>
           {[
             { t: "Acheter", ls: ["Appartements", "Maisons & villas", "Programme neuf", "Investissement locatif"] },
@@ -593,7 +598,7 @@ export default function AltaTransactionsPage() {
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 flex justify-between text-[10px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 Alta Transactions · SIRET 456 789 123 00078 · Carte professionnelle T/G/S n°C{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
-          <span className="text-[var(--brand,#b8944a)]/30">Immobilier de prestige Paris</span>
+          <span className="text-[var(--brand,#b8944a)]/30">Immobilier de prestige {clientCity(sessionData) ?? "Paris"}</span>
         </div>
       </footer>
     </div>

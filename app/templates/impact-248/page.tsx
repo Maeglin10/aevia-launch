@@ -186,7 +186,8 @@ const SPECIALTIES_DEMO: Specialty[] = [
   },
 ];
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre approche',
     title: (
@@ -205,7 +206,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     eyebrow: 'Le cabinet',
     title: (
       <>
-        Paris 11e, /{' '}
+        {clientCity(sessionData) ?? "Paris"} 11e, /{' '}
         <span style={{ fontStyle: 'italic' }}>accessible.</span>
       </>
     ),
@@ -216,6 +217,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     numeralLabel: 'II',
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const PRINCIPLES: PrincipleItem[] = [
@@ -730,7 +733,7 @@ function Hero() {
       >
         <Reveal y={16}>
           <Eyebrow color={C.accentLight} align="center">
-            Ostéopathie D.O. · Paris 11e
+            Ostéopathie D.O. · {clientCity(sessionData) ?? "Paris"} 11e
           </Eyebrow>
         </Reveal>
 
@@ -2073,7 +2076,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            Paris 11e · Oberkampf / République
+            {clientCity(sessionData) ?? "Paris"} 11e · Oberkampf / République
           </div>
         </div>
 
@@ -2208,6 +2211,8 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

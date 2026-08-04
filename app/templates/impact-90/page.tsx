@@ -674,11 +674,14 @@ function ServicesSection() {
 }
 
 /* ─── TestimonialsSection ────────────────────────────────────── */
-const TESTIMONIALS_90_DEMO = [
+function TESTIMONIALS_90_DEMO_LIVE() {
+  return [
   { name: "Jean-Pierre D.", review: "Le pain de meule est extraordinaire, il se garde 5 jours sans aucun problème. La croûte est bien caramélisée, exactement comme j'aime.", origin: "Croix-Rousse" },
-  { name: "Marie-Laure G.", review: "J'ai participé à l'atelier levain du samedi matin. Une révélation ! Je fais maintenant mon propre pain à la maison grâce aux conseils du chef.", origin: "Lyon 6e" },
+  { name: "Marie-Laure G.", review: "J'ai participé à l'atelier levain du samedi matin. Une révélation ! Je fais maintenant mon propre pain à la maison grâce aux conseils du chef.", origin: (clientCity(sessionData) ?? "Lyon") + " 6e" },
   { name: "Antoine S.", review: "La brioche feuilletée du samedi matin est un chef-d'œuvre. Beurre parfait, croustillante et fondante à la fois. Pensez à réserver !", origin: "Caluire" }
 ];
+}
+let TESTIMONIALS_90_DEMO = TESTIMONIALS_90_DEMO_LIVE();;
 
 function TestimonialsSection() {
   const TESTIMONIALS_90 = resolveList(
@@ -878,7 +881,7 @@ function ContactSection() {
             <div style={{ display: "flex", flexDirection: "column", gap: 16, fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.brown }}>
               <p>📞 <strong>Téléphone :</strong> {fd?.phone ?? "+33 4 78 28 00 00"}</p>
               <p>✉ <strong>Email :</strong>{fd?.email ?? "contact@maisonlaval.fr"}</p>
-              <p>📍 <strong>Adresse :</strong> 47 Grande Rue de la Croix-Rousse, 69004 Lyon</p>
+              <p>📍 <strong>Adresse :</strong> 47 Grande Rue de la Croix-Rousse, 69004 {clientCity(sessionData) ?? "Lyon"}</p>
             </div>
           </div>
 
@@ -1011,6 +1014,8 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_90_DEMO = TESTIMONIALS_90_DEMO_LIVE();
+
   HERO_BREADS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...HERO_BREADS_DEMO_SOURCE[i % HERO_BREADS_DEMO_SOURCE.length], name: s.title, price: s.price ?? HERO_BREADS_DEMO_SOURCE[i % HERO_BREADS_DEMO_SOURCE.length].price })),
     HERO_BREADS_DEMO_SOURCE,
@@ -1174,7 +1179,7 @@ export default function Page() {
             style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 32 }}
           >
             <div style={{ height: 1, width: 48, background: C.amber }} />
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 12, letterSpacing: "0.3em", color: C.terracotta, fontStyle: "italic" }}>Depuis 1987 · Lyon, Croix-Rousse</p>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 12, letterSpacing: "0.3em", color: C.terracotta, fontStyle: "italic" }}>Depuis 1987 · {clientCity(sessionData) ?? "Lyon"}, Croix-Rousse</p>
             <div style={{ height: 1, width: 48, background: C.amber }} />
           </motion.div>
 
@@ -1190,7 +1195,7 @@ export default function Page() {
             transition={{ duration: 0.8, delay: 1.1 }}
             style={{ fontFamily: "'Cabin', sans-serif", fontSize: 16, color: C.muted, lineHeight: 1.75, maxWidth: 520, margin: "0 auto 48px", fontWeight: 400 }}
           >{c?.heroSubline ?? fd?.tagline ?? <>
-            Boulangerie artisanale à Lyon depuis 1987. Pains au levain, viennoiseries feuilletées, et ateliers de boulangerie. Tout est fait à la main, dans le respect du temps.
+            Boulangerie artisanale à {clientCity(sessionData) ?? "Lyon"} depuis 1987. Pains au levain, viennoiseries feuilletées, et ateliers de boulangerie. Tout est fait à la main, dans le respect du temps.
           </>}</motion.p>
 
           <motion.div
@@ -1351,7 +1356,7 @@ export default function Page() {
             </h2>
             <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 6, padding: "28px", marginBottom: 20 }}>
               <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 16, color: C.brown, fontWeight: 600, marginBottom: 6 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Laval"))}</p>
-              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.6 }}>47 Grande Rue de la Croix-Rousse<br />69004 Lyon, France</p>
+              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.6 }}>47 Grande Rue de la Croix-Rousse<br />69004 {clientCity(sessionData) ?? "Lyon"}, France</p>
             </div>
             <div style={{ display: "flex", gap: 12 }}>
               <MagneticButton style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.bg, background: C.brown, padding: "12px 24px", borderRadius: 3, letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 600 }}>

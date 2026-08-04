@@ -25,6 +25,35 @@ function finitParBarre(x) {
   return Boolean(m) && m[0].length % 2 === 1;
 }
 
+
+// Les villes françaises et frontalières qu'un thème peut citer en démonstration.
+const VILLES_CONNUES = ["Paris","Lyon","Marseille","Bordeaux","Toulouse","Nantes","Lille","Strasbourg",
+  "Rennes","Montpellier","Nice","Grenoble","Annecy","Villeurbanne","Aix-en-Provence","Rouen","Reims",
+  "Dijon","Angers","Le Havre","Toulon","Brest","Tours","Nancy","Metz","Caen","Limoges","Perpignan",
+  "Besançon","Orléans","Mulhouse","Avignon","Poitiers","La Rochelle","Biarritz","Bayonne","Chambéry",
+  "Genève","Lausanne","Bruxelles"];
+
+/*
+  La ville de démonstration, dite par le thème lui-même quand il écrit
+  `clientCity(...) ?? "X"`. La moitié du catalogue ne l'écrit nulle part : ces
+  thèmes n'ont que le tampon de pied `clientCity(...) ? " · " + … : ""`, qui ne
+  nomme aucune ville. On prend alors la plus fréquente parmi les villes connues,
+  en ignorant les lignes qui parlent du registre du commerce d'Aevia — sinon
+  Bourg-en-Bresse gagne partout.
+*/
+function villeDemo(src) {
+  const repli = /clientCity\([^)]*\)\s*\?\?\s*"([^"]+)"/.exec(src);
+  if (repli) return repli[1];
+  const lignes = src.split("\n").filter((l) => !/RCS|Aevia|SIREN/.test(l));
+  const texte = lignes.join("\n");
+  let meilleure = null, meilleurN = 0;
+  for (const v of VILLES_CONNUES) {
+    const n = (texte.match(new RegExp(`\\b${v.replace(/-/g, "\\-")}\\b`, "g")) || []).length;
+    if (n > meilleurN) { meilleurN = n; meilleure = v; }
+  }
+  return meilleurN >= 2 ? meilleure : null;
+}
+
 let faits = 0;
 const touches = [];
 
@@ -35,9 +64,8 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
   if (!fs.existsSync(racine)) continue;
 
   const src0 = fs.readFileSync(racine, "utf8");
-  const repli = /clientCity\([^)]*\)\s*\?\?\s*"([^"]+)"/.exec(src0);
-  if (!repli) continue;
-  const ville = repli[1];
+  const ville = villeDemo(src0);
+  if (!ville) continue;
   if (!/^[A-ZÉÈÀ][\wéèêàçôûï' -]{2,24}$/.test(ville)) continue;
 
   const fichiers = [racine, path.join(dossier, "layout.tsx")];
