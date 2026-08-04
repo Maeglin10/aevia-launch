@@ -101,9 +101,30 @@ for (const id of ids) {
 
     // Le premier titre de la section — ou, à défaut, son premier paragraphe :
     // quarante sections ne portent qu'un texte, un manifeste, une citation.
-    const t =
+    let t =
       /<((?:motion|m)\.)?(h1|h2|h3)\b/.exec(bloc) ??
       (process.env.PARAGRAPHE ? /<((?:motion|m)\.)?(p)\b/.exec(bloc) : null);
+    /*
+      TEXTE_LONG : quarante-six sections portent un texte sans titre ni
+      paragraphe — un manifeste dans un `div`, une citation dans un `span`. On
+      prend alors l'élément qui porte le plus de texte : c'est celui que le
+      client lit, donc celui qu'il voudra changer.
+    */
+    if (!t && process.env.TEXTE_LONG) {
+      let meilleur = null;
+      for (const m2 of bloc.matchAll(/<((?:motion|m)\.)?(div|span|p|blockquote)\b/g)) {
+        const fo = finBalise(bloc, m2.index + m2[0].length);
+        if (fo === -1 || bloc[fo - 1] === "/") continue;
+        const ff = fermeElement(bloc, fo + 1, m2[0].slice(1).replace(".", "\\."));
+        if (ff === -1) continue;
+        const dedans = bloc.slice(fo + 1, ff);
+        if (/<(?:motion\.|m\.)?(div|span|p|blockquote|h[1-6])\b/.test(dedans)) continue;
+        const net = dedans.replace(/\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/g, "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+        if (net.length < 40) continue;
+        if (!meilleur || net.length > meilleur.n) meilleur = { m: m2, n: net.length };
+      }
+      if (meilleur) t = meilleur.m;
+    }
     if (!t) { refus["sans titre"] = (refus["sans titre"] ?? 0) + 1; continue; }
     const balise = t[0].slice(1);
     const finOuv = finBalise(bloc, t.index + t[0].length);
@@ -119,9 +140,9 @@ for (const id of ids) {
     if (litteral.length < 3) { refus["dynamique"] = (refus["dynamique"] ?? 0) + 1; continue; }
     // Un paragraphe très court est une légende ou une étiquette, pas un texte de
     // section : le retoucher n'apporte rien et brouille la liste des retouches.
-    if (t[2] === "p" && litteral.length < 40) { refus["trop court"] = (refus["trop court"] ?? 0) + 1; continue; }
+    if (!/^(h1|h2|h3)$/.test(t[2]) && litteral.length < 40) { refus["trop court"] = (refus["trop court"] ?? 0) + 1; continue; }
 
-    const champ = t[2] === "p" ? "texte" : "titre";
+    const champ = /^(h1|h2|h3)$/.test(t[2]) ? "titre" : "texte";
     const remp = `{/* TEXTE_SECTION */ clientText(${arg}, "${cle}.${champ}") ?? (<>${enfants}</>)}`;
     src = src.slice(0, d + finOuv + 1) + remp + src.slice(d + finFerm);
     n++;

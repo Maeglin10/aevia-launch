@@ -1768,9 +1768,9 @@ export default function FashionEditorialTemplate() {
                 lineHeight: 1.8,
                 maxWidth: 320,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "collection.texte") ?? (<>
               Each garment in our SS26 collection is made to order in a single atelier in {clientCity(sessionData) ?? "Paris"}. Delivery in 6–8 weeks.
-            </div>
+            </>)}</div>
           </div>
         </Reveal>
 

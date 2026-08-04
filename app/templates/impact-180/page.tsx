@@ -267,7 +267,7 @@ export default function ThermotekChauffagePage() {
       {/* ── URGENCE BANNER ── */}
       <section className="bg-[var(--brand,#ea580c)] py-4">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-wrap items-center justify-between gap-3">
-          <span className="font-bold text-sm text-white">Panne de chauffage ? Astreinte 7j/7 de novembre à mars</span>
+          <span className="font-bold text-sm text-white">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>Panne de chauffage ? Astreinte 7j/7 de novembre à mars</>)}</span>
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-2 text-white/85 font-semibold text-sm"><Clock className="w-4 h-4" /> &lt; 4h d'intervention</span>
             <a href={`tel:${fd?.phone ?? "0556123456"}`} className="bg-white text-[var(--brand,#ea580c)] px-5 py-2 font-bold text-sm hover:bg-orange-50 transition-colors">{fd?.phone ?? "05 56 12 34 56"}</a>

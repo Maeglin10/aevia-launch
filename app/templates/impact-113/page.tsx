@@ -545,9 +545,9 @@ export default function NexusSaaSPage() {
           2. LOGOS MARQUEE
           ========================================== */}
       <section id="partners" className="py-12 border-y border-white/5 bg-black/20 overflow-hidden">
-        <div className="max-w-[1200px] mx-auto px-6 mb-8 text-center text-xs font-semibold tracking-widest text-white/40 uppercase">
+        <div className="max-w-[1200px] mx-auto px-6 mb-8 text-center text-xs font-semibold tracking-widest text-white/40 uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "partners.texte") ?? (<>
           Trusted by innovative engineering teams worldwide
-        </div>
+        </>)}</div>
         <div className="flex whitespace-nowrap opacity-50">
           <motion.div
             animate={{ x: ["0%", "-50%"] }}

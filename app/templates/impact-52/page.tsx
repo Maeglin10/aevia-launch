@@ -221,10 +221,10 @@ export default function Impact52Page() {
             letterSpacing: "0.35em",
             whiteSpace: "nowrap",
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.texte") ?? (<>
           [SYS:ONLINE] &nbsp;|&nbsp; NODE_ID: PF_BERLIN_01 &nbsp;|&nbsp;
           UPTIME: 99.97%
-        </motion.div>
+        </>)}</motion.div>
 
         <motion.div
           style={{ y: parallaxY, opacity, textAlign: "center", zIndex: 10 }}

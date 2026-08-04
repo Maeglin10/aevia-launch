@@ -4088,9 +4088,9 @@ function ContactPage() {
                     margin: 0,
                     fontWeight: 300,
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "section-17.texte") ?? (<>
                   Thank you. A member of the studio will reply within one business day.
-                </p>
+                </>)}</p>
               </div>
             ) : (
               <form

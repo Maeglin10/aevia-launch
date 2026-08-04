@@ -762,9 +762,9 @@ return (
                           ))}
                        </div>
                        <div className="mt-20 pt-10 border-t border-white/5">
-                          <p className="text-xs text-white/20 italic font-light leading-relaxed">
+                          <p className="text-xs text-white/20 italic font-light leading-relaxed">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.texte") ?? (<>
                              Toute pièce enregistrée auprès de The Ivory Archive bénéficie d'une authentification certifiée sur protocole blockchain privé, garantissant l'intégrité de son histoire.
-                          </p>
+                          </>)}</p>
                        </div>
                     </Reveal>
                  </div>

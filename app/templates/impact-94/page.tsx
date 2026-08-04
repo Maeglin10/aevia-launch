@@ -1000,9 +1000,9 @@ export default function Impact94Page() {
                 <p className="text-xl text-[#0C0A09]/70 leading-relaxed font-light mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "atelier.texte") ?? (<>
                   Notre atelier parisien, niché dans le Marais, est un espace de création où se conjuguent tradition artisanale et sensibilité contemporaine.
                 </>)}</p>
-                <p className="text-base text-[#0C0A09]/50 leading-relaxed font-light mb-12">
+                <p className="text-base text-[#0C0A09]/50 leading-relaxed font-light mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "atelier.texte") ?? (<>
                   Chaque arrangement suit un protocole précis, de la sélection des fleurs à la livraison finale. Nous ne composons jamais en série — chaque pièce est unique, portant en elle l&apos;empreinte de la main qui l&apos;a créée.
-                </p>
+                </>)}</p>
               </Reveal>
             </div>
           </div>

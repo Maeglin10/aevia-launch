@@ -652,11 +652,11 @@ function Manifesto() {
             margin: '0 auto',
             letterSpacing: '-0.01em',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
           "Une montre Hora Viva n'est pas un objet que l'on porte.
           <br />
           C'est un héritage que l'on transmet."
-        </blockquote>
+        </>)}</blockquote>
       </FadeUp>
 
       <FadeUp delay={0.4}>

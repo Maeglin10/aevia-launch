@@ -844,7 +844,7 @@ function Manifesto() {
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (<>
           &ldquo;Un sourire n&apos;est pas qu&apos;une apparence —{' '}
-          <span style={{ color: C.accent }}>c&apos;est la première chose que le monde retient de vous.</span>{' '}
+          <span style={{ color: C.accent }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (<>c&apos;est la première chose que le monde retient de vous.</>)}</span>{' '}
           Nous le soignons avec la même exigence que vous lui accordez.&rdquo;
         </>)}</p>
       </Reveal>
