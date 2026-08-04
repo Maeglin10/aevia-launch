@@ -75,7 +75,7 @@ function Reveal({
 }
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
-const RESEARCH_AREAS = [
+const RESEARCH_AREAS_SOURCE = [
   {
     icon: Atom,
     title: "Quantum Error Correction",
@@ -97,6 +97,7 @@ const RESEARCH_AREAS = [
     desc: "Prototype quantum repeater architectures and entanglement distribution protocols for intercontinental quantum communication links.",
   },
 ]
+let RESEARCH_AREAS = RESEARCH_AREAS_SOURCE;
 
 const PUBLICATIONS = [
   {
@@ -220,6 +221,14 @@ export default function QBitLabsPage() {
   }, []);
 
   fd = session?.formData;
+
+  RESEARCH_AREAS = resolveList(
+
+    clientServices({ formData: fd, businessProfile: bp })?.map((s: any, i: number) => ({ ...RESEARCH_AREAS_SOURCE[i % RESEARCH_AREAS_SOURCE.length], title: s.title, desc: s.desc || '' })),
+
+    RESEARCH_AREAS_SOURCE,
+
+  );
   STATS = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...STATS_SOURCE[i % STATS_SOURCE.length], value: s.value, label: s.label })),
     STATS_SOURCE,

@@ -284,7 +284,7 @@ const voyageWaypoints: Waypoint[] = [
 ];
 
 function testimonials_LIVE() {
-  return [
+  return resolveList(clientReviews({ formData: fd })?.map((r: any, i: number) => ({ ...([
   {
     name: "Charlotte Ashworth",
     title: "Private Client, London",
@@ -306,7 +306,51 @@ function testimonials_LIVE() {
     yacht: "M/Y Étoile — 72m",
     stars: 5,
   },
-];
+])[i % ([
+  {
+    name: "Charlotte Ashworth",
+    title: "Private Client, London",
+    text: "Every detail was considered before I thought to ask. The crew understood that true luxury is the absence of friction. Our Mediterranean crossing remains the finest week of my life.",
+    yacht: "M/Y Lumière — 58m",
+    stars: 5,
+  },
+  {
+    name: "Édouard de Villeneuve",
+    title: `Family Charter, ${clientCity({ formData: fd }) ?? "Paris"}`,
+    text: "We have chartered through three agencies over twenty years. Horizon Maritime is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.",
+    yacht: "S/Y Ariel — 42m",
+    stars: 5,
+  },
+  {
+    name: "James & Priya Wentworth",
+    title: "Anniversary Voyage, Singapore",
+    text: "The anchorage off Positano at midnight, the Michelin-starred chef flown from Rome, the utter silence broken only by water against the hull. I cannot describe it without tears.",
+    yacht: "M/Y Étoile — 72m",
+    stars: 5,
+  },
+]).length], text: r.text, name: r.author })), [
+  {
+    name: "Charlotte Ashworth",
+    title: "Private Client, London",
+    text: "Every detail was considered before I thought to ask. The crew understood that true luxury is the absence of friction. Our Mediterranean crossing remains the finest week of my life.",
+    yacht: "M/Y Lumière — 58m",
+    stars: 5,
+  },
+  {
+    name: "Édouard de Villeneuve",
+    title: `Family Charter, ${clientCity({ formData: fd }) ?? "Paris"}`,
+    text: "We have chartered through three agencies over twenty years. Horizon Maritime is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.",
+    yacht: "S/Y Ariel — 42m",
+    stars: 5,
+  },
+  {
+    name: "James & Priya Wentworth",
+    title: "Anniversary Voyage, Singapore",
+    text: "The anchorage off Positano at midnight, the Michelin-starred chef flown from Rome, the utter silence broken only by water against the hull. I cannot describe it without tears.",
+    yacht: "M/Y Étoile — 72m",
+    stars: 5,
+  },
+]);
 }
 let testimonials = testimonials_LIVE();
 

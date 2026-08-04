@@ -22,6 +22,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -91,12 +92,22 @@ const BLOCK_MANIFESTS = {
       code: "docker pull blockbase/validator",
     },
   ],
-  telemetry: [
+  telemetry: resolveList(clientStats({ formData: fd })?.map((s: any, i: number) => ({ ...([
     { label: "NETWORK_LOAD", val: 42, color: "#00f2ff" },
     { label: "SYNC_ACCURACY", val: 99, color: "#7000ff" },
     { label: "VALIDATOR_UPTIME", val: 100, color: "#00f2ff" },
     { label: "SECURITY_SCORE", val: 94, color: "#7000ff" },
-  ],
+  ])[i % ([
+    { label: "NETWORK_LOAD", val: 42, color: "#00f2ff" },
+    { label: "SYNC_ACCURACY", val: 99, color: "#7000ff" },
+    { label: "VALIDATOR_UPTIME", val: 100, color: "#00f2ff" },
+    { label: "SECURITY_SCORE", val: 94, color: "#7000ff" },
+  ]).length], val: s.value, label: s.label })), [
+    { label: "NETWORK_LOAD", val: 42, color: "#00f2ff" },
+    { label: "SYNC_ACCURACY", val: 99, color: "#7000ff" },
+    { label: "VALIDATOR_UPTIME", val: 100, color: "#00f2ff" },
+    { label: "SECURITY_SCORE", val: 94, color: "#7000ff" },
+  ]),
   logs: [
     { time: "12:40:02", event: "NODE_ALPHA_SYNC", status: "COMPLETE" },
     { time: "12:40:05", event: "ZK_PROOF_GEN", status: "VERIFIED" },

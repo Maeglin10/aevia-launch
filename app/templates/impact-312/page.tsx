@@ -33,6 +33,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientStats,
   clientName,
   clientReviews,
   clientServices,
@@ -303,6 +304,11 @@ export default function GarageMinimalistTemplate() {
 
   const fd = session?.formData || {};
   const bp = session?.businessProfile;
+
+  const statsResolved = resolveList(
+    clientStats(session)?.map((s: any) => ({ value: s.value, label: s.label })),
+    stats,
+  );
 
   // Prefer the client's real business data (services / reviews / faq) when the
   // brief provided a BusinessProfile; otherwise keep the demo/state defaults.
@@ -575,7 +581,7 @@ export default function GarageMinimalistTemplate() {
       <section style={{ backgroundColor: C.graphite, padding: "4rem 5%", color: C.white }}>
         <div style={containerStyle}>
           <div className="grid-auto-sm">
-            {stats.map((stat, idx) => (
+            {statsResolved.map((stat: any, idx: number) => (
               <Reveal key={idx} delay={idx * 0.1}>
                 <div style={{ borderLeft: `2px solid ${C.primary}`, paddingLeft: "1.5rem" }}>
                   <div style={{ fontFamily: SANS, fontSize: "3rem", fontWeight: 800, lineHeight: 1, marginBottom: "0.5rem" }}>
