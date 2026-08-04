@@ -1,5 +1,6 @@
 // @ts-nocheck
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import React, { useState, useRef, useEffect, useCallback } from "react";
@@ -15,7 +16,7 @@ export const STREAMS = [
     streamer: "AURA_VOID",
     viewers: "12.4K",
     tags: ["Music", "Chill", "Coding"],
-    img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",
+    img: clientPhotoAt(2, "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80"),
     status: "LIVE",
   },
   {
@@ -24,7 +25,7 @@ export const STREAMS = [
     streamer: "DEV_X",
     viewers: "4.2K",
     tags: ["Tech", "Finance", "Web3"],
-    img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
+    img: clientPhotoAt(3, "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop"),
     status: "LIVE",
   },
   {
@@ -33,7 +34,7 @@ export const STREAMS = [
     streamer: "GLITCH_ONE",
     viewers: "28.1K",
     tags: ["Gaming", "4K", "NVIDIA"],
-    img: "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=800&q=80",
+    img: clientPhotoAt(4, "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=800&q=80"),
     status: "LIVE",
   },
   {
@@ -42,7 +43,7 @@ export const STREAMS = [
     streamer: "MAYA_ZEN",
     viewers: "850",
     tags: ["Wellness", "Yoga", "Mindful"],
-    img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80",
+    img: clientPhotoAt(5, "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80"),
     status: "LIVE",
   },
 ];
@@ -70,17 +71,17 @@ export const CREATORS = [
   {
     name: "AURA_VOID",
     sub: "1.2M",
-    img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80",
+    img: clientPhotoAt(6, "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80"),
   },
   {
     name: "GLITCH_ONE",
     sub: "2.4M",
-    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80",
+    img: clientPhotoAt(7, "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80"),
   },
   {
     name: "MAYA_ZEN",
     sub: "850K",
-    img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80",
+    img: clientPhotoAt(8, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80"),
   },
 ];
 

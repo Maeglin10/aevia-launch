@@ -1,4 +1,5 @@
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
@@ -12,7 +13,7 @@ export const RETREATS = [
     price: "from $4,200",
     theme: "Stillness",
     season: "Oct–Apr",
-    img: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=1200&auto=format&fit=crop",
+    img: clientPhotoAt(2, "https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=1200&auto=format&fit=crop"),
     desc: "Seven days in an ancient desert landscape. Dawn somatic practice, silent midday walks, and evening fire ceremonies. No agenda. No schedule beyond your own unfolding.",
     details: [
       ["Group Size", "Max 9 participants"],
@@ -29,7 +30,7 @@ export const RETREATS = [
     price: "from $5,800",
     theme: "Clarity",
     season: "Jun–Aug",
-    img: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1200&q=80",
+    img: clientPhotoAt(3, "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1200&q=80"),
     desc: "Geothermal pools at midnight beneath the aurora. Five days designed to dissolve the residue of over-functioning and restore access to your own thinking.",
     details: [
       ["Group Size", "Max 9 participants"],
@@ -46,7 +47,7 @@ export const RETREATS = [
     price: "from $6,100",
     theme: "Presence",
     season: "Mar–May",
-    img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
+    img: clientPhotoAt(4, "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80"),
     desc: "Shinrin-yoku through Arashiyama bamboo groves. Zen walking sequences with a lineage-trained teacher. Tea ceremony as contemplative practice.",
     details: [
       ["Group Size", "Max 9 participants"],

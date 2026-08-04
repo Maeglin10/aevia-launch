@@ -32,6 +32,7 @@ import {
   clientServices,
   clientTeam,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -552,6 +553,7 @@ export default function LawFirmHome() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  memoriserSession(sessionData);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   return (

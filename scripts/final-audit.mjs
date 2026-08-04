@@ -171,7 +171,15 @@ for (const id of ids) {
       if (m !== d.formData.email) restes.push(m);
     if (/\bNaN\b|undefined/.test(texte)) restes.push("NaN/undefined");
 
-    const photosVues = photos.length === 0 ? "—" : (photos.some((u) => images.includes(u)) ? "oui" : "non");
+    /*
+      `next/image` réécrit l'adresse en `/_next/image?url=…%2F…`. Comparer les
+      chaînes entières concluait que la photo du client n'était pas affichée
+      alors qu'elle l'était : on cherche l'identifiant de la photo dans ce que
+      le navigateur a réellement chargé.
+    */
+    const empreinte = (u) => (u.match(/\/([\w-]{6,})\.(jpe?g|png|webp)/i)?.[1] ?? u.split("/").pop() ?? "").slice(0, 24);
+    const chargees = images.join(" ") + " " + decodeURIComponent(images.join(" "));
+    const photosVues = photos.length === 0 ? "—" : (photos.some((u) => chargees.includes(empreinte(u))) ? "oui" : "non");
 
     console.log(
       `${id.padEnd(12)} manquent:${manquent.join(",") || "rien"}` +

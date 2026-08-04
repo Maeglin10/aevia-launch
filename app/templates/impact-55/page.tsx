@@ -15,6 +15,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -153,6 +154,7 @@ export default function CabinetRenardPage() {
 
   fd = session?.formData;
   sessionData = session;
+  memoriserSession(sessionData);
   c = session?.generatedContent;
   EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
   ENGAGEMENTS_DEMO = ENGAGEMENTS_DEMO_LIVE();

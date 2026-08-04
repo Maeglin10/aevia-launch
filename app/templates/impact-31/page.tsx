@@ -35,6 +35,7 @@ import {
   clientTagline,
   clientTeam,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -1037,6 +1038,7 @@ export default function Impact31() {
 
   fd = session?.formData;
   sessionData = session;
+  memoriserSession(sessionData);
   bp = session?.businessProfile;
   c = session?.generatedContent;
 

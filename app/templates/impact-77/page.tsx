@@ -5,6 +5,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -203,6 +204,8 @@ export default function HorologsLuxePage() {
   fd = session?.formData;
 
   sessionData = session;
+
+  memoriserSession(sessionData);
   bp = session?.businessProfile;
   c = session?.generatedContent;
   GRID_PHOTOS_DEMO = GRID_PHOTOS_DEMO_LIVE();

@@ -351,6 +351,30 @@ export function clientPayments(s: SessionLike | null | undefined): string[] | un
   return keep(rows.map(trimmed), Boolean);
 }
 
+/*
+  La session courante, retenue le temps d'un rendu.
+
+  Soixante et un thèmes rangent leurs images et leurs catalogues dans un
+  `shared.tsx` importé par la page et ses sous-pages. Ce fichier n'a pas de
+  session : il est évalué à l'import, et rien n'y donne accès à ce que le client
+  a saisi. Ses images restaient donc celles de la démonstration, quelles que
+  soient celles téléversées.
+
+  La page la retient ici au moment où elle la reçoit, et les modules partagés la
+  lisent par `clientPhotoAt`. Les thèmes sont des composants clients : un rendu,
+  une session, pas de mélange entre deux visiteurs.
+*/
+let sessionCourante: SessionLike | null = null;
+
+export function memoriserSession(s: SessionLike | null | undefined): void {
+  sessionCourante = s ?? null;
+}
+
+/** La photo du client à cet emplacement, ou celle du thème. */
+export function clientPhotoAt(i: number, repli: string): string {
+  return clientPhotos(sessionCourante)[i] || repli;
+}
+
 /** Les photos du client. Jamais de photo de stock à la place. */
 export function clientPhotos(s: SessionLike | null | undefined): string[] {
   const rows = (s?.formData?.photoUrls ?? []) as any[];

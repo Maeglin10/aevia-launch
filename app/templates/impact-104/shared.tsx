@@ -1,4 +1,5 @@
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
@@ -101,9 +102,9 @@ export const TEMOIGNAGES = [
 ];
 
 export const GALERIE = [
-  "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80",
-  "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80",
-  "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&q=80",
+  clientPhotoAt(1, "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80"),
+  clientPhotoAt(2, "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80"),
+  clientPhotoAt(3, "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&q=80"),
 ];
 
 export function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {

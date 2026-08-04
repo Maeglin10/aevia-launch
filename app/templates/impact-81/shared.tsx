@@ -1,21 +1,22 @@
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
 export const EDITORIALS = [
-  { title: "Corps Céleste", season: "Automne / Hiver 2025", designer: "Maison Leroux", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80", tag: "Couture" },
-  { title: "Lumière Froide", season: "Printemps / Été 2025", designer: "Atelier Vidal", image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80", tag: "Éditorial" },
-  { title: "Ombre et Matière", season: "Resort 2025", designer: "Studio Beaumont", image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80", tag: "Art" },
-  { title: "Minuit Parisien", season: "Automne / Hiver 2025", designer: "Collectif Nuit", image: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800&q=80", tag: "Exclusif" },
-  { title: "Texture Vivante", season: "Couture 2025", designer: "Maison du Fil", image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80", tag: "Couture" },
-  { title: "Le Grand Geste", season: "Printemps / Été 2025", designer: "Atelier Blanc", image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&tag=Éditorial", tag: "Éditorial" },
+  { title: "Corps Céleste", season: "Automne / Hiver 2025", designer: "Maison Leroux", image: clientPhotoAt(6, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"), tag: "Couture" },
+  { title: "Lumière Froide", season: "Printemps / Été 2025", designer: "Atelier Vidal", image: clientPhotoAt(7, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80"), tag: "Éditorial" },
+  { title: "Ombre et Matière", season: "Resort 2025", designer: "Studio Beaumont", image: clientPhotoAt(8, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80"), tag: "Art" },
+  { title: "Minuit Parisien", season: "Automne / Hiver 2025", designer: "Collectif Nuit", image: clientPhotoAt(9, "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800&q=80"), tag: "Exclusif" },
+  { title: "Texture Vivante", season: "Couture 2025", designer: "Maison du Fil", image: clientPhotoAt(10, "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80"), tag: "Couture" },
+  { title: "Le Grand Geste", season: "Printemps / Été 2025", designer: "Atelier Blanc", image: clientPhotoAt(11, "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&tag=Éditorial"), tag: "Éditorial" },
 ];
 
 export const FEATURES = [
-  { issue: "N° 214 · Janvier 2025", title: "Vers un luxe invisible", subtitle: "Comment les grandes maisons réinventent la discrétion comme ultime statut", image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&q=80" },
-  { issue: "N° 213 · Décembre 2024", title: "Les mains qui font", subtitle: "Portrait de six artisans dont le savoir-faire dessine l'avenir de la mode", image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&q=80" },
-  { issue: "N° 212 · Novembre 2024", title: "Corps politiques", subtitle: "La mode comme langage du pouvoir — anatomie d'une saison chargée", image: "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=600&q=80" },
+  { issue: "N° 214 · Janvier 2025", title: "Vers un luxe invisible", subtitle: "Comment les grandes maisons réinventent la discrétion comme ultime statut", image: clientPhotoAt(12, "https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&q=80") },
+  { issue: "N° 213 · Décembre 2024", title: "Les mains qui font", subtitle: "Portrait de six artisans dont le savoir-faire dessine l'avenir de la mode", image: clientPhotoAt(13, "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&q=80") },
+  { issue: "N° 212 · Novembre 2024", title: "Corps politiques", subtitle: "La mode comme langage du pouvoir — anatomie d'une saison chargée", image: clientPhotoAt(14, "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=600&q=80") },
 ];
 
 export const BOUTIQUES = [

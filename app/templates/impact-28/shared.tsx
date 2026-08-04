@@ -1,6 +1,7 @@
 "use client"
 
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 import { useRef, useEffect } from "react"
 import Image from "next/image"
 
@@ -50,7 +51,7 @@ export const projects = [
     loc: "Paris 19ème", 
     year: "2024", 
     type: "Residential", 
-    img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=600&fit=crop&crop=center",
+    img: clientPhotoAt(7, "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=600&fit=crop&crop=center"),
     area: "8,200 sqm",
     concrete: "CEM III/A with local Seine aggregate",
     structure: "Load-bearing raw concrete facade & precast slabs",
@@ -61,7 +62,7 @@ export const projects = [
     loc: "La Défense", 
     year: "2023", 
     type: "Commercial", 
-    img: "https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?w=800&h=600&fit=crop&crop=center",
+    img: clientPhotoAt(8, "https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?w=800&h=600&fit=crop&crop=center"),
     area: "14,500 sqm",
     concrete: "Recycled aggregate concrete with matte finish",
     structure: "Exposed waffle slabs and central core reinforcement",
@@ -72,7 +73,7 @@ export const projects = [
     loc: "Marseille", 
     year: "2023", 
     type: "Cultural", 
-    img: "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=800&h=600&fit=crop&crop=center",
+    img: clientPhotoAt(9, "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=800&h=600&fit=crop&crop=center"),
     area: "420 sqm",
     concrete: "Ultra-high performance white concrete with silica sand",
     structure: "Self-supporting monolithic cast-in-place shell",
@@ -83,7 +84,7 @@ export const projects = [
     loc: "Lyon", 
     year: "2022", 
     type: "Mixed Use", 
-    img: "https://images.unsplash.com/photo-1460317442991-0ec209397118?w=800&h=600&fit=crop&crop=center",
+    img: clientPhotoAt(10, "https://images.unsplash.com/photo-1460317442991-0ec209397118?w=800&h=600&fit=crop&crop=center"),
     area: "22,000 sqm",
     concrete: "Raw exposed grey Portland cement",
     structure: "Steel frame integrated with pre-cast ribbed panels",
@@ -94,7 +95,7 @@ export const projects = [
     loc: "Bordeaux", 
     year: "2022", 
     type: "Commercial", 
-    img: "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=800&h=600&fit=crop&crop=center",
+    img: clientPhotoAt(11, "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=800&h=600&fit=crop&crop=center"),
     area: "31,000 sqm",
     concrete: "High-performance concrete C60/75 with dark dye pigment",
     structure: "Post-tensioned suspended slabs & core shear walls",
@@ -111,10 +112,10 @@ export const services = [
 ]
 
 export const team = [
-  { name: "Viktor Brunel", role: "Founding Partner", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" },
-  { name: "Anaïs Cornet", role: "Associate Architect", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face" },
-  { name: "Marc Delvaux", role: "Urban Planning", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" },
-  { name: "Sonia Lehmann", role: "Project Director", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face" },
+  { name: "Viktor Brunel", role: "Founding Partner", img: clientPhotoAt(12, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face") },
+  { name: "Anaïs Cornet", role: "Associate Architect", img: clientPhotoAt(13, "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face") },
+  { name: "Marc Delvaux", role: "Urban Planning", img: clientPhotoAt(14, "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face") },
+  { name: "Sonia Lehmann", role: "Project Director", img: clientPhotoAt(15, "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face") },
 ]
 
 export const testimonials = [
@@ -123,21 +124,21 @@ export const testimonials = [
     author: "Jean-Luc Marais",
     title: "CEO, Groupe Marais Développement",
     project: "SILOS — Lyon",
-    img: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=120&h=120&fit=crop&crop=face"
+    img: clientPhotoAt(16, "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=120&h=120&fit=crop&crop=face")
   },
   {
     quote: "Working with Viktor's team changed how we think about space. The Bunker Office is not a renovation — it is a resurrection. Our teams perform better inside raw concrete than they ever did in glass.",
     author: "Caroline Dumont",
     title: "COO, Dumont Ventures",
     project: "BUNKER OFFICE — La Défense",
-    img: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=120&h=120&fit=crop&crop=face"
+    img: clientPhotoAt(17, "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=120&h=120&fit=crop&crop=face")
   },
   {
     quote: "The Concrete Chapel has received over 12,000 visitors in its first year — not to pray, but to experience the acoustics. Brutco achieved something most architects never will: pure presence.",
     author: "Père Antoine Séverin",
     title: "Director, Fondation Séverin",
     project: "CONCRETE CHAPEL — Marseille",
-    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=face"
+    img: clientPhotoAt(18, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=face")
   },
 ]
 

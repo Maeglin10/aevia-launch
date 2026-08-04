@@ -13,6 +13,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -159,6 +160,7 @@ export default function PixelRepublicPage() {
 
   fd = session?.formData;
   sessionData = session;
+  memoriserSession(sessionData);
   bp = session?.businessProfile;
   c = session?.generatedContent;
   REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();

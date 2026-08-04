@@ -1,4 +1,5 @@
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
@@ -72,7 +73,7 @@ export const SPECIALISTS = [
     name: "Dr. Alexandre Noir", spec: "Médecin esthétique · Lasers",
     shortBio: "Interne médecine AP-HP · DU Médecine esthétique Paris VI",
     fullBio: "Le Dr. Alexandre Noir a effectué son internat en médecine au sein de l'Assistance Publique – Hôpitaux de Paris avant de se spécialiser en médecine esthétique avec un Diplôme Universitaire obtenu à Paris VI. Orateur régulier à l'IMCAS World Congress, il cumule 15 années d'expérience clinique et a formé plus de 200 confrères aux techniques d'injection de précision. Expert en lasers médicaux, il dirige le protocole CypherSkin™.",
-    image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80&fit=crop",
+    image: clientPhotoAt(3, "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80&fit=crop"),
     certifications: ["IMCAS Speaker", "Formateur référent", "DU Paris VI"],
     experience: "15 ans d'expérience"
   },
@@ -80,7 +81,7 @@ export const SPECIALISTS = [
     name: "Dr. Valentine Huang", spec: "Dermatologue spécialisée",
     shortBio: "DES Dermatologie Paris V · Fellowship IMCAS Singapore",
     fullBio: "Le Dr. Valentine Huang est dermatologue titulaire d'un Diplôme d'Études Spécialisées de l'Université Paris V. Son fellowship à Singapour sous la direction du Pr. Goh Chee Leok lui a permis d'acquérir une expertise mondiale en dermatologie régénérative et traitements laser avancés. Elle prend en charge les pathologies complexes de la peau et supervise les protocoles de bioregénération.",
-    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80&fit=crop",
+    image: clientPhotoAt(4, "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80&fit=crop"),
     certifications: ["DES Dermatologie", "Fellowship Singapore", "Membre SFD"],
     experience: "11 ans d'expérience"
   },
@@ -88,7 +89,7 @@ export const SPECIALISTS = [
     name: "Dr. Marc Duval", spec: "Chirurgien plasticien",
     shortBio: "DESC Chirurgie plastique Pitié-Salpêtrière · FMH Lausanne",
     fullBio: "Le Dr. Marc Duval a réalisé son DESC de Chirurgie Plastique, Reconstructrice et Esthétique à l'Hôpital de la Pitié-Salpêtrière. Titulaire du titre de spécialiste FMH (Fédération des Médecins Suisses) en chirurgie plastique, il apporte à Cypher Clinic une expertise rare en techniques mini-invasives et en thread lifting. Il assure également les consultations préopératoires pour les patients envisageant une chirurgie.",
-    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&q=80&fit=crop",
+    image: clientPhotoAt(5, "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&q=80&fit=crop"),
     certifications: ["DESC Chirurgie plastique", "FMH Lausanne", "SOFCPRE"],
     experience: "18 ans d'expérience"
   },
@@ -98,12 +99,12 @@ export const NURSES = [
   {
     name: "Sophie Laurent", role: "Infirmière coordinatrice",
     bio: "Diplômée en soins infirmiers, spécialisée en oncologie esthétique et coordination de parcours patient. 8 ans d'expérience en clinique esthétique haut de gamme.",
-    image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=800&q=80&fit=crop"
+    image: clientPhotoAt(6, "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=800&q=80&fit=crop")
   },
   {
     name: "Camille Roux", role: "Infirmière coordinatrice",
     bio: "Infirmière DE avec formation complémentaire en soins post-opératoires et accompagnement psychologique du patient esthétique. Référente protocoles CypherSkin™.",
-    image: "https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=800&q=80&fit=crop"
+    image: clientPhotoAt(7, "https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=800&q=80&fit=crop")
   },
 ];
 

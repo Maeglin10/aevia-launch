@@ -1,5 +1,6 @@
 // @ts-nocheck
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import { useState, useRef, useEffect, useCallback } from "react";
@@ -15,7 +16,7 @@ export const CLASSES = [
     level: "All Levels",
     duration: "60 min",
     intensity: "Medium",
-    img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80",
+    img: clientPhotoAt(1, "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80"),
     desc: "A dynamic sequence of postures that breath-synchronizes movement to build heat and flexibility.",
   },
   {
@@ -24,7 +25,7 @@ export const CLASSES = [
     level: "Beginner",
     duration: "90 min",
     intensity: "Low",
-    img: "https://images.unsplash.com/photo-1599447421416-3414500d18a5?w=800&q=80",
+    img: clientPhotoAt(2, "https://images.unsplash.com/photo-1599447421416-3414500d18a5?w=800&q=80"),
     desc: "Deep connective tissue release paired with meditative crystal bowl frequencies.",
   },
   {
@@ -33,7 +34,7 @@ export const CLASSES = [
     level: "Advanced",
     duration: "75 min",
     intensity: "High",
-    img: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80",
+    img: clientPhotoAt(3, "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80"),
     desc: "The traditional rigorous series focusing on breath, bandhas, and drishti for internal purification.",
   },
   {
@@ -42,7 +43,7 @@ export const CLASSES = [
     level: "All Levels",
     duration: "60 min",
     intensity: "Low",
-    img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80",
+    img: clientPhotoAt(4, "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80"),
     desc: "Foundational postures held longer to align the body and quiet the central nervous system.",
   },
 ];
@@ -52,19 +53,19 @@ export const TEACHERS = [
     name: "Maya Sterling",
     specialty: "Vinyasa & Meditation",
     avatar: "MS",
-    img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80",
+    img: clientPhotoAt(5, "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80"),
   },
   {
     name: "Julian Zen",
     specialty: "Ashtanga & Pranayama",
     avatar: "JZ",
-    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80",
+    img: clientPhotoAt(6, "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80"),
   },
   {
     name: "Elena Rose",
     specialty: "Yin & Sound Healing",
     avatar: "ER",
-    img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80",
+    img: clientPhotoAt(7, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80"),
   },
 ];
 

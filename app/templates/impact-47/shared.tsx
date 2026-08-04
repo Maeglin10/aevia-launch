@@ -1,4 +1,5 @@
 "use client";
+import { clientPhotoAt } from "@/lib/templates/clientContent";
 
 import React, { createContext, useContext, useState } from "react";
 import { motion } from "framer-motion";
@@ -88,9 +89,9 @@ export const seasons = [
     accent: C.sage,
     desc: "Tulips, peonies, ranunculus, and cherry blossom — the season of fresh beginnings.",
     arrangements: [
-      { name: "Jardin de Printemps", price: "€65", desc: "Peonies, tulipes, and garden roses in blush and cream.", image: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=400&h=400&fit=crop&q=80" },
-      { name: "Blossom Drift", price: "€85", desc: "Cherry blossom stems with delicate sweet peas and freesia.", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&q=80" },
-      { name: "Green Awakening", price: "€55", desc: "Eucalyptus, ferns, and seasonal greens with white blooms.", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&q=80" },
+      { name: "Jardin de Printemps", price: "€65", desc: "Peonies, tulipes, and garden roses in blush and cream.", image: clientPhotoAt(4, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=400&h=400&fit=crop&q=80") },
+      { name: "Blossom Drift", price: "€85", desc: "Cherry blossom stems with delicate sweet peas and freesia.", image: clientPhotoAt(5, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&q=80") },
+      { name: "Green Awakening", price: "€55", desc: "Eucalyptus, ferns, and seasonal greens with white blooms.", image: clientPhotoAt(6, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&q=80") },
     ],
   },
   {
@@ -100,9 +101,9 @@ export const seasons = [
     accent: "#f57f17",
     desc: "Sunflowers, dahlias, lavender, and lush garden roses at their peak.",
     arrangements: [
-      { name: "Soleil de Provence", price: "€70", desc: "Sunflowers, lavender, and golden dahlias in warm abundance.", image: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=400&h=400&fit=crop&q=80" },
-      { name: "Rose Vif", price: "€95", desc: "Garden roses in deep coral and orange with jasmine vine.", image: "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=400&h=400&fit=crop&q=80" },
-      { name: "Tropical Luxe", price: "€120", desc: "Birds of paradise, proteas, and tropical foliage statement piece.", image: "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=400&h=400&fit=crop&q=80" },
+      { name: "Soleil de Provence", price: "€70", desc: "Sunflowers, lavender, and golden dahlias in warm abundance.", image: clientPhotoAt(7, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=400&h=400&fit=crop&q=80") },
+      { name: "Rose Vif", price: "€95", desc: "Garden roses in deep coral and orange with jasmine vine.", image: clientPhotoAt(8, "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=400&h=400&fit=crop&q=80") },
+      { name: "Tropical Luxe", price: "€120", desc: "Birds of paradise, proteas, and tropical foliage statement piece.", image: clientPhotoAt(9, "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=400&h=400&fit=crop&q=80") },
     ],
   },
   {
@@ -112,9 +113,9 @@ export const seasons = [
     accent: "#bf360c",
     desc: "Dahlias, chrysanthemums, dried botanicals, and warm seasonal textures.",
     arrangements: [
-      { name: "Automne Doré", price: "€75", desc: "Rust dahlias, orange chrysanthemums, and dried wheat stems.", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80" },
-      { name: "Dried Luxe", price: "€90", desc: "Pampas, lunaria, preserved botanicals in sculptural composition.", image: "https://images.unsplash.com/photo-1606041011872-596597976b25?w=400&h=400&fit=crop&q=80" },
-      { name: "Forest Floor", price: "€60", desc: "Wild mushrooms, moss, pine branches, and seasonal berries.", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80" },
+      { name: "Automne Doré", price: "€75", desc: "Rust dahlias, orange chrysanthemums, and dried wheat stems.", image: clientPhotoAt(10, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80") },
+      { name: "Dried Luxe", price: "€90", desc: "Pampas, lunaria, preserved botanicals in sculptural composition.", image: clientPhotoAt(11, "https://images.unsplash.com/photo-1606041011872-596597976b25?w=400&h=400&fit=crop&q=80") },
+      { name: "Forest Floor", price: "€60", desc: "Wild mushrooms, moss, pine branches, and seasonal berries.", image: clientPhotoAt(12, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80") },
     ],
   },
   {
@@ -124,9 +125,9 @@ export const seasons = [
     accent: "#1565c0",
     desc: "White amaryllis, hellebores, pine, and the deep red of winterberries.",
     arrangements: [
-      { name: "Blanc de Noël", price: "€80", desc: "White amaryllis, eucalyptus, and silver-dusted pine branches.", image: "https://images.unsplash.com/photo-1544441892-794166f1e3be?w=400&h=400&fit=crop&q=80" },
-      { name: "Velvet Crimson", price: "€90", desc: "Deep red roses, winterberry, and dark greenery.", image: "https://images.unsplash.com/photo-1543168256-418811576931?w=400&h=400&fit=crop&q=80" },
-      { name: "Hiver Minimaliste", price: "€65", desc: "Single-variety hellebore and dried cotton stems in clean lines.", image: "https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=400&h=400&fit=crop&q=80" },
+      { name: "Blanc de Noël", price: "€80", desc: "White amaryllis, eucalyptus, and silver-dusted pine branches.", image: clientPhotoAt(13, "https://images.unsplash.com/photo-1544441892-794166f1e3be?w=400&h=400&fit=crop&q=80") },
+      { name: "Velvet Crimson", price: "€90", desc: "Deep red roses, winterberry, and dark greenery.", image: clientPhotoAt(14, "https://images.unsplash.com/photo-1543168256-418811576931?w=400&h=400&fit=crop&q=80") },
+      { name: "Hiver Minimaliste", price: "€65", desc: "Single-variety hellebore and dried cotton stems in clean lines.", image: clientPhotoAt(15, "https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=400&h=400&fit=crop&q=80") },
     ],
   },
 ];
@@ -239,7 +240,7 @@ export const PRODUCTS = [
     colors: [C.rose, C.blush, "#f8bbd0"],
     rating: 4.9,
     reviews: 142,
-    image: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=600&h=600&fit=crop&q=80",
+    image: clientPhotoAt(16, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=600&h=600&fit=crop&q=80"),
   },
   {
     name: "Soleil de Provence",
@@ -253,7 +254,7 @@ export const PRODUCTS = [
     colors: ["#f9a825", "#9575cd", "#fbc02d"],
     rating: 4.8,
     reviews: 96,
-    image: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=600&h=600&fit=crop&q=80",
+    image: clientPhotoAt(17, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=600&h=600&fit=crop&q=80"),
   },
   {
     name: "Bouquet Blanc Éternel",
@@ -267,7 +268,7 @@ export const PRODUCTS = [
     colors: ["#ffffff", C.sageLight, "#e8f5e9"],
     rating: 5.0,
     reviews: 67,
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=600&fit=crop&q=80",
+    image: clientPhotoAt(18, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=600&fit=crop&q=80"),
   },
   {
     name: "Automne Doré",
@@ -281,7 +282,7 @@ export const PRODUCTS = [
     colors: ["#bf360c", "#e64a19", "#d7ccc8"],
     rating: 4.7,
     reviews: 88,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&q=80",
+    image: clientPhotoAt(19, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&q=80"),
   },
   {
     name: "Blanc de Noël",
@@ -295,7 +296,7 @@ export const PRODUCTS = [
     colors: ["#ffffff", C.sage, "#cfd8dc"],
     rating: 4.9,
     reviews: 54,
-    image: "https://images.unsplash.com/photo-1544441892-794166f1e3be?w=600&h=600&fit=crop&q=80",
+    image: clientPhotoAt(20, "https://images.unsplash.com/photo-1544441892-794166f1e3be?w=600&h=600&fit=crop&q=80"),
   },
   {
     name: "Roseraie Romantique",
@@ -309,7 +310,7 @@ export const PRODUCTS = [
     colors: [C.accent, C.rose, "#ad1457"],
     rating: 5.0,
     reviews: 121,
-    image: "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=600&h=600&fit=crop&q=80",
+    image: clientPhotoAt(21, "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=600&h=600&fit=crop&q=80"),
   },
   {
     name: "Champêtre Sauvage",
@@ -323,7 +324,7 @@ export const PRODUCTS = [
     colors: [C.sageMid, "#aed581", C.rose],
     rating: 4.8,
     reviews: 73,
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=600&fit=crop&q=80",
+    image: clientPhotoAt(22, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=600&fit=crop&q=80"),
   },
   {
     name: "Plante d'Intérieur Apaisante",
@@ -337,7 +338,7 @@ export const PRODUCTS = [
     colors: [C.sage, C.sageMid, "#a5d6a7"],
     rating: 4.9,
     reviews: 110,
-    image: "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=600&h=600&fit=crop&q=80",
+    image: clientPhotoAt(23, "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=600&h=600&fit=crop&q=80"),
   },
 ];
 
@@ -350,7 +351,7 @@ export const BLOG_POSTS = [
     excerpt:
       "Plus fraîches, plus durables et plus belles : les raisons pour lesquelles nous composons exclusivement avec les fleurs du moment.",
     cover: C.rose,
-    coverImage: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=1200&h=600&fit=crop&q=80",
+    coverImage: clientPhotoAt(24, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=1200&h=600&fit=crop&q=80"),
     body: [
       "Une fleur de saison est cueillie à maturité, au plus près de sa floraison naturelle. Elle tient plus longtemps en vase, dégage un parfum plus intense et affiche des couleurs que les variétés forcées hors saison n'égalent jamais.",
       "Travailler avec les saisons, c'est aussi soutenir les producteurs locaux et réduire l'empreinte du transport réfrigéré. Chez Pétales & Co, nous privilégions les petits cultivateurs français dès que la saison le permet.",
@@ -365,7 +366,7 @@ export const BLOG_POSTS = [
     excerpt:
       "Coupe en biseau, eau renouvelée, emplacement idéal : nos gestes d'atelier pour prolonger la vie de vos fleurs coupées.",
     cover: C.sage,
-    coverImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=600&fit=crop&q=80",
+    coverImage: clientPhotoAt(25, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=600&fit=crop&q=80"),
     body: [
       "La première règle est de recouper les tiges en biseau, sous l'eau si possible, afin que les fleurs continuent de s'abreuver sans bulle d'air dans le canal.",
       "Changez l'eau tous les deux jours et retirez les feuilles immergées qui pourrissent et accélèrent le flétrissement. Un vase propre fait toute la différence.",
@@ -380,7 +381,7 @@ export const BLOG_POSTS = [
     excerpt:
       "Du bouquet de mariée aux compositions de cérémonie : comment penser une direction florale cohérente pour le grand jour.",
     cover: C.accent,
-    coverImage: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=1200&h=600&fit=crop&q=80",
+    coverImage: clientPhotoAt(26, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=1200&h=600&fit=crop&q=80"),
     body: [
       "Un mariage floral réussi commence par une palette restreinte de deux ou trois couleurs, déclinée du bouquet de la mariée aux centres de table. La cohérence prime sur la profusion.",
       "Nous recommandons de réserver trois à six mois à l'avance, en particulier pour les dates estivales très demandées. Cela nous laisse le temps de sourcer les variétés exactes que vous imaginez.",
@@ -395,7 +396,7 @@ export const BLOG_POSTS = [
     excerpt:
       "La rose pour l'amour, la pivoine pour la prospérité, l'eucalyptus pour la sérénité : décryptage des symboles floraux.",
     cover: C.sageMid,
-    coverImage: "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=1200&h=600&fit=crop&q=80",
+    coverImage: clientPhotoAt(27, "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=1200&h=600&fit=crop&q=80"),
     body: [
       "Né au XIXe siècle, le langage des fleurs attribuait à chaque variété un message précis. La rose rouge déclarait l'amour, la pivoine annonçait la prospérité, le lilas évoquait les premiers émois.",
       "Aujourd'hui encore, ces symboles inspirent nos compositions. Offrir un bouquet, c'est transmettre une intention autant qu'une beauté.",

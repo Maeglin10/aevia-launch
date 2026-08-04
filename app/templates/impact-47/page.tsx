@@ -47,6 +47,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -608,6 +609,7 @@ export default function FloristHome() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  memoriserSession(sessionData);
   HERO_BOUQUETS_DEMO_SOURCE = HERO_BOUQUETS_DEMO_SOURCE_LIVE();
 
   STATS_INLINE = resolveList(

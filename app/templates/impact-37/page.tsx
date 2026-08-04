@@ -27,6 +27,7 @@ import {
   clientReviews,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -540,6 +541,7 @@ export default function ClosDuSoirPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  memoriserSession(sessionData);
   WINES_DEMO = WINES_DEMO_LIVE();
 
   STATS_INLINE = resolveList(

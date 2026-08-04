@@ -26,6 +26,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -75,6 +76,7 @@ export default function SwiftMovePage() {
 
   fd = session?.formData;
   sessionData = session;
+  memoriserSession(sessionData);
   c = session?.generatedContent;
 
 

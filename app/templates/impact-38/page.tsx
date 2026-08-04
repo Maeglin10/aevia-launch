@@ -28,6 +28,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -772,6 +773,7 @@ export default function OriginRoastPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  memoriserSession(sessionData);
   SUBSCRIPTION_HIGHLIGHTS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SUBSCRIPTION_HIGHLIGHTS_SOURCE[i % SUBSCRIPTION_HIGHLIGHTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     SUBSCRIPTION_HIGHLIGHTS_SOURCE,

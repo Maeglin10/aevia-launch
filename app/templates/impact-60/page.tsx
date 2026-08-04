@@ -14,6 +14,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -64,6 +65,7 @@ export default function ZenithWatchPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  memoriserSession(sessionData);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Product collection ← client's business profile (falls back to demo).
