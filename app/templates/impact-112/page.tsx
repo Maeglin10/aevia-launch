@@ -2707,7 +2707,7 @@ return (
               {[
                 { Icon: MapPin, t: "Atelier · Beaune, Bourgogne" },
                 { Icon: Phone, t: "+33 3 80 XX XX XX" },
-                { Icon: Mail, t: "julie@terreetgeste.fr" },
+                { Icon: Mail, t: (fd?.email ?? "julie@terreetgeste.fr") },
               ].map(({ Icon, t }) => (
                 <div
                   key={t}

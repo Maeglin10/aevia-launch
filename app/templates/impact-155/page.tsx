@@ -413,7 +413,7 @@ export default function PierreCoPage() {
             <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Immobilier de prestige à Paris et Île-de-France depuis 2004.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={14} />, t: "Paris 8e & agences IDF" }, { icon: <Phone size={14} />, t: "01 40 00 00 00" }, { icon: <Mail size={14} />, t: "contact@pierreandco.fr" }].map((item, i) => (
+            {[{ icon: <MapPin size={14} />, t: "Paris 8e & agences IDF" }, { icon: <Phone size={14} />, t: (fd?.phone ?? "01 40 00 00 00") }, { icon: <Mail size={14} />, t: (fd?.email ?? "contact@pierreandco.fr") }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.5)", fontSize: 14 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

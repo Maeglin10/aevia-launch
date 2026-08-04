@@ -392,7 +392,7 @@ export default function CabinetKinePage() {
             <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 14, lineHeight: 1.6, maxWidth: 250 }}>Cabinet de kinésithérapie à Nantes. Lun–Sam 8h–20h.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={13} />, t: "Nantes, Loire-Atlantique" }, { icon: <Phone size={13} />, t: "02 40 00 00 00" }, { icon: <Clock size={13} />, t: "Lun–Ven 8h–20h | Sam 8h–13h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: "Nantes, Loire-Atlantique" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "02 40 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 8h–20h | Sam 8h–13h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.48)", fontSize: 13 }}>
                 <span style={{ color: C.accentLight }}>{item.icon}</span>{item.t}
               </div>

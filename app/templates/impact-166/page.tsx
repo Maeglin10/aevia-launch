@@ -1780,7 +1780,7 @@ return (
 
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {[
-                { label: "Email", value: "iris@iris-studio.fr" },
+                { label: "Email", value: (fd?.email ?? "iris@iris-studio.fr") },
                 { label: "Téléphone", value: "+33 6 12 34 56 78" },
                 { label: "Studio", value: "Paris 11e, sur rendez-vous" },
                 { label: "Instagram", value: "@iris.studio.paris" },

@@ -238,7 +238,7 @@ const FAQS_DEMO = [
   },
   {
     q: 'Puis-je retourner un produit si je ne suis pas satisfait ?',
-    a: 'Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au 01 23 45 67 89.'
+    a: 'Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au ' + (fd?.phone ?? '01 23 45 67 89') + '.'
   },
   {
     q: 'Les appareils Flamme Verte ouvrent-ils droit à des crédits d\'impôt ?',

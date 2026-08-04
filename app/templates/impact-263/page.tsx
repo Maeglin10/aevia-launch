@@ -1986,7 +1986,7 @@ function Footer() {
         { label: 'Devis gratuit', href: '#devis' },
         { label: 'Bordeaux & Gironde', href: '#devis' },
         { label: 'Dordogne · L47', href: '#devis' },
-        { label: 'contact@jardins-vivants.fr', href: '#devis' },
+        { label: (fd?.email ?? 'contact@jardins-vivants.fr'), href: '#devis' },
       ],
     },
   ];

@@ -669,8 +669,8 @@ function HorairesContact() {
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             {[
               { icon: <MapPin size={20} color={C.accent} />, title: "Adresse", text: `42 Rue de la Roquette, 75011 ${clientCity(sessionData) ?? "Paris"}` },
-              { icon: <Phone size={20} color={C.accent} />, title: "Téléphone", text: "01 43 55 67 89" },
-              { icon: <Mail size={20} color={C.accent} />, title: "Email", text: "bonjour@lafournee.paris" },
+              { icon: <Phone size={20} color={C.accent} />, title: "Téléphone", text: (fd?.phone ?? "01 43 55 67 89") },
+              { icon: <Mail size={20} color={C.accent} />, title: "Email", text: (fd?.email ?? "bonjour@lafournee.paris") },
               { icon: <ShoppingBag size={20} color={C.accent} />, title: "Commande", text: "Disponible en ligne 24h/24" },
             ].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>

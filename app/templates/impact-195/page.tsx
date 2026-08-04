@@ -413,7 +413,7 @@ export default function MaisonElisePage() {
           {[
             { t: "Formules", ls: ["Coordination jour J", "Clé en main", "Conception florale", "Mise en scène & styling", "Événements corporate"] },
             { t: "Infos", ls: ["L'équipe", "Notre philosophie", "Portfolio", "Blog mariages", "FAQ"] },
-            { t: "Contact", ls: ["04 93 56 78 90", "hello@maison-elise.fr", "Nice & Riviera", "France entière & étranger", "Consultation gratuite"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 93 56 78 90"), (fd?.email ?? "hello@maison-elise.fr"), "Nice & Riviera", "France entière & étranger", "Consultation gratuite"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c4a06a)]/35 mb-5">{col.t}</h4>

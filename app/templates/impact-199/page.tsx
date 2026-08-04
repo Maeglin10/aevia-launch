@@ -1311,7 +1311,7 @@ export default function Impact199Page() {
                   {
                     icon: <Mail className="w-5 h-5" />,
                     label: "Email",
-                    value: "contact@encre-ame.fr",
+                    value: (fd?.email ?? "contact@encre-ame.fr"),
                     sub: "Réponse sous 24h",
                   },
                   {

@@ -2142,7 +2142,7 @@ function Footer() {
               {[
                 { icon: <MapPin size={12} color={T.goldDim} />, text: '14, rue de Rive · CH-1204 Genève' },
                 { icon: <Phone size={12} color={T.goldDim} />, text: '+41 22 310 88 40' },
-                { icon: <Mail size={12} color={T.goldDim} />, text: 'atelier@horaviva.ch' },
+                { icon: <Mail size={12} color={T.goldDim} />, text: (fd?.email ?? 'atelier@horaviva.ch') },
               ].map(({ icon, text }) => (
                 <div
                   key={text}

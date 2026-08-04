@@ -1894,7 +1894,7 @@ export default function Impact170Page() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {[
-                { label: "email", value: "rafael@moreau.dev" },
+                { label: "email", value: (fd?.email ?? "rafael@moreau.dev") },
                 { label: "linkedin", value: "/in/rafael-moreau" },
                 { label: "github", value: "@rafael-moreau" },
                 { label: "location", value: "Paris, France (remote OK)" },

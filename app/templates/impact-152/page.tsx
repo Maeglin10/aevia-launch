@@ -442,7 +442,7 @@ export default function StudioNomaPage() {
             <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Architecture d'intérieur & décoration à Lyon depuis 2012.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={14} />, t: "Lyon, Rhône-Alpes" }, { icon: <Mail size={14} />, t: "contact@studionoma.fr" }, { icon: <Clock size={14} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
+            {[{ icon: <MapPin size={14} />, t: "Lyon, Rhône-Alpes" }, { icon: <Mail size={14} />, t: (fd?.email ?? "contact@studionoma.fr") }, { icon: <Clock size={14} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.55)", fontSize: 14 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

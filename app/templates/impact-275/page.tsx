@@ -2705,12 +2705,12 @@ function PracticalSection() {
     {
       icon: Phone,
       label: 'Téléphone',
-      lines: ['04 91 XX XX XX', 'Du lundi au vendredi', '9h – 18h30'],
+      lines: [(fd?.phone ?? '04 91 XX XX XX'), 'Du lundi au vendredi', '9h – 18h30'],
     },
     {
       icon: Mail,
       label: 'Email',
-      lines: ['contact@cabinet-faure.fr', 'Réponse sous 24h ouvrées'],
+      lines: [(fd?.email ?? 'contact@cabinet-faure.fr'), 'Réponse sous 24h ouvrées'],
     },
   ];
 

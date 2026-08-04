@@ -884,7 +884,7 @@ export default function ThermaProPage() {
     },
     {
       q: 'Ma chaudière tombe en panne la nuit, comment vous joindre ?',
-      a: 'Notre service d\'urgence est disponible 24h/24, 7j/7, y compris les jours fériés. Appelez le 04 78 00 00 00, notre astreinte répond en moins de 5 minutes. Un technicien est dépêché chez vous en 2h maximum dans la métropole lyonnaise. Ce service est inclus dans nos contrats d\'entretien et disponible à la demande pour les autres clients.',
+      a: 'Notre service d\'urgence est disponible 24h/24, 7j/7, y compris les jours fériés. Appelez le ' + (fd?.phone ?? '04 78 00 00 00') + ', notre astreinte répond en moins de 5 minutes. Un technicien est dépêché chez vous en 2h maximum dans la métropole lyonnaise. Ce service est inclus dans nos contrats d\'entretien et disponible à la demande pour les autres clients.',
     },
     {
       q: 'Quelle est la différence entre une PAC air/air et air/eau ?',
@@ -1478,9 +1478,9 @@ return (
 
               <div className="contact-info-cards" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 {[
-                  { icon: '📞', title: 'Urgence chauffage',    val: '04 78 00 00 00',    sub: 'Disponible 24h/7j'    },
+                  { icon: '📞', title: 'Urgence chauffage',    val: (fd?.phone ?? '04 78 00 00 00'),    sub: 'Disponible 24h/7j'    },
                   { icon: '📍', title: 'Zone d\'intervention', val: 'Métropole de Lyon', sub: 'Ain, Isère, Rhône'    },
-                  { icon: '✉️', title: 'Email',               val: 'contact@thermapro.fr', sub: 'Réponse sous 24h'  },
+                  { icon: '✉️', title: 'Email',               val: (fd?.email ?? 'contact@thermapro.fr'), sub: 'Réponse sous 24h'  },
                 ].map(info => (
                   <div key={info.title} style={{
                     display: 'flex', gap: 16, alignItems: 'flex-start',

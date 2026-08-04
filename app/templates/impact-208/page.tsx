@@ -1562,7 +1562,7 @@ function ContactSection() {
               {[
                 { label: 'Siège social', value: `14 rue des Bâtisseurs, 69000 ${clientCity(sessionData) ?? "Lyon"}` },
                 { label: 'Téléphone', value: '+33 4 78 XX XX XX' },
-                { label: 'Email', value: 'contact@ferretti-construction.fr' },
+                { label: 'Email', value: (fd?.email ?? 'contact@ferretti-construction.fr') },
                 { label: 'Horaires', value: 'Lun–Ven : 8h–18h' },
               ].map((item) => (
                 <div key={item.label} style={{ display: 'flex', gap: 20 }}>

@@ -2967,8 +2967,8 @@ function FooterSection() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {[
                   { icon: MapPin, label: 'Bordeaux Caudéran, 33200' },
-                  { icon: Phone, label: '06 XX XX XX XX' },
-                  { icon: Mail, label: 'thomas@lebruncoach.fr' },
+                  { icon: Phone, label: (fd?.phone ?? '06 XX XX XX XX') },
+                  { icon: Mail, label: (fd?.email ?? 'thomas@lebruncoach.fr') },
                   { icon: Clock, label: 'Lun–Sam · 7h–20h' },
                 ].map((c) => {
                   const Icon = c.icon;

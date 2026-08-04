@@ -1927,7 +1927,7 @@ function Footer() {
         { label: 'Prendre RDV', href: '#rdv' },
         { label: 'Téléconsultation', href: '#rdv' },
         { label: 'Bordeaux · Chartrons', href: '#rdv' },
-        { label: 'dr.moulin@exemple.fr', href: '#rdv' },
+        { label: (fd?.email ?? 'dr.moulin@exemple.fr'), href: '#rdv' },
       ],
     },
   ];

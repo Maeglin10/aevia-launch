@@ -194,9 +194,9 @@ export default function ReservationPage() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             {[
-              { icon: <MapPin size={18} />, label: "Adresse", text: "Siège social sur demande à contact@exemple.fr" },
-              { icon: <Phone size={18} />, label: "Téléphone", text: "01 43 55 67 89" },
-              { icon: <Mail size={18} />, label: "Email", text: "contact@exemple.fr" },
+              { icon: <MapPin size={18} />, label: "Adresse", text: "Siège social sur demande à " + (fd?.email ?? "contact@exemple.fr") },
+              { icon: <Phone size={18} />, label: "Téléphone", text: (fd?.phone ?? "01 43 55 67 89") },
+              { icon: <Mail size={18} />, label: "Email", text: (fd?.email ?? "contact@exemple.fr") },
               { icon: <Clock size={18} />, label: "Horaires", text: "Mar–Sam 7h–19h | Dim 7h–13h" }
             ].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>

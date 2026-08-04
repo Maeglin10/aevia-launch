@@ -1127,7 +1127,7 @@ export default function Impact114Page() {
                 {[
                   { icon: Instagram, label: "@terra.moreau" },
                   { icon: Globe, label: "terra-photo.com" },
-                  { icon: Mail, label: "contact@terra-photo.com" },
+                  { icon: Mail, label: (fd?.email ?? "contact@terra-photo.com") },
                 ].map((item) => {
                   const Icon = item.icon
                   return (
@@ -1438,7 +1438,7 @@ export default function Impact114Page() {
 
             <div className="space-y-5">
               {[
-                { icon: Mail, label: "Email", value: "contact@terra-photo.com" },
+                { icon: Mail, label: "Email", value: (fd?.email ?? "contact@terra-photo.com") },
                 { icon: Instagram, label: "Instagram", value: "@terra.moreau" },
                 { icon: Globe, label: "Web", value: "terra-photo.com" },
                 { icon: MapPin, label: "Studio", value: "Paris, France" },

@@ -581,7 +581,7 @@ export default function AltaTransactionsPage() {
           {[
             { t: "Acheter", ls: ["Appartements", "Maisons & villas", "Programme neuf", "Investissement locatif"] },
             { t: "Vendre", ls: ["Estimation gratuite", "Marketing premium", "Compte rendu hebdo", "Honoraires transparents"] },
-            { t: "Agence", ls: ["Notre équipe", "Nos références", "Blog & conseils", "01 44 87 65 43"] },
+            { t: "Agence", ls: ["Notre équipe", "Nos références", "Blog & conseils", (fd?.phone ?? "01 44 87 65 43")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b8944a)] mb-6">{col.t}</h4>

@@ -1373,7 +1373,7 @@ export default function Impact200Page() {
                   {
                     icon: <Mail className="w-5 h-5" />,
                     label: "Email",
-                    value: "bonjour@ceremonie.fr",
+                    value: (fd?.email ?? "bonjour@ceremonie.fr"),
                     sub: "Réponse sous 24h",
                   },
                   {

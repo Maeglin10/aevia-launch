@@ -1517,7 +1517,7 @@ function ContactSection() {
             </p>
             {[
               { icon: '📞', label: 'Téléphone',  value: '+33 1 84 88 92 10' },
-              { icon: '✉️', label: 'Email',      value: 'contact@meridian-freight.fr' },
+              { icon: '✉️', label: 'Email',      value: (fd?.email ?? 'contact@meridian-freight.fr') },
               { icon: '🕐', label: 'Horaires',   value: 'Lun–Ven 8h–19h | Sam 9h–13h' },
             ].map((info, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>

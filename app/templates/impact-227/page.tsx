@@ -613,7 +613,7 @@ return (
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Barbier · Lyon 2e<br />Lun–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: "Lyon 2e, Rhône" }, { icon: <Phone size={13} />, t: "04 78 00 00 01" }, { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: "Lyon 2e, Rhône" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 78 00 00 01") }, { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.accentLight }}>{item.icon}</span>{item.t}
               </div>

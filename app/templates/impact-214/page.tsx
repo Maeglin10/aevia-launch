@@ -2146,8 +2146,8 @@ export default function AquaPrestigePage() {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 {[
-                  { icon: '📞', label: 'Téléphone', value: '01 42 00 00 00', sub: 'Urgences 24h/24' },
-                  { icon: '📧', label: 'Email', value: 'contact@aquaprestige.fr', sub: 'Réponse sous 2h en journée' },
+                  { icon: '📞', label: 'Téléphone', value: (fd?.phone ?? '01 42 00 00 00'), sub: 'Urgences 24h/24' },
+                  { icon: '📧', label: 'Email', value: (fd?.email ?? 'contact@aquaprestige.fr'), sub: 'Réponse sous 2h en journée' },
                   { icon: '📍', label: 'Adresse', value: '15 Rue de la Pompe, Paris 16e', sub: 'Bureau ouvert lun-sam 8h-19h' },
                 ].map((info) => (
                   <div key={info.label} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>

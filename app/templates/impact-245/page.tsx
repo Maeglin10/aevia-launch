@@ -1938,7 +1938,7 @@ function Footer() {
         'Fermé le lundi',
         'Lyon 1er arrondissement',
         'Métro : Hôtel de Ville',
-        '04 XX XX XX XX',
+        (fd?.phone ?? '04 XX XX XX XX'),
       ],
     },
     {

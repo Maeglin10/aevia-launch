@@ -1913,7 +1913,7 @@ function Footer() {
     },
     {
       title: 'Contact & Urgences',
-      items: ['📍 Toulouse & agglomération', '📞 05 XX XX XX XX', '📧 contact@voltlux.fr', '🚨 Urgences 24h/7j'],
+      items: ['📍 Toulouse & agglomération', '📞 ' + (fd?.phone ?? '05 XX XX XX XX'), '📧 ' + (fd?.email ?? 'contact@voltlux.fr'), '🚨 Urgences 24h/7j'],
       hrefs: ['#devis', 'tel:+33500000000', 'mailto:contact@voltlux.fr', 'tel:+33500000000'],
     },
   ];

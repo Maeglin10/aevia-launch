@@ -1879,7 +1879,7 @@ function ContactSection() {
                 {
                   icon: "✉️",
                   label: "Email",
-                  value: "sales@nexusfreight.com",
+                  value: (fd?.email ?? "sales@nexusfreight.com"),
                 },
                 {
                   icon: "⏱",

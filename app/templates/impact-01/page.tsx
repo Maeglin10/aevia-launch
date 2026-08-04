@@ -2021,7 +2021,7 @@ return (
               }}
             >
               {[
-                { icon: <Mail size={14} />, value: "hello@impact.studio" },
+                { icon: <Mail size={14} />, value: (fd?.email ?? "hello@impact.studio") },
                 { icon: <Phone size={14} />, value: "+33 1 42 86 00 00" },
                 { icon: <MapPin size={14} />, value: "Paris, France" },
               ].map((item, i) => (
@@ -3948,7 +3948,7 @@ function ContactPage() {
           {/* Info */}
           <div>
             {[
-              { icon: <Mail size={18} />, label: "Email", value: "contact@exemple.fr" },
+              { icon: <Mail size={18} />, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
               { icon: <MapPin size={18} />, label: "Studio", value: "Paris, France" },
               {
                 icon: <Phone size={18} />,

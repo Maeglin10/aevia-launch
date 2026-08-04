@@ -391,7 +391,7 @@ export default function MaxPerformancePage() {
           {[
             { t: "Programmes", ls: ["Coaching privatif", "Bootcamp", "Prépa compétition", "Coaching en ligne", "Nutrition & récup"] },
             { t: "Infos", ls: ["Méthode MAX", "Mon parcours", "Certifications", "Avis clients", "FAQ"] },
-            { t: "Contact", ls: ["06 12 34 56 78", "max@maxperf.fr", "Paris 11e", "Online worldwide", "1ère séance offerte"] },
+            { t: "Contact", ls: [(fd?.phone ?? "06 12 34 56 78"), (fd?.email ?? "max@maxperf.fr"), "Paris 11e", "Online worldwide", "1ère séance offerte"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#f97316)]/40 mb-5">{col.t}</h4>

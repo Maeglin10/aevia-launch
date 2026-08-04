@@ -419,7 +419,7 @@ export default function TableExceptionPage() {
           {[
             { t: "Formules", ls: ["Cocktails & réceptions", "Repas assis", "Plateaux repas", "Livraison & installation", "Cuisine du monde"] },
             { t: "Infos", ls: ["Notre chef", "Portfolio", "Zone d'intervention", "Tarifs", "FAQ"] },
-            { t: "Contact", ls: ["04 78 34 56 78", "contact@table-exception.fr", "Lyon & Rhône-Alpes", "Lun-Sam 8h-19h", "Devis sous 24h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 78 34 56 78"), (fd?.email ?? "contact@table-exception.fr"), "Lyon & Rhône-Alpes", "Lun-Sam 8h-19h", "Devis sous 24h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a853)]/35 mb-5">{col.t}</h4>

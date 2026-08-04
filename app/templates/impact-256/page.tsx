@@ -2006,7 +2006,7 @@ function Footer() {
     },
     {
       title: 'Contact',
-      items: ['Séance offerte', 'Réserver', 'Marseille · Aix · Aubagne', 'contact@forcebrute.fr'],
+      items: ['Séance offerte', 'Réserver', 'Marseille · Aix · Aubagne', (fd?.email ?? 'contact@forcebrute.fr')],
       hrefs: ['#contact', '#contact', '#contact', '#contact'],
     },
   ];
