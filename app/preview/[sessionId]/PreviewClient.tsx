@@ -13,6 +13,8 @@ import { tierForTemplate } from "@/lib/templates/templateTier";
 type EditableData = {
   generatedContent: Partial<GeneratedContent>;
   formData: Partial<FormData>;
+  /** Les retouches de section, clé par clé — voir lib/templates/sectionManifest. */
+  sectionOverrides?: Record<string, string>;
 };
 
 const T = {
@@ -201,6 +203,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
         ...base,
         formData: { ...base.formData, ...data.formData } as FormData,
         generatedContent: { ...(base.generatedContent ?? {}), ...data.generatedContent } as GeneratedContent,
+        sectionOverrides: { ...(base.sectionOverrides ?? {}), ...data.sectionOverrides },
       } as SessionData;
     });
   };
@@ -217,6 +220,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
             ...prev,
             formData: { ...prev.formData, ...data.formData } as FormData,
             generatedContent: { ...(prev.generatedContent ?? {}), ...data.generatedContent } as GeneratedContent,
+            sectionOverrides: { ...(prev.sectionOverrides ?? {}), ...data.sectionOverrides },
           } as SessionData)
         : prev
     );
