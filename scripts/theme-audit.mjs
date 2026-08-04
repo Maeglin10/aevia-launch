@@ -157,7 +157,7 @@ async function semer(templateId) {
   mesure de 5 à 30 secondes par page — un balayage complet de trente minutes à
   trois heures. Ce n'est pas le thème qui ralentit, c'est l'instrument.
 */
-const PAR_LOT = 40;
+const PAR_LOT = Number(process.env.AUDIT_PAR_LOT ?? 25);
 let browser = null;
 let ctx = null;
 
@@ -192,6 +192,8 @@ const report = [];
 let n = 0;
 for (const id of ids) {
   if (n > 0 && n % PAR_LOT === 0) {
+    // Fermer le navigateur suffit : il ferme ses contextes. Fermer les deux
+    // ajoutait une attente à chaque recyclage.
     await browser.close();
     await ouvrir();
   }

@@ -1,5 +1,6 @@
 
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -18,6 +19,17 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les prestations, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const PRESTATIONS_INLINE_SOURCE = [
+  { step: "01", title: "Sourcing", desc: "Nous sélectionnons chaque ingrédient à la source, directement chez le producteur." },
+              { step: "02", title: "Macération", desc: "Les matières reposent 6 à 8 semaines pour révéler leur plein potentiel aromatique." },
+              { step: "03", title: "Composition", desc: "Notre nez assemble les accords, ajustant jusqu'à l'accord parfait — parfois 200 essais." },
+              { step: "04", title: "Mise en flacon", desc: "Chaque flacon est rempli et cacheté à la main dans notre atelier parisien." }
+];
+let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -154,6 +166,20 @@ export default function Impact26() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_INLINE = resolveList(
+
+    clientServices(session)?.map((s: any, i: number) => ({
+
+      ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
+
+      title: s.title, desc: s.desc || "",
+
+    })),
+
+    PRESTATIONS_INLINE_SOURCE,
+
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -602,12 +628,7 @@ export default function Impact26() {
             </h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              { step: "01", title: "Sourcing", desc: "Nous sélectionnons chaque ingrédient à la source, directement chez le producteur." },
-              { step: "02", title: "Macération", desc: "Les matières reposent 6 à 8 semaines pour révéler leur plein potentiel aromatique." },
-              { step: "03", title: "Composition", desc: "Notre nez assemble les accords, ajustant jusqu'à l'accord parfait — parfois 200 essais." },
-              { step: "04", title: "Mise en flacon", desc: "Chaque flacon est rempli et cacheté à la main dans notre atelier parisien." },
-            ].map((s, i) => (
+            {PRESTATIONS_INLINE.map((s, i) => (
               <Reveal key={s.step} delay={i * 0.1}>
                 <div className="border-t border-[var(--brand,#c9956a)]/20 pt-6">
                   <div className="text-[var(--brand,#c9956a)]/30 text-4xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{s.step}</div>

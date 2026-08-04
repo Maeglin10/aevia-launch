@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -18,6 +19,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les prestations, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const PRESTATIONS_INLINE_SOURCE = [
+  { title: "Identité visuelle", desc: "Logo, charte graphique, direction artistique pour packagings primaires et secondaires." },
+                      { title: "Modélisation 3D", desc: "Rendus photoréalistes pour validation client et présentation en comité de direction." },
+                      { title: "Production", desc: "Fichiers d'exécution, suivi d'impression et contrôle qualité jusqu'à la livraison." }
+];
+let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
+
 // Le profil métier, pour lib/templates/clientContent : même portée que fd.
 let bp: any = null;
 let c: any = null;
@@ -207,6 +218,20 @@ export default function FormeStudioPage() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_INLINE = resolveList(
+
+    clientServices(session)?.map((s: any, i: number) => ({
+
+      ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
+
+      title: s.title, desc: s.desc || "",
+
+    })),
+
+    PRESTATIONS_INLINE_SOURCE,
+
+  );
 
   bp = (session as any)?.businessProfile;
 
@@ -597,11 +622,7 @@ return (
                     </p>
                   </div>
                   <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    {[
-                      { title: "Identité visuelle", desc: "Logo, charte graphique, direction artistique pour packagings primaires et secondaires." },
-                      { title: "Modélisation 3D", desc: "Rendus photoréalistes pour validation client et présentation en comité de direction." },
-                      { title: "Production", desc: "Fichiers d'exécution, suivi d'impression et contrôle qualité jusqu'à la livraison." },
-                    ].map((item, i) => (
+                    {PRESTATIONS_INLINE.map((item, i) => (
                       <div key={i} className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                         <h4 className="text-gray-900 font-bold mb-2">{item.title}</h4>
                         <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>

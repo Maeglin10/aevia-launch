@@ -79,6 +79,10 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
   if (new RegExp(`${plan.helper}\\s*\\(`).test(src) || src.includes(plan.nom)) continue;
 
   const re = /\{\[\s*\n?\s*(\{[^[\]]{0,2000}?\})\s*,?\s*\n?\s*\]\.map\(/g;
+  /*
+    On parcourt toutes les listes en ligne du fichier. Certains thèmes en
+    comptent dix, et celle qui porte les prestations n'est pas la première.
+  */
   let m = null;
   let trouve = null;
   while ((m = re.exec(src))) {

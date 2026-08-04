@@ -20,6 +20,17 @@ import {
 // Global state variables for subpage compatibility
 let fd: any = null;
 
+// Les prestations, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const PRESTATIONS_INLINE_SOURCE = [
+  { step: "01", title: "Fiber Selection", desc: "T1100G & M60J ultra-high-modulus carbon fiber sourced from TORAY. We reject batches with tensile strength variance above 0.3% — 94% of commercial fiber does not meet this threshold." },
+              { step: "02", title: "Resin Engineering", desc: "Custom epoxy-bismaleimide hybrid matrix engineered in-house for thermal resistance to 320°C while maintaining 4.2 GPa interlaminar shear strength." },
+              { step: "03", title: "Lay-up Architecture", desc: "Computational ply-stack optimization driven by finite element analysis. Each component has a unique lay-up sequence — no two programs are identical." },
+              { step: "04", title: "Autoclave Cure", desc: "4-bar/180°C pressurized cure cycle in our 7-meter autoclave. Dimensional tolerance: ±0.05mm across any axis. NDT inspection by phased-array ultrasound on 100% of parts." }
+];
+let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
+
+
 // Les avis, jusqu'ici écrit(e) dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
 const AVIS_INLINE_SOURCE = [
@@ -65,6 +76,20 @@ export default function CarbonLabPage() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_INLINE = resolveList(
+
+    clientServices(session)?.map((s: any, i: number) => ({
+
+      ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
+
+      title: s.title, desc: s.desc || "",
+
+    })),
+
+    PRESTATIONS_INLINE_SOURCE,
+
+  );
 
   AVIS_INLINE = resolveList(
 
@@ -225,12 +250,7 @@ return (
             </Reveal>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
-            {[
-              { step: "01", title: "Fiber Selection", desc: "T1100G & M60J ultra-high-modulus carbon fiber sourced from TORAY. We reject batches with tensile strength variance above 0.3% — 94% of commercial fiber does not meet this threshold." },
-              { step: "02", title: "Resin Engineering", desc: "Custom epoxy-bismaleimide hybrid matrix engineered in-house for thermal resistance to 320°C while maintaining 4.2 GPa interlaminar shear strength." },
-              { step: "03", title: "Lay-up Architecture", desc: "Computational ply-stack optimization driven by finite element analysis. Each component has a unique lay-up sequence — no two programs are identical." },
-              { step: "04", title: "Autoclave Cure", desc: "4-bar/180°C pressurized cure cycle in our 7-meter autoclave. Dimensional tolerance: ±0.05mm across any axis. NDT inspection by phased-array ultrasound on 100% of parts." },
-            ].map((s, i) => (
+            {PRESTATIONS_INLINE.map((s, i) => (
               <Reveal key={s.step} delay={i * 0.1}>
                 <div className="p-12 bg-[#050505] hover:bg-[var(--brand,#0070f3)]/5 transition-all duration-700 border border-transparent hover:border-[var(--brand,#0070f3)]/20">
                   <span className="text-[var(--brand,#0070f3)]/30 text-sm font-black uppercase tracking-widest italic block mb-6">{s.step}</span>

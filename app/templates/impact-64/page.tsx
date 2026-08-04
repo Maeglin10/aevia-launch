@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import {useRef, useState, useEffect} from 'react';
@@ -17,6 +18,18 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les prestations, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const PRESTATIONS_INLINE_SOURCE = [
+  { step: "01", title: "Audit SI", desc: "Cartographie de votre infrastructure, inventaire des assets et identification des risques critiques." },
+              { step: "02", title: "Gap Analysis", desc: "Analyse d'écart vis-à-vis de ISO 27001, NIS2 et des best practices CIS Benchmarks." },
+              { step: "03", title: "Déploiement", desc: "Installation des agents SIEM/EDR sans interruption. Formation de vos équipes internes." },
+              { step: "04", title: "Calibration", desc: "Tuning des règles de détection pour réduire les faux positifs. Paramétrage des alertes." },
+              { step: "05", title: "Go Live", desc: "SOC opérationnel 24/7. Votre tableau de bord disponible immédiatement. Premier rapport sous 7 jours." }
+];
+let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -48,6 +61,20 @@ export default function Impact64Page() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_INLINE = resolveList(
+
+    clientServices(session)?.map((s: any, i: number) => ({
+
+      ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
+
+      title: s.title, desc: s.desc || "",
+
+    })),
+
+    PRESTATIONS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -225,13 +252,7 @@ return (
           </motion.div>
           <div className="i64-process-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "0", position: "relative" }}>
             <div className="i64-process-line" style={{ position: "absolute", top: "28px", left: "10%", right: "10%", height: "1px", background: C.greenBorder, zIndex: 0 }} />
-            {[
-              { step: "01", title: "Audit SI", desc: "Cartographie de votre infrastructure, inventaire des assets et identification des risques critiques." },
-              { step: "02", title: "Gap Analysis", desc: "Analyse d'écart vis-à-vis de ISO 27001, NIS2 et des best practices CIS Benchmarks." },
-              { step: "03", title: "Déploiement", desc: "Installation des agents SIEM/EDR sans interruption. Formation de vos équipes internes." },
-              { step: "04", title: "Calibration", desc: "Tuning des règles de détection pour réduire les faux positifs. Paramétrage des alertes." },
-              { step: "05", title: "Go Live", desc: "SOC opérationnel 24/7. Votre tableau de bord disponible immédiatement. Premier rapport sous 7 jours." },
-            ].map((s, i) => (
+            {PRESTATIONS_INLINE.map((s, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}

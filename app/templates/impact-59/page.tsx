@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -18,12 +19,35 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: 9, suffix: "", label: "Participants maximum\npar retraite" },
+              { value: 27, suffix: "", label: "Retraites\naccompagnées" },
+              { value: 94, suffix: "%", label: "Taux de retour\nsaison suivante" },
+              { value: 3, suffix: "", label: "Paysages\ntransformateurs" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
+
+// Les prestations, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const PRESTATIONS_INLINE_SOURCE = [
+  { num: "I", title: "Déprogrammation", desc: "Les trois premiers jours visent à interrompre les schémas cognitifs habituels. Pas de téléphone, pas d'agenda, pas de structure imposée. La transition vers la présence exige du désordre avant la clarté." },
+              { num: "II", title: "Intégration Somatique", desc: "La méthode Nakano positionne le corps comme porte d'entrée principale vers la conscience. Sessions de mouvement quotidiennes — lentes, intuitives, non-performatives — pour reconnecter pensée et sensation." },
+              { num: "III", title: "Silence Structuré", desc: "Des périodes de silence total, allant de deux heures à une journée entière selon la retraite. Non pas comme privation, mais comme espace de perception. Ce que vous entendez dans le silence vous appartient." },
+              { num: "IV", title: "Intégration & Retour", desc: "Le dernier jour est entièrement consacré à la transition vers le quotidien. Avec votre guide, vous construisez une 'boussole d'intégration' — trois pratiques concrètes à ancrer dans votre vie post-retraite." }
+];
+let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -60,6 +84,36 @@ export default function LuminalHome() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(session)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
+
+  PRESTATIONS_INLINE = resolveList(
+
+    clientServices(session)?.map((s: any, i: number) => ({
+
+      ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
+
+      title: s.title, desc: s.desc || "",
+
+    })),
+
+    PRESTATIONS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -317,12 +371,7 @@ return (
       <section className="py-28 px-6 md:px-12 bg-[#f8f5f0] border-y border-black/5">
         <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-6">
-            {[
-              { value: 9, suffix: "", label: "Participants maximum\npar retraite" },
-              { value: 27, suffix: "", label: "Retraites\naccompagnées" },
-              { value: 94, suffix: "%", label: "Taux de retour\nsaison suivante" },
-              { value: 3, suffix: "", label: "Paysages\ntransformateurs" },
-            ].map((stat, i) => (
+            {STATS_INLINE.map((stat, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="text-center">
                   <div
@@ -475,12 +524,7 @@ return (
             </h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20">
-            {[
-              { num: "I", title: "Déprogrammation", desc: "Les trois premiers jours visent à interrompre les schémas cognitifs habituels. Pas de téléphone, pas d'agenda, pas de structure imposée. La transition vers la présence exige du désordre avant la clarté." },
-              { num: "II", title: "Intégration Somatique", desc: "La méthode Nakano positionne le corps comme porte d'entrée principale vers la conscience. Sessions de mouvement quotidiennes — lentes, intuitives, non-performatives — pour reconnecter pensée et sensation." },
-              { num: "III", title: "Silence Structuré", desc: "Des périodes de silence total, allant de deux heures à une journée entière selon la retraite. Non pas comme privation, mais comme espace de perception. Ce que vous entendez dans le silence vous appartient." },
-              { num: "IV", title: "Intégration & Retour", desc: "Le dernier jour est entièrement consacré à la transition vers le quotidien. Avec votre guide, vous construisez une 'boussole d'intégration' — trois pratiques concrètes à ancrer dans votre vie post-retraite." },
-            ].map((step, i) => (
+            {PRESTATIONS_INLINE.map((step, i) => (
               <Reveal key={step.num} delay={i * 0.12}>
                 <div className="flex gap-8">
                   <div className="flex-shrink-0 w-10 h-10 border border-[var(--brand,#3d7a5e)]/30 flex items-center justify-center">

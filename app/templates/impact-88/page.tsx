@@ -172,12 +172,13 @@ const ARTISTS_DEMO = [
   },
 ]
 
-const BOOKING_STEPS = [
+const BOOKING_STEPS_SOURCE = [
   { icon: Sparkles,  label: "Choisir service",    desc: "Sélectionnez parmi 6 prestations" },
   { icon: Users,     label: "Artiste",             desc: "Choisissez votre nail artist" },
   { icon: Calendar,  label: "Date & Heure",        desc: "Créneaux disponibles en temps réel" },
   { icon: Check,     label: "Confirmer",           desc: "Confirmation SMS + email instantanée" },
 ]
+let BOOKING_STEPS = BOOKING_STEPS_SOURCE;
 
 const TIME_SLOTS = [
   "9h00", "9h30", "10h00", "10h30", "11h00", "11h30",
@@ -1876,6 +1877,10 @@ export default function Impact88Page() {
   }, []);
 
   fd = session?.formData;
+  BOOKING_STEPS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...BOOKING_STEPS_SOURCE[i % BOOKING_STEPS_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),
+    BOOKING_STEPS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

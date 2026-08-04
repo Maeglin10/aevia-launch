@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -16,6 +17,17 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les prestations, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const PRESTATIONS_INLINE_SOURCE = [
+  { num: "01", title: "Résidentiel", desc: "Maisons particulières et ensembles résidentiels, du studio à la villa — attention portée à chaque plan de vie." },
+              { num: "02", title: "Tertiaire", desc: "Immeubles de bureaux, hôtels et complexes mixtes. Architecture de représentation, technicité constructive." },
+              { num: "03", title: "Culturel & Public", desc: "Médiathèques, musées, équipements sportifs. Architecture au service du collectif et de la transmission." },
+              { num: "04", title: "Réhabilitation", desc: "Transformation de bâtiments existants, reconversion de friches, restauration de patrimoine classé ou vernaculaire." }
+];
+let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -52,6 +64,20 @@ export default function SegmentOS() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_INLINE = resolveList(
+
+    clientServices(session)?.map((s: any, i: number) => ({
+
+      ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
+
+      title: s.title, desc: s.desc || "",
+
+    })),
+
+    PRESTATIONS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -251,12 +277,7 @@ return (
             </h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "2px", background: C.border }}>
-            {[
-              { num: "01", title: "Résidentiel", desc: "Maisons particulières et ensembles résidentiels, du studio à la villa — attention portée à chaque plan de vie." },
-              { num: "02", title: "Tertiaire", desc: "Immeubles de bureaux, hôtels et complexes mixtes. Architecture de représentation, technicité constructive." },
-              { num: "03", title: "Culturel & Public", desc: "Médiathèques, musées, équipements sportifs. Architecture au service du collectif et de la transmission." },
-              { num: "04", title: "Réhabilitation", desc: "Transformation de bâtiments existants, reconversion de friches, restauration de patrimoine classé ou vernaculaire." },
-            ].map((s, i) => (
+            {PRESTATIONS_INLINE.map((s, i) => (
               <motion.div
                 key={s.num}
                 initial={{ opacity: 0, y: 20 }}

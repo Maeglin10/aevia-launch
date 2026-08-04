@@ -683,7 +683,7 @@ function TechEditorial() {
 /* ════════════════════════════════════════════════════════════════════════════
    STICKY SPEC
    ════════════════════════════════════════════════════════════════════════════ */
-const SPEC_BULLETS = [
+const SPEC_BULLETS_SOURCE = [
   { icon: <Battery size={20} />, title: 'Autonomie 230 km',   desc: 'Batterie 52V 25Ah — la plus longue autonomie du segment.' },
   { icon: <Gauge size={20} />,   title: '45 km/h en pointe',  desc: 'Moteur brushless 750W avec couple de démarrage instantané.' },
   { icon: <Zap size={20} />,     title: 'Charge rapide 1.8h', desc: 'Chargeur GaN 65W inclus. Compatible Fast Charge DC en option.' },
@@ -691,6 +691,7 @@ const SPEC_BULLETS = [
   { icon: <Leaf size={20} />,    title: 'Zéro émission',      desc: 'Bilan carbone neutre sur 3 ans vs voiture thermique équivalente.' },
   { icon: <Globe size={20} />,   title: 'App connectée',      desc: 'GPS temps réel, diagnostics live, verrouillage à distance via app Lumyx.' },
 ];
+let SPEC_BULLETS = SPEC_BULLETS_SOURCE;
 
 function SpecBullet({ bullet, index }: { bullet: typeof SPEC_BULLETS[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -1174,6 +1175,10 @@ export default function LumyxPage() {
   }, []);
 
   fd = session?.formData;
+  SPEC_BULLETS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPEC_BULLETS_SOURCE[i % SPEC_BULLETS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    SPEC_BULLETS_SOURCE,
+  );
   MODELS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...MODELS_SOURCE[i % MODELS_SOURCE.length], name: s.title, price: s.price ?? MODELS_SOURCE[i % MODELS_SOURCE.length].price })),
     MODELS_SOURCE,

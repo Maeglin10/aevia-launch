@@ -70,7 +70,7 @@ const FONT_BODY = "'Inter', sans-serif";
 /* ─────────────────────────────────────────────────────────────
    DATA
    ───────────────────────────────────────────────────────────── */
-const SERVICES = [
+const SERVICES_SOURCE = [
   {
     icon: <Monitor size={28} />,
     title: "Web Design",
@@ -108,6 +108,7 @@ const SERVICES = [
     tag: "Speed",
   },
 ];
+let SERVICES = SERVICES_SOURCE;
 
 const PROJECTS_DEMO = [
   {
@@ -226,7 +227,7 @@ const NAV_PAGES: { key: AgencyPage; label: string }[] = [
 ];
 
 /* ── Detailed services (Services sub-page — EN, reuses ServiceCard styling) ── */
-const SERVICE_DETAILS = [
+const SERVICE_DETAILS_SOURCE = [
   {
     icon: <Monitor size={28} />,
     tag: "UI/UX",
@@ -300,6 +301,7 @@ const SERVICE_DETAILS = [
     ],
   },
 ];
+let SERVICE_DETAILS = SERVICE_DETAILS_SOURCE;
 
 /* ── Fuller portfolio for the Réalisations sub-page (reuses WorkCard styling) ── */
 const WORK_DETAILS_DEMO = [
@@ -470,7 +472,7 @@ const TEAM_DEMO = [
 ];
 let TEAM = TEAM_DEMO;
 
-const VALUES = [
+const VALUES_SOURCE = [
   {
     icon: <Palette size={24} />,
     title: "Detail",
@@ -487,6 +489,7 @@ const VALUES = [
     text: "Beautiful work that doesn't convert is just decoration. We measure our success by our clients' results.",
   },
 ];
+let VALUES = VALUES_SOURCE;
 
 /* ─────────────────────────────────────────────────────────────
    GOOGLE FONTS INJECTION
@@ -784,6 +787,18 @@ export default function ImpactAgencyTemplate() {
   }, []);
 
   fd = session?.formData;
+  SERVICES = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    SERVICES_SOURCE,
+  );
+  SERVICE_DETAILS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICE_DETAILS_SOURCE[i % SERVICE_DETAILS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    SERVICE_DETAILS_SOURCE,
+  );
+  VALUES = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...VALUES_SOURCE[i % VALUES_SOURCE.length], title: s.title, text: s.desc || "" || "" })),
+    VALUES_SOURCE,
+  );
   STATS_DATA = resolveList(clientStats(session), STATS_DATA_DEMO);
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
     ...row,

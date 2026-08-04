@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientName,
+  clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
@@ -165,7 +166,7 @@ const WINES_DEMO = [
    TERROIR TABS DATA
    ========================================================================== */
 
-const TERROIR_TABS = [
+const TERROIR_TABS_SOURCE = [
   {
     id: "soil",
     label: "Sol",
@@ -191,6 +192,7 @@ const TERROIR_TABS = [
     statLabel: "Certifié depuis 2018",
   },
 ];
+let TERROIR_TABS = TERROIR_TABS_SOURCE;
 
 /* ==========================================================================
    TASTING / TOUR EXPERIENCES DATA
@@ -1067,6 +1069,10 @@ export default function WineryTemplate() {
   }, []);
 
   fd = session?.formData;
+  TERROIR_TABS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...TERROIR_TABS_SOURCE[i % TERROIR_TABS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    TERROIR_TABS_SOURCE,
+  );
 
   STATS_INLINE = resolveList(
 
