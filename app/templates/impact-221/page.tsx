@@ -40,6 +40,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -314,10 +315,10 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.35 }}
           style={{ fontSize: fl(2.6, 6.5), fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.03em', textTransform: 'uppercase' as const, marginBottom: '1.5rem', maxWidth: '750px' }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           Redéfinir<br />le mouvement<br />
           <span style={{ color: C.blue, textShadow: `0 0 40px ${C.blueGlow}` }}>urbain</span>
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}

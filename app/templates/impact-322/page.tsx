@@ -45,6 +45,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
   clientTeam,
 } from "@/lib/templates/clientContent";
 const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -442,10 +443,10 @@ export default function Impact322() {
             <h1 
               style={{ fontFamily: SERIF, fontSize: 'clamp(40px, 8vw, 90px)', lineHeight: 1.1 }}
               className="mb-8 font-light"
-            >
+            >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
               Créateurs d'Événements <br />
               <span style={{ fontStyle: 'italic', color: C.primary }}>d'Exception</span>
-            </h1>
+            </>)}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>

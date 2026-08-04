@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -152,7 +153,7 @@ export default function HavenEstatesPage() {
             ) : (
               <>
                 <Home className="w-5 h-5 text-[var(--brand,#b8860b)]" />
-                <span className="text-xl font-light tracking-[0.15em] uppercase" style={{ fontFamily: "Georgia, serif" }}>Haven <span className="font-bold text-[var(--brand,#b8860b)]">Estates</span></span>
+                <span className="text-xl font-light tracking-[0.15em] uppercase" style={{ fontFamily: "Georgia, serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>Haven <span className="font-bold text-[var(--brand,#b8860b)]">Estates</span></>)}</span>
               </>
             )}
           </Link>

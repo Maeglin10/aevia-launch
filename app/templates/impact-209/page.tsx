@@ -17,6 +17,7 @@ import { TrackingCollapse } from '@/lib/templates/hero-kit-3';
 import {
   clientAddress,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientTeam,
@@ -1116,14 +1117,14 @@ export default function Page() {
         {fd?.logoBase64 ? (
           <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
         ) : (
-        <div>
+        <div>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
           <span style={{ ...headingFont, fontSize: '20px', color: DARK, letterSpacing: '0.06em' }}>
             L'Atelier
           </span>
           <span style={{ ...bodyFont, fontSize: '9px', color: GOLD, letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginTop: '-2px' }}>
             Coiffure & Beauté
           </span>
-        </div>
+        </>)}</div>
         )}
 
         {/* Desktop links */}

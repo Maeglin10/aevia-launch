@@ -16,6 +16,7 @@ import {
 } from "@/lib/templates/hero-kit-2"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -232,7 +233,7 @@ export default function VanguardLegalPage() {
             <div className="w-10 h-10 border border-[var(--brand,#00ff41)]/30 flex items-center justify-center group-hover:border-[var(--brand,#00ff41)] transition-all duration-500">
               <Shield className="w-5 h-5 text-[var(--brand,#00ff41)]" />
             </div>
-            <span className="text-xl font-bold tracking-tighter uppercase">Vanguard <span className="text-[var(--brand,#00ff41)]">Legal</span></span>
+            <span className="text-xl font-bold tracking-tighter uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Vanguard <span className="text-[var(--brand,#00ff41)]">Legal</span></>)}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">

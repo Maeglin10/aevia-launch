@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientStats,
@@ -930,11 +931,11 @@ export default function Impact167Page() {
                 letterSpacing: "0.06em",
                 fontStyle: "italic",
               }}
-            >
+            >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
               Rive Gauche
               <span style={{ color: C.gold }}> · </span>
               Immobilier
-            </span>
+            </>)}</span>
           )}
         </div>
 

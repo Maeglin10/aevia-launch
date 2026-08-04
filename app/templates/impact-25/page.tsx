@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Code2, Phone, Mail, MapPin, Star, CheckCircle, ArrowRight, Layers, Sparkles, Globe } from "lucide-react"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -242,7 +243,7 @@ export default function PixelRepublicPage() {
               <div style={{ width: 32, height: 32, background: `linear-gradient(135deg, ${C.accent}, ${C.violet2})`, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Code2 size={16} color="#fff" />
               </div>
-              <span style={{ fontSize: 18, fontWeight: 700, color: scrolled ? C.text : "#fff" }}>Pixel<span style={{ color: C.accent }}>Republic</span></span>
+              <span style={{ fontSize: 18, fontWeight: 700, color: scrolled ? C.text : "#fff" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Pixel<span style={{ color: C.accent }}>Republic</span></>)}</span>
             </>
           )}
         </div>

@@ -8,6 +8,7 @@ import { Eye, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight } from "
 import {
   clientCertifications,
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -229,7 +230,7 @@ export default function VisionClairePage() {
               <div style={{ background: C.cyan, borderRadius: 8, padding: "7px 9px", display: "flex" }}>
                 <Eye size={18} color="#fff" />
               </div>
-              <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>Vision<span style={{ color: C.cyan }}>Claire</span></span>
+              <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Vision<span style={{ color: C.cyan }}>Claire</span></>)}</span>
             </>
           )}
         </div>

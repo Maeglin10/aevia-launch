@@ -32,6 +32,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -515,12 +516,12 @@ function HeroSection() {
             margin: '28px 0 22px',
             textShadow: '0 14px 60px rgba(0,0,0,0.45)',
           }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           Le sourire que{' '}
           <span style={{ fontStyle: 'italic', color: C.goldLight }}>
             vous méritez
           </span>
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}

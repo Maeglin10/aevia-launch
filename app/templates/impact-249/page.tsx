@@ -18,6 +18,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientTagline,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -651,11 +652,11 @@ function Hero() {
             textShadow: '0 14px 60px rgba(0,0,0,0.55)',
             maxWidth: '10em',
           }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           L&apos;encre
           <br />
           comme art.
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 26 }}

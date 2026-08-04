@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -208,7 +209,7 @@ export default function VoltProPage() {
                 <div className="w-8 h-8 bg-[var(--brand,#facc15)] flex items-center justify-center">
                   <Zap className="w-4 h-4 text-black fill-black" />
                 </div>
-                <span className="text-lg font-extrabold tracking-[0.15em] uppercase">VoltPro</span>
+                <span className="text-lg font-extrabold tracking-[0.15em] uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>VoltPro</>)}</span>
               </>
             )}
           </Link>

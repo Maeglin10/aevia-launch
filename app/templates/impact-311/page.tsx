@@ -260,22 +260,29 @@ export default function AtelierPerformanceTemplate() {
   useEffect(() => {
     setIsMounted(true);
     
-    // Simulate fetching session
+    // The wizard links here as /templates/impact-311?session=<id>, and the
+    // endpoint is /api/sessions?id=<id>. The previous "/api/session" path with
+    // no identifier matched no route, so the session was never read and the
+    // page showed its demonstration to every client.
     const fetchSession = async () => {
       try {
-        const res = await fetch('/api/session');
+        const id = new URLSearchParams(window.location.search).get("session");
+        if (!id) return;
+        const res = await fetch(`/api/sessions?id=${id}`);
+        if (!res.ok) return;
         const data = await res.json();
-        if (data && data.session) {
-          setSession(data.session);
-          if (data.session.brandColor) {
-            setThemeColor(data.session.brandColor);
-            C.primary = data.session.brandColor;
-            C.primaryLight = shadeColor(data.session.brandColor, 20);
-            C.primaryDark = shadeColor(data.session.brandColor, -20);
-          }
+        const s = data?.session ?? data;
+        if (!s) return;
+        setSession(s);
+        const couleur = s.formData?.brandColor ?? s.brandColor;
+        if (couleur) {
+          setThemeColor(couleur);
+          C.primary = couleur;
+          C.primaryLight = shadeColor(couleur, 20);
+          C.primaryDark = shadeColor(couleur, -20);
         }
       } catch (err) {
-        console.log("No session found, using defaults");
+        // Pas de session : le thème garde sa démonstration.
       }
     };
     

@@ -95,7 +95,8 @@ function ParallaxImg({ src, alt, speed = 0.5, className = "" }: { src: string; a
 
 // ─── DATA MANIFESTS ─────────────────────────────────────────────────────────
 
-const MANIFEST = {
+function MANIFEST_LIVE() {
+  return {
   hero: {
     headline: "We design digital products that defy the ordinary.",
     sub: "Folio is an independent creative studio based in Stockholm, focusing on art direction, digital product design, and front-end engineering.",
@@ -184,7 +185,9 @@ const MANIFEST = {
     { q: "How do you handle project management?", a: "We run agile sprints with weekly stand-ups and deliverable reviews. Clients have direct access to our Slack channels and Notion boards for total transparency." },
     { q: "Do you offer post-launch support?", a: "Yes. We offer retainer agreements for ongoing optimization, feature additions, and technical maintenance after the initial launch." }
   ]
+};
 }
+let MANIFEST = MANIFEST_LIVE();
 
 // ─── MAIN PAGE ──────────────────────────────────────────────────────────────
 
@@ -221,6 +224,8 @@ export default function FolioStudioPage() {
   }, []);
 
   fd = session?.formData;
+
+  MANIFEST = MANIFEST_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

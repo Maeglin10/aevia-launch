@@ -31,6 +31,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -196,10 +197,10 @@ function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
           style={{ fontFamily: FONT_HEADING, fontSize: "clamp(36px, 5vw, 72px)", fontWeight: 700, color: C.text, lineHeight: 1.08, letterSpacing: -1.5, marginBottom: "clamp(14px,3vw,24px)" }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           Le pain, l'art,{" "}
           <em style={{ color: C.accent, fontStyle: "italic" }}>la tradition</em>
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.22 }}

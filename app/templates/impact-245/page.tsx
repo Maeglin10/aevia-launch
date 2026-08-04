@@ -16,6 +16,7 @@ import {
   clientCity,
   clientName,
   clientReviews,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -561,7 +562,7 @@ function Hero() {
             letterSpacing: '-0.01em',
             cursor: 'default',
           }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           Pain de{' '}
           <span
             style={{
@@ -572,7 +573,7 @@ function Hero() {
           >
             levain.
           </span>
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 28 }}

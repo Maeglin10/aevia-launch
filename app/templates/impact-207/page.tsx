@@ -19,6 +19,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -516,11 +517,11 @@ function RouteMapHero() {
               letterSpacing: "-0.03em",
               maxWidth: 820,
             }}
-          >
+          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
             Move Cargo
             <br />
             <span style={{ color: T.accent }}>Without Limits.</span>
-          </h1>
+          </>)}</h1>
 
           <p
             style={{

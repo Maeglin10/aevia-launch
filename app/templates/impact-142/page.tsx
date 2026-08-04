@@ -10,6 +10,7 @@ import { Leaf, ArrowRight, Menu, TreePine, Recycle, Droplets, Sun, Heart, Award,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -196,7 +197,7 @@ export default function VerdantImpactPage() {
             <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center">
               <Leaf className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight">Verdant</span>
+            <span className="text-xl font-bold tracking-tight">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Verdant</>)}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1a2e1a)]/40">

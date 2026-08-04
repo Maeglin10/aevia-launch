@@ -41,6 +41,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -539,11 +540,11 @@ function Hero() {
             fontSize: "clamp(52px, 8vw, 120px)",
             color: C.cream,
           }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           L'Orfèvrerie
           <br />
           <span style={{ color: C.gold }}>comme Art Vivant</span>
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}

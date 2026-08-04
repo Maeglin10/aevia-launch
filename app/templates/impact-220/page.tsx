@@ -37,6 +37,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -501,11 +502,11 @@ function Hero() {
             marginTop: '20px',
             letterSpacing: '-0.01em',
           }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           L'art de mesurer
           <br />
           <em style={{ fontStyle: 'italic', color: T.cream }}>le temps</em>
-        </motion.h1>
+        </>)}</motion.h1>
 
         <motion.div
           initial={{ scaleX: 0 }}

@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Menu, X, ArrowRight, MapPin, Calendar, Clock, ChevronRight, Search, Globe, Wind } from "lucide-react"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -241,7 +242,7 @@ export default function AtlasPage() {
             ) : (
               <>
                 <Globe className="w-5 h-5 text-[var(--brand,#C0392B)]" />
-                <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>Atlas</span>
+                <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Atlas</>)}</span>
               </>
             )}
           </Link>

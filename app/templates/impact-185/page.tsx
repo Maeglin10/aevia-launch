@@ -9,6 +9,7 @@ import { Scissors, Star, Phone, MapPin, Clock, ChevronRight, Shield, Calendar, M
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -305,7 +306,7 @@ export default function GentlemansCutPage() {
             ) : (
               <>
                 <Scissors className="w-4 h-4 text-[var(--brand,#c9a84c)]" />
-                <span className="font-bold text-[#f5f0e8] tracking-wide text-sm">Gentleman's <span className="text-[var(--brand,#c9a84c)]">Cut</span></span>
+                <span className="font-bold text-[#f5f0e8] tracking-wide text-sm">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Gentleman's <span className="text-[var(--brand,#c9a84c)]">Cut</span></>)}</span>
               </>
             )}
           </div>

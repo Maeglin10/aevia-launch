@@ -45,6 +45,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -492,11 +493,11 @@ function SplitRevealHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h1 style={{ fontSize: "clamp(48px, 5.5vw, 88px)", fontWeight: 700, lineHeight: 1.0, color: C.text, fontFamily: "'DM Sans', system-ui, sans-serif", marginBottom: 28, letterSpacing: "-0.03em" }}>
+          <h1 style={{ fontSize: "clamp(48px, 5.5vw, 88px)", fontWeight: 700, lineHeight: 1.0, color: C.text, fontFamily: "'DM Sans', system-ui, sans-serif", marginBottom: 28, letterSpacing: "-0.03em" }}>{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
             Identités
             <br />
             <span style={{ color: C.emeraldGlow }}>qui durent.</span>
-          </h1>
+          </>)}</h1>
           <p style={{ color: C.textMuted, fontSize: 18, lineHeight: 1.6, maxWidth: 440, marginBottom: 48, fontFamily: "'DM Sans', system-ui, sans-serif" }}>
             Verso est un studio de branding genevois. Nous créons des identités visuelles, des expériences digitales et des systèmes de communication pour des marques exigeantes.
           </p>

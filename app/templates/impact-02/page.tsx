@@ -299,9 +299,9 @@ export default function CreativePortfolioSPA() {
               />
             ) : (
               <>
-            <span className="text-lg font-light tracking-[0.3em] uppercase transition-colors group-hover:text-amber-400">
+            <span className="text-lg font-light tracking-[0.3em] uppercase transition-colors group-hover:text-amber-400">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
               Elena<span className="font-black">Korr</span>
-            </span>
+            </>)}</span>
               </>
             )}
           </Link>

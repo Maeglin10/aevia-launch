@@ -8,6 +8,7 @@ import Link from "next/link"
 import { ArrowRight, MapPin, Mail, Phone, Clock, Star, ChevronDown } from "lucide-react"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -233,7 +234,7 @@ export default function StudioNomaPage() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <><span style={{ fontFamily: FONT, fontSize: 22, fontWeight: 600, color: scrolled ? C.text : "#fff", letterSpacing: 1 }}>Studio <em>Noma</em></span></>
+            <><span style={{ fontFamily: FONT, fontSize: 22, fontWeight: 600, color: scrolled ? C.text : "#fff", letterSpacing: 1 }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Studio <em>Noma</em></>)}</span></>
           )}
         <div style={{ gap: 32, alignItems: "center" }} className="hidden md:flex">
           {NAV.map(({ l, h }) => (

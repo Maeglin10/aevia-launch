@@ -9,6 +9,7 @@ import { DWELL, useSlides, AnchoredBackdrop, WordFlight, SlideIndex, HairlineArr
 import {
   clientAddress,
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -159,9 +160,9 @@ export default function LedgerPage() {
               letterSpacing: -0.3,
               color: scrolled ? C.accent : C.white,
             }}
-          >
+          >{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
             Ledger <span style={{ fontWeight: 400, opacity: 0.7 }}>&amp; Associés</span>
-          </div>
+          </>)}</div>
         )}
         <div style={{ display: "flex", alignItems: "center", gap: 32 }} className="nav-links-desktop">
           {navLinks.map((link) => (

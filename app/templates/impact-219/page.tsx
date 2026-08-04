@@ -25,6 +25,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -381,7 +382,7 @@ function Hero() {
               lineHeight: 1.04,
               margin: '22px 0 18px',
             }}
-          >
+          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
             Pilotez votre croissance,{' '}
             <span
               style={{
@@ -392,7 +393,7 @@ function Hero() {
             >
               sans le chaos.
             </span>
-          </h1>
+          </>)}</h1>
           <p style={{ fontSize: 18, color: C.inkSoft, lineHeight: 1.65, maxWidth: 480, margin: '0 0 32px' }}>
             NovaSaaS réunit vos données, vos équipes et vos automatisations dans une
             seule plateforme. Décidez plus vite, avec des analyses en temps réel.

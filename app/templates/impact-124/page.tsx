@@ -245,7 +245,7 @@ export default function MorphStudioPage() {
             ) : (
               <>
                 <Orbit className="w-8 h-8 text-[var(--brand,#22d3ee)] group-hover:rotate-180 transition-transform duration-1000" />
-                <span className="text-xl font-bold tracking-widest text-white uppercase">MORPH</span>
+                <span className="text-xl font-bold tracking-widest text-white uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>MORPH</>)}</span>
               </>
             )}
           </Link>

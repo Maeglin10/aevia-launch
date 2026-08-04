@@ -33,10 +33,11 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
-  clientStats,
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -534,9 +535,9 @@ export default function GarageMinimalistTemplate() {
                 color: C.graphite,
                 marginBottom: "1.5rem",
                 letterSpacing: "-0.02em"
-              }}>
+              }}>{/* ACCROCHE */ clientTagline({ formData: fd }) ?? (<>
                 L'entretien automobile <span style={{ color: C.primary, fontStyle: "italic" }}>réinventé.</span>
-              </h1>
+              </>)}</h1>
             </Reveal>
             
             <Reveal delay={0.2}>

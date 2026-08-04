@@ -15,6 +15,7 @@ import Link from "next/link";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -1085,9 +1086,9 @@ export default function LuxuryJewelryTemplate() {
                   WebkitTextFillColor: "transparent",
                   animation: "shimmer 4s linear infinite",
                 }}
-              >
+              >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
                 MAISON ÉLARA
-              </span>
+              </>)}</span>
             )}
           </div>
 

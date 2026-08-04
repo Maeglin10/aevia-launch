@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, 
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -1193,9 +1194,9 @@ export default function Impact135Page() {
                   color: C.text,
                   letterSpacing: "0.05em",
                 }}
-              >
+              >{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
                 TRADE<span style={{ color: C.accent }}>OS</span>
-              </span>
+              </>)}</span>
             </>
           )}
         </div>

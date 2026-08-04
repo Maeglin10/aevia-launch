@@ -9,6 +9,7 @@ import { Code2, ArrowRight, Menu, Star, Terminal, GitBranch, Cpu, Boxes, Downloa
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -212,7 +213,7 @@ export default function WaveFXPage() {
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#6366f1)] to-blue-500 flex items-center justify-center">
                   <Code2 className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-xl font-black tracking-tight">Wave<span className="text-[var(--brand,#818cf8)]">FX</span></span>
+                <span className="text-xl font-black tracking-tight">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Wave<span className="text-[var(--brand,#818cf8)]">FX</span></>)}</span>
               </>
             )}
           </Link>

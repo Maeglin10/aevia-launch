@@ -9,6 +9,7 @@ import { Ruler, ArrowRight, Menu, Star, MapPin, TreePine, Shovel, Layers, Mounta
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -167,7 +168,7 @@ export default function TerraArchitecturePage() {
                 <div className="w-10 h-10 bg-[#3d3a35] flex items-center justify-center group-hover:rotate-90 transition-transform duration-700">
                   <Ruler className="w-5 h-5 text-[#f2f0eb]" />
                 </div>
-                <span className="text-xl font-bold tracking-[0.1em] uppercase">Terra <span className="font-light italic text-[#3d3a35]/60">Studio</span></span>
+                <span className="text-xl font-bold tracking-[0.1em] uppercase">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Terra <span className="font-light italic text-[#3d3a35]/60">Studio</span></>)}</span>
               </>
             )}
           </Link>

@@ -22,6 +22,7 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -549,10 +550,10 @@ function Hero() {
             margin: '0 0 28px',
             maxWidth: 900,
           }}
-        >
+        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
           L&apos;art de vous<br />
           <em style={{ fontStyle: 'italic', color: C.ecruDeep }}>habiller juste</em>
-        </h1>
+        </>)}</h1>
 
         <p
           style={{

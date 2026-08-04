@@ -12,6 +12,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -266,9 +267,9 @@ return (
           <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", color: C.amber, marginBottom: "1.5rem" }}>
             NOTRE MISSION
           </div>
-          <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.03em", color: C.text, marginBottom: "2rem", lineHeight: 1.15, paddingBottom: "0.15em" }}>
+          <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.03em", color: C.text, marginBottom: "2rem", lineHeight: 1.15, paddingBottom: "0.15em" }}>{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
             Une écriture cinématographique sans concession.
-          </h2>
+          </>)}</h2>
           <p style={{ fontSize: "1.05rem", color: C.textMuted, lineHeight: 1.8, maxWidth: "60ch", margin: "0 auto 3rem" }}>
             Depuis plus de deux décennies, nous accompagnons des réalisateurs audacieux et des récits porteurs de sens. De la recherche de financement à la diffusion internationale, nous défendons une vision indépendante et passionnée du septième art.
           </p>
