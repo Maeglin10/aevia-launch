@@ -1,5 +1,9 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientHours,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useEffect, useState } from "react";
@@ -27,11 +31,11 @@ const CONTACT_SUBJECTS = [
   "Autre",
 ];
 
-const HOURS = [
+const HOURS = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
   { day: "Lundi – Vendredi", time: "7h – 19h" },
   { day: "Samedi", time: "8h – 18h" },
   { day: "Dimanche", time: "9h – 14h" },
-];
+]);
 
 const ROASTING_DAYS = [
   { day: "Mardi", time: "6h – 12h", lots: "Lots filtre & single origin" },

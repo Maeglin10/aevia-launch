@@ -453,13 +453,13 @@ export default function Impact132() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
 
   // La une porte l'accroche du client : c'est le seul titre de cette page
 
   // qui parle de lui, les autres sont des articles.
 
   FEATURED = { ...FEATURED_SOURCE, title: clientTagline(session) ?? FEATURED_SOURCE.title };
-  c = session?.generatedContent;
   ARTICLES = ARTICLES_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

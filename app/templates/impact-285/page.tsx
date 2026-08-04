@@ -36,6 +36,7 @@ import {
 import {
   clientAddress,
   clientCity,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -2535,14 +2536,14 @@ function FooterSection() {
     padding: 'clamp(64px,8vw,100px) clamp(24px,6vw,96px) 40px',
   };
 
-  const horaires: { jour: string; heures: string }[] = [
+  const horaires: { jour: string; heures: string }[] = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ jour: h.day, heures: h.hours })), [
     { jour: 'Lundi', heures: '8h30 – 12h30 · 14h – 18h30' },
     { jour: 'Mardi', heures: '8h30 – 12h30 · 14h – 18h30' },
     { jour: 'Mercredi', heures: '8h30 – 12h30 · 14h – 18h30' },
     { jour: 'Jeudi', heures: '8h30 – 12h30 · 14h – 18h30' },
     { jour: 'Vendredi', heures: '8h30 – 12h30 · 14h – 18h00' },
     { jour: 'Samedi', heures: 'Urgences sur RDV' },
-  ];
+  ]);
 
   return (
     <footer style={foot}>

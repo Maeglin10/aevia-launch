@@ -249,6 +249,75 @@ export function clientLegalForm(s: SessionLike | null | undefined): string | und
   return trimmed(s?.businessProfile?.legal?.legalForm) || undefined;
 }
 
+
+export interface ClientHour {
+  /** « Lundi », « Lun », tel que le thème l'écrit. */
+  day: string;
+  /** « 9h – 18h », ou « Fermé ». Une seule chaîne : c'est ce que les thèmes rendent. */
+  hours: string;
+  closed: boolean;
+}
+
+/**
+ * Les horaires d'ouverture du client.
+ *
+ * Le wizard les recueille jour par jour depuis l'étape service ; aucun thème ne
+ * les lisait. Cinquante-trois d'entre eux affichent pourtant une grille
+ * d'horaires écrite en dur — un restaurant fermé le lundi sur le site d'un
+ * salon ouvert sept jours sur sept.
+ *
+ * La forme rendue est celle des thèmes : un libellé de jour et une plage en une
+ * seule chaîne, parce que c'est ainsi qu'ils l'écrivent tous.
+ */
+export function clientHours(s: SessionLike | null | undefined): ClientHour[] | undefined {
+  const rows = (s?.businessProfile?.openingHours ?? []) as any[];
+  return keep(
+    rows.map((r) => {
+      const jour = trimmed(r?.day);
+      const ouvre = trimmed(r?.open);
+      const ferme = trimmed(r?.close);
+      const closed = Boolean(r?.closed) || (!ouvre && !ferme);
+      return {
+        day: jour,
+        hours: closed ? "Fermé" : [ouvre, ferme].filter(Boolean).join(" – "),
+        closed,
+      };
+    }),
+    (r) => Boolean(r.day),
+  );
+}
+
+/** Le téléphone : la fiche d'entreprise d'abord, le formulaire ensuite. */
+export function clientPhone(s: SessionLike | null | undefined): string | undefined {
+  return (
+    trimmed(s?.businessProfile?.contacts?.general?.phone) ||
+    trimmed(s?.businessProfile?.contacts?.booking?.phone) ||
+    trimmed(s?.formData?.phone) ||
+    undefined
+  );
+}
+
+/** L'adresse e-mail, même ordre. */
+export function clientEmail(s: SessionLike | null | undefined): string | undefined {
+  return (
+    trimmed(s?.businessProfile?.contacts?.general?.email) ||
+    trimmed(s?.businessProfile?.contacts?.booking?.email) ||
+    trimmed(s?.formData?.email) ||
+    undefined
+  );
+}
+
+/** Le lien de réservation, quand le client en a un. */
+export function clientBookingUrl(s: SessionLike | null | undefined): string | undefined {
+  return trimmed(s?.businessProfile?.bookingSystem?.url) || undefined;
+}
+
+/** Les moyens de paiement acceptés. */
+export function clientPayments(s: SessionLike | null | undefined): string[] | undefined {
+  const rows = (s?.businessProfile?.paymentMethods ?? []) as any[];
+  return keep(rows.map(trimmed), Boolean);
+}
+
 /** Les photos du client. Jamais de photo de stock à la place. */
 export function clientPhotos(s: SessionLike | null | undefined): string[] {
   const rows = (s?.formData?.photoUrls ?? []) as any[];

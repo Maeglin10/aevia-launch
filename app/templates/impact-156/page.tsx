@@ -8,6 +8,7 @@ import { ArrowRight, MapPin, Mail, Phone, Clock, Star, Heart, Sun, Moon, X, Chec
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -90,14 +91,14 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const COURS_DEMO = [
+const COURS_DEMO = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ nom: h.day, horaire: h.hours })), [
   { nom: "Vinyasa Flow", niveau: "Tous niveaux", duree: "60 min", horaire: "Lun · Mar · Jeu 7h30", desc: "Enchaînement fluide de postures synchronisées avec la respiration. Renforce et libère.", icon: <Sun size={20} color={C.accent} /> },
   { nom: "Yin Yoga", niveau: "Tous niveaux", duree: "75 min", horaire: "Mer · Ven 18h30", desc: "Postures tenues en profondeur pour relâcher les fascias et cultiver l'introspection.", icon: <Moon size={20} color={C.accent} /> },
   { nom: "Yoga Prénatal", niveau: "Gestantes", duree: "60 min", horaire: "Mar · Jeu 10h00", desc: "Pratique douce et sécurisée pour accompagner chaque étape de la grossesse avec sérénité.", icon: <Heart size={20} color={C.warm} /> },
   { nom: "Ashtanga", niveau: "Intermédiaire", duree: "90 min", horaire: "Lun · Mer 6h30", desc: "Série codifiée de postures pratiquée dans un ordre précis. Discipline, force et endurance.", icon: <Sun size={20} color={C.warm} /> },
   { nom: "Méditation guidée", niveau: "Tous niveaux", duree: "45 min", horaire: "Mar · Jeu · Sam 12h30", desc: "Techniques de pleine conscience, respiration pranayama et relaxation profonde Yoga Nidra.", icon: <Moon size={20} color={C.accent} /> },
   { nom: "Yoga Restauratif", niveau: "Débutant / Récup", duree: "60 min", horaire: "Sam 11h00 · Dim 10h00", desc: "Postures soutenues par des accessoires pour une récupération active et un système nerveux apaisé.", icon: <Heart size={20} color={C.accent} /> },
-]
+])
 
 const APPROCHE_SOURCE = [
   { titre: "Pratique authentique", desc: "Transmis dans la lignée de l'Ashtanga traditionnel, chaque cours s'adapte pourtant au corps et au rythme de chacun." },

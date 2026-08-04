@@ -40,6 +40,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -266,7 +267,7 @@ const soinsList = [
 ];
 
 // ─── Réservation — créneaux & horaires ────────────────────────────────────────
-const horaires = [
+const horaires = /* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ day: h.day, hours: h.hours })), [
   { day: "Lundi", hours: "10h — 20h" },
   { day: "Mardi", hours: "10h — 20h" },
   { day: "Mercredi", hours: "10h — 21h" },
@@ -274,7 +275,7 @@ const horaires = [
   { day: "Vendredi", hours: "10h — 21h" },
   { day: "Samedi", hours: "9h — 19h" },
   { day: "Dimanche", hours: "10h — 17h" },
-];
+]);
 
 const creneaux = ["10h00", "11h30", "13h00", "14h30", "16h00", "17h30", "19h00"];
 

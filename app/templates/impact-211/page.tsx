@@ -2,6 +2,7 @@
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHours,
   clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -1682,11 +1683,11 @@ export default function Impact211Page() {
             <div>
               <div style={{ ...eyebrowStyle, marginBottom: "1.5rem" }}>Horaires</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-                {[
+                {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ day: h.day, hours: h.hours })), [
                   { day: "Mardi – Samedi", hours: "19h30 – 22h30" },
                   { day: "Dimanche", hours: "Fermé" },
                   { day: "Lundi", hours: "Fermé" },
-                ].map((item) => (
+                ]).map((item) => (
                   <div key={item.day} style={{ display: "flex", justifyContent: "space-between", gap: "1rem" }}>
                     <span style={{ fontFamily: font.sans, fontSize: "0.78rem", fontWeight: 300, color: C.creamMuted }}>{item.day}</span>
                     <span style={{ fontFamily: font.sans, fontSize: "0.78rem", fontWeight: 300, color: item.hours === "Fermé" ? C.gold + "80" : C.cream }}>{item.hours}</span>

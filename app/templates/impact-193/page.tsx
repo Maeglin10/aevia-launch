@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -63,14 +64,14 @@ function TARIFS_DEMO_LIVE() {
 let TARIFS_DEMO = TARIFS_DEMO_LIVE();;
 let TARIFS = TARIFS_DEMO;
 
-const AGENDA = [
+const AGENDA = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ j: h.day, h: h.hours })), [
   { j: "Lundi", h: "9h — 19h" },
   { j: "Mardi", h: "9h — 19h" },
   { j: "Mercredi", h: "9h — 13h" },
   { j: "Jeudi", h: "11h — 20h" },
   { j: "Vendredi", h: "9h — 18h" },
   { j: "Samedi", h: "9h — 13h, un samedi sur deux" },
-];
+]);
 
 const PRISES_EN_CHARGE_DEMO = [
   { icon: Wind, title: "Douleurs du dos & lombalgies", desc: "Cervicalgie, dorsalgie, lombalgie, sciatique. Traitement manuel des restrictions de mobilité articulaire et musculaire. Soins adaptés aux douleurs chroniques et aiguës." },

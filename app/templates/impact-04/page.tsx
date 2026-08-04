@@ -23,6 +23,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
   clientFaq,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -760,11 +761,11 @@ return (
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-20 pt-16 border-t border-white/5">
-              {[
+              {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
                 { icon: <MapPin className="w-5 h-5" />, label: "Location", value: `42 Rue du Faubourg\nSaint-Honoré, 75008 ${clientCity(sessionData) ?? "Paris"}` },
                 { icon: <Clock className="w-5 h-5" />, label: "Hours", value: "Tue–Sat: 19:00–23:00\nSun: 12:00–15:00" },
                 { icon: <Phone className="w-5 h-5" />, label: "Contact", value: "+33 1 42 65 15 16\nreserve@letoile.paris" },
-              ].map((item, i) => (
+              ]).map((item, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="text-center group">
                     <div className="w-12 h-12 mx-auto rounded-full bg-amber-700/10 flex items-center justify-center text-amber-600 mb-4 group-hover:bg-amber-700 group-hover:text-white transition-all duration-200 cursor-default">

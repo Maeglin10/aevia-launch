@@ -1,4 +1,6 @@
 "use client";
+import { clientHours } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useEffect, useState } from "react";
 import { Mail, MapPin, Clock, Shield, Check } from "lucide-react";
@@ -50,12 +52,12 @@ export default function Contact() {
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "clamp(40px, 5vw, 72px)" }}>
           {/* Info */}
           <div>
-            {[
+            {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
               { Icon: Mail, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
               { Icon: MapPin, label: "Cabinet", value: "Paris, France" },
               { Icon: Clock, label: "Horaires", value: "Lun – Ven · 9h – 19h" },
               { Icon: Shield, label: "Confidentialité", value: "Secret professionnel garanti" },
-            ].map(({ Icon, label, value }) => (
+            ]).map(({ Icon, label, value }) => (
               <div key={label} style={{ display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 28, borderBottom: `1px solid ${C.border}`, paddingBottom: 22 }}>
                 <div style={{ width: 44, height: 44, background: C.accentLight, border: `1px solid ${C.borderGold}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <Icon size={18} color={C.accent} />

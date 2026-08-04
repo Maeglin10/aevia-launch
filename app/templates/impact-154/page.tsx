@@ -29,6 +29,7 @@ import {
 } from "lucide-react"
 import {
   clientCity,
+  clientHours,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1346,12 +1347,12 @@ function ContactPage() {
          <div className="max-w-[1300px] mx-auto px-8 md:px-20 grid lg:grid-cols-2 gap-24">
             {/* Info */}
             <div>
-               {[
+               {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ label: h.day, value: h.hours })), [
                  { icon: Mail, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
                  { icon: MapPin, label: "Siège", value: "Adresse communiquée sur demande" },
                  { icon: Clock, label: "Horaires", value: "Lun – Ven · 9h – 19h" },
                  { icon: ShieldCheck, label: "Confidentialité", value: "Discrétion absolue garantie" }
-               ].map((row, i) => (
+               ]).map((row, i) => (
                  <div key={i} className="flex gap-6 items-start mb-10 border-b border-white/5 pb-8">
                     <div className="w-12 h-12 bg-[var(--brand,#b4925e)]/10 border border-[var(--brand,#b4925e)]/20 flex items-center justify-center flex-shrink-0">
                        <row.icon className="w-5 h-5 text-[var(--brand,#b4925e)]" />

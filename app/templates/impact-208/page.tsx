@@ -19,6 +19,7 @@ import {
 } from "@/lib/templates/hero-kit";
 import {
   clientCity,
+  clientHours,
   clientName,
   clientServices,
   clientStats,
@@ -1562,12 +1563,12 @@ function ContactSection() {
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
-              {[
+              {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
                 { label: 'Siège social', value: `14 rue des Bâtisseurs, 69000 ${clientCity(sessionData) ?? "Lyon"}` },
                 { label: 'Téléphone', value: '+33 4 78 XX XX XX' },
                 { label: 'Email', value: (fd?.email ?? 'contact@ferretti-construction.fr') },
                 { label: 'Horaires', value: 'Lun–Ven : 8h–18h' },
-              ].map((item) => (
+              ]).map((item) => (
                 <div key={item.label} style={{ display: 'flex', gap: 20 }}>
                   <div style={{
                     width: 4,

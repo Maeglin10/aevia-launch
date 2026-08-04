@@ -93,6 +93,10 @@ export default function ConduiteZeroStressPage() {
 
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
+  METHODE = METHODE_LIVE();
 
 
   // Le mot animé du hero ne peut pas porter une phrase : c'est le sous-titre
@@ -108,10 +112,6 @@ export default function ConduiteZeroStressPage() {
 
 
     : HERO_SOURCE;
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
-  METHODE = METHODE_LIVE();
 
 
   SERVICES_DEMO = resolveList(

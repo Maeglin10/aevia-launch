@@ -11,6 +11,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHours,
   clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -412,11 +413,11 @@ return (
                     Rencontrez nos<br />horlogers
                   </h2>
                   <div className="grid md:grid-cols-3 gap-8">
-                    {[
+                    {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
                       { icon: <MapPin className="w-4 h-4" />, label: "Showroom " + (clientCity(sessionData) ?? "Paris"), value: "18 Place Vendôme, 75001" },
                       { icon: <Phone className="w-4 h-4" />, label: "Téléphone", value: "+33 1 42 60 00 00" },
                       { icon: <Clock className="w-4 h-4" />, label: "Horaires", value: "Lun–Sam 10h–19h" },
-                    ].map(c => (
+                    ]).map(c => (
                       <div key={c.label}>
                         <div className="flex items-center gap-2 text-[var(--brand,#B49A6A)] mb-2">{c.icon}<span className="text-xs tracking-widest uppercase">{c.label}</span></div>
                         <p className="text-white/60 text-sm">{c.value}</p>

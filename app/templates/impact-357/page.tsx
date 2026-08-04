@@ -90,6 +90,9 @@ export default function AxisBioPage() {
 
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
 
   // Le mot animé du hero ne peut pas porter une phrase : c'est le sous-titre
@@ -105,9 +108,6 @@ export default function AxisBioPage() {
 
 
     : HERO_SOURCE;
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

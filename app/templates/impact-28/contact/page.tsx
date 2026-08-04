@@ -1,7 +1,11 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
-import { clientCity } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientCity,
+  clientHours,
+} from "@/lib/templates/clientContent";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight, MapPin, Mail, Phone, Clock } from "lucide-react"
@@ -14,7 +18,7 @@ let bp: any = null;
 let c: any = null;
 
 function offices_LIVE() {
-  return [
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, hours: h.hours })), [
   {
     city: (clientCity(sessionData) ?? "Paris"),
     label: "Main Atelier",
@@ -42,7 +46,7 @@ function offices_LIVE() {
     hours: "Mon – Thu, 09:30 – 17:30",
     img: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&h=500&fit=crop&crop=center",
   },
-];
+]);
 }
 let offices = offices_LIVE();
 

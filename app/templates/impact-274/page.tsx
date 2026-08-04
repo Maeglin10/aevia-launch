@@ -31,6 +31,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -1905,14 +1906,14 @@ function PracticalInfoSection() {
     overflow: 'hidden',
   };
 
-  const horaires = [
+  const horaires = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ jour: h.day, heures: h.hours })), [
     { jour: 'Lundi', heures: '8h00 – 19h00' },
     { jour: 'Mardi', heures: '8h00 – 19h00' },
     { jour: 'Mercredi', heures: '8h00 – 19h00' },
     { jour: 'Jeudi', heures: '8h00 – 19h00' },
     { jour: 'Vendredi', heures: '8h00 – 19h00' },
     { jour: 'Samedi', heures: '9h00 – 12h00' },
-  ];
+  ]);
 
   const infos = [
     { icon: <User size={18} color="#fff" strokeWidth={1.8} />, label: 'Secteur 1 (sans dépassement d\'honoraires)' },

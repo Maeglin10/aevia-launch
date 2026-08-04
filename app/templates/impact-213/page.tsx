@@ -18,6 +18,7 @@ import { HardCutRebuild, FixedRail } from '@/lib/templates/hero-kit-3';
 import {
   clientCity,
   clientFaq,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -2338,11 +2339,11 @@ function ContactForm() {
               sans engagement. Chaque devis est détaillé, transparent et gratuit.
             </p>
 
-            {[
+            {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
               { icon: '📞', label: 'Téléphone', value: (fd?.phone ?? '04 78 XX XX XX'), sub: 'Du lundi au vendredi, 8h–18h' },
               { icon: '✉️', label: 'E-mail', value: (fd?.email ?? 'contact@batisseurs-durand.fr'), sub: 'Réponse sous 24h' },
               { icon: '📍', label: 'Siège social', value: `14 rue des Bâtisseurs, 69009 ${clientCity(sessionData) ?? "Lyon"}`, sub: (clientCity(sessionData) ?? 'Lyon') + ' — France' },
-            ].map((item) => (
+            ]).map((item) => (
               <div
                 key={item.label}
                 style={{ display: 'flex', gap: 18, marginBottom: 28, alignItems: 'flex-start' }}

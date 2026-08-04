@@ -27,6 +27,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHours,
   clientName,
   clientReviews,
   clientServices,
@@ -620,12 +621,12 @@ function HorairesContact() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
-  const horaires = [
+  const horaires = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
     { day: "Mardi – Vendredi", time: "07h00 – 20h00" },
     { day: "Samedi", time: "07h00 – 19h30" },
     { day: "Dimanche", time: "07h00 – 13h30" },
     { day: "Lundi", time: "Fermé" },
-  ];
+  ]);
 
   return (
     <section ref={ref} id="contact" style={{ padding: "100px 80px", background: C.bg, fontFamily: FONT_BODY }}>

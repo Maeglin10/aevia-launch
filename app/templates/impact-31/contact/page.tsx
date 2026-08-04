@@ -1,4 +1,6 @@
 "use client";
+import { clientHours } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
@@ -42,12 +44,12 @@ const LEVELS = ["Débutant absolu", "Quelques cours déjà", "Intermédiaire", "
 
 const SLOTS = ["Matin (7h–12h)", "Midi (12h–14h)", "Après-midi (14h–17h)", "Soir (17h–21h)", "Week-end"];
 
-const HOURS = [
+const HOURS = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
   { day: "Lundi – Vendredi", time: "07h00 – 21h00" },
   { day: "Samedi", time: "08h00 – 19h00" },
   { day: "Dimanche", time: "09h00 – 18h00" },
   { day: "Jours fériés", time: "10h00 – 16h00" },
-];
+]);
 
 // ─── Hero Contact ──────────────────────────────────────────────────────────────
 function ContactHero() {

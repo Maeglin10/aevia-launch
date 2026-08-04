@@ -1,4 +1,6 @@
 "use client";
+import { clientHours } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -99,12 +101,12 @@ export default function ContactPage() {
                 </h2>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-                {[
+                {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, hours: h.hours })), [
                   { day: "Mardi – Samedi", service: "Déjeuner", hours: "12h00 – 14h00" },
                   { day: "Mardi – Samedi", service: "Dîner", hours: "19h30 – 22h00" },
                   { day: "Dimanche", service: "", hours: "Fermé" },
                   { day: "Lundi", service: "", hours: "Fermé" },
-                ].map((s, i) => (
+                ]).map((s, i) => (
                   <div
                     key={i}
                     style={{
