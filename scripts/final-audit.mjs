@@ -166,7 +166,12 @@ for (const id of ids) {
       }
       window.scrollTo(0, 0);
     });
-    await p.waitForTimeout(500);
+    /*
+      Un compteur animé part de zéro quand il entre dans le champ. Cinq cents
+      millisecondes après le défilement, six thèmes affichaient encore « 0 » et
+      passaient pour ne pas montrer les chiffres du client.
+    */
+    await p.waitForTimeout(1400);
 
     const { texte, images, couleurVue } = await p.evaluate((couleur) => {
       const hex = couleur.replace("#", "").toLowerCase();
