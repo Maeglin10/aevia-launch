@@ -496,7 +496,7 @@ export default function DrFontainePage() {
               n: r.name ?? r.author,
               l: r.location ?? r.context ?? "",
             })), [
-              { q: "Enfin un cabinet où on se sent à l'aise ! Le Dr. Fontaine prend le temps d'expliquer chaque soin. Pas de douleur, gestes précis, suivi parfait.", n: "Marie-Claire H.", l: "Nantes" },
+              { q: "Enfin un cabinet où on se sent à l'aise ! Le Dr. Fontaine prend le temps d'expliquer chaque soin. Pas de douleur, gestes précis, suivi parfait.", n: "Marie-Claire H.", l: (clientCity(sessionData) ?? "Nantes") },
               { q: "Implant posé sans douleur ni anxiété grâce à l'équipe super rassurante. Résultat bluffant — on ne voit plus la différence avec la vraie dent.", n: "Philippe T.", l: "Saint-Nazaire" },
               { q: "Aligneurs transparents pour ma fille de 16 ans. En 14 mois, résultat parfait. Suivi régulier, app de suivi, équipe disponible. Très satisfaits.", n: "Nathalie & Lucas B.", l: "Rezé (44)" },
             ] as any[]).map((t: any, i: number) => (

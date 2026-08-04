@@ -216,11 +216,14 @@ function BookingModal({
   )
 }
 
-const TEMOIGNAGES = [
-  { q: "Meilleur barbier de Bordeaux, sans discussion. Rasage au rasoir droit parfait, ambiance vintage au top, et le gars sait vraiment écouter ce qu'on veut.", n: "Julien F.", l: "Bordeaux Centre" },
+function TEMOIGNAGES_LIVE() {
+  return [
+  { q: "Meilleur barbier de " + (clientCity({ formData: fd }) ?? "Bordeaux") + ", sans discussion. Rasage au rasoir droit parfait, ambiance vintage au top, et le gars sait vraiment écouter ce qu'on veut.", n: "Julien F.", l: (clientCity({ formData: fd }) ?? "Bordeaux") + " Centre" },
   { q: "Je viens depuis 3 ans. On parle de moi d'un coup de ciseau à l'autre, et chaque fois c'est nickel. La fidélité se mérite — ici elle est bien méritée.", n: "Pierre-Louis B.", l: "Mérignac" },
   { q: "Barbier de confiance, propre, précis, discret. Le genre d'endroit où on revient pas pour l'ambiance (bien qu'elle soit top) mais pour le résultat.", n: "Karim T.", l: "Pessac" },
-]
+];
+}
+let TEMOIGNAGES = TEMOIGNAGES_LIVE();
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -256,6 +259,8 @@ export default function GentlemansCutPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  TEMOIGNAGES = TEMOIGNAGES_LIVE();
+
   SERVICES_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
   TARIFS = resolveList(
     clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),

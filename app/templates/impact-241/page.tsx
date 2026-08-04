@@ -232,11 +232,12 @@ function EDIT_ROWS_SOURCE_LIVE() {
 let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
-const EXPERTISE_ITEMS: ExpertiseItem[] = [
+function EXPERTISE_ITEMS_LIVE() {
+  return [
   {
     step: 'I',
     title: 'Estimation précise',
-    body: "Fondée sur plus de 2 000 transactions réalisées à Bordeaux et en Gironde depuis 2003, notre méthode d'évaluation croise données de marché, analyse comparatives et réalité terrain pour un prix juste — et vendable.",
+    body: "Fondée sur plus de 2 000 transactions réalisées à " + (clientCity(sessionData) ?? "Bordeaux") + " et en Gironde depuis 2003, notre méthode d'évaluation croise données de marché, analyse comparatives et réalité terrain pour un prix juste — et vendable.",
   },
   {
     step: 'II',
@@ -254,6 +255,8 @@ const EXPERTISE_ITEMS: ExpertiseItem[] = [
     body: "Notre relation ne s'arrête pas à l'acte. Nous assurons un suivi patrimonial annuel : valorisation du parc, opportunités de réinvestissement et alertes marché pour que votre patrimoine immobilier continue de travailler pour vous.",
   },
 ];
+}
+let EXPERTISE_ITEMS = EXPERTISE_ITEMS_LIVE();;
 
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
@@ -265,7 +268,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     quote:
-      "En trois ans, j'ai constitué un portefeuille de quatre appartements à Bordeaux via Clé de Voûte. Ils m'ont guidé sur le choix des quartiers, le montage fiscal et la gestion locative. Chaque acquisition a performé au-delà des projections initiales. C'est une vraie relation de confiance, sur le long terme — exactement ce qu'un investisseur sérieux recherche.",
+      "En trois ans, j'ai constitué un portefeuille de quatre appartements à " + (clientCity(sessionData) ?? "Bordeaux") + " via Clé de Voûte. Ils m'ont guidé sur le choix des quartiers, le montage fiscal et la gestion locative. Chaque acquisition a performé au-delà des projections initiales. C'est une vraie relation de confiance, sur le long terme — exactement ce qu'un investisseur sérieux recherche.",
     name: 'Laurent M.',
     role: 'Investisseur privé · ' + (clientCity(sessionData) ?? 'Bordeaux') + ' & Lyon',
   },
@@ -2161,8 +2164,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EXPERTISE_ITEMS = EXPERTISE_ITEMS_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
 
 
   EDIT_ROWS = resolveList(

@@ -1932,11 +1932,12 @@ type Specificite = {
   impact: string;
 };
 
-const SPECIFICITES: Specificite[] = [
+function SPECIFICITES_LIVE() {
+  return [
   {
     num: '§ 1',
     title: 'Régime concordataire',
-    body: "L'Alsace-Moselle dispose d'un régime de faillite spécifique issu du Code de Commerce allemand de 1900. Le concordat judiciaire (renommé redressement judiciaire en 1985 dans le reste de la France mais maintenu localement dans certaines procédures) offre des modalités de négociation avec les créanciers distinctes du droit commun. Nos experts maîtrisent ces procédures et vous représentent devant le Tribunal de Commerce de Strasbourg.",
+    body: "L'Alsace-Moselle dispose d'un régime de faillite spécifique issu du Code de Commerce allemand de 1900. Le concordat judiciaire (renommé redressement judiciaire en 1985 dans le reste de la France mais maintenu localement dans certaines procédures) offre des modalités de négociation avec les créanciers distinctes du droit commun. Nos experts maîtrisent ces procédures et vous représentent devant le Tribunal de Commerce de " + (clientCity(sessionData) ?? "Strasbourg") + ".",
     impact: 'Procédures de sauvegarde spécifiques',
   },
   {
@@ -1952,6 +1953,8 @@ const SPECIFICITES: Specificite[] = [
     impact: 'Cotisations DSN et remboursements différenciés',
   },
 ];
+}
+let SPECIFICITES = SPECIFICITES_LIVE();;
 
 function SpecificiteSection() {
   const sec: React.CSSProperties = {
@@ -2623,9 +2626,11 @@ export default function Impact289Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SPECIFICITES = SPECIFICITES_LIVE();
   PARTNER_CATEGORIES = PARTNER_CATEGORIES_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   STATS_DEMO = STATS_DEMO_LIVE();
+
 
 
 

@@ -48,7 +48,10 @@ const FONT_BODY = "system-ui, -apple-system, sans-serif";
 const NAV = [{"l": "Restaurations", "h": "#services"}, {"l": "La démarche", "h": "#methode"}, {"l": "Repères de prix", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 const HERO = [{"k": "Patrimoine couvert", "line": "Chaque toit ancien a son dessin — on le respecte.", "sub": ""}];
 
-const SERVICES_SOURCE = [{"titre": "Toitures de bâti ancien", "desc": "Ardoise clouée sur volige, tuile plate de pays, essente de châtaignier : le matériau et la pose d'origine, documentés avant travaux.", "tag": "Patrimoine"}, {"titre": "Monuments & ABF", "desc": "Chantiers en secteur protégé : dossiers Architectes des Bâtiments de France préparés par nos soins, prescriptions respectées à la lettre.", "tag": "ABF"}, {"titre": "Zinguerie d'ornement", "desc": "Épis de faîtage, membrons, lucarnes à croupe : façonnés à l'atelier de Rouen, au modèle de l'existant.", "tag": "Ornement"}, {"titre": "Charpente ancienne", "desc": "Reprises d'about, greffes de bois anciens, traitement : notre charpentier travaille au rythme du bâti, pas du planning.", "tag": "Charpente"}, {"titre": "Lucarnes & ouvertures", "desc": "Restauration de lucarnes normandes, création dans le style : jacobine, capucine, œil-de-bœuf.", "tag": "Lucarnes"}, {"titre": "Diagnostic patrimonial", "desc": "État sanitaire complet de la couverture et de la charpente, rapport photo, priorités chiffrées sur dix ans.", "tag": "Diagnostic"}];
+function SERVICES_SOURCE_LIVE() {
+  return [{"titre": "Toitures de bâti ancien", "desc": "Ardoise clouée sur volige, tuile plate de pays, essente de châtaignier : le matériau et la pose d'origine, documentés avant travaux.", "tag": "Patrimoine"}, {"titre": "Monuments & ABF", "desc": "Chantiers en secteur protégé : dossiers Architectes des Bâtiments de France préparés par nos soins, prescriptions respectées à la lettre.", "tag": "ABF"}, {"titre": "Zinguerie d'ornement", "desc": "Épis de faîtage, membrons, lucarnes à croupe : façonnés à l'atelier de " + (clientCity(sessionData) ?? "Rouen") + ", au modèle de l'existant.", "tag": "Ornement"}, {"titre": "Charpente ancienne", "desc": "Reprises d'about, greffes de bois anciens, traitement : notre charpentier travaille au rythme du bâti, pas du planning.", "tag": "Charpente"}, {"titre": "Lucarnes & ouvertures", "desc": "Restauration de lucarnes normandes, création dans le style : jacobine, capucine, œil-de-bœuf.", "tag": "Lucarnes"}, {"titre": "Diagnostic patrimonial", "desc": "État sanitaire complet de la couverture et de la charpente, rapport photo, priorités chiffrées sur dix ans.", "tag": "Diagnostic"}];
+}
+let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();;
 let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "Relevé de l'existant", "d": "Photos, calepinage, sondages : le toit est documenté avant qu'une seule ardoise ne bouge."}, {"n": "02", "t": "Dossier et autorisations", "d": "Déclaration préalable, dossier ABF si secteur protégé : nous préparons, vous signez."}, {"n": "03", "t": "Chantier à l'ancienne", "d": "Matériaux sourcés (ardoise d'Angers, zinc naturel), gestes traditionnels, compagnons formés au bâti ancien."}, {"n": "04", "t": "Carnet de toiture remis", "d": "Photos avant/pendant/après, matériaux utilisés, conseils d'entretien : le carnet suit la maison."}];
 const ENGAGEMENT_DEMO = ["Qualibat 3231 « patrimoine bâti » — au-delà de la couverture courante", "Garantie décennale, assurance spécifique monuments et bâtiments classés", "Matériaux d'origine française sourcés et documentés sur facture", "Un compagnon référent par chantier, joignable directement"];
@@ -91,6 +94,9 @@ export default function ZincEtArdoisePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
+
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

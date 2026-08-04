@@ -216,7 +216,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         <span style={{ fontStyle: 'italic' }}>et destination.</span>
       </>
     ),
-    body: "Ancrés à Paris 8e, nous intervenons dans toute l'Île-de-France — châteaux, hôtels particuliers, domaines — mais aussi en Loire, sur la Côte d'Azur et à l'international. La distance n'est jamais un obstacle à la perfection.",
+    body: "Ancrés à " + (clientCity(sessionData) ?? "Paris") + " 8e, nous intervenons dans toute l'Île-de-France — châteaux, hôtels particuliers, domaines — mais aussi en Loire, sur la Côte d'Azur et à l'international. La distance n'est jamais un obstacle à la perfection.",
     reverse: true,
     numeral: 'II',
   },

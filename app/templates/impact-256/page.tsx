@@ -235,7 +235,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         <em>ou en salle.</em>
       </>
     ),
-    body: "Je me déplace chez vous ou dans votre salle sur Marseille, Aix-en-Provence et Aubagne. Le coaching en ligne est disponible pour toute la France et l'international — mêmes résultats, même exigence.",
+    body: "Je me déplace chez vous ou dans votre salle sur " + (clientCity(sessionData) ?? "Marseille") + ", Aix-en-Provence et Aubagne. Le coaching en ligne est disponible pour toute la France et l'international — mêmes résultats, même exigence.",
     ghostNumeral: '02',
     reverse: true,
   },

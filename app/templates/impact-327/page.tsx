@@ -116,11 +116,14 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const AVIS_SOURCE = [
-  { texte: "Le devis ferme change tout : pas une ligne n'a bougé entre la signature et la facture. La cuisine a été posée en deux jours et demi, plan céramique ajusté au millimètre autour d'un mur qui n'était pas droit.", auteur: "Camille & Hugo T.", detail: "Cuisine îlot, Lyon 6e" },
+function AVIS_SOURCE_LIVE() {
+  return [
+  { texte: "Le devis ferme change tout : pas une ligne n'a bougé entre la signature et la facture. La cuisine a été posée en deux jours et demi, plan céramique ajusté au millimètre autour d'un mur qui n'était pas droit.", auteur: "Camille & Hugo T.", detail: "Cuisine îlot, " + (clientCity(sessionData) ?? "Lyon") + " 6e" },
   { texte: "Troisième cuisiniste consulté, le seul qui a parlé de notre façon de cuisiner avant de parler catalogue. Le dressing assorti posé six mois plus tard est parfait.", auteur: "Nathalie B.", detail: "Cuisine + dressing" },
   { texte: "Un caisson est arrivé rayé — remplacé sous huit jours sans discussion, le poseur est revenu un samedi. C'est là qu'on juge une maison sérieuse.", auteur: "Famille Roussel", detail: "Agencement complet" },
 ];
+}
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();;
 let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -153,6 +156,8 @@ export default function LignesEtBoisPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
+
   PRESTATIONS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], titre: s.title })),
     PRESTATIONS_SOURCE,

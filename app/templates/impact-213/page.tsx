@@ -2166,7 +2166,7 @@ function FAQ() {
     {
       question: "Quelle est votre zone d\'intervention ?",
       answer:
-        "Nous intervenons principalement sur Lyon et son agglomération (métropole du Grand Lyon), le département du Rhône (69), le nord de l'Isère (Bourgoin-Jallieu, La Tour-du-Pin, Vienne) et le sud de l'Ain. Pour les gros chantiers industriels ou les copropriétés importantes, nous étudions toute demande hors de cette zone.",
+        "Nous intervenons principalement sur " + (clientCity(sessionData) ?? "Lyon") + " et son agglomération (métropole du Grand " + (clientCity(sessionData) ?? "Lyon") + "), le département du Rhône (69), le nord de l'Isère (Bourgoin-Jallieu, La Tour-du-Pin, Vienne) et le sud de l'Ain. Pour les gros chantiers industriels ou les copropriétés importantes, nous étudions toute demande hors de cette zone.",
     },
     {
       question: 'Êtes-vous couverts par une assurance décennale ?',

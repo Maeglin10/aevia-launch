@@ -64,14 +64,17 @@ const NAV = [
   { l: "Honoraires", h: "#honoraires" },
   { l: "Contact", h: "#contact" },
 ];
-const EQUIPE_DEMO = [
-  { n: "Maître Hélène Renard", r: "Associée fondatrice · Droit social", d: "Barreau de Paris depuis 2001. Licenciements, ruptures conventionnelles, contentieux prud'homal. Plaide elle-même ses dossiers." },
+function EQUIPE_DEMO_LIVE() {
+  return [
+  { n: "Maître Hélène Renard", r: "Associée fondatrice · Droit social", d: "Barreau de " + (clientCity({ formData: fd }) ?? "Paris") + " depuis 2001. Licenciements, ruptures conventionnelles, contentieux prud'homal. Plaide elle-même ses dossiers." },
   { n: "Maître Antoine Vasseur", r: "Associé · Droit des affaires", d: "Cessions, pactes d'associés, litiges commerciaux. Ancien juriste d'un groupe coté, passé au barreau en 2009." },
   { n: "Maître Claire Boutin", r: "Collaboratrice · Droit de la famille", d: "Divorces, résidence des enfants, successions conflictuelles. Formée à la médiation familiale." },
   { n: "Maître Samir Haddad", r: "Collaborateur · Droit pénal des affaires", d: "Enquêtes préliminaires, abus de biens sociaux, garde à vue. Astreinte assurée le week-end." },
   { n: "Nadia Lefort", r: "Juriste · Veille et rédaction", d: "Contrats, conclusions, recherches. Le travail de fond derrière chaque audience." },
   { n: "Pauline Aubry", r: "Responsable du cabinet", d: "Rendez-vous, dossiers, relations avec les greffes. Votre interlocutrice entre deux échéances." },
 ];
+}
+let EQUIPE_DEMO = EQUIPE_DEMO_LIVE();;
 let EQUIPE = EQUIPE_DEMO;
 
 const DOMAINES_SOURCE = [
@@ -147,7 +150,9 @@ export default function CabinetRenardPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
   ENGAGEMENTS_DEMO = ENGAGEMENTS_DEMO_LIVE();
+
 
   DOMAINES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...DOMAINES_SOURCE[i % DOMAINES_SOURCE.length], titre: s.title, desc: s.desc || "" || "" })),

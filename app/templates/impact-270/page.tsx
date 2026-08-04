@@ -212,7 +212,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
         <span style={{ fontStyle: 'italic' }}>lumineux.</span>
       </>
     ),
-    body: "Notre atelier baigne dans la lumière naturelle d'un loft du Vieux-Lille, à deux pas de la Grand'Place. Sur rendez-vous uniquement, pour garantir la tranquillité et le temps nécessaire à chaque projet. Nous accueillons régulièrement des clients internationaux.",
+    body: "Notre atelier baigne dans la lumière naturelle d'un loft du Vieux-" + (clientCity(sessionData) ?? "Lille") + ", à deux pas de la Grand'Place. Sur rendez-vous uniquement, pour garantir la tranquillité et le temps nécessaire à chaque projet. Nous accueillons régulièrement des clients internationaux.",
     reverse: true,
   },
 ];

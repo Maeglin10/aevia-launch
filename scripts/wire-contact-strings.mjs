@@ -53,7 +53,12 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
       // propriété. Sans ce cadrage, la passe attrapait aussi les attributs JSX,
       // où une concaténation nue n'est pas valide — 937 substitutions au lieu
       // de la centaine attendue.
-      return ligne.replace(/(['"])((?:[^'"\\]|\\.)*)\1/g, (m0, q, valeur, pos) => {
+      // Le motif doit être propre au guillemet ouvrant : une apostrophe dans une
+      // chaîne à guillemets doubles — « l'international » — arrêtait la lecture
+      // au milieu et la chaîne n'était jamais reconnue.
+      return ligne.replace(/"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)'/g, (m0, dbl, sgl, pos) => {
+        const q = dbl !== undefined ? '"' : "'";
+        const valeur = dbl !== undefined ? dbl : sgl;
         const avantChar = ligne.slice(0, pos).replace(/\s+$/, "").slice(-1);
         const apresChar = ligne.slice(pos + m0.length).replace(/^\s+/, "").slice(0, 1);
         if (!"[,:".includes(avantChar)) return m0;

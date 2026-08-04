@@ -218,7 +218,7 @@ function EDIT_ROWS_LIVE() {
     ghostNum: 'II',
     titleLine1: (clientCity(sessionData) ?? 'Strasbourg') + '-Centre,',
     titleLine2: 'accessible.',
-    body: "Situ\u00e9 en plein c\u0153ur de Strasbourg, le cabinet est accessible en tram et dispose d'un parking \u00e0 200 m. Entr\u00e9e de plain-pied, acc\u00e8s fauteuil roulant. Pour ceux qui ne peuvent pas se d\u00e9placer, la t\u00e9l\u00e9consultation est disponible sur rendez-vous \u2014 m\u00eame qualit\u00e9 d'\u00e9coute, depuis chez vous.",
+    body: "Situ\u00e9 en plein c\u0153ur de " + (clientCity(sessionData) ?? "Strasbourg") + ", le cabinet est accessible en tram et dispose d'un parking \u00e0 200 m. Entr\u00e9e de plain-pied, acc\u00e8s fauteuil roulant. Pour ceux qui ne peuvent pas se d\u00e9placer, la t\u00e9l\u00e9consultation est disponible sur rendez-vous \u2014 m\u00eame qualit\u00e9 d'\u00e9coute, depuis chez vous.",
     imgId: '1571019613454-1cb2f99b2d8b',
     reverse: true,
   },

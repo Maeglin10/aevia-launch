@@ -1278,7 +1278,7 @@ const FAQS_DEMO = [
   },
   {
     q: "Acceptez-vous les urgences dentaires ?",
-    a: "Oui, nous réservons des créneaux d'urgence chaque jour. En cas de douleur aiguë ou de traumatisme, appelez-nous au 01 42 56 78 90 — nous vous prendrons en charge dans les plus brefs délais.",
+    a: "Oui, nous réservons des créneaux d'urgence chaque jour. En cas de douleur aiguë ou de traumatisme, appelez-nous au " + (fd?.phone ?? "01 42 56 78 90") + " — nous vous prendrons en charge dans les plus brefs délais.",
   },
 ];
 

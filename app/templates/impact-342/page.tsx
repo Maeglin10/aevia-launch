@@ -50,7 +50,10 @@ const NAV = [{"l": "Formations", "h": "#services"}, {"l": "Comment ça marche", 
 const HERO_SOURCE = [{"k": "Permis B", "line": "TU CALES ? ON REPART.", "sub": "La boîte manuelle apprise sans drame, en créneaux qui collent à tes cours ou ton taf."}, {"k": "Code intensif", "line": "LE CODE EN 3 SEMAINES.", "sub": "Stage accéléré encadré par un moniteur, examen dans la foulée dans un centre partenaire."}, {"k": "Permis boost", "line": "18 H CHRONO, PRÊT.", "sub": "Évaluation, plan d'heures serré, examens blancs filmés et débriefés."}];
 let HERO = HERO_SOURCE;
 
-const SERVICES_SOURCE = [{"titre": "Code accéléré", "desc": "Stage de 3 jours + accès illimité à l'application. Séances de correction en direct avec moniteur, pas un écran qui débite.", "tag": "Code"}, {"titre": "Permis B", "desc": "Créneaux 7h-21h et le samedi. Moniteur référent, livret numérique, points bloquants traités au simulateur avant la voiture.", "tag": "Conduite"}, {"titre": "Simulateur nouvelle génération", "desc": "Premières heures et situations à risque (pluie, nuit, autoroute) travaillées au simulateur — comptabilisées dans le forfait, deux fois moins chères.", "tag": "Simu"}, {"titre": "Conduite supervisée", "desc": "Après 18 ans : réduis le coût entre deux présentations en conduisant avec un proche, cadré par nous.", "tag": "Supervisée"}, {"titre": "Stage dernière ligne droite", "desc": "6 h sur les parcours d'examen de Montpellier la semaine du passage, examen blanc filmé et débriefé.", "tag": "Examen"}, {"titre": "CPF & financements", "desc": "Permis B éligible CPF, permis à 1 €/jour pour les 15-25 ans, mission locale acceptée. On monte le dossier avec toi.", "tag": "Financement"}];
+function SERVICES_SOURCE_LIVE() {
+  return [{"titre": "Code accéléré", "desc": "Stage de 3 jours + accès illimité à l'application. Séances de correction en direct avec moniteur, pas un écran qui débite.", "tag": "Code"}, {"titre": "Permis B", "desc": "Créneaux 7h-21h et le samedi. Moniteur référent, livret numérique, points bloquants traités au simulateur avant la voiture.", "tag": "Conduite"}, {"titre": "Simulateur nouvelle génération", "desc": "Premières heures et situations à risque (pluie, nuit, autoroute) travaillées au simulateur — comptabilisées dans le forfait, deux fois moins chères.", "tag": "Simu"}, {"titre": "Conduite supervisée", "desc": "Après 18 ans : réduis le coût entre deux présentations en conduisant avec un proche, cadré par nous.", "tag": "Supervisée"}, {"titre": "Stage dernière ligne droite", "desc": "6 h sur les parcours d'examen de " + (clientCity(sessionData) ?? "Montpellier") + " la semaine du passage, examen blanc filmé et débriefé.", "tag": "Examen"}, {"titre": "CPF & financements", "desc": "Permis B éligible CPF, permis à 1 €/jour pour les 15-25 ans, mission locale acceptée. On monte le dossier avec toi.", "tag": "Financement"}];
+}
+let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();;
 let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "Éval de départ offerte", "d": "45 min en voiture. Ton volume d'heures estimé est écrit au contrat — et on s'y tient."}, {"n": "02", "t": "Résa en ligne 24h/24", "d": "Tes créneaux depuis ton téléphone, annulation gratuite 48 h avant, liste d'attente automatique."}, {"n": "03", "t": "Simulateur + voiture", "d": "Le simulateur déblaye les bases et les situations à risque ; la voiture sert à progresser, pas à répéter."}, {"n": "04", "t": "Examens blancs filmés", "d": "Deux passages blancs filmés et débriefés image par image. Le jour J, tu l'as déjà vécu."}];
 const ENGAGEMENT_DEMO = ["Agrément préfectoral E 26 034 0118 0, moniteurs diplômés Titre Pro ECSR", "Taux de réussite affichés en vitrine et en ligne, mis à jour chaque trimestre", "Heure supplémentaire au prix du forfait, écrit au contrat", "Frais de transfert de dossier : 0 € — tu restes parce que ça marche, pas parce que c'est cher de partir"];
@@ -93,6 +96,9 @@ export default function PermisCapSudPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
+
+
 
 
   // L'accroche du client remplace la première ligne du carrousel : c'est la

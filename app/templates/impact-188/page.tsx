@@ -151,7 +151,7 @@ export default function CliniqueBoisVertPage() {
       l: r.location ?? r.context ?? "",
     })),
     [
-      { q: "Luna a été opérée en urgence un dimanche matin. L'équipe était calme, rassurante, hyper compétente. Aujourd'hui elle galope comme avant. Merci du fond du cœur.", n: "Camille V.", l: "Toulouse · Luna, labrador" },
+      { q: "Luna a été opérée en urgence un dimanche matin. L'équipe était calme, rassurante, hyper compétente. Aujourd'hui elle galope comme avant. Merci du fond du cœur.", n: "Camille V.", l: (clientCity(sessionData) ?? "Toulouse") + " · Luna, labrador" },
       { q: "Mon chat de 14 ans a une maladie rénale chronique. Le Dr. Martin le suit depuis 3 ans avec une patience et une expertise remarquables. On ne changerait pour rien.", n: "Élisabeth M.", l: "Ramonville · Sushi, chat persan" },
       { q: "Super clinique, accueil top, salle d'attente propre avec espaces chats/chiens séparés. Et nos deux teckels adorent le Dr. Bouchard (ce qui n'est pas commun pour des chiens de véto).", n: "Thomas & Julie K.", l: "Colomiers (31)" },
     ]

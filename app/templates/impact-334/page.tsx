@@ -57,7 +57,10 @@ const ENGAGEMENT_DEMO = ["Devis ferme et définitif — l'imprévu de chantier e
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Cuisine linéaire posée", "p": "dès 7 900 €", "n": "Façades stratifiées, plan compact, électroménager en sus selon sélection."}, {"a": "Cuisine avec îlot", "p": "dès 12 900 €", "n": "Plan céramique, éclairage sous meubles, prises affleurantes incluses."}, {"a": "Dressing assorti", "p": "dès 2 900 €", "n": "Toute hauteur, intérieurs modulables, portes assorties aux façades cuisine."}, {"a": "Atelier conception 2 h", "p": "offert", "n": "Déduit à la commande. Plans remis même si le projet ne se fait pas chez nous."}];
 let TARIFS = TARIFS_DEMO;
-const AVIS_SOURCE = [{"texte": "L'atelier de deux heures au studio vaut tous les rendez-vous de cuisinistes classiques. On a parlé petits-déjeuners avant de parler façades. Le résultat est exactement notre maison.", "auteur": "Claire & Julien V.", "detail": "Cuisine îlot, Annecy-le-Vieux"}, {"texte": "Mur de 1927 pas droit du tout : le plan céramique a été gabarié sur place, l'ajustement est invisible. Deux jours de pose, zéro réserve à la réception.", "auteur": "Hélène B.", "detail": "Rénovation complète"}, {"texte": "Le devis ferme n'a pas bougé alors qu'un caisson a dû être refabriqué. Studio sérieux, poseurs soigneux, SAV réactif sur un charnière un an après.", "auteur": "Famille Roche", "detail": "Cuisine + buanderie"}];
+function AVIS_SOURCE_LIVE() {
+  return [{"texte": "L'atelier de deux heures au studio vaut tous les rendez-vous de cuisinistes classiques. On a parlé petits-déjeuners avant de parler façades. Le résultat est exactement notre maison.", "auteur": "Claire & Julien V.", "detail": "Cuisine îlot, " + (clientCity(sessionData) ?? "Annecy") + "-le-Vieux"}, {"texte": "Mur de 1927 pas droit du tout : le plan céramique a été gabarié sur place, l'ajustement est invisible. Deux jours de pose, zéro réserve à la réception.", "auteur": "Hélène B.", "detail": "Rénovation complète"}, {"texte": "Le devis ferme n'a pas bougé alors qu'un caisson a dû être refabriqué. Studio sérieux, poseurs soigneux, SAV réactif sur un charnière un an après.", "auteur": "Famille Roche", "detail": "Cuisine + buanderie"}];
+}
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();;
 let AVIS_DEMO = AVIS_SOURCE;
 const STATS_DEMO = [{"value": "180+", "label": "Cuisines livrées"}, {"value": "3", "label": "Cuisines témoins au studio"}, {"value": "2 j", "label": "De pose en moyenne"}, {"value": "10 ans", "label": "Garantie caissons & pose"}];
 let STATS = STATS_DEMO;
@@ -101,6 +104,8 @@ export default function StudioCulinaPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

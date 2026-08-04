@@ -158,14 +158,17 @@ const INTERVENTIONS_DEMO: Intervention[] = [
 ];
 let INTERVENTIONS = INTERVENTIONS_DEMO;
 
-const SERVICES_DEMO: Service[] = [
-  { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Dépannage urgent', desc: "Intervention d'urgence sous 2h sur Lyon Métropole, 7j/7 et 24h/24." },
+function SERVICES_DEMO_LIVE() {
+  return [
+  { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Dépannage urgent', desc: "Intervention d'urgence sous 2h sur " + (clientCity(sessionData) ?? "Lyon") + " Métropole, 7j/7 et 24h/24." },
   { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Installation chauffe-eau', desc: 'Pose et remplacement de ballon électrique ou thermodynamique, toutes marques.' },
   { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Chaudière gaz', desc: 'Installation, entretien et dépannage de chaudières à condensation — certificat RGE.' },
   { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Pompe à chaleur', desc: "Air/eau, géothermique : conception, pose, mise en service. MaPrimeRénov' incluse." },
   { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Climatisation réversible', desc: 'Climatiseur gainable ou multi-split, installation propre et garantie 2 ans.' },
   { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Rénovation salle de bain', desc: 'Refonte complète : carrelage, mobilier, plomberie — devis offert sur place.' },
 ];
+}
+let SERVICES_DEMO = SERVICES_DEMO_LIVE();;
 
 const EDIT_ROWS_SOURCE: EditRow[] = [
   {
@@ -2301,7 +2304,9 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  SERVICES_DEMO = SERVICES_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
 
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),

@@ -51,7 +51,10 @@ const HERO = [
   { k: "Bâtiment", sub: "Ce qui monte, perce et alimente.", tiles: [{ icon: HardHat, t: "Échafaudages roulants", d: "Alu certifiés, notice de montage et garde-corps complets.", bg: "#181310", fg: "#f2a25c" }, { icon: Zap, t: "Groupes électrogènes", d: "2 à 40 kVA, silencieux disponibles pour l'événementiel.", bg: "#1c1610", fg: "#f2a25c" }, { icon: Wrench, t: "Perfos, carotteuses, rainureuses", d: "Le gros électroportatif qui ne s'achète pas pour un week-end.", bg: "#12151b", fg: "#f2f1ed" }] }
 ];
 
-const SERVICES_SOURCE = [{"titre": "Terrassement & compactage", "desc": "Mini-pelles, dumpers, plaques : révision entre chaque location, carnet de maintenance consultable, prise en main faite au dépôt.", "tag": "TP"}, {"titre": "Espaces verts", "desc": "Broyeurs, tarières, débroussailleuses professionnelles : affûtés, réglés, avec les EPI qui vont avec (fournis).", "tag": "Jardin"}, {"titre": "Élévation", "desc": "Échafaudages roulants alu, échelles pro : conformes, complets, avec notice — et le rappel des règles avant le départ.", "tag": "Hauteur"}, {"titre": "Énergie & pompage", "desc": "Groupes électrogènes, pompes vide-cave, chauffages de chantier : la panne et la montée d'eau n'attendent pas.", "tag": "Énergie"}, {"titre": "Livraison chantier", "desc": "Camion-grue et porte-engin : la machine posée où vous travaillez, reprise à la fin. Sur Nancy et 40 km.", "tag": "Livraison"}, {"titre": "Conseil d'usage", "desc": "Le bon calibre pour votre chantier — pas le plus gros. On préfère relouer la bonne machine que reprendre la mauvaise cassée.", "tag": "Conseil"}];
+function SERVICES_SOURCE_LIVE() {
+  return [{"titre": "Terrassement & compactage", "desc": "Mini-pelles, dumpers, plaques : révision entre chaque location, carnet de maintenance consultable, prise en main faite au dépôt.", "tag": "TP"}, {"titre": "Espaces verts", "desc": "Broyeurs, tarières, débroussailleuses professionnelles : affûtés, réglés, avec les EPI qui vont avec (fournis).", "tag": "Jardin"}, {"titre": "Élévation", "desc": "Échafaudages roulants alu, échelles pro : conformes, complets, avec notice — et le rappel des règles avant le départ.", "tag": "Hauteur"}, {"titre": "Énergie & pompage", "desc": "Groupes électrogènes, pompes vide-cave, chauffages de chantier : la panne et la montée d'eau n'attendent pas.", "tag": "Énergie"}, {"titre": "Livraison chantier", "desc": "Camion-grue et porte-engin : la machine posée où vous travaillez, reprise à la fin. Sur " + (clientCity(sessionData) ?? "Nancy") + " et 40 km.", "tag": "Livraison"}, {"titre": "Conseil d'usage", "desc": "Le bon calibre pour votre chantier — pas le plus gros. On préfère relouer la bonne machine que reprendre la mauvaise cassée.", "tag": "Conseil"}];
+}
+let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();;
 let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "Réserver au téléphone", "d": "On vérifie le calibre avec vous, la machine est bloquée à votre nom, caution annoncée d'avance."}, {"n": "02", "t": "Prise en main au dépôt", "d": "Démarrage, sécurités, gestes de base : dix minutes qui évitent la panne du samedi midi."}, {"n": "03", "t": "Le chantier chez vous", "d": "Carburant fourni au départ (plein/plein), assistance téléphonique aux heures d'ouverture."}, {"n": "04", "t": "Retour vérifié ensemble", "d": "État contradictoire au retour, caution levée immédiatement — pas de retenue surprise à J+15."}];
 const ENGAGEMENT_DEMO = ["Vérifications générales périodiques (VGP) à jour, registres consultables au comptoir", "Révision et nettoyage entre chaque location — une machine sale ne repart pas", "EPI de base fournis avec chaque machine à risque (casque, lunettes, gants)", "Caution transparente : montant affiché, levée au retour après état contradictoire"];
@@ -94,6 +97,9 @@ export default function LocamatPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
+
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

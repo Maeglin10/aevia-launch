@@ -324,7 +324,7 @@ function FAQ_ITEMS_DEMO_LIVE() {
   return [
   {
     q: "Quels sont vos délais de création ?",
-    a: "Pour les bouquets standards, nous livrons sous 4 heures à Paris. Pour les compositions sur-mesure ou les événements, nous conseillons de nous contacter au moins 48 heures à l'avance.",
+    a: "Pour les bouquets standards, nous livrons sous 4 heures à " + (clientCity(sessionData) ?? "Paris") + ". Pour les compositions sur-mesure ou les événements, nous conseillons de nous contacter au moins 48 heures à l'avance.",
   },
   {
     q: "D'où proviennent vos fleurs ?",

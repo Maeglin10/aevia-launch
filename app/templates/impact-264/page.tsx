@@ -170,7 +170,7 @@ function EDIT_ROWS_DEMO_LIVE() {
         <span style={{ fontStyle: 'italic' }}>/ Île de {clientCity(sessionData) ?? "Nantes"}.</span>
       </>
     ),
-    body: "Installé au cœur de l'Île de Nantes, le cabinet est accessible en tramway (ligne 1) et dispose de places de stationnement à proximité. Des téléconsultations sont également disponibles pour le suivi à distance.",
+    body: "Installé au cœur de l'Île de " + (clientCity(sessionData) ?? "Nantes") + ", le cabinet est accessible en tramway (ligne 1) et dispose de places de stationnement à proximité. Des téléconsultations sont également disponibles pour le suivi à distance.",
     reverse: true,
   },
 ];

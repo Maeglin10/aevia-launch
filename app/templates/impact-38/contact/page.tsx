@@ -99,7 +99,7 @@ const SUBSCRIPTION_FAQ = [
   },
   {
     q: "Comment modifier ma mouture en cours d'abonnement ?",
-    a: "Depuis votre espace client, vous pouvez changer la mouture à tout moment — le changement est pris en compte dès le prochain cycle. Vous pouvez aussi nous écrire à contact@originroast.co et nous l'appliquons manuellement si vous avez un délai serré.",
+    a: "Depuis votre espace client, vous pouvez changer la mouture à tout moment — le changement est pris en compte dès le prochain cycle. Vous pouvez aussi nous écrire à " + (fd?.email ?? "contact@originroast.co") + " et nous l'appliquons manuellement si vous avez un délai serré.",
   },
   {
     q: "Livrez-vous en dehors de France ?",
@@ -107,7 +107,7 @@ const SUBSCRIPTION_FAQ = [
   },
   {
     q: "Mon café arrive cassé ou manquant — que faire ?",
-    a: "Photographiez le colis dès réception et envoyez-nous l'email dans les 48h à contact@originroast.co. Nous expédions un remplacement sous 72h sans frais supplémentaires. Les problèmes liés au transporteur sont couverts par notre assurance colis.",
+    a: "Photographiez le colis dès réception et envoyez-nous l'email dans les 48h à " + (fd?.email ?? "contact@originroast.co") + ". Nous expédions un remplacement sous 72h sans frais supplémentaires. Les problèmes liés au transporteur sont couverts par notre assurance colis.",
   },
 ];
 

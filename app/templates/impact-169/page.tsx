@@ -138,7 +138,8 @@ const ARTICLES = [
   },
 ];
 
-const AUTHORS_SOURCE = [
+function AUTHORS_SOURCE_LIVE() {
+  return [
   {
     name: "Mathilde Aubert",
     role: "Rédactrice en chef",
@@ -150,7 +151,7 @@ const AUTHORS_SOURCE = [
   {
     name: "Théo Marchand",
     role: "Économiste & Journaliste",
-    bio: "Chercheur associé à Sciences Po Paris. Couvre les mutations du travail, l'économie comportementale.",
+    bio: "Chercheur associé à Sciences Po " + (clientCity({ formData: fd }) ?? "Paris") + ". Couvre les mutations du travail, l'économie comportementale.",
     articles: 78,
     initials: "TM",
     color: "var(--brand,#1D4ED8)",
@@ -172,6 +173,8 @@ const AUTHORS_SOURCE = [
     color: "#DB2777",
   },
 ];
+}
+let AUTHORS_SOURCE = AUTHORS_SOURCE_LIVE();;
 let AUTHORS = AUTHORS_SOURCE;
 
 function TESTIMONIALS_SOURCE_LIVE() {
@@ -465,7 +468,9 @@ export default function ImpactFrequencePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  AUTHORS_SOURCE = AUTHORS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
 
   AUTHORS = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...AUTHORS_SOURCE[i % AUTHORS_SOURCE.length], name: m.name, role: m.role })),

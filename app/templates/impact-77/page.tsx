@@ -21,11 +21,14 @@ let fd: any = null;
 
 // Les avis, jusqu'ici écrits dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
-const AVIS_INLINE_SOURCE = [
-  { quote: "Luca's ability to extract the essential from a scene is unlike anything we have encountered. His Vogue campaign doubled our newsstand numbers.", name: "Claire Deschamps", role: "Art Director, Vogue Paris" },
+function AVIS_INLINE_SOURCE_LIVE() {
+  return [
+  { quote: "Luca's ability to extract the essential from a scene is unlike anything we have encountered. His Vogue campaign doubled our newsstand numbers.", name: "Claire Deschamps", role: "Art Director, Vogue " + (clientCity({ formData: fd }) ?? "Paris") },
               { quote: "Working with Luca on the Wallpaper* architecture series was a revelation. He sees in geometry where others see in light.", name: "Tony Chambers", role: "Editorial Director, Wallpaper*" },
               { quote: "The Dior campaign we produced together remains the most-shared in our history. His eye for temporal precision is extraordinary.", name: "Olivier Bialobos", role: "CMO, Dior Parfums" }
 ];
+}
+let AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();;
 let AVIS_INLINE = AVIS_INLINE_SOURCE;
 
 let c: any = null;
@@ -193,6 +196,8 @@ export default function HorologsLuxePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
+
 
   AVIS_INLINE = resolveList(
 
