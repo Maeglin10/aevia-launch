@@ -36,7 +36,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON SOLAL — Couture & Mode Sur-Mesure · Marseille
+   MAISON SOLAL — Couture & Mode Sur-Mesure · {clientCity(sessionData) ?? "Marseille"}
    Photographie réelle + chorégraphie de défilement éditoriale (style Maison
    de couture × élégance méditerranéenne). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -178,7 +178,7 @@ const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
     title: (
       <>
         Le Panier, /{' '}
-        <span style={{ fontStyle: 'italic' }}>Marseille.</span>
+        <span style={{ fontStyle: 'italic' }}>{clientCity(sessionData) ?? "Marseille"}.</span>
       </>
     ),
     body: "Au cœur du quartier historique du Panier, l\'atelier est visible depuis la rue — vitrine ouverte sur le geste couture. Sur rendez-vous uniquement, nous y recevons depuis douze ans des femmes et des hommes qui ont choisi de ne plus faire de compromis avec leur apparence.",
@@ -1364,7 +1364,7 @@ function AtélierPanel() {
                 lineHeight: 1.6,
               }}
             >
-              Marseille, depuis 12 ans.
+              {clientCity(sessionData) ?? "Marseille"}, depuis 12 ans.
             </div>
           </div>
         </div>
@@ -1693,7 +1693,7 @@ function OrderForm() {
             }}
           >
             La première rencontre est gratuite et sans engagement. Nous vous
-            proposons un créneau de 45 minutes au Panier, Marseille.
+            proposons un créneau de 45 minutes au Panier, {clientCity(sessionData) ?? "Marseille"}.
           </p>
         </Reveal>
 
@@ -1968,7 +1968,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Couture &amp; mode sur-mesure depuis 2012. Le Panier, Marseille.
+            Couture &amp; mode sur-mesure depuis 2012. Le Panier, {clientCity(sessionData) ?? "Marseille"}.
           </p>
           <div
             style={{
@@ -1984,7 +1984,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            Le Panier · 13002 Marseille
+            Le Panier · 13002 {clientCity(sessionData) ?? "Marseille"}
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
+import { clientCity } from "@/lib/templates/clientContent";
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowLeft, Sparkles } from "lucide-react"
@@ -76,9 +77,9 @@ export default function MentionsLegales() {
             <section>
               <h2 className="text-[20px] font-[600] text-[#831843] mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>1. Éditeur du site</h2>
               <p>
-                Le site Velvet Nails est édité par la société Velvet Nails SAS, au capital de 10 000 euros, immatriculée au Registre du Commerce et des Sociétés de Paris sous le numéro 123 456 789.
+                Le site Velvet Nails est édité par la société Velvet Nails SAS, au capital de 10 000 euros, immatriculée au Registre du Commerce et des Sociétés de {clientCity(sessionData) ?? "Paris"} sous le numéro 123 456 789.
                 <br />
-                Siège social : 24 rue des Petites Écuries, 75009 Paris.
+                Siège social : 24 rue des Petites Écuries, 75009 {clientCity(sessionData) ?? "Paris"}.
                 <br />
                 Directrice de la publication : Sophie Leroux.
               </p>

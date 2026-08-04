@@ -23,7 +23,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   JARDINS VIVANTS — Paysagiste & entretien espaces verts (Annecy)
+   JARDINS VIVANTS — Paysagiste & entretien espaces verts ({clientCity({ formData: fd }) ?? "Annecy"})
    Palette : blanc naturel #fafaf7 / vert profond #2d5a27 / vert clair #a8d5a0 / terre #6b4226
    Fonts : Cardo (titres serif organique) + Source Sans 3
    Style : vivant, naturel, organique, expertise végétale
@@ -225,7 +225,7 @@ export default function JardinsVivantsPage() {
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[#a8d5a0]/60" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#a8d5a0]">Paysagiste & espaces verts · Annecy & Haute-Savoie</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#a8d5a0]">Paysagiste & espaces verts · {clientCity({ formData: fd }) ?? "Annecy"} & Haute-Savoie</span>
             </div>
           </motion.div>
 
@@ -407,7 +407,7 @@ export default function JardinsVivantsPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Cardo', serif" }}>
               Et si votre jardin<br /><span className="italic">devenait vivant ?</span>
             </h2>
-            <p className="text-white/50 mb-10 text-sm">Devis gratuit sous 48h · Annecy & Haute-Savoie · Paysagiste qualifié RGE</p>
+            <p className="text-white/50 mb-10 text-sm">Devis gratuit sous 48h · {clientCity({ formData: fd }) ?? "Annecy"} & Haute-Savoie · Paysagiste qualifié RGE</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#2d5a27)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f7f0] transition-colors rounded-lg shadow-lg">
                 Demander un devis

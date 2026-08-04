@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientCity,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -262,7 +263,7 @@ export default function ArchitectureLayout({ children }: { children: React.React
                   <span style={{ fontFamily: F.sans, fontSize: 10, letterSpacing: "0.32em", textTransform: "uppercase" as const, color: C.accent }}>MOREAU · LEROY</span>
                 </div>
               </Link>
-              <p style={{ fontFamily: F.sans, fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>Studio d'architecture et d'urbanisme. Conception de bâtiments pérennes, sobres et généreux. Paris · Genève.</p>
+              <p style={{ fontFamily: F.sans, fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>Studio d'architecture et d'urbanisme. Conception de bâtiments pérennes, sobres et généreux. {clientCity(__layoutSession) ?? "Paris"} · Genève.</p>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <span style={{ fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.35)" }}>contact@exemple.fr</span>
               </div>
@@ -288,7 +289,7 @@ export default function ArchitectureLayout({ children }: { children: React.React
 
           <div style={{ borderTop: `1px solid rgba(255,255,255,0.06)`, paddingTop: 32, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" as const, gap: 16 }}>
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap" as const }}>
-              <span style={{ fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.3)" }}>Paris · Genève</span>
+              <span style={{ fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.3)" }}>{clientCity(__layoutSession) ?? "Paris"} · Genève</span>
             </div>
             <p style={{ fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Atelier Moreau"} · Leroy. Tous droits réservés.</p>
           </div>

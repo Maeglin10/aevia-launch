@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import { motion } from "framer-motion";
 import { ArrowLeft, Leaf } from "lucide-react";
@@ -85,8 +86,8 @@ export default function MentionsLegalesPage() {
           >
             <h2 className="text-2xl text-[#2C2820] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>1. Éditeur du site</h2>
             <p className="mb-6">
-              Le site Aura Wellness est édité par la société Aura SAS, au capital de 10 000 euros, immatriculée au Registre du Commerce et des Sociétés de Bordeaux sous le numéro 123 456 789.<br />
-              Siège social : Bordeaux, France.<br />
+              Le site Aura Wellness est édité par la société Aura SAS, au capital de 10 000 euros, immatriculée au Registre du Commerce et des Sociétés de {clientCity(sessionData) ?? "Bordeaux"} sous le numéro 123 456 789.<br />
+              Siège social : {clientCity(sessionData) ?? "Bordeaux"}, France.<br />
               Directeur de la publication : Amélie Fontaine.
             </p>
 

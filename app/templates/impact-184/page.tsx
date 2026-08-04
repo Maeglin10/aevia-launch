@@ -23,7 +23,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   BRILLO NET — Entreprise de ménage & nettoyage professionnel (Lyon)
+   BRILLO NET — Entreprise de ménage & nettoyage professionnel ({clientCity({ formData: fd }) ?? "Lyon"})
    Palette : blanc pur / turquoise frais #0d9488 / fond doux #f0fafa / charbon #1c2b2b
    Fonts : Plus Jakarta Sans (titres) + Inter (corps)
    Style : ultra propre, aéré, confiance, professionnel
@@ -204,7 +204,7 @@ export default function BrilloNetPage() {
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-3 mb-8">
               <div className="w-6 h-[1px] bg-[var(--brand,#0d9488)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2dd4bf]">Ménage & Nettoyage Pro · Lyon Métropole</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2dd4bf]">Ménage & Nettoyage Pro · {clientCity({ formData: fd }) ?? "Lyon"} Métropole</span>
             </div>
           </motion.div>
 
@@ -215,7 +215,7 @@ export default function BrilloNetPage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
             className="max-w-md text-sm text-white/38 leading-relaxed mb-10" style={{ fontFamily: "'Inter', sans-serif" }}>{c?.heroSubline ?? fd?.tagline ?? <>
-            Entreprise de ménage et nettoyage sur Lyon. Domicile, bureaux, fin de chantier. Intervenantes formées, assurées, ponctualité garantie. Premier passage sans engagement.
+            Entreprise de ménage et nettoyage sur {clientCity({ formData: fd }) ?? "Lyon"}. Domicile, bureaux, fin de chantier. Intervenantes formées, assurées, ponctualité garantie. Premier passage sans engagement.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-3 mb-8">
@@ -409,7 +409,7 @@ export default function BrilloNetPage() {
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/45 mb-6">Premier passage</div>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Sans engagement,<br />sans contrat forcé.</h2>
             <p className="text-white/55 mb-10 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Devis gratuit en 2h · Premier passage sur Lyon Métropole · Résiliation libre à tout moment
+              Devis gratuit en 2h · Premier passage sur {clientCity({ formData: fd }) ?? "Lyon"} Métropole · Résiliation libre à tout moment
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#0d9488)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0fafa] transition-colors rounded-full shadow-lg">
@@ -428,7 +428,7 @@ export default function BrilloNetPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2 mb-5"><Sparkles className="w-4 h-4 text-[var(--brand,#0d9488)]" /><span className="font-bold text-white text-sm">BrilloNet</span></div>
-            <p className="text-white/20 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Ménage & nettoyage professionnel sur Lyon. Particuliers et professionnels. Produits éco certifiés.</p>
+            <p className="text-white/20 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Ménage & nettoyage professionnel sur {clientCity({ formData: fd }) ?? "Lyon"}. Particuliers et professionnels. Produits éco certifiés.</p>
           </div>
           {[
             { t: "Services", ls: ["Ménage domicile", "Nettoyage bureaux", "Fin de chantier", "Nettoyage écologique", "Vitres & surfaces"] },

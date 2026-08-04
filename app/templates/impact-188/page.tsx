@@ -28,7 +28,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CLINIQUE DU BOIS VERT — Vétérinaire (Toulouse)
+   CLINIQUE DU BOIS VERT — Vétérinaire ({clientCity(sessionData) ?? "Toulouse"})
    Palette : blanc chaud #fdfaf6 / vert nature #3a7d44 / vert clair #e8f5eb / brun doux #4a3728
    Fonts : Lora (serif chaleureux titres) + Source Sans 3 (corps)
    Style : chaleureux, naturel, confiance, bienveillant
@@ -232,7 +232,7 @@ export default function CliniqueBoisVertPage() {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-3 mb-8">
               <div className="w-8 h-[1px] bg-[var(--brand,#3a7d44)]/70" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#6bbf78]">Clinique vétérinaire · Toulouse Rangueil</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#6bbf78]">Clinique vétérinaire · {clientCity(sessionData) ?? "Toulouse"} Rangueil</span>
             </div>
           </motion.div>
 
@@ -243,7 +243,7 @@ export default function CliniqueBoisVertPage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
             className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
-            Clinique vétérinaire à Toulouse. Consultations, chirurgie, urgences 7j/7 jusqu'à 20h. Une équipe bienveillante pour vos compagnons chats, chiens et NAC.
+            Clinique vétérinaire à {clientCity(sessionData) ?? "Toulouse"}. Consultations, chirurgie, urgences 7j/7 jusqu'à 20h. Une équipe bienveillante pour vos compagnons chats, chiens et NAC.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-3 mb-8">
@@ -487,7 +487,7 @@ export default function CliniqueBoisVertPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Lora', serif" }}>
               Votre compagnon<br /><span className="italic">mérite le meilleur.</span>
             </h2>
-            <p className="text-white/50 mb-10 text-sm">Consultation en ligne ou par téléphone · Urgences 7j/7 · Toulouse Rangueil</p>
+            <p className="text-white/50 mb-10 text-sm">Consultation en ligne ou par téléphone · Urgences 7j/7 · {clientCity(sessionData) ?? "Toulouse"} Rangueil</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#3a7d44)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f9f1] transition-colors rounded-xl shadow-lg">
                 Prendre rendez-vous
@@ -508,7 +508,7 @@ export default function CliniqueBoisVertPage() {
               <div className="w-7 h-7 bg-[var(--brand,#3a7d44)] rounded-full flex items-center justify-center"><Heart className="w-3.5 h-3.5 text-white" /></div>
               <span className="font-bold text-white text-sm" style={{ fontFamily: "'Lora', serif" }}>Clinique du Bois Vert</span>
             </div>
-            <p className="text-white/20 text-sm leading-relaxed">Vétérinaire à Toulouse. Consultations, chirurgie, urgences 7j/7. Chats, chiens, NAC.</p>
+            <p className="text-white/20 text-sm leading-relaxed">Vétérinaire à {clientCity(sessionData) ?? "Toulouse"}. Consultations, chirurgie, urgences 7j/7. Chats, chiens, NAC.</p>
           </div>
           {[
             { t: "Soins", ls: [
@@ -534,7 +534,7 @@ export default function CliniqueBoisVertPage() {
           <div>
             <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60 mb-5">Infos</h4>
             <address className="not-italic text-white/20 text-sm leading-relaxed space-y-2.5">
-              <div>{clientAddress(sessionData) ?? "12 allée des Pins"}<br />31400 Toulouse</div>
+              <div>{clientAddress(sessionData) ?? "12 allée des Pins"}<br />31400 {clientCity(sessionData) ?? "Toulouse"}</div>
               <div>Lun — Sam 8h30 — 19h30<br />Dim : urgences</div>
               <a href={`tel:${fd?.phone ?? "0561789012"}`} className="inline-flex items-center gap-2 hover:text-white transition-colors">
                 <Phone className="w-3.5 h-3.5" />{fd?.phone ?? "05 61 78 90 12"}

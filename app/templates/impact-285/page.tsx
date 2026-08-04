@@ -55,7 +55,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DR. MARC LECOMTE — Médecin généraliste & médecine du voyage · Nantes Centre
+   DR. MARC LECOMTE — Médecin généraliste & médecine du voyage · {clientCity(sessionData) ?? "Nantes"} Centre
    Chorégraphie de défilement éditoriale. Fichier entièrement autonome.
    'use client'. Aucun import externe sauf react, framer-motion, lucide-react.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -510,7 +510,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.salmonLight} align="center">
-            Médecin généraliste · Nantes Centre
+            Médecin généraliste · {clientCity(sessionData) ?? "Nantes"} Centre
           </Eyebrow>
         </Reveal>
 
@@ -549,7 +549,7 @@ function HeroSection() {
           }}
         >
           Médecine générale & médecine du voyageur — soins de proximité,
-          suivi personnalisé et écoute attentive au cœur de Nantes.
+          suivi personnalisé et écoute attentive au cœur de {clientCity(sessionData) ?? "Nantes"}.
         </motion.p>
 
         <motion.div
@@ -2594,7 +2594,7 @@ function FooterSection() {
               marginBottom: 20,
             }}
           >
-            Cabinet médical au cœur de Nantes — soins de proximité,
+            Cabinet médical au cœur de {clientCity(sessionData) ?? "Nantes"} — soins de proximité,
             suivi personnalisé et médecine du voyageur.
           </p>
 

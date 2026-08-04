@@ -862,7 +862,7 @@ return (
             whiteSpace: "nowrap",
           }}
         >
-          Urban Pulse Studio · Fondé 2009 · Paris, France
+          Urban Pulse Studio · Fondé 2009 · {clientCity({ formData: fd }) ?? "Paris"}, France
         </div>
 
         <motion.div
@@ -2487,7 +2487,7 @@ return (
                 }}
               >
                 Maison de production cinéma, publicité et contenu de marque.
-                Paris, depuis 2009.
+                {clientCity({ formData: fd }) ?? "Paris"}, depuis 2009.
               </p>
 
               <div style={{ display: "flex", gap: 10 }}>

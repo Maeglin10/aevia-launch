@@ -166,7 +166,7 @@ const EDIT_ROWS_DEMO: EditRow[] = [
     titleNode: (
       <>
         Nantes{' '}
-        <span style={{ fontStyle: 'italic' }}>/ Île de Nantes.</span>
+        <span style={{ fontStyle: 'italic' }}>/ Île de {clientCity(sessionData) ?? "Nantes"}.</span>
       </>
     ),
     body: "Installé au cœur de l'Île de Nantes, le cabinet est accessible en tramway (ligne 1) et dispose de places de stationnement à proximité. Des téléconsultations sont également disponibles pour le suivi à distance.",
@@ -1910,7 +1910,7 @@ function Footer() {
             }}
           >
             Cabinet d&apos;Ostéopathie &amp; Thérapies Manuelles. Soins pour
-            toute la famille à Nantes.
+            toute la famille à {clientCity(sessionData) ?? "Nantes"}.
           </p>
           <div
             style={{
@@ -1926,7 +1926,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.6} />
-            Île de Nantes · 44000
+            Île de {clientCity(sessionData) ?? "Nantes"} · 44000
           </div>
           <div
             style={{

@@ -381,7 +381,7 @@ export default function AquaVertPressingPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Aqua Vert"}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Pressing écologique · Strasbourg Neudorf<br />Aquanettoyage certifié, zéro solvant chloré</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Pressing écologique · {clientCity(sessionData) ?? "Strasbourg"} Neudorf<br />Aquanettoyage certifié, zéro solvant chloré</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: "Strasbourg, Bas-Rhin" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 8h–19h · Sam 9h–17h" }].map((item, idx) => (

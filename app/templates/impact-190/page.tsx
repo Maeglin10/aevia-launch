@@ -23,7 +23,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   AUTO EXPERT — Garage & carrosserie automobile (Rennes)
+   AUTO EXPERT — Garage & carrosserie automobile ({clientCity({ formData: fd }) ?? "Rennes"})
    Palette : acier sombre #0e1117 / rouge précision #dc2626 / gris métal #3a3f4a / blanc tech #f1f3f5
    Fonts : Space Grotesk (titres tech) + Inter
    Style : industriel premium, précis, performance, confiance mécanique
@@ -215,7 +215,7 @@ export default function AutoExpertPage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
             className="max-w-md text-sm text-[#f1f3f5]/30 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
-            Garage multimarque à Rennes. Entretien, carrosserie, diagnostic électronique, VE & hybrides. Devis gratuit sous 30 min. Prise en charge assurance directe.
+            Garage multimarque à {clientCity({ formData: fd }) ?? "Rennes"}. Entretien, carrosserie, diagnostic électronique, VE & hybrides. Devis gratuit sous 30 min. Prise en charge assurance directe.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-4 mb-8">
@@ -411,7 +411,7 @@ export default function AutoExpertPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-[#f1f3f5] mb-5">
               Un problème<br /><span className="text-[var(--brand,#dc2626)]">avec votre auto ?</span>
             </h2>
-            <p className="text-[#f1f3f5]/25 mb-10 text-sm">Devis gratuit 30 min · Dépannage 7j/7 · Rennes & agglomération</p>
+            <p className="text-[#f1f3f5]/25 mb-10 text-sm">Devis gratuit 30 min · Dépannage 7j/7 · {clientCity({ formData: fd }) ?? "Rennes"} & agglomération</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[var(--brand,#dc2626)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#c01f1f] transition-colors">
                 Devis gratuit maintenant
@@ -432,7 +432,7 @@ export default function AutoExpertPage() {
               <div className="w-6 h-6 bg-[var(--brand,#dc2626)] flex items-center justify-center"><Wrench className="w-3.5 h-3.5 text-white" /></div>
               <span className="font-bold text-[#f1f3f5] text-sm">AutoExpert</span>
             </div>
-            <p className="text-[#f1f3f5]/15 text-sm leading-relaxed">Garage multimarque à Rennes. Entretien, carrosserie, VE & hybrides. Agréé constructeur.</p>
+            <p className="text-[#f1f3f5]/15 text-sm leading-relaxed">Garage multimarque à {clientCity({ formData: fd }) ?? "Rennes"}. Entretien, carrosserie, VE & hybrides. Agréé constructeur.</p>
           </div>
           {[
             { t: "Services", ls: ["Entretien & révision", "Carrosserie & peinture", "Diagnostic électronique", "Véhicules électriques", "Dépannage 7j/7"] },
@@ -449,7 +449,7 @@ export default function AutoExpertPage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f1f3f5]/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f1f3f5]/8">
           <span>© 2026 AutoExpert Rennes · SIRET 345 678 901 00022 · FCA · Rennes (35){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span className="text-[var(--brand,#dc2626)]/15">Garage multimarque Rennes</span>
+          <span className="text-[var(--brand,#dc2626)]/15">Garage multimarque {clientCity({ formData: fd }) ?? "Rennes"}</span>
         </div>
       </footer>
     </div>

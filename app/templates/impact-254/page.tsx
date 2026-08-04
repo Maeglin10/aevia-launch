@@ -33,7 +33,7 @@ let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET VAILLANT & ASSOCIÉS — Expert-Comptable & Commissariat aux Comptes
-   Paris 8e · Photographie réelle + chorégraphie éditoriale au défilement.
+   {clientCity(sessionData) ?? "Paris"} 8e · Photographie réelle + chorégraphie éditoriale au défilement.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -186,7 +186,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     alt: 'Équipe Vaillant & Associés — Paris 8e',
     title: (
       <>
-        Paris 8e,{' '}
+        {clientCity(sessionData) ?? "Paris"} 8e,{' '}
         <span style={{ fontStyle: 'italic' }}>35 ans d'expertise.</span>
       </>
     ),
@@ -632,7 +632,7 @@ function Hero() {
       >
         <Reveal y={16}>
           <Eyebrow color="rgba(212,221,240,0.90)">
-            Expert-Comptable &amp; Commissaire aux Comptes · Paris 8e
+            Expert-Comptable &amp; Commissaire aux Comptes · {clientCity(sessionData) ?? "Paris"} 8e
           </Eyebrow>
         </Reveal>
 
@@ -1931,7 +1931,7 @@ function Footer() {
               margin: '0 0 24px',
             }}
           >
-            Expert-Comptable &amp; Commissariat aux Comptes. Paris 8e depuis 1990. Membre de l&apos;OEC.
+            Expert-Comptable &amp; Commissariat aux Comptes. {clientCity(sessionData) ?? "Paris"} 8e depuis 1990. Membre de l&apos;OEC.
           </p>
           <div
             style={{
@@ -1954,7 +1954,7 @@ function Footer() {
                 display: 'inline-block',
               }}
             />
-            Paris 8e · France
+            {clientCity(sessionData) ?? "Paris"} 8e · France
           </div>
         </div>
 

@@ -554,7 +554,7 @@ function Hero() {
           style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}B0` }}
         >
           Depuis 1977, nos orfèvres créent des pièces intemporelles façonnées à la main,
-          en or 18K et métaux précieux certifiés, au cœur de Paris.
+          en or 18K et métaux précieux certifiés, au cœur de {clientCity(sessionData) ?? "Paris"}.
         </motion.p>
 
         <motion.div
@@ -1462,7 +1462,7 @@ function ContactSection() {
               className="text-[14px] leading-[2] mb-12"
               style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: C.textMuted }}
             >
-              Notre salon privé vous accueille sur rendez-vous au cœur du 1er arrondissement de Paris, à quelques pas de la Place Vendôme — le berceau de la haute joaillerie mondiale.
+              Notre salon privé vous accueille sur rendez-vous au cœur du 1er arrondissement de {clientCity(sessionData) ?? "Paris"}, à quelques pas de la Place Vendôme — le berceau de la haute joaillerie mondiale.
             </p>
 
             <div className="space-y-6 mb-12">

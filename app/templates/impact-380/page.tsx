@@ -316,7 +316,7 @@ export default function BrasserieHoublonPage() {
             <div style={{ textAlign: "center", marginBottom: 16 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
               <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>Au verre, <em>au fût, à la caisse.</em></h2>
-              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Vente directe à la boutique et au taproom. Tarifs CHR sur demande, livraison offerte sur Lille dès 6 fûts.</p>
+              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Vente directe à la boutique et au taproom. Tarifs CHR sur demande, livraison offerte sur {clientCity(sessionData) ?? "Lille"} dès 6 fûts.</p>
             </div>
           </Reveal>
           <div style={{ marginTop: 38 }}>

@@ -28,7 +28,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   DR. LÉA FONTAINE — Cabinet dentaire moderne (Nantes)
+   DR. LÉA FONTAINE — Cabinet dentaire moderne ({clientCity(sessionData) ?? "Nantes"})
    Palette : blanc pur / bleu confiance #1d6fa4 / bleu clair #e8f4fd / anthracite #1a2332
    Fonts : Nunito (moderne, humain, arrondi) + Inter
    Style : médical moderne, rassurant, lumineux, accessible
@@ -352,7 +352,7 @@ export default function DrFontainePage() {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-3 mb-8">
               <div className="w-8 h-[1px] bg-[var(--brand,#1d6fa4)]/60" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#7bc3f5]">Chirurgien-dentiste · Nantes Centre</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#7bc3f5]">Chirurgien-dentiste · {clientCity(sessionData) ?? "Nantes"} Centre</span>
             </div>
           </motion.div>
 
@@ -363,7 +363,7 @@ export default function DrFontainePage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
             className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
-            Cabinet dentaire moderne à Nantes. Soins conservateurs, implants, esthétique et orthodontie. Équipement numérique dernière génération. Prise de RDV en ligne 24h/24.
+            Cabinet dentaire moderne à {clientCity(sessionData) ?? "Nantes"}. Soins conservateurs, implants, esthétique et orthodontie. Équipement numérique dernière génération. Prise de RDV en ligne 24h/24.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-3">
@@ -600,7 +600,7 @@ export default function DrFontainePage() {
           <div>
             <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60 mb-5">Adresse</h4>
             <address className="not-italic text-white/20 text-sm leading-relaxed space-y-2.5">
-              <div>{clientAddress(sessionData) ?? "14 rue Crébillon"}<br />44000 Nantes</div>
+              <div>{clientAddress(sessionData) ?? "14 rue Crébillon"}<br />44000 {clientCity(sessionData) ?? "Nantes"}</div>
               <div>Lun — Ven 8h30 — 19h<br />Sam 8h30 — 13h</div>
               <a href={`tel:${fd?.phone ?? "0240567890"}`} className="inline-flex items-center gap-2 hover:text-white transition-colors">
                 <Phone className="w-3.5 h-3.5" />{fd?.phone ?? "02 40 56 78 90"}

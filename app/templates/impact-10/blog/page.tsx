@@ -1,5 +1,8 @@
 'use client';
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
@@ -1307,7 +1310,7 @@ function LocationSection() {
                   marginBottom: '3rem',
                 }}
               >
-                Eight hundred metres from the Opéra. A fifteen-minute walk to the Louvre. Paris unfolds at your threshold.
+                Eight hundred metres from the Opéra. A fifteen-minute walk to the Louvre. {clientCity(sessionData) ?? "Paris"} unfolds at your threshold.
               </p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -1677,7 +1680,7 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
               Grand Palais
             </button>
             <p style={{ fontFamily: SERIF, fontSize: '0.9rem', color: `${CREAM}50`, lineHeight: 1.7, fontStyle: 'italic', maxWidth: '20rem', marginBottom: '1.5rem' }}>
-              A palace of quiet distinction at the heart of Paris since 1887.
+              A palace of quiet distinction at the heart of {clientCity(sessionData) ?? "Paris"} since 1887.
             </p>
             <div style={{ display: 'flex', gap: '1rem' }}>
               {socials.map((s) => (

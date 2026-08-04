@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -61,7 +62,7 @@ export default function ContactPage() {
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <MapPin className="w-4 h-4 text-[#C46A3E] shrink-0" />
-                <span>Showroom Privé, 11 Rue de la Paix, 75002 Paris</span>
+                <span>Showroom Privé, 11 Rue de la Paix, 75002 {clientCity(sessionData) ?? "Paris"}</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <Mail className="w-4 h-4 text-[#C46A3E] shrink-0" />

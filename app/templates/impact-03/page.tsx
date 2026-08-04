@@ -1767,7 +1767,7 @@ export default function FashionEditorialTemplate() {
                 maxWidth: 320,
               }}
             >
-              Each garment in our SS26 collection is made to order in a single atelier in Paris. Delivery in 6–8 weeks.
+              Each garment in our SS26 collection is made to order in a single atelier in {clientCity(sessionData) ?? "Paris"}. Delivery in 6–8 weeks.
             </div>
           </div>
         </Reveal>
@@ -2759,7 +2759,7 @@ export default function FashionEditorialTemplate() {
                   maxWidth: 280,
                 }}
               >{c?.aboutText ?? <>
-                Slow fashion of the highest order. Made in Paris, worn worldwide. B-Corp certified since 2021.
+                Slow fashion of the highest order. Made in {clientCity(sessionData) ?? "Paris"}, worn worldwide. B-Corp certified since 2021.
               </>}</p>
             </div>
 
@@ -2842,7 +2842,7 @@ export default function FashionEditorialTemplate() {
                 letterSpacing: '0.1em',
               }}
             >
-              Paris · London · New York · Tokyo
+              {clientCity(sessionData) ?? "Paris"} · London · New York · Tokyo
             </div>
           </div>
         </div>
@@ -3051,7 +3051,7 @@ function BoutiquePage({
                 lineHeight: 1.6,
               }}
             >
-              • Made to order in Paris<br />
+              • Made to order in {clientCity(sessionData) ?? "Paris"}<br />
               • Complimentary worldwide shipping<br />
               • Returns accepted within 14 days
             </div>
@@ -3372,7 +3372,7 @@ function AboutPage({ accentColor }: { accentColor: import('framer-motion').Motio
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 40, fontSize: 15, lineHeight: 1.8, color: 'rgba(10,10,10,0.65)' }}>
         <p>
-          Founded in Paris in 2021, Atelier NOIR is an independent fashion house dedicated to the art of quiet luxury. We reject the rapid cycles of fast fashion in favor of a slower, more deliberate method of creation.
+          Founded in {clientCity(sessionData) ?? "Paris"} in 2021, Atelier NOIR is an independent fashion house dedicated to the art of quiet luxury. We reject the rapid cycles of fast fashion in favor of a slower, more deliberate method of creation.
         </p>
         <p>
           Our garments are defined by architectural simplicity, meticulous tailoring, and exceptional materials. We work exclusively with certified natural fibers—organic cashmere, French flax linen, and Japanese silk—sourced from mills that guarantee raw material traceability and ecological responsibility.

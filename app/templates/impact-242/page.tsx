@@ -38,7 +38,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   FIDUCIAIRE MARCHAND & PARTNERS — Expert-comptable · Nantes · Agréé CSOEC
+   FIDUCIAIRE MARCHAND & PARTNERS — Expert-comptable · {clientCity(sessionData) ?? "Nantes"} · Agréé CSOEC
    Chorégraphie de défilement éditoriale premium. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -651,7 +651,7 @@ function Hero() {
           transition={{ duration: 1.0, ease: EASE, delay: 0.05 }}
         >
           <Eyebrow color="rgba(255,255,255,0.75)">
-            Expert-comptable · Nantes · Agréé CSOEC
+            Expert-comptable · {clientCity(sessionData) ?? "Nantes"} · Agréé CSOEC
           </Eyebrow>
         </motion.div>
 
@@ -689,7 +689,7 @@ function Hero() {
             marginBottom: 36,
           }}
         >
-          Cabinet d&apos;expertise comptable à Nantes — comptabilité, fiscalité, paie
+          Cabinet d&apos;expertise comptable à {clientCity(sessionData) ?? "Nantes"} — comptabilité, fiscalité, paie
           et conseil de gestion pour TPE, PME et indépendants.
         </motion.p>
 
@@ -2101,7 +2101,7 @@ function Footer() {
               margin: '0 0 24px',
             }}
           >
-            Expert-comptable agréé CSOEC à Nantes — comptabilité, fiscalité et
+            Expert-comptable agréé CSOEC à {clientCity(sessionData) ?? "Nantes"} — comptabilité, fiscalité et
             conseil pour TPE, PME et indépendants.
           </p>
           <div
@@ -2112,7 +2112,7 @@ function Footer() {
               lineHeight: 1.6,
             }}
           >
-            <div>📍 12 rue de la Paix, 44000 Nantes</div>
+            <div>📍 12 rue de la Paix, 44000 {clientCity(sessionData) ?? "Nantes"}</div>
             <div style={{ marginTop: 6 }}>📞 02 40 XX XX XX</div>
             <div style={{ marginTop: 6 }}>✉️ {fd?.email ?? "contact@marchand-partners.fr"}</div>
           </div>

@@ -32,7 +32,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   FORCE BRUTE — Coach Sportif Personnel & Remise en Forme · Marseille
+   FORCE BRUTE — Coach Sportif Personnel & Remise en Forme · {clientCity(sessionData) ?? "Marseille"}
    Chorégraphie de défilement premium × typographie éditoriale sportive.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2059,7 +2059,7 @@ function Footer() {
               marginBottom: 24,
             }}
           >
-            Coach sportif personnel certifié à Marseille. Programmes sur mesure,
+            Coach sportif personnel certifié à {clientCity(sessionData) ?? "Marseille"}. Programmes sur mesure,
             résultats prouvés.
           </p>
           <div
@@ -2076,7 +2076,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.8} />
-            Marseille · Aix · Aubagne · Online
+            {clientCity(sessionData) ?? "Marseille"} · Aix · Aubagne · Online
           </div>
         </div>
 

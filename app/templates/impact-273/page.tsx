@@ -42,7 +42,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET DENTAIRE ROSENFELD — Dentisterie & Implantologie · Strasbourg
+   CABINET DENTAIRE ROSENFELD — Dentisterie & Implantologie · {clientCity(sessionData) ?? "Strasbourg"}
    Premium editorial template · 'use client' · auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -677,7 +677,7 @@ function Hero() {
           }}
         >
           Soins préventifs, esthétiques et implantologie avancée au cœur
-          de Strasbourg. Protocole anti-douleur. Patients anxieux bienvenus.
+          de {clientCity(sessionData) ?? "Strasbourg"}. Protocole anti-douleur. Patients anxieux bienvenus.
         </motion.p>
 
         <motion.div
@@ -1951,7 +1951,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Dentisterie &amp; Implantologie au cœur de Strasbourg. Patients
+            Dentisterie &amp; Implantologie au cœur de {clientCity(sessionData) ?? "Strasbourg"}. Patients
             anxieux bienvenus. Équipements de dernière génération.
           </p>
 

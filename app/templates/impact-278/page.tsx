@@ -52,7 +52,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PLOMBERIE GARONNE — Plombier-chauffagiste certifié · Toulouse & agglo
+   PLOMBERIE GARONNE — Plombier-chauffagiste certifié · {clientCity(sessionData) ?? "Toulouse"} & agglo
    Photographie réelle + architecture éditoriale 10 sections.
    Fichier autonome : 'use client', pas d'imports externes sauf react,
    framer-motion, lucide-react.
@@ -531,7 +531,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color="rgba(240,232,216,0.9)" align="left">
-            Plombier-chauffagiste certifié · Toulouse &amp; agglo
+            Plombier-chauffagiste certifié · {clientCity(sessionData) ?? "Toulouse"} &amp; agglo
           </Eyebrow>
         </Reveal>
 
@@ -2099,7 +2099,7 @@ function RealizeSection() {
             }}
           >
             Chaque chantier est une référence. Voici quelques exemples récents
-            de nos travaux réalisés à Toulouse et dans l&apos;agglomération.
+            de nos travaux réalisés à {clientCity(sessionData) ?? "Toulouse"} et dans l&apos;agglomération.
           </p>
         </Reveal>
       </div>
@@ -2557,7 +2557,7 @@ function FooterSection() {
               maxWidth: 320,
             }}
           >
-            Plombier-chauffagiste certifié RGE et QualiPAC à Toulouse.
+            Plombier-chauffagiste certifié RGE et QualiPAC à {clientCity(sessionData) ?? "Toulouse"}.
             Devis gratuit, intervention sous 48h. Urgences 7j/7.
           </p>
           <div
@@ -2573,7 +2573,7 @@ function FooterSection() {
             }}
           >
             <MapPin size={16} color={C.brick} strokeWidth={2} />
-            Toulouse &amp; agglo (30 km)
+            {clientCity(sessionData) ?? "Toulouse"} &amp; agglo (30 km)
           </div>
           <a
             href={`tel:${fd?.phone ?? "+33561000000"}`}

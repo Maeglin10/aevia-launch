@@ -384,7 +384,7 @@ export default function AxisBioPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Axis Bio"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Laboratoire de biologie médicale · Metz (2 sites)<br />Accréditation COFRAC ISO 15189 — biologistes médicaux</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Laboratoire de biologie médicale · {clientCity(sessionData) ?? "Metz"} (2 sites)<br />Accréditation COFRAC ISO 15189 — biologistes médicaux</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: "Metz, Moselle" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 7h–18h30 · Sam 7h30–12h30" }].map((item, idx) => (

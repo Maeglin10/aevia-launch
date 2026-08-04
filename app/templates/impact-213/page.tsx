@@ -2633,7 +2633,7 @@ function Footer() {
               >{fd?.businessName ?? (clientName(sessionData) ?? "Bâtisseurs Durand")}</div>
             </div>
             <p style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.8, maxWidth: 280, marginBottom: 24 }}>
-              Votre partenaire maçonnerie depuis 2002 sur Lyon, le Rhône et l'Isère.
+              Votre partenaire maçonnerie depuis 2002 sur {clientCity(sessionData) ?? "Lyon"}, le Rhône et l'Isère.
               Qualibat RGE · Garantie décennale · 1 840+ chantiers réalisés.
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>

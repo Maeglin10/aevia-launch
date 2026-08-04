@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -187,7 +188,7 @@ export default function ReservationPage() {
           
           <div style={{ background: C.bgSection, borderRadius: 18, height: 200, marginBottom: 28, display: "flex", alignItems: "center", justifyContent: "center", border: `1px solid ${C.border}`, flexDirection: "column", gap: 10 }}>
             <MapPin size={32} color={C.accent} />
-            <span style={{ fontSize: 14, color: C.textMuted, fontWeight: 600 }}>Paris, Île-de-France</span>
+            <span style={{ fontSize: 14, color: C.textMuted, fontWeight: 600 }}>{clientCity(sessionData) ?? "Paris"}, Île-de-France</span>
             <span style={{ fontSize: 13, color: C.textMuted }}>Adresse communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}</span>
           </div>
 

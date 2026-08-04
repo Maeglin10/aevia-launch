@@ -32,7 +32,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AXIOM CONSEIL — Expert-Comptable & Conseil en Gestion · Bordeaux
+   AXIOM CONSEIL — Expert-Comptable & Conseil en Gestion · {clientCity(sessionData) ?? "Bordeaux"}
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -187,7 +187,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     reverse: true,
     title: (
       <>
-        Bordeaux
+        {clientCity(sessionData) ?? "Bordeaux"}
         <br />
         <span style={{ fontStyle: 'italic' }}>depuis 2015.</span>
       </>
@@ -1984,7 +1984,7 @@ function Footer() {
               margin: '0 0 24px',
             }}
           >
-            Expert-Comptable & Conseil en Gestion à Bordeaux. Membre de
+            Expert-Comptable & Conseil en Gestion à {clientCity(sessionData) ?? "Bordeaux"}. Membre de
             l&apos;Ordre des Experts-Comptables.
           </p>
           <div
@@ -1997,7 +1997,7 @@ function Footer() {
               opacity: 0.8,
             }}
           >
-            Bordeaux · Chartrons
+            {clientCity(sessionData) ?? "Bordeaux"} · Chartrons
           </div>
           <div
             style={{

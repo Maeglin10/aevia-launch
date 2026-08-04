@@ -35,7 +35,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON NUPTIALE — Organisateur de Mariage & Événements · Bordeaux
+   MAISON NUPTIALE — Organisateur de Mariage & Événements · {clientCity(sessionData) ?? "Bordeaux"}
    Chorégraphie de défilement éditoriale · Crossfade chapitré · Panneau collant
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2055,7 +2055,7 @@ function Footer() {
               maxWidth: 300,
             }}
           >
-            Organisateur de mariage & événements. Bordeaux & vignobles. Maximum 12 couples par an.
+            Organisateur de mariage & événements. {clientCity(sessionData) ?? "Bordeaux"} & vignobles. Maximum 12 couples par an.
           </p>
           <div
             style={{
@@ -2071,7 +2071,7 @@ function Footer() {
             }}
           >
             <MapPin size={14} color={C.accent} strokeWidth={1.5} />
-            Bordeaux, France
+            {clientCity(sessionData) ?? "Bordeaux"}, France
           </div>
         </div>
 

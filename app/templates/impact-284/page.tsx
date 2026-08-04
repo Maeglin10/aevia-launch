@@ -498,7 +498,7 @@ function HeroSection() {
       >
         <Reveal y={18}>
           <Eyebrow color={C.goldLight} align="center">
-            Cabinet dentaire · Bordeaux Chartrons
+            Cabinet dentaire · {clientCity(sessionData) ?? "Bordeaux"} Chartrons
           </Eyebrow>
         </Reveal>
 
@@ -1143,7 +1143,7 @@ function SoinsSection() {
           >
             Implantologie avancée, orthodontie invisible et esthétique dentaire —
             nous réunissons les meilleures techniques sous un même toit, dans le
-            quartier des Chartrons à Bordeaux.
+            quartier des Chartrons à {clientCity(sessionData) ?? "Bordeaux"}.
           </p>
         </Reveal>
       </div>

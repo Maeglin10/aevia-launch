@@ -50,7 +50,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DR. SOPHIE RENARD — Médecin généraliste · Lyon 3e
+   DR. SOPHIE RENARD — Médecin généraliste · {clientCity(sessionData) ?? "Lyon"} 3e
    Photographie réelle + chorégraphie de défilement éditoriale (style Grand Cru
    × rigueur médicale moderne). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -515,7 +515,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color="rgba(255,255,255,0.8)" align="center">
-            Médecin généraliste · Lyon 3e · Secteur 1
+            Médecin généraliste · {clientCity(sessionData) ?? "Lyon"} 3e · Secteur 1
           </Eyebrow>
         </Reveal>
 
@@ -553,7 +553,7 @@ function HeroSection() {
             lineHeight: 1.65,
           }}
         >
-          Un accompagnement médical attentif et personnalisé au cœur de Lyon.
+          Un accompagnement médical attentif et personnalisé au cœur de {clientCity(sessionData) ?? "Lyon"}.
           Consultation, suivi chronique, médecine préventive — pour toute la famille.
         </motion.p>
 
@@ -1146,7 +1146,7 @@ function PracticeSection() {
                 marginBottom: 8,
               }}
             >
-              Cabinet médical · Lyon 3e
+              Cabinet médical · {clientCity(sessionData) ?? "Lyon"} 3e
             </div>
             <div
               style={{
@@ -2021,7 +2021,7 @@ function PracticalInfoSection() {
               >
                 {clientAddress(sessionData) ?? "18, rue de la République"}
                 <br />
-                69003 Lyon (3e arr.)
+                69003 {clientCity(sessionData) ?? "Lyon"} (3e arr.)
               </div>
               <div
                 style={{
@@ -2552,7 +2552,7 @@ function FooterSection() {
               maxWidth: 300,
             }}
           >
-            Médecin généraliste à Lyon 3e. Secteur 1, carte Vitale acceptée, téléconsultation disponible.
+            Médecin généraliste à {clientCity(sessionData) ?? "Lyon"} 3e. Secteur 1, carte Vitale acceptée, téléconsultation disponible.
           </p>
           <div
             style={{

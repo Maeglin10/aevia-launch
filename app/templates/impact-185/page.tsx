@@ -577,7 +577,7 @@ export default function GentlemansCutPage() {
               Prêt pour une<br /><span className="italic text-[var(--brand,#c9a84c)]">coupe parfaite ?</span>
             </h2>
             <p className="text-[#f5f0e8]/25 mb-10 text-sm" style={{ fontFamily: "'DM Mono', monospace" }}>
-              Disponible du mardi au samedi · Bordeaux Centre · Sur rendez-vous
+              Disponible du mardi au samedi · {clientCity({ formData: fd }) ?? "Bordeaux"} Centre · Sur rendez-vous
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button onClick={() => openBooking(null)} className="min-h-[44px] px-10 py-4 bg-[var(--brand,#c9a84c)] text-[#0a0908] font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-[#b8973d] transition-colors cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>
@@ -598,7 +598,7 @@ export default function GentlemansCutPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2.5 mb-5"><Scissors className="w-4 h-4 text-[var(--brand,#c9a84c)]" /><span className="font-bold text-[#f5f0e8] text-sm">Gentleman's Cut</span></div>
-            <p className="text-[#f5f0e8]/15 text-sm leading-relaxed" style={{ fontFamily: "'DM Mono', monospace" }}>Barbier traditionnel à Bordeaux. Coupe, rasage, barbe. Depuis 2011.</p>
+            <p className="text-[#f5f0e8]/15 text-sm leading-relaxed" style={{ fontFamily: "'DM Mono', monospace" }}>Barbier traditionnel à {clientCity({ formData: fd }) ?? "Bordeaux"}. Coupe, rasage, barbe. Depuis 2011.</p>
           </div>
           {[
             { t: "Services", ls: ["Coupe classique", "Rasage traditionnel", "Combo barbe + coupe", "Taille de barbe", "Coloration & gris"] },

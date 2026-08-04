@@ -668,7 +668,7 @@ export default function Impact199Page() {
             >
               <div className="w-8 h-[1px] bg-[var(--brand,#DC2626)]" />
               <span className="text-[var(--brand,#DC2626)] text-xs tracking-[0.3em] uppercase font-medium">
-                Studio de Tatouage — Paris XI
+                Studio de Tatouage — {clientCity(sessionData) ?? "Paris"} XI
               </span>
             </motion.div>
 

@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion"
 import { ArrowLeft, Zap } from "lucide-react"
@@ -93,7 +94,7 @@ export default function MentionsLegales() {
               </h2>
               <div style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.8 }}>
                 <p style={{ marginBottom: 8 }}><strong style={{ color: C.text }}>VoltExpert</strong></p>
-                <p>123 Avenue des Électriciens, 31000 Toulouse, France</p>
+                <p>123 Avenue des Électriciens, 31000 {clientCity(sessionData) ?? "Toulouse"}, France</p>
                 <p>Téléphone : <a href={`tel:${fd?.phone ?? "+33561000000"}`} style={{ color: C.accent, textDecoration: "none" }}>05 61 00 00 00</a></p>
                 <p>Email : <a href={`mailto:${fd?.email ?? "contact@voltexpert.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>contact@voltexpert.fr</a></p>
                 <p>SIRET : 123 456 789 00012</p>

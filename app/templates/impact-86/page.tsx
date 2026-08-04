@@ -778,7 +778,7 @@ export default function AuraWellnessPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#2C2820]/30 to-transparent" />
           <div className="absolute bottom-8 left-8">
-            <p className="text-white text-xs tracking-widest uppercase mb-1">Bordeaux, France</p>
+            <p className="text-white text-xs tracking-widest uppercase mb-1">{clientCity({ formData: fd }) ?? "Bordeaux"}, France</p>
             <p
               className="text-white text-2xl"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
@@ -1087,7 +1087,7 @@ export default function AuraWellnessPage() {
               <ul className="space-y-5 text-sm text-[#6B5E52]">
                 <li className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-[var(--brand,#7C9E87)] shrink-0 mt-0.5" />
-                  <span>Adresse communiquée sur demande<br /><span className="text-[#2C2820]/50 text-xs">Bordeaux, France</span></span>
+                  <span>Adresse communiquée sur demande<br /><span className="text-[#2C2820]/50 text-xs">{clientCity({ formData: fd }) ?? "Bordeaux"}, France</span></span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-[var(--brand,#7C9E87)] shrink-0" /> {fd?.phone ?? "+33 5 56 00 00 00"}
@@ -1160,7 +1160,7 @@ export default function AuraWellnessPage() {
               >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aura Wellness"))}</span>
             </div>
             <p className="text-[#6B5E52] text-sm leading-relaxed mb-4">
-              Sanctuary de soins botaniques & rituels holistiques. Bordeaux, France.
+              Sanctuary de soins botaniques & rituels holistiques. {clientCity({ formData: fd }) ?? "Bordeaux"}, France.
             </p>
             <div className="space-y-1 text-xs text-[#6B5E52]">
               <div className="flex items-center gap-2"><MapPin className="w-3 h-3" /> Adresse communiquée sur demande</div>

@@ -308,7 +308,7 @@ export default function Impact174Page() {
         {/* Left — text */}
         <div className="imx174-hero-left relative z-10 w-full lg:w-1/2 flex flex-col justify-center px-10 md:px-16 bg-[#0a0a0a]">
           <Reveal>
-            <span className="text-xs font-bold uppercase tracking-[0.5em] text-[var(--brand,#84cc16)] block mb-6">Paris · Hautes-Performances</span>
+            <span className="text-xs font-bold uppercase tracking-[0.5em] text-[var(--brand,#84cc16)] block mb-6">{clientCity(sessionData) ?? "Paris"} · Hautes-Performances</span>
           </Reveal>
           <Reveal delay={0.1}>
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none text-white mb-8 uppercase tracking-tighter" style={{ fontFamily: "'Oswald', sans-serif" }}>{c?.heroHeadline ?? <>

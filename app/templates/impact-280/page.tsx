@@ -1386,7 +1386,7 @@ function ProcessSection() {
                     letterSpacing: '0.10em',
                   }}
                 >
-                  Strasbourg & Alsace
+                  {clientCity(sessionData) ?? "Strasbourg"} & Alsace
                 </span>
               </div>
             </div>
@@ -2759,7 +2759,7 @@ function PracticalSection() {
                   lineHeight: 1.6,
                 }}
               >
-                Frais de déplacement inclus jusqu&apos;à 80 km de Strasbourg. Au-delà, supplément forfaitaire selon distance.
+                Frais de déplacement inclus jusqu&apos;à 80 km de {clientCity(sessionData) ?? "Strasbourg"}. Au-delà, supplément forfaitaire selon distance.
               </div>
             </div>
           </Reveal>
@@ -3102,7 +3102,7 @@ function FooterSection() {
                 marginBottom: 28,
               }}
             >
-              Wedding planner & événementiel basé à Strasbourg. Nous créons
+              Wedding planner & événementiel basé à {clientCity(sessionData) ?? "Strasbourg"}. Nous créons
               des mariages sur mesure en Alsace et dans les régions voisines
               depuis 2016.
             </p>

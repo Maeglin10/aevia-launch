@@ -145,7 +145,7 @@ export default function TableExceptionPage() {
             ) : (
               <>
                 <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Table d'Exception"}</div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/60">Traiteur · Lyon & Rhône-Alpes</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/60">Traiteur · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes</div>
               </>
             )}
           </div>
@@ -186,7 +186,7 @@ export default function TableExceptionPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-10 h-[1px] bg-[var(--brand,#d4a853)]/60" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4a853)]/65">Traiteur haut de gamme · Lyon & Rhône-Alpes</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4a853)]/65">Traiteur haut de gamme · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes</span>
             </div>
           </motion.div>
 
@@ -201,7 +201,7 @@ export default function TableExceptionPage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
             className="max-w-md text-sm text-[#fefcf8]/28 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
-            Traiteur événementiel à Lyon. Mariages, séminaires, cocktails, repas gastronomiques. Chef et équipe complète. Devis personnalisé sous 24h.
+            Traiteur événementiel à {clientCity({ formData: fd }) ?? "Lyon"}. Mariages, séminaires, cocktails, repas gastronomiques. Chef et équipe complète. Devis personnalisé sous 24h.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4 mb-8">
@@ -390,7 +390,7 @@ export default function TableExceptionPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>
               Ensemble, créons<br /><span className="italic">l'exception.</span>
             </h2>
-            <p className="text-white/45 mb-10 text-sm">Devis personnalisé sous 24h · Lyon & Rhône-Alpes · Chef & équipe inclus</p>
+            <p className="text-white/45 mb-10 text-sm">Devis personnalisé sous 24h · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes · Chef & équipe inclus</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[#7c2d3e] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#fefcf8] transition-colors shadow-lg">
                 Demander un devis
@@ -409,7 +409,7 @@ export default function TableExceptionPage() {
           <div>
             <div className="font-bold text-[#fefcf8] mb-1 text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>Table d'Exception</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">Traiteur · {clientCity({ formData: fd }) ?? "Lyon"}</div>
-            <p className="text-[#fefcf8]/15 text-sm leading-relaxed">Traiteur haut de gamme à Lyon. Mariages, corporate, cocktails, plateaux. Chef et équipe sur place.</p>
+            <p className="text-[#fefcf8]/15 text-sm leading-relaxed">Traiteur haut de gamme à {clientCity({ formData: fd }) ?? "Lyon"}. Mariages, corporate, cocktails, plateaux. Chef et équipe sur place.</p>
           </div>
           {[
             { t: "Formules", ls: ["Cocktails & réceptions", "Repas assis", "Plateaux repas", "Livraison & installation", "Cuisine du monde"] },

@@ -37,7 +37,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CLÉ DE VOÛTE IMMOBILIER — Agence immobilière premium · Bordeaux
+   CLÉ DE VOÛTE IMMOBILIER — Agence immobilière premium · {clientCity(sessionData) ?? "Bordeaux"}
    Chorégraphie éditoriale, crossfade 320vh, panneau collant, formulaire.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -217,7 +217,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     ghostNum: 'II',
     title: (
       <>
-        Bordeaux,{' '}
+        {clientCity(sessionData) ?? "Bordeaux"},{' '}
         <span style={{ fontStyle: 'italic' }}>et bien au-delà.</span>
       </>
     ),
@@ -662,7 +662,7 @@ function Hero() {
       >
         <Reveal y={16}>
           <Eyebrow color={C.accentLight}>
-            Immobilier premium · Bordeaux · Depuis 2003
+            Immobilier premium · {clientCity(sessionData) ?? "Bordeaux"} · Depuis 2003
           </Eyebrow>
         </Reveal>
 
@@ -1424,7 +1424,7 @@ function ExpertisePanel() {
                 color: C.textFaint,
               }}
             >
-              Bordeaux & Gironde
+              {clientCity(sessionData) ?? "Bordeaux"} & Gironde
             </span>
           </div>
         </div>
@@ -2010,7 +2010,7 @@ function Footer() {
               marginBottom: 22,
             }}
           >
-            Agence immobilière premium à Bordeaux. Expertise, réseau exclusif et accompagnement sur mesure depuis 2003.
+            Agence immobilière premium à {clientCity(sessionData) ?? "Bordeaux"}. Expertise, réseau exclusif et accompagnement sur mesure depuis 2003.
           </p>
           <div
             style={{

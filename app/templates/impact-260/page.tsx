@@ -41,7 +41,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AQUA CONFORT LYON — Plombier-Chauffagiste & Énergies Renouvelables · Lyon 7e
+   AQUA CONFORT LYON — Plombier-Chauffagiste & Énergies Renouvelables · {clientCity(sessionData) ?? "Lyon"} 7e
    Scroll choreography éditoriale (InterventionSequence 320vh crossfade + sticky
    CertPanel). 'use client'. Autonome, sans layout.tsx.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -753,7 +753,7 @@ function Hero() {
           }}
         >
           Plomberie, chauffage et énergies renouvelables — intervention rapide
-          sur Lyon Métropole, devis offert et aides de l&apos;État incluses.
+          sur {clientCity(sessionData) ?? "Lyon"} Métropole, devis offert et aides de l&apos;État incluses.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -1484,7 +1484,7 @@ function CertPanel() {
                 color: C.textFaint,
               }}
             >
-              Certifications · Aqua Confort Lyon
+              Certifications · Aqua Confort {clientCity(sessionData) ?? "Lyon"}
             </div>
           </Reveal>
         </div>
@@ -2121,7 +2121,7 @@ function Footer() {
             }}
           >
             Plombier-Chauffagiste & Énergies Renouvelables. Certifié RGE.
-            Intervention rapide sur Lyon Métropole.
+            Intervention rapide sur {clientCity(sessionData) ?? "Lyon"} Métropole.
           </p>
           <div
             style={{
@@ -2157,7 +2157,7 @@ function Footer() {
               }}
             >
               <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-              Lyon 7e · Villeurbanne · Bron · Vénissieux
+              {clientCity(sessionData) ?? "Lyon"} 7e · Villeurbanne · Bron · Vénissieux
             </div>
           </div>
         </div>

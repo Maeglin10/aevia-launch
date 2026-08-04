@@ -446,7 +446,7 @@ return (
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
           <div>
             <p className="text-[var(--brand,#B49A6A)] text-lg mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Atelier Mécanique"))}</p>
-            <p className="text-white/30 text-sm leading-relaxed">Manufacture horlogère. Place Vendôme, Paris — Depuis 1887.</p>
+            <p className="text-white/30 text-sm leading-relaxed">Manufacture horlogère. Place Vendôme, {clientCity(sessionData) ?? "Paris"} — Depuis 1887.</p>
           </div>
           {[
             { title: "Montres", links: ["Tourbillons", "Chronographes", "Calendriers", "Éditions limitées"] },
@@ -861,7 +861,7 @@ function ContactSubPage() {
               Prendre <em>Rendez-vous</em>
             </h1>
             <p className="text-white/50 text-sm max-w-xl mx-auto leading-relaxed">
-              Nous vous accueillons Place Vendôme à Paris ou au cœur de notre manufacture pour vous présenter notre collection de garde-temps de prestige.
+              Nous vous accueillons Place Vendôme à {clientCity(sessionData) ?? "Paris"} ou au cœur de notre manufacture pour vous présenter notre collection de garde-temps de prestige.
             </p>
           </div>
         </Reveal>
@@ -921,7 +921,7 @@ function ContactSubPage() {
                   <div>
                     <label className="block text-[10px] text-white/40 uppercase tracking-widest mb-2">Lieu souhaité</label>
                     <select className="w-full bg-[#0C0B09] border border-white/10 text-white p-3 text-xs outline-none focus:border-[var(--brand,#B49A6A)] transition-all rounded-lg">
-                      <option>Showroom Paris Vendôme</option>
+                      <option>Showroom {clientCity(sessionData) ?? "Paris"} Vendôme</option>
                       <option>Manufacture Vallée de Joux</option>
                     </select>
                   </div>

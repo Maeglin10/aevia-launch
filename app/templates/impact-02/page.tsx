@@ -500,7 +500,7 @@ export default function CreativePortfolioSPA() {
               <span className="font-black italic">frames of light<span className="text-amber-400">.</span></span>
             </h2>
             <p className="text-white/60 text-xl leading-relaxed mb-8 font-light">
-              Based between Paris and Tokyo, I specialize in capturing moments that transcend the ordinary. My work has been featured in National Geographic, Vogue, and BBC Earth — but the images I am most proud of are the ones that make strangers feel something they cannot quite name.
+              Based between {clientCity({ formData: fd }) ?? "Paris"} and Tokyo, I specialize in capturing moments that transcend the ordinary. My work has been featured in National Geographic, Vogue, and BBC Earth — but the images I am most proud of are the ones that make strangers feel something they cannot quite name.
             </p>
             <p className="text-white/40 text-lg leading-relaxed mb-12 font-light">
               With a background in fine arts from École des Beaux-Arts, I bring a deeply personal yet universally resonant perspective. Whether documenting street life in Shinjuku or creating haute couture editorials, I seek the same truth wrapped in beauty.

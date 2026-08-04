@@ -41,7 +41,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   THERMOFIX PRO — Plombier-Chauffagiste & Climatisation · Marseille
+   THERMOFIX PRO — Plombier-Chauffagiste & Climatisation · {clientCity(sessionData) ?? "Marseille"}
    Photographie réelle + chorégraphie de défilement éditoriale (urgence pro
    × sérieux technique). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -235,7 +235,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     alt: "Zone d'intervention ThermoFix Pro Marseille et alentours",
     title: (
       <>
-        Marseille /{' '}
+        {clientCity(sessionData) ?? "Marseille"} /{' '}
         <span style={{ fontStyle: 'italic' }}>et alentours.</span>
       </>
     ),
@@ -1531,7 +1531,7 @@ function TechPanel() {
                 lineHeight: 1.6,
               }}
             >
-              « Certifiés, assurés, transparents — sur chaque chantier à Marseille. »
+              « Certifiés, assurés, transparents — sur chaque chantier à {clientCity(sessionData) ?? "Marseille"}. »
             </p>
           </div>
         </div>
@@ -2202,7 +2202,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Plombier-Chauffagiste & Climatisation à Marseille. Intervention
+            Plombier-Chauffagiste & Climatisation à {clientCity(sessionData) ?? "Marseille"}. Intervention
             d'urgence 24h/7j, certifié RGE, devis gratuit.
           </p>
           <div
@@ -2220,7 +2220,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            Marseille, Bouches-du-Rhône
+            {clientCity(sessionData) ?? "Marseille"}, Bouches-du-Rhône
           </div>
 
           {/* Orange urgent CTA */}

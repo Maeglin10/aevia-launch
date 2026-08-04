@@ -1607,7 +1607,7 @@ export default function Impact200Page() {
                 className="text-white/40 text-xs italic"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
-                Wedding Planner · Paris & France entière
+                Wedding Planner · {clientCity(sessionData) ?? "Paris"} & France entière
               </p>
             </div>
 

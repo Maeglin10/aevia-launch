@@ -46,7 +46,7 @@ let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET VIDAL — Maître Clara Vidal · Avocate droit social & travail
-   Lyon Confluence · Design éditorial premium style Grand Palais × Barreau.
+   {clientCity(sessionData) ?? "Lyon"} Confluence · Design éditorial premium style Grand Palais × Barreau.
    Auto-suffisant. 'use client'. Pas d'imports externes sauf react/framer/lucide.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -493,7 +493,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.goldLight} align="center">
-            Maître Clara Vidal · Barreau de Lyon
+            Maître Clara Vidal · Barreau de {clientCity(sessionData) ?? "Lyon"}
           </Eyebrow>
         </Reveal>
 
@@ -2166,7 +2166,7 @@ function PracticalSection() {
       lignes: [
         <span key="a1" style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
           <MapPin size={16} color={C.gold} strokeWidth={1.5} style={{ flexShrink: 0, marginTop: 2 }} />
-          <span>Cabinet Vidal — Droit Social<br />{clientAddress(sessionData) ?? "14, quai Perrache"}<br />69002 Lyon Confluence</span>
+          <span>Cabinet Vidal — Droit Social<br />{clientAddress(sessionData) ?? "14, quai Perrache"}<br />69002 {clientCity(sessionData) ?? "Lyon"} Confluence</span>
         </span>,
         <span key="a2" style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 12 }}>
           <Phone size={16} color={C.gold} strokeWidth={1.5} style={{ flexShrink: 0 }} />
@@ -2191,7 +2191,7 @@ function PracticalSection() {
           <strong style={{ color: C.gold }}>7j/7 sur rendez-vous téléphonique</strong>
         </span>,
         <span key="p3" style={{ display: 'block', marginTop: 8 }}>
-          Consultations en visioconférence disponibles pour les clients hors Lyon.
+          Consultations en visioconférence disponibles pour les clients hors {clientCity(sessionData) ?? "Lyon"}.
         </span>,
       ],
     },
@@ -2204,7 +2204,7 @@ function PracticalSection() {
           Devis écrit systématique avant toute mission.
         </span>,
         <span key="h3" style={{ display: 'block', marginTop: 8 }}>
-          <strong style={{ color: C.goldLight }}>Règlement CARPA</strong> — fonds clients sécurisés via la Caisse des Règlements Pécuniaires des Avocats du Barreau de Lyon.
+          <strong style={{ color: C.goldLight }}>Règlement CARPA</strong> — fonds clients sécurisés via la Caisse des Règlements Pécuniaires des Avocats du Barreau de {clientCity(sessionData) ?? "Lyon"}.
         </span>,
       ],
     },
@@ -2298,7 +2298,7 @@ function PracticalSection() {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   10 · PIED DE PAGE — Logo Cabinet Vidal, Barreau de Lyon, mentions légales
+   10 · PIED DE PAGE — Logo Cabinet Vidal, Barreau de {clientCity(sessionData) ?? "Lyon"}, mentions légales
    ════════════════════════════════════════════════════════════════════════════ */
 function FooterSection() {
   const cols: { titre: string; items: { label: string; href: string }[] }[] = [
@@ -2375,10 +2375,10 @@ function FooterSection() {
               maxWidth: 320,
             }}
           >
-            Maître Clara Vidal — Avocate inscrite au Barreau de Lyon. Spécialiste
+            Maître Clara Vidal — Avocate inscrite au Barreau de {clientCity(sessionData) ?? "Lyon"}. Spécialiste
             en droit social et droit du travail depuis 2012.
           </p>
-          {/* Barreau de Lyon */}
+          {/* Barreau de {clientCity(sessionData) ?? "Lyon"} */}
           <div
             style={{
               marginTop: 24,
@@ -2409,7 +2409,7 @@ function FooterSection() {
                 letterSpacing: '0.10em',
               }}
             >
-              Barreau de Lyon
+              Barreau de {clientCity(sessionData) ?? "Lyon"}
             </span>
           </div>
           <div

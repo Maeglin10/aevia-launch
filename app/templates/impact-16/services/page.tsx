@@ -1,5 +1,8 @@
 "use client";
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientServices,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
@@ -154,7 +157,7 @@ export default function ServicesPage() {
       {/* Footer */}
       <footer className="bg-[#060402] border-t border-white/5 py-12 px-6 mt-12">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20 font-mono">
-          <span className="text-[#C9A86C]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>Obscura · Photographe Paris</span>
+          <span className="text-[#C9A86C]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>Obscura · Photographe {clientCity(sessionData) ?? "Paris"}</span>
           <div className="flex gap-6">
             <Link href="/templates/impact-16/legal" className="hover:text-[#C9A86C] transition-colors">Mentions légales</Link>
             <Link href="/templates/impact-16/legal" className="hover:text-[#C9A86C] transition-colors">Politique de Confidentialité</Link>

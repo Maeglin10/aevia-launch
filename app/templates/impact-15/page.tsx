@@ -296,7 +296,7 @@ return (
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? fd?.tagline ?? <>
-            Construction, rénovation, sécurité et entretien de piscines à Toulouse et agglomération. Du bassin béton sur-mesure au contrat d'entretien — devis gratuit sous 48h.
+            Construction, rénovation, sécurité et entretien de piscines à {clientCity({ formData: fd }) ?? "Toulouse"} et agglomération. Du bassin béton sur-mesure au contrat d'entretien — devis gratuit sous 48h.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -485,7 +485,7 @@ return (
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontSize: 20, fontWeight: 800, color: C.accent, marginBottom: 8 }}>{fd?.businessName ?? "Volt Piscines"}</div>
-            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6, maxWidth: 220 }}>Pisciniste certifié FPP<br />Toulouse & agglomération</p>
+            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6, maxWidth: 220 }}>Pisciniste certifié FPP<br />{clientCity({ formData: fd }) ?? "Toulouse"} & agglomération</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             {[{ icon: <MapPin size={13} />, t: "Toulouse, Haute-Garonne" }, { icon: <Phone size={13} />, t: "05 61 00 00 00" }, { icon: <Clock size={13} />, t: "Urgences 7j/7 · 24h/24" }].map((item, i) => (

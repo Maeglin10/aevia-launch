@@ -891,7 +891,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
                 <span className="text-xl font-bold" style={{ fontFamily: "'Figtree', sans-serif" }}>VITALITÉ Médical</span>
               </div>
               <p className="text-white/60 text-sm leading-relaxed max-w-xs">
-                Médecine evidence-based et suivi personnalisé pour une santé optimale. Paris 4ème.
+                Médecine evidence-based et suivi personnalisé pour une santé optimale. {clientCity(sessionData) ?? "Paris"} 4ème.
               </p>
             </div>
             {[
