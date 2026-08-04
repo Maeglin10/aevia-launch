@@ -985,6 +985,60 @@ function BookingModal({
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
+/*
+  Une carte par chiffre, dans son propre composant.
+
+  Les hooks vivaient dans le corps du `.map` : leur nombre suivait la longueur de
+  STATS_INLINE, qui change dès que la session arrive — trois chiffres de
+  démonstration au premier rendu, ceux du client au second. React lève alors
+  l'erreur #300 et la page entière disparaît. Ce défaut-ci est né du câblage
+  lui-même : la liste était figée avant, elle ne l'est plus.
+*/
+function StatCard131({ stat, i }: { stat: any; i: number }) {
+  const statRef = useRef<HTMLDivElement>(null);
+  const statInView = useInView(statRef, { once: true });
+  return (
+                <motion.div
+                  key={stat.label}
+                  ref={statRef}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={statInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.7, delay: i * 0.15 }}
+                  style={{
+                    flex: 1,
+                    padding: "28px 20px",
+                    borderRight: i < 2 ? `1px solid ${C.border}` : "none",
+                    textAlign: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: C.fontSerif,
+                      fontSize: 42,
+                      fontWeight: 700,
+                      color: C.burgundy,
+                      lineHeight: 1,
+                      marginBottom: 6,
+                    }}
+                  >
+                    {stat.value}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: C.fontSans,
+                      fontSize: 10,
+                      fontWeight: 500,
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      color: C.muted,
+                    }}
+                  >
+                    {stat.label}
+                  </div>
+                </motion.div>
+              );
+}
+
 export default function WineryTemplate() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1517,50 +1571,9 @@ export default function WineryTemplate() {
               borderTop: `1px solid ${C.border}`,
             }}
           >
-            {STATS_INLINE.map((stat, i) => {
-              const statRef = useRef<HTMLDivElement>(null);
-              const statInView = useInView(statRef, { once: true });
-              return (
-                <motion.div
-                  key={stat.label}
-                  ref={statRef}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={statInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.7, delay: i * 0.15 }}
-                  style={{
-                    flex: 1,
-                    padding: "28px 20px",
-                    borderRight: i < 2 ? `1px solid ${C.border}` : "none",
-                    textAlign: "center",
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: C.fontSerif,
-                      fontSize: 42,
-                      fontWeight: 700,
-                      color: C.burgundy,
-                      lineHeight: 1,
-                      marginBottom: 6,
-                    }}
-                  >
-                    {stat.value}
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: C.fontSans,
-                      fontSize: 10,
-                      fontWeight: 500,
-                      letterSpacing: "0.2em",
-                      textTransform: "uppercase",
-                      color: C.muted,
-                    }}
-                  >
-                    {stat.label}
-                  </div>
-                </motion.div>
-              );
-            })}
+            {STATS_INLINE.map((stat, i) => (
+              <StatCard131 key={stat.label} stat={stat} i={i} />
+            ))}
           </div>
         </div>
 

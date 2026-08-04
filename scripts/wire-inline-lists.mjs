@@ -90,12 +90,25 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
       ville de démonstration.
     */
     if (/\$\{|\w+\(/.test(corps)) continue;
+
     const cles = [...corps.matchAll(/["']?(\w+)["']?\s*:/g)].map((x) => x[1].toLowerCase());
     const a = plan.texte.find((k) => cles.includes(k));
     const b = plan.auteur.find((k) => cles.includes(k));
     const lignes = (corps.match(/\{/g) || []).length;
     if (plan.exclut && plan.exclut.some((k) => cles.includes(k))) continue;
     if (a && b && lignes >= 2) {
+      /*
+        Un `.map` qui appelle des hooks dans son corps ne peut pas recevoir une
+        liste de longueur variable : le nombre de hooks suivrait la longueur, qui
+        change quand la session arrive, et React lève l'erreur #300 en emportant
+        la page. Ce cas a été créé par ce codemod même sur un thème avant d'être
+        vu. Il faut d'abord extraire un composant par élément.
+      */
+      const suite = src.slice(re.lastIndex, re.lastIndex + 700);
+      if (/\buse[A-Z]\w*\s*\(/.test(suite)) {
+        notes.push(`${id} : hooks dans le .map — extraire un composant d'abord`);
+        continue;
+      }
       trouve = { debut: m.index, fin: re.lastIndex, corps, a, b };
       break;
     }
