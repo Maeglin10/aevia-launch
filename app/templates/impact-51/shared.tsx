@@ -467,7 +467,7 @@ export function SecurityIllustration({ active }: { active: boolean }) {
 
 export function CollaborationIllustration({ active }: { active: boolean }) {
   const avatars = [
-    { initials: "AL", color: "#6366f1" },
+    { initials: "AL", color: "var(--brand, #6366f1)" },
     { initials: "MR", color: "#ec4899" },
     { initials: "JK", color: "#f97316" },
     { initials: "SW", color: "#22c55e" },
@@ -956,7 +956,7 @@ export const TESTIMONIALS = [
       "We cut our analytics infrastructure cost by 60% and our team finally has a single source of truth. Nexus paid for itself in the first month.",
     name: "Sofia Andersson",
     title: "VP Engineering, Forma",
-    avatar: "#6366f1",
+    avatar: "var(--brand, #6366f1)",
     rating: 5,
   },
   {
@@ -984,7 +984,7 @@ export const FEATURES = [
     icon: BarChart3,
     title: "Deep insights, zero guesswork",
     desc: "Real-time dashboards that surface what matters. Track MRR, churn, DAU, and custom events with sub-second latency across your entire customer base.",
-    color: "#6366f1",
+    color: "var(--brand, #6366f1)",
   },
   {
     key: "integrations",

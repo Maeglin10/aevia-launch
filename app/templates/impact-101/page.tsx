@@ -97,19 +97,19 @@ function BLOCK_MANIFESTS_LIVE() {
     },
   ],
   telemetry: resolveList(clientStats({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
-    { label: "NETWORK_LOAD", val: 42, color: "#00f2ff" },
+    { label: "NETWORK_LOAD", val: 42, color: "var(--brand, #00f2ff)" },
     { label: "SYNC_ACCURACY", val: 99, color: "#7000ff" },
-    { label: "VALIDATOR_UPTIME", val: 100, color: "#00f2ff" },
+    { label: "VALIDATOR_UPTIME", val: 100, color: "var(--brand, #00f2ff)" },
     { label: "SECURITY_SCORE", val: 94, color: "#7000ff" },
   ])[i % ([
-    { label: "NETWORK_LOAD", val: 42, color: "#00f2ff" },
+    { label: "NETWORK_LOAD", val: 42, color: "var(--brand, #00f2ff)" },
     { label: "SYNC_ACCURACY", val: 99, color: "#7000ff" },
-    { label: "VALIDATOR_UPTIME", val: 100, color: "#00f2ff" },
+    { label: "VALIDATOR_UPTIME", val: 100, color: "var(--brand, #00f2ff)" },
     { label: "SECURITY_SCORE", val: 94, color: "#7000ff" },
   ]).length], val: s.value, label: s.label })), [
-    { label: "NETWORK_LOAD", val: 42, color: "#00f2ff" },
+    { label: "NETWORK_LOAD", val: 42, color: "var(--brand, #00f2ff)" },
     { label: "SYNC_ACCURACY", val: 99, color: "#7000ff" },
-    { label: "VALIDATOR_UPTIME", val: 100, color: "#00f2ff" },
+    { label: "VALIDATOR_UPTIME", val: 100, color: "var(--brand, #00f2ff)" },
     { label: "SECURITY_SCORE", val: 94, color: "#7000ff" },
   ]),
   logs: [
@@ -560,7 +560,7 @@ export default function BlockBasePage() {
                         transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                         d="M 0 50 Q 50 20, 100 50 T 200 50 T 300 50 T 400 50"
                         fill="none"
-                        stroke="#00f2ff"
+                        stroke="var(--brand, #00f2ff)"
                         strokeWidth="0.5"
                         strokeOpacity="0.3"
                       />

@@ -9,17 +9,17 @@ import {
 
 export const C = {
   bg: "#f7f8fa",
-  bgDark: "#0a1628",
+  bgDark: "var(--brand, #0a1628)",
   bgCard: "#ffffff",
   bgGold: "rgba(184,149,42,0.08)",
-  text: "#0a1628",
+  text: "var(--brand, #0a1628)",
   textLight: "#ffffff",
   textMuted: "#5a6478",
   textDim: "#9aa3b2",
   accent: "var(--brand,#b8952a)",
   accentHover: "var(--brand-light,#d4aa30)",
   accentLight: "rgba(184,149,42,0.12)",
-  navy: "#0a1628",
+  navy: "var(--brand, #0a1628)",
   navyLight: "#142238",
   border: "rgba(10,22,40,0.08)",
   borderDark: "rgba(255,255,255,0.1)",
@@ -251,7 +251,7 @@ export const blogPosts = [
     category: "Droit social",
     excerpt:
       "Une clause de non-concurrence sans contrepartie financière est nulle. Rappel des conditions cumulatives de validité posées par la jurisprudence.",
-    cover: "#0a1628",
+    cover: "var(--brand, #0a1628)",
     body: [
       "La clause de non-concurrence restreint la liberté du salarié de retrouver un emploi après la rupture de son contrat. Sa validité est subordonnée à des conditions cumulatives strictes, dégagées par la Cour de cassation.",
       "La clause doit être indispensable à la protection des intérêts légitimes de l'entreprise, limitée dans le temps et dans l'espace, tenir compte des spécificités de l'emploi du salarié et — condition essentielle — comporter une contrepartie financière.",

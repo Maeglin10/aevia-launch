@@ -18,7 +18,7 @@ import {
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
 
-export const PINK = "#ff2d78";
+export const PINK = "var(--brand, #ff2d78)";
 export const CYAN = "#00f5ff";
 export const PURPLE = "#b44fff";
 export const BG = "#06000f";

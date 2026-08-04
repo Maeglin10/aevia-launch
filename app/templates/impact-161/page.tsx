@@ -301,13 +301,13 @@ export default function EssentialSaaSPage() {
                     <div className="text-sm font-semibold mb-4">Croissance mensuelle</div>
                     <div className="flex items-end gap-2 h-24">
                       {[30, 50, 40, 70, 60, 85, 75, 90, 80, 95, 88, 100].map((h, i) => (
-                        <div key={i} className="flex-1 rounded-t" style={{ height: `${h}%`, background: i === 11 ? "#6366F1" : "#E0E7FF" }} />
+                        <div key={i} className="flex-1 rounded-t" style={{ height: `${h}%`, background: i === 11 ? "var(--brand, #6366F1)" : "#E0E7FF" }} />
                       ))}
                     </div>
                   </div>
                   <div className="bg-white rounded-xl p-4 shadow-sm">
                     <div className="text-sm font-semibold mb-3">Projets actifs</div>
-                    {[["Refonte site", 80, "#6366F1"], ["App mobile", 55, "#10B981"], ["API v3", 35, "#F59E0B"]].map(([name, pct, color]) => (
+                    {[["Refonte site", 80, "var(--brand, #6366F1)"], ["App mobile", 55, "#10B981"], ["API v3", 35, "#F59E0B"]].map(([name, pct, color]) => (
                       <div key={name as string} className="mb-3">
                         <div className="flex justify-between text-xs mb-1"><span>{name as string}</span><span>{pct}%</span></div>
                         <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">

@@ -23,7 +23,7 @@ export const FEATURES = [
     icon: Layers,
     title: "Infinite Composition",
     desc: "Stack visual primitives with mathematical precision. Every layer is GPU-accelerated.",
-    color: "#00ffd1",
+    color: "var(--brand, #00ffd1)",
   },
   {
     icon: Shield,
@@ -35,7 +35,7 @@ export const FEATURES = [
     icon: Cpu,
     title: "Neural Synthesis",
     desc: "Generative models trained on 10B creative samples. Art that thinks for itself.",
-    color: "#00ffd1",
+    color: "var(--brand, #00ffd1)",
   },
   {
     icon: Terminal,
@@ -47,7 +47,7 @@ export const FEATURES = [
     icon: Activity,
     title: "Live Telemetry",
     desc: "Real-time observability with sub-second metric refresh. See everything, always.",
-    color: "#00ffd1",
+    color: "var(--brand, #00ffd1)",
   },
 ];
 
@@ -310,7 +310,7 @@ export function ParticleField() {
             opacity: p.opacity,
             background:
               p.id % 3 === 0
-                ? "#00ffd1"
+                ? "var(--brand, #00ffd1)"
                 : p.id % 3 === 1
                 ? "#7c3aed"
                 : "#e8e8ff",
@@ -398,7 +398,7 @@ export function RotatingProduct({
           width: 16,
           height: 16,
           borderRadius: "50%",
-          background: "#00ffd1",
+          background: "var(--brand, #00ffd1)",
           boxShadow: "0 0 30px #00ffd1, 0 0 60px rgba(0,255,209,0.5)",
           animation: "pulseGlow 2s ease-in-out infinite",
         }}
@@ -428,8 +428,8 @@ export function RotatingProduct({
               width: 6,
               height: 6,
               borderRadius: "50%",
-              background: i % 2 === 0 ? "#7c3aed" : "#00ffd1",
-              boxShadow: `0 0 12px ${i % 2 === 0 ? "#7c3aed" : "#00ffd1"}`,
+              background: i % 2 === 0 ? "#7c3aed" : "var(--brand, #00ffd1)",
+              boxShadow: `0 0 12px ${i % 2 === 0 ? "#7c3aed" : "var(--brand, #00ffd1)"}`,
             }}
           />
         </motion.div>
@@ -570,7 +570,7 @@ export function TypewriterCode() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              style={{ marginTop: 12, color: "#00ffd1", fontSize: 12 }}
+              style={{ marginTop: 12, color: "var(--brand, #00ffd1)", fontSize: 12 }}
             >
               <span style={{ color: "rgba(232,232,255,0.2)" }}>
                 {CODE_LINES.length + 1}
@@ -633,7 +633,7 @@ function ColorizedSegment({ text }: { text: string }) {
         }
         if (/^['"`]/.test(part) || /['"`]$/.test(part)) {
           return (
-            <span key={i} style={{ color: "#00ffd1" }}>
+            <span key={i} style={{ color: "var(--brand, #00ffd1)" }}>
               {part}
             </span>
           );

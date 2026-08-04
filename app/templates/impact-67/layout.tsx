@@ -95,7 +95,7 @@ export default function VisionLayout({
                 key={link.href}
                 href={link.href}
                 className="hover:text-rose-600 transition-colors"
-                style={{ textDecoration: "none", color: isActive(link.href) ? "#e11d48" : "inherit" }}
+                style={{ textDecoration: "none", color: isActive(link.href) ? "var(--brand, #e11d48)" : "inherit" }}
               >
                 {link.label}
               </Link>

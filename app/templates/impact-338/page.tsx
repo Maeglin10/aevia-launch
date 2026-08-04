@@ -37,9 +37,9 @@ let C: Record<string, string> = {
   text: "#eef0f6",
   textMuted: "#9aa1b2",
   accent: "var(--brand,#7d8ff2)",
-  accentDark: "#a5b2f7",
+  accentDark: "var(--brand, #a5b2f7)",
   accentLight: "#131624",
-  hi: "#a5b2f7",
+  hi: "var(--brand, #a5b2f7)",
   white: "#141827",
   border: "rgba(255,255,255,0.09)",
 };
@@ -48,9 +48,9 @@ const FONT_BODY = FONT;
 
 const NAV = [{"l": "Programmes", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Honoraires", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 const HERO = [
-  { k: "Dommages", sub: "Les murs, les machines, l'exploitation.", tiles: [{ icon: Building2, t: "Multirisque industrielle", d: "Bâtiments et contenus à la valeur de reconstruction réelle.", bg: "#131624", fg: "#a5b2f7" }, { icon: Server, t: "Bris de machine", d: "Lignes de production et équipements critiques, arrêts chiffrés.", bg: "#11141c", fg: "#eef0f6" }, { icon: Shield, t: "Perte d'exploitation", d: "La marge brute couverte le temps de redémarrer.", bg: "#1a1e2e", fg: "#a5b2f7" }] },
-  { k: "Responsabilités", sub: "Ce que l'entreprise doit aux autres.", tiles: [{ icon: Scale, t: "RC exploitation & produits", d: "Adaptée à vos contrats, vos exports, vos volumes.", bg: "#11141c", fg: "#eef0f6" }, { icon: Users, t: "RC des dirigeants", d: "Le patrimoine personnel des mandataires protégé.", bg: "#131624", fg: "#a5b2f7" }, { icon: Server, t: "Cyber-risques", d: "Rançongiciel, interruption, notification RGPD : couverts et assistés.", bg: "#1a1e2e", fg: "#a5b2f7" }] },
-  { k: "Hommes & flottes", sub: "Ceux qui font l'entreprise, et ce qui roule.", tiles: [{ icon: Truck, t: "Flottes automobiles", d: "De 5 à 500 véhicules, sinistralité pilotée trimestre par trimestre.", bg: "#1a1e2e", fg: "#a5b2f7" }, { icon: Users, t: "Santé & prévoyance collectives", d: "Conformité conventionnelle, comptes de résultats suivis.", bg: "#131624", fg: "#a5b2f7" }, { icon: Shield, t: "Hommes clés", d: "La perte d'un dirigeant ou d'un expert, financièrement absorbée.", bg: "#11141c", fg: "#eef0f6" }] }
+  { k: "Dommages", sub: "Les murs, les machines, l'exploitation.", tiles: [{ icon: Building2, t: "Multirisque industrielle", d: "Bâtiments et contenus à la valeur de reconstruction réelle.", bg: "#131624", fg: "var(--brand, #a5b2f7)" }, { icon: Server, t: "Bris de machine", d: "Lignes de production et équipements critiques, arrêts chiffrés.", bg: "#11141c", fg: "#eef0f6" }, { icon: Shield, t: "Perte d'exploitation", d: "La marge brute couverte le temps de redémarrer.", bg: "#1a1e2e", fg: "var(--brand, #a5b2f7)" }] },
+  { k: "Responsabilités", sub: "Ce que l'entreprise doit aux autres.", tiles: [{ icon: Scale, t: "RC exploitation & produits", d: "Adaptée à vos contrats, vos exports, vos volumes.", bg: "#11141c", fg: "#eef0f6" }, { icon: Users, t: "RC des dirigeants", d: "Le patrimoine personnel des mandataires protégé.", bg: "#131624", fg: "var(--brand, #a5b2f7)" }, { icon: Server, t: "Cyber-risques", d: "Rançongiciel, interruption, notification RGPD : couverts et assistés.", bg: "#1a1e2e", fg: "var(--brand, #a5b2f7)" }] },
+  { k: "Hommes & flottes", sub: "Ceux qui font l'entreprise, et ce qui roule.", tiles: [{ icon: Truck, t: "Flottes automobiles", d: "De 5 à 500 véhicules, sinistralité pilotée trimestre par trimestre.", bg: "#1a1e2e", fg: "var(--brand, #a5b2f7)" }, { icon: Users, t: "Santé & prévoyance collectives", d: "Conformité conventionnelle, comptes de résultats suivis.", bg: "#131624", fg: "var(--brand, #a5b2f7)" }, { icon: Shield, t: "Hommes clés", d: "La perte d'un dirigeant ou d'un expert, financièrement absorbée.", bg: "#11141c", fg: "#eef0f6" }] }
 ];
 
 const SERVICES_SOURCE = [{"titre": "Cartographie des risques", "desc": "Visite de sites, lecture des contrats commerciaux, chiffrage des valeurs : la base écrite de tout le programme d'assurance.", "tag": "Audit"}, {"titre": "Multirisque & PE", "desc": "Dommages aux biens et perte d'exploitation alignées sur vos marges réelles — le point qui fait survivre une PME sinistrée.", "tag": "Dommages"}, {"titre": "Flottes & mobilité", "desc": "Flottes auto, engins, marchandises transportées. Reporting de sinistralité trimestriel et plan de prévention conducteurs.", "tag": "Flottes"}, {"titre": "Cyber & fraude", "desc": "Couverture rançongiciel, fraude au président, interruption d'activité numérique — avec assistance 24h/24 incluse.", "tag": "Cyber"}, {"titre": "Collectives", "desc": "Santé, prévoyance, retraite : conformité aux conventions collectives et pilotage des comptes année après année.", "tag": "Social"}, {"titre": "Sinistres majeurs", "desc": "Cellule dédiée : expertise, contre-expertise, avances sur indemnités négociées pour maintenir la trésorerie.", "tag": "Sinistres"}];

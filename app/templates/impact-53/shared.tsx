@@ -40,7 +40,7 @@ export const PROJECTS: Project[] = [
     name: "FORM COLLAPSE",
     category: "Identity Design",
     year: "2026",
-    accentColor: "#ff3300",
+    accentColor: "var(--brand, #ff3300)",
   },
   {
     num: "02",
@@ -494,7 +494,7 @@ export function ProjectAccordion({ project }: { project: Project }) {
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
                 style={{
                   transformOrigin: "left",
-                  background: project.accentColor === "#ff3300" ? C.red : "rgba(255,255,255,0.08)",
+                  background: project.accentColor === "var(--brand, #ff3300)" ? C.red : "rgba(255,255,255,0.08)",
                   width: "8px",
                   flexShrink: 0,
                   marginRight: "2rem",

@@ -272,7 +272,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
               <p
                 style={{
                   fontSize: 14,
-                  color: "#c4a882",
+                  color: "var(--brand, #c4a882)",
                   lineHeight: 1.75,
                   maxWidth: 240,
                   fontWeight: 300,
@@ -324,7 +324,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
                     href={item.href}
                     style={{
                       fontSize: 14,
-                      color: "#c4a882",
+                      color: "var(--brand, #c4a882)",
                       textDecoration: "none",
                       fontWeight: 300,
                     }}
@@ -350,10 +350,10 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
                 La Cave
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <Link href="/templates/impact-37/cave" style={{ fontSize: 14, color: "#c4a882", textDecoration: "none", fontWeight: 300 }}>Bordeaux</Link>
-                <Link href="/templates/impact-37/cave" style={{ fontSize: 14, color: "#c4a882", textDecoration: "none", fontWeight: 300 }}>Bourgogne</Link>
-                <Link href="/templates/impact-37/cave" style={{ fontSize: 14, color: "#c4a882", textDecoration: "none", fontWeight: 300 }}>Toscane</Link>
-                <Link href="/templates/impact-37/cave" style={{ fontSize: 14, color: "#c4a882", textDecoration: "none", fontWeight: 300 }}>Natural selection</Link>
+                <Link href="/templates/impact-37/cave" style={{ fontSize: 14, color: "var(--brand, #c4a882)", textDecoration: "none", fontWeight: 300 }}>Bordeaux</Link>
+                <Link href="/templates/impact-37/cave" style={{ fontSize: 14, color: "var(--brand, #c4a882)", textDecoration: "none", fontWeight: 300 }}>Bourgogne</Link>
+                <Link href="/templates/impact-37/cave" style={{ fontSize: 14, color: "var(--brand, #c4a882)", textDecoration: "none", fontWeight: 300 }}>Toscane</Link>
+                <Link href="/templates/impact-37/cave" style={{ fontSize: 14, color: "var(--brand, #c4a882)", textDecoration: "none", fontWeight: 300 }}>Natural selection</Link>
               </div>
             </div>
 
@@ -377,7 +377,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
                   flexDirection: "column",
                   gap: 12,
                   fontSize: 14,
-                  color: "#c4a882",
+                  color: "var(--brand, #c4a882)",
                   fontWeight: 300,
                 }}
               >

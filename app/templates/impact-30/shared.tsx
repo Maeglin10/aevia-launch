@@ -9,7 +9,7 @@ export const C = {
   bgSection: "#f8fcff",
   text: "#1a2744",
   textMuted: "#5a6a8a",
-  accent: "#00b894",
+  accent: "var(--brand, #00b894)",
   accentDark: "#00a381",
   accentLight: "#e0f9f4",
   white: "#FFFFFF",
@@ -119,28 +119,28 @@ export function AnimatedTooth() {
 
 export const SERVICES = [
   {
-    icon: <Smile size={28} color="#00b894" />,
+    icon: <Smile size={28} color="var(--brand, #00b894)" />,
     title: "Blanchiment dentaire",
     desc: "Technologie Zoom! pour un résultat jusqu'à 8 teintes plus blanc en une seule séance.",
     price: "À partir de 350 €",
     tag: "Populaire",
   },
   {
-    icon: <Shield size={28} color="#00b894" />,
+    icon: <Shield size={28} color="var(--brand, #00b894)" />,
     title: "Implants dentaires",
     desc: "Remplacement naturel et durable de vos dents manquantes avec une garantie 10 ans.",
     price: "À partir de 1 200 €",
     tag: "Premium",
   },
   {
-    icon: <Star size={28} color="#00b894" />,
+    icon: <Star size={28} color="var(--brand, #00b894)" />,
     title: "Orthodontie Invisalign",
     desc: "Aligneurs transparents discrets pour corriger votre sourire sans bagues metalliques.",
     price: "À partir de 2 800 €",
     tag: "Invisible",
   },
   {
-    icon: <Heart size={28} color="#00b894" />,
+    icon: <Heart size={28} color="var(--brand, #00b894)" />,
     title: "Soins pédiatriques",
     desc: "Cabinet dédié enfants, soins préventifs et éducation bucco-dentaire dès 3 ans.",
     price: "À partir de 45 €",
@@ -185,7 +185,7 @@ export const TESTIMONIALS = [
 export const TEAM = [
   { name: "Dr. Claire Laurent", role: "Chirurgienne-dentiste", specialty: "Implantologie & Chirurgie orale", experience: "18 ans", initials: "CL", color: "#4a90d9" },
   { name: "Dr. Marc Dupont", role: "Orthodontiste", specialty: "Aligneurs Invisalign certifié Diamond", experience: "12 ans", initials: "MD", color: "#7c3aed" },
-  { name: "Dr. Sofia Ramirez", role: "Chirurgienne-dentiste", specialty: "Esthétique dentaire & Blanchiment", experience: "9 ans", initials: "SR", color: "#00b894" },
+  { name: "Dr. Sofia Ramirez", role: "Chirurgienne-dentiste", specialty: "Esthétique dentaire & Blanchiment", experience: "9 ans", initials: "SR", color: "var(--brand, #00b894)" },
 ];
 
 export const PLANS = [

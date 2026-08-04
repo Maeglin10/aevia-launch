@@ -21,7 +21,7 @@ export const C = {
   bg: "#fdf8f3",
   bgAlt: "#f7f0e6",
   text: "#1a0a00",
-  textMuted: "#7a5c3a",
+  textMuted: "var(--brand, #7a5c3a)",
   espresso: "#1a0a00",
   caramel: "#c4813a",
   caramelLight: "#f5ddb8",

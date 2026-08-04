@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 // ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
 export const C = {
   bg: '#060a06',
-  green: '#00ff64',
+  green: 'var(--brand, #00ff64)',
   red: 'var(--brand,#ff3c00)',
   darkGreen: '#003318',
   midGreen: '#00cc50',

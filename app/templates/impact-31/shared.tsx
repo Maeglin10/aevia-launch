@@ -18,7 +18,7 @@ export const C = {
   accent: "#c0614a",
   accentDark: "#a84f3a",
   accentLight: "#fbeae6",
-  sage: "#6b8f6b",
+  sage: "var(--brand, #6b8f6b)",
   sageDark: "#4f6e4f",
   sageLight: "#e8f0e8",
   white: "#FFFFFF",
@@ -166,9 +166,9 @@ export const SERVICES = [
     name: "Hatha Yoga",
     level: "Débutant",
     levelBg: "#e8f0e8",
-    levelColor: "#6b8f6b",
+    levelColor: "var(--brand, #6b8f6b)",
     bgIcon: "#e8f0e8",
-    icon: <Leaf size={24} color="#6b8f6b" />,
+    icon: <Leaf size={24} color="var(--brand, #6b8f6b)" />,
     desc: "Le fondement de toute pratique. Postures alignées, respiration consciente et retour à l'essentiel. Idéal pour découvrir le yoga en douceur.",
     tags: ["Postures", "Respiration", "Alignement", "Relaxation"],
     duration: "75 min",
@@ -190,7 +190,7 @@ export const SERVICES = [
     levelBg: "#f2ede4",
     levelColor: "#7a6558",
     bgIcon: "#e8f0e8",
-    icon: <Wind size={24} color="#6b8f6b" />,
+    icon: <Wind size={24} color="var(--brand, #6b8f6b)" />,
     desc: "Fusion du contrôle musculaire pilates et de la fluidité du yoga pour un renforcement profond du centre du corps et une posture parfaite.",
     tags: ["Core", "Gainage", "Souplesse", "Posture"],
     duration: "60 min",
@@ -212,7 +212,7 @@ export const SERVICES = [
     levelBg: "#f2ede4",
     levelColor: "#7a6558",
     bgIcon: "#e8f0e8",
-    icon: <Moon size={24} color="#6b8f6b" />,
+    icon: <Moon size={24} color="var(--brand, #6b8f6b)" />,
     desc: "Postures tenues longtemps pour assouplir les tissus profonds, libérer les tensions chroniques et entrer dans un état méditatif profond.",
     tags: ["Fascias", "Tenue longue", "Lâcher-prise", "Récupération"],
     duration: "75 min",
@@ -243,7 +243,7 @@ function INSTRUCTORS_LIVE() {
     photo: clientPhotoAt(0, "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=240&h=240&fit=crop&crop=face"),
     bgFrom: "#e8f0e8",
     bgTo: "#fdf9f5",
-    accentColor: "#6b8f6b",
+    accentColor: "var(--brand, #6b8f6b)",
     initials: "ED",
   },
   {
@@ -292,35 +292,35 @@ export let INSTRUCTORS = INSTRUCTORS_LIVE();
 // ─── Week Schedule Data ────────────────────────────────────────────────────────
 export const WEEK_SCHEDULE = [
   { day: "Lundi", time: "07h00", name: "Hatha Flow", level: "Débutant", teacher: "Emma D.", spots: 8, duration: "75 min", period: "morning", icon: <Sunrise size={16} color="#c0614a" /> },
-  { day: "Lundi", time: "12h30", name: "Pranayama Express", level: "Tous niveaux", teacher: "Amara B.", spots: 12, duration: "45 min", period: "noon", icon: <Wind size={16} color="#6b8f6b" /> },
-  { day: "Lundi", time: "19h00", name: "Vinyasa Power", level: "Intermédiaire", teacher: "Lucas R.", spots: 4, duration: "60 min", period: "evening", icon: <Wind size={16} color="#6b8f6b" /> },
+  { day: "Lundi", time: "12h30", name: "Pranayama Express", level: "Tous niveaux", teacher: "Amara B.", spots: 12, duration: "45 min", period: "noon", icon: <Wind size={16} color="var(--brand, #6b8f6b)" /> },
+  { day: "Lundi", time: "19h00", name: "Vinyasa Power", level: "Intermédiaire", teacher: "Lucas R.", spots: 4, duration: "60 min", period: "evening", icon: <Wind size={16} color="var(--brand, #6b8f6b)" /> },
   { day: "Mardi", time: "09h30", name: "Yin & Méditation", level: "Tous niveaux", teacher: "Sophie M.", spots: 12, duration: "75 min", period: "morning", icon: <Heart size={16} color="#c0614a" /> },
-  { day: "Mardi", time: "18h00", name: "Pilates Yoga", level: "Intermédiaire", teacher: "Emma D.", spots: 6, duration: "60 min", period: "evening", icon: <Award size={16} color="#6b8f6b" /> },
+  { day: "Mardi", time: "18h00", name: "Pilates Yoga", level: "Intermédiaire", teacher: "Emma D.", spots: 6, duration: "60 min", period: "evening", icon: <Award size={16} color="var(--brand, #6b8f6b)" /> },
   { day: "Mercredi", time: "07h00", name: "Kundalini Matin", level: "Tous niveaux", teacher: "Amara B.", spots: 10, duration: "60 min", period: "morning", icon: <Sunrise size={16} color="#c0614a" /> },
-  { day: "Mercredi", time: "20h00", name: "Yoga Nidra", level: "Tous niveaux", teacher: "Sophie M.", spots: 14, duration: "60 min", period: "evening", icon: <Moon size={16} color="#6b8f6b" /> },
-  { day: "Jeudi", time: "18h30", name: "Ashtanga", level: "Avancé", teacher: "Lucas R.", spots: 6, duration: "90 min", period: "evening", icon: <Award size={16} color="#6b8f6b" /> },
-  { day: "Vendredi", time: "08h00", name: "Hatha Doux", level: "Débutant", teacher: "Emma D.", spots: 10, duration: "60 min", period: "morning", icon: <Leaf size={16} color="#6b8f6b" /> },
+  { day: "Mercredi", time: "20h00", name: "Yoga Nidra", level: "Tous niveaux", teacher: "Sophie M.", spots: 14, duration: "60 min", period: "evening", icon: <Moon size={16} color="var(--brand, #6b8f6b)" /> },
+  { day: "Jeudi", time: "18h30", name: "Ashtanga", level: "Avancé", teacher: "Lucas R.", spots: 6, duration: "90 min", period: "evening", icon: <Award size={16} color="var(--brand, #6b8f6b)" /> },
+  { day: "Vendredi", time: "08h00", name: "Hatha Doux", level: "Débutant", teacher: "Emma D.", spots: 10, duration: "60 min", period: "morning", icon: <Leaf size={16} color="var(--brand, #6b8f6b)" /> },
   { day: "Vendredi", time: "12h00", name: "Méditation Déjeuner", level: "Tous niveaux", teacher: "Sophie M.", spots: 15, duration: "30 min", period: "noon", icon: <Heart size={16} color="#c0614a" /> },
-  { day: "Samedi", time: "09h00", name: "Vinyasa Flow", level: "Intermédiaire", teacher: "Lucas R.", spots: 5, duration: "75 min", period: "morning", icon: <Wind size={16} color="#6b8f6b" /> },
+  { day: "Samedi", time: "09h00", name: "Vinyasa Flow", level: "Intermédiaire", teacher: "Lucas R.", spots: 5, duration: "75 min", period: "morning", icon: <Wind size={16} color="var(--brand, #6b8f6b)" /> },
   { day: "Samedi", time: "11h00", name: "Yin Yoga Profond", level: "Tous niveaux", teacher: "Amara B.", spots: 8, duration: "90 min", period: "morning", icon: <Moon size={16} color="#c0614a" /> },
-  { day: "Dimanche", time: "09h00", name: "Kundalini Élévation", level: "Intermédiaire", teacher: "Amara B.", spots: 2, duration: "75 min", period: "morning", icon: <Sunrise size={16} color="#6b8f6b" /> },
+  { day: "Dimanche", time: "09h00", name: "Kundalini Élévation", level: "Intermédiaire", teacher: "Amara B.", spots: 2, duration: "75 min", period: "morning", icon: <Sunrise size={16} color="var(--brand, #6b8f6b)" /> },
   { day: "Dimanche", time: "17h00", name: "Yoga Restauratif", level: "Tous niveaux", teacher: "Sophie M.", spots: 12, duration: "75 min", period: "evening", icon: <Heart size={16} color="#c0614a" /> },
 ];
 
 // ─── Classes (legacy — used by cours/page.tsx) ─────────────────────────────────
 export const CLASSES = [
   { day: "Lundi", time: "07h00", name: "Hatha Flow", level: "Débutant", teacher: "Emma D.", spots: 8, icon: <Sunrise size={18} color="#c0614a" /> },
-  { day: "Lundi", time: "19h00", name: "Vinyasa Power", level: "Intermédiaire", teacher: "Lucas R.", spots: 4, icon: <Wind size={18} color="#6b8f6b" /> },
+  { day: "Lundi", time: "19h00", name: "Vinyasa Power", level: "Intermédiaire", teacher: "Lucas R.", spots: 4, icon: <Wind size={18} color="var(--brand, #6b8f6b)" /> },
   { day: "Mercredi", time: "09h30", name: "Yin & Méditation", level: "Tous niveaux", teacher: "Sophie M.", spots: 12, icon: <Heart size={18} color="#c0614a" /> },
-  { day: "Jeudi", time: "18h30", name: "Ashtanga", level: "Avancé", teacher: "Lucas R.", spots: 6, icon: <Award size={18} color="#6b8f6b" /> },
+  { day: "Jeudi", time: "18h30", name: "Ashtanga", level: "Avancé", teacher: "Lucas R.", spots: 6, icon: <Award size={18} color="var(--brand, #6b8f6b)" /> },
   { day: "Samedi", time: "10h00", name: "Yoga Nidra", level: "Tous niveaux", teacher: "Emma D.", spots: 14, icon: <Leaf size={18} color="#c0614a" /> },
-  { day: "Dimanche", time: "09h00", name: "Kundalini", level: "Intermédiaire", teacher: "Amara B.", spots: 2, icon: <Sunrise size={18} color="#6b8f6b" /> },
+  { day: "Dimanche", time: "09h00", name: "Kundalini", level: "Intermédiaire", teacher: "Amara B.", spots: 2, icon: <Sunrise size={18} color="var(--brand, #6b8f6b)" /> },
 ];
 
 // ─── Teachers (legacy — used by professeurs/page.tsx) ─────────────────────────
 export const TEACHERS = [
   { name: "Emma Dubois", role: "Hatha & Yin Yoga", bio: "18 ans de pratique, certifiée RYT-500. Spécialiste du yoga thérapeutique et de la méditation pleine conscience.", exp: "12 ans d'enseignement", initials: "ED", color: C.accent },
-  { name: "Lucas Renaud", role: "Vinyasa & Ashtanga", bio: "Formé à Mysore auprès de maîtres indiens. Sa pratique dynamique guide vers la maîtrise de soi et la discipline.", exp: "8 ans d'enseignement", initials: "LR", color: "#6b8f6b" },
+  { name: "Lucas Renaud", role: "Vinyasa & Ashtanga", bio: "Formé à Mysore auprès de maîtres indiens. Sa pratique dynamique guide vers la maîtrise de soi et la discipline.", exp: "8 ans d'enseignement", initials: "LR", color: "var(--brand, #6b8f6b)" },
   { name: "Amara Bah", role: "Kundalini & Pranayama", bio: "Experte en techniques respiratoires et en éveil de l'énergie. Elle accompagne les transformations profondes.", exp: "10 ans d'enseignement", initials: "AB", color: "#9b7b6b" },
 ];
 

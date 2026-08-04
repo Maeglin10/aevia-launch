@@ -37,9 +37,9 @@ let C: Record<string, string> = {
   text: "#f2f1ed",
   textMuted: "#9aa0ab",
   accent: "var(--brand,#f2760a)",
-  accentDark: "#f2a25c",
+  accentDark: "var(--brand, #f2a25c)",
   accentLight: "#1c1610",
-  hi: "#f2a25c",
+  hi: "var(--brand, #f2a25c)",
   white: "#12151b",
   border: "rgba(255,255,255,0.09)",
 };
@@ -48,9 +48,9 @@ const FONT_BODY = FONT;
 
 const NAV = [{"l": "Le parc", "h": "#services"}, {"l": "Comment louer", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 const HERO = [
-  { k: "Terrassement", sub: "Ce qui creuse, nivelle et compacte.", tiles: [{ icon: HardHat, t: "Mini-pelles 1 à 5 t", d: "Livrées sur remorque ou porte-engin, godets au choix.", bg: "#1c1610", fg: "#f2a25c" }, { icon: Wrench, t: "Plaques & pilonneuses", d: "Compactage tranchées et allées, EPI fournis.", bg: "#12151b", fg: "#f2f1ed" }, { icon: Truck, t: "Dumpers & brouettes motorisées", d: "Évacuer sans se casser le dos, même en pente.", bg: "#181310", fg: "#f2a25c" }] },
-  { k: "Jardin", sub: "Ce qui taille, broie et tond — en grand.", tiles: [{ icon: TreePine, t: "Broyeurs de branches", d: "Jusqu'à 12 cm de diamètre, le tas d'automne en une matinée.", bg: "#12151b", fg: "#f2f1ed" }, { icon: Wrench, t: "Motoculteurs & tondeuses pro", d: "Autoportées et débroussailleuses pour les grands terrains.", bg: "#1c1610", fg: "#f2a25c" }, { icon: TreePine, t: "Carottes & tarières", d: "Clôtures et plantations : le trou parfait sans pioche.", bg: "#181310", fg: "#f2a25c" }] },
-  { k: "Bâtiment", sub: "Ce qui monte, perce et alimente.", tiles: [{ icon: HardHat, t: "Échafaudages roulants", d: "Alu certifiés, notice de montage et garde-corps complets.", bg: "#181310", fg: "#f2a25c" }, { icon: Zap, t: "Groupes électrogènes", d: "2 à 40 kVA, silencieux disponibles pour l'événementiel.", bg: "#1c1610", fg: "#f2a25c" }, { icon: Wrench, t: "Perfos, carotteuses, rainureuses", d: "Le gros électroportatif qui ne s'achète pas pour un week-end.", bg: "#12151b", fg: "#f2f1ed" }] }
+  { k: "Terrassement", sub: "Ce qui creuse, nivelle et compacte.", tiles: [{ icon: HardHat, t: "Mini-pelles 1 à 5 t", d: "Livrées sur remorque ou porte-engin, godets au choix.", bg: "#1c1610", fg: "var(--brand, #f2a25c)" }, { icon: Wrench, t: "Plaques & pilonneuses", d: "Compactage tranchées et allées, EPI fournis.", bg: "#12151b", fg: "#f2f1ed" }, { icon: Truck, t: "Dumpers & brouettes motorisées", d: "Évacuer sans se casser le dos, même en pente.", bg: "#181310", fg: "var(--brand, #f2a25c)" }] },
+  { k: "Jardin", sub: "Ce qui taille, broie et tond — en grand.", tiles: [{ icon: TreePine, t: "Broyeurs de branches", d: "Jusqu'à 12 cm de diamètre, le tas d'automne en une matinée.", bg: "#12151b", fg: "#f2f1ed" }, { icon: Wrench, t: "Motoculteurs & tondeuses pro", d: "Autoportées et débroussailleuses pour les grands terrains.", bg: "#1c1610", fg: "var(--brand, #f2a25c)" }, { icon: TreePine, t: "Carottes & tarières", d: "Clôtures et plantations : le trou parfait sans pioche.", bg: "#181310", fg: "var(--brand, #f2a25c)" }] },
+  { k: "Bâtiment", sub: "Ce qui monte, perce et alimente.", tiles: [{ icon: HardHat, t: "Échafaudages roulants", d: "Alu certifiés, notice de montage et garde-corps complets.", bg: "#181310", fg: "var(--brand, #f2a25c)" }, { icon: Zap, t: "Groupes électrogènes", d: "2 à 40 kVA, silencieux disponibles pour l'événementiel.", bg: "#1c1610", fg: "var(--brand, #f2a25c)" }, { icon: Wrench, t: "Perfos, carotteuses, rainureuses", d: "Le gros électroportatif qui ne s'achète pas pour un week-end.", bg: "#12151b", fg: "#f2f1ed" }] }
 ];
 
 function SERVICES_SOURCE_LIVE() {

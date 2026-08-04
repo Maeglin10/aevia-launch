@@ -93,10 +93,10 @@ let testimonials_SOURCE = testimonials_SOURCE_LIVE();
 let testimonials = testimonials_SOURCE;
 
 const techStack_SOURCE = [
-  { name: "Three.js", role: "WebGL Rendering", icon: <Triangle className="w-5 h-5" />, color: "#9B5CF6" },
+  { name: "Three.js", role: "WebGL Rendering", icon: <Triangle className="w-5 h-5" />, color: "var(--brand, #9B5CF6)" },
   { name: "React Three Fiber", role: "Declarative 3D", icon: <Hexagon className="w-5 h-5" />, color: "#7C3AED" },
   { name: "WebGL / GLSL", role: "GPU Programming", icon: <Code2 className="w-5 h-5" />, color: "#6D28D9" },
-  { name: "Blender", role: "3D Authoring", icon: <Aperture className="w-5 h-5" />, color: "#9B5CF6" },
+  { name: "Blender", role: "3D Authoring", icon: <Aperture className="w-5 h-5" />, color: "var(--brand, #9B5CF6)" },
   { name: "Unreal Engine", role: "Real-time CG", icon: <Zap className="w-5 h-5" />, color: "#7C3AED" },
   { name: "WebXR / ARKit", role: "Spatial Computing", icon: <Globe className="w-5 h-5" />, color: "#6D28D9" },
 ]

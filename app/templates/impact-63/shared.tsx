@@ -38,7 +38,7 @@ function COLLECTIONS_LIVE() {
     movement: "Calibre MD-2891 — 45 rubis",
     case: "Or blanc 18K — Ø 40mm",
     water: "50m",
-    accent: "#C9A96E",
+    accent: "var(--brand, #C9A96E)",
     image: clientPhotoAt(0, "https://images.pexels.com/photos/9639583/pexels-photo-9639583.jpeg?auto=compress&cs=tinysrgb&w=1200"),
   },
   {
@@ -77,7 +77,7 @@ function COLLECTIONS_LIVE() {
     movement: "Calibre ETA 2892 — 21 rubis",
     case: "Or rose 18K — Ø 33mm",
     water: "30m",
-    accent: "#C9A96E",
+    accent: "var(--brand, #C9A96E)",
     image: clientPhotoAt(3, "https://images.pexels.com/photos/1034063/pexels-photo-1034063.jpeg?auto=compress&cs=tinysrgb&w=1200"),
   },
   {
@@ -90,7 +90,7 @@ function COLLECTIONS_LIVE() {
     movement: "Calibre MD-2847 — 28 rubis",
     case: "Acier 316L poli — Ø 38mm",
     water: "100m",
-    accent: "#C9A96E",
+    accent: "var(--brand, #C9A96E)",
     image: clientPhotoAt(4, "https://images.pexels.com/photos/22032442/pexels-photo-22032442.jpeg?auto=compress&cs=tinysrgb&w=1200"),
   },
   {

@@ -67,7 +67,7 @@ const STATS_INLINE_SOURCE = [
   {
                       value: "200+",
                       label: "Entreprises clientes",
-                      color: "#6366F1",
+                      color: "var(--brand, #6366F1)",
                     },
                     { value: "89%", label: "Taux de rétention", color: "#10B981" },
                     { value: "4.2×", label: "ROI moyen", color: "#F59E0B" },

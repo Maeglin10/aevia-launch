@@ -12,7 +12,7 @@ export const C = {
   bgSection: "#f2fbf5",
   text: "#1a3a2a",
   textMuted: "#4a7060",
-  accent: "#2d6a4f",
+  accent: "var(--brand, #2d6a4f)",
   accentLight: "#d8f3dc",
   accentDark: "#1e4d38",
   sand: "#f4a261",
@@ -123,12 +123,12 @@ export function PetTabs() {
 }
 
 export const SERVICES_DATA = [
-  { icon: <Stethoscope size={26} color="#2d6a4f" />, title: "Consultations", desc: "Bilan de santé complet, suivi régulier et prévention pour votre animal.", tag: "Essentiel" },
-  { icon: <Syringe size={26} color="#2d6a4f" />, title: "Vaccinations", desc: "Protocoles vaccinaux adaptés à chaque espèce et mode de vie.", tag: "Prévention" },
-  { icon: <Shield size={26} color="#2d6a4f" />, title: "Chirurgie", desc: "Chirurgie douce avec anesthésie sécurisée et monitoring cardiaque.", tag: "Spécialisé" },
-  { icon: <Heart size={26} color="#2d6a4f" />, title: "Cardiologie", desc: "Échographie cardiaque et suivi des pathologies cardiovasculaires.", tag: "Expert" },
-  { icon: <Award size={26} color="#2d6a4f" />, title: "Dermatologie", desc: "Diagnostic et traitement des affections cutanées chroniques.", tag: "Spécialisé" },
-  { icon: <Users size={26} color="#2d6a4f" />, title: "Urgences 24h/7j", desc: "Équipe d'astreinte pour les urgences vitales, 24h/24, 7j/7.", tag: "Urgent", urgent: true },
+  { icon: <Stethoscope size={26} color="var(--brand, #2d6a4f)" />, title: "Consultations", desc: "Bilan de santé complet, suivi régulier et prévention pour votre animal.", tag: "Essentiel" },
+  { icon: <Syringe size={26} color="var(--brand, #2d6a4f)" />, title: "Vaccinations", desc: "Protocoles vaccinaux adaptés à chaque espèce et mode de vie.", tag: "Prévention" },
+  { icon: <Shield size={26} color="var(--brand, #2d6a4f)" />, title: "Chirurgie", desc: "Chirurgie douce avec anesthésie sécurisée et monitoring cardiaque.", tag: "Spécialisé" },
+  { icon: <Heart size={26} color="var(--brand, #2d6a4f)" />, title: "Cardiologie", desc: "Échographie cardiaque et suivi des pathologies cardiovasculaires.", tag: "Expert" },
+  { icon: <Award size={26} color="var(--brand, #2d6a4f)" />, title: "Dermatologie", desc: "Diagnostic et traitement des affections cutanées chroniques.", tag: "Spécialisé" },
+  { icon: <Users size={26} color="var(--brand, #2d6a4f)" />, title: "Urgences 24h/7j", desc: "Équipe d'astreinte pour les urgences vitales, 24h/24, 7j/7.", tag: "Urgent", urgent: true },
 ];
 
 export const TEAM_DATA = [
