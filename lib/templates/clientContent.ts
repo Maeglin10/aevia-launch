@@ -432,6 +432,17 @@ export function clientCityOr(repli: string): string {
   return clientCity(sessionCourante) ?? repli;
 }
 
+/**
+ * L'accroche du client, ou celle de la démonstration.
+ *
+ * Une dizaine de thèmes animent leur titre lettre par lettre : y injecter la
+ * phrase du client la collait en un seul mot — « VOTREPLOMBIERÀANNECY ». Le
+ * titre reste donc celui du thème, et l'accroche prend la ligne juste dessous.
+ */
+export function clientTaglineOr(repli: string): string {
+  return clientTagline(sessionCourante) ?? repli;
+}
+
 /** Le nom du client, ou celui de la démonstration. Pour les modules partagés. */
 export function clientNameOr(repli: string): string {
   return clientName(sessionCourante) ?? repli;

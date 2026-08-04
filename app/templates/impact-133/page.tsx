@@ -23,6 +23,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -942,9 +943,7 @@ function HeroSection() {
             lineHeight: 1.65,
           }}
         >
-          Forma Studio fuses parametric computation with speculative vision —
-          producing architecture that is alive, adaptive, and unmistakably of
-          its moment.
+          {clientTagline(sessionData) ?? "Forma Studio fuses parametric computation with speculative vision — producing architecture that is alive, adaptive, and unmistakably of its moment."}
         </motion.p>
 
         <motion.div

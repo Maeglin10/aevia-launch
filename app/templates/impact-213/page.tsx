@@ -24,6 +24,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -607,8 +608,7 @@ function Hero() {
             fontWeight: 300,
           }}
         >
-          Maçonnerie générale, ravalement de façade et isolation thermique par l'extérieur à Lyon,
-          dans le Rhône et l'Isère. Artisans qualifiés, garantie décennale, devis offert en 48h.
+          {clientTagline(sessionData) ?? "Maçonnerie générale, ravalement de façade et isolation thermique par l'extérieur à Lyon, dans le Rhône et l'Isère. Artisans qualifiés, garantie décennale, devis offert en 48h."}
         </motion.p>
 
         <motion.div

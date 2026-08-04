@@ -778,7 +778,10 @@ export default function NexusSaaSPage() {
                     <span className="text-5xl font-bold tracking-tighter">
                       {plan.price !== "Custom" &&
                       annualBilling &&
-                      /* PRIX_CALCULABLE */ Number.isFinite(parseInt(plan.price.slice(1))) && plan.price !== "$0"
+                      // Le calcul annuel ne vaut que pour un prix écrit comme le thème écrit les siens.
+                      // Le client saisit « 137 € » : parseInt le lisait quand même, et sa tarification
+                      // sortait remisée de vingt pour cent — ou en NaN quand le thème refaisait Number().
+                      /* PRIX_CALCULABLE */ /^\$\d+$/.test(String(plan.price))
                         ? `$${parseInt(plan.price.slice(1)) * 0.8}`
                         : plan.price}
                     </span>

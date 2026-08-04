@@ -23,6 +23,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -657,9 +658,7 @@ function HeroSection() {
           animate={{ opacity: 0.8, y: 0 }}
           transition={{ duration: 1, delay: 0.9 }}
         >
-          For over a century, Alderton &amp; Sterling has represented sovereign
-          governments, global corporations, and ultra-high-net-worth families in
-          the most consequential legal matters of the age.
+          {clientTagline(sessionData) ?? "For over a century, Alderton & Sterling has represented sovereign governments, global corporations, and ultra-high-net-worth families in the most consequential legal matters of the age."}
         </motion.p>
 
         {/* CTA row */}

@@ -44,6 +44,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -696,7 +697,7 @@ export default function Template({ session: initialSession }: { session?: any } 
                   marginBottom: "40px",
                 }}
               >
-                {c.heroSubtitle || "Services de nettoyage professionnel respectueux de l'environnement, de votre santé et de votre bien-être."}
+                {clientTagline(sessionData) ?? (c.heroSubtitle || "Services de nettoyage professionnel respectueux de l'environnement, de votre santé et de votre bien-être.")}
               </p>
             </Reveal>
             <Reveal delay={0.3} className="flex flex-col sm:flex-row gap-4">

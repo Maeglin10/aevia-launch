@@ -522,7 +522,10 @@ export default function PulseAppPage() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {PRICING.map((plan, i) => {
-              const price = billingAnnual && /* PRIX_CALCULABLE */ Number.isFinite(parseInt(plan.price)) && plan.price !== "0" ? Math.round(parseInt(plan.price) * 0.8) : plan.price
+              // Le calcul annuel ne vaut que pour un prix écrit comme le thème écrit les siens.
+              // Le client saisit « 137 € » : parseInt le lisait quand même, et sa tarification
+              // sortait remisée de vingt pour cent — ou en NaN quand le thème refaisait Number().
+              const price = billingAnnual && /* PRIX_CALCULABLE */ /^\d+$/.test(String(plan.price)) && plan.price !== "0" ? Math.round(parseInt(plan.price) * 0.8) : plan.price
               return (
                 <Reveal key={plan.name} delay={i * 0.1}>
                   <div className={`rounded-3xl p-8 relative ${plan.highlight ? "bg-[var(--brand,#6366F1)] text-white shadow-2xl shadow-indigo-200 scale-105" : "bg-[#F8F7FF]"}`}>

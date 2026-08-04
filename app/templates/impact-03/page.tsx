@@ -20,6 +20,7 @@ import {
   clientList,
   clientName,
   clientServices,
+  clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
 
@@ -1578,8 +1579,7 @@ export default function FashionEditorialTemplate() {
               marginBottom: 48,
             }}
           >{/* TEXTE_SECTION */ clientText(sessionData, "hero.texte") ?? (<>
-            Garments that speak in silence. Each piece considered from fibre to finish — made to last a
-            lifetime, designed to feel entirely your own.
+            {clientTagline(sessionData) ?? "Garments that speak in silence. Each piece considered from fibre to finish — made to last a lifetime, designed to feel entirely your own."}
           </>)}</motion.p>
 
           <motion.div

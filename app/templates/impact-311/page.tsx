@@ -381,8 +381,13 @@ export default function AtelierPerformanceTemplate() {
   }, [fd]);
 
   const businessName = fd?.businessName || "Atelier Performance";
-  const heroTitle = clientTagline({ formData: fd, generatedContent: c }) || c?.heroTitle || "L'Excellence Mécanique à l'État Pur.";
-  const heroSubtitle = c?.heroSubtitle || "Spécialistes en préparation et optimisation de véhicules de prestige. Poussez les limites de votre machine avec notre expertise de pointe.";
+  /*
+    Le titre s'anime lettre par lettre : l'accroche du client y perdait ses
+    espaces — « VOTREPLOMBIERÀANNECY ». Le titre reste celui du thème, et
+    l'accroche prend la ligne juste dessous.
+  */
+  const heroTitle = c?.heroTitle || "L'Excellence Mécanique à l'État Pur.";
+  const heroSubtitle = clientTagline({ formData: fd, generatedContent: c }) || c?.heroSubtitle || "Spécialistes en préparation et optimisation de véhicules de prestige. Poussez les limites de votre machine avec notre expertise de pointe.";
 
   // Prefer the client's real business data (services / reviews / faq) when the
   // brief provided a BusinessProfile; otherwise fall back to the demo defaults.

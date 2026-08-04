@@ -1121,7 +1121,13 @@ export default function EssentialBlogPage() {
                   <p style={{ fontSize: 12, color: plan.featured ? "rgba(250,250,250,0.45)" : C.textMuted, fontFamily: C.sans, marginBottom: 24 }}>{plan.desc}</p>
                   <div style={{ marginBottom: 28 }}>
                     <span style={{ fontSize: 44, fontWeight: 900, fontFamily: C.sans, color: plan.featured ? C.accent : C.bgDark, letterSpacing: "-0.03em" }}>
-                      {billingAnnual && /* PRIX_CALCULABLE */ Number.isFinite(parseFloat(String(plan.price).replace(/[^0-9.]/g, ""))) && plan.price !== "0" ? Math.floor(Number(plan.price) * 0.8) : plan.price}€
+                      {/*
+                        Le calcul annuel ne vaut que pour un prix écrit comme le thème écrit les
+                        siens. Le client saisit « 137 € » : parseInt le lisait quand même, et sa
+                        tarification sortait remisée de vingt pour cent — ou en NaN quand le thème
+                        refaisait Number().
+                      */}
+                      {billingAnnual && /* PRIX_CALCULABLE */ /^\d+(?:\.\d+)?$/.test(String(plan.price)) ? Math.floor(Number(plan.price) * 0.8) : plan.price}€
                     </span>
                     {plan.price !== "0" && (
                       <span style={{ fontSize: 13, color: plan.featured ? "rgba(250,250,250,0.4)" : C.textMuted, fontFamily: C.sans }}>/mois</span>
