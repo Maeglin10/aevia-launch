@@ -45,6 +45,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Linkedin = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -261,7 +262,8 @@ export default function Impact322() {
     resolveList(clientServices(session), services_DEMO)
   );
 
-  const testimonials_DEMO = [
+  const testimonials_DEMO = resolveList(
+    clientTeam(session)?.map((m: any, i: number) => ({ ...([
     {
       name: "Jean-Pierre Laurent",
       role: "Directeur Général, Maison L.",
@@ -277,7 +279,41 @@ export default function Impact322() {
       role: "CEO, Horizon Groupe",
       content: "Le séminaire de direction organisé à Courchevel restera dans les annales. Un service discret, réactif et d'un professionnalisme absolu."
     }
-  ];
+  ])[i % ([
+    {
+      name: "Jean-Pierre Laurent",
+      role: "Directeur Général, Maison L.",
+      content: "Une exécution parfaite pour notre gala annuel. L'attention aux détails et le raffinement de l'organisation ont ébloui nos partenaires internationaux."
+    },
+    {
+      name: "Claire Dubois",
+      role: "VP Marketing, TechLuxe",
+      content: "Le lancement de notre nouvelle collection a été un succès retentissant. Leur équipe a su capturer l'essence de notre marque avec une élégance rare."
+    },
+    {
+      name: "Marc Antoine",
+      role: "CEO, Horizon Groupe",
+      content: "Le séminaire de direction organisé à Courchevel restera dans les annales. Un service discret, réactif et d'un professionnalisme absolu."
+    }
+  ]).length], name: m.name, role: m.role })),
+    [
+    {
+      name: "Jean-Pierre Laurent",
+      role: "Directeur Général, Maison L.",
+      content: "Une exécution parfaite pour notre gala annuel. L'attention aux détails et le raffinement de l'organisation ont ébloui nos partenaires internationaux."
+    },
+    {
+      name: "Claire Dubois",
+      role: "VP Marketing, TechLuxe",
+      content: "Le lancement de notre nouvelle collection a été un succès retentissant. Leur équipe a su capturer l'essence de notre marque avec une élégance rare."
+    },
+    {
+      name: "Marc Antoine",
+      role: "CEO, Horizon Groupe",
+      content: "Le séminaire de direction organisé à Courchevel restera dans les annales. Un service discret, réactif et d'un professionnalisme absolu."
+    }
+  ],
+  );
 
   const testimonials = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({

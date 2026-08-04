@@ -17,6 +17,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -128,7 +129,7 @@ interface SafetyItem {
    Données
    ════════════════════════════════════════════════════════════════════════════ */
 
-const STYLES_DEMO: Style[] = [
+const STYLES_DEMO_SOURCE: Style[] = [
   {
     num: '1',
     roman: 'I',
@@ -151,6 +152,7 @@ const STYLES_DEMO: Style[] = [
     imgId: 'https://images.pexels.com/photos/4125581/pexels-photo-4125581.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
 ];
+let STYLES_DEMO = STYLES_DEMO_SOURCE;
 
 const ARTISTS_DEMO: Artist[] = [
   {
@@ -2277,6 +2279,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  STYLES_DEMO = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...STYLES_DEMO_SOURCE[i % STYLES_DEMO_SOURCE.length], num: s.value, label: s.label })),
+    STYLES_DEMO_SOURCE,
+  );
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

@@ -73,7 +73,12 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
     for (const dm of decls) {
       const [, ind, nom] = dm;
       if (EXCLUS.test(nom)) continue;
-      if (!new RegExp(`\\b${nom}\\.map\\(`).test(src)) continue;
+      /*
+      Rendue par un map, mais aussi lue par index : un carrousel affiche
+      « testimonials[actif].text » sans jamais appeler map, et la liste est bien
+      à l'écran.
+    */
+    if (!new RegExp(`\\b${nom}\\s*(?:\\.map\\(|\\[)`).test(src)) continue;
       if (new RegExp(`const ${nom}[^=]*=\\s*resolveList`).test(src)) continue;
 
       // fin du tableau
@@ -107,11 +112,18 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
         continue;
       }
 
-      const profil = PROFILS.find(
+      /*
+      Un bloc déjà servi par ce thème ne se câble pas une seconde fois : depuis
+      qu'on accepte la lecture par index, la même donnée client atterrirait dans
+      deux listes différentes.
+    */
+    const profil0 = PROFILS.find(
         (p) => p.exige.every((g) => g.some((k) => cles.includes(k))) &&
                !(p.interdit || []).some((k) => cles.includes(k)),
       );
-      if (!profil) continue;
+      if (!profil0) continue;
+    if (new RegExp(`${profil0.helper}\\s*\\(`).test(src)) continue;
+    const profil = profil0;
 
       const remp =
         `resolveList(\n${ind}  ${profil.helper}(SESSION)?.map((${profil.v}: any, i: number) => ({ ...(${corps})[i % (${corps}).length], ${profil.projette(cles)} })),\n` +
