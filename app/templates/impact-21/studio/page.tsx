@@ -32,7 +32,8 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const timeline = [
+function timeline_LIVE() {
+  return [
   { year: "2014", title: "Fondation", desc: "Création de Forme Studio à " + (clientCity(sessionData) ?? "Paris") + " par deux designers industriels passionnés par le design durable." },
   { year: "2016", title: "Premier prix", desc: "Red Dot Design Award pour le projet « Aéro » — ventilateur sans pale en bambou." },
   { year: "2017", title: "Expansion", desc: "Ouverture de l'atelier de prototypage dans le 11ᵉ arrondissement, équipé d'imprimantes 3D industrielles." },
@@ -41,6 +42,8 @@ const timeline = [
   { year: "2023", title: "50 produits lancés", desc: "Cap symbolique franchi avec le lancement de la Kinetic Lamp pour Foscarini." },
   { year: "2025", title: "Nouveau chapitre", desc: "Déménagement dans un studio de 400m² avec showroom ouvert au public." },
 ];
+}
+let timeline = timeline_LIVE();
 
 const awards = [
   { name: "Red Dot Design Award", count: 5, years: "2016, 2018, 2020, 2022, 2024" },
@@ -63,9 +66,11 @@ export default function StudioPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  timeline = timeline_LIVE();
 
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);

@@ -33,7 +33,8 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const filmsCatalogue = [
+function filmsCatalogue_LIVE() {
+  return [
   {
     title: "Les Heures Perdues",
     type: "Long-métrage",
@@ -90,6 +91,8 @@ const filmsCatalogue = [
     festivals: ["Festival Séries Mania 2023 — Prix Spécial du Jury", "MIPCOM Cannes 2023 — Série Française de l'Année", "Festival de la Fiction de La Rochelle 2023 — Grand Prix"],
   },
 ];
+}
+let filmsCatalogue = filmsCatalogue_LIVE();
 
 
 export default function Impact23FilmsPage() {
@@ -104,9 +107,11 @@ export default function Impact23FilmsPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  filmsCatalogue = filmsCatalogue_LIVE();
 
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);

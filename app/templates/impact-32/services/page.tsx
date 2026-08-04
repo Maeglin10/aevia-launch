@@ -20,7 +20,8 @@ let c: any = null;
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
-const PROCESS_STEPS = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
+function PROCESS_STEPS_LIVE() {
+  return /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
   {
     step: "01",
     title: "Prise de rendez-vous",
@@ -58,6 +59,8 @@ const PROCESS_STEPS = /* PRESTATIONS */ resolveList(clientServices(sessionData)?
     icon: <Shield size={22} color={C.accent} />,
   },
 ]);
+}
+let PROCESS_STEPS = PROCESS_STEPS_LIVE();
 
 const EQUIPMENT = [
   {
@@ -879,9 +882,11 @@ export default function ServicesPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  PROCESS_STEPS = PROCESS_STEPS_LIVE();
 
   return (
     <>

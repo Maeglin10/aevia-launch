@@ -14,7 +14,8 @@ let fd: any = null;
 let bp: any = null;
 let c: any = null;
 
-const SERVICES_DATA = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
+function SERVICES_DATA_LIVE() {
+  return /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "" })), [
   {
     icon: MessageSquare,
     title: "Conciergerie",
@@ -93,7 +94,9 @@ const SERVICES_DATA = /* PRESTATIONS */ resolveList(clientServices(sessionData)?
       "Réseau alumni actif",
     ],
   },
-])
+]);
+}
+let SERVICES_DATA = SERVICES_DATA_LIVE();
 
 
 export default function ServicesPage() {
@@ -108,9 +111,11 @@ export default function ServicesPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  SERVICES_DATA = SERVICES_DATA_LIVE();
 
   return (
     <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>

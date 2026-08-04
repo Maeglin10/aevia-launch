@@ -10,6 +10,11 @@
 // client s'affiche alors tel qu'il l'a écrit. C'est la seule réponse honnête —
 // un thème ne peut pas deviner la remise annuelle d'un prix qu'il ne sait pas
 // lire.
+//
+// Le garde-fou doit tester exactement ce que le calcul fera. Une première
+// version nettoyait la chaîne avant de la mesurer — `parseFloat("ZZ8137 €"
+// nettoyé)` vaut 8137, donc la garde passait, mais le calcul appelait
+// `parseInt(price.slice(1))` sur la chaîne brute et rendait `$NaN`.
 
 import fs from "node:fs";
 import path from "node:path";

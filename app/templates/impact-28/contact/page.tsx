@@ -13,7 +13,8 @@ let fd: any = null;
 let bp: any = null;
 let c: any = null;
 
-const offices = [
+function offices_LIVE() {
+  return [
   {
     city: (clientCity(sessionData) ?? "Paris"),
     label: "Main Atelier",
@@ -41,7 +42,9 @@ const offices = [
     hours: "Mon – Thu, 09:30 – 17:30",
     img: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&h=500&fit=crop&crop=center",
   },
-]
+];
+}
+let offices = offices_LIVE();
 
 const projectTypes = [
   "Residential",
@@ -95,9 +98,11 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  offices = offices_LIVE();
 
   const [activeOffice, setActiveOffice] = useState(0)
   const [formState, setFormState] = useState<FormState>({

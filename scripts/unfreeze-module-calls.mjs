@@ -49,8 +49,21 @@ let faits = 0;
 const touches = [];
 const restants = [];
 
+// Les sous-pages produisent les mêmes constantes gelées que les pages
+// d'accueil : impact-16/services y déclarait ses prestations au niveau module,
+// donc évaluées à l'import, donc toujours celles de la démonstration.
+const FICHIERS = [];
 for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
-  const file = path.join(ROOT, id, "page.tsx");
+  const dossier = path.join(ROOT, id);
+  if (!fs.statSync(dossier).isDirectory()) continue;
+  FICHIERS.push([id, path.join(dossier, "page.tsx")]);
+  for (const sous of fs.readdirSync(dossier)) {
+    const f = path.join(dossier, sous, "page.tsx");
+    if (fs.existsSync(f)) FICHIERS.push([`${id}/${sous}`, f]);
+  }
+}
+
+for (const [id, file] of FICHIERS) {
   if (!fs.existsSync(file)) continue;
   let src = fs.readFileSync(file, "utf8");
   let bouge = false;

@@ -28,12 +28,15 @@ const useFonts = () => {
   }, [])
 }
 
-const SERVICES = /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "", ...(s.price ? { from: s.price } : {}) })), [
+function SERVICES_LIVE() {
+  return /* PRESTATIONS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ title: s.title, desc: s.desc || "", ...(s.price ? { from: s.price } : {}) })), [
   { title: "Portraits & Éditorial", desc: "Portraits intimes et éditoriaux pour magazines, agences et particuliers. Studio ou extérieur.", from: "600€" },
   { title: "Campagnes Mode", desc: "Direction artistique et photographie pour collections et lookbooks. Équipe complète sur demande.", from: "2 400€" },
   { title: "Reportage Événementiel", desc: "Mariage, lancement produit, conférence. Documentation professionnelle haute définition.", from: "900€" },
   { title: "Architecture & Intérieur", desc: "Valorisation de projets architecturaux et d'espaces de vie. Post-production cinématographique.", from: "1 200€" },
-])
+]);
+}
+let SERVICES = SERVICES_LIVE();
 
 
 export default function ServicesPage() {
@@ -48,9 +51,11 @@ export default function ServicesPage() {
   }, []);
 
   sessionData = __session;
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  SERVICES = SERVICES_LIVE();
 
   useFonts()
   const [mobileOpen, setMobileOpen] = useState(false)
