@@ -2381,7 +2381,7 @@ function PartnersSection() {
       icon: Sparkles,
       partners: [
         { name: 'Maison Haeberlin', desc: 'Gastronomie alsacienne · Illhaeusern' },
-        { name: 'Le Festin d\'Alsace', desc: 'Banquets & buffets · Strasbourg' },
+        { name: 'Le Festin d\'Alsace', desc: 'Banquets & buffets · ' + (clientCity(sessionData) ?? 'Strasbourg') },
         { name: 'Saveurs du Rhin', desc: 'Cuisine créative & fusion · Colmar' },
         { name: 'Traiteur Sébastien Bras Jr.', desc: 'Fine dining & cocktail dînatoire' },
       ],
@@ -2390,7 +2390,7 @@ function PartnersSection() {
       title: 'Photographes',
       icon: Heart,
       partners: [
-        { name: 'Atelier Lumière Rose', desc: 'Photojournalisme de mariage · Strasbourg' },
+        { name: 'Atelier Lumière Rose', desc: 'Photojournalisme de mariage · ' + (clientCity(sessionData) ?? 'Strasbourg') },
         { name: 'Hugo Kieffer Photography', desc: 'Style documentaire & émotionnel' },
         { name: 'Céline & Mathieu Studio', desc: 'Duo de photographes · Film argentique' },
         { name: 'Portrait d\'Alsace', desc: 'Mode & portraits contemporains' },
@@ -2400,7 +2400,7 @@ function PartnersSection() {
       title: 'Fleuristes',
       icon: Flower2,
       partners: [
-        { name: 'Bloom Alsace', desc: 'Créations florales sur mesure · Strasbourg' },
+        { name: 'Bloom Alsace', desc: 'Créations florales sur mesure · ' + (clientCity(sessionData) ?? 'Strasbourg') },
         { name: 'La Pivoine & Co', desc: 'Compositions romantiques · Colmar' },
         { name: 'Vert de Gris Fleurs', desc: 'Design floral contemporain · Mulhouse' },
         { name: 'Les Jardins de Suzanne', desc: 'Fleurs de saison & naturelles' },
@@ -2412,7 +2412,7 @@ function PartnersSection() {
       partners: [
         { name: 'Château de l\'Île', desc: 'Château d\'exception · Ostwald' },
         { name: 'Domaine du Moulin', desc: 'Réceptions & fêtes · Wantzenau' },
-        { name: 'Villa Schützenberger', desc: 'Espace événementiel · Strasbourg' },
+        { name: 'Villa Schützenberger', desc: 'Espace événementiel · ' + (clientCity(sessionData) ?? 'Strasbourg') },
         { name: 'Hostellerie du Rosenmeer', desc: 'Hôtel & réceptions · Rosheim' },
       ],
     },
@@ -2592,7 +2592,7 @@ function PracticalSection() {
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       title: 'Réunions en présentiel',
-      desc: 'Nous vous rencontrons à notre bureau de Strasbourg ou directement sur vos lieux de mariage.',
+      desc: 'Nous vous rencontrons à notre bureau de ' + (clientCity(sessionData) ?? 'Strasbourg') + ' ou directement sur vos lieux de mariage.',
     },
     {
       title: 'Suivi à distance',
@@ -2609,7 +2609,7 @@ function PracticalSection() {
   ])[i % ([
     {
       title: 'Réunions en présentiel',
-      desc: 'Nous vous rencontrons à notre bureau de Strasbourg ou directement sur vos lieux de mariage.',
+      desc: 'Nous vous rencontrons à notre bureau de ' + (clientCity(sessionData) ?? 'Strasbourg') + ' ou directement sur vos lieux de mariage.',
     },
     {
       title: 'Suivi à distance',
@@ -2627,7 +2627,7 @@ function PracticalSection() {
     [
     {
       title: 'Réunions en présentiel',
-      desc: 'Nous vous rencontrons à notre bureau de Strasbourg ou directement sur vos lieux de mariage.',
+      desc: 'Nous vous rencontrons à notre bureau de ' + (clientCity(sessionData) ?? 'Strasbourg') + ' ou directement sur vos lieux de mariage.',
     },
     {
       title: 'Suivi à distance',

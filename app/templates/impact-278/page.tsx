@@ -921,11 +921,12 @@ type Service = {
   items: string[];
 };
 
-const SERVICES_DEMO: Service[] = [
+function SERVICES_DEMO_LIVE() {
+  return [
   {
     icon: <Droplets size={36} strokeWidth={1.5} />,
     title: 'Plomberie générale',
-    desc: 'Fuites, canalisations bouchées, installation sanitaire, mise aux normes — nous intervenons rapidement sur tous types de travaux de plomberie à Toulouse et dans un rayon de 30 km.',
+    desc: 'Fuites, canalisations bouchées, installation sanitaire, mise aux normes — nous intervenons rapidement sur tous types de travaux de plomberie à ' + (clientCity(sessionData) ?? 'Toulouse') + ' et dans un rayon de 30 km.',
     items: [
       'Détection et réparation de fuites',
       'Débouchage canalisations',
@@ -959,6 +960,8 @@ const SERVICES_DEMO: Service[] = [
     ],
   },
 ];
+}
+let SERVICES_DEMO = SERVICES_DEMO_LIVE();;
 
 function ServiceCard({ svc, i }: { svc: Service; i: number }) {
   const [hover, setHover] = useState(false);
@@ -1135,11 +1138,12 @@ type ProcessStep = {
   detail: string;
 };
 
-const PROCESS_STEPS: ProcessStep[] = [
+function PROCESS_STEPS_LIVE() {
+  return [
   {
     num: '01',
     title: 'Diagnostic gratuit',
-    body: 'Nous analysons votre installation sur place sans engagement. Bilan complet, identification des problèmes et conseils immédiats — aucun frais de déplacement en zone Toulouse.',
+    body: 'Nous analysons votre installation sur place sans engagement. Bilan complet, identification des problèmes et conseils immédiats — aucun frais de déplacement en zone ' + (clientCity(sessionData) ?? 'Toulouse') + '.',
     detail: 'Réponse sous 24h · Déplacement offert',
   },
   {
@@ -1161,6 +1165,8 @@ const PROCESS_STEPS: ProcessStep[] = [
     detail: 'Garantie 2 ans · Assurance décennale',
   },
 ];
+}
+let PROCESS_STEPS = PROCESS_STEPS_LIVE();;
 
 function ProcessSection() {
   const sec: React.CSSProperties = {
@@ -2848,6 +2854,10 @@ function Impact278Page() {
   }, []);
 
   fd = session?.formData;
+
+  PROCESS_STEPS = PROCESS_STEPS_LIVE();
+
+  SERVICES_DEMO = SERVICES_DEMO_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

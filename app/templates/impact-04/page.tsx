@@ -105,7 +105,8 @@ const STATS_DEMO = [
 ]
 let STATS = STATS_DEMO;
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: "Pierre Manchon",
     role: "Michelin Inspector (Retired)",
@@ -135,7 +136,7 @@ const TESTIMONIALS_SOURCE = [
     role: "Culinary Director, Ginza Six",
     avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80",
     rating: 5,
-    text: "I travel to Paris specifically for the tasting menu. The seven-course journey is as coherent as a great novel — each dish the inevitable consequence of the last. Nowhere else achieves this narrative in cuisine.",
+    text: "I travel to " + (clientCity(sessionData) ?? "Paris") + " specifically for the tasting menu. The seven-course journey is as coherent as a great novel — each dish the inevitable consequence of the last. Nowhere else achieves this narrative in cuisine.",
     date: "December 2025",
   },
   {
@@ -146,7 +147,9 @@ const TESTIMONIALS_SOURCE = [
     text: "The homard thermidor sauce alone deserves preservation as cultural heritage. L'Étoile operates at a level that transcends fashion entirely — this cooking will still be relevant in thirty years.",
     date: "November 2025",
   },
-]
+];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const PRICING_DEMO = [
@@ -244,6 +247,8 @@ export default function LEtoileRestaurant() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -416,7 +421,7 @@ return (
             {[
               { icon: <Award className="w-4 h-4 text-amber-500" />, label: "Michelin ★★", sub: "2022 — Present" },
               { icon: <Clock className="w-4 h-4 text-amber-500" />, label: "Tue–Sun 19h–23h", sub: "Sunday Lunch 12h" },
-              { icon: <MapPin className="w-4 h-4 text-amber-500" />, label: "8e Arrondissement", sub: "Paris, France" },
+              { icon: <MapPin className="w-4 h-4 text-amber-500" />, label: "8e Arrondissement", sub: (clientCity(sessionData) ?? "Paris") + ", France" },
             ].map((s, i) => (
               <motion.div key={i} animate={{ y: [0, -6, 0] }} transition={{ duration: 4, repeat: Infinity, delay: i * 1.2, ease: "easeInOut" }} className="flex items-center gap-3 bg-white/5 backdrop-blur-md border border-white/10 px-5 py-3 rounded-xl">
                 {s.icon}

@@ -1825,11 +1825,12 @@ function ContactFormSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type Stat = { value: string; label: string; sub: string };
 
-const STATS_DEMO: Stat[] = [
+function STATS_DEMO_LIVE() {
+  return [
   {
     value: '28 ans',
     label: "d'expertise",
-    sub: 'Fondé en 1997 à Strasbourg Neudorf',
+    sub: 'Fondé en 1997 à ' + (clientCity(sessionData) ?? 'Strasbourg') + ' Neudorf',
   },
   {
     value: '340+',
@@ -1847,6 +1848,8 @@ const STATS_DEMO: Stat[] = [
     sub: 'Droit local, régime concordataire, Livre Foncier',
   },
 ];
+}
+let STATS_DEMO = STATS_DEMO_LIVE();;
 let STATS = STATS_DEMO;
 
 function StatsSection() {
@@ -2611,6 +2614,8 @@ export default function Impact289Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_DEMO = STATS_DEMO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

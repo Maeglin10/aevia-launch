@@ -147,7 +147,8 @@ const SPECIALTIES_DEMO: Specialty[] = [
   { label: 'Troubles digestifs' },
 ];
 
-const EDIT_ROWS_DEMO: EditRow[] = [
+function EDIT_ROWS_DEMO_LIVE() {
+  return [
   {
     eyebrow: 'Notre pratique',
     img: 'https://images.pexels.com/photos/4506218/pexels-photo-4506218.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
@@ -173,6 +174,8 @@ const EDIT_ROWS_DEMO: EditRow[] = [
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const PRINCIPLES: PrincipleItem[] = [
@@ -2067,6 +2070,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

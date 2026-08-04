@@ -66,14 +66,17 @@ const ZONES_DEMO = [
 ];
 let ZONES = ZONES_DEMO;
 
-const SERVICES_SOURCE = [
+function SERVICES_SOURCE_LIVE() {
+  return [
   { icon: Home, title: "Ménage domicile", desc: "Passage régulier hebdomadaire ou bihebdomadaire. Dépoussiérage, aspiration, nettoyage sols, sanitaires, cuisine. Produits écologiques certifiés." },
   { icon: Building, title: "Nettoyage bureaux", desc: "Locaux professionnels, open spaces, salles de réunion, sanitaires. Intervention en soirée ou week-end pour ne pas perturber l'activité." },
   { icon: Sparkles, title: "Nettoyage fin de chantier", desc: "Déblayage et nettoyage complet post-travaux. Vitres, plinthes, enduits, carrelage. Rendu prêt à emménager en 1 intervention." },
   { icon: Leaf, title: "Ménage écologique", desc: "Produits certifiés Ecocert / Ecolabel uniquement. Zéro toxique, zéro résidu chimique. Idéal familles avec enfants en bas âge ou allergiques." },
-  { icon: Clock, title: "Ménage express & ponctuel", desc: "Avant/après emménagement, avant une réception, entre deux locataires Airbnb. Intervention rapide sous 24h sur Lyon Métropole." },
+  { icon: Clock, title: "Ménage express & ponctuel", desc: "Avant/après emménagement, avant une réception, entre deux locataires Airbnb. Intervention rapide sous 24h sur " + (clientCity({ formData: fd }) ?? "Lyon") + " Métropole." },
   { icon: Shield, title: "Vitres & surfaces vitrées", desc: "Lavage de vitres intérieures et extérieures jusqu'au 3ème étage. Velux, baies, vérandas. Sans traces garanties, finition cristal." },
-]
+];
+}
+let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
@@ -110,6 +113,8 @@ export default function BrilloNetPage() {
   }, []);
 
   fd = session?.formData;
+
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   c = session?.generatedContent;
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),

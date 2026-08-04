@@ -159,7 +159,8 @@ const PIECES_DEMO: Piece[] = [
   { title: 'Broderie & personnalisation', sub: "Fil d\'or · Soie · Main" },
 ];
 
-const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
+function EDIT_ROWS_DEMO_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre philosophie',
     img: 'https://images.pexels.com/photos/36731349/pexels-photo-36731349.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
@@ -169,7 +170,7 @@ const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
         <span style={{ fontStyle: 'italic' }}>qui révèle.</span>
       </>
     ),
-    body: "Marseille rencontre la technique parisienne : chaque silhouette naît d\'un dialogue entre la femme et l\'atelier. La lumière méditerranéenne guide notre palette, le caractère du Sud notre façon de couper. Trois semaines minimum par pièce — le temps que mérite votre vêtement.",
+    body: (clientCity(sessionData) ?? "Marseille") + " rencontre la technique parisienne : chaque silhouette naît d\'un dialogue entre la femme et l\'atelier. La lumière méditerranéenne guide notre palette, le caractère du Sud notre façon de couper. Trois semaines minimum par pièce — le temps que mérite votre vêtement.",
     reverse: false,
   },
   {
@@ -185,6 +186,8 @@ const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();;
 let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_SOURCE;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
@@ -2113,6 +2116,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;

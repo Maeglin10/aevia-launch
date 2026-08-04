@@ -154,7 +154,8 @@ const SERVICES_SOURCE: Service[] = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre approche',
     imgId: '1554224155-6726b3ff858f',
@@ -178,10 +179,12 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
         <span style={{ fontStyle: 'italic' }}>/ depuis 2008.</span>
       </>
     ),
-    body: 'Inscrite au Barreau de Toulouse, spécialisée devant le Tribunal de Commerce depuis 15 ans. Plus de 400 clients PME et ETI accompagnés. Une connaissance approfondie du tissu économique local et des juridictions toulousaines.',
+    body: 'Inscrite au Barreau de ' + (clientCity(sessionData) ?? 'Toulouse') + ', spécialisée devant le Tribunal de Commerce depuis 15 ans. Plus de 400 clients PME et ETI accompagnés. Une connaissance approfondie du tissu économique local et des juridictions toulousaines.',
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const VALUES: ValueItem[] = [
@@ -2093,6 +2096,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;

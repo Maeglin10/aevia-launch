@@ -920,7 +920,8 @@ interface Service {
   description: string;
 }
 
-const SERVICES_SOURCE: Service[] = [
+function SERVICES_SOURCE_LIVE() {
+  return [
   {
     icon: '⚡',
     title: 'Mise aux normes NF C 15-100',
@@ -949,9 +950,11 @@ const SERVICES_SOURCE: Service[] = [
   {
     icon: '🚨',
     title: 'Dépannage électrique 24h',
-    description: 'Intervention rapide à Toulouse et agglomération — coupure, court-circuit, panne générale.',
+    description: 'Intervention rapide à ' + (clientCity(sessionData) ?? 'Toulouse') + ' et agglomération — coupure, court-circuit, panne générale.',
   },
 ];
+}
+let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();;
 let SERVICES_DEMO = SERVICES_SOURCE;
 
 function ServiceCard({ s, i }: { s: Service; i: number }) {
@@ -1073,7 +1076,8 @@ interface EditRow {
   reverse?: boolean;
 }
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre expertise',
     numeral: 'I',
@@ -1083,7 +1087,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
         <span style={{ fontStyle: 'italic' }}>/ maîtrisé.</span>
       </>
     ),
-    body: "12 ans d\'expérience, certification Qualifelec E1/E2, plus de 500 chantiers menés à Toulouse et sa région. Chaque installation respecte les normes en vigueur et les délais convenus. Attestation CONSUEL fournie après chaque mise aux normes.",
+    body: "12 ans d\'expérience, certification Qualifelec E1/E2, plus de 500 chantiers menés à " + (clientCity(sessionData) ?? "Toulouse") + " et sa région. Chaque installation respecte les normes en vigueur et les délais convenus. Attestation CONSUEL fournie après chaque mise aux normes.",
     img: PHOTO.electricalSm,
     alt: 'Électricien certifié Qualifelec intervention tableau Toulouse',
   },
@@ -1102,6 +1106,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 function ParallaxImg({ src, alt }: { src: string; alt: string }) {
@@ -2087,6 +2093,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS = resolveList(

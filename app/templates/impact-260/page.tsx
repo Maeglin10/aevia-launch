@@ -139,7 +139,7 @@ const INTERVENTIONS_DEMO: Intervention[] = [
     index: 'I',
     label: 'PLOMBERIE',
     title: 'Plomberie',
-    body: 'Fuites détectées à la caméra, réfection de réseaux, sanitaires — intervention le jour même sur Lyon Métropole.',
+    body: 'Fuites détectées à la caméra, réfection de réseaux, sanitaires — intervention le jour même sur ' + (clientCity(sessionData) ?? 'Lyon') + ' Métropole.',
   },
   {
     img: 'https://images.pexels.com/photos/7859953/pexels-photo-7859953.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -180,7 +180,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
         </span>
       </>
     ),
-    body: "Réponse garantie sous 2h sur Lyon Métropole. Tarification fixe communiquée avant intervention — aucune mauvaise surprise. Garantie décennale sur toutes nos installations.",
+    body: "Réponse garantie sous 2h sur " + (clientCity(sessionData) ?? "Lyon") + " Métropole. Tarification fixe communiquée avant intervention — aucune mauvaise surprise. Garantie décennale sur toutes nos installations.",
     reverse: false,
     ghost: '01',
   },

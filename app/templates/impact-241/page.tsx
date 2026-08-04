@@ -193,7 +193,8 @@ const SERVICES_SOURCE: Service[] = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre approche',
     imgSrc: PHOTO.editRow1,
@@ -227,6 +228,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const EXPERTISE_ITEMS: ExpertiseItem[] = [
@@ -2155,6 +2158,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS = resolveList(

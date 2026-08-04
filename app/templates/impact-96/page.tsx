@@ -93,7 +93,8 @@ const NAV_ANCHOR: Record<string, string> = {
 };
 const navAnchor = (l: string) => NAV_ANCHOR[l] ?? "#hero";
 
-const PROJECTS_DEMO = [
+function PROJECTS_DEMO_LIVE() {
+  return [
   {
     id: 1,
     year: "2025",
@@ -111,7 +112,7 @@ const PROJECTS_DEMO = [
     client: "Arte France",
     title: "Les Heures Grises",
     format: "Long-métrage 100min — Festival Berlin",
-    desc: "Drame intime sur les espaces interstitiels de Paris. Tournage sur pellicule 16mm.",
+    desc: "Drame intime sur les espaces interstitiels de " + (clientCity({ formData: fd }) ?? "Paris") + ". Tournage sur pellicule 16mm.",
     accent: "#8FA89C",
   },
   {
@@ -155,8 +156,11 @@ const PROJECTS_DEMO = [
     accent: "#5E8C6A",
   },
 ];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();;
 
-const SERVICES_DEMO = [
+function SERVICES_DEMO_LIVE() {
+  return [
   {
     icon: Film,
     title: "Fiction & Série",
@@ -182,10 +186,12 @@ const SERVICES_DEMO = [
     icon: Award,
     title: "Post-Production",
     sub: "Étalonnage, son, VFX",
-    desc: "Studio intégré à Paris 11e : étalonnage 4K HDR Dolby Vision, mixage Atmos 7.1.4, VFX Unreal Engine, sous-titrage 28 langues. Prestation externe acceptée.",
+    desc: "Studio intégré à " + (clientCity({ formData: fd }) ?? "Paris") + " 11e : étalonnage 4K HDR Dolby Vision, mixage Atmos 7.1.4, VFX Unreal Engine, sous-titrage 28 langues. Prestation externe acceptée.",
     items: ["Étalonnage DCI 4K", "Mixage Dolby Atmos", "VFX Unreal Engine", "Localisation 28 langues"],
   },
 ];
+}
+let SERVICES_DEMO = SERVICES_DEMO_LIVE();;
 
 const STATS_DEMO = [
   { val: "2009", label: "Fondé à Paris" },
@@ -509,6 +515,10 @@ export default function UrbanPulsePage() {
   }, []);
 
   fd = session?.formData;
+
+  SERVICES_DEMO = SERVICES_DEMO_LIVE();
+
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   c = session?.generatedContent;
   TESTIMONIALS_DEMO = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...TESTIMONIALS_DEMO_SOURCE[i % TESTIMONIALS_DEMO_SOURCE.length], name: m.name, role: m.role })),

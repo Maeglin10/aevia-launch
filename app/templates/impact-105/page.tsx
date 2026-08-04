@@ -89,26 +89,26 @@ function CREATIONS_LIVE() {
   clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
   { titre: "Bouquets & compositions", desc: "Bouquets de fleurs fraîches de saison, compositions table, centres de table et décorations personnalisées pour toutes occasions.", tag: "Frais" },
   { titre: "Mariage & cérémonie", desc: "Bouquet de mariée, boutonnières, décoration de salle et de cérémonie. Consultation offerte pour chaque projet mariage.", tag: "Mariage" },
-  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur Strasbourg.", tag: "Recueillement" },
+  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + ".", tag: "Recueillement" },
   { titre: "Abonnements entreprises", desc: "Décoration florale hebdomadaire ou bimensuelle pour accueil, salles de réunion et espaces de travail. Entretien inclus.", tag: "Entreprises" },
   { titre: "Fleurs séchées & éternelles", desc: "Compositions en fleurs séchées, pampassi, eucalyptus et gypsophile — déco longue durée au style bohème ou minimaliste.", tag: "Séchées" },
-  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur Strasbourg et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
+  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + " et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
 ])[i % ([
   { titre: "Bouquets & compositions", desc: "Bouquets de fleurs fraîches de saison, compositions table, centres de table et décorations personnalisées pour toutes occasions.", tag: "Frais" },
   { titre: "Mariage & cérémonie", desc: "Bouquet de mariée, boutonnières, décoration de salle et de cérémonie. Consultation offerte pour chaque projet mariage.", tag: "Mariage" },
-  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur Strasbourg.", tag: "Recueillement" },
+  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + ".", tag: "Recueillement" },
   { titre: "Abonnements entreprises", desc: "Décoration florale hebdomadaire ou bimensuelle pour accueil, salles de réunion et espaces de travail. Entretien inclus.", tag: "Entreprises" },
   { titre: "Fleurs séchées & éternelles", desc: "Compositions en fleurs séchées, pampassi, eucalyptus et gypsophile — déco longue durée au style bohème ou minimaliste.", tag: "Séchées" },
-  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur Strasbourg et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
+  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + " et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
 ]).length], titre: s.title, desc: s.desc || '' })),
 
   [
   { titre: "Bouquets & compositions", desc: "Bouquets de fleurs fraîches de saison, compositions table, centres de table et décorations personnalisées pour toutes occasions.", tag: "Frais" },
   { titre: "Mariage & cérémonie", desc: "Bouquet de mariée, boutonnières, décoration de salle et de cérémonie. Consultation offerte pour chaque projet mariage.", tag: "Mariage" },
-  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur Strasbourg.", tag: "Recueillement" },
+  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + ".", tag: "Recueillement" },
   { titre: "Abonnements entreprises", desc: "Décoration florale hebdomadaire ou bimensuelle pour accueil, salles de réunion et espaces de travail. Entretien inclus.", tag: "Entreprises" },
   { titre: "Fleurs séchées & éternelles", desc: "Compositions en fleurs séchées, pampassi, eucalyptus et gypsophile — déco longue durée au style bohème ou minimaliste.", tag: "Séchées" },
-  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur Strasbourg et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
+  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + " et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
 ],
 
 );
@@ -122,11 +122,14 @@ const ATOUTS = [
   "Conseil personnalisé par nos fleuristes passionnées",
 ]
 
-const AVIS_SOURCE = [
+function AVIS_SOURCE_LIVE() {
+  return [
   { texte: "Le bouquet de mariée était exactement dans mes rêves. L'équipe a su capturer ce que je voulais dès le premier rendez-vous. Des fleurs magnifiques et un service hors pair.", auteur: "Juliette B.", detail: "Mariage, juin 2025" },
   { texte: "Abonnement floral mensuel pour notre cabinet dentaire depuis 1 an. Toujours ponctuels, créatifs et avec des compositions qui durent. Nos patients adorent.", auteur: "Cabinet Dr. Engel", detail: "Abonnement entreprise" },
-  { texte: "Je commande régulièrement pour offrir. Chaque bouquet est soigné, bien emballé et les fleurs tiennent au moins 10 jours. Une vraie adresse de qualité à Strasbourg.", auteur: "Sophie K.", detail: "Cliente régulière" },
-]
+  { texte: "Je commande régulièrement pour offrir. Chaque bouquet est soigné, bien emballé et les fleurs tiennent au moins 10 jours. Une vraie adresse de qualité à " + (clientCity({ formData: fd }) ?? "Strasbourg") + ".", auteur: "Sophie K.", detail: "Cliente régulière" },
+];
+}
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();
 let AVIS_DEMO = AVIS_SOURCE;
 let AVIS = AVIS_DEMO;
 
@@ -174,6 +177,8 @@ export default function AtelierBloomPage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
 

@@ -123,12 +123,13 @@ interface CraftStep {
    Données
    ════════════════════════════════════════════════════════════════════════════ */
 
-const CREATIONS_DEMO: Creation[] = [
+function CREATIONS_DEMO_LIVE() {
+  return [
   {
     index: 'I',
     label: 'SOIE & ORGANZA',
     title: 'Soie & Organza',
-    body: 'Robe du soir en soie naturelle, étole brodée à la main, bustier organza — Lyon, capitale mondiale de la soie, dans chaque fil.',
+    body: 'Robe du soir en soie naturelle, étole brodée à la main, bustier organza — ' + (clientCity(sessionData) ?? 'Lyon') + ', capitale mondiale de la soie, dans chaque fil.',
     imgId: 'https://images.pexels.com/photos/4614208/pexels-photo-4614208.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
@@ -146,6 +147,8 @@ const CREATIONS_DEMO: Creation[] = [
     imgId: 'https://images.pexels.com/photos/6358795/pexels-photo-6358795.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
 ];
+}
+let CREATIONS_DEMO = CREATIONS_DEMO_LIVE();;
 
 const PIECES_DEMO: Piece[] = [
   { name: 'Robe de soirée soie', sub: 'Couture sur-mesure' },
@@ -156,7 +159,8 @@ const PIECES_DEMO: Piece[] = [
   { name: 'Personnalisation & monogramme', sub: 'Broderie & impression' },
 ];
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre héritage',
     imgId: 'https://images.pexels.com/photos/4614208/pexels-photo-4614208.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -187,6 +191,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const CRAFT_STEPS: CraftStep[] = [
@@ -2087,6 +2093,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+
+  CREATIONS_DEMO = CREATIONS_DEMO_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;

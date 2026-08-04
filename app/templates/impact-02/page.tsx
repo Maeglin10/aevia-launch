@@ -89,13 +89,16 @@ const TESTIMONIALS_SOURCE = [
 ];
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
-const FAQS_DEMO = [
-  { question: "Are you available for international travel?", answer: "Yes. While based between Paris and Tokyo, I frequently travel globally for campaigns and editorial assignments. Travel fees are calculated based on the project scope." },
+function FAQS_DEMO_LIVE() {
+  return [
+  { question: "Are you available for international travel?", answer: "Yes. While based between " + (clientCity({ formData: fd }) ?? "Paris") + " and Tokyo, I frequently travel globally for campaigns and editorial assignments. Travel fees are calculated based on the project scope." },
   { question: "What is your typical turnaround time?", answer: "For editorial and commercial projects, the standard turnaround time for the first contact sheet is 48 hours. Final retouched assets are typically delivered within 2-3 weeks post-shoot." },
   { question: "Do you handle full production?", answer: "Absolutely. I work with a dedicated team of producers who can handle everything from location scouting and casting to permits and catering, offering a turnkey solution." },
   { question: "What camera systems do you use?", answer: "I primarily shoot on Hasselblad medium format digital systems for unparalleled detail and color depth, complemented by Leica systems for documentary and street work." },
   { question: "How do we secure booking dates?", answer: "Dates are secured upon signature of the contract and receipt of a 50% retainer. Given my travel schedule, I recommend booking at least 2-3 months in advance." },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_LIVE();;
 
 const AWARDS = [
   { title: "World Press Photo", year: "2025", category: "Nature" },
@@ -212,6 +215,8 @@ export default function CreativePortfolioSPA() {
   }, []);
 
   fd = session?.formData;
+
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,

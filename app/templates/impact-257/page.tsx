@@ -197,7 +197,8 @@ const SPECIALTIES_DEMO: Specialty[] = [
   },
 ];
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre approche',
     img: P.doctorMd,
@@ -227,6 +228,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     roman: 'II',
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const APPROACH_ITEMS: ApproachItem[] = [
@@ -2128,6 +2131,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   bp = session?.businessProfile;
   sessionData = session;
   EDIT_ROWS = resolveList(
