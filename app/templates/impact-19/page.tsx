@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -12,12 +13,23 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+// Le profil métier, pour lib/templates/clientContent : même portée que fd.
+let bp: any = null;
+
+// L'équipe du thème, qui sert de repli à celle du client.
+const TEAM_SOURCE = [
+  { name: "Édouard Merlin", role: "Managing Partner", background: "Ex-Partner Sequoia Europe · fondateur de 3 startups (2 exits)" },
+  { name: "Isabelle Vance", role: "General Partner", background: "Ex-CFO Goldman Sachs Europe · Advisory Board OpenAI France" },
+  { name: "Marc Rousseau", role: "Partner — Opérations", background: "Ex-COO Doctolib · advisor 12 scale-ups Series B+" },
+];
+
 let c: any = null;
 let brand: any = null;
 
@@ -57,11 +69,13 @@ const theses = [
   { icon: <Users className="w-5 h-5" />, title: "Marketplaces verticales", desc: "Effet réseau asymétrique dans des secteurs fragmentés. Take rate > 15%." },
 ];
 
-const team = [
-  { name: "Édouard Merlin", role: "Managing Partner", background: "Ex-Partner Sequoia Europe · fondateur de 3 startups (2 exits)" },
-  { name: "Isabelle Vance", role: "General Partner", background: "Ex-CFO Goldman Sachs Europe · Advisory Board OpenAI France" },
-  { name: "Marc Rousseau", role: "Partner — Opérations", background: "Ex-COO Doctolib · advisor 12 scale-ups Series B+" },
-];
+const team = resolveList(
+
+  clientTeam({ formData: fd, businessProfile: bp })?.map((m: any, i: number) => ({ ...TEAM_SOURCE[i % TEAM_SOURCE.length], name: m.name, role: m.role })),
+
+  TEAM_SOURCE,
+
+);
 
 const sectors = ["Tous", "HealthTech", "FinTech", "CleanTech", "Infrastructure", "EdTech", "CyberSec"];
 
@@ -107,6 +121,8 @@ export default function SummitCapitalPage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = (session as any)?.businessProfile;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

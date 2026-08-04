@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useInView } from "framer-motion"
@@ -10,12 +11,41 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+// Le profil métier, pour lib/templates/clientContent : même portée que fd.
+let bp: any = null;
+
+// L'équipe du thème, qui sert de repli à celle du client.
+const TEAM_SOURCE = [
+  {
+    name: "Dr. Rachel Chen",
+    title: "Director of Quantum Hardware",
+    affiliation: "MIT · Stanford Quantum Lab",
+    paper: "Coherence-Preserving Dynamical Decoupling in 127-Qubit Systems",
+    bg: "linear-gradient(135deg, #dde1ff 0%, #c4ceff 100%)",
+  },
+  {
+    name: "Dr. Tobias Nkosi",
+    title: "Lead, Error Correction",
+    affiliation: "University of Waterloo · Perimeter Institute",
+    paper: "Topological Qubit Arrays via Majorana Zero Modes",
+    bg: "linear-gradient(135deg, #defbe6 0%, #a7f0ba 100%)",
+  },
+  {
+    name: "Dr. Erik Larsson",
+    title: "Quantum Networking Division",
+    affiliation: "KTH Royal Institute · NIST",
+    paper: "Entanglement Distribution Over 500km Fiber",
+    bg: "linear-gradient(135deg, #fff0d6 0%, #ffd37c 100%)",
+  },
+];
+
 let c: any = null;
 let brand: any = null;
 
@@ -112,29 +142,13 @@ const STATS = [
   { value: "6", label: "Global Labs" },
 ]
 
-const TEAM = [
-  {
-    name: "Dr. Rachel Chen",
-    title: "Director of Quantum Hardware",
-    affiliation: "MIT · Stanford Quantum Lab",
-    paper: "Coherence-Preserving Dynamical Decoupling in 127-Qubit Systems",
-    bg: "linear-gradient(135deg, #dde1ff 0%, #c4ceff 100%)",
-  },
-  {
-    name: "Dr. Tobias Nkosi",
-    title: "Lead, Error Correction",
-    affiliation: "University of Waterloo · Perimeter Institute",
-    paper: "Topological Qubit Arrays via Majorana Zero Modes",
-    bg: "linear-gradient(135deg, #defbe6 0%, #a7f0ba 100%)",
-  },
-  {
-    name: "Dr. Erik Larsson",
-    title: "Quantum Networking Division",
-    affiliation: "KTH Royal Institute · NIST",
-    paper: "Entanglement Distribution Over 500km Fiber",
-    bg: "linear-gradient(135deg, #fff0d6 0%, #ffd37c 100%)",
-  },
-]
+const TEAM = resolveList(
+
+  clientTeam({ formData: fd, businessProfile: bp })?.map((m: any, i: number) => ({ ...TEAM_SOURCE[i % TEAM_SOURCE.length], name: m.name, role: m.role })),
+
+  TEAM_SOURCE,
+
+)
 
 const NAV_LINKS = ["Research", "Publications", "Team", "Infrastructure", "Careers"]
 
@@ -204,6 +218,8 @@ export default function QBitLabsPage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = (session as any)?.businessProfile;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

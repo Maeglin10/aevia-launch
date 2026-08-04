@@ -35,10 +35,21 @@ const PLANS = {
     projette: (t, d) => `${t}: s.title, ${d}: s.desc || ""`,
     v: "s",
   },
+  equipe: {
+    helper: "clientTeam",
+    nom: "EQUIPE_INLINE",
+    texte: ["name", "nom", "prenom"],
+    auteur: ["role", "poste", "fonction", "title", "titre", "specialty"],
+    projette: (n, r) => `${n}: m.name, ${r}: m.role`,
+    v: "m",
+    // Une liste d'avis porte aussi name + role : la présence d'une citation la
+    // distingue d'une équipe.
+    exclut: ["quote", "texte", "avis", "testimonial"],
+  },
 };
 const plan = PLANS[bloc];
 if (!plan) {
-  console.error("usage: node scripts/wire-inline-lists.mjs avis|prestations [impact-NN …] [--dry]");
+  console.error("usage: node scripts/wire-inline-lists.mjs avis|prestations|equipe [impact-NN …] [--dry]");
   process.exit(1);
 }
 
@@ -60,6 +71,7 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
     const a = plan.texte.find((k) => cles.includes(k));
     const b = plan.auteur.find((k) => cles.includes(k));
     const lignes = (corps.match(/\{/g) || []).length;
+    if (plan.exclut && plan.exclut.some((k) => cles.includes(k))) continue;
     if (a && b && lignes >= 2) {
       trouve = { debut: m.index, fin: re.lastIndex, corps, a, b };
       break;
@@ -71,7 +83,7 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
   }
 
   const decl =
-    `\n// ${bloc === "avis" ? "Les avis" : "Les prestations"}, jusqu'ici écrits dans le rendu :\n` +
+    `\n// ${{ avis: "Les avis", prestations: "Les prestations", equipe: "L'équipe" }[bloc]}, jusqu'ici écrit(e)s dans le rendu :\n` +
     `// le client pouvait les saisir, le thème ne les lisait pas.\n` +
     `const ${plan.nom}_SOURCE = [\n  ${trouve.corps.trim()}\n];\n` +
     `let ${plan.nom} = ${plan.nom}_SOURCE;\n`;
