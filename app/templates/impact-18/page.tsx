@@ -19,6 +19,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -85,15 +86,15 @@ const kanban = [
   { col: "Terminé", color: "#065F46", items: ["Lancement v3.0", "Audit RGPD", "Formation équipes"] },
 ];
 
-const plans = [
+const plans = /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   { name: "Starter", price: "0", desc: "Pour les petites équipes", features: ["5 utilisateurs", "10 projets", "2 Go stockage", "Intégrations basiques", "Support communauté"], highlight: false, cta: "Gratuit pour toujours" },
   { name: "Growth", price: "29", desc: "Pour les équipes qui grandissent", features: ["Utilisateurs illimités", "Projets illimités", "100 Go stockage", "350+ intégrations", "Analytics avancés", "Support prioritaire"], highlight: true, cta: "Essai 14 jours" },
   { name: "Enterprise", price: "99", desc: "Pour les grandes organisations", features: ["Tout Growth inclus", "SSO & SAML", "SLA 99.99%", "Déploiement on-prem", "CISO dédié", "Support 24/7"], highlight: false, cta: "Contacter les ventes" },
-];
+]);
 
 const testimonials = resolveList(
 
-  clientReviews({ formData: fd })?.map((r: any, i: number) => ({ ...([
+  clientReviews({ formData: fd, businessProfile: bp, generatedContent: c })?.map((r: any, i: number) => ({ ...([
   { name: "Aurélie Marchand", role: "COO — Fintech Scale-up", text: "Streamline a réduit notre temps de réunion de 40%. Tout le monde sait exactement quoi faire et quand. Indispensable.", rating: 5 },
   { name: "Thomas Leroy", role: "CTO — Agence digitale", text: "L'API est un chef-d'œuvre. On a construit notre propre couche d'automatisation en 2 semaines. Aucune autre plateforme n'offre ça.", rating: 5 },
   { name: "Sophie Chen", role: "VP Product — SaaS B2B", text: "Migration de Jira en 3 jours. L'équipe a adoré dès le premier jour. Le support a été réactif à chaque étape.", rating: 5 },
@@ -124,6 +125,7 @@ export default function StreamlinePage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -143,6 +145,8 @@ export default function StreamlinePage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   features = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...features_SOURCE[i % features_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     features_SOURCE,
@@ -167,7 +171,7 @@ export default function StreamlinePage() {
   const { scrollYProgress } = useScroll();
 
   const faqs = resolveList(
-    clientFaq({ formData: fd })?.map((f: any, i: number) => ({ ...([
+    clientFaq({ formData: fd, businessProfile: bp, generatedContent: c })?.map((f: any, i: number) => ({ ...([
     { q: "Combien de temps dure l'essai gratuit ?", a: "14 jours, sans carte de crédit requise. Accès complet à toutes les fonctionnalités Growth." },
     { q: "Puis-je migrer depuis Jira, Asana ou Monday ?", a: "Oui. Notre outil d'import automatique gère Jira, Asana, Monday.com, Trello et Notion en quelques minutes." },
     { q: "Streamline est-il conforme RGPD ?", a: "Oui. Données hébergées en Europe (Frankfurt), DPA disponible, droit à l'effacement et à la portabilité respectés." },
@@ -607,7 +611,7 @@ function DocsPage() {
 
 function BlogPage() {
   const posts = resolveList(
-    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { title: "Comment réduire le temps de réunion de 40%", desc: "Découvrez nos techniques agiles et l'utilisation de tableaux de bord Kanban pour dynamiser la communication d'équipe.", date: "10 juin 2026" },
     { title: "Intégrer Salesforce & Slack sans écrire de code", desc: "Guide pas-à-pas pour synchroniser vos opportunités commerciales vers vos canaux d'alertes en 5 minutes.", date: "2 juin 2026" },
     { title: "Lancement de Streamline v3.0 : Rapidité décuplée", desc: "Découvrez notre nouveau moteur d'exécution asynchrone qui accélère le temps de réponse global de 50%.", date: "18 mai 2026" }

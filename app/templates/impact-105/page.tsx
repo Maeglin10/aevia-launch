@@ -16,6 +16,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -84,7 +85,7 @@ const ENTREPRISES = [
 
 const CREATIONS = resolveList(
 
-  clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+  clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
   { titre: "Bouquets & compositions", desc: "Bouquets de fleurs fraîches de saison, compositions table, centres de table et décorations personnalisées pour toutes occasions.", tag: "Frais" },
   { titre: "Mariage & cérémonie", desc: "Bouquet de mariée, boutonnières, décoration de salle et de cérémonie. Consultation offerte pour chaque projet mariage.", tag: "Mariage" },
   { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur Strasbourg.", tag: "Recueillement" },
@@ -150,6 +151,7 @@ export default function AtelierBloomPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -169,6 +171,8 @@ export default function AtelierBloomPage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   AVIS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
     AVIS_SOURCE,

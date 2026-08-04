@@ -28,6 +28,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 
 // Les prestations, jusqu'ici écrit(e) dans le rendu :
@@ -93,7 +94,7 @@ function BLOCK_MANIFESTS_LIVE() {
       code: "docker pull blockbase/validator",
     },
   ],
-  telemetry: resolveList(clientStats({ formData: fd })?.map((s: any, i: number) => ({ ...([
+  telemetry: resolveList(clientStats({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { label: "NETWORK_LOAD", val: 42, color: "#00f2ff" },
     { label: "SYNC_ACCURACY", val: 99, color: "#7000ff" },
     { label: "VALIDATOR_UPTIME", val: 100, color: "#00f2ff" },
@@ -196,6 +197,7 @@ export default function BlockBasePage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -215,6 +217,8 @@ export default function BlockBasePage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
 
   BLOCK_MANIFESTS = BLOCK_MANIFESTS_LIVE();
 

@@ -2355,10 +2355,7 @@ export default function Impact134Page() {
     clientServices(session)?.map((s: any, i: number) => ({ ...SETS_SOURCE[i % SETS_SOURCE.length], name: s.title, price: s.price ?? SETS_SOURCE[i % SETS_SOURCE.length].price })),
     SETS_SOURCE,
   );
-  PRODUCTS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title })),
-    PRODUCTS_SOURCE,
-  );
+  PRODUCTS = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), PRODUCTS_SOURCE);
   REVIEWS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], author: r.author, text: r.text })),
     REVIEWS_SOURCE,

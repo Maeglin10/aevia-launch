@@ -48,6 +48,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -217,6 +218,7 @@ export default function AstrumReachPremium() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -236,6 +238,8 @@ export default function AstrumReachPremium() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   MISSIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...MISSIONS_DEMO_SOURCE[i % MISSIONS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     MISSIONS_DEMO_SOURCE,
@@ -709,7 +713,7 @@ function ManifestPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
 function EngineeringPage() {
   const specs = resolveList(
-    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { title: "Graphene Thermal Shield", val: "3200°C Limit", desc: "Un bouclier de protection thermique ultra-léger composé de plusieurs feuillets de graphène liquide pour résister aux rentrées atmosphériques les plus brutales." },
     { title: "Ion Drive Propulsion", val: "0.02g Thrust / Continuous", desc: "Calibré pour des impulsions continues de longue durée dans le vide spatial profond, alimenté par notre réacteur ionique au xénon haute efficacité." },
     { title: "Bio-Filtered Closed Loop", val: "99.98% Efficiency", desc: "Système de support de vie autonome recyclant le CO2 en oxygène pur grâce à des bioréacteurs à microalgues de dernière génération." }

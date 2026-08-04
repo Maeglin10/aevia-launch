@@ -63,6 +63,7 @@ import {
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 
@@ -284,7 +285,7 @@ const voyageWaypoints: Waypoint[] = [
 ];
 
 function testimonials_LIVE() {
-  return resolveList(clientReviews({ formData: fd })?.map((r: any, i: number) => ({ ...([
+  return resolveList(clientReviews({ formData: fd, businessProfile: bp, generatedContent: c })?.map((r: any, i: number) => ({ ...([
   {
     name: "Charlotte Ashworth",
     title: "Private Client, London",
@@ -891,6 +892,7 @@ export default function HorizonMaritimePage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -910,6 +912,8 @@ export default function HorizonMaritimePage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
 
   testimonials = testimonials_LIVE();
   stats = resolveList(
@@ -2715,7 +2719,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
 function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const allDestinations = resolveList(
-    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     {
       name: "Monaco & French Riviera",
       region: "Mediterranean",
@@ -2958,7 +2962,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
 function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const experiences = resolveList(
-    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     {
       title: "Bespoke Cuisine",
       desc: "Our onboard culinary program features Michelin-starred chefs who tailor menus around your personal preferences and locally sourced ingredients at every anchorage.",

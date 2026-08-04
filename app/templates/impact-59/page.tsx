@@ -25,6 +25,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 
 // Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
@@ -65,6 +66,7 @@ export default function LuminalHome() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -84,6 +86,8 @@ export default function LuminalHome() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
 
   STATS_INLINE = resolveList(
 
@@ -402,7 +406,7 @@ return (
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-            {resolveList(clientReviews({ formData: fd })?.map((r: any, i: number) => ({ ...([
+            {resolveList(clientReviews({ formData: fd, businessProfile: bp, generatedContent: c })?.map((r: any, i: number) => ({ ...([
               {
                 quote: "Luminal m'a rendu à moi-même après 15 ans de performance intense. Je suis rentrée différente — pas reposée, transformée.",
                 name: "Caroline V.",

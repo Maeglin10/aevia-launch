@@ -20,6 +20,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 // chiffres, jusqu'ici écrit dans le rendu sans constante nommée.
 const CHIFFRES_ANON_SOURCE = [
@@ -126,6 +127,7 @@ export default function PulseEventsPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -146,9 +148,11 @@ export default function PulseEventsPage() {
 
   fd = session?.formData;
 
+  bp = session?.businessProfile;
+
   CHIFFRES_ANON = resolveList(
 
-    clientStats({ formData: fd })?.map((s: any, i: number) => ({ ...CHIFFRES_ANON_SOURCE[i % CHIFFRES_ANON_SOURCE.length], val: s.value, label: s.label })),
+    clientStats({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...CHIFFRES_ANON_SOURCE[i % CHIFFRES_ANON_SOURCE.length], val: s.value, label: s.label })),
 
     CHIFFRES_ANON_SOURCE,
 

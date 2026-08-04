@@ -1939,8 +1939,7 @@ function DevisFormSection() {
    7 · AIDES FINANCIÈRES SECTION
    ════════════════════════════════════════════════════════════════════════════ */
 function AidesSection() {
-  const aides = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
+  const aides = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       label: "MaPrimeRénov'",
       montant: "Jusqu'à 11 000€",
@@ -2012,8 +2011,7 @@ function AidesSection() {
         "Programme MaPrimeAdapt' pour les ménages modestes et très modestes. Peut couvrir jusqu'à 70% des travaux sous conditions de ressources.",
       color: C.slateDark,
     },
-  ]).length], label: s.title, description: s.desc || "" })),
-    [
+  ]).length], label: s.title, description: s.desc || "" , ...(s.price ? { montant: s.price } : {})})), [
     {
       label: "MaPrimeRénov'",
       montant: "Jusqu'à 11 000€",
@@ -2049,8 +2047,7 @@ function AidesSection() {
         "Programme MaPrimeAdapt' pour les ménages modestes et très modestes. Peut couvrir jusqu'à 70% des travaux sous conditions de ressources.",
       color: C.slateDark,
     },
-  ],
-  );
+  ]);
 
   return (
     <section

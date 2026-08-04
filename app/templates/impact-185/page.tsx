@@ -255,10 +255,7 @@ export default function GentlemansCutPage() {
   }, []);
 
   fd = session?.formData;
-  SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
-    SERVICES_SOURCE,
-  );
+  SERVICES_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
   TARIFS = resolveList(
     clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

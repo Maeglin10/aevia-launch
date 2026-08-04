@@ -18,6 +18,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -31,6 +32,7 @@ export default function StackUnitHome() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -50,6 +52,8 @@ export default function StackUnitHome() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -74,7 +78,7 @@ export default function StackUnitHome() {
   const ctaInView = useInView(ctaRef, { once: true, margin: "-80px" });
 
   const PROCESS_STEPS = resolveList(
-    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     {
       num: "01",
       title: "Développement",

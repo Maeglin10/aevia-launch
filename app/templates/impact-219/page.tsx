@@ -35,6 +35,7 @@ import {
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 
@@ -567,7 +568,7 @@ function HowItWorks() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
   const steps: { title: string; body: string }[] = resolveList(
-    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { title: 'Connectez vos outils', body: 'Reliez Stripe, HubSpot, votre base de données et plus de 80 intégrations en quelques clics.' },
     { title: 'Construisez vos vues', body: 'Glissez-déposez des widgets pour créer les tableaux de bord dont vos équipes ont besoin.' },
     { title: 'Partagez & automatisez', body: 'Diffusez des rapports, déclenchez des alertes et laissez NovaSaaS travailler pour vous.' },
@@ -665,7 +666,7 @@ interface Tier {
   cta: string;
 }
 
-const TIERS: Tier[] = [
+const TIERS: Tier[] = /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   {
     name: 'Starter',
     price: '0€',
@@ -691,7 +692,7 @@ const TIERS: Tier[] = [
     features: ['Tout Pro inclus', 'SSO & SAML', 'Journaux d’audit', 'Résidence des données', 'CSM dédié'],
     cta: 'Contacter les ventes',
   },
-];
+]);
 
 function Pricing() {
   return (
@@ -1241,6 +1242,7 @@ export default function Impact219Page() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -1260,6 +1262,8 @@ export default function Impact219Page() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   BENEFITS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...BENEFITS_SOURCE[i % BENEFITS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     BENEFITS_SOURCE,

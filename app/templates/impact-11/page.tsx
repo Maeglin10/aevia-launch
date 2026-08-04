@@ -17,6 +17,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -63,12 +64,12 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const courses = [
+const courses = /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ title: s.title, ...(s.price ? { price: s.price } : {}) })), [
   { title: "Data Science & IA", level: "Intermédiaire", duration: "48h", students: "12 400", rating: 4.9, price: "199€", tag: "Populaire", color: "#7C3AED" },
   { title: "UX Design System", level: "Débutant", duration: "32h", students: "8 200", rating: 4.8, price: "149€", tag: "Nouveau", color: "#0EA5E9" },
   { title: "Full-Stack React/Node", level: "Avancé", duration: "64h", students: "9 800", rating: 4.9, price: "249€", tag: "Bestseller", color: "#10B981" },
   { title: "Marketing Digital", level: "Débutant", duration: "24h", students: "15 600", rating: 4.7, price: "99€", tag: "Certifiant", color: "#F59E0B" },
-];
+]);
 
 const categories = ["Tous", "Tech", "Design", "Business", "Données", "Créativité"];
 
@@ -101,6 +102,7 @@ export default function EduPathPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -120,6 +122,8 @@ export default function EduPathPage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   features = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...features_SOURCE[i % features_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     features_SOURCE,

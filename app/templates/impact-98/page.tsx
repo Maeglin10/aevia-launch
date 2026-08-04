@@ -229,10 +229,7 @@ export default function ZenithWatchesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  COLLECTIONS_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], name: s.title })),
-    COLLECTIONS_SOURCE,
-  );
+  COLLECTIONS_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), COLLECTIONS_SOURCE);
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

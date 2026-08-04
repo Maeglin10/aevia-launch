@@ -19,6 +19,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 // avis, jusqu'ici écrit dans le rendu sans constante nommée.
 const AVIS_ANON_SOURCE = [
@@ -133,6 +134,7 @@ export default function WaveFXPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -153,9 +155,11 @@ export default function WaveFXPage() {
 
   fd = session?.formData;
 
+  bp = session?.businessProfile;
+
   AVIS_ANON = resolveList(
 
-    clientReviews({ formData: fd })?.map((r: any, i: number) => ({ ...AVIS_ANON_SOURCE[i % AVIS_ANON_SOURCE.length], quote: r.text, role: r.author })),
+    clientReviews({ formData: fd, businessProfile: bp, generatedContent: c })?.map((r: any, i: number) => ({ ...AVIS_ANON_SOURCE[i % AVIS_ANON_SOURCE.length], quote: r.text, role: r.author })),
 
     AVIS_ANON_SOURCE,
 

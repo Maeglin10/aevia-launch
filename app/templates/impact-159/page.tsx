@@ -33,6 +33,7 @@ import {
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 
@@ -98,7 +99,7 @@ type Material = {
 
 const MATERIALS: Material[] = resolveList(
 
-  clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+  clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
   {
     id: "GS-v4-2026",
     name: "Graphene-Silk",
@@ -1200,7 +1201,7 @@ function HeroSection({
    ========================================================================== */
 
 function StatsBand() {
-  const stats = resolveList(clientStats({ formData: fd })?.map((s: any) => ({ value: s.value, label: s.label })), [
+  const stats = resolveList(clientStats({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ value: s.value, label: s.label })), [
     { value: "3",        label: "Proprietary Materials" },
     { value: "420 S/m", label: "Peak Conductivity"      },
     { value: "2.4 GPa", label: "Tensile Strength"       },
@@ -2129,6 +2130,7 @@ export default function SmartTextilesPremium() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -2148,6 +2150,8 @@ export default function SmartTextilesPremium() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

@@ -264,10 +264,7 @@ export default function BoulangerieNoirePage() {
   }, []);
 
   fd = session?.formData;
-  PRODUCTS_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title })),
-    PRODUCTS_SOURCE,
-  );
+  PRODUCTS_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), PRODUCTS_SOURCE);
   PRODUCTS = PRODUCTS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

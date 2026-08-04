@@ -38,6 +38,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 
 // Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
@@ -669,7 +670,7 @@ function Stats() {
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   const stats = resolveList(
-    clientStats({ formData: fd })?.map((s: any, i: number) => ({ ...([
+    clientStats({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { value: "850+", label: "Élèves actifs", icon: <Users size={22} color="#fff" /> },
     { value: "12", label: "Professeurs certifiés", icon: <Award size={22} color="#fff" /> },
     { value: "30+", label: "Cours par semaine", icon: <Calendar size={22} color="#fff" /> },
@@ -1012,6 +1013,7 @@ export default function Impact31() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -1031,6 +1033,8 @@ export default function Impact31() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   TEACHERS = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...TEACHERS_SOURCE[i % TEACHERS_SOURCE.length], name: m.name, role: m.role })),
     TEACHERS_SOURCE,

@@ -25,6 +25,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 // prestations, jusqu'ici écrit dans le rendu sans constante nommée.
 const PRESTATIONS_ANON_SOURCE = [
@@ -58,6 +59,7 @@ export default function Impact54Page() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -78,13 +80,9 @@ export default function Impact54Page() {
 
   fd = session?.formData;
 
-  PRESTATIONS_ANON = resolveList(
+  bp = session?.businessProfile;
 
-    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...PRESTATIONS_ANON_SOURCE[i % PRESTATIONS_ANON_SOURCE.length], name: s.title, desc: s.desc || "" })),
-
-    PRESTATIONS_ANON_SOURCE,
-
-  );
+  PRESTATIONS_ANON = resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...PRESTATIONS_ANON_SOURCE[i % PRESTATIONS_ANON_SOURCE.length], name: s.title, desc: s.desc || "" , ...(s.price ? { price: s.price } : {})})), PRESTATIONS_ANON_SOURCE);
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

@@ -117,11 +117,11 @@ function MANIFEST_LIVE() {
     { label: "Global Clients", val: "32" }
   ],
   stack: ["Three.js", "WebGL", "GLSL", "React Three Fiber", "Blender", "Framer Motion", "GSAP", "Lenis", "Next.js"],
-  pricing: [
+  pricing: /* TARIFS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
     { name: "Prototyping", price: "15k", desc: "Proof of concept and visual direction.", features: ["3D Asset Optimization", "Lighting Setup", "Basic Interactions", "Performance Audit"] },
     { name: "Production", price: "45k", desc: "Full-scale WebGL experience.", features: ["Custom GLSL Shaders", "Physics Engine", "Audio Reactivity", "Post-processing FX"], recommended: true },
     { name: "Enterprise", price: "Custom", desc: "Dedicated spatial computing team.", features: ["VR/AR Integration", "Backend Data Vis", "Infinite Scalability", "24/7 Support"] }
-  ],
+  ]),
   faq: [
     { q: "How does 3D affect website performance?", a: "We heavily optimize all models and textures, utilizing DRACO compression and efficient instancing. Our WebGL experiences typically run at a smooth 60fps even on mobile devices." },
     { q: "Do you create the 3D assets in-house?", a: "Yes, our team includes technical artists who build, rig, and optimize assets specifically for real-time web rendering in Blender and Maya." },

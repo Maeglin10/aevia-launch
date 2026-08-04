@@ -41,6 +41,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -81,7 +82,7 @@ const FONT = "'DM Sans', sans-serif";
 /* ─── DATA ────────────────────────────────────────────────────── */
 const NAV_LINKS = ["Boutique", "Collections", "Atelier", "Philosophie", "Contact"];
 
-const PRODUCTS_SOURCE = [
+const PRODUCTS_SOURCE = /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   {
     id: "p1",
     name: "Bol Wabi-Sabi",
@@ -154,7 +155,7 @@ const PRODUCTS_SOURCE = [
     desc: "Forme inspirée des amphores antiques. Parfaite pour le vin, l'eau infusée ou les fleurs. Signée au fond.",
     gradient: "linear-gradient(135deg, #D4A070 0%, #9B5020 100%)",
   },
-];
+]);
 let PRODUCTS = PRODUCTS_SOURCE;
 
 const COLLECTIONS = ["Tout voir", "Céramique", "Art de la table", "Jardin"];
@@ -1015,6 +1016,7 @@ export default function ArtisanMinimalPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -1035,15 +1037,14 @@ export default function ArtisanMinimalPage() {
 
   fd = session?.formData;
 
+  bp = session?.businessProfile;
+
   TESTIMONIALS = TESTIMONIALS_LIVE();
   PRICING = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     PRICING_SOURCE,
   );
-  PRODUCTS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title })),
-    PRODUCTS_SOURCE,
-  );
+  PRODUCTS = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), PRODUCTS_SOURCE);
   FAQS = resolveList(
     clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
     FAQS_DEMO,

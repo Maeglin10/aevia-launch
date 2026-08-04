@@ -42,6 +42,7 @@ import {
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 
@@ -180,7 +181,7 @@ let testimonials = testimonials_SOURCE;
 
 const plans = resolveList(
 
-  clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+  clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
   {
     name: "Panier Solo",
     price: "28",
@@ -593,6 +594,7 @@ export default function TerreVivantePage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -612,6 +614,8 @@ export default function TerreVivantePage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   testimonials = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], text: r.text, name: r.author })),
     testimonials_SOURCE,
@@ -1142,7 +1146,7 @@ export default function TerreVivantePage() {
           </SectionReveal>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: "1.5rem" }}>
-            {resolveList(clientServices({ formData: fd })?.map((s: any) => ({ title: s.title, desc: s.desc || '' })), [
+            {resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ title: s.title, desc: s.desc || '' })), [
               { icon: <Leaf size={22} />, title: "Légumes de saison", desc: "5 à 10 variétés, récoltées le matin de la livraison", accent: "var(--brand-light,#7bb85a)" },
               { icon: <Sun size={22} />, title: "Fruits frais", desc: "500 g à 2 kg selon la saison et le panier choisi", accent: C.accent },
               { icon: <Flower2 size={22} />, title: "Herbes aromatiques", desc: "1 à 2 bouquets : basilic, thym, coriandre, persil…", accent: "#b8d4a0" },

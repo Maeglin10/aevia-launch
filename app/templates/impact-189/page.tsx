@@ -281,10 +281,7 @@ export default function AtelierLeoniePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  PRESTATIONS_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title })),
-    PRESTATIONS_SOURCE,
-  );
+  PRESTATIONS_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title , ...(s.price ? { price: s.price } : {})})), PRESTATIONS_SOURCE);
   PRESTATIONS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length], title: s.title })),
     PRESTATIONS_DEMO,

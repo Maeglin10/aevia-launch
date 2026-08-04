@@ -77,10 +77,7 @@ export default function VisionHomePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
-    SERVICES_SOURCE,
-  );
+  SERVICES_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const properties: any[] = resolveList(bp?.listings, PROPERTIES_DEMO);
