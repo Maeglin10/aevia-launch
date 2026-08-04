@@ -220,7 +220,7 @@ export default function PetitsCairnsPage() {
             {c?.heroHeadline ?? (<>Douze enfants,<br /><em style={{ color: C.accentDark }}>quatre adultes, un vrai dehors.</em></>)}
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {c?.heroSubline ?? fd?.tagline ?? "Une micro-crèche à taille de famille : douze places, une équipe stable diplômée, un jardin pour sortir tous les jours — même en hiver, surtout en hiver. Repas bio cuisinés sur place."}
+            {fd?.tagline ?? c?.heroSubline ?? "Une micro-crèche à taille de famille : douze places, une équipe stable diplômée, un jardin pour sortir tous les jours — même en hiver, surtout en hiver. Repas bio cuisinés sur place."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

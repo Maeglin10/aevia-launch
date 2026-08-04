@@ -366,7 +366,7 @@ export default function LumiereDoreePage() {
               marginBottom: 40,
               maxWidth: 500,
             }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Photographe de mariage basée à {clientCity({ formData: fd }) ?? "Paris"}, je capture vos émotions avec discrétion et sensibilité pour des souvenirs qui durent toute une vie.
           </>}</motion.p>
           <motion.div

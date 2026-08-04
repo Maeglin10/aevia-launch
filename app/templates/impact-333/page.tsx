@@ -216,7 +216,7 @@ export default function EtudeDuCanalPage() {
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Étude notariale · {clientCity(sessionData) ?? "Rennes"}</span>
         <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 64px)", color: C.text, lineHeight: 1.12, margin: "18px 0 8px", minHeight: "2.3em" }}><WordFlight text={S.line} keyed={i} className="" /></h1>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {c?.heroSubline ?? fd?.tagline ?? "Une étude jeune, des actes anciens comme le droit : vente, donation, succession, société. Chaque clause expliquée avant d'être signée, au tarif réglementé national."}
+          {fd?.tagline ?? c?.heroSubline ?? "Une étude jeune, des actes anciens comme le droit : vente, donation, succession, société. Chaque clause expliquée avant d'être signée, au tarif réglementé national."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

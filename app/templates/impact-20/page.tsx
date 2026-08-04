@@ -1458,7 +1458,7 @@ export default function LuxuryJewelryTemplate() {
                   fontFamily: "Georgia, serif",
                   fontStyle: "italic",
                 }}
-              >{c?.heroSubline ?? fd?.tagline ?? <>
+              >{fd?.tagline ?? c?.heroSubline ?? <>
                 Chaque pièce naît d'un dialogue entre la lumière et la matière.
                 Façonnée à la main par nos maîtres joailliers, elle porte une
                 histoire qui traverse les générations.

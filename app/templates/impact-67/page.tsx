@@ -138,7 +138,7 @@ return (
             <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase italic pb-4">{c?.heroHeadline ?? <>
               Space <br /> <span className="text-[var(--brand,#e11d48)]">As Data.</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/30 leading-relaxed font-bold mb-12 uppercase tracking-tight">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-white/30 leading-relaxed font-bold mb-12 uppercase tracking-tight">{fd?.tagline ?? c?.heroSubline ?? <>
               Sub-millimeter LiDAR scanning and neural radiance fields for
               immersive real estate experiences at the speed of thought.
             </>}</p>

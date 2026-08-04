@@ -527,7 +527,7 @@ export default function Page() {
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{c?.heroSubline ?? fd?.tagline ?? <>
+            }}>{fd?.tagline ?? c?.heroSubline ?? <>
               Collections capsule éco-responsables, ateliers DIY, pièces uniques. {clientCity(sessionData) ?? "Bordeaux"}.
             </>}</p>
           </Reveal>

@@ -301,7 +301,7 @@ function WineHero() {
                 marginBottom: 34,
               }}
             >
-              {active === 0 && (c?.heroSubline ?? fd?.tagline) ? (c.heroSubline ?? fd.tagline) : wine.note}
+              {active === 0 && (fd?.tagline ?? c?.heroSubline) ? (c.heroSubline ?? fd.tagline) : wine.note}
             </motion.p>
 
             {/* 500ms — price + CTAs */}

@@ -264,7 +264,7 @@ export default function MaisonEstevePage() {
             {c?.heroHeadline ?? (<>Accompagner,<br /><em style={{ color: C.accent }}>avec calme et clarté.</em></>)}
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.9 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.8, maxWidth: 470, marginBottom: 34 }}>
-            {c?.heroSubline ?? fd?.tagline ?? "Depuis trois générations, notre maison organise des obsèques dignes et des cérémonies fidèles à la personne — au prix annoncé, sans jamais rien presser."}
+            {fd?.tagline ?? c?.heroSubline ?? "Depuis trois générations, notre maison organise des obsèques dignes et des cérémonies fidèles à la personne — au prix annoncé, sans jamais rien presser."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72, duration: 0.9 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 3, padding: "15px 30px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }}>

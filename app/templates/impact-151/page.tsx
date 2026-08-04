@@ -293,7 +293,7 @@ return (
                       <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20">Establishment</span>
                    </div>
                    <div className="w-px h-16 bg-white/10 hidden md:block" />
-                   <p className="max-w-xs text-xs text-white/40 leading-loose uppercase tracking-widest font-light italic">{c?.heroSubline ?? fd?.tagline ?? <>
+                   <p className="max-w-xs text-xs text-white/40 leading-loose uppercase tracking-widest font-light italic">{fd?.tagline ?? c?.heroSubline ?? <>
                       Dans le silence de nos caves, chaque goutte écrit l'histoire d'un héritage inébranlable.
                    </>}</p>
                    <div className="w-px h-16 bg-white/10 hidden md:block" />

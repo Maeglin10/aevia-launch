@@ -159,7 +159,7 @@ return (
                 Precision.
               </span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-[#1a1814]/40 leading-relaxed font-light mb-12 italic">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-[#1a1814]/40 leading-relaxed font-light mb-12 italic">{fd?.tagline ?? c?.heroSubline ?? <>
               Un sanctuaire dédié à la beauté structurelle. Onglerie, regard et
               rituels visage conçus comme des œuvres d'art.
             </>}</p>

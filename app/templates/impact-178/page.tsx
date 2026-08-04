@@ -401,7 +401,7 @@ export default function AltaTransactionsPage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+            className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
             15 ans d'expertise sur le marché parisien haut de gamme. 120 transactions par an. Une équipe de 6 experts totalement dédiés à vos ambitions patrimoniales.
           </>}</motion.p>
 

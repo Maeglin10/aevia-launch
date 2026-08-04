@@ -310,7 +310,7 @@ export default function CabinetMoreauPage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? fd?.tagline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{fd?.tagline ?? c?.heroSubline ?? <>
             Psychologue clinicienne à {clientCity({ formData: fd }) ?? "Montpellier"}, je vous accompagne face aux difficultés émotionnelles, relationnelles et professionnelles avec bienveillance et méthodes fondées sur les preuves.
           </>}</motion.p>
 

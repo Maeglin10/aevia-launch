@@ -855,7 +855,7 @@ return (
                 </>}</h1>
               </Reveal>
               <Reveal delay={0.2}>
-                <p className="text-white/30 text-sm leading-relaxed mb-6 max-w-md font-light">{c?.heroSubline ?? fd?.tagline ?? <>
+                <p className="text-white/30 text-sm leading-relaxed mb-6 max-w-md font-light">{fd?.tagline ?? c?.heroSubline ?? <>
                   {currentHero.desc}
                 </>}</p>
                 <div className="inline-block px-3 py-1.5 border border-white/10 text-[10px] text-white/40 uppercase tracking-widest font-bold rounded mb-10">

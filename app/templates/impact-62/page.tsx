@@ -132,7 +132,7 @@ return (
                 to fire.
               </span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-[#f5efe0]/40 leading-relaxed font-light mb-12 italic">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-[#f5efe0]/40 leading-relaxed font-light mb-12 italic">{fd?.tagline ?? c?.heroSubline ?? <>
               Chef Anatol Voss transforms memory, season, and flame into a
               dining experience that transcends cuisine.
             </>}</p>

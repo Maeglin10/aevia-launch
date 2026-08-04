@@ -205,7 +205,7 @@ export default function TableExceptionPage() {
           </motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-md text-sm text-[#fefcf8]/28 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+            className="max-w-md text-sm text-[#fefcf8]/28 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
             Traiteur événementiel à {clientCity({ formData: fd }) ?? "Lyon"}. Mariages, séminaires, cocktails, repas gastronomiques. Chef et équipe complète. Devis personnalisé sous 24h.
           </>}</motion.p>
 

@@ -216,7 +216,7 @@ export default function CapChauffeurPage() {
             {c?.heroHeadline ?? (<>Le chauffeur des jours<br /><em style={{ color: C.accentDark }}>où ça compte.</em></>)}
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {c?.heroSubline ?? fd?.tagline ?? "Rendez-vous médicaux, gares matinales, enfants à récupérer, parents à véhiculer : un VTC de confiance pour les trajets de la vraie vie — dont le transport médical assis conventionné."}
+            {fd?.tagline ?? c?.heroSubline ?? "Rendez-vous médicaux, gares matinales, enfants à récupérer, parents à véhiculer : un VTC de confiance pour les trajets de la vraie vie — dont le transport médical assis conventionné."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

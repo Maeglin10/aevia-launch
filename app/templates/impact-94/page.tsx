@@ -703,7 +703,7 @@ export default function Impact94Page() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="mt-8 text-lg md:text-xl text-[#FAFAF9]/80 font-light max-w-lg mx-auto leading-relaxed"
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Compositions botaniques d&apos;exception, créées à la main pour les moments qui méritent l&apos;extraordinaire.
           </>}</motion.p>
 

@@ -416,7 +416,7 @@ export default function NexusSaaSPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-12 leading-relaxed"
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Build, deploy, and scale globally distributed applications in
             seconds. We handle the infrastructure complexity so you can focus on
             writing code.

@@ -280,7 +280,7 @@ export default function VulcanMotorsPage() {
                          </div>
                          <div>
                             <h4 className="text-xl font-bold uppercase italic mb-2 tracking-tight">{f.t}</h4>
-                            <p className="text-white/40 leading-relaxed text-sm max-w-sm">{c?.heroSubline ?? fd?.tagline ?? <>{f.d}</>}</p>
+                            <p className="text-white/40 leading-relaxed text-sm max-w-sm">{fd?.tagline ?? c?.heroSubline ?? <>{f.d}</>}</p>
                          </div>
                       </div>
                     ))}

@@ -525,7 +525,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{c?.heroSubline ?? fd?.tagline ?? <>
+            }}>{fd?.tagline ?? c?.heroSubline ?? <>
               Cuisine asiatique fraîche chaque jour. Wok, sushi, ramen, bento. Livraison 25 min.
             </>}</p>
           </Reveal>

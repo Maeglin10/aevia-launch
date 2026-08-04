@@ -290,7 +290,7 @@ export default function NeuralisPage() {
              <h1 className="text-5xl sm:text-6xl md:text-[11rem] font-black leading-[0.9] md:leading-[0.8] tracking-tight md:tracking-tighter mb-12 uppercase text-white break-words">{c?.heroHeadline ?? <>
                Tame Your <br/> <span className="text-[var(--brand,#00f2ff)]">Biology.</span>
              </>}</h1>
-             <p className="max-w-md text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? fd?.tagline ?? <>
+             <p className="max-w-md text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{fd?.tagline ?? c?.heroSubline ?? <>
                The apex of neuro-synthetic integration. Engineered for the evolutionary elite.
              </>}</p>
              <div className="flex flex-col sm:flex-row gap-6">

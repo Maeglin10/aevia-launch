@@ -294,7 +294,7 @@ export default function PulseAppPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-lg text-[#4B4570] leading-relaxed mb-8 max-w-lg">{c?.heroSubline ?? fd?.tagline ?? <>
+              <p className="text-lg text-[#4B4570] leading-relaxed mb-8 max-w-lg">{fd?.tagline ?? c?.heroSubline ?? <>
                 Analytics temps réel, notifications intelligentes, collaboration native. Pulse connecte votre équipe et vos données dans une seule application mobile.
               </>}</p>
             </Reveal>

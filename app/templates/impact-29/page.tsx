@@ -197,7 +197,7 @@ return (
                   <h3 className="text-2xl font-bold text-[var(--brand,#00F5D4)]">{projects[activeProject].name}</h3>
                   <div className="text-yellow-400 text-sm">★ {projects[activeProject].stars}</div>
                 </div>
-                <p className="text-[#94A3B8] mb-6 leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>{projects[activeProject].desc}</>}</p>
+                <p className="text-[#94A3B8] mb-6 leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>{projects[activeProject].desc}</>}</p>
                 <div className="flex flex-wrap gap-2 mb-8">
                   {projects[activeProject].stack.map(s => (
                     <span key={s} className="border border-[var(--brand,#00F5D4)]/20 text-[var(--brand,#00F5D4)] text-xs px-3 py-1.5">{s}</span>

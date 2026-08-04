@@ -195,7 +195,7 @@ export default function HavenEstatesPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[#1a1a1a]/50 font-light leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>
+              <p className="max-w-lg text-lg text-[#1a1a1a]/50 font-light leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
                 Curated trophy properties for discerning clients worldwide. Off-market access. Discretion guaranteed.
               </>}</p>
             </Reveal>

@@ -262,7 +262,7 @@ export default function WaveFXPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-xl text-white/40 font-light max-w-lg mx-auto leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+              <p className="text-xl text-white/40 font-light max-w-lg mx-auto leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
                 The open-source framework for building real-time data pipelines. Type-safe, zero-copy, and absurdly fast.
               </>}</p>
             </Reveal>

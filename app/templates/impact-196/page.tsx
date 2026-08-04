@@ -256,7 +256,7 @@ export default function CabinetKinePage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{c?.heroSubline ?? fd?.tagline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{fd?.tagline ?? c?.heroSubline ?? <>
             Kiné Mouvement accompagne chaque patient avec une approche personnalisée et bienveillante. Rééducation orthopédique, neurologique, sportive et respiratoire — nous sommes là à chaque étape.
           </>}</motion.p>
 

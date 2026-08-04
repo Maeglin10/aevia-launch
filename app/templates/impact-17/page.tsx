@@ -309,7 +309,7 @@ return (
                   </Reveal>
                   <Reveal delay={0.2}>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                      <p className="text-white/70 text-lg max-w-md leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>Architecture vivante. Espaces pensés pour durer, bâtis avec intention, habités avec plaisir.</>}</p>
+                      <p className="text-white/70 text-lg max-w-md leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>Architecture vivante. Espaces pensés pour durer, bâtis avec intention, habités avec plaisir.</>}</p>
                       <button onClick={() => goTo("projets")} className="shrink-0 bg-[var(--brand,#C46A3E)] text-white px-8 py-4 rounded-xl font-medium hover:bg-[#B5593A] transition-colors cursor-pointer flex items-center gap-2">
                         Voir les projets <ArrowRight className="w-4 h-4" />
                       </button>

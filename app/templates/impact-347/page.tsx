@@ -201,7 +201,7 @@ export default function PrismeFormationPage() {
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Formation professionnelle · {clientCity(sessionData) ?? "Paris"}</span>
         <div style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.6vw, 58px)", color: C.text, lineHeight: 1.14, margin: "18px 0 8px" }}><LineScroll lines={S.lines} index={i} /></div>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {c?.heroSubline ?? fd?.tagline ?? "Bureautique, management, langues, digital : des formations courtes certifiées Qualiopi, finançables CPF et OPCO, avec un vrai formateur dans la salle — ou en visio, mais jamais un simple e-learning abandonné."}
+          {fd?.tagline ?? c?.heroSubline ?? "Bureautique, management, langues, digital : des formations courtes certifiées Qualiopi, finançables CPF et OPCO, avec un vrai formateur dans la salle — ou en visio, mais jamais un simple e-learning abandonné."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

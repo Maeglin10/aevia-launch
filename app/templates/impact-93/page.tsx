@@ -454,7 +454,7 @@ export default function VelocityJetsPage() {
                 Air Superiority.
               </span>
             </>}</h1>
-            <p className="max-w-2xl text-lg text-white/40 leading-relaxed font-light italic mb-12">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="max-w-2xl text-lg text-white/40 leading-relaxed font-light italic mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
               Access the world's most advanced fleet of private aircraft. From
               rapid super-midsize charters to ultra-long-range executive suites.
             </>}</p>

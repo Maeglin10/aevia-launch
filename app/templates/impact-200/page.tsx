@@ -749,7 +749,7 @@ export default function Impact200Page() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >{c?.heroSubline ?? fd?.tagline ?? <>
+            >{fd?.tagline ?? c?.heroSubline ?? <>
               Nous orchestrons chaque détail de votre mariage avec une élégance méticuleuse, pour que ce jour reste gravé à jamais dans les mémoires.
             </>}</motion.p>
 

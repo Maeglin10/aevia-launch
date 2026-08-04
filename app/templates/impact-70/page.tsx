@@ -127,7 +127,7 @@ return (
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col items-center justify-center gap-6 md:gap-16">
-                <p className="text-lg md:text-2xl text-white/40 font-light max-w-2xl leading-relaxed italic">{c?.heroSubline ?? fd?.tagline ?? <>
+                <p className="text-lg md:text-2xl text-white/40 font-light max-w-2xl leading-relaxed italic">{fd?.tagline ?? c?.heroSubline ?? <>
                   Where the light fades and the soul awakens. An immersive sanctuary for the world's most discerning nocturnal explorers.
                 </>}</p>
                 <div className="flex flex-wrap justify-center gap-4 md:gap-10">

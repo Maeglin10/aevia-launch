@@ -281,7 +281,7 @@ return (
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontFamily: C.sans, fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 480, marginBottom: "2.5rem" }}>{c?.heroSubline ?? fd?.tagline ?? <>
+            style={{ fontFamily: C.sans, fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 480, marginBottom: "2.5rem" }}>{fd?.tagline ?? c?.heroSubline ?? <>
             Conception, construction et rénovation de piscines en Auvergne-Rhône-Alpes. Du projet à la mise en eau, une approche sur-mesure et humaine.
           </>}</motion.p>
 

@@ -258,7 +258,7 @@ export default function EtudeNotarialePage() {
             {c?.heroHeadline ?? (<>Un acte qui engage,<br /><em style={{ color: C.accent }}>un conseil qui protège.</em></>)}
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 34 }}>
-            {c?.heroSubline ?? fd?.tagline ?? "Immobilier, famille, entreprise : deux notaires associés reçoivent, expliquent et sécurisent chacun de vos engagements — au tarif réglementé, le même partout en France."}
+            {fd?.tagline ?? c?.heroSubline ?? "Immobilier, famille, entreprise : deux notaires associés reçoivent, expliquent et sécurisent chacun de vos engagements — au tarif réglementé, le même partout en France."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.navy, color: "#fff", borderRadius: 3, padding: "15px 30px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

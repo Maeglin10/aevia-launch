@@ -220,7 +220,7 @@ export default function PodoMarchePage() {
             {c?.heroHeadline ?? (<>Vos pieds portent tout.<br /><em style={{ color: C.accentDark }}>On s'occupe d'eux.</em></>)}
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {c?.heroSubline ?? fd?.tagline ?? "Analyse de la marche sur plateforme, semelles fabriquées au cabinet, soins de pédicurie médicale : deux podologues diplômés d'État pour marcher, courir et vieillir sans douleur."}
+            {fd?.tagline ?? c?.heroSubline ?? "Analyse de la marche sur plateforme, semelles fabriquées au cabinet, soins de pédicurie médicale : deux podologues diplômés d'État pour marcher, courir et vieillir sans douleur."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

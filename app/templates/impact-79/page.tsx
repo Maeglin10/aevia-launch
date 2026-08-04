@@ -450,7 +450,7 @@ export default function BoulangerieNoirePage() {
               The Architecture <br />{" "}
               <span className="text-stone-800 italic">of Crust.</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 md:mb-12 uppercase tracking-tight italic">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 md:mb-12 uppercase tracking-tight italic">{fd?.tagline ?? c?.heroSubline ?? <>
               High-hydration molecular baking. Stone hearth methodology.
               Precision-engineered for the modern palate.
             </>}</p>

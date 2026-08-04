@@ -575,7 +575,7 @@ return (
                 <div className="grid md:grid-cols-3 gap-4 sm:gap-6 md:gap-24 text-left max-w-5xl mx-auto border-t border-white/10 pt-6 md:pt-16">
                    <div className="space-y-4">
                       <h3 className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#b4925e)]">The Mandate</h3>
-                      <p className="text-[11px] text-white/30 leading-loose uppercase tracking-widest font-bold italic">{c?.heroSubline ?? fd?.tagline ?? <>
+                      <p className="text-[11px] text-white/30 leading-loose uppercase tracking-widest font-bold italic">{fd?.tagline ?? c?.heroSubline ?? <>
                          Nous assurons la pérennité des chefs-d'œuvre mondiaux à travers une expertise scientifique et une conservation de haute sphère.
                       </>}</p>
                    </div>

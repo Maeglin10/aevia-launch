@@ -10,6 +10,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -62,7 +63,7 @@ const TYPEWRITER_HEADLINES = [
   "Journalism for the curious mind",
 ]
 
-const FEATURED = {
+const FEATURED_SOURCE = {
   id: 0,
   title: "The Generative AI Revolution Is Rewriting the Rules of Every Industry",
   subtitle: "From healthcare diagnostics to supply chain logistics, machine intelligence has crossed the threshold from experiment to infrastructure. We examine what that means for the next ten years.",
@@ -72,7 +73,8 @@ const FEATURED = {
   role: "Technology Editor",
   date: "May 13, 2026",
   img: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1600&q=85",
-}
+};
+let FEATURED = FEATURED_SOURCE;
 
 const ARTICLES_DEMO = [
   {
@@ -451,6 +453,12 @@ export default function Impact132() {
   }, []);
 
   fd = session?.formData;
+
+  // La une porte l'accroche du client : c'est le seul titre de cette page
+
+  // qui parle de lui, les autres sont des articles.
+
+  FEATURED = { ...FEATURED_SOURCE, title: clientTagline(session) ?? FEATURED_SOURCE.title };
   c = session?.generatedContent;
   ARTICLES = ARTICLES_DEMO.map((row, i) => ({
     ...row,

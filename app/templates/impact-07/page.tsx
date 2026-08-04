@@ -297,7 +297,7 @@ export default function AetherSoundPage() {
              <h1 className="text-5xl sm:text-6xl md:text-[14rem] font-black leading-[0.9] md:leading-[0.75] tracking-tight md:tracking-tighter mb-12 uppercase text-white italic break-words">{c?.heroHeadline ?? <>
                The <br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Silence.</span>
              </>}</h1>
-             <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? fd?.tagline ?? <>
+             <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{fd?.tagline ?? c?.heroSubline ?? <>
                Redefining the threshold of hearing. Precision sonic instruments for the world's most discerning ears.
              </>}</p>
              <div className="flex flex-col sm:flex-row gap-6">

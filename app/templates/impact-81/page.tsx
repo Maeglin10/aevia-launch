@@ -109,7 +109,7 @@ return (
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-[#A0988A] text-lg max-w-md leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+              <p className="text-[#A0988A] text-lg max-w-md leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
                 La saison Automne / Hiver 2025 porte en elle une nouvelle grammaire du corps. Entre retenue et explosion, les maisons réinventent leur vocabulaire.
               </>}</p>
               <Link href={`${basePath}/editoriaux`} className="inline-flex items-center gap-3 text-sm tracking-widest uppercase border-b border-[var(--brand,#C9A86C)] pb-1 text-[var(--brand,#C9A86C)] hover:text-[#F0EBE0] hover:border-[#F0EBE0] transition-colors cursor-pointer">

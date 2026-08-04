@@ -975,7 +975,7 @@ export default function Impact115Page() {
               maxWidth: 520,
               margin: "0 auto 52px",
             }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Elena Rostova's studio designs living structures that regenerate their
             ecosystems, sequester carbon, and evolve alongside their inhabitants.
           </>}</motion.p>

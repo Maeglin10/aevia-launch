@@ -1219,7 +1219,7 @@ return (
               maxWidth: 480,
               margin: "32px auto 48px",
             }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Photographe documentaire et commerciale basée à {clientCity({ formData: fd }) ?? "Paris"}. Je photographie
             ce qui mérite d'être vu — pour l'éditorial, la mode, le mariage et
             l'architecture.

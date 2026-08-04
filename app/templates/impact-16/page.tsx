@@ -272,7 +272,7 @@ return (
                   <h1 className="text-white text-6xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Obscura"))}</>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
-                  <p className="text-white/50 text-lg max-w-md leading-relaxed mb-12 font-sans font-light">{c?.heroSubline ?? fd?.tagline ?? <>
+                  <p className="text-white/50 text-lg max-w-md leading-relaxed mb-12 font-sans font-light">{fd?.tagline ?? c?.heroSubline ?? <>
                     L'art de capturer l'imperceptible. Portrait, mode et reportage au service de l'émotion pure.
                   </>}</p>
                 </Reveal>

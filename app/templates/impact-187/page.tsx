@@ -207,7 +207,7 @@ export default function MaxPerformancePage() {
           </motion.div>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-sm text-sm text-[#f8f5f0]/30 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+            className="max-w-sm text-sm text-[#f8f5f0]/30 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
             Coaching sportif personnalisé à {clientCity({ formData: fd }) ?? "Paris"}. Perte de poids, prise de masse, prépa trail/triathlon. 1ère séance offerte. Résultats visibles en 4 semaines ou remboursement.
           </>}</motion.p>
 

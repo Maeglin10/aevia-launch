@@ -527,7 +527,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{c?.heroSubline ?? fd?.tagline ?? <>
+            }}>{fd?.tagline ?? c?.heroSubline ?? <>
               Nourrissons, femmes enceintes, post-partum. Cabinet doux et bienveillant, {clientCity(sessionData) ?? "Nice"} Cimiez.
             </>}</p>
           </Reveal>

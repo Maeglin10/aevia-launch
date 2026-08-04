@@ -211,7 +211,7 @@ export default function MaisonAuditionPage() {
             {c?.heroHeadline ?? (<>Réentendre les voix,<br /><em style={{ color: C.accentDark }}>pas seulement le bruit.</em></>)}
           </h1>
           <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.78, maxWidth: 560, margin: "0 auto 32px" }}>
-            {c?.heroSubline ?? fd?.tagline ?? "Bilan auditif complet, essai réel de 30 jours à domicile, réglages illimités. Des appareils invisibles au 100 % Santé sans reste à charge — choisis pour votre oreille, pas pour la vitrine."}
+            {fd?.tagline ?? c?.heroSubline ?? "Bilan auditif complet, essai réel de 30 jours à domicile, réglages illimités. Des appareils invisibles au 100 % Santé sans reste à charge — choisis pour votre oreille, pas pour la vitrine."}
           </p>
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 999, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>

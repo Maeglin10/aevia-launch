@@ -294,7 +294,7 @@ export default function MorphStudioPage() {
                   STUDIO.
                 </>}</h1>
                 
-                <p className="max-w-xl text-lg md:text-xl text-zinc-400 leading-relaxed mb-12">{c?.heroSubline ?? fd?.tagline ?? <>
+                <p className="max-w-xl text-lg md:text-xl text-zinc-400 leading-relaxed mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
                   {MANIFEST.hero.desc}
                 </>}</p>
                 

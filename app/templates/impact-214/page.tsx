@@ -1651,7 +1651,7 @@ export default function AquaPrestigePage() {
               maxWidth: '600px',
               margin: '0 auto 2.5rem',
             }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Dépannage, installation et rénovation de salles de bains. Artisans certifiés, tarifs transparents, intervention rapide dans tout {clientCity(sessionData) ?? "Paris"}.
           </>}</motion.p>
 

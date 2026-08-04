@@ -409,7 +409,7 @@ export default function WanderlustPage() {
                 <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-bold tracking-tighter leading-[0.9] mb-6">{c?.heroHeadline ?? <>
                   {DESTINATIONS[activeDst].title}
                 </>}</h1>
-                <p className="text-lg md:text-xl text-stone-300 max-w-2xl leading-relaxed mb-8 font-light">{c?.heroSubline ?? fd?.tagline ?? <>
+                <p className="text-lg md:text-xl text-stone-300 max-w-2xl leading-relaxed mb-8 font-light">{fd?.tagline ?? c?.heroSubline ?? <>
                   {DESTINATIONS[activeDst].desc}
                 </>}</p>
                 <div className="flex items-center gap-8 text-sm font-bold uppercase tracking-widest">

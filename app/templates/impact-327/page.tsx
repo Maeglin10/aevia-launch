@@ -279,7 +279,7 @@ export default function LignesEtBoisPage() {
             {c?.heroHeadline ?? (<>Du plan 3D<br /><em style={{ color: C.oak }}>à la pièce à vivre.</em></>)}
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }} style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 34, maxWidth: 520 }}>
-            {c?.heroSubline ?? fd?.tagline ?? "Cuisines, dressings et agencements dessinés au millimètre, fabriqués en France, posés par nos menuisiers salariés. Devis ferme, garantie 10 ans."}
+            {fd?.tagline ?? c?.heroSubline ?? "Cuisines, dressings et agencements dessinés au millimètre, fabriqués en France, posés par nos menuisiers salariés. Devis ferme, garantie 10 ans."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 30px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, boxShadow: `0 8px 32px ${"rgba(164,85,46,0.4)"}` }} whileHover={{ scale: 1.03 }}>

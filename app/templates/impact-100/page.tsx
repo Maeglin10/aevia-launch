@@ -359,7 +359,7 @@ export default function NovaSpacesPage() {
               The Silence <br />{" "}
               <span className="font-black italic">Of Space.</span>
             </>}</h1>
-            <p className="max-w-md text-xl text-black/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="max-w-md text-xl text-black/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{fd?.tagline ?? c?.heroSubline ?? <>
               Sculpting void into atmosphere through architectural precision and
               material truth.
             </>}</p>

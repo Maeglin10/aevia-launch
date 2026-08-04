@@ -1243,7 +1243,7 @@ export default function ImpactEclatPage() {
                 maxWidth: 440,
                 fontWeight: 300,
               }}
-            >{c?.heroSubline ?? fd?.tagline ?? <>
+            >{fd?.tagline ?? c?.heroSubline ?? <>
               Lin, soie, tencel. Des matières qui respirent, des coupes qui durent.
               La mode éditoriale pour celles qui choisissent la qualité sur la quantité.
             </>}</p>

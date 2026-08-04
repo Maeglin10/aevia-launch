@@ -876,7 +876,7 @@ export default function TerreVivantePage() {
               margin: "0 auto 2.75rem",
               lineHeight: 1.8,
             }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Terre Vivante cultive 85 variétés de légumes, fruits et herbes dans le Beaujolais. Chaque panier raconte la saison, cueilli le matin même.
           </>}</motion.p>
 

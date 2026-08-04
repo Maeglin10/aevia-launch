@@ -309,7 +309,7 @@ export default function Page() {
 
           <Reveal delay={0.4}>
             <p style={{ fontSize: 'clamp(15px, 1.6vw, 19px)', lineHeight: 1.6, color: 'rgba(255,255,255,0.8)', maxWidth: 650, margin: '0 auto 36px' }}>
-              {c?.heroSubline ?? fd?.tagline ?? "Intervention rapide 24h/24. Dégât des eaux, incendie, fin de chantier, décontamination. Équipement professionnel et protocoles certifiés."}
+              {fd?.tagline ?? c?.heroSubline ?? "Intervention rapide 24h/24. Dégât des eaux, incendie, fin de chantier, décontamination. Équipement professionnel et protocoles certifiés."}
             </p>
           </Reveal>
 

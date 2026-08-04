@@ -438,7 +438,7 @@ return (
             </motion.h1>
           </div>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
             The all-in-one platform that replaces your entire infrastructure toolkit. Build, deploy, and scale to millions of users without changing your workflow.
           </>}</motion.p>
 

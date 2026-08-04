@@ -309,7 +309,7 @@ export default function Page() {
 
           <Reveal delay={0.4}>
             <p style={{ fontSize: 'clamp(15px, 1.6vw, 19px)', lineHeight: 1.6, color: 'rgba(255,255,255,0.8)', maxWidth: 650, marginBottom: 36 }}>
-              {c?.heroSubline ?? fd?.tagline ?? "Nettoyage de bureaux, copropriétés et locaux commerciaux. Équipes formées, certifiées et engagées pour un résultat irréprochable."}
+              {fd?.tagline ?? c?.heroSubline ?? "Nettoyage de bureaux, copropriétés et locaux commerciaux. Équipes formées, certifiées et engagées pour un résultat irréprochable."}
             </p>
           </Reveal>
 

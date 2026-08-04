@@ -148,7 +148,7 @@ return (
                   maxWidth: 480,
                   marginBottom: 40,
                 }}
-              >{c?.heroSubline ?? fd?.tagline ?? <>
+              >{fd?.tagline ?? c?.heroSubline ?? <>
                 Consolidate your rendering stack onto a direct GPU cluster.
                 Build, mutation, and deployment layered in mathematical vector spaces.
               </>}</p>

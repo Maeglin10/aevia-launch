@@ -259,7 +259,7 @@ export default function PharmacieDuParcPage() {
             {c?.heroHeadline ?? (<>Votre pharmacie,<br /><span style={{ color: C.accent }}>au-delà du comptoir.</span></>)}
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 500, marginBottom: 32 }}>
-            {c?.heroSubline ?? fd?.tagline ?? "Ordonnances préparées à l'avance, vaccination sans rendez-vous, tests rapides et vrai conseil de pharmaciens diplômés — au cœur du quartier du Parc, à Lille."}
+            {fd?.tagline ?? c?.heroSubline ?? "Ordonnances préparées à l'avance, vaccination sans rendez-vous, tests rapides et vrai conseil de pharmaciens diplômés — au cœur du quartier du Parc, à Lille."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={`mailto:${mail}`} style={{ background: C.accent, color: "#fff", borderRadius: 10, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, boxShadow: C.shadowLg }} whileHover={{ scale: 1.03 }}>

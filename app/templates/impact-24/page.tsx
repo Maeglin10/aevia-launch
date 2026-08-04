@@ -303,7 +303,7 @@ return (
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-xl text-white/60 max-w-2xl mb-10 leading-relaxed"
-              >{c?.heroSubline ?? fd?.tagline ?? <>
+              >{fd?.tagline ?? c?.heroSubline ?? <>
                 Zero to One is a 12-week accelerator for pre-seed founders. We invest €500K, open our network, and help you build the company you imagined.
               </>}</motion.p>
               <motion.div

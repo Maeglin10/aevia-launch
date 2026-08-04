@@ -1385,7 +1385,7 @@ export default function Impact170Page() {
                 marginBottom: 40,
                 maxWidth: 480,
               }}
-            >{c?.heroSubline ?? fd?.tagline ?? <>
+            >{fd?.tagline ?? c?.heroSubline ?? <>
               8 ans d'expérience sur des systèmes distribués à haute disponibilité.
               Je construis des APIs qui tiennent à l'échelle, des frontends qui se
               chargent en 80ms, et des équipes qui livrent sans drama.

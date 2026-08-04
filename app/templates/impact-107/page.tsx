@@ -224,7 +224,7 @@ export default function MeridianJourneyPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-white/50 font-light leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>
+              <p className="max-w-lg text-lg text-white/50 font-light leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
                 Guided expeditions to the world's most remote landscapes. Small teams, real challenge, permanent transformation.
               </>}</p>
             </Reveal>

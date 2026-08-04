@@ -177,7 +177,7 @@ export default function KuroOmakasePage() {
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col items-center justify-center gap-12">
-                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed italic">{c?.heroSubline ?? fd?.tagline ?? <>
+                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed italic">{fd?.tagline ?? c?.heroSubline ?? <>
                   An intimate 8-seat sanctuary dedicated to the seasonal purity of Edomae-style sushi. Leave the decision to the Chef.
                 </>}</p>
                 <div className="flex flex-wrap justify-center gap-10">

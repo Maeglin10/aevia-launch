@@ -318,7 +318,7 @@ export default function Impact174Page() {
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#f5f5f5]/50 text-lg leading-relaxed mb-10 max-w-md">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="text-[#f5f5f5]/50 text-lg leading-relaxed mb-10 max-w-md">{fd?.tagline ?? c?.heroSubline ?? <>
               L'entraînement haute intensité rencontre la précision scientifique. Programmes sur-mesure, coachs d'élite, résultats mesurables.
             </>}</p>
           </Reveal>

@@ -1455,7 +1455,7 @@ export default function WineryTemplate() {
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.4 }}
             style={{ fontFamily: C.fontSerif, fontSize: "clamp(16px, 2vw, 22px)", fontStyle: "italic", color: C.muted, marginBottom: 12 }}
-          >{c?.heroSubline ?? fd?.tagline ?? "Le Terroir Révélé"}</motion.p>
+          >{fd?.tagline ?? c?.heroSubline ?? "Le Terroir Révélé"}</motion.p>
 
           {/* arch + split wordmark */}
           <div className="i131-arch-zone" style={{ position: "relative", width: "100%", display: "grid", placeItems: "center", minHeight: "clamp(340px, 52vh, 560px)" }}>

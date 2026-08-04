@@ -360,7 +360,7 @@ export default function BlockBasePage() {
                   Absolute <br />{" "}
                   <span className="text-white/20">Frictionless.</span>
                 </>}</h1>
-                <p className="max-w-xl text-base md:text-lg text-white/40 leading-relaxed font-light mb-6 md:mb-12 uppercase tracking-widest">{c?.heroSubline ?? fd?.tagline ?? <>
+                <p className="max-w-xl text-base md:text-lg text-white/40 leading-relaxed font-light mb-6 md:mb-12 uppercase tracking-widest">{fd?.tagline ?? c?.heroSubline ?? <>
                   High-performance indexing and indexer infrastructure for the
                   next generation of decentralized computation. Engineering the
                   backbone of zero-knowledge privacy.

@@ -242,7 +242,7 @@ export default function CliniqueBoisVertPage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
             Clinique vétérinaire à {clientCity(sessionData) ?? "Toulouse"}. Consultations, chirurgie, urgences 7j/7 jusqu'à 20h. Une équipe bienveillante pour vos compagnons chats, chiens et NAC.
           </>}</motion.p>
 

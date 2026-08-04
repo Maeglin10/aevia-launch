@@ -817,7 +817,7 @@ return (
                 marginBottom: 52,
                 fontWeight: 300,
               }}
-            >{c?.heroSubline ?? fd?.tagline ?? <>
+            >{fd?.tagline ?? c?.heroSubline ?? <>
               Depuis 1947, Aurum Jewelry crée des bijoux qui traversent les
               générations. Diamants GIA certifiés, or 18K, platine 950 — chaque
               pièce est une œuvre unique taillée à {clientCity(sessionData) ?? "Paris"}.

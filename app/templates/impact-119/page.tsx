@@ -185,7 +185,7 @@ return (
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
-                  <p className="text-xl text-slate-400 font-light max-w-lg leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+                  <p className="text-xl text-slate-400 font-light max-w-lg leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
                     High-performance cloud infrastructure designed for modern engineering teams. Bare metal performance with serverless ease.
                   </>}</p>
                 </Reveal>

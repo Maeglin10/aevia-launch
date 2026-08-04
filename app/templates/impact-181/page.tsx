@@ -281,7 +281,7 @@ export default function ToitPierrePiscinesPage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
             Construction, rénovation, sécurité, couverture et entretien de piscines. Pisciniste qualifié depuis 20 ans. Devis gratuit, garantie décennale.
           </>}</motion.p>
 

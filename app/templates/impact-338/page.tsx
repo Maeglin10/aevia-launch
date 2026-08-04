@@ -219,7 +219,7 @@ export default function BorealCourtagePage() {
             {c?.heroHeadline ?? (<>Votre activité continue,<br /><em style={{ color: C.accent }}>quoi qu'il arrive.</em></>)}
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {c?.heroSubline ?? fd?.tagline ?? "Courtage spécialisé PME et ETI : multirisque, flottes, cyber, RC dirigeants. Nous cartographions vos risques, négocions en place de marché et gérons vos sinistres."}
+            {fd?.tagline ?? c?.heroSubline ?? "Courtage spécialisé PME et ETI : multirisque, flottes, cyber, RC dirigeants. Nous cartographions vos risques, négocions en place de marché et gérons vos sinistres."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

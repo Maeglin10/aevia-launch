@@ -437,7 +437,7 @@ export default function Impact26() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-[#F5EDE8]/60 text-lg max-w-xl mb-10 leading-relaxed"
-          >{c?.heroSubline ?? fd?.tagline ?? <>
+          >{fd?.tagline ?? c?.heroSubline ?? <>
             Chaque flacon est une œuvre. Chaque note, une promesse. Éther compose des parfums pour ceux qui refusent l'ordinaire.
           </>}</motion.p>
           <motion.div

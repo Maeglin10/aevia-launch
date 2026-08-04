@@ -1469,7 +1469,7 @@ export default function HorizonMaritimePage() {
                 lineHeight: 1.8,
                 marginBottom: "2.5rem",
               }}
-            >{c?.heroSubline ?? fd?.tagline ?? <>
+            >{fd?.tagline ?? c?.heroSubline ?? <>
               Bespoke yacht charters and private aviation transfers across the world's most
               extraordinary waters. Curated for those who demand perfection without effort.
             </>}</motion.p>

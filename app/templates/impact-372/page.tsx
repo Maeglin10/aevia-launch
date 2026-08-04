@@ -16,6 +16,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -47,7 +48,8 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Services", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Commerces", "word": "discrète.", "sub": "Prévention des vols, accueil-filtrage, fermetures accompagnées."}, {"k": "Résidences", "word": "attentive.", "sub": "Rondes de nuit, gestion des accès, congés sereins."}, {"k": "Événements privés", "word": "élégante.", "sub": "Mariages, soirées, vernissages : le calme en costume."}];
+const HERO_SOURCE = [{"k": "Commerces", "word": "discrète.", "sub": "Prévention des vols, accueil-filtrage, fermetures accompagnées."}, {"k": "Résidences", "word": "attentive.", "sub": "Rondes de nuit, gestion des accès, congés sereins."}, {"k": "Événements privés", "word": "élégante.", "sub": "Mariages, soirées, vernissages : le calme en costume."}];
+let HERO = HERO_SOURCE;
 
 const SERVICES_SOURCE = [{"titre": "Sécurité de commerce", "desc": "Prévention des vols à l'étalage, accueil-filtrage discret, accompagnement des fermetures de caisse : l'agent qui connaît vos équipes et vos horaires.", "tag": "Commerce"}, {"titre": "Résidences & copropriétés", "desc": "Rondes de nuit horodatées, gestion des accès et des entreprises, surveillance renforcée pendant les congés.", "tag": "Résidentiel"}, {"titre": "Événements privés", "desc": "Mariages, anniversaires, vernissages : filtrage des invités, gestion des abords, discrétion contractuelle — costume, pas treillis.", "tag": "Privé"}, {"titre": "Interventions sur alarme", "desc": "Levée de doute physique sous 20 minutes en agglomération toulousaine, compte rendu photo systématique.", "tag": "Alarme"}, {"titre": "Boutiques de luxe", "desc": "Agents formés aux codes du retail haut de gamme : la sécurité fait partie de l'expérience client, pas contre elle.", "tag": "Luxe"}, {"titre": "Conseil sûreté", "desc": "Audit des vulnérabilités, plan de sûreté, formation des équipes aux gestes qui évitent l'incident.", "tag": "Conseil"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
@@ -89,6 +91,21 @@ export default function HorizonProtectionPage() {
 
 
   fd = session?.formData;
+
+
+  // Le mot animé du hero ne peut pas porter une phrase : c'est le sous-titre
+
+
+  // de la première diapositive qui reçoit l'accroche du client.
+
+
+  HERO = clientTagline({ formData: fd, generatedContent: c })
+
+
+    ? HERO_SOURCE.map((h, i) => (i === 0 ? { ...h, sub: clientTagline({ formData: fd, generatedContent: c })! } : h))
+
+
+    : HERO_SOURCE;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -201,7 +218,7 @@ export default function HorizonProtectionPage() {
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Sécurité privée · {clientCity(sessionData) ?? "Toulouse"}</span>
         <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 62px)", color: C.text, lineHeight: 1.1, margin: "18px 0 8px" }}>Une présence<br /><TrackingCollapse word={S.word} index={i} from="0.34em" to="0.04em" style={{ color: C.accentDark }} /></h1>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {c?.heroSubline ?? fd?.tagline ?? "Commerces de centre-ville, résidences, événements privés : des agents formés à la relation autant qu'à la vigilance. La sécurité qui rassure vos clients au lieu de les inquiéter."}
+          {fd?.tagline ?? c?.heroSubline ?? "Commerces de centre-ville, résidences, événements privés : des agents formés à la relation autant qu'à la vigilance. La sécurité qui rassure vos clients au lieu de les inquiéter."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

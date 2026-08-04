@@ -146,7 +146,7 @@ return (
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 leading-relaxed font-light">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 leading-relaxed font-light">{fd?.tagline ?? c?.heroSubline ?? <>
               Depuis 35 ans, Blueprint réalise des programmes immobiliers d&apos;exception. Résidentiel haut de gamme, bureaux premium, opérations mixtes — nous concevons des lieux qui durent.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">

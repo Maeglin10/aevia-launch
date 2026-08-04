@@ -164,7 +164,7 @@ return (
                   maxWidth: "480px",
                   marginBottom: "48px",
                 }}
-              >{c?.heroSubline ?? fd?.tagline ?? <>
+              >{fd?.tagline ?? c?.heroSubline ?? <>
                 We build identity systems for ambitious companies — from seed-stage startups to century-old maisons. Strategy, visual identity, and art direction that makes the right people stop scrolling.
               </>}</motion.p>
 

@@ -425,7 +425,7 @@ return (
             L'art sur peau,<br /><em style={{ color: C.accent }}>pour toujours.</em>
           </>}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(245,240,232,0.65)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? fd?.tagline ?? <>
+            style={{ fontSize: 17, color: "rgba(245,240,232,0.65)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{fd?.tagline ?? c?.heroSubline ?? <>
             Studio Encre Noire réunit 3 artistes tatoueurs spécialisés — blackwork, réalisme, japonais, aquarelle. Chaque pièce est unique, dessinée sur mesure, réalisée avec obsession du détail.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
