@@ -86,7 +86,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   RE-THREAD STUDIO — Mode upcycling Bordeaux — collections éco, ateliers DIY, pièces uniques. Josefin Sans, noir / terracotta.
+   RE-THREAD STUDIO — Mode upcycling {clientCity(sessionData) ?? "Bordeaux"} — collections éco, ateliers DIY, pièces uniques. Josefin Sans, noir / terracotta.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -528,7 +528,7 @@ export default function Page() {
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? fd?.tagline ?? <>
-              Collections capsule éco-responsables, ateliers DIY, pièces uniques. Bordeaux.
+              Collections capsule éco-responsables, ateliers DIY, pièces uniques. {clientCity(sessionData) ?? "Bordeaux"}.
             </>}</p>
           </Reveal>
 
@@ -589,7 +589,7 @@ export default function Page() {
             gap: 40,
             textAlign: 'center'
           }}>
-            {menuItemsFiltered.length > 0 && [{"value": "0", "label": "Déchet Textile"}, {"value": "100%", "label": "Main à Bordeaux"}, {"value": "3h", "label": "Durée d'Atelier"}].map((stat, i) => (
+            {menuItemsFiltered.length > 0 && [{"value": "0", "label": "Déchet Textile"}, {"value": "100%", "label": "Main à " + (clientCity(sessionData) ?? "Bordeaux")}, {"value": "3h", "label": "Durée d'Atelier"}].map((stat, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div style={{ padding: '16px 8px' }}>
                   <div style={{
@@ -965,7 +965,7 @@ export default function Page() {
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
                 {clientReviews(sessionData)?.[0]?.name
                   ? `${clientReviews(sessionData)![0].author}${clientReviews(sessionData)![0].detail ? ' · ' + clientReviews(sessionData)![0].detail : ''}`
-                  : "Marie Lauret · Bordeaux"}
+                  : "Marie Lauret · " + (clientCity(sessionData) ?? "Bordeaux")}
               </div>
             </div>
           </Reveal>
@@ -1248,7 +1248,7 @@ export default function Page() {
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Re-Thread Studio"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Mode upcycling Bordeaux
+                Mode upcycling {clientCity(sessionData) ?? "Bordeaux"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

@@ -123,12 +123,15 @@ const TREATMENTS_DEMO = [
   },
 ]
 
-const SCIENCE_SOURCE = [
+function SCIENCE_SOURCE_LIVE() {
+  return [
   { icon: FlaskConical, title: "Protocoles validés", desc: "Tous nos traitements reposent sur des études cliniques de niveau 1 et des recommandations de sociétés savantes (SFML, SFD)." },
   { icon: Shield, title: "Produits CE médical", desc: "Nous utilisons exclusivement des produits homologués CE et FDA, approvisionnés directement auprès des laboratoires." },
   { icon: Microscope, title: "Matériel de pointe", desc: "Lasers médicaux Alma, Quanta et Cynosure. Maintenance certifiée, calibrage semestriel par les constructeurs." },
-  { icon: Award, title: "Formation continue", desc: "Nos praticiens se forment chaque année aux congrès IMCAS (Paris), AMWC (Monaco) et AAD (USA)." },
-]
+  { icon: Award, title: "Formation continue", desc: "Nos praticiens se forment chaque année aux congrès IMCAS (" + (clientCity(sessionData) ?? "Paris") + "), AMWC (Monaco) et AAD (USA)." },
+];
+}
+let SCIENCE_SOURCE = SCIENCE_SOURCE_LIVE();
 let SCIENCE = SCIENCE_SOURCE;
 
 const FAQ_ITEMS_DEMO = [
@@ -265,7 +268,7 @@ function EquipeSection() {
     {
       name: "Dr. Sophie Lemaire",
       spec: "Médecin esthétique",
-      diploma: "DU Médecine esthétique — Sorbonne Paris",
+      diploma: "DU Médecine esthétique — Sorbonne " + (clientCity(sessionData) ?? "Paris"),
       exp: "10 ans d'expérience · Spécialité injections",
       quote: "Je crois en une esthétique médicale honnête : améliorer sans effacer, sublimer sans uniformiser.",
       image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80&fit=crop",
@@ -273,15 +276,15 @@ function EquipeSection() {
     {
       name: "Dr. Thomas Blanc",
       spec: "Dermatologue & Expert Laser",
-      diploma: "DES Dermatologie — Université Paris Cité",
-      exp: "Speaker IMCAS Paris · Expert lasers médicaux",
+      diploma: "DES Dermatologie — Université " + (clientCity(sessionData) ?? "Paris") + " Cité",
+      exp: "Speaker IMCAS " + (clientCity(sessionData) ?? "Paris") + " · Expert lasers médicaux",
       quote: "La technologie laser permet aujourd'hui des résultats que l'on croyait réservés à la chirurgie. Avec moins de risques et zéro cicatrice.",
       image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&q=80&fit=crop",
     },
     {
       name: "Camille Martin",
       spec: "Infirmière coordinatrice médicale",
-      diploma: "IFSI Paris · DU Soins esthétiques",
+      diploma: "IFSI " + (clientCity(sessionData) ?? "Paris") + " · DU Soins esthétiques",
       exp: "Coordinatrice des parcours patients",
       quote: "Mon rôle est de vous accompagner à chaque étape, de la première question jusqu'au suivi post-traitement.",
       image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=800&q=80&fit=crop",
@@ -793,6 +796,8 @@ export default function LumiereCliniquePage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  SCIENCE_SOURCE = SCIENCE_SOURCE_LIVE();
+
   SCIENCE = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SCIENCE_SOURCE[i % SCIENCE_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     SCIENCE_SOURCE,

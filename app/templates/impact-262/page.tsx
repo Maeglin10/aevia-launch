@@ -34,7 +34,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO NOIR ABSOLU — Tatouage Fine Art & Illustration · Paris 3e Marais
+   STUDIO NOIR ABSOLU — Tatouage Fine Art & Illustration · {clientCity(sessionData) ?? "Paris"} 3e Marais
    Chorégraphie de défilement éditoriale : crossfade 320vh + panneau collant
    hygiènes + formulaire de réservation artistique. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -186,7 +186,8 @@ const ARTISTS_DEMO: Artist[] = [
   },
 ];
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre ADN',
     imgId: 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -206,12 +207,14 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     title: (
       <>
         Marais, /{' '}
-        <span style={{ fontStyle: 'italic' }}>Paris 3e.</span>
+        <span style={{ fontStyle: 'italic' }}>{clientCity(sessionData) ?? "Paris"} 3e.</span>
       </>
     ),
     body: 'Studio lumineux en cœur de Marais, sur rendez-vous uniquement. Quatre artistes travaillent simultanément dans un espace ouvert. Collectionneurs internationaux, clients locaux — même exigence.',
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const SAFETY_ITEMS: SafetyItem[] = [
@@ -237,7 +240,8 @@ const SAFETY_ITEMS: SafetyItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "J\'ai 12 tatouages signés de mains différentes à travers le monde. La manche réalisée par Kira est la pièce maîtresse de ma collection — un univers narratif complet sur une seule peau.",
@@ -248,9 +252,11 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     quote:
       "Premier tatouage, j\'étais terrorisée. Le processus de création — les croquis, les allers-retours, la consultation — m\'a complètement rassurée. Je suis repartie avec quelque chose qui me ressemble vraiment.",
     name: 'Camille Moreau',
-    role: 'Cliente première fois · Paris',
+    role: 'Cliente première fois · ' + (clientCity(sessionData) ?? 'Paris'),
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -649,7 +655,7 @@ function Hero() {
       >
         <Reveal y={16}>
           <Eyebrow color={C.accentLight} align="left">
-            Fine Art Tattoo · Paris 3e Marais
+            Fine Art Tattoo · {clientCity(sessionData) ?? "Paris"} 3e Marais
           </Eyebrow>
         </Reveal>
 
@@ -2059,7 +2065,7 @@ function Footer() {
       {
         title: 'Contact',
         items: [
-          { label: 'Paris 3e Marais', href: '#reservation' },
+          { label: (clientCity(sessionData) ?? 'Paris') + ' 3e Marais', href: '#reservation' },
           { label: 'Sur rendez-vous', href: '#reservation' },
           { label: 'studio@noirAbsolu.fr', href: 'mailto:studio@noirAbsolu.fr' },
           { label: 'Instagram', href: "/templates/impact-262" },
@@ -2108,7 +2114,7 @@ function Footer() {
               marginBottom: 22,
             }}
           >
-            Tatouage Fine Art & Illustration sur mesure. Paris 3e Marais, sur
+            Tatouage Fine Art & Illustration sur mesure. {clientCity(sessionData) ?? "Paris"} 3e Marais, sur
             rendez-vous uniquement.
           </p>
           <div
@@ -2283,6 +2289,10 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+
+
   STYLES_DEMO = resolveList(
     clientStats(sessionData)?.map((s: any, i: number) => ({ ...STYLES_DEMO_SOURCE[i % STYLES_DEMO_SOURCE.length], num: s.value, label: s.label })),
     STYLES_DEMO_SOURCE,

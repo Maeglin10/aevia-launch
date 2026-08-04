@@ -205,7 +205,7 @@ export default function MaisonBertinPage() {
 <section className="i345-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
         <div>
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>
-            Boucherie artisanale · Halles de Dijon
+            Boucherie artisanale · Halles de {clientCity(sessionData) ?? "Dijon"}
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>
             {c?.heroHeadline ?? (<>La viande d'éleveurs<br /><em style={{ color: C.accent }}>qu'on connaît par leur prénom.</em></>)}
@@ -410,10 +410,10 @@ export default function MaisonBertinPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Bertin"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Boucherie-charcuterie artisanale · Dijon, halles centrales<br />Viandes françaises, traçabilité affichée à l'étal</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Boucherie-charcuterie artisanale · {clientCity(sessionData) ?? "Dijon"}, halles centrales<br />Viandes françaises, traçabilité affichée à l'étal</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Dijon, Côte-d'Or" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Mar–Sam 7h30–13h / 15h30–19h30 · Dim 8h–12h30" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Dijon") + ", Côte-d'Or" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Mar–Sam 7h30–13h / 15h30–19h30 · Dim 8h–12h30" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

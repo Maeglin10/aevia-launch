@@ -60,14 +60,17 @@ const STATS_DEMO = [
 ]
 let STATS = STATS_DEMO;
 
-const BIENS_DEMO_SOURCE = [
-  { titre: "Appartement de standing", lieu: "Paris 16e", prix: "1 480 000 €", surface: "145 m²", pieces: 5, bains: 2, tag: "Exclusivité", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" },
+function BIENS_DEMO_SOURCE_LIVE() {
+  return [
+  { titre: "Appartement de standing", lieu: (clientCity({ formData: fd }) ?? "Paris") + " 16e", prix: "1 480 000 €", surface: "145 m²", pieces: 5, bains: 2, tag: "Exclusivité", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" },
   { titre: "Maison familiale", lieu: "Neuilly-sur-Seine", prix: "2 250 000 €", surface: "280 m²", pieces: 7, bains: 3, tag: "Coup de cœur", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" },
-  { titre: "Penthouse vue Eiffel", lieu: "Paris 7e", prix: "3 900 000 €", surface: "210 m²", pieces: 5, bains: 3, tag: "Prestige", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" },
+  { titre: "Penthouse vue Eiffel", lieu: (clientCity({ formData: fd }) ?? "Paris") + " 7e", prix: "3 900 000 €", surface: "210 m²", pieces: 5, bains: 3, tag: "Prestige", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" },
   { titre: "Villa contemporaine", lieu: "Saint-Cloud", prix: "1 850 000 €", surface: "320 m²", pieces: 8, bains: 4, tag: "Jardin", img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" },
-  { titre: "Loft design", lieu: "Paris 11e", prix: "890 000 €", surface: "120 m²", pieces: 3, bains: 2, tag: "Atypique", img: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80" },
-  { titre: "Résidence Belle Époque", lieu: "Paris 8e", prix: "2 650 000 €", surface: "195 m²", pieces: 6, bains: 3, tag: "Haussmannien", img: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80" },
-]
+  { titre: "Loft design", lieu: (clientCity({ formData: fd }) ?? "Paris") + " 11e", prix: "890 000 €", surface: "120 m²", pieces: 3, bains: 2, tag: "Atypique", img: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80" },
+  { titre: "Résidence Belle Époque", lieu: (clientCity({ formData: fd }) ?? "Paris") + " 8e", prix: "2 650 000 €", surface: "195 m²", pieces: 6, bains: 3, tag: "Haussmannien", img: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80" },
+];
+}
+let BIENS_DEMO_SOURCE = BIENS_DEMO_SOURCE_LIVE();
 let BIENS_DEMO = BIENS_DEMO_SOURCE;
 let BIENS = BIENS_DEMO;
 
@@ -79,11 +82,14 @@ const SERVICES_SOURCE = [
 let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
-const TEMOIGNAGES_SOURCE = [
-  { texte: "Notre appartement parisien a été vendu en 18 jours au prix demandé. L'équipe Pierre & Co a géré tout le processus avec un professionnalisme remarquable. Je recommande sans hésiter.", auteur: "Catherine B.", detail: "Vente appartement 145 m², Paris 16e" },
+function TEMOIGNAGES_SOURCE_LIVE() {
+  return [
+  { texte: "Notre appartement parisien a été vendu en 18 jours au prix demandé. L'équipe Pierre & Co a géré tout le processus avec un professionnalisme remarquable. Je recommande sans hésiter.", auteur: "Catherine B.", detail: "Vente appartement 145 m², " + (clientCity({ formData: fd }) ?? "Paris") + " 16e" },
   { texte: "Recherche longue et minutieuse, mais l'équipe ne s'est jamais découragée. Ils ont finalement trouvé notre maison de rêve à Neuilly — exactement ce que nous cherchions et dans notre budget.", auteur: "Famille Morin", detail: "Achat maison 280 m², Neuilly-sur-Seine" },
-  { texte: "Honnêteté et transparence du début à la fin. Pas de surprises, pas de pression. Pierre & Co m'a conseillé au mieux de mes intérêts et pas des leurs. C'est rare dans ce métier.", auteur: "Jean-François A.", detail: "Achat + revente simultanés, Paris 7e" },
-]
+  { texte: "Honnêteté et transparence du début à la fin. Pas de surprises, pas de pression. Pierre & Co m'a conseillé au mieux de mes intérêts et pas des leurs. C'est rare dans ce métier.", auteur: "Jean-François A.", detail: "Achat + revente simultanés, " + (clientCity({ formData: fd }) ?? "Paris") + " 7e" },
+];
+}
+let TEMOIGNAGES_SOURCE = TEMOIGNAGES_SOURCE_LIVE();
 let TEMOIGNAGES_DEMO = TEMOIGNAGES_SOURCE;
 let TEMOIGNAGES = TEMOIGNAGES_DEMO;
 
@@ -132,7 +138,11 @@ export default function PierreCoPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
+  BIENS_DEMO_SOURCE = BIENS_DEMO_SOURCE_LIVE();
+  TEMOIGNAGES_SOURCE = TEMOIGNAGES_SOURCE_LIVE();
+
   BIENS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...BIENS_DEMO_SOURCE[i % BIENS_DEMO_SOURCE.length], titre: s.title, prix: s.price ?? BIENS_DEMO_SOURCE[i % BIENS_DEMO_SOURCE.length].prix })),
     BIENS_DEMO_SOURCE,
@@ -410,10 +420,10 @@ export default function PierreCoPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 40 }}>
           <div>
             <div style={{ fontFamily: FONT_SERIF, fontSize: 22, color: "#fff", marginBottom: 12 }}>Pierre <span style={{ color: C.accent }}>&amp; Co</span></div>
-            <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Immobilier de prestige à Paris et Île-de-France depuis 2004.</p>
+            <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Immobilier de prestige à {clientCity({ formData: fd }) ?? "Paris"} et Île-de-France depuis 2004.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={14} />, t: "Paris 8e & agences IDF" }, { icon: <Phone size={14} />, t: (fd?.phone ?? "01 40 00 00 00") }, { icon: <Mail size={14} />, t: (fd?.email ?? "contact@pierreandco.fr") }].map((item, i) => (
+            {[{ icon: <MapPin size={14} />, t: (clientCity({ formData: fd }) ?? "Paris") + " 8e & agences IDF" }, { icon: <Phone size={14} />, t: (fd?.phone ?? "01 40 00 00 00") }, { icon: <Mail size={14} />, t: (fd?.email ?? "contact@pierreandco.fr") }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.5)", fontSize: 14 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

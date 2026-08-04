@@ -153,20 +153,26 @@ const PROCESS_STEPS = [
   },
 ];
 
-const ZONES = [
-  "Paris 1-20', 'Boulogne-Billancourt', 'Neuilly-sur-Seine",
+function ZONES_LIVE() {
+  return [
+  (clientCity(sessionData) ?? "Paris") + " 1-20', 'Boulogne-Billancourt', 'Neuilly-sur-Seine",
   "Levallois-Perret', 'Vincennes', 'Saint-Denis', 'Montreuil",
   "Nanterre', 'Créteil', 'Versailles",
 ];
+}
+let ZONES = ZONES_LIVE();;
 
-const PORTFOLIO_DEMO = [
-  { style: 'Industriel Chic', surface: '8 m²', budget: '4 500 – 6 000 €', city: 'Paris 11e', before: '🏚️', after: '✨' },
+function PORTFOLIO_DEMO_LIVE() {
+  return [
+  { style: 'Industriel Chic', surface: '8 m²', budget: '4 500 – 6 000 €', city: (clientCity(sessionData) ?? 'Paris') + ' 11e', before: '🏚️', after: '✨' },
   { style: 'Scandinave Épuré', surface: '12 m²', budget: '6 000 – 8 500 €', city: 'Boulogne-B.', before: '🏚️', after: '✨' },
   { style: 'Marbre & Laiton', surface: '10 m²', budget: '7 000 – 10 000 €', city: 'Neuilly', before: '🏚️', after: '✨' },
   { style: 'Zen Japonais', surface: '6 m²', budget: '3 800 – 5 500 €', city: 'Vincennes', before: '🏚️', after: '✨' },
-  { style: 'Rétro Carreaux', surface: '9 m²', budget: '5 200 – 7 200 €', city: 'Paris 18e', before: '🏚️', after: '✨' },
+  { style: 'Rétro Carreaux', surface: '9 m²', budget: '5 200 – 7 200 €', city: (clientCity(sessionData) ?? 'Paris') + ' 18e', before: '🏚️', after: '✨' },
   { style: 'Contemporain Dark', surface: '14 m²', budget: '8 000 – 12 000 €', city: 'Levallois', before: '🏚️', after: '✨' },
 ];
+}
+let PORTFOLIO_DEMO = PORTFOLIO_DEMO_LIVE();;
 
 const TEAM_DEMO = [
   {
@@ -198,10 +204,11 @@ const TEAM_DEMO = [
   },
 ];
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: 'Isabelle M.',
-    city: 'Paris 11e',
+    city: (clientCity(sessionData) ?? 'Paris') + ' 11e',
     rating: 5,
     text: "Fuite sous l\'évier un dimanche soir — Karim était là en 25 minutes ! Travail impeccable, prix honnête. Je recommande vivement Aqua Prestige.",
     service: 'Dépannage fuite',
@@ -229,7 +236,7 @@ const TESTIMONIALS_SOURCE = [
   },
   {
     name: 'Sophie L.',
-    city: 'Paris 18e',
+    city: (clientCity(sessionData) ?? 'Paris') + ' 18e',
     rating: 5,
     text: "Installation de mon nouveau chauffe-eau thermodynamique en une journée. Économies d\'énergie visibles dès la première facture !",
     service: 'Chauffe-eau',
@@ -242,16 +249,19 @@ const TESTIMONIALS_SOURCE = [
     service: 'VMC Installation',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
-const FAQ_ITEMS_DEMO = [
+function FAQ_ITEMS_DEMO_LIVE() {
+  return [
   {
     q: 'Quels sont vos tarifs pour une urgence la nuit ou le week-end ?',
     a: "Nos tarifs d\'urgence nocturne (20h–8h) et week-end sont majorés de 40% par rapport au tarif normal. Nous vous communiquons toujours le devis avant toute intervention. Tarif de déplacement : 49€ en journée, 79€ la nuit.",
   },
   {
     q: "Quelle est votre zone d\'intervention ?",
-    a: 'Nous intervenons dans Paris intramuros (1er au 20e) et dans les communes limitrophes : Boulogne-Billancourt, Neuilly, Levallois, Vincennes, Saint-Denis, Montreuil, Nanterre, Créteil et Versailles.',
+    a: 'Nous intervenons dans ' + (clientCity(sessionData) ?? 'Paris') + ' intramuros (1er au 20e) et dans les communes limitrophes : Boulogne-Billancourt, Neuilly, Levallois, Vincennes, Saint-Denis, Montreuil, Nanterre, Créteil et Versailles.',
   },
   {
     q: 'Quelle garantie proposez-vous sur vos travaux ?',
@@ -266,6 +276,8 @@ const FAQ_ITEMS_DEMO = [
     a: "Une rénovation complète de salle de bains prend en général 4 à 7 jours ouvrés selon la surface et les prestations. Nous réalisons un planning détaillé avant le début du chantier et vous tenons informé chaque jour de l\'avancement des travaux.",
   },
 ];
+}
+let FAQ_ITEMS_DEMO = FAQ_ITEMS_DEMO_LIVE();;
 
 /* ─────────────────────────────────────────────
    WATER DROP SVG PARTICLE
@@ -1118,6 +1130,14 @@ export default function AquaPrestigePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FAQ_ITEMS_DEMO = FAQ_ITEMS_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PORTFOLIO_DEMO = PORTFOLIO_DEMO_LIVE();
+  ZONES = ZONES_LIVE();
+
+
+
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -1617,7 +1637,7 @@ export default function AquaPrestigePage() {
               de Confiance
             </span>
             <br />
-            À Paris
+            À {clientCity(sessionData) ?? "Paris"}
           </>}</motion.h1>
 
           <motion.p
@@ -1632,7 +1652,7 @@ export default function AquaPrestigePage() {
               margin: '0 auto 2.5rem',
             }}
           >{c?.heroSubline ?? fd?.tagline ?? <>
-            Dépannage, installation et rénovation de salles de bains. Artisans certifiés, tarifs transparents, intervention rapide dans tout Paris et l&apos;Île-de-France.
+            Dépannage, installation et rénovation de salles de bains. Artisans certifiés, tarifs transparents, intervention rapide dans tout {clientCity(sessionData) ?? "Paris"} et l&apos;Île-de-France.
           </>}</motion.p>
 
           <motion.div
@@ -1848,7 +1868,7 @@ export default function AquaPrestigePage() {
                   <span style={{ color: C.accentLight }}>Appelez Maintenant.</span>
                 </>}</h2>
                 <p style={{ color: C.textMuted, fontSize: '1rem', lineHeight: 1.7, marginBottom: '2rem', maxWidth: '480px' }}>{c?.aboutText ?? <>
-                  Notre équipe d&apos;urgence est disponible 24h/24, 7j/7, 365 jours par an. Intervention garantie en moins de 30 minutes dans Paris et petite couronne.
+                  Notre équipe d&apos;urgence est disponible 24h/24, 7j/7, 365 jours par an. Intervention garantie en moins de 30 minutes dans {clientCity(sessionData) ?? "Paris"} et petite couronne.
                 </>}</p>
                 <a
                   href={`tel:${fd?.phone ?? "+33142000000"}`}
@@ -2148,7 +2168,7 @@ export default function AquaPrestigePage() {
                 {[
                   { icon: '📞', label: 'Téléphone', value: (fd?.phone ?? '01 42 00 00 00'), sub: 'Urgences 24h/24' },
                   { icon: '📧', label: 'Email', value: (fd?.email ?? 'contact@aquaprestige.fr'), sub: 'Réponse sous 2h en journée' },
-                  { icon: '📍', label: 'Adresse', value: '15 Rue de la Pompe, Paris 16e', sub: 'Bureau ouvert lun-sam 8h-19h' },
+                  { icon: '📍', label: 'Adresse', value: '15 Rue de la Pompe, ' + (clientCity(sessionData) ?? 'Paris') + ' 16e', sub: 'Bureau ouvert lun-sam 8h-19h' },
                 ].map((info) => (
                   <div key={info.label} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
                     <div
@@ -2452,7 +2472,7 @@ export default function AquaPrestigePage() {
                 </div>
               </div>
               <p style={{ color: C.textMuted, fontSize: '0.88rem', lineHeight: 1.75, marginBottom: '1.5rem', maxWidth: '280px' }}>
-                Artisans plombiers certifiés depuis 2010. Dépannage, installation et rénovation dans Paris et Île-de-France.
+                Artisans plombiers certifiés depuis 2010. Dépannage, installation et rénovation dans {clientCity(sessionData) ?? "Paris"} et Île-de-France.
               </p>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
                 {['Facebook', 'Instagram', 'LinkedIn'].map((social) => (

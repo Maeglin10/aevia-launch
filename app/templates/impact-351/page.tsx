@@ -249,8 +249,8 @@ export default function ToitsDeLoirePage() {
       <section className="i351-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: HERO_IMG ? "minmax(0,1.05fr) minmax(0,0.95fr)" : "1fr", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1180, margin: "0 auto" }}>
         <div>
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>
-          {/* Angers était écrit en dur : la ville du thème survivait à celle du client. */}
-          Couvreur-zingueur{fd?.city ? ` · ${fd.city}` : " · Angers"}
+          {/* {clientCity(sessionData) ?? "Angers"} était écrit en dur : la ville du thème survivait à celle du client. */}
+          Couvreur-zingueur{fd?.city ? ` · ${fd.city}` : " · " + (clientCity(sessionData) ?? "Angers")}
         </span>
         <HardCutRebuild index={i} stagger={0.09}>
               {[
@@ -464,10 +464,10 @@ export default function ToitsDeLoirePage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Toits de Loire"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Couverture · Zinguerie · Angers et Maine-et-Loire<br />Garantie décennale, Qualibat 3212</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Couverture · Zinguerie · {clientCity(sessionData) ?? "Angers"} et Maine-et-Loire<br />Garantie décennale, Qualibat 3212</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Angers, Maine-et-Loire" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 7h30–18h · Urgence bâchage 7j/7" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Angers") + ", Maine-et-Loire" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 7h30–18h · Urgence bâchage 7j/7" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

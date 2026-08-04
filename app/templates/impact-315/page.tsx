@@ -257,11 +257,14 @@ const SERVICES_DEMO = [
   { icon: <Leaf size={28} />, title: "Formule Éco", desc: "Produits 100% bio-dégradables et éco-certifiés. Respect de votre intérieur et de l'environnement." },
 ];
 
-const TESTIMONIALS_SOURCE = [
-  { name: "Sophie L.", role: "Paris 15e", text: "Un service impeccable ! L'intervenante est ponctuelle, soigneuse et très professionnelle. Mon appartement n'a jamais été aussi propre.", rating: 5 },
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
+  { name: "Sophie L.", role: (clientCity(sessionData) ?? "Paris") + " 15e", text: "Un service impeccable ! L'intervenante est ponctuelle, soigneuse et très professionnelle. Mon appartement n'a jamais été aussi propre.", rating: 5 },
   { name: "Marc D.", role: "Boulogne-Billancourt", text: "Abonnement ménage bi-mensuel depuis 6 mois. Fiabilité totale, qualité constante. Je recommande sans hésiter.", rating: 5 },
   { name: "Émilie R.", role: "Neuilly-sur-Seine", text: "Grand nettoyage après travaux : résultat bluffant. L'équipe a redonné vie à tout l'appartement en une journée.", rating: 5 },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function PLANS_SOURCE_LIVE() {
@@ -306,7 +309,9 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   PLANS_SOURCE = PLANS_SOURCE_LIVE();
+
 
   PLANS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),

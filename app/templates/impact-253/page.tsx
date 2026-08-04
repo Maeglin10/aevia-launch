@@ -32,7 +32,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   KINESPORT ÉLITE — Kinésithérapie du Sport & Rééducation · Paris 15e
+   KINESPORT ÉLITE — Kinésithérapie du Sport & Rééducation · {clientCity(sessionData) ?? "Paris"} 15e
    Template premium Next.js 'use client'. Chorégraphie de défilement éditoriale,
    crossfade 320vh, panneau collant, formulaire interactif.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -210,20 +210,23 @@ const METHOD_ITEMS: MethodItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Coureur amateur avec des douleurs récurrentes au genou, j'avais presque renoncé à courir. Après 8 séances chez KinéSport Élite, j'ai repris l'entraînement marathon. Leur approche biomécanique a tout changé.",
     name: 'Thomas R.',
-    role: 'Coureur amateur · Paris',
+    role: 'Coureur amateur · ' + (clientCity(sessionData) ?? 'Paris'),
   },
   {
     quote:
       "Opéré du ligament croisé en janvier, les médecins m'annonçaient 9 mois de rééducation. Grâce au protocole individualisé de l'équipe, j'ai repris avec mon club de handball 6 mois avant le calendrier prévu.",
     name: 'Yasmine B.',
-    role: 'Handballeuse semi-pro · Paris 15e',
+    role: 'Handballeuse semi-pro · ' + (clientCity(sessionData) ?? 'Paris') + ' 15e',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── Photo helper ─────────────────────────────────────────────────────────── */
@@ -648,7 +651,7 @@ function Hero() {
       >
         <Reveal y={18}>
           <Eyebrow color="rgba(196,220,204,0.9)">
-            Kinésithérapie du sport · Paris 15e
+            Kinésithérapie du sport · {clientCity(sessionData) ?? "Paris"} 15e
           </Eyebrow>
         </Reveal>
 
@@ -1964,7 +1967,7 @@ function Footer() {
       title: 'Contact',
       items: [
         { label: 'Prendre RDV', href: '#rdv' },
-        { label: 'Cabinet Paris 15e', href: '#rdv' },
+        { label: 'Cabinet ' + (clientCity(sessionData) ?? 'Paris') + ' 15e', href: '#rdv' },
         { label: 'Urgence sportive', href: '#rdv' },
         { label: 'Partenariats clubs', href: '#rdv' },
       ],
@@ -2040,7 +2043,7 @@ function Footer() {
               color: 'rgba(196,220,204,0.58)',
             }}
           >
-            <MapPin size={13} color={C.accent} strokeWidth={1.6} /> Paris 15e
+            <MapPin size={13} color={C.accent} strokeWidth={1.6} /> {clientCity(sessionData) ?? "Paris"} 15e
           </div>
         </div>
 
@@ -2196,6 +2199,8 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

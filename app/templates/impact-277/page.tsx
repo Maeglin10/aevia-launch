@@ -52,7 +52,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ÉLECTRICITÉ DUMONT — Électricien certifié · Paris 11e & Île-de-France
+   ÉLECTRICITÉ DUMONT — Électricien certifié · {clientCity(sessionData) ?? "Paris"} 11e & Île-de-France
    Photographie réelle + chorégraphie de défilement éditoriale (style Impact ×
    fiabilité artisanale × urgence). Fichier entièrement autonome. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -534,7 +534,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.yellow}>
-            Électricien certifié · Paris 11e & Île-de-France
+            Électricien certifié · {clientCity(sessionData) ?? "Paris"} 11e & Île-de-France
           </Eyebrow>
         </Reveal>
 
@@ -576,7 +576,7 @@ function HeroSection() {
           }}
         >
           Installation, rénovation, mise aux normes NFC 15-100, domotique.
-          Intervention 7j/7 sur Paris et l&apos;Île-de-France.
+          Intervention 7j/7 sur {clientCity(sessionData) ?? "Paris"} et l&apos;Île-de-France.
         </motion.p>
 
         {/* Badges urgence */}
@@ -1149,12 +1149,13 @@ type Step = {
   body: string;
 };
 
-const STEPS: Step[] = [
+function STEPS_LIVE() {
+  return [
   {
     num: '01',
     icon: <ClipboardList size={22} color={C.yellow} strokeWidth={2} />,
     title: 'Visite diagnostic',
-    body: 'Déplacement gratuit sur Paris & petite couronne. Nous évaluons l’état de votre installation, identifions les risques et mesurons vos besoins en présence.',
+    body: 'Déplacement gratuit sur ' + (clientCity(sessionData) ?? 'Paris') + ' & petite couronne. Nous évaluons l’état de votre installation, identifions les risques et mesurons vos besoins en présence.',
   },
   {
     num: '02',
@@ -1175,6 +1176,8 @@ const STEPS: Step[] = [
     body: 'En fin de chantier, nous accompagnons l’obtention du visa CONSUEL et remettons l’attestation de conformité, indispensable pour Enedis ou la mise en vente.',
   },
 ];
+}
+let STEPS = STEPS_LIVE();;
 
 function ProcessSection() {
   const sec: React.CSSProperties = {
@@ -1378,19 +1381,20 @@ function ProcessSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type Testimonial = { quote: string; name: string; job: string; travaux: string };
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       'Intervention rapide après une panne de tableau. M. Dumont a tout réparé en 2 heures, proprement, avec un devis respecté à l’euro. Je recommande sans hésiter à tous mes voisins du 11e.',
     name: 'Sophie Marchand',
-    job: 'Propriétaire — Paris 11e',
+    job: 'Propriétaire — ' + (clientCity(sessionData) ?? 'Paris') + ' 11e',
     travaux: 'Remplacement tableau + mise aux normes',
   },
   {
     quote:
       'Rénovation électrique complète de mon appartement haussmannien. Câblage impeccable, suivi rigoureux, CONSUEL obtenu sans accroc. Un artisan sérieux qui respecte les délais et les budgets.',
     name: 'Thomas Leclerc',
-    job: 'Propriétaire — Paris 10e',
+    job: 'Propriétaire — ' + (clientCity(sessionData) ?? 'Paris') + ' 10e',
     travaux: 'Rénovation complète 85 m²',
   },
   {
@@ -1401,6 +1405,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     travaux: 'Domotique complète + borne IRVE',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
@@ -1994,14 +2000,15 @@ type Project = {
   icon: React.ReactNode;
 };
 
-const PROJECTS_DEMO: Project[] = [
+function PROJECTS_DEMO_LIVE() {
+  return [
   {
     img: PHOTO.haussmann,
     alt: 'Rénovation électrique appartement haussmannien Paris',
     tag: 'Rénovation complète',
     title: 'Appartement haussmannien',
     desc: 'Rénovation électrique intégrale d’un 120 m² de 1890. Remplacement du tableau, passage de 42 circuits neufs, pose de 110 points lumineux, mise aux normes CONSUEL.',
-    detail: 'Paris 16e · 120 m² · NFC 15-100 · CONSUEL obtenu',
+    detail: (clientCity(sessionData) ?? 'Paris') + ' 16e · 120 m² · NFC 15-100 · CONSUEL obtenu',
     icon: <Home size={18} color={C.yellow} strokeWidth={2} />,
   },
   {
@@ -2019,10 +2026,12 @@ const PROJECTS_DEMO: Project[] = [
     tag: 'Local commercial',
     title: 'Local commercial',
     desc: 'Mise aux normes ERP d’un restaurant de 180 m². Tableau TGBT, éclairage de sécurité, prises cuisson, extraction ventilée. Ouverture respectée grâce à une intervention en 4 jours.',
-    detail: 'Paris 3e · 180 m² · ERP catégorie 4 · 4 jours',
+    detail: (clientCity(sessionData) ?? 'Paris') + ' 3e · 180 m² · ERP catégorie 4 · 4 jours',
     icon: <Building2 size={18} color={C.yellow} strokeWidth={2} />,
   },
 ];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();;
 
 function ProjectCard({ p, i }: { p: Project; i: number }) {
   const [hover, setHover] = useState(false);
@@ -2215,7 +2224,7 @@ function UrgencySection() {
     padding: 'clamp(80px,12vw,160px) clamp(24px,6vw,96px)',
   };
 
-  const zones = ['Paris 75', 'Hauts-de-Seine 92', 'Seine-Saint-Denis 93', 'Val-de-Marne 94'];
+  const zones = [(clientCity(sessionData) ?? 'Paris') + ' 75', 'Hauts-de-Seine 92', 'Seine-Saint-Denis 93', 'Val-de-Marne 94'];
 
   return (
     <section ref={ref} style={sec} id="urgence">
@@ -2272,7 +2281,7 @@ function UrgencySection() {
             }}
           >
             Court-circuit, disjoncteur bloqué, prise qui chauffe, compteur coupé :
-            nos techniciens interviennent sous 2 heures sur Paris et la petite couronne,
+            nos techniciens interviennent sous 2 heures sur {clientCity(sessionData) ?? "Paris"} et la petite couronne,
             7 jours sur 7, de 7h à 22h.
           </p>
         </Reveal>
@@ -2418,7 +2427,7 @@ function FooterSection() {
       items: [
         { label: 'Devis gratuit', href: '#devis' },
         { label: 'Urgence 24h/7j', href: '#urgence' },
-        { label: 'Paris & Île-de-France', href: '#urgence' },
+        { label: (clientCity(sessionData) ?? 'Paris') + ' & Île-de-France', href: '#urgence' },
         { label: 'Mentions légales', href: '#hero' },
       ],
     },
@@ -2469,7 +2478,7 @@ function FooterSection() {
             }}
           >
             Électricien certifié Qualifelec RGE depuis 2009. Installation, rénovation,
-            domotique et dépannage sur Paris et l&apos;Île-de-France.
+            domotique et dépannage sur {clientCity(sessionData) ?? "Paris"} et l&apos;Île-de-France.
           </p>
 
           {/* SIRET & zone */}
@@ -2493,7 +2502,7 @@ function FooterSection() {
               }}
             >
               <MapPin size={13} color={C.yellow} strokeWidth={2} />
-              Paris 11e · 75011
+              {clientCity(sessionData) ?? "Paris"} 11e · 75011
             </div>
             <div
               style={{
@@ -2713,6 +2722,12 @@ export default function Impact277Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  STEPS = STEPS_LIVE();
+
+
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

@@ -83,7 +83,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   RAPIDO PLOMBERIE PARIS — Plombier-chauffagiste Paris — urgences 24h/7j, PAC, rénovation. Montserrat, rouge / blanc.
+   RAPIDO PLOMBERIE PARIS — Plombier-chauffagiste {clientCity(sessionData) ?? "Paris"} — urgences 24h/7j, PAC, rénovation. Montserrat, rouge / blanc.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -536,7 +536,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? fd?.tagline ?? <>
-              Plombier-chauffagiste Paris. Fuite, chaudière, PAC, rénovation salle de bain. Intervention en 1h.
+              Plombier-chauffagiste {clientCity(sessionData) ?? "Paris"}. Fuite, chaudière, PAC, rénovation salle de bain. Intervention en 1h.
             </>}</p>
           </Reveal>
 
@@ -669,7 +669,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Rapido Plomberie intervient en urgence sur tout Paris et l'Île-de-France. Fuite d'eau, chaudière en panne, installation PAC ou rénovation complète de salle de bain. Devis gratuit, travaux garantis.
+                  Rapido Plomberie intervient en urgence sur tout {clientCity(sessionData) ?? "Paris"} et l'Île-de-France. Fuite d'eau, chaudière en panne, installation PAC ou rénovation complète de salle de bain. Devis gratuit, travaux garantis.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1256,7 +1256,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Rapido Plomberie Paris"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Plombier-chauffagiste Paris
+                Plombier-chauffagiste {clientCity(sessionData) ?? "Paris"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1287,7 +1287,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Rapido Plomberie Paris<br />
+                Responsable de publication: Rapido Plomberie {clientCity(sessionData) ?? "Paris"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

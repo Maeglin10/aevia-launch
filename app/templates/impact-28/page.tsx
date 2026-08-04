@@ -178,7 +178,7 @@ export default function Home() {
                 transition={{ duration: 0.8 }}
                 className="text-white"
               >
-                <div className="text-xs font-bold tracking-[0.4em] uppercase mb-6 opacity-70">Paris · Founded 2008</div>
+                <div className="text-xs font-bold tracking-[0.4em] uppercase mb-6 opacity-70">{clientCity(sessionData) ?? "Paris"} · Founded 2008</div>
                 <h1 className="font-black leading-[0.85] text-white mb-8" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(64px, 12vw, 160px)", letterSpacing: "-0.02em" }}>{c?.heroHeadline ?? <>
                   WE BUILD<br />WHAT<br />MATTERS.
                 </>}</h1>
@@ -710,7 +710,7 @@ export default function Home() {
                   <div className="space-y-2 text-sm font-semibold">
                     <div>{fd?.email ?? "contact@brutco-architecture.com"}</div>
                     <div>{fd?.phone ?? "+33 1 42 78 91 00"}</div>
-                    <div className="text-gray-400">Main Atelier: Paris, France</div>
+                    <div className="text-gray-400">Main Atelier: {clientCity(sessionData) ?? "Paris"}, France</div>
                   </div>
                 </div>
                 {contactSubmitted ? (

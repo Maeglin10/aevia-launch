@@ -82,7 +82,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   BURGERCO — Burger artisanal Paris 9e — steaks homemade, frites fraîches, livraison. Bebas Neue, noir / jaune moutarde.
+   BURGERCO — Burger artisanal {clientCity(sessionData) ?? "Paris"} 9e — steaks homemade, frites fraîches, livraison. Bebas Neue, noir / jaune moutarde.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -1046,7 +1046,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(clientFaq(sessionData), [{"q":"Quelles sont vos zones de livraison ?","a":"Nous livrons principalement dans le 9e, 2e, 10e et 18e arrondissements de Paris. Vous pouvez aussi commander en Click & Collect."},{"q":"Proposez-vous des options végétariennes ?","a":"Oui, notre Veggie Green est disponible sur place et à la livraison, et vous pouvez remplacer la viande par un patty végétal sur tous nos burgers."},{"q":"D'où vient votre viande ?","a":"Notre bœuf est 100% origine France, de race Aubrac ou Limousine, fourni par une boucherie partenaire du 9e arrondissement."}] as any[]).map((item: any, i: number) => (
+            {resolveList(clientFaq(sessionData), [{"q":"Quelles sont vos zones de livraison ?","a":"Nous livrons principalement dans le 9e, 2e, 10e et 18e arrondissements de " + (clientCity(sessionData) ?? "Paris") + ". Vous pouvez aussi commander en Click & Collect."},{"q":"Proposez-vous des options végétariennes ?","a":"Oui, notre Veggie Green est disponible sur place et à la livraison, et vous pouvez remplacer la viande par un patty végétal sur tous nos burgers."},{"q":"D'où vient votre viande ?","a":"Notre bœuf est 100% origine France, de race Aubrac ou Limousine, fourni par une boucherie partenaire du 9e arrondissement."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,
@@ -1187,7 +1187,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        gourmet Paris 9e
+                        gourmet {clientCity(sessionData) ?? "Paris"} 9e
                       </div>
                     </div>
                   </div>
@@ -1363,7 +1363,7 @@ return (
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "BurgerCo"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Burger artisanal Paris 9e
+                Burger artisanal {clientCity(sessionData) ?? "Paris"} 9e
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

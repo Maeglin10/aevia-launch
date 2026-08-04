@@ -530,10 +530,10 @@ export default function VoltProPage() {
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#facc15)] block mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>// Secteur géographique</span>
                 <h2 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tighter mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>Zone d'<span className="text-[var(--brand,#facc15)]">intervention.</span></>}</h2>
                 <p className="text-white/40 leading-relaxed mb-8 text-sm">{c?.aboutText ?? <>
-                  VoltPro intervient sur Paris et toute l'Île-de-France — notamment les départements 75, 77, 78, 91, 92, 93, 94 et 95. Délai d'intervention habituel : 24h à 48h (dépannage urgent : &lt; 2h).
+                  VoltPro intervient sur {clientCity(sessionData) ?? "Paris"} et toute l'Île-de-France — notamment les départements 75, 77, 78, 91, 92, 93, 94 et 95. Délai d'intervention habituel : 24h à 48h (dépannage urgent : &lt; 2h).
                 </>}</p>
                 <div className="flex flex-wrap gap-3">
-                  {["Paris (75)", "Val-de-Marne (94)", "Seine-et-Marne (77)", "Hauts-de-Seine (92)", "Seine-Saint-Denis (93)", "Essonne (91)", "Yvelines (78)", "Val-d'Oise (95)"].map(z => (
+                  {[(clientCity(sessionData) ?? "Paris") + " (75)", "Val-de-Marne (94)", "Seine-et-Marne (77)", "Hauts-de-Seine (92)", "Seine-Saint-Denis (93)", "Essonne (91)", "Yvelines (78)", "Val-d'Oise (95)"].map(z => (
                     <span key={z} className="px-4 py-2 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/40 hover:border-[var(--brand,#facc15)]/30 hover:text-[var(--brand,#facc15)]/70 transition-colors cursor-default">
                       <MapPin className="w-2.5 h-2.5 inline mr-1.5" />{z}
                     </span>
@@ -546,7 +546,7 @@ export default function VoltProPage() {
                 {[
                   { v: "< 2h", l: "Urgences" },
                   { v: "24/48h", l: "Standard" },
-                  { v: "30 km", l: "Rayon Paris" },
+                  { v: "30 km", l: "Rayon " + (clientCity(sessionData) ?? "Paris") },
                   { v: "8 dépt.", l: "Couverts" },
                 ].map((s, i) => (
                   <div key={i} className="w-32 h-32 border border-white/5 flex flex-col items-center justify-center gap-2 hover:border-[var(--brand,#facc15)]/20 transition-colors">

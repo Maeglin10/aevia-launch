@@ -103,14 +103,17 @@ const EVENT_TYPES_DEMO = [
   },
 ];
 
-const PAST_EVENTS_DEMO = [
-  { title: "Gala Fondation Lumière", location: "Paris, France", year: "2024", img: "photo-1530103862676-de8c9debad1d", guests: "420" },
+function PAST_EVENTS_DEMO_LIVE() {
+  return [
+  { title: "Gala Fondation Lumière", location: (clientCity(sessionData) ?? "Paris") + ", France", year: "2024", img: "photo-1530103862676-de8c9debad1d", guests: "420" },
   { title: "Mariage Château Margaux", location: "Bordeaux, France", year: "2024", img: "photo-1540575467063-178a50c2df87", guests: "180" },
   { title: "Conférence TechEurope", location: "Monaco", year: "2024", img: "photo-1492684223066-81342ee5ff30", guests: "1200" },
   { title: "Lancement Maison Riviera", location: "Cannes, France", year: "2023", img: "photo-1530103862676-de8c9debad1d", guests: "350" },
   { title: "Séminaire LuxGroup", location: "Biarritz, France", year: "2023", img: "photo-1540575467063-178a50c2df87", guests: "85" },
-  { title: "Gala Prestige Awards", location: "Paris, France", year: "2023", img: "photo-1492684223066-81342ee5ff30", guests: "600" },
+  { title: "Gala Prestige Awards", location: (clientCity(sessionData) ?? "Paris") + ", France", year: "2023", img: "photo-1492684223066-81342ee5ff30", guests: "600" },
 ];
+}
+let PAST_EVENTS_DEMO = PAST_EVENTS_DEMO_LIVE();;
 
 const SERVICES_SOURCE = [
   {
@@ -518,6 +521,8 @@ export default function Impact175Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PAST_EVENTS_DEMO = PAST_EVENTS_DEMO_LIVE();
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,

@@ -352,7 +352,7 @@ export default function Page() {
   );
   const featuredReview = REVIEWS[0];
 
-  const FAQ_DEMO = [{"q":"Quelles plantes résistantes à la chaleur conseillez-vous ?","a":"Le laurier-rose, la lavande, le romarin, le ciste, l'olivier et les herbes de la pampa s'épanouissent parfaitement sous le climat de Montpellier sans nécessiter beaucoup d'eau."},{"q":"Comment fonctionnent vos systèmes d'arrosage économes ?","a":"Ils sont connectés à une sonde météo locale : si de la pluie est annoncée, l'arrosage se coupe automatiquement pour préserver les ressources."},{"q":"Proposez-vous des contrats d'entretien annuel ?","a":"Oui, pour la tonte, la taille des haies et le nettoyage saisonnier, éligibles au crédit d'impôt service à la personne (50% de déduction)."}];
+  const FAQ_DEMO = [{"q":"Quelles plantes résistantes à la chaleur conseillez-vous ?","a":"Le laurier-rose, la lavande, le romarin, le ciste, l'olivier et les herbes de la pampa s'épanouissent parfaitement sous le climat de " + (clientCity(sessionData) ?? "Montpellier") + " sans nécessiter beaucoup d'eau."},{"q":"Comment fonctionnent vos systèmes d'arrosage économes ?","a":"Ils sont connectés à une sonde météo locale : si de la pluie est annoncée, l'arrosage se coupe automatiquement pour préserver les ressources."},{"q":"Proposez-vous des contrats d'entretien annuel ?","a":"Oui, pour la tonte, la taille des haies et le nettoyage saisonnier, éligibles au crédit d'impôt service à la personne (50% de déduction)."}];
   const FAQ = resolveList(
     clientFaq(sessionData)?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
     FAQ_DEMO
@@ -562,7 +562,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? fd?.tagline ?? <>
-              Espèces locales, irrigation économe, terrasses. Paysagiste Montpellier & Hérault.
+              Espèces locales, irrigation économe, terrasses. Paysagiste {clientCity(sessionData) ?? "Montpellier"} & Hérault.
             </>}</p>
           </Reveal>
 
@@ -1387,7 +1387,7 @@ return (
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Jardins de l'Hérault"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Paysagiste méditerranéen Montpellier
+                Paysagiste méditerranéen {clientCity(sessionData) ?? "Montpellier"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

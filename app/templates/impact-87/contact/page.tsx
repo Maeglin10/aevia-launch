@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -274,7 +275,7 @@ export default function IronClubContactPage() {
             </h3>
             <p style={{ fontFamily: FONT_BODY, fontSize: 15, color: C.textMuted, lineHeight: 1.8 }}>
               12 rue de la Guillotière<br />
-              69007 Lyon 7e<br />
+              69007 {clientCity(sessionData) ?? "Lyon"} 7e<br />
               <a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>
                 04 78 XX XX XX
               </a><br />

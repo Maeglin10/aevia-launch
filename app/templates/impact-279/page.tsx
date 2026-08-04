@@ -50,7 +50,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET SOLER — Ostéopathe D.O., Lyon 6e · Brotteaux
+   CABINET SOLER — Ostéopathe D.O., {clientCity(sessionData) ?? "Lyon"} 6e · Brotteaux
    Template premium holistique. Palette forêt × beige lin × terracotta.
    Auto-suffisant. 'use client'. Calqué sur le style éditorial impact-218.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -526,7 +526,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.terraLight} align="center">
-            Ostéopathe D.O. · Lyon 6e · Brotteaux
+            Ostéopathe D.O. · {clientCity(sessionData) ?? "Lyon"} 6e · Brotteaux
           </Eyebrow>
         </Reveal>
 
@@ -1557,7 +1557,7 @@ function AppointmentFormSection() {
           >
             Décrivez votre situation ci-dessous. Le Dr Soler reviendra vers vous
             dans les 24 heures pour confirmer votre rendez-vous au cabinet de
-            Lyon 6e.
+            {clientCity(sessionData) ?? "Lyon"} 6e.
           </p>
         </Reveal>
 
@@ -1922,7 +1922,7 @@ function PractitionerSection() {
   };
 
   const formations = [
-    { year: '2010', label: 'Diplôme d\'Ostéopathie D.O. — IFSO Lyon' },
+    { year: '2010', label: 'Diplôme d\'Ostéopathie D.O. — IFSO ' + (clientCity(sessionData) ?? 'Lyon') },
     { year: '2012', label: 'Formation pédiatrique — Institut Méditerranéen' },
     { year: '2015', label: 'Spécialisation crânio-sacrée — Sutherland College' },
     { year: '2018', label: 'Ostéopathie du sportif — CDES Paris' },
@@ -1995,7 +1995,7 @@ function PractitionerSection() {
                 marginBottom: 38,
               }}
             >
-              Diplômé de l&apos;Institut de Formation en Ostéopathie de Lyon en 2010,
+              Diplômé de l&apos;Institut de Formation en Ostéopathie de {clientCity(sessionData) ?? "Lyon"} en 2010,
               le Dr Antoine Soler exerce depuis 14 ans dans le quartier des Brotteaux.
               Sa pratique conjugue rigueur diagnostique et écoute profonde — chaque
               consultation dure 45 minutes, sans chronomètre.
@@ -2111,7 +2111,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   9 · PracticalSection — Cabinet Lyon 6e Brotteaux
+   9 · PracticalSection — Cabinet {clientCity(sessionData) ?? "Lyon"} 6e Brotteaux
    ════════════════════════════════════════════════════════════════════════════ */
 type InfoBlock = {
   icon: React.ReactNode;
@@ -2131,7 +2131,7 @@ function PracticalSection() {
       title: 'Adresse',
       lines: [
         '18 rue de la Barre',
-        '69006 Lyon — Brotteaux',
+        '69006 ' + (clientCity(sessionData) ?? 'Lyon') + ' — Brotteaux',
         'Métro A — Foch ou Masséna',
         'Tram T1 — Saxe-Gambetta',
       ],
@@ -2187,7 +2187,7 @@ function PracticalSection() {
                   lineHeight: 1.06,
                 }}
               >
-                Cabinet Lyon 6e,{' '}
+                Cabinet {clientCity(sessionData) ?? "Lyon"} 6e,{' '}
                 <span style={{ fontStyle: 'italic', color: C.terraLight }}>
                   Brotteaux
                 </span>
@@ -2347,7 +2347,7 @@ function FooterSection() {
     {
       title: 'Accès',
       items: [
-        { label: 'Lyon 6e — Brotteaux', href: '#cabinet' },
+        { label: (clientCity(sessionData) ?? 'Lyon') + ' 6e — Brotteaux', href: '#cabinet' },
         { label: 'Métro A — Foch', href: '#cabinet' },
         { label: '04 78 XX XX XX', href: 'tel:+33478000000' },
         { label: 'Email', href: 'mailto:cabinet.soler@gmail.com' },
@@ -2404,7 +2404,7 @@ function FooterSection() {
               maxWidth: 320,
             }}
           >
-            Ostéopathie holistique · Lyon 6e Brotteaux · Depuis 2010.
+            Ostéopathie holistique · {clientCity(sessionData) ?? "Lyon"} 6e Brotteaux · Depuis 2010.
           </p>
           <div
             style={{

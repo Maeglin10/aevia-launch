@@ -64,14 +64,17 @@ const NAV = [
   { l: "Tarifs", h: "#tarifs" },
   { l: "Contact", h: "#contact" },
 ];
-const PROFESSEURS = [
-  { n: "Marta Oliveira", r: "Piano · Direction pédagogique", d: "Prix du CNSMD de Lyon. Enseigne aux débutants comme aux candidats au concours d'entrée." },
+function PROFESSEURS_LIVE() {
+  return [
+  { n: "Marta Oliveira", r: "Piano · Direction pédagogique", d: "Prix du CNSMD de " + (clientCity({ formData: fd }) ?? "Lyon") + ". Enseigne aux débutants comme aux candidats au concours d'entrée." },
   { n: "Youssef Benhima", r: "Guitare classique & flamenco", d: "Formé à Séville. Cours en français, espagnol et arabe. Prépare aussi les examens de fin de cycle." },
   { n: "Élisabeth Fournel", r: "Violon · Formation musicale", d: "Trente ans d'orchestre. Méthode Suzuki pour les plus jeunes, lecture à vue à partir du deuxième cycle." },
   { n: "Damien Roux", r: "Batterie & percussions", d: "Studio et scène. Travaille au métronome dès la première séance, et personne n'en est jamais mort." },
   { n: "Claire Ngo", r: "Chant · Technique vocale", d: "Lyrique et musiques actuelles. Bilan vocal offert avant l'inscription, pour choisir le bon répertoire." },
   { n: "Paul Vidal", r: "Éveil musical (4-6 ans)", d: "Séances de 40 minutes, en groupe de six au maximum. Sans instrument imposé la première année." },
 ];
+}
+let PROFESSEURS = PROFESSEURS_LIVE();;
 
 const TARIFS_DEMO = [
   { a: "Cours individuel 30 min", p: "48 € / mois", n: "Une séance hebdomadaire, 32 semaines sur l'année scolaire." },
@@ -151,6 +154,8 @@ export default function ConservatoireAccordPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  PROFESSEURS = PROFESSEURS_LIVE();
+
   TEMOIGNAGES_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text })),
     TEMOIGNAGES_SOURCE,
@@ -274,7 +279,7 @@ export default function ConservatoireAccordPage() {
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? fd?.tagline ?? <>
-            Conservatoire Accord forme les musiciens de 4 à 99 ans à Lyon depuis 18 ans. Piano, guitare, chant, batterie, solfège — cours individuels ou en groupe, enfants et adultes.
+            Conservatoire Accord forme les musiciens de 4 à 99 ans à {clientCity({ formData: fd }) ?? "Lyon"} depuis 18 ans. Piano, guitare, chant, batterie, solfège — cours individuels ou en groupe, enfants et adultes.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -460,10 +465,10 @@ export default function ConservatoireAccordPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", fontWeight: 300, color: C.amber, marginBottom: 8 }}>Conservatoire Accord</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>École de musique · Lyon 6e<br />Lun–Sam 10h–20h</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>École de musique · {clientCity({ formData: fd }) ?? "Lyon"} 6e<br />Lun–Sam 10h–20h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: "Lyon 6e, Rhône" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 10h–20h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Lyon") + " 6e, Rhône" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 10h–20h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.amber }}>{item.icon}</span>{item.t}
               </div>

@@ -123,7 +123,7 @@ function MATERIALS_LIVE(): Material[] {
     palette: ["var(--brand,#c084fc)","#a855f7","#7c3aed","#5b21b6","#3b0764","#1a0331"],
     applications: ["Athletic Biometrics","Military Comms","Medical Wearables","AR Interface Fabric"],
     weight: "38 g/m²",
-    origin: "Paris Synthesis Lab · 2025",
+    origin: (clientCity({ formData: fd }) ?? "Paris") + " Synthesis Lab · 2025",
   },
   {
     id: "BM-88-LVX",
@@ -196,7 +196,7 @@ function MATERIALS_LIVE(): Material[] {
     palette: ["var(--brand,#c084fc)","#a855f7","#7c3aed","#5b21b6","#3b0764","#1a0331"],
     applications: ["Athletic Biometrics","Military Comms","Medical Wearables","AR Interface Fabric"],
     weight: "38 g/m²",
-    origin: "Paris Synthesis Lab · 2025",
+    origin: (clientCity({ formData: fd }) ?? "Paris") + " Synthesis Lab · 2025",
   },
   {
     id: "BM-88-LVX",
@@ -271,7 +271,7 @@ function MATERIALS_LIVE(): Material[] {
     palette: ["var(--brand,#c084fc)","#a855f7","#7c3aed","#5b21b6","#3b0764","#1a0331"],
     applications: ["Athletic Biometrics","Military Comms","Medical Wearables","AR Interface Fabric"],
     weight: "38 g/m²",
-    origin: "Paris Synthesis Lab · 2025",
+    origin: (clientCity({ formData: fd }) ?? "Paris") + " Synthesis Lab · 2025",
   },
   {
     id: "BM-88-LVX",
@@ -1952,7 +1952,7 @@ function CTASection() {
             letterSpacing: "0.2em",
           }}
         >
-          By submitting you accept our Material NDA Terms. Samples shipped from Paris.
+          By submitting you accept our Material NDA Terms. Samples shipped from {clientCity({ formData: fd }) ?? "Paris"}.
         </p>
       </div>
     </section>

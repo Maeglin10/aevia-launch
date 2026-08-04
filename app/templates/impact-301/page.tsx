@@ -83,7 +83,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DUBOIS & PARTENAIRES — Avocat droit des affaires Bordeaux — M&A, startups, RGPD. Cormorant Garamond, ardoise / or.
+   DUBOIS & PARTENAIRES — Avocat droit des affaires {clientCity(sessionData) ?? "Bordeaux"} — M&A, startups, RGPD. Cormorant Garamond, ardoise / or.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -136,11 +136,14 @@ const SERVICES_SOURCE = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const FAQ_DEMO = [
+function FAQ_DEMO_LIVE() {
+  return [
   {"q":"Quels sont vos modes de facturation ?","a":"Nous facturons soit au forfait pour les opérations standardisées (création, contrats), soit au temps passé (taux horaire de 220€ HT) pour le conseil et la négociation."},
   {"q":"Proposez-vous des abonnements juridiques ?","a":"Oui, notre offre de 'CFO/Juriste externe' permet aux PME et startups en croissance de bénéficier d'un forfait d'heures mensuel de conseil juridique à tarif préférentiel."},
-  {"q":"Où se situe votre cabinet ?","a":"Nos bureaux sont situés au cœur du quartier des Chartrons à Bordeaux. Nous réalisons également l'ensemble de nos rendez-vous en visioconférence."}
+  {"q":"Où se situe votre cabinet ?","a":"Nos bureaux sont situés au cœur du quartier des Chartrons à " + (clientCity(sessionData) ?? "Bordeaux") + ". Nous réalisons également l'ensemble de nos rendez-vous en visioconférence."}
 ];
+}
+let FAQ_DEMO = FAQ_DEMO_LIVE();;
 
 /* ── Primitives Reutilisables ─────────────────────────────────────────────── */
 
@@ -281,6 +284,8 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FAQ_DEMO = FAQ_DEMO_LIVE();
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -544,7 +549,7 @@ export default function Page() {
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? fd?.tagline ?? <>
-              M&A, levées de fonds, RGPD. Cabinet Bordeaux Chartrons — expertise juridique de haut niveau.
+              M&A, levées de fonds, RGPD. Cabinet {clientCity(sessionData) ?? "Bordeaux"} Chartrons — expertise juridique de haut niveau.
             </>}</p>
           </Reveal>
 
@@ -1148,7 +1153,7 @@ export default function Page() {
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        droit des affaires Bordeaux
+                        droit des affaires {clientCity(sessionData) ?? "Bordeaux"}
                       </div>
                     </div>
                   </div>
@@ -1266,7 +1271,7 @@ export default function Page() {
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Dubois & Partenaires"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Avocat droit des affaires Bordeaux
+                Avocat droit des affaires {clientCity(sessionData) ?? "Bordeaux"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

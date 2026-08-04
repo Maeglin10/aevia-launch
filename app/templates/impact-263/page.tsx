@@ -32,7 +32,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   JARDINS VIVANTS — Paysagiste-Concepteur & Permaculture · Bordeaux
+   JARDINS VIVANTS — Paysagiste-Concepteur & Permaculture · {clientCity(sessionData) ?? "Bordeaux"}
    Chorégraphie de défilement éditoriale : crossfade collant 320vh, panneau
    écologique sticky, formulaire de devis interactif. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -154,7 +154,8 @@ const SERVICES_SOURCE: Service[] = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre démarche',
     imgId: 'https://images.pexels.com/photos/4894653/pexels-photo-4894653.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -168,7 +169,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     reverse: false,
   },
   {
-    eyebrow: 'Bordeaux & Gironde',
+    eyebrow: (clientCity(sessionData) ?? 'Bordeaux') + ' & Gironde',
     imgId: 'https://images.pexels.com/photos/16678645/pexels-photo-16678645.jpeg?auto=compress&cs=tinysrgb&w=800',
     title: (
       <>
@@ -180,6 +181,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const ECO_ITEMS: EcoItem[] = [
@@ -205,12 +208,13 @@ const ECO_ITEMS: EcoItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Nous avions une cour bétonnée sans âme. Aujourd\'hui c\'est une forêt comestible de 80 m². Dès le quatrième mois, nous récoltions herbes aromatiques, fraises et courgettes. L\'équipe de Jardins Vivants a transformé notre regard sur notre extérieur.",
     name: 'Laure & Pierre Moreau',
-    role: 'Propriétaires · Bordeaux Caudéran',
+    role: 'Propriétaires · ' + (clientCity(sessionData) ?? 'Bordeaux') + ' Caudéran',
   },
   {
     quote:
@@ -219,6 +223,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     role: 'Propriétaire · Château viticole, Saint-Émilion',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -611,7 +617,7 @@ function Hero() {
       >
         <Reveal y={18}>
           <Eyebrow color={C.accentLight}>
-            Paysagiste-Concepteur · Bordeaux &amp; Gironde
+            Paysagiste-Concepteur · {clientCity(sessionData) ?? "Bordeaux"} &amp; Gironde
           </Eyebrow>
         </Reveal>
 
@@ -1984,7 +1990,7 @@ function Footer() {
       title: 'Contact',
       items: [
         { label: 'Devis gratuit', href: '#devis' },
-        { label: 'Bordeaux & Gironde', href: '#devis' },
+        { label: (clientCity(sessionData) ?? 'Bordeaux') + ' & Gironde', href: '#devis' },
         { label: 'Dordogne · L47', href: '#devis' },
         { label: (fd?.email ?? 'contact@jardins-vivants.fr'), href: '#devis' },
       ],
@@ -2034,7 +2040,7 @@ function Footer() {
               maxWidth: 300,
             }}
           >
-            Paysagiste-concepteur et permaculture à Bordeaux. Chaque jardin commence par une écoute du sol.
+            Paysagiste-concepteur et permaculture à {clientCity(sessionData) ?? "Bordeaux"}. Chaque jardin commence par une écoute du sol.
           </p>
           <div
             style={{
@@ -2049,7 +2055,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accentLight} strokeWidth={1.5} />
-            Bordeaux · Gironde · Aquitaine
+            {clientCity(sessionData) ?? "Bordeaux"} · Gironde · Aquitaine
           </div>
         </div>
 
@@ -2190,6 +2196,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+
+
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

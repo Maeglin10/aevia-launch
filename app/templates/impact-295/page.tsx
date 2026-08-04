@@ -85,7 +85,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   WOK MASTER — Asian fast-food Paris 13e — wok, sushi, ramen. Noto Serif JP, rouge laque / or.
+   WOK MASTER — Asian fast-food {clientCity(sessionData) ?? "Paris"} 13e — wok, sushi, ramen. Noto Serif JP, rouge laque / or.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -990,7 +990,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(clientFaq(sessionData), [{"q":"Quels sont vos délais de livraison ?","a":"En moyenne 30 minutes via notre flotte locale de livreurs électriques dans Paris 13e, 14e, et 5e arrondissements."},{"q":"Proposez-vous des bouillons sans porc ?","a":"Oui, notre Shoyu Ramen est composé d'un bouillon de poule clair et de champignons shiitaké japonais."},{"q":"Peut-on personnaliser son wok ?","a":"Absolument. Choisissez vos nouilles ou riz, vos protéines (poulet, bœuf, crevettes, tofu), vos légumes et votre sauce."}] as any[]).map((item: any, i: number) => (
+            {resolveList(clientFaq(sessionData), [{"q":"Quels sont vos délais de livraison ?","a":"En moyenne 30 minutes via notre flotte locale de livreurs électriques dans " + (clientCity(sessionData) ?? "Paris") + " 13e, 14e, et 5e arrondissements."},{"q":"Proposez-vous des bouillons sans porc ?","a":"Oui, notre Shoyu Ramen est composé d'un bouillon de poule clair et de champignons shiitaké japonais."},{"q":"Peut-on personnaliser son wok ?","a":"Absolument. Choisissez vos nouilles ou riz, vos protéines (poulet, bœuf, crevettes, tofu), vos légumes et votre sauce."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,
@@ -1131,7 +1131,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        fast-food Paris 13e
+                        fast-food {clientCity(sessionData) ?? "Paris"} 13e
                       </div>
                     </div>
                   </div>
@@ -1249,7 +1249,7 @@ return (
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Wok Master"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Asian fast-food Paris 13e
+                Asian fast-food {clientCity(sessionData) ?? "Paris"} 13e
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

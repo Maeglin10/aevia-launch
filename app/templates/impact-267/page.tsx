@@ -34,7 +34,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ATELIER ENCRE VIVANTE — Tatouage Contemporain & Art Corporel · Lyon 1er
+   ATELIER ENCRE VIVANTE — Tatouage Contemporain & Art Corporel · {clientCity(sessionData) ?? "Lyon"} 1er
    Chorégraphie de défilement éditoriale : crossfade 320vh, panneau latéral
    collant, formulaire de réservation. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -177,7 +177,8 @@ const ARTISTS_DEMO: Artist[] = [
   },
 ];
 
-const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
+function EDIT_ROWS_DEMO_SOURCE_LIVE() {
+  return [
   {
     eyebrow: "L'atelier",
     title: (
@@ -192,7 +193,7 @@ const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
     reverse: false,
   },
   {
-    eyebrow: 'Lyon',
+    eyebrow: (clientCity(sessionData) ?? 'Lyon'),
     title: (
       <>
         La Croix-Rousse /{' '}
@@ -205,6 +206,8 @@ const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();;
 let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_SOURCE;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
@@ -647,7 +650,7 @@ function Hero() {
           transition={{ duration: 1.0, ease: EASE, delay: 0 }}
         >
           <Eyebrow color={C.accent} align="left">
-            Tatouage · Lyon Croix-Rousse
+            Tatouage · {clientCity(sessionData) ?? "Lyon"} Croix-Rousse
           </Eyebrow>
         </motion.div>
 
@@ -781,7 +784,7 @@ function Intro() {
             margin: 'clamp(24px, 4vw, 44px) auto 0',
           }}
         >
-          À Lyon, l&apos;art descend des murs des musées pour{' '}
+          À {clientCity(sessionData) ?? "Lyon"}, l&apos;art descend des murs des musées pour{' '}
           <span style={{ color: C.accent }}>vivre sur la peau des gens.</span>
         </p>
       </Reveal>
@@ -1421,7 +1424,7 @@ function SafetyPanel() {
               color: 'rgba(245,243,239,0.40)',
             }}
           >
-            Protocole certifié · Lyon 1er
+            Protocole certifié · {clientCity(sessionData) ?? "Lyon"} 1er
           </div>
         </div>
 
@@ -2044,7 +2047,7 @@ function Footer() {
             }}
           >
             Tatouage contemporain & art corporel.
-            Pentes de la Croix-Rousse — Lyon 1er.
+            Pentes de la Croix-Rousse — {clientCity(sessionData) ?? "Lyon"} 1er.
           </p>
           <div
             style={{
@@ -2194,6 +2197,8 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
+
   EDIT_ROWS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_DEMO_SOURCE[i % EDIT_ROWS_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_DEMO_SOURCE,

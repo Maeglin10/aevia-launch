@@ -85,7 +85,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PIZZA NAPOLI EXPRESS — Pizzeria napolitaine Lyon Presqu'île — four à bois, pâte 72h, livraison 30 min. Cormorant Garamond, rouge / ivoire.
+   PIZZA NAPOLI EXPRESS — Pizzeria napolitaine {clientCity(sessionData) ?? "Lyon"} Presqu'île — four à bois, pâte 72h, livraison 30 min. Cormorant Garamond, rouge / ivoire.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -994,7 +994,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(clientFaq(sessionData), [{"q":"Quelles farines utilisez-vous ?","a":"Nous utilisons exclusivement la farine de blé tendre type 00 de la maison Caputo, la référence absolue à Naples."},{"q":"La livraison est-elle payante ?","a":"La livraison est gratuite dès 15€ de commande sur Lyon Presqu'île (2e et 1er arrondissements)."},{"q":"Proposez-vous du sans gluten ?","a":"Nos pizzas contiennent du gluten en raison de la farine de blé traditionnelle, mais nous proposons des salades gourmandes adaptées."}] as any[]).map((item: any, i: number) => (
+            {resolveList(clientFaq(sessionData), [{"q":"Quelles farines utilisez-vous ?","a":"Nous utilisons exclusivement la farine de blé tendre type 00 de la maison Caputo, la référence absolue à Naples."},{"q":"La livraison est-elle payante ?","a":"La livraison est gratuite dès 15€ de commande sur " + (clientCity(sessionData) ?? "Lyon") + " Presqu'île (2e et 1er arrondissements)."},{"q":"Proposez-vous du sans gluten ?","a":"Nos pizzas contiennent du gluten en raison de la farine de blé traditionnelle, mais nous proposons des salades gourmandes adaptées."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,
@@ -1135,7 +1135,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        napolitaine Lyon Presqu'île
+                        napolitaine {clientCity(sessionData) ?? "Lyon"} Presqu'île
                       </div>
                     </div>
                   </div>
@@ -1255,7 +1255,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Pizza Napoli Express"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Pizzeria napolitaine Lyon Presqu'île
+                Pizzeria napolitaine {clientCity(sessionData) ?? "Lyon"} Presqu'île
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

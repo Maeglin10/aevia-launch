@@ -29,24 +29,33 @@ let sessionData: any = null;
 // ─── Demo content — real data (businessProfile) replaces these wholesale via
 // resolveList when the client provided it; field access uses `??` chains so
 // the same JSX renders either shape.
-const PROGRAMMES_DEMO = [
-  { name: "Résidence Ithaque", loc: "Paris 16e", type: "Résidentiel premium", units: "28 appartements", delivery: "T2 2026", price: "À partir de 1,4 M€", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85", badge: "Commercialisation" },
+function PROGRAMMES_DEMO_LIVE() {
+  return [
+  { name: "Résidence Ithaque", loc: (clientCity(sessionData) ?? "Paris") + " 16e", type: "Résidentiel premium", units: "28 appartements", delivery: "T2 2026", price: "À partir de 1,4 M€", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85", badge: "Commercialisation" },
   { name: "Le Domaine de Chambord", loc: "Neuilly-sur-Seine", type: "Résidentiel de prestige", units: "42 appartements", delivery: "T4 2026", price: "À partir de 920 k€", img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85", badge: "Pré-vente" },
   { name: "Horizon Business Center", loc: "La Défense", type: "Bureaux class A", units: "8 500 m² de bureaux", delivery: "T1 2027", price: "Sur demande", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=85", badge: "Investisseurs" },
 ];
+}
+let PROGRAMMES_DEMO = PROGRAMMES_DEMO_LIVE();
 
-const EQUIPE_DEMO = [
+function EQUIPE_DEMO_LIVE() {
+  return [
   { name: "Édouard Marchand", role: "Président Fondateur", bio: "35 ans d'immobilier. Fondateur de Blueprint en 1989, il a piloté plus de 2,4 Md€ de réalisations.", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80" },
-  { name: "Claire Fontaine", role: "DGA — Développement", bio: "15 ans dans le foncier grand Paris. En charge de l'acquisition et du montage de tous les programmes.", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80" },
+  { name: "Claire Fontaine", role: "DGA — Développement", bio: "15 ans dans le foncier grand " + (clientCity(sessionData) ?? "Paris") + ". En charge de l'acquisition et du montage de tous les programmes.", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80" },
   { name: "Thomas Renard", role: "Directeur Financier", bio: "Ex-Goldman Sachs Real Estate. Pilote la relation investisseurs et la structuration des fonds.", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80" },
   { name: "Sophie Leroux", role: "Directrice Commerciale", bio: "Spécialiste résidentiel de prestige. A lancé 18 programmes depuis 2015, avec un taux de vente VEFA de 94%.", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80" },
 ];
+}
+let EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
 
-const AVIS_SOURCE = [
-  { quote: "Nous avons acquis un appartement sur plan dans la Résidence Ithaque. Accompagnement irréprochable de la réservation à la livraison. La qualité de finition dépasse ce qui était promis.", name: "Arnaud M.", stats: "Résidentiel · Paris 16e" },
+function AVIS_SOURCE_LIVE() {
+  return [
+  { quote: "Nous avons acquis un appartement sur plan dans la Résidence Ithaque. Accompagnement irréprochable de la réservation à la livraison. La qualité de finition dépasse ce qui était promis.", name: "Arnaud M.", stats: "Résidentiel · " + (clientCity(sessionData) ?? "Paris") + " 16e" },
   { quote: "En tant qu'investisseur institutionnel, j'ai financé deux opérations avec Blueprint. Montage financier solide, transparence totale, rendements au rendez-vous. Un partenaire de confiance.", name: "Sarah K.", stats: "Investisseur · 2 programmes" },
   { quote: "La collectivité nous a confié une opération mixte complexe. Blueprint a tenu les délais et le budget sur un projet de 8 500 m². Rare et remarquable dans ce secteur.", name: "Claude B.", stats: "Collectivité · Bureaux" },
 ];
+}
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();;
 let AVIS_DEMO = AVIS_SOURCE;
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -82,9 +91,15 @@ export default function BlueprintPage() {
   }, []);
 
   fd = session?.formData;
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
+  PROGRAMMES_DEMO = PROGRAMMES_DEMO_LIVE();
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
+
   AVIS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], name: r.author, quote: r.text })),
     AVIS_SOURCE,

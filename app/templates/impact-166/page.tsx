@@ -1174,7 +1174,7 @@ return (
               marginBottom: 32,
             }}
           >
-            Paris — Photography Studio — Depuis 2018
+            {clientCity({ formData: fd }) ?? "Paris"} — Photography Studio — Depuis 2018
           </motion.div>
 
           <TextReveal immediate delay={0.5}>
@@ -1218,7 +1218,7 @@ return (
               margin: "32px auto 48px",
             }}
           >{c?.heroSubline ?? fd?.tagline ?? <>
-            Photographe documentaire et commerciale basée à Paris. Je photographie
+            Photographe documentaire et commerciale basée à {clientCity({ formData: fd }) ?? "Paris"}. Je photographie
             ce qui mérite d'être vu — pour l'éditorial, la mode, le mariage et
             l'architecture.
           </>}</motion.p>
@@ -1425,7 +1425,7 @@ return (
                 marginBottom: 24,
               }}
             >{c?.aboutText ?? <>
-              Iris Beaumont. Photographe documentaire et commerciale, basée à Paris
+              Iris Beaumont. Photographe documentaire et commerciale, basée à {clientCity({ formData: fd }) ?? "Paris"}
               depuis 2018. Formée à l'École Nationale Supérieure de la Photographie
               d'Arles, j'ai collaboré avec Vogue France, Le Monde, LVMH et des
               dizaines de petites maisons indépendantes.
@@ -1782,7 +1782,7 @@ return (
               {[
                 { label: "Email", value: (fd?.email ?? "iris@iris-studio.fr") },
                 { label: "Téléphone", value: "+33 6 12 34 56 78" },
-                { label: "Studio", value: "Paris 11e, sur rendez-vous" },
+                { label: "Studio", value: (clientCity({ formData: fd }) ?? "Paris") + " 11e, sur rendez-vous" },
                 { label: "Instagram", value: "@iris.studio.paris" },
               ].map((item) => (
                 <div

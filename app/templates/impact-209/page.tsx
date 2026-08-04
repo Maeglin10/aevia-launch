@@ -121,13 +121,14 @@ const SERVICES_SOURCE: Service[] = [
 let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
-const STYLISTS: Stylist[] = [
+function STYLISTS_LIVE() {
+  return [
   {
     name: 'Camille Rousseau',
     title: 'Directrice Artistique',
     specialty: 'Balayage & Colorimétrie',
     color: 'var(--brand-light,#c9a0a0)',
-    bio: "Formée à l\'École Nationale Supérieure de Coiffure, Camille a perfectionné son art chez Dessange à Paris avant de fonder L\'Atelier. Sa signature : des couleurs qui semblent nées du soleil.",
+    bio: "Formée à l\'École Nationale Supérieure de Coiffure, Camille a perfectionné son art chez Dessange à " + (clientCity({ formData: fd }) ?? "Paris") + " avant de fonder L\'Atelier. Sa signature : des couleurs qui semblent nées du soleil.",
     years: 15,
   },
   {
@@ -154,7 +155,9 @@ const STYLISTS: Stylist[] = [
     bio: 'Issu de la mode, Antoine apporte un œil de styliste à chaque rendez-vous. Spécialiste des coupes tendance homme et des looks éditoriaux femme.',
     years: 7,
   },
-]
+];
+}
+let STYLISTS = STYLISTS_LIVE();
 
 const BOOKING_STEPS = ['Service', 'Date & Heure', 'Styliste', 'Confirmation']
 
@@ -1029,6 +1032,8 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  STYLISTS = STYLISTS_LIVE();
+
   SERVICES_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
@@ -1371,7 +1376,7 @@ export default function Page() {
           <span style={{ ...headingFont, fontSize: '36px', color: GOLD, display: 'block' }}>15</span>
           <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block' }}>Ans d'Excellence</span>
           <div style={{ width: '30px', height: '1px', background: GOLD, margin: '8px auto' }} />
-          <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block' }}>Paris VII</span>
+          <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block' }}>{clientCity({ formData: fd }) ?? "Paris"} VII</span>
         </motion.div>
       </section>
 
@@ -1631,7 +1636,7 @@ export default function Page() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: '40px', marginBottom: '60px' }}>
             {[
-              { icon: '📍', label: 'Adresse', lines: ['14 rue de Varenne', '75007 Paris'] },
+              { icon: '📍', label: 'Adresse', lines: ['14 rue de Varenne', '75007 ' + (clientCity({ formData: fd }) ?? 'Paris')] },
               { icon: '📞', label: 'Téléphone', lines: ['+33 1 42 22 33 44'] },
               { icon: '✉️', label: 'Email', lines: [(fd?.email ?? 'contact@latelier-coiffure.fr')] },
               { icon: '🕐', label: 'Horaires', lines: ['Mar–Sam : 9h – 19h', 'Dim–Lun : Fermé'] },
@@ -1694,7 +1699,7 @@ export default function Page() {
           <div>
             <span style={{ ...headingFont, fontSize: '22px', color: '#fff' }}>L'Atelier</span>
             <p style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, margin: '4px 0 0', letterSpacing: '0.1em' }}>
-              Coiffure & Beauté · Paris VII
+              Coiffure & Beauté · {clientCity({ formData: fd }) ?? "Paris"} VII
             </p>
           </div>
           <div style={{ display: 'flex', gap: '24px' }}>

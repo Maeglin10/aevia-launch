@@ -1,6 +1,7 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight, MapPin, Mail, Phone, Clock } from "lucide-react"
@@ -14,9 +15,9 @@ let c: any = null;
 
 const offices = [
   {
-    city: "Paris",
+    city: (clientCity(sessionData) ?? "Paris"),
     label: "Main Atelier",
-    address: "14 Rue de la Roquette, 75011 Paris",
+    address: "14 Rue de la Roquette, 75011 " + (clientCity(sessionData) ?? "Paris"),
     phone: "+33 1 42 78 91 00",
     email: (fd?.email ?? "paris@brutco-architecture.com"),
     hours: "Mon – Fri, 09:00 – 18:30",
@@ -183,9 +184,9 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 divide-x-4 divide-black">
           {[
             { icon: Clock, label: "Response time", val: "48 hours" },
-            { icon: MapPin, label: "Offices", val: "Paris · Lyon · Marseille" },
+            { icon: MapPin, label: "Offices", val: (clientCity(sessionData) ?? "Paris") + " · Lyon · Marseille" },
             { icon: Mail, label: "General enquiries", val: (fd?.email ?? "contact@brutco-architecture.com") },
-            { icon: Phone, label: "Phone (Paris)", val: "+33 1 42 78 91 00" },
+            { icon: Phone, label: "Phone (" + (clientCity(sessionData) ?? "Paris") + ")", val: "+33 1 42 78 91 00" },
           ].map(({ icon: Icon, label, val }) => (
             <div key={label} className="py-6 px-6 first:pl-0 last:pr-0">
               <div className="flex items-center gap-2 text-gray-400 mb-1">

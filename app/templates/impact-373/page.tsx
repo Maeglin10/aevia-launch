@@ -55,7 +55,10 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "Réservez, recevez le prix", "d": "SMS, appel ou mail : itinéraire confirmé avec le prix ferme — celui-là, pas un autre."}, {"n": "02", "t": "Le chauffeur vous attend", "d": "En place 10 minutes avant, vol ou train suivi en temps réel : le retard n'est jamais votre problème."}, {"n": "03", "t": "La course, soignée", "d": "Berline hybride récente, eau fraîche, chargeurs, silence si vous préférez — dites-le, c'est votre trajet."}, {"n": "04", "t": "La facture, immédiate", "d": "Reçue par mail à la dépose, notes de frais simplifiées pour les pros."}];
 const ENGAGEMENT_DEMO = ["Chauffeur titulaire de la carte professionnelle VTC, entreprise inscrite au registre REVTC", "Assurance transport de personnes à titre onéreux — pas une assurance auto classique", "Prix ferme annoncé avant la course : aucune majoration nuit, pluie ou aéroport", "Berline hybride entretenue, contrôlée, nettoyée entre chaque course"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS_DEMO = [{"a": "Aéroport Nice ↔ centre-ville", "p": "45 €", "n": "Prix ferme, attente 45 min et suivi du vol inclus."}, {"a": "Nice ↔ Monaco", "p": "90 €", "n": "Berline, péages compris, retour de soirée au même prix."}, {"a": "Mise à disposition (heure)", "p": "75 €", "n": "Minimum 2 h, kilométrage local inclus."}, {"a": "Journée complète (10 h)", "p": "590 €", "n": "Jusqu'à 300 km, chauffeur dédié, eau et presse à bord."}];
+function TARIFS_DEMO_LIVE() {
+  return [{"a": "Aéroport " + (clientCity(sessionData) ?? "Nice") + " ↔ centre-ville", "p": "45 €", "n": "Prix ferme, attente 45 min et suivi du vol inclus."}, {"a": (clientCity(sessionData) ?? "Nice") + " ↔ Monaco", "p": "90 €", "n": "Berline, péages compris, retour de soirée au même prix."}, {"a": "Mise à disposition (heure)", "p": "75 €", "n": "Minimum 2 h, kilométrage local inclus."}, {"a": "Journée complète (10 h)", "p": "590 €", "n": "Jusqu'à 300 km, chauffeur dédié, eau et presse à bord."}];
+}
+let TARIFS_DEMO = TARIFS_DEMO_LIVE();;
 let TARIFS = TARIFS_DEMO;
 const AVIS_SOURCE = [{"texte": "Vol retardé de deux heures : le chauffeur était là au débarquement, pancarte à la main, sourire compris. Aucun supplément, comme annoncé. C'est devenu mon réflexe à chaque déplacement.", "auteur": "Consultant, Paris–Nice hebdo", "detail": "Transferts aéroport"}, {"texte": "Mariage à Èze : trois voitures coordonnées, les grands-parents déposés en douceur, les fêtards ramenés à 4 h. Une organisation militaire, une ambiance détendue.", "auteur": "Élodie & Marc", "detail": "Cortège de mariage"}, {"texte": "Mise à disposition pour ma tournée commerciale trimestrielle : sept rendez-vous, zéro parking, des dossiers relus entre chaque. La journée la plus rentable du trimestre.", "auteur": "Directrice commerciale", "detail": "Journée pro"}];
 let AVIS_DEMO = AVIS_SOURCE;
@@ -93,6 +96,9 @@ export default function RivieraChauffeurPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TARIFS_DEMO = TARIFS_DEMO_LIVE();
+
+
 
 
   // L'accroche du client remplace la première ligne du carrousel : c'est la
@@ -407,10 +413,10 @@ export default function RivieraChauffeurPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Riviera Chauffeur"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Chauffeur VTC · Nice & Côte d'Azur<br />Inscrit au registre des VTC (REVTC) — carte professionnelle</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Chauffeur VTC · {clientCity(sessionData) ?? "Nice"} & Côte d'Azur<br />Inscrit au registre des VTC (REVTC) — carte professionnelle</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Nice, Alpes-Maritimes" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Réservations 24h/24 · courses 5h–2h" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Nice") + ", Alpes-Maritimes" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Réservations 24h/24 · courses 5h–2h" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

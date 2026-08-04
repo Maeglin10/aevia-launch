@@ -85,7 +85,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LA MIETTE HEUREUSE — Boulangerie-pâtisserie Montpellier — pains spéciaux, brunch, commandes événements. Libre Baskerville, ocre / vert.
+   LA MIETTE HEUREUSE — Boulangerie-pâtisserie {clientCity(sessionData) ?? "Montpellier"} — pains spéciaux, brunch, commandes événements. Libre Baskerville, ocre / vert.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -544,7 +544,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? fd?.tagline ?? <>
-              Farines biologiques, levain naturel, produits locaux. Brunchs le dimanche. Montpellier.
+              Farines biologiques, levain naturel, produits locaux. Brunchs le dimanche. {clientCity(sessionData) ?? "Montpellier"}.
             </>}</p>
           </Reveal>
 
@@ -1396,7 +1396,7 @@ return (
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "La Miette Heureuse"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Boulangerie-pâtisserie Montpellier
+                Boulangerie-pâtisserie {clientCity(sessionData) ?? "Montpellier"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

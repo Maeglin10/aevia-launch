@@ -32,7 +32,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LE FOURNIL DU PARLEMENT — Boulangerie-Café Bistronomique · Strasbourg
+   LE FOURNIL DU PARLEMENT — Boulangerie-Café Bistronomique · {clientCity(sessionData) ?? "Strasbourg"}
    Chorégraphie scroll éditoriale : crossfade artisan 320vh, panneau sourcing
    collant, formulaire de réservation interactif. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -190,13 +190,14 @@ const MENU_ITEMS_DEMO: MenuItem[] = [
   },
 ];
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre ancrage',
     imgId: 'https://images.pexels.com/photos/32459865/pexels-photo-32459865.jpeg?auto=compress&cs=tinysrgb&w=800',
     title: (
       <>
-        Strasbourg /{' '}
+        {clientCity(sessionData) ?? "Strasbourg"} /{' '}
         <span style={{ fontStyle: 'italic' }}>dans chaque mie.</span>
       </>
     ),
@@ -218,9 +219,12 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     numeral: '02',
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
-const SOURCING: SourcingStep[] = [
+function SOURCING_LIVE() {
+  return [
   {
     num: '01',
     title: 'Farine Label Rouge',
@@ -238,7 +242,7 @@ const SOURCING: SourcingStep[] = [
   {
     num: '03',
     title: 'Café de spécialité',
-    origin: 'torréfacteur Strasbourg, grains tracés parcelle',
+    origin: 'torréfacteur ' + (clientCity(sessionData) ?? 'Strasbourg') + ', grains tracés parcelle',
     detail:
       'Partenariat exclusif avec un torréfacteur strasbourgeois. Score Q-arabica ≥ 82, microlots saisonniers.',
   },
@@ -250,11 +254,14 @@ const SOURCING: SourcingStep[] = [
       'Poules élevées en plein air, fruits de saison du Bas-Rhin. Aucun produit surgelé dans notre pâtisserie.',
   },
 ];
+}
+let SOURCING = SOURCING_LIVE();;
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
-      "Je viens chaque mardi pour le lunch depuis deux ans. La soupe à l'oignon est la meilleure de tout Strasbourg — et le pain qui l'accompagne vaut à lui seul le déplacement.",
+      "Je viens chaque mardi pour le lunch depuis deux ans. La soupe à l'oignon est la meilleure de tout " + (clientCity(sessionData) ?? "Strasbourg") + " — et le pain qui l'accompagne vaut à lui seul le déplacement.",
     name: 'Camille R.',
     role: 'Cliente fidèle depuis 2022',
   },
@@ -262,9 +269,11 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     quote:
       "Nous avons organisé un brunch d'entreprise pour 40 personnes. Zéro stress, qualité incroyable, équipe aux petits soins. Le Fournil a géré tout le buffet, de la viennoiserie au gâteau.",
     name: 'Thomas K.',
-    role: 'Directeur associé · Cabinet RH Strasbourg',
+    role: 'Directeur associé · Cabinet RH ' + (clientCity(sessionData) ?? 'Strasbourg'),
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── Utilitaire photo ────────────────────────────────────────────────────── */
@@ -668,7 +677,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
         >
           <Eyebrow color={C.accentLight} align="left" light>
-            Boulangerie-Café Bistronomique · Strasbourg depuis 2009
+            Boulangerie-Café Bistronomique · {clientCity(sessionData) ?? "Strasbourg"} depuis 2009
           </Eyebrow>
         </motion.div>
 
@@ -774,7 +783,7 @@ function Intro() {
             color: C.ink,
           }}
         >
-          Nourrir Strasbourg depuis 2009,{' '}
+          Nourrir {clientCity(sessionData) ?? "Strasbourg"} depuis 2009,{' '}
           <span style={{ fontStyle: 'italic', color: C.accent }}>
             avec les mains et avec le cœur.
           </span>
@@ -2035,7 +2044,7 @@ function Footer() {
             }}
           >
             Boulangerie-café bistronomique. Pain vivant, café vivant.
-            Strasbourg, depuis 2009.
+            {clientCity(sessionData) ?? "Strasbourg"}, depuis 2009.
           </p>
 
           <div
@@ -2052,7 +2061,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            Place du Parlement · 67000 Strasbourg
+            Place du Parlement · 67000 {clientCity(sessionData) ?? "Strasbourg"}
           </div>
 
           <div
@@ -2202,6 +2211,12 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  SOURCING = SOURCING_LIVE();
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+
+
+
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

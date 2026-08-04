@@ -46,11 +46,14 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Analyses", "h": "#services"}, {"l": "Le circuit", "h": "#methode"}, {"l": "Prise en charge", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [
-  { k: "Au comptoir", sub: "Le prélèvement, sans rendez-vous, près de chez vous.", tiles: [{ icon: MapPin, t: "3 sites de la vallée", d: "Avignon, Carpentras, Cavaillon — dès 7 h en semaine.", bg: "#dcefe5", fg: "#125c3d" }, { icon: FlaskConical, t: "À jeun servi d'abord", d: "File dédiée le matin, moins d'un quart d'heure d'attente.", bg: "#123528", fg: "#dcefe5" }, { icon: Truck, t: "Domicile en tournée", d: "Préleveurs du labo chaque matin dans les villages.", bg: "#eef4f0", fg: "#125c3d" }] },
+function HERO_LIVE() {
+  return [
+  { k: "Au comptoir", sub: "Le prélèvement, sans rendez-vous, près de chez vous.", tiles: [{ icon: MapPin, t: "3 sites de la vallée", d: (clientCity(sessionData) ?? "Avignon") + ", Carpentras, Cavaillon — dès 7 h en semaine.", bg: "#dcefe5", fg: "#125c3d" }, { icon: FlaskConical, t: "À jeun servi d'abord", d: "File dédiée le matin, moins d'un quart d'heure d'attente.", bg: "#123528", fg: "#dcefe5" }, { icon: Truck, t: "Domicile en tournée", d: "Préleveurs du labo chaque matin dans les villages.", bg: "#eef4f0", fg: "#125c3d" }] },
   { k: "Au plateau", sub: "La navette réfrigérée nourrit les automates toutes les 2 h.", tiles: [{ icon: Truck, t: "Navette 2 h", d: "Tubes tracés, température enregistrée de bout en bout.", bg: "#123528", fg: "#dcefe5" }, { icon: Microscope, t: "Plateau technique central", d: "Automates dernière génération, contrôles quotidiens COFRAC.", bg: "#dcefe5", fg: "#125c3d" }, { icon: FlaskConical, t: "Urgences priorisées", d: "CRP, troponine, INR urgents rendus dans l'heure au médecin.", bg: "#eef4f0", fg: "#125c3d" }] },
   { k: "Chez vous", sub: "Le résultat, et quelqu'un pour le lire.", tiles: [{ icon: FlaskConical, t: "Serveur sécurisé", d: "Résultats du jour en ligne avant 17 h 30, envoi au médecin.", bg: "#eef4f0", fg: "#125c3d" }, { icon: Microscope, t: "Un biologiste rappelle", d: "Valeur inhabituelle : on vous appelle, on explique.", bg: "#dcefe5", fg: "#125c3d" }, { icon: MapPin, t: "Historique conservé", d: "Vos courbes sur cinq ans, utiles à chaque nouveau bilan.", bg: "#123528", fg: "#dcefe5" }] }
 ];
+}
+let HERO = HERO_LIVE();;
 
 const SERVICES_SOURCE = [{"titre": "Bilans de routine", "desc": "NFS, iono, lipides, hépatique : la biologie du quotidien, validée par un biologiste et en ligne le jour même.", "tag": "Routine"}, {"titre": "Tournées des villages", "desc": "Nos préleveurs sillonnent la vallée chaque matin : Pernes, L'Isle-sur-la-Sorgue, Monteux — à domicile sur prescription.", "tag": "Rural"}, {"titre": "Suivi des chroniques", "desc": "INR, diabète, thyroïde : rappels de prélèvement programmés, courbes historiques transmises au médecin traitant.", "tag": "Chronique"}, {"titre": "Pédiatrie douce", "desc": "Préleveuses formées aux enfants, crème anesthésiante conseillée en amont, diplôme du courage à la sortie — vraiment.", "tag": "Enfants"}, {"titre": "Microbiologie & allergies", "desc": "Cultures, antibiogrammes, panels d'allergènes : le plateau technique traite sur place, sans sous-traitance lointaine.", "tag": "Spécialisé"}, {"titre": "Conventions locales", "desc": "EHPAD, maisons de santé, infirmiers libéraux : circuits dédiés, coursiers et résultats intégrés à vos logiciels.", "tag": "Partenaires"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
@@ -95,6 +98,9 @@ export default function BioValleePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO = HERO_LIVE();
+
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -409,10 +415,10 @@ export default function BioValleePage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "BioVallée Analyses"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Laboratoire de biologie médicale · Avignon, Carpentras, Cavaillon<br />Accréditation COFRAC ISO 15189</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Laboratoire de biologie médicale · {clientCity(sessionData) ?? "Avignon"}, Carpentras, Cavaillon<br />Accréditation COFRAC ISO 15189</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Avignon, Vaucluse" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 7h–18h · Sam 7h30–12h" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Avignon") + ", Vaucluse" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 7h–18h · Sam 7h30–12h" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

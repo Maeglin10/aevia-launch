@@ -1,6 +1,9 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
+import {
+  clientCity,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 import Link from "next/link"
 import { ArrowRight, GitBranch, Mail, Calendar, CheckCircle2, Terminal, Code2, Clock, MapPin, Shield } from "lucide-react"
@@ -39,7 +42,7 @@ const faq = [
   },
   {
     q: "Do you work on-site or remotely?",
-    a: "Remote-first, but I'm available for 1–2 day on-site sessions per month for teams in Paris or within a 2h train/flight radius. Travel costs are billed at cost.",
+    a: "Remote-first, but I'm available for 1–2 day on-site sessions per month for teams in " + (clientCity(sessionData) ?? "Paris") + " or within a 2h train/flight radius. Travel costs are billed at cost.",
   },
   {
     q: "What's your rate structure?",
@@ -63,7 +66,7 @@ const faq = [
   },
   {
     q: "What's the fastest way to get a response?",
-    a: "Email. I check it twice daily (09:00 and 16:00 Paris time) and respond within one business day. LinkedIn is slower — I batch it weekly.",
+    a: "Email. I check it twice daily (09:00 and 16:00 " + (clientCity(sessionData) ?? "Paris") + " time) and respond within one business day. LinkedIn is slower — I batch it weekly.",
   },
 ]
 
@@ -154,7 +157,7 @@ export default function ContactPage() {
             <div className="flex flex-wrap gap-6 text-sm text-[#94A3B8]">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-[#00F5D4]" />
-                Paris, France
+                {clientCity(sessionData) ?? "Paris"}, France
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-[#00F5D4]" />

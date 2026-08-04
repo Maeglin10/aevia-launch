@@ -1876,10 +1876,11 @@ function BookingSection({ accentColor }: { accentColor: string }) {
    COMPONENT: TESTIMONIALS
    ========================================================================== */
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: 'Camille L.',
-    text: "Je reviens depuis 3 ans — the nail art quality is simply unmatched in Paris. Chaque pose est un chef-d'œuvre.",
+    text: "Je reviens depuis 3 ans — the nail art quality is simply unmatched in " + (clientCity(sessionData) ?? "Paris") + ". Chaque pose est un chef-d'œuvre.",
     rating: 5,
     service: 'Nail Art Signature',
   },
@@ -1896,6 +1897,8 @@ const TESTIMONIALS_SOURCE = [
     service: 'Pose Gel',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialsSection({ accentColor }: { accentColor: string }) {
@@ -2057,7 +2060,7 @@ function ContactSection({ accentColor }: { accentColor: string }) {
           }}
         >
           {[
-            { icon: '📍', label: 'Adresse', value: '12 Rue du Faubourg\nSaint-Honoré, Paris 8e' },
+            { icon: '📍', label: 'Adresse', value: '12 Rue du Faubourg\nSaint-Honoré, ' + (clientCity(sessionData) ?? 'Paris') + ' 8e' },
             { icon: '📞', label: 'Téléphone', value: '+33 1 42 56 78 90' },
             { icon: '🕐', label: 'Horaires', value: 'Mar–Sam : 10h–19h\nDimanche : 11h–17h' },
             { icon: '✉️', label: 'Email', value: (fd?.email ?? 'contact@studionail.fr') },
@@ -2254,6 +2257,8 @@ export default function NailStudioTemplate() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
   SERVICES_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),

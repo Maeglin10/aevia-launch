@@ -82,11 +82,14 @@ const JOURNAL = [
   { kind: "Craft", date: "Jan 2026", title: "Type at small sizes", excerpt: "A wordmark that survives a favicon is a different problem from one that survives a billboard. Both matter." },
 ];
 
-const CAREERS = [
-  { role: "Senior Designer — Identity", place: "Paris / hybrid", note: "Five years plus. You lead the mark, we handle the rest." },
+function CAREERS_LIVE() {
+  return [
+  { role: "Senior Designer — Identity", place: (clientCity(sessionData) ?? "Paris") + " / hybrid", note: "Five years plus. You lead the mark, we handle the rest." },
   { role: "Motion Designer", place: "Remote (EU)", note: "You have opinions about easing curves. So do we." },
-  { role: "Design Intern — Autumn", place: "Paris", note: "Six months, paid, real projects. We do not do coffee runs." },
+  { role: "Design Intern — Autumn", place: (clientCity(sessionData) ?? "Paris"), note: "Six months, paid, real projects. We do not do coffee runs." },
 ];
+}
+let CAREERS = CAREERS_LIVE();;
 
 const PRESS = [
   { quote: "A studio that still argues about kerning, and it shows in the work.", outlet: "Counterform" },
@@ -143,6 +146,8 @@ export default function StudioVersaPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  CAREERS = CAREERS_LIVE();
+
 
   EQUIPE_ANON = resolveList(
 

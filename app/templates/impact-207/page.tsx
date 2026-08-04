@@ -82,14 +82,17 @@ const T = {
 // the hero headline renders — their text labels bled through the headline.
 // hideLabel keeps the pulsing dot marker (subtle) but drops the <text> that
 // was colliding; the other hubs sit clear of the headline's footprint.
-const HUBS: Record<string, { x: number; y: number; label: string; hideLabel?: boolean }> = {
-  paris: { x: 472, y: 148, label: "Paris", hideLabel: true },
+function HUBS_LIVE() {
+  return {
+  paris: { x: 472, y: 148, label: (clientCity({ formData: fd }) ?? "Paris"), hideLabel: true },
   rotterdam: { x: 479, y: 138, label: "Rotterdam", hideLabel: true },
   dubai: { x: 580, y: 200, label: "Dubai" },
   singapore: { x: 720, y: 265, label: "Singapore" },
   chicago: { x: 200, y: 170, label: "Chicago" },
   saopaulo: { x: 285, y: 340, label: "São Paulo" },
+};
 }
+let HUBS = HUBS_LIVE();
 
 // Routes: pairs of hub keys
 const ROUTES: [string, string][] = [
@@ -1869,7 +1872,7 @@ function ContactSection() {
                 {
                   icon: "📍",
                   label: "Headquarters",
-                  value: "15 Rue de la Paix, 75001 Paris, France",
+                  value: "15 Rue de la Paix, 75001 " + (clientCity({ formData: fd }) ?? "Paris") + ", France",
                 },
                 {
                   icon: "📞",
@@ -2316,6 +2319,8 @@ export default function Impact207() {
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  HUBS = HUBS_LIVE();
+
 
   STAGES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...STAGES_SOURCE[i % STAGES_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),

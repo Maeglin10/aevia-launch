@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -314,7 +315,7 @@ export default function LedgerContactPage() {
             </h3>
             <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, color: C.textMuted, lineHeight: 2 }}>
               14 allée de Tourny<br />
-              33000 Bordeaux<br />
+              33000 {clientCity(sessionData) ?? "Bordeaux"}<br />
               <a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 700 }}>05 56 XX XX XX</a><br />
               <a href={`mailto:${fd?.email ?? "contact@ledger-associes.fr"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 700 }}>contact@ledger-associes.fr</a>
             </p>

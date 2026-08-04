@@ -82,7 +82,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CALIENTE TACOS — Tacos & burritos mexicains Bordeaux Victoire — recettes Oaxaca, sauces maison. Oswald, orange / vert avocat.
+   CALIENTE TACOS — Tacos & burritos mexicains {clientCity(sessionData) ?? "Bordeaux"} Victoire — recettes Oaxaca, sauces maison. Oswald, orange / vert avocat.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -529,7 +529,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? fd?.tagline ?? <>
-              Recettes originales de Oaxaca, sauces maison, ingrédients frais. Bordeaux Victoire.
+              Recettes originales de Oaxaca, sauces maison, ingrédients frais. {clientCity(sessionData) ?? "Bordeaux"} Victoire.
             </>}</p>
           </Reveal>
 
@@ -662,7 +662,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Caliente Tacos apporte les saveurs de Oaxaca à Bordeaux. Maïs nixtamalisé, chile ancho, avocats Hass premium. Nos recettes sont transmises de génération en génération.
+                  Caliente Tacos apporte les saveurs de Oaxaca à {clientCity(sessionData) ?? "Bordeaux"}. Maïs nixtamalisé, chile ancho, avocats Hass premium. Nos recettes sont transmises de génération en génération.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1134,7 +1134,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        burritos mexicains Bordeaux Victoire
+                        burritos mexicains {clientCity(sessionData) ?? "Bordeaux"} Victoire
                       </div>
                     </div>
                   </div>
@@ -1252,7 +1252,7 @@ return (
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Caliente Tacos"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Tacos & burritos mexicains Bordeaux Victoire
+                Tacos & burritos mexicains {clientCity(sessionData) ?? "Bordeaux"} Victoire
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

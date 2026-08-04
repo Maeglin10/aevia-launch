@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientCity,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -154,7 +155,7 @@ export default function TattooStudioLayout({ children }: { children: React.React
                 </div>
                 <span style={{ fontFamily: "'Cinzel', serif", fontSize: 18, fontWeight: 700, color: C.white, letterSpacing: "0.12em" }}>NOIR INK</span>
               </div>
-              <p style={{ fontFamily: "'Barlow', system-ui", fontSize: 15, color: C.textMuted, lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>Fine line and blackwork tattoo studio. Paris, France. By appointment only.</p>
+              <p style={{ fontFamily: "'Barlow', system-ui", fontSize: 15, color: C.textMuted, lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>Fine line and blackwork tattoo studio. {clientCity(__layoutSession) ?? "Paris"}, France. By appointment only.</p>
               <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
                 <MessageSquare size={18} color={C.textDim} />
                 <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 13, color: C.textDim }}>@noir.ink.paris</span>
@@ -191,7 +192,7 @@ export default function TattooStudioLayout({ children }: { children: React.React
               <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: 13, color: C.white, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>Contact</h4>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, fontFamily: "'Barlow', system-ui", fontSize: 14, color: C.textMuted }}>
                 <li style={{ marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
-                  <MapPin size={14} color={C.accent} /> 18 Rue Oberkampf, Paris 11e
+                  <MapPin size={14} color={C.accent} /> 18 Rue Oberkampf, {clientCity(__layoutSession) ?? "Paris"} 11e
                 </li>
                 <li style={{ marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
                   <Phone size={14} color={C.accent} /> +33 1 42 00 00 00

@@ -264,7 +264,7 @@ return (
               </motion.div>
               <motion.div className="relative z-10 max-w-6xl mx-auto px-6 w-full" style={{ opacity: heroOpacity }}>
                 <Reveal>
-                  <p className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-6">Venture Capital — Paris · Berlin · Dubai</p>
+                  <p className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-6">Venture Capital — {clientCity({ formData: fd }) ?? "Paris"} · Berlin · Dubai</p>
                 </Reveal>
                 <Reveal delay={0.1}>
                   <h1 className="text-white text-4xl sm:text-5xl md:text-8xl leading-tight md:leading-none mb-4 md:mb-8 break-words" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>
@@ -548,7 +548,7 @@ function ContactPage() {
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-sm text-white/50">
                 <Building2 className="w-4 h-4 text-[var(--brand,#C9A86C)] shrink-0" />
-                <span>Paris (Showroom), Berlin, Dubaï</span>
+                <span>{clientCity({ formData: fd }) ?? "Paris"} (Showroom), Berlin, Dubaï</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-white/50">
                 <Mail className="w-4 h-4 text-[var(--brand,#C9A86C)] shrink-0" />

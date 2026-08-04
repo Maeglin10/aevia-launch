@@ -34,7 +34,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON BRÛLOT — Boulangerie-Pâtisserie Artisanale · Lyon 1er
+   MAISON BRÛLOT — Boulangerie-Pâtisserie Artisanale · {clientCity(sessionData) ?? "Lyon"} 1er
    Photographie Unsplash + chorégraphie de défilement éditoriale
    (style boulangerie premium × typographie chapitrée). Auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -136,7 +136,8 @@ const SPECIALTIES_DEMO: Specialty[] = [
   { name: 'Cake personnalisé' },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+function EDIT_ROWS_LIVE() {
+  return [
   {
     eyebrow: 'Notre philosophie',
     img: unsplash('https://images.pexels.com/photos/7447286/pexels-photo-7447286.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
@@ -151,13 +152,15 @@ const EDIT_ROWS: EditRow[] = [
     eyebrow: "L'atelier",
     img: unsplash('https://images.pexels.com/photos/7447284/pexels-photo-7447284.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
     imgAlt: 'Viennoiseries dorées à la sortie du four',
-    titleLine1: 'Lyon 1er, /',
+    titleLine1: (clientCity(sessionData) ?? 'Lyon') + ' 1er, /',
     titleLine2: 'depuis 2011.',
     body: "Boulangerie de quartier ouverte du mardi au dimanche de 7h à 13h, fermée le lundi. Un four, deux boulangers, une règle : ce qui n'est pas parfait ne passe pas le comptoir.",
     reverse: true,
     romanNumeral: 'II',
   },
 ];
+}
+let EDIT_ROWS = EDIT_ROWS_LIVE();
 
 const PROCESS_STEPS: CraftStep[] = [
   { num: '01', body: 'Autolyse 1h, hydratation 72%, farines bio sélectionnées' },
@@ -166,20 +169,23 @@ const PROCESS_STEPS: CraftStep[] = [
   { num: '04', body: 'Cuisson sur sole réfractaire, vapeur naturelle' },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
-      "J'ai déménagé dans le 6e il y a deux ans, mais le samedi matin je traverse Lyon pour venir chercher mon pain. Ce levain, c'est une addiction honnête.",
+      "J'ai déménagé dans le 6e il y a deux ans, mais le samedi matin je traverse " + (clientCity(sessionData) ?? "Lyon") + " pour venir chercher mon pain. Ce levain, c'est une addiction honnête.",
     name: 'Camille R.',
-    role: 'Cliente fidèle · Lyon',
+    role: 'Cliente fidèle · ' + (clientCity(sessionData) ?? 'Lyon'),
   },
   {
     quote:
       "Je commande chaque semaine pour la table de mon restaurant. Mes clients le remarquent immédiatement — c'est le niveau de régularité que je cherchais.",
     name: 'Thomas M.',
-    role: 'Chef restaurateur · Lyon 2e',
+    role: 'Chef restaurateur · ' + (clientCity(sessionData) ?? 'Lyon') + ' 2e',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -541,7 +547,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
         >
-          <Eyebrow color={C.accentLight}>Boulangerie artisanale · Lyon 1er</Eyebrow>
+          <Eyebrow color={C.accentLight}>Boulangerie artisanale · {clientCity(sessionData) ?? "Lyon"} 1er</Eyebrow>
         </motion.div>
 
         <motion.h1
@@ -1936,7 +1942,7 @@ function Footer() {
       items: [
         'Mar–Dim : 7h – 13h',
         'Fermé le lundi',
-        'Lyon 1er arrondissement',
+        (clientCity(sessionData) ?? 'Lyon') + ' 1er arrondissement',
         'Métro : Hôtel de Ville',
         (fd?.phone ?? '04 XX XX XX XX'),
       ],
@@ -1996,7 +2002,7 @@ function Footer() {
             }}
           >
             Boulangerie-pâtisserie artisanale. Levain naturel depuis 2011.
-            Lyon 1er.
+            {clientCity(sessionData) ?? "Lyon"} 1er.
           </p>
           <div
             style={{
@@ -2140,9 +2146,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EDIT_ROWS = EDIT_ROWS_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
 
   // Client-uploaded photos (beyond the hero, which uses index 0) replace the
   // template's stock Unsplash photography in the editorial rows.

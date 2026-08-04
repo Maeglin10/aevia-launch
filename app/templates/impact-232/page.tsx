@@ -60,19 +60,25 @@ const PRESTATIONS_SOURCE = [
 ]
 let PRESTATIONS_DEMO = PRESTATIONS_SOURCE;
 
-const ENGAGEMENTS_DEMO = [
+function ENGAGEMENTS_DEMO_LIVE() {
+  return [
   "Zéro pesticide, zéro herbicide de synthèse — méthodes alternatives uniquement",
-  "Plantes locales et adaptées au climat Bordeaux-Gironde",
+  "Plantes locales et adaptées au climat " + (clientCity(sessionData) ?? "Bordeaux") + "-Gironde",
   "Arrosage goutte-à-goutte pour économiser jusqu'à 60% d'eau",
   "Compostage intégré et amendement organique systématique",
-]
+];
+}
+let ENGAGEMENTS_DEMO = ENGAGEMENTS_DEMO_LIVE();
 let ENGAGEMENTS = ENGAGEMENTS_DEMO;
 
-const AVIS_SOURCE = [
+function AVIS_SOURCE_LIVE() {
+  return [
   { texte: "Notre jardin de 800 m² complètement repensé : potager intégré, zone naturalisée, terrasse en lames de chêne. C'est devenu le plus bel endroit de la maison. On y passe tous nos week-ends.", auteur: "Famille Dupont", detail: "Création jardin + terrasse · Mérignac" },
-  { texte: "Haie de 40 mètres plantée en janvier, déjà impénétrable en juillet. Sélection d'essences parfaite pour notre exposition. Plus aucun vis-à-vis avec les voisins.", auteur: "Jean-Paul M.", detail: "Haie mellifère · Bordeaux" },
+  { texte: "Haie de 40 mètres plantée en janvier, déjà impénétrable en juillet. Sélection d'essences parfaite pour notre exposition. Plus aucun vis-à-vis avec les voisins.", auteur: "Jean-Paul M.", detail: "Haie mellifère · " + (clientCity(sessionData) ?? "Bordeaux") },
   { texte: "Contrat d'entretien depuis 2 ans. Ponctuels, propres, et ils comprennent vraiment ce qu'on veut. Ils ont même introduit des plantes aromatiques entre nos rosiers sans qu'on le demande.", auteur: "Isabelle & Robert K.", detail: "Entretien annuel · Pessac" },
-]
+];
+}
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();
 let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -118,6 +124,10 @@ export default function VertNaturePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
+  ENGAGEMENTS_DEMO = ENGAGEMENTS_DEMO_LIVE();
+
+
   PRESTATIONS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], titre: s.title })),
     PRESTATIONS_SOURCE,
@@ -328,7 +338,7 @@ export default function VertNaturePage() {
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Devis gratuit</span>
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>Votre jardin<br /><em>mérite mieux.</em></h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>Déplacement gratuit et sans engagement pour étude de votre projet — Bordeaux et Gironde entière.</p>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>Déplacement gratuit et sans engagement pour étude de votre projet — {clientCity(sessionData) ?? "Bordeaux"} et Gironde entière.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={`tel:${fd?.phone ?? "+33556100000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
               <Phone size={18} /> {fd?.phone ?? "05 56 10 00 00"}
@@ -347,7 +357,7 @@ export default function VertNaturePage() {
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Paysagiste · Jardinier · Gironde<br />Certifié agriculture biologique · SIRET</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: "Bordeaux & Gironde" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "05 56 10 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 8h–18h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Bordeaux") + " & Gironde" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "05 56 10 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 8h–18h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.sand }}>{item.icon}</span>{item.t}
               </div>

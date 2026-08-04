@@ -83,7 +83,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   KINÉPRO SPORT LYON — Kinésithérapeute du sport Lyon Confluence — athlètes, rééducation post-op, dry needling. Barlow Condensed, bleu / orange.
+   KINÉPRO SPORT LYON — Kinésithérapeute du sport {clientCity(sessionData) ?? "Lyon"} Confluence — athlètes, rééducation post-op, dry needling. Barlow Condensed, bleu / orange.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -525,7 +525,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? fd?.tagline ?? <>
-              Kinésithérapie du sport Lyon Confluence. Football, running, natation. Rééducation post-op.
+              Kinésithérapie du sport {clientCity(sessionData) ?? "Lyon"} Confluence. Football, running, natation. Rééducation post-op.
             </>}</p>
           </Reveal>
 
@@ -658,7 +658,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  KinéPro Sport accompagne les athlètes amateurs et professionnels du Grand Lyon. Rééducation post-opératoire, dry needling, thérapie manuelle et retour au sport accéléré.
+                  KinéPro Sport accompagne les athlètes amateurs et professionnels du Grand {clientCity(sessionData) ?? "Lyon"}. Rééducation post-opératoire, dry needling, thérapie manuelle et retour au sport accéléré.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1127,7 +1127,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        Lyon Confluence
+                        {clientCity(sessionData) ?? "Lyon"} Confluence
                       </div>
                     </div>
                   </div>
@@ -1247,7 +1247,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "KinéPro Sport Lyon"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Kinésithérapeute du sport Lyon Confluence
+                Kinésithérapeute du sport {clientCity(sessionData) ?? "Lyon"} Confluence
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1278,7 +1278,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: KinéPro Sport Lyon<br />
+                Responsable de publication: KinéPro Sport {clientCity(sessionData) ?? "Lyon"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

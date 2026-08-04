@@ -82,7 +82,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SULTAN KEBAB & GRILL — Kebab & grill méditerranéen Marseille — viande halal, mezze, click & collect. Playfair Display, cuivre / sable.
+   SULTAN KEBAB & GRILL — Kebab & grill méditerranéen {clientCity(sessionData) ?? "Marseille"} — viande halal, mezze, click & collect. Playfair Display, cuivre / sable.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -1044,7 +1044,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(clientFaq(sessionData), [{"q":"Vos viandes sont-elles fraîches ?","a":"Oui, notre broche de veau et dinde est montée chaque matin dans notre laboratoire par nos chefs bouchers. Nous n'utilisons aucun produit surgelé pour nos broches."},{"q":"Quelles sont les options pour le Click & Collect ?","a":"Vous commandez en ligne et vous venez chercher votre commande chaude en 15 minutes sans faire la queue."},{"q":"Faites-vous les livraisons ?","a":"Oui, via nos partenaires exclusifs Deliveroo et Uber Eats dans tout Marseille."}] as any[]).map((item: any, i: number) => (
+            {resolveList(clientFaq(sessionData), [{"q":"Vos viandes sont-elles fraîches ?","a":"Oui, notre broche de veau et dinde est montée chaque matin dans notre laboratoire par nos chefs bouchers. Nous n'utilisons aucun produit surgelé pour nos broches."},{"q":"Quelles sont les options pour le Click & Collect ?","a":"Vous commandez en ligne et vous venez chercher votre commande chaude en 15 minutes sans faire la queue."},{"q":"Faites-vous les livraisons ?","a":"Oui, via nos partenaires exclusifs Deliveroo et Uber Eats dans tout " + (clientCity(sessionData) ?? "Marseille") + "."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,
@@ -1185,7 +1185,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        grill méditerranéen Marseille
+                        grill méditerranéen {clientCity(sessionData) ?? "Marseille"}
                       </div>
                     </div>
                   </div>
@@ -1363,7 +1363,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Sultan Kebab & Grill"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Kebab & grill méditerranéen Marseille
+                Kebab & grill méditerranéen {clientCity(sessionData) ?? "Marseille"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

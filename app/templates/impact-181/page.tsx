@@ -23,7 +23,7 @@ let bp: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TOIT & PIERRE PISCINES — Pisciniste / Constructeur de piscines (Nantes)
+   TOIT & PIERRE PISCINES — Pisciniste / Constructeur de piscines ({clientCity({ formData: fd }) ?? "Nantes"})
    Palette : blanc cassé / ardoise profonde #374151 / rouge tuile #b91c1c
    Fonts : Raleway (titres) + Inter (corps)
    Style : artisanal premium, solide, fiable
@@ -70,14 +70,17 @@ const MATERIAUX = [
   { n: "Filtration à billes de verre", u: "Toutes installations", d: "Filtre plus fin que le sable, moins de lavages, 30 % d'eau économisée chaque saison." },
 ];
 
-const ZONES_DEMO = [
-  { v: "Nantes et périphérie", d: "Création, rénovation et entretien" },
+function ZONES_DEMO_LIVE() {
+  return [
+  { v: (clientCity({ formData: fd }) ?? "Nantes") + " et périphérie", d: "Création, rénovation et entretien" },
   { v: "Saint-Nazaire · La Baule", d: "Chantiers côtiers, contraintes de vent étudiées" },
   { v: "Angers · Cholet", d: "Création et rénovation, hors entretien hebdomadaire" },
   { v: "Vannes · Redon", d: "Sur étude, à partir d'un bassin complet" },
   { v: "La Roche-sur-Yon", d: "Création uniquement" },
   { v: "Le Mans · Laval", d: "Nous consulter selon la saison" },
 ];
+}
+let ZONES_DEMO = ZONES_DEMO_LIVE();;
 let ZONES = ZONES_DEMO;
 
 const SERVICE_ICONS = [Home, Wrench, Wind, AlertTriangle, ShieldCheck, Home]
@@ -146,7 +149,7 @@ export default function ToitPierrePiscinesPage() {
       s: r.stars ?? r.rating ?? 5,
     })),
     [
-      { q: "Notre piscine béton a été livrée en respectant chaque délai. Chantier propre, équipe à l'écoute, finitions impeccables. Un vrai savoir-faire d'artisan.", n: "Sandrine M.", l: "Nantes", s: 5 },
+      { q: "Notre piscine béton a été livrée en respectant chaque délai. Chantier propre, équipe à l'écoute, finitions impeccables. Un vrai savoir-faire d'artisan.", n: "Sandrine M.", l: (clientCity({ formData: fd }) ?? "Nantes"), s: 5 },
       { q: "Rénovation complète de notre bassin : liner, margelles et filtration. Le résultat dépasse nos attentes. On profite enfin de notre piscine.", n: "Patrick & Aurélie F.", l: "Saint-Herblain", s: 5 },
       { q: "Installation d'un volet immergé et mise aux normes de sécurité. Travail soigné, conseils précieux. Je recommande sans hésiter.", n: "Luc B.", l: "Rezé", s: 5 },
     ]
@@ -163,6 +166,8 @@ export default function ToitPierrePiscinesPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  ZONES_DEMO = ZONES_DEMO_LIVE();
+
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,

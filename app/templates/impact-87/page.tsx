@@ -344,7 +344,7 @@ export default function IronClubPage() {
               maxWidth: 520,
             }}
           >{c?.heroSubline ?? fd?.tagline ?? <>
-            La salle de sport et CrossFit de référence à Lyon. Une communauté soudée, des coachs certifiés, des résultats qui parlent d&apos;eux-mêmes.
+            La salle de sport et CrossFit de référence à {clientCity({ formData: fd }) ?? "Lyon"}. Une communauté soudée, des coachs certifiés, des résultats qui parlent d&apos;eux-mêmes.
           </>}</motion.p>
           <motion.div
             className="i87-hero-cta"
@@ -782,7 +782,7 @@ export default function IronClubPage() {
               </div>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, lineHeight: 1.65 }}>
                 Salle de sport & CrossFit certifiée.<br />
-                Lyon 7e · Depuis 2019.
+                {clientCity({ formData: fd }) ?? "Lyon"} 7e · Depuis 2019.
               </p>
             </div>
             <div>
@@ -791,7 +791,7 @@ export default function IronClubPage() {
               </p>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, lineHeight: 2 }}>{c?.aboutText ?? <>
                 {clientAddress({ businessProfile: bp }) ?? "12 rue de la Guillotière"}<br />
-                69007 Lyon<br />
+                69007 {clientCity({ formData: fd }) ?? "Lyon"}<br />
                 04 78 XX XX XX<br />{fd?.email ?? "contact@ironclub-lyon.fr"}</>}</p>
             </div>
             <div>

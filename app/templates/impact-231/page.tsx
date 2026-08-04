@@ -266,7 +266,7 @@ return (
           </>}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? fd?.tagline ?? <>
-            Camille Renard, diététicienne-nutritionniste à Lyon. Un accompagnement individualisé pour votre poids, vos troubles digestifs, vos performances ou votre santé hormonale.
+            Camille Renard, diététicienne-nutritionniste à {clientCity(sessionData) ?? "Lyon"}. Un accompagnement individualisé pour votre poids, vos troubles digestifs, vos performances ou votre santé hormonale.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44`, cursor: "pointer" }} whileHover={{ scale: 1.03 }}>
@@ -358,7 +358,7 @@ return (
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Première consultation</span>
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Prêt·e à<br /><em>changer votre rapport à l'alimentation ?</em></>}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 44px", lineHeight: 1.7 }}>{c?.aboutText ?? <>Consultation de 1h (présentiel à Lyon ou téléconsultation). Prise en charge partielle par complémentaire santé possible.</>}</p>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 44px", lineHeight: 1.7 }}>{c?.aboutText ?? <>Consultation de 1h (présentiel à {clientCity(sessionData) ?? "Lyon"} ou téléconsultation). Prise en charge partielle par complémentaire santé possible.</>}</p>
         </Reveal>
 
         <Reveal delay={0.1}>
@@ -447,7 +447,7 @@ return (
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Camille Renard · Diététicienne-Nutritionniste<br />Inscrite à l'UPDLF · N°ADELI</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: "Lyon 3e — Téléconsultation possible" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 56 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam sur RDV" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + " 3e — Téléconsultation possible" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 56 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam sur RDV" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.sand }}>{item.icon}</span>{item.t}
               </div>

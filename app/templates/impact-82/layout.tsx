@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  clientCity,
   clientName,
 } from "@/lib/templates/clientContent";
 import React, { useState, useEffect } from "react"
@@ -161,9 +162,9 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
             <div>
               <p className="text-[#F7F5F2] text-xs tracking-widest uppercase mb-5">Siège social</p>
               <p className="text-sm mb-2">8 avenue Hoche</p>
-              <p className="text-sm mb-2">75008 Paris, France</p>
+              <p className="text-sm mb-2">75008 {clientCity(__layoutSession) ?? "Paris"}, France</p>
               <p className="text-sm mb-4">+33 1 44 15 62 00</p>
-              <p className="text-xs text-[#C9A86C]">SIREN : 342 789 001 · RCS Paris</p>
+              <p className="text-xs text-[#C9A86C]">SIREN : 342 789 001 · RCS {clientCity(__layoutSession) ?? "Paris"}</p>
             </div>
           </div>
           <div className="pt-8 border-t border-[#2A1E12] flex flex-col md:flex-row justify-between gap-4 text-xs">

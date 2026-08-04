@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
+import { clientCity } from "@/lib/templates/clientContent";
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from "lucide-react"
 import { Reveal } from "../shared"
 
@@ -61,7 +62,7 @@ export default function ContactPage() {
               
               <div className="space-y-6">
                 {[
-                  { Icon: MapPin, label: "Adresse du siège", val: "8 avenue Hoche, 75008 Paris" },
+                  { Icon: MapPin, label: "Adresse du siège", val: "8 avenue Hoche, 75008 " + (clientCity(sessionData) ?? "Paris") },
                   { Icon: Phone, label: "Téléphone", val: "+33 1 44 15 62 00" },
                   { Icon: Mail, label: "Adresse e-mail", val: (fd?.email ?? "contact@blueprint-dev.fr") },
                   { Icon: Clock, label: "Heures d'ouverture", val: "Lundi au Vendredi — 8h30 à 19h00" }

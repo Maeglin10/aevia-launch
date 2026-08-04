@@ -116,9 +116,10 @@ const COLLECTIONS_SOURCE = [
 ];
 let COLLECTIONS = COLLECTIONS_SOURCE;
 
-const PRODUCTS_DEMO = [
+function PRODUCTS_DEMO_LIVE() {
+  return [
   {
-    name: "Robe Lin Biarritz",
+    name: "Robe Lin " + (clientCity(sessionData) ?? "Biarritz"),
     price: 189,
     oldPrice: null,
     tag: "Nouveau",
@@ -222,13 +223,16 @@ const PRODUCTS_DEMO = [
     reviews: 58,
   },
 ];
+}
+let PRODUCTS_DEMO = PRODUCTS_DEMO_LIVE();;
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote: "La qualité est incomparable. J'ai la Robe Lin depuis 2 ans — elle est toujours parfaite après chaque lavage. C'est exactement ce que j'attendais d'une marque éthique.",
     name: "Pauline M.",
     location: "Paris 11e",
-    service: "Robe Lin Biarritz",
+    service: "Robe Lin " + (clientCity(sessionData) ?? "Biarritz"),
     stars: 5,
     verified: true,
   },
@@ -273,6 +277,8 @@ const TESTIMONIALS_SOURCE = [
     verified: true,
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const LOYALTY_TIERS = [
@@ -661,7 +667,8 @@ const NAV_PAGES: { key: EclatPage; label: string }[] = [
 ];
 
 // ─── Blog mock data (FR fashion) ──────────────────────────────────────────────
-const BLOG_POSTS = [
+function BLOG_POSTS_LIVE() {
+  return [
   {
     slug: "lin-ete",
     title: "Le lin lavé, la matière reine de l'été",
@@ -706,19 +713,21 @@ const BLOG_POSTS = [
   },
   {
     slug: "lookbook-biarritz",
-    title: "Dans les coulisses du lookbook à Biarritz",
+    title: "Dans les coulisses du lookbook à " + (clientCity(sessionData) ?? "Biarritz"),
     date: "9 mai 2025",
     category: "Coulisses",
     excerpt:
       "Trois jours de shooting entre océan et lumière dorée. Récit de la création visuelle de notre collection Été Brûlant.",
     cover: "#7A9BB0",
     body: [
-      "Biarritz au lever du jour offre une lumière dorée que nos équipes attendaient depuis des mois. Les 34 looks de la collection ont été photographiés sur trois jours, du front de mer aux ruelles du vieux port.",
+      (clientCity(sessionData) ?? "Biarritz") + " au lever du jour offre une lumière dorée que nos équipes attendaient depuis des mois. Les 34 looks de la collection ont été photographiés sur trois jours, du front de mer aux ruelles du vieux port.",
       "Chaque tenue a été pensée pour vivre : on court sur le sable, on s'assoit sur les rochers, on laisse le vent jouer avec le lin. L'objectif était de montrer des vêtements en mouvement, pas figés en studio.",
       "Ce carnet de voyage visuel est désormais disponible en intégralité dans notre lookbook en ligne, et bientôt en édition imprimée tirée à 500 exemplaires.",
     ],
   },
 ];
+}
+let BLOG_POSTS = BLOG_POSTS_LIVE();;
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
@@ -799,6 +808,12 @@ export default function ImpactEclatPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  BLOG_POSTS = BLOG_POSTS_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PRODUCTS_DEMO = PRODUCTS_DEMO_LIVE();
+
+
+
   COLLECTIONS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], name: s.title })),
     COLLECTIONS_SOURCE,
@@ -1641,7 +1656,7 @@ export default function ImpactEclatPage() {
                 fontWeight: 300,
               }}
             >{c?.aboutText ?? <>
-              34 looks photographiés sur les plages de Biarritz et les rues de Porto.
+              34 looks photographiés sur les plages de {clientCity(sessionData) ?? "Biarritz"} et les rues de Porto.
               Un carnet de voyage visuel qui réinvente la garde-robe estivale.
             </>}</p>
             <motion.a

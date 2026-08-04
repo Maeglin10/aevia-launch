@@ -86,7 +86,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   COURANT FORT BORDEAUX — Électricien tertiaire Bordeaux — smart home, alarmes, domotique. Exo 2, bleu nuit / lime.
+   COURANT FORT BORDEAUX — Électricien tertiaire {clientCity(sessionData) ?? "Bordeaux"} — smart home, alarmes, domotique. Exo 2, bleu nuit / lime.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -526,7 +526,7 @@ export default function Page() {
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? fd?.tagline ?? <>
-              Électricien Bordeaux Mériadeck. Smart home, alarmes, domotique, installations tertiaires.
+              Électricien {clientCity(sessionData) ?? "Bordeaux"} Mériadeck. Smart home, alarmes, domotique, installations tertiaires.
             </>}</p>
           </Reveal>
 
@@ -659,7 +659,7 @@ export default function Page() {
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Courant Fort Bordeaux accompagne particuliers et professionnels dans leur transition vers des installations intelligentes. Certifié QUALIFELEC, référencé RGE pour les travaux éligibles aux aides.
+                  Courant Fort {clientCity(sessionData) ?? "Bordeaux"} accompagne particuliers et professionnels dans leur transition vers des installations intelligentes. Certifié QUALIFELEC, référencé RGE pour les travaux éligibles aux aides.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -963,7 +963,7 @@ export default function Page() {
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
                 {clientReviews(sessionData)?.[0]?.name
                   ? `${clientReviews(sessionData)![0].author}${clientReviews(sessionData)![0].detail ? ' · ' + clientReviews(sessionData)![0].detail : ''}`
-                  : "Marie Lauret · Bordeaux"}
+                  : "Marie Lauret · " + (clientCity(sessionData) ?? "Bordeaux")}
               </div>
             </div>
           </Reveal>
@@ -1251,7 +1251,7 @@ export default function Page() {
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Courant Fort Bordeaux"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Électricien tertiaire Bordeaux
+                Électricien tertiaire {clientCity(sessionData) ?? "Bordeaux"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1282,7 +1282,7 @@ export default function Page() {
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Courant Fort Bordeaux<br />
+                Responsable de publication: Courant Fort {clientCity(sessionData) ?? "Bordeaux"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>
