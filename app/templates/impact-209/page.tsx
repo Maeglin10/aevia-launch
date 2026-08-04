@@ -20,10 +20,21 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { num: '98%', label: 'Satisfaction client', desc: 'Selon nos enquêtes post-rendez-vous' },
+                { num: '4.9', label: 'Note Google', desc: 'Sur 847 avis vérifiés' },
+                { num: '0', label: 'Ammoniaque', desc: 'Dans nos gammes coloration' }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -1033,6 +1044,22 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      num: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   c = session?.generatedContent;
   STYLISTS = STYLISTS_LIVE();
@@ -1495,11 +1522,7 @@ export default function Page() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              {[
-                { num: '98%', label: 'Satisfaction client', desc: 'Selon nos enquêtes post-rendez-vous' },
-                { num: '4.9', label: 'Note Google', desc: 'Sur 847 avis vérifiés' },
-                { num: '0', label: 'Ammoniaque', desc: 'Dans nos gammes coloration' },
-              ].map((stat) => (
+              {STATS_INLINE.map((stat) => (
                 <div key={stat.num} style={{ padding: '24px', background: '#fff', borderLeft: `3px solid ${GOLD}`, display: 'flex', gap: '20px', alignItems: 'center' }}>
                   <span style={{ ...headingFont, fontSize: '42px', color: GOLD, flexShrink: 0 }}>{stat.num}</span>
                   <div>

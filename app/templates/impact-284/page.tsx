@@ -32,6 +32,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTagline,
   clientTeam,
   clientText,
@@ -41,6 +42,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { val: '98%', label: 'Patients satisfaits' },
+            { val: '15 ans', label: "d'expérience" },
+            { val: '+800', label: 'Implants posés' }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
@@ -572,11 +583,7 @@ function HeroSection() {
             justifyContent: 'center',
           }}
         >
-          {[
-            { val: '98%', label: 'Patients satisfaits' },
-            { val: '15 ans', label: "d'expérience" },
-            { val: '+800', label: 'Implants posés' },
-          ].map((b) => (
+          {STATS_INLINE.map((b) => (
             <div key={b.label} style={{ textAlign: 'center' }}>
               <div
                 style={{
@@ -2801,6 +2808,22 @@ export default function Impact284Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

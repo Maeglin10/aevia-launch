@@ -38,6 +38,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -46,6 +47,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: '12+', label: 'ans d\'expérience' },
+            { value: '850+', label: 'chantiers réalisés' },
+            { value: '4,9★', label: 'note Google' }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Les points forts affichés à côté du texte « à propos ». L'icône reste celle du
 // thème — le wizard ne la demande pas — et seul le texte vient du client.
@@ -414,11 +425,7 @@ function HeroSection() {
             justifyContent: 'center',
           }}
         >
-          {[
-            { value: '12+', label: 'ans d\'expérience' },
-            { value: '850+', label: 'chantiers réalisés' },
-            { value: '4,9★', label: 'note Google' },
-          ].map((s) => (
+          {STATS_INLINE.map((s) => (
             <div
               key={s.label}
               style={{
@@ -3219,6 +3226,22 @@ function Impact290Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;

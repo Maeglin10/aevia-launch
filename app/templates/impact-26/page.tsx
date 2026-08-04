@@ -13,9 +13,20 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { icon: <Leaf className="w-5 h-5" />, label: "Ingrédients naturels", val: "93%" },
+                    { icon: <Droplets className="w-5 h-5" />, label: "Concentrés parfum", val: "25–30%" },
+                    { icon: <Wind className="w-5 h-5" />, label: "Tenue garantie", val: "12h+" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -172,6 +183,22 @@ export default function Impact26() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   c = session?.generatedContent;
   testimonials_SOURCE = testimonials_SOURCE_LIVE();
@@ -614,11 +641,7 @@ export default function Impact26() {
                   <p>Chaque fragrance est composée dans notre atelier du Marais, avec des matières premières sourcing directement auprès des producteurs — fleurs de Grasse, oud du Camboge, résines d'Éthiopie.</p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
-                  {[
-                    { icon: <Leaf className="w-5 h-5" />, label: "Ingrédients naturels", val: "93%" },
-                    { icon: <Droplets className="w-5 h-5" />, label: "Concentrés parfum", val: "25–30%" },
-                    { icon: <Wind className="w-5 h-5" />, label: "Tenue garantie", val: "12h+" },
-                  ].map(({ icon, label, val }) => (
+                  {STATS_INLINE.map(({ icon, label, val }) => (
                     <div key={label} className="border-t border-[var(--brand,#c9956a)]/20 pt-4">
                       <div className="text-[var(--brand,#c9956a)] mb-2">{icon}</div>
                       <div className="text-2xl text-[#F5EDE8]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{val}</div>

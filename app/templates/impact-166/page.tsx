@@ -5,6 +5,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
@@ -21,6 +22,16 @@ import {
 } from "framer-motion";
 import { resolveList } from "@/lib/templates/resolveList";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { num: "7+", label: "Années d'expérience" },
+                { num: "340+", label: "Clients accompagnés" },
+                { num: "12", label: "Prix & distinctions" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -825,6 +836,22 @@ export default function Impact166Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      num: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
@@ -1462,11 +1489,7 @@ return (
                 gap: 48,
               }}
             >
-              {[
-                { num: "7+", label: "Années d'expérience" },
-                { num: "340+", label: "Clients accompagnés" },
-                { num: "12", label: "Prix & distinctions" },
-              ].map((stat, i) => (
+              {STATS_INLINE.map((stat, i) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 20 }}

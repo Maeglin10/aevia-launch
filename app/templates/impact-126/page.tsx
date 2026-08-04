@@ -5,6 +5,7 @@ import {
   clientHours,
   clientName,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
@@ -25,6 +26,16 @@ import {
   useSpring,
 } from "framer-motion";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { num: "1987", label: "Fondato" },
+                  { num: "12", label: "Pasta fresche" },
+                  { num: "400+", label: "Etichette vino" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -479,6 +490,22 @@ export default function ImpactRestaurantPage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      num: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
@@ -1100,11 +1127,7 @@ return (
             {/* Stats */}
             <FadeUp delay={0.4}>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32 }}>
-                {[
-                  { num: "1987", label: "Fondato" },
-                  { num: "12", label: "Pasta fresche" },
-                  { num: "400+", label: "Etichette vino" },
-                ].map((stat) => (
+                {STATS_INLINE.map((stat) => (
                   <div key={stat.label}>
                     <div
                       style={{

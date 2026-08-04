@@ -32,6 +32,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 
@@ -39,6 +40,17 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { val: "3", label: "studios indépendants" },
+              { val: "200+", label: "artistes enregistrés" },
+              { val: "12 ans", label: "d'expérience" },
+              { val: "Lun–Dim", label: "10h – 23h" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -75,6 +87,22 @@ export default function EchoChamberPage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -171,12 +199,7 @@ export default function EchoChamberPage() {
           <motion.div initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.62 }}
             style={{ display: "flex", gap: "3.5rem", justifyContent: "center", marginTop: "4.5rem", flexWrap: "wrap" }}
           >
-            {[
-              { val: "3", label: "studios indépendants" },
-              { val: "200+", label: "artistes enregistrés" },
-              { val: "12 ans", label: "d'expérience" },
-              { val: "Lun–Dim", label: "10h – 23h" },
-            ].map((s) => (
+            {STATS_INLINE.map((s) => (
               <div key={s.label} style={{ textAlign: "center" }}>
                 <div style={{ fontFamily: C.headingFont, fontSize: "2rem", letterSpacing: "0.06em", color: C.accent }}>{s.val}</div>
                 <div style={{ fontFamily: C.bodyFont, fontSize: "0.75rem", color: C.textMuted, marginTop: "0.25rem", letterSpacing: "0.04em", textTransform: "uppercase" }}>{s.label}</div>

@@ -24,6 +24,7 @@ import {
   clientFaq,
   clientName,
   clientReviews,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 
@@ -31,6 +32,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: "280+", label: "Références en cave" },
+                    { value: "12 ans", label: "Expérience MW" },
+                    { value: "40+", label: "Vignerons partenaires" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -521,6 +532,22 @@ export default function ClosDuSoirPage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -825,11 +852,7 @@ export default function ClosDuSoirPage() {
                     gap: 40,
                   }}
                 >
-                  {[
-                    { value: "280+", label: "Références en cave" },
-                    { value: "12 ans", label: "Expérience MW" },
-                    { value: "40+", label: "Vignerons partenaires" },
-                  ].map((s) => (
+                  {STATS_INLINE.map((s) => (
                     <div key={s.label}>
                       <div
                         style={{

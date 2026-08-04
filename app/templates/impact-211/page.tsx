@@ -6,6 +6,7 @@ import {
   clientList,
   clientName,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
@@ -22,6 +23,14 @@ import {
   type MotionValue,
 } from "framer-motion"
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { num: "2★", label: "Étoiles Michelin" }, { num: "47", label: "Ans d'histoire" }, { num: "12", label: "Couverts par service" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -428,6 +437,22 @@ export default function Impact211Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      num: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
@@ -957,7 +982,7 @@ export default function Impact211Page() {
               transition={{ duration: 0.8, delay: 0.4 }}
               style={{ display: "flex", gap: "3rem", marginTop: "3rem" }}
             >
-              {[{ num: "2★", label: "Étoiles Michelin" }, { num: "47", label: "Ans d'histoire" }, { num: "12", label: "Couverts par service" }].map((stat) => (
+              {STATS_INLINE.map((stat) => (
                 <div key={stat.label}>
                   <div style={{ fontFamily: font.serif, fontSize: "2.2rem", fontStyle: "italic", color: C.gold, lineHeight: 1 }}>{stat.num}</div>
                   <div style={{ fontFamily: font.sans, fontSize: "0.72rem", fontWeight: 300, letterSpacing: "0.12em", textTransform: "uppercase", color: C.creamMuted, marginTop: "0.4rem" }}>{stat.label}</div>

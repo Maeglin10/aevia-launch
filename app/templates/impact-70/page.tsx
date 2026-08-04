@@ -15,9 +15,21 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: "4", label: "Villes" },
+                { value: "12K+", label: "Membres" },
+                { value: "1K+", label: "Événements" },
+                { value: "10", label: "Ans" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -84,6 +96,22 @@ export default function VelvetHomePage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   c = session?.generatedContent;
 
@@ -251,12 +279,7 @@ return (
         <section className="py-32 bg-[#050005]">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-1">
-              {[
-                { value: "4", label: "Villes" },
-                { value: "12K+", label: "Membres" },
-                { value: "1K+", label: "Événements" },
-                { value: "10", label: "Ans" },
-              ].map((stat, i) => (
+              {STATS_INLINE.map((stat, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="text-center py-16 border border-white/5 group hover:border-[var(--brand,#ff00ff)]/20 transition-colors duration-500">
                     <div className="text-6xl md:text-8xl font-bold text-[var(--brand,#ff00ff)] leading-none mb-4 group-hover:opacity-80 transition-opacity">

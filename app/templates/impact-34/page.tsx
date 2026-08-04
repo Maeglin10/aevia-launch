@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
@@ -35,9 +36,21 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: "50K+", label: "Active Podcasters" },
+                { value: "2M+", label: "Episodes Hosted" },
+                { value: "100M+", label: "Total Downloads" },
+                { value: "98.9%", label: "Uptime SLA" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -74,6 +87,22 @@ export default function Home() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   c = session?.generatedContent;
 
@@ -180,12 +209,7 @@ return (
           {/* Hero stats */}
           <Reveal delay={0.4}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-              {[
-                { value: "50K+", label: "Active Podcasters" },
-                { value: "2M+", label: "Episodes Hosted" },
-                { value: "100M+", label: "Total Downloads" },
-                { value: "98.9%", label: "Uptime SLA" },
-              ].map((stat) => (
+              {STATS_INLINE.map((stat) => (
                 <GlassCard key={stat.label} className="py-5 px-4 text-center">
                   <div
                     className="text-2xl font-black mb-1"

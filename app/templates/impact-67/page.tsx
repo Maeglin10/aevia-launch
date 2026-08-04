@@ -14,6 +14,7 @@ import {
   clientCity,
   clientName,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 
@@ -21,6 +22,31 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  {
+                      label: "LiDAR Precision",
+                      val: "±1",
+                      suffix: "mm",
+                      desc: "Military-grade sensors capturing every architectural nuance.",
+                    },
+                    {
+                      label: "Polygon Count",
+                      val: "1.2",
+                      suffix: "B+",
+                      desc: "Extreme density rendering for true photorealism.",
+                    },
+                    {
+                      label: "Stream Latency",
+                      val: "20",
+                      suffix: "ms",
+                      desc: "Instant response on any device, from VR to Mobile.",
+                    }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
@@ -78,6 +104,22 @@ export default function VisionHomePage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -201,26 +243,7 @@ return (
                 </>}</p>
 
                 <div className="space-y-10">
-                  {[
-                    {
-                      label: "LiDAR Precision",
-                      val: "±1",
-                      suffix: "mm",
-                      desc: "Military-grade sensors capturing every architectural nuance.",
-                    },
-                    {
-                      label: "Polygon Count",
-                      val: "1.2",
-                      suffix: "B+",
-                      desc: "Extreme density rendering for true photorealism.",
-                    },
-                    {
-                      label: "Stream Latency",
-                      val: "20",
-                      suffix: "ms",
-                      desc: "Instant response on any device, from VR to Mobile.",
-                    },
-                  ].map((item, i) => (
+                  {STATS_INLINE.map((item, i) => (
                     <div
                       key={i}
                       className="group border-l border-[var(--brand,#e11d48)]/20 pl-8 hover:border-[var(--brand,#e11d48)] transition-all"

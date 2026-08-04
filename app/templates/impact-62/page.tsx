@@ -13,9 +13,21 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: 12, suffix: "", label: "ans d'étoile Michelin" },
+            { value: 3, suffix: "", label: "tables privées exclusives" },
+            { value: 280, suffix: "", label: "références de vins" },
+            { value: 8, suffix: "", label: "fournisseurs artisans" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -84,6 +96,22 @@ export default function SatoriHomePage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   c = session?.generatedContent;
 
@@ -310,12 +338,7 @@ return (
       {/* ── 4. STATS COUNTER BAR ──────────────────────────────────────────── */}
       <section className="py-24 px-6 md:px-12 border-y border-[#f5efe0]/10">
         <div className="max-w-[1400px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-6">
-          {[
-            { value: 12, suffix: "", label: "ans d'étoile Michelin" },
-            { value: 3, suffix: "", label: "tables privées exclusives" },
-            { value: 280, suffix: "", label: "références de vins" },
-            { value: 8, suffix: "", label: "fournisseurs artisans" },
-          ].map((stat, idx) => (
+          {STATS_INLINE.map((stat, idx) => (
             <Reveal key={idx} delay={idx * 0.1}>
               <div className="text-center md:text-left">
                 <span className="block text-6xl md:text-7xl font-light text-[var(--brand,#b8860b)] leading-none mb-3 tabular-nums">

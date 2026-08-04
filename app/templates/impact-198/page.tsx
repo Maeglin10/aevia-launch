@@ -17,10 +17,21 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { label: "Clientes satisfaites", value: "3 400+" },
+              { label: "Années d'expertise", value: "12" },
+              { label: "Soins certifiés bio", value: "100%" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -965,6 +976,22 @@ export default function Impact198Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   c = session?.generatedContent;
   TEAM_DEMO = TEAM_DEMO_LIVE();
@@ -1971,11 +1998,7 @@ export default function Impact198Page() {
               flexWrap: "wrap",
             }}
           >
-            {[
-              { label: "Clientes satisfaites", value: "3 400+" },
-              { label: "Années d'expertise", value: "12" },
-              { label: "Soins certifiés bio", value: "100%" },
-            ].map((stat) => (
+            {STATS_INLINE.map((stat) => (
               <div key={stat.label} style={{ textAlign: "center" }}>
                 <div
                   style={{

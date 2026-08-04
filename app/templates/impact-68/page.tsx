@@ -16,9 +16,23 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { num: "01", title: "Brand Strategy", desc: "Positioning, naming, messaging architecture, and competitive landscaping. We build the logic before the aesthetics." },
+              { num: "02", title: "Visual Identity", desc: "Logo, type system, color, motion principles, and brand guidelines that hold up from a business card to a stadium banner." },
+              { num: "03", title: "Digital Experience", desc: "Websites and interactive platforms that convert intent. Performance-first, scroll-driven, and designed to be remembered." },
+              { num: "04", title: "Art Direction", desc: "Campaign concepting, editorial systems, and production oversight for brand moments that have to land perfectly." },
+              { num: "05", title: "Packaging Design", desc: "Retail presence that earns shelf space. We design for attention at 2 meters and delight at 20 centimeters." },
+              { num: "06", title: "Brand Architecture", desc: "Multi-brand and sub-brand hierarchies that scale without cannibalizing. Built for acquirers and acquirees alike." }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -66,6 +80,22 @@ export default function OrbitHomePage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      num: s.value,
+
+      title: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   c = session?.generatedContent;
 
@@ -411,14 +441,7 @@ return (
             </>)}</h2>
           </motion.div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "2px", background: C.border }}>
-            {[
-              { num: "01", title: "Brand Strategy", desc: "Positioning, naming, messaging architecture, and competitive landscaping. We build the logic before the aesthetics." },
-              { num: "02", title: "Visual Identity", desc: "Logo, type system, color, motion principles, and brand guidelines that hold up from a business card to a stadium banner." },
-              { num: "03", title: "Digital Experience", desc: "Websites and interactive platforms that convert intent. Performance-first, scroll-driven, and designed to be remembered." },
-              { num: "04", title: "Art Direction", desc: "Campaign concepting, editorial systems, and production oversight for brand moments that have to land perfectly." },
-              { num: "05", title: "Packaging Design", desc: "Retail presence that earns shelf space. We design for attention at 2 meters and delight at 20 centimeters." },
-              { num: "06", title: "Brand Architecture", desc: "Multi-brand and sub-brand hierarchies that scale without cannibalizing. Built for acquirers and acquirees alike." },
-            ].map((s, i) => (
+            {STATS_INLINE.map((s, i) => (
               <motion.div key={s.num} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07, duration: 0.5 }}>
                 <div style={{ background: C.bg, padding: "3rem 2.5rem", borderBottom: `1px solid ${C.border}` }}>
                   <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, color: C.accent, letterSpacing: "0.1em", marginBottom: "1.5rem" }}>{s.num}</div>
