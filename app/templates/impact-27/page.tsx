@@ -488,19 +488,19 @@ function ServicesSection() {
                 className="bg-[#120B1A] border border-white/5 rounded-2xl p-8 h-full"
               >
                 <div className="w-14 h-14 bg-[var(--brand,#9B5CF6)]/15 text-[var(--brand,#9B5CF6)] rounded-xl flex items-center justify-center mb-6">
-                  {services[active].icon}
+                  {services[active % services.length].icon}
                 </div>
                 <div className="inline-block text-[10px] tracking-widest uppercase border border-[var(--brand,#9B5CF6)]/30 text-[var(--brand,#9B5CF6)] px-3 py-1.5 rounded-full mb-5" style={monoStyle}>
-                  {services[active].badge}
+                  {services[active % services.length].badge}
                 </div>
-                <h3 className="text-2xl font-bold mb-4">{services[active].title}</h3>
-                <p className="text-white/55 text-sm leading-relaxed mb-8">{services[active].desc}</p>
+                <h3 className="text-2xl font-bold mb-4">{services[active % services.length].title}</h3>
+                <p className="text-white/55 text-sm leading-relaxed mb-8">{services[active % services.length].desc}</p>
 
                 <div className="text-xs uppercase tracking-wider text-[var(--brand,#9B5CF6)] mb-4 font-semibold" style={monoStyle}>
                   Process steps
                 </div>
                 <ol className="space-y-3">
-                  {services[active].steps.map((step, si) => (
+                  {services[active % services.length].steps.map((step, si) => (
                     <li key={si} className="flex items-start gap-3 text-sm text-white/70">
                       <span
                         className="shrink-0 w-5 h-5 bg-[var(--brand,#9B5CF6)]/15 text-[var(--brand,#9B5CF6)] rounded-full flex items-center justify-center text-[10px] font-bold mt-0.5"
@@ -560,26 +560,26 @@ function TestimonialsCarousel() {
             >
               {/* Stars */}
               <div className="flex justify-center gap-1 mb-8">
-                {Array.from({ length: testimonials[current].rating }).map((_, i) => (
+                {Array.from({ length: testimonials[current % testimonials.length].rating }).map((_, i) => (
                   <Star key={i} className="w-4 h-4 fill-[var(--brand,#9B5CF6)] text-[var(--brand,#9B5CF6)]" />
                 ))}
               </div>
               <p className="text-xl md:text-2xl text-white/85 leading-relaxed font-light italic mb-10">
-                &ldquo;{testimonials[current].quote}&rdquo;
+                &ldquo;{testimonials[current % testimonials.length].quote}&rdquo;
               </p>
               <div className="flex flex-col items-center gap-3">
                 <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[var(--brand,#9B5CF6)]/40">
                   <Image
-                    src={testimonials[current].avatar}
-                    alt={testimonials[current].author}
+                    src={testimonials[current % testimonials.length].avatar}
+                    alt={testimonials[current % testimonials.length].author}
                     width={48}
                     height={48}
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div>
-                  <div className="font-semibold text-white">{testimonials[current].author}</div>
-                  <div className="text-white/40 text-sm">{testimonials[current].role}</div>
+                  <div className="font-semibold text-white">{testimonials[current % testimonials.length].author}</div>
+                  <div className="text-white/40 text-sm">{testimonials[current % testimonials.length].role}</div>
                 </div>
               </div>
             </motion.div>

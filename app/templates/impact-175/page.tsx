@@ -1181,7 +1181,7 @@ export default function Impact175Page() {
                     fontWeight: 600,
                   }}
                 >
-                  Capacité · {EVENT_TYPES[activeEventType].capacity}
+                  Capacité · {EVENT_TYPES[activeEventType % EVENT_TYPES.length].capacity}
                 </div>
                 <h3
                   style={{
@@ -1193,7 +1193,7 @@ export default function Impact175Page() {
                     lineHeight: 1.1,
                   }}
                 >
-                  {EVENT_TYPES[activeEventType].title}
+                  {EVENT_TYPES[activeEventType % EVENT_TYPES.length].title}
                 </h3>
                 <p
                   style={{
@@ -1204,10 +1204,10 @@ export default function Impact175Page() {
                     marginBottom: 32,
                   }}
                 >
-                  {EVENT_TYPES[activeEventType].description}
+                  {EVENT_TYPES[activeEventType % EVENT_TYPES.length].description}
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  {EVENT_TYPES[activeEventType].examples.map((ex) => (
+                  {EVENT_TYPES[activeEventType % EVENT_TYPES.length].examples.map((ex) => (
                     <div
                       key={ex}
                       style={{
@@ -1241,8 +1241,8 @@ export default function Impact175Page() {
                 }}
               >
                 <img
-                  src={(clientPhotos(sessionData)[2] || `https://images.unsplash.com/${EVENT_TYPES[activeEventType].img}?q=80&w=1200&auto=format&fit=crop`)}
-                  alt={EVENT_TYPES[activeEventType].title}
+                  src={(clientPhotos(sessionData)[2] || `https://images.unsplash.com/${EVENT_TYPES[activeEventType % EVENT_TYPES.length].img}?q=80&w=1200&auto=format&fit=crop`)}
+                  alt={EVENT_TYPES[activeEventType % EVENT_TYPES.length].title}
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               </div>

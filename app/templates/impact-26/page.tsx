@@ -705,10 +705,10 @@ export default function Impact26() {
                     ))}
                   </div>
                   <p className="text-2xl leading-relaxed text-[#F5EDE8]/80 italic mb-8" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
-                    "{testimonials[testimonialIdx].text}"
+                    "{testimonials[testimonialIdx % testimonials.length].text}"
                   </p>
                   <div className="text-sm tracking-widest uppercase text-[#F5EDE8]/50">
-                    {testimonials[testimonialIdx].name} · {testimonials[testimonialIdx].location}
+                    {testimonials[testimonialIdx % testimonials.length].name} · {testimonials[testimonialIdx % testimonials.length].location}
                   </div>
                 </motion.div>
               </AnimatePresence>

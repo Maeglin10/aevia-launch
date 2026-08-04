@@ -362,7 +362,7 @@ function MenuSection() {
           transition={{ duration: 0.3 }}
           style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}
         >
-          {CATEGORIES[activeCategory].items.map((item: any, i: number) => (
+          {CATEGORIES[activeCategory % CATEGORIES.length].items.map((item: any, i: number) => (
             <motion.div
               key={item.name}
               initial={{ opacity: 0, y: 24 }}

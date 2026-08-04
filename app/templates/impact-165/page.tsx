@@ -213,7 +213,7 @@ export default function PulseAppPage() {
   }, []);
 
   // Dynamic Services & Testimonials Mutation for Session Data
-  const ActiveIcon = FEATURES[activeFeature].icon
+  const ActiveIcon = FEATURES[activeFeature % FEATURES.length].icon
 
   return (
     <div className="min-h-dvh bg-[#F8F7FF] text-[#0F0B2D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -441,10 +441,10 @@ export default function PulseAppPage() {
                   <div className="w-14 h-14 bg-[#EEF2FF] rounded-2xl flex items-center justify-center mb-6">
                     <ActiveIcon className="w-7 h-7 text-[var(--brand,#6366F1)]" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4">{FEATURES[activeFeature].title}</h3>
-                  <p className="text-[#4B4570] leading-relaxed mb-8">{FEATURES[activeFeature].desc}</p>
+                  <h3 className="text-2xl font-bold mb-4">{FEATURES[activeFeature % FEATURES.length].title}</h3>
+                  <p className="text-[#4B4570] leading-relaxed mb-8">{FEATURES[activeFeature % FEATURES.length].desc}</p>
                   <ul className="space-y-3">
-                    {FEATURES[activeFeature].bullets.map(b => (
+                    {FEATURES[activeFeature % FEATURES.length].bullets.map(b => (
                       <li key={b} className="flex items-center gap-3 text-sm font-medium">
                         <div className="w-5 h-5 rounded-full bg-[var(--brand,#6366F1)] flex items-center justify-center flex-shrink-0">
                           <Check className="w-3 h-3 text-white" />

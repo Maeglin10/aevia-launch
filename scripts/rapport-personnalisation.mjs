@@ -26,6 +26,17 @@ for (const m of slots.matchAll(/"(impact-[\w-]+)":\s*\{\s*n:\s*\d+,\s*total:\s*(
   total[m[1]] = Number(m[2]);
 }
 
+/*
+  Les retouches se relisent au manifeste plutôt que dans les fiches : la mesure
+  au navigateur ne les compte pas, elle les recopie de l'état où le manifeste se
+  trouvait à son démarrage.
+*/
+const manifeste = fs.readFileSync(path.join(process.cwd(), "lib/templates/sectionManifest.ts"), "utf8");
+const RETOUCHES = {};
+for (const m of manifeste.matchAll(/"(impact-[\w-]+)":\s*\[([\s\S]*?)\n\s*\],?\n/g)) {
+  RETOUCHES[m[1]] = (m[2].match(/"cle":/g) ?? []).length;
+}
+
 const compte = {
   total: fiches.length, complets: 0, plantees: 0,
   photos: 0, photosNA: 0, couleur: 0, couleurNA: 0, sansRestes: 0,
@@ -47,7 +58,7 @@ for (const f of fiches) {
 
   lignes.push(
     `| ${f.id} | ${f.manquent.length === 0 ? "✓" : f.manquent.join(", ")} ` +
-    `| ${f.affiches.join(", ") || "—"} | ${f.retouches} ` +
+    `| ${f.affiches.join(", ") || "—"} | ${RETOUCHES[f.id] ?? 0} ` +
     `| ${f.photos === "oui" ? "✓" : sansPhoto ? "—" : "✗"} ` +
     `| ${f.couleur ? "✓" : "—"} | ${f.restes.slice(0, 2).join(", ") || "✓"} |`,
   );
@@ -82,7 +93,7 @@ console.log(`  photos du client : ${compte.photos} + ${compte.photosNA} sans emp
 console.log(`  couleur peinte   : ${compte.couleur}`);
 console.log(`  sans reste de démonstration : ${compte.sansRestes}`);
 console.log(`  pages plantées   : ${compte.plantees}`);
-console.log(`  retouches offertes : ${fiches.reduce((n, f) => n + f.retouches, 0)}`);
+console.log(`  retouches offertes : ${Object.values(RETOUCHES).reduce((n, x) => n + x, 0)}`);
 if (Object.keys(manques).length) {
   console.log("  manques :", Object.entries(manques).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(", "));
 }

@@ -245,22 +245,22 @@ export default function EchoChamberPage() {
             >
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "1rem", marginBottom: "1rem" }}>
-                  <span style={{ fontFamily: C.headingFont, fontSize: "3rem", color: homeStudios[activeStudio].color, letterSpacing: "0.04em" }}>{homeStudios[activeStudio].name}</span>
-                  <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: homeStudios[activeStudio].color, border: `1px solid ${homeStudios[activeStudio].color}55`, padding: "0.2rem 0.6rem", borderRadius: "4px", fontWeight: 700 }}>{homeStudios[activeStudio].size}</span>
+                  <span style={{ fontFamily: C.headingFont, fontSize: "3rem", color: homeStudios[activeStudio % homeStudios.length].color, letterSpacing: "0.04em" }}>{homeStudios[activeStudio % homeStudios.length].name}</span>
+                  <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: homeStudios[activeStudio % homeStudios.length].color, border: `1px solid ${homeStudios[activeStudio % homeStudios.length].color}55`, padding: "0.2rem 0.6rem", borderRadius: "4px", fontWeight: 700 }}>{homeStudios[activeStudio % homeStudios.length].size}</span>
                 </div>
-                <p style={{ fontFamily: C.bodyFont, fontSize: "0.95rem", color: C.textLight, lineHeight: 1.8, marginBottom: "2rem" }}>{homeStudios[activeStudio].desc}</p>
+                <p style={{ fontFamily: C.bodyFont, fontSize: "0.95rem", color: C.textLight, lineHeight: 1.8, marginBottom: "2rem" }}>{homeStudios[activeStudio % homeStudios.length].desc}</p>
                 <Link href="/templates/impact-42/booking" style={{ textDecoration: "none" }}>
                   <span
-                    style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", backgroundColor: homeStudios[activeStudio].color, color: C.white, padding: "0.8rem 1.8rem", borderRadius: "6px", border: "none", cursor: "pointer", fontWeight: 700, fontFamily: C.bodyFont, fontSize: "0.88rem", boxShadow: `0 4px 20px ${homeStudios[activeStudio].color}33` }}
+                    style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", backgroundColor: homeStudios[activeStudio % homeStudios.length].color, color: C.white, padding: "0.8rem 1.8rem", borderRadius: "6px", border: "none", cursor: "pointer", fontWeight: 700, fontFamily: C.bodyFont, fontSize: "0.88rem", boxShadow: `0 4px 20px ${homeStudios[activeStudio % homeStudios.length].color}33` }}
                   >
-                    <Calendar size={15} /> Réserver {homeStudios[activeStudio].name}
+                    <Calendar size={15} /> Réserver {homeStudios[activeStudio % homeStudios.length].name}
                   </span>
                 </Link>
               </div>
               <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
-                {homeStudios[activeStudio].features.map((feat) => (
+                {homeStudios[activeStudio % homeStudios.length].features.map((feat) => (
                   <div key={feat} style={{ backgroundColor: C.bgCard, border: `1px solid ${C.border}`, borderRadius: "8px", padding: "0.8rem 1rem", display: "flex", alignItems: "center", gap: "0.6rem" }}>
-                    <div style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: homeStudios[activeStudio].color, flexShrink: 0 }} />
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: homeStudios[activeStudio % homeStudios.length].color, flexShrink: 0 }} />
                     <span style={{ fontFamily: C.bodyFont, fontSize: "0.83rem", color: C.text }}>{feat}</span>
                   </div>
                 ))}

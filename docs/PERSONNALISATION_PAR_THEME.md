@@ -16,35 +16,35 @@ horaires, adresse, réalisations — et ses propres images.
 
 | thème | blocs | en plus | retouches | photos | couleur | reste |
 |---|---|---|---|---|---|---|
-| impact-01 | ✓ | email, realisation | 12 | ✓ | ✓ | ✓ |
-| impact-02 | ✓ | email, adresse, realisation | 8 | ✓ | — | ✓ |
-| impact-03 | accroche | realisation | 5 | — | ✓ | ✓ |
+| impact-01 | ✓ | email, realisation | 14 | ✓ | ✓ | ✓ |
+| impact-02 | ✓ | email, adresse, realisation | 8 | ✓ | — | Paris |
+| impact-03 | ✓ | realisation | 5 | — | ✓ | ✓ |
 | impact-04 | ✓ | horaires | 7 | ✓ | — | Paris |
 | impact-05 | ✓ | — | 8 | ✓ | ✓ | NaN/undefined |
 | impact-06 | ✓ | realisation | 9 | ✓ | ✓ | ✓ |
 | impact-07 | ✓ | realisation | 6 | ✓ | ✓ | ✓ |
 | impact-08 | ✓ | — | 7 | ✓ | ✓ | ✓ |
 | impact-09 | ✓ | — | 7 | ✓ | ✓ | ✓ |
-| impact-10 | ✓ | telephone, email | 8 | ✓ | ✓ | ✓ |
+| impact-10 | ✓ | telephone, email | 8 | ✗ | — | ✓ |
 | impact-11 | ✓ | — | 4 | — | ✓ | ✓ |
 | impact-12 | ✓ | realisation | 10 | ✓ | — | ✓ |
 | impact-13 | ✓ | horaires | 9 | ✓ | ✓ | ✓ |
 | impact-14 | ✓ | telephone, email | 12 | ✗ | ✓ | ✓ |
 | impact-15 | ✓ | telephone | 6 | ✓ | ✓ | ✓ |
-| impact-16 | ✓ | realisation | 2 | ✓ | ✓ | ✓ |
+| impact-16 | ✓ | realisation | 3 | ✓ | ✓ | ✓ |
 | impact-17 | ✓ | realisation | 2 | ✓ | ✓ | Paris |
 | impact-18 | ✓ | — | 2 | — | ✓ | ✓ |
 | impact-19 | ✓ | — | 1 | ✓ | ✓ | ✓ |
 | impact-20 | ✓ | realisation | 6 | ✓ | ✓ | ✓ |
-| impact-21 | ✓ | email, realisation | 18 | ✓ | ✓ | ✓ |
+| impact-21 | ✓ | email, realisation | 19 | ✓ | ✓ | ✓ |
 | impact-22 | ✓ | — | 5 | — | ✓ | ✓ |
-| impact-23 | ✓ | email, realisation | 25 | ✓ | ✓ | ✓ |
+| impact-23 | ✓ | email, realisation | 26 | ✓ | ✓ | ✓ |
 | impact-24 | ✓ | — | 5 | ✓ | ✓ | ✓ |
 | impact-25 | ✓ | telephone, email | 6 | ✓ | ✓ | ✓ |
 | impact-26 | ✓ | — | 3 | ✓ | ✓ | ✓ |
 | impact-27 | ✓ | — | 7 | ✓ | ✓ | ✓ |
 | impact-28 | ✓ | telephone, email, realisation | 8 | ✓ | — | ✓ |
-| impact-29 | ✓ | email, realisation | 8 | ✓ | ✓ | Paris |
+| impact-29 | ✓ | email, realisation | 9 | ✓ | ✓ | Paris |
 | impact-30 | ✓ | telephone, email | 6 | ✓ | ✓ | Paris |
 | impact-31 | ✓ | telephone, email | 5 | — | ✓ | ✓ |
 | impact-32 | ✓ | email | 5 | — | ✓ | Bordeaux |
@@ -56,7 +56,7 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-38 | ✓ | — | 9 | — | ✓ | contact@exemple.fr |
 | impact-39 | ✓ | — | 6 | — | ✓ | Paris, valentinmilliand@aevia.services |
 | impact-40 | ✓ | telephone, email | 6 | — | ✓ | ✓ |
-| impact-41 | accroche | — | 0 | — | ✓ | ✓ |
+| impact-41 | ✓ | — | 0 | — | ✓ | ✓ |
 | impact-42 | ✓ | email | 7 | — | ✓ | ✓ |
 | impact-43 | ✓ | — | 6 | ✓ | ✓ | ✓ |
 | impact-44 | ✓ | — | 4 | — | ✓ | business@ghostprotocol.gg, tryout@ghostprotocol.gg |
@@ -67,13 +67,13 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-49 | ✓ | — | 4 | — | ✓ | ✓ |
 | impact-50 | ✓ | telephone | 4 | ✓ | ✓ | ✓ |
 | impact-51 | ✓ | — | 2 | — | ✓ | ✓ |
-| impact-52 | accroche | — | 2 | — | ✓ | ✓ |
-| impact-53 | ✓ | — | 1 | — | ✓ | hello@meshwarp.studio |
+| impact-52 | ✓ | — | 2 | — | ✓ | ✓ |
+| impact-53 | ✓ | — | 3 | — | ✓ | hello@meshwarp.studio |
 | impact-54 | ✓ | — | 3 | — | ✓ | ✓ |
 | impact-55 | ✓ | telephone | 5 | ✓ | ✓ | Paris |
 | impact-56 | ✓ | email | 4 | ✓ | ✓ | ✓ |
-| impact-57 | ✓ | — | 4 | ✓ | ✓ | ✓ |
-| impact-58 | ✓ | — | 3 | — | ✓ | ✓ |
+| impact-57 | ✓ | — | 6 | ✓ | ✓ | ✓ |
+| impact-58 | ✓ | — | 5 | — | ✓ | ✓ |
 | impact-59 | ✓ | — | 7 | ✓ | ✓ | ✓ |
 | impact-60 | ✓ | — | 4 | ✓ | ✓ | ✓ |
 | impact-61 | ✓ | realisation | 2 | ✓ | ✓ | ✓ |
@@ -84,14 +84,14 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-66 | ✓ | email | 3 | ✓ | ✓ | Paris, Bordeaux |
 | impact-67 | ✓ | — | 3 | ✓ | ✓ | ✓ |
 | impact-68 | ✓ | email | 4 | — | ✓ | ✓ |
-| impact-69 | chiffre | realisation | 5 | — | ✓ | ✓ |
+| impact-69 | ✓ | realisation | 5 | — | ✓ | ✓ |
 | impact-70 | ✓ | — | 6 | ✓ | ✓ | ✓ |
 | impact-71 | ✓ | — | 3 | ✓ | ✓ | ✓ |
 | impact-72 | ✓ | — | 4 | — | ✓ | ✓ |
 | impact-73 | ✓ | telephone | 6 | ✓ | ✓ | ✓ |
 | impact-74 | ✓ | telephone | 6 | ✓ | ✓ | ✓ |
 | impact-75 | ✓ | — | 7 | ✓ | — | ✓ |
-| impact-76 | ✓ | realisation | 5 | ✓ | — | ✓ |
+| impact-76 | ✓ | realisation | 7 | ✓ | — | ✓ |
 | impact-77 | ✓ | realisation | 6 | ✓ | — | ✓ |
 | impact-78 | ✓ | realisation | 7 | ✓ | ✓ | ✓ |
 | impact-79 | ✓ | realisation | 2 | ✓ | — | ✓ |
@@ -114,7 +114,7 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-96 | ✓ | email, realisation | 8 | — | ✓ | ✓ |
 | impact-97 | ✓ | — | 2 | ✓ | ✓ | ✓ |
 | impact-98 | ✓ | — | 2 | ✓ | ✓ | ✓ |
-| impact-99 | ✓ | — | 5 | ✓ | ✓ | ✓ |
+| impact-99 | ✓ | — | 6 | ✓ | ✓ | ✓ |
 | impact-100 | ✓ | realisation | 2 | ✓ | — | ✓ |
 | impact-101 | ✓ | — | 3 | — | ✓ | ✓ |
 | impact-102 | ✓ | — | 6 | — | ✓ | ✓ |
@@ -128,14 +128,14 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-110 | ✓ | — | 5 | ✓ | ✓ | ✓ |
 | impact-111 | ✓ | realisation | 4 | ✓ | ✓ | Paris |
 | impact-112 | ✓ | email | 7 | — | ✓ | ✓ |
-| impact-113 | prix | — | 8 | — | ✓ | ✓ |
+| impact-113 | ✓ | — | 8 | — | ✓ | ✓ |
 | impact-114 | ✓ | email | 6 | ✓ | ✓ | ✓ |
 | impact-115 | ✓ | email | 7 | ✓ | ✓ | ✓ |
 | impact-116 | ✓ | email | 15 | ✓ | ✓ | ✓ |
 | impact-117 | ✓ | realisation | 3 | ✓ | ✓ | ✓ |
 | impact-118 | ✓ | realisation | 12 | ✓ | ✓ | ✓ |
 | impact-119 | ✓ | — | 6 | ✗ | — | ✓ |
-| impact-120 | ✓ | — | 6 | ✓ | ✓ | ✓ |
+| impact-120 | ✓ | — | 8 | ✓ | ✓ | ✓ |
 | impact-121 | ✓ | email | 6 | ✓ | — | ✓ |
 | impact-122 | ✓ | — | 5 | ✓ | ✓ | ✓ |
 | impact-123 | ✓ | — | 5 | ✓ | — | ✓ |
@@ -148,7 +148,7 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-130 | ✓ | email, realisation | 7 | ✓ | ✓ | Paris |
 | impact-131 | ✓ | email | 8 | ✓ | ✓ | Bordeaux |
 | impact-132 | ✓ | — | 4 | ✓ | ✓ | ✓ |
-| impact-133 | accroche | — | 1 | — | ✓ | ✓ |
+| impact-133 | ✓ | — | 1 | — | ✓ | ✓ |
 | impact-134 | ✓ | — | 9 | ✓ | ✓ | ✓ |
 | impact-135 | ✓ | — | 7 | — | ✓ | ✓ |
 | impact-136 | ✓ | email | 5 | ✓ | — | ✓ |
@@ -165,7 +165,7 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-147 | ✓ | — | 6 | ✓ | ✓ | ✓ |
 | impact-148 | ✓ | — | 5 | ✓ | ✓ | ✓ |
 | impact-149 | ✓ | — | 4 | ✓ | — | ✓ |
-| impact-150 | accroche | — | 3 | — | ✓ | ✓ |
+| impact-150 | ✓ | — | 4 | — | ✓ | ✓ |
 | impact-151 | ✓ | — | 2 | ✓ | ✓ | Bordeaux |
 | impact-152 | ✓ | telephone, email, realisation | 5 | ✓ | ✓ | ✓ |
 | impact-153 | ✓ | — | 5 | — | ✓ | ✓ |
@@ -179,11 +179,11 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-161 | ✓ | — | 9 | — | ✓ | ✓ |
 | impact-162 | ✓ | telephone, email, adresse | 6 | ✓ | ✓ | ✓ |
 | impact-163 | ✓ | — | 7 | ✓ | ✓ | ✓ |
-| impact-164 | accroche | email | 3 | — | ✓ | ✓ |
-| impact-165 | prix | — | 9 | — | ✓ | ✓ |
+| impact-164 | ✓ | email | 4 | — | ✓ | ✓ |
+| impact-165 | ✓ | — | 9 | — | ✓ | ✓ |
 | impact-166 | ✓ | email, realisation | 6 | ✓ | ✓ | ✓ |
 | impact-167 | ✓ | email | 5 | ✓ | ✓ | Paris |
-| impact-168 | ✓ | — | 13 | — | ✓ | Paris |
+| impact-168 | ✓ | — | 15 | — | ✓ | Paris |
 | impact-169 | ✓ | — | 7 | — | ✓ | ✓ |
 | impact-170 | ✓ | — | 6 | — | ✓ | ✓ |
 | impact-171 | ✓ | telephone, email, adresse | 7 | ✓ | ✓ | ✓ |
@@ -215,7 +215,7 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-197 | ✓ | email | 12 | ✓ | ✓ | ✓ |
 | impact-198 | ✓ | — | 5 | ✓ | ✓ | ✓ |
 | impact-199 | ✓ | adresse, horaires, realisation | 9 | ✓ | ✓ | ✓ |
-| impact-200 | ✓ | adresse, horaires, realisation | 6 | ✓ | ✓ | ✓ |
+| impact-200 | ✓ | adresse, horaires, realisation | 7 | ✗ | — | ✓ |
 | impact-201 | ✓ | — | 7 | ✓ | ✓ | ✓ |
 | impact-207 | ✓ | email | 9 | — | ✓ | ✓ |
 | impact-208 | ✓ | horaires, realisation | 8 | ✓ | ✓ | Paris, Marseille |
@@ -223,13 +223,13 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-210 | ✓ | email | 7 | — | ✓ | ✓ |
 | impact-211 | ✓ | email, horaires | 7 | — | ✓ | ✓ |
 | impact-212 | ✓ | telephone, email, realisation | 7 | — | ✓ | ✓ |
-| impact-213 | accroche | horaires, realisation | 9 | — | ✓ | ✓ |
-| impact-214 | chiffre | telephone, email, adresse, realisation | 4 | — | ✓ | ✓ |
+| impact-213 | ✓ | horaires, realisation | 9 | — | ✓ | ✓ |
+| impact-214 | ✓ | telephone, email, adresse, realisation | 4 | — | ✓ | ✓ |
 | impact-215 | ✓ | telephone | 11 | — | ✓ | ✓ |
 | impact-216 | ✓ | horaires | 0 | — | ✓ | Paris, Marseille |
-| impact-217 | ✓ | realisation | 6 | ✓ | ✓ | ✓ |
+| impact-217 | ✓ | realisation | 7 | ✓ | ✓ | ✓ |
 | impact-218 | ✓ | — | 6 | ✓ | ✓ | ✓ |
-| impact-219 | ✓ | — | 9 | ✓ | ✓ | ✓ |
+| impact-219 | ✓ | — | 10 | ✓ | ✓ | ✓ |
 | impact-220 | ✓ | email | 6 | ✓ | ✓ | ✓ |
 | impact-221 | ✓ | — | 5 | ✓ | ✓ | ✓ |
 | impact-222 | ✓ | — | 1 | ✓ | ✓ | Paris |
@@ -242,7 +242,7 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-231 | ✓ | telephone | 4 | ✓ | ✓ | ✓ |
 | impact-232 | ✓ | telephone | 5 | ✓ | ✓ | ✓ |
 | impact-233 | ✓ | telephone | 5 | ✓ | ✓ | ✓ |
-| impact-235 | ✓ | email, realisation | 4 | ✓ | ✓ | ✓ |
+| impact-235 | ✓ | email, realisation | 5 | ✓ | ✓ | ✓ |
 | impact-236 | ✓ | — | 4 | ✓ | ✓ | ✓ |
 | impact-237 | ✓ | telephone, email | 5 | ✓ | ✓ | ✓ |
 | impact-238 | ✓ | — | 5 | ✓ | ✓ | ✓ |
@@ -318,7 +318,7 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-308 | ✓ | email | 6 | ✓ | ✓ | ✓ |
 | impact-309 | ✓ | — | 6 | ✓ | ✓ | ✓ |
 | impact-310 | ✓ | — | 6 | ✓ | ✓ | ✓ |
-| impact-311 | accroche | — | 6 | ✓ | ✓ | ✓ |
+| impact-311 | ✓ | — | 6 | ✓ | ✓ | ✓ |
 | impact-312 | ✓ | telephone, email | 6 | ✓ | ✓ | Paris |
 | impact-313 | ✓ | — | 6 | ✓ | ✓ | Paris, contact@urgence-plomberie.fr |
 | impact-314 | ✓ | telephone, email | 6 | ✓ | ✓ | Paris |
@@ -326,8 +326,8 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-316 | ✓ | telephone, email | 7 | ✓ | ✓ | ✓ |
 | impact-317 | ✓ | telephone, email | 7 | ✓ | ✓ | Paris |
 | impact-318 | ✓ | telephone, email | 5 | ✓ | ✓ | ✓ |
-| impact-319 | accroche | — | 7 | ✓ | ✓ | Paris, contact@eco-clean-habitat.fr |
-| impact-321 | accroche | email | 7 | ✓ | ✓ | Paris |
+| impact-319 | ✓ | — | 7 | ✓ | ✓ | Paris, contact@eco-clean-habitat.fr |
+| impact-321 | ✓ | email | 7 | ✓ | ✓ | Paris |
 | impact-322 | ✓ | — | 7 | ✓ | ✓ | Paris, contact@agence-prestige.com |
 | impact-324 | ✓ | realisation | 7 | ✓ | ✓ | Lille, hello@liveticket.example |
 | impact-325 | ✓ | realisation | 3 | ✓ | ✓ | contact@executivehub.example |
