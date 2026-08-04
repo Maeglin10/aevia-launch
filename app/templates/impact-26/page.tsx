@@ -117,11 +117,12 @@ function formatEUR(n: number): string {
   return `€${n.toLocaleString("fr-FR")}`;
 }
 
-const testimonials = [
+const testimonials_SOURCE = [
   { text: "Un parfum qui raconte une histoire. Nuit Absolue est devenu mon identité olfactive.", name: "Camille R.", location: "Paris" },
   { text: "La qualité des matières premières est incomparable. Je ne peux plus porter autre chose.", name: "Thomas V.", location: "Lyon" },
   { text: "Éther comprend ce que la parfumerie de niche devrait être — art, pas commerce.", name: "Isabelle M.", location: "Bordeaux" },
 ]
+let testimonials = testimonials_SOURCE;
 
 type ActivePage =
   | "home"
@@ -166,6 +167,10 @@ export default function Impact26() {
   }, []);
 
   fd = session?.formData;
+  testimonials = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], text: r.text, name: r.author })),
+    testimonials_SOURCE,
+  );
 
   PRESTATIONS_INLINE = resolveList(
 

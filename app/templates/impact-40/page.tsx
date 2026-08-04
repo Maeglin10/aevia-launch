@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from "react";
@@ -29,6 +30,7 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientCity,
+  clientFaq,
   clientName,
   clientReviews,
   clientServices,
@@ -151,7 +153,7 @@ const seasonData: Record<
   },
 };
 
-const testimonials = [
+const testimonials_SOURCE = [
   {
     name: "Marie-Claire Dubois",
     role: "Abonnée depuis 3 ans",
@@ -174,6 +176,7 @@ const testimonials = [
     avatar: "SP",
   },
 ];
+let testimonials = testimonials_SOURCE;
 
 const plans = [
   {
@@ -228,7 +231,7 @@ const plans = [
   },
 ];
 
-const faqs = [
+const faqs_SOURCE = [
   {
     q: "Comment fonctionne l'abonnement AMAP ?",
     a: "Vous vous engagez sur 6 mois minimum. Chaque semaine, votre panier est prêt le jeudi matin. Vous pouvez le récupérer à la ferme ou opter pour la livraison (rayon 30 km, incluse dans le Panier Famille).",
@@ -254,6 +257,7 @@ const faqs = [
     a: "Chaque panier est accompagné de conseils de conservation adaptés. En général : légumes-feuilles au réfrigérateur dans un linge humide, courges et tomates à température ambiante, racines dans le bac à légumes.",
   },
 ];
+let faqs = faqs_SOURCE;
 
 // ─── Sub-components ────────────────────────────────────────────────────────────
 function GrowingPlant({ progress }: { progress: ReturnType<typeof useTransform> }) {
@@ -500,6 +504,14 @@ export default function TerreVivantePage() {
   }, []);
 
   fd = session?.formData;
+  testimonials = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], text: r.text, name: r.author })),
+    testimonials_SOURCE,
+  );
+  faqs = resolveList(
+    clientFaq(session)?.map((f: any, i: number) => ({ ...faqs_SOURCE[i % faqs_SOURCE.length], q: f.q, a: f.a })),
+    faqs_SOURCE,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

@@ -96,7 +96,7 @@ const PROFILS = [
   thème et le wizard ne les demande pas. Y verser les prestations du client
   remplacerait « Découvrir / Concevoir / Livrer » par ses trois services.
 */
-const EXCLUS = /^(NAV|MENU_LINKS|LINKS|ROUTES|PAGES|COLORS|C|FONTS|EASE|BREAKPOINTS|SOCIALS?|ICONS?|PROCESS|PROCESSUS|ETAPES|STEPS|METHODE|METHOD|TIMELINE|JOURNAL|BLOG|POSTS|ARTICLES|PRESSE|PRESS|AWARDS|CAREERS|JOBS|FAQ_NAV)/i;
+const EXCLUS = /^(nav|links|routes|pages|filters?|tabs?|categories|colors?|fonts?|slides?|words?|particles?|NAV|MENU_LINKS|LINKS|ROUTES|PAGES|COLORS|C|FONTS|EASE|BREAKPOINTS|SOCIALS?|ICONS?|PROCESS|PROCESSUS|ETAPES|STEPS|METHODE|METHOD|TIMELINE|JOURNAL|BLOG|POSTS|ARTICLES|PRESSE|PRESS|AWARDS|CAREERS|JOBS|FAQ_NAV)/i;
 
 function ferme(src, depuis, ouvre = "[", clos = "]") {
   let i = src.indexOf(ouvre, depuis);
@@ -124,7 +124,12 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
   const assigns = [];
   const helpers = new Set();
 
-  const decls = [...src.matchAll(/^const ([A-Z][A-Za-z0-9_]*)\s*(?::[^=]+)?=\s*\[/gm)];
+  /*
+    Majuscules et minuscules. Une bonne partie des thèmes nomme ses listes
+    « courses », « testimonials », « plans », « stats » ; ne viser que les
+    constantes capitalisées en laissait trente-trois de côté.
+  */
+  const decls = [...src.matchAll(/^const ([A-Za-z_][A-Za-z0-9_]*)\s*(?::[^=]+)?=\s*\[/gm)];
   for (const dm of decls) {
     const nom = dm[1];
     if (EXCLUS.test(nom)) continue;
@@ -140,7 +145,7 @@ for (const id of CIBLES.length ? CIBLES : fs.readdirSync(ROOT).filter((d) => d.s
       première, elles dérivent. On retrouve donc la déclaration par son nom à
       chaque tour, sinon les découpes se font au milieu d'une autre.
     */
-    const decl = new RegExp(`^const ${nom}\\s*(?::[^=]+)?=\\s*\\[`, "m");
+    const decl = new RegExp(`^const ${nom}\\b\\s*(?::[^=]+)?=\\s*\\[`, "m");
     const pos = src.search(decl);
     if (pos === -1) continue;
     const fin = ferme(src, pos);

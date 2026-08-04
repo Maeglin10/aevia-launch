@@ -129,7 +129,7 @@ const RITUALS_DEMO = [
   },
 ];
 
-const amenities = [
+const amenities_SOURCE = [
   { icon: <Droplets className="w-6 h-6" />, label: "Thermal Pools", desc: "Three mineral pools at 32°, 37° and 40°" },
   { icon: <Wind className="w-6 h-6" />, label: "Steam Grotto", desc: "Himalayan salt-infused steam room" },
   { icon: <Leaf className="w-6 h-6" />, label: "Botanical Garden", desc: "Private herb garden & quiet meadow" },
@@ -137,6 +137,7 @@ const amenities = [
   { icon: <Sparkles className="w-6 h-6" />, label: "Ice Fountain", desc: "Invigorating contrast therapy" },
   { icon: <Heart className="w-6 h-6" />, label: "Meditation Loft", desc: "Soundproofed Tibetan singing bowls" },
 ];
+let amenities = amenities_SOURCE;
 
 const TESTIMONIALS_SOURCE = [
   {
@@ -403,6 +404,10 @@ export default function AuraWellnessPage() {
   }, []);
 
   fd = session?.formData;
+  amenities = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...amenities_SOURCE[i % amenities_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),
+    amenities_SOURCE,
+  );
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,
