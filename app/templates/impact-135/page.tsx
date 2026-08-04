@@ -1048,7 +1048,7 @@ export default function Impact135Page() {
     MARKET_CARDS_SOURCE,
   );
   PORTFOLIO_DATA = resolveList(
-    clientStats(session)?.map((s: any, i: number) => ({ ...PORTFOLIO_DATA_SOURCE[i % PORTFOLIO_DATA_SOURCE.length], val: s.value, label: s.label })),
+    clientStats(session)?.map((s: any, i: number) => ({ ...PORTFOLIO_DATA_SOURCE[i % PORTFOLIO_DATA_SOURCE.length], val: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, label: s.label })),
     PORTFOLIO_DATA_SOURCE,
   );
   PLANS = resolveList(

@@ -925,7 +925,7 @@ export default function HorizonMaritimePage() {
 
 
   stats = resolveList(
-    clientStats(session)?.map((s: any, i: number) => ({ ...stats_SOURCE[i % stats_SOURCE.length], value: s.value, label: s.label })),
+    clientStats(session)?.map((s: any, i: number) => ({ ...stats_SOURCE[i % stats_SOURCE.length], value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, ""), label: s.label })),
     stats_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

@@ -2168,7 +2168,7 @@ export default function LegalFirmTemplate() {
   OFFICES = OFFICES_LIVE();
 
   TRUST_METRICS = resolveList(
-    clientStats(sessionData)?.map((s: any, i: number) => ({ ...TRUST_METRICS_SOURCE[i % TRUST_METRICS_SOURCE.length], value: s.value, label: s.label })),
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...TRUST_METRICS_SOURCE[i % TRUST_METRICS_SOURCE.length], value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, ""), label: s.label })),
     TRUST_METRICS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
