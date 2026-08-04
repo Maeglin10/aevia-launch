@@ -92,7 +92,8 @@ function GridBackground() {
 
 // ─── DATA MANIFESTS ─────────────────────────────────────────────────────────
 
-const MANIFEST = {
+function MANIFEST_LIVE() {
+  return {
   hero: {
     status: "SYSTEMS ONLINE",
     title: (clientName(sessionData) ?? "MORPH STUDIO"),
@@ -126,7 +127,9 @@ const MANIFEST = {
     { q: "Do you create the 3D assets in-house?", a: "Yes, our team includes technical artists who build, rig, and optimize assets specifically for real-time web rendering in Blender and Maya." },
     { q: "What is your typical project timeline?", a: "A standard interactive 3D landing page takes 6-8 weeks from concept to deployment. Complex data visualizations or configurators may take 12-16 weeks." }
   ]
+};
 }
+let MANIFEST = MANIFEST_LIVE();
 
 // ─── MAIN PAGE ──────────────────────────────────────────────────────────────
 
@@ -159,6 +162,8 @@ export default function MorphStudioPage() {
   }, []);
 
   fd = session?.formData;
+
+  MANIFEST = MANIFEST_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

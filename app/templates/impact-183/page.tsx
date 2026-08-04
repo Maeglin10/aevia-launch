@@ -80,7 +80,8 @@ const CHANTIERS = [
   { titre: "Bassin familial 7×3,5", lieu: "Wasquehal", an: "2024", note: "Escalier d'angle, plage immergée, abri télescopique bas." },
 ];
 
-const ZONES_DEMO = [
+function ZONES_DEMO_LIVE() {
+  return [
   { ville: (clientCity({ formData: fd }) ?? "Lille"), detail: "Métropole et première couronne" },
   { ville: "Roubaix · Tourcoing", detail: "Intervention sous 48 h" },
   { ville: "Villeneuve-d'Ascq", detail: "Entretien hebdomadaire possible" },
@@ -88,6 +89,8 @@ const ZONES_DEMO = [
   { ville: "Seclin · Douai", detail: "Sur rendez-vous" },
   { ville: "Béthune", detail: "Chantiers neufs uniquement" },
 ];
+}
+let ZONES_DEMO = ZONES_DEMO_LIVE();
 let ZONES = ZONES_DEMO;
 
 const COULEURS = [
@@ -153,6 +156,8 @@ export default function CouleursCOPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+
+  ZONES_DEMO = ZONES_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,

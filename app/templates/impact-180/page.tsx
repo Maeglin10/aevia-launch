@@ -61,12 +61,15 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 
-const REALISATIONS = [
+function REALISATIONS_LIVE() {
+  return [
   { t: `Copropriété · 84 lots, ${clientCity({ formData: fd }) ?? "Villeurbanne"}`, n: "Chaufferie gaz condensation", d: "Remplacement de deux chaudières de 1998 par une cascade de trois modules. Coupure de trois jours, en juin, avec production d'eau chaude maintenue." },
   { t: "Maison 1962 · Sainte-Foy", n: "Pompe à chaleur air/eau", d: "Dépose d'une chaudière fioul, PAC 11 kW et remplacement de six radiateurs. Facture de chauffage divisée par 2,4 sur la première saison." },
   { t: "Restaurant · Lyon 2e", n: "Production ECS renforcée", d: "Ballon 500 L et bouclage sanitaire pour un service en continu. Posé de nuit pour ne pas fermer la salle." },
   { t: "Atelier · Corbas", n: "Aérothermes gaz", d: "800 m² à chauffer sans reprendre le réseau existant. Quatre aérothermes suspendus, régulation par zone." },
 ];
+}
+let REALISATIONS = REALISATIONS_LIVE();
 
 const CONTRATS = [
   { f: "Essentiel", p: "179 €/an", n: "Une visite annuelle, réglage complet, attestation d'entretien. Obligatoire pour les chaudières gaz." },
@@ -138,6 +141,8 @@ export default function ThermotekChauffagePage() {
   }, []);
 
   fd = session?.formData;
+
+  REALISATIONS = REALISATIONS_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,

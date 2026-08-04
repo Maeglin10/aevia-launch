@@ -75,7 +75,8 @@ const MATERIAUX = [
   { nom: "Isolation fibre de bois", usage: "Murs, toiture, planchers", note: "Déphasage 12 h contre 4 h pour la laine minérale. Confort d'été sans climatisation." },
 ];
 
-const ZONES_DEMO = [
+function ZONES_DEMO_LIVE() {
+  return [
   { ville: (clientCity(sessionData) ?? "Nantes"), detail: "Agglomération et première couronne" },
   { ville: "Saint-Nazaire", detail: "Chantiers neufs et extensions" },
   { ville: "Vannes · Redon", detail: "Sur étude, déplacement au devis" },
@@ -83,6 +84,8 @@ const ZONES_DEMO = [
   { ville: "La Baule", detail: "Rénovation lourde et surélévation" },
   { ville: (clientCity(sessionData) ?? "Angers"), detail: "Nous consulter selon la période" },
 ];
+}
+let ZONES_DEMO = ZONES_DEMO_LIVE();
 let ZONES = ZONES_DEMO;
 
 const REALISATIONS_DEMO = [
@@ -125,6 +128,8 @@ export default function BatirSolidePage() {
   }, []);
 
   fd = session?.formData;
+
+  ZONES_DEMO = ZONES_DEMO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

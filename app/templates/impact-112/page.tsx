@@ -181,7 +181,8 @@ const PROCESS_STEPS = [
   },
 ];
 
-const TESTIMONIALS = [
+function TESTIMONIALS_LIVE() {
+  return [
   {
     q: "La tasse à thé que j'ai reçue est d'une finesse incroyable. Je ne pensais pas qu'on pouvait expédier de la porcelaine aussi bien protégée. Elle est parfaite depuis six mois d'usage quotidien.",
     name: "Mathilde Rousseau",
@@ -207,6 +208,8 @@ const TESTIMONIALS = [
     stars: 5,
   },
 ];
+}
+let TESTIMONIALS = TESTIMONIALS_LIVE();
 
 const FAQS_DEMO = [
   {
@@ -1030,6 +1033,8 @@ export default function ArtisanMinimalPage() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS = TESTIMONIALS_LIVE();
   PRICING = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     PRICING_SOURCE,

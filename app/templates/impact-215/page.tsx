@@ -193,7 +193,8 @@ const USPS_SOURCE = [
 ];
 let USPS = USPS_SOURCE;
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   { id: 1, name: 'Isabelle M.', city: (clientCity(sessionData) ?? "Lyon"), product: 'Invicta Prélude 8kW', rating: 5, text: 'Magnifique poêle, installation parfaite. Livré en 2 jours, service impeccable. Après 3 mois d\'utilisation, notre maison est toujours à la bonne température.', verified: true, date: 'Janvier 2025' },
   { id: 2, name: 'Thomas D.', city: (clientCity(sessionData) ?? "Bordeaux"), product: 'MCZ Musa 11kW', rating: 5, text: 'Le granulés MCZ Musa est silencieux, efficace et l\'application mobile est bluffante. On programme la chauffe depuis le lit ! Qualité premium à prix justifié.', verified: true, date: 'Février 2025' },
   { id: 3, name: 'Claire & Paul R.', city: (clientCity(sessionData) ?? "Strasbourg"), product: 'Stuv 16 Insert', rating: 5, text: 'Cet insert a transformé notre salon. Le flamme est spectaculaire derrière la vitre panoramique. L\'équipe Flamme & Co nous a très bien conseillés.', verified: true, date: 'Décembre 2024' },
@@ -201,12 +202,17 @@ const TESTIMONIALS_SOURCE = [
   { id: 5, name: 'Sophie V.', city: (clientCity(sessionData) ?? "Nantes"), product: 'Edilkamin Eco 10kW', rating: 5, text: 'Edilkamin m\'a bluffée par son rendement. La qualité de fabrication italienne est au rendez-vous. Flamme & Co a été très réactif pour le SAV lors d\'une petite question technique.', verified: true, date: 'Mars 2025' },
   { id: 6, name: 'Laurent P.', city: (clientCity(sessionData) ?? "Marseille"), product: 'Planika Pure Flame 3', rating: 4, text: 'Décoratif et élégant, ce brûleur éthanol est parfait pour notre terrasse. La flamme est réelle et hypnotique. Livraison rapide, emballage soigné.', verified: true, date: 'Avril 2025' },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
-const EXTRA_TESTIMONIALS_SOURCE = [
+function EXTRA_TESTIMONIALS_SOURCE_LIVE() {
+  return [
   { id: 7, name: 'Héloïse G.', city: (clientCity(sessionData) ?? "Rennes"), product: 'MCZ Musa 11kW', rating: 5, text: 'J\'hésite pendant des semaines, et finalement Flamme & Co m\'a convaincue avec un conseil personnalisé. Le poêle à granulés MCZ est parfait pour notre maison de 110 m².' , verified: true, date: 'Mars 2025' },
   { id: 8, name: 'Benoît L.', city: (clientCity(sessionData) ?? "Grenoble"), product: 'Invicta Prélude 8kW', rating: 5, text: 'Parfait pour nos hivers montagnards ! Très content de mon achat. Le rendement est au top, et l\'équipe Flamme & Co était disponible pour répondre à toutes mes questions.', verified: true, date: 'Octobre 2024' },
 ];
+}
+let EXTRA_TESTIMONIALS_SOURCE = EXTRA_TESTIMONIALS_SOURCE_LIVE();
 let EXTRA_TESTIMONIALS = EXTRA_TESTIMONIALS_SOURCE;
 
 const FAQS_DEMO = [
@@ -1814,6 +1820,10 @@ export default function FlammeEtCoPage() {
   }, []);
 
   fd = session?.formData;
+
+  EXTRA_TESTIMONIALS_SOURCE = EXTRA_TESTIMONIALS_SOURCE_LIVE();
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   FEATURED = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...FEATURED_SOURCE[i % FEATURED_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? FEATURED_SOURCE[i % FEATURED_SOURCE.length].price })),
     FEATURED_SOURCE,

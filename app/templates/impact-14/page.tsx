@@ -283,7 +283,8 @@ const voyageWaypoints: Waypoint[] = [
   { day: "Day 15", port: "Ibiza", lat: "38°54′N", lon: "1°26′E", description: "Hidden coves on the island's north shore. Sunset over Ses Salines salt flats." },
 ];
 
-const testimonials: Testimonial[] = [
+function testimonials_LIVE() {
+  return [
   {
     name: "Charlotte Ashworth",
     title: "Private Client, London",
@@ -306,6 +307,8 @@ const testimonials: Testimonial[] = [
     stars: 5,
   },
 ];
+}
+let testimonials = testimonials_LIVE();
 
 const stats_SOURCE: StatItem[] = [
   { value: 34127, decimals: 2, suffix: "", label: "Nautical Miles Sailed" },
@@ -863,6 +866,8 @@ export default function HorizonMaritimePage() {
   }, []);
 
   fd = session?.formData;
+
+  testimonials = testimonials_LIVE();
   stats = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...stats_SOURCE[i % stats_SOURCE.length], value: s.value, label: s.label })),
     stats_SOURCE,

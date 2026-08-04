@@ -121,12 +121,15 @@ const SUSTAINABILITY_ITEMS = [
   },
 ];
 
-const STORES = [
+function STORES_LIVE() {
+  return [
   { city: (clientCity(sessionData) ?? "Paris"), address: '12 Rue Saint-Honoré, 75001', hours: 'Mon–Sat 10–19' },
   { city: 'London', address: '47 Sloane Street, SW1X 9LP', hours: 'Mon–Sat 10–18' },
   { city: 'New York', address: '850 Madison Avenue, NY 10021', hours: 'Mon–Sat 10–19' },
   { city: 'Tokyo', address: '5-4-1 Minami-Aoyama, Minato', hours: 'Daily 11–20' },
 ];
+}
+let STORES = STORES_LIVE();
 
 /* Garment sizes offered on every product — a size must be chosen before a
    piece can be added to the bag. */
@@ -1182,6 +1185,8 @@ export default function FashionEditorialTemplate() {
   }, []);
 
   fd = session?.formData;
+
+  STORES = STORES_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

@@ -99,11 +99,14 @@ const ATOUTS = [
   "Intervention d'urgence 7j/7 en moins de 2h",
 ]
 
-const AVIS_SOURCE = [
+function AVIS_SOURCE_LIVE() {
+  return [
   { texte: "Construction de notre piscine béton livrée dans les délais, chantier propre et équipe à l'écoute. Le résultat dépasse toutes nos attentes. Un vrai savoir-faire.", auteur: "Marc D.", detail: `Construction, ${clientCity({ formData: fd }) ?? "Toulouse"}` },
   { texte: "Rénovation complète de notre bassin des années 90 : nouveau liner, margelles et filtration au sel. On profite enfin d'une eau parfaite. Bravo !", auteur: "Christine M.", detail: "Rénovation, Colomiers" },
   { texte: "Local technique refait avec régulation automatique et éclairage LED. Conseils pertinents, finitions impeccables, délai tenu à la journée près.", auteur: "Famille Aubert", detail: "Local technique, Blagnac" },
-]
+];
+}
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();
 let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -169,6 +172,8 @@ export default function VoltPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

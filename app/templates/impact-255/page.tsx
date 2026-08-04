@@ -206,7 +206,8 @@ const VALUES: ValueItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Nous avons subi une résiliation abusive de notre contrat distributeur après 12 ans de relation. Maître Voss a construit un dossier implacable. L\'affaire a été tranchée en notre faveur en appel — 180 000 € récupérés. Une avocate qui ne lâche rien.",
@@ -220,6 +221,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     role: `Directrice générale — chaîne de restauration, ${clientCity(sessionData) ?? "Toulouse"}`,
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -2089,6 +2092,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

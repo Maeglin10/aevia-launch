@@ -1286,7 +1286,8 @@ type Testimonial = {
   stars: number;
 };
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Maison Céleste a réalisé ma robe de mariée. Du premier essayage à la livraison, chaque détail a été pensé avec une attention que je n'avais jamais rencontrée. Je n'ai jamais été aussi belle de ma vie.",
@@ -1312,6 +1313,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     stars: 5,
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
@@ -2593,6 +2596,8 @@ export default function Impact281Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   MATERIALS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...MATERIALS_SOURCE[i % MATERIALS_SOURCE.length], nom: s.title, description: s.desc || "" || "" })),
     MATERIALS_SOURCE,

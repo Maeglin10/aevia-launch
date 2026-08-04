@@ -1455,7 +1455,8 @@ interface Testimonial {
   detail: string;
 }
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Rénovation électrique complète de notre maison de 180 m² + installation domotique Somfy. Coordination parfaite, délais tenus à la journée. L\'attestation CONSUEL reçue en 48h après la fin du chantier.",
@@ -1471,6 +1472,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     detail: 'Dépannage urgence + LED',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
@@ -2083,6 +2086,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

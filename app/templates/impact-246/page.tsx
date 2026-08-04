@@ -269,7 +269,8 @@ const TECH_SPECS: TechSpec[] = [
 ];
 
 /* ── Témoignages ─────────────────────────────────────────────────────────── */
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Rupture de canalisation un dimanche soir, eau dans le couloir. Ils ont débarqué en 40 minutes, tout réparé avant minuit. Tarif annoncé à l'avance, respecté à l'euro. Je n'appelle plus que ThermoFix.",
@@ -285,6 +286,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     stars: 5,
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -2376,6 +2379,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

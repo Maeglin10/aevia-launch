@@ -99,11 +99,14 @@ const SERVICES_SOURCE = [
 let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
-const TEMOIGNAGES_SOURCE = [
+function TEMOIGNAGES_SOURCE_LIVE() {
+  return [
   { texte: "Clémence a transformé notre appartement en un espace où il fait vraiment bon vivre. Son sens du détail et sa rigueur sont bluffants — et le budget a été parfaitement respecté.", auteur: "Marie & Thomas L.", projet: "Appartement 160 m², Lyon 2e" },
   { texte: "Nous avions peur de perdre le caractère de notre maison ancienne. Le Studio Noma a su magnifier les volumes tout en apportant la modernité qu'on cherchait. Résultat magistral.", auteur: "Édouard V.", projet: `Maison de maître, ${clientCity({ formData: fd }) ?? "Villeurbanne"}` },
   { texte: "Un accompagnement de A à Z, professionnel et chaleureux. Notre boutique est maintenant l'une des plus belles de la galerie. Les ventes ont bondi de 40% depuis l'ouverture.", auteur: "Sophie K.", projet: "Concept store, Part-Dieu" },
-]
+];
+}
+let TEMOIGNAGES_SOURCE = TEMOIGNAGES_SOURCE_LIVE();
 let TEMOIGNAGES_DEMO = TEMOIGNAGES_SOURCE;
 let TEMOIGNAGES = TEMOIGNAGES_DEMO;
 
@@ -147,6 +150,8 @@ export default function StudioNomaPage() {
   }, []);
 
   fd = session?.formData;
+
+  TEMOIGNAGES_SOURCE = TEMOIGNAGES_SOURCE_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

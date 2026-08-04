@@ -238,7 +238,8 @@ const EXPERTISE_ITEMS: ExpertiseItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Depuis que je travaille avec Marchand & Partners, j'ai récupéré 3 heures par semaine et découvert plus de 4 000 € de déductions que j'ignorais. Leur approche proactive a complètement changé ma façon de piloter mon activité.",
@@ -254,6 +255,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     company: `SARL — Commerce de détail, ${clientCity(sessionData) ?? "Nantes"}`,
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -2252,6 +2255,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

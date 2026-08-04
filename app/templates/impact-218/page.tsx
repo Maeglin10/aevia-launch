@@ -1590,7 +1590,8 @@ function CellarExperience() {
    ════════════════════════════════════════════════════════════════════════════ */
 type Testimonial = { quote: string; name: string; role: string };
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       'Je suis l’allocation du Domaine Miroir depuis huit ans. Aucun millésime ne ressemble au précédent, et pourtant chacun porte la même signature de droiture. C’est une cave que l’on garde.',
@@ -1604,6 +1605,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     role: `Chef sommelier · Maison Étoilée, ${clientCity(sessionData) ?? "Lyon"}`,
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function Testimonials() {
@@ -2161,6 +2164,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     EDIT_ROWS_SOURCE,

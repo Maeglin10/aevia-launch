@@ -2284,7 +2284,8 @@ type TeamMember = {
   accent: string;
 };
 
-const TEAM_DEMO: TeamMember[] = [
+function TEAM_DEMO_LIVE() {
+  return [
   {
     nom: (clientName(sessionData) ?? "Dr. Marc Lecomte"),
     role: 'Médecin généraliste & médecin du voyageur',
@@ -2307,6 +2308,8 @@ const TEAM_DEMO: TeamMember[] = [
     accent: C.emeraldMid,
   },
 ];
+}
+let TEAM_DEMO = TEAM_DEMO_LIVE();
 
 function TeamMemberCard({ member, i }: { member: any; i: number }) {
   const [hover, setHover] = useState(false);
@@ -2790,6 +2793,8 @@ function Impact285Page() {
   }, []);
 
   fd = session?.formData;
+
+  TEAM_DEMO = TEAM_DEMO_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

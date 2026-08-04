@@ -1590,7 +1590,8 @@ function Heritage() {
 
 // ─── TESTIMONIALS ─────────────────────────────────────────────────────────────
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote: "Ma Perpétuelle Hora Viva accompagne chaque décision importante de ma vie depuis vingt-deux ans. Ce n\'est pas une montre — c\'est un compagnon silencieux et fidèle.",
     author: 'Henri de Vauclaire',
@@ -1604,6 +1605,8 @@ const TESTIMONIALS_SOURCE = [
     stars: 5,
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function Testimonials() {
@@ -2368,6 +2371,8 @@ export default function HoraVivaPage() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDITORIAL_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDITORIAL_ROWS_SOURCE[i % EDITORIAL_ROWS_SOURCE.length], title: s.title, text: s.desc || "" || "" })),
     EDITORIAL_ROWS_SOURCE,
