@@ -14,6 +14,7 @@ import {
   clientName,
   clientPhotos,
   clientServices,
+  clientStats,
   clientTeam,
   clientText,
   clientWorks,
@@ -325,7 +326,7 @@ return (
             {/* Stats */}
             <section className="py-12 bg-[var(--brand,#C46A3E)]">
               <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
-                {[["22 ans", "D'expérience"], ["140+", "Projets réalisés"], ["12", "Prix d'architecture"], ["4", "Villes d'agences"]].map(([n, l]) => (
+                {(clientStats(sessionData)?.map((s: any) => [s.value, s.label]) ?? [["22 ans", "D'expérience"], ["140+", "Projets réalisés"], ["12", "Prix d'architecture"], ["4", "Villes d'agences"]]).map(([n, l]) => (
                   <div key={l} className="text-center">
                     <p className="text-white text-3xl font-bold mb-1">{n}</p>
                     <p className="text-white/60 text-xs uppercase tracking-widest">{l}</p>

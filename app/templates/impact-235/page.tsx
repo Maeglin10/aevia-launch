@@ -898,7 +898,7 @@ function CollectionSequence() {
             textAlign: 'right',
           }}
         >
-          <Eyebrow style={{ flexDirection: 'row-reverse' }}>Les collections</Eyebrow>
+          <Eyebrow style={{ flexDirection: 'row-reverse' }}>{/* TEXTE_SECTION */ clientText(sessionData, "collections.texte") ?? (<>Les collections</>)}</Eyebrow>
         </div>
 
         {/* Captions */}

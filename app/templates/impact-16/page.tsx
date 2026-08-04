@@ -327,7 +327,7 @@ return (
             {/* Clients Bar */}
             <section className="py-16 px-6 bg-[#0E0B08] border-y border-white/5">
               <div className="max-w-6xl mx-auto">
-                <Reveal className="text-center mb-8"><p className="text-white/20 text-xs tracking-widest uppercase font-mono">Partenaires & Diffusions</p></Reveal>
+                <Reveal className="text-center mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.texte") ?? (<><p className="text-white/20 text-xs tracking-widest uppercase font-mono">Partenaires & Diffusions</p></>)}</Reveal>
                 <div className="flex flex-wrap justify-center gap-12">
                   {CLIENTS.map((c, i) => (
                     <Reveal key={c} delay={i * 0.06}><span className="text-white/30 text-sm tracking-widest hover:text-[var(--brand,#C9A86C)] transition-colors cursor-pointer uppercase font-mono">{c}</span></Reveal>

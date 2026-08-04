@@ -15,6 +15,7 @@ import {
   clientName,
   clientPhotos,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 
@@ -296,7 +297,7 @@ return (
           {/* Stats */}
           <section className="py-12 bg-[var(--brand,#B49A6A)]">
             <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
-              {[["137", "Ans d'histoire"], ["100%", "Manufacture"], ["72h", "Réserve max."], ["500", "Pièces / an"]].map(([n, l]) => (
+              {(clientStats(sessionData)?.map((s: any) => [s.value, s.label]) ?? [["137", "Ans d'histoire"], ["100%", "Manufacture"], ["72h", "Réserve max."], ["500", "Pièces / an"]]).map(([n, l]) => (
                 <div key={l} className="text-center">
                   <p className="text-[#0C0B09] text-3xl font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{n}</p>
                   <p className="text-[#0C0B09]/60 text-xs tracking-widest uppercase">{l}</p>

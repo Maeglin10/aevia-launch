@@ -389,7 +389,7 @@ return (
 
         {/* ── Section 2: Showreel Teaser ─────────────────────────────────── */}
         <section style={{ padding: '8rem 3rem', background: '#06060A' }}>
-          <Reveal>
+          <Reveal>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
             <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
               <div
                 style={{
@@ -403,7 +403,7 @@ return (
                 SHOWREEL
               </div>
             </div>
-          </Reveal>
+          </>)}</Reveal>
 
           <Reveal delay={0.1}>
             <div
@@ -732,7 +732,7 @@ return (
 
         {/* ── Section 6: Clients ────────────────────────────────────────── */}
         <section style={{ padding: '8rem 3rem' }}>
-          <Reveal>
+          <Reveal>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.texte") ?? (<>
             <div
               style={{
                 fontFamily: "'Syne Mono', monospace",
@@ -745,7 +745,7 @@ return (
             >
               ILS NOUS FONT CONFIANCE
             </div>
-          </Reveal>
+          </>)}</Reveal>
 
           <div
             style={{

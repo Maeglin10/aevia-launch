@@ -834,7 +834,7 @@ function CTABanner() {
       </div>
 
       <div style={{ position: 'relative', zIndex: 1 }}>
-        <Reveal>
+        <Reveal>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.texte") ?? (<>
           <div
             style={{
               fontFamily: "'Space Grotesk', sans-serif",
@@ -848,8 +848,8 @@ function CTABanner() {
           >
             DISPONIBLE Q3 2025
           </div>
-        </Reveal>
-        <Reveal delay={0.15}>
+        </>)}</Reveal>
+        <Reveal delay={0.15}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.texte-2") ?? (<>
           <p
             style={{
               fontFamily: "'Space Grotesk', sans-serif",
@@ -861,7 +861,7 @@ function CTABanner() {
           >
             Prêt à créer quelque chose d'exceptionnel ?
           </p>
-        </Reveal>
+        </>)}</Reveal>
         <Reveal delay={0.3}>
           <Link
             href="/templates/impact-57/contact"

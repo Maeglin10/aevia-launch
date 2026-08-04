@@ -640,9 +640,9 @@ export default function EclatLuxuryPage() {
 
         {/* ─── KINETIC MARQUEE ───────────────────────────────────────────── */}
         <section className="py-20 border-y border-white/5 overflow-hidden bg-[#030205]">
-          <ParallaxText baseVelocity={-1}>Pure Botanical Extracts</ParallaxText>
+          <ParallaxText baseVelocity={-1}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.texte") ?? (<>Pure Botanical Extracts</>)}</ParallaxText>
           <div className="h-4" />
-          <ParallaxText baseVelocity={1}>Olfactory Architecture</ParallaxText>
+          <ParallaxText baseVelocity={1}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.texte-2") ?? (<>Olfactory Architecture</>)}</ParallaxText>
         </section>
 
         {/* ─── INGREDIENTS TABS ──────────────────────────────────────────── */}

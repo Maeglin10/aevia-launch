@@ -12,6 +12,7 @@ import {
   clientList,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -463,7 +464,7 @@ export default function PulseAppPage() {
       <section id="about" className="py-20 bg-[var(--brand,#6366F1)] text-white">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[["2 400+", "Équipes actives"], ["99.97%", "Uptime garanti"], ["4.9/5", "Note App Store"], ["2h/jour", "Temps économisé"]].map(([val, label]) => (
+            {(clientStats(sessionData)?.map((s: any) => [s.value, s.label]) ?? [["2 400+", "Équipes actives"], ["99.97%", "Uptime garanti"], ["4.9/5", "Note App Store"], ["2h/jour", "Temps économisé"]]).map(([val, label]) => (
               <Reveal key={label}>
                 <div className="text-4xl font-extrabold mb-2">{val}</div>
                 <div className="text-sm text-indigo-200">{label}</div>

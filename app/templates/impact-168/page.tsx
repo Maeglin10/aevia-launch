@@ -2831,10 +2831,10 @@ function ProductDetail({
               </span>
             )}
           </div>
-          <p style={{ fontSize: 15, color: C.creamDim, lineHeight: 1.8, marginBottom: 32, fontWeight: 300, fontFamily: C.sans, maxWidth: 460 }}>
+          <p style={{ fontSize: 15, color: C.creamDim, lineHeight: 1.8, marginBottom: 32, fontWeight: 300, fontFamily: C.sans, maxWidth: 460 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-12.texte") ?? (<>
             Confectionnée en {p.material.toLowerCase()}, la pièce {p.name} incarne l'élégance intemporelle d'Éclat.
             Coupe étudiée, finitions soignées et matière certifiée pour traverser les saisons sans jamais se démoder.
-          </p>
+          </>)}</p>
 
           <div style={{ marginBottom: 28 }}>
             <div style={{ fontSize: 11, color: C.muted, letterSpacing: 1, marginBottom: 10, fontFamily: C.sans, textTransform: "uppercase" }}>
@@ -3104,11 +3104,11 @@ function AboutPage({ goTo }: { goTo: (p: EclatPage) => void }) {
       />
       <section style={{ padding: "clamp(48px, 7vw, 80px) clamp(20px, 6vw, 64px)" }}>
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
-          {[
+          {(clientList(sessionData, "bloc-110322.liste") ?? [
             "Fondée en 2019 à Marseille, Éclat est partie d'un atelier de quatre personnes et d'une question : pourquoi la mode durable devrait-elle être terne ? Nous voulions prouver qu'éthique et désirabilité pouvaient coexister.",
             "Aujourd'hui, nous collaborons avec des filatures européennes sélectionnées pour leur transparence et leur savoir-faire. Le lin vient de Normandie, la soie d'Italie, le cachemire d'ateliers labellisés.",
             "Chaque pièce est pensée comme un investissement : des matières nobles, des coupes intemporelles et des finitions haute couture, pour des vêtements que l'on garde et que l'on transmet.",
-          ].map((paraTxt, i) => (
+          ]).map((paraTxt, i) => (
             <p key={i} style={{ fontSize: 17, color: C.creamDim, lineHeight: 1.9, marginBottom: 24, fontWeight: 300, fontFamily: C.sans }}>
               {paraTxt}
             </p>

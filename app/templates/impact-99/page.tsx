@@ -441,11 +441,11 @@ function CartePage() {
           ))}
         </div>
 
-        <Reveal>
+        <Reveal>{/* TEXTE_SECTION */ clientText(sessionData, "hero.texte") ?? (<>
           <p className="mt-24 text-center text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
             Prix nets, service compris // Liste des allergènes communiquée sur demande
           </p>
-        </Reveal>
+        </>)}</Reveal>
       </div>
     </section>
   );

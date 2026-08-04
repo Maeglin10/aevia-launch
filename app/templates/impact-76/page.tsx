@@ -367,18 +367,18 @@ return (
           ========================================== */}
       <section className="py-40 bg-[#0e0e11] border-t border-white/5 overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <Reveal>
+          <Reveal>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.texte") ?? (<>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-500 mb-16 block">
               MANIFESTO // CORE_DOCTRINE
             </span>
-          </Reveal>
-          <Reveal delay={0.1} y={50}>
+          </>)}</Reveal>
+          <Reveal delay={0.1} y={50}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.texte-2") ?? (<>
             <blockquote className="text-5xl md:text-7xl lg:text-8xl font-black uppercase italic tracking-tighter leading-[1.05] text-white mb-20">
               "We do not build structures.<br />
               We engineer{" "}
               <span className="text-stone-500">absences</span>."
             </blockquote>
-          </Reveal>
+          </>)}</Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16 pt-16 border-t border-white/5">
             {[
               { title: "Precision", body: "Every millimeter calculated through generative algorithms for structural peak efficiency. No element without computational intent." },

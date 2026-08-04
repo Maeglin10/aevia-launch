@@ -311,9 +311,9 @@ return (
 
       {/* ── STATS TICKER ── */}
       <section className="py-16 px-6 border-t border-[var(--brand,#00F5D4)]/10 overflow-hidden">
-        <Reveal className="max-w-6xl mx-auto mb-8">
+        <Reveal className="max-w-6xl mx-auto mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.texte") ?? (<>
           <div className="text-[var(--brand,#00F5D4)] text-xs"><span className="text-[#475569]">// </span>by_the_numbers</div>
-        </Reveal>
+        </>)}</Reveal>
         <div className="relative">
           {/* Fade edges */}
           <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0A0E1A] to-transparent z-10 pointer-events-none" />

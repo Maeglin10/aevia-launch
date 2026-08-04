@@ -912,7 +912,7 @@ function PracticeAreasSection() {
             </h2>
           </Reveal>
 
-          <Reveal delay={0.2}>
+          <Reveal delay={0.2}>{/* TEXTE_SECTION */ clientText(sessionData, "practice-areas.texte") ?? (<>
             <p
               style={{
                 fontFamily: "'Inter', sans-serif",
@@ -928,7 +928,7 @@ function PracticeAreasSection() {
               on a depth of expertise that comes only from a century of unbroken practice
               at the highest level.
             </p>
-          </Reveal>
+          </>)}</Reveal>
         </div>
 
         {/* Accordion items */}
