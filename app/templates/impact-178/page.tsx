@@ -389,7 +389,7 @@ export default function AltaTransactionsPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-6">
               <div className="w-10 h-[1px] bg-[var(--brand,#b8944a)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8944a)]">Immobilier de prestige · {clientCity(sessionData) ?? "Paris"} & Île-de-France</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8944a)]">Immobilier de prestige · {clientCity(sessionData) ?? "Paris"}</span>
             </div>
           </motion.div>
 
@@ -581,7 +581,7 @@ export default function AltaTransactionsPage() {
               <Building2 className="w-5 h-5 text-[var(--brand,#b8944a)]" />
               <span className="font-bold tracking-[0.2em] uppercase text-white text-sm">{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Alta Transactions"))}</span>
             </div>
-            <p className="text-sm text-white/25 leading-relaxed">Immobilier de prestige · {clientCity(sessionData) ?? "Paris"} & Île-de-France · Expertise depuis 2009.</p>
+            <p className="text-sm text-white/25 leading-relaxed">Immobilier de prestige · {clientCity(sessionData) ?? "Paris"} · Expertise depuis 2009.</p>
           </div>
           {[
             { t: "Acheter", ls: ["Appartements", "Maisons & villas", "Programme neuf", "Investissement locatif"] },

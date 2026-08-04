@@ -1782,7 +1782,7 @@ return (
               {[
                 { label: "Email", value: (fd?.email ?? "iris@iris-studio.fr") },
                 { label: "Téléphone", value: "+33 6 12 34 56 78" },
-                { label: "Studio", value: (clientCity({ formData: fd }) ?? "Paris") + " 11e, sur rendez-vous" },
+                { label: "Studio", value: (clientCity({ formData: fd }) ?? "Paris") + ", sur rendez-vous" },
                 { label: "Instagram", value: "@iris.studio.paris" },
               ].map((item) => (
                 <div

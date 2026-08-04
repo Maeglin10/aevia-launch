@@ -677,7 +677,7 @@ function ServicesSection() {
 function TESTIMONIALS_90_DEMO_LIVE() {
   return [
   { name: "Jean-Pierre D.", review: "Le pain de meule est extraordinaire, il se garde 5 jours sans aucun problème. La croûte est bien caramélisée, exactement comme j'aime.", origin: "Croix-Rousse" },
-  { name: "Marie-Laure G.", review: "J'ai participé à l'atelier levain du samedi matin. Une révélation ! Je fais maintenant mon propre pain à la maison grâce aux conseils du chef.", origin: (clientCity(sessionData) ?? "Lyon") + " 6e" },
+  { name: "Marie-Laure G.", review: "J'ai participé à l'atelier levain du samedi matin. Une révélation ! Je fais maintenant mon propre pain à la maison grâce aux conseils du chef.", origin: (clientCity(sessionData) ?? "Lyon") },
   { name: "Antoine S.", review: "La brioche feuilletée du samedi matin est un chef-d'œuvre. Beurre parfait, croustillante et fondante à la fois. Pensez à réserver !", origin: "Caluire" }
 ];
 }

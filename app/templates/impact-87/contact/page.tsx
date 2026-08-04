@@ -275,7 +275,7 @@ export default function IronClubContactPage() {
             </h3>
             <p style={{ fontFamily: FONT_BODY, fontSize: 15, color: C.textMuted, lineHeight: 1.8 }}>
               12 rue de la Guillotière<br />
-              69007 {clientCity(sessionData) ?? "Lyon"} 7e<br />
+              69007 {clientCity(sessionData) ?? "Lyon"}<br />
               <a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>
                 04 78 XX XX XX
               </a><br />

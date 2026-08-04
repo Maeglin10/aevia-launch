@@ -34,7 +34,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ATELIER ENCRE VIVANTE — Tatouage Contemporain & Art Corporel · {clientCity(sessionData) ?? "Lyon"} 1er
+   ATELIER ENCRE VIVANTE — Tatouage Contemporain & Art Corporel · {clientCity(sessionData) ?? "Lyon"}
    Chorégraphie de défilement éditoriale : crossfade 320vh, panneau latéral
    collant, formulaire de réservation. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -1424,7 +1424,7 @@ function SafetyPanel() {
               color: 'rgba(245,243,239,0.40)',
             }}
           >
-            Protocole certifié · {clientCity(sessionData) ?? "Lyon"} 1er
+            Protocole certifié · {clientCity(sessionData) ?? "Lyon"}
           </div>
         </div>
 
@@ -2047,7 +2047,7 @@ function Footer() {
             }}
           >
             Tatouage contemporain & art corporel.
-            Pentes de la Croix-Rousse — {clientCity(sessionData) ?? "Lyon"} 1er.
+            Pentes de la Croix-Rousse — {clientCity(sessionData) ?? "Lyon"}.
           </p>
           <div
             style={{

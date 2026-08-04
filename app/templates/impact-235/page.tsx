@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   Atelier Marguerite Voss — Couturière créatrice sur mesure, {clientCity(sessionData) ?? "Paris"} 8e
+   Atelier Marguerite Voss — Couturière créatrice sur mesure, {clientCity(sessionData) ?? "Paris"}
    Premium haute couture landing page
    (Vogue × Maison Margiela × Azzedine Alaïa editorial aesthetic)
    ════════════════════════════════════════════════════════════════════════════ */
@@ -1628,7 +1628,7 @@ function Footer() {
     {
       heading: 'Contact',
       href: '#contact',
-      links: ['Prendre RDV', '12 avenue Hoche, ' + (clientCity(sessionData) ?? 'Paris') + ' 8e', (fd?.email ?? 'contact@ateliervoss.fr'), '+33 1 44 XX XX XX'],
+      links: ['Prendre RDV', '12 avenue Hoche, ' + (clientCity(sessionData) ?? 'Paris'), (fd?.email ?? 'contact@ateliervoss.fr'), '+33 1 44 XX XX XX'],
     },
   ];
 
@@ -1680,7 +1680,7 @@ function Footer() {
               maxWidth: 240,
             }}
           >
-            Couture sur mesure au cœur de {clientCity(sessionData) ?? "Paris"} 8e. Depuis 2008, chaque vêtement est une promesse tenue.
+            Couture sur mesure au cœur de {clientCity(sessionData) ?? "Paris"}. Depuis 2008, chaque vêtement est une promesse tenue.
           </p>
           <div
             style={{

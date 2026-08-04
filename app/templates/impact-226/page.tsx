@@ -592,10 +592,10 @@ return (
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 20, color: C.accent, marginBottom: 8 }}>Encre <em>Noire</em></div>
-            <p style={{ color: "rgba(245,240,232,0.30)", fontSize: 13, lineHeight: 1.6 }}>Studio de tatouage · {clientCity(sessionData) ?? "Paris"} 11e<br />Mar–Sam 10h–19h</p>
+            <p style={{ color: "rgba(245,240,232,0.30)", fontSize: 13, lineHeight: 1.6 }}>Studio de tatouage · {clientCity(sessionData) ?? "Paris"}<br />Mar–Sam 10h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Paris") + " 11e, Île-de-France" }, { icon: <Mail size={13} />, t: (fd?.email ?? "contact@encrenoire-paris.fr") }, { icon: <Clock size={13} />, t: "Mar–Sam 10h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Paris") + ", Île-de-France" }, { icon: <Mail size={13} />, t: (fd?.email ?? "contact@encrenoire-paris.fr") }, { icon: <Clock size={13} />, t: "Mar–Sam 10h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(245,240,232,0.35)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

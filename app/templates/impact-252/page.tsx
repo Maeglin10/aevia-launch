@@ -32,7 +32,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SMILE & CO — Cabinet Dentaire Esthétique · {clientCity(sessionData) ?? "Lyon"} 6e
+   SMILE & CO — Cabinet Dentaire Esthétique · {clientCity(sessionData) ?? "Lyon"}
    Chorégraphie de défilement premium, crossfade sticky 320vh, panneau tech
    collant, formulaire de RDV. 'use client'. Auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -208,7 +208,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "J'avais évité les dentistes pendant dix ans à cause d'une phobie intense. Smile & Co a tout changé — une équipe d'une patience et d'une douceur rares. Aujourd'hui je souris sans me cacher. Je ne pensais pas que c'était encore possible.",
     name: 'Camille D.',
-    role: 'Patiente · ' + (clientCity(sessionData) ?? 'Lyon') + ' 7e',
+    role: 'Patiente · ' + (clientCity(sessionData) ?? 'Lyon'),
   },
   {
     quote:
@@ -636,7 +636,7 @@ function Hero() {
       >
         <Reveal y={20}>
           <Eyebrow color="rgba(200,234,240,0.9)" align="center">
-            Cabinet dentaire esthétique · {clientCity(sessionData) ?? "Lyon"} 6e
+            Cabinet dentaire esthétique · {clientCity(sessionData) ?? "Lyon"}
           </Eyebrow>
         </Reveal>
 
@@ -1851,7 +1851,7 @@ function Footer() {
       title: 'Contact & Urgences',
       items: [
         { label: 'Prendre RDV', href: '#rdv' },
-        { label: 'Cabinet · ' + (clientCity(sessionData) ?? 'Lyon') + ' 6e', href: '#rdv' },
+        { label: 'Cabinet · ' + (clientCity(sessionData) ?? 'Lyon'), href: '#rdv' },
         { label: 'Urgence dentaire', href: '#rdv' },
         { label: 'Accès & horaires', href: '#rdv' },
       ],
@@ -1907,7 +1907,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Cabinet dentaire esthétique au cœur de {clientCity(sessionData) ?? "Lyon"} 6e. Soins, esthétique
+            Cabinet dentaire esthétique au cœur de {clientCity(sessionData) ?? "Lyon"}. Soins, esthétique
             et implantologie pour toute la famille.
           </p>
           <div
@@ -1924,7 +1924,7 @@ function Footer() {
             }}
           >
             <span style={{ color: C.accent }}>◎</span>
-            {clientCity(sessionData) ?? "Lyon"} 6e · Rhône
+            {clientCity(sessionData) ?? "Lyon"} · Rhône
           </div>
         </div>
 

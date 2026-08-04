@@ -1553,7 +1553,7 @@ function Realisations() {
   const projects_DEMO = [
     {
       type: 'Ravalement ITE',
-      location: 'Immeuble copropriété — ' + (clientCity(sessionData) ?? 'Lyon') + ' 8e',
+      location: 'Immeuble copropriété — ' + (clientCity(sessionData) ?? 'Lyon'),
       surface: '620 m² de façade',
       year: '2024',
       description: "Isolation thermique par l\'extérieur sur immeuble R+4, enduit minéral teinté dans la masse. Subvention copropriété obtenue.",
@@ -1940,7 +1940,7 @@ function Testimonials() {
     {
       text: "Ravalement complet de notre immeuble de 12 lots, travaux terminés en avance sur le planning et dans le budget. Marc et son équipe ont été d'une professionnalisme exemplaire. Le syndic a déjà signé pour le prochain chantier.",
       author: 'Isabelle Roux',
-      role: 'Présidente du conseil syndical — ' + (clientCity(sessionData) ?? 'Lyon') + ' 6e',
+      role: 'Présidente du conseil syndical — ' + (clientCity(sessionData) ?? 'Lyon'),
       rating: 5,
     },
     {
@@ -1952,7 +1952,7 @@ function Testimonials() {
     {
       text: "Rénovation complète de la salle de bain et des WC en 6 jours chrono. Carrelage parfaitement posé, douche italienne réalisée sans aucune fuite. Le chef de chantier était joignable à toute heure.",
       author: 'Léa Fontaine',
-      role: 'Propriétaire — ' + (clientCity(sessionData) ?? 'Lyon') + ' 3e',
+      role: 'Propriétaire — ' + (clientCity(sessionData) ?? 'Lyon'),
       rating: 5,
     },
     {
@@ -2341,7 +2341,7 @@ function ContactForm() {
             {[
               { icon: '📞', label: 'Téléphone', value: (fd?.phone ?? '04 78 XX XX XX'), sub: 'Du lundi au vendredi, 8h–18h' },
               { icon: '✉️', label: 'E-mail', value: (fd?.email ?? 'contact@batisseurs-durand.fr'), sub: 'Réponse sous 24h' },
-              { icon: '📍', label: 'Siège social', value: `14 rue des Bâtisseurs, 69009 ${clientCity(sessionData) ?? "Lyon"}`, sub: (clientCity(sessionData) ?? 'Lyon') + ' 9e — France' },
+              { icon: '📍', label: 'Siège social', value: `14 rue des Bâtisseurs, 69009 ${clientCity(sessionData) ?? "Lyon"}`, sub: (clientCity(sessionData) ?? 'Lyon') + ' — France' },
             ].map((item) => (
               <div
                 key={item.label}

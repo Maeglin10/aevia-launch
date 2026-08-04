@@ -397,7 +397,7 @@ export default function CabinetOsteopathiePage() {
           <div style={{ textAlign: "center", marginBottom: 48 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Prise de RDV</span>
             <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>Votre prochaine séance<br /><em>disponible sous 48h.</em></h2>
-            <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto", lineHeight: 1.7 }}>Cabinet {clientCity(sessionData) ?? "Lyon"} 6e. Tarif : 65€ la séance. Remboursement partiel selon votre mutuelle.</p>
+            <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto", lineHeight: 1.7 }}>Cabinet {clientCity(sessionData) ?? "Lyon"}. Tarif : 65€ la séance. Remboursement partiel selon votre mutuelle.</p>
           </div>
 
           <div style={{ maxWidth: 560, margin: "0 auto", background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadowLg, padding: "40px 36px" }}>
@@ -505,7 +505,7 @@ export default function CabinetOsteopathiePage() {
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Lucas Martin · Ostéopathe D.O.<br />Diplômé IFSO · ADELI N°xxxxxxx</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + " 6e — Rue de la République" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 8h30–19h30" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + " — Rue de la République" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 8h30–19h30" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{color: brand ?? 'var(--brand,#7ec8e0)' }}>{item.icon}</span>{item.t}
               </div>

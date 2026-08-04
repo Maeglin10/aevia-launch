@@ -2318,7 +2318,7 @@ return (
                 }}
               >
                 {[
-                  { icon: "📍", label: "Zone d&apos;intervention", val: (clientCity(sessionData) ?? "Paris") + " & Île-de-France · Sur demande ailleurs" },
+                  { icon: "📍", label: "Zone d&apos;intervention", val: (clientCity(sessionData) ?? "Paris") + " · Sur demande ailleurs" },
                   { icon: "🕐", label: "Délai de réservation", val: "3 jours minimum · 3–4 semaines pour grandes occasions" },
                   { icon: "📞", label: "Contact direct", val: "+33 6 XX XX XX XX" },
                   { icon: "✦", label: "Devis", val: "Gratuit · Réponse sous 24h · Sans engagement" },

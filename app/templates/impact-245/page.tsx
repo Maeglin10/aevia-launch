@@ -34,7 +34,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON BRÛLOT — Boulangerie-Pâtisserie Artisanale · {clientCity(sessionData) ?? "Lyon"} 1er
+   MAISON BRÛLOT — Boulangerie-Pâtisserie Artisanale · {clientCity(sessionData) ?? "Lyon"}
    Photographie Unsplash + chorégraphie de défilement éditoriale
    (style boulangerie premium × typographie chapitrée). Auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -152,7 +152,7 @@ function EDIT_ROWS_LIVE() {
     eyebrow: "L'atelier",
     img: unsplash('https://images.pexels.com/photos/7447284/pexels-photo-7447284.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
     imgAlt: 'Viennoiseries dorées à la sortie du four',
-    titleLine1: (clientCity(sessionData) ?? 'Lyon') + ' 1er, /',
+    titleLine1: (clientCity(sessionData) ?? 'Lyon') + ', /',
     titleLine2: 'depuis 2011.',
     body: "Boulangerie de quartier ouverte du mardi au dimanche de 7h à 13h, fermée le lundi. Un four, deux boulangers, une règle : ce qui n'est pas parfait ne passe pas le comptoir.",
     reverse: true,
@@ -181,7 +181,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Je commande chaque semaine pour la table de mon restaurant. Mes clients le remarquent immédiatement — c'est le niveau de régularité que je cherchais.",
     name: 'Thomas M.',
-    role: 'Chef restaurateur · ' + (clientCity(sessionData) ?? 'Lyon') + ' 2e',
+    role: 'Chef restaurateur · ' + (clientCity(sessionData) ?? 'Lyon'),
   },
 ];
 }
@@ -547,7 +547,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
         >
-          <Eyebrow color={C.accentLight}>Boulangerie artisanale · {clientCity(sessionData) ?? "Lyon"} 1er</Eyebrow>
+          <Eyebrow color={C.accentLight}>Boulangerie artisanale · {clientCity(sessionData) ?? "Lyon"}</Eyebrow>
         </motion.div>
 
         <motion.h1
@@ -1942,7 +1942,7 @@ function Footer() {
       items: [
         'Mar–Dim : 7h – 13h',
         'Fermé le lundi',
-        (clientCity(sessionData) ?? 'Lyon') + ' 1er arrondissement',
+        (clientCity(sessionData) ?? 'Lyon') + ' arrondissement',
         'Métro : Hôtel de Ville',
         (fd?.phone ?? '04 XX XX XX XX'),
       ],
@@ -2002,7 +2002,7 @@ function Footer() {
             }}
           >
             Boulangerie-pâtisserie artisanale. Levain naturel depuis 2011.
-            {clientCity(sessionData) ?? "Lyon"} 1er.
+            {clientCity(sessionData) ?? "Lyon"}.
           </p>
           <div
             style={{

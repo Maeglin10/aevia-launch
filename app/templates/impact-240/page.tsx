@@ -36,7 +36,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO ATHLETIC — Coach sportif personnel · {clientCity(sessionData) ?? "Lyon"} 6e
+   STUDIO ATHLETIC — Coach sportif personnel · {clientCity(sessionData) ?? "Lyon"}
    Photographie réelle + chorégraphie de défilement éditoriale (athletic ×
    performance × coaching premium). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -197,7 +197,7 @@ function EDIT_ROWS_DEMO_LIVE() {
     eyebrow: 'Le studio',
     ghostNumber: '02',
     img: `${PHOTO_BASE}1571019613454-1cb2f99b2d8b?q=80&w=800&auto=format&fit=crop`,
-    imgAlt: 'Studio Athletic ' + (clientCity(sessionData) ?? 'Lyon') + ' 6e — équipements professionnels',
+    imgAlt: 'Studio Athletic ' + (clientCity(sessionData) ?? 'Lyon') + ' — équipements professionnels',
     title: (
       <>
         LYON 6E,{' '}
@@ -688,7 +688,7 @@ function Hero() {
             marginBottom: 'clamp(28px,4vh,44px)',
           }}
         >
-          Coaching sportif premium à {clientCity(sessionData) ?? "Lyon"} 6e. Résultats garantis ou remboursés.
+          Coaching sportif premium à {clientCity(sessionData) ?? "Lyon"}. Résultats garantis ou remboursés.
           Bilan offert pour toute première séance.
         </motion.p>
 
@@ -2031,7 +2031,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Coach sportif personnel premium à {clientCity(sessionData) ?? "Lyon"} 6e. Résultats garantis,
+            Coach sportif personnel premium à {clientCity(sessionData) ?? "Lyon"}. Résultats garantis,
             méthode prouvée, suivi 24/7.
           </p>
           <div
@@ -2044,7 +2044,7 @@ function Footer() {
               color: C.textFaint,
             }}
           >
-            📍 {clientCity(sessionData) ?? "Lyon"} 6e · Rhône · France
+            📍 {clientCity(sessionData) ?? "Lyon"} · Rhône · France
           </div>
           <a
             href="#contact"

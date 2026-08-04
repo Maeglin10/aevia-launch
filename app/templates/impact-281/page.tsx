@@ -43,7 +43,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON CÉLESTE — Couture sur mesure & retouches luxe · {clientCity(sessionData) ?? "Paris"} 8e (Madeleine)
+   MAISON CÉLESTE — Couture sur mesure & retouches luxe · {clientCity(sessionData) ?? "Paris"} (Madeleine)
    Photographie Unsplash réelle + chorégraphie éditoriale au défilement.
    Auto-suffisant. 'use client'. Minimum 1900 lignes.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -521,7 +521,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.goldLight} align="center">
-            Couture sur mesure · Madeleine, {clientCity(sessionData) ?? "Paris"} 8e
+            Couture sur mesure · Madeleine, {clientCity(sessionData) ?? "Paris"}
           </Eyebrow>
         </Reveal>
 
@@ -2440,7 +2440,7 @@ function FooterSection() {
             }}
           >
             <MapPin size={14} color={C.gold} strokeWidth={1.5} />
-            Rue de Surène · {clientCity(sessionData) ?? "Paris"} 8e · Madeleine
+            Rue de Surène · {clientCity(sessionData) ?? "Paris"} · Madeleine
           </div>
           <div
             style={{

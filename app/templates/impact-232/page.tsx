@@ -357,7 +357,7 @@ export default function VertNaturePage() {
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Paysagiste · Jardinier · Gironde<br />Certifié agriculture biologique · SIRET</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Bordeaux") + " & Gironde" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "05 56 10 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 8h–18h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Bordeaux") }, { icon: <Phone size={13} />, t: (fd?.phone ?? "05 56 10 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 8h–18h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.sand }}>{item.icon}</span>{item.t}
               </div>

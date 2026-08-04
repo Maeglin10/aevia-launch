@@ -206,7 +206,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
     eyebrow: 'Le cabinet',
     title: (
       <>
-        {clientCity(sessionData) ?? "Paris"} 11e, /{' '}
+        {clientCity(sessionData) ?? "Paris"}, /{' '}
         <span style={{ fontStyle: 'italic' }}>accessible.</span>
       </>
     ),
@@ -733,7 +733,7 @@ function Hero() {
       >
         <Reveal y={16}>
           <Eyebrow color={C.accentLight} align="center">
-            Ostéopathie D.O. · {clientCity(sessionData) ?? "Paris"} 11e
+            Ostéopathie D.O. · {clientCity(sessionData) ?? "Paris"}
           </Eyebrow>
         </Reveal>
 
@@ -2076,7 +2076,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            {clientCity(sessionData) ?? "Paris"} 11e · Oberkampf / République
+            {clientCity(sessionData) ?? "Paris"} · Oberkampf / République
           </div>
         </div>
 

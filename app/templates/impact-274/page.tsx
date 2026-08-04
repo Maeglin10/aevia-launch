@@ -50,7 +50,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DR. SOPHIE RENARD — Médecin généraliste · {clientCity(sessionData) ?? "Lyon"} 3e
+   DR. SOPHIE RENARD — Médecin généraliste · {clientCity(sessionData) ?? "Lyon"}
    Photographie réelle + chorégraphie de défilement éditoriale (style Grand Cru
    × rigueur médicale moderne). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -515,7 +515,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color="rgba(255,255,255,0.8)" align="center">
-            Médecin généraliste · {clientCity(sessionData) ?? "Lyon"} 3e · Secteur 1
+            Médecin généraliste · {clientCity(sessionData) ?? "Lyon"} · Secteur 1
           </Eyebrow>
         </Reveal>
 
@@ -1146,7 +1146,7 @@ function PracticeSection() {
                 marginBottom: 8,
               }}
             >
-              Cabinet médical · {clientCity(sessionData) ?? "Lyon"} 3e
+              Cabinet médical · {clientCity(sessionData) ?? "Lyon"}
             </div>
             <div
               style={{
@@ -2552,7 +2552,7 @@ function FooterSection() {
               maxWidth: 300,
             }}
           >
-            Médecin généraliste à {clientCity(sessionData) ?? "Lyon"} 3e. Secteur 1, carte Vitale acceptée, téléconsultation disponible.
+            Médecin généraliste à {clientCity(sessionData) ?? "Lyon"}. Secteur 1, carte Vitale acceptée, téléconsultation disponible.
           </p>
           <div
             style={{

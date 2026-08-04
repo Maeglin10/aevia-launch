@@ -1595,7 +1595,7 @@ function ContactFooter() {
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-[#F9A8D4]" />
             <span className="text-[15px] font-[500] italic text-white" style={{ fontFamily: "'Playfair Display', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Velvet Nails")}</span>
-            <span className="text-white/40 text-[12px]" style={{ fontFamily: "'Inter', sans-serif" }}>· {clientCity(sessionData) ?? "Paris"} 9e</span>
+            <span className="text-white/40 text-[12px]" style={{ fontFamily: "'Inter', sans-serif" }}>· {clientCity(sessionData) ?? "Paris"}</span>
           </div>
           <p className="text-[11px] text-white/40 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
             © 2025 Velvet Nails — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}

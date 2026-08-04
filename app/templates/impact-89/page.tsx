@@ -330,14 +330,14 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     name: "Maxime L.",
-    city: (clientCity({ formData: fd }) ?? "Paris") + " 11e",
+    city: (clientCity({ formData: fd }) ?? "Paris"),
     rating: 5,
     artist: "Viktor Rein",
     text: "Viktor a fait mon portrait de chien sur l'avant-bras. Les poils sont tellement fins qu'on croirait une photo. Trois ans plus tard, c'est encore parfait. Le studio est d'une propreté chirurgicale.",
   },
   {
     name: "Anais D.",
-    city: (clientCity({ formData: fd }) ?? "Paris") + " 9e",
+    city: (clientCity({ formData: fd }) ?? "Paris"),
     rating: 5,
     artist: "Léa Morel",
     text: "Ma géométrie sternal par Léa est une œuvre d'art. Elle a passé 2 semaines à concevoir le design avant de poser la moindre aiguille. Ce niveau de sérieux, ça se paie, et ça en vaut absolument la peine.",
@@ -358,7 +358,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     name: "Romain F.",
-    city: (clientCity({ formData: fd }) ?? "Paris") + " 20e",
+    city: (clientCity({ formData: fd }) ?? "Paris"),
     rating: 5,
     artist: "Viktor Rein",
     text: "Full back blackwork avec Viktor sur 3 sessions de 8h. Le noir est d'une saturation absolue, les zones détaillées sont nettes comme des gravures. C'est de la haute couture portée sur la peau.",

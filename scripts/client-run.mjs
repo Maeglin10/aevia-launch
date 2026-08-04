@@ -148,7 +148,7 @@ if (surApercu) {
     "Strasbourg", "Rennes", "Montpellier", "Nice", "Grenoble", "Annecy", "Bourg-en-Bresse"]
     .filter((v) => v.toLowerCase() !== ville.toLowerCase());
   const restes = [];
-  for (const v of VILLES_DEMO) if (new RegExp(`\\b${v}\\b`).test(texte)) restes.push(`ville ${v}`);
+  for (const v of VILLES_DEMO) if (new RegExp(`\\b${v}\\b`, "i").test(texte)) restes.push(`ville ${v}`);
   for (const m of texte.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}/g) ?? [])
     if (m !== "client@exemple.fr") restes.push(`e-mail ${m}`);
   for (const m of texte.match(/\b0[1-9](?:[ .-]?\d{2}){4}\b/g) ?? [])
@@ -156,9 +156,12 @@ if (surApercu) {
   if (/Aevia WS|Valentin Milliand/.test(texte)) restes.push("éditeur Aevia");
 
   console.log(JSON.stringify({
-    nomVu: texte.includes(entreprise),
-    villeVue: texte.includes(ville),
-    accrocheVue: texte.includes(`Votre ${metier.toLowerCase()} à ${ville}`),
+    // `innerText` rend le texte tel qu'il s'affiche : un thème qui met sa ville
+    // en capitales via `text-transform` la donne « CHAMBÉRY ». La comparaison
+    // sensible à la casse concluait qu'elle n'était pas là.
+    nomVu: texte.toLowerCase().includes(entreprise.toLowerCase()),
+    villeVue: texte.toLowerCase().includes(ville.toLowerCase()),
+    accrocheVue: texte.toLowerCase().includes(`votre ${metier.toLowerCase()} à ${ville}`.toLowerCase()),
     plantee: /couldn.t load/i.test(texte),
     theme: (frame?.url() ?? "").match(/templates\/(impact-[\w-]+)/)?.[1] ?? "?",
     restesDemo: [...new Set(restes)].slice(0, 8),

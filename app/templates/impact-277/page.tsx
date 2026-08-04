@@ -52,7 +52,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ÉLECTRICITÉ DUMONT — Électricien certifié · {clientCity(sessionData) ?? "Paris"} 11e & Île-de-France
+   ÉLECTRICITÉ DUMONT — Électricien certifié · {clientCity(sessionData) ?? "Paris"} & Île-de-France
    Photographie réelle + chorégraphie de défilement éditoriale (style Impact ×
    fiabilité artisanale × urgence). Fichier entièrement autonome. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -534,7 +534,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.yellow}>
-            Électricien certifié · {clientCity(sessionData) ?? "Paris"} 11e & Île-de-France
+            Électricien certifié · {clientCity(sessionData) ?? "Paris"} & Île-de-France
           </Eyebrow>
         </Reveal>
 
@@ -576,7 +576,7 @@ function HeroSection() {
           }}
         >
           Installation, rénovation, mise aux normes NFC 15-100, domotique.
-          Intervention 7j/7 sur {clientCity(sessionData) ?? "Paris"} et l&apos;Île-de-France.
+          Intervention 7j/7 sur {clientCity(sessionData) ?? "Paris"}.
         </motion.p>
 
         {/* Badges urgence */}
@@ -1387,14 +1387,14 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       'Intervention rapide après une panne de tableau. M. Dumont a tout réparé en 2 heures, proprement, avec un devis respecté à l’euro. Je recommande sans hésiter à tous mes voisins du 11e.',
     name: 'Sophie Marchand',
-    job: 'Propriétaire — ' + (clientCity(sessionData) ?? 'Paris') + ' 11e',
+    job: 'Propriétaire — ' + (clientCity(sessionData) ?? 'Paris'),
     travaux: 'Remplacement tableau + mise aux normes',
   },
   {
     quote:
       'Rénovation électrique complète de mon appartement haussmannien. Câblage impeccable, suivi rigoureux, CONSUEL obtenu sans accroc. Un artisan sérieux qui respecte les délais et les budgets.',
     name: 'Thomas Leclerc',
-    job: 'Propriétaire — ' + (clientCity(sessionData) ?? 'Paris') + ' 10e',
+    job: 'Propriétaire — ' + (clientCity(sessionData) ?? 'Paris'),
     travaux: 'Rénovation complète 85 m²',
   },
   {
@@ -2008,7 +2008,7 @@ function PROJECTS_DEMO_LIVE() {
     tag: 'Rénovation complète',
     title: 'Appartement haussmannien',
     desc: 'Rénovation électrique intégrale d’un 120 m² de 1890. Remplacement du tableau, passage de 42 circuits neufs, pose de 110 points lumineux, mise aux normes CONSUEL.',
-    detail: (clientCity(sessionData) ?? 'Paris') + ' 16e · 120 m² · NFC 15-100 · CONSUEL obtenu',
+    detail: (clientCity(sessionData) ?? 'Paris') + ' · 120 m² · NFC 15-100 · CONSUEL obtenu',
     icon: <Home size={18} color={C.yellow} strokeWidth={2} />,
   },
   {
@@ -2026,7 +2026,7 @@ function PROJECTS_DEMO_LIVE() {
     tag: 'Local commercial',
     title: 'Local commercial',
     desc: 'Mise aux normes ERP d’un restaurant de 180 m². Tableau TGBT, éclairage de sécurité, prises cuisson, extraction ventilée. Ouverture respectée grâce à une intervention en 4 jours.',
-    detail: (clientCity(sessionData) ?? 'Paris') + ' 3e · 180 m² · ERP catégorie 4 · 4 jours',
+    detail: (clientCity(sessionData) ?? 'Paris') + ' · 180 m² · ERP catégorie 4 · 4 jours',
     icon: <Building2 size={18} color={C.yellow} strokeWidth={2} />,
   },
 ];
@@ -2427,7 +2427,7 @@ function FooterSection() {
       items: [
         { label: 'Devis gratuit', href: '#devis' },
         { label: 'Urgence 24h/7j', href: '#urgence' },
-        { label: (clientCity(sessionData) ?? 'Paris') + ' & Île-de-France', href: '#urgence' },
+        { label: (clientCity(sessionData) ?? 'Paris'), href: '#urgence' },
         { label: 'Mentions légales', href: '#hero' },
       ],
     },
@@ -2478,7 +2478,7 @@ function FooterSection() {
             }}
           >
             Électricien certifié Qualifelec RGE depuis 2009. Installation, rénovation,
-            domotique et dépannage sur {clientCity(sessionData) ?? "Paris"} et l&apos;Île-de-France.
+            domotique et dépannage sur {clientCity(sessionData) ?? "Paris"}.
           </p>
 
           {/* SIRET & zone */}
@@ -2502,7 +2502,7 @@ function FooterSection() {
               }}
             >
               <MapPin size={13} color={C.yellow} strokeWidth={2} />
-              {clientCity(sessionData) ?? "Paris"} 11e · 75011
+              {clientCity(sessionData) ?? "Paris"} · 75011
             </div>
             <div
               style={{

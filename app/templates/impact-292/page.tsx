@@ -82,7 +82,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   BURGERCO — Burger artisanal {clientCity(sessionData) ?? "Paris"} 9e — steaks homemade, frites fraîches, livraison. Bebas Neue, noir / jaune moutarde.
+   BURGERCO — Burger artisanal {clientCity(sessionData) ?? "Paris"} — steaks homemade, frites fraîches, livraison. Bebas Neue, noir / jaune moutarde.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -1187,7 +1187,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        gourmet {clientCity(sessionData) ?? "Paris"} 9e
+                        gourmet {clientCity(sessionData) ?? "Paris"}
                       </div>
                     </div>
                   </div>
@@ -1363,7 +1363,7 @@ return (
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "BurgerCo"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Burger artisanal {clientCity(sessionData) ?? "Paris"} 9e
+                Burger artisanal {clientCity(sessionData) ?? "Paris"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

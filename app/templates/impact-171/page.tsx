@@ -95,7 +95,7 @@ function DOCTORS_DEMO_LIVE() {
   {
     name: "Dr. Claire Fontaine",
     role: "Médecin Généraliste & Directrice Médicale",
-    formation: "Faculté " + (clientCity(sessionData) ?? "Paris") + " VI · Diplôme de médecine fonctionnelle",
+    formation: "Faculté " + (clientCity(sessionData) ?? "Paris") + " · Diplôme de médecine fonctionnelle",
     years: "18 ans",
     img: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=800&auto=format&fit=crop",
   },
@@ -116,7 +116,7 @@ function DOCTORS_DEMO_LIVE() {
   {
     name: "Dr. Antoine Moreau",
     role: "Nutritionniste & Endocrinologue",
-    formation: "Faculté " + (clientCity(sessionData) ?? "Paris") + " VII · Diplôme de Nutri-thérapie",
+    formation: "Faculté " + (clientCity(sessionData) ?? "Paris") + " · Diplôme de Nutri-thérapie",
     years: "12 ans",
     img: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=800&auto=format&fit=crop",
   },
