@@ -787,11 +787,22 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 }
 
 function EngineeringPage() {
-  const aeroSteps = [
+  const aeroSteps = resolveList(
+    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
     { title: "Active Aero Coeffs", val: "0.24 - 0.38 Cd", desc: "Ailerons adaptatifs calibrés en millisecondes pour maximiser la force d'appui en courbe tout en maintenant la traînée à son minimum sur les lignes droites." },
     { title: "Silicon Escapement Vectoring", val: "4000 Cycles/sec", desc: "Notre contrôleur central de vectorisation ajuste le couple indépendant sur chaque roue 4000 fois par seconde, éliminant tout sous-virage mécanique." },
     { title: "Dynamic Energy Recovery", val: "800V Architecture", desc: "Système de récupération cinétique au freinage réinjectant instantanément la force stockée dans des supercondensateurs de grade aéronautique." }
-  ];
+  ])[i % ([
+    { title: "Active Aero Coeffs", val: "0.24 - 0.38 Cd", desc: "Ailerons adaptatifs calibrés en millisecondes pour maximiser la force d'appui en courbe tout en maintenant la traînée à son minimum sur les lignes droites." },
+    { title: "Silicon Escapement Vectoring", val: "4000 Cycles/sec", desc: "Notre contrôleur central de vectorisation ajuste le couple indépendant sur chaque roue 4000 fois par seconde, éliminant tout sous-virage mécanique." },
+    { title: "Dynamic Energy Recovery", val: "800V Architecture", desc: "Système de récupération cinétique au freinage réinjectant instantanément la force stockée dans des supercondensateurs de grade aéronautique." }
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    { title: "Active Aero Coeffs", val: "0.24 - 0.38 Cd", desc: "Ailerons adaptatifs calibrés en millisecondes pour maximiser la force d'appui en courbe tout en maintenant la traînée à son minimum sur les lignes droites." },
+    { title: "Silicon Escapement Vectoring", val: "4000 Cycles/sec", desc: "Notre contrôleur central de vectorisation ajuste le couple indépendant sur chaque roue 4000 fois par seconde, éliminant tout sous-virage mécanique." },
+    { title: "Dynamic Energy Recovery", val: "800V Architecture", desc: "Système de récupération cinétique au freinage réinjectant instantanément la force stockée dans des supercondensateurs de grade aéronautique." }
+  ],
+  );
 
   return (
     <section id="about" className="py-32 px-8 md:px-24 bg-[#050505] border-t border-white/5">

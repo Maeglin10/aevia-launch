@@ -667,12 +667,25 @@ function Stats() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
-  const stats = [
+  const stats = resolveList(
+    clientStats({ formData: fd })?.map((s: any, i: number) => ({ ...([
     { value: "850+", label: "Élèves actifs", icon: <Users size={22} color="#fff" /> },
     { value: "12", label: "Professeurs certifiés", icon: <Award size={22} color="#fff" /> },
     { value: "30+", label: "Cours par semaine", icon: <Calendar size={22} color="#fff" /> },
     { value: "4.8★", label: "Note Google", icon: <Star size={22} color="#fff" /> },
-  ];
+  ])[i % ([
+    { value: "850+", label: "Élèves actifs", icon: <Users size={22} color="#fff" /> },
+    { value: "12", label: "Professeurs certifiés", icon: <Award size={22} color="#fff" /> },
+    { value: "30+", label: "Cours par semaine", icon: <Calendar size={22} color="#fff" /> },
+    { value: "4.8★", label: "Note Google", icon: <Star size={22} color="#fff" /> },
+  ]).length], value: s.value, label: s.label })),
+    [
+    { value: "850+", label: "Élèves actifs", icon: <Users size={22} color="#fff" /> },
+    { value: "12", label: "Professeurs certifiés", icon: <Award size={22} color="#fff" /> },
+    { value: "30+", label: "Cours par semaine", icon: <Calendar size={22} color="#fff" /> },
+    { value: "4.8★", label: "Note Google", icon: <Star size={22} color="#fff" /> },
+  ],
+  );
 
   return (
     <section

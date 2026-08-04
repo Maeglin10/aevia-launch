@@ -538,7 +538,8 @@ export default function NoirCouturePage() {
    ───────────────────────────────────────────── */
 
 function CollectionsSubPage({ goTo, activeCol, setActiveCol }: { goTo: (p: any) => void; activeCol: number; setActiveCol: (i: number) => void }) {
-  const collectionsList = [
+  const collectionsList = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       name: "Couture Noire",
       season: "SS 2026",
@@ -563,7 +564,59 @@ function CollectionsSubPage({ goTo, activeCol, setActiveCol }: { goTo: (p: any) 
       piecesCount: "12 pièces limitées",
       image: photo(3, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80"),
     }
-  ];
+  ])[i % ([
+    {
+      name: "Couture Noire",
+      season: "SS 2026",
+      desc: "Une exploration de la silhouette monochrome structurée. Des matières lourdes qui défient la gravité, des coupes asymétriques et des finitions à bords francs.",
+      inspiration: "L'architecture brutaliste parisienne et la poésie des ombres portées.",
+      piecesCount: "24 pièces exclusives",
+      image: photo(1, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80"),
+    },
+    {
+      name: "L'Invisible",
+      season: "AW 2025",
+      desc: "Travailler la transparence et le vide. Organza de soie doublé, découpes laser ultra-précises et superpositions de noir et d'anthracite.",
+      inspiration: "Les brumes d'automne sur la Seine et le travail des volumes de Cristobal Balenciaga.",
+      piecesCount: "18 pièces d'archives",
+      image: photo(2, "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80"),
+    },
+    {
+      name: "Monochrome",
+      season: "Resort 2026",
+      desc: "L'élégance du voyage sans effort. Des silhouettes fluides en crêpe de soie, des manteaux de voyage en cachemire ultra-léger et des finitions satinées.",
+      inspiration: "La lumière de la mer Égée en hiver et le minimalisme des années 90.",
+      piecesCount: "12 pièces limitées",
+      image: photo(3, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80"),
+    }
+  ]).length], name: s.title, desc: s.desc || "" })),
+    [
+    {
+      name: "Couture Noire",
+      season: "SS 2026",
+      desc: "Une exploration de la silhouette monochrome structurée. Des matières lourdes qui défient la gravité, des coupes asymétriques et des finitions à bords francs.",
+      inspiration: "L'architecture brutaliste parisienne et la poésie des ombres portées.",
+      piecesCount: "24 pièces exclusives",
+      image: photo(1, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80"),
+    },
+    {
+      name: "L'Invisible",
+      season: "AW 2025",
+      desc: "Travailler la transparence et le vide. Organza de soie doublé, découpes laser ultra-précises et superpositions de noir et d'anthracite.",
+      inspiration: "Les brumes d'automne sur la Seine et le travail des volumes de Cristobal Balenciaga.",
+      piecesCount: "18 pièces d'archives",
+      image: photo(2, "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80"),
+    },
+    {
+      name: "Monochrome",
+      season: "Resort 2026",
+      desc: "L'élégance du voyage sans effort. Des silhouettes fluides en crêpe de soie, des manteaux de voyage en cachemire ultra-léger et des finitions satinées.",
+      inspiration: "La lumière de la mer Égée en hiver et le minimalisme des années 90.",
+      piecesCount: "12 pièces limitées",
+      image: photo(3, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80"),
+    }
+  ],
+  );
 
   return (
     <section className="py-32 px-6 bg-black text-white min-h-dvh">

@@ -1197,11 +1197,22 @@ function AboutPage({ onContact }: { onContact: () => void }) {
     "Notre mandat ne se limite pas à la garde. Il engage une science : imagerie multispectrale, stabilisation atmosphérique, expertise métallurgique et pigmentaire. Chaque geste est documenté, chaque pièce est traçée du premier au dernier maillon de sa provenance.",
     "Réparti sur quatre nodes de haute sécurité — Zurich, Paris, Londres et Tokyo —, l'Archive opère dans la plus stricte confidentialité, au service des institutions muséales et des collectionneurs les plus exigeants."
   ]
-  const VALUES = [
+  const VALUES = resolveList(
+    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
     { icon: ShieldCheck, title: "Discrétion", text: "La confidentialité absolue gouverne chacune de nos interventions, du premier contact à la conservation pérenne." },
     { icon: Microscope, title: "Science", text: "Une rigueur de laboratoire sans compromis : chaque diagnostic précède chaque geste, chaque geste est consigné." },
     { icon: History, title: "Mémoire", text: "Reconstituer et préserver la chaîne de provenance, condition même de l'authenticité et de la transmission." }
-  ]
+  ])[i % ([
+    { icon: ShieldCheck, title: "Discrétion", text: "La confidentialité absolue gouverne chacune de nos interventions, du premier contact à la conservation pérenne." },
+    { icon: Microscope, title: "Science", text: "Une rigueur de laboratoire sans compromis : chaque diagnostic précède chaque geste, chaque geste est consigné." },
+    { icon: History, title: "Mémoire", text: "Reconstituer et préserver la chaîne de provenance, condition même de l'authenticité et de la transmission." }
+  ]).length], title: s.title, text: s.desc || "" })),
+    [
+    { icon: ShieldCheck, title: "Discrétion", text: "La confidentialité absolue gouverne chacune de nos interventions, du premier contact à la conservation pérenne." },
+    { icon: Microscope, title: "Science", text: "Une rigueur de laboratoire sans compromis : chaque diagnostic précède chaque geste, chaque geste est consigné." },
+    { icon: History, title: "Mémoire", text: "Reconstituer et préserver la chaîne de provenance, condition même de l'authenticité et de la transmission." }
+  ],
+  )
   const NODES = [
     { city: "Zurich", role: "High-Security Vault" },
     { city: (clientCity({ formData: fd }) ?? "Paris"), role: "Exhibition Annex" },

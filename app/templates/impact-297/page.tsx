@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -304,7 +305,10 @@ export default function Page() {
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
   const servicesReal: any[] | null = clientServices(sessionData)?.length ? bp.services : null;
-  const SERVICES_DEMO = [{"name": "Consultation de Médecine Générale", "category": "Général", "desc": "Consultation standard pour adultes et enfants, suivi médical, ordonnances.", "price": "26,50 €"}, {"name": "Bilan Sportif Complet", "category": "Sport", "desc": "Bilan cardiorespiratoire, évaluation de la condition physique, conseils sportifs.", "price": "80,00 €"}, {"name": "Téléconsultation", "category": "Général", "desc": "Consultation à distance par vidéo pour suivi et petites urgences.", "price": "25,00 €"}, {"name": "Certificat de Non-Contre-Indication", "category": "Sport", "desc": "Examen médical approfondi pour la pratique sportive en compétition.", "price": "50,00 €"}];
+  const SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([{"name": "Consultation de Médecine Générale", "category": "Général", "desc": "Consultation standard pour adultes et enfants, suivi médical, ordonnances.", "price": "26,50 €"}, {"name": "Bilan Sportif Complet", "category": "Sport", "desc": "Bilan cardiorespiratoire, évaluation de la condition physique, conseils sportifs.", "price": "80,00 €"}, {"name": "Téléconsultation", "category": "Général", "desc": "Consultation à distance par vidéo pour suivi et petites urgences.", "price": "25,00 €"}, {"name": "Certificat de Non-Contre-Indication", "category": "Sport", "desc": "Examen médical approfondi pour la pratique sportive en compétition.", "price": "50,00 €"}])[i % ([{"name": "Consultation de Médecine Générale", "category": "Général", "desc": "Consultation standard pour adultes et enfants, suivi médical, ordonnances.", "price": "26,50 €"}, {"name": "Bilan Sportif Complet", "category": "Sport", "desc": "Bilan cardiorespiratoire, évaluation de la condition physique, conseils sportifs.", "price": "80,00 €"}, {"name": "Téléconsultation", "category": "Général", "desc": "Consultation à distance par vidéo pour suivi et petites urgences.", "price": "25,00 €"}, {"name": "Certificat de Non-Contre-Indication", "category": "Sport", "desc": "Examen médical approfondi pour la pratique sportive en compétition.", "price": "50,00 €"}]).length], name: s.title, desc: s.desc || "" })),
+    [{"name": "Consultation de Médecine Générale", "category": "Général", "desc": "Consultation standard pour adultes et enfants, suivi médical, ordonnances.", "price": "26,50 €"}, {"name": "Bilan Sportif Complet", "category": "Sport", "desc": "Bilan cardiorespiratoire, évaluation de la condition physique, conseils sportifs.", "price": "80,00 €"}, {"name": "Téléconsultation", "category": "Général", "desc": "Consultation à distance par vidéo pour suivi et petites urgences.", "price": "25,00 €"}, {"name": "Certificat de Non-Contre-Indication", "category": "Sport", "desc": "Examen médical approfondi pour la pratique sportive en compétition.", "price": "50,00 €"}],
+  );
   // businessProfile.services replaces the demo list wholesale; real services
   // rarely carry a `category`, so the fixed tab filter is skipped for them —
   // every real item just shows under "Tous".

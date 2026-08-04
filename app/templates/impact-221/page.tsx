@@ -39,6 +39,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -395,12 +396,25 @@ function StatsBand() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
-  const stats: Array<{ value: number; suffix: string; label: string; icon: React.ReactNode }> = [
+  const stats: Array<{ value: number; suffix: string; label: string; icon: React.ReactNode }> = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...([
     { value: 230, suffix: ' km',   label: 'Autonomie maximale',  icon: <Battery size={28} /> },
     { value: 45,  suffix: ' km/h', label: 'Vitesse de pointe',   icon: <Gauge size={28} /> },
     { value: 25,  suffix: ' h',    label: 'Charge rapide',       icon: <Zap size={28} /> },
     { value: 95,  suffix: ' %',    label: 'Clients satisfaits',  icon: <Star size={28} /> },
-  ];
+  ])[i % ([
+    { value: 230, suffix: ' km',   label: 'Autonomie maximale',  icon: <Battery size={28} /> },
+    { value: 45,  suffix: ' km/h', label: 'Vitesse de pointe',   icon: <Gauge size={28} /> },
+    { value: 25,  suffix: ' h',    label: 'Charge rapide',       icon: <Zap size={28} /> },
+    { value: 95,  suffix: ' %',    label: 'Clients satisfaits',  icon: <Star size={28} /> },
+  ]).length], value: s.value, label: s.label })),
+    [
+    { value: 230, suffix: ' km',   label: 'Autonomie maximale',  icon: <Battery size={28} /> },
+    { value: 45,  suffix: ' km/h', label: 'Vitesse de pointe',   icon: <Gauge size={28} /> },
+    { value: 25,  suffix: ' h',    label: 'Charge rapide',       icon: <Zap size={28} /> },
+    { value: 95,  suffix: ' %',    label: 'Clients satisfaits',  icon: <Star size={28} /> },
+  ],
+  );
 
   return (
     <section ref={ref} style={{ background: C.bgSoft, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>

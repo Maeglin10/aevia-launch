@@ -502,12 +502,25 @@ function TarifsSection() {
     },
   ]
 
-  const packs = [
+  const packs = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     { name: "Regard parfait", desc: "Botox (pattes d'oie) + AH cernes", price: "680 €", saving: "Économie 50 €" },
     { name: "Bouche & lèvres", desc: "AH lèvres + contour + hydratation", price: "520 €", saving: "Économie 30 €" },
     { name: "Rajeunissement complet", desc: "3 séances au choix (laser + peeling + meso)", price: "1 200 €", saving: "Économie 180 €" },
     { name: "Éclat printemps", desc: "Mésothérapie x3 + peeling superficiel", price: "580 €", saving: "Économie 70 €" },
-  ]
+  ])[i % ([
+    { name: "Regard parfait", desc: "Botox (pattes d'oie) + AH cernes", price: "680 €", saving: "Économie 50 €" },
+    { name: "Bouche & lèvres", desc: "AH lèvres + contour + hydratation", price: "520 €", saving: "Économie 30 €" },
+    { name: "Rajeunissement complet", desc: "3 séances au choix (laser + peeling + meso)", price: "1 200 €", saving: "Économie 180 €" },
+    { name: "Éclat printemps", desc: "Mésothérapie x3 + peeling superficiel", price: "580 €", saving: "Économie 70 €" },
+  ]).length], name: s.title, desc: s.desc || "" })),
+    [
+    { name: "Regard parfait", desc: "Botox (pattes d'oie) + AH cernes", price: "680 €", saving: "Économie 50 €" },
+    { name: "Bouche & lèvres", desc: "AH lèvres + contour + hydratation", price: "520 €", saving: "Économie 30 €" },
+    { name: "Rajeunissement complet", desc: "3 séances au choix (laser + peeling + meso)", price: "1 200 €", saving: "Économie 180 €" },
+    { name: "Éclat printemps", desc: "Mésothérapie x3 + peeling superficiel", price: "580 €", saving: "Économie 70 €" },
+  ],
+  )
 
   return (
     <div className="bg-[#FAFAF8] py-28 border-t border-[#E8E4DE]">

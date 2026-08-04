@@ -36,6 +36,7 @@ import {
   clientCity,
   clientName,
   clientReviews,
+  clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -856,7 +857,8 @@ function ProgressDot({
    3 · SPÉCIALITÉS — 3 cartes avec icônes Lucide
    ════════════════════════════════════════════════════════════════════════════ */
 function SpecialitesSection() {
-  const specs = [
+  const specs = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       icon: Activity,
       title: 'Rééducation orthopédique',
@@ -878,7 +880,53 @@ function SpecialitesSection() {
       desc: 'Accompagnement spécialisé des patients présentant des séquelles neurologiques : AVC, sclérose en plaques, maladie de Parkinson, traumatismes crâniens. Approche pluridisciplinaire et travail de la plasticité cérébrale.',
       highlights: ["Rééducation post-AVC', 'Sclérose en plaques', 'Maladie de Parkinson', 'Troubles de l'équilibre"],
     },
-  ];
+  ])[i % ([
+    {
+      icon: Activity,
+      title: 'Rééducation orthopédique',
+      sub: 'Post-opératoire & traumatologie',
+      desc: "Prise en charge complète après chirurgies (prothèse de hanche, genou, ligaments), fractures, entorses et pathologies musculo-squelettiques. Protocoles adaptés de la phase aiguë au retour à l'activité physique.",
+      highlights: ['Prothèse de genou & hanche', 'Ligamentoplasties', 'Fractures & entorses', 'Tendinopathies chroniques'],
+    },
+    {
+      icon: Wind,
+      title: 'Kinésithérapie respiratoire',
+      sub: 'Drainage & réentraînement',
+      desc: "Techniques de drainage bronchique, désencombrement des voies aériennes et réentraînement à l'effort pour patients BPCO, asthmatiques, mucoviscidose ou en post-COVID. Prise en charge de tous âges.",
+      highlights: ["BPCO & emphysème', 'Post-COVID pulmonaire', 'Mucoviscidose', 'Réentraînement à l'effort"],
+    },
+    {
+      icon: Brain,
+      title: 'Rééducation neurologique',
+      sub: 'AVC · SEP · Parkinson',
+      desc: 'Accompagnement spécialisé des patients présentant des séquelles neurologiques : AVC, sclérose en plaques, maladie de Parkinson, traumatismes crâniens. Approche pluridisciplinaire et travail de la plasticité cérébrale.',
+      highlights: ["Rééducation post-AVC', 'Sclérose en plaques', 'Maladie de Parkinson', 'Troubles de l'équilibre"],
+    },
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    {
+      icon: Activity,
+      title: 'Rééducation orthopédique',
+      sub: 'Post-opératoire & traumatologie',
+      desc: "Prise en charge complète après chirurgies (prothèse de hanche, genou, ligaments), fractures, entorses et pathologies musculo-squelettiques. Protocoles adaptés de la phase aiguë au retour à l'activité physique.",
+      highlights: ['Prothèse de genou & hanche', 'Ligamentoplasties', 'Fractures & entorses', 'Tendinopathies chroniques'],
+    },
+    {
+      icon: Wind,
+      title: 'Kinésithérapie respiratoire',
+      sub: 'Drainage & réentraînement',
+      desc: "Techniques de drainage bronchique, désencombrement des voies aériennes et réentraînement à l'effort pour patients BPCO, asthmatiques, mucoviscidose ou en post-COVID. Prise en charge de tous âges.",
+      highlights: ["BPCO & emphysème', 'Post-COVID pulmonaire', 'Mucoviscidose', 'Réentraînement à l'effort"],
+    },
+    {
+      icon: Brain,
+      title: 'Rééducation neurologique',
+      sub: 'AVC · SEP · Parkinson',
+      desc: 'Accompagnement spécialisé des patients présentant des séquelles neurologiques : AVC, sclérose en plaques, maladie de Parkinson, traumatismes crâniens. Approche pluridisciplinaire et travail de la plasticité cérébrale.',
+      highlights: ["Rééducation post-AVC', 'Sclérose en plaques', 'Maladie de Parkinson', 'Troubles de l'équilibre"],
+    },
+  ],
+  );
 
   return (
     <section

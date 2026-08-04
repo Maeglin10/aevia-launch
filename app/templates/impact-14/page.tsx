@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -2658,7 +2659,8 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 }
 
 function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
-  const allDestinations = [
+  const allDestinations = resolveList(
+    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
     {
       name: "Monaco & French Riviera",
       region: "Mediterranean",
@@ -2707,7 +2709,107 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       yacht: "M/Y Odyssey",
       img: photo(10, "https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?auto=format&fit=crop&q=80&w=1200"),
     },
-  ];
+  ])[i % ([
+    {
+      name: "Monaco & French Riviera",
+      region: "Mediterranean",
+      desc: "Sail the glamour capital of Europe. Drop anchor off St. Tropez, cruise Monaco's Port Hercules, and dine cliffside in Eze.",
+      bestTime: "May — September",
+      yacht: "M/Y Lumière",
+      img: photo(5, "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      name: "Santorini & Cyclades",
+      region: "Greek Islands",
+      desc: "Discover white-washed villages draped over volcanic cliffs. Cruise private coves in Folegandros and catch caldera sunsets from your deck.",
+      bestTime: "June — October",
+      yacht: "S/Y Ariel",
+      img: photo(6, "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      name: "Maldives Atolls",
+      region: "Indian Ocean",
+      desc: "Turquoise lagoons of utter stillness. Access shallow reefs by tender, enjoy private beach dinners on sandbanks, and sleep beneath starlight.",
+      bestTime: "November — April",
+      yacht: "M/Y Odyssey",
+      img: photo(7, "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      name: "Amalfi Coast & Capri",
+      region: "Tyrrhenian Coast",
+      desc: "Vibrant towns clinging to cliffs. Explore the Blue Grotto at dawn, anchor off Positano at midnight, and experience legendary Italian hospitality.",
+      bestTime: "May — September",
+      yacht: "M/Y Étoile",
+      img: photo(8, "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      name: "St. Barts & Grenadines",
+      region: "Caribbean",
+      desc: "Pristine white sand bays reserved for the few. Crystal clear waters, luxury shopping, and sunset sailing in constant trade winds.",
+      bestTime: "December — April",
+      yacht: "S/Y Chronos",
+      img: photo(9, "https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      name: "Svalbard & Fjords",
+      region: "Arctic Circle",
+      desc: "For the true explorer. Navigate through towering glaciers, witness polar wildlife in silence, and experience the midnight sun.",
+      bestTime: "June — August",
+      yacht: "M/Y Odyssey",
+      img: photo(10, "https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?auto=format&fit=crop&q=80&w=1200"),
+    },
+  ]).length], name: s.title, desc: s.desc || "" })),
+    [
+    {
+      name: "Monaco & French Riviera",
+      region: "Mediterranean",
+      desc: "Sail the glamour capital of Europe. Drop anchor off St. Tropez, cruise Monaco's Port Hercules, and dine cliffside in Eze.",
+      bestTime: "May — September",
+      yacht: "M/Y Lumière",
+      img: photo(5, "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      name: "Santorini & Cyclades",
+      region: "Greek Islands",
+      desc: "Discover white-washed villages draped over volcanic cliffs. Cruise private coves in Folegandros and catch caldera sunsets from your deck.",
+      bestTime: "June — October",
+      yacht: "S/Y Ariel",
+      img: photo(6, "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      name: "Maldives Atolls",
+      region: "Indian Ocean",
+      desc: "Turquoise lagoons of utter stillness. Access shallow reefs by tender, enjoy private beach dinners on sandbanks, and sleep beneath starlight.",
+      bestTime: "November — April",
+      yacht: "M/Y Odyssey",
+      img: photo(7, "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      name: "Amalfi Coast & Capri",
+      region: "Tyrrhenian Coast",
+      desc: "Vibrant towns clinging to cliffs. Explore the Blue Grotto at dawn, anchor off Positano at midnight, and experience legendary Italian hospitality.",
+      bestTime: "May — September",
+      yacht: "M/Y Étoile",
+      img: photo(8, "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      name: "St. Barts & Grenadines",
+      region: "Caribbean",
+      desc: "Pristine white sand bays reserved for the few. Crystal clear waters, luxury shopping, and sunset sailing in constant trade winds.",
+      bestTime: "December — April",
+      yacht: "S/Y Chronos",
+      img: photo(9, "https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      name: "Svalbard & Fjords",
+      region: "Arctic Circle",
+      desc: "For the true explorer. Navigate through towering glaciers, witness polar wildlife in silence, and experience the midnight sun.",
+      bestTime: "June — August",
+      yacht: "M/Y Odyssey",
+      img: photo(10, "https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?auto=format&fit=crop&q=80&w=1200"),
+    },
+  ],
+  );
 
   return (
     <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100dvh" }}>
@@ -2800,7 +2902,8 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 }
 
 function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
-  const experiences = [
+  const experiences = resolveList(
+    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
     {
       title: "Bespoke Cuisine",
       desc: "Our onboard culinary program features Michelin-starred chefs who tailor menus around your personal preferences and locally sourced ingredients at every anchorage.",
@@ -2821,7 +2924,51 @@ function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
       desc: "Your dedicated voyage architect designs every element of your cruise, handling port clearances, exclusive shore excursions, and private bookings months in advance.",
       img: photo(14, "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=1200"),
     },
-  ];
+  ])[i % ([
+    {
+      title: "Bespoke Cuisine",
+      desc: "Our onboard culinary program features Michelin-starred chefs who tailor menus around your personal preferences and locally sourced ingredients at every anchorage.",
+      img: photo(11, "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      title: "Private Aviation",
+      desc: "Avoid the friction of public airports. We coordinate seamless private jet charters and helicopter transfers directly to your yacht's helipad.",
+      img: photo(12, "https://images.unsplash.com/photo-1540962351504-03099e0a754b?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      title: "Toys & Tenders",
+      desc: "Every vessel carries a premium selection of watersports equipment, from personal submarines and fast tenders to jet skis, foil boards, and diving gear.",
+      img: photo(13, "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      title: "Voyage Architects",
+      desc: "Your dedicated voyage architect designs every element of your cruise, handling port clearances, exclusive shore excursions, and private bookings months in advance.",
+      img: photo(14, "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=1200"),
+    },
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    {
+      title: "Bespoke Cuisine",
+      desc: "Our onboard culinary program features Michelin-starred chefs who tailor menus around your personal preferences and locally sourced ingredients at every anchorage.",
+      img: photo(11, "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      title: "Private Aviation",
+      desc: "Avoid the friction of public airports. We coordinate seamless private jet charters and helicopter transfers directly to your yacht's helipad.",
+      img: photo(12, "https://images.unsplash.com/photo-1540962351504-03099e0a754b?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      title: "Toys & Tenders",
+      desc: "Every vessel carries a premium selection of watersports equipment, from personal submarines and fast tenders to jet skis, foil boards, and diving gear.",
+      img: photo(13, "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=80&w=1200"),
+    },
+    {
+      title: "Voyage Architects",
+      desc: "Your dedicated voyage architect designs every element of your cruise, handling port clearances, exclusive shore excursions, and private bookings months in advance.",
+      img: photo(14, "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=1200"),
+    },
+  ],
+  );
 
   return (
     <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100dvh" }}>

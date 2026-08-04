@@ -705,11 +705,22 @@ function ManifestPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 }
 
 function EngineeringPage() {
-  const specs = [
+  const specs = resolveList(
+    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
     { title: "Graphene Thermal Shield", val: "3200°C Limit", desc: "Un bouclier de protection thermique ultra-léger composé de plusieurs feuillets de graphène liquide pour résister aux rentrées atmosphériques les plus brutales." },
     { title: "Ion Drive Propulsion", val: "0.02g Thrust / Continuous", desc: "Calibré pour des impulsions continues de longue durée dans le vide spatial profond, alimenté par notre réacteur ionique au xénon haute efficacité." },
     { title: "Bio-Filtered Closed Loop", val: "99.98% Efficiency", desc: "Système de support de vie autonome recyclant le CO2 en oxygène pur grâce à des bioréacteurs à microalgues de dernière génération." }
-  ];
+  ])[i % ([
+    { title: "Graphene Thermal Shield", val: "3200°C Limit", desc: "Un bouclier de protection thermique ultra-léger composé de plusieurs feuillets de graphène liquide pour résister aux rentrées atmosphériques les plus brutales." },
+    { title: "Ion Drive Propulsion", val: "0.02g Thrust / Continuous", desc: "Calibré pour des impulsions continues de longue durée dans le vide spatial profond, alimenté par notre réacteur ionique au xénon haute efficacité." },
+    { title: "Bio-Filtered Closed Loop", val: "99.98% Efficiency", desc: "Système de support de vie autonome recyclant le CO2 en oxygène pur grâce à des bioréacteurs à microalgues de dernière génération." }
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    { title: "Graphene Thermal Shield", val: "3200°C Limit", desc: "Un bouclier de protection thermique ultra-léger composé de plusieurs feuillets de graphène liquide pour résister aux rentrées atmosphériques les plus brutales." },
+    { title: "Ion Drive Propulsion", val: "0.02g Thrust / Continuous", desc: "Calibré pour des impulsions continues de longue durée dans le vide spatial profond, alimenté par notre réacteur ionique au xénon haute efficacité." },
+    { title: "Bio-Filtered Closed Loop", val: "99.98% Efficiency", desc: "Système de support de vie autonome recyclant le CO2 en oxygène pur grâce à des bioréacteurs à microalgues de dernière génération." }
+  ],
+  );
 
   return (
     <section className="py-32 px-12 bg-[#020205] border-t border-white/5">

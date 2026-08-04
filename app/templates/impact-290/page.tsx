@@ -518,7 +518,8 @@ function ScrollCrossfade() {
   const dot1 = useTransform(progress, [0.3, 0.5, 0.72], [0.3, 1, 0.3]);
   const dot2 = useTransform(progress, [0.62, 0.78], [0.3, 1]);
 
-  const panels = [
+  const panels = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       photo: PHOTO.pac,
       alt: 'Installation pompe à chaleur air-eau',
@@ -549,7 +550,71 @@ function ScrollCrossfade() {
       op: op2,
       textOp: textOp2,
     },
-  ];
+  ])[i % ([
+    {
+      photo: PHOTO.pac,
+      alt: 'Installation pompe à chaleur air-eau',
+      eyebrow: 'Pompe à chaleur',
+      title: "Jusqu'à -70% sur votre facture de chauffage",
+      text:
+        "Installation et mise en service de PAC air-eau certifiées QualiPAC. Dimensionnement sur mesure, aides MaPrimeRénov' déduites d'emblée.",
+      op: op0,
+      textOp: textOp0,
+    },
+    {
+      photo: PHOTO.bathroom,
+      alt: 'Salle de bain rénovée clé en main',
+      eyebrow: 'Salle de bain',
+      title: 'Rénovation complète clé en main',
+      text:
+        'Démolition, plomberie, carrelage, pose de sanitaires — un interlocuteur unique, un chantier propre, un résultat impeccable.',
+      op: op1,
+      textOp: textOp1,
+    },
+    {
+      photo: PHOTO.solar,
+      alt: 'Panneaux solaires thermiques pour chauffe-eau',
+      eyebrow: 'Solaire thermique',
+      title: "L'énergie du soleil pour votre eau chaude",
+      text:
+        'Chauffe-eau solaires individuels certifiés QualiSol. Production couvrant 60 à 80% de vos besoins en eau chaude sanitaire.',
+      op: op2,
+      textOp: textOp2,
+    },
+  ]).length], title: s.title, text: s.desc || "" })),
+    [
+    {
+      photo: PHOTO.pac,
+      alt: 'Installation pompe à chaleur air-eau',
+      eyebrow: 'Pompe à chaleur',
+      title: "Jusqu'à -70% sur votre facture de chauffage",
+      text:
+        "Installation et mise en service de PAC air-eau certifiées QualiPAC. Dimensionnement sur mesure, aides MaPrimeRénov' déduites d'emblée.",
+      op: op0,
+      textOp: textOp0,
+    },
+    {
+      photo: PHOTO.bathroom,
+      alt: 'Salle de bain rénovée clé en main',
+      eyebrow: 'Salle de bain',
+      title: 'Rénovation complète clé en main',
+      text:
+        'Démolition, plomberie, carrelage, pose de sanitaires — un interlocuteur unique, un chantier propre, un résultat impeccable.',
+      op: op1,
+      textOp: textOp1,
+    },
+    {
+      photo: PHOTO.solar,
+      alt: 'Panneaux solaires thermiques pour chauffe-eau',
+      eyebrow: 'Solaire thermique',
+      title: "L'énergie du soleil pour votre eau chaude",
+      text:
+        'Chauffe-eau solaires individuels certifiés QualiSol. Production couvrant 60 à 80% de vos besoins en eau chaude sanitaire.',
+      op: op2,
+      textOp: textOp2,
+    },
+  ],
+  );
 
   return (
     <div style={{ height: '100dvh', overflow: 'hidden', position: 'relative' }}>
@@ -938,7 +1003,8 @@ function ServiceCard({
    4 · PROCESS SECTION — sticky photo artisan + 4 étapes au scroll
    ════════════════════════════════════════════════════════════════════════════ */
 function ProcessSection() {
-  const steps = [
+  const steps = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       Icon: ClipboardList,
       num: '01',
@@ -967,7 +1033,67 @@ function ProcessSection() {
       text:
         'Contrat de maintenance annuel inclus la première année. Contrôle performances, nettoyage, réglages — pour garantir votre confort et votre garantie constructeur.',
     },
-  ];
+  ])[i % ([
+    {
+      Icon: ClipboardList,
+      num: '01',
+      title: 'Diagnostic énergétique',
+      text:
+        'Visite sur site gratuite. Évaluation thermique de votre logement, étude de vos besoins et mesure de la performance actuelle. Rapport détaillé remis sous 48h.',
+    },
+    {
+      Icon: Euro,
+      num: '02',
+      title: 'Devis aides déduites',
+      text:
+        "Devis transparent avec MaPrimeRénov', CEE et TVA réduite déduites d'emblée. Vous ne payez que le reste à charge réel — aucune avance sur aides à faire.",
+    },
+    {
+      Icon: Wrench,
+      num: '03',
+      title: 'Pose certifiée RGE',
+      text:
+        "Installation par nos techniciens certifiés. Chantier propre, respectueux de votre habitat. Mise en service complète et formation à l'utilisation.",
+    },
+    {
+      Icon: CalendarCheck,
+      num: '04',
+      title: 'Entretien annuel',
+      text:
+        'Contrat de maintenance annuel inclus la première année. Contrôle performances, nettoyage, réglages — pour garantir votre confort et votre garantie constructeur.',
+    },
+  ]).length], title: s.title, text: s.desc || "" })),
+    [
+    {
+      Icon: ClipboardList,
+      num: '01',
+      title: 'Diagnostic énergétique',
+      text:
+        'Visite sur site gratuite. Évaluation thermique de votre logement, étude de vos besoins et mesure de la performance actuelle. Rapport détaillé remis sous 48h.',
+    },
+    {
+      Icon: Euro,
+      num: '02',
+      title: 'Devis aides déduites',
+      text:
+        "Devis transparent avec MaPrimeRénov', CEE et TVA réduite déduites d'emblée. Vous ne payez que le reste à charge réel — aucune avance sur aides à faire.",
+    },
+    {
+      Icon: Wrench,
+      num: '03',
+      title: 'Pose certifiée RGE',
+      text:
+        "Installation par nos techniciens certifiés. Chantier propre, respectueux de votre habitat. Mise en service complète et formation à l'utilisation.",
+    },
+    {
+      Icon: CalendarCheck,
+      num: '04',
+      title: 'Entretien annuel',
+      text:
+        'Contrat de maintenance annuel inclus la première année. Contrôle performances, nettoyage, réglages — pour garantir votre confort et votre garantie constructeur.',
+    },
+  ],
+  );
 
   return (
     <section
@@ -1812,7 +1938,8 @@ function DevisFormSection() {
    7 · AIDES FINANCIÈRES SECTION
    ════════════════════════════════════════════════════════════════════════════ */
 function AidesSection() {
-  const aides = [
+  const aides = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       label: "MaPrimeRénov'",
       montant: "Jusqu'à 11 000€",
@@ -1848,7 +1975,81 @@ function AidesSection() {
         "Programme MaPrimeAdapt' pour les ménages modestes et très modestes. Peut couvrir jusqu'à 70% des travaux sous conditions de ressources.",
       color: C.slateDark,
     },
-  ];
+  ])[i % ([
+    {
+      label: "MaPrimeRénov'",
+      montant: "Jusqu'à 11 000€",
+      description:
+        "Aide de l'État pour le remplacement de votre système de chauffage par une PAC ou un chauffe-eau solaire. Cumulable avec d'autres aides.",
+      color: C.forest,
+    },
+    {
+      label: 'CEE',
+      montant: "Jusqu'à 4 000€",
+      description:
+        "Certificats d'Économie d'Énergie versés par les fournisseurs d'énergie. Accordés automatiquement pour les travaux réalisés par un artisan RGE.",
+      color: C.slate,
+    },
+    {
+      label: 'TVA 5,5%',
+      montant: 'Au lieu de 20%',
+      description:
+        'Taux réduit applicable à tous les travaux de rénovation énergétique dans les logements de plus de 2 ans. Déduit directement sur notre facture.',
+      color: C.wood,
+    },
+    {
+      label: 'Éco-PTZ',
+      montant: "Jusqu'à 30 000€",
+      description:
+        "Prêt à taux zéro pour financer vos travaux d'économies d'énergie sans avance de trésorerie. Remboursement sur 15 ans sans intérêts.",
+      color: C.forestMid,
+    },
+    {
+      label: 'ANAH',
+      montant: "Jusqu'à 50% du coût",
+      description:
+        "Programme MaPrimeAdapt' pour les ménages modestes et très modestes. Peut couvrir jusqu'à 70% des travaux sous conditions de ressources.",
+      color: C.slateDark,
+    },
+  ]).length], label: s.title, description: s.desc || "" })),
+    [
+    {
+      label: "MaPrimeRénov'",
+      montant: "Jusqu'à 11 000€",
+      description:
+        "Aide de l'État pour le remplacement de votre système de chauffage par une PAC ou un chauffe-eau solaire. Cumulable avec d'autres aides.",
+      color: C.forest,
+    },
+    {
+      label: 'CEE',
+      montant: "Jusqu'à 4 000€",
+      description:
+        "Certificats d'Économie d'Énergie versés par les fournisseurs d'énergie. Accordés automatiquement pour les travaux réalisés par un artisan RGE.",
+      color: C.slate,
+    },
+    {
+      label: 'TVA 5,5%',
+      montant: 'Au lieu de 20%',
+      description:
+        'Taux réduit applicable à tous les travaux de rénovation énergétique dans les logements de plus de 2 ans. Déduit directement sur notre facture.',
+      color: C.wood,
+    },
+    {
+      label: 'Éco-PTZ',
+      montant: "Jusqu'à 30 000€",
+      description:
+        "Prêt à taux zéro pour financer vos travaux d'économies d'énergie sans avance de trésorerie. Remboursement sur 15 ans sans intérêts.",
+      color: C.forestMid,
+    },
+    {
+      label: 'ANAH',
+      montant: "Jusqu'à 50% du coût",
+      description:
+        "Programme MaPrimeAdapt' pour les ménages modestes et très modestes. Peut couvrir jusqu'à 70% des travaux sous conditions de ressources.",
+      color: C.slateDark,
+    },
+  ],
+  );
 
   return (
     <section
@@ -2032,7 +2233,8 @@ function AidesSection() {
    8 · ÉCOLOGIE SECTION
    ════════════════════════════════════════════════════════════════════════════ */
 function EcologieSection() {
-  const engagements = [
+  const engagements = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       Icon: Leaf,
       title: 'Matériaux durables',
@@ -2057,7 +2259,59 @@ function EcologieSection() {
       text:
         "Notre certification Reconnu Garant de l'Environnement est renouvelée chaque année. Gage de qualité et condition d'accès à toutes les aides.",
     },
-  ];
+  ])[i % ([
+    {
+      Icon: Leaf,
+      title: 'Matériaux durables',
+      text:
+        'Sélection rigoureuse de fabricants engagés : systèmes labellisés, durée de vie garantie 20 ans minimum, filières locales favorisées.',
+    },
+    {
+      Icon: Zap,
+      title: "Économies d'énergie",
+      text:
+        'Chaque installation est dimensionnée pour maximiser les économies réelles — nous ne vendons pas de la puissance, nous vendons de la performance.',
+    },
+    {
+      Icon: Wind,
+      title: 'Bilan carbone optimisé',
+      text:
+        "Remplacement des chaudières fioul et gaz par des solutions électriques basse température : -70% d'émissions de CO₂ pour votre logement.",
+    },
+    {
+      Icon: Shield,
+      title: 'Label RGE actif',
+      text:
+        "Notre certification Reconnu Garant de l'Environnement est renouvelée chaque année. Gage de qualité et condition d'accès à toutes les aides.",
+    },
+  ]).length], title: s.title, text: s.desc || "" })),
+    [
+    {
+      Icon: Leaf,
+      title: 'Matériaux durables',
+      text:
+        'Sélection rigoureuse de fabricants engagés : systèmes labellisés, durée de vie garantie 20 ans minimum, filières locales favorisées.',
+    },
+    {
+      Icon: Zap,
+      title: "Économies d'énergie",
+      text:
+        'Chaque installation est dimensionnée pour maximiser les économies réelles — nous ne vendons pas de la puissance, nous vendons de la performance.',
+    },
+    {
+      Icon: Wind,
+      title: 'Bilan carbone optimisé',
+      text:
+        "Remplacement des chaudières fioul et gaz par des solutions électriques basse température : -70% d'émissions de CO₂ pour votre logement.",
+    },
+    {
+      Icon: Shield,
+      title: 'Label RGE actif',
+      text:
+        "Notre certification Reconnu Garant de l'Environnement est renouvelée chaque année. Gage de qualité et condition d'accès à toutes les aides.",
+    },
+  ],
+  );
 
   return (
     <section
@@ -2263,7 +2517,8 @@ function EcologieSection() {
    9 · CERTIFICATIONS SECTION
    ════════════════════════════════════════════════════════════════════════════ */
 function CertifSection() {
-  const certifs = [
+  const certifs = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       label: 'QualiPAC',
       sublabel: 'Pompes à chaleur',
@@ -2299,7 +2554,81 @@ function CertifSection() {
       color: C.slateDark,
       description: 'Assurance responsabilité décennale couvrant tous nos chantiers pendant 10 ans après réception des travaux.',
     },
-  ];
+  ])[i % ([
+    {
+      label: 'QualiPAC',
+      sublabel: 'Pompes à chaleur',
+      Icon: Wind,
+      color: C.slate,
+      description: "Qualification pour l'installation et la maintenance des pompes à chaleur air-eau et géothermiques.",
+    },
+    {
+      label: 'QualiSol',
+      sublabel: 'Solaire thermique',
+      Icon: Sun,
+      color: C.wood,
+      description: 'Certification pour la pose de chauffe-eau solaires individuels et de systèmes solaires combinés.',
+    },
+    {
+      label: 'RGE',
+      sublabel: "Reconnu Garant\nde l'Env.",
+      Icon: Leaf,
+      color: C.forest,
+      description: "Label national qui conditionne l'accès de vos travaux aux aides de l'État (MaPrimeRénov', CEE…).",
+    },
+    {
+      label: 'Qualibat',
+      sublabel: 'Plomberie & CVC',
+      Icon: Droplets,
+      color: C.forestMid,
+      description: "Qualification professionnelle couvrant l'ensemble des travaux de plomberie et chauffage-ventilation.",
+    },
+    {
+      label: 'Décennale',
+      sublabel: 'Assurance 10 ans',
+      Icon: Shield,
+      color: C.slateDark,
+      description: 'Assurance responsabilité décennale couvrant tous nos chantiers pendant 10 ans après réception des travaux.',
+    },
+  ]).length], label: s.title, description: s.desc || "" })),
+    [
+    {
+      label: 'QualiPAC',
+      sublabel: 'Pompes à chaleur',
+      Icon: Wind,
+      color: C.slate,
+      description: "Qualification pour l'installation et la maintenance des pompes à chaleur air-eau et géothermiques.",
+    },
+    {
+      label: 'QualiSol',
+      sublabel: 'Solaire thermique',
+      Icon: Sun,
+      color: C.wood,
+      description: 'Certification pour la pose de chauffe-eau solaires individuels et de systèmes solaires combinés.',
+    },
+    {
+      label: 'RGE',
+      sublabel: "Reconnu Garant\nde l'Env.",
+      Icon: Leaf,
+      color: C.forest,
+      description: "Label national qui conditionne l'accès de vos travaux aux aides de l'État (MaPrimeRénov', CEE…).",
+    },
+    {
+      label: 'Qualibat',
+      sublabel: 'Plomberie & CVC',
+      Icon: Droplets,
+      color: C.forestMid,
+      description: "Qualification professionnelle couvrant l'ensemble des travaux de plomberie et chauffage-ventilation.",
+    },
+    {
+      label: 'Décennale',
+      sublabel: 'Assurance 10 ans',
+      Icon: Shield,
+      color: C.slateDark,
+      description: 'Assurance responsabilité décennale couvrant tous nos chantiers pendant 10 ans après réception des travaux.',
+    },
+  ],
+  );
 
   return (
     <section

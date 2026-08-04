@@ -767,7 +767,8 @@ export default function ThermaProPage() {
     },
   ];
 
-  const process = [
+  const process = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       num: '01', title: 'Diagnostic gratuit à domicile',
       desc: 'Un technicien certifié RGE se déplace chez vous pour évaluer votre installation existante, vos besoins énergétiques et la configuration du logement. Devis détaillé offert sous 48h.',
@@ -784,16 +785,69 @@ export default function ThermaProPage() {
       num: '04', title: 'Suivi & garantie 5 ans',
       desc: 'Garantie pièces et main d\'œuvre pendant 5 ans. Suivi de performance via notre application, maintenance préventive incluse la première année, assistance téléphonique permanente.',
     },
-  ];
+  ])[i % ([
+    {
+      num: '01', title: 'Diagnostic gratuit à domicile',
+      desc: 'Un technicien certifié RGE se déplace chez vous pour évaluer votre installation existante, vos besoins énergétiques et la configuration du logement. Devis détaillé offert sous 48h.',
+    },
+    {
+      num: '02', title: 'Aide au financement',
+      desc: 'Nos conseillers vous accompagnent pour maximiser vos aides : MaPrimeRénov\', CEE, éco-prêt à taux zéro (jusqu\'à 50 000€), subventions locales. Jusqu\'à 70% du coût pris en charge.',
+    },
+    {
+      num: '03', title: 'Installation certifiée RGE',
+      desc: 'Nos techniciens qualifiés réalisent l\'installation dans les règles de l\'art. Chantier propre, respect des délais, mise en service complète avec démonstration et prise en main.',
+    },
+    {
+      num: '04', title: 'Suivi & garantie 5 ans',
+      desc: 'Garantie pièces et main d\'œuvre pendant 5 ans. Suivi de performance via notre application, maintenance préventive incluse la première année, assistance téléphonique permanente.',
+    },
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    {
+      num: '01', title: 'Diagnostic gratuit à domicile',
+      desc: 'Un technicien certifié RGE se déplace chez vous pour évaluer votre installation existante, vos besoins énergétiques et la configuration du logement. Devis détaillé offert sous 48h.',
+    },
+    {
+      num: '02', title: 'Aide au financement',
+      desc: 'Nos conseillers vous accompagnent pour maximiser vos aides : MaPrimeRénov\', CEE, éco-prêt à taux zéro (jusqu\'à 50 000€), subventions locales. Jusqu\'à 70% du coût pris en charge.',
+    },
+    {
+      num: '03', title: 'Installation certifiée RGE',
+      desc: 'Nos techniciens qualifiés réalisent l\'installation dans les règles de l\'art. Chantier propre, respect des délais, mise en service complète avec démonstration et prise en main.',
+    },
+    {
+      num: '04', title: 'Suivi & garantie 5 ans',
+      desc: 'Garantie pièces et main d\'œuvre pendant 5 ans. Suivi de performance via notre application, maintenance préventive incluse la première année, assistance téléphonique permanente.',
+    },
+  ],
+  );
 
-  const certs = [
+  const certs = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     { icon: '🏅', title: 'RGE QualiPAC', sub: 'Pompes à chaleur certifiées' },
     { icon: '🪵', title: 'Qualibois',    sub: 'Chauffage au bois certifié' },
     { icon: '🔵', title: 'Qualigaz',     sub: 'Gaz naturel & propane' },
     { icon: '🎯', title: 'MaPrimeRénov\'', sub: 'Partenaire agréé ANAH' },
     { icon: '⚡', title: 'QualiPV',      sub: 'Photovoltaïque & solaire' },
     { icon: '🏆', title: 'Viessmann Gold', sub: 'Partenaire distributeur officiel' },
-  ];
+  ])[i % ([
+    { icon: '🏅', title: 'RGE QualiPAC', sub: 'Pompes à chaleur certifiées' },
+    { icon: '🪵', title: 'Qualibois',    sub: 'Chauffage au bois certifié' },
+    { icon: '🔵', title: 'Qualigaz',     sub: 'Gaz naturel & propane' },
+    { icon: '🎯', title: 'MaPrimeRénov\'', sub: 'Partenaire agréé ANAH' },
+    { icon: '⚡', title: 'QualiPV',      sub: 'Photovoltaïque & solaire' },
+    { icon: '🏆', title: 'Viessmann Gold', sub: 'Partenaire distributeur officiel' },
+  ]).length], title: s.title, sub: s.desc || "" })),
+    [
+    { icon: '🏅', title: 'RGE QualiPAC', sub: 'Pompes à chaleur certifiées' },
+    { icon: '🪵', title: 'Qualibois',    sub: 'Chauffage au bois certifié' },
+    { icon: '🔵', title: 'Qualigaz',     sub: 'Gaz naturel & propane' },
+    { icon: '🎯', title: 'MaPrimeRénov\'', sub: 'Partenaire agréé ANAH' },
+    { icon: '⚡', title: 'QualiPV',      sub: 'Photovoltaïque & solaire' },
+    { icon: '🏆', title: 'Viessmann Gold', sub: 'Partenaire distributeur officiel' },
+  ],
+  );
 
   const projects_DEMO = [
     { type: 'PAC air/eau + plancher chauffant',       location: 'Lyon 6e',            surface: '180 m²',   year: '2024', tag: 'Résidentiel' },

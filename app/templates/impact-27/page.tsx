@@ -148,14 +148,31 @@ const pricing = [
 // ─── Stats Ticker ─────────────────────────────────────────────────────────────
 
 function StatsTicker() {
-  const stats = [
+  const stats = resolveList(
+    clientStats({ formData: fd })?.map((s: any, i: number) => ({ ...([
     { val: "200+", label: "Projects delivered" },
     { val: "40+", label: "Global clients" },
     { val: "8yrs", label: "Studio history" },
     { val: "99.8%", label: "Client satisfaction" },
     { val: "12ms", label: "Avg. frame time" },
     { val: "3×", label: "Avg. conversion uplift" },
-  ]
+  ])[i % ([
+    { val: "200+", label: "Projects delivered" },
+    { val: "40+", label: "Global clients" },
+    { val: "8yrs", label: "Studio history" },
+    { val: "99.8%", label: "Client satisfaction" },
+    { val: "12ms", label: "Avg. frame time" },
+    { val: "3×", label: "Avg. conversion uplift" },
+  ]).length], val: s.value, label: s.label })),
+    [
+    { val: "200+", label: "Projects delivered" },
+    { val: "40+", label: "Global clients" },
+    { val: "8yrs", label: "Studio history" },
+    { val: "99.8%", label: "Client satisfaction" },
+    { val: "12ms", label: "Avg. frame time" },
+    { val: "3×", label: "Avg. conversion uplift" },
+  ],
+  )
 
   return (
     <section className="py-6 border-y border-white/5 relative overflow-hidden">
@@ -304,7 +321,8 @@ function WorkGrid() {
 // ─── Services Deep-Dive ───────────────────────────────────────────────────────
 
 function ServicesSection() {
-  const services = [
+  const services = resolveList(
+    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
     {
       icon: <Box className="w-7 h-7" />,
       title: "3D Product Visualization",
@@ -333,7 +351,67 @@ function ServicesSection() {
       desc: "We push WebGL to its limits with custom GLSL shaders, WebAssembly physics engines, and asset pipelines that target 60 FPS on mid-range mobile devices.",
       steps: ["Custom vertex & fragment shaders", "Wasm physics simulation", "Level-of-Detail scripting", "GPU profile audit & refactor"],
     },
-  ]
+  ])[i % ([
+    {
+      icon: <Box className="w-7 h-7" />,
+      title: "3D Product Visualization",
+      badge: "WebGL / Three.js",
+      desc: "Photorealistic browser-native 3D that loads in under 2 seconds. We build interactive configurators with PBR materials, custom lighting rigs, and glTF asset pipelines.",
+      steps: ["Asset audit & geometry retopo", "PBR texture baking (4K)", "Real-time lighting setup", "Platform API integration"],
+    },
+    {
+      icon: <Layers className="w-7 h-7" />,
+      title: "Augmented Reality (WebAR)",
+      badge: "ARKit / WebXR",
+      desc: "Zero-install AR experiences accessible from a link. Products appear life-size in the user's environment with accurate shadows, ambient occlusion, and spatial audio.",
+      steps: ["USDZ & GLB asset pipeline", "Quick Look iOS integration", "WebXR fallback layer", "Analytics event tracking"],
+    },
+    {
+      icon: <Globe className="w-7 h-7" />,
+      title: "Virtual Environments",
+      badge: "Real-time Metaverse",
+      desc: "Fully interactive 3D spaces — showrooms, galleries, architectural walkthroughs — supporting thousands of concurrent visitors in the browser.",
+      steps: ["Scene graph architecture", "Multi-user socket sync", "LOD streaming pipeline", "Interactive hotspots & media"],
+    },
+    {
+      icon: <Cpu className="w-7 h-7" />,
+      title: "GPU & Shader R&D",
+      badge: "GLSL / WebAssembly",
+      desc: "We push WebGL to its limits with custom GLSL shaders, WebAssembly physics engines, and asset pipelines that target 60 FPS on mid-range mobile devices.",
+      steps: ["Custom vertex & fragment shaders", "Wasm physics simulation", "Level-of-Detail scripting", "GPU profile audit & refactor"],
+    },
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    {
+      icon: <Box className="w-7 h-7" />,
+      title: "3D Product Visualization",
+      badge: "WebGL / Three.js",
+      desc: "Photorealistic browser-native 3D that loads in under 2 seconds. We build interactive configurators with PBR materials, custom lighting rigs, and glTF asset pipelines.",
+      steps: ["Asset audit & geometry retopo", "PBR texture baking (4K)", "Real-time lighting setup", "Platform API integration"],
+    },
+    {
+      icon: <Layers className="w-7 h-7" />,
+      title: "Augmented Reality (WebAR)",
+      badge: "ARKit / WebXR",
+      desc: "Zero-install AR experiences accessible from a link. Products appear life-size in the user's environment with accurate shadows, ambient occlusion, and spatial audio.",
+      steps: ["USDZ & GLB asset pipeline", "Quick Look iOS integration", "WebXR fallback layer", "Analytics event tracking"],
+    },
+    {
+      icon: <Globe className="w-7 h-7" />,
+      title: "Virtual Environments",
+      badge: "Real-time Metaverse",
+      desc: "Fully interactive 3D spaces — showrooms, galleries, architectural walkthroughs — supporting thousands of concurrent visitors in the browser.",
+      steps: ["Scene graph architecture", "Multi-user socket sync", "LOD streaming pipeline", "Interactive hotspots & media"],
+    },
+    {
+      icon: <Cpu className="w-7 h-7" />,
+      title: "GPU & Shader R&D",
+      badge: "GLSL / WebAssembly",
+      desc: "We push WebGL to its limits with custom GLSL shaders, WebAssembly physics engines, and asset pipelines that target 60 FPS on mid-range mobile devices.",
+      steps: ["Custom vertex & fragment shaders", "Wasm physics simulation", "Level-of-Detail scripting", "GPU profile audit & refactor"],
+    },
+  ],
+  )
 
   const [active, setActive] = useState(0)
 

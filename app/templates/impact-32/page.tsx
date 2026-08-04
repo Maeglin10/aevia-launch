@@ -502,12 +502,25 @@ function Services() {
 function Stats() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
-  const stats = [
+  const stats = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...([
     { value: "3 500+", label: "Animaux soignés / an", icon: "🐾" },
     { value: "4.8/5", label: "Note Google Maps", icon: "⭐" },
     { value: "20 ans", label: "D'expertise vétérinaire", icon: "🏆" },
     { value: "24h/7j", label: "Service urgences", icon: "🚨" },
-  ];
+  ])[i % ([
+    { value: "3 500+", label: "Animaux soignés / an", icon: "🐾" },
+    { value: "4.8/5", label: "Note Google Maps", icon: "⭐" },
+    { value: "20 ans", label: "D'expertise vétérinaire", icon: "🏆" },
+    { value: "24h/7j", label: "Service urgences", icon: "🚨" },
+  ]).length], value: s.value, label: s.label })),
+    [
+    { value: "3 500+", label: "Animaux soignés / an", icon: "🐾" },
+    { value: "4.8/5", label: "Note Google Maps", icon: "⭐" },
+    { value: "20 ans", label: "D'expertise vétérinaire", icon: "🏆" },
+    { value: "24h/7j", label: "Service urgences", icon: "🚨" },
+  ],
+  );
 
   return (
     <section

@@ -500,12 +500,25 @@ function AtelierPage() {
 }
 
 function CollectionPage({ goTo }: { goTo: (p: ActivePage) => void }) {
-  const collectionList = [
+  const collectionList = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     { name: "Horology One", series: "Precision Series", price: "€14,500", img: photo(3, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-01 Manual", power: "72 Hours", case: "Titanium Grade 5", water: "50m", desc: "Brushed titanium case with a 72-hour power reserve and sapphire crystal." },
     { name: "Deep Sea", series: "Oceanic Series", price: "€18,200", img: photo(4, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200"), calibre: "CH-09 Auto", power: "60 Hours", case: "Stainless Steel 904L", water: "1000m", desc: "Professional diver's watch water resistant to 1000m with helium escape valve." },
     { name: "Lunar Phase", series: "Astral Series", price: "€22,900", img: photo(5, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-12 Lunar", power: "65 Hours", case: "18k Rose Gold", water: "30m", desc: "Perpetual moon phase complication with 18k rose gold hand-engraved dial." },
     { name: "Tourbillon Prestige", series: "Grand Complication", price: "€85,000", img: photo(6, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200"), calibre: "CH-50 Tourbillon", power: "80 Hours", case: "Platinum 950", water: "30m", desc: "Flying tourbillon with manual winding, hand-beveled titanium cage, and power reserve indicator." }
-  ];
+  ])[i % ([
+    { name: "Horology One", series: "Precision Series", price: "€14,500", img: photo(3, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-01 Manual", power: "72 Hours", case: "Titanium Grade 5", water: "50m", desc: "Brushed titanium case with a 72-hour power reserve and sapphire crystal." },
+    { name: "Deep Sea", series: "Oceanic Series", price: "€18,200", img: photo(4, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200"), calibre: "CH-09 Auto", power: "60 Hours", case: "Stainless Steel 904L", water: "1000m", desc: "Professional diver's watch water resistant to 1000m with helium escape valve." },
+    { name: "Lunar Phase", series: "Astral Series", price: "€22,900", img: photo(5, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-12 Lunar", power: "65 Hours", case: "18k Rose Gold", water: "30m", desc: "Perpetual moon phase complication with 18k rose gold hand-engraved dial." },
+    { name: "Tourbillon Prestige", series: "Grand Complication", price: "€85,000", img: photo(6, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200"), calibre: "CH-50 Tourbillon", power: "80 Hours", case: "Platinum 950", water: "30m", desc: "Flying tourbillon with manual winding, hand-beveled titanium cage, and power reserve indicator." }
+  ]).length], name: s.title, desc: s.desc || "" })),
+    [
+    { name: "Horology One", series: "Precision Series", price: "€14,500", img: photo(3, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-01 Manual", power: "72 Hours", case: "Titanium Grade 5", water: "50m", desc: "Brushed titanium case with a 72-hour power reserve and sapphire crystal." },
+    { name: "Deep Sea", series: "Oceanic Series", price: "€18,200", img: photo(4, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200"), calibre: "CH-09 Auto", power: "60 Hours", case: "Stainless Steel 904L", water: "1000m", desc: "Professional diver's watch water resistant to 1000m with helium escape valve." },
+    { name: "Lunar Phase", series: "Astral Series", price: "€22,900", img: photo(5, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-12 Lunar", power: "65 Hours", case: "18k Rose Gold", water: "30m", desc: "Perpetual moon phase complication with 18k rose gold hand-engraved dial." },
+    { name: "Tourbillon Prestige", series: "Grand Complication", price: "€85,000", img: photo(6, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200"), calibre: "CH-50 Tourbillon", power: "80 Hours", case: "Platinum 950", water: "30m", desc: "Flying tourbillon with manual winding, hand-beveled titanium cage, and power reserve indicator." }
+  ],
+  );
 
   return (
     <section className="py-40 bg-[#050505] min-h-dvh text-white border-t border-white/5">
@@ -723,7 +736,8 @@ function InnovationPage() {
 }
 
 function JournalPage() {
-  const articles = [
+  const articles = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       title: "The Art of Anglage: Hand-Beveling",
       cat: "Craftsmanship",
@@ -745,7 +759,53 @@ function JournalPage() {
       desc: "A behind-the-scenes look at reviving one of Leo Aris's early lunar complications.",
       img: photo(13, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
     }
-  ];
+  ])[i % ([
+    {
+      title: "The Art of Anglage: Hand-Beveling",
+      cat: "Craftsmanship",
+      date: "May 14, 2026",
+      desc: "An exploration of the technique of hand-polishing sharp edges in high watchmaking.",
+      img: photo(11, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
+    },
+    {
+      title: "Helium Escape Valves: Deep Oceanic Design",
+      cat: "Engineering",
+      date: "April 28, 2026",
+      desc: "How our watches survive the decompression phase of professional saturation diving.",
+      img: photo(12, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200")
+    },
+    {
+      title: "Restoring a 1930 Perpetual Calendar",
+      cat: "Restoration",
+      date: "March 10, 2026",
+      desc: "A behind-the-scenes look at reviving one of Leo Aris's early lunar complications.",
+      img: photo(13, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
+    }
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    {
+      title: "The Art of Anglage: Hand-Beveling",
+      cat: "Craftsmanship",
+      date: "May 14, 2026",
+      desc: "An exploration of the technique of hand-polishing sharp edges in high watchmaking.",
+      img: photo(11, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
+    },
+    {
+      title: "Helium Escape Valves: Deep Oceanic Design",
+      cat: "Engineering",
+      date: "April 28, 2026",
+      desc: "How our watches survive the decompression phase of professional saturation diving.",
+      img: photo(12, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200")
+    },
+    {
+      title: "Restoring a 1930 Perpetual Calendar",
+      cat: "Restoration",
+      date: "March 10, 2026",
+      desc: "A behind-the-scenes look at reviving one of Leo Aris's early lunar complications.",
+      img: photo(13, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
+    }
+  ],
+  );
 
   return (
     <section className="py-40 bg-[#050505] min-h-dvh text-white border-t border-white/5">
