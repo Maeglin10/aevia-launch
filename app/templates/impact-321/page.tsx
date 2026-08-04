@@ -2,6 +2,7 @@
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientFaq,
   clientName,
   clientServices,
   clientStats,
@@ -247,6 +248,48 @@ const GlowOrb = ({ color, top, left, right, bottom, size = "40vw", opacity = 0.1
 );
 
 // --- MAIN TEMPLATE ---
+
+/*
+  Un panneau par question, dans son propre composant.
+
+  Le useState vivait dans le corps du `.map` : son nombre suivrait la longueur
+  de la liste, qui change dès que les questions du client arrivent, et React
+  lèverait l'erreur #300 en emportant la page.
+*/
+function FaqPanel321({ faq, i }: { faq: any; i: number }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+                <div key={i} className="glass-panel" style={{ borderRadius: '8px', overflow: 'hidden' }}>
+                  <button 
+                    onClick={() => setIsOpen(!isOpen)}
+                    style={{
+                      width: '100%', padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                      background: 'none', border: 'none', color: C.white, cursor: 'pointer', textAlign: 'left',
+                      fontFamily: SANS, fontSize: '16px', fontWeight: 500
+                    }}
+                  >
+                    {faq.q}
+                    <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
+                      <ChevronDown size={20} color={C.primary} />
+                    </motion.div>
+                  </button>
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        style={{ overflow: 'hidden' }}
+                      >
+                        <div style={{ padding: '0 24px 24px 24px', color: C.textMuted, lineHeight: 1.6 }}>
+                          {faq.a}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )
+}
 
 export default function AIHorizonsTemplate() {
   const [session, setSession] = useState(null);
@@ -531,12 +574,25 @@ export default function AIHorizonsTemplate() {
   );
 
   // FAQ
-  const faqs = [
+  const faqs = resolveList(
+    clientFaq(session)?.map((f: any, i: number) => ({ ...([
     { q: "L'événement sera-t-il retransmis en ligne ?", a: "Oui, un pass virtuel est disponible pour suivre les conférences principales en direct." },
     { q: "Puis-je changer le nom sur mon billet ?", a: "Oui, vous pouvez transférer votre billet jusqu'à 7 jours avant l'événement via notre plateforme." },
     { q: "Y a-t-il des tarifs de groupe ?", a: "Nous offrons 15% de réduction pour les groupes de 5 personnes ou plus. Contactez-nous directement." },
     { q: "Le lieu est-il accessible aux PMR ?", a: "Absolument, Station F est entièrement accessible. N'hésitez pas à nous prévenir pour des besoins spécifiques." }
-  ];
+  ])[i % ([
+    { q: "L'événement sera-t-il retransmis en ligne ?", a: "Oui, un pass virtuel est disponible pour suivre les conférences principales en direct." },
+    { q: "Puis-je changer le nom sur mon billet ?", a: "Oui, vous pouvez transférer votre billet jusqu'à 7 jours avant l'événement via notre plateforme." },
+    { q: "Y a-t-il des tarifs de groupe ?", a: "Nous offrons 15% de réduction pour les groupes de 5 personnes ou plus. Contactez-nous directement." },
+    { q: "Le lieu est-il accessible aux PMR ?", a: "Absolument, Station F est entièrement accessible. N'hésitez pas à nous prévenir pour des besoins spécifiques." }
+  ]).length], q: f.q, a: f.a })),
+    [
+    { q: "L'événement sera-t-il retransmis en ligne ?", a: "Oui, un pass virtuel est disponible pour suivre les conférences principales en direct." },
+    { q: "Puis-je changer le nom sur mon billet ?", a: "Oui, vous pouvez transférer votre billet jusqu'à 7 jours avant l'événement via notre plateforme." },
+    { q: "Y a-t-il des tarifs de groupe ?", a: "Nous offrons 15% de réduction pour les groupes de 5 personnes ou plus. Contactez-nous directement." },
+    { q: "Le lieu est-il accessible aux PMR ?", a: "Absolument, Station F est entièrement accessible. N'hésitez pas à nous prévenir pour des besoins spécifiques." }
+  ],
+  );
 
 
   return (
@@ -1241,40 +1297,9 @@ export default function AIHorizonsTemplate() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {faqs.map((faq, i) => {
-              const [isOpen, setIsOpen] = useState(false);
-              return (
-                <div key={i} className="glass-panel" style={{ borderRadius: '8px', overflow: 'hidden' }}>
-                  <button 
-                    onClick={() => setIsOpen(!isOpen)}
-                    style={{
-                      width: '100%', padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                      background: 'none', border: 'none', color: C.white, cursor: 'pointer', textAlign: 'left',
-                      fontFamily: SANS, fontSize: '16px', fontWeight: 500
-                    }}
-                  >
-                    {faq.q}
-                    <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
-                      <ChevronDown size={20} color={C.primary} />
-                    </motion.div>
-                  </button>
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        style={{ overflow: 'hidden' }}
-                      >
-                        <div style={{ padding: '0 24px 24px 24px', color: C.textMuted, lineHeight: 1.6 }}>
-                          {faq.a}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              )
-            })}
+            {faqs.map((faq, i) => (
+              <FaqPanel321 key={i} faq={faq} i={i} />
+            ))}
           </div>
 
         </div>
