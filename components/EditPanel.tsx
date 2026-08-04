@@ -3,10 +3,18 @@
 import { useState, useRef } from "react";
 import { X, Plus, Trash2, Save, Loader2, Check, Image, Palette, Tag, Briefcase, Star, Share2, ChevronDown, ChevronRight } from "lucide-react";
 import type { SessionData, GeneratedContent, FormData } from "@/lib/sessions";
+import { retouchesDe } from "@/lib/templates/sectionManifest";
 
 type EditableData = {
   generatedContent: Partial<GeneratedContent>;
   formData: Partial<FormData>;
+  /*
+    Les retouches de section, dressées par `sectionManifest`. Le panneau ne
+    connaissait que cinq blocs — hero, à propos, services, contact, marque — sur
+    des thèmes qui en comptent une dizaine chacun. Le client voyait donc son
+    site sans pouvoir toucher la moitié de ce qu'il y lisait.
+  */
+  sectionOverrides?: Record<string, string>;
 };
 
 interface EditPanelProps {
@@ -16,7 +24,7 @@ interface EditPanelProps {
   onSave: (data: EditableData) => Promise<void>;
 }
 
-const SECTIONS = ["hero", "about", "services", "contact", "brand"] as const;
+const SECTIONS = ["hero", "about", "services", "contact", "brand", "sections"] as const;
 type Section = typeof SECTIONS[number];
 
 const SECTION_LABELS: Record<Section, string> = {
@@ -25,6 +33,7 @@ const SECTION_LABELS: Record<Section, string> = {
   services: "Services",
   contact: "Coordonnées & Réseaux",
   brand: "Identité de marque",
+  sections: "Toutes les sections",
 };
 
 const SECTION_ICONS: Record<Section, typeof Image> = {
@@ -33,6 +42,7 @@ const SECTION_ICONS: Record<Section, typeof Image> = {
   services: Briefcase,
   contact: Share2,
   brand: Palette,
+  sections: Tag,
 };
 
 const PRESET_COLORS = [
@@ -98,6 +108,11 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
   const [linkedin, setLinkedin] = useState(fd.linkedin ?? "");
   // Brand
   const [brandColor, setBrandColor] = useState(fd.brandColor ?? "#7c3aed");
+  // Les retouches de section du thème choisi.
+  const retouches = retouchesDe(fd.template);
+  const [overrides, setOverrides] = useState<Record<string, string>>(
+    session.sectionOverrides ?? {},
+  );
 
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
   const [openSection, setOpenSection] = useState<Section>("hero");
@@ -111,6 +126,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
         heroImageUrl, tagline, mainService, benefits,
         phone, email, city, instagram, linkedin, brandColor,
       },
+      sectionOverrides: overrides,
     };
   }
 
@@ -123,6 +139,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
     onChange({
       generatedContent: { ...base.generatedContent, ...patch.generatedContent },
       formData: { ...base.formData, ...patch.formData },
+      sectionOverrides: { ...base.sectionOverrides, ...patch.sectionOverrides },
     });
   }
 
@@ -393,6 +410,45 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
               <p className="text-[11px] text-zinc-600 mt-2">
                 Modifie la couleur d'accentuation sur tout le site.
               </p>
+            </div>
+          )}
+
+          {openSection === "sections" && (
+            <div className="pb-4 space-y-4">
+              {retouches.length === 0 ? (
+                <p className="text-[12px] text-zinc-500 leading-relaxed">
+                  Ce thème n'expose pas encore de section retouchable.
+                </p>
+              ) : (
+                <>
+                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                    Chaque titre et chaque liste du site. Laissez vide pour garder
+                    le texte du thème.
+                  </p>
+                  {retouches.map((r) => (
+                    <div key={r.cle}>
+                      <label className="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1">
+                        {r.apercu || r.cle}
+                      </label>
+                      <textarea
+                        rows={r.type === "liste" ? 4 : 2}
+                        value={overrides[r.cle] ?? ""}
+                        placeholder={
+                          r.type === "liste"
+                            ? "Une entrée par ligne"
+                            : r.apercu || "Votre texte"
+                        }
+                        className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition-colors resize-none"
+                        onChange={(e) => {
+                          const suivant = { ...overrides, [r.cle]: e.target.value };
+                          setOverrides(suivant);
+                          notifyWith({ sectionOverrides: suivant });
+                        }}
+                      />
+                    </div>
+                  ))}
+                </>
+              )}
             </div>
           )}
         </div>
