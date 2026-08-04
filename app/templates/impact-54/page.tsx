@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
@@ -25,6 +26,26 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+// prestations, jusqu'ici écrit dans le rendu sans constante nommée.
+const PRESTATIONS_ANON_SOURCE = [
+              {
+                name: "Builder", price: "$79", period: "/mo", highlight: false,
+                desc: "Perfect for indie artists and small studios.",
+                features: ["50 GPU hours/month", "4K output resolution", "Atelier CLI access", "Community support", "5 active projects"],
+              },
+              {
+                name: "Studio", price: "$299", period: "/mo", highlight: true,
+                desc: "The full pipeline for professional studios.",
+                features: ["Unlimited GPU hours", "8K + HDR output", "Priority inference queue", "Dedicated support channel", "Unlimited projects", "Custom LoRA fine-tuning", "API access (100k calls/mo)"],
+              },
+              {
+                name: "Enterprise", price: "Custom", period: "", highlight: false,
+                desc: "On-prem deployment and SLA guarantees.",
+                features: ["On-premise deployment", "Custom SLA (99.99%)", "Dedicated GPU cluster", "SOC 2 Type II report", "SSO + SCIM provisioning", "Custom contract"],
+              },
+            ];
+let PRESTATIONS_ANON = PRESTATIONS_ANON_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -56,6 +77,14 @@ export default function Impact54Page() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_ANON = resolveList(
+
+    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...PRESTATIONS_ANON_SOURCE[i % PRESTATIONS_ANON_SOURCE.length], name: s.title, desc: s.desc || "" })),
+
+    PRESTATIONS_ANON_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -383,23 +412,7 @@ return (
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24 }}>
-            {[
-              {
-                name: "Builder", price: "$79", period: "/mo", highlight: false,
-                desc: "Perfect for indie artists and small studios.",
-                features: ["50 GPU hours/month", "4K output resolution", "Atelier CLI access", "Community support", "5 active projects"],
-              },
-              {
-                name: "Studio", price: "$299", period: "/mo", highlight: true,
-                desc: "The full pipeline for professional studios.",
-                features: ["Unlimited GPU hours", "8K + HDR output", "Priority inference queue", "Dedicated support channel", "Unlimited projects", "Custom LoRA fine-tuning", "API access (100k calls/mo)"],
-              },
-              {
-                name: "Enterprise", price: "Custom", period: "", highlight: false,
-                desc: "On-prem deployment and SLA guarantees.",
-                features: ["On-premise deployment", "Custom SLA (99.99%)", "Dedicated GPU cluster", "SOC 2 Type II report", "SSO + SCIM provisioning", "Custom contract"],
-              },
-            ].map((plan, i) => (
+            {PRESTATIONS_ANON.map((plan, i) => (
               <Reveal key={plan.name} delay={i * 0.08}>
                 <div
                   style={{

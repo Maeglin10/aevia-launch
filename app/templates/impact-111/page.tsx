@@ -12,12 +12,22 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+// equipe, jusqu'ici écrit dans le rendu sans constante nommée.
+const EQUIPE_ANON_SOURCE = [
+                { name: "Clara Thorn", role: "Principal Architect", exp: "18yr", spec: "Biophilic structures", tags: ["LEED", "RIBA Fellow"] },
+                { name: "Samuel Osei", role: "Landscape Lead", exp: "12yr", spec: "Rewilding & restoration", tags: ["ASLA", "RHS"] },
+                { name: "Vera Kessler", role: "Interior Systems", exp: "9yr", spec: "Material culture & craft", tags: ["Dezeen Award"] },
+                { name: "Jin Park", role: "Structural Innovator", exp: "14yr", spec: "Mass timber & earth", tags: ["SE Certified", "CIBSE"] },
+              ];
+let EQUIPE_ANON = EQUIPE_ANON_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -93,6 +103,14 @@ export default function TerraArchitecturePage() {
   }, []);
 
   fd = session?.formData;
+
+  EQUIPE_ANON = resolveList(
+
+    clientTeam({ formData: fd })?.map((m: any, i: number) => ({ ...EQUIPE_ANON_SOURCE[i % EQUIPE_ANON_SOURCE.length], name: m.name, role: m.role })),
+
+    EQUIPE_ANON_SOURCE,
+
+  );
   PILLARS = resolveList(
     clientServices(session)?.map((s, i) => ({ ...PILLARS_DEMO[i % PILLARS_DEMO.length], title: s.title })),
     PILLARS_DEMO,
@@ -303,12 +321,7 @@ export default function TerraArchitecturePage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[
-                { name: "Clara Thorn", role: "Principal Architect", exp: "18yr", spec: "Biophilic structures", tags: ["LEED", "RIBA Fellow"] },
-                { name: "Samuel Osei", role: "Landscape Lead", exp: "12yr", spec: "Rewilding & restoration", tags: ["ASLA", "RHS"] },
-                { name: "Vera Kessler", role: "Interior Systems", exp: "9yr", spec: "Material culture & craft", tags: ["Dezeen Award"] },
-                { name: "Jin Park", role: "Structural Innovator", exp: "14yr", spec: "Mass timber & earth", tags: ["SE Certified", "CIBSE"] },
-              ].map((m, i) => (
+              {EQUIPE_ANON.map((m, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group border border-[#3d3a35]/10 rounded-2xl p-8 hover:border-[#3d3a35]/30 transition-all duration-500 cursor-default">
                     <div className="w-16 h-16 rounded-full bg-[#3d3a35]/5 flex items-center justify-center mb-6 group-hover:bg-[#3d3a35] transition-colors duration-500">
