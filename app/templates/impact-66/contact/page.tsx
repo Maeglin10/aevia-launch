@@ -1,9 +1,32 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { Reveal, MagneticBtn } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const handleBook = () => {
     window.dispatchEvent(new Event("open-atelier-booking"));
   };
@@ -54,7 +77,7 @@ export default function ContactPage() {
                     75008 Paris, France
                   </p>
                   <p className="text-xs text-[#1a1814]/40 mt-1 italic">
-                    Adresse physique communiquée sur simple demande à contact@exemple.fr.
+                    Adresse physique communiquée sur simple demande à {fd?.email ?? "contact@exemple.fr"}.
                   </p>
                 </div>
               </div>
@@ -87,7 +110,7 @@ export default function ContactPage() {
                 <div>
                   <h4 className="text-xs font-black uppercase tracking-widest text-[#1a1814]/40 mb-2">Email</h4>
                   <p className="text-lg font-light text-[#1a1814]">
-                    contact@exemple.fr
+                    {fd?.email ?? "contact@exemple.fr"}
                   </p>
                 </div>
               </div>

@@ -1,11 +1,34 @@
 'use client';
+import { useEffect, useState } from "react";
 
 import React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { C, SectionReveal } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ArtistesPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const artistRoster = [
     { name: "Kova", genre: "R&B / Soul", albums: 3, achievement: "Top 10 FR", desc: "Son dernier album a atteint le Top 10 FR. Voix puissante, production soul moderne enregistrée en Studio A.", tags: ["R&B", "Soul", "Vocals"], img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80&fit=crop" },
     { name: "Théo Laurent", genre: "Hip-Hop", albums: 2, achievement: "50M streams Spotify", desc: "50M streams cumulés sur Spotify. Textes incisifs, prod trap/boom-bap. Enregistré en Studio B.", tags: ["Hip-Hop", "Trap", "Rap"], img: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80&fit=crop" },

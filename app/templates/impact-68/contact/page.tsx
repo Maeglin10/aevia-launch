@@ -1,11 +1,33 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Clock, Shield } from "lucide-react";
 import { C } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -83,7 +105,7 @@ export default function ContactPage() {
               style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "center" }}
             >
               <a
-                href="mailto:contact@exemple.fr"
+                href={`mailto:${fd?.email ?? "contact@exemple.fr"}`}
                 style={{
                   fontFamily: "'Space Grotesk', sans-serif",
                   fontSize: "15px",
@@ -109,7 +131,7 @@ export default function ContactPage() {
                 }}
               >
                 <Mail size={16} />
-                contact@exemple.fr
+                {fd?.email ?? "contact@exemple.fr"}
               </a>
               <div
                 style={{

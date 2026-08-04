@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import React from "react";
 import { motion } from "framer-motion";
@@ -9,7 +10,29 @@ import { C, PageHero } from "../shared";
 const SERIF = "'Libre Baskerville', Georgia, serif";
 const SANS = "'Poppins', system-ui";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function About() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const values = [
     { icon: <Leaf size={22} />, title: "Fleurs de saison", text: "Nous composons avec les fleurs du moment et privilégions les petits cultivateurs français dès que la saison le permet." },
     { icon: <Heart size={22} />, title: "Fait main, avec intention", text: "Chaque création est façonnée à la main dans notre atelier, du simple bouquet à l'arche de mariage." },

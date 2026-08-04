@@ -1,13 +1,35 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Mail, Phone, MapPin, Clock, Check } from "lucide-react";
 import { C, PageHero } from "../shared";
 
 const SERIF = "'Libre Baskerville', Georgia, serif";
 const SANS = "'Poppins', system-ui";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function Contact() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [sent, setSent] = useState(false);
   const inputStyle: React.CSSProperties = {
     width: "100%", padding: "14px 16px", background: C.white, border: `1px solid ${C.border}`, color: C.text,

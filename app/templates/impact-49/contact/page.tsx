@@ -1,10 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Reveal } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -39,7 +61,7 @@ export default function ContactPage() {
               <div>
                 <h4 className="font-bold text-[#1E1B4B] mb-1">Email</h4>
                 <p className="text-sm text-[#6B7280] font-medium mb-1">
-                  support@skillbridge.fr
+                  {fd?.email ?? "support@skillbridge.fr"}
                 </p>
                 <p className="text-xs text-[#9CA3AF]">
                   Réponse moyenne sous 2 heures

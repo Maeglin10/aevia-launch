@@ -57,7 +57,29 @@ const milestones = [
   { year: "2024", label: "Fonds IV", value: "500M€ — focus IA & infrastructure" },
 ];
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function Page() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState("Tous");
@@ -154,7 +176,7 @@ export default function Page() {
               <div>
                 <div className="text-[#C9A86C] text-[10px] font-bold uppercase mb-2">VOS DROITS</div>
                 <p className="leading-relaxed font-sans text-xs text-white/40">
-                  Vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données. Pour exercer ces droits, vous pouvez nous contacter à l'adresse suivante : privacy@summit-capital.vc.
+                  Vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données. Pour exercer ces droits, vous pouvez nous contacter à l'adresse suivante : {fd?.email ?? "privacy@summit-capital.vc"}.
                 </p>
               </div>
             </div>

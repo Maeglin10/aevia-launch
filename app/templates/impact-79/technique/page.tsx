@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 // @ts-nocheck
 
 import { motion } from "framer-motion";
@@ -6,7 +7,29 @@ import Link from "next/link";
 import { ArrowLeft, Wheat, Shield, Globe, Activity, Search, Box } from "lucide-react";
 import "../../premium.css";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function Page() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   return (
     <div className="premium-theme min-h-dvh bg-[#0a0a0a] text-[#d6d3d1] font-mono selection:bg-stone-800 selection:text-white">
       <nav className="fixed top-0 left-0 w-full z-50 bg-black/95 backdrop-blur-xl py-4 border-b border-white/5">

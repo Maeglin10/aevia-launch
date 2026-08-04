@@ -1,10 +1,33 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   return (
     <div
       style={{
@@ -67,7 +90,7 @@ export default function ContactPage() {
               contactez-nous pour toute création sur mesure.
             </p>
             <p>
-              Email : contact@maison-elara.fr<br />
+              Email : {fd?.email ?? "contact@maison-elara.fr"}<br />
               Téléphone : +33 1 23 45 67 89<br />
               Adresse : 15 Place Vendôme, 75001 Paris, France
             </p>

@@ -9,7 +9,7 @@ import {
   useInView,
   useSpring,
 } from "framer-motion";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   Menu,
@@ -765,7 +765,29 @@ function CounterStat({ stat, triggered }: { stat: StatItem; triggered: boolean }
 ───────────────────────────────────────────── */
 type ActivePage = "home" | "fleet" | "destinations" | "experience" | "contact" | "legal";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function HorizonMaritimePage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [page, setPage] = useState<ActivePage>("experience");
   const goTo = (p: ActivePage) => {
     setPage(p);
@@ -2272,7 +2294,7 @@ export default function HorizonMaritimePage() {
           >
             <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
               <a
-                href="tel:+33123456789"
+                href={`tel:${fd?.phone ?? "+33123456789"}`}
                 style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}
               >
                 <Phone size={12} style={{ color: "#c9a84c" }} />
@@ -2281,12 +2303,12 @@ export default function HorizonMaritimePage() {
                 </span>
               </a>
               <a
-                href="mailto:voyages@horizonmaritime.com"
+                href={`mailto:${fd?.email ?? "voyages@horizonmaritime.com"}`}
                 style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}
               >
                 <Mail size={12} style={{ color: "#c9a84c" }} />
                 <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>
-                  voyages@horizonmaritime.com
+                  {fd?.email ?? "voyages@horizonmaritime.com"}
                 </span>
               </a>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
@@ -2939,7 +2961,7 @@ function LegalPage() {
             <p style={{ margin: 0 }}>
               <strong>Publisher:</strong> Aevia WS — Valentin Milliand<br />
               Sole Proprietorship — SIREN <LegalIdentity /> — RCS Bourg-en-Bresse<br />
-              <strong>Contact Email:</strong> valentinmilliand@aevia.services<br />
+              <strong>Contact Email:</strong> {fd?.email ?? "valentinmilliand@aevia.services"}<br />
               <strong>Address:</strong> communicated upon request<br />
               <strong>Host:</strong> Vercel Inc.
             </p>

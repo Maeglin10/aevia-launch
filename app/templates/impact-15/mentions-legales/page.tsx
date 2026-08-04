@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion"
 import { ArrowLeft, Zap } from "lucide-react"
 import Link from "next/link"
@@ -21,7 +22,29 @@ const C = {
 
 const FONT = "'Outfit', system-ui, sans-serif"
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function MentionsLegales() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   return (
     <div style={{ background: C.bg, fontFamily: FONT, color: C.text, minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');`}</style>
@@ -71,8 +94,8 @@ export default function MentionsLegales() {
               <div style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.8 }}>
                 <p style={{ marginBottom: 8 }}><strong style={{ color: C.text }}>VoltExpert</strong></p>
                 <p>123 Avenue des Électriciens, 31000 Toulouse, France</p>
-                <p>Téléphone : <a href="tel:+33561000000" style={{ color: C.accent, textDecoration: "none" }}>05 61 00 00 00</a></p>
-                <p>Email : <a href="mailto:contact@voltexpert.fr" style={{ color: C.accent, textDecoration: "none" }}>contact@voltexpert.fr</a></p>
+                <p>Téléphone : <a href={`tel:${fd?.phone ?? "+33561000000"}`} style={{ color: C.accent, textDecoration: "none" }}>05 61 00 00 00</a></p>
+                <p>Email : <a href={`mailto:${fd?.email ?? "contact@voltexpert.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>contact@voltexpert.fr</a></p>
                 <p>SIRET : 123 456 789 00012</p>
                 <p>Directeur de la publication : Jean Dupont</p>
               </div>

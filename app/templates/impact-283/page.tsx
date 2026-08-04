@@ -1814,7 +1814,7 @@ function RdvFormSection() {
                     fontWeight: 500,
                   }}
                 >
-                  04 67 XX XX XX · cabinet@kinetherapeute-montpellier.fr
+                  04 67 XX XX XX · {fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}
                 </div>
               </div>
             ) : (

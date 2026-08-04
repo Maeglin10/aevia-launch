@@ -47,7 +47,29 @@ const pricingTiers = [
   },
 ];
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -179,7 +201,7 @@ export default function ContactPage() {
                       <Mail className="w-5 h-5 text-[#F97316]" />
                       <h4 className="text-gray-900 font-bold">Email</h4>
                     </div>
-                    <p className="text-gray-500 text-sm">hello@formedstudio.fr</p>
+                    <p className="text-gray-500 text-sm">{fd?.email ?? "hello@formedstudio.fr"}</p>
                   </div>
                   <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                     <div className="flex items-center gap-3 mb-3">

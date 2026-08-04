@@ -1,10 +1,33 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import Image from "next/image";
 import { Search, Droplets, Zap, Flower2, Quote } from "lucide-react";
 import { Reveal } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function RitualsPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const steps = [
     { title: "Consultation & Mapping", desc: "We analyze your skin bio-type and facial geometry to calibrate custom active serum formulas.", icon: <Search className="w-6 h-6" /> },
     { title: "Thermal Prep", desc: "Ozonated steam opens cellular structures to receive bio-active nutrients.", icon: <Droplets className="w-6 h-6" /> },

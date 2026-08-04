@@ -1,11 +1,33 @@
 "use client";
 // @ts-nocheck
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Mail, Globe, MapPin, Check } from "lucide-react";
 import { Reveal } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   return (
@@ -31,7 +53,7 @@ export default function ContactPage() {
                 <Mail className="w-5 h-5 text-rose-500" />
                 <div>
                   <h4 className="text-white/60 mb-1">Direct Message</h4>
-                  <a href="mailto:contact@exemple.fr" className="text-white hover:text-rose-500 transition-colors">contact@exemple.fr</a>
+                  <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-white hover:text-rose-500 transition-colors">contact@exemple.fr</a>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white/[0.01] border border-white/5 rounded-xl">
@@ -107,7 +129,7 @@ export default function ContactPage() {
                   </div>
                   <h4 className="text-xl font-black uppercase text-white">Transmission Successful</h4>
                   <p className="text-xs text-white/40 max-w-sm mx-auto leading-relaxed italic">
-                    Your transmission has been securely routed to contact@exemple.fr. Our communications department will review it.
+                    Your transmission has been securely routed to {fd?.email ?? "contact@exemple.fr"}. Our communications department will review it.
                   </p>
                 </div>
               )}

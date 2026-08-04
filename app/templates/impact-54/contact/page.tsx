@@ -1,10 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Mail, MessageSquare, Terminal, Send } from "lucide-react";
 import { Reveal } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [formData, setFormData] = useState({ name: "", email: "", message: "", company: "" });
   const [submitted, setSubmitted] = useState(false);
 
@@ -110,8 +132,8 @@ export default function ContactPage() {
                     <p style={{ fontSize: 13, color: "rgba(232,232,255,0.45)", lineHeight: 1.5, marginBottom: 8 }}>
                       For custom cluster quotes and on-prem SLA configurations:
                     </p>
-                    <a href="mailto:support@artgen.studio" style={{ color: "#00ffd1", fontSize: 13, textDecoration: "none" }}>
-                      support@artgen.studio
+                    <a href={`mailto:${fd?.email ?? "support@artgen.studio"}`} style={{ color: "#00ffd1", fontSize: 13, textDecoration: "none" }}>
+                      {fd?.email ?? "support@artgen.studio"}
                     </a>
                   </div>
                 </div>

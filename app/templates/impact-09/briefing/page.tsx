@@ -3,7 +3,7 @@
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
-import React, { useState, useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react";
 import { 
   motion, 
   useScroll, 
@@ -186,7 +186,29 @@ function HUD_Sidebar({ page, goTo }: { page: ActivePage, goTo: (p: ActivePage) =
    )
 }
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function AstrumReachPremiumBriefing() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [page, setPage] = useState<ActivePage>("briefing")
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
@@ -783,7 +805,7 @@ function LegalPage() {
                 Entrepreneur Individuel<br />
                 SIREN : <LegalIdentity /><br />
                 RCS : Bourg-en-Bresse<br />
-                Email : valentinmilliand@aevia.services<br />
+                Email : {fd?.email ?? "valentinmilliand@aevia.services"}<br />
                 Adresse : Communiquée sur demande
              </p>
           </div>

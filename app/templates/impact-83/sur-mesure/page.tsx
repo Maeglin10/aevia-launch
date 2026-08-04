@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 import { C, FONT_HEADING, FONT_LABEL, FONT_BODY, COLLECTIONS, GemStoneSVG, Reveal } from "../shared";
@@ -26,7 +26,29 @@ const labelStyle: React.CSSProperties = {
   marginBottom: 8,
 };
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function SurMesurePage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const bespoke = COLLECTIONS.find((c) => c.id === "bespoke")?.pieces || [];
   const [hoveredPiece, setHoveredPiece] = useState<number | null>(null);
   const [message, setMessage] = useState("");

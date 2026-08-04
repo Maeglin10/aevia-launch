@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowLeft, Leaf } from "lucide-react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const useFonts = () => {
   useEffect(() => {
@@ -15,7 +15,29 @@ const useFonts = () => {
   }, []);
 };
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ConfidentialitePage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   useFonts();
 
   return (
@@ -78,7 +100,7 @@ export default function ConfidentialitePage() {
 
             <h2 className="text-2xl text-[#2C2820] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>4. Vos droits</h2>
             <p className="mb-6">
-              Conformément à la réglementation en vigueur, vous disposez d'un droit d'accès, de rectification, de suppression et d'opposition de vos données personnelles. Vous pouvez exercer ce droit en nous contactant à l'adresse email suivante : contact@aurawellness.fr.
+              Conformément à la réglementation en vigueur, vous disposez d'un droit d'accès, de rectification, de suppression et d'opposition de vos données personnelles. Vous pouvez exercer ce droit en nous contactant à l'adresse email suivante : {fd?.email ?? "contact@aurawellness.fr"}.
             </p>
           </motion.div>
         </div>

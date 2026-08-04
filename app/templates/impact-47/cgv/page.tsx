@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import React from "react";
 import { C, PageHero } from "../shared";
@@ -6,7 +7,29 @@ import { C, PageHero } from "../shared";
 const SERIF = "'Libre Baskerville', Georgia, serif";
 const SANS = "'Poppins', system-ui";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function CGV() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const sectionTitle: React.CSSProperties = { fontFamily: SERIF, fontSize: 23, color: C.accent, marginTop: 40, marginBottom: 14, fontWeight: 700 };
   const para: React.CSSProperties = { fontFamily: SANS, fontSize: 15, color: C.textMuted, lineHeight: 1.9, marginBottom: 14 };
 

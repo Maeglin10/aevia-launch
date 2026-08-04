@@ -1700,7 +1700,7 @@ return (
                 padding: '11px 18px', borderRadius: 50,
                 fontSize: 13.5, fontWeight: 700,
                 boxShadow: `0 4px 18px ${C.accent}44`,
-              }}>04 78 00 00 00 — 24h/7j</a>
+              }}>{fd?.phone ?? "04 78 00 00 00"} — 24h/7j</a>
             </div>
 
             {/* Services */}

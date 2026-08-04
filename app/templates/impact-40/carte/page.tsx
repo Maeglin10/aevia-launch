@@ -1,11 +1,34 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import React from "react";
 import Link from "next/link";
 import { ArrowRight, Wine } from "lucide-react";
 import { C, SectionReveal } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function CartePage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const entrees = [
     { name: "Tartare de légumes du moment", desc: "Concombre, radis, tomate ancienne, herbes du jardin, vinaigrette citronnée à la moutarde de Meaux", price: "18€" },
     { name: "Velouté d'asperges au parmesan", desc: "Asperges vertes du Val de Loire, émulsion de parmesan 24 mois, tuile aux graines de sésame noir", price: "22€" },

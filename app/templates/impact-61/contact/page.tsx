@@ -1,9 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { C, TextReveal, MagneticButton } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
 
@@ -137,9 +159,9 @@ export default function ContactPage() {
           <div>
             <h4 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.05em", color: C.text, marginBottom: "1rem" }}>CONTACT GÉNÉRAL</h4>
             <p style={{ fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.6 }}>
-              Projets: contact@segment-architectes.fr<br />
-              Presse: press@segment-architectes.fr<br />
-              Recrutement: jobs@segment-architectes.fr
+              Projets: {fd?.email ?? "contact@segment-architectes.fr"}<br />
+              Presse: {fd?.email ?? "press@segment-architectes.fr"}<br />
+              Recrutement: {fd?.email ?? "jobs@segment-architectes.fr"}
             </p>
           </div>
         </div>

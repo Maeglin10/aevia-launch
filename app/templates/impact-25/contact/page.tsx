@@ -1,10 +1,32 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react";
 import { Mail, MessageSquare, Zap } from "lucide-react"
 import { Reveal } from "../shared"
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [contactSubmitted, setContactSubmitted] = useState(false)
 
   return (
@@ -43,7 +65,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-sm">Email support</h3>
-                    <p className="text-xs text-white/40">contact@exemple.fr</p>
+                    <p className="text-xs text-white/40">{fd?.email ?? "contact@exemple.fr"}</p>
                   </div>
                 </div>
 

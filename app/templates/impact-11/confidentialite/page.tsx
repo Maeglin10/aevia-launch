@@ -3,7 +3,7 @@
 
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image"
 import Link from "next/link"
 import { BookOpen, Users, Star, Play, ChevronRight, Menu, X, ArrowRight, Clock, Award, BarChart2, Globe, CheckCircle, HelpCircle, MessageSquare } from "lucide-react"
@@ -40,7 +40,29 @@ const PLANS = [
   { name: "Équipe", price: "199", period: "mois", features: ["10 sièges inclus", "Dashboard équipe", "Rapports de progression", "Onboarding dédié", "Formateur attitré"], cta: "Contacter l'équipe", highlight: false },
 ]
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function Page() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   useFonts()
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -68,7 +90,7 @@ export default function Page() {
             <div>
               <h4 className="font-bold text-[#7C3AED] mb-3 text-base">Vos Droits (RGPD)</h4>
               <p>
-                Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données personnelles. Vous pouvez exercer ces droits à tout moment en nous contactant à l'adresse <strong>privacy@edupath.io</strong>. Nous nous engageons à traiter votre demande dans un délai de 30 jours maximum.
+                Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données personnelles. Vous pouvez exercer ces droits à tout moment en nous contactant à l'adresse <strong>{fd?.email ?? "privacy@edupath.io"}</strong>. Nous nous engageons à traiter votre demande dans un délai de 30 jours maximum.
               </p>
             </div>
           </div>

@@ -1,11 +1,33 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle, ShoppingBag, MapPin, Phone, Mail, Clock } from "lucide-react";
 import { C, FONT_HEADING, FONT_BODY } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ReservationPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -166,7 +188,7 @@ export default function ReservationPage() {
           <div style={{ background: C.bgSection, borderRadius: 18, height: 200, marginBottom: 28, display: "flex", alignItems: "center", justifyContent: "center", border: `1px solid ${C.border}`, flexDirection: "column", gap: 10 }}>
             <MapPin size={32} color={C.accent} />
             <span style={{ fontSize: 14, color: C.textMuted, fontWeight: 600 }}>Paris, Île-de-France</span>
-            <span style={{ fontSize: 13, color: C.textMuted }}>Adresse communiquée sur demande à contact@exemple.fr</span>
+            <span style={{ fontSize: 13, color: C.textMuted }}>Adresse communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}</span>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>

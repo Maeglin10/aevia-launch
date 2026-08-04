@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import { motion, useScroll } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import Image from "next/image"
 import Link from "next/link"
 import { Menu, Mail } from "lucide-react"
@@ -34,7 +34,29 @@ const AWARDS = [
 
 const CLIENTS = ["Vogue France", "Le Monde", "LVMH", "Chanel", "Elle", "Air France"]
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ProposPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   useFonts()
   const [mobileOpen, setMobileOpen] = useState(false)
   const { scrollYProgress } = useScroll()
@@ -115,7 +137,7 @@ export default function ProposPage() {
                 </p>
                 
                 <div className="flex gap-4">
-                  <a href="mailto:contact@obscura.fr" className="bg-[#C9A86C] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B8975E] transition-colors flex items-center gap-2 font-mono"><Mail className="w-4 h-4" /> contact@obscura.fr</a>
+                  <a href={`mailto:${fd?.email ?? "contact@obscura.fr"}`} className="bg-[#C9A86C] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B8975E] transition-colors flex items-center gap-2 font-mono"><Mail className="w-4 h-4" /> contact@obscura.fr</a>
                   <a href="#contact" className="border border-white/10 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors flex items-center gap-2 font-mono"><Instagram className="w-4 h-4" /> @obscuraphoto</a>
                 </div>
               </div>

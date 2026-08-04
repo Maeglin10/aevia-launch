@@ -1,9 +1,32 @@
 "use client"
 
 import { Reveal, projects } from "../shared"
+import { useEffect, useState } from "react";
 import { GitBranch } from "lucide-react"
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function WorkPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   return (
     <div className="pt-32 min-h-dvh px-6 pb-24 max-w-6xl mx-auto">
       <div className="border-b border-[#00F5D4]/10 pb-6 mb-12">

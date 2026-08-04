@@ -1,7 +1,7 @@
 "use client";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MapPin, Clock, Mail, Phone, ChevronDown, Users, Coffee, Calendar, CheckCircle, Star, ArrowRight, Truck, Award } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -159,7 +159,29 @@ function ContactFAQItem({ faq, delay }: { faq: { q: string; a: string }; delay: 
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [submitted, setSubmitted] = useState(false);
   const [activeTab, setActiveTab] = useState<"general" | "b2b" | "workshop">("general");
   const [formData, setFormData] = useState({
@@ -247,8 +269,8 @@ export default function ContactPage() {
                   RCS Bourg-en-Bresse<br />
                   Adresse communiquée sur rendez-vous.
                 </p>
-                <a href="mailto:contact@originroast.co" style={{ fontSize: 13, color: C.caramel, fontWeight: 600, textDecoration: "none" }}>
-                  contact@originroast.co
+                <a href={`mailto:${fd?.email ?? "contact@originroast.co"}`} style={{ fontSize: 13, color: C.caramel, fontWeight: 600, textDecoration: "none" }}>
+                  {fd?.email ?? "contact@originroast.co"}
                 </a>
               </div>
             </SectionReveal>
@@ -311,11 +333,11 @@ export default function ContactPage() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   <div>
                     <div style={{ fontSize: 11, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>Email</div>
-                    <a href="mailto:contact@originroast.co" style={{ fontSize: 14, color: C.caramel, fontWeight: 600, textDecoration: "none" }}>contact@originroast.co</a>
+                    <a href={`mailto:${fd?.email ?? "contact@originroast.co"}`} style={{ fontSize: 14, color: C.caramel, fontWeight: 600, textDecoration: "none" }}>contact@originroast.co</a>
                   </div>
                   <div>
                     <div style={{ fontSize: 11, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>B2B uniquement</div>
-                    <a href="tel:+33600000000" style={{ fontSize: 14, color: C.textMuted, fontWeight: 400, textDecoration: "none" }}>+33 (0)6 00 00 00 00</a>
+                    <a href={`tel:${fd?.phone ?? "+33600000000"}`} style={{ fontSize: 14, color: C.textMuted, fontWeight: 400, textDecoration: "none" }}>+33 (0)6 00 00 00 00</a>
                   </div>
                   <div style={{ paddingTop: 10, borderTop: `1px solid ${C.borderLight}` }}>
                     <div style={{ fontSize: 12, color: C.textMuted, fontWeight: 300, lineHeight: 1.6 }}>

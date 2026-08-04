@@ -10,7 +10,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -548,10 +548,10 @@ function ReservationPage() {
 
               <div className="p-12 border border-white/5 bg-white/[0.01] rounded-sm space-y-8">
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Phone className="w-5 h-5 text-[#ff4d00]" /> 01 23 45 67 89
+                  <Phone className="w-5 h-5 text-[#ff4d00]" /> {fd?.phone ?? "01 23 45 67 89"}
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Mail className="w-5 h-5 text-[#ff4d00]" /> contact@exemple.fr
+                  <Mail className="w-5 h-5 text-[#ff4d00]" /> {fd?.email ?? "contact@exemple.fr"}
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
                   <MapPin className="w-5 h-5 text-[#ff4d00]" /> Adresse communiquée
@@ -798,7 +798,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic leading-loose">
-                    Adresse communiquée sur demande à contact@exemple.fr
+                    Adresse communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}
                   </p>
                 </div>
                 <Separator className="bg-white/5" />
@@ -810,7 +810,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">
-                    01 23 45 67 89
+                    {fd?.phone ?? "01 23 45 67 89"}
                   </p>
                 </div>
                 <Separator className="bg-white/5" />
@@ -822,7 +822,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">
-                    contact@exemple.fr
+                    {fd?.email ?? "contact@exemple.fr"}
                   </p>
                 </div>
               </div>
@@ -934,9 +934,9 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <LegalBlock title="Immatriculation">
                 SIREN <LegalIdentity /> — RCS Bourg-en-Bresse
               </LegalBlock>
-              <LegalBlock title="Contact">valentinmilliand@aevia.services</LegalBlock>
+              <LegalBlock title="Contact">{fd?.email ?? "valentinmilliand@aevia.services"}</LegalBlock>
               <LegalBlock title="Siège social">
-                Adresse du siège social communiquée sur demande à valentinmilliand@aevia.services
+                Adresse du siège social communiquée sur demande à {fd?.email ?? "valentinmilliand@aevia.services"}
               </LegalBlock>
               <LegalBlock title="TVA">
                 TVA non applicable, art. 293 B du CGI
@@ -950,7 +950,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <LegalBlock title="Responsable du traitement">
                 Aevia WS, représentée par Valentin Milliand, est responsable du
                 traitement des données collectées sur ce site. Contact :
-                valentinmilliand@aevia.services.
+                {fd?.email ?? "valentinmilliand@aevia.services"}.
               </LegalBlock>
               <LegalBlock title="Données collectées">
                 Les informations transmises via les formulaires de réservation et de
@@ -1008,7 +1008,29 @@ function LegalBlock({
 
 import { useRouter } from "next/navigation";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function EmberGrillPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const router = useRouter();
   const [page, setPage] = useState<EmberPage>("about");
   const [blogSlug, setBlogSlug] = useState<string | null>(null);

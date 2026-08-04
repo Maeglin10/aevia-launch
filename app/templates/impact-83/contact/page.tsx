@@ -1,10 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { C, FONT_HEADING, FONT_LABEL, Reveal } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [submitted, setSubmitted] = useState(false);
 
   return (
@@ -44,7 +66,7 @@ export default function ContactPage() {
                   <Mail size={20} color={C.accent} />
                   <div>
                     <div style={{ fontFamily: FONT_LABEL, fontSize: 10, color: C.accent, textTransform: "uppercase" }}>Email</div>
-                    <div style={{ fontSize: 15, color: C.text }}>rendezvous@aureliusheritage.com</div>
+                    <div style={{ fontSize: 15, color: C.text }}>{fd?.email ?? "rendezvous@aureliusheritage.com"}</div>
                   </div>
                 </div>
               </div>

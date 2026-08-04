@@ -1,10 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { C, FONT, FONT_BODY } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function IronClubContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [sent, setSent] = useState(false);
 
   function handleSubmit(e: React.FormEvent) {
@@ -253,11 +275,11 @@ export default function IronClubContactPage() {
             <p style={{ fontFamily: FONT_BODY, fontSize: 15, color: C.textMuted, lineHeight: 1.8 }}>
               12 rue de la Guillotière<br />
               69007 Lyon 7e<br />
-              <a href="tel:+33478000000" style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>
+              <a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>
                 04 78 XX XX XX
               </a><br />
-              <a href="mailto:contact@ironclub-lyon.fr" style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>
-                contact@ironclub-lyon.fr
+              <a href={`mailto:${fd?.email ?? "contact@ironclub-lyon.fr"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>
+                {fd?.email ?? "contact@ironclub-lyon.fr"}
               </a>
             </p>
           </div>

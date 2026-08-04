@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft, X, ShoppingBag, Check, Loader2, Trash2 } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
 
@@ -209,7 +209,29 @@ function CartDrawer({
   );
 }
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function BoutiquePage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
