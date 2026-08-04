@@ -164,7 +164,8 @@ const SERVICES_SOURCE: Service[] = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre différence',
     imgId: '1554224155-6726b3ff858f',
@@ -195,6 +196,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     body: "Installé dans le quartier des Chartrons, Axiom Conseil réunit 8 collaborateurs experts. Nous accompagnons 180 clients — de la startup en amorçage à l'ETI à 20 M€ de CA. Membres de l'OEC Bordeaux.",
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const PILLARS: PillarItem[] = [
@@ -2137,6 +2140,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;

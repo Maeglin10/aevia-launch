@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 // @ts-nocheck
 
@@ -41,7 +42,7 @@ export default function BoutiquePage() {
           {[
             {
               q: "What is your global service protocol?",
-              a: "Every Horologs piece includes a lifetime global service plan. You can drop your timepiece at any authorized boutique in Paris, Tokyo, or New York for a full calibration audit.",
+              a: "Every Horologs piece includes a lifetime global service plan. You can drop your timepiece at any authorized boutique in " + (clientCity(sessionData) ?? "Paris") + ", Tokyo, or New York for a full calibration audit.",
             },
             {
               q: "Do you offer bespoke dial commissions?",

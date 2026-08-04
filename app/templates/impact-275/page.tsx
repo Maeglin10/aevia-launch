@@ -1272,7 +1272,7 @@ function ProcessSection() {
       num: '04',
       title: 'Défense active',
       sub: 'Plaidoirie et suivi jusqu\'à l\'issue',
-      desc: 'Rédaction des actes, assignations, conclusions, plaidoiries devant le Tribunal Judiciaire de Marseille et les cours d\'appel. Le cabinet vous tient informé à chaque étape et répond à vos messages dans les 24h ouvrées.',
+      desc: 'Rédaction des actes, assignations, conclusions, plaidoiries devant le Tribunal Judiciaire de ' + (clientCity(sessionData) ?? 'Marseille') + ' et les cours d\'appel. Le cabinet vous tient informé à chaque étape et répond à vos messages dans les 24h ouvrées.',
       detail: 'Compte rendu après chaque audience · Accès sécurisé à votre dossier',
     },
   ])[i % ([
@@ -1301,7 +1301,7 @@ function ProcessSection() {
       num: '04',
       title: 'Défense active',
       sub: 'Plaidoirie et suivi jusqu\'à l\'issue',
-      desc: 'Rédaction des actes, assignations, conclusions, plaidoiries devant le Tribunal Judiciaire de Marseille et les cours d\'appel. Le cabinet vous tient informé à chaque étape et répond à vos messages dans les 24h ouvrées.',
+      desc: 'Rédaction des actes, assignations, conclusions, plaidoiries devant le Tribunal Judiciaire de ' + (clientCity(sessionData) ?? 'Marseille') + ' et les cours d\'appel. Le cabinet vous tient informé à chaque étape et répond à vos messages dans les 24h ouvrées.',
       detail: 'Compte rendu après chaque audience · Accès sécurisé à votre dossier',
     },
   ]).length], title: s.title, desc: s.desc || "" })),
@@ -1331,7 +1331,7 @@ function ProcessSection() {
       num: '04',
       title: 'Défense active',
       sub: 'Plaidoirie et suivi jusqu\'à l\'issue',
-      desc: 'Rédaction des actes, assignations, conclusions, plaidoiries devant le Tribunal Judiciaire de Marseille et les cours d\'appel. Le cabinet vous tient informé à chaque étape et répond à vos messages dans les 24h ouvrées.',
+      desc: 'Rédaction des actes, assignations, conclusions, plaidoiries devant le Tribunal Judiciaire de ' + (clientCity(sessionData) ?? 'Marseille') + ' et les cours d\'appel. Le cabinet vous tient informé à chaque étape et répond à vos messages dans les 24h ouvrées.',
       detail: 'Compte rendu après chaque audience · Accès sécurisé à votre dossier',
     },
   ],
@@ -2244,7 +2244,7 @@ function StatsSection() {
       value: '15',
       unit: 'ans',
       label: "d'expérience",
-      sub: 'au Barreau de Marseille',
+      sub: 'au Barreau de ' + (clientCity(sessionData) ?? 'Marseille'),
     },
     {
       value: '+500',
@@ -2269,7 +2269,7 @@ function StatsSection() {
       value: '15',
       unit: 'ans',
       label: "d'expérience",
-      sub: 'au Barreau de Marseille',
+      sub: 'au Barreau de ' + (clientCity(sessionData) ?? 'Marseille'),
     },
     {
       value: '+500',
@@ -2295,7 +2295,7 @@ function StatsSection() {
       value: '15',
       unit: 'ans',
       label: "d'expérience",
-      sub: 'au Barreau de Marseille',
+      sub: 'au Barreau de ' + (clientCity(sessionData) ?? 'Marseille'),
     },
     {
       value: '+500',

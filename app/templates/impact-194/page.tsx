@@ -61,14 +61,17 @@ const MENU = [
   { g: "Desserts", ls: ["Tarte praliné-noisette", "Pavlova aux fruits rouges", "Chariot de mignardises", "Pièce montée sur demande"] },
 ];
 
-const PRESTATIONS_SOURCE = [
+function PRESTATIONS_SOURCE_LIVE() {
+  return [
   { icon: Users, title: "Cocktails & réceptions", desc: "Cocktail dînatoire, standing, mariage, gala. Buffets chauds et froids, bouchées minute, animations culinaires. De 20 à 800 personnes." },
   { icon: ChefHat, title: "Repas assis & gastronomique", desc: "Menu 3 ou 5 services, carte personnalisée, régimes spéciaux. Chef à domicile ou en salle. Vaisselle premium, personnel de service inclus." },
   { icon: Gift, title: "Plateaux repas entreprise", desc: "Plateaux livrés sous 24h. Formule midi, buffet réunion, petit-déjeuner d'équipe. Conditionnements individuels ou collectifs certifiés HACCP." },
-  { icon: Truck, title: "Livraison & installation", desc: "Livraison sur Lyon Métropole, montage des buffets, décoration de table. Équipe complète sur place selon formule. Reprise du matériel incluse." },
+  { icon: Truck, title: "Livraison & installation", desc: "Livraison sur " + (clientCity({ formData: fd }) ?? "Lyon") + " Métropole, montage des buffets, décoration de table. Équipe complète sur place selon formule. Reprise du matériel incluse." },
   { icon: Wine, title: "Accord mets & vins", desc: "Sélection vins de la Vallée du Rhône, champagnes, cocktails sans alcool maison. Bar à eaux premium, infusions fraîches. Sommelier sur demande." },
   { icon: Utensils, title: "Cuisine du monde & thème", desc: "Cuisine lyonnaise, méditerranéenne, asiatique, sud-américaine. Plancha, wok, live cooking, atelier dégustation. Décor de table thématique inclus." },
-]
+];
+}
+let PRESTATIONS_SOURCE = PRESTATIONS_SOURCE_LIVE();
 let PRESTATIONS_DEMO = PRESTATIONS_SOURCE;
 let PRESTATIONS = PRESTATIONS_DEMO;
 
@@ -105,6 +108,8 @@ export default function TableExceptionPage() {
   }, []);
 
   fd = session?.formData;
+
+  PRESTATIONS_SOURCE = PRESTATIONS_SOURCE_LIVE();
   c = session?.generatedContent;
   PRESTATIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title })),

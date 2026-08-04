@@ -83,12 +83,15 @@ const mentors_SOURCE = [
 ]
 let mentors = mentors_SOURCE;
 
-const faqs_SOURCE = [
+function faqs_SOURCE_LIVE() {
+  return [
   { q: "How much equity do you take?", a: "We take 7% equity in exchange for $500K and access to our full accelerator program." },
-  { q: "Is the program remote or in-person?", a: "The 12-week program is primarily in-person in Paris, with optional remote tracks for select cohorts." },
+  { q: "Is the program remote or in-person?", a: "The 12-week program is primarily in-person in " + (clientCity({ formData: fd }) ?? "Paris") + ", with optional remote tracks for select cohorts." },
   { q: "What stage do you invest at?", a: "We invest pre-seed and seed — ideally you have an MVP and first users, but exceptional teams can apply earlier." },
   { q: "When is the next application deadline?", a: "Applications for Cohort W24 close November 15th, 2026. We accept ~20 companies per cohort." },
-]
+];
+}
+let faqs_SOURCE = faqs_SOURCE_LIVE();
 let faqs = faqs_SOURCE;
 
 const sectors = ["All", "AI/ML", "Fintech", "Developer Tools", "HealthTech", "CleanTech", "Design Tools"]
@@ -127,6 +130,8 @@ export default function Impact24() {
   }, []);
 
   fd = session?.formData;
+
+  faqs_SOURCE = faqs_SOURCE_LIVE();
   bp = session?.businessProfile;
 
   mentors = resolveList(

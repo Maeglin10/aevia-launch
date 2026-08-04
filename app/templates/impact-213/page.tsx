@@ -2341,7 +2341,7 @@ function ContactForm() {
             {[
               { icon: '📞', label: 'Téléphone', value: '04 78 XX XX XX', sub: 'Du lundi au vendredi, 8h–18h' },
               { icon: '✉️', label: 'E-mail', value: 'contact@batisseurs-durand.fr', sub: 'Réponse sous 24h' },
-              { icon: '📍', label: 'Siège social', value: `14 rue des Bâtisseurs, 69009 ${clientCity(sessionData) ?? "Lyon"}`, sub: 'Lyon 9e — France' },
+              { icon: '📍', label: 'Siège social', value: `14 rue des Bâtisseurs, 69009 ${clientCity(sessionData) ?? "Lyon"}`, sub: (clientCity(sessionData) ?? 'Lyon') + ' 9e — France' },
             ].map((item) => (
               <div
                 key={item.label}
