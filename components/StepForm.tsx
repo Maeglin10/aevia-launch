@@ -20,6 +20,7 @@ import { ServiceRdvStep } from "@/components/wizard/steps/ServiceRdvStep";
 import { FoodStep } from "@/components/wizard/steps/FoodStep";
 import { ImmobilierStep } from "@/components/wizard/steps/ImmobilierStep";
 import { LegalStep } from "@/components/wizard/steps/LegalStep";
+import { ArchetypeStep } from "@/components/wizard/steps/ArchetypeStep";
 import type { BusinessProfile } from "@/lib/sessions";
 
 // Registry lookup by id — used in step 2 template cards
@@ -843,6 +844,28 @@ export function StepForm() {
           ) : step === 4 && NICHE_ARCHETYPE[form.sector] === "immobilier" ? (
             <>
               <ImmobilierStep
+                value={form.businessProfile}
+                onChange={(bp) => set("businessProfile", bp)}
+                sessionId={sessionId}
+              />
+              <ThemeBlocks
+                templateId={form.template}
+                sector={form.sector}
+                profile={form.businessProfile}
+                onChange={(bp) => set("businessProfile", bp)}
+              />
+            </>
+          ) : step === 4 && NICHE_ARCHETYPE[form.sector] ? (
+            /*
+              Les cinq archétypes restants — produits, portfolio, expertise B2B,
+              hôtellerie, intervention à domicile. Leur étape se déduit de la
+              déclaration de l'archétype plutôt que d'un formulaire écrit à la
+              main : ajouter un champ à `ARCHETYPES` suffit à le faire
+              apparaître.
+            */
+            <>
+              <ArchetypeStep
+                archetype={NICHE_ARCHETYPE[form.sector]}
                 value={form.businessProfile}
                 onChange={(bp) => set("businessProfile", bp)}
                 sessionId={sessionId}
