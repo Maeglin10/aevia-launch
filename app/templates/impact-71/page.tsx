@@ -106,7 +106,7 @@ export default function ZenSpaceHome() {
 
       ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
 
-      val: s.value,
+      val: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, ""),
 
       label: s.label,
 
