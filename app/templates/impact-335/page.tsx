@@ -48,7 +48,10 @@ const FONT_BODY = "'Inter', system-ui, sans-serif";
 const NAV = [{"l": "Accompagnement", "h": "#services"}, {"l": "Notre approche", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 const HERO = [];
 
-const SERVICES_SOURCE = [{"titre": "Organisation d'obsèques", "desc": "Inhumation ou crémation, à Nice et dans toutes les Alpes-Maritimes. Un interlocuteur unique du premier appel à l'après.", "tag": "24h/24"}, {"titre": "Chambre funéraire", "desc": "Trois salons privés en étage clair, accessibles à la famille 7j/7 de 8h à 20h, hors de toute contrainte hospitalière.", "tag": "Recueillement"}, {"titre": "Cérémonies", "desc": "Religieuses, laïques ou mixtes ; en chapelle, au crématorium ou en plein air. Maître de cérémonie, textes et musiques préparés avec vous.", "tag": "Cérémonie"}, {"titre": "Démarches", "desc": "État civil, caisses, banques, notaire : jusqu'à vingt courriers préparés et suivis par nos soins, pour vous en libérer.", "tag": "Inclus"}, {"titre": "Marbrerie", "desc": "Monuments, gravures, restauration et entretien de sépultures dans les cimetières de la ville et des communes voisines.", "tag": "Marbrerie"}, {"titre": "Prévoyance obsèques", "desc": "Vos volontés écrites et financées à l'avance, capital garanti, contrat conforme à la loi Sueur — modifiable à tout moment.", "tag": "Prévoyance"}];
+function SERVICES_SOURCE_LIVE() {
+  return [{"titre": "Organisation d'obsèques", "desc": "Inhumation ou crémation, à " + (clientCity(sessionData) ?? "Nice") + " et dans toutes les Alpes-Maritimes. Un interlocuteur unique du premier appel à l'après.", "tag": "24h/24"}, {"titre": "Chambre funéraire", "desc": "Trois salons privés en étage clair, accessibles à la famille 7j/7 de 8h à 20h, hors de toute contrainte hospitalière.", "tag": "Recueillement"}, {"titre": "Cérémonies", "desc": "Religieuses, laïques ou mixtes ; en chapelle, au crématorium ou en plein air. Maître de cérémonie, textes et musiques préparés avec vous.", "tag": "Cérémonie"}, {"titre": "Démarches", "desc": "État civil, caisses, banques, notaire : jusqu'à vingt courriers préparés et suivis par nos soins, pour vous en libérer.", "tag": "Inclus"}, {"titre": "Marbrerie", "desc": "Monuments, gravures, restauration et entretien de sépultures dans les cimetières de la ville et des communes voisines.", "tag": "Marbrerie"}, {"titre": "Prévoyance obsèques", "desc": "Vos volontés écrites et financées à l'avance, capital garanti, contrat conforme à la loi Sueur — modifiable à tout moment.", "tag": "Prévoyance"}];
+}
+let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();;
 let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "Une voix, pas un standard", "d": "À toute heure, quelqu'un de la maison répond, se déplace et prend le relais immédiatement."}, {"n": "02", "t": "Le devis avant tout", "d": "Devis-type réglementé, gratuit, distinguant l'obligatoire de l'optionnel. Vous décidez à tête reposée."}, {"n": "03", "t": "Une cérémonie fidèle", "d": "Textes, musiques, gestes : préparés avec la famille, à son rythme, jamais standardisés."}, {"n": "04", "t": "L'après, aussi", "d": "Remise du dossier complet, aide aux démarches restantes, et une présence si vous en avez besoin."}];
 const ENGAGEMENT_DEMO = ["Habilitation préfectorale n° 26-06-0287 — Préfecture des Alpes-Maritimes", "Devis-type conforme à l'arrêté du 23 août 2010, remis avant tout engagement", "Prix affichés en agence et consultables — aucune prestation imposée", "Toutes confessions et convictions respectées, cérémonies civiles incluses"];
@@ -102,7 +105,9 @@ export default function RivesBlanchesPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   STATS_DEMO = STATS_DEMO_LIVE();
+
 
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),

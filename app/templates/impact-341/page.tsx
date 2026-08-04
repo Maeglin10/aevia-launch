@@ -50,7 +50,10 @@ const HERO = [{"k": "Permis B", "word": "sereinement.", "sub": "La boîte manuel
 
 const SERVICES_SOURCE = [{"titre": "Code de la route", "desc": "Salle connectée + application illimitée, séances thématiques animées par un moniteur — pas seulement des QCM en boucle.", "tag": "Code"}, {"titre": "Permis B manuel", "desc": "20 h de minimum légal, évaluation de départ offerte pour estimer VOTRE volume réel. Livret numérique suivi à chaque leçon.", "tag": "Permis B"}, {"titre": "Conduite accompagnée (AAC)", "desc": "Dès 15 ans : formation initiale, rendez-vous pédagogiques inclus, assurance guidée pour les parents.", "tag": "AAC"}, {"titre": "Boîte automatique", "desc": "13 h de minimum légal, passerelle possible vers la manuelle après 3 mois. Idéal reprise de confiance.", "tag": "Automatique"}, {"titre": "Perfectionnement & post-permis", "desc": "Autoroute, nuit, pluie, créneaux : des heures ciblées pour les jeunes permis — et la formation post-permis qui réduit la période probatoire.", "tag": "Post-permis"}, {"titre": "Financements", "desc": "CPF (permis B éligible), permis à 1 €/jour pour les 15-25 ans, paiement en 4 fois sans frais au secrétariat.", "tag": "Financement"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Évaluation honnête", "d": "45 minutes offertes pour estimer votre volume d'heures réel — écrit sur le contrat, pas révisé à la hausse en cours de route."}, {"n": "02", "t": "Un moniteur référent", "d": "Le même moniteur vous suit ; les étapes du livret sont validées ensemble, jamais subies."}, {"n": "03", "t": "Simulateur d'examen", "d": "Deux passages blancs dans les conditions réelles, sur les parcours d'examen de Toulouse."}, {"n": "04", "t": "Présentation quand c'est prêt", "d": "On ne présente pas pour libérer un créneau : on présente quand les compétences sont validées. C'est ça, 78 %."}];
+function METHODE_LIVE() {
+  return [{"n": "01", "t": "Évaluation honnête", "d": "45 minutes offertes pour estimer votre volume d'heures réel — écrit sur le contrat, pas révisé à la hausse en cours de route."}, {"n": "02", "t": "Un moniteur référent", "d": "Le même moniteur vous suit ; les étapes du livret sont validées ensemble, jamais subies."}, {"n": "03", "t": "Simulateur d'examen", "d": "Deux passages blancs dans les conditions réelles, sur les parcours d'examen de " + (clientCity(sessionData) ?? "Toulouse") + "."}, {"n": "04", "t": "Présentation quand c'est prêt", "d": "On ne présente pas pour libérer un créneau : on présente quand les compétences sont validées. C'est ça, 78 %."}];
+}
+let METHODE = METHODE_LIVE();;
 const ENGAGEMENT_DEMO = ["Agrément préfectoral E 26 031 0042 0 — moniteurs titulaires du Titre Pro ECSR", "Label « qualité des formations au sein des écoles de conduite » : taux de réussite affichés", "Contrat écrit : volume estimé, prix des heures supplémentaires identique au forfait", "Éligible CPF et permis à 1 €/jour — dossiers montés par le secrétariat"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Code (salle + appli illimitées)", "p": "290 €", "n": "Jusqu'à réussite, séances thématiques avec moniteur incluses."}, {"a": "Forfait 20 h — permis B", "p": "1 390 €", "n": "Évaluation offerte, livret numérique, 2 examens blancs, présentation incluse."}, {"a": "Conduite accompagnée (AAC)", "p": "1 490 €", "n": "Formation initiale + 2 rendez-vous pédagogiques obligatoires inclus."}, {"a": "Heure supplémentaire", "p": "46 €", "n": "Le même prix qu'au forfait — comparez, c'est rare."}];
@@ -91,6 +94,9 @@ export default function ConduiteZeroStressPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  METHODE = METHODE_LIVE();
+
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

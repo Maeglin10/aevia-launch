@@ -1209,7 +1209,7 @@ function AboutPage({ onContact }: { onContact: () => void }) {
   const ABOUT_PARAS = [
     "Fondée pour répondre à une exigence singulière — celle de conserver l'inestimable —, The Ivory Archive est une maison de conservation et de registre privé dédiée aux chefs-d'œuvre de l'histoire de l'art.",
     "Notre mandat ne se limite pas à la garde. Il engage une science : imagerie multispectrale, stabilisation atmosphérique, expertise métallurgique et pigmentaire. Chaque geste est documenté, chaque pièce est traçée du premier au dernier maillon de sa provenance.",
-    "Réparti sur quatre nodes de haute sécurité — Zurich, Paris, Londres et Tokyo —, l'Archive opère dans la plus stricte confidentialité, au service des institutions muséales et des collectionneurs les plus exigeants."
+    "Réparti sur quatre nodes de haute sécurité — Zurich, " + (clientCity({ formData: fd }) ?? "Paris") + ", Londres et Tokyo —, l'Archive opère dans la plus stricte confidentialité, au service des institutions muséales et des collectionneurs les plus exigeants."
   ]
   const VALUES = resolveList(
     clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([

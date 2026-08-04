@@ -57,7 +57,10 @@ const TARIFS_DEMO = [{"a": "Agent de sécurité (heure)", "p": "dès 26 € HT",
 let TARIFS = TARIFS_DEMO;
 const AVIS_SOURCE = [{"texte": "Chantier de 18 mois en zone sensible : zéro vol depuis leur arrivée, main courante consultable en ligne, agents toujours à l'heure. Le surcoût s'est remboursé le premier mois.", "auteur": "Conducteur de travaux, BTP", "detail": "Gardiennage de chantier"}, {"texte": "Festival de 12 000 personnes : dispositif dimensionné avec la préfecture, agents pros et calmes, débriefing complet à J+2. Reconduits les yeux fermés.", "auteur": "Organisateur de festival", "detail": "Événementiel"}, {"texte": "La levée de doute vidéo a évité onze déplacements inutiles cette année — et permis une interpellation en flagrant délit. Le PC 24h/24 change tout.", "auteur": "Gérant de concession auto", "detail": "Télésurveillance"}];
 let AVIS_DEMO = AVIS_SOURCE;
-const STATS_DEMO = [{"value": "CNAPS", "label": "Autorisation d'exercice affichée"}, {"value": "24h/24", "label": "PC opérationnel à Marseille"}, {"value": "140", "label": "Agents cartés en poste"}, {"value": "< 15 min", "label": "Intervention sur alarme en ville"}];
+function STATS_DEMO_LIVE() {
+  return [{"value": "CNAPS", "label": "Autorisation d'exercice affichée"}, {"value": "24h/24", "label": "PC opérationnel à " + (clientCity(sessionData) ?? "Marseille")}, {"value": "140", "label": "Agents cartés en poste"}, {"value": "< 15 min", "label": "Intervention sur alarme en ville"}];
+}
+let STATS_DEMO = STATS_DEMO_LIVE();;
 let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -91,6 +94,9 @@ export default function SentinellePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS_DEMO = STATS_DEMO_LIVE();
+
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

@@ -55,7 +55,10 @@ const ENGAGEMENT_DEMO = ["Garantie décennale et RC pro à jour, attestations jo
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Remise en blanc (pièce 12 m²)", "p": "490 € forfait", "n": "Murs + plafond + plinthes, blanc satiné lessivable."}, {"a": "Murs & plafonds sur mesure", "p": "26–34 €/m²", "n": "Selon supports, teintes au choix sans supplément."}, {"a": "Cage d'escalier (par étage)", "p": "dès 890 €", "n": "Échafaudage, murs, plafonds, rampe — praticable chaque soir."}, {"a": "Plafond après dégât des eaux", "p": "dès 390 €", "n": "Traitement, sous-couche isolante, raccord invisible."}];
 let TARIFS = TARIFS_DEMO;
-const AVIS_SOURCE = [{"texte": "Trois appartements locatifs remis en blanc en trois semaines, photos avant/après envoyées à chaque fin. Mes locations repartent plus vite et je ne visite même plus les chantiers.", "auteur": "Propriétaire bailleur", "detail": "Remises en blanc"}, {"texte": "La cage d'escalier de notre copro repoussée depuis cinq ans : faite en huit jours, immeuble praticable tous les soirs. Le carnet de chantier posé dans le hall a mis tout le monde d'accord.", "auteur": "Conseil syndical, Orléans centre", "detail": "Copropriété"}, {"texte": "Un père et une fille qui bossent en silence, protègent tout, et laissent la maison plus propre que trouvée. Le devis n'a pas bougé d'un euro.", "auteur": "Régine M.", "detail": "Maison familiale"}];
+function AVIS_SOURCE_LIVE() {
+  return [{"texte": "Trois appartements locatifs remis en blanc en trois semaines, photos avant/après envoyées à chaque fin. Mes locations repartent plus vite et je ne visite même plus les chantiers.", "auteur": "Propriétaire bailleur", "detail": "Remises en blanc"}, {"texte": "La cage d'escalier de notre copro repoussée depuis cinq ans : faite en huit jours, immeuble praticable tous les soirs. Le carnet de chantier posé dans le hall a mis tout le monde d'accord.", "auteur": "Conseil syndical, " + (clientCity(sessionData) ?? "Orléans") + " centre", "detail": "Copropriété"}, {"texte": "Un père et une fille qui bossent en silence, protègent tout, et laissent la maison plus propre que trouvée. Le devis n'a pas bougé d'un euro.", "auteur": "Régine M.", "detail": "Maison familiale"}];
+}
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();;
 let AVIS_DEMO = AVIS_SOURCE;
 const STATS_DEMO = [{"value": "2", "label": "Compagnons — et pas d'intérim"}, {"value": "48 h", "label": "Devis après visite"}, {"value": "850+", "label": "Chantiers depuis 1998"}, {"value": "J+0", "label": "Chantier aspiré chaque soir"}];
 let STATS = STATS_DEMO;
@@ -91,6 +94,9 @@ export default function DuoPeinturesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
+
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

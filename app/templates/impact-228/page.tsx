@@ -57,12 +57,15 @@ const NAV = [
   { l: "Entretien", h: "#entretien" },
   { l: "Contact", h: "#contact" },
 ];
-const URGENCE = [
-  { t: "Fuite d'eau", d: "Arrivée en moins d'une heure sur Lille et la métropole. On coupe, on sèche, on répare — dans cet ordre." },
+function URGENCE_LIVE() {
+  return [
+  { t: "Fuite d'eau", d: "Arrivée en moins d'une heure sur " + (clientCity(sessionData) ?? "Lille") + " et la métropole. On coupe, on sèche, on répare — dans cet ordre." },
   { t: "Panne de chaudière", d: "Gaz ou fioul, toutes marques. Pièces courantes dans le camion : circulateur, vase, sonde, carte d'allumage." },
   { t: "Plus d'eau chaude", d: "Diagnostic en trente minutes : résistance, thermostat, anode ou groupe de sécurité. Le devis est donné avant de démonter." },
   { t: "Canalisation bouchée", d: "Furet, hydrocureur et caméra si nécessaire. On vous montre l'image avant de proposer un remplacement." },
 ];
+}
+let URGENCE = URGENCE_LIVE();;
 
 const ENTRETIEN_SOURCE = [
   { a: "Visite annuelle chaudière gaz", p: "119 €", n: "Obligatoire. Nettoyage, réglage, mesure de combustion, attestation remise sur place." },
@@ -73,14 +76,17 @@ const ENTRETIEN_SOURCE = [
 ];
 let ENTRETIEN = ENTRETIEN_SOURCE;
 
-const SERVICES_SOURCE = [
+function SERVICES_SOURCE_LIVE() {
+  return [
   { titre: "Plomberie générale", desc: "Fuite, canalisation bouchée, remplacement de chauffe-eau, robinetterie, WC. Devis gratuit et transparence sur les tarifs avant intervention.", tag: "Plomberie" },
   { titre: "Installation chauffage", desc: "Chaudière gaz, pompe à chaleur, plancher chauffant, radiateurs. Marques Bosch, Viessmann, Atlantic — SAV assuré.", tag: "Chauffage" },
-  { titre: "Dépannage urgence", desc: "Fuite d'eau active, chauffe-eau en panne, chauffage hors service en hiver. Intervention en moins d'1h sur Lille et métropole.", tag: "Urgence" },
+  { titre: "Dépannage urgence", desc: "Fuite d'eau active, chauffe-eau en panne, chauffage hors service en hiver. Intervention en moins d'1h sur " + (clientCity(sessionData) ?? "Lille") + " et métropole.", tag: "Urgence" },
   { titre: "Pompe à chaleur & clim", desc: "Installation et entretien de PAC air/air et air/eau. Bilan thermique offert, éligibilité MaPrimeRénov vérifiée.", tag: "PAC & Clim" },
   { titre: "Entretien chaudière", desc: "Contrat annuel ou intervention ponctuelle. Nettoyage, réglage, vérification de sécurité et attestation d'entretien réglementaire.", tag: "Entretien" },
   { titre: "Isolation & rénovation", desc: "Remplacement de tuyauteries vétustes, isolation des conduites, mise aux normes gaz. Accompagnement pour les aides à la rénovation.", tag: "Rénovation" },
-]
+];
+}
+let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
 
 const GARANTIES_DEMO = [
@@ -141,6 +147,10 @@ export default function AquaThermPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
+  URGENCE = URGENCE_LIVE();
+
+
   ENTRETIEN = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...ENTRETIEN_SOURCE[i % ENTRETIEN_SOURCE.length], a: s.title, n: s.desc || "" || "", p: s.price ?? ENTRETIEN_SOURCE[i % ENTRETIEN_SOURCE.length].p })),
     ENTRETIEN_SOURCE,

@@ -49,7 +49,10 @@ const FONT_BODY = FONT;
 const NAV = [{"l": "Services", "h": "#services"}, {"l": "Comment ça marche", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 const HERO = [];
 
-const SERVICES_SOURCE = [{"titre": "Transport médical assis (TAP)", "desc": "Dialyses, chimiothérapies, consultations : conventionné Assurance Maladie — sur prescription médicale de transport, vous n'avancez rien.", "tag": "Médical"}, {"titre": "Abonnements réguliers", "desc": "Les mêmes trajets chaque semaine : travail, kiné, école de musique des enfants. Le même chauffeur, l'horaire garanti, la facture mensuelle.", "tag": "Réguliers"}, {"titre": "Gares & aéroport", "desc": "Rennes en TGV part tôt : prises en charge dès 6 h, bagages portés, dépose au plus près du quai.", "tag": "Gares"}, {"titre": "Aînés & mobilité douce", "desc": "Aide à la montée, accompagnement jusqu'à la salle d'attente, patience véritable : le trajet fait partie du soin.", "tag": "Aînés"}, {"titre": "Enfants & ados", "desc": "Conservatoire, sport, garde alternée : des trajets confiés au même chauffeur connu des parents — avec SMS d'arrivée.", "tag": "Familles"}, {"titre": "Courses ponctuelles", "desc": "Un dîner, un rendez-vous, une voiture au garage : le VTC classique, au prix annoncé avant de monter.", "tag": "Ponctuel"}];
+function SERVICES_SOURCE_LIVE() {
+  return [{"titre": "Transport médical assis (TAP)", "desc": "Dialyses, chimiothérapies, consultations : conventionné Assurance Maladie — sur prescription médicale de transport, vous n'avancez rien.", "tag": "Médical"}, {"titre": "Abonnements réguliers", "desc": "Les mêmes trajets chaque semaine : travail, kiné, école de musique des enfants. Le même chauffeur, l'horaire garanti, la facture mensuelle.", "tag": "Réguliers"}, {"titre": "Gares & aéroport", "desc": (clientCity(sessionData) ?? "Rennes") + " en TGV part tôt : prises en charge dès 6 h, bagages portés, dépose au plus près du quai.", "tag": "Gares"}, {"titre": "Aînés & mobilité douce", "desc": "Aide à la montée, accompagnement jusqu'à la salle d'attente, patience véritable : le trajet fait partie du soin.", "tag": "Aînés"}, {"titre": "Enfants & ados", "desc": "Conservatoire, sport, garde alternée : des trajets confiés au même chauffeur connu des parents — avec SMS d'arrivée.", "tag": "Familles"}, {"titre": "Courses ponctuelles", "desc": "Un dîner, un rendez-vous, une voiture au garage : le VTC classique, au prix annoncé avant de monter.", "tag": "Ponctuel"}];
+}
+let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();;
 let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "On cale vos trajets", "d": "Un appel pour poser les habitudes : jours, heures, adresses, particularités. Tout est écrit."}, {"n": "02", "t": "Confirmation la veille", "d": "SMS la veille au soir avec l'heure et le chauffeur. Pas de doute au réveil."}, {"n": "03", "t": "Le trajet, soigné", "d": "Ponctualité, aide à la montée, conduite souple : les habitués choisissent leur musique — ou le silence."}, {"n": "04", "t": "La facturation simple", "d": "Tiers payant pour le médical conventionné, facture mensuelle pour les abonnés, reçu immédiat sinon."}];
 const ENGAGEMENT_DEMO = ["Carte professionnelle VTC, entreprise au registre REVTC, assurance transport de personnes", "Conventionné transport assis (TAP) : le médical sur prescription, sans avance de frais", "Chauffeurs stables : vos trajets réguliers gardent le même visage", "SMS de confirmation la veille et d'arrivée à destination pour les proches qui s'inquiètent"];
@@ -95,7 +98,10 @@ export default function CapChauffeurPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   TARIFS_DEMO = TARIFS_DEMO_LIVE();
+
+
 
 
   SERVICES_DEMO = resolveList(

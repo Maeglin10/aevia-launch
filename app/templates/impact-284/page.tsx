@@ -2256,13 +2256,14 @@ type Membre = {
   specialites: string[];
 };
 
-const EQUIPE_DEMO: Membre[] = [
+function EQUIPE_DEMO_LIVE() {
+  return [
   {
     photo: PHOTO.dentiste,
     prenom: 'Dr. Mathieu',
     nom: 'Prévost',
     titre: 'Chirurgien-dentiste · Directeur du cabinet',
-    bio: "Diplômé de l'Université de Bordeaux en 2009, le Dr Prévost a complété sa formation par un diplôme universitaire d'implantologie à Paris et un certificat Invisalign Diamond. Il exerce aux Chartrons depuis 2014 avec une passion pour les traitements complexes et la dentisterie esthétique. Chaque patient bénéficie d'un plan de traitement individualisé et d'une explication détaillée des options disponibles.",
+    bio: "Diplômé de l'Université de " + (clientCity(sessionData) ?? "Bordeaux") + " en 2009, le Dr Prévost a complété sa formation par un diplôme universitaire d'implantologie à Paris et un certificat Invisalign Diamond. Il exerce aux Chartrons depuis 2014 avec une passion pour les traitements complexes et la dentisterie esthétique. Chaque patient bénéficie d'un plan de traitement individualisé et d'une explication détaillée des options disponibles.",
     specialites: ['Implantologie avancée', 'Facettes céramique', 'Invisalign Diamond Provider', 'Chirurgie parodontale'],
   },
   {
@@ -2282,6 +2283,8 @@ const EQUIPE_DEMO: Membre[] = [
     specialites: ['Gestion administrative', 'Suivi mutuelle & tiers payant', 'Devis & facturation CCAM'],
   },
 ];
+}
+let EQUIPE_DEMO = EQUIPE_DEMO_LIVE();;
 
 function MembreCard({ m, i }: { m: any; i: number }) {
   const isDoctor = i === 0;
@@ -2800,7 +2803,9 @@ export default function Impact284Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
   TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
+
 
   EQUIPEMENTS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EQUIPEMENTS_SOURCE[i % EQUIPEMENTS_SOURCE.length], nom: s.title, description: s.desc || "" || "" })),

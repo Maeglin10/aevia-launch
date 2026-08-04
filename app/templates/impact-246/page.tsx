@@ -150,11 +150,12 @@ interface Testimonial {
 }
 
 /* ── Services ────────────────────────────────────────────────────────────── */
-const SERVICES_DEMO: Service[] = [
+function SERVICES_DEMO_LIVE() {
+  return [
   {
     icon: <Clock size={22} strokeWidth={1.5} />,
     title: 'Dépannage urgent 24h/7j',
-    desc: "Intervention en moins d'une heure sur Marseille et sa métropole. Disponible nuits, week-ends et jours fériés.",
+    desc: "Intervention en moins d'une heure sur " + (clientCity(sessionData) ?? "Marseille") + " et sa métropole. Disponible nuits, week-ends et jours fériés.",
     urgency: true,
   },
   {
@@ -183,6 +184,8 @@ const SERVICES_DEMO: Service[] = [
     desc: 'De la plomberie brute au carrelage. Conception, approvisionnement, pose et finitions par une seule équipe.',
   },
 ];
+}
+let SERVICES_DEMO = SERVICES_DEMO_LIVE();;
 
 /* ── Interventions (crossfade) ───────────────────────────────────────────── */
 const INTERVENTIONS: Intervention[] = [
@@ -240,7 +243,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         <span style={{ fontStyle: 'italic' }}>et alentours.</span>
       </>
     ),
-    body: "Nous intervenons dans les 16 arrondissements de Marseille, ainsi qu'à Aix-en-Provence, Aubagne, Cassis, et Vitrolles. Une seule équipe, une seule facture, zéro sous-traitance.",
+    body: "Nous intervenons dans les 16 arrondissements de " + (clientCity(sessionData) ?? "Marseille") + ", ainsi qu'à Aix-en-Provence, Aubagne, Cassis, et Vitrolles. Une seule équipe, une seule facture, zéro sous-traitance.",
     reverse: true,
   },
 ];
@@ -2386,8 +2389,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = SERVICES_DEMO_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
 
 
   EDIT_ROWS = resolveList(

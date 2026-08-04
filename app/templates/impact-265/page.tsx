@@ -187,7 +187,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         <span style={{ fontStyle: 'italic' }}>&amp; {clientCity(sessionData) ?? "Lyon"} 2e.</span>
       </>
     ),
-    body: "Deux ateliers, une même exigence. Le premier, dans le Vieux-Lyon, accueille consultations et essayages. Le second, dans le 2e arrondissement, abrite la salle de coupe et les métiers à broder. Visites sur rendez-vous. Visites de l'atelier possibles pour les curieux du geste.",
+    body: "Deux ateliers, une même exigence. Le premier, dans le Vieux-" + (clientCity(sessionData) ?? "Lyon") + ", accueille consultations et essayages. Le second, dans le 2e arrondissement, abrite la salle de coupe et les métiers à broder. Visites sur rendez-vous. Visites de l'atelier possibles pour les curieux du geste.",
     reverse: true,
   },
 ];
@@ -222,7 +222,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Je chante à l'Opéra de Lyon depuis dix ans, et L'Atelier Soie habille tous mes rôles. Leurs costumes vibrent avec ma voix — la soie suit le souffle, le bustier tient sans jamais contraindre. Ce sont des artisanes qui comprennent le corps en mouvement.",
+      "Je chante à l'Opéra de " + (clientCity(sessionData) ?? "Lyon") + " depuis dix ans, et L'Atelier Soie habille tous mes rôles. Leurs costumes vibrent avec ma voix — la soie suit le souffle, le bustier tient sans jamais contraindre. Ce sont des artisanes qui comprennent le corps en mouvement.",
     name: 'Isabelle Carron',
     role: 'Soprano · Opéra de ' + (clientCity(sessionData) ?? 'Lyon'),
   },
