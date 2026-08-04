@@ -35,6 +35,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1097,10 +1098,10 @@ function ServicesSection() {
               lineHeight: 1.06,
               letterSpacing: '-0.02em',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Trois métiers,{' '}
             <span style={{ color: C.brick }}>une seule équipe</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p
@@ -1291,10 +1292,10 @@ function ProcessSection() {
                 lineHeight: 1.06,
                 letterSpacing: '-0.02em',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>
               Comment ça{' '}
               <span style={{ color: C.brick }}>se passe&nbsp;?</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {PROCESS_STEPS.map((step, i) => (
@@ -1549,10 +1550,10 @@ function TestimonialsSection() {
               lineHeight: 1.06,
               letterSpacing: '-0.02em',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
             Ils nous font{' '}
             <span style={{ color: C.brick }}>confiance</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1736,10 +1737,10 @@ function DevisFormSection() {
               lineHeight: 1.06,
               letterSpacing: '-0.02em',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "devis.titre") ?? (<>
             Votre projet{' '}
             <span style={{color: brand ?? 'var(--brand,#e87070)' }}>en 48h</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p
@@ -2091,10 +2092,10 @@ function RealizeSection() {
               lineHeight: 1.06,
               letterSpacing: '-0.02em',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
             Du projet à la{' '}
             <span style={{ color: C.brick }}>réalité</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p
@@ -2298,10 +2299,10 @@ function CertificationsSection() {
               lineHeight: 1.06,
               letterSpacing: '-0.02em',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "certifications.titre") ?? (<>
             Des garanties{' '}
             <span style={{ color: C.brick }}>officielles</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p
@@ -2395,12 +2396,12 @@ function UrgencySection() {
                 lineHeight: 1.05,
                 letterSpacing: '-0.02em',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "urgence.titre") ?? (<>
               Une fuite ?{' '}
               <span style={{color: brand ?? 'var(--brand,#e87070)' }}>
                 On arrive.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.18}>
             <p

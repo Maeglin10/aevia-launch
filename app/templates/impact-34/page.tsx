@@ -34,7 +34,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -71,7 +73,9 @@ export default function Home() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef<HTMLDivElement>(null)
@@ -125,7 +129,7 @@ return (
           </Reveal>
 
           <Reveal delay={0.1}>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] md:leading-[1.0] tracking-tight mb-4 md:mb-6 break-words">{c?.heroHeadline ?? <>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] md:leading-[1.0] tracking-tight mb-4 md:mb-6 break-words">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
               Your Podcast.{" "}
               <span
                 className="inline-block"
@@ -137,7 +141,7 @@ return (
               >
                 Amplified.
               </span>
-            </>}</h1>
+            </>}</>)}</h1>
           </Reveal>
 
           <Reveal delay={0.2}>
@@ -275,10 +279,10 @@ return (
               <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#F97316)] block mb-3">
                 Analytics
               </span>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "analytics.titre") ?? (<>
                 Know your audience<br />
                 <span style={{ color: C.accent }}>like never before</span>
-              </h2>
+              </>)}</h2>
               <p className="text-lg text-[#64748B] leading-relaxed mb-8">
                 Real-time listener data, episode drop-off analysis, geographic heatmaps, and
                 subscriber growth charts — all in one beautiful dashboard.
@@ -501,9 +505,9 @@ return (
             <div className="flex justify-center mb-10">
               <AnimatedEQ barCount={16} color={C.accent} height={60} />
             </div>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Start your podcast <span style={{ color: C.accent }}>in 5 minutes</span>
-            </h2>
+            </>)}</h2>
             <p className="text-lg text-[#64748B] mb-10 max-w-xl mx-auto">
               No experience required. WaveForm handles the tech, you handle the content.
               Your audience is waiting.

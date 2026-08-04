@@ -21,7 +21,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -171,7 +173,9 @@ export default function NeuralisPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   AVIS_INLINE = resolveList(
 
@@ -353,7 +357,7 @@ export default function NeuralisPage() {
           <Reveal>
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
                <div>
-                  <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">The <br/> <span className="text-[var(--brand,#00f2ff)]">Vault.</span></h2>
+                  <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "solutions.titre") ?? (<>The <br/> <span className="text-[var(--brand,#00f2ff)]">Vault.</span></>)}</h2>
                   <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">Internal Spec // Bio-Sync 8.0 // Q4 2024</p>
                </div>
                <Link href="#solutions" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#00f2ff)] border-b border-[var(--brand,#00f2ff)] pb-2 hover:text-white hover:border-white transition-all">View All Research Logs</Link>
@@ -407,7 +411,7 @@ export default function NeuralisPage() {
             <Reveal>
                <div className="text-center mb-32">
                   <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-8 block">Molecular Sovereignty</span>
-                  <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">Bio-Digital <span className="text-[var(--brand,#00f2ff)] not-italic">Synthesis.</span></h2>
+                  <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Bio-Digital <span className="text-[var(--brand,#00f2ff)] not-italic">Synthesis.</span></>)}</h2>
                </div>
             </Reveal>
 
@@ -479,7 +483,7 @@ export default function NeuralisPage() {
            <Reveal>
               <div className="mb-32">
                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-8 block">Empirical Evidence</span>
-                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Clinical <br/> <span className="text-[var(--brand,#00f2ff)] not-italic">Validation.</span></h2>
+                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Clinical <br/> <span className="text-[var(--brand,#00f2ff)] not-italic">Validation.</span></>)}</h2>
               </div>
            </Reveal>
 
@@ -514,9 +518,9 @@ export default function NeuralisPage() {
            </Reveal>
            <Reveal delay={0.2}>
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-8 block">Fortress Protocol</span>
-              <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">
+              <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Zero <br/> <span className="text-[var(--brand,#00f2ff)] not-italic">Trust.</span>
-              </h2>
+              </>)}</h2>
               <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic leading-loose">
                 Your brain is the final frontier of privacy. Our Neural Security layer implements hardware-level encryption that physically disconnects the bridge if any external intrusion is detected. No cloud, no backdoors, no exceptions.
               </p>
@@ -543,7 +547,7 @@ export default function NeuralisPage() {
            <Reveal>
               <div className="mb-32 text-center">
                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-8 block">Operational Grid</span>
-                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Global <span className="text-[var(--brand,#00f2ff)] not-italic">Nodes.</span></h2>
+                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Global <span className="text-[var(--brand,#00f2ff)] not-italic">Nodes.</span></>)}</h2>
               </div>
            </Reveal>
 
@@ -587,9 +591,9 @@ export default function NeuralisPage() {
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
               <Reveal>
                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-8 block text-left">The Moral Compass</span>
-                 <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white text-left">
+                 <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white text-left">{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
                    Neural <br/> <span className="text-[var(--brand,#00f2ff)] not-italic">Rights.</span>
-                 </h2>
+                 </>)}</h2>
                  <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic leading-loose text-left">
                    At Neuralis, we believe augmentation is a fundamental right. Our governance board ensures every neural bridge is encrypted locally, giving you absolute sovereignty over your own biological data.
                  </p>
@@ -637,7 +641,7 @@ export default function NeuralisPage() {
            <Reveal>
               <div className="mb-32">
                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-8 block">Hardware Schematics</span>
-                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Full <br/> <span className="text-[var(--brand,#00f2ff)] not-italic">Manifesto.</span></h2>
+                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>Full <br/> <span className="text-[var(--brand,#00f2ff)] not-italic">Manifesto.</span></>)}</h2>
               </div>
            </Reveal>
 
@@ -679,7 +683,7 @@ export default function NeuralisPage() {
            <Reveal>
               <div className="mb-32 text-center">
                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-8 block">User Experiences</span>
-                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">The <span className="text-[var(--brand,#00f2ff)] not-italic">Elite.</span></h2>
+                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>The <span className="text-[var(--brand,#00f2ff)] not-italic">Elite.</span></>)}</h2>
               </div>
            </Reveal>
 
@@ -709,7 +713,7 @@ export default function NeuralisPage() {
         <div className="max-w-4xl mx-auto px-6">
            <Reveal>
               <div className="mb-24 text-center">
-                 <h2 className="text-5xl font-black italic uppercase tracking-tighter text-white mb-8">Common <span className="text-[var(--brand,#00f2ff)] not-italic">Queries.</span></h2>
+                 <h2 className="text-5xl font-black italic uppercase tracking-tighter text-white mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>Common <span className="text-[var(--brand,#00f2ff)] not-italic">Queries.</span></>)}</h2>
                  <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20">Deployment // Recovery // Integration</p>
               </div>
            </Reveal>

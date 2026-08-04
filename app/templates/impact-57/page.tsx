@@ -23,7 +23,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -158,9 +160,9 @@ function SelectedWork() {
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
             Selected Work
-          </h2>
+          </>)}</h2>
           <Link
             href="/templates/impact-57/work"
             style={{
@@ -407,9 +409,9 @@ function ProcessSection() {
               textTransform: 'uppercase',
               marginBottom: '5rem',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
             Processus
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <div className="imx-mobstack" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2px' }}>
@@ -554,9 +556,9 @@ function TestimonialsSection() {
               textTransform: 'uppercase',
               marginBottom: '5rem',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
             Ce qu'ils disent
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(340px, 100%), 1fr))', gap: '2rem' }}>
@@ -681,10 +683,10 @@ function StudioTeaser() {
                 lineHeight: 1.1,
                 marginBottom: '2rem',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Nous sommes une équipe d'obsédés.{' '}
               <span style={{ color: C.accent }}>12 ans</span> à repousser les limites du possible.
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.2}>
             <p
@@ -926,8 +928,10 @@ export default function MaskUnitHome() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
   SERVICES_LIVE = resolveList(
     clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({

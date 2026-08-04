@@ -37,7 +37,9 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -1242,10 +1244,10 @@ function CollectionsSection() {
               color: C.text,
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "collections.titre") ?? (<>
             La Collection
             <span style={{ color: C.primary }}> Lumière</span>
-          </h2>
+          </>)}</h2>
           <p
             className="text-[14px] leading-[1.8] max-w-[480px] mx-auto"
             style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
@@ -1406,11 +1408,11 @@ function RituelsSection() {
               color: C.text,
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "rituels.titre") ?? (<>
             4 Étapes pour une
             <br />
             <span style={{ color: C.primary }}>Peau Parfaite</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         {/* Step selector */}
@@ -1558,10 +1560,10 @@ function IngredientsSection() {
               color: C.text,
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "ingredients.titre") ?? (<>
             Nos Ingrédients
             <span style={{ color: C.primary }}> d'Exception</span>
-          </h2>
+          </>)}</h2>
           <p
             className="text-[14px] leading-[1.8] max-w-[480px] mx-auto"
             style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
@@ -1688,11 +1690,11 @@ function AtelierSection() {
                   color: C.text,
                   lineHeight: 1.15,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "atelier.titre") ?? (<>
                 Formulé avec Amour
                 <br />
                 <span style={{ color: C.primary }}>par des Passionnées</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
 
             <Reveal delay={0.2}>
@@ -1793,10 +1795,10 @@ function ReviewsSection() {
               color: C.text,
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             Elles Ont Testé,
             <span style={{ color: C.primary }}> Elles Adorent</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -1927,9 +1929,9 @@ function PressSection() {
               color: "#fff",
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "presse.titre") ?? (<>
             Presse & Médias
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
@@ -1991,10 +1993,10 @@ function SetsSection() {
               color: C.text,
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "sets.titre") ?? (<>
             Commencez votre
             <span style={{ color: C.primary }}> Rituel</span>
-          </h2>
+          </>)}</h2>
           <p
             className="text-[14px] leading-[1.8] max-w-[440px] mx-auto"
             style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
@@ -2347,7 +2349,9 @@ export default function Impact134Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   INGREDIENTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...INGREDIENTS_SOURCE[i % INGREDIENTS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     INGREDIENTS_SOURCE,

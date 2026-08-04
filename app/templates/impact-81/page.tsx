@@ -13,7 +13,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -65,7 +67,9 @@ export default function VogueNoirePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   AVIS_INLINE = resolveList(
 
@@ -176,7 +180,7 @@ return (
             <div className="flex items-end justify-between mb-16">
               <div>
                 <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#C9A86C)] mb-4">Dans ce numéro</p>
-                <h2 className="text-4xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>La sélection Vogue Noire</h2>
+                <h2 className="text-4xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>La sélection Vogue Noire</>)}</h2>
               </div>
               <Link href={`${basePath}/editoriaux`} className="text-[10px] uppercase tracking-widest text-[#6A6058] hover:text-[var(--brand,#C9A86C)] transition-colors hidden md:block cursor-pointer">
                 Voir tout le numéro
@@ -214,7 +218,7 @@ return (
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#C9A86C)] mb-4">Haute couture</p>
-            <h2 className="text-4xl font-light mb-20" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Les maisons à la une</h2>
+            <h2 className="text-4xl font-light mb-20" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Les maisons à la une</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {/* Fictional houses: this is a demo site, so it can't present real
@@ -245,9 +249,9 @@ return (
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#C9A86C)]/60 mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Lectrices & Communauté</p>
-            <h2 className="text-4xl md:text-6xl font-light text-[#F0EBE0] mb-20 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-4xl md:text-6xl font-light text-[#F0EBE0] mb-20 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               Ce qu&apos;elles disent <em>de nous.</em>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#2A2820]">
             {AVIS_INLINE.map((t, i) => (
@@ -271,9 +275,9 @@ return (
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#C9A86C)]/60 mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>L&apos;équipe</p>
-            <h2 className="text-4xl md:text-6xl font-light text-[#F0EBE0] mb-20 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-4xl md:text-6xl font-light text-[#F0EBE0] mb-20 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Derrière <em>la revue.</em>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#2A2820]">
             {[
@@ -304,9 +308,9 @@ return (
         <div className="max-w-2xl mx-auto px-6 text-center">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.5em] mb-6">Abonnement · Gratuit</p>
-            <h2 className="text-4xl font-light mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-4xl font-light mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               La lettre Vogue Noire.<br /><em>Chaque lundi matin.</em>
-            </h2>
+            </>)}</h2>
             <p className="text-[#0A0A08]/60 mb-10 text-sm">Les défilés, les éditoriaux, les tendances — avant tout le monde. 40 000 lecteurs. Sans publicité.</p>
             <div className="flex gap-3 max-w-md mx-auto">
               {/* flex-1 alone will not go below an email input's intrinsic

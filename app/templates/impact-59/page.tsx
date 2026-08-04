@@ -20,7 +20,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -86,8 +88,10 @@ export default function LuminalHome() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
 
   STATS_INLINE = resolveList(
@@ -204,13 +208,13 @@ return (
             <h2
               className="text-4xl md:text-6xl font-bold uppercase tracking-tight mb-20 text-[#2a2a2a]"
               style={{ fontFamily: "Cinzel, Georgia, serif" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
               Trois paysages.
               <br />
               <span className="font-light italic" style={{ fontFamily: "Lora, Georgia, serif" }}>
                 Une seule méthode.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -296,13 +300,13 @@ return (
                 <h2
                   className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-8 text-[#f8f5f0]"
                   style={{ fontFamily: "Cinzel, Georgia, serif" }}
-                >{c?.aboutTitle ?? fd?.businessName ?? <>
+                >{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>
                   La Méthode
                   <br />
                   <span className="font-light italic" style={{ fontFamily: "Lora, Georgia, serif" }}>
                     Luminale
                   </span>
-                </>}</h2>
+                </>}</>)}</h2>
                 <p
                   className="text-[#f8f5f0]/70 text-lg leading-relaxed mb-6"
                   style={{ fontFamily: "Lora, Georgia, serif" }}
@@ -494,9 +498,9 @@ return (
             <h2
               className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-16 text-[#2a2a2a]"
               style={{ fontFamily: "Cinzel, Georgia, serif" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Nos Guides
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -555,9 +559,9 @@ return (
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#3d7a5e)] mb-6 font-sans font-bold">Approche · Méthode</p>
-            <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-20 leading-tight" style={{ fontFamily: "Cinzel, Georgia, serif" }}>
+            <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-20 leading-tight" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               La Méthode<br /><span className="font-light italic" style={{ fontFamily: "Lora, Georgia, serif" }}>Nakano</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20">
             {PRESTATIONS_INLINE.map((step, i) => (
@@ -592,7 +596,7 @@ return (
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#3d7a5e)] mb-6 font-sans font-bold">Processus</p>
-            <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-20" style={{ fontFamily: "Cinzel, Georgia, serif" }}>Comment ça fonctionne</h2>
+            <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-20" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Comment ça fonctionne</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
@@ -621,7 +625,7 @@ return (
         <div className="max-w-[900px] mx-auto">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#3d7a5e)] mb-6 font-sans font-bold">Questions fréquentes</p>
-            <h2 className="text-4xl font-bold uppercase tracking-tight mb-20 text-[#2a2a2a]" style={{ fontFamily: "Cinzel, Georgia, serif" }}>Ce qu'on nous pose.</h2>
+            <h2 className="text-4xl font-bold uppercase tracking-tight mb-20 text-[#2a2a2a]" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>Ce qu'on nous pose.</>)}</h2>
           </Reveal>
           <div className="space-y-0 divide-y divide-black/8">
             {[
@@ -654,13 +658,13 @@ return (
             <h2
               className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-8 text-[#2a2a2a] leading-tight"
               style={{ fontFamily: "Cinzel, Georgia, serif" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
               Rejoindre le
               <br />
               <span className="font-light italic" style={{ fontFamily: "Lora, Georgia, serif" }}>
                 Programme 2026.
               </span>
-            </h2>
+            </>)}</h2>
             <p
               className="text-lg text-black/50 leading-relaxed mb-14 max-w-lg mx-auto"
               style={{ fontFamily: "Lora, Georgia, serif" }}

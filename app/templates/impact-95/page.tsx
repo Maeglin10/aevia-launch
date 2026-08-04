@@ -15,6 +15,7 @@ import {
   clientName,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -709,9 +710,9 @@ function FaqSection() {
       <div className="max-w-4xl mx-auto px-6 md:px-12">
         <Reveal>
           <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#3A8080)] mb-4 text-center">FAQ</p>
-          <h2 className="text-4xl font-light text-center mb-16" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          <h2 className="text-4xl font-light text-center mb-16" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
             Questions <em>fréquentes</em>
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <div className="space-y-4">

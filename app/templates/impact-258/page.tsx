@@ -19,6 +19,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1152,10 +1153,10 @@ function PieceCards() {
               margin: '20px 0 0',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
             Chaque vêtement,{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>unique.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1390,12 +1391,12 @@ function AtélierPanel() {
                 margin: '20px 0 56px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "atelier.titre") ?? (<>
               De la rencontre{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 aux finitions
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {ATELIER_STEPS.map((step, i) => (
@@ -1504,10 +1505,10 @@ function Testimonials() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             La parole des{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>clients</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1682,9 +1683,9 @@ function OrderForm() {
               margin: '22px 0 18px',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Commençons par nous rencontrer
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p

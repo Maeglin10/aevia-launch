@@ -12,7 +12,9 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -166,9 +168,11 @@ export default function AquanovaPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   ZONES_DEMO = ZONES_DEMO_LIVE();
+
 
 
   SERVICES_DEMO = resolveList(
@@ -277,9 +281,9 @@ export default function AquanovaPiscinesPage() {
 
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{c?.heroHeadline ?? <>
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             Votre piscine<br />sur-<span className="text-[var(--brand-light)]">mesure</span><br />à {clientCity({ formData: fd }) ?? "Lyon"}.
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
             className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
@@ -342,7 +346,7 @@ export default function AquanovaPiscinesPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand)] mb-4">Nos interventions</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#0f172a]">Tout ce que nous <span className="text-[var(--brand)]">faisons.</span></h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#0f172a]">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Tout ce que nous <span className="text-[var(--brand)]">faisons.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -367,7 +371,7 @@ export default function AquanovaPiscinesPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand)] mb-4">Portfolio</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#0f172a]">Nos <span className="text-[var(--brand)]">réalisations.</span></h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#0f172a]">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Nos <span className="text-[var(--brand)]">réalisations.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -393,7 +397,7 @@ export default function AquanovaPiscinesPage() {
         <div className="max-w-[1000px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand)] mb-4">Tarifs</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#0f172a]">Le prix <span className="text-[var(--brand)]">avant l'outil.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#0f172a]">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Le prix <span className="text-[var(--brand)]">avant l'outil.</span></>)}</h2>
           </div></Reveal>
           <div className="border border-slate-100">
             {TARIFS.map((t, i) => (
@@ -423,7 +427,7 @@ export default function AquanovaPiscinesPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand)] mb-4">Zone d'intervention</div>
-            <h2 className="text-4xl md:text-5xl font-bold">Et en <span className="text-[var(--brand)]">combien de temps.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "zone.titre") ?? (<>Et en <span className="text-[var(--brand)]">combien de temps.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
             {ZONES.map((z, i) => (
@@ -446,7 +450,7 @@ export default function AquanovaPiscinesPage() {
           <Reveal>
             <div className="mb-16 text-center">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand)] mb-4">Avis clients</div>
-              <h2 className="text-4xl font-bold text-[#0f172a]">Ils nous font <span className="text-[var(--brand)]">confiance.</span></h2>
+              <h2 className="text-4xl font-bold text-[#0f172a]">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ils nous font <span className="text-[var(--brand)]">confiance.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -493,7 +497,7 @@ export default function AquanovaPiscinesPage() {
         <Reveal>
           <div className="max-w-2xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand-light)] mb-6">Prendre contact</div>
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">Un projet ?<br /><span className="text-[var(--brand-light)]">Parlons-en.</span></h2>
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Un projet ?<br /><span className="text-[var(--brand-light)]">Parlons-en.</span></>)}</h2>
             <p className="text-white/40 mb-10 text-sm leading-relaxed">Devis gratuit sous 48h · Étude 3D offerte · Travaux garantis décennale</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[var(--brand)] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">

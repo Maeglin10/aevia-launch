@@ -15,7 +15,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -63,7 +65,9 @@ export default function OrbitHomePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   PRESTATIONS_INLINE = resolveList(
 
@@ -144,13 +148,13 @@ return (
                   marginBottom: "32px",
                   paddingBottom: "0.15em",
                 }}
-              >{c?.heroHeadline ?? <>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
                 Brands that
                 <br />
                 <span style={{ color: C.accent }}>shift</span>
                 <br />
                 perception.
-              </>}</motion.h1>
+              </>}</>)}</motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
@@ -360,9 +364,9 @@ return (
               <span style={{ display: "inline-block", width: "32px", height: "1px", background: C.accent }} />
               Selected Work
             </div>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 700, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.2 }}>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 700, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
               94 brands.<br /><span style={{ color: C.accent }}>One obsession.</span>
-            </h2>
+            </>)}</h2>
           </motion.div>
           <div style={{ display: "flex", flexDirection: "column", gap: "1px", background: C.border }}>
             {PRESTATIONS_INLINE.map((w, i) => (
@@ -401,9 +405,9 @@ return (
               <span style={{ display: "inline-block", width: "32px", height: "1px", background: C.accent }} />
               Capabilities
             </div>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 700, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.2 }}>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 700, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               What we do<br />and <span style={{ color: C.accent }}>how we do it.</span>
-            </h2>
+            </>)}</h2>
           </motion.div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "2px", background: C.border }}>
             {[

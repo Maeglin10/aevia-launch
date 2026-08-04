@@ -5,6 +5,7 @@ import {
   clientHours,
   clientName,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useCallback } from "react"
@@ -19,6 +20,7 @@ import {
   animate,
   type MotionValue,
 } from "framer-motion"
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -425,8 +427,10 @@ export default function Impact211Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
   EVENTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EVENTS_SOURCE[i % EVENTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     EVENTS_SOURCE,
@@ -1051,9 +1055,9 @@ export default function Impact211Page() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               style={sectionTitleStyle}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "menu.titre") ?? (<>
               Le parcours du Chef
-            </motion.h2>
+            </>)}</motion.h2>
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -1112,9 +1116,9 @@ export default function Impact211Page() {
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             >
               <span style={eyebrowStyle}>Nos producteurs</span>
-              <h2 style={sectionTitleStyle}>
+              <h2 style={sectionTitleStyle}>{/* TEXTE_SECTION */ clientText(sessionData, "terroir.titre") ?? (<>
                 La carte<br />du terroir
-              </h2>
+              </>)}</h2>
               <GoldLine />
               <p style={{ ...bodyStyle, marginBottom: "2rem" }}>
                 Chaque ingrédient porte en lui une histoire, un lieu, un homme. Nous travaillons en direct avec nos producteurs depuis plus de vingt ans, construisant des relations fondées sur la confiance, le respect du vivant et l&apos;excellence partagée.
@@ -1363,9 +1367,9 @@ export default function Impact211Page() {
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             >
               <span style={eyebrowStyle}>Le Chef</span>
-              <h2 style={sectionTitleStyle}>
+              <h2 style={sectionTitleStyle}>{/* TEXTE_SECTION */ clientText(sessionData, "chef.titre") ?? (<>
                 Adrien<br />Mercier
-              </h2>
+              </>)}</h2>
               <GoldLine />
 
               <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>
@@ -1418,9 +1422,9 @@ export default function Impact211Page() {
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1 }}
               style={sectionTitleStyle}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "evenements.titre") ?? (<>
               Événements<br />& Dîners privés
-            </motion.h2>
+            </>)}</motion.h2>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2rem" }}>
@@ -1499,9 +1503,9 @@ export default function Impact211Page() {
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1 }}
               style={sectionTitleStyle}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "reservation.titre") ?? (<>
               Réserver<br />votre table
-            </motion.h2>
+            </>)}</motion.h2>
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}

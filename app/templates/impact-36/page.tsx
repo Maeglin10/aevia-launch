@@ -22,7 +22,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -59,7 +61,9 @@ export default function Home() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   
@@ -135,7 +139,7 @@ return (
                   lineHeight: 1.1,
                   marginBottom: 24,
                 }}
-              >{c?.heroHeadline ?? <>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
                 The people who{" "}
                 <span
                   style={{
@@ -148,7 +152,7 @@ return (
                   build
                 </span>{" "}
                 category leaders
-              </>}</motion.h1>
+              </>}</>)}</motion.h1>
 
               <motion.p
                 initial={{ opacity: 0 }}
@@ -421,9 +425,9 @@ return (
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <SectionReveal>
             <div style={{ textAlign: "center", marginBottom: 72 }}>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.white, marginBottom: 16 }}>
+              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.white, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "results.titre") ?? (<>
                 18 years of measurable results
-              </h2>
+              </>)}</h2>
               <p style={{ fontSize: 17, color: "var(--brand-light,#93c5fd)", maxWidth: 480, margin: "0 auto" }}>
                 Numbers that define our commitment to quality over volume.
               </p>
@@ -443,9 +447,9 @@ return (
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <SectionReveal>
             <div style={{ textAlign: "center", marginBottom: 64 }}>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.navy, marginBottom: 16 }}>
+              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.navy, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                 Success stories
-              </h2>
+              </>)}</h2>
             </div>
           </SectionReveal>
 
@@ -539,9 +543,9 @@ return (
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <SectionReveal>
             <div style={{ textAlign: "center", marginBottom: 64 }}>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.white, marginBottom: 12 }}>
+              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.white, marginBottom: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 What our clients say
-              </h2>
+              </>)}</h2>
             </div>
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24 }}>
@@ -599,9 +603,9 @@ return (
       <section style={{ padding: "100px 5%", background: C.bgAlt }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", textAlign: "center" }}>
           <SectionReveal>
-            <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 800, color: C.navy, marginBottom: 16 }}>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 800, color: C.navy, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Industries we serve
-            </h2>
+            </>)}</h2>
             <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.7 }}>
               Deep networks in 12 sectors, built over 18 years of specialized placement.
             </p>

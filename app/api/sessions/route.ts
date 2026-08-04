@@ -106,6 +106,7 @@ export async function PATCH(req: NextRequest) {
     generatedContent?: Partial<GeneratedContent>;
     formData?: Partial<FormData>;
     businessProfile?: Partial<BusinessProfile>;
+    sectionOverrides?: Record<string, string>;
   };
 
   const updated = {
@@ -116,6 +117,17 @@ export async function PATCH(req: NextRequest) {
     }),
     ...(body.generatedContent && {
       generatedContent: { ...session.generatedContent, ...body.generatedContent } as GeneratedContent,
+    }),
+    /*
+      Les retouches de section se cumulent : le client en corrige une, puis une
+      autre, sans que la première disparaisse. Une valeur vide efface la
+      retouche et rend au thème son texte d'origine.
+    */
+    ...(body.sectionOverrides && {
+      sectionOverrides: Object.fromEntries(
+        Object.entries({ ...session.sectionOverrides, ...body.sectionOverrides })
+          .filter(([, v]) => typeof v === "string" && v.trim() !== ""),
+      ),
     }),
   } satisfies SessionData;
 

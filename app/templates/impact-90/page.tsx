@@ -22,6 +22,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -655,9 +656,9 @@ function ServicesSection() {
       <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
         <div style={{ marginBottom: 56, textAlign: "center" }}>
           <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.35em", color: C.terracotta, textTransform: "uppercase", marginBottom: 16 }}>Nos Services</p>
-          <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 600, lineHeight: 1.1, color: C.brown, fontFamily: "'Playfair Display', serif" }}>
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 600, lineHeight: 1.1, color: C.brown, fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Au-delà de <span style={{ fontStyle: "italic", color: C.terracotta }}>la fournée</span>
-          </h2>
+          </>)}</h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32 }}>
           {SERVICES_90.map((svc, i) => (
@@ -697,9 +698,9 @@ function TestimonialsSection() {
       <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
         <div style={{ marginBottom: 56, textAlign: "center" }}>
           <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.35em", color: C.terracotta, textTransform: "uppercase", marginBottom: 16 }}>Témoignages</p>
-          <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 600, lineHeight: 1.1, color: C.brown, fontFamily: "'Playfair Display', serif" }}>
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 600, lineHeight: 1.1, color: C.brown, fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "testimonials.titre") ?? (<>
             Paroles de <span style={{ fontStyle: "italic", color: C.terracotta }}>passionnés</span>
-          </h2>
+          </>)}</h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
           {TESTIMONIALS_90.map((t, i) => (
@@ -738,9 +739,9 @@ function FaqSection() {
       <div style={{ maxWidth: 800, margin: "0 auto", paddingInline: 40 }}>
         <div style={{ marginBottom: 56, textAlign: "center" }}>
           <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.35em", color: C.terracotta, textTransform: "uppercase", marginBottom: 16 }}>Des réponses à vos questions</p>
-          <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 600, lineHeight: 1.1, color: C.brown, fontFamily: "'Playfair Display', serif" }}>
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 600, lineHeight: 1.1, color: C.brown, fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
             Questions <span style={{ fontStyle: "italic", color: C.terracotta }}>Fréquentes</span>
-          </h2>
+          </>)}</h2>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {FAQS_90.map((faq, idx) => (
@@ -872,9 +873,9 @@ function ContactSection() {
         <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <div>
             <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.35em", color: C.terracotta, textTransform: "uppercase", marginBottom: 20 }}>Contact</p>
-            <h2 style={{ fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 600, lineHeight: 1.15, letterSpacing: "-0.02em", color: C.brown, fontFamily: "'Playfair Display', serif", marginBottom: 36 }}>
+            <h2 style={{ fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 600, lineHeight: 1.15, letterSpacing: "-0.02em", color: C.brown, fontFamily: "'Playfair Display', serif", marginBottom: 36 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Écrivez à <br /><span style={{ fontStyle: "italic", color: C.terracotta }}>la Maison.</span>
-            </h2>
+            </>)}</h2>
             <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.8, marginBottom: 36 }}>
               Une question sur nos ateliers, une commande spéciale pour un événement ou simplement envie de nous dire bonjour ? Remplissez le formulaire ci-contre et nous vous répondrons sous 24h.
             </p>

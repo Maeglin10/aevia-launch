@@ -23,6 +23,7 @@ import {
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -2223,7 +2224,9 @@ export default function Impact133Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   PROJECTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PROJECTS_SOURCE[i % PROJECTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     PROJECTS_SOURCE,

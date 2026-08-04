@@ -18,6 +18,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1130,12 +1131,12 @@ function ServiceCards() {
               margin: '18px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Ce que nous{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               faisons pour vous
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1384,12 +1385,12 @@ function PillarPanel() {
                 margin: '20px 0 52px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "valeurs.titre") ?? (<>
               Ce qui nous{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 distingue
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1510,10 +1511,10 @@ function Testimonials() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             La parole de nos{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>clients</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1676,9 +1677,9 @@ function ContactForm() {
               lineHeight: 1.05,
               textAlign: 'center',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Commençons à travailler ensemble.
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p

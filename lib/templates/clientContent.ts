@@ -74,6 +74,7 @@ interface SessionLike {
   formData?: any;
   generatedContent?: any;
   businessProfile?: any;
+  sectionOverrides?: Record<string, string>;
 }
 
 const trimmed = (v: unknown): string => (typeof v === "string" ? v.trim() : "");
@@ -193,6 +194,21 @@ export function clientTeam(s: SessionLike | null | undefined): ClientMember[] | 
 export function clientAreas(s: SessionLike | null | undefined): string[] | undefined {
   const rows = (s?.businessProfile?.geo?.serviceAreas ?? []) as any[];
   return keep(rows.map(trimmed), Boolean);
+}
+
+/**
+ * La retouche du client sur un texte de section, s'il en a fait une.
+ *
+ * Le wizard recueille la donnée structurée — prestations, tarifs, horaires,
+ * équipe. Reste la prose : le titre d'une section, sa phrase d'introduction, le
+ * libellé d'un bouton. Vingt questions de plus dans le wizard seraient
+ * indigestes ; le client les retouche depuis l'aperçu, et le thème les lit ici.
+ *
+ * Sans retouche, la fonction ne rend rien et le thème garde son texte — la règle
+ * de tout le catalogue.
+ */
+export function clientText(s: SessionLike | null | undefined, cle: string): string | undefined {
+  return trimmed(s?.sectionOverrides?.[cle]) || undefined;
 }
 
 /** Le nom de l'entreprise, tel qu'il doit apparaître partout. */

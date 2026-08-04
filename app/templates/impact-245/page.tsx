@@ -17,6 +17,7 @@ import {
   clientName,
   clientReviews,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1112,12 +1113,12 @@ function SpecialtyCards() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "specialites.titre") ?? (<>
             Du four{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               au comptoir.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div
@@ -1378,12 +1379,12 @@ function ProcessPanel() {
                 margin: '20px 0 56px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Le process du{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 pain vivant.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {PROCESS_STEPS.map((s, i) => (
@@ -1473,12 +1474,12 @@ function Testimonials() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Paroles de{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               fidèles.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div
@@ -1658,12 +1659,12 @@ function OrderForm() {
               margin: '22px 0 18px',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "commande.titre") ?? (<>
             Sur mesure,{' '}
             <span style={{ fontStyle: 'italic', color: C.accentLight }}>
               pour vous.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.17}>
           <p

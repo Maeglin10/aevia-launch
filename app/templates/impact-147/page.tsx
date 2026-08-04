@@ -21,6 +21,7 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -270,7 +271,7 @@ export default function VanguardLegalPage() {
               <div className="flex flex-col md:flex-row items-end justify-between mb-32 gap-8 border-b border-white/5 pb-16">
                 <div className="max-w-2xl">
                   <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00ff41)] block mb-6">Offensive Protocol</span>
-                  <h2 className="text-6xl md:text-[8vw] font-black uppercase tracking-tighter text-white leading-none italic">Neutralize <br/> <span className="font-light not-italic opacity-20">The Risk.</span></h2>
+                  <h2 className="text-6xl md:text-[8vw] font-black uppercase tracking-tighter text-white leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "offense.titre") ?? (<>Neutralize <br/> <span className="font-light not-italic opacity-20">The Risk.</span></>)}</h2>
                 </div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-white/20 mb-4">Total Recovered: $2.4B — 2025</div>
               </div>
@@ -355,7 +356,7 @@ export default function VanguardLegalPage() {
             <Reveal>
               <div className="mb-32 border-b border-white/5 pb-16 max-w-3xl">
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00ff41)] block mb-6">Intelligence</span>
-                <h2 className="text-6xl md:text-[7vw] font-black uppercase tracking-tighter text-white leading-none italic">Know First. <br/> <span className="font-light not-italic opacity-20">Act Early.</span></h2>
+                <h2 className="text-6xl md:text-[7vw] font-black uppercase tracking-tighter text-white leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "intelligence.titre") ?? (<>Know First. <br/> <span className="font-light not-italic opacity-20">Act Early.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
@@ -378,7 +379,7 @@ export default function VanguardLegalPage() {
             <Reveal>
               <div className="mb-32 border-b border-white/5 pb-16 max-w-3xl">
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00ff41)] block mb-6">Archive</span>
-                <h2 className="text-6xl md:text-[7vw] font-black uppercase tracking-tighter text-white leading-none italic">Case <br/> <span className="font-light not-italic opacity-20">Files.</span></h2>
+                <h2 className="text-6xl md:text-[7vw] font-black uppercase tracking-tighter text-white leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "archive.titre") ?? (<>Case <br/> <span className="font-light not-italic opacity-20">Files.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="divide-y divide-white/5 border-y border-white/5 font-mono">
@@ -407,9 +408,9 @@ export default function VanguardLegalPage() {
           <div className="max-w-6xl mx-auto px-6 md:px-12 font-mono">
             <Reveal>
               <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#00ff41)]/40 mb-6">// verified operators</p>
-              <h2 className="text-4xl md:text-7xl font-black text-white mb-20 leading-none tracking-tighter">
+              <h2 className="text-4xl md:text-7xl font-black text-white mb-20 leading-none tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "reports.titre") ?? (<>
                 FIELD<br /><span className="text-[var(--brand,#00ff41)]/10">REPORTS.</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[var(--brand,#00ff41)]/5">
               {resolveList(clientReviews(sessionData)?.map((r: any) => ({ quote: r.text ?? r.quote, handle: r.name ?? r.author, org: r.location ?? r.context ?? "" })), [
@@ -437,9 +438,9 @@ export default function VanguardLegalPage() {
           <div className="max-w-6xl mx-auto px-6 md:px-12 font-mono">
             <Reveal>
               <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#00ff41)]/40 mb-6">// core team</p>
-              <h2 className="text-4xl md:text-7xl font-black text-white mb-20 leading-none tracking-tighter">
+              <h2 className="text-4xl md:text-7xl font-black text-white mb-20 leading-none tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>
                 OPERATORS.
-              </h2>
+              </>)}</h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-[var(--brand,#00ff41)]/5">
               {resolveList(clientTeam(sessionData)?.map((tm: any, i: number) => ({ handle: (["WRAITH", "CIPHER", "GHOST", "SPECTER"][i % 4]), name: tm.name, role: tm.role ?? tm.specialty ?? "", clearance: (["ALPHA", "BRAVO", "CHARLIE"][i % 3]), years: tm.credentials ?? "" })), [
@@ -470,9 +471,9 @@ export default function VanguardLegalPage() {
           </div>
           <div className="max-w-4xl mx-auto px-6 relative z-10">
             <Reveal>
-              <h2 className="text-7xl md:text-[14vw] font-black uppercase tracking-tighter leading-[0.75] mb-16 italic">
+              <h2 className="text-7xl md:text-[14vw] font-black uppercase tracking-tighter leading-[0.75] mb-16 italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
                 Secure <br/> <span className="font-light not-italic opacity-30">Your Legacy.</span>
-              </h2>
+              </>)}</h2>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-10">
                 <button className="px-16 py-8 bg-black text-white font-black uppercase tracking-[0.2em] text-xs hover:px-24 transition-all duration-700 italic">
                    Initiate Strategy Session

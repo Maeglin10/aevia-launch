@@ -27,6 +27,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1320,12 +1321,12 @@ function ServiceCards() {
                 margin: 'clamp(16px,2.5vw,24px) 0 0',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
               Tout ce qu'un foyer{' '}
               <span style={{ fontStyle: 'italic', color: C.accent }}>
                 peut demander.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
         <div
@@ -1557,12 +1558,12 @@ function TechPanel() {
                 margin: 'clamp(18px,2.5vw,26px) 0 clamp(36px,5vw,56px)',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               La confiance,{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 prouvée.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1760,12 +1761,12 @@ function Testimonials() {
                 margin: 'clamp(16px,2.5vw,24px) 0 0',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Ils nous ont fait{' '}
               <span style={{ fontStyle: 'italic', color: C.accent }}>
                 confiance.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
         <div
@@ -1902,10 +1903,10 @@ function QuoteForm() {
               margin: 'clamp(18px,2.5vw,26px) 0 clamp(12px,1.8vw,18px)',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "devis.titre") ?? (<>
             Décrivez votre{' '}
             <span style={{ fontStyle: 'italic', color: C.accentLight }}>besoin.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.15}>
           <p

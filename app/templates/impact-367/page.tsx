@@ -15,6 +15,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -207,9 +208,9 @@ export default function CabinetNaissancesPage() {
         <ParticleOrb color={C.hi} count={620} seconds={46} className="" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "min(70vw, 620px)", aspectRatio: "1", opacity: 0.55, pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 1, maxWidth: 780 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Sage-femme · {clientCity(sessionData) ?? "Aix-en-Provence"}</span>
-          <h1 style={{ fontFamily: FONT, fontSize: "clamp(36px, 5.2vw, 66px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>
+          <h1 style={{ fontFamily: FONT, fontSize: "clamp(36px, 5.2vw, 66px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
             {c?.heroHeadline ?? (<>Neuf mois, une naissance,<br /><em style={{ color: C.accentDark }}>et tout ce qui vient après.</em></>)}
-          </h1>
+          </>)}</h1>
           <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.78, maxWidth: 560, margin: "0 auto 32px" }}>
             {fd?.tagline ?? c?.heroSubline ?? "Suivi de grossesse, préparation à la naissance, retour à la maison, rééducation : une sage-femme conventionnée vous accompagne du test positif aux premiers mois — et pour votre suivi gynécologique ensuite."}
           </p>
@@ -245,9 +246,9 @@ export default function CabinetNaissancesPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Accompagnement</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Une seule praticienne,<br /><em>toute l'histoire.</em>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
@@ -270,9 +271,9 @@ export default function CabinetNaissancesPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Le suivi</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
                 Le même visage,<br /><em>du début à la fin.</em>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
@@ -298,9 +299,9 @@ export default function CabinetNaissancesPage() {
           <Reveal delay={0.15}>
             <div>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Le cabinet</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
                 Conventionnée,<br /><em>et engagée.</em>
-              </h2>
+              </>)}</h2>
               {ENGAGEMENT.map((e, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
                   <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
@@ -321,7 +322,7 @@ export default function CabinetNaissancesPage() {
           <Reveal>
             <div style={{ textAlign: "center", marginBottom: 16 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Prise en charge</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>La maternité, <em>c'est remboursé.</em></h2>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>La maternité, <em>c'est remboursé.</em></>)}</h2>
               <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Consultations au tarif conventionné, remboursées à 70 % puis 100 % du 6e mois au 12e jour après la naissance. Tiers payant pratiqué.</p>
             </div>
           </Reveal>
@@ -345,7 +346,7 @@ export default function CabinetNaissancesPage() {
       <section className="i367-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>Des débuts <em style={{ color: C.hi }}>bien entourés</em>.</h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Des débuts <em style={{ color: C.hi }}>bien entourés</em>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
@@ -370,9 +371,9 @@ export default function CabinetNaissancesPage() {
       <section id="contact" className="i367-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Rencontrons-nous</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Votre histoire commence,<br /><em>parlons-en tôt.</em>
-          </h2>
+          </>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Idéalement avant la fin du 3e mois pour l'entretien prénatal. Rendez-vous par téléphone — je rappelle entre deux consultations.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>

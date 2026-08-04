@@ -13,7 +13,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -138,9 +140,11 @@ export default function PierreCoPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   BIENS_DEMO_SOURCE = BIENS_DEMO_SOURCE_LIVE();
   TEMOIGNAGES_SOURCE = TEMOIGNAGES_SOURCE_LIVE();
+
 
 
   BIENS_DEMO = resolveList(
@@ -276,9 +280,9 @@ export default function PierreCoPage() {
 
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 820, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(46px, 6vw, 84px)", fontWeight: 400, color: "#fff", lineHeight: 1.05, letterSpacing: -0.5, marginBottom: 24 }}>{c?.heroHeadline ?? <>
+            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(46px, 6vw, 84px)", fontWeight: 400, color: "#fff", lineHeight: 1.05, letterSpacing: -0.5, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             Votre bien,<br /><em style={{ color: C.accent }}>sa vraie valeur.</em>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{fd?.tagline ?? c?.heroSubline ?? <>
@@ -322,9 +326,9 @@ export default function PierreCoPage() {
         <Reveal>
           <div style={{ marginBottom: 60 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Nos exclusivités</span>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 4vw, 56px)", fontWeight: 400, color: C.text, marginTop: 12, lineHeight: 1.1 }}>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 4vw, 56px)", fontWeight: 400, color: C.text, marginTop: 12, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "biens.titre") ?? (<>
               Biens d'exception, <em>sélection rigoureuse</em>.
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(330px, 100%), 1fr))", gap: 24, maxWidth: 1200, margin: "0 auto" }}>
@@ -358,7 +362,7 @@ export default function PierreCoPage() {
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre expertise</span>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(30px, 3.5vw, 50px)", fontWeight: 400, color: C.text, marginTop: 12 }}>Un accompagnement <em>sans faille</em>.</h2>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(30px, 3.5vw, 50px)", fontWeight: 400, color: C.text, marginTop: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Un accompagnement <em>sans faille</em>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28, maxWidth: 1000, margin: "0 auto" }}>
@@ -379,7 +383,7 @@ export default function PierreCoPage() {
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Témoignages</span>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(30px, 3.5vw, 50px)", fontWeight: 400, color: "#fff", marginTop: 12 }}>La confiance, notre <em style={{ color: C.accent }}>meilleure référence</em>.</h2>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(30px, 3.5vw, 50px)", fontWeight: 400, color: "#fff", marginTop: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>La confiance, notre <em style={{ color: C.accent }}>meilleure référence</em>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
@@ -402,7 +406,7 @@ export default function PierreCoPage() {
       <section id="estimation" style={{ padding: "110px 80px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Estimation gratuite</span>
-          <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 58px)", fontWeight: 400, color: C.text, margin: "16px 0 18px" }}>Découvrez la vraie valeur <em>de votre bien</em>.</h2>
+          <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 58px)", fontWeight: 400, color: C.text, margin: "16px 0 18px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "estimation.titre") ?? (<>Découvrez la vraie valeur <em>de votre bien</em>.</>)}</h2>
           <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.7 }}>Évaluation offerte en 48h. Aucun engagement, aucune pression — juste une expertise honnête.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={`tel:${fd?.phone ?? "+33140000000"}`} style={{ background: C.accent, color: C.text, borderRadius: 6, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accentDark, color: C.white, scale: 1.03 }}>

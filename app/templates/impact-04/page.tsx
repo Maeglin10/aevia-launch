@@ -28,6 +28,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -538,7 +539,7 @@ return (
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <div>
                 <span className="text-amber-500 text-[10px] uppercase tracking-[0.4em] font-sans font-semibold mb-4 block">Ambiance</span>
-                <h2 className="text-4xl md:text-6xl font-light">A <span className="italic">Sensory</span> Journey</h2>
+                <h2 className="text-4xl md:text-6xl font-light">{/* TEXTE_SECTION */ clientText(sessionData, "gallery.titre") ?? (<>A <span className="italic">Sensory</span> Journey</>)}</h2>
               </div>
               <a href={`https://instagram.com/${fd?.instagram ?? "letoile.paris"}`} className="text-sm font-sans text-amber-500 flex items-center gap-2 hover:gap-4 transition-all duration-200 cursor-pointer">
                 <Globe className="w-4 h-4" /> @letoile.paris
@@ -582,9 +583,9 @@ return (
 
           <Reveal delay={0.2}>
             <span className="text-amber-500 text-[10px] uppercase tracking-[0.4em] font-sans font-semibold mb-6 block">{tr(sessionData, "Our Story")}</span>
-            <h2 className="text-4xl md:text-5xl font-light leading-[1.1] mb-8">
+            <h2 className="text-4xl md:text-5xl font-light leading-[1.1] mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "story.titre") ?? (<>
               Born from a passion<br />for <span className="italic">Provence</span>
-            </h2>
+            </>)}</h2>
             <p className="text-[#f5efe6]/50 font-sans leading-relaxed mb-6">
               Chef Antoine Beaumont grew up among the lavender fields and olive groves of the Var, where his grandmother taught him that great cooking begins with reverence for the ingredient. After training at Le Cordon Bleu {clientCity(sessionData) ?? "Paris"} and a seven-year apprenticeship under Alain Ducasse at Louis XV in Monaco, he opened L'Étoile in 2018 with a singular vision: cuisine that honours its origins.
             </p>
@@ -622,7 +623,7 @@ return (
           <Reveal>
             <div className="text-center mb-16">
               <span className="text-amber-500 text-[10px] uppercase tracking-[0.4em] font-sans font-semibold mb-4 block">Guest Reviews</span>
-              <h2 className="text-4xl md:text-6xl font-light">What our guests <span className="italic">say</span></h2>
+              <h2 className="text-4xl md:text-6xl font-light">{/* TEXTE_SECTION */ clientText(sessionData, "reviews.titre") ?? (<>What our guests <span className="italic">say</span></>)}</h2>
             </div>
           </Reveal>
 
@@ -675,7 +676,7 @@ return (
           <Reveal>
             <div className="text-center mb-16">
               <span className="text-amber-500 text-[10px] uppercase tracking-[0.4em] font-sans font-semibold mb-4 block">Dining Experiences</span>
-              <h2 className="text-4xl md:text-6xl font-light">Choose your <span className="italic">evening</span></h2>
+              <h2 className="text-4xl md:text-6xl font-light">{/* TEXTE_SECTION */ clientText(sessionData, "pricing.titre") ?? (<>Choose your <span className="italic">evening</span></>)}</h2>
             </div>
           </Reveal>
 
@@ -720,7 +721,7 @@ return (
           <Reveal>
             <div className="text-center mb-16">
               <span className="text-amber-500 text-[10px] uppercase tracking-[0.4em] font-sans font-semibold mb-4 block">Questions</span>
-              <h2 className="text-4xl md:text-5xl font-light">Frequently <span className="italic">Asked</span></h2>
+              <h2 className="text-4xl md:text-5xl font-light">{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>Frequently <span className="italic">Asked</span></>)}</h2>
             </div>
           </Reveal>
 
@@ -745,9 +746,9 @@ return (
           <div className="max-w-4xl mx-auto text-center relative">
             <div className="absolute inset-0 -z-10" style={{ background: "radial-gradient(ellipse at center, rgba(180,80,20,0.12) 0%, transparent 70%)" }} />
             <span className="text-amber-500 text-[10px] uppercase tracking-[0.5em] font-sans font-semibold mb-6 block">Reservations</span>
-            <h2 className="text-5xl md:text-7xl font-light mb-8">
+            <h2 className="text-5xl md:text-7xl font-light mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "reservations.titre") ?? (<>
               Your table <span className="italic">awaits</span>
-            </h2>
+            </>)}</h2>
             <p className="text-[#f5efe6]/40 font-sans max-w-lg mx-auto mb-12 leading-relaxed text-sm">
               We recommend reserving at least three weeks in advance. For private events or large parties, our team is at your service.
             </p>

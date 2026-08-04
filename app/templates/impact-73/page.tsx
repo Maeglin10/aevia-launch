@@ -11,7 +11,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -153,8 +155,10 @@ export default function ConservatoireAccordPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   PROFESSEURS = PROFESSEURS_LIVE();
+
 
   TEMOIGNAGES_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text })),
@@ -273,9 +277,9 @@ export default function ConservatoireAccordPage() {
 
         <motion.div className="mb73-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.2vw, 68px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
+            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.2vw, 68px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "mb73-hero.titre") ?? (<>{c?.heroHeadline ?? <>
             La musique s'apprend<br /><em style={{ color: C.amber }}>avec passion et méthode.</em>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{fd?.tagline ?? c?.heroSubline ?? <>
@@ -319,9 +323,9 @@ export default function ConservatoireAccordPage() {
         <Reveal>
           <div style={{ marginBottom: 60 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.amber }}>Nos cours</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 300, color: C.text, marginTop: 10, lineHeight: 1.15 }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 300, color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "cours.titre") ?? (<>
               Un instrument pour<br /><em>chaque vocation.</em>
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
@@ -342,9 +346,9 @@ export default function ConservatoireAccordPage() {
         <Reveal>
           <div style={{ marginBottom: 60 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.amber }}>Professeurs</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 700, color: C.text, marginTop: 10, lineHeight: 1.1 }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 700, color: C.text, marginTop: 10, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "professeurs.titre") ?? (<>
               Ceux qui vous<br />mettront les mains dessus.
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
@@ -365,9 +369,9 @@ export default function ConservatoireAccordPage() {
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal delay={0.1}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.amber }}>Notre pédagogie</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", fontWeight: 300, color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", fontWeight: 300, color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               L'excellence musicale,<br /><em>accessible à tous.</em>
-            </h2>
+            </>)}</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {POINTS_FORTS.map((p, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
@@ -391,9 +395,9 @@ export default function ConservatoireAccordPage() {
         <Reveal>
           <div style={{ marginBottom: 60 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.amber }}>Tarifs</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 700, color: C.text, marginTop: 10, lineHeight: 1.1 }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 700, color: C.text, marginTop: 10, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
               Un prix par mois,<br />pas de frais qui tombent après.
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ maxWidth: 900, margin: "0 auto", background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadow, overflow: "hidden" }}>
@@ -422,7 +426,7 @@ export default function ConservatoireAccordPage() {
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.amber }}>Témoignages</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 300, color: "#fff", marginTop: 10 }}>Des élèves <em style={{ color: C.amber }}>qui progressent.</em></h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 300, color: "#fff", marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Des élèves <em style={{ color: C.amber }}>qui progressent.</em></>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>

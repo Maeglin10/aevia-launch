@@ -23,7 +23,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -217,9 +219,11 @@ export default function BlockBasePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   BLOCK_MANIFESTS = BLOCK_MANIFESTS_LIVE();
+
 
 
 
@@ -518,10 +522,10 @@ export default function BlockBasePage() {
               <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#00f2ff)] mb-6 block">
                 Network_Status
               </span>
-              <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">
+              <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
                 Real-Time <br />{" "}
                 <span className="text-white/20">Validation.</span>
-              </h2>
+              </>)}</h2>
               <div className="space-y-12">
                 {PRESTATIONS_INLINE.map((item, i) => (
                   <div key={i} className="flex gap-8 group">
@@ -594,9 +598,9 @@ export default function BlockBasePage() {
       <section className="py-40 bg-[#0a0a0f] border-y border-white/5 overflow-hidden">
         <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center relative">
           <Reveal>
-            <h2 className="text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.85] mb-12 text-white/10">
+            <h2 className="text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.85] mb-12 text-white/10">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Battle <br /> Tested.
-            </h2>
+            </>)}</h2>
             <div className="max-w-2xl mx-auto">
               <p className="text-lg text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest">
                 Our infrastructure is audited by leading security firms and
@@ -628,10 +632,10 @@ export default function BlockBasePage() {
       <section id="contact" className="py-40 bg-[#050507]">
         <div className="max-w-[1500px] mx-auto px-6 md:px-12 text-center">
           <Reveal>
-            <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-12">
+            <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Ready to <br />{" "}
               <span className="text-[var(--brand,#00f2ff)]">Initialize?</span>
-            </h2>
+            </>)}</h2>
             <p className="max-w-xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">
               Join 42,000+ developers building the future of decentralized computation.
             </p>

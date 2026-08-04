@@ -29,6 +29,7 @@ import {
   clientServices,
   clientStats,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1391,11 +1392,11 @@ const SignatureCrossfade: React.FC = () => {
               lineHeight: 1.05,
               letterSpacing: '-0.015em',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "signature.titre") ?? (<>
             Quelques adresses qui
             <br />
             ont marqué notre histoire
-          </h2>
+          </>)}</h2>
         </div>
 
         {/* Caption (animated per slide) */}

@@ -14,7 +14,9 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -366,8 +368,10 @@ export default function EssentialBlogPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
 
   AUTHORS = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...AUTHORS_SOURCE[i % AUTHORS_SOURCE.length], name: m.name, role: m.role })),
@@ -701,9 +705,9 @@ export default function EssentialBlogPage() {
           {/* Section header with category filter */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 40, borderBottom: `3px solid ${C.bgDark}`, paddingBottom: 12 }}>
             <Reveal>
-              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(22px, 2.5vw, 32px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
+              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(22px, 2.5vw, 32px)", fontWeight: 700, letterSpacing: "-0.02em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                 Derniers articles
-              </h2>
+              </>)}</h2>
             </Reveal>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {["Tous", ...CATEGORIES.slice(0, 4).map(c => c.name)].map(cat => (
@@ -935,9 +939,9 @@ export default function EssentialBlogPage() {
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
           <Reveal>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 48, borderBottom: `3px solid ${C.bgDark}`, paddingBottom: 12 }}>
-              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(22px, 2.5vw, 36px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
+              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(22px, 2.5vw, 36px)", fontWeight: 700, letterSpacing: "-0.02em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                 Nos auteurs
-              </h2>
+              </>)}</h2>
               <motion.a whileHover={{ color: C.accent }} href="#contact" style={{ fontSize: 12, fontFamily: C.sans, fontWeight: 600, color: C.textMuted, textDecoration: "none", letterSpacing: "0.06em", display: "flex", alignItems: "center", gap: 6 }}>
                 VOIR TOUS <ArrowRight size={13} />
               </motion.a>
@@ -1021,9 +1025,9 @@ export default function EssentialBlogPage() {
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
           <Reveal>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 48, borderBottom: `3px solid ${C.bgDark}`, paddingBottom: 12 }}>
-              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(22px, 2.5vw, 36px)", fontWeight: 700, letterSpacing: "-0.02em" }}>
+              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(22px, 2.5vw, 36px)", fontWeight: 700, letterSpacing: "-0.02em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                 Ce qu'en disent nos lecteurs
-              </h2>
+              </>)}</h2>
               <div style={{ display: "flex", gap: 8 }}>
                 {TESTIMONIALS.map((_, i) => (
                   <motion.button
@@ -1068,9 +1072,9 @@ export default function EssentialBlogPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <Reveal>
             <div style={{ textAlign: "center", marginBottom: 16 }}>
-              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 12 }}>
+              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
                 Accès illimité.
-              </h2>
+              </>)}</h2>
               <p style={{ fontSize: 17, color: C.textMuted, fontFamily: C.sans, marginBottom: 32 }}>
                 Le prix d'un café par semaine pour les pros qui veulent tout.
               </p>
@@ -1155,9 +1159,9 @@ export default function EssentialBlogPage() {
       <section style={{ padding: "80px 48px", background: C.bgAlt }}>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           <Reveal>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 48, borderBottom: `3px solid ${C.bgDark}`, paddingBottom: 12 }}>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 48, borderBottom: `3px solid ${C.bgDark}`, paddingBottom: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
               Questions fréquentes
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: "flex", flexDirection: "column" }}>
             {FAQS.map((faq, i) => (

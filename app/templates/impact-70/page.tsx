@@ -14,7 +14,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -81,7 +83,9 @@ export default function VelvetHomePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   AVIS_INLINE = resolveList(
 
@@ -184,10 +188,10 @@ return (
         <section className="py-40 bg-[#050005]">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
-              <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter mb-24 text-white italic">
+              <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter mb-24 text-white italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                 Prochains<br />
                 <span className="font-bold not-italic opacity-10">Événements.</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {EVENTS.map((ev) => (
@@ -271,9 +275,9 @@ return (
         <section className="py-40 bg-[#050005]">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
-              <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter mb-6 text-white italic">
+              <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter mb-6 text-white italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                 Adhésion.
-              </h2>
+              </>)}</h2>
               <p className="text-white/30 text-lg font-light italic mb-24 max-w-xl">
                 Trois niveaux. Une seule exigence : l'excellence.
               </p>
@@ -350,9 +354,9 @@ return (
         <section className="py-40 bg-[#050005]">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
-              <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter mb-24 text-white italic">
+              <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter mb-24 text-white italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                 Artistes.
-              </h2>
+              </>)}</h2>
             </Reveal>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
@@ -418,10 +422,10 @@ return (
         <section className="py-40 bg-[#050005]">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
-              <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter mb-24 text-white italic">
+              <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter mb-24 text-white italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
                 Ils parlent<br />
                 <span className="font-bold not-italic opacity-10">de Velvet.</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {AVIS_INLINE.map((t, i) => (
@@ -458,9 +462,9 @@ return (
               <div className="w-20 h-20 mx-auto mb-20 rounded-full bg-black flex items-center justify-center shadow-2xl">
                 <Sparkles className="w-8 h-8 text-white" />
               </div>
-              <h2 className="text-8xl md:text-[14vw] font-light uppercase tracking-tighter leading-[0.8] mb-16 italic pb-6">
+              <h2 className="text-8xl md:text-[14vw] font-light uppercase tracking-tighter leading-[0.8] mb-16 italic pb-6">{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
                 Enter The <br /> <span className="font-bold not-italic opacity-10 italic">Eternal.</span>
-              </h2>
+              </>)}</h2>
               <p className="text-2xl text-black/40 font-light mb-20 leading-relaxed italic max-w-2xl mx-auto">
                 Membership is by invitation only. Apply for consideration and gain access to the world's most guarded nocturnal experiences.
               </p>

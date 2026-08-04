@@ -34,6 +34,7 @@ import {
   clientStats,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -451,9 +452,9 @@ function Services() {
         <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           Nos services
         </div>
-        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1, marginBottom: 14 }}>
+        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1, marginBottom: 14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
           Des soins adaptés à chaque animal
-        </h2>
+        </>)}</h2>
         <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 500, margin: "0 auto" }}>
           Technologies de pointe, équipe bienveillante — pour que votre compagnon soit entre les meilleures mains.
         </p>
@@ -565,9 +566,9 @@ function Team() {
         <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           Notre équipe
         </div>
-        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1 }}>
+        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "team.titre") ?? (<>
           Des vétérinaires passionnés
-        </h2>
+        </>)}</h2>
       </motion.div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28, maxWidth: 960, margin: "0 auto" }}>
@@ -615,9 +616,9 @@ function Testimonials() {
         <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           Témoignages
         </div>
-        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1 }}>
+        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
           Des propriétaires heureux
-        </h2>
+        </>)}</h2>
       </motion.div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 24, maxWidth: 1000, margin: "0 auto" }}>
@@ -686,9 +687,9 @@ function Pricing() {
         <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           Tarifs
         </div>
-        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1, marginBottom: 14 }}>
+        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1, marginBottom: 14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "pricing.titre") ?? (<>
           Plans de soins transparents
-        </h2>
+        </>)}</h2>
         <p style={{ color: C.textMuted, fontSize: 16 }}>Remboursement assurance animaux partenaires — Sans engagement</p>
       </motion.div>
 
@@ -765,9 +766,9 @@ function FAQ() {
         <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           FAQ
         </div>
-        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1 }}>
+        <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
           Questions fréquentes
-        </h2>
+        </>)}</h2>
       </motion.div>
 
       <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>

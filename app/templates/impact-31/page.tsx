@@ -34,7 +34,9 @@ import {
   clientStats,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -607,9 +609,9 @@ function Classes() {
         <div style={{ display: "inline-block", background: C.sageLight, color: C.sage, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           Planning
         </div>
-        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5, marginBottom: 14 }}>
+        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5, marginBottom: 14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
           Nos cours de la semaine
-        </h2>
+        </>)}</h2>
         <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 500, margin: "0 auto" }}>
           Des cours pour tous les niveaux, du lundi au dimanche. Réservez votre place en ligne.
         </p>
@@ -740,9 +742,9 @@ function Teachers() {
         <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           Nos professeurs
         </div>
-        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>
+        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
           Des guides inspirants
-        </h2>
+        </>)}</h2>
       </motion.div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28, maxWidth: 960, margin: "0 auto" }}>
@@ -790,9 +792,9 @@ function Testimonials() {
         <div style={{ display: "inline-block", background: C.sageLight, color: C.sage, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           Témoignages
         </div>
-        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>
+        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
           Ils ont trouvé leur équilibre
-        </h2>
+        </>)}</h2>
       </motion.div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 24, maxWidth: 1000, margin: "0 auto" }}>
@@ -868,9 +870,9 @@ function Pricing() {
         <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           Abonnements
         </div>
-        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5, marginBottom: 14 }}>
+        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5, marginBottom: 14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
           Investissez dans votre bien-être
-        </h2>
+        </>)}</h2>
         <p style={{ color: C.textMuted, fontSize: 16 }}>Premier cours d'essai toujours gratuit — Sans engagement</p>
       </motion.div>
 
@@ -959,9 +961,9 @@ function FAQ() {
         <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 0.8 }}>
           FAQ
         </div>
-        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>
+        <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 700, color: C.text, letterSpacing: -0.5 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
           Questions fréquentes
-        </h2>
+        </>)}</h2>
       </motion.div>
 
       <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>
@@ -1034,8 +1036,10 @@ export default function Impact31() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
   TEACHERS = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...TEACHERS_SOURCE[i % TEACHERS_SOURCE.length], name: m.name, role: m.role })),

@@ -16,7 +16,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -80,7 +82,9 @@ export default function AtelierBeautePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   PRESTATIONS_INLINE = resolveList(
 
@@ -269,9 +273,9 @@ return (
                 <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#c9b7a1)] mb-6 block">
                   Le Protocole Visage
                 </span>
-                <h2 className="text-5xl md:text-7xl font-light tracking-tighter leading-[1.15] pb-4 mb-12 uppercase">
+                <h2 className="text-5xl md:text-7xl font-light tracking-tighter leading-[1.15] pb-4 mb-12 uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                   Cellular <br /> <span className="italic">Infusion.</span>
-                </h2>
+                </>)}</h2>
                 <p className="text-lg text-[#1a1814]/40 leading-relaxed font-light mb-16 italic max-w-lg">
                   Une approche scientifique du soin. Nous combinons la sagesse
                   botanique aux technologies de micro-courants pour une
@@ -338,9 +342,9 @@ return (
             <span className="text-[10px] uppercase tracking-[0.5em] font-black text-[#1a1814]/30 mb-6 block">
               Notre Philosophie
             </span>
-            <h2 className="text-5xl md:text-8xl font-light tracking-tighter uppercase italic mb-8">
+            <h2 className="text-5xl md:text-8xl font-light tracking-tighter uppercase italic mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Less but <span className="text-[var(--brand,#c9b7a1)]">Better.</span>
-            </h2>
+            </>)}</h2>
             <p className="text-[#1a1814]/40 italic font-medium leading-relaxed">
               Nous croyons en une beauté qui ne s'impose pas. Une esthétique
               naturelle, raffinée et durable.
@@ -471,9 +475,9 @@ return (
       <section className="py-32 bg-[#faf9f6]">
         <div className="max-w-3xl mx-auto px-6">
           <Reveal className="text-center mb-24">
-            <h2 className="text-4xl md:text-5xl font-light tracking-tighter leading-[1.15] pb-4 uppercase italic">
+            <h2 className="text-4xl md:text-5xl font-light tracking-tighter leading-[1.15] pb-4 uppercase italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Intel_Buffer
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <Accordion type="single" collapsible className="space-y-4">

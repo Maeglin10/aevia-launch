@@ -33,6 +33,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1239,12 +1240,12 @@ function ConsultationCards() {
               margin: '18px 0 0',
               lineHeight: 1.08,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "consultations.titre") ?? (<>
             Tout ce dont{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               vous avez besoin
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1509,13 +1510,13 @@ function PreventionPanel() {
                 margin: '18px 0 48px',
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "prevention.titre") ?? (<>
               Anticiper
               <br />
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 plutôt que guérir.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1699,12 +1700,12 @@ function Testimonials() {
               margin: '18px 0 0',
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             La parole de{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               nos patients
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid} className="eb-testgrid">
@@ -1823,9 +1824,9 @@ function AppointmentForm() {
               margin: '20px 0 16px',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "rdv.titre") ?? (<>
             Consulter le Dr.&nbsp;Beaumont
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

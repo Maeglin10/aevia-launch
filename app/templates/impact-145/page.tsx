@@ -13,7 +13,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -97,7 +99,9 @@ export default function ArcaneRealtyPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   PROPERTIES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length], name: s.title, price: s.price ?? PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length].price })),
     PROPERTIES_DEMO_SOURCE,
@@ -237,7 +241,7 @@ export default function ArcaneRealtyPage() {
               <div className="flex flex-col lg:flex-row items-end justify-between mb-32 gap-8 border-b border-white/5 pb-12">
                 <div className="max-w-2xl">
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">Active Listings</span>
-                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">Curated <span className="italic font-bold">Space.</span></h2>
+                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Curated <span className="italic font-bold">Space.</span></>)}</h2>
                 </div>
                 <Link href="#hero" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-white text-white/40 transition-colors group italic">
                   Private Inventory <MoveRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
@@ -278,7 +282,7 @@ export default function ArcaneRealtyPage() {
                <div>
                   <Reveal>
                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 block mb-8">The Experience</span>
-                    <h2 className="text-5xl md:text-8xl font-light uppercase tracking-tighter text-white italic mb-12">White <br/> <span className="not-italic font-bold">Glove.</span></h2>
+                    <h2 className="text-5xl md:text-8xl font-light uppercase tracking-tighter text-white italic mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>White <br/> <span className="not-italic font-bold">Glove.</span></>)}</h2>
                     <div className="space-y-12">
                        {[
                          { icon: Shield, t: "Strict Confidentiality", d: "Non-disclosure agreements at the first point of contact. Your privacy is our highest priority." },
@@ -315,7 +319,7 @@ export default function ArcaneRealtyPage() {
               <div className="flex items-end justify-between mb-20 border-b border-white/5 pb-12">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">Client Voices</span>
-                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">In Their <span className="italic font-bold">Words.</span></h2>
+                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>In Their <span className="italic font-bold">Words.</span></>)}</h2>
                 </div>
               </div>
             </Reveal>
@@ -343,7 +347,7 @@ export default function ArcaneRealtyPage() {
               <div className="flex items-end justify-between mb-24 border-b border-white/5 pb-12">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">Private Advisory</span>
-                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">The <span className="italic font-bold">Council.</span></h2>
+                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>The <span className="italic font-bold">Council.</span></>)}</h2>
                 </div>
               </div>
             </Reveal>

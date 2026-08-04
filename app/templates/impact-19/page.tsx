@@ -15,7 +15,9 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -128,9 +130,11 @@ export default function SummitCapitalPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   team = team_LIVE();
+
 
 
   theses = resolveList(
@@ -311,7 +315,7 @@ return (
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
                     <div>
                       <p className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-3">Thèses d'investissement</p>
-                      <h2 className="text-white text-4xl md:text-5xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Ce que nous finançons</h2>
+                      <h2 className="text-white text-4xl md:text-5xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "theses.titre") ?? (<>Ce que nous finançons</>)}</h2>
                     </div>
                     <button onClick={() => goTo("theses")} className="mt-4 md:mt-0 text-[var(--brand,#C9A86C)] font-semibold flex items-center gap-2 hover:underline cursor-pointer">
                       Nos critères <ArrowRight className="w-4 h-4" />

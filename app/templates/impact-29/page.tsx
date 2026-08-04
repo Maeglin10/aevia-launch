@@ -13,7 +13,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -55,7 +57,9 @@ export default function Home() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const containerRef = useRef(null)
@@ -153,7 +157,7 @@ return (
             <div className="flex items-end justify-between">
               <div>
                 <div className="text-[var(--brand,#00F5D4)] text-xs mb-2"><span className="text-[#475569]">// </span>selected_projects</div>
-                <h2 className="font-bold text-3xl md:text-4xl">Featured Open Source</h2>
+                <h2 className="font-bold text-3xl md:text-4xl">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Featured Open Source</>)}</h2>
               </div>
               <Link href="/templates/impact-29/work" className="text-xs font-bold text-[var(--brand,#00F5D4)] hover:underline flex items-center gap-1">
                 View all projects <ArrowRight className="w-3.5 h-3.5" />
@@ -224,7 +228,7 @@ return (
             <div className="flex items-end justify-between">
               <div>
                 <div className="text-[var(--brand,#00F5D4)] text-xs mb-2"><span className="text-[#475569]">// </span>tech_stack</div>
-                <h2 className="font-bold text-3xl md:text-4xl">Skills & Systems</h2>
+                <h2 className="font-bold text-3xl md:text-4xl">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Skills & Systems</>)}</h2>
               </div>
               <Link href="/templates/impact-29/skills" className="text-xs font-bold text-[var(--brand,#00F5D4)] hover:underline flex items-center gap-1">
                 Launch Shell Simulator <ArrowRight className="w-3.5 h-3.5" />
@@ -256,7 +260,7 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal className="mb-12">
             <div className="text-[var(--brand,#00F5D4)] text-xs mb-2"><span className="text-[#475569]">// </span>the_setup</div>
-            <h2 className="font-bold text-3xl">Work Environment</h2>
+            <h2 className="font-bold text-3xl">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Work Environment</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <ScrollImage src={photo(0, "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop&crop=center")} alt="Code" width={600} height={400} className="w-full aspect-video" dir={-1} yRange={40} />
@@ -273,7 +277,7 @@ return (
             <div className="flex items-end justify-between">
               <div>
                 <div className="text-[var(--brand,#00F5D4)] text-xs mb-2"><span className="text-[#475569]">// </span>career_timeline</div>
-                <h2 className="font-bold text-3xl md:text-4xl">Experience</h2>
+                <h2 className="font-bold text-3xl md:text-4xl">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Experience</>)}</h2>
               </div>
               <Link href="/templates/impact-29/timeline" className="text-xs font-bold text-[var(--brand,#00F5D4)] hover:underline flex items-center gap-1">
                 View Full Architecture Impact <ArrowRight className="w-3.5 h-3.5" />
@@ -367,7 +371,7 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal className="mb-12">
             <div className="text-[var(--brand,#00F5D4)] text-xs mb-2"><span className="text-[#475569]">// </span>how_it_works</div>
-            <h2 className="font-bold text-3xl md:text-4xl">Engagement Process</h2>
+            <h2 className="font-bold text-3xl md:text-4xl">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Engagement Process</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
             {process.map((step, i) => (
@@ -392,7 +396,7 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal className="mb-12">
             <div className="text-[var(--brand,#00F5D4)] text-xs mb-2"><span className="text-[#475569]">// </span>social_proof</div>
-            <h2 className="font-bold text-3xl md:text-4xl">What engineers say</h2>
+            <h2 className="font-bold text-3xl md:text-4xl">{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>What engineers say</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {testimonials.map((t, i) => (
@@ -442,7 +446,7 @@ return (
             <div className="flex items-end justify-between flex-wrap gap-4">
               <div>
                 <div className="text-[var(--brand,#00F5D4)] text-xs mb-2"><span className="text-[#475569]">// </span>all_projects</div>
-                <h2 className="font-bold text-3xl md:text-4xl">Recent Builds</h2>
+                <h2 className="font-bold text-3xl md:text-4xl">{/* TEXTE_SECTION */ clientText(sessionData, "section-11.titre") ?? (<>Recent Builds</>)}</h2>
               </div>
               <Link href="/templates/impact-29/work" className="text-xs font-bold text-[var(--brand,#00F5D4)] hover:underline flex items-center gap-1 cursor-pointer">
                 Full project catalogue <ArrowRight className="w-3.5 h-3.5" />
@@ -543,7 +547,7 @@ return (
         <div className="max-w-3xl mx-auto text-center">
           <Reveal>
             <div className="text-[var(--brand,#00F5D4)] text-xs mb-4"><span className="text-[#475569]">// </span>get_in_touch</div>
-            <h2 className="font-bold text-4xl md:text-5xl mb-6">Let's build something great.</h2>
+            <h2 className="font-bold text-4xl md:text-5xl mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Let's build something great.</>)}</h2>
             <p className="text-[#94A3B8] text-lg mb-10 leading-relaxed">
               Available for staff/principal engineering contracts, technical advisory, and open source. Based in {clientCity({ formData: fd }) ?? "Paris"}, remote-first.
             </p>

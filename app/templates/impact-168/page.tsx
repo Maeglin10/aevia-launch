@@ -14,6 +14,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1229,11 +1230,11 @@ export default function ImpactEclatPage() {
                 fontStyle: "italic",
                 marginBottom: 40,
               }}
-            >{c?.heroHeadline ?? <>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
               La chaleur<br />
               comme<br />
               <span style={{ color: C.gold }}>philosophie.</span>
-            </>}</h1>
+            </>}</>)}</h1>
 
             <p
               style={{
@@ -1377,9 +1378,9 @@ export default function ImpactEclatPage() {
                 letterSpacing: -1,
                 color: C.cream,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
               Collections
-            </h2>
+            </>)}</h2>
           </div>
           <a
             href="#realisations"
@@ -1533,9 +1534,9 @@ export default function ImpactEclatPage() {
                 letterSpacing: -1,
                 color: C.cream,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Sélection du moment
-            </h2>
+            </>)}</h2>
           </div>
 
           {/* Filters */}
@@ -1643,10 +1644,10 @@ export default function ImpactEclatPage() {
                 color: C.cream,
                 marginBottom: 28,
               }}
-            >{c?.aboutTitle ?? fd?.businessName ?? <>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>
               L'art de<br />s'habiller<br />
               <span style={{ color: C.gold }}>avec intention.</span>
-            </>}</h2>
+            </>}</>)}</h2>
             <p
               style={{
                 fontSize: 16,
@@ -1741,9 +1742,9 @@ export default function ImpactEclatPage() {
               color: C.cream,
               marginBottom: 16,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             Éclat Fidélité
-          </h2>
+          </>)}</h2>
           <p style={{ fontSize: 16, color: C.creamDim, maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
             Plus vous achetez, plus vous accédez à des avantages exclusifs. Trois niveaux,
             des privilèges croissants.
@@ -1850,9 +1851,9 @@ export default function ImpactEclatPage() {
                 letterSpacing: -1,
                 color: C.cream,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Ce qu'elles en pensent.
-            </h2>
+            </>)}</h2>
           </div>
           <div style={{ display: "flex", gap: 12 }}>
             <button
@@ -1959,9 +1960,9 @@ export default function ImpactEclatPage() {
               color: C.cream,
               marginBottom: 12,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
             Questions & réponses
-          </h2>
+          </>)}</h2>
           <p style={{ fontSize: 15, color: C.muted, fontFamily: C.sans }}>
             Tout ce que vous devez savoir avant votre première commande.
           </p>
@@ -2082,9 +2083,9 @@ export default function ImpactEclatPage() {
             marginBottom: 16,
             letterSpacing: -1.5,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
           –15% sur votre<br />première commande.
-        </h2>
+        </>)}</h2>
         <p
           style={{
             fontSize: 16,
@@ -3139,9 +3140,9 @@ function AboutPage({ goTo }: { goTo: (p: EclatPage) => void }) {
             <div style={{ fontSize: 10, letterSpacing: 4, color: C.gold, textTransform: "uppercase", marginBottom: 16, fontFamily: C.sans }}>
               L'atelier
             </div>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(32px, 4vw, 52px)", fontStyle: "italic", fontWeight: 400, letterSpacing: -1, lineHeight: 1.1, color: C.cream, marginBottom: 24 }}>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(32px, 4vw, 52px)", fontStyle: "italic", fontWeight: 400, letterSpacing: -1, lineHeight: 1.1, color: C.cream, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-17.titre") ?? (<>
               Un savoir-faire<br /><span style={{ color: C.gold }}>qui se transmet.</span>
-            </h2>
+            </>)}</h2>
             <p style={{ fontSize: 16, color: C.creamDim, lineHeight: 1.8, fontWeight: 300, fontFamily: C.sans, marginBottom: 32, maxWidth: 460 }}>
               Notre atelier marseillais réunit des couturières aux décennies d'expérience. Chaque vêtement passe entre les mains
               d'une seule personne, du patron à la dernière finition.
@@ -3309,7 +3310,7 @@ function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
         <PageHero eyebrow="Informations légales" title="Mentions légales" />
         <section style={{ padding: "clamp(40px, 6vw, 64px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
           <div style={{ maxWidth: 760, margin: "0 auto" }}>
-            <h2 style={sectionTitle}>Éditeur du site</h2>
+            <h2 style={sectionTitle}>{/* TEXTE_SECTION */ clientText(sessionData, "section-19.titre") ?? (<>Éditeur du site</>)}</h2>
             <p style={para}>
               <strong style={{ color: C.cream }}>Aevia WS</strong> — entrepreneur individuel (auto-entrepreneur).
             </p>
@@ -3351,7 +3352,7 @@ function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           <p style={{ ...para, fontStyle: "italic", color: C.muted }}>Dernière mise à jour : juin 2025.</p>
 
-          <h2 style={sectionTitle}>Article 1 — Objet</h2>
+          <h2 style={sectionTitle}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Article 1 — Objet</>)}</h2>
           <p style={para}>
             Les présentes conditions générales de vente régissent les relations contractuelles entre Éclat et tout client
             effectuant un achat sur le site. Toute commande implique l'acceptation sans réserve des présentes CGV.

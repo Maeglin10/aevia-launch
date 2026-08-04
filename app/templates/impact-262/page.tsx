@@ -20,6 +20,7 @@ import {
   clientStats,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1246,10 +1247,10 @@ function ArtistCards() {
               margin: '18px 0 0',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "artistes.titre") ?? (<>
             Quatre univers,{' '}
             <span style={{ fontStyle: 'italic' }}>une exigence.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1479,12 +1480,12 @@ function SafetyPanel() {
                 margin: '0 0 clamp(40px,5vw,70px)',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hygiene.titre") ?? (<>
               Votre sécurité,{' '}
               <span style={{ fontStyle: 'italic', color: C.accent }}>
                 notre standard.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1599,10 +1600,10 @@ function Testimonials() {
               color: C.ink,
               margin: '18px 0 0',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Ce qu&apos;ils{' '}
             <span style={{ fontStyle: 'italic' }}>portent.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1792,9 +1793,9 @@ function BookingForm() {
               margin: '20px 0 16px',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "reservation.titre") ?? (<>
             Démarrer votre projet.
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p

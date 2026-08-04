@@ -19,6 +19,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1127,10 +1128,10 @@ function ServiceCards() {
               margin: '18px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Six façons de transformer{' '}
             <span style={{ color: C.accent, fontStyle: 'normal' }}>votre extérieur</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1347,10 +1348,10 @@ function PhilosophyPanel() {
                 margin: '18px 0 52px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "philosophie.titre") ?? (<>
               Quatre principes{' '}
               <span style={{ color: C.accentLight, fontStyle: 'normal' }}>fondateurs</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1518,10 +1519,10 @@ function Testimonials() {
               color: C.ink,
               margin: '18px 0 0',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Ce qu'ils{' '}
             <span style={{ color: C.accent, fontStyle: 'normal' }}>nous confient</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1636,10 +1637,10 @@ function QuoteForm() {
               margin: '20px 0 16px',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "devis.titre") ?? (<>
             Parlons de votre{' '}
             <span style={{ color: C.accentLight, fontStyle: 'normal' }}>jardin</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p

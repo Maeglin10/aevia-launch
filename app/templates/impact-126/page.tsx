@@ -5,6 +5,7 @@ import {
   clientHours,
   clientName,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -23,6 +24,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -477,8 +479,10 @@ export default function ImpactRestaurantPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
   WINES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...WINES_SOURCE[i % WINES_SOURCE.length], name: s.title, price: s.price ?? WINES_SOURCE[i % WINES_SOURCE.length].price })),
     WINES_SOURCE,
@@ -1057,9 +1061,9 @@ return (
                   letterSpacing: "-0.02em",
                   marginBottom: 8,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
                 L'Arte
-              </h2>
+              </>)}</h2>
             </TextReveal>
             <TextReveal delay={0.2}>
               <h2
@@ -1175,9 +1179,9 @@ return (
                   color: C.dark,
                   letterSpacing: "-0.02em",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "menu.titre") ?? (<>
                 Il Menu
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
 
@@ -1291,9 +1295,9 @@ return (
                     letterSpacing: "-0.02em",
                     marginBottom: 8,
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "cantina.titre") ?? (<>
                   La Cantina
-                </h2>
+                </>)}</h2>
               </TextReveal>
               <TextReveal delay={0.2}>
                 <h2
@@ -1517,9 +1521,9 @@ return (
                   letterSpacing: "-0.02em",
                   marginBottom: 6,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "chef.titre") ?? (<>
                 Marco Aurelio
-              </h2>
+              </>)}</h2>
             </TextReveal>
             <TextReveal delay={0.2}>
               <h3
@@ -1666,9 +1670,9 @@ return (
                 letterSpacing: "-0.02em",
                 marginBottom: 12,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Prenota la tua
-            </h2>
+            </>)}</h2>
           </TextReveal>
           <TextReveal delay={0.2}>
             <h2

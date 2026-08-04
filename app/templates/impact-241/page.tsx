@@ -23,6 +23,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1180,12 +1181,12 @@ function ServiceCards() {
               margin: '18px 0 0',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Une expertise,{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               à chaque étape.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1450,12 +1451,12 @@ function ExpertisePanel() {
                 margin: '18px 0 52px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "expertise.titre") ?? (<>
               L&apos;excellence,{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 à chaque étape.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {EXPERTISE_ITEMS.map((item, i) => (
@@ -1630,12 +1631,12 @@ function Testimonials() {
               margin: '18px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             La parole de{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               nos clients.
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1739,12 +1740,12 @@ function ContactForm() {
               margin: '20px 0 16px',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Estimation{' '}
             <span style={{ fontStyle: 'italic', color: C.accentLight }}>
               gratuite
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p

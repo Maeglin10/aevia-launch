@@ -19,6 +19,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1187,9 +1188,9 @@ function OfferCards() {
               letterSpacing: '-0.01em',
               margin: 'clamp(16px,2.5vh,24px) 0 0',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
             NOS PROGRAMMES
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1442,11 +1443,11 @@ function MethodPanel() {
                 color: C.white,
                 margin: 'clamp(16px,2.5vh,24px) 0 clamp(40px,6vh,64px)',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
               COMMENT
               <br />
               ÇA MARCHE
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1660,11 +1661,11 @@ function Transformations() {
               color: C.white,
               margin: 'clamp(16px,2.5vh,24px) 0 0',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "resultats.titre") ?? (<>
             VRAIES PERSONNES.
             <br />
             <span style={{ color: C.accent }}>VRAIS RÉSULTATS.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1748,11 +1749,11 @@ function BookingForm() {
               color: C.white,
               margin: 'clamp(16px,2.5vh,24px) 0 clamp(14px,2vh,22px)',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             RÉSERVER
             <br />
             UN BILAN
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

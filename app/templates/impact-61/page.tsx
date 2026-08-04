@@ -12,7 +12,9 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -65,7 +67,9 @@ export default function SegmentOS() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   PRESTATIONS_INLINE = resolveList(
 
@@ -273,9 +277,9 @@ return (
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ marginBottom: "5rem" }}>
             <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", color: C.textDim, marginBottom: "0.75rem" }}>APPROCHES</div>
-            <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, color: C.text, letterSpacing: "-0.03em", lineHeight: 1 }}>
+            <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, color: C.text, letterSpacing: "-0.03em", lineHeight: 1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Typologies
-            </h2>
+            </>)}</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "2px", background: C.border }}>
             {PRESTATIONS_INLINE.map((s, i) => (

@@ -12,6 +12,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -245,9 +246,9 @@ export default function AtelierInteriorPage() {
             <Reveal>
               <div className="mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)] block mb-4">Portfolio</span>
-                <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "projects.titre") ?? (<>
                   Selected <em className="text-[var(--brand,#8b7355)]">Spaces.</em>
-                </h2>
+                </>)}</h2>
               </div>
             </Reveal>
             {PROJECTS.map((p, i) => (
@@ -276,9 +277,9 @@ export default function AtelierInteriorPage() {
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c4a882] block mb-4">What We Offer</span>
-                <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                   Design <em className="text-[#c4a882]">Services.</em>
-                </h2>
+                </>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -307,9 +308,9 @@ export default function AtelierInteriorPage() {
             <Reveal>
               <div className="text-center mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)] block mb-4">Client Words</span>
-                <h2 className="text-5xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+                <h2 className="text-5xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                   Kind <em className="text-[var(--brand,#8b7355)]">Words.</em>
-                </h2>
+                </>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -339,9 +340,9 @@ export default function AtelierInteriorPage() {
           </div>
           <div className="relative z-10 text-center text-[#f5f0eb] px-6">
             <Reveal>
-              <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>
+              <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Let's Create Your<br/><em className="text-[#c4a882]">Perfect Space.</em>
-              </h2>
+              </>)}</h2>
               <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-12 py-5 bg-[#f5f0eb] text-[#2a2520] font-bold rounded-full hover:bg-[var(--brand,#8b7355)] hover:text-white transition-all duration-500">
                 Book a Consultation
               </button>
@@ -379,7 +380,7 @@ export default function AtelierInteriorPage() {
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)] block mb-4">Connect</span>
-              <h2 className="text-5xl md:text-6xl font-light tracking-tighter mb-12" style={{ fontFamily: "Georgia, serif" }}>Begin Your <em className="text-[var(--brand,#8b7355)]">Project.</em></h2>
+              <h2 className="text-5xl md:text-6xl font-light tracking-tighter mb-12" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Begin Your <em className="text-[var(--brand,#8b7355)]">Project.</em></>)}</h2>
             </Reveal>
             <Reveal delay={0.15}>
               {contactSubmitted ? (

@@ -14,7 +14,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -338,7 +340,9 @@ export default function AetherLabsPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   INGREDIENTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...INGREDIENTS_SOURCE[i % INGREDIENTS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     INGREDIENTS_SOURCE,
@@ -593,9 +597,9 @@ export default function AetherLabsPage() {
           <div className="mb-14">
             <Reveal>
               <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4">Formules signatures</p>
-              <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "formules.titre") ?? (<>
                 La collection <em>Aether</em>
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -739,9 +743,9 @@ export default function AetherLabsPage() {
           <div className="text-center mb-14">
             <Reveal>
               <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4">Protocole</p>
-              <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "rituels.titre") ?? (<>
                 Le rituel <em>Aether</em>
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
           <div className="grid md:grid-cols-4 gap-px bg-[#D4C9B0]">
@@ -769,9 +773,9 @@ export default function AetherLabsPage() {
         <div className="max-w-5xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4 text-center">Témoignages</p>
-            <h2 className="text-3xl font-light text-center mb-14" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl font-light text-center mb-14" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               Ce que la peau <em>nous dit</em>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((t: any, i: number) => (
@@ -798,7 +802,7 @@ export default function AetherLabsPage() {
           <div className="flex items-end justify-between mb-10">
             <Reveal>
               <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-3">Le journal scientifique</p>
-              <h2 className="text-3xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Nos dernières publications</h2>
+              <h2 className="text-3xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "journal.titre") ?? (<>Nos dernières publications</>)}</h2>
             </Reveal>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -829,9 +833,9 @@ export default function AetherLabsPage() {
         <div className="max-w-4xl mx-auto px-6">
           <Reveal>
             <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4 text-center">Foire aux questions</p>
-            <h2 className="text-3xl md:text-4xl font-light text-center mb-16" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl md:text-4xl font-light text-center mb-16" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
               Questions <em>fréquentes</em>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="space-y-4">
             {faqs.map((faq: any, i: number) => (
@@ -873,9 +877,9 @@ export default function AetherLabsPage() {
       <section className="py-20 bg-[#1C1814] text-[#F8F6F2] text-center px-6">
         <Reveal>
           <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4">Laboratoire ouvert</p>
-          <h2 className="text-3xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          <h2 className="text-3xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
             Restez informés de nos <em>recherches</em>
-          </h2>
+          </>)}</h2>
           <p className="text-[#6A6058] text-sm mb-8 max-w-md mx-auto">Formulations exclusives, études cliniques, nouveaux actifs. Notre lettre mensuelle sans compromis.</p>
           <form className="flex flex-col sm:flex-row gap-3 max-w-sm mx-auto" onSubmit={e => e.preventDefault()}>
             <input type="email" placeholder="Votre email" className="flex-1 bg-transparent border border-[#3A3020] px-5 py-3.5 text-sm text-[#F8F6F2] focus:outline-none focus:border-[var(--brand,#8B7355)] transition-colors" />
@@ -892,9 +896,9 @@ export default function AetherLabsPage() {
           <div className="grid md:grid-cols-2 gap-16">
             <Reveal>
               <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4">Contact</p>
-              <h2 className="text-4xl font-light mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              <h2 className="text-4xl font-light mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Prendre <em>contact</em>
-              </h2>
+              </>)}</h2>
               <p className="text-[#6B5A40] leading-relaxed mb-8 text-sm">
                 Vous avez des questions sur nos formulations, besoin d'un diagnostic peau sur-mesure ou d'informations sur votre commande ? Notre équipe scientifique vous répond sous 24h.
               </p>

@@ -18,6 +18,7 @@ import {
   clientName,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -423,9 +424,9 @@ export default function Impact174Page() {
           <Reveal>
             <div className="text-center mb-14">
               <span className="text-xs font-bold uppercase tracking-[0.5em] text-[var(--brand,#84cc16)] block mb-4">Planning</span>
-              <h2 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>
+              <h2 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "schedule.titre") ?? (<>
                 Cette semaine
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -459,9 +460,9 @@ export default function Impact174Page() {
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
               <div>
                 <span className="text-xs font-bold uppercase tracking-[0.5em] text-[var(--brand,#84cc16)] block mb-4">L'Équipe</span>
-                <h2 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter text-white leading-none" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                <h2 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter text-white leading-none" style={{ fontFamily: "'Oswald', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "coaches.titre") ?? (<>
                   Vos Coachs.
-                </h2>
+                </>)}</h2>
               </div>
             </div>
           </Reveal>
@@ -516,9 +517,9 @@ export default function Impact174Page() {
           <Reveal>
             <div className="text-center mb-14">
               <span className="text-xs font-bold uppercase tracking-[0.5em] text-[var(--brand,#84cc16)] block mb-4">Adhésion</span>
-              <h2 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>
+              <h2 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "membership.titre") ?? (<>
                 Choisissez votre niveau
-              </h2>
+              </>)}</h2>
               <p className="text-[#f5f5f5]/40 mt-4 text-sm">Sans engagement. Résiliable à tout moment.</p>
             </div>
           </Reveal>
@@ -560,9 +561,9 @@ export default function Impact174Page() {
       <section id="contact" className="py-28 bg-[#111]">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <Reveal>
-            <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter text-white mb-6" style={{ fontFamily: "'Oswald', sans-serif" }}>
+            <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter text-white mb-6" style={{ fontFamily: "'Oswald', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Prêt à<br /><span className="text-[var(--brand,#84cc16)]">Forger</span> ?
-            </h2>
+            </>)}</h2>
             <p className="text-[#f5f5f5]/40 mb-10 max-w-md mx-auto">Première séance découverte offerte. Venez rencontrer l'équipe et tester nos installations.</p>
           </Reveal>
           <Reveal delay={0.2}>

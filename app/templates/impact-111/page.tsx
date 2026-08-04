@@ -14,7 +14,9 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -106,8 +108,10 @@ export default function TerraArchitecturePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
 
   EQUIPE_ANON = resolveList(
@@ -264,7 +268,7 @@ export default function TerraArchitecturePage() {
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
                 <div className="max-w-2xl">
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4b5a2)] block mb-4">Portfolio</span>
-                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter italic">Selected <br/> <span className="not-italic font-normal">Works.</span></h2>
+                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter italic">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Selected <br/> <span className="not-italic font-normal">Works.</span></>)}</h2>
                 </div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-[#3d3a35]/40 mb-2">2020 — 2026</div>
               </div>
@@ -305,9 +309,9 @@ export default function TerraArchitecturePage() {
           </div>
           <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
             <Reveal>
-              <h2 className="text-4xl md:text-6xl font-light italic leading-tight mb-12">
+              <h2 className="text-4xl md:text-6xl font-light italic leading-tight mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 "Architecture is the learned game, correct and magnificent, of forms assembled in the light."
-              </h2>
+              </>)}</h2>
               <div className="w-20 h-[1px] bg-[var(--brand,#c4b5a2)] mx-auto mb-8" />
               <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c4b5a2)]">The Terra Manifesto</p>
             </Reveal>
@@ -321,7 +325,7 @@ export default function TerraArchitecturePage() {
               <div className="flex items-end justify-between mb-20 border-b border-[#3d3a35]/10 pb-12 gap-6">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#3d3a35]/40 block mb-4">The Atelier</span>
-                  <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter text-[#3d3a35]">The <span className="italic">Team.</span></h2>
+                  <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter text-[#3d3a35]">{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>The <span className="italic">Team.</span></>)}</h2>
                 </div>
               </div>
             </Reveal>

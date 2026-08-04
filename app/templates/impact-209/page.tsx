@@ -21,7 +21,9 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -1031,8 +1033,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   STYLISTS = STYLISTS_LIVE();
+
 
   SERVICES_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
   TESTIMONIALS_DEMO = resolveList(
@@ -1472,9 +1476,9 @@ export default function Page() {
             <p style={{ ...bodyFont, fontSize: '11px', color: GOLD, letterSpacing: '0.2em', textTransform: 'uppercase', margin: '0 0 20px' }}>
               Notre Philosophie
             </p>
-            <h2 style={{ ...headingFont, fontSize: '44px', color: DARK, margin: '0 0 24px', fontWeight: 400, lineHeight: 1.15 }}>
+            <h2 style={{ ...headingFont, fontSize: '44px', color: DARK, margin: '0 0 24px', fontWeight: 400, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Le Cheveu comme<br />Matière Première
-            </h2>
+            </>)}</h2>
             <GoldDivider />
             <p style={{ ...bodyFont, fontSize: '14px', color: GRAY_MID, lineHeight: 1.8, margin: '0 0 20px' }}>
               Chez L'Atelier, nous concevons chaque rendez-vous comme une commande d'atelier. Pas de formules standard, pas de routines imposées. Seulement un dialogue entre votre cheveu et les mains de nos artisans.
@@ -1538,9 +1542,9 @@ export default function Page() {
             <p style={{ ...bodyFont, fontSize: '11px', color: GOLD, letterSpacing: '0.2em', textTransform: 'uppercase', margin: '0 0 16px' }}>
               Galerie
             </p>
-            <h2 style={{ ...headingFont, fontSize: 'clamp(36px, 5vw, 56px)', color: '#fff', margin: '0', fontWeight: 400, letterSpacing: '0.02em' }}>
+            <h2 style={{ ...headingFont, fontSize: 'clamp(36px, 5vw, 56px)', color: '#fff', margin: '0', fontWeight: 400, letterSpacing: '0.02em' }}>{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>
               L'Atelier en Images
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(340px, 100%), 1fr))', gap: '3px' }}>
@@ -1629,9 +1633,9 @@ export default function Page() {
             <p style={{ ...bodyFont, fontSize: '11px', color: GOLD, letterSpacing: '0.2em', textTransform: 'uppercase', margin: '0 0 16px' }}>
               Nous Trouver
             </p>
-            <h2 style={{ ...headingFont, fontSize: 'clamp(36px, 5vw, 56px)', color: '#fff', margin: '0', fontWeight: 400 }}>
+            <h2 style={{ ...headingFont, fontSize: 'clamp(36px, 5vw, 56px)', color: '#fff', margin: '0', fontWeight: 400 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               L'Atelier
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: '40px', marginBottom: '60px' }}>

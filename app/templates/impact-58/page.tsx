@@ -25,7 +25,9 @@ import {
   clientStats,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -208,7 +210,9 @@ export default function SkewOSHome() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   STATS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...STATS_SOURCE[i % STATS_SOURCE.length], label: s.title, n: s.desc || "" || "" })),
     STATS_SOURCE,
@@ -795,9 +799,9 @@ return (
                   color: C.text,
                   margin: 0,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                 PALMARÈS
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -844,9 +848,9 @@ return (
           <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
             <Reveal>
               <p style={{ fontFamily: "'Syne', sans-serif", fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.4em', color: C.violet, textTransform: 'uppercase', marginBottom: '1.5rem' }}>Studio · Équipe</p>
-              <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', color: C.text, textTransform: 'uppercase', lineHeight: 1, marginBottom: '5rem' }}>
+              <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', color: C.text, textTransform: 'uppercase', lineHeight: 1, marginBottom: '5rem' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
                 Les Architectes<br /><span style={{ fontWeight: 300, fontStyle: 'italic', color: C.textMuted }}>du Mouvement</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: '4rem' }}>
               {EQUIPE_INLINE.map((m, i) => (
@@ -871,7 +875,7 @@ return (
           <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
             <Reveal>
               <p style={{ fontFamily: "'Syne', sans-serif", fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.4em', color: C.violet, textTransform: 'uppercase', marginBottom: '1.5rem' }}>Process · Méthode</p>
-              <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: 'clamp(2rem, 4vw, 4rem)', color: C.text, textTransform: 'uppercase', lineHeight: 1, marginBottom: '5rem' }}>Comment on crée.</h2>
+              <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: 'clamp(2rem, 4vw, 4rem)', color: C.text, textTransform: 'uppercase', lineHeight: 1, marginBottom: '5rem' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>Comment on crée.</>)}</h2>
             </Reveal>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '0', borderTop: `1px solid ${C.border}` }}>
               {STATS_INLINE.map((s, i) => (

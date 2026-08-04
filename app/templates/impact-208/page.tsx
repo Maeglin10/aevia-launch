@@ -24,6 +24,7 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -313,9 +314,9 @@ function BlueprintHero() {
               margin: "0 0 20px",
               transformOrigin: "left center",
             }}
-          >{c?.heroHeadline ?? <>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             Bâtir ce qui<br /><span style={{ color: C.yellow }}>tient debout</span>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -450,9 +451,9 @@ function ServicesSection() {
             color: C.cream,
             margin: 0,
             lineHeight: 1.1,
-          }}>
+          }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Ce que nous construisons
-          </h2>
+          </>)}</h2>
         </motion.div>
 
         <div style={{
@@ -579,11 +580,11 @@ function BuildingSection() {
               lineHeight: 1.1,
               margin: '0 0 32px',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
             Construire
             <br />
             étage par étage
-          </motion.h2>
+          </>)}</motion.h2>
           <motion.p
             initial={{ opacity: 0, x: -20 }}
             animate={sectionInView ? { opacity: 1, x: 0 } : {}}
@@ -875,11 +876,11 @@ function MaterialsSection() {
             fontSize: 'clamp(2rem, 5vw, 3.5rem)',
             color: C.cream,
             margin: 0,
-          }}>
+          }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
             La matière au service
             <br />
             de la structure
-          </h2>
+          </>)}</h2>
         </motion.div>
 
         <div style={{
@@ -1040,9 +1041,9 @@ function ProjectsSection() {
             fontSize: 'clamp(2rem, 5vw, 3.5rem)',
             color: C.cream,
             margin: 0,
-          }}>
+          }}>{/* TEXTE_SECTION */ clientText(sessionData, "projects.titre") ?? (<>
             Nos projets structurants
-          </h2>
+          </>)}</h2>
         </motion.div>
 
         <div style={{
@@ -1344,11 +1345,11 @@ function TeamSection() {
             fontSize: 'clamp(2rem, 5vw, 3.5rem)',
             color: C.cream,
             margin: 0,
-          }}>
+          }}>{/* TEXTE_SECTION */ clientText(sessionData, "team.titre") ?? (<>
             Des ingénieurs
             <br />
             de terrain
-          </h2>
+          </>)}</h2>
         </motion.div>
 
         <div style={{
@@ -1545,11 +1546,11 @@ function ContactSection() {
               color: C.cream,
               lineHeight: 1.1,
               margin: '0 0 32px',
-            }}>
+            }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Parlons de votre
               <br />
               <span style={{ color: C.yellow }}>prochain chantier</span>
-            </h2>
+            </>)}</h2>
             <p style={{
               fontFamily: FONT_BODY,
               color: C.creamDim,

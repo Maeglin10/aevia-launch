@@ -18,6 +18,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1429,7 +1430,7 @@ export default function LuxuryJewelryTemplate() {
                   color: "#f0ece0",
                   marginBottom: 24,
                 }}
-              >{c?.heroHeadline ?? <>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
                 L'art du
                 <br />
                 <span
@@ -1443,7 +1444,7 @@ export default function LuxuryJewelryTemplate() {
                 >
                   bijou éternel
                 </span>
-              </>}</h1>
+              </>}</>)}</h1>
             </SectionReveal>
 
             <SectionReveal delay={0.2}>
@@ -1755,9 +1756,9 @@ export default function LuxuryJewelryTemplate() {
                 letterSpacing: "0.03em",
                 lineHeight: 1.15,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
               Pièces d'exception
-            </h2>
+            </>)}</h2>
             <div
               style={{
                 width: 48,
@@ -1968,9 +1969,9 @@ export default function LuxuryJewelryTemplate() {
                   fontStyle: "italic",
                   letterSpacing: "0.03em",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Instants de grâce
-              </h2>
+              </>)}</h2>
             </div>
           </SectionReveal>
 
@@ -2048,11 +2049,11 @@ export default function LuxuryJewelryTemplate() {
                     letterSpacing: "0.03em",
                     marginBottom: 32,
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                   Là où la pierre
                   <br />
                   rencontre la lumière
-                </h2>
+                </>)}</h2>
               </SectionReveal>
               {[
                 "Notre atelier du 1er arrondissement abrite douze maîtres joailliers. Chacun a été formé pendant sept années minimum avant de toucher un diamant.",
@@ -2397,7 +2398,7 @@ export default function LuxuryJewelryTemplate() {
                 letterSpacing: "0.03em",
                 marginBottom: 20,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Entrez dans le cercle
               <br />
               <span
@@ -2410,7 +2411,7 @@ export default function LuxuryJewelryTemplate() {
               >
                 des initiés
               </span>
-            </h2>
+            </>)}</h2>
           </SectionReveal>
 
           <SectionReveal delay={0.12}>

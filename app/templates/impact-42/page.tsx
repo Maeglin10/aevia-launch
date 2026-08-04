@@ -32,6 +32,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -136,10 +137,10 @@ export default function EchoChamberPage() {
 
           <motion.h1 initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.2 }}
             style={{ fontFamily: C.headingFont, fontSize: "clamp(4rem, 10vw, 9rem)", fontWeight: 400, color: C.white, lineHeight: 0.95, marginBottom: "1.5rem", letterSpacing: "0.04em" }}
-          >{c?.heroHeadline ?? <>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
             ECHO<br />
             <span style={{ color: C.accent }}>CHAMBER</span>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.34 }}
             style={{ fontFamily: C.bodyFont, fontSize: "1.05rem", color: C.textLight, maxWidth: 540, margin: "0 auto 3rem", lineHeight: 1.75, letterSpacing: "0.01em" }}
@@ -197,7 +198,7 @@ export default function EchoChamberPage() {
           <SectionReveal>
             <div style={{ marginBottom: "3.5rem" }}>
               <span style={{ fontFamily: C.bodyFont, fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: C.accent }}>Nos espaces</span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2.5rem, 6vw, 4.5rem)", color: C.white, margin: "0.4rem 0 0", letterSpacing: "0.04em" }}>TROIS STUDIOS, UNE VISION</h2>
+              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2.5rem, 6vw, 4.5rem)", color: C.white, margin: "0.4rem 0 0", letterSpacing: "0.04em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>TROIS STUDIOS, UNE VISION</>)}</h2>
             </div>
           </SectionReveal>
 
@@ -252,7 +253,7 @@ export default function EchoChamberPage() {
               <span style={{ fontFamily: C.bodyFont, fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: C.accent }}>Ils ont enregistré ici</span>
               <div style={{ flex: 1, height: "1px", backgroundColor: C.border }} />
             </div>
-            <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: C.white, letterSpacing: "0.04em", margin: "0 0 2.5rem" }}>200+ ARTISTES ET PRODUCTEURS</h2>
+            <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: C.white, letterSpacing: "0.04em", margin: "0 0 2.5rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>200+ ARTISTES ET PRODUCTEURS</>)}</h2>
           </SectionReveal>
         </div>
         <ArtistMarquee artists={marqueeArtists} />
@@ -264,7 +265,7 @@ export default function EchoChamberPage() {
           <SectionReveal>
             <div style={{ marginBottom: "3.5rem" }}>
               <span style={{ fontFamily: C.bodyFont, fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: C.accent }}>Matériel</span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: C.white, margin: "0.4rem 0 0", letterSpacing: "0.04em" }}>NOTRE ARSENAL</h2>
+              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: C.white, margin: "0.4rem 0 0", letterSpacing: "0.04em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>NOTRE ARSENAL</>)}</h2>
             </div>
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "1.25rem" }}>
@@ -293,7 +294,7 @@ export default function EchoChamberPage() {
           <SectionReveal>
             <div style={{ marginBottom: "3.5rem" }}>
               <span style={{ fontFamily: C.bodyFont, fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: C.accent }}>Avis clients</span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: C.white, margin: "0.4rem 0 0", letterSpacing: "0.04em" }}>ILS EN PARLENT</h2>
+              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: C.white, margin: "0.4rem 0 0", letterSpacing: "0.04em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>ILS EN PARLENT</>)}</h2>
             </div>
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "1.75rem" }}>
@@ -326,7 +327,7 @@ export default function EchoChamberPage() {
           <SectionReveal>
             <div style={{ marginBottom: "3.5rem" }}>
               <span style={{ fontFamily: C.bodyFont, fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: C.accent }}>Tarifs</span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: C.white, margin: "0.4rem 0 0", letterSpacing: "0.04em" }}>CHOISISSEZ VOTRE SESSION</h2>
+              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: C.white, margin: "0.4rem 0 0", letterSpacing: "0.04em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>CHOISISSEZ VOTRE SESSION</>)}</h2>
             </div>
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "1.5rem", alignItems: "start" }}>
@@ -376,7 +377,7 @@ export default function EchoChamberPage() {
           <SectionReveal>
             <div style={{ marginBottom: "3.5rem" }}>
               <span style={{ fontFamily: C.bodyFont, fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: C.accent }}>FAQ</span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: C.white, margin: "0.4rem 0 0", letterSpacing: "0.04em" }}>VOS QUESTIONS</h2>
+              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: C.white, margin: "0.4rem 0 0", letterSpacing: "0.04em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>VOS QUESTIONS</>)}</h2>
             </div>
           </SectionReveal>
           <SectionReveal delay={0.1}>

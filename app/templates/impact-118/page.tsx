@@ -14,6 +14,7 @@ import {
   clientCity,
   clientName,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -259,9 +260,9 @@ export default function ChronosLuxuryPage() {
             <section className="py-40 bg-[#050505] text-center border-y border-white/5">
                <div className="max-w-4xl mx-auto px-6">
                   <Reveal>
-                     <h2 className="text-3xl md:text-5xl font-light italic leading-relaxed text-white/80" style={{ fontFamily: "serif" }}>
+                     <h2 className="text-3xl md:text-5xl font-light italic leading-relaxed text-white/80" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
                         "A watch does not simply tell the time; it tells a story of patience, precision, and the pursuit of perfection."
-                     </h2>
+                     </>)}</h2>
                      <div className="mt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4af37)]">Leo Aris — Master Horologist</div>
                   </Reveal>
                </div>
@@ -274,7 +275,7 @@ export default function ChronosLuxuryPage() {
                   <div className="flex items-end justify-between mb-24 border-b border-white/5 pb-12">
                     <div>
                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4af37)] block mb-4">The Collection</span>
-                      <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white" style={{ fontFamily: "serif" }}>Selected <span className="italic">Series.</span></h2>
+                      <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Selected <span className="italic">Series.</span></>)}</h2>
                     </div>
                     <button onClick={() => goTo("collection")} className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)]/60 hover:text-[var(--brand,#d4af37)] transition-colors flex items-center gap-4 group">
                        Browse All <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
@@ -323,7 +324,7 @@ export default function ChronosLuxuryPage() {
                   </Reveal>
                   <div>
                     <Reveal>
-                      <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-16 italic" style={{ fontFamily: "serif" }}>Born In <br/>The <span className="not-italic">Alps.</span></h2>
+                      <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-16 italic" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Born In <br/>The <span className="not-italic">Alps.</span></>)}</h2>
                       <div className="space-y-16">
                         {CRAFT.map((item, i) => (
                           <div key={i} className="flex gap-8 group cursor-pointer" onClick={() => goTo("craftsmanship")}>
@@ -457,9 +458,9 @@ function AtelierPage() {
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
           <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#d4af37)]/60 block mb-6 italic">Since 1924</span>
-          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-8" style={{ fontFamily: "serif" }}>
+          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-8" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             The Swiss <span className="italic text-[var(--brand,#d4af37)]">Atelier</span>
-          </h1>
+          </>)}</h1>
           <div className="w-[1px] h-12 bg-[var(--brand,#d4af37)]/30 mx-auto mb-8" />
           <p className="text-lg text-white/40 max-w-2xl mx-auto leading-relaxed font-light">
             Deep in the Jura Mountains, our master horologists combine century-old methods with cutting-edge micro-mechanics.
@@ -526,9 +527,9 @@ function CollectionPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 font-sans">
         <div className="text-center mb-20">
           <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4af37)] block mb-4">The Collection</span>
-          <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white" style={{ fontFamily: "serif" }}>
+          <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Timepiece <span className="italic text-[var(--brand,#d4af37)]">Catalogue</span>
-          </h2>
+          </>)}</h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -570,9 +571,9 @@ function CraftsmanshipPage() {
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
           <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] block mb-4">Savoir-Faire</span>
-          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
+          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
             The Art Of <span className="italic text-[var(--brand,#d4af37)]">Craftsmanship</span>
-          </h1>
+          </>)}</h1>
           <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
             Every step in creating a Chronos watch is guided by absolute devotion to horological perfection. Here, we outline the key stages of our craft.
           </p>
@@ -622,9 +623,9 @@ function HeritagePage() {
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
           <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] block mb-4">Our Legacy</span>
-          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
+          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
             Century Of <span className="italic text-[var(--brand,#d4af37)]">Heritage</span>
-          </h1>
+          </>)}</h1>
           <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
             Time is not only measured but lived. Discover the key chapters that defined the Chronos legacy from the early 20th century to the modern day.
           </p>
@@ -674,9 +675,9 @@ function InnovationPage() {
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
           <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] block mb-4">Engineering Future</span>
-          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
+          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
             Technical <span className="italic text-[var(--brand,#d4af37)]">Innovation</span>
-          </h1>
+          </>)}</h1>
           <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
             While respecting our heritage, we push mechanical limits. Our watchmakers develop state-of-the-art materials and complications that redefine reliability.
           </p>
@@ -813,9 +814,9 @@ function JournalPage() {
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
           <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] block mb-4">Chronos Journal</span>
-          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
+          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-11.titre") ?? (<>
             Essays In <span className="italic text-[var(--brand,#d4af37)]">Horology</span>
-          </h1>
+          </>)}</h1>
           <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
             Read our notes on mechanical history, technical discoveries, and behind-the-scenes insights from the Geneva atelier.
           </p>
@@ -850,9 +851,9 @@ function ConciergePage() {
       <div className="max-w-3xl mx-auto px-6 font-sans">
         <div className="text-center mb-16">
           <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4af37)] block mb-4">Concierge Desk</span>
-          <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white" style={{ fontFamily: "serif" }}>
+          <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-12.titre") ?? (<>
             Acquisition <span className="italic text-[var(--brand,#d4af37)]">Enquiry</span>
-          </h2>
+          </>)}</h2>
           <p className="text-white/40 mt-6 text-sm font-light leading-relaxed">
             Please submit your preferred contact coordinates. Our horological advisors will contact you within 4 hours.
           </p>
@@ -911,9 +912,9 @@ function SupportPage() {
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
           <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] block mb-4">Client Care</span>
-          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
+          <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Servicing & <span className="italic text-[var(--brand,#d4af37)]">Support</span>
-          </h1>
+          </>)}</h1>
           <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
             Your Chronos timepiece is designed to function flawlessly across generations. Discover our support services, authentication standards, and warranty policies.
           </p>
@@ -960,9 +961,9 @@ function LegalPage() {
   return (
     <section id="contact" className="py-40 bg-[#050505] min-h-dvh text-white border-t border-white/5">
       <div className="max-w-3xl mx-auto px-6 font-sans">
-        <h1 className="text-4xl md:text-6xl font-extralight uppercase text-white mb-12" style={{ fontFamily: "serif" }}>
+        <h1 className="text-4xl md:text-6xl font-extralight uppercase text-white mb-12" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
           Legal <span className="italic text-[var(--brand,#d4af37)]">Information</span>
-        </h1>
+        </>)}</h1>
 
         <div className="space-y-12 text-sm text-white/50 leading-relaxed font-light">
           <div className="border border-white/10 bg-[#080808] p-8 rounded">

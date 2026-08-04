@@ -15,7 +15,9 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -140,7 +142,9 @@ export default function LuminaLawPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   PARTNERS_DEMO = resolveList(
     clientTeam(session)?.map((m: any, i: number) => ({ ...PARTNERS_DEMO_SOURCE[i % PARTNERS_DEMO_SOURCE.length], name: m.name, role: m.role })),
     PARTNERS_DEMO_SOURCE,
@@ -311,7 +315,7 @@ export default function LuminaLawPage() {
             <Reveal>
               <div className="text-center mb-32">
                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#1a365d)] block mb-6">Our Dominance</span>
-                 <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter" style={{ fontFamily: "serif" }}>Practice <span className="font-light italic">Areas.</span></h2>
+                 <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Practice <span className="font-light italic">Areas.</span></>)}</h2>
               </div>
             </Reveal>
 
@@ -341,7 +345,7 @@ export default function LuminaLawPage() {
               <div className="flex flex-col lg:flex-row items-end justify-between mb-32 gap-8 border-b border-black/5 pb-12">
                 <div className="max-w-2xl">
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1a365d)] block mb-4">Leadership</span>
-                  <h2 className="text-6xl md:text-8xl font-bold uppercase tracking-tighter text-[#1a1a1a]" style={{ fontFamily: "serif" }}>The <span className="italic font-light">Partners.</span></h2>
+                  <h2 className="text-6xl md:text-8xl font-bold uppercase tracking-tighter text-[#1a1a1a]" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "partners.titre") ?? (<>The <span className="italic font-light">Partners.</span></>)}</h2>
                 </div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-black/20 mb-2">120+ Years of Combined Experience</div>
               </div>
@@ -374,7 +378,7 @@ export default function LuminaLawPage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
                  <div>
                     <Reveal>
-                       <h2 className="text-5xl md:text-7xl font-bold uppercase text-[#1a1a1a] mb-16" style={{ fontFamily: "serif" }}>A Legacy <br/> Of <span className="italic font-light text-[var(--brand,#1a365d)]">Excellence.</span></h2>
+                       <h2 className="text-5xl md:text-7xl font-bold uppercase text-[#1a1a1a] mb-16" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>A Legacy <br/> Of <span className="italic font-light text-[var(--brand,#1a365d)]">Excellence.</span></>)}</h2>
                        <div className="space-y-12">
                           {[
                             { v: "$40B+", l: "Transaction Volume Handled", d: "Expertise in large-scale corporate consolidation and global capital flows." },
@@ -409,9 +413,9 @@ export default function LuminaLawPage() {
           <div className="max-w-6xl mx-auto px-6 md:px-12">
             <Reveal>
               <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#1a365d)]/40 mb-6">Client Testimonials</p>
-              <h2 className="text-4xl md:text-6xl font-bold text-[var(--brand,#1a365d)] mb-20 leading-tight" style={{ fontFamily: "serif" }}>
+              <h2 className="text-4xl md:text-6xl font-bold text-[var(--brand,#1a365d)] mb-20 leading-tight" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 What Our Clients <em className="font-light">Say.</em>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {AVIS_INLINE.map((t, i) => (
@@ -435,9 +439,9 @@ export default function LuminaLawPage() {
           <div className="max-w-6xl mx-auto px-6 md:px-12">
             <Reveal>
               <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#1a365d)]/40 mb-6">{tr({ formData: fd }, "Our Team")}</p>
-              <h2 className="text-4xl md:text-6xl font-bold text-[var(--brand,#1a365d)] mb-20 leading-tight" style={{ fontFamily: "serif" }}>
+              <h2 className="text-4xl md:text-6xl font-bold text-[var(--brand,#1a365d)] mb-20 leading-tight" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>
                 Senior <em className="font-light">Partners.</em>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {EQUIPE_INLINE.map((a, i) => (
@@ -466,7 +470,7 @@ export default function LuminaLawPage() {
             <Reveal>
               <div className="mb-20 border-b border-black/10 pb-10">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1a365d)] block mb-5">Insights</span>
-                <h2 className="text-5xl md:text-7xl font-bold uppercase text-[#1a1a1a]" style={{ fontFamily: "serif" }}>What We <span className="italic font-light text-[var(--brand,#1a365d)]">Publish.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-bold uppercase text-[#1a1a1a]" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "insights.titre") ?? (<>What We <span className="italic font-light text-[var(--brand,#1a365d)]">Publish.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-black/10 border border-black/10">
@@ -489,7 +493,7 @@ export default function LuminaLawPage() {
             <Reveal>
               <div className="mb-20 border-b border-black/10 pb-10">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1a365d)] block mb-5">Case Studies</span>
-                <h2 className="text-5xl md:text-7xl font-bold uppercase text-[#1a1a1a]" style={{ fontFamily: "serif" }}>What We <span className="italic font-light text-[var(--brand,#1a365d)]">Closed.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-bold uppercase text-[#1a1a1a]" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "cases.titre") ?? (<>What We <span className="italic font-light text-[var(--brand,#1a365d)]">Closed.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="divide-y divide-black/10 border-y border-black/10">

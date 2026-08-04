@@ -11,7 +11,9 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -165,9 +167,11 @@ export default function PulseAppPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   PRICING_SOURCE = PRICING_SOURCE_LIVE();
+
 
 
   FEATURES = resolveList(
@@ -406,7 +410,7 @@ export default function PulseAppPage() {
           <div className="text-center mb-16">
             <Reveal>
               <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Fonctionnalités</p>
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Tout ce dont votre équipe a besoin</h2>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "fonctionnalites.titre") ?? (<>Tout ce dont votre équipe a besoin</>)}</h2>
               <p className="text-[#4B4570] text-lg max-w-2xl mx-auto">Une plateforme unifiée qui remplace votre stack d&apos;outils fragmentés.</p>
             </Reveal>
           </div>
@@ -474,7 +478,7 @@ export default function PulseAppPage() {
           <div className="text-center mb-16">
             <Reveal>
               <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Témoignages</p>
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">Ils en parlent mieux que nous</h2>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Ils en parlent mieux que nous</>)}</h2>
             </Reveal>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -505,7 +509,7 @@ export default function PulseAppPage() {
           <div className="text-center mb-12">
             <Reveal>
               <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Tarifs</p>
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Simple, transparent, sans surprise</h2>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Simple, transparent, sans surprise</>)}</h2>
               <div className="inline-flex items-center gap-3 bg-[#F8F7FF] rounded-full p-1.5">
                 <button onClick={() => setBillingAnnual(false)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${!billingAnnual ? "bg-white shadow text-[#0F0B2D]" : "text-[#4B4570]"}`}>Mensuel</button>
                 <button onClick={() => setBillingAnnual(true)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${billingAnnual ? "bg-white shadow text-[#0F0B2D]" : "text-[#4B4570]"}`}>
@@ -558,7 +562,7 @@ export default function PulseAppPage() {
         <div className="max-w-4xl mx-auto px-6 text-center">
           <Reveal>
             <Smartphone className="w-12 h-12 text-[var(--brand,#6366F1)] mx-auto mb-6" />
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Téléchargez l&apos;app</h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Téléchargez l&apos;app</>)}</h2>
             <p className="text-[#4B4570] text-lg mb-10">Disponible sur iOS et Android. Synchronisez-vous avec votre équipe partout, à tout moment.</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="#tarifs" className="flex items-center gap-3 px-7 py-4 bg-[#0F0B2D] text-white rounded-xl hover:bg-[#1a1740] transition-colors cursor-pointer">
@@ -581,7 +585,7 @@ export default function PulseAppPage() {
           <div className="mb-14">
             <Reveal>
               <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Documentation</p>
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Tout est écrit</h2>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "docs.titre") ?? (<>Tout est écrit</>)}</h2>
               <p className="text-slate-500 text-lg max-w-[60ch]">Pas de support payant pour obtenir une réponse qui devrait être publique.</p>
             </Reveal>
           </div>
@@ -604,7 +608,7 @@ export default function PulseAppPage() {
           <div className="mb-14">
             <Reveal>
               <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Blog</p>
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Ce qu&apos;on apprend en construisant</h2>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "blog.titre") ?? (<>Ce qu&apos;on apprend en construisant</>)}</h2>
               <p className="text-slate-500 text-lg max-w-[60ch]">Trois à quatre articles par an. Quand on n&apos;a rien à dire, on ne publie pas.</p>
             </Reveal>
           </div>
@@ -624,7 +628,7 @@ export default function PulseAppPage() {
 
       <section id="contact" className="py-24 bg-[var(--brand,#6366F1)] text-white text-center px-6">
         <Reveal>
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Prêt à passer à Pulse ?</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Prêt à passer à Pulse ?</>)}</h2>
           <p className="text-indigo-200 text-lg mb-10">14 jours gratuits. Pas de carte bancaire requise. Annulez à tout moment.</p>
           <Link href="#tarifs" className="inline-flex items-center gap-2 px-10 py-5 bg-white text-[var(--brand,#6366F1)] font-bold rounded-xl hover:bg-indigo-50 transition-colors cursor-pointer text-lg">
             Commencer maintenant <ArrowRight className="w-5 h-5" />

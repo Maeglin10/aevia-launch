@@ -13,7 +13,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -129,7 +131,9 @@ export default function NimbusAIPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   features = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...features_SOURCE[i % features_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     features_SOURCE,
@@ -260,7 +264,7 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal className="text-center mb-16">
                 <p className="text-[var(--brand,#06B6D4)] text-sm font-semibold mb-3">Infrastructure</p>
-                <h2 className="text-white text-4xl font-bold">Tout ce qu&apos;il vous faut</h2>
+                <h2 className="text-white text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Tout ce qu&apos;il vous faut</>)}</h2>
               </Reveal>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {features.map((f, i) => (
@@ -281,7 +285,7 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[var(--brand,#06B6D4)] text-sm font-semibold mb-3">Catalogue modèles</p>
-                <h2 className="text-white text-4xl font-bold">Les meilleurs modèles du marché</h2>
+                <h2 className="text-white text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Les meilleurs modèles du marché</>)}</h2>
               </Reveal>
               <div className="space-y-3">
                 {models.map((m, i) => (
@@ -320,7 +324,7 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal className="text-center mb-16">
                 <p className="text-[var(--brand,#06B6D4)] text-sm font-semibold mb-3">Intégration</p>
-                <h2 className="text-white text-4xl font-bold">5 minutes pour aller en prod</h2>
+                <h2 className="text-white text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>5 minutes pour aller en prod</>)}</h2>
               </Reveal>
               <div className="grid md:grid-cols-4 gap-4">
                 {pipeline.map((step, i) => (
@@ -343,7 +347,7 @@ return (
           <section className="py-24 px-6">
             <div className="max-w-3xl mx-auto">
               <Reveal className="text-center mb-12">
-                <h2 className="text-white text-4xl font-bold">Questions fréquentes</h2>
+                <h2 className="text-white text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Questions fréquentes</>)}</h2>
               </Reveal>
               <div className="space-y-3">
                 {faqs.map((faq, i) => (
@@ -375,7 +379,7 @@ return (
               <Reveal>
                 <div className="relative bg-gradient-to-br from-[var(--brand,#06B6D4)]/10 to-[#8B5CF6]/10 border border-[var(--brand,#06B6D4)]/20 rounded-3xl p-10 md:p-16">
                   <Cloud className="w-10 h-10 text-[var(--brand,#06B6D4)] mx-auto mb-6 opacity-60" />
-                  <h2 className="text-white text-4xl font-bold mb-4">Prêt à scaler votre IA ?</h2>
+                  <h2 className="text-white text-4xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Prêt à scaler votre IA ?</>)}</h2>
                   <p className="text-gray-400 max-w-lg mx-auto mb-10">$50 de crédits offerts pour démarrer. Aucune carte de crédit requise.</p>
                   <button onClick={() => goTo("pricing")} className="bg-gradient-to-r from-[var(--brand,#06B6D4)] to-[#8B5CF6] text-white font-bold px-10 py-4 rounded-xl hover:opacity-90 transition-opacity cursor-pointer text-lg">
                     Créer un compte gratuit →

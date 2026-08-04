@@ -11,7 +11,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -77,7 +79,9 @@ export default function KuroOmakasePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)
@@ -247,7 +251,7 @@ export default function KuroOmakasePage() {
                  <div className="flex flex-col md:flex-row items-end justify-between mb-32 gap-8 border-b border-white/5 pb-16">
                     <div className="max-w-2xl">
                        <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 block mb-6">Seasonal Sourcing</span>
-                       <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-white leading-none italic">The <span className="font-light not-italic opacity-30 text-white">Capture.</span></h2>
+                       <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-white leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>The <span className="font-light not-italic opacity-30 text-white">Capture.</span></>)}</h2>
                     </div>
                     <div className="flex gap-4">
                        <button className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all"><ArrowRight className="w-5 h-5 rotate-180" /></button>
@@ -286,7 +290,7 @@ export default function KuroOmakasePage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-40 items-center">
                  <Reveal>
                     <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 block mb-8">The Artisan</span>
-                    <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter text-white leading-none italic mb-16">Chef<br /><span className="font-light not-italic opacity-30">Hiroshi.</span></h2>
+                    <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter text-white leading-none italic mb-16">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Chef<br /><span className="font-light not-italic opacity-30">Hiroshi.</span></>)}</h2>
                     <div className="space-y-8">
                        <p className="text-base text-white/40 leading-relaxed font-light italic">
                           Trained under three Michelin-starred masters in Osaka, Kyoto, and Noma Copenhagen, Hiroshi Mori returns to his roots with Kuro — a singular meditation on Japanese restraint at the edge of flavour.
@@ -321,7 +325,7 @@ export default function KuroOmakasePage() {
                  <div className="flex flex-col md:flex-row items-end justify-between mb-32 border-b border-white/5 pb-16 gap-8">
                     <div>
                        <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 block mb-6">The Experience</span>
-                       <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-white leading-none italic">The <span className="font-light not-italic opacity-30">Menu.</span></h2>
+                       <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter text-white leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>The <span className="font-light not-italic opacity-30">Menu.</span></>)}</h2>
                     </div>
                     <div className="text-sm text-white/30 font-light italic max-w-xs leading-relaxed">Courses change nightly. Wine pairings available with two weeks&apos; notice.</div>
                  </div>
@@ -353,9 +357,9 @@ export default function KuroOmakasePage() {
            <div className="max-w-4xl mx-auto">
               <Reveal>
                  <div className="w-16 h-16 bg-white mx-auto mb-20 flex items-center justify-center font-black text-black text-2xl uppercase">K</div>
-                 <h2 className="text-7xl md:text-[12vw] font-black uppercase tracking-tighter leading-[0.8] mb-16 italic">
+                 <h2 className="text-7xl md:text-[12vw] font-black uppercase tracking-tighter leading-[0.8] mb-16 italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                     TRUST THE <br/> <span className="font-light not-italic opacity-30 text-white">HAND.</span>
-                 </h2>
+                 </>)}</h2>
                  <p className="text-xl text-white/40 font-light mb-20 leading-relaxed italic max-w-2xl mx-auto">
                     Reservations are released on the first of every month for the following 30 days. We look forward to your visit.
                  </p>

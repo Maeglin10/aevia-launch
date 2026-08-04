@@ -40,6 +40,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -802,11 +803,11 @@ return (
                 marginBottom: 36,
                 fontStyle: "italic",
               }}
-            >{c?.heroHeadline ?? <>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
               L'art du bijou
               <br />
               <span style={{ color: C.gold }}>intemporel.</span>
-            </>}</h1>
+            </>}</>)}</h1>
 
             <p
               style={{
@@ -962,11 +963,11 @@ return (
                 color: C.text,
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
               L'exception
               <br />
               à chaque pièce.
-            </h2>
+            </>)}</h2>
           </div>
 
           {/* Filters */}
@@ -1489,9 +1490,9 @@ return (
               fontStyle: "italic",
               color: C.text,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
             Notre engagement qualité.
-          </h2>
+          </>)}</h2>
         </motion.div>
 
         <div
@@ -1601,9 +1602,9 @@ return (
               fontStyle: "italic",
               color: C.text,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             L'expérience Aurum.
-          </h2>
+          </>)}</h2>
         </motion.div>
 
         <div
@@ -1698,9 +1699,9 @@ return (
               fontStyle: "italic",
               color: C.text,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Ce qu'ils en disent.
-          </h2>
+          </>)}</h2>
         </motion.div>
 
         <div
@@ -1823,9 +1824,9 @@ return (
                 fontStyle: "italic",
                 color: C.text,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
               Questions fréquentes.
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           {FAQS.map((f, i) => (
@@ -1960,11 +1961,11 @@ return (
               lineHeight: 1.05,
               marginBottom: 40,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Votre bijou
             <br />
             <span style={{ color: C.gold }}>vous attend.</span>
-          </h2>
+          </>)}</h2>
           <p
             style={{
               fontSize: 17,

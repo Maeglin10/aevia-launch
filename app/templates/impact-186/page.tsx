@@ -14,6 +14,7 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -408,7 +409,7 @@ export default function DrFontainePage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1d6fa4)] mb-4">Nos soins</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#1a2332]">Tous vos besoins<br /><span className="text-[var(--brand,#1d6fa4)]">en un seul cabinet.</span></h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1a2332]">{/* TEXTE_SECTION */ clientText(sessionData, "soins.titre") ?? (<>Tous vos besoins<br /><span className="text-[var(--brand,#1d6fa4)]">en un seul cabinet.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -438,7 +439,7 @@ export default function DrFontainePage() {
         <div className="max-w-[1100px] mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/50 mb-3">Urgences dentaires</div>
-            <h2 className="text-2xl font-bold text-white">Douleur, fracture, chute de dent ?<br />Nous vous prenons en charge le jour même.</h2>
+            <h2 className="text-2xl font-bold text-white">{/* TEXTE_SECTION */ clientText(sessionData, "urgences.titre") ?? (<>Douleur, fracture, chute de dent ?<br />Nous vous prenons en charge le jour même.</>)}</h2>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
             <a href={`tel:${fd?.phone ?? "0240567890"}`} className="flex items-center gap-3 px-7 py-4 bg-white text-[var(--brand,#1d6fa4)] font-bold text-sm rounded-xl hover:bg-[#e8f4fd] transition-colors whitespace-nowrap">
@@ -456,7 +457,7 @@ export default function DrFontainePage() {
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1d6fa4)] mb-4">L'équipe soignante</div>
-            <h2 className="text-4xl font-bold text-[#1a2332]">Des praticiens <span className="text-[var(--brand,#1d6fa4)]">à votre écoute.</span></h2>
+            <h2 className="text-4xl font-bold text-[#1a2332]">{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>Des praticiens <span className="text-[var(--brand,#1d6fa4)]">à votre écoute.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {resolveList(clientTeam(sessionData)?.map((m: any) => ({
@@ -488,7 +489,7 @@ export default function DrFontainePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1d6fa4)] mb-4">Avis patients</div>
-            <h2 className="text-3xl font-bold text-[#1a2332]">Ils nous font <span className="text-[var(--brand,#1d6fa4)]">confiance.</span></h2>
+            <h2 className="text-3xl font-bold text-[#1a2332]">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ils nous font <span className="text-[var(--brand,#1d6fa4)]">confiance.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {resolveList(clientReviews(sessionData)?.map((r: any) => ({
@@ -522,7 +523,7 @@ export default function DrFontainePage() {
         <div className="max-w-[1000px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1d6fa4)] mb-4">Tarifs</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1a2332]">Ce que ça <span className="text-[var(--brand,#1d6fa4)]">coûte vraiment.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1a2332]">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Ce que ça <span className="text-[var(--brand,#1d6fa4)]">coûte vraiment.</span></>)}</h2>
           </div></Reveal>
           <div className="bg-white">
             {TARIFS.map((t, i) => (
@@ -552,7 +553,7 @@ export default function DrFontainePage() {
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 mb-6">Prendre soin de vous</div>
-            <h2 className="text-4xl font-bold text-white mb-5">Prenez RDV<br /><span className="text-[#7bc3f5]">en moins de 2 minutes.</span></h2>
+            <h2 className="text-4xl font-bold text-white mb-5">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Prenez RDV<br /><span className="text-[#7bc3f5]">en moins de 2 minutes.</span></>)}</h2>
             <p className="text-white/30 mb-10 text-sm">Disponible en ligne 24h/24 · Confirmation SMS · Rappel automatique 48h avant</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button onClick={() => openRdv(null)} className="min-h-[44px] px-10 py-4 bg-[var(--brand,#1d6fa4)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#155d8a] transition-colors rounded-xl cursor-pointer">

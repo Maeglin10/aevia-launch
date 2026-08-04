@@ -34,7 +34,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -617,9 +619,11 @@ export default function TerreVivantePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   plans = plans_LIVE();
+
 
 
   testimonials = resolveList(
@@ -859,10 +863,10 @@ export default function TerreVivantePage() {
               lineHeight: 1.08,
               marginBottom: "1.5rem",
             }}
-          >{c?.heroHeadline ?? <>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
             De nos champs<br />
             <span style={{ color: C.accent }}>à votre table</span>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 34 }}
@@ -1110,9 +1114,9 @@ export default function TerreVivantePage() {
                   margin: "0.75rem 0 1.35rem",
                   lineHeight: 1.2,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "histoire.titre") ?? (<>
                 26 ans de passion pour la terre vivante
-              </h2>
+              </>)}</h2>
               <p style={{ fontFamily: C.bodyFont, color: C.textLight, lineHeight: 1.85, fontSize: "0.94rem", marginBottom: "1.25rem" }}>
                 En 1998, Brigitte et Jean-Paul Forestier quittent leurs métiers de comptable et d'ingénieur pour acquérir 12 hectares de terres argilo-calcaires dans le Beaujolais. Sans expérience agricole mais avec une conviction profonde : nourrir leur communauté de façon honnête.
               </p>
@@ -1141,9 +1145,9 @@ export default function TerreVivantePage() {
         <div style={{ maxWidth: 1140, margin: "0 auto" }}>
           <SectionReveal>
             <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 2.9rem)", color: C.bg, fontWeight: 700, marginBottom: "1rem" }}>
+              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 2.9rem)", color: C.bg, fontWeight: 700, marginBottom: "1rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "paniers.titre") ?? (<>
                 Ce que contient votre panier
-              </h2>
+              </>)}</h2>
               <p style={{ fontFamily: C.bodyFont, color: "rgba(253,249,238,0.6)", fontSize: "1rem", maxWidth: 500, margin: "0 auto", lineHeight: 1.75 }}>
                 Chaque panier est une surprise préparée avec amour, reflet fidèle de ce que la semaine a donné.
               </p>
@@ -1188,9 +1192,9 @@ export default function TerreVivantePage() {
               <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.earth }}>
                 Témoignages
               </span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 2.9rem)", color: C.text, fontWeight: 700, margin: "0.6rem 0" }}>
+              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 2.9rem)", color: C.text, fontWeight: 700, margin: "0.6rem 0" }}>{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
                 Ils ont rejoint notre communauté
-              </h2>
+              </>)}</h2>
             </div>
           </SectionReveal>
 
@@ -1253,9 +1257,9 @@ export default function TerreVivantePage() {
               <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.earth }}>
                 Abonnements CSA
               </span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 2.9rem)", color: C.text, fontWeight: 700, margin: "0.6rem 0 1rem" }}>
+              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 2.9rem)", color: C.text, fontWeight: 700, margin: "0.6rem 0 1rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
                 Choisissez votre panier
-              </h2>
+              </>)}</h2>
               <p style={{ fontFamily: C.bodyFont, color: C.textLight, fontSize: "1rem" }}>
                 Engagement 6 mois minimum — résiliation avec préavis 4 semaines.
               </p>
@@ -1359,9 +1363,9 @@ export default function TerreVivantePage() {
               <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.earth }}>
                 Questions fréquentes
               </span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 2.7rem)", color: C.text, fontWeight: 700, margin: "0.6rem 0 0" }}>
+              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 2.7rem)", color: C.text, fontWeight: 700, margin: "0.6rem 0 0" }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
                 Tout ce que vous devez savoir
-              </h2>
+              </>)}</h2>
             </div>
           </SectionReveal>
 

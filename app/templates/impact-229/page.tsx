@@ -11,7 +11,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -170,10 +172,12 @@ export default function EclatSpaPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   FORFAITS = FORFAITS_LIVE();
+
 
 
   SOINS_DEMO = resolveList(
@@ -290,9 +294,9 @@ export default function EclatSpaPage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}15 0%, transparent 55%)` }} />
         <motion.div className="mb229-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(42px, 5.2vw, 70px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
+            style={{ fontFamily: FONT, fontSize: "clamp(42px, 5.2vw, 70px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             Révélez votre éclat,<br /><em style={{ color: C.rose }}>corps et âme.</em>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{fd?.tagline ?? c?.heroSubline ?? <>
             Institut de beauté et spa à {clientCity({ formData: fd }) ?? "Nice"}. Soins visage, massages, épilation, maquillage — des rituels de bien-être avec des produits biologiques et une expertise de 14 ans.
@@ -329,7 +333,7 @@ export default function EclatSpaPage() {
       <section id="soins" style={{ padding: "100px 80px", background: C.bg }}>
         <Reveal><div style={{ marginBottom: 56 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Nos soins</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Un univers dédié<br /><em>à votre bien-être.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "soins.titre") ?? (<>Un univers dédié<br /><em>à votre bien-être.</em></>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
           {soins.map((s: any, i: number) => (
@@ -348,7 +352,7 @@ export default function EclatSpaPage() {
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal delay={0.1}><div>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre philosophie</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>Beauté consciente,<br /><em>plaisir sensoriel.</em></h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Beauté consciente,<br /><em>plaisir sensoriel.</em></>)}</h2>
             {VALEURS.map((v, i) => (
               <div key={i} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
                 <Heart size={16} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
@@ -366,7 +370,7 @@ export default function EclatSpaPage() {
       <section style={{ padding: "100px 80px", background: C.bgDark }}>
         <Reveal><div style={{ textAlign: "center", marginBottom: 52 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.rose }}>Témoignages</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>Elles <em style={{ color: C.rose }}>rayonnent.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Elles <em style={{ color: C.rose }}>rayonnent.</em></>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
           {avis.map((a: any, i: number) => (
@@ -387,7 +391,7 @@ export default function EclatSpaPage() {
       <section id="forfaits" style={{ padding: "100px 80px", background: C.white }}>
         <Reveal><div style={{ marginBottom: 56, textAlign: "center" }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Forfaits</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Le temps que vous<br /><em>voulez vous accorder.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "forfaits.titre") ?? (<>Le temps que vous<br /><em>voulez vous accorder.</em></>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
           {FORFAITS.map((f, i) => (
@@ -405,7 +409,7 @@ export default function EclatSpaPage() {
       <section id="cadeaux" style={{ padding: "100px 80px", background: C.bgSection }}>
         <Reveal><div style={{ marginBottom: 56, textAlign: "center" }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Cadeaux</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Offrir du temps,<br /><em>pas un objet de plus.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "cadeaux.titre") ?? (<>Offrir du temps,<br /><em>pas un objet de plus.</em></>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
           {CADEAUX.map((c, i) => (
@@ -422,7 +426,7 @@ export default function EclatSpaPage() {
       <section id="reservation" style={{ padding: "100px 80px", background: C.bg }}>
         <Reveal><div style={{ textAlign: "center", marginBottom: 52 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Réservation</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Réservez<br /><em>votre soin.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "reservation.titre") ?? (<>Réservez<br /><em>votre soin.</em></>)}</h2>
           <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 460, margin: "14px auto 0", lineHeight: 1.7 }}>Choisissez votre soin, une date et une heure. Notre équipe confirme votre rendez-vous sous 24h.</p>
         </div></Reveal>
 
@@ -504,7 +508,7 @@ export default function EclatSpaPage() {
       <section id="contact" style={{ padding: "100px 80px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <Sparkles size={28} color={C.accent} style={{ margin: "0 auto 16px" }} />
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, marginBottom: 16 }}>Offrez-vous<br /><em>un moment rien qu'à vous.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Offrez-vous<br /><em>un moment rien qu'à vous.</em></>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>Réservation par téléphone ou email. Coffrets cadeaux disponibles — parfaits pour offrir.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={`tel:${fd?.phone ?? "+33493000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>

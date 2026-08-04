@@ -28,6 +28,7 @@ import {
   clientServices,
   clientTagline,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -146,7 +147,9 @@ export default function Impact53Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   PRESTATIONS_INLINE = resolveList(
 

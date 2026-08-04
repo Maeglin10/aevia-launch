@@ -18,6 +18,7 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 function navLinks_LIVE() {
@@ -491,9 +492,9 @@ export default function Impact171Page() {
           <Reveal>
             <div className="text-center mb-14">
               <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Nos Spécialités</span>
-              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "specialites.titre") ?? (<>
                 Une médecine complète
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -549,9 +550,9 @@ export default function Impact171Page() {
           <Reveal>
             <div className="text-center mb-14">
               <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Notre Équipe</span>
-              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "medecins.titre") ?? (<>
                 Des médecins d'exception
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -591,9 +592,9 @@ export default function Impact171Page() {
           <Reveal>
             <div className="text-center mb-14">
               <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Parcours Patient</span>
-              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "protocoles.titre") ?? (<>
                 5 étapes vers votre mieux-être
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -626,9 +627,9 @@ export default function Impact171Page() {
           <Reveal>
             <div className="text-center mb-14">
               <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Approche Médicale</span>
-              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "science.titre") ?? (<>
                 La science au service<br />de votre santé
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -675,9 +676,9 @@ export default function Impact171Page() {
           <Reveal>
             <div className="text-center mb-14">
               <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Témoignages</span>
-              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
                 Ils ont retrouvé leur vitalité
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -714,9 +715,9 @@ export default function Impact171Page() {
           <Reveal>
             <div className="text-center mb-14">
               <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Honoraires</span>
-              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
                 Transparence tarifaire
-              </h2>
+              </>)}</h2>
               <p className="text-[#134E4A]/60 mt-4 max-w-2xl mx-auto">Secteur 2 avec dépassements d'honoraires maîtrisés. Remboursement Sécurité Sociale + complémentaire santé.</p>
             </div>
           </Reveal>
@@ -756,9 +757,9 @@ export default function Impact171Page() {
           <Reveal>
             <div className="text-center mb-14">
               <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Prendre RDV</span>
-              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
+              <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Commencez votre parcours
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 

@@ -20,7 +20,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -79,8 +81,10 @@ export default function Impact54Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
 
   PRESTATIONS_ANON = resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...PRESTATIONS_ANON_SOURCE[i % PRESTATIONS_ANON_SOURCE.length], name: s.title, desc: s.desc || "" , ...(s.price ? { price: s.price } : {})})), PRESTATIONS_ANON_SOURCE);
@@ -230,9 +234,9 @@ return (
                   lineHeight: 1.1,
                   letterSpacing: "-0.02em",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
                 Engineered for vector performance
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -404,9 +408,9 @@ return (
               <span style={{fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: brand ?? 'var(--brand,#00ffd1)', marginBottom: 12, display: "block" }}>
                 {tr({ formData: fd }, "Pricing")}
               </span>
-              <h2 style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontFamily: "'Syne', sans-serif", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em" }}>
+              <h2 style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontFamily: "'Syne', sans-serif", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Scale your rendering pipeline.
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24 }}>
@@ -497,9 +501,9 @@ return (
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               The GPU cluster is waiting.
-            </h2>
+            </>)}</h2>
             <p style={{ fontSize: 16, color: "rgba(232,232,255,0.4)", lineHeight: 1.7, maxWidth: 480, margin: "0 auto 40px" }}>
               Deploy your first pipeline in under 5 minutes. No credit card required for the 14-day trial.
             </p>

@@ -11,7 +11,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -1037,7 +1039,9 @@ export default function Impact135Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   MARKET_CARDS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...MARKET_CARDS_SOURCE[i % MARKET_CARDS_SOURCE.length], name: s.title, price: s.price ?? MARKET_CARDS_SOURCE[i % MARKET_CARDS_SOURCE.length].price })),
     MARKET_CARDS_SOURCE,
@@ -1607,9 +1611,9 @@ export default function Impact135Page() {
               letterSpacing: "-2px",
               color: C.text,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "markets.titre") ?? (<>
             Track every asset. <span style={{ color: C.accent }}>In real-time.</span>
-          </h2>
+          </>)}</h2>
         </TextReveal>
 
         <div
@@ -1667,10 +1671,10 @@ export default function Impact135Page() {
                   lineHeight: 1.15,
                   color: C.text,
                 }}
-              >{c?.aboutTitle ?? fd?.businessName ?? <>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "strategies.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>
                 Watch your wealth{" "}
                 <span style={{ color: C.accent }}>compound.</span>
-              </>}</h2>
+              </>}</>)}</h2>
             </TextReveal>
             <p
               style={{
@@ -1823,10 +1827,10 @@ export default function Impact135Page() {
                 color: C.text,
                 marginBottom: 16,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "features.titre") ?? (<>
               Institutional tools. <br />
               <span style={{ color: C.accent }}>Retail access.</span>
-            </h2>
+            </>)}</h2>
           </TextReveal>
           <p
             style={{
@@ -1874,10 +1878,10 @@ export default function Impact135Page() {
                   color: C.text,
                   marginBottom: 16,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "traders.titre") ?? (<>
                 Traders who{" "}
                 <span style={{ color: C.accent }}>actually win.</span>
-              </h2>
+              </>)}</h2>
             </TextReveal>
             <p style={{ fontSize: 18, color: C.muted }}>
               Real results from real traders — not cherry-picked demos.
@@ -1917,11 +1921,11 @@ export default function Impact135Page() {
                 color: C.text,
                 marginBottom: 16,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "pricing.titre") ?? (<>
               Transparent pricing.
               <br />
               <span style={{ color: C.accent }}>Zero hidden fees.</span>
-            </h2>
+            </>)}</h2>
           </TextReveal>
           <p style={{ fontSize: 18, color: C.muted }}>
             14-day free trial on all plans. No credit card required.
@@ -1977,11 +1981,11 @@ export default function Impact135Page() {
               color: C.text,
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
             Your edge is waiting.
             <br />
             <span style={{ color: C.accent }}>Start trading smarter.</span>
-          </h2>
+          </>)}</h2>
         </TextReveal>
 
         <motion.p

@@ -15,7 +15,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -114,7 +116,9 @@ export default function VerdantImpactPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   IMPACT = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...IMPACT_SOURCE[i % IMPACT_SOURCE.length], value: s.value, label: s.label })),
     IMPACT_SOURCE,
@@ -267,7 +271,7 @@ export default function VerdantImpactPage() {
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-emerald-600 block mb-4">Our Programs</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Where Your Money <span className="text-emerald-600">Goes.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "programs.titre") ?? (<>Where Your Money <span className="text-emerald-600">Goes.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -299,7 +303,7 @@ export default function VerdantImpactPage() {
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-emerald-600 block mb-4">{tr({ formData: fd }, "Pricing")}</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Start Your <span className="text-emerald-600">Journey.</span></h2>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "pricing.titre") ?? (<>Start Your <span className="text-emerald-600">Journey.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -335,9 +339,9 @@ export default function VerdantImpactPage() {
           </div>
           <div className="relative z-10 text-center text-white px-6">
             <Reveal>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 The Planet<br/>Can't <span className="text-emerald-300">Wait.</span>
-              </h2>
+              </>)}</h2>
               <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-12 py-5 bg-white text-emerald-800 font-bold rounded-full hover:bg-emerald-300 transition-colors duration-500">
                 Take Action Today
               </button>
@@ -376,7 +380,7 @@ export default function VerdantImpactPage() {
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-emerald-600 block mb-4">{tr({ formData: fd }, "Testimonials")}</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Trusted by Earth Advocates.</h2>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Trusted by Earth Advocates.</>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -400,7 +404,7 @@ export default function VerdantImpactPage() {
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-emerald-600 block mb-4">{tr({ formData: fd }, "Get In Touch")}</span>
-              <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-12">Start Your Climate Action.</h2>
+              <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Start Your Climate Action.</>)}</h2>
             </Reveal>
             <Reveal delay={0.15}>
               {contactSubmitted ? (

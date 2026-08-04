@@ -18,6 +18,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1160,10 +1161,10 @@ function PieceCards() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
             Ce que nous{' '}
             <span style={{ color: C.accent }}>créons</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1380,11 +1381,11 @@ function CraftPanel() {
                 margin: '20px 0 52px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "craft.titre") ?? (<>
               De la consultation
               <br />
               <span style={{ color: C.silk }}>aux finitions.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {CRAFT_STEPS.map((step, i) => (
@@ -1549,10 +1550,10 @@ function Testimonials() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             La parole de nos{' '}
             <span style={{ color: C.accent }}>clientes</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1676,10 +1677,10 @@ function OrderForm() {
               margin: '22px 0 18px',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "commande.titre") ?? (<>
             Parlons de votre{' '}
             <span style={{ color: C.silk }}>projet</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p

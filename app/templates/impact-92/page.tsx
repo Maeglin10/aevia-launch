@@ -33,6 +33,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -457,12 +458,12 @@ export default function SkylineConciergePage() {
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a96e)] mb-4 block">
                 The Ecosystem
               </span>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">{/* TEXTE_SECTION */ clientText(sessionData, "concierge.titre") ?? (<>
                 Comprehensive{" "}
                 <span className="not-italic font-thin text-white">
                   Asset Control.
                 </span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -547,10 +548,10 @@ export default function SkylineConciergePage() {
           <Reveal>
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
               <div>
-                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none mb-6 uppercase">
+                <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none mb-6 uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "estates.titre") ?? (<>
                   Private <br />{" "}
                   <span className="text-[var(--brand,#c9a96e)]">Inventory.</span>
-                </h2>
+                </>)}</h2>
                 <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
                   Restricted Access Listings // Required NDA
                 </p>
@@ -646,10 +647,10 @@ export default function SkylineConciergePage() {
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a96e)] mb-4 block">
                 Client Endorsements
               </span>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">{/* TEXTE_SECTION */ clientText(sessionData, "testimonials.titre") ?? (<>
                 Trusted by <br />
                 <span className="not-italic font-thin text-white">Discerning Leaders.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           
@@ -685,10 +686,10 @@ export default function SkylineConciergePage() {
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-8 block">
               Global Infrastructure
             </span>
-            <h2 className="text-5xl md:text-8xl font-black italic tracking-tighter leading-none mb-10 uppercase">
+            <h2 className="text-5xl md:text-8xl font-black italic tracking-tighter leading-none mb-10 uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "global.titre") ?? (<>
               Presence <br />{" "}
               <span className="text-white">Without Borders.</span>
-            </h2>
+            </>)}</h2>
             <p className="text-black/60 text-lg leading-relaxed mb-12 italic font-light">
               Our network spans across 12 strategic global hubs, providing
               seamless lifestyle continuity and asset security for clients in
@@ -745,10 +746,10 @@ export default function SkylineConciergePage() {
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a96e)] mb-4 block">
                 Information Desk
               </span>
-              <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic">
+              <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic">{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
                 Frequently <br />
                 <span className="not-italic font-thin text-white">Asked Questions.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -776,10 +777,10 @@ export default function SkylineConciergePage() {
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a96e)] mb-8 block">
               Initiate Consultation
             </span>
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Secure <br />
               <span className="not-italic font-thin text-white">Communications.</span>
-            </h2>
+            </>)}</h2>
             <p className="text-white/40 text-lg leading-relaxed mb-12 font-light italic">
               Contact our private desk for membership inquiries or asset advisory. All transmissions are encrypted and treated with absolute confidentiality.
             </p>

@@ -24,6 +24,7 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -324,9 +325,9 @@ export default function Impact83Page() {
         <div style={{ maxWidth: 1300, margin: "0 auto" }}>
           <Reveal>
             <p style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>Collections</p>
-            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(2.5rem,5vw,5rem)", fontWeight: 300, color: C.text, lineHeight: 1.2, marginBottom: "4rem" }}>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(2.5rem,5vw,5rem)", fontWeight: 300, color: C.text, lineHeight: 1.2, marginBottom: "4rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
               L&apos;Art du Temps Précieux
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "2rem" }}>
             {COLLECTIONS_LIST.map((item, i) => (
@@ -406,9 +407,9 @@ export default function Impact83Page() {
         <div style={{ maxWidth: 1300, margin: "0 auto" }}>
           <Reveal>
             <p style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>Témoignages</p>
-            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 300, color: C.text, lineHeight: 1.2, marginBottom: "4rem", fontStyle: "italic" }}>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 300, color: C.text, lineHeight: 1.2, marginBottom: "4rem", fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               Ce que disent nos clients.
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "2rem" }}>
             {TESTIMONIALS_LIST.slice(0, 3).map((t, i) => (
@@ -439,9 +440,9 @@ export default function Impact83Page() {
         <div style={{ maxWidth: 1300, margin: "0 auto" }}>
           <Reveal>
             <p style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>L&apos;Équipe</p>
-            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 300, color: C.text, lineHeight: 1.2, marginBottom: "4rem" }}>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 300, color: C.text, lineHeight: 1.2, marginBottom: "4rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Maîtres artisans.
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: "2rem" }}>
             {TEAM_LIST.map((m, i) => (
@@ -468,9 +469,9 @@ export default function Impact83Page() {
         <div style={{ maxWidth: 700, margin: "0 auto" }}>
           <Reveal>
             <p style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.4em", textTransform: "uppercase", color: C.bg, marginBottom: 16, opacity: 0.6 }}>Sur mesure</p>
-            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(2rem,5vw,4.5rem)", fontWeight: 300, color: C.bg, lineHeight: 1.2, marginBottom: "2rem", fontStyle: "italic" }}>
+            <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(2rem,5vw,4.5rem)", fontWeight: 300, color: C.bg, lineHeight: 1.2, marginBottom: "2rem", fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Une pièce unique,<br />conçue pour vous.
-            </h2>
+            </>)}</h2>
             <p style={{ fontFamily: FONT_HEADING, color: C.bg, opacity: 0.6, marginBottom: "3rem", lineHeight: 1.7, fontSize: "1.1rem" }}>
               Nos ateliers créent des pièces sur-mesure en collaboration directe avec vous. De l&apos;esquisse à la livraison, comptez 6 à 16 semaines selon la complexité. Chaque pièce sur-mesure est accompagnée d&apos;un certificat gemmologique indépendant.
             </p>

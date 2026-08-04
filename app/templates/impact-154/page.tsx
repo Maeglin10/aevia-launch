@@ -35,7 +35,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -397,10 +399,12 @@ export default function IvoryArchivePremium() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   ARCHIVE_WORKS_DEMO_SOURCE = ARCHIVE_WORKS_DEMO_SOURCE_LIVE();
   COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
+
 
 
 
@@ -1310,9 +1314,9 @@ function AboutPage({ onContact }: { onContact: () => void }) {
       <section className="py-32 bg-black border-t border-white/5">
          <div className="max-w-[1200px] mx-auto px-8 md:px-20 text-center">
             <Reveal>
-               <h2 className="text-4xl md:text-6xl font-light italic uppercase tracking-tighter text-white mb-10" style={{ fontFamily: "serif" }}>
+               <h2 className="text-4xl md:text-6xl font-light italic uppercase tracking-tighter text-white mb-10" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-12.titre") ?? (<>
                   Confier une œuvre.
-               </h2>
+               </>)}</h2>
                <p className="max-w-2xl mx-auto text-[12px] text-white/40 leading-loose uppercase tracking-[0.2em] font-bold italic mb-12">
                   L'accès à notre registre privé est réservé aux institutions muséales et aux collectionneurs certifiés. Initiez un premier échange confidentiel.
                </p>
@@ -1375,7 +1379,7 @@ function ContactPage() {
                     <div className="w-16 h-16 bg-[var(--brand,#b4925e)]/10 border border-[var(--brand,#b4925e)]/20 flex items-center justify-center mx-auto mb-8">
                        <Check className="w-7 h-7 text-[var(--brand,#b4925e)]" />
                     </div>
-                    <h3 className="text-3xl font-light italic uppercase tracking-tighter text-white mb-4" style={{ fontFamily: "serif" }}>Message reçu</h3>
+                    <h3 className="text-3xl font-light italic uppercase tracking-tighter text-white mb-4" style={{ fontFamily: "serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-13.titre") ?? (<>Message reçu</>)}</h3>
                     <p className="text-[11px] text-white/40 uppercase tracking-[0.2em] font-bold italic leading-loose">
                        Merci. Un conservateur de l'Archive vous répondra sous 24 heures ouvrées, en toute confidentialité.
                     </p>

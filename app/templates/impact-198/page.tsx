@@ -18,7 +18,9 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -963,8 +965,10 @@ export default function Impact198Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   TEAM_DEMO = TEAM_DEMO_LIVE();
+
 
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
@@ -1466,11 +1470,11 @@ export default function Impact198Page() {
                   color: C.dark,
                   lineHeight: 1.05,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Des soins pensés
                 <br />
                 <em>pour vous sublimer</em>
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
           <div
@@ -1598,9 +1602,9 @@ export default function Impact198Page() {
                   fontWeight: 400,
                   color: C.dark,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "team.titre") ?? (<>
                 Des expertes <em>passionnées</em>
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
 
@@ -1776,9 +1780,9 @@ export default function Impact198Page() {
                   fontWeight: 400,
                   color: C.dark,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "testimonials.titre") ?? (<>
                 Elles nous font <em>confiance</em>
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
           <TestimonialCarousel items={temoignages} />
@@ -1817,9 +1821,9 @@ export default function Impact198Page() {
                   fontWeight: 400,
                   color: C.dark,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "packages.titre") ?? (<>
                 Des expériences <em>complètes</em>
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
           <div
@@ -1889,11 +1893,11 @@ export default function Impact198Page() {
                 lineHeight: 1.05,
                 marginBottom: 20,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "booking.titre") ?? (<>
               Votre moment
               <br />
               <em style={{ color: C.roseLight }}>de beauté vous attend</em>
-            </h2>
+            </>)}</h2>
           </TextReveal>
           <motion.p
             initial={{ opacity: 0 }}

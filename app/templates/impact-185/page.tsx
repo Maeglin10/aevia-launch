@@ -12,7 +12,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -258,8 +260,10 @@ export default function GentlemansCutPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   TEMOIGNAGES = TEMOIGNAGES_LIVE();
+
 
   SERVICES_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
   TARIFS = resolveList(
@@ -408,7 +412,7 @@ export default function GentlemansCutPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/60 mb-4" style={{ fontFamily: "'DM Mono', monospace" }}>— Nos prestations</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#f5f0e8]">Chaque service,<br /><span className="text-[var(--brand,#c9a84c)] italic">à la perfection.</span></h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#f5f0e8]">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Chaque service,<br /><span className="text-[var(--brand,#c9a84c)] italic">à la perfection.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="divide-y divide-[var(--brand,#c9a84c)]/8">
@@ -442,7 +446,7 @@ export default function GentlemansCutPage() {
         <div className="max-w-[1000px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/50 mb-4" style={{ fontFamily: "'DM Mono', monospace" }}>— Tarifs</div>
-            <h2 className="text-4xl font-bold text-[#f5f0e8]">Affichés, <span className="italic text-[var(--brand,#c9a84c)]">jamais négociés.</span></h2>
+            <h2 className="text-4xl font-bold text-[#f5f0e8]">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Affichés, <span className="italic text-[var(--brand,#c9a84c)]">jamais négociés.</span></>)}</h2>
           </div></Reveal>
           <div className="border border-[var(--brand,#c9a84c)]/12">
             {TARIFS.map((t, i) => (
@@ -471,7 +475,7 @@ export default function GentlemansCutPage() {
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/50 mb-4" style={{ fontFamily: "'DM Mono', monospace" }}>— La maison</div>
-            <h2 className="text-4xl font-bold text-[#f5f0e8]">Ouvert en 2009, <span className="italic text-[var(--brand,#c9a84c)]">jamais déménagé.</span></h2>
+            <h2 className="text-4xl font-bold text-[#f5f0e8]">{/* TEXTE_SECTION */ clientText(sessionData, "a-propos.titre") ?? (<>Ouvert en 2009, <span className="italic text-[var(--brand,#c9a84c)]">jamais déménagé.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <Reveal>
@@ -548,7 +552,7 @@ export default function GentlemansCutPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/50 mb-4" style={{ fontFamily: "'DM Mono', monospace" }}>— Ce qu'ils disent</div>
-            <h2 className="text-4xl font-bold text-[#f5f0e8]">La parole <span className="italic text-[var(--brand,#c9a84c)]">des clients.</span></h2>
+            <h2 className="text-4xl font-bold text-[#f5f0e8]">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>La parole <span className="italic text-[var(--brand,#c9a84c)]">des clients.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[var(--brand,#c9a84c)]/8">
             {TEMOIGNAGES.map((t, i) => (
@@ -578,9 +582,9 @@ export default function GentlemansCutPage() {
               <Scissors className="w-5 h-5 text-[var(--brand,#c9a84c)]/40" />
               <div className="h-[1px] w-16 bg-[var(--brand,#c9a84c)]/30" />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#f5f0e8] mb-5">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#f5f0e8] mb-5">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Prêt pour une<br /><span className="italic text-[var(--brand,#c9a84c)]">coupe parfaite ?</span>
-            </h2>
+            </>)}</h2>
             <p className="text-[#f5f0e8]/25 mb-10 text-sm" style={{ fontFamily: "'DM Mono', monospace" }}>
               Disponible du mardi au samedi · {clientCity({ formData: fd }) ?? "Bordeaux"} Centre · Sur rendez-vous
             </p>

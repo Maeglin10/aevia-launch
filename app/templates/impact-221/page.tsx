@@ -41,6 +41,7 @@ import {
   clientServices,
   clientStats,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -605,9 +606,9 @@ function Models() {
             <div style={{ width: 40, height: 2, background: C.blue }} />
             <span style={{ color: C.blue, fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' as const }}>La gamme</span>
           </div>
-          <h2 style={{ fontSize: fl(2, 4), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+          <h2 style={{ fontSize: fl(2, 4), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "modeles.titre") ?? (<>
             Choisissez votre<br /><span style={{ color: C.blue }}>liberté</span>
-          </h2>
+          </>)}</h2>
         </motion.div>
         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
           {MODELS.map((m, i) => <ModelCard key={m.name} model={m} index={i} />)}
@@ -753,9 +754,9 @@ function StickySpec() {
         <div style={{ flex: '1', padding: 'clamp(4rem, 8vh, 7rem) 0' }}>
           <div style={{ marginBottom: '3rem' }}>
             <div style={{ color: C.blue, fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' as const, marginBottom: '1rem' }}>Spécifications</div>
-            <h2 style={{ fontSize: fl(1.8, 3), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+            <h2 style={{ fontSize: fl(1.8, 3), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               Rien n'a été laissé<br />au hasard
-            </h2>
+            </>)}</h2>
           </div>
           {SPEC_BULLETS.map((b, i) => <SpecBullet key={i} bullet={b} index={i} />)}
         </div>
@@ -784,9 +785,9 @@ function Gallery() {
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} style={{ marginBottom: '3rem', textAlign: 'center' }}>
           <div style={{ color: C.blue, fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' as const, marginBottom: '1rem' }}>Galerie</div>
-          <h2 style={{ fontSize: fl(1.8, 3.5), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em' }}>
+          <h2 style={{ fontSize: fl(1.8, 3.5), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em' }}>{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>
             Lumyx dans la <span style={{ color: C.blue }}>vraie vie</span>
-          </h2>
+          </>)}</h2>
         </motion.div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
           {grid.map((p, i) => (
@@ -950,9 +951,9 @@ function ReserveForm() {
           <span style={{color: brand ?? 'var(--brand,#f59e0b)', fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' as const }}>Plus que 100 unités disponibles</span>
         </div>
 
-        <h2 style={{ fontSize: fl(2, 4), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '1.25rem' }}>
+        <h2 style={{ fontSize: fl(2, 4), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '1.25rem' }}>{/* TEXTE_SECTION */ clientText(sessionData, "reserve.titre") ?? (<>
           Réservez votre<br /><span style={{ color: C.blue, textShadow: `0 0 30px ${C.blueGlow}` }}>Lumyx maintenant</span>
-        </h2>
+        </>)}</h2>
         <p style={{ color: C.whiteOff, fontSize: fl(0.95, 1.1), lineHeight: 1.65, marginBottom: '2.5rem' }}>
           Réservez avec 0 € d'engagement. Livraison en septembre 2026. Vous serez parmi les premiers à rouler Lumyx en France.
         </p>

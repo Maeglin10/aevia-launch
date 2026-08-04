@@ -3,6 +3,7 @@ import {
   clientCity,
   clientName,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
@@ -12,6 +13,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import Link from "next/link";
 import { C, TextReveal, MagneticButton, MarqueeStrip, DepthLayers, CountUp, PRESS, SERIES as SERIES_DEMO, SeriesCard } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -75,8 +77,10 @@ export default function LeaHomePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
 
   STATS_INLINE = resolveList(
@@ -219,7 +223,7 @@ return (
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 48 }}>
           <div>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 12 }}>Photography Series</p>
-            <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", color: C.cream, marginBottom: 0 }}>Selected Work</h2>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", color: C.cream, marginBottom: 0 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Selected Work</>)}</h2>
           </div>
           <Link href="/templates/impact-69/work" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, letterSpacing: "0.15em", color: C.muted, textTransform: "uppercase", textDecoration: "none", borderBottom: `1px solid ${C.border}`, paddingBottom: 2 }}>
             All Series →
@@ -237,7 +241,7 @@ return (
         <div className="imx-mobstack" style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <div>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.amber, textTransform: "uppercase", marginBottom: 20 }}>Limited Edition Prints</p>
-            <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", color: C.cream, marginBottom: 24 }}>Bring the wilderness home.</h2>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", color: C.cream, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Bring the wilderness home.</>)}</h2>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.75, fontWeight: 300, marginBottom: 32, maxWidth: 420 }}>
               Each print is produced on 300gsm Hahnemühle Fine Art Baryta, signed and numbered by Léa. Editions range from 6 to 20 — once they're gone, they're gone.
             </p>
@@ -290,7 +294,7 @@ return (
       <section style={{ padding: "80px 32px", borderTop: `1px solid ${C.border}`, background: C.bgMid }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 10, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 16 }}>Collectors</p>
-          <h2 style={{ fontSize: "clamp(28px, 5vw, 56px)", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.03em", color: C.cream, marginBottom: 56 }}>What they say.</h2>
+          <h2 style={{ fontSize: "clamp(28px, 5vw, 56px)", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.03em", color: C.cream, marginBottom: 56 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>What they say.</>)}</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 1, background: C.border }}>
             {[
               { quote: "I've collected fine art photography for 15 years. Lea's work is the first I've bought solely based on an emotional reaction — not investment. That's rare.", name: "D. Laurent", origin: "Paris · Collector" },
@@ -313,7 +317,7 @@ return (
       <section style={{ padding: "80px 32px", borderTop: `1px solid ${C.border}`, background: C.bg }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 10, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 16 }}>Behind each print</p>
-          <h2 style={{ fontSize: "clamp(28px, 5vw, 56px)", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.03em", color: C.cream, marginBottom: 56 }}>The process.</h2>
+          <h2 style={{ fontSize: "clamp(28px, 5vw, 56px)", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.03em", color: C.cream, marginBottom: 56 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>The process.</>)}</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 1, background: C.border }}>
             {[
               { step: "01", title: "The Expedition", desc: "Each series begins with weeks in the field. I travel alone, no schedule, no shot list — only the landscape and the right light." },
@@ -335,7 +339,7 @@ return (
       <section style={{ padding: "80px 32px", textAlign: "center", background: C.bg }}>
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
           <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 24 }}>Commission a Print</p>
-          <h2 style={{ fontSize: "clamp(28px, 5vw, 52px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", color: C.cream, marginBottom: 20 }}>Looking for something specific?</h2>
+          <h2 style={{ fontSize: "clamp(28px, 5vw, 52px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", color: C.cream, marginBottom: 20 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Looking for something specific?</>)}</h2>
           <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, color: C.muted, lineHeight: 1.7, fontWeight: 300, marginBottom: 40 }}>
             Commission a custom print from any series, in any size. I also license images for editorial and commercial use.
           </p>

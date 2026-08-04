@@ -34,6 +34,7 @@ import {
   clientServices,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1123,12 +1124,12 @@ function SoinsSection() {
               margin: '20px 0 16px',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "soins.titre") ?? (<>
             Des soins d&apos;excellence pour{' '}
             <span style={{ fontStyle: 'italic', color: C.navyMid }}>
               chaque sourire
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p
@@ -1316,12 +1317,12 @@ function TechniqueSection() {
                 margin: '20px 0 52px',
                 lineHeight: 1.07,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "techniques.titre") ?? (<>
               La précision au{' '}
               <span style={{ fontStyle: 'italic', color: C.navyMid }}>
                 micron près
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {TECHNIQUES.map((t, i) => (
@@ -1459,12 +1460,12 @@ function TestimonialsSection() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             Ce que disent nos{' '}
             <span style={{ fontStyle: 'italic', color: C.goldLight }}>
               patients
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1655,12 +1656,12 @@ function BilanFormSection() {
                 margin: '20px 0 16px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "bilan.titre") ?? (<>
               Votre{' '}
               <span style={{ fontStyle: 'italic', color: C.navyMid }}>
                 premier pas
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.14}>
             <p
@@ -1962,12 +1963,12 @@ function FinancementSection() {
               margin: '20px 0 16px',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "financement.titre") ?? (<>
             Prendre soin de soi ne doit pas{' '}
             <span style={{ fontStyle: 'italic', color: C.goldLight }}>
               coûter cher
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p
@@ -2140,12 +2141,12 @@ function TechnoSection() {
                 margin: '20px 0 16px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "techno.titre") ?? (<>
               Un arsenal technique{' '}
               <span style={{ fontStyle: 'italic', color: C.navyMid }}>
                 de pointe
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.14}>
             <p
@@ -2430,12 +2431,12 @@ function EquipeSection() {
               margin: '20px 0 16px',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>
             Des professionnels à{' '}
             <span style={{ fontStyle: 'italic', color: C.navyMid }}>
               votre écoute
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

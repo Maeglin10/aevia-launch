@@ -12,7 +12,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -167,7 +169,9 @@ export default function AtlasPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   ARTICLES = ARTICLES_DEMO.map((row, i) => ({
     ...row,
     image: clientPhotos(session)[0 + i] || row.image,
@@ -416,9 +420,9 @@ export default function AtlasPage() {
           <div className="mb-14">
             <Reveal>
               <p className="text-[var(--brand,#C0392B)] text-xs tracking-[0.25em] uppercase mb-4">Destinations</p>
-              <h2 className="text-4xl md:text-5xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <h2 className="text-4xl md:text-5xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "destinations.titre") ?? (<>
                 Explorer par région
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -487,9 +491,9 @@ export default function AtlasPage() {
         <div className="max-w-2xl mx-auto px-6 text-center">
           <Reveal>
             <Globe className="w-10 h-10 text-[var(--brand,#C0392B)] mx-auto mb-6" />
-            <h2 className="text-3xl md:text-4xl font-normal mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h2 className="text-3xl md:text-4xl font-normal mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "newsletter.titre") ?? (<>
               La lettre d&apos;Atlas
-            </h2>
+            </>)}</h2>
             <p className="text-[#6B5A40] leading-relaxed mb-8" style={{ fontFamily: "'EB Garamond', serif", fontSize: "18px" }}>
               Chaque mois, un récit inédit, une destination à découvrir et trois choses que nous avons lues. Pas de spam, pas de publicité. Seulement le voyage.
             </p>

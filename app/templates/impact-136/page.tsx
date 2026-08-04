@@ -23,7 +23,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -223,7 +225,9 @@ export default function TextRevealPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -412,12 +416,12 @@ export default function TextRevealPage() {
       <section className="py-32 md:py-48 px-6 md:px-12 bg-[#0a0a0a] relative z-20 -mt-[50vh]">
         <div className="max-w-[1200px] mx-auto">
           <Reveal>
-            <h2 className="text-4xl md:text-6xl lg:text-[5rem] font-medium leading-[1.1] tracking-tight mb-16">
+            <h2 className="text-4xl md:text-6xl lg:text-[5rem] font-medium leading-[1.1] tracking-tight mb-16">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
               We design digital experiences that{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 to-zinc-600">
                 refuse to be ignored.
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-zinc-400 text-xl font-light leading-relaxed">
@@ -449,9 +453,9 @@ export default function TextRevealPage() {
             <span className="text-[10px] uppercase tracking-widest font-bold text-zinc-500 block mb-4">
               Archive
             </span>
-            <h2 className="text-5xl font-medium tracking-tight">
+            <h2 className="text-5xl font-medium tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
               Selected Works
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.2}>
             <button className="hidden md:flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest pb-1 border-b border-white/20 hover:border-white transition-colors">
@@ -522,9 +526,9 @@ export default function TextRevealPage() {
       <section className="py-32 bg-[#0a0a0a]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal className="mb-20 text-center max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-6">
+            <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Capabilities
-            </h2>
+            </>)}</h2>
             <p className="text-zinc-400 text-lg">
               We operate as an extension of your internal team, providing the
               specialized firepower needed to execute ambitious digital
@@ -560,14 +564,14 @@ export default function TextRevealPage() {
             <span className="text-[10px] uppercase tracking-widest font-bold text-zinc-500 block mb-8">
               The Reveal Doctrine
             </span>
-            <h2 className="text-3xl md:text-5xl font-light leading-relaxed text-zinc-300 mb-12">
+            <h2 className="text-3xl md:text-5xl font-light leading-relaxed text-zinc-300 mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               "A brand is no longer just a logo or a color palette. In the
               digital age, a brand is defined by how it{" "}
               <span className="text-white font-medium">behaves</span>, how it{" "}
               <span className="text-white font-medium">moves</span>, and the{" "}
               <span className="text-white font-medium">friction</span> it
               introduces to force engagement."
-            </h2>
+            </>)}</h2>
             <div className="flex flex-col items-center gap-4">
               <div className="w-16 h-16 rounded-full overflow-hidden relative">
                 <Image
@@ -616,7 +620,7 @@ export default function TextRevealPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             <div className="lg:col-span-4">
               <Reveal>
-                <h2 className="text-4xl font-medium mb-6">Our Approach</h2>
+                <h2 className="text-4xl font-medium mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Our Approach</>)}</h2>
                 <p className="text-zinc-400">
                   A rigorous, battle-tested framework designed to eliminate
                   ambiguity and deliver exceptional results on timeline.

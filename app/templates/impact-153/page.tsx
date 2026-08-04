@@ -24,7 +24,9 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -791,9 +793,9 @@ function ExpeditionsSection() {
                 letterSpacing: "-0.02em",
                 maxWidth:      500,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "expeditions.titre") ?? (<>
               Choose Your<br />Objective
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.2}>
             <p
@@ -1053,9 +1055,9 @@ function RoutePathSection() {
                   letterSpacing: "-0.02em",
                   marginBottom:  24,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>
                 From Base Camp<br />to Summit
-              </h2>
+              </>)}</h2>
               <p
                 style={{
                   fontFamily:  "'Inter', sans-serif",
@@ -1236,9 +1238,9 @@ function GearScrollSection() {
               letterSpacing: "-0.02em",
               maxWidth:      600,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "gear.titre") ?? (<>
             Summit-Grade<br />Gear Included
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
 
@@ -1439,9 +1441,9 @@ function WeatherTicker() {
               marginBottom:  64,
               letterSpacing: "-0.02em",
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             Real-Time Summit Weather
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <div
@@ -1657,9 +1659,9 @@ function BookingEnquiry() {
               letterSpacing: "-0.02em",
               marginBottom:  20,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "enquiry.titre") ?? (<>
             Begin Your<br />Application
-          </h2>
+          </>)}</h2>
           <p
             style={{
               fontFamily:  "'Inter', sans-serif",
@@ -2301,7 +2303,9 @@ export default function ExpeditionTemplatePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   EXPEDITIONS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EXPEDITIONS_SOURCE[i % EXPEDITIONS_SOURCE.length], name: s.title, description: s.desc || "" || "", price: s.price ?? EXPEDITIONS_SOURCE[i % EXPEDITIONS_SOURCE.length].price })),
     EXPEDITIONS_SOURCE,

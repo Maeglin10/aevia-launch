@@ -31,6 +31,7 @@ import {
   clientServices,
   clientStats,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1011,12 +1012,12 @@ function DomainesSection() {
               margin: '20px 0 0',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "domaines.titre") ?? (<>
             Trois piliers,{' '}
             <span style={{ fontStyle: 'italic', color: C.goldLight }}>
               un seul engagement
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1151,12 +1152,12 @@ function ProcessSection() {
                 margin: '20px 0 52px',
                 lineHeight: 1.05,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "processus.titre") ?? (<>
               Quatre étapes,{' '}
               <span style={{ fontStyle: 'italic', color: C.bordeaux }}>
                 un accompagnement total
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {ETAPES.map((e, i) => (
@@ -1394,12 +1395,12 @@ function TestimonialsSection() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             Ils ont fait confiance{' '}
             <span style={{ fontStyle: 'italic', color: C.bordeaux }}>
               au cabinet
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1539,12 +1540,12 @@ function ConsultationFormSection() {
               margin: '22px 0 18px',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Décrivez{' '}
             <span style={{ fontStyle: 'italic', color: C.goldLight }}>
               votre situation
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p
@@ -1944,12 +1945,12 @@ function StatsSection() {
               margin: '18px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             Un bilan qui{' '}
             <span style={{ fontStyle: 'italic', color: C.goldLight }}>
               parle pour lui-même
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -2125,12 +2126,12 @@ function ActualiteSection() {
               margin: '18px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "actualites.titre") ?? (<>
             La loi évolue —{' '}
             <span style={{ fontStyle: 'italic', color: C.bordeaux }}>
               restez informé
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -2244,12 +2245,12 @@ function PracticalSection() {
               margin: '18px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "pratique.titre") ?? (<>
             Tout ce qu'il faut savoir{' '}
             <span style={{ fontStyle: 'italic', color: C.goldLight }}>
               avant de nous appeler
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>

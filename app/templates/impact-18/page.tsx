@@ -14,7 +14,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -151,10 +153,12 @@ export default function StreamlinePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   testimonials = testimonials_LIVE();
   plans = plans_LIVE();
+
 
 
 
@@ -365,7 +369,7 @@ return (
               <div className="max-w-6xl mx-auto">
                 <Reveal className="text-center mb-16">
                   <p className="text-[#60A5FA] text-sm font-semibold mb-3">Fonctionnalités</p>
-                  <h2 className="text-white text-4xl font-bold">Tout ce dont votre équipe a besoin</h2>
+                  <h2 className="text-white text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Tout ce dont votre équipe a besoin</>)}</h2>
                 </Reveal>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                   {features.slice(0, 3).map((f, i) => (
@@ -385,7 +389,7 @@ return (
             <section className="py-24 px-6">
               <div className="max-w-3xl mx-auto">
                 <Reveal className="text-center mb-12">
-                  <h2 className="text-white text-4xl font-bold">Questions fréquentes</h2>
+                  <h2 className="text-white text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Questions fréquentes</>)}</h2>
                 </Reveal>
                 <div className="space-y-3">
                   {faqs.map((faq, i) => (

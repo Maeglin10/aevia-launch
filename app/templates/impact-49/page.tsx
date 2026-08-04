@@ -55,7 +55,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -117,7 +119,9 @@ export default function Impact49Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   PARCOURS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PARCOURS_SOURCE[i % PARCOURS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     PARCOURS_SOURCE,
@@ -257,11 +261,11 @@ return (
                 <span className="text-xs font-bold text-[var(--brand,#6366F1)] uppercase tracking-widest block mb-4">
                   Comment ça marche
                 </span>
-                <h2 className="text-3xl md:text-5xl font-extrabold text-[#1E1B4B] leading-tight">
+                <h2 className="text-3xl md:text-5xl font-extrabold text-[#1E1B4B] leading-tight">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                   Quatre étapes,
                   <br />
                   <span className="text-[var(--brand,#6366F1)]">du premier clic au portfolio.</span>
-                </h2>
+                </>)}</h2>
                 <div className="mt-8 flex gap-2">
                   {PARCOURS.map((st, n) => (
                     <motion.span
@@ -288,9 +292,9 @@ return (
             <span className="text-xs font-bold text-[var(--brand,#6366F1)] uppercase tracking-widest block mb-3">
               Thématiques
             </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B]">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B]">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Explorez nos catégories phares
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
 
@@ -341,9 +345,9 @@ return (
                 <span className="text-xs font-bold text-[var(--brand,#6366F1)] uppercase tracking-widest block mb-3">
                   Catalogue
                 </span>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B]">
+                <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B]">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                   Les cours les plus demandés
-                </h2>
+                </>)}</h2>
               </div>
               {activeCategory && (
                 <button
@@ -609,9 +613,9 @@ return (
                 <span className="text-xs font-bold text-[var(--brand,#6366F1)] uppercase tracking-widest block mb-4">
                   Pour les équipes
                 </span>
-                <h3 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B] mb-6">
+                <h3 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B] mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
                   Formez votre équipe avec Skillbridge Business
-                </h3>
+                </>)}</h3>
                 <p className="text-[#6B7280] leading-relaxed mb-8">
                   Offrez à vos collaborateurs l'accès illimité à notre catalogue pour
                   développer leurs compétences et réduire leur turnover.

@@ -19,7 +19,9 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -221,7 +223,7 @@ function WorkGrid() {
         <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <Label>Selected Work</Label>
-            <h2 className="text-4xl md:text-5xl font-bold">Recent projects</h2>
+            <h2 className="text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Recent projects</>)}</h2>
           </div>
           <Link
             href="/templates/impact-27/work"
@@ -422,7 +424,7 @@ function ServicesSection() {
         <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <div>
             <Label>{tr({ formData: fd }, "Services")}</Label>
-            <h2 className="text-4xl md:text-5xl font-bold">What we build</h2>
+            <h2 className="text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>What we build</>)}</h2>
           </div>
           <Link
             href="/templates/impact-27/services"
@@ -536,7 +538,7 @@ function TestimonialsCarousel() {
       <div className="max-w-6xl mx-auto">
         <Reveal className="text-center mb-14">
           <Label>Client stories</Label>
-          <h2 className="text-4xl md:text-5xl font-bold">What clients say</h2>
+          <h2 className="text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>What clients say</>)}</h2>
         </Reveal>
 
         <div className="relative max-w-3xl mx-auto">
@@ -619,7 +621,7 @@ function TechStackSection() {
       <div className="max-w-6xl mx-auto">
         <Reveal className="text-center mb-14">
           <Label>Technology</Label>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Built with the best</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Built with the best</>)}</h2>
           <p className="text-white/45 text-base max-w-xl mx-auto leading-relaxed">
             We pick tools with proven GPU headroom, strong community backing, and real-world production track records.
           </p>
@@ -663,7 +665,7 @@ function PricingSection() {
       <div className="max-w-6xl mx-auto">
         <Reveal className="text-center mb-14">
           <Label>Packages</Label>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Transparent pricing</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Transparent pricing</>)}</h2>
           <p className="text-white/45 text-base max-w-xl mx-auto leading-relaxed">
             Every engagement is scoped before we start. No surprise invoices.
           </p>
@@ -781,10 +783,10 @@ function AnimatedCTA() {
           </div>
         </Reveal>
         <Reveal delay={0.05}>
-          <h2 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
+          <h2 className="text-5xl md:text-7xl font-bold leading-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Ready to go<br />
             <span className="text-[var(--brand,#9B5CF6)]">spatial?</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="text-white/50 text-lg mb-12 max-w-xl mx-auto leading-relaxed">
@@ -843,8 +845,10 @@ export default function Home() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
   testimonials = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], quote: r.text, author: r.author })),

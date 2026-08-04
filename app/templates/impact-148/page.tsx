@@ -11,7 +11,9 @@ import {
   clientCity,
   clientName,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -77,7 +79,9 @@ export default function NeonPulsePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -288,7 +292,7 @@ export default function NeonPulsePage() {
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8 border-b border-white/5 pb-12">
                  <div className="max-w-2xl">
                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#22d3ee)] block mb-6">Genesis Drops</span>
-                    <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic leading-none">The <span className="text-white/20 not-italic">Collection.</span></h2>
+                    <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>The <span className="text-white/20 not-italic">Collection.</span></>)}</h2>
                  </div>
                  <div className="flex gap-4">
                     <div className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all cursor-pointer shadow-xl"><ArrowRight className="w-6 h-6 rotate-180" /></div>
@@ -337,7 +341,7 @@ export default function NeonPulsePage() {
                  <div>
                     <Reveal>
                        <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-purple-500 block mb-10">The Neural Protocol</span>
-                       <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter italic mb-16 leading-tight">Digital <br/> <span className="not-italic font-black text-white/20">Immutability.</span></h2>
+                       <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter italic mb-16 leading-tight">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Digital <br/> <span className="not-italic font-black text-white/20">Immutability.</span></>)}</h2>
                        <div className="space-y-16">
                           {[
                             { icon: Cpu, t: "Generative Logic", d: "Smart contracts that evolve with the artwork. Own more than just a JPEG." },
@@ -390,7 +394,7 @@ export default function NeonPulsePage() {
               <Reveal>
                  <div className="mb-20">
                     <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-purple-500 block mb-6">Protocol Evolution</span>
-                    <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic leading-none">The <span className="text-white/10">Roadmap.</span></h2>
+                    <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>The <span className="text-white/10">Roadmap.</span></>)}</h2>
                  </div>
               </Reveal>
               <div className="relative">
@@ -431,7 +435,7 @@ export default function NeonPulsePage() {
                  <div className="flex flex-col md:flex-row items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
                     <div>
                        <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#06b6d4)] block mb-4">The Network</span>
-                       <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic leading-none">By The <span className="text-white/10">Numbers.</span></h2>
+                       <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>By The <span className="text-white/10">Numbers.</span></>)}</h2>
                     </div>
                     <div className="text-sm text-white/25 font-light italic max-w-xs leading-relaxed">Live on-chain data. Verified via Dune Analytics dashboard.</div>
                  </div>
@@ -460,9 +464,9 @@ export default function NeonPulsePage() {
            <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
            <div className="max-w-6xl mx-auto px-6 relative z-10">
               <Reveal>
-                 <h2 className="text-8xl md:text-[18vw] font-black uppercase tracking-tighter leading-[0.7] text-black mb-16 italic">
+                 <h2 className="text-8xl md:text-[18vw] font-black uppercase tracking-tighter leading-[0.7] text-black mb-16 italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                     PULSE <br/> THE FUTURE.
-                 </h2>
+                 </>)}</h2>
                  <div className="flex flex-col sm:flex-row items-center justify-center gap-12">
                     <button
                       type="button"

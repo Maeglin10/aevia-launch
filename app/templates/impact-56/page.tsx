@@ -17,7 +17,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -72,7 +74,9 @@ export default function ChateauVestigeHome() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -162,7 +166,7 @@ return (
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-20">
             <Reveal>
-              <h2 className="text-xs font-sans uppercase tracking-[0.2em] text-[#C4A265] font-bold mb-4">Le Domaine</h2>
+              <h2 className="text-xs font-sans uppercase tracking-[0.2em] text-[#C4A265] font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Le Domaine</>)}</h2>
               <h3 className="text-4xl md:text-5xl font-serif text-[var(--brand,#2D1B0E)] mb-6 leading-normal pb-2">{c?.aboutTitle ?? fd?.businessName ?? <>L'Art du Grand Vin</>}</h3>
               <p className="text-zinc-600 font-sans max-w-2xl mx-auto text-lg leading-relaxed">{c?.aboutText ?? <>
                 De la vigne à la bouteille, chaque étape est guidée par l'exigence absolue et le respect d'une nature généreuse.
@@ -232,7 +236,7 @@ return (
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <Reveal>
             <div className="text-center mb-20">
-              <h2 className="text-xs font-sans uppercase tracking-[0.2em] text-[#C4A265] font-bold mb-4 font-sans">La Critique</h2>
+              <h2 className="text-xs font-sans uppercase tracking-[0.2em] text-[#C4A265] font-bold mb-4 font-sans">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>La Critique</>)}</h2>
               <h3 className="text-4xl md:text-5xl font-serif leading-tight pb-2">Ils en parlent</h3>
             </div>
           </Reveal>
@@ -286,7 +290,7 @@ return (
         <div className="max-w-4xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-16">
-              <h2 className="text-xs font-sans uppercase tracking-[0.2em] text-[#C4A265] font-bold mb-4 font-sans">Service</h2>
+              <h2 className="text-xs font-sans uppercase tracking-[0.2em] text-[#C4A265] font-bold mb-4 font-sans">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Service</>)}</h2>
               <h3 className="text-4xl font-serif text-[var(--brand,#2D1B0E)] leading-tight pb-2">Questions Fréquentes</h3>
             </div>
           </Reveal>
@@ -318,7 +322,7 @@ return (
             />
             <div className="relative z-10 font-sans">
               <div className="w-16 h-px bg-[#C4A265] mx-auto mb-8" />
-              <h2 className="text-4xl md:text-6xl font-serif mb-8 leading-snug pb-2">Vivez l'expérience Vestige</h2>
+              <h2 className="text-4xl md:text-6xl font-serif mb-8 leading-snug pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Vivez l'expérience Vestige</>)}</h2>
               <p className="text-lg text-zinc-300 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
                 Une dégustation privée, une visite de nos chais ou une réservation pour notre prochain millésime. Entrez dans le cercle intime du Château.
               </p>

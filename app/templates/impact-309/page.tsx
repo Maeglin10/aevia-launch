@@ -51,6 +51,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -828,9 +829,9 @@ return (
               color: C.primary,
               marginBottom: 16,
               fontWeight: 700
-            }}>
+            }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Tatouage Aquarelle
-            </h2>
+            </>)}</h2>
             <p style={{
               fontSize: 16,
               color: C.textMuted,
@@ -907,9 +908,9 @@ return (
                 color: C.primary,
                 marginBottom: 24,
                 fontWeight: 700
-              }}>
+              }}>{/* TEXTE_SECTION */ clientText(sessionData, "menu.titre") ?? (<>
                 Nos Styles
-              </h2>
+              </>)}</h2>
             </Reveal>
 
             {/* Tabs */}
@@ -1068,9 +1069,9 @@ return (
                 color: C.primary,
                 marginBottom: 16,
                 fontWeight: 700
-              }}>
+              }}>{/* TEXTE_SECTION */ clientText(sessionData, "gallery.titre") ?? (<>
                 Notre Galerie Visuelle
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -1114,9 +1115,9 @@ return (
               color: C.primary,
               marginBottom: 64,
               fontWeight: 700
-            }}>
+            }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Ce que disent nos clients
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <Reveal delay={0.2}>
@@ -1159,9 +1160,9 @@ return (
                 color: C.primary,
                 marginBottom: 16,
                 fontWeight: 700
-              }}>
+              }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
                 Des questions ? Nos réponses.
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -1242,9 +1243,9 @@ return (
                   color: C.primary,
                   marginBottom: 24,
                   fontWeight: 700
-                }}>
+                }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                   Discutons de votre projet
-                </h2>
+                </>)}</h2>
                 <p style={{ fontSize: 15, lineHeight: 1.6, color: C.textMuted, marginBottom: 40 }}>
                   Remplissez notre formulaire ou contactez-nous directement par téléphone. Notre équipe vous répondra sous un délai maximum de 24h ouvrées.
                 </p>

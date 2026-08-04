@@ -11,6 +11,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -299,9 +300,9 @@ export default function CabinetOsteopathiePage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}16 0%, transparent 55%)` }} />
         <motion.div className="mb233-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
+            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             Retrouver l'équilibre<br /><em style={{color: brand ?? 'var(--brand,#7ec8e0)' }}>naturellement.</em>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{fd?.tagline ?? c?.heroSubline ?? <>
             Lucas Martin, ostéopathe D.O. à {clientCity(sessionData) ?? "Lyon"}. Prise en charge des douleurs du dos, articulations, migraines, nourrissons et sportifs. RDV disponible sous 48h.
@@ -338,7 +339,7 @@ export default function CabinetOsteopathiePage() {
       <section id="motifs" style={{ padding: "100px 80px", background: C.bg }}>
         <Reveal><div style={{ marginBottom: 56 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Motifs de consultation</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Tous les âges,<br /><em>toutes les douleurs.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "motifs.titre") ?? (<>Tous les âges,<br /><em>toutes les douleurs.</em></>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
           {MOTIFS.map((s, i) => (
@@ -358,7 +359,7 @@ export default function CabinetOsteopathiePage() {
           <Reveal><img src={photo(1, "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80")} alt="Séance ostéopathie cabinet" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
           <Reveal delay={0.15}><div>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre approche</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>Une prise en charge<br /><em>globale et précise.</em></h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "approche.titre") ?? (<>Une prise en charge<br /><em>globale et précise.</em></>)}</h2>
             {APPROCHE.map((e, i) => (
               <div key={i} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
                 <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
@@ -374,7 +375,7 @@ export default function CabinetOsteopathiePage() {
 
       <section id="avis" style={{ padding: "100px 80px", background: C.bgDark }}>
         <Reveal><div style={{ textAlign: "center", marginBottom: 52 }}>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff" }}>Ce que disent <em style={{color: brand ?? 'var(--brand,#7ec8e0)' }}>mes patients</em>.</h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce que disent <em style={{color: brand ?? 'var(--brand,#7ec8e0)' }}>mes patients</em>.</>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
           {AVIS.map((a, i) => (
@@ -396,7 +397,7 @@ export default function CabinetOsteopathiePage() {
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Prise de RDV</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>Votre prochaine séance<br /><em>disponible sous 48h.</em></h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Votre prochaine séance<br /><em>disponible sous 48h.</em></>)}</h2>
             <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto", lineHeight: 1.7 }}>Cabinet {clientCity(sessionData) ?? "Lyon"}. Tarif : 65€ la séance. Remboursement partiel selon votre mutuelle.</p>
           </div>
 

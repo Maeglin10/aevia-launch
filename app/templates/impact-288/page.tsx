@@ -37,6 +37,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1148,11 +1149,11 @@ function ServicesSection() {
               margin: '18px 0 14px',
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Trois spécialités,
             <br />
             <span style={{ color: C.green }}>un seul artisan de confiance</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p
@@ -1351,11 +1352,11 @@ function ProcessSection() {
               lineHeight: 1.1,
               maxWidth: 600,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>
             Un accompagnement
             <br />
             <span style={{ color: C.green }}>de bout en bout</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <div
@@ -1605,9 +1606,9 @@ function TestimonialsSection() {
               margin: '16px 0 14px',
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
             Ils nous font confiance
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p
@@ -1783,11 +1784,11 @@ function DevisFormSection() {
               margin: '16px 0 12px',
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "devis.titre") ?? (<>
             Votre devis gratuit
             <br />
             <span style={{ color: C.green }}>sous 48 heures</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p
@@ -2073,11 +2074,11 @@ function IrveSection() {
                   margin: '18px 0 18px',
                   lineHeight: 1.1,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "irve.titre") ?? (<>
                 Rechargez votre VE
                 <br />
                 <span style={{ color: C.green }}>à domicile ou en entreprise</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <Reveal delay={0.14}>
               <p
@@ -2354,11 +2355,11 @@ function SolaireSection() {
                   margin: '18px 0 18px',
                   lineHeight: 1.1,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "solaire.titre") ?? (<>
                 Produisez votre propre
                 <br />
                 <span style={{ color: C.green }}>électricité solaire</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <Reveal delay={0.14}>
               <p
@@ -2634,11 +2635,11 @@ function CertifSection() {
               margin: '16px 0 12px',
               lineHeight: 1.1,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "certif.titre") ?? (<>
             Des certifications qui
             <br />
             <span style={{ color: C.green }}>parlent d'elles-mêmes</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

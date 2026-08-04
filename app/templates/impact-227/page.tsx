@@ -12,6 +12,7 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -446,9 +447,9 @@ return (
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
         <motion.div className="mb227-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.2vw, 70px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
+            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.2vw, 70px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             L'art du soin masculin,<br /><em style={{ color: C.accentLight }}>à l'ancienne.</em>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{fd?.tagline ?? c?.heroSubline ?? <>
             Coupes, rasages au blaireau, soins barbe et cuir chevelu — Le Barber Club est l'adresse des hommes qui ne veulent pas choisir entre style et tradition.
@@ -485,7 +486,7 @@ return (
       <section id="prestations" style={{ padding: "100px 80px", background: C.bg }}>
         <Reveal><div style={{ marginBottom: 56 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Le menu</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 50px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Chaque prestation,<br /><em>un soin complet.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 50px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "prestations.titre") ?? (<>Chaque prestation,<br /><em>un soin complet.</em></>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
           {PRESTATIONS.map((p: any, i: number) => (
@@ -511,7 +512,7 @@ return (
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal delay={0.1}><div>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre engagement</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>L'expérience compte<br /><em>autant que la coupe.</em></h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>L'expérience compte<br /><em>autant que la coupe.</em></>)}</h2>
             {VALEURS.map((v, i) => (
               <div key={i} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
                 <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
@@ -529,7 +530,7 @@ return (
       <section style={{ padding: "100px 80px", background: C.bgDark }}>
         <Reveal><div style={{ textAlign: "center", marginBottom: 52 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentLight }}>Avis</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>Les clients <em style={{ color: C.accentLight }}>parlent.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Les clients <em style={{ color: C.accentLight }}>parlent.</em></>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
           {AVIS.map((a: any, i: number) => (
@@ -550,7 +551,7 @@ return (
       <section id="tarifs" style={{ padding: "100px 80px", background: C.white }}>
         <Reveal><div style={{ marginBottom: 56 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Un prix par prestation,<br /><em>et rien au-dessus.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Un prix par prestation,<br /><em>et rien au-dessus.</em></>)}</h2>
         </div></Reveal>
         <div style={{ maxWidth: 900, margin: "0 auto", background: C.bg, borderRadius: 10, border: `1px solid ${C.border}`, boxShadow: C.shadow, overflow: "hidden" }}>
           {TARIFS.map((t, i) => (
@@ -570,7 +571,7 @@ return (
       <section id="equipe" style={{ padding: "100px 80px", background: C.bgSection }}>
         <Reveal><div style={{ marginBottom: 56 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>L&apos;équipe</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Quatre fauteuils,<br /><em>quatre mains différentes.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>Quatre fauteuils,<br /><em>quatre mains différentes.</em></>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
           {EQUIPE.map((m, i) => (
@@ -588,7 +589,7 @@ return (
       <section id="contact" style={{ padding: "100px 80px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Réservation</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 50px)", color: C.text, margin: "14px 0 16px" }}>Prenez <em>soin de vous</em>.</h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 50px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Prenez <em>soin de vous</em>.</>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>Réservation en ligne ou par téléphone. Walk-in bienvenu les mardis après 14h.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.button onClick={() => openBooking(null)} style={{ background: C.bgDark, color: C.white, border: "none", borderRadius: 6, padding: "15px 36px", fontWeight: 600, fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ scale: 1.03 }}>

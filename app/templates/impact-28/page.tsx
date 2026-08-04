@@ -15,6 +15,7 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -214,9 +215,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <Reveal className="mb-16">
             <div className="flex items-end justify-between">
-              <h2 className="font-black text-5xl md:text-7xl uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+              <h2 className="font-black text-5xl md:text-7xl uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
                 SELECTED<br />WORK
-              </h2>
+              </>)}</h2>
               <Link 
                 href="/templates/impact-28/work"
                 className="text-sm font-bold uppercase tracking-widest text-black hover:underline underline-offset-4 flex items-center gap-2"
@@ -291,9 +292,9 @@ export default function Home() {
             <div>
               <Reveal from="right">
                 <div className="text-xs font-bold tracking-[0.4em] uppercase text-white/40 mb-6">Our approach</div>
-                <h2 className="font-black text-4xl md:text-5xl uppercase leading-[0.9] mb-8" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+                <h2 className="font-black text-4xl md:text-5xl uppercase leading-[0.9] mb-8" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                   CONCRETE IS HONEST.<br />WE ARE BRUTAL.
-                </h2>
+                </>)}</h2>
                 <p className="text-white/60 leading-relaxed mb-8 text-lg">{fd?.tagline ?? c?.heroSubline ?? <>
                   We don't design for awards. We design for people and cities. Brutalism is not a style — it's a conviction that architecture should be truthful about its materials and its purpose.
                 </>}</p>
@@ -357,9 +358,9 @@ export default function Home() {
       <section className="py-24 px-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <Reveal className="mb-16">
-            <h2 className="font-black text-5xl md:text-7xl uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+            <h2 className="font-black text-5xl md:text-7xl uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               MATERIAL<br />TRUTH
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <ScrollImage src={photo(2, "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=600&h=800&fit=crop&crop=center")} alt="Concrete" width={600} height={800} className="rounded-none w-full aspect-[3/4]" dir={-1} yRange={80} />
@@ -387,9 +388,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <Reveal className="mb-16">
             <div className="text-xs font-bold tracking-[0.4em] uppercase text-white/30 mb-4">How We Work</div>
-            <h2 className="font-black text-5xl md:text-7xl uppercase leading-[0.9]" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+            <h2 className="font-black text-5xl md:text-7xl uppercase leading-[0.9]" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               OUR<br />PROCESS
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="relative">
@@ -444,9 +445,9 @@ export default function Home() {
             <div className="flex items-end justify-between">
               <div>
                 <div className="text-xs font-bold tracking-[0.4em] uppercase text-gray-400 mb-4">Client Accounts</div>
-                <h2 className="font-black text-5xl md:text-7xl uppercase leading-[0.9]" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+                <h2 className="font-black text-5xl md:text-7xl uppercase leading-[0.9]" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
                   THEY<br />BUILT WITH US.
-                </h2>
+                </>)}</h2>
               </div>
               <div className="hidden md:flex items-center gap-2">
                 <button
@@ -593,9 +594,9 @@ export default function Home() {
             <div className="flex items-end justify-between">
               <div>
                 <div className="text-xs font-bold tracking-[0.4em] uppercase text-gray-400 mb-4">The People</div>
-                <h2 className="font-black text-5xl md:text-7xl uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
+                <h2 className="font-black text-5xl md:text-7xl uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
                   ATELIER
-                </h2>
+                </>)}</h2>
               </div>
               <Link href="/templates/impact-28/studio" className="text-sm font-bold uppercase tracking-widest text-black hover:underline underline-offset-4 flex items-center gap-2">
                 Full studio <ArrowRight className="w-4 h-4" />
@@ -650,9 +651,9 @@ export default function Home() {
               <h2
                 className="font-black leading-[0.85] text-white uppercase mb-10"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(40px, 8vw, 112px)" }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-11.titre") ?? (<>
                 HAVE A STRUCTURE<br />IN MIND?
-              </h2>
+              </>)}</h2>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/templates/impact-28/contact"

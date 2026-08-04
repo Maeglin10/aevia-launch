@@ -12,6 +12,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -446,9 +447,9 @@ export default function AltaTransactionsPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b8944a)] mb-4">Sélection exclusive</div>
-              <h2 className="text-5xl md:text-6xl font-bold text-[#11182a]" style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic" }}>
+              <h2 className="text-5xl md:text-6xl font-bold text-[#11182a]" style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "biens.titre") ?? (<>
                 Nos biens en exclusivité.
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -494,9 +495,9 @@ export default function AltaTransactionsPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b8944a)] mb-4">Notre approche</div>
-              <h2 className="text-5xl md:text-6xl font-bold text-[#11182a]" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>
+              <h2 className="text-5xl md:text-6xl font-bold text-[#11182a]" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Un accompagnement<br />sans compromis.
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#11182a]/5">
@@ -520,7 +521,7 @@ export default function AltaTransactionsPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b8944a)] mb-4">Avis clients</div>
-              <h2 className="text-5xl font-bold text-white" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>Ce qu'ils en pensent.</h2>
+              <h2 className="text-5xl font-bold text-white" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Ce qu'ils en pensent.</>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -554,9 +555,9 @@ export default function AltaTransactionsPage() {
         </div>
         <Reveal className="relative z-10 text-center px-6">
           <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8944a)] mb-6">Estimation gratuite</div>
-          <h2 className="text-5xl md:text-7xl font-bold text-[#11182a] mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>
+          <h2 className="text-5xl md:text-7xl font-bold text-[#11182a] mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Combien vaut<br />votre bien ?
-          </h2>
+          </>)}</h2>
           <p className="text-[#11182a]/45 max-w-md mx-auto mb-10 text-sm leading-relaxed">
             Obtenez une estimation précise et confidentielle en moins de 48h. Sans engagement.
           </p>

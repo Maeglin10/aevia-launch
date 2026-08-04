@@ -22,6 +22,7 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1132,14 +1133,14 @@ return (
                 color: C.white, marginBottom: 24,
                 letterSpacing: '-1px', maxWidth: 900,
               }}
-            >{c?.heroHeadline ?? <>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
               VOTRE CONFORT<br />
               <span style={{
                 background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
                 WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
               }}>THERMIQUE</span><br />
               ENTRE NOS MAINS.
-            </>}</motion.h1>
+            </>}</>)}</motion.h1>
 
             {/* Subtitle */}
             <motion.p
@@ -1283,10 +1284,10 @@ return (
                 fontFamily: "'Barlow Condensed', sans-serif",
                 fontSize: 'clamp(32px, 5vw, 54px)',
                 fontWeight: 800, color: C.white, lineHeight: 1.1, marginBottom: 16,
-              }}>{c?.aboutTitle ?? fd?.businessName ?? <>
+              }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>
                 Notre Processus<br />
                 <span style={{ color: C.accent }}>en 4 Étapes</span>
-              </>}</h2>
+              </>}</>)}</h2>
               <p style={{ color: C.textMuted, fontSize: 'clamp(14px, 1.8vw, 15.5px)', lineHeight: 1.75, marginBottom: 32 }}>{c?.aboutText ?? <>
                 De la prise de contact au suivi long terme, chaque étape est pensée pour vous garantir sérénité et performance.
               </>}</p>
@@ -1415,7 +1416,7 @@ return (
               fontFamily: "'Barlow Condensed', sans-serif",
               fontSize: 'clamp(32px, 5vw, 56px)',
               fontWeight: 800, color: C.white, lineHeight: 1.1, marginBottom: 12,
-            }}>Ce que Disent<br /><span style={{ color: C.accent }}>Nos Clients</span></h2>
+            }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce que Disent<br /><span style={{ color: C.accent }}>Nos Clients</span></>)}</h2>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
               <div style={{color: brand ?? 'var(--brand-light,#f5a623)', fontSize: 17, letterSpacing: 3 }}>★★★★★</div>
               <div style={{ color: C.textMuted, fontSize: 14 }}>4.9/5 sur 847 avis Google</div>
@@ -1471,7 +1472,7 @@ return (
                 fontFamily: "'Barlow Condensed', sans-serif",
                 fontSize: 'clamp(32px, 5vw, 54px)',
                 fontWeight: 800, color: C.white, lineHeight: 1.1, marginBottom: 16,
-              }}>Parlons de<br /><span style={{ color: C.accent }}>Votre Projet</span></h2>
+              }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Parlons de<br /><span style={{ color: C.accent }}>Votre Projet</span></>)}</h2>
               <p style={{ color: C.textMuted, fontSize: 'clamp(14px, 1.8vw, 15.5px)', lineHeight: 1.75, marginBottom: '2.5rem' }}>
                 Remplissez ce formulaire et un conseiller Therma Pro vous rappelle sous 24h pour un diagnostic gratuit à domicile.
               </p>

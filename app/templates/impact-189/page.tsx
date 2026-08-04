@@ -13,6 +13,7 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -441,9 +442,9 @@ export default function AtelierLeoniePage() {
             <div className="mb-16 flex flex-col md:flex-row gap-8 justify-between items-end">
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)] mb-4">Nos prestations</div>
-                <h2 className="text-4xl md:text-5xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+                <h2 className="text-4xl md:text-5xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "prestations.titre") ?? (<>
                   Pour chaque<br /><span className="italic text-[var(--brand,#c97b7b)]">cheveu, un soin.</span>
-                </h2>
+                </>)}</h2>
               </div>
               <p className="max-w-xs text-sm text-[#1a1218]/35 leading-relaxed">Prestations personnalisées, bilan capillaire offert, produits Kérastase & Olaplex.</p>
             </div>
@@ -475,7 +476,7 @@ export default function AtelierLeoniePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)] mb-4">Tarifs</div>
-            <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>Rien qui ne soit <span className="italic text-[var(--brand,#c97b7b)]">annoncé.</span></h2>
+            <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Rien qui ne soit <span className="italic text-[var(--brand,#c97b7b)]">annoncé.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {TARIFS.map((g, i) => (
@@ -508,7 +509,7 @@ export default function AtelierLeoniePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)] mb-4">L'équipe</div>
-            <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>Huit paires de <span className="italic text-[var(--brand,#c97b7b)]">mains.</span></h2>
+            <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>Huit paires de <span className="italic text-[var(--brand,#c97b7b)]">mains.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {EQUIPE.map((m, i) => (
@@ -529,7 +530,7 @@ export default function AtelierLeoniePage() {
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-12">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)] mb-4">Réalisations</div>
-            <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>Le détail qui <span className="italic text-[var(--brand,#c97b7b)]">fait tout.</span></h2>
+            <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>Le détail qui <span className="italic text-[var(--brand,#c97b7b)]">fait tout.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 h-[60vh] min-h-[400px]">
             <div className="col-span-2 row-span-2 relative overflow-hidden"><ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=85&w=800")} alt="Coiffure femme" /></div>
@@ -546,7 +547,7 @@ export default function AtelierLeoniePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)] mb-4">Avis clients</div>
-            <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>Elles adorent <span className="italic text-[var(--brand,#c97b7b)]">le résultat.</span></h2>
+            <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Elles adorent <span className="italic text-[var(--brand,#c97b7b)]">le résultat.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {testimonials.map((t: any, i: number) => (
@@ -572,9 +573,9 @@ export default function AtelierLeoniePage() {
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/25 mb-6">Votre prochain rendez-vous</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Bodoni Moda', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Révélez la beauté<br /><span className="italic text-[var(--brand,#c97b7b)]">qui est en vous.</span>
-            </h2>
+            </>)}</h2>
             <p className="text-white/30 mb-10 text-sm">Réservation en ligne 24h/24 · {clientCity(sessionData) ?? "Paris"} · Consultation capillaire offerte</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button onClick={() => openBooking(null)} className="min-h-[44px] px-10 py-4 bg-[var(--brand,#c97b7b)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors cursor-pointer">

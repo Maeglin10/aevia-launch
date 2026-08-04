@@ -30,6 +30,7 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -99,11 +100,11 @@ function HeroSection() {
             animate={{ opacity: 1, rotateY: 0, clipPath: "inset(0 0% 0 0)" }}
             transition={{ duration: 0.9, ease: EASE_4 }}
             style={{ fontFamily: SERIF, fontSize: "clamp(38px, 4.4vw, 62px)", fontWeight: 700, color: C.white, lineHeight: 1.06, margin: "0 0 22px", transformOrigin: "left center" }}
-          >{c?.heroHeadline ?? <>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             Le droit,<br />
             <span style={{ color: C.accent }}>à la hauteur</span><br />
             de vos enjeux.
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -201,7 +202,7 @@ function PracticeSection() {
             <div style={{ width: 32, height: 1, background: C.accent }} />
             <span style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: C.accent }}>What We Do</span>
           </div>
-          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.navy, margin: "0 0 16px", fontWeight: 700 }}>Practice Areas</h2>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.navy, margin: "0 0 16px", fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "practice.titre") ?? (<>Practice Areas</>)}</h2>
           <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 17, color: C.textMuted, maxWidth: 520 }}>We advise on the full spectrum of business and corporate law, from day-one formation through complex litigation and international transactions.</p>
         </motion.div>
 
@@ -263,7 +264,7 @@ function AttorneysSection() {
             <div style={{ width: 32, height: 1, background: C.accent }} />
             <span style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: C.accent }}>{tr(sessionData, "Our Team")}</span>
           </div>
-          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.white, margin: "0 0 16px", fontWeight: 700 }}>The Partners</h2>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.white, margin: "0 0 16px", fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "attorneys.titre") ?? (<>The Partners</>)}</h2>
           <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 17, color: "rgba(255,255,255,0.55)", maxWidth: 480 }}>Three partners. Combined track record exceeding €6 billion in advised transactions and 500+ cases.</p>
         </motion.div>
 
@@ -321,7 +322,7 @@ function ResultsSection() {
             transition={{ duration: 0.7 }}
           >
             <div style={{ width: 3, height: 60, background: C.accent, marginBottom: 24 }} />
-            <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 36, color: C.white, margin: 0, fontWeight: 700 }}>Results That Matter</h2>
+            <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 36, color: C.white, margin: 0, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "results.titre") ?? (<>Results That Matter</>)}</h2>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: 30 }}
@@ -369,7 +370,7 @@ function TestimonialsSection() {
             <div style={{ width: 32, height: 1, background: C.accent }} />
             <span style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: C.accent }}>Client Testimonials</span>
           </div>
-          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.navy, margin: 0, fontWeight: 700 }}>What Our Clients Say</h2>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.navy, margin: 0, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "testimonials.titre") ?? (<>What Our Clients Say</>)}</h2>
         </motion.div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 24 }}>
@@ -418,7 +419,7 @@ function ConsultationSection() {
             <span style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: C.accent }}>Engage Our Firm</span>
             <div style={{ width: 32, height: 1, background: C.accent }} />
           </div>
-          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.white, margin: "0 0 16px", fontWeight: 700 }}>Fee Structures</h2>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.white, margin: "0 0 16px", fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "consultation.titre") ?? (<>Fee Structures</>)}</h2>
           <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 17, color: "rgba(255,255,255,0.5)", maxWidth: 480, margin: "0 auto" }}>Transparent pricing. No hidden fees. Full clarity before we begin.</p>
         </motion.div>
 
@@ -483,7 +484,7 @@ function FAQSection() {
             <div style={{ width: 32, height: 1, background: C.accent }} />
             <span style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: C.accent }}>Frequently Asked</span>
           </div>
-          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(36px, 4vw, 52px)", color: C.navy, margin: 0, fontWeight: 700 }}>Common Questions</h2>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(36px, 4vw, 52px)", color: C.navy, margin: 0, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>Common Questions</>)}</h2>
         </motion.div>
 
         {faqs.map((faq, i) => (

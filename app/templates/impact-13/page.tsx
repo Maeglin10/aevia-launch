@@ -14,6 +14,7 @@ import {
   clientHours,
   clientName,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -309,7 +310,7 @@ return (
               <Reveal>
                 <div className="mb-12">
                   <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-3">Collections</p>
-                  <h2 className="text-white text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>Nos garde-temps</h2>
+                  <h2 className="text-white text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Nos garde-temps</>)}</h2>
                 </div>
               </Reveal>
               <div className="flex gap-3 mb-8 flex-wrap">
@@ -364,9 +365,9 @@ return (
               <Reveal delay={0.1}>
                 <div>
                   <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-4">Manufacture</p>
-                  <h2 className="text-white text-4xl md:text-5xl mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>
+                  <h2 className="text-white text-4xl md:text-5xl mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                     L'excellence<br /><em>du geste</em>
-                  </h2>
+                  </>)}</h2>
                   <div className="space-y-6">
                     {savoirFaire.map((sf, i) => (
                       <div key={sf.title} className="border-l-2 border-[var(--brand,#B49A6A)]/30 pl-5">
@@ -388,7 +389,7 @@ return (
             <div className="max-w-4xl mx-auto">
               <Reveal className="mb-12">
                 <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-3">Histoire</p>
-                <h2 className="text-white text-4xl" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>137 ans d'héritage</h2>
+                <h2 className="text-white text-4xl" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>137 ans d'héritage</>)}</h2>
               </Reveal>
               <div className="space-y-0">
                 {timeline.map((t, i) => (
@@ -409,9 +410,9 @@ return (
               <Reveal>
                 <div className="bg-[#141310] border border-[var(--brand,#B49A6A)]/20 rounded-3xl p-10 md:p-16">
                   <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-6">Contact & Showroom</p>
-                  <h2 className="text-white text-4xl mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>
+                  <h2 className="text-white text-4xl mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                     Rencontrez nos<br />horlogers
-                  </h2>
+                  </>)}</h2>
                   <div className="grid md:grid-cols-3 gap-8">
                     {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
                       { icon: <MapPin className="w-4 h-4" />, label: "Showroom " + (clientCity(sessionData) ?? "Paris"), value: "18 Place Vendôme, 75001" },
@@ -666,9 +667,9 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
             <div>
               <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-4">Le Catalogue</p>
-              <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+              <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                 Nos <em>Garde-Temps</em>
-              </h1>
+              </>)}</h1>
             </div>
             <div className="flex gap-4 mt-8 md:mt-0 border-b border-white/10 pb-2">
               {["Tout", "Complications", "Chronographes", "Classique"].map(cat => (
@@ -743,9 +744,9 @@ function ManufactureSubPage({ goTo }: { goTo: (p: any) => void }) {
         <Reveal>
           <div className="text-center space-y-4">
             <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">La Manufacture</p>
-            <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+            <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
               L'excellence du <em>Geste</em>
-            </h1>
+            </>)}</h1>
             <p className="text-white/50 text-sm max-w-xl mx-auto leading-relaxed">
               Située au cœur de La Vallée de Joux, berceau de la haute horlogerie suisse, notre manufacture abrite nos maîtres horlogers qui assemblent chaque mouvement à la main.
             </p>
@@ -823,9 +824,9 @@ function MaisonSubPage() {
         <Reveal>
           <div className="text-center space-y-4">
             <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Notre Histoire</p>
-            <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+            <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
               137 ans d'<em>Héritage</em>
-            </h1>
+            </>)}</h1>
             <p className="text-white/50 text-sm max-w-xl mx-auto leading-relaxed">
               Découvrez les jalons historiques d'une maison horlogère familiale qui a su préserver son indépendance créative et son obsession de la précision mécanique.
             </p>
@@ -858,9 +859,9 @@ function ContactSubPage() {
         <Reveal>
           <div className="text-center mb-16 space-y-4">
             <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Showroom & Showroom Privé</p>
-            <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+            <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
               Prendre <em>Rendez-vous</em>
-            </h1>
+            </>)}</h1>
             <p className="text-white/50 text-sm max-w-xl mx-auto leading-relaxed">
               Nous vous accueillons Place Vendôme à {clientCity(sessionData) ?? "Paris"} ou au cœur de notre manufacture pour vous présenter notre collection de garde-temps de prestige.
             </p>
@@ -965,9 +966,9 @@ function LegalSubPage() {
   return (
     <section id="contact" className="py-32 px-6 bg-white text-black min-h-dvh">
       <div className="max-w-3xl mx-auto space-y-8" style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
-        <h1 className="text-4xl font-light mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+        <h1 className="text-4xl font-light mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
           Mentions <em>Légales</em>
-        </h1>
+        </>)}</h1>
 
         <div className="bg-neutral-50 border border-neutral-100 p-8 rounded-lg space-y-6 text-sm text-neutral-600 leading-relaxed">
           <div>

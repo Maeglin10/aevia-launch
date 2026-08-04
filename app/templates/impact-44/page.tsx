@@ -3,6 +3,7 @@ import {
   clientCity,
   clientName,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -20,6 +21,7 @@ import {
   CharacterSilhouette,
   NeonStatCounter,
 } from "./shared";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -328,8 +330,10 @@ export default function GamingTemplatePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [booted, setBooted] = useState(false);
@@ -387,9 +391,9 @@ return (
             <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.4em", marginBottom: 16 }}>
               // SUB_SYSTEM_02
             </div>
-            <h2 className="glitch-text" data-text="ACTIVE ROSTER" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: C.white, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 24 }}>
+            <h2 className="glitch-text" data-text="ACTIVE ROSTER" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: C.white, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
               TEAM ROSTER
-            </h2>
+            </>)}</h2>
             <p style={{ color: C.textMid, fontSize: 14, lineHeight: 1.7, marginBottom: 40, maxWidth: 520, margin: "0 auto 40px" }}>
               Meet our championship-winning active competitors. 847 tournament wins and 23 world titles across all competitive divisions.
             </p>
@@ -415,9 +419,9 @@ return (
             <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.4em", marginBottom: 16 }}>
               // SUB_SYSTEM_03
             </div>
-            <h2 className="glitch-text" data-text="TOURNAMENTS" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: C.white, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 24 }}>
+            <h2 className="glitch-text" data-text="TOURNAMENTS" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: C.white, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               WORLD FINALS BRACKET
-            </h2>
+            </>)}</h2>
             <p style={{ color: C.textMid, fontSize: 14, lineHeight: 1.7, marginBottom: 40, maxWidth: 520, margin: "0 auto 40px" }}>
               Track our tournament path to world domination. High stakes and zero-room-for-errors live updates from our servers.
             </p>
@@ -443,9 +447,9 @@ return (
             <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.4em", marginBottom: 16 }}>
               // SUB_SYSTEM_04
             </div>
-            <h2 className="glitch-text" data-text="GEAR STORE" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: C.white, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 24 }}>
+            <h2 className="glitch-text" data-text="GEAR STORE" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: C.white, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               LIMITED DROP GEAR
-            </h2>
+            </>)}</h2>
             <p style={{ color: C.textMid, fontSize: 14, lineHeight: 1.7, marginBottom: 40, maxWidth: 520, margin: "0 auto 40px" }}>
               Suit up with our official cyber jerseys, signature hoodies, and accessories. Season 6 drop now open.
             </p>
@@ -471,9 +475,9 @@ return (
             <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.4em", marginBottom: 16 }}>
               // SUB_SYSTEM_05
             </div>
-            <h2 className="glitch-text" data-text="JOIN US" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: C.white, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 24 }}>
+            <h2 className="glitch-text" data-text="JOIN US" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: C.white, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               JOIN THE VOID
-            </h2>
+            </>)}</h2>
             <p style={{ color: C.textMid, fontSize: 14, lineHeight: 1.7, marginBottom: 40, maxWidth: 520, margin: "0 auto 40px" }}>
               Are you legendary? Submit your gameplay clips and join the ranks of the elite. Applications reviewed weekly.
             </p>

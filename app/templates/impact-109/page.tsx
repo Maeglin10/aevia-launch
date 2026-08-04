@@ -13,7 +13,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -102,7 +104,9 @@ export default function AetherSoundPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   PRODUCTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_DEMO_SOURCE[i % PRODUCTS_DEMO_SOURCE.length], name: s.title, price: s.price ?? PRODUCTS_DEMO_SOURCE[i % PRODUCTS_DEMO_SOURCE.length].price })),
     PRODUCTS_DEMO_SOURCE,
@@ -249,7 +253,7 @@ export default function AetherSoundPage() {
               <div className="flex flex-col lg:flex-row items-end justify-between mb-32 gap-8 border-b border-white/5 pb-12">
                 <div className="max-w-2xl">
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">The Collection</span>
-                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter">Acoustic <span className="italic font-bold">Sculptures.</span></h2>
+                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "collections.titre") ?? (<>Acoustic <span className="italic font-bold">Sculptures.</span></>)}</h2>
                 </div>
                 <Link href="#collections" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-white text-white/40 transition-colors group">
                   View Specifications <ChevronRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
@@ -286,9 +290,9 @@ export default function AetherSoundPage() {
           <div className="max-w-4xl mx-auto px-6 text-center">
             <Reveal>
               <Music className="w-12 h-12 mx-auto mb-16 text-white/20" />
-              <h2 className="text-4xl md:text-6xl font-light italic leading-tight text-white mb-16">
+              <h2 className="text-4xl md:text-6xl font-light italic leading-tight text-white mb-16">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                 "We don't reproduce sound. We recreate the air as it was at the moment of creation."
-              </h2>
+              </>)}</h2>
               <div className="w-24 h-[1px] bg-white/40 mx-auto mb-8" />
               <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/40">The Aether Principle</p>
             </Reveal>
@@ -313,7 +317,7 @@ export default function AetherSoundPage() {
               </Reveal>
               <div>
                 <Reveal>
-                  <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter mb-16">Bespoke <br/><span className="italic font-bold text-white/40">Acousics.</span></h2>
+                  <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter mb-16">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Bespoke <br/><span className="italic font-bold text-white/40">Acousics.</span></>)}</h2>
                   <div className="space-y-12">
                     {[
                       { icon: Mic2, t: "Reference Linearity", d: "Measurement-grade accuracy for monitoring and critical listening sessions." },
@@ -344,7 +348,7 @@ export default function AetherSoundPage() {
               <div className="flex items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 block mb-6">Who Listens</span>
-                  <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic text-white leading-none">Client <span className="font-light not-italic opacity-10">Voices.</span></h2>
+                  <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter italic text-white leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>Client <span className="font-light not-italic opacity-10">Voices.</span></>)}</h2>
                 </div>
               </div>
             </Reveal>

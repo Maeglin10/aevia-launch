@@ -17,6 +17,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1174,9 +1175,9 @@ function ServiceCards() {
               margin: 'clamp(18px,2vw,28px) 0 0',
               lineHeight: 1.08,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Ce que nous défendons
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1387,9 +1388,9 @@ function ValuesPanel() {
                 margin: 'clamp(18px,2vw,28px) 0 clamp(40px,5vw,64px)',
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               L&apos;excellence au service de vos intérêts
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1577,9 +1578,9 @@ function Testimonials() {
               margin: 'clamp(18px,2vw,26px) 0 0',
               lineHeight: 1.08,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Ils nous ont confié leur dossier
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1673,9 +1674,9 @@ function ContactForm() {
               margin: 'clamp(18px,2vw,26px) 0 clamp(14px,1.8vw,22px)',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Parlons de votre dossier
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

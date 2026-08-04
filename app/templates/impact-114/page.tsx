@@ -39,7 +39,9 @@ import {
   clientServices,
   clientStats,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -582,7 +584,9 @@ export default function Impact114Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   SLIDES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SLIDES_DEMO_SOURCE[i % SLIDES_DEMO_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     SLIDES_DEMO_SOURCE,
@@ -906,9 +910,9 @@ export default function Impact114Page() {
               <h2
                 className="text-5xl md:text-6xl text-[#faf8f3] mb-6 leading-[1.1]"
                 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "tirages.titre") ?? (<>
                 Les Tirages
-              </h2>
+              </>)}</h2>
               <p
                 className="text-[#8b7355] text-lg leading-relaxed"
                 style={{ fontFamily: "'Source Serif 4', serif", fontStyle: "italic" }}
@@ -1101,9 +1105,9 @@ export default function Impact114Page() {
               <h2
                 className="text-4xl md:text-5xl text-[var(--brand,#2d1b0e)] mb-8 leading-[1.15]"
                 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "apropos.titre") ?? (<>
                 Julien Moreau
-              </h2>
+              </>)}</h2>
 
               {/* Italic pullquote */}
               <blockquote
@@ -1167,11 +1171,11 @@ export default function Impact114Page() {
               <h2
                 className="text-5xl md:text-6xl text-[var(--brand,#2d1b0e)] mb-2 leading-[1.1]"
                 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "terrain.titre") ?? (<>
                 Notes du
                 <br />
                 <span style={{ fontStyle: "italic" }}>Terrain</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -1241,11 +1245,11 @@ export default function Impact114Page() {
             <h2
               className="text-5xl md:text-6xl text-[var(--brand,#2d1b0e)] leading-[1.1]"
               style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               De la nature
               <br />
               <span style={{ fontStyle: "italic" }}>à votre mur</span>
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
 
@@ -1338,11 +1342,11 @@ export default function Impact114Page() {
             <h2
               className="text-4xl md:text-5xl text-[var(--brand,#2d1b0e)] mb-5 leading-[1.15]"
               style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Rejoignez la
               <br />
               <span style={{ fontStyle: "italic" }}>Communauté Terra</span>
-            </h2>
+            </>)}</h2>
             <p
               className="text-[#8b7355] text-base leading-relaxed mb-10 max-w-md mx-auto"
               style={{ fontFamily: "'Source Serif 4', serif" }}
@@ -1428,11 +1432,11 @@ export default function Impact114Page() {
             <h2
               className="text-5xl md:text-6xl text-[var(--brand,#2d1b0e)] mb-8 leading-[1.1]"
               style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Travaillons
               <br />
               <span style={{ fontStyle: "italic" }}>Ensemble</span>
-            </h2>
+            </>)}</h2>
             <p
               className="text-[#8b7355] text-base leading-relaxed mb-12 max-w-md"
               style={{ fontFamily: "'Source Serif 4', serif" }}

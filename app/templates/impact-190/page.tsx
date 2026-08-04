@@ -13,7 +13,9 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -115,7 +117,9 @@ export default function AutoExpertPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -267,7 +271,7 @@ export default function AutoExpertPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/60 mb-4">— Nos expertises</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#f1f3f5]">Tout pour<br /><span className="text-[var(--brand,#dc2626)]">votre véhicule.</span></h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#f1f3f5]">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Tout pour<br /><span className="text-[var(--brand,#dc2626)]">votre véhicule.</span></>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -309,7 +313,7 @@ export default function AutoExpertPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#dc2626)] mb-4">Devis rapide</div>
-            <h2 className="text-4xl md:text-5xl font-black uppercase text-[#14181c]">Le prix <span className="text-[var(--brand,#dc2626)]">avant</span> les travaux.</h2>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-[#14181c]">{/* TEXTE_SECTION */ clientText(sessionData, "devis.titre") ?? (<>Le prix <span className="text-[var(--brand,#dc2626)]">avant</span> les travaux.</>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
             {DEVIS_ETAPES.map((e, i) => (
@@ -335,7 +339,7 @@ export default function AutoExpertPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#dc2626)] mb-4">Véhicules électriques</div>
-            <h2 className="text-4xl md:text-5xl font-black uppercase">Oui, on touche <span className="text-[var(--brand,#dc2626)]">aux packs.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-black uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "electrique.titre") ?? (<>Oui, on touche <span className="text-[var(--brand,#dc2626)]">aux packs.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10">
             {ELECTRIQUE.map((e, i) => (
@@ -357,7 +361,7 @@ export default function AutoExpertPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#dc2626)] mb-4">L'équipe</div>
-            <h2 className="text-4xl md:text-5xl font-black uppercase text-[#14181c]">Qui a les <span className="text-[var(--brand,#dc2626)]">mains dedans.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-[#14181c]">{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>Qui a les <span className="text-[var(--brand,#dc2626)]">mains dedans.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {EQUIPE.map((m, i) => (
@@ -378,7 +382,7 @@ export default function AutoExpertPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/50 mb-4">— Avis clients</div>
-            <h2 className="text-4xl font-bold text-[#f1f3f5]">Ils nous <span className="text-[var(--brand,#dc2626)]">font confiance.</span></h2>
+            <h2 className="text-4xl font-bold text-[#f1f3f5]">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ils nous <span className="text-[var(--brand,#dc2626)]">font confiance.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
@@ -408,9 +412,9 @@ export default function AutoExpertPage() {
         <Reveal>
           <div className="max-w-xl mx-auto px-6 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/40 mb-6">Intervention rapide</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#f1f3f5] mb-5">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#f1f3f5] mb-5">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Un problème<br /><span className="text-[var(--brand,#dc2626)]">avec votre auto ?</span>
-            </h2>
+            </>)}</h2>
             <p className="text-[#f1f3f5]/25 mb-10 text-sm">Devis gratuit 30 min · Dépannage 7j/7 · {clientCity({ formData: fd }) ?? "Rennes"} & agglomération</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[var(--brand,#dc2626)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#c01f1f] transition-colors">

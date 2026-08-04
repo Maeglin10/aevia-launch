@@ -13,7 +13,9 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -52,8 +54,10 @@ export default function StackUnitHome() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
   // `SERVICES` vient de ./shared et n'existe qu'à l'import : la liste vivante est
   // recalculée ici, là où la session est arrivée.
   const SERVICES_LIVE = resolveList(
@@ -262,9 +266,9 @@ return (
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
               <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", color: C.amber, marginBottom: "1.5rem" }}>FILMOGRAPHIE</div>
-              <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.15, paddingBottom: "0.15em", marginBottom: "1.5rem" }}>
+              <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.15, paddingBottom: "0.15em", marginBottom: "1.5rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                 Des films qui<br /><span style={{ color: C.amber }}>résistent au temps.</span>
-              </h2>
+              </>)}</h2>
               <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.8, maxWidth: "45ch", marginBottom: "2rem" }}>
                 Quatre décennies de cinéma exigeant. Compétition officielle à Cannes, Lion d'Argent à Venise, Grand Prix à l'IDFA — chaque projet est une aventure artistique totale.
               </p>
@@ -295,9 +299,9 @@ return (
       <section style={{ padding: "8rem 3rem", background: C.bg }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", color: C.amber, marginBottom: "1.5rem" }}>EXPERTISE</div>
-          <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.15, marginBottom: "4rem", paddingBottom: "0.15em" }}>
+          <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.15, marginBottom: "4rem", paddingBottom: "0.15em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
             De l'idée à l'écran.
-          </h2>
+          </>)}</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: "1px", background: C.border }}>
             {SERVICES_LIVE.map((svc: any, i: number) => <ServiceCard key={svc.code ?? i} svc={svc} index={i} />)}
           </div>
@@ -345,9 +349,9 @@ return (
             style={{ marginBottom: "5rem" }}
           >
             <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", color: C.amber, marginBottom: "1.5rem" }}>NOTRE MÉTHODE</div>
-            <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.15, paddingBottom: "0.15em" }}>
+            <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.15, paddingBottom: "0.15em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Du concept à la salle.
-            </h2>
+            </>)}</h2>
           </motion.div>
 
           {/* Steps grid — 4 columns desktop */}
@@ -465,10 +469,10 @@ return (
               paddingBottom: "0.15em",
               marginBottom: "1.5rem",
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             {c?.aboutTitle ?? fd?.businessName ?? <>Vous avez<br />
             <span style={{ color: C.amber }}>un projet ?</span></>}
-          </motion.h2>
+          </>)}</motion.h2>
 
           <motion.p
             initial={{ opacity: 0, y: 15 }}

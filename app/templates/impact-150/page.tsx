@@ -24,6 +24,7 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1377,11 +1378,11 @@ function CaseTimelineSection() {
                   letterSpacing: "-0.02em",
                   marginBottom: 32,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "landmark-cases.titre") ?? (<>
                 Cases that{" "}
                 <span style={{ fontStyle: "italic" }}>shaped</span>{" "}
                 the law.
-              </h2>
+              </>)}</h2>
               <p
                 style={{
                   fontFamily: "'Inter', sans-serif",
@@ -1610,12 +1611,12 @@ function PartnersSection() {
                 color: COLORS.ink,
                 letterSpacing: "-0.02em",
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "partners.titre") ?? (<>
               Counsel of{" "}
               <span style={{ fontStyle: "italic" }}>singular</span>
               <br />
               distinction.
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <Reveal delay={0.2}>
@@ -1738,10 +1739,10 @@ function OfficesSection() {
                   color: COLORS.cream,
                   letterSpacing: "-0.02em",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                 Six cities.{" "}
                 <span style={{ fontStyle: "italic" }}>One standard.</span>
-              </h2>
+              </>)}</h2>
             </div>
             <p
               style={{

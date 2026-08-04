@@ -38,6 +38,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -851,11 +852,11 @@ function ServicesSection() {
               lineHeight: 1.12,
               margin: '0 0 14px',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Un seul artisan,
             <br />
             <span style={{ color: C.forest }}>toute la filière eau & énergie</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p
@@ -1120,9 +1121,9 @@ function ProcessSection() {
               lineHeight: 1.12,
               maxWidth: 560,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "processus.titre") ?? (<>
             De l'audit à la mise en service — sans surprise
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <div
@@ -1364,9 +1365,9 @@ function TestimonialsSection() {
               margin: '0 0 14px',
               lineHeight: 1.12,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
             Ce que disent nos clients
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.12}>
           <p
@@ -1596,9 +1597,9 @@ function DevisFormSection() {
                 color: C.ink,
                 margin: '0 0 16px',
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "devis.titre") ?? (<>
               Demande bien reçue !
-            </h2>
+            </>)}</h2>
             <p
               style={{
                 fontFamily: SANS,
@@ -1683,11 +1684,11 @@ function DevisFormSection() {
                   margin: '18px 0 20px',
                   lineHeight: 1.14,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "devis.titre") ?? (<>
                 Réponse sous 24h,
                 <br />
                 <span style={{ color: C.forest }}>visite offerte</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <Reveal delay={0.13}>
               <p
@@ -2072,11 +2073,11 @@ function AidesSection() {
               margin: '16px 0 16px',
               lineHeight: 1.12,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "aides.titre") ?? (<>
             Réduisez votre reste à charge
             <br />
             <span style={{ color: C.forest }}>jusqu'à 70%</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.13}>
           <p
@@ -2372,11 +2373,11 @@ function EcologieSection() {
                   margin: '20px 0 20px',
                   lineHeight: 1.12,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "ecologie.titre") ?? (<>
                 Artisan vert,
                 <br />
                 résultats durables
-              </h2>
+              </>)}</h2>
             </Reveal>
             <Reveal delay={0.14}>
               <p
@@ -2651,9 +2652,9 @@ function CertifSection() {
               margin: '16px 0 14px',
               lineHeight: 1.13,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "certifications.titre") ?? (<>
             Qualifié, certifié, assuré
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.12}>
           <p

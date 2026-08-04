@@ -18,6 +18,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1188,10 +1189,10 @@ function SpecialtyCards() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Ce que nous{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>traitons</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1426,12 +1427,12 @@ function ApproachPanel() {
                 margin: '20px 0 56px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "approche.titre") ?? (<>
               La méthode{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 fonctionnelle
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {APPROACH_ITEMS.map((item, i) => (
@@ -1531,10 +1532,10 @@ function Testimonials() {
               margin: '20px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Ils ont{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>retrouvé</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1698,12 +1699,12 @@ function AppointmentForm() {
               margin: '22px 0 18px',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "rdv.titre") ?? (<>
             Commencer votre{' '}
             <span style={{ fontStyle: 'italic', color: C.accentLight }}>
               parcours
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.15}>
           <p

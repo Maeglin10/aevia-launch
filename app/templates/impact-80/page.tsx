@@ -17,7 +17,9 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -196,7 +198,9 @@ export default function SymmetryStudioPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   PRESTATIONS_INLINE = resolveList(
 
@@ -327,10 +331,10 @@ return (
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-4 block italic">
                   Archive of Form
                 </span>
-                <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter text-[#1a1a1a] leading-[1.1] italic pb-2">
+                <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter text-[#1a1a1a] leading-[1.1] italic pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                   Selected<br />
                   <span className="font-bold opacity-10 not-italic">Work.</span>
-                </h2>
+                </>)}</h2>
               </div>
               <Link
                 href={`${basePath}/works`}
@@ -415,10 +419,10 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-6 block italic">
               Services // Expertise
             </span>
-            <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">
+            <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               What we<br />
               <span className="font-bold opacity-10 not-italic">build.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="divide-y divide-black/5">
@@ -482,10 +486,10 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-6 block italic">
               Method // Process
             </span>
-            <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">
+            <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               How we<br />
               <span className="font-bold opacity-10 not-italic">work.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-20">
             {PROCESS.map((p, i) => (
@@ -509,9 +513,9 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-6 block italic">
               People // Studio
             </span>
-            <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">
+            <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               The studio.
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             {TEAM.map((member, i) => (
@@ -548,9 +552,9 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-6 block italic">
               Recognition // Awards
             </span>
-            <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">
+            <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
               Honours.
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="divide-y divide-black/5">
             {AWARDS.map((award, i) => (
@@ -581,10 +585,10 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-6 block italic">
               Press // Publications
             </span>
-            <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">
+            <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
               As seen<br />
               <span className="font-bold opacity-10 not-italic">in.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="divide-y divide-black/5">
             {PRESS.map((item, i) => (
@@ -610,10 +614,10 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-6 block italic">
               Questions // Answers
             </span>
-            <h2 className="text-5xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">
+            <h2 className="text-5xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
               Common<br />
               <span className="font-bold opacity-10 not-italic">enquiries.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div className="divide-y divide-black/5">
             {FAQS.map((faq, i) => (

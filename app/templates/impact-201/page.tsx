@@ -17,6 +17,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1457,11 +1458,11 @@ return (
                 color: C.cream,
                 marginBottom: 28,
               }}
-            >{c?.aboutTitle ?? fd?.businessName ?? <>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "chef.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>
               Antoine Lefèvre,
               <br />
               <em style={{ color: C.gold }}>chef étoilé à domicile.</em>
-            </>}</h2>
+            </>}</>)}</h2>
           </TextReveal>
           <TextReveal delay={0.3}>
             <p
@@ -1611,10 +1612,10 @@ return (
                 marginBottom: 48,
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "menus.titre") ?? (<>
               Des menus qui racontent{" "}
               <em style={{ color: C.gold }}>chaque saison.</em>
-            </h2>
+            </>)}</h2>
           </TextReveal>
 
           {/* Season tabs */}
@@ -1946,11 +1947,11 @@ return (
                 color: C.cream,
                 lineHeight: 1.1,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "experiences.titre") ?? (<>
               Une occasion,
               <br />
               <em style={{ color: C.gold }}>une expérience unique.</em>
-            </h2>
+            </>)}</h2>
           </TextReveal>
         </div>
         <div
@@ -2019,10 +2020,10 @@ return (
                     color: C.cream,
                     lineHeight: 1.1,
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "savoir-faire.titre") ?? (<>
                   Ce qui rend chaque repas{" "}
                   <em style={{ color: C.gold }}>unique.</em>
-                </h2>
+                </>)}</h2>
               </TextReveal>
             </div>
             <TextReveal delay={0.2}>
@@ -2162,10 +2163,10 @@ return (
                   color: C.cream,
                   lineHeight: 1.1,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
                 Ils ont dîné{" "}
                 <em style={{ color: C.gold }}>avec Antoine.</em>
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
           <TextReveal delay={0.2}>
@@ -2290,10 +2291,10 @@ return (
                   lineHeight: 1.1,
                   marginBottom: 32,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Votre prochain repas sera{" "}
                 <em style={{ color: C.gold }}>inoubliable.</em>
-              </h2>
+              </>)}</h2>
             </TextReveal>
             <TextReveal delay={0.2}>
               <p

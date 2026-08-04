@@ -14,6 +14,7 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -262,7 +263,7 @@ export default function ApexFitnessPage() {
             <Reveal>
               <div className="mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Programs</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Find Your <span className="text-[var(--brand,#84cc16)]">Program.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "programs.titre") ?? (<>Find Your <span className="text-[var(--brand,#84cc16)]">Program.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -296,7 +297,7 @@ export default function ApexFitnessPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">Why <span className="text-[var(--brand,#84cc16)]">Apex?</span></h2>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Why <span className="text-[var(--brand,#84cc16)]">Apex?</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -325,7 +326,7 @@ export default function ApexFitnessPage() {
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Membership</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">Choose Your <span className="text-[var(--brand,#84cc16)]">Plan.</span></h2>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "pricing.titre") ?? (<>Choose Your <span className="text-[var(--brand,#84cc16)]">Plan.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -361,9 +362,9 @@ export default function ApexFitnessPage() {
           </div>
           <div className="relative z-10 text-center px-6">
             <Reveal>
-              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">
+              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                 Your First<br/>Week Is <span className="text-[var(--brand,#84cc16)]">Free.</span>
-              </h2>
+              </>)}</h2>
               <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-12 py-5 bg-[var(--brand,#84cc16)] text-black font-bold rounded-full hover:bg-white transition-colors duration-500">
                 Claim Your Trial
               </button>
@@ -377,7 +378,7 @@ export default function ApexFitnessPage() {
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Elite Coaches</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">Meet the <span className="text-[var(--brand,#84cc16)]">Coaches.</span></h2>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "team.titre") ?? (<>Meet the <span className="text-[var(--brand,#84cc16)]">Coaches.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -412,7 +413,7 @@ export default function ApexFitnessPage() {
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">{tr(sessionData, "Reviews")}</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">What Our Members <span className="text-[var(--brand,#84cc16)]">Say.</span></h2>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>What Our Members <span className="text-[var(--brand,#84cc16)]">Say.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -444,7 +445,7 @@ export default function ApexFitnessPage() {
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Connect</span>
-              <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-12 uppercase">Get Your <span className="text-[var(--brand,#84cc16)]">Free Week.</span></h2>
+              <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-12 uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Get Your <span className="text-[var(--brand,#84cc16)]">Free Week.</span></>)}</h2>
             </Reveal>
             <Reveal delay={0.15}>
               {contactSubmitted ? (

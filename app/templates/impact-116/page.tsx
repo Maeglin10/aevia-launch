@@ -22,6 +22,7 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -345,7 +346,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Our Process</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Our Process</>)}</h2>
         </Reveal>
         <Accordion type="single" collapsible className="max-w-4xl mx-auto">
           {PROCESS.map((item, idx) => (
@@ -368,7 +369,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Featured Work</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Featured Work</>)}</h2>
         </Reveal>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {REELTHUMB.map((thumb, idx) => (
@@ -386,7 +387,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Trusted By Top Brands</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Trusted By Top Brands</>)}</h2>
         </Reveal>
         <div className="flex justify-center gap-12 flex-wrap">
           {["Vantage", "Orbital", "Meridian Labs", "Northwind", "Cascade", "Fathom", "Halcyon", "Ember & Co"].map((brand, idx) => (
@@ -399,7 +400,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>By The Numbers</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>By The Numbers</>)}</h2>
         </Reveal>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {STATS_INLINE.map((stat, idx) => (
@@ -417,7 +418,7 @@ export default function KineticStudio() {
 
       <section id="equipe" className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>The Team</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>The Team</>)}</h2>
         </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {TEAM.map((member, idx) => (
@@ -483,7 +484,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>FAQ</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>FAQ</>)}</h2>
         </Reveal>
         <Accordion type="single" collapsible className="max-w-2xl">
           {[
@@ -502,7 +503,7 @@ export default function KineticStudio() {
 
       <section id="realisations" className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>About {fd?.businessName ?? "KINETIC"}</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>About {fd?.businessName ?? "KINETIC"}</>)}</h2>
         </Reveal>
         <div className="max-w-3xl mx-auto">
           <Reveal>
@@ -519,7 +520,7 @@ export default function KineticStudio() {
 
       <section id="contact" className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Project Workflow</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Project Workflow</>)}</h2>
         </Reveal>
         <Accordion type="single" collapsible className="max-w-4xl mx-auto">
           {PROCESS.map((item, idx) => (
@@ -550,7 +551,7 @@ export default function KineticStudio() {
 
       <section id="services" className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Our Expertise</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Our Expertise</>)}</h2>
         </Reveal>
         <div className="grid md:grid-cols-3 gap-12">
           {[
@@ -570,7 +571,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Case Studies</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-12.titre") ?? (<>Case Studies</>)}</h2>
         </Reveal>
         <div className="grid md:grid-cols-2 gap-12">
           {[
@@ -601,7 +602,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Awards & Recognition</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-13.titre") ?? (<>Awards & Recognition</>)}</h2>
         </Reveal>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {["Cannes Lions", "D&AD Awards", "The Webby Awards", "Graphis Award", "One Show", "Indie Short Fest", "Vimeo Awards", "IATSE Choice"].map((award, idx) => (
@@ -618,7 +619,7 @@ export default function KineticStudio() {
 
       <section id="tarifs" className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Pricing Guide</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Pricing Guide</>)}</h2>
         </Reveal>
         <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
           <Reveal>
@@ -695,7 +696,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Let's Create Motion Magic</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-16.titre") ?? (<>Let's Create Motion Magic</>)}</h2>
         </Reveal>
         <div className="text-center">
           <p className="text-lg text-white/70 mb-8">Bring your brand story to life with cutting-edge motion design and animation</p>

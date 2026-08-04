@@ -40,6 +40,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -867,9 +868,9 @@ export default function Impact200Page() {
             <h2
               className="text-[clamp(2.5rem,6vw,5rem)] leading-tight text-[#831843] mb-4"
               style={{ fontFamily: "'Playfair Display', serif" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
               Nos Services
-            </h2>
+            </>)}</h2>
             <h3
               className="text-[clamp(2rem,5vw,4rem)] text-[var(--brand,#DB2777)] mb-6 leading-none"
               style={{ fontFamily: "'Great Vibes', cursive" }}
@@ -950,9 +951,9 @@ export default function Impact200Page() {
             <h2
               className="text-[clamp(2.5rem,6vw,5rem)] leading-tight text-[#831843] mb-2"
               style={{ fontFamily: "'Playfair Display', serif" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>
               La Galerie
-            </h2>
+            </>)}</h2>
             <h3
               className="text-[clamp(2rem,5vw,4rem)] text-[var(--brand,#DB2777)] mb-16 leading-none"
               style={{ fontFamily: "'Great Vibes', cursive" }}
@@ -1016,9 +1017,9 @@ export default function Impact200Page() {
             <h2
               className="text-[clamp(2.5rem,6vw,5rem)] leading-tight text-[#831843] mb-2"
               style={{ fontFamily: "'Playfair Display', serif" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "packages.titre") ?? (<>
               Nos Packages
-            </h2>
+            </>)}</h2>
             <h3
               className="text-[clamp(2rem,5vw,4rem)] text-[var(--brand,#DB2777)] mb-6 leading-none"
               style={{ fontFamily: "'Great Vibes', cursive" }}
@@ -1128,9 +1129,9 @@ export default function Impact200Page() {
             <h2
               className="text-[clamp(2.5rem,6vw,5rem)] leading-tight text-[#831843] mb-2"
               style={{ fontFamily: "'Playfair Display', serif" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Notre Processus
-            </h2>
+            </>)}</h2>
             <h3
               className="text-[clamp(2rem,5vw,4rem)] text-[var(--brand,#DB2777)] mb-16 leading-none"
               style={{ fontFamily: "'Great Vibes', cursive" }}
@@ -1193,9 +1194,9 @@ export default function Impact200Page() {
             <h2
               className="text-[clamp(2.5rem,6vw,5rem)] leading-tight text-[#831843] mb-2"
               style={{ fontFamily: "'Playfair Display', serif" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Témoignages
-            </h2>
+            </>)}</h2>
             <h3
               className="text-[clamp(2rem,5vw,4rem)] text-[var(--brand,#DB2777)] mb-16 leading-none"
               style={{ fontFamily: "'Great Vibes', cursive" }}
@@ -1339,9 +1340,9 @@ export default function Impact200Page() {
               <h2
                 className="text-[clamp(2.5rem,6vw,5rem)] leading-tight text-[#831843] mb-2"
                 style={{ fontFamily: "'Playfair Display', serif" }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Commençons
-              </h2>
+              </>)}</h2>
               <h3
                 className="text-[clamp(2rem,5vw,4rem)] text-[var(--brand,#DB2777)] mb-8 leading-none"
                 style={{ fontFamily: "'Great Vibes', cursive" }}

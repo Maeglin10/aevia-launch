@@ -12,7 +12,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -81,7 +83,9 @@ export default function SatoriHomePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,
@@ -191,11 +195,11 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8860b)]">
               La Carte
             </span>
-            <h2 className="text-5xl md:text-7xl font-light mt-4 tracking-tight uppercase">
+            <h2 className="text-5xl md:text-7xl font-light mt-4 tracking-tight uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
               Le Menu
               <br />
               <span className="italic text-[#f5efe0]/40">Dégustation</span>
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
 
@@ -332,11 +336,11 @@ return (
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8860b)]">
               Terroir & Confiance
             </span>
-            <h2 className="text-5xl md:text-7xl font-light mt-4 tracking-tight uppercase">
+            <h2 className="text-5xl md:text-7xl font-light mt-4 tracking-tight uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Les
               <br />
               <span className="italic text-[#f5efe0]/40">Artisans</span>
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
 
@@ -396,11 +400,11 @@ return (
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8860b)]">
                 Ils ont vécu Satori
               </span>
-              <h2 className="text-5xl md:text-7xl font-light mt-4 tracking-tight uppercase">
+              <h2 className="text-5xl md:text-7xl font-light mt-4 tracking-tight uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                 Ce qu'ils
                 <br />
                 <span className="italic text-[#f5efe0]/40">Ont Ressenti</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -456,11 +460,11 @@ return (
             <span className="block text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#b8860b)] mb-6">
               Réservations
             </span>
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tighter uppercase mb-6">
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tighter uppercase mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
               Votre Table
               <br />
               <span className="italic text-[#f5efe0]/50">Vous Attend</span>
-            </h2>
+            </>)}</h2>
             <p className="max-w-md mx-auto text-sm text-[#f5efe0]/40 leading-relaxed italic font-light mb-14">
               Chaque soirée chez Satori est unique. Les places sont limitées
               afin de garantir une attention totale à chaque convive.

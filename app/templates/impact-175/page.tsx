@@ -17,6 +17,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1086,11 +1087,11 @@ export default function Impact175Page() {
                   color: C.ivory,
                   lineHeight: 1.05,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "event-types.titre") ?? (<>
                 Quel événement
                 <br />
                 <em>pouvons-nous créer ?</em>
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
 
@@ -1258,9 +1259,9 @@ export default function Impact175Page() {
                   fontWeight: 400,
                   color: C.ivory,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "gallery.titre") ?? (<>
                 Moments <em>créés par Confluence</em>
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
           <div
@@ -1309,9 +1310,9 @@ export default function Impact175Page() {
                   fontWeight: 400,
                   color: C.ivory,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Ce que nous <em>apportons</em>
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
           <div
@@ -1469,9 +1470,9 @@ export default function Impact175Page() {
                 color: C.ivory,
                 marginBottom: 64,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Ce que disent <em style={{ color: C.champagne }}>nos clients</em>
-            </h2>
+            </>)}</h2>
           </TextReveal>
           <div style={{ display: "flex", flexDirection: "column", gap: 48 }}>
             {TESTIMONIALS.map((t, i) => (
@@ -1574,11 +1575,11 @@ export default function Impact175Page() {
                 lineHeight: 1,
                 marginBottom: 24,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Créons ensemble
               <br />
               <em>l'inoubliable</em>
-            </h2>
+            </>)}</h2>
           </TextReveal>
           <motion.p
             initial={{ opacity: 0 }}

@@ -43,6 +43,7 @@ import {
   clientServices,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -893,9 +894,9 @@ function PortfolioSection() {
           <h2
             className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05] mb-12"
             style={{ fontFamily: "'Playfair Display', serif" }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "portfolio.titre") ?? (<>
             Nos créations <span className="not-italic font-[400] text-[#8B5CF6]">en images</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         {/* Filter tabs */}
@@ -990,11 +991,11 @@ function ServicesSection() {
             <h2
               className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05]"
               style={{ fontFamily: "'Playfair Display', serif" }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
               Chaque soin,
               <br />
               <span className="not-italic font-[400] text-[#8B5CF6]">un rituel.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.15}>
             <p
@@ -1073,9 +1074,9 @@ function ArtistesSection() {
           <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
             Notre Équipe
           </p>
-          <h2 className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h2 className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "artistes.titre") ?? (<>
             Les <span className="not-italic text-[#8B5CF6]">Artistes</span>
-          </h2>
+          </>)}</h2>
           <p className="text-[15px] text-[#9D174D] max-w-[520px] mx-auto mt-5 leading-[1.75] font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
             Trois expertes passionnées, chacune avec sa spécialité, unies par l'amour du détail et la recherche de la perfection.
           </p>
@@ -1165,9 +1166,9 @@ function BookingProcess() {
           <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#F9A8D4] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
             Comment réserver
           </p>
-          <h2 className="text-[clamp(36px,5vw,60px)] font-[700] italic text-white leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h2 className="text-[clamp(36px,5vw,60px)] font-[700] italic text-white leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "soins.titre") ?? (<>
             Simple comme <span className="not-italic font-[400] text-[#F9A8D4]">un clic.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -1233,9 +1234,9 @@ function BrandsSection() {
           <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-3" style={{ fontFamily: "'Inter', sans-serif" }}>
             Produits professionnels
           </p>
-          <h2 className="text-[28px] font-[500] italic text-[var(--brand-light,#831843)]" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h2 className="text-[28px] font-[500] italic text-[var(--brand-light,#831843)]" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             Nous travaillons exclusivement avec les meilleures marques
-          </h2>
+          </>)}</h2>
         </Reveal>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {BRANDS.map((brand, i) => (
@@ -1284,9 +1285,9 @@ function TestimonialsSection() {
           <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
             Témoignages
           </p>
-          <h2 className="text-[clamp(36px,5vw,60px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h2 className="text-[clamp(36px,5vw,60px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             Ce qu'elles <span className="not-italic text-[#8B5CF6]">disent</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         {/* Featured testimonial */}
@@ -1392,9 +1393,9 @@ function TarifsSection() {
           <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
             Tarifs
           </p>
-          <h2 className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h2 className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
             Grille tarifaire <span className="not-italic font-[400] text-[#8B5CF6]">complète</span>
-          </h2>
+          </>)}</h2>
           <p className="text-[15px] text-[#9D174D] mt-5 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
             Tous nos prix incluent la consultation initiale et les produits de qualité professionnelle.
           </p>
@@ -1648,10 +1649,10 @@ function AboutSection() {
               <h2
                 className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.1] mb-8"
                 style={{ fontFamily: "'Playfair Display', serif" }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "concept.titre") ?? (<>
                 La beauté <br />
                 <span className="not-italic font-[400] text-[#8B5CF6]">jusqu'au bout des doigts.</span>
-              </h2>
+              </>)}</h2>
               <p
                 className="text-[15px] text-[#9D174D] leading-[1.8] font-[300] mb-6"
                 style={{ fontFamily: "'Inter', sans-serif" }}
@@ -1700,9 +1701,9 @@ function FaqSection() {
       <div className="max-w-[800px] mx-auto px-6">
         <Reveal className="text-center mb-16">
           <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>FAQ</p>
-          <h2 className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.1]" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h2 className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.1]" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
             Questions <span className="not-italic font-[400] text-[#8B5CF6]">Fréquentes</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <div className="space-y-4">
           {faqs.map((faq: any, idx: number) => (
@@ -1750,9 +1751,9 @@ function ContactSection() {
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <Reveal>
             <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>Contact</p>
-            <h2 className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.1] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h2 className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.1] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Écrivez-nous <span className="not-italic font-[400] text-[#8B5CF6]">un message</span>
-            </h2>
+            </>)}</h2>
             <p className="text-[15px] text-[#9D174D] leading-[1.75] font-[300] mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
               Pour toute demande spécifique, projet de nail art sur-mesure ou question sur nos prestations, n'hésitez pas à nous envoyer un message. Notre équipe vous répondra sous 24h.
             </p>

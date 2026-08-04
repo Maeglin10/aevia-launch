@@ -55,7 +55,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -912,9 +914,11 @@ export default function HorizonMaritimePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   testimonials = testimonials_LIVE();
+
 
 
   stats = resolveList(
@@ -1448,13 +1452,13 @@ export default function HorizonMaritimePage() {
                 marginBottom: "1.5rem",
                 letterSpacing: -1,
               }}
-            >{c?.heroHeadline ?? <>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
               Beyond the
               <br />
               <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>ordinary</em>
               <br />
               horizon.
-            </>}</motion.h1>
+            </>}</>)}</motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 24 }}
@@ -1604,11 +1608,11 @@ export default function HorizonMaritimePage() {
                   lineHeight: 1.1,
                   maxWidth: 600,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                 Curated anchorages,
                 <br />
                 <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>reserved for you alone.</em>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -1722,11 +1726,11 @@ export default function HorizonMaritimePage() {
                     lineHeight: 1.2,
                     marginBottom: "2rem",
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                   Every voyage is authored
                   <br />
                   <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>specifically for you.</em>
-                </h2>
+                </>)}</h2>
               </Reveal>
               <Reveal delay={0.2}>
                 <p
@@ -1917,9 +1921,9 @@ export default function HorizonMaritimePage() {
                   lineHeight: 1.2,
                   marginBottom: "1rem",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Monaco to Ibiza
-              </h2>
+              </>)}</h2>
               <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.4)", letterSpacing: 2 }}>
                 15 nights · 1,840 nautical miles · aboard M/Y Lumière
               </p>
@@ -1995,9 +1999,9 @@ export default function HorizonMaritimePage() {
                   fontWeight: 300,
                   color: "#f0ece0",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                 Words from those who know.
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -2124,9 +2128,9 @@ export default function HorizonMaritimePage() {
                   lineHeight: 1.2,
                   marginBottom: "1rem",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                 Private enquiry
-              </h2>
+              </>)}</h2>
               <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 12, fontWeight: 300, color: "rgba(240,236,224,0.5)", lineHeight: 1.8 }}>
                 Your voyage architect will respond within 4 hours. All enquiries are treated
                 with complete discretion.
@@ -2590,9 +2594,9 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
             </p>
             <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
           </div>
-          <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>
+          <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
             The Horizon <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>Collection</em>
-          </h1>
+          </>)}</h1>
           <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "rgba(240,236,224,0.6)", maxWidth: 600, margin: "0 auto", lineHeight: 1.8 }}>
             Explore our curated portfolio of ultra-luxury vessels available for charter. Each yacht is maintained to impeccable standards with hand-selected crews.
           </p>
@@ -2882,9 +2886,9 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
             </p>
             <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
           </div>
-          <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>
+          <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
             Curated <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>Destinations</em>
-          </h1>
+          </>)}</h1>
           <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "rgba(240,236,224,0.6)", maxWidth: 600, margin: "0 auto", lineHeight: 1.8 }}>
             Navigate the world's most exceptional coastal waters. From sun-drenched Mediterranean shores to untouched polar wilderness.
           </p>
@@ -3041,9 +3045,9 @@ function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
             </p>
             <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
           </div>
-          <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>
+          <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
             The Onboard <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>Experience</em>
-          </h1>
+          </>)}</h1>
           <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "rgba(240,236,224,0.6)", maxWidth: 600, margin: "0 auto", lineHeight: 1.8 }}>
             True luxury is the absence of friction. We manage every detail of your journey so that your only responsibility is to enjoy the open sea.
           </p>
@@ -3127,9 +3131,9 @@ function ContactPage() {
             </p>
             <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
           </div>
-          <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>
+          <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-11.titre") ?? (<>
             Begin Your <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>Voyage</em>
-          </h1>
+          </>)}</h1>
           <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "rgba(240,236,224,0.6)", maxWidth: 600, margin: "0 auto", lineHeight: 1.8 }}>
             Reach out to our global charter desks or submit a private enquiry. A voyage architect will respond within 4 hours.
           </p>

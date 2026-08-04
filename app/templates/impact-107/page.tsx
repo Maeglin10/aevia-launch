@@ -13,7 +13,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -104,7 +106,9 @@ export default function MeridianJourneyPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   EXPEDITIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EXPEDITIONS_DEMO_SOURCE[i % EXPEDITIONS_DEMO_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     EXPEDITIONS_DEMO_SOURCE,
@@ -267,7 +271,7 @@ export default function MeridianJourneyPage() {
             <Reveal>
               <div className="mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)] block mb-4">Upcoming</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Next <span className="text-[var(--brand,#2dd4bf)]">Expeditions.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Next <span className="text-[var(--brand,#2dd4bf)]">Expeditions.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="flex flex-col gap-12">
@@ -305,7 +309,7 @@ export default function MeridianJourneyPage() {
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)] block mb-4">The Journey</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Four <span className="text-[var(--brand,#2dd4bf)]">Chapters.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Four <span className="text-[var(--brand,#2dd4bf)]">Chapters.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -332,7 +336,7 @@ export default function MeridianJourneyPage() {
               <div className="flex items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)] block mb-4">Field Reports</span>
-                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-2">In Their <span className="text-[var(--brand,#2dd4bf)]">Words.</span></h2>
+                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-2">{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>In Their <span className="text-[var(--brand,#2dd4bf)]">Words.</span></>)}</h2>
                 </div>
               </div>
             </Reveal>
@@ -362,7 +366,7 @@ export default function MeridianJourneyPage() {
             <Reveal>
               <div className="mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)] block mb-4">Field Experts</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">The <span className="text-[var(--brand,#2dd4bf)]">Guides.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>The <span className="text-[var(--brand,#2dd4bf)]">Guides.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -401,9 +405,9 @@ export default function MeridianJourneyPage() {
           </div>
           <div className="relative z-10 text-center px-6">
             <Reveal>
-              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">
+              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Answer The<br/><span className="text-[var(--brand,#2dd4bf)]">Call.</span>
-              </h2>
+              </>)}</h2>
               <p className="text-lg text-white/50 font-light max-w-md mx-auto mb-10">
                 Applications for 2026 expeditions are now open. Limited to 8 per journey.
               </p>

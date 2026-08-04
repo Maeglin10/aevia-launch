@@ -12,6 +12,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -272,9 +273,9 @@ export default function AquaThermPage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
         <motion.div className="mb228-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(48px, 6vw, 82px)", letterSpacing: 1, color: "#fff", lineHeight: 0.95, marginBottom: 24 }}>{c?.heroHeadline ?? <>
+            style={{ fontFamily: FONT, fontSize: "clamp(48px, 6vw, 82px)", letterSpacing: 1, color: "#fff", lineHeight: 0.95, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             PANNE ?<br /><span style={{ color: C.accent }}>ON ARRIVE.</span>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{fd?.tagline ?? c?.heroSubline ?? <>
             AquaTherm, plombier chauffagiste à {clientCity(sessionData) ?? "Lille"}. Urgences en moins d'une heure, devis gratuit, certifié RGE et Qualigaz. Plomberie, chauffage, PAC, climatisation.
@@ -311,7 +312,7 @@ export default function AquaThermPage() {
       <section id="services" style={{ padding: "100px 80px", background: C.bg }}>
         <Reveal><div style={{ marginBottom: 56 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Nos interventions</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(36px, 4vw, 56px)", letterSpacing: 1, color: C.text, marginTop: 8 }}>TOUT CE QUI COULE,<br />CHAUFFE OU FUIT.</h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(36px, 4vw, 56px)", letterSpacing: 1, color: C.text, marginTop: 8 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>TOUT CE QUI COULE,<br />CHAUFFE OU FUIT.</>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
           {SERVICES.map((s, i) => (
@@ -331,7 +332,7 @@ export default function AquaThermPage() {
           <Reveal><img src={photo(1, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80")} alt="Artisan plombier certifié" style={{ width: "100%", borderRadius: 8, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
           <Reveal delay={0.15}><div>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Garanties</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 3vw, 48px)", letterSpacing: 0.5, color: C.text, margin: "10px 0 26px", lineHeight: 1.1 }}>RGE, QUALIGAZ,<br />ASSURÉS.</h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 3vw, 48px)", letterSpacing: 0.5, color: C.text, margin: "10px 0 26px", lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>RGE, QUALIGAZ,<br />ASSURÉS.</>)}</h2>
             {GARANTIES.map((g, i) => (
               <div key={i} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
                 <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
@@ -347,7 +348,7 @@ export default function AquaThermPage() {
 
       <section style={{ padding: "100px 80px", background: C.bgDark }}>
         <Reveal><div style={{ textAlign: "center", marginBottom: 52 }}>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 4vw, 52px)", letterSpacing: 1, color: "#fff" }}>ILS NOUS FONT <span style={{ color: C.accent }}>CONFIANCE.</span></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 4vw, 52px)", letterSpacing: 1, color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>ILS NOUS FONT <span style={{ color: C.accent }}>CONFIANCE.</span></>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
           {AVIS.map((a, i) => (
@@ -368,7 +369,7 @@ export default function AquaThermPage() {
       <section id="urgence" style={{ padding: "100px 80px", background: C.bgDark }}>
         <Reveal><div style={{ marginBottom: 56 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Urgence</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.5vw, 56px)", color: C.white, marginTop: 10, lineHeight: 1.05, textTransform: "uppercase" }}>Un problème maintenant ?</h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.5vw, 56px)", color: C.white, marginTop: 10, lineHeight: 1.05, textTransform: "uppercase" }}>{/* TEXTE_SECTION */ clientText(sessionData, "urgence.titre") ?? (<>Un problème maintenant ?</>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto 32px" }}>
           {URGENCE.map((u, i) => (
@@ -392,7 +393,7 @@ export default function AquaThermPage() {
       <section id="entretien" style={{ padding: "100px 80px", background: C.bgSection }}>
         <Reveal><div style={{ marginBottom: 56 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Entretien</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.5vw, 56px)", color: C.text, marginTop: 10, lineHeight: 1.05, textTransform: "uppercase" }}>Ce qui évite l&apos;urgence</h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.5vw, 56px)", color: C.text, marginTop: 10, lineHeight: 1.05, textTransform: "uppercase" }}>{/* TEXTE_SECTION */ clientText(sessionData, "entretien.titre") ?? (<>Ce qui évite l&apos;urgence</>)}</h2>
         </div></Reveal>
         <div style={{ maxWidth: 900, margin: "0 auto", background: C.white, borderRadius: 10, border: `1px solid ${C.border}`, boxShadow: C.shadow, overflow: "hidden" }}>
           {ENTRETIEN.map((t, i) => (
@@ -411,7 +412,7 @@ export default function AquaThermPage() {
 
       <section id="contact" style={{ padding: "100px 80px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.5vw, 60px)", letterSpacing: 1, color: C.text, marginBottom: 16 }}>PANNE OU PROJET ?<br /><span style={{ color: C.accent }}>APPELEZ.</span></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.5vw, 60px)", letterSpacing: 1, color: C.text, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>PANNE OU PROJET ?<br /><span style={{ color: C.accent }}>APPELEZ.</span></>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>Urgences 24h/24 ou devis pour travaux — réponse garantie en moins de 2h en semaine.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={`tel:${fd?.phone ?? "+33320000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>

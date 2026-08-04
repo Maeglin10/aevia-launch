@@ -22,7 +22,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -242,9 +244,11 @@ export default function NexusSaaSPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   PRICING_SOURCE = PRICING_SOURCE_LIVE();
+
 
 
   PRICING = resolveList(
@@ -603,9 +607,9 @@ export default function NexusSaaSPage() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-6">
               <Activity className="w-3 h-3" /> Zero Latency
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
               Uncompromising speed, everywhere.
-            </h2>
+            </>)}</h2>
             <p className="text-lg text-white/60 mb-8 leading-relaxed">
               Our custom runtime is written in Rust and boots in under 1ms. By
               eliminating cold starts and running your code within our global
@@ -683,9 +687,9 @@ export default function NexusSaaSPage() {
           ========================================== */}
       <section className="py-32 px-6 max-w-[1400px] mx-auto">
         <Reveal className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
             Loved by developers.
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -726,9 +730,9 @@ export default function NexusSaaSPage() {
       <section id="tarifs" className="py-32 bg-[#0a0a14] px-6 border-y border-white/5">
         <div className="max-w-[1200px] mx-auto">
           <Reveal className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
               Simple, transparent pricing.
-            </h2>
+            </>)}</h2>
             <div className="flex items-center justify-center gap-4">
               <span
                 className={`text-sm font-medium ${!annualBilling ? "text-white" : "text-white/50"}`}
@@ -811,9 +815,9 @@ export default function NexusSaaSPage() {
           ========================================== */}
       <section className="py-32 px-6 max-w-[800px] mx-auto">
         <Reveal className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Frequently Asked Questions
-          </h2>
+          </>)}</h2>
         </Reveal>
 
         <div className="space-y-4">
@@ -855,9 +859,9 @@ export default function NexusSaaSPage() {
       <section id="contact" className="py-32 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[var(--brand,#7c3aed)]/20 blur-[100px] z-0 pointer-events-none rounded-full scale-150" />
         <div className="max-w-[800px] mx-auto text-center relative z-10 border border-white/10 bg-white/[0.02] backdrop-blur-xl rounded-3xl p-12 md:p-20 shadow-2xl">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Ready to scale?
-          </h2>
+          </>)}</h2>
           <p className="text-lg text-white/60 mb-10">
             Join thousands of developers building the future on Nexus. Start for
             free, upgrade when you need to.

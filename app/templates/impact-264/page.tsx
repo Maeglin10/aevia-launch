@@ -19,6 +19,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1099,10 +1100,10 @@ function SpecialtyCards() {
               margin: '22px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "specialites.titre") ?? (<>
             Ce que nous{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>traitons</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1358,12 +1359,12 @@ function PrinciplesPanel() {
                 margin: '22px 0 54px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Quatre lois{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 fondatrices
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1476,10 +1477,10 @@ function Testimonials() {
               margin: '22px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             Ce qu&apos;ils{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>ressentent</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1646,9 +1647,9 @@ function BookingForm() {
               margin: '22px 0 18px',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "reserver.titre") ?? (<>
             Votre premier pas
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

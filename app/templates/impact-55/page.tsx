@@ -13,7 +13,9 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -149,9 +151,11 @@ export default function CabinetRenardPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
   ENGAGEMENTS_DEMO = ENGAGEMENTS_DEMO_LIVE();
+
 
 
   DOMAINES = resolveList(
@@ -271,9 +275,9 @@ export default function CabinetRenardPage() {
 
         <motion.div className="mb55-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
+            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "mb55-hero.titre") ?? (<>{c?.heroHeadline ?? <>
             La justice mérite<br /><em style={{ color: C.gold }}>d'être défendue avec rigueur.</em>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{fd?.tagline ?? c?.heroSubline ?? <>
@@ -317,9 +321,9 @@ export default function CabinetRenardPage() {
         <Reveal>
           <div style={{ marginBottom: 60 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.gold }}>Domaines d'expertise</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 300, color: C.text, marginTop: 10, lineHeight: 1.15 }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 300, color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "domaines.titre") ?? (<>
               Une expertise pluridisciplinaire<br /><em>au service de vos intérêts.</em>
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
@@ -341,9 +345,9 @@ export default function CabinetRenardPage() {
         <Reveal>
           <div style={{ marginBottom: 60 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.gold }}>L&apos;équipe</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>
               Six personnes,<br />et aucune sous-traitance.
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
@@ -366,9 +370,9 @@ export default function CabinetRenardPage() {
           </Reveal>
           <Reveal delay={0.15}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.gold }}>Nos engagements</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", fontWeight: 300, color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", fontWeight: 300, color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "honoraires.titre") ?? (<>
               La transparence,<br /><em>une valeur fondamentale.</em>
-            </h2>
+            </>)}</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {ENGAGEMENTS.map((e, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
@@ -389,7 +393,7 @@ export default function CabinetRenardPage() {
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.gold }}>Références clients</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 300, color: "#fff", marginTop: 10 }}>Ils nous <em style={{ color: C.gold }}>ont confié leurs dossiers</em>.</h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 300, color: "#fff", marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Ils nous <em style={{ color: C.gold }}>ont confié leurs dossiers</em>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>

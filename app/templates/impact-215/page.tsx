@@ -19,6 +19,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -2198,7 +2199,7 @@ export default function FlammeEtCoPage() {
                 lineHeight: 1.12,
                 marginBottom: '1.25rem',
               }}
-            >{c?.heroHeadline ?? <>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
               Réchauffez{' '}
               <span style={{
                 background: `linear-gradient(135deg, ${C.accent}, ${C.goldLight})`,
@@ -2207,7 +2208,7 @@ export default function FlammeEtCoPage() {
               }}>
                 votre intérieur
               </span>
-            </>}</motion.h1>
+            </>}</>)}</motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -2368,9 +2369,9 @@ export default function FlammeEtCoPage() {
               <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.65rem' }}>
                 Sélection Flamme & Co
               </p>
-              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800 }}>
+              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800 }}>{/* TEXTE_SECTION */ clientText(sessionData, "featured.titre") ?? (<>
                 Nos produits phares
-              </h2>
+              </>)}</h2>
             </div>
             <div className="fc-grid-3">
               {FEATURED.map((p, i) => (
@@ -2410,9 +2411,9 @@ export default function FlammeEtCoPage() {
                 <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.65rem' }}>
                   Notre catalogue
                 </p>
-                <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800 }}>
+                <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800 }}>{/* TEXTE_SECTION */ clientText(sessionData, "products.titre") ?? (<>
                   Tous nos appareils
-                </h2>
+                </>)}</h2>
               </div>
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                 {['Tous', 'Bois', 'Granulés', 'Design'].map(f => (
@@ -2452,9 +2453,9 @@ export default function FlammeEtCoPage() {
               <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.65rem' }}>
                 Pourquoi Flamme & Co ?
               </p>
-              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800 }}>
+              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800 }}>{/* TEXTE_SECTION */ clientText(sessionData, "usps.titre") ?? (<>
                 L'excellence à chaque étape
-              </h2>
+              </>)}</h2>
             </div>
             <div className="fc-grid-4">
               {USPS.map((u, i) => (
@@ -2471,9 +2472,9 @@ export default function FlammeEtCoPage() {
               <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.65rem' }}>
                 Outil interactif
               </p>
-              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800, marginBottom: '0.75rem' }}>
+              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800, marginBottom: '0.75rem' }}>{/* TEXTE_SECTION */ clientText(sessionData, "configurateur.titre") ?? (<>
                 Trouvez votre poêle en 3 étapes
-              </h2>
+              </>)}</h2>
               <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '1rem', maxWidth: '520px', margin: '0 auto', lineHeight: 1.65 }}>
                 Notre configurateur analyse votre profil et vous recommande l'appareil parfait pour votre logement et votre budget.
               </p>
@@ -2499,9 +2500,9 @@ export default function FlammeEtCoPage() {
               <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.65rem' }}>
                 Ils nous font confiance
               </p>
-              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800, marginBottom: '0.75rem' }}>
+              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800, marginBottom: '0.75rem' }}>{/* TEXTE_SECTION */ clientText(sessionData, "testimonials.titre") ?? (<>
                 Avis vérifiés clients
-              </h2>
+              </>)}</h2>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
                 <Stars rating={4.8} />
                 <span style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem' }}>
@@ -2558,9 +2559,9 @@ export default function FlammeEtCoPage() {
               <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.65rem' }}>
                 Questions fréquentes
               </p>
-              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800, marginBottom: '0.75rem' }}>
+              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800, marginBottom: '0.75rem' }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
                 Tout savoir avant d'acheter
-              </h2>
+              </>)}</h2>
               <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '1rem', maxWidth: '500px', margin: '0 auto', lineHeight: 1.65 }}>
                 Retrouvez les réponses à vos questions sur nos produits, la livraison, les aides financières et l'installation.
               </p>
@@ -2621,9 +2622,9 @@ export default function FlammeEtCoPage() {
               <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.75rem', position: 'relative' }}>
                 Newsletter exclusive
               </p>
-              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.6rem, 4vw, 2.5rem)', fontWeight: 800, marginBottom: '1rem', position: 'relative' }}>
+              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.6rem, 4vw, 2.5rem)', fontWeight: 800, marginBottom: '1rem', position: 'relative' }}>{/* TEXTE_SECTION */ clientText(sessionData, "newsletter.titre") ?? (<>
                 Offres & conseils chauffage
-              </h2>
+              </>)}</h2>
               <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '1rem', maxWidth: '460px', margin: '0 auto 2.5rem', lineHeight: 1.65, position: 'relative' }}>
                 Recevez nos meilleures promotions, guides d'achat et conseils d'experts directement dans votre boîte mail.
               </p>

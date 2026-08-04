@@ -17,6 +17,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1274,12 +1275,12 @@ function TreatmentCards({ treatments }: { treatments: any[] }) {
               margin: '22px 0 0',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             Une expertise complète,{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>
               sur mesure
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div
@@ -1493,12 +1494,12 @@ function TechPanel() {
                 margin: '22px 0 52px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "technologie.titre") ?? (<>
               Numérique{' '}
               <span style={{ fontStyle: 'italic', color: C.accentLight }}>
                 de bout en bout
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {SPECS.map((spec, i) => (
@@ -1594,10 +1595,10 @@ function Testimonials({ reviews }: { reviews: any[] }) {
               margin: '22px 0 0',
               lineHeight: 1.05,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Ce que disent{' '}
             <span style={{ fontStyle: 'italic', color: C.accent }}>nos patients</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div
@@ -1785,12 +1786,12 @@ function AppointmentForm() {
               margin: '22px 0 18px',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "rdv.titre") ?? (<>
             Votre sourire{' '}
             <span style={{ fontStyle: 'italic', color: C.accentLight }}>
               commence ici
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.15}>
           <p

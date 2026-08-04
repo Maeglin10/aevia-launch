@@ -13,7 +13,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -109,7 +111,9 @@ export default function KineticMarqueePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -260,9 +264,9 @@ export default function KineticMarqueePage() {
         <section id="work" className="py-32 bg-[#0a0506]">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-20">
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-20">{/* TEXTE_SECTION */ clientText(sessionData, "work.titre") ?? (<>
                 Selected <span className="text-[var(--brand,#f97316)] italic">Work.</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {WORK.map((w, i) => (
@@ -293,7 +297,7 @@ export default function KineticMarqueePage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">What We <span className="text-[var(--brand,#f97316)] italic">Do.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>What We <span className="text-[var(--brand,#f97316)] italic">Do.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -369,7 +373,7 @@ export default function KineticMarqueePage() {
         <section className="py-32 bg-[#0d0708]">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
-              <h2 className="text-4xl font-black tracking-tighter uppercase mb-16 text-center">Client <span className="text-[var(--brand,#f97316)] italic">Words.</span></h2>
+              <h2 className="text-4xl font-black tracking-tighter uppercase mb-16 text-center">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Client <span className="text-[var(--brand,#f97316)] italic">Words.</span></>)}</h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {TESTIMONIALS.map((t, i) => (
@@ -396,9 +400,9 @@ export default function KineticMarqueePage() {
         <section className="py-32 bg-[var(--brand,#f97316)] text-black">
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
-              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">
+              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                 Let's Make<br/>Something.
-              </h2>
+              </>)}</h2>
               <button
                 onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
                 className="px-12 py-5 bg-black text-white font-bold rounded-full hover:bg-white hover:text-black transition-all duration-500"
@@ -414,9 +418,9 @@ export default function KineticMarqueePage() {
           <div className="max-w-[800px] mx-auto px-6">
             <Reveal>
               <div className="text-center mb-16">
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-4">
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                   Start a <span className="text-[var(--brand,#f97316)] italic">Project.</span>
-                </h2>
+                </>)}</h2>
                 <p className="text-white/40 font-light">Let's build something unforgettable together.</p>
               </div>
 

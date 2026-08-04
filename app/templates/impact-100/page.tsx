@@ -30,7 +30,9 @@ import {
   clientName,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 import "../premium.css";
 
@@ -205,8 +207,10 @@ export default function NovaSpacesPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+
   PHILOSOPHY = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     PHILOSOPHY_SOURCE,
@@ -413,9 +417,9 @@ export default function NovaSpacesPage() {
           <Reveal>
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
               <div>
-                <h2 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-none mb-6 uppercase text-black">
+                <h2 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-none mb-6 uppercase text-black">{/* TEXTE_SECTION */ clientText(sessionData, "work.titre") ?? (<>
                   The <br /> <span className="font-black italic">Form.</span>
-                </h2>
+                </>)}</h2>
                 <p className="text-black/20 text-[10px] font-bold uppercase tracking-[0.4em]">
                   Project Index // Interior Architecture // 2024
                 </p>
@@ -500,12 +504,12 @@ export default function NovaSpacesPage() {
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/30 mb-8 block">
                 The Methodology
               </span>
-              <h2 className="text-6xl md:text-8xl font-light italic tracking-tighter uppercase">
+              <h2 className="text-6xl md:text-8xl font-light italic tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Spatial{" "}
                 <span className="font-black not-italic text-black">
                   Refinement.
                 </span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 

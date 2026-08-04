@@ -17,6 +17,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -613,10 +614,10 @@ return (
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             style={{ fontSize: "clamp(48px, 7.5vw, 110px)", fontWeight: 300, lineHeight: 1.0, letterSpacing: "-0.02em", color: C.white, marginBottom: 28, maxWidth: 800 }}
-          >{c?.heroHeadline ?? <>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             Le monde<br />
             <em style={{ color: C.accent, fontStyle: "italic" }}>autrement.</em>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -713,9 +714,9 @@ return (
                 <div style={{ width: 24, height: 1, background: C.accent }} />
                 <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>NOS DESTINATIONS</span>
               </div>
-              <h2 style={{ fontSize: "clamp(36px, 5vw, 72px)", fontWeight: 300, letterSpacing: "-0.02em", color: C.marine, lineHeight: 1.05, maxWidth: 620 }}>
+              <h2 style={{ fontSize: "clamp(36px, 5vw, 72px)", fontWeight: 300, letterSpacing: "-0.02em", color: C.marine, lineHeight: 1.05, maxWidth: 620 }}>{/* TEXTE_SECTION */ clientText(sessionData, "destinations.titre") ?? (<>
                 Chaque destination,<br /><em style={{ color: C.accent, fontStyle: "italic" }}>une révélation.</em>
-              </h2>
+              </>)}</h2>
             </div>
           </RevealSection>
 
@@ -802,9 +803,9 @@ return (
                 <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>CARTE DES DESTINATIONS</span>
                 <div style={{ width: 24, height: 1, background: C.accent }} />
               </div>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 300, color: C.marine, marginBottom: 16 }}>{c?.aboutTitle ?? fd?.businessName ?? <>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 300, color: C.marine, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>
                 Votre monde,<br /><em style={{ color: C.accent, fontStyle: "italic" }}>cartographié</em>
-              </>}</h2>
+              </>}</>)}</h2>
               <p style={{ fontSize: 15, color: C.textMuted, fontFamily: "system-ui", maxWidth: 480, margin: "0 auto", lineHeight: 1.7 }}>{c?.aboutText ?? <>
                 Survolez la carte pour explorer nos destinations signature. 87 expériences uniques sur 6 continents.
               </>}</p>
@@ -825,9 +826,9 @@ return (
                   <div style={{ width: 24, height: 1, background: C.accent }} />
                   <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>NOS SERVICES</span>
                 </div>
-                <h2 style={{ fontSize: "clamp(32px, 4vw, 56px)", fontWeight: 300, letterSpacing: "-0.02em", color: C.marine, lineHeight: 1.1, marginBottom: 24 }}>
+                <h2 style={{ fontSize: "clamp(32px, 4vw, 56px)", fontWeight: 300, letterSpacing: "-0.02em", color: C.marine, lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                   Le privilège d'un<br /><em style={{ color: C.accent, fontStyle: "italic" }}>service sans égal</em>
-                </h2>
+                </>)}</h2>
                 <p style={{ fontSize: 16, color: C.textMuted, fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 36 }}>
                   De la conception de votre itinéraire à votre retour à la maison, chaque détail est orchestré avec une précision absolue.
                 </p>
@@ -876,9 +877,9 @@ return (
                 <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>COMMENT ÇA MARCHE</span>
                 <div style={{ width: 24, height: 1, background: "rgba(201,169,110,0.5)" }} />
               </div>
-              <h2 style={{ fontSize: "clamp(32px, 4.5vw, 60px)", fontWeight: 300, color: C.white, letterSpacing: "-0.02em" }}>
+              <h2 style={{ fontSize: "clamp(32px, 4.5vw, 60px)", fontWeight: 300, color: C.white, letterSpacing: "-0.02em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "processus.titre") ?? (<>
                 De l'idée au<br /><em style={{ color: C.accent, fontStyle: "italic" }}>voyage inoubliable</em>
-              </h2>
+              </>)}</h2>
             </div>
           </RevealSection>
 
@@ -963,9 +964,9 @@ return (
                 <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>NOS FORMULES</span>
                 <div style={{ width: 24, height: 1, background: C.accent }} />
               </div>
-              <h2 style={{ fontSize: "clamp(32px, 4.5vw, 60px)", fontWeight: 300, color: C.marine, letterSpacing: "-0.02em", marginBottom: 20 }}>
+              <h2 style={{ fontSize: "clamp(32px, 4.5vw, 60px)", fontWeight: 300, color: C.marine, letterSpacing: "-0.02em", marginBottom: 20 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
                 Choisissez votre<br /><em style={{ color: C.accent, fontStyle: "italic" }}>niveau d'excellence</em>
-              </h2>
+              </>)}</h2>
               <p style={{ fontSize: 15, color: C.textMuted, fontFamily: "system-ui", maxWidth: 440, margin: "0 auto", lineHeight: 1.7 }}>
                 Trois formules pour répondre à chaque aspiration. Chacune entièrement personnalisable selon votre voyage.
               </p>
@@ -1039,9 +1040,9 @@ return (
                 <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>QUESTIONS FRÉQUENTES</span>
                 <div style={{ width: 24, height: 1, background: C.accent }} />
               </div>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 300, color: C.marine, letterSpacing: "-0.02em" }}>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 300, color: C.marine, letterSpacing: "-0.02em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
                 Tout ce que vous<br /><em style={{ color: C.accent, fontStyle: "italic" }}>souhaitez savoir</em>
-              </h2>
+              </>)}</h2>
             </div>
           </RevealSection>
 
@@ -1080,9 +1081,9 @@ return (
             <div style={{ marginBottom: 24 }}>
               <Compass size={48} color={C.accent} />
             </div>
-            <h2 style={{ fontSize: "clamp(36px, 5.5vw, 72px)", fontWeight: 300, color: C.white, letterSpacing: "-0.02em", lineHeight: 1.05, marginBottom: 24 }}>
+            <h2 style={{ fontSize: "clamp(36px, 5.5vw, 72px)", fontWeight: 300, color: C.white, letterSpacing: "-0.02em", lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-10.titre") ?? (<>
               Votre prochaine<br /><em style={{ color: C.accent, fontStyle: "italic" }}>grande évasion</em><br />commence ici.
-            </h2>
+            </>)}</h2>
             <p style={{ fontSize: 16, color: "rgba(255,255,255,0.5)", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 48, maxWidth: 500, margin: "0 auto 48px" }}>
               Consultation gratuite de 30 minutes. Un conseiller dédié. Votre itinéraire personnalisé sous 72h.
             </p>
@@ -1242,9 +1243,9 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
             <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>PORTFOLIO EXCLUSIF</span>
             <div style={{ width: 24, height: 1, background: C.accent }} />
           </div>
-          <h1 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 300, color: C.marine, lineHeight: 1.1 }}>
+          <h1 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 300, color: C.marine, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
             Explorez Nos <em style={{ color: C.accent, fontStyle: "italic" }}>Horizons</em>
-          </h1>
+          </>)}</h1>
           <p style={{ fontSize: 15, color: C.textMuted, fontFamily: "system-ui", maxWidth: 600, margin: "24px auto 0", lineHeight: 1.7 }}>
             Découvrez nos suggestions d'itinéraires haut de gamme entièrement personnalisables par nos créateurs de voyages.
           </p>
@@ -1314,9 +1315,9 @@ function ConceptPage({ goTo }: { goTo: (p: ActivePage) => void }) {
             <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>NOTRE PHILOSOPHIE</span>
             <div style={{ width: 24, height: 1, background: C.accent }} />
           </div>
-          <h1 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 300, color: C.marine, lineHeight: 1.1 }}>
+          <h1 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 300, color: C.marine, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
             L'Excellence du <em style={{ color: C.accent, fontStyle: "italic" }}>Sur Mesure</em>
-          </h1>
+          </>)}</h1>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 64, fontSize: 16, color: C.textMuted, fontFamily: "system-ui", lineHeight: 1.8 }}>
@@ -1400,9 +1401,9 @@ function FormulesPage() {
             <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>DEMANDE DE DEVIS</span>
             <div style={{ width: 24, height: 1, background: C.accent }} />
           </div>
-          <h1 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 300, color: C.marine, lineHeight: 1.1 }}>
+          <h1 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 300, color: C.marine, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "devis-name.titre") ?? (<>
             Formuler Votre <em style={{ color: C.accent, fontStyle: "italic" }}>Projet</em>
-          </h1>
+          </>)}</h1>
           <p style={{ fontSize: 15, color: C.textMuted, fontFamily: "system-ui", marginTop: 20 }}>
             Remplissez notre formulaire de consultation privée. Un conseiller dédié étudiera votre demande sous 4 heures.
           </p>
@@ -1503,9 +1504,9 @@ function LegalPage() {
   return (
     <section id="contact" style={{ padding: "140px 40px", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", fontFamily: "system-ui" }}>
-        <h1 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 300, color: C.marine, marginBottom: 40, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+        <h1 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 300, color: C.marine, marginBottom: 40, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
           Mentions <em style={{ color: C.accent, fontStyle: "italic" }}>Légales</em>
-        </h1>
+        </>)}</h1>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 36, fontSize: 14, color: C.textMuted, lineHeight: 1.8 }}>
           <div style={{ background: C.white, border: `1px solid ${C.borderLight}`, padding: 32, borderRadius: 12 }}>

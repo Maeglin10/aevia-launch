@@ -42,6 +42,7 @@ import {
   clientServices,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1056,12 +1057,12 @@ function SpecialitesSection() {
               margin: '22px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "specialites.titre") ?? (<>
             Un cabinet au service{' '}
             <span style={{ fontStyle: 'italic', color: C.emerald }}>
               de votre santé
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1200,12 +1201,12 @@ function ConsultationSection() {
                 margin: '20px 0 52px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "consultation.titre") ?? (<>
               Chaque consultation,{' '}
               <span style={{ fontStyle: 'italic', color: C.emerald }}>
                 sur mesure
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1444,12 +1445,12 @@ function TestimonialsSection() {
               color: C.ink,
               margin: '20px 0 0',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             La confiance,{' '}
             <span style={{ fontStyle: 'italic', color: C.emerald }}>
               notre meilleure référence
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1550,12 +1551,12 @@ function RdvFormSection() {
               margin: '22px 0 16px',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "rdv.titre") ?? (<>
             Consulter{' '}
             <span style={{ fontStyle: 'italic', color: C.salmonLight }}>
               {fd?.businessName ?? 'le Dr. Lecomte'}
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p
@@ -2010,12 +2011,12 @@ function VoyageSection() {
                 margin: '22px 0 0',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "voyage.titre") ?? (<>
               Voyager loin,{' '}
               <span style={{ fontStyle: 'italic', color: C.salmonLight }}>
                 sans risquer sa santé
               </span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.14}>
             <p
@@ -2196,12 +2197,12 @@ function InfoSection() {
               color: C.ink,
               margin: '20px 0 0',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "infos.titre") ?? (<>
             Tout ce qu'il faut{' '}
             <span style={{ fontStyle: 'italic', color: C.emerald }}>
               savoir avant de venir
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -2463,12 +2464,12 @@ function TeamSection() {
               color: C.ink,
               margin: '22px 0 0',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>
             Des professionnels{' '}
             <span style={{ fontStyle: 'italic', color: C.emerald }}>
               à votre écoute
             </span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

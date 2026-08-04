@@ -6,6 +6,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
@@ -17,6 +18,7 @@ import Link from "next/link";
 import { ArrowUpRight, ArrowLeft, X, Menu, Camera, AtSign, Mail, MapPin, ExternalLink, Plus, Minus, ChevronRight } from "lucide-react";
 import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -215,9 +217,11 @@ export default function CreativePortfolioSPA() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   FAQS_DEMO = FAQS_DEMO_LIVE();
+
 
 
   SERVICES_DEMO = resolveList(
@@ -392,9 +396,9 @@ export default function CreativePortfolioSPA() {
                 <span className="flex items-center gap-3 text-amber-400 text-[11px] uppercase tracking-[0.3em] font-semibold mb-6">
                   <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" /> Portfolio
                 </span>
-                <h2 className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-tight leading-none">
+                <h2 className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-tight leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "work.titre") ?? (<>
                   Selected <span className="font-black italic">Works</span>
-                </h2>
+                </>)}</h2>
               </div>
               <div className="flex flex-wrap gap-2 lg:max-w-xl justify-start xl:justify-end">
                 {CATEGORIES.map(cat => (
@@ -502,10 +506,10 @@ export default function CreativePortfolioSPA() {
 
           <Reveal delay={0.2} className="lg:col-span-7">
             <span className="text-amber-400 text-[11px] uppercase tracking-[0.3em] font-semibold mb-6 block">About the Artist</span>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-extralight tracking-tight leading-[1.05] mb-10">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-extralight tracking-tight leading-[1.05] mb-10">{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
               I see the world in<br />
               <span className="font-black italic">frames of light<span className="text-amber-400">.</span></span>
-            </h2>
+            </>)}</h2>
             <p className="text-white/60 text-xl leading-relaxed mb-8 font-light">
               Based between {clientCity({ formData: fd }) ?? "Paris"} and Tokyo, I specialize in capturing moments that transcend the ordinary. My work has been featured in National Geographic, Vogue, and BBC Earth — but the images I am most proud of are the ones that make strangers feel something they cannot quite name.
             </p>
@@ -532,9 +536,9 @@ export default function CreativePortfolioSPA() {
         <div className="max-w-[1400px] mx-auto">
           <Reveal className="mb-24 text-center">
             <span className="text-amber-400 text-[11px] uppercase tracking-[0.3em] font-semibold mb-6 block">Methodology</span>
-            <h2 className="text-5xl md:text-7xl font-extralight tracking-tight">
+            <h2 className="text-5xl md:text-7xl font-extralight tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>
               The <span className="font-black italic">Process</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 relative">
@@ -559,9 +563,9 @@ export default function CreativePortfolioSPA() {
           ========================================== */}
       <section className="py-32 overflow-hidden border-t border-white/5">
         <div className="mb-16 px-6 md:px-12 max-w-[1400px] mx-auto text-center">
-           <h2 className="text-3xl md:text-4xl font-extralight tracking-tight text-white/50">
+           <h2 className="text-3xl md:text-4xl font-extralight tracking-tight text-white/50">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
              Trusted by visionary <span className="text-white font-medium">brands & agencies</span>
-           </h2>
+           </>)}</h2>
         </div>
         
         <div className="relative flex whitespace-nowrap group">
@@ -599,9 +603,9 @@ export default function CreativePortfolioSPA() {
         <div className="max-w-[1000px] mx-auto px-6 md:px-12">
           <Reveal className="mb-16">
             <span className="text-amber-400 text-[11px] uppercase tracking-[0.3em] font-semibold mb-4 block">Recognition</span>
-            <h2 className="text-5xl md:text-7xl font-extralight tracking-tight">
+            <h2 className="text-5xl md:text-7xl font-extralight tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "awards.titre") ?? (<>
               Selected <span className="font-black italic">Honors</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="flex flex-col">
@@ -634,9 +638,9 @@ export default function CreativePortfolioSPA() {
         <div className="max-w-[1000px] mx-auto">
           <Reveal className="mb-16">
             <span className="text-amber-400 text-[11px] uppercase tracking-[0.3em] font-semibold mb-4 block">Information</span>
-            <h2 className="text-5xl md:text-7xl font-extralight tracking-tight">
+            <h2 className="text-5xl md:text-7xl font-extralight tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
               Frequently Asked <span className="font-black italic">Questions</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div className="border-t border-white/10">
@@ -661,9 +665,9 @@ export default function CreativePortfolioSPA() {
         
         <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center text-center">
           <Reveal>
-            <h2 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-8 uppercase italic">
+            <h2 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-8 uppercase italic">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Let's Shoot.
-            </h2>
+            </>)}</h2>
             <p className="text-black/70 text-xl md:text-2xl max-w-2xl mx-auto mb-16 font-medium">
               Available for commissions, editorial work, and creative collaborations worldwide. Bookings open for Q4 2026.
             </p>

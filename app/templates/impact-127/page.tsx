@@ -15,7 +15,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -147,10 +149,12 @@ export default function PulseEventsPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   VENUES = VENUES_LIVE();
   EVENTS_DEMO_SOURCE = EVENTS_DEMO_SOURCE_LIVE();
+
 
 
   CHIFFRES_ANON = resolveList(
@@ -287,7 +291,7 @@ export default function PulseEventsPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex justify-between items-end mb-16 border-b border-white/5 pb-8">
-                <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase">Upcoming <span className="text-[var(--brand,#ec4899)]">Events</span></h2>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "events.titre") ?? (<>Upcoming <span className="text-[var(--brand,#ec4899)]">Events</span></>)}</h2>
               </div>
             </Reveal>
 
@@ -333,7 +337,7 @@ export default function PulseEventsPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex justify-between items-end mb-16 border-b border-white/5 pb-8">
-                <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase">Featured <span className="text-[var(--brand,#ec4899)]">Artists</span></h2>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "artists.titre") ?? (<>Featured <span className="text-[var(--brand,#ec4899)]">Artists</span></>)}</h2>
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">Season 2026</span>
               </div>
             </Reveal>
@@ -426,7 +430,7 @@ export default function PulseEventsPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex justify-between items-end mb-16 border-b border-white/5 pb-8 gap-6 flex-wrap">
-                <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase">The <span className="text-[var(--brand,#ec4899)]">Venues</span></h2>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "venues.titre") ?? (<>The <span className="text-[var(--brand,#ec4899)]">Venues</span></>)}</h2>
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">Four rooms, four reasons</span>
               </div>
             </Reveal>
@@ -454,7 +458,7 @@ export default function PulseEventsPage() {
         <section id="faq" className="py-32 bg-[#0c091a] border-t border-white/5">
           <div className="max-w-[900px] mx-auto px-6 md:px-12">
             <Reveal>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-16 border-b border-white/5 pb-8">Before <span className="text-[var(--brand,#ec4899)]">You Go</span></h2>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-16 border-b border-white/5 pb-8">{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>Before <span className="text-[var(--brand,#ec4899)]">You Go</span></>)}</h2>
             </Reveal>
             <div className="divide-y divide-white/5">
               {FAQS.map((f, i) => (
@@ -476,7 +480,7 @@ export default function PulseEventsPage() {
         <section id="press" className="py-32 bg-[#08050a] border-t border-white/5">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-16 border-b border-white/5 pb-8">In <span className="text-[var(--brand,#ec4899)]">Print</span></h2>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-16 border-b border-white/5 pb-8">{/* TEXTE_SECTION */ clientText(sessionData, "press.titre") ?? (<>In <span className="text-[var(--brand,#ec4899)]">Print</span></>)}</h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
               {PRESS.map((p, i) => (
@@ -495,7 +499,7 @@ export default function PulseEventsPage() {
         <section id="accessibility" className="py-24 bg-[#0c091a] border-t border-white/5">
           <div className="max-w-[900px] mx-auto px-6 md:px-12">
             <Reveal>
-              <h2 className="text-2xl md:text-3xl font-black tracking-tighter uppercase mb-6">Accessibility</h2>
+              <h2 className="text-2xl md:text-3xl font-black tracking-tighter uppercase mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "accessibility.titre") ?? (<>Accessibility</>)}</h2>
               <p className="text-sm text-white/45 leading-relaxed max-w-[70ch] mb-4">
                 Every room we programme has step-free access to the floor, accessible toilets and a
                 dedicated viewing area. Companion tickets are free — book the standard ticket and email
@@ -519,9 +523,9 @@ export default function PulseEventsPage() {
           </div>
           <div className="relative z-10 text-center px-6">
             <Reveal>
-              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">
+              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Never Miss<br/>A <span className="text-[var(--brand,#f472b6)]">Beat.</span>
-              </h2>
+              </>)}</h2>
               <form onSubmit={e => e.preventDefault()} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
                 <input type="email" placeholder="Your email" className="flex-1 bg-white/10 border border-white/20 rounded-full px-6 py-4 text-sm backdrop-blur-md outline-none focus:border-[var(--brand,#f472b6)] placeholder:text-white/40 transition-colors" />
                 <button className="px-8 py-4 bg-[var(--brand,#ec4899)] text-white font-bold rounded-full hover:bg-white hover:text-black transition-all">Join Waitlist</button>

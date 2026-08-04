@@ -14,6 +14,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -255,9 +256,9 @@ export default function PharmacieDuParcPage() {
             <span style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent }} />
             Ouvert Lun–Sam 8h30–19h30, sans interruption
           </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }} style={{ fontSize: "clamp(34px, 4.6vw, 60px)", fontWeight: 800, letterSpacing: -1.2, lineHeight: 1.08, margin: "0 0 20px" }}>
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }} style={{ fontSize: "clamp(34px, 4.6vw, 60px)", fontWeight: 800, letterSpacing: -1.2, lineHeight: 1.08, margin: "0 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
             {c?.heroHeadline ?? (<>Votre pharmacie,<br /><span style={{ color: C.accent }}>au-delà du comptoir.</span></>)}
-          </motion.h1>
+          </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 500, marginBottom: 32 }}>
             {fd?.tagline ?? c?.heroSubline ?? "Ordonnances préparées à l'avance, vaccination sans rendez-vous, tests rapides et vrai conseil de pharmaciens diplômés — au cœur du quartier du Parc, à Lille."}
           </motion.p>
@@ -293,9 +294,9 @@ export default function PharmacieDuParcPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Nos services</span>
-              <h2 style={{ fontSize: "clamp(28px, 3.8vw, 46px)", fontWeight: 800, letterSpacing: -1, marginTop: 10, lineHeight: 1.12 }}>
+              <h2 style={{ fontSize: "clamp(28px, 3.8vw, 46px)", fontWeight: 800, letterSpacing: -1, marginTop: 10, lineHeight: 1.12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Une officine qui soigne,<br />pas seulement qui délivre.
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
@@ -332,9 +333,9 @@ export default function PharmacieDuParcPage() {
           <Reveal delay={0.15}>
             <div>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Une officine de l'Ordre</span>
-              <h2 style={{ fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 800, letterSpacing: -0.8, margin: "12px 0 26px", lineHeight: 1.15 }}>
+              <h2 style={{ fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 800, letterSpacing: -0.8, margin: "12px 0 26px", lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "ordonnances.titre") ?? (<>
                 Ce que garantit<br />une vraie pharmacie.
-              </h2>
+              </>)}</h2>
               {ENGAGEMENT.map((e, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
                   <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
@@ -352,9 +353,9 @@ export default function PharmacieDuParcPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Infos pratiques</span>
-              <h2 style={{ fontSize: "clamp(28px, 3.8vw, 46px)", fontWeight: 800, letterSpacing: -1, marginTop: 10, lineHeight: 1.12 }}>
+              <h2 style={{ fontSize: "clamp(28px, 3.8vw, 46px)", fontWeight: 800, letterSpacing: -1, marginTop: 10, lineHeight: 1.12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "infos.titre") ?? (<>
                 Venir, se garer,<br />être servi vite.
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
@@ -375,9 +376,9 @@ export default function PharmacieDuParcPage() {
       <section className="i330-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontSize: "clamp(26px, 3.4vw, 42px)", fontWeight: 800, letterSpacing: -0.8, color: "#fff" }}>
+            <h2 style={{ fontSize: "clamp(26px, 3.4vw, 42px)", fontWeight: 800, letterSpacing: -0.8, color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               Le quartier en parle<span style={{ color: C.mint }}>.</span>
-            </h2>
+            </>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
@@ -402,9 +403,9 @@ export default function PharmacieDuParcPage() {
       <section id="contact" className="i330-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>À votre service</span>
-          <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, letterSpacing: -1, margin: "14px 0 16px" }}>
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, letterSpacing: -1, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Une question santé ?<br />Un pharmacien répond.
-          </h2>
+          </>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>
             Par téléphone aux horaires d'ouverture, ou passez simplement : le conseil ne prend pas de ticket.
           </p>

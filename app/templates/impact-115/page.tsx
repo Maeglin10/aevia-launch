@@ -26,7 +26,9 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -589,7 +591,9 @@ export default function Impact115Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   PROJECTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PROJECTS_DEMO_SOURCE[i % PROJECTS_DEMO_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     PROJECTS_DEMO_SOURCE,
@@ -1123,13 +1127,13 @@ export default function Impact115Page() {
                   color: C.dark,
                   marginBottom: 24,
                 }}
-              >{c?.aboutTitle ?? fd?.businessName ?? <>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "leafvein.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>
                 Every branch
                 <br />
                 <em style={{ fontStyle: "italic", color: C.green }}>
                   tells a story.
                 </em>
-              </>}</h2>
+              </>}</>)}</h2>
             </TextReveal>
             <motion.p
               initial={{ opacity: 0, y: 16 }}
@@ -1270,13 +1274,13 @@ export default function Impact115Page() {
                     letterSpacing: "-0.02em",
                     color: C.dark,
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "projects.titre") ?? (<>
                   Five projects.
                   <br />
                   <em style={{ fontStyle: "italic", color: C.muted }}>
                     Five ecosystems.
                   </em>
-                </h2>
+                </>)}</h2>
               </TextReveal>
             </div>
             <motion.a
@@ -1360,13 +1364,13 @@ export default function Impact115Page() {
                   letterSpacing: "-0.02em",
                   color: C.dark,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "philosophy.titre") ?? (<>
                 Three principles.
                 <br />
                 <em style={{ fontStyle: "italic", color: C.green }}>
                   One conviction.
                 </em>
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
 
@@ -1546,11 +1550,11 @@ export default function Impact115Page() {
                   letterSpacing: "-0.02em",
                   color: C.dark,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "studio.titre") ?? (<>
                 The minds behind
                 <br />
                 <em style={{ fontStyle: "italic", color: C.muted }}>the matter.</em>
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
 
@@ -1700,13 +1704,13 @@ export default function Impact115Page() {
                     color: C.dark,
                     marginBottom: 32,
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "awards.titre") ?? (<>
                   Honoured by the
                   <br />
                   <em style={{ fontStyle: "italic", color: C.green }}>
                     world's finest.
                   </em>
-                </h2>
+                </>)}</h2>
               </TextReveal>
               <motion.p
                 initial={{ opacity: 0, y: 16 }}
@@ -1842,11 +1846,11 @@ export default function Impact115Page() {
                     color: "#fff",
                     marginBottom: 16,
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                   Ready to build
                   <br />
                   <em style={{ fontStyle: "italic" }}>something living?</em>
-                </h2>
+                </>)}</h2>
               </TextReveal>
               <p
                 style={{

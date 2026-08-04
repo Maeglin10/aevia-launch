@@ -43,7 +43,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -238,8 +240,10 @@ export default function AstrumReachPremium() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+
 
   MISSIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...MISSIONS_DEMO_SOURCE[i % MISSIONS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
@@ -381,10 +385,10 @@ return (
                      <motion.h1
                         style={{ scale: textScale }}
                         className="text-5xl sm:text-6xl md:text-[15vw] font-black tracking-tight md:tracking-tighter uppercase mb-8 md:mb-16 leading-[0.9] md:leading-[0.7] italic flex flex-col break-words"
-                     >{c?.heroHeadline ?? <>
+                     >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
                         <span>Reach the</span>
                         <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Beyond.</span>
-                     </>}</motion.h1>
+                     </>}</>)}</motion.h1>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-24 items-end text-left max-w-5xl">
                         <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{fd?.tagline ?? c?.heroSubline ?? <>
@@ -417,9 +421,9 @@ return (
                <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
                   <Reveal>
                      <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8 font-mono">Mission_Manifest</div>
-                     <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic">
+                     <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic">{/* TEXTE_SECTION */ clientText(sessionData, "manifest.titre") ?? (<>
                         The <br/> <span className="text-white/5" style={{ WebkitTextStroke: "1px white" }}>Destinations.</span>
-                     </h2>
+                     </>)}</h2>
                   </Reveal>
                   <div className="hidden lg:block">
                      <div className="flex gap-4 mb-4">
@@ -478,9 +482,9 @@ return (
                   <div>
                      <Reveal>
                         <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8 font-mono">Systems_Core</div>
-                        <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-16 italic">
+                        <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-16 italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                            Orbital <br/> <span className="opacity-10">Specs.</span>
-                        </h2>
+                        </>)}</h2>
                         
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 font-mono">
                            {CRAFT_SPECS.map((spec, i) => (
@@ -673,9 +677,9 @@ function ManifestPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       <div className="max-w-7xl mx-auto">
         <div className="mb-24">
           <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-6 font-mono">Manifest_Index</div>
-          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">
+          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
             Mission <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Directory.</span>
-          </h1>
+          </>)}</h1>
           <p className="max-w-2xl text-base text-white/40 uppercase font-light italic leading-relaxed">
             Consultez les trajectoires de vol planifiées, les charges utiles associées et les niveaux d'homologation requis pour nos transits spatiaux.
           </p>
@@ -734,9 +738,9 @@ function EngineeringPage() {
       <div className="max-w-7xl mx-auto">
         <div className="mb-20 text-center">
           <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-6 font-mono">Engineering_Registry</div>
-          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">
+          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             Space <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Systems.</span>
-          </h1>
+          </>)}</h1>
           <p className="max-w-xl mx-auto text-sm text-white/40 uppercase font-light italic leading-relaxed">
             Consultez les registres techniques détaillant l'architecture structurelle et mécanique de nos navettes spatiales.
           </p>
@@ -791,9 +795,9 @@ function MaisonPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       <div className="max-w-7xl mx-auto">
         <div className="mb-20 text-center">
           <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-6 font-mono">Astrum_Philosophy</div>
-          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">
+          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             The <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Maison.</span>
-          </h1>
+          </>)}</h1>
           <p className="max-w-xl mx-auto text-sm text-white/40 uppercase font-light italic leading-relaxed">
             Notre centre spatial à Tokyo abrite nos installations d'entraînement et de R&D, formant les pionniers de la nouvelle ère orbitale commerciale.
           </p>
@@ -836,9 +840,9 @@ function BriefingPage() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-20">
           <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-600 mb-6 font-mono">Security_Dept</div>
-          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">
+          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
             Pre-flight <span className="opacity-20">Brief.</span>
-          </h1>
+          </>)}</h1>
           <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/30 italic font-mono">Safety // Training Calendar // Baggage Limits</p>
         </div>
 

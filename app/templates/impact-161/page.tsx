@@ -11,7 +11,9 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -137,7 +139,9 @@ export default function EssentialSaaSPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
   PRICING = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].price })),
     PRICING_SOURCE,
@@ -334,7 +338,7 @@ export default function EssentialSaaSPage() {
           <div className="text-center mb-16">
             <Reveal>
               <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Fonctionnalités</p>
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Tout ce dont vous avez besoin</h2>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "fonctionnalites.titre") ?? (<>Tout ce dont vous avez besoin</>)}</h2>
               <p className="text-slate-500 text-lg max-w-2xl mx-auto">Une plateforme qui grandit avec vous. Pas de configuration complexe, pas de modules cachés.</p>
             </Reveal>
           </div>
@@ -363,7 +367,7 @@ export default function EssentialSaaSPage() {
           <div className="text-center mb-16">
             <Reveal>
               <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Prise en main</p>
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Opérationnel en 5 minutes</h2>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Opérationnel en 5 minutes</>)}</h2>
             </Reveal>
           </div>
           <div className="grid md:grid-cols-3 gap-8 relative">
@@ -409,7 +413,7 @@ export default function EssentialSaaSPage() {
           <div className="text-center mb-14">
             <Reveal>
               <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Témoignages</p>
-              <h2 className="text-4xl font-extrabold tracking-tight">Ils nous font confiance</h2>
+              <h2 className="text-4xl font-extrabold tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Ils nous font confiance</>)}</h2>
             </Reveal>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
@@ -440,7 +444,7 @@ export default function EssentialSaaSPage() {
           <div className="text-center mb-14">
             <Reveal>
               <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Tarifs</p>
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Simple et transparent</h2>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Simple et transparent</>)}</h2>
               <p className="text-slate-500 text-lg">Commencez gratuitement, évoluez quand vous en avez besoin.</p>
             </Reveal>
           </div>
@@ -483,7 +487,7 @@ export default function EssentialSaaSPage() {
       <section className="py-24 bg-[#F8F9FF]">
         <div className="max-w-3xl mx-auto px-6">
           <Reveal>
-            <h2 className="text-3xl font-extrabold text-center mb-12">Questions fréquentes</h2>
+            <h2 className="text-3xl font-extrabold text-center mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Questions fréquentes</>)}</h2>
           </Reveal>
           <div className="space-y-4">
             {[
@@ -513,7 +517,7 @@ export default function EssentialSaaSPage() {
           <div className="mb-14">
             <Reveal>
               <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Documentation</p>
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Tout est écrit</h2>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "docs.titre") ?? (<>Tout est écrit</>)}</h2>
               <p className="text-slate-500 text-lg max-w-[60ch]">Pas de support payant pour obtenir une réponse qui devrait être publique.</p>
             </Reveal>
           </div>
@@ -536,7 +540,7 @@ export default function EssentialSaaSPage() {
           <div className="mb-14">
             <Reveal>
               <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Blog</p>
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Ce qu&apos;on apprend en construisant</h2>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "blog.titre") ?? (<>Ce qu&apos;on apprend en construisant</>)}</h2>
               <p className="text-slate-500 text-lg max-w-[60ch]">Trois à quatre articles par an. Quand on n&apos;a rien à dire, on ne publie pas.</p>
             </Reveal>
           </div>
@@ -556,7 +560,7 @@ export default function EssentialSaaSPage() {
 
       <section id="contact" className="py-24 bg-[var(--brand,#6366F1)] text-white text-center px-6">
         <Reveal>
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Prêt à simplifier votre workflow ?</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Prêt à simplifier votre workflow ?</>)}</h2>
           <p className="text-indigo-200 text-lg mb-10">14 jours d&apos;essai gratuit. Pas de carte bancaire. Annulable à tout moment.</p>
           <Link href="#tarifs" className="inline-flex items-center gap-2 px-10 py-5 bg-white text-[var(--brand,#6366F1)] font-bold rounded-xl hover:bg-indigo-50 transition-colors cursor-pointer text-lg">
             Commencer maintenant <ArrowRight className="w-5 h-5" />

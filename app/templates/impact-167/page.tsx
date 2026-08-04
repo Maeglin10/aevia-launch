@@ -19,6 +19,7 @@ import {
   clientPhotos,
   clientReviews,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1459,9 +1460,9 @@ export default function Impact167Page() {
                     lineHeight: 1.08,
                     fontStyle: "italic",
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "properties.titre") ?? (<>
                   Propriétés<br />d'exception
-                </h2>
+                </>)}</h2>
               </TextReveal>
             </div>
             <motion.button
@@ -1537,9 +1538,9 @@ export default function Impact167Page() {
                   lineHeight: 1.1,
                   fontStyle: "italic",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "market.titre") ?? (<>
                 Chiffres qui définissent<br />notre réalité
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
 
@@ -1585,9 +1586,9 @@ export default function Impact167Page() {
                   lineHeight: 1.1,
                   fontStyle: "italic",
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "neighborhoods.titre") ?? (<>
                 {clientCity(sessionData) ?? "Paris"}, arrondissement<br />par arrondissement
-              </h2>
+              </>)}</h2>
             </TextReveal>
           </div>
 
@@ -1776,9 +1777,9 @@ export default function Impact167Page() {
                 color: C.white,
                 fontStyle: "italic",
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
               Ils nous ont fait confiance
-            </h2>
+            </>)}</h2>
           </TextReveal>
 
           <div style={{ position: "relative", minHeight: 220 }}>
@@ -1905,9 +1906,9 @@ export default function Impact167Page() {
                     fontStyle: "italic",
                     marginBottom: 24,
                   }}
-                >
+                >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                   Commençons<br />la conversation
-                </h2>
+                </>)}</h2>
               </TextReveal>
               <motion.p
                 initial={{ opacity: 0 }}

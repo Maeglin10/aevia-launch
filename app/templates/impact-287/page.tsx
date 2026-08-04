@@ -33,6 +33,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1250,10 +1251,10 @@ function ProgramsSection() {
               margin: '18px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "programmes.titre") ?? (<>
             Choisis ton{' '}
             <span style={{ color: C.azure }}>parcours</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p
@@ -1425,10 +1426,10 @@ function MethodSection() {
                 margin: '18px 0 48px',
                 lineHeight: 1.08,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
               Une approche{' '}
               <span style={{ color: C.azure }}>globale</span> & durable
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
@@ -1593,10 +1594,10 @@ function TransformationSection() {
               margin: '18px 0 0',
               lineHeight: 1.06,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "temoignages.titre") ?? (<>
             Ils ont changé{' '}
             <span style={{ color: C.coral }}>leur vie</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
 
@@ -1822,10 +1823,10 @@ function BilanFormSection() {
               lineHeight: 1.06,
               textAlign: 'center',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "bilan.titre") ?? (<>
             Ta première séance est{' '}
             <span style={{ color: C.azure }}>gratuite</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p
@@ -2230,10 +2231,10 @@ function PlanningSection() {
                 margin: '18px 0 0',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "planning.titre") ?? (<>
               Cours de la{' '}
               <span style={{ color: C.azureLight }}>semaine</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
           <Reveal delay={0.14}>
             <p
@@ -2494,10 +2495,10 @@ function OutdoorSection() {
                   margin: '18px 0 20px',
                   lineHeight: 1.06,
                 }}
-              >
+              >{/* TEXTE_SECTION */ clientText(sessionData, "outdoor.titre") ?? (<>
                 {clientCity(sessionData) ?? "Nice"} comme{' '}
                 <span style={{ color: C.coral }}>terrain de jeu</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <Reveal delay={0.14}>
               <p
@@ -2705,10 +2706,10 @@ function NutritionSection() {
                 margin: '18px 0 44px',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "nutrition.titre") ?? (<>
               Manger{' '}
               <span style={{ color: C.sand }}>comme on vit</span> — avec joie
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>

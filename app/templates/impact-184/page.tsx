@@ -13,7 +13,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -116,9 +118,11 @@ export default function BrilloNetPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   ZONES_DEMO = ZONES_DEMO_LIVE();
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
+
 
 
   SERVICES_DEMO = resolveList(
@@ -278,7 +282,7 @@ export default function BrilloNetPage() {
             <div className="mb-16 flex flex-col md:flex-row md:items-end gap-8 justify-between">
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#0d9488)] mb-4">Nos prestations</div>
-                <h2 className="text-4xl md:text-5xl font-bold text-[#1c2b2b]">Des solutions pour<br /><span className="text-[var(--brand,#0d9488)]">chaque besoin.</span></h2>
+                <h2 className="text-4xl md:text-5xl font-bold text-[#1c2b2b]">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Des solutions pour<br /><span className="text-[var(--brand,#0d9488)]">chaque besoin.</span></>)}</h2>
               </div>
               <p className="max-w-xs text-sm text-[#1c2b2b]/40 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
                 Particuliers ou professionnels, ponctuel ou régulier, écologique en option standard.
@@ -306,7 +310,7 @@ export default function BrilloNetPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#0d9488)] mb-4">Tarifs</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1c2b2b]">Le prix à l'heure, <span className="text-[var(--brand,#0d9488)]">tout compris.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1c2b2b]">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Le prix à l'heure, <span className="text-[var(--brand,#0d9488)]">tout compris.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
             {TARIFS.map((t, i) => (
@@ -339,7 +343,7 @@ export default function BrilloNetPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#0d9488)] mb-4">Zone d'intervention</div>
-            <h2 className="text-4xl md:text-5xl font-bold">Où l'on <span className="text-[var(--brand,#0d9488)]">se déplace.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "zone.titre") ?? (<>Où l'on <span className="text-[var(--brand,#0d9488)]">se déplace.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
             {ZONES.map((z, i) => (
@@ -361,7 +365,7 @@ export default function BrilloNetPage() {
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#0d9488)] mb-4">Simple comme bonjour</div>
-            <h2 className="text-4xl font-bold text-[#1c2b2b]">Comment ça marche ?</h2>
+            <h2 className="text-4xl font-bold text-[#1c2b2b]">{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>Comment ça marche ?</>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
@@ -387,7 +391,7 @@ export default function BrilloNetPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#0d9488)] mb-4">Ce qu'ils disent</div>
-            <h2 className="text-4xl font-bold text-[#1c2b2b]">Clients satisfaits,<br /><span className="text-[var(--brand,#0d9488)]">maisons impeccables.</span></h2>
+            <h2 className="text-4xl font-bold text-[#1c2b2b]">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Clients satisfaits,<br /><span className="text-[var(--brand,#0d9488)]">maisons impeccables.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
@@ -417,7 +421,7 @@ export default function BrilloNetPage() {
         <Reveal>
           <div className="max-w-2xl mx-auto px-6 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/45 mb-6">Premier passage</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Sans engagement,<br />sans contrat forcé.</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Sans engagement,<br />sans contrat forcé.</>)}</h2>
             <p className="text-white/55 mb-10 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
               Devis gratuit en 2h · Premier passage sur {clientCity({ formData: fd }) ?? "Lyon"} Métropole · Résiliation libre à tout moment
             </p>

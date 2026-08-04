@@ -12,7 +12,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -108,8 +110,10 @@ export default function TableExceptionPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
   PRESTATIONS_SOURCE = PRESTATIONS_SOURCE_LIVE();
+
 
   PRESTATIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title })),
@@ -258,9 +262,9 @@ export default function TableExceptionPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a853)] mb-4">Nos formules</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#1f1d1a]" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1f1d1a]" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "formules.titre") ?? (<>
                 Pour chaque<br /><span className="italic text-[var(--brand,#d4a853)]">occasion.</span>
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -284,7 +288,7 @@ export default function TableExceptionPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a853)] mb-4">— Réalisations</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1f1d1a]" style={{ fontFamily: "'Playfair Display', serif" }}>Ce qu'on a <span className="italic text-[var(--brand,#d4a853)]">déjà servi.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1f1d1a]" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Ce qu'on a <span className="italic text-[var(--brand,#d4a853)]">déjà servi.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {REALISATIONS.map((r, i) => (
@@ -305,7 +309,7 @@ export default function TableExceptionPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a853)] mb-4">— La carte</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1f1d1a]" style={{ fontFamily: "'Playfair Display', serif" }}>Une base, <span className="italic text-[var(--brand,#d4a853)]">jamais un carcan.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1f1d1a]" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "menu.titre") ?? (<>Une base, <span className="italic text-[var(--brand,#d4a853)]">jamais un carcan.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
             {MENU.map((g, i) => (
@@ -334,7 +338,7 @@ export default function TableExceptionPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a853)] mb-4">— Devis</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1f1d1a]" style={{ fontFamily: "'Playfair Display', serif" }}>Du premier appel <span className="italic text-[var(--brand,#d4a853)]">au service.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1f1d1a]" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "devis.titre") ?? (<>Du premier appel <span className="italic text-[var(--brand,#d4a853)]">au service.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
@@ -360,9 +364,9 @@ export default function TableExceptionPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a853)]/55 mb-4">— Ce qu'ils disent</div>
-            <h2 className="text-4xl font-bold text-[#fefcf8]" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h2 className="text-4xl font-bold text-[#fefcf8]" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
               Des événements <span className="italic text-[var(--brand,#d4a853)]">mémorables.</span>
-            </h2>
+            </>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
@@ -392,9 +396,9 @@ export default function TableExceptionPage() {
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-5">Votre prochain événement</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Ensemble, créons<br /><span className="italic">l'exception.</span>
-            </h2>
+            </>)}</h2>
             <p className="text-white/45 mb-10 text-sm">Devis personnalisé sous 24h · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes · Chef & équipe inclus</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[#7c2d3e] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#fefcf8] transition-colors shadow-lg">

@@ -12,6 +12,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -250,7 +251,7 @@ return (
             <Reveal>
               <div className="text-center mb-24">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-blue-400 block mb-4">Infrastructure</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Global <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-400">Backbone.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Global <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-400">Backbone.</span></>)}</h2>
               </div>
             </Reveal>
 
@@ -297,7 +298,7 @@ return (
               <div>
                 <Reveal>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-blue-400 block mb-4">Compliance</span>
-                  <h2 className="text-5xl font-black tracking-tighter mb-8">Hardened by <span className="text-blue-500 italic">Default.</span></h2>
+                  <h2 className="text-5xl font-black tracking-tighter mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Hardened by <span className="text-blue-500 italic">Default.</span></>)}</h2>
                   <div className="space-y-6">
                     {[
                       { t: "Isolation", d: "Firecracker microVM isolation for every function and node." },
@@ -324,9 +325,9 @@ return (
           <div className="max-w-6xl mx-auto px-6 md:px-12">
             <Reveal>
               <p className="text-[10px] uppercase tracking-[0.5em] text-blue-400/50 mb-6">Trusted by Engineering Teams</p>
-              <h2 className="text-4xl md:text-7xl font-bold text-white mb-20 leading-tight tracking-tight">
+              <h2 className="text-4xl md:text-7xl font-bold text-white mb-20 leading-tight tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 What teams <span className="text-white/20 font-light">say.</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
               {TESTIMONIALS.map((t: any, i: number) => (
@@ -352,9 +353,9 @@ return (
           <div className="max-w-6xl mx-auto px-6 md:px-12">
             <Reveal>
               <p className="text-[10px] uppercase tracking-[0.5em] text-blue-400/50 mb-6">{tr(sessionData, "Pricing")}</p>
-              <h2 className="text-4xl md:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">
+              <h2 className="text-4xl md:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
                 Simple, <span className="text-white/20 font-light">predictable.</span>
-              </h2>
+              </>)}</h2>
               <p className="text-white/30 mb-20 max-w-lg leading-relaxed">No egress fees. No hidden charges. Pay for what you use.</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
@@ -392,7 +393,7 @@ return (
           <div className="absolute inset-0 bg-blue-600/5" />
           <div className="relative z-10 max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-8">Ready to Scale<br/>Beyond <span className="text-blue-500">Borders?</span></h2>
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Ready to Scale<br/>Beyond <span className="text-blue-500">Borders?</span></>)}</h2>
               <p className="text-xl text-slate-400 font-light mb-12">Start today with $200 in free credits. No credit card required to explore our ecosystem.</p>
               <div className="flex flex-wrap justify-center gap-4">
                 <button className="px-12 py-5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-500 transition-all shadow-2xl shadow-blue-500/20">

@@ -25,7 +25,9 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -72,7 +74,9 @@ export default function SwiftMovePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
   c = session?.generatedContent;
+
 
   STATS_INLINE = resolveList(
 
@@ -131,10 +135,10 @@ return (
             {/* Left copy */}
             <div>
               <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-                style={{ fontSize: "clamp(40px, 5vw, 68px)", fontWeight: 900, color: C.white, lineHeight: 1.05, marginBottom: 24 }}>{c?.heroHeadline ?? <>
+                style={{ fontSize: "clamp(40px, 5vw, 68px)", fontWeight: 900, color: C.white, lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
                 Votre déménagement<br />
                 <span style={{ color: C.orange }}>serein</span> & bien fait
-              </>}</motion.h1>
+              </>}</>)}</motion.h1>
 
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}
                 style={{fontSize: 18, color: brand ?? 'var(--brand,#93c5fd)', lineHeight: 1.8, marginBottom: 40, maxWidth: 460, fontWeight: 400 }}>{fd?.tagline ?? c?.heroSubline ?? <>
@@ -228,7 +232,7 @@ return (
                 <Truck size={14} color={C.orange} />
                 <span style={{ color: C.orange, fontSize: 13, fontWeight: 700 }}>Nos prestations</span>
               </div>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 900, color: C.navy, marginBottom: 16 }}>Tous les types de déménagement</h2>
+              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 900, color: C.navy, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Tous les types de déménagement</>)}</h2>
               <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 500, margin: "0 auto", lineHeight: 1.7 }}>Du studio au bureau, du local à l'international — une seule équipe pour chaque projet.</p>
             </div>
           </SectionReveal>
@@ -277,7 +281,7 @@ return (
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <SectionReveal>
             <div style={{ textAlign: "center", marginBottom: 72 }}>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 900, color: C.navy, marginBottom: 14 }}>Comment ça marche</h2>
+              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 900, color: C.navy, marginBottom: 14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Comment ça marche</>)}</h2>
               <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 440, margin: "0 auto", lineHeight: 1.7 }}>Quatre étapes simples. Zéro surprise. Vos affaires déplacées avec soin.</p>
             </div>
           </SectionReveal>
@@ -301,7 +305,7 @@ return (
                 <Users size={14} color={C.orange} />
                 <span style={{ color: C.orange, fontSize: 13, fontWeight: 700 }}>Avis clients</span>
               </div>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 900, color: C.navy, marginBottom: 12 }}>18 400+ déménagements réussis</h2>
+              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 900, color: C.navy, marginBottom: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>18 400+ déménagements réussis</>)}</h2>
             </div>
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: 24 }} className="grid md:grid-cols-1">
@@ -333,7 +337,7 @@ return (
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <SectionReveal>
             <div style={{ textAlign: "center", marginBottom: 64 }}>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 900, color: C.navy, marginBottom: 14 }}>Tarifs transparents</h2>
+              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 900, color: C.navy, marginBottom: 14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Tarifs transparents</>)}</h2>
               <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 480, margin: "0 auto" }}>Estimation ferme uniquement. Ce que nous annonçons, vous payez. Pas de surprise.</p>
             </div>
           </SectionReveal>
@@ -395,7 +399,7 @@ return (
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           <SectionReveal>
             <div style={{ textAlign: "center", marginBottom: 56 }}>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, color: C.navy, marginBottom: 12 }}>Questions fréquentes</h2>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, color: C.navy, marginBottom: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Questions fréquentes</>)}</h2>
               <p style={{ fontSize: 16, color: C.textMuted }}>Une autre question ? Appelez-nous au +33 1 XX XX XX XX — 7j/7.</p>
             </div>
           </SectionReveal>

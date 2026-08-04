@@ -25,6 +25,7 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1214,10 +1215,10 @@ function ServiceCards() {
               letterSpacing: '-0.025em',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
             L'électricité en toute{' '}
             <span style={{ color: C.accent }}>expertise.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1442,10 +1443,10 @@ function TechPanel() {
                 letterSpacing: '-0.025em',
                 lineHeight: 1.06,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "certifications.titre") ?? (<>
               Un niveau d'exigence{' '}
               <span style={{ color: C.accent }}>certifié.</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1618,10 +1619,10 @@ function Reviews() {
               letterSpacing: '-0.025em',
               lineHeight: 1.04,
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
             Ce que disent{' '}
             <span style={{ color: C.accent }}>nos clients.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1711,10 +1712,10 @@ function QuoteForm() {
               lineHeight: 1.05,
               textAlign: 'center',
             }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Parlons de{' '}
             <span style={{ color: C.accent }}>votre projet.</span>
-          </h2>
+          </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
           <p

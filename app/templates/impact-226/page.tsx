@@ -11,6 +11,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -421,9 +422,9 @@ return (
 
         <motion.div className="mb226-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(42px, 5.5vw, 74px)", fontWeight: 400, color: C.text, lineHeight: 1.05, marginBottom: 24 }}>{c?.heroHeadline ?? <>
+            style={{ fontFamily: FONT, fontSize: "clamp(42px, 5.5vw, 74px)", fontWeight: 400, color: C.text, lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
             L'art sur peau,<br /><em style={{ color: C.accent }}>pour toujours.</em>
-          </>}</motion.h1>
+          </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(245,240,232,0.65)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{fd?.tagline ?? c?.heroSubline ?? <>
             Studio Encre Noire réunit 3 artistes tatoueurs spécialisés — blackwork, réalisme, japonais, aquarelle. Chaque pièce est unique, dessinée sur mesure, réalisée avec obsession du détail.
@@ -463,7 +464,7 @@ return (
         <Reveal>
           <div style={{ marginBottom: 60 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Styles & spécialités</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.1 }}>Chaque style,<br /><em>une signature propre.</em></h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "styles.titre") ?? (<>Chaque style,<br /><em>une signature propre.</em></>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
@@ -493,7 +494,7 @@ return (
           </Reveal>
           <Reveal delay={0.15}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre hygiène</span>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>Sécurité <em>absolue</em>,<br />zéro compromis.</h2>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Sécurité <em>absolue</em>,<br />zéro compromis.</>)}</h2>
             {PROCESS.map((p, i) => (
               <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 14 }}>
                 <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
@@ -510,7 +511,7 @@ return (
       <section style={{ padding: "100px 80px", background: "#090909" }}>
         <Reveal><div style={{ textAlign: "center", marginBottom: 52 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Avis clients</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: C.text, marginTop: 10 }}>Ils portent <em style={{ color: C.accent }}>nos œuvres.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Ils portent <em style={{ color: C.accent }}>nos œuvres.</em></>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
           {resolveList<any>(clientReviews(sessionData), AVIS_DEMO).map((a: any, i: number) => (
@@ -531,7 +532,7 @@ return (
       <section id="galerie" style={{ padding: "100px 80px", background: C.bg }}>
         <Reveal><div style={{ marginBottom: 56 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Galerie</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Des pièces<br /><em>portées tous les jours.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>Des pièces<br /><em>portées tous les jours.</em></>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
           {GALERIE.map((g, i) => (
@@ -549,7 +550,7 @@ return (
       <section id="tarifs" style={{ padding: "100px 80px", background: C.bgSection }}>
         <Reveal><div style={{ marginBottom: 56 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Le prix se dit<br /><em>avant, pas après.</em></h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Le prix se dit<br /><em>avant, pas après.</em></>)}</h2>
         </div></Reveal>
         <div style={{ maxWidth: 900, margin: "0 auto", background: C.bg, borderRadius: 10, border: `1px solid ${C.border}`, boxShadow: C.shadow, overflow: "hidden" }}>
           {TARIFS.map((t, i) => (
@@ -569,7 +570,7 @@ return (
       <section id="contact" style={{ padding: "100px 80px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Prise de RDV</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Votre projet<br /><em style={{ color: C.accent }}>commence ici.</em></>}</h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>{c?.aboutTitle ?? fd?.businessName ?? <>Votre projet<br /><em style={{ color: C.accent }}>commence ici.</em></>}</>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 440, margin: "0 auto 36px", lineHeight: 1.7 }}>{c?.aboutText ?? <>
             Consultation gratuite obligatoire avant chaque tatouage. Remplissez le formulaire, ou contactez-nous par email ou Instagram — réponse sous 48h.
           </>}</p>
