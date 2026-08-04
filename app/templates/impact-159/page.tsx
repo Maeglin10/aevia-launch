@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {
@@ -22,6 +23,7 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -93,7 +95,9 @@ type Material = {
   origin: string
 }
 
-const MATERIALS: Material[] = [
+const MATERIALS: Material[] = resolveList(
+
+  clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
   {
     id: "GS-v4-2026",
     name: "Graphene-Silk",
@@ -166,7 +170,157 @@ const MATERIALS: Material[] = [
     weight: "210 g/m²",
     origin: "Zürich Materials Institute · 2026",
   },
-]
+])[i % ([
+  {
+    id: "GS-v4-2026",
+    name: "Graphene-Silk",
+    code: "GS-420",
+    type: "Conductive Smart-Textile",
+    status: "PRODUCTION",
+    statusColor: "#86efac",
+    accentGradient: "linear-gradient(135deg,var(--brand,#c084fc),#67e8f9)",
+    desc:
+      "Single-atom carbon lattice woven into recombinant silk fibroin at 1,200 threads/cm². Enables real-time biometric telemetry, piezoelectric energy harvesting, and dynamic thermal regulation — all invisible to the wearer.",
+    tagline: "Where atomic precision meets haute couture.",
+    specs: [
+      { label: "Conductivity",    value: "420",    unit: "S/m"    },
+      { label: "Tensile Strength",value: "2.4",    unit: "GPa"    },
+      { label: "Weight",          value: "38",     unit: "g/m²"   },
+      { label: "Wash Cycles",     value: "800+",   unit: "cycles" },
+      { label: "Power Harvest",   value: "12",     unit: "µW/cm²" },
+      { label: "Temp Range",      value: "−40/+80",unit: "°C"     },
+    ],
+    palette: ["var(--brand,#c084fc)","#a855f7","#7c3aed","#5b21b6","#3b0764","#1a0331"],
+    applications: ["Athletic Biometrics","Military Comms","Medical Wearables","AR Interface Fabric"],
+    weight: "38 g/m²",
+    origin: "Paris Synthesis Lab · 2025",
+  },
+  {
+    id: "BM-88-LVX",
+    name: "Bioluminescent Mesh",
+    code: "BM-088",
+    type: "Photonic Living Fabric",
+    status: "R&D",
+    statusColor: "var(--brand-light,#67e8f9)",
+    accentGradient: "linear-gradient(135deg,var(--brand-light,#67e8f9),#86efac)",
+    desc:
+      "CRISPR-engineered bioluminescent proteins (Lux operon variant) suspended in a biocompatible hydrogel matrix and encapsulated within hollow polyamide microfibers. Emits visible photons in direct response to the wearer's serotonin and cortisol levels.",
+    tagline: "Your mood, made visible.",
+    specs: [
+      { label: "Photon Emission", value: "480–520", unit: "nm"    },
+      { label: "Tensile Strength",value: "0.8",     unit: "GPa"   },
+      { label: "Weight",          value: "52",      unit: "g/m²"  },
+      { label: "Biocompat.",      value: "ISO 10993",unit: ""     },
+      { label: "Response Lag",    value: "<200",    unit: "ms"    },
+      { label: "Half-Life",       value: "36",      unit: "months"},
+    ],
+    palette: ["var(--brand-light,#67e8f9)","#22d3ee","#06b6d4","#0891b2","#164e63","#083344"],
+    applications: ["Luxury Mood-Wear","Stage Performance","Health Monitoring","Experiential Art"],
+    weight: "52 g/m²",
+    origin: "Tokyo BioLab · 2025",
+  },
+  {
+    id: "SMW-09-KIRO",
+    name: "Shape-Memory Wool",
+    code: "SMW-009",
+    type: "Structural Adaptive Knit",
+    status: "PROTOTYPE",
+    statusColor: "#fbbf24",
+    accentGradient: "linear-gradient(135deg,#86efac,#fbbf24)",
+    desc:
+      "Merino fibers crosslinked with nitinol nanocrystals and hygroscopic aerogel microspheres. The fabric autonomously adjusts its weave density, drape coefficient, and insulation factor in response to ambient humidity and body temperature — no electronics required.",
+    tagline: "Intelligence encoded in every fiber.",
+    specs: [
+      { label: "Shape Memory",    value: "98.6",   unit: "%"      },
+      { label: "Tensile Strength",value: "1.2",    unit: "GPa"    },
+      { label: "Weight",          value: "210",    unit: "g/m²"   },
+      { label: "Actuation Temp.", value: "34–36",  unit: "°C"     },
+      { label: "Cycles",          value: "50,000+",unit: "cycles" },
+      { label: "Humidity Range",  value: "20–95",  unit: "% RH"  },
+    ],
+    palette: ["#86efac","#4ade80","#22c55e","#16a34a","#14532d","#052e16"],
+    applications: ["Climate-Adaptive Outerwear","Space Suit Underlayers","Pressure Garments","Architectural Textile"],
+    weight: "210 g/m²",
+    origin: "Zürich Materials Institute · 2026",
+  },
+]).length], name: s.title, desc: s.desc || '' })),
+
+  [
+  {
+    id: "GS-v4-2026",
+    name: "Graphene-Silk",
+    code: "GS-420",
+    type: "Conductive Smart-Textile",
+    status: "PRODUCTION",
+    statusColor: "#86efac",
+    accentGradient: "linear-gradient(135deg,var(--brand,#c084fc),#67e8f9)",
+    desc:
+      "Single-atom carbon lattice woven into recombinant silk fibroin at 1,200 threads/cm². Enables real-time biometric telemetry, piezoelectric energy harvesting, and dynamic thermal regulation — all invisible to the wearer.",
+    tagline: "Where atomic precision meets haute couture.",
+    specs: [
+      { label: "Conductivity",    value: "420",    unit: "S/m"    },
+      { label: "Tensile Strength",value: "2.4",    unit: "GPa"    },
+      { label: "Weight",          value: "38",     unit: "g/m²"   },
+      { label: "Wash Cycles",     value: "800+",   unit: "cycles" },
+      { label: "Power Harvest",   value: "12",     unit: "µW/cm²" },
+      { label: "Temp Range",      value: "−40/+80",unit: "°C"     },
+    ],
+    palette: ["var(--brand,#c084fc)","#a855f7","#7c3aed","#5b21b6","#3b0764","#1a0331"],
+    applications: ["Athletic Biometrics","Military Comms","Medical Wearables","AR Interface Fabric"],
+    weight: "38 g/m²",
+    origin: "Paris Synthesis Lab · 2025",
+  },
+  {
+    id: "BM-88-LVX",
+    name: "Bioluminescent Mesh",
+    code: "BM-088",
+    type: "Photonic Living Fabric",
+    status: "R&D",
+    statusColor: "var(--brand-light,#67e8f9)",
+    accentGradient: "linear-gradient(135deg,var(--brand-light,#67e8f9),#86efac)",
+    desc:
+      "CRISPR-engineered bioluminescent proteins (Lux operon variant) suspended in a biocompatible hydrogel matrix and encapsulated within hollow polyamide microfibers. Emits visible photons in direct response to the wearer's serotonin and cortisol levels.",
+    tagline: "Your mood, made visible.",
+    specs: [
+      { label: "Photon Emission", value: "480–520", unit: "nm"    },
+      { label: "Tensile Strength",value: "0.8",     unit: "GPa"   },
+      { label: "Weight",          value: "52",      unit: "g/m²"  },
+      { label: "Biocompat.",      value: "ISO 10993",unit: ""     },
+      { label: "Response Lag",    value: "<200",    unit: "ms"    },
+      { label: "Half-Life",       value: "36",      unit: "months"},
+    ],
+    palette: ["var(--brand-light,#67e8f9)","#22d3ee","#06b6d4","#0891b2","#164e63","#083344"],
+    applications: ["Luxury Mood-Wear","Stage Performance","Health Monitoring","Experiential Art"],
+    weight: "52 g/m²",
+    origin: "Tokyo BioLab · 2025",
+  },
+  {
+    id: "SMW-09-KIRO",
+    name: "Shape-Memory Wool",
+    code: "SMW-009",
+    type: "Structural Adaptive Knit",
+    status: "PROTOTYPE",
+    statusColor: "#fbbf24",
+    accentGradient: "linear-gradient(135deg,#86efac,#fbbf24)",
+    desc:
+      "Merino fibers crosslinked with nitinol nanocrystals and hygroscopic aerogel microspheres. The fabric autonomously adjusts its weave density, drape coefficient, and insulation factor in response to ambient humidity and body temperature — no electronics required.",
+    tagline: "Intelligence encoded in every fiber.",
+    specs: [
+      { label: "Shape Memory",    value: "98.6",   unit: "%"      },
+      { label: "Tensile Strength",value: "1.2",    unit: "GPa"    },
+      { label: "Weight",          value: "210",    unit: "g/m²"   },
+      { label: "Actuation Temp.", value: "34–36",  unit: "°C"     },
+      { label: "Cycles",          value: "50,000+",unit: "cycles" },
+      { label: "Humidity Range",  value: "20–95",  unit: "% RH"  },
+    ],
+    palette: ["#86efac","#4ade80","#22c55e","#16a34a","#14532d","#052e16"],
+    applications: ["Climate-Adaptive Outerwear","Space Suit Underlayers","Pressure Garments","Architectural Textile"],
+    weight: "210 g/m²",
+    origin: "Zürich Materials Institute · 2026",
+  },
+],
+
+)
 
 const APPLICATIONS = [
   { label: "Defense & Aerospace", count: "14 contracts", icon: "◈" },
@@ -1045,14 +1199,14 @@ function HeroSection({
    ========================================================================== */
 
 function StatsBand() {
-  const stats = [
+  const stats = resolveList(clientStats({ formData: fd })?.map((s: any) => ({ value: s.value, label: s.label })), [
     { value: "3",        label: "Proprietary Materials" },
     { value: "420 S/m", label: "Peak Conductivity"      },
     { value: "2.4 GPa", label: "Tensile Strength"       },
     { value: "36 mo.",  label: "Biolum. Half-Life"       },
     { value: "50K+",    label: "Shape-Memory Cycles"    },
     { value: "98.6%",   label: "Form Retention"          },
-  ]
+  ])
 
   return (
     <section

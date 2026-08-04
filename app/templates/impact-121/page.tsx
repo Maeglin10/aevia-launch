@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
@@ -144,22 +145,38 @@ const MANIFEST = {
     { name: "Webby", wins: "Best User Interface", year: "2025", icon: <Medal className="w-4 h-4" /> },
     { name: "CSS Design Awards", wins: "Agency of the Year", year: "2025", icon: <Star className="w-4 h-4" /> }
   ],
-  culture: [
+  culture: resolveList(clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
     { title: "Radical Candor", desc: "We believe in direct, honest feedback to push the work further. No egos, just excellence." },
     { title: "Relentless Iteration", desc: "The first idea is rarely the best. We iterate relentlessly until the solution feels inevitable." },
     { title: "Detail Obsession", desc: "The difference between good and great is in the details. We sweat the micro-interactions." }
-  ],
+  ])[i % ([
+    { title: "Radical Candor", desc: "We believe in direct, honest feedback to push the work further. No egos, just excellence." },
+    { title: "Relentless Iteration", desc: "The first idea is rarely the best. We iterate relentlessly until the solution feels inevitable." },
+    { title: "Detail Obsession", desc: "The difference between good and great is in the details. We sweat the micro-interactions." }
+  ]).length], title: s.title, desc: s.desc || '' })), [
+    { title: "Radical Candor", desc: "We believe in direct, honest feedback to push the work further. No egos, just excellence." },
+    { title: "Relentless Iteration", desc: "The first idea is rarely the best. We iterate relentlessly until the solution feels inevitable." },
+    { title: "Detail Obsession", desc: "The difference between good and great is in the details. We sweat the micro-interactions." }
+  ]),
   team: [
     { name: "Elias Valenti", role: "Design Director", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80" },
     { name: "Sarah Chen", role: "Technical Lead", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80" },
     { name: "Marcus Thorne", role: "Creative Strategist", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" },
     { name: "Lena Volkov", role: "Motion Designer", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80" }
   ],
-  pricing: [
+  pricing: resolveList(clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
     { name: "Consult", price: "5K", desc: "Audit and strategy direction", features: ["UX Audit", "Brand Positioning", "Technical Review", "Actionable Roadmap"] },
     { name: "Sprint", price: "25K", desc: "Intensive 4-week product sprint", features: ["Rapid Prototyping", "Core User Flows", "Visual Direction", "Dev Handoff"], recommended: true },
     { name: "Partner", price: "Custom", desc: "Long-term dedicated team", features: ["Full Product Lifecycle", "Dedicated Squad", "Continuous Integration", "Quarterly Strategy"] }
-  ],
+  ])[i % ([
+    { name: "Consult", price: "5K", desc: "Audit and strategy direction", features: ["UX Audit", "Brand Positioning", "Technical Review", "Actionable Roadmap"] },
+    { name: "Sprint", price: "25K", desc: "Intensive 4-week product sprint", features: ["Rapid Prototyping", "Core User Flows", "Visual Direction", "Dev Handoff"], recommended: true },
+    { name: "Partner", price: "Custom", desc: "Long-term dedicated team", features: ["Full Product Lifecycle", "Dedicated Squad", "Continuous Integration", "Quarterly Strategy"] }
+  ]).length], name: s.title, price: s.price ?? '' })), [
+    { name: "Consult", price: "5K", desc: "Audit and strategy direction", features: ["UX Audit", "Brand Positioning", "Technical Review", "Actionable Roadmap"] },
+    { name: "Sprint", price: "25K", desc: "Intensive 4-week product sprint", features: ["Rapid Prototyping", "Core User Flows", "Visual Direction", "Dev Handoff"], recommended: true },
+    { name: "Partner", price: "Custom", desc: "Long-term dedicated team", features: ["Full Product Lifecycle", "Dedicated Squad", "Continuous Integration", "Quarterly Strategy"] }
+  ]),
   faq: [
     { q: "What is your typical project timeline?", a: "Most product design engagements range from 8 to 16 weeks. Strategy and branding sprints can be completed in 4-6 weeks, while full-scale engineering builds may extend to 6 months depending on scope." },
     { q: "Do you work with startups or enterprises?", a: "Both. We thrive on the agility of early-stage startups needing to establish market presence, and we bring fresh, disruptive thinking to established enterprises looking to innovate." },

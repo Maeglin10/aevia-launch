@@ -402,7 +402,7 @@ return (
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-            {[
+            {resolveList(clientReviews({ formData: fd })?.map((r: any, i: number) => ({ ...([
               {
                 quote: "Luminal m'a rendu à moi-même après 15 ans de performance intense. Je suis rentrée différente — pas reposée, transformée.",
                 name: "Caroline V.",
@@ -418,7 +418,39 @@ return (
                 name: "Isabelle K.",
                 role: "Architecte",
               },
-            ].map((t, i) => (
+            ])[i % ([
+              {
+                quote: "Luminal m'a rendu à moi-même après 15 ans de performance intense. Je suis rentrée différente — pas reposée, transformée.",
+                name: "Caroline V.",
+                role: `CEO, ${clientCity({ formData: fd }) ?? "Paris"}`,
+              },
+              {
+                quote: "Rien de comparable à Sonoran. Le silence comme je ne l'avais jamais entendu. Une expérience qui redéfinit ce que signifie être présent.",
+                name: "Thomas M.",
+                role: "Partner, McKinsey",
+              },
+              {
+                quote: "La méthode Nakano a changé ma relation au temps. Je travaille moins vite, et j'accomplis infiniment plus.",
+                name: "Isabelle K.",
+                role: "Architecte",
+              },
+            ]).length], quote: r.text, name: r.author })), [
+              {
+                quote: "Luminal m'a rendu à moi-même après 15 ans de performance intense. Je suis rentrée différente — pas reposée, transformée.",
+                name: "Caroline V.",
+                role: `CEO, ${clientCity({ formData: fd }) ?? "Paris"}`,
+              },
+              {
+                quote: "Rien de comparable à Sonoran. Le silence comme je ne l'avais jamais entendu. Une expérience qui redéfinit ce que signifie être présent.",
+                name: "Thomas M.",
+                role: "Partner, McKinsey",
+              },
+              {
+                quote: "La méthode Nakano a changé ma relation au temps. Je travaille moins vite, et j'accomplis infiniment plus.",
+                name: "Isabelle K.",
+                role: "Architecte",
+              },
+            ]).map((t, i) => (
               <Reveal key={i} delay={i * 0.15}>
                 <div className="flex flex-col h-full">
                   <div className="text-[var(--brand,#3d7a5e)]/30 text-6xl leading-none mb-6 font-serif">&ldquo;</div>

@@ -28,6 +28,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let SERVICES_LIVE: any[] = SERVICES;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -260,7 +261,7 @@ function ServicesSection() {
         </div>
 
         <div style={{ borderTop: `1px solid ${C.border}` }}>
-          {SERVICES.map((service, i) => {
+          {SERVICES_LIVE.map((service: any, i: number) => {
             const isOpen = expanded === service.n;
             return (
               <Reveal key={service.n} delay={i * 0.08}>
@@ -923,6 +924,14 @@ export default function MaskUnitHome() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_LIVE = resolveList(
+    clientServices({ formData: fd })?.map((s: any, i: number) => ({
+      n: String(i + 1).padStart(2, "0"),
+      title: s.title,
+      desc: s.desc || "",
+    })),
+    SERVICES,
+  );
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

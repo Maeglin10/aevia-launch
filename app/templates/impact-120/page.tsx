@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
@@ -21,6 +22,7 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -165,13 +167,13 @@ const MANIFEST = {
   hero: {
     title: "Éclat",
     subtitle: "L'Essence de l'Éternité",
-    metrics: [
+    metrics: resolveList(clientStats({ formData: fd })?.map((s: any) => ({ val: s.value, label: s.label })), [
       { label: "Fragrances", val: "24", icon: <Wind className="w-4 h-4" /> },
       { label: "Botanicals", val: "200+", icon: <Flower2 className="w-4 h-4" /> },
       { label: "Ateliers", val: "3", icon: <Gem className="w-4 h-4" /> }
-    ]
+    ])
   },
-  perfumes: [
+  perfumes: resolveList(clientServices({ formData: fd })?.map((s: any) => ({ name: s.title, desc: s.desc || '' })), [
     {
       id: "nocturne",
       name: "Nocturne // 01",
@@ -196,7 +198,7 @@ const MANIFEST = {
       color: "from-[#111c22] to-[#0b1419]",
       accent: "#38bdf8"
     }
-  ],
+  ]),
   ingredients: [
     { name: "Oud Assam", origin: "India", rarity: "Exceptional", desc: "First-press extraction yielding a profound, animalic depth." },
     { name: "Rose de Mai", origin: "Grasse, France", rarity: "Heritage", desc: "Hand-picked at dawn to preserve the volatile heart notes." },
@@ -208,12 +210,12 @@ const MANIFEST = {
     { step: "02", title: "Distillation", desc: "Fractional distillation under vacuum ensures the delicate top notes are captured without thermal degradation." },
     { step: "03", title: "Synthesis", desc: "Our master nose blends the rare absolutes with precision molecular captive molecules for unprecedented sillage." }
   ],
-  testimonials: [
+  testimonials: resolveList(clientReviews({ formData: fd })?.map((r: any) => ({ text: r.text, name: r.author })), [
     { name: "J. L. Thorne", role: "Fragrance Critic", text: "Éclat has redefined the boundaries of niche perfumery. A masterclass in tension and release." },
     { name: "M. Vreeland", role: "Vogue Paris", text: "To wear Nocturne is to wrap oneself in an invisible armor of pure, liquid luxury." },
     { name: "A. Sterling", role: "Collector", text: "The longevity is simply supernatural. A single drop lasts well into the next sunrise." }
-  ],
-  tiers: [
+  ]),
+  tiers: resolveList(clientServices({ formData: fd })?.map((s: any) => ({ name: s.title, price: s.price ?? '' })), [
     {
       name: "Discovery",
       price: "185",
@@ -233,7 +235,7 @@ const MANIFEST = {
       desc: "A singular fragrance crafted exclusively for you.",
       features: ["Private Consultation in Grasse", "1-on-1 with Master Perfumer", "Lifetime Formula Vault", "Hand-blown Crystal Decanter"]
     }
-  ],
+  ]),
   faq: [
     { q: "How long does the sillage last on the skin?", a: "Due to our 35% Extrait de Parfum concentration, you can expect a projection of 12-16 hours on skin, and up to 48 hours on textiles." },
     { q: "Are the ingredients ethically sourced?", a: "Absolutely. We maintain direct relationships with our growers, paying premiums for sustainable farming and ethical harvesting practices." },

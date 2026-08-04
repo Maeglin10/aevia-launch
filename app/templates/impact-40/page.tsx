@@ -178,7 +178,9 @@ const testimonials_SOURCE = [
 ];
 let testimonials = testimonials_SOURCE;
 
-const plans = [
+const plans = resolveList(
+
+  clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
   {
     name: "Panier Solo",
     price: "28",
@@ -229,7 +231,113 @@ const plans = [
     textColor: C.white,
     popular: false,
   },
-];
+])[i % ([
+  {
+    name: "Panier Solo",
+    price: "28",
+    freq: "/ semaine",
+    desc: "Idéal pour 1–2 personnes",
+    items: [
+      "5–6 variétés de légumes",
+      "1 bouquet d'herbes aromatiques",
+      "Fruits de saison (500 g)",
+      "Fiche recette hebdomadaire",
+    ],
+    color: C.accent,
+    textColor: C.bgDark,
+    popular: false,
+  },
+  {
+    name: "Panier Famille",
+    price: "48",
+    freq: "/ semaine",
+    desc: "Parfait pour 3–5 personnes",
+    items: [
+      "8–10 variétés de légumes",
+      "2 bouquets d'herbes aromatiques",
+      "Fruits de saison (1,5 kg)",
+      "Fiche recette + livret mensuel",
+      "Œufs de poules élevées sur site (6)",
+      "Accès prioritaire aux surplus",
+    ],
+    color: C.bgDark,
+    textColor: C.bg,
+    popular: true,
+  },
+  {
+    name: "Panier Restaurateur",
+    price: "120",
+    freq: "/ semaine",
+    desc: "Pour professionnels exigeants",
+    items: [
+      "15–20 variétés sur mesure",
+      "Herbes fraîches à la demande",
+      "Fruits et fleurs comestibles",
+      "Livraison mardi + vendredi",
+      "Commande personnalisée J−5",
+      "Facturation mensuelle",
+      "Accès récolte sur place",
+    ],
+    color: C.earth,
+    textColor: C.white,
+    popular: false,
+  },
+]).length], name: s.title, price: s.price ?? '' })),
+
+  [
+  {
+    name: "Panier Solo",
+    price: "28",
+    freq: "/ semaine",
+    desc: "Idéal pour 1–2 personnes",
+    items: [
+      "5–6 variétés de légumes",
+      "1 bouquet d'herbes aromatiques",
+      "Fruits de saison (500 g)",
+      "Fiche recette hebdomadaire",
+    ],
+    color: C.accent,
+    textColor: C.bgDark,
+    popular: false,
+  },
+  {
+    name: "Panier Famille",
+    price: "48",
+    freq: "/ semaine",
+    desc: "Parfait pour 3–5 personnes",
+    items: [
+      "8–10 variétés de légumes",
+      "2 bouquets d'herbes aromatiques",
+      "Fruits de saison (1,5 kg)",
+      "Fiche recette + livret mensuel",
+      "Œufs de poules élevées sur site (6)",
+      "Accès prioritaire aux surplus",
+    ],
+    color: C.bgDark,
+    textColor: C.bg,
+    popular: true,
+  },
+  {
+    name: "Panier Restaurateur",
+    price: "120",
+    freq: "/ semaine",
+    desc: "Pour professionnels exigeants",
+    items: [
+      "15–20 variétés sur mesure",
+      "Herbes fraîches à la demande",
+      "Fruits et fleurs comestibles",
+      "Livraison mardi + vendredi",
+      "Commande personnalisée J−5",
+      "Facturation mensuelle",
+      "Accès récolte sur place",
+    ],
+    color: C.earth,
+    textColor: C.white,
+    popular: false,
+  },
+],
+
+);
 
 const faqs_SOURCE = [
   {
@@ -1034,14 +1142,14 @@ export default function TerreVivantePage() {
           </SectionReveal>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: "1.5rem" }}>
-            {[
+            {resolveList(clientServices({ formData: fd })?.map((s: any) => ({ title: s.title, desc: s.desc || '' })), [
               { icon: <Leaf size={22} />, title: "Légumes de saison", desc: "5 à 10 variétés, récoltées le matin de la livraison", accent: "var(--brand-light,#7bb85a)" },
               { icon: <Sun size={22} />, title: "Fruits frais", desc: "500 g à 2 kg selon la saison et le panier choisi", accent: C.accent },
               { icon: <Flower2 size={22} />, title: "Herbes aromatiques", desc: "1 à 2 bouquets : basilic, thym, coriandre, persil…", accent: "#b8d4a0" },
               { icon: <Heart size={22} />, title: "Surprise du producteur", desc: "Un produit transformé : confiture, sirop, tapenade…", accent: C.earthLight },
               { icon: <Package size={22} />, title: "Fiche recette", desc: "2 recettes hebdomadaires adaptées au contenu du panier", accent: "#6ea8d0" },
               { icon: <Clock size={22} />, title: "Bulletin de ferme", desc: "Actualités, calendrier des récoltes et dates de visites", accent: "#d4a0c0" },
-            ].map((item, i) => (
+            ]).map((item, i) => (
               <SectionReveal key={item.title} delay={i * 0.08}>
                 <div
                   style={{
