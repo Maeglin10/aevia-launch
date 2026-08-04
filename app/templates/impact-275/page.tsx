@@ -40,6 +40,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -1924,12 +1925,12 @@ function ConsultationFormSection() {
           </p>
 
           {/* Engagements */}
-          {[
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? [
             'Confidentialité garantie dès le premier échange',
             'Réponse sous 24h ouvrées',
             'Honoraires expliqués avant toute intervention',
             'Disponible en présentiel et visioconférence',
-          ].map((e, i) => (
+          ]).map((e, i) => (
             <div
               key={i}
               style={{
@@ -2865,12 +2866,12 @@ function PracticalSection() {
                 forfait, taux horaire ou honoraires de résultat.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {[
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste2") ?? [
                   'Convention d\'honoraires écrite systématiquement',
                   'Paiement sécurisé via compte CARPA',
                   'Règlement en plusieurs fois possible',
                   'Devis gratuit sur demande',
-                ].map((item, i) => (
+                ]).map((item, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <CheckCircle size={13} color={C.gold} strokeWidth={2} />
                     <span

@@ -17,6 +17,7 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -504,7 +505,7 @@ function DashboardMockup() {
           borderBottom: `1px solid ${C.border}`,
         }}
       >
-        {["#e5534b", "#e3b341", "#3fb950"].map((c) => (
+        {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["#e5534b", "#e3b341", "#3fb950"]).map((c) => (
           <div
             key={c}
             style={{ width: 10, height: 10, borderRadius: "50%", background: c }}
@@ -1542,7 +1543,7 @@ export default function Impact176Page() {
               flexWrap: "wrap",
             }}
           >
-            {["SOC 2 Type II", "GDPR", "No credit card"].map((t) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste2") ?? ["SOC 2 Type II", "GDPR", "No credit card"]).map((t) => (
               <div
                 key={t}
                 style={{

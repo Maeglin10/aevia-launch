@@ -33,6 +33,7 @@ import {
 import {
   clientCity,
   clientHours,
+  clientList,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1453,7 +1454,7 @@ return (
                 marginTop: 12,
               }}
             >
-              {["Strategic Thinking", "Pixel Perfection", "Clean Code", "Fast Delivery"].map(
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "about.liste1") ?? ["Strategic Thinking", "Pixel Perfection", "Clean Code", "Fast Delivery"]).map(
                 (item) => (
                   <div
                     key={item}

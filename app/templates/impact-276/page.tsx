@@ -37,6 +37,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHours,
+  clientList,
   clientReviews,
   clientServices,
   clientStats,
@@ -1882,12 +1883,12 @@ function BilanFormSection() {
               </Reveal>
               <Reveal delay={0.3}>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
-                  {[
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "bilan.liste1") ?? [
                     'Analyse de votre composition corporelle',
                     'Définition de vos objectifs réels',
                     'Présentation du programme adapté',
                     '100% gratuit, sans obligation',
-                  ].map((item) => (
+                  ]).map((item) => (
                     <li
                       key={item}
                       style={{

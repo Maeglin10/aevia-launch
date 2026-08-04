@@ -211,6 +211,23 @@ export function clientText(s: SessionLike | null | undefined, cle: string): stri
   return trimmed(s?.sectionOverrides?.[cle]) || undefined;
 }
 
+/**
+ * La liste de libellés retouchée par le client, s'il en a retouché une.
+ *
+ * Beaucoup de sections rendent une liste de mots sans structure — les valeurs
+ * d'une agence, le matériel d'un photographe, les étapes d'un sourcing. Aucun
+ * champ du wizard ne leur correspond, et leur inventer un à chacune reviendrait
+ * à poser cent questions. Le client les retouche depuis l'aperçu, une ligne par
+ * entrée.
+ *
+ * Sans retouche, la fonction ne rend rien et le thème garde sa liste.
+ */
+export function clientList(s: SessionLike | null | undefined, cle: string): string[] | undefined {
+  const brut = trimmed(s?.sectionOverrides?.[cle]);
+  if (!brut) return undefined;
+  return keep(brut.split("\n").map(trimmed), Boolean);
+}
+
 /** Le nom de l'entreprise, tel qu'il doit apparaître partout. */
 export function clientName(s: SessionLike | null | undefined): string | undefined {
   return trimmed(s?.formData?.businessName) || undefined;

@@ -14,6 +14,7 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -1847,12 +1848,12 @@ return (
                         >
                           Inclus dans le menu
                         </div>
-                        {[
+                        {/* LISTE_LIBELLES */ (clientList(sessionData, "menus.liste1") ?? [
                           "Ingrédients premium sourcés",
                           "Préparation & cuisson sur place",
                           "Service à table inclus",
                           "Nettoyage cuisine complet",
-                        ].map((feat) => (
+                        ]).map((feat) => (
                           <div
                             key={feat}
                             style={{

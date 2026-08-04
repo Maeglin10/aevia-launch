@@ -12,6 +12,7 @@ import { C, STATS, OrbitCenter, AnimatedCounter } from "./shared";
 import "../premium.css";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -241,7 +242,7 @@ return (
                   gap: "40px",
                 }}
               >
-                {["94 projects", "12 countries", "Est. 2015"].map((tag) => (
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["94 projects", "12 countries", "Est. 2015"]).map((tag) => (
                   <div
                     key={tag}
                     style={{

@@ -36,6 +36,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -1066,7 +1067,7 @@ function ReserveForm() {
         </div>
 
         <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-          {['Aucun engagement', 'Livraison sept. 2026', 'Garantie 3 ans'].map((item) => (
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "reserve.liste1") ?? ['Aucun engagement', 'Livraison sept. 2026', 'Garantie 3 ans']).map((item) => (
             <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '6px', color: C.muted, fontSize: '0.8rem' }}>
               <Check size={13} color={C.blue} /> {item}
             </div>

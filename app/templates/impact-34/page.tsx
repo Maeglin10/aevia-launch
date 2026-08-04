@@ -31,6 +31,7 @@ import {
 } from "./shared"
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -288,13 +289,13 @@ return (
                 subscriber growth charts — all in one beautiful dashboard.
               </p>
               <ul className="flex flex-col gap-3 mb-8">
-                {[
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "analytics.liste1") ?? [
                   "Listener count by episode & date range",
                   "Drop-off points by minute",
                   "Geographic & device breakdown",
                   "Subscriber churn & growth rate",
                   "Revenue attribution per episode",
-                ].map((item) => (
+                ]).map((item) => (
                   <li key={item} className="flex items-center gap-3 text-sm text-[#94A3B8]">
                     <span
                       className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"

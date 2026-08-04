@@ -9,6 +9,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { Reveal, MagneticBtn, Counter, MENUS, WINE_PAIRINGS, ARTISANS } from "./shared";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -176,7 +177,7 @@ return (
           className="flex gap-12 whitespace-nowrap"
         >
           {[...Array(2)].map((_, rep) =>
-            ["ÉTOILÉ MICHELIN", "CHEF ANATOL VOSS", "PARIS", "SAISON 2024", "FEU", "MÉMOIRE", "SATORI", "RÉSERVATIONS OUVERTES"].map((item, i) => (
+            /* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["ÉTOILÉ MICHELIN", "CHEF ANATOL VOSS", "PARIS", "SAISON 2024", "FEU", "MÉMOIRE", "SATORI", "RÉSERVATIONS OUVERTES"]).map((item, i) => (
               <span
                 key={`${rep}-${i}`}
                 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#f5efe0]/20"

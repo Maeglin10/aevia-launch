@@ -10,6 +10,7 @@ import {
   clientCity,
   clientFaq,
   clientHours,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -2204,7 +2205,7 @@ export default function ImpactEclatPage() {
               et les années. Certifié GOTS · OEKO-TEX.
             </p>
             <div style={{ display: "flex", gap: 12 }}>
-              {["Camera", "MessageSquare", "Link2"].map(icon => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["Camera", "MessageSquare", "Link2"]).map(icon => (
                 <div
                   key={icon}
                   style={{

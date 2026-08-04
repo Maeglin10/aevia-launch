@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientList,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1890,7 +1891,7 @@ function BookingForm() {
                   <option value="" style={{ color: '#111' }}>
                     Choisir un style…
                   </option>
-                  {['Blackwork', 'Réalisme', 'Japonais', 'Watercolor', 'Fineline', 'Autre'].map(
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "reserver.liste1") ?? ['Blackwork', 'Réalisme', 'Japonais', 'Watercolor', 'Fineline', 'Autre']).map(
                     (s) => (
                       <option key={s} value={s} style={{ color: '#111' }}>
                         {s}

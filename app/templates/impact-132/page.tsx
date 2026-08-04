@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
 import React, { useState, useRef, useEffect, useCallback } from "react"
 import {
   clientCity,
+  clientList,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1472,7 +1473,7 @@ return (
               © 2026 The Review Magazine. All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
-              {["Privacy Policy", "Terms of Use", "Accessibility"].map(item => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["Privacy Policy", "Terms of Use", "Accessibility"]).map(item => (
                 <button key={item} style={{
                   fontFamily: C.sans,
                   fontSize: 12,

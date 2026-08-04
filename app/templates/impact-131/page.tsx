@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientList,
   clientName,
   clientServices,
   clientStats,
@@ -2569,7 +2570,7 @@ export default function WineryTemplate() {
               © 2024 Château de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <div style={{ display: "flex", gap: 24 }}>
-              {["Instagram", "LinkedIn", "Newsletter"].map((s) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["Instagram", "LinkedIn", "Newsletter"]).map((s) => (
                 <button
                   key={s}
                   style={{

@@ -33,6 +33,7 @@ import {
   clientAddress,
   clientCertifications,
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -2437,12 +2438,12 @@ function SolaireSection() {
                   gap: 10,
                 }}
               >
-                {[
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "solaire.liste1") ?? [
                   "Étude d'ensoleillement et simulation de production",
                   'Demande de raccordement Enedis prise en charge',
                   'Installation en 1 à 2 jours selon la puissance',
                   "Contrat de revente EDF OA accompagné",
-                ].map((item) => (
+                ]).map((item) => (
                   <li
                     key={item}
                     style={{
@@ -2873,7 +2874,7 @@ function FooterSection() {
 
             {/* Badges */}
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {['RGE', 'IRVE P1/P2/P3', 'QualiPV', 'Qualifelec'].map((b) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "certif.liste2") ?? ['RGE', 'IRVE P1/P2/P3', 'QualiPV', 'Qualifelec']).map((b) => (
                 <span
                   key={b}
                   style={{

@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Atom, Cpu, Binary, Globe, ArrowRight, ExternalLink, Download, Menu, X } from "lucide-react"
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -915,7 +916,7 @@ export default function QBitLabsPage() {
                 borderRight: "1px solid #e0e0e0",
               }}
             >
-              {["Date", "Title", "Authors", "Status", ""].map((h, i) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["Date", "Title", "Authors", "Status", ""]).map((h, i) => (
                 <div
                   key={i}
                   style={{

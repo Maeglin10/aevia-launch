@@ -9,6 +9,7 @@ import { Ruler, ArrowRight, Menu, Star, MapPin, TreePine, Shovel, Layers, Mounta
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientList,
   clientName,
   clientPhotos,
   clientReviews,
@@ -354,7 +355,7 @@ export default function TerraArchitecturePage() {
               <div className="flex flex-wrap items-center justify-between gap-8">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4b5a2)]">Recognised by</span>
                 <div className="flex flex-wrap gap-8">
-                  {["Architectural Digest", "Dezeen 2024 Award", "RIBA National Award", "World Architecture Festival", "Prix Europa Nostra"].map(a => (
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "tarifs.liste1") ?? ["Architectural Digest", "Dezeen 2024 Award", "RIBA National Award", "World Architecture Festival", "Prix Europa Nostra"]).map(a => (
                     <span key={a} className="text-[10px] font-bold uppercase tracking-widest text-[#f2f0eb]/25 hover:text-[var(--brand,#c4b5a2)] transition-colors cursor-default">{a}</span>
                   ))}
                 </div>

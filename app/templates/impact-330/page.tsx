@@ -11,6 +11,7 @@ import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -319,7 +320,7 @@ export default function PharmacieDuParcPage() {
           <Reveal>
             <div style={{ background: C.bgDark, borderRadius: 18, padding: "36px 34px", color: "#eaf4ee" }}>
               <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.mint, marginBottom: 16 }}>Ordonnance en avance</div>
-              {["Photographiez votre ordonnance recto complète", "Envoyez-la par mail avec votre nom et une heure de passage", "Elle est préparée et vérifiée sous 2 h, conservée 7 jours", "Passage en caisse en moins de 5 minutes, tiers payant appliqué"].map((step, n) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "ordonnances.liste1") ?? ["Photographiez votre ordonnance recto complète", "Envoyez-la par mail avec votre nom et une heure de passage", "Elle est préparée et vérifiée sous 2 h, conservée 7 jours", "Passage en caisse en moins de 5 minutes, tiers payant appliqué"]).map((step, n) => (
                 <div key={n} style={{ display: "flex", gap: 14, marginBottom: 16, alignItems: "flex-start" }}>
                   <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: "rgba(127,199,164,0.18)", color: C.mint, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700 }}>{n + 1}</span>
                   <span style={{ fontSize: 14.5, lineHeight: 1.65, opacity: 0.9 }}>{step}</span>

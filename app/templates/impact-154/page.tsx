@@ -30,6 +30,7 @@ import {
 import {
   clientCity,
   clientHours,
+  clientList,
   clientName,
   clientPhotos,
   clientReviews,
@@ -852,7 +853,7 @@ return (
                     "La conservation est l'art de faire taire le temps pour laisser parler l'histoire." — Archive Ivory V.4
                  </p>
                  <div className="flex gap-12">
-                    {["Camera", "ArtsNet", "UNESCO_Partner", "LinkedIn"].map(s => (
+                    {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["Camera", "ArtsNet", "UNESCO_Partner", "LinkedIn"]).map(s => (
                        <span key={s} className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-[var(--brand,#b4925e)] transition-colors italic cursor-pointer">{s}</span>
                     ))}
                  </div>

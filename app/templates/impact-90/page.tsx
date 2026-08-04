@@ -18,6 +18,7 @@ import { PanelDrop } from "@/lib/templates/hero-kit-3";
 import {
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientPhotos,
   clientReviews,
@@ -494,12 +495,12 @@ function SteamingLoaf() {
           <path d="M40,180 Q60,80 170,72 Q280,80 300,180 Z" fill="url(#crustShine)" />
 
           {/* Score marks — animated pathLength */}
-          {[
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
             "M140,100 Q170,88 200,100",
             "M120,125 Q170,108 220,125",
             "M110,150 Q170,130 230,150",
             "M115,170 Q170,152 225,170",
-          ].map((d, i) => (
+          ]).map((d, i) => (
             <motion.path
               key={i}
               d={d}

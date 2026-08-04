@@ -16,6 +16,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -2416,7 +2417,7 @@ export default function FlammeEtCoPage() {
                 </>)}</h2>
               </div>
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                {['Tous', 'Bois', 'Granulés', 'Design'].map(f => (
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "products.liste1") ?? ['Tous', 'Bois', 'Granulés', 'Design']).map(f => (
                   <motion.button
                     key={f}
                     whileHover={{ scale: 1.05 }}
@@ -2645,7 +2646,7 @@ export default function FlammeEtCoPage() {
               Nos marques partenaires
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', justifyContent: 'center', alignItems: 'center' }}>
-              {['MCZ', 'Invicta', 'Godin', 'Stuv', 'Edilkamin', 'Planika', 'Rocal', 'Jotul'].map(brand => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste2") ?? ['MCZ', 'Invicta', 'Godin', 'Stuv', 'Edilkamin', 'Planika', 'Rocal', 'Jotul']).map(brand => (
                 <div
                   key={brand}
                   style={{
@@ -2804,7 +2805,7 @@ export default function FlammeEtCoPage() {
               gap: '1.5rem',
             }}>
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                {['Visa', 'Mastercard', 'PayPal', 'Apple Pay', 'Virement', '3× sans frais'].map(p => (
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste3") ?? ['Visa', 'Mastercard', 'PayPal', 'Apple Pay', 'Virement', '3× sans frais']).map(p => (
                   <span
                     key={p}
                     style={{

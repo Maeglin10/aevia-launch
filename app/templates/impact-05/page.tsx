@@ -21,6 +21,7 @@ import { Menu, X, ArrowRight, Check, ChevronDown, Zap, Shield, Globe, BarChart3,
 import {
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientPhotos,
   clientReviews,
@@ -530,7 +531,7 @@ return (
         <div className="max-w-5xl mx-auto">
           <p className="text-center text-[10px] text-zinc-600 uppercase tracking-[0.3em] mb-8 font-semibold">Trusted by teams at the world's best companies</p>
           <div className="flex flex-wrap items-center justify-center gap-x-14 gap-y-5">
-            {["Vercel", "Stripe", "Notion", "Linear", "Globe", "GitHub", "Supabase", "PlanetScale"].map(logo => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "equipe.liste1") ?? ["Vercel", "Stripe", "Notion", "Linear", "Globe", "GitHub", "Supabase", "PlanetScale"]).map(logo => (
               <span key={logo} className="text-lg font-bold text-zinc-700 hover:text-zinc-400 transition-all duration-200 cursor-default">{logo}</span>
             ))}
           </div>
@@ -805,7 +806,7 @@ return (
               </button>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-6 mt-12 text-xs text-zinc-600">
-              {["No credit card required", "14-day Pro trial", "Cancel anytime", "SOC 2 certified"].map(f => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste2") ?? ["No credit card required", "14-day Pro trial", "Cancel anytime", "SOC 2 certified"]).map(f => (
                 <div key={f} className="flex items-center gap-1.5"><Check className="w-3 h-3 text-[var(--brand,#8b5cf6)]" />{f}</div>
               ))}
             </div>

@@ -17,6 +17,7 @@ import {
   clientAddress,
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -2476,7 +2477,7 @@ export default function AquaPrestigePage() {
                 Artisans plombiers certifiés depuis 2010. Dépannage, installation et rénovation dans {clientCity(sessionData) ?? "Paris"} et Île-de-France.
               </p>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
-                {['Facebook', 'Instagram', 'LinkedIn'].map((social) => (
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ['Facebook', 'Instagram', 'LinkedIn']).map((social) => (
                   <div
                     key={social}
                     style={{

@@ -21,6 +21,7 @@ import {
 } from "framer-motion"
 import {
   clientCity,
+  clientList,
   clientReviews,
   clientServices,
   clientStats,
@@ -470,7 +471,7 @@ function SpecTypewriter({ specs }: { specs: { label: string; value: string; unit
     >
       {/* Terminal header */}
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
-        {["#ef4444","#fbbf24","#4ade80"].map(c => (
+        {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["#ef4444","#fbbf24","#4ade80"]).map(c => (
           <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />
         ))}
         <span style={{ color: "rgba(240,238,255,0.25)", fontSize: 10, marginLeft: 8, letterSpacing: "0.2em" }}>
@@ -2101,7 +2102,7 @@ function Footer() {
             © 2026 Aevia Materials AG · All rights reserved · Paris / Tokyo / Zürich{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
           <div style={{ display: "flex", gap: 32 }}>
-            {["STATUS: NOMINAL","REGISTRY v4.2.1","ISO 10993 CERTIFIED"].map(s => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste2") ?? ["STATUS: NOMINAL","REGISTRY v4.2.1","ISO 10993 CERTIFIED"]).map(s => (
               <span
                 key={s}
                 className="inter-semi"

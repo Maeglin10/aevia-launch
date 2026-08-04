@@ -10,6 +10,7 @@ import { ArrowUpRight, Quote } from "lucide-react";
 import { Reveal, MagneticBtn, Counter } from "./shared";
 import {
   clientCity,
+  clientList,
   clientName,
   clientPhotos,
   clientReviews,
@@ -539,7 +540,7 @@ return (
           <Reveal>
             <div className="flex flex-wrap items-center gap-x-16 gap-y-4">
               <span className="text-[10px] font-bold text-white/10 uppercase tracking-[0.5em] flex-shrink-0">Trusted by</span>
-              {["Nespresso Professional", "Starbucks Reserve", "Blue Bottle Coffee", "Intelligentsia", "La Marzocco", "Oatly", "Pact Coffee", "Matchless Coffee"].map((c) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["Nespresso Professional", "Starbucks Reserve", "Blue Bottle Coffee", "Intelligentsia", "La Marzocco", "Oatly", "Pact Coffee", "Matchless Coffee"]).map((c) => (
                 <span key={c} className="text-base font-black uppercase tracking-tighter text-white/10 hover:text-[var(--brand,#7c2d12)]/60 transition-colors cursor-default italic">{c}</span>
               ))}
             </div>

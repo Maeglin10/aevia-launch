@@ -17,6 +17,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientList,
   clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -2378,7 +2379,7 @@ export default function FashionEditorialTemplate() {
               }}
             />
 
-            {['Fibre sourcing', 'Artisan weaving', 'Atelier cutting', 'Hand finishing'].map(
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "sustainability.liste1") ?? ['Fibre sourcing', 'Artisan weaving', 'Atelier cutting', 'Hand finishing']).map(
               (step, i) => (
                 <div key={i} style={{ textAlign: 'center', paddingTop: 0 }}>
                   <div

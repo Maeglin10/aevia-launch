@@ -34,6 +34,7 @@ import {
 } from "lucide-react"
 import {
   clientCity,
+  clientList,
   clientReviews,
   clientServices,
   clientTagline,
@@ -1162,7 +1163,7 @@ function Hero() {
           transition={{ delay: 1.2 }}
           className="flex flex-wrap gap-5"
         >
-          {["Vegan & Cruelty-Free", "Sans Parabènes", "Formulé en France"].map((badge) => (
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? ["Vegan & Cruelty-Free", "Sans Parabènes", "Formulé en France"]).map((badge) => (
             <div key={badge} className="flex items-center gap-2">
               <Leaf size={13} color={C.primary} />
               <span
@@ -1725,14 +1726,14 @@ function AtelierSection() {
                   Nos engagements
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {[
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "atelier.liste2") ?? [
                     "Formulé sans parabènes",
                     "Sans silicones",
                     "Vegan & cruelty-free",
                     "Packaging recyclable",
                     "Ingrédients traçables",
                     "Fabriqué en France",
-                  ].map((item) => (
+                  ]).map((item) => (
                     <div key={item} className="flex items-center gap-2">
                       <div
                         className="w-1.5 h-1.5 rounded-full flex-shrink-0"

@@ -33,6 +33,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientList,
   clientReviews,
   clientServices,
   clientStats,
@@ -1560,7 +1561,7 @@ return (
           transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
           style={{ display: "flex", gap: 0, whiteSpace: "nowrap" }}
         >
-          {[
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
             "Arte France",
             "Canal+",
             "Netflix France",
@@ -1581,7 +1582,7 @@ return (
             "France Télévisions",
             "RAI Fiction",
             "BBC Two",
-          ].map((client, i) => (
+          ]).map((client, i) => (
             <div
               key={i}
               style={{
@@ -1882,14 +1883,14 @@ return (
               >
                 Clients réguliers
               </div>
-              {[
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "clients.liste2") ?? [
                 "Arte France",
                 "Canal+",
                 "Netflix France",
                 "National Geographic",
                 "Hermès",
                 "Cartier",
-              ].map((client) => (
+              ]).map((client) => (
                 <div
                   key={client}
                   style={{

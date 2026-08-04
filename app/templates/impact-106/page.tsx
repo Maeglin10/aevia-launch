@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientList,
   clientName,
   clientServices,
   clientTeam,
@@ -401,7 +402,7 @@ export default function StudioVersaPage() {
               <div className="flex flex-wrap items-center justify-between gap-8 mb-16">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#fb923c)]">Trusted By</span>
                 <div className="flex flex-wrap gap-6">
-                  {["Site of the Day ×4", "Type Directors Prize", "Editorial Design Gold", "Interaction Honour"].map(a => (
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "awards.liste1") ?? ["Site of the Day ×4", "Type Directors Prize", "Editorial Design Gold", "Interaction Honour"]).map(a => (
                     <span key={a} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#fb923c)]">
                       <Award className="w-3 h-3" /> {a}
                     </span>
@@ -410,7 +411,7 @@ export default function StudioVersaPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5">
-              {["Flux Labs", "Prism Analytics", "Ember Magazine", "Vertex Films", "Arch Studio", "Nova Health", "Kōdo Games", "Dune Capital"].map((c, i) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "awards.liste2") ?? ["Flux Labs", "Prism Analytics", "Ember Magazine", "Vertex Films", "Arch Studio", "Nova Health", "Kōdo Games", "Dune Capital"]).map((c, i) => (
                 <Reveal key={c} delay={i * 0.05}>
                   <div className="bg-[#1a1a1a] p-8 flex items-center justify-center group hover:bg-[var(--brand,#f97316)]/5 transition-colors duration-500 cursor-default">
                     <span className="text-sm font-bold tracking-wider text-white/20 group-hover:text-white/60 transition-colors">{c}</span>

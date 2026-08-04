@@ -10,6 +10,7 @@ import { Menu, X, ArrowRight, Film, Camera, ChevronRight, Award, Globe, Users, P
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientList,
   clientName,
   clientServices,
   clientStats,
@@ -593,7 +594,7 @@ export default function StudioPelikanPage() {
                   de production. Notre comité de lecture évalue chaque projet avec exigence et bienveillance.
                 </p>
                 <div className="space-y-3">
-                  {["Consulting scénaristique et script-doctoring", "Résidences d'écriture (partenariats Moulin d'Andé, La Chartreuse)", "Montage du dossier CNC, Eurimages, aides régionales", "Recherche de coproducteurs nationaux et internationaux", "Bible de série et pilotes pour les plateformes"].map(item => (
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["Consulting scénaristique et script-doctoring", "Résidences d'écriture (partenariats Moulin d'Andé, La Chartreuse)", "Montage du dossier CNC, Eurimages, aides régionales", "Recherche de coproducteurs nationaux et internationaux", "Bible de série et pilotes pour les plateformes"]).map(item => (
                     <div key={item} className="flex items-start gap-2">
                       <ChevronRight className="w-3 h-3 text-[var(--brand,#C9A05A)] mt-1 shrink-0" />
                       <p className="text-white/50 text-sm">{item}</p>
@@ -633,7 +634,7 @@ export default function StudioPelikanPage() {
                   et européens pour garantir une qualité d&apos;image et de son irréprochable.
                 </p>
                 <div className="space-y-3">
-                  {["Direction de production et plan de travail", "Casting sur " + (clientCity(sessionData) ?? "Paris") + ", régions et international", "Repérages et autorisations de tournage", "Coordination avec les prestataires techniques", "Suivi quotidien et rushes dailies"].map(item => (
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "services.liste2") ?? ["Direction de production et plan de travail", "Casting sur " + (clientCity(sessionData) ?? "Paris") + ", régions et international", "Repérages et autorisations de tournage", "Coordination avec les prestataires techniques", "Suivi quotidien et rushes dailies"]).map(item => (
                     <div key={item} className="flex items-start gap-2">
                       <ChevronRight className="w-3 h-3 text-[var(--brand,#C9A05A)] mt-1 shrink-0" />
                       <p className="text-white/50 text-sm">{item}</p>
@@ -661,7 +662,7 @@ export default function StudioPelikanPage() {
                   privilégiés avec les meilleurs studios parisiens.
                 </p>
                 <div className="space-y-3">
-                  {["Montage sur Avid Media Composer et DaVinci Resolve", "Étalonnage HDR / Dolby Vision en salle calibrée", "Mixage Dolby Atmos en auditorium certifié", "VFX et compositing (Nuke, Houdini, Unreal Engine)", "Mastering DCP pour diffusion en salle", "Sous-titrage et doublage multilingue"].map(item => (
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste3") ?? ["Montage sur Avid Media Composer et DaVinci Resolve", "Étalonnage HDR / Dolby Vision en salle calibrée", "Mixage Dolby Atmos en auditorium certifié", "VFX et compositing (Nuke, Houdini, Unreal Engine)", "Mastering DCP pour diffusion en salle", "Sous-titrage et doublage multilingue"]).map(item => (
                     <div key={item} className="flex items-start gap-2">
                       <ChevronRight className="w-3 h-3 text-[var(--brand,#C9A05A)] mt-1 shrink-0" />
                       <p className="text-white/50 text-sm">{item}</p>
@@ -701,7 +702,7 @@ export default function StudioPelikanPage() {
                   et esthétique que nos productions de cinéma.
                 </p>
                 <div className="space-y-3">
-                  {["Direction artistique et conception narrative", "Spots TV et digital (15s, 30s, 60s, formats longs)", "Films institutionnels et corporate", "Captation événementielle haut de gamme", "Stratégie de diffusion multi-plateformes"].map(item => (
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste4") ?? ["Direction artistique et conception narrative", "Spots TV et digital (15s, 30s, 60s, formats longs)", "Films institutionnels et corporate", "Captation événementielle haut de gamme", "Stratégie de diffusion multi-plateformes"]).map(item => (
                     <div key={item} className="flex items-start gap-2">
                       <ChevronRight className="w-3 h-3 text-[var(--brand,#C9A05A)] mt-1 shrink-0" />
                       <p className="text-white/50 text-sm">{item}</p>

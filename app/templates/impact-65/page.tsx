@@ -10,6 +10,7 @@ import { ArrowRight, Globe, Activity, Shield, ChevronRight, Gauge } from "lucide
 import { Reveal, GridBackground } from "./shared";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -276,7 +277,7 @@ return (
             </span>
           </Reveal>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-12 items-center opacity-30">
-            {["Dallara", "Rolls-Royce Defence", "Airbus Urban Air", "Formula 1", "SpaceX Starshield"].map((c, i) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["Dallara", "Rolls-Royce Defence", "Airbus Urban Air", "Formula 1", "SpaceX Starshield"]).map((c, i) => (
               <Reveal key={c} delay={i * 0.07}>
                 <div className="text-center text-sm font-black uppercase tracking-widest text-white/60 italic hover:text-[var(--brand,#0070f3)] hover:opacity-100 transition-all duration-500 cursor-default">{c}</div>
               </Reveal>

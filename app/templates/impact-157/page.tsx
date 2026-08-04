@@ -36,6 +36,7 @@ import {
   clientCertifications,
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -877,11 +878,11 @@ return (
                 color: C.textMuted,
               }}
             >
-              {[
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? [
                 "Livraison assurée",
                 "Retours 30j",
                 "Gravure offerte",
-              ].map((t) => (
+              ]).map((t) => (
                 <span
                   key={t}
                   style={{

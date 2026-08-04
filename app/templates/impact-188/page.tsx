@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -257,7 +258,7 @@ export default function CliniqueBoisVertPage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }} className="flex flex-wrap gap-5">
-            {["Urgences 7j/7 jusqu'à 20h", "Radio & écho en cabinet", "3 vétérinaires"].map((b, i) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? ["Urgences 7j/7 jusqu'à 20h", "Radio & écho en cabinet", "3 vétérinaires"]).map((b, i) => (
               <div key={i} className="flex items-center gap-2">
                 <CheckCircle className="w-3.5 h-3.5 text-[var(--brand,#3a7d44)]" />
                 <span className="text-[10px] font-bold text-white/30 uppercase tracking-wide">{b}</span>

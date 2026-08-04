@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientPhotos,
   clientReviews,
@@ -397,11 +398,11 @@ export default function PulseEventsPage() {
                     PULSE is an independent live music company operating across Europe. We partner with exceptional artists and iconic venues to produce concerts that stay with you long after the last note fades.
                   </>}</p>
                   <div className="flex flex-col gap-4">
-                    {[
+                    {/* LISTE_LIBELLES */ (clientList(sessionData, "about.liste1") ?? [
                       "Independent — no major label backing, no compromise",
                       "Artist-first booking process with full creative control",
                       "Carbon-offset events since 2023",
-                    ].map((line) => (
+                    ]).map((line) => (
                       <div key={line} className="flex items-start gap-3">
                         <div className="w-1.5 h-1.5 rounded-full bg-[var(--brand,#ec4899)] mt-2.5 flex-shrink-0" />
                         <span className="text-white/50 text-sm">{line}</span>

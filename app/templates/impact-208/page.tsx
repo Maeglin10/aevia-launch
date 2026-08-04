@@ -20,6 +20,7 @@ import {
 import {
   clientCity,
   clientHours,
+  clientList,
   clientName,
   clientServices,
   clientStats,
@@ -603,7 +604,7 @@ function BuildingSection() {
           </motion.p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
               'Études de sol & terrassement',
               'Fondations profondes & pieux',
               'Structure béton armé ou acier',
@@ -612,7 +613,7 @@ function BuildingSection() {
               'Second œuvre & finitions',
               'Contrôles qualité & réception',
               'Livraison clé en main',
-            ].map((step, i) => (
+            ]).map((step, i) => (
               <motion.div
                 key={step}
                 initial={{ opacity: 0, x: -20 }}

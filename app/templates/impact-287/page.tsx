@@ -29,6 +29,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHours,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
@@ -2992,7 +2993,7 @@ function FooterSection() {
               flexWrap: 'wrap',
             }}
           >
-            {['BPJEPS', 'CQP', 'FFTri'].map((cert) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "nutrition.liste1") ?? ['BPJEPS', 'CQP', 'FFTri']).map((cert) => (
               <span
                 key={cert}
                 style={{
