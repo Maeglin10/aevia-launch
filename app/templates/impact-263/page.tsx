@@ -617,7 +617,7 @@ function Hero() {
       >
         <Reveal y={18}>
           <Eyebrow color={C.accentLight}>
-            Paysagiste-Concepteur · {clientCity(sessionData) ?? "Bordeaux"} &amp; Gironde
+            Paysagiste-Concepteur · {clientCity(sessionData) ?? "Bordeaux"}
           </Eyebrow>
         </Reveal>
 

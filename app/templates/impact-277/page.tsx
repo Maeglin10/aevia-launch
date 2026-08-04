@@ -52,7 +52,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ÉLECTRICITÉ DUMONT — Électricien certifié · {clientCity(sessionData) ?? "Paris"} & Île-de-France
+   ÉLECTRICITÉ DUMONT — Électricien certifié · {clientCity(sessionData) ?? "Paris"}
    Photographie réelle + chorégraphie de défilement éditoriale (style Impact ×
    fiabilité artisanale × urgence). Fichier entièrement autonome. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -534,7 +534,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.yellow}>
-            Électricien certifié · {clientCity(sessionData) ?? "Paris"} & Île-de-France
+            Électricien certifié · {clientCity(sessionData) ?? "Paris"}
           </Eyebrow>
         </Reveal>
 
