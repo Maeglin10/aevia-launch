@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
@@ -71,12 +72,13 @@ const courses = [
 
 const categories = ["Tous", "Tech", "Design", "Business", "Données", "Créativité"];
 
-const features = [
+const features_SOURCE = [
   { icon: <BookOpen className="w-6 h-6" />, title: "500+ cours", desc: "Bibliothèque complète mise à jour chaque semaine" },
   { icon: <Users className="w-6 h-6" />, title: "1:1 Mentoring", desc: "Accès illimité à des mentors experts de l'industrie" },
   { icon: <Award className="w-6 h-6" />, title: "Certifications", desc: "Diplômes reconnus par 200+ entreprises partenaires" },
   { icon: <Globe className="w-6 h-6" />, title: "Communauté", desc: "Réseau de 250 000 apprenants dans 40 pays" },
 ];
+let features = features_SOURCE;
 
 const instructors = [
   { name: "Dr. Lucas Martin", specialty: "Data Science & ML", courses: 12, students: "42k", rating: 4.9 },
@@ -118,6 +120,10 @@ export default function EduPathPage() {
   }, []);
 
   fd = session?.formData;
+  features = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...features_SOURCE[i % features_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    features_SOURCE,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

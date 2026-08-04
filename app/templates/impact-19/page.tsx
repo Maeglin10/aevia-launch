@@ -13,6 +13,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -62,12 +63,13 @@ const portfolio = [
   { name: "Securis Labs", sector: "CyberSec", round: "Série B", amount: "35M€", year: "2023", growth: "+380%" },
 ];
 
-const theses = [
+const theses_SOURCE = [
   { icon: <TrendingUp className="w-5 h-5" />, title: "Deep Tech & IA", desc: "Fondateurs techniques, propriété intellectuelle défendable, marché adressable > 5Md€." },
   { icon: <Globe className="w-5 h-5" />, title: "B2B Enterprise", desc: "SaaS à ventes complexes, contrats pluriannuels, expansion internationale dès le Seed." },
   { icon: <Building2 className="w-5 h-5" />, title: "Infrastructure critique", desc: "Couche d'infrastructure dans des marchés réglementés : fintech, santé, énergie, défense." },
   { icon: <Users className="w-5 h-5" />, title: "Marketplaces verticales", desc: "Effet réseau asymétrique dans des secteurs fragmentés. Take rate > 15%." },
 ];
+let theses = theses_SOURCE;
 
 const team = resolveList(
 
@@ -79,12 +81,13 @@ const team = resolveList(
 
 const sectors = ["Tous", "HealthTech", "FinTech", "CleanTech", "Infrastructure", "EdTech", "CyberSec"];
 
-const milestones = [
+const milestones_SOURCE = [
   { year: "2014", label: "Fondation", value: "Premier fonds — 45M€" },
   { year: "2017", label: "Fonds II", value: "120M€ levés — 18 participations" },
   { year: "2020", label: "Fonds III", value: "280M€ — 3 licornes portefeuille" },
   { year: "2024", label: "Fonds IV", value: "500M€ — focus IA & infrastructure" },
 ];
+let milestones = milestones_SOURCE;
 
 type ActivePage = "home" | "theses" | "portefeuille" | "equipe" | "blog" | "contact" | "legal";
 
@@ -121,6 +124,14 @@ export default function SummitCapitalPage() {
   }, []);
 
   fd = session?.formData;
+  theses = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...theses_SOURCE[i % theses_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    theses_SOURCE,
+  );
+  milestones = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...milestones_SOURCE[i % milestones_SOURCE.length], value: s.value, label: s.label })),
+    milestones_SOURCE,
+  );
 
   bp = (session as any)?.businessProfile;
   c = session?.generatedContent;

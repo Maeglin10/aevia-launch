@@ -64,12 +64,13 @@ const projects = [
   { name: "Kinetic Lamp", category: "Lighting", client: "Foscarini", year: "2023", angle: "-1deg", color: "#F59E0B", src: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80" },
 ];
 
-const disciplines = [
+const disciplines_SOURCE = [
   { icon: <Package className="w-5 h-5" />, title: "Packaging & Branding", desc: "Identités visuelles et packaging qui s'imposent en linéaire et survivent sur les feeds Instagram." },
   { icon: <Layers className="w-5 h-5" />, title: "Mobilier & Objets", desc: "De l'esquisse 3D à la pièce finale. Prototypage rapide, édition limitée ou production en série." },
   { icon: <Cpu className="w-5 h-5" />, title: "Product Design Tech", desc: "Appareils connectés, interfaces physiques et expériences produit qui fusionnent hardware et software." },
   { icon: <Eye className="w-5 h-5" />, title: "Design de Concept", desc: "Explorations futures pour des marques en mutation. Design fiction, tendances et veille prospective." },
 ];
+let disciplines = disciplines_SOURCE;
 
 const clients = ["L'Oréal", "Sony", "Cassina", "Seletti", "Foscarini", "Hermès Design", "Renault", "Swatch Group"];
 
@@ -82,7 +83,7 @@ const process = [
 
 /* ── Extended data for sub-pages ── */
 
-const projectDetails = [
+const projectDetails_SOURCE = [
   {
     name: "Capsule Pro",
     category: "Packaging",
@@ -144,6 +145,7 @@ const projectDetails = [
     ergonomics: "Contrôle via application et geste, rotation silencieuse < 20 dB, consommation 12W. Capteur crépusculaire intégré pour une adaptation automatique.",
   },
 ];
+let projectDetails = projectDetails_SOURCE;
 
 const timeline = [
   { year: "2014", title: "Fondation", desc: "Création de Forme Studio à Paris par deux designers industriels passionnés par le design durable." },
@@ -218,6 +220,14 @@ export default function FormeStudioPage() {
   }, []);
 
   fd = session?.formData;
+  disciplines = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...disciplines_SOURCE[i % disciplines_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    disciplines_SOURCE,
+  );
+  projectDetails = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...projectDetails_SOURCE[i % projectDetails_SOURCE.length], name: s.title, description: s.desc || "" || "" })),
+    projectDetails_SOURCE,
+  );
 
   PRESTATIONS_INLINE = resolveList(
 

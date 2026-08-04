@@ -11,9 +11,11 @@ import Image from "next/image"
 import { ArrowRight, Zap, Users, TrendingUp, Globe, CheckCircle, ChevronDown, Rocket, Star, Clock, Briefcase, Target, BookOpen, Award, Calendar, MapPin, Mail, Shield } from "lucide-react"
 import {
   clientCity,
+  clientFaq,
   clientName,
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -71,19 +73,21 @@ const companies = [
   { name: "Forma Studio", sector: "Design Tools", raise: "$2.9M", logo: "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=80&h=80&fit=crop&crop=center", cohort: "S23" },
 ]
 
-const mentors = [
+const mentors_SOURCE = [
   { name: "Sarah Chen", role: "Partner @ Sequoia", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face", expertise: "Growth" },
   { name: "Marcus Reid", role: "Founder @ Linear", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face", expertise: "Product" },
   { name: "Priya Nair", role: "CTO @ Stripe", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face", expertise: "Engineering" },
   { name: "Tom Brandt", role: "GP @ a16z", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face", expertise: "GTM" },
 ]
+let mentors = mentors_SOURCE;
 
-const faqs = [
+const faqs_SOURCE = [
   { q: "How much equity do you take?", a: "We take 7% equity in exchange for $500K and access to our full accelerator program." },
   { q: "Is the program remote or in-person?", a: "The 12-week program is primarily in-person in Paris, with optional remote tracks for select cohorts." },
   { q: "What stage do you invest at?", a: "We invest pre-seed and seed — ideally you have an MVP and first users, but exceptional teams can apply earlier." },
   { q: "When is the next application deadline?", a: "Applications for Cohort W24 close November 15th, 2026. We accept ~20 companies per cohort." },
 ]
+let faqs = faqs_SOURCE;
 
 const sectors = ["All", "AI/ML", "Fintech", "Developer Tools", "HealthTech", "CleanTech", "Design Tools"]
 
@@ -120,6 +124,14 @@ export default function Impact24() {
   }, []);
 
   fd = session?.formData;
+  mentors = resolveList(
+    clientTeam(session)?.map((m: any, i: number) => ({ ...mentors_SOURCE[i % mentors_SOURCE.length], name: m.name, role: m.role })),
+    mentors_SOURCE,
+  );
+  faqs = resolveList(
+    clientFaq(session)?.map((f: any, i: number) => ({ ...faqs_SOURCE[i % faqs_SOURCE.length], q: f.q, a: f.a })),
+    faqs_SOURCE,
+  );
 
   PRESTATIONS_INLINE = resolveList(
 

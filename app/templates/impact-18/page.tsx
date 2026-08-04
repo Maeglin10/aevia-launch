@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -66,7 +67,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const features = [
+const features_SOURCE = [
   { icon: <Zap className="w-5 h-5" />, title: "Automatisation intelligente", desc: "Automatisez vos workflows en quelques clics. Connectez vos outils préférés sans code.", color: "#3B82F6" },
   { icon: <BarChart3 className="w-5 h-5" />, title: "Analytics en temps réel", desc: "Tableaux de bord personnalisables avec vos KPIs les plus importants mis à jour en direct.", color: "#8B5CF6" },
   { icon: <Users className="w-5 h-5" />, title: "Collaboration d'équipe", desc: "Travaillez ensemble avec des espaces de travail partagés, commentaires et permissions granulaires.", color: "#06B6D4" },
@@ -74,6 +75,7 @@ const features = [
   { icon: <Globe className="w-5 h-5" />, title: "Intégrations natives", desc: "Connectez-vous à +350 applications : Slack, Salesforce, HubSpot, Notion, et plus.", color: "#F59E0B" },
   { icon: <Code2 className="w-5 h-5" />, title: "API & Webhooks", desc: "Une API REST complète et des webhooks pour construire des intégrations sur mesure.", color: "#EF4444" },
 ];
+let features = features_SOURCE;
 
 const kanban = [
   { col: "À faire", color: "#374151", items: ["Audit sécurité Q2", "Onboarding équipe marketing", "Intégration Salesforce"] },
@@ -126,6 +128,10 @@ export default function StreamlinePage() {
   }, []);
 
   fd = session?.formData;
+  features = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...features_SOURCE[i % features_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    features_SOURCE,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

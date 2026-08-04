@@ -77,11 +77,12 @@ const models_DEMO = [
 
 const collections = ["Manufacture", "Heritage", "Complications", "Métiers d'Art"];
 
-const savoirFaire = [
+const savoirFaire_SOURCE = [
   { title: "Finition anglée", desc: "Chaque angle biseauté et poli à la main par nos maîtres horlogers. Une exigence héritée des grandes traditions horlogères suisses." },
   { title: "Cadran guilloché", desc: "Motifs guilloché réalisés sur machines à guillocher d'époque, offrant une profondeur de lumière incomparable." },
   { title: "Mouvement manufacture", desc: "100% de nos mouvements sont conçus, assemblés et réglés dans notre manufacture de La Vallée de Joux." },
 ];
+let savoirFaire = savoirFaire_SOURCE;
 
 const timeline = [
   { year: "1887", event: "Fondation par Édouard Lecomte à Genève" },
@@ -125,6 +126,10 @@ export default function AtelierMecaniquePage() {
   }, []);
 
   fd = session?.formData;
+  savoirFaire = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...savoirFaire_SOURCE[i % savoirFaire_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    savoirFaire_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

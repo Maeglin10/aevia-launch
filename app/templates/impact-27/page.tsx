@@ -18,6 +18,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -56,7 +57,7 @@ const filterMap: Record<string, string> = {
   "Branding": "Branding",
 }
 
-const testimonials = [
+const testimonials_SOURCE = [
   {
     quote: "Vertex turned our static product catalogue into a living, interactive 3D experience. Conversion rate jumped 340% in the first quarter.",
     author: "Marc Duval",
@@ -79,8 +80,9 @@ const testimonials = [
     rating: 5,
   },
 ]
+let testimonials = testimonials_SOURCE;
 
-const techStack = [
+const techStack_SOURCE = [
   { name: "Three.js", role: "WebGL Rendering", icon: <Triangle className="w-5 h-5" />, color: "#9B5CF6" },
   { name: "React Three Fiber", role: "Declarative 3D", icon: <Hexagon className="w-5 h-5" />, color: "#7C3AED" },
   { name: "WebGL / GLSL", role: "GPU Programming", icon: <Code2 className="w-5 h-5" />, color: "#6D28D9" },
@@ -88,6 +90,7 @@ const techStack = [
   { name: "Unreal Engine", role: "Real-time CG", icon: <Zap className="w-5 h-5" />, color: "#7C3AED" },
   { name: "WebXR / ARKit", role: "Spatial Computing", icon: <Globe className="w-5 h-5" />, color: "#6D28D9" },
 ]
+let techStack = techStack_SOURCE;
 
 const pricing = [
   {
@@ -760,6 +763,14 @@ export default function Home() {
   }, []);
 
   fd = session?.formData;
+  testimonials = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], quote: r.text, author: r.author })),
+    testimonials_SOURCE,
+  );
+  techStack = resolveList(
+    clientTeam(session)?.map((m: any, i: number) => ({ ...techStack_SOURCE[i % techStack_SOURCE.length], name: m.name, role: m.role })),
+    techStack_SOURCE,
+  );
 
   STATS_INLINE = resolveList(
 
