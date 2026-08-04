@@ -255,12 +255,12 @@ export default function Impact171Page() {
   }, []);
 
   fd = session?.formData;
-
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
   navLinks = navLinks_LIVE();
   DOCTORS_DEMO = DOCTORS_DEMO_LIVE();
+
 
   SCIENCE = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SCIENCE_SOURCE[i % SCIENCE_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),

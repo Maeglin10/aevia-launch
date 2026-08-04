@@ -156,11 +156,11 @@ export default function PixelRepublicPage() {
   }, []);
 
   fd = session?.formData;
-
   bp = session?.businessProfile;
   c = session?.generatedContent;
   REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
   OFFRES = OFFRES_LIVE();
+
 
 
   SERVICES_DEMO = resolveList(

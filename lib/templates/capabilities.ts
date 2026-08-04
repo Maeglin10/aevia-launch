@@ -81,7 +81,7 @@ export const SOCLE: ContentBlock[] = [];
 */
 
 export const THEME_BLOCKS: Record<string, ContentBlock[]> = {
-  "impact-01": ["chiffres", "equipe", "methode", "prestations", "realisations"],
+  "impact-01": ["chiffres", "methode", "prestations", "realisations"],
   "impact-02": ["avis", "methode", "prestations", "realisations"],
   "impact-03": ["methode", "produits", "realisations"],
   "impact-04": ["avis", "chiffres", "faq", "menu", "tarifs"],
@@ -97,9 +97,9 @@ export const THEME_BLOCKS: Record<string, ContentBlock[]> = {
   "impact-14": ["avis", "chiffres", "methode", "prestations"],
   "impact-15": ["avis", "chiffres", "prestations", "realisations", "tarifs"],
   "impact-16": ["prestations", "realisations"],
-  "impact-17": ["equipe", "horaires", "methode", "prestations", "realisations"],
+  "impact-17": ["horaires", "methode", "prestations", "realisations"],
   "impact-18": ["avis", "faq", "prestations"],
-  "impact-19": ["equipe", "prestations", "realisations"],
+  "impact-19": ["prestations", "realisations"],
   "impact-20": ["avis", "produits"],
   "impact-21": ["methode", "prestations", "realisations", "tarifs"],
   "impact-22": ["faq", "prestations"],

@@ -137,11 +137,11 @@ export default function LegrandPage() {
   }, []);
 
   fd = session?.formData;
-
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
   PARTNERS_DEMO = PARTNERS_DEMO_LIVE();
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

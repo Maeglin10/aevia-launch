@@ -2307,8 +2307,6 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
-
-
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
@@ -2316,6 +2314,8 @@ export default function Page() {
   INTERVENTIONS_DEMO = INTERVENTIONS_DEMO_LIVE();
   SERVICES_DEMO = SERVICES_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
+
 
 
   EDIT_ROWS = resolveList(

@@ -2487,7 +2487,7 @@ function TeamSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(clientTeam(sessionData), TEAM_DEMO).map((member: any, i: number) => (
+        {resolveList<any>(clientTeam(sessionData)?.map((r: any) => ({ nom: r.name, role: r.role })), TEAM_DEMO).map((member: any, i: number) => (
           <TeamMemberCard key={member.nom ?? member.name ?? i} member={member} i={i} />
         ))}
       </div>

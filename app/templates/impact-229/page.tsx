@@ -171,9 +171,9 @@ export default function EclatSpaPage() {
 
   fd = session?.formData;
   bp = session?.businessProfile;
-  FORFAITS = FORFAITS_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  FORFAITS = FORFAITS_LIVE();
 
 
   SOINS_DEMO = resolveList(

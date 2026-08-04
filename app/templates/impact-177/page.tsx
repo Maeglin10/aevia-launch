@@ -159,9 +159,9 @@ export default function MaelleDumasPiscinesPage() {
   }, []);
 
   fd = session?.formData;
-
   c = session?.generatedContent;
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
+
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,

@@ -141,11 +141,11 @@ export default function KeopsPage() {
   }, []);
 
   fd = session?.formData;
-
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
   projects_DEMO = projects_DEMO_LIVE();
+
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
