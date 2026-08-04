@@ -25,6 +25,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -1107,7 +1108,7 @@ function ServiceCard({ icon, title, desc, features, color, routePoints, delay = 
 
 function ServicesSection() {
   const services: ServiceCardProps[] = resolveList(
-    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     {
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -2293,6 +2294,7 @@ export default function Impact207() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -2312,6 +2314,8 @@ export default function Impact207() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   STAGES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...STAGES_SOURCE[i % STAGES_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),
     STAGES_SOURCE,

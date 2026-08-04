@@ -19,6 +19,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 // equipe, jusqu'ici écrit dans le rendu sans constante nommée.
 const EQUIPE_ANON_SOURCE = [
@@ -85,6 +86,7 @@ export default function TerraArchitecturePage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -105,9 +107,11 @@ export default function TerraArchitecturePage() {
 
   fd = session?.formData;
 
+  bp = session?.businessProfile;
+
   EQUIPE_ANON = resolveList(
 
-    clientTeam({ formData: fd })?.map((m: any, i: number) => ({ ...EQUIPE_ANON_SOURCE[i % EQUIPE_ANON_SOURCE.length], name: m.name, role: m.role })),
+    clientTeam({ formData: fd, businessProfile: bp, generatedContent: c })?.map((m: any, i: number) => ({ ...EQUIPE_ANON_SOURCE[i % EQUIPE_ANON_SOURCE.length], name: m.name, role: m.role })),
 
     EQUIPE_ANON_SOURCE,
 

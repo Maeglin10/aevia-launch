@@ -24,6 +24,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 
 // Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
@@ -149,7 +150,7 @@ const pricing = [
 
 function StatsTicker() {
   const stats = resolveList(
-    clientStats({ formData: fd })?.map((s: any, i: number) => ({ ...([
+    clientStats({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { val: "200+", label: "Projects delivered" },
     { val: "40+", label: "Global clients" },
     { val: "8yrs", label: "Studio history" },
@@ -322,7 +323,7 @@ function WorkGrid() {
 
 function ServicesSection() {
   const services = resolveList(
-    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     {
       icon: <Box className="w-7 h-7" />,
       title: "3D Product Visualization",
@@ -822,6 +823,7 @@ export default function Home() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -841,6 +843,8 @@ export default function Home() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   testimonials = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], quote: r.text, author: r.author })),
     testimonials_SOURCE,

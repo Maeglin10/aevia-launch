@@ -29,6 +29,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -169,13 +170,13 @@ function MANIFEST_LIVE() {
   hero: {
     title: "Éclat",
     subtitle: "L'Essence de l'Éternité",
-    metrics: resolveList(clientStats({ formData: fd })?.map((s: any) => ({ val: s.value, label: s.label })), [
+    metrics: resolveList(clientStats({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ val: s.value, label: s.label })), [
       { label: "Fragrances", val: "24", icon: <Wind className="w-4 h-4" /> },
       { label: "Botanicals", val: "200+", icon: <Flower2 className="w-4 h-4" /> },
       { label: "Ateliers", val: "3", icon: <Gem className="w-4 h-4" /> }
     ])
   },
-  perfumes: resolveList(clientServices({ formData: fd })?.map((s: any) => ({ name: s.title, desc: s.desc || '' })), [
+  perfumes: resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, desc: s.desc || '' })), [
     {
       id: "nocturne",
       name: "Nocturne // 01",
@@ -212,12 +213,12 @@ function MANIFEST_LIVE() {
     { step: "02", title: "Distillation", desc: "Fractional distillation under vacuum ensures the delicate top notes are captured without thermal degradation." },
     { step: "03", title: "Synthesis", desc: "Our master nose blends the rare absolutes with precision molecular captive molecules for unprecedented sillage." }
   ],
-  testimonials: resolveList(clientReviews({ formData: fd })?.map((r: any) => ({ text: r.text, name: r.author })), [
+  testimonials: resolveList(clientReviews({ formData: fd, businessProfile: bp, generatedContent: c })?.map((r: any) => ({ text: r.text, name: r.author })), [
     { name: "J. L. Thorne", role: "Fragrance Critic", text: "Éclat has redefined the boundaries of niche perfumery. A masterclass in tension and release." },
     { name: "M. Vreeland", role: "Vogue Paris", text: "To wear Nocturne is to wrap oneself in an invisible armor of pure, liquid luxury." },
     { name: "A. Sterling", role: "Collector", text: "The longevity is simply supernatural. A single drop lasts well into the next sunrise." }
   ]),
-  tiers: resolveList(clientServices({ formData: fd })?.map((s: any) => ({ name: s.title, price: s.price ?? '' })), [
+  tiers: resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, price: s.price ?? '' })), [
     {
       name: "Discovery",
       price: "185",
@@ -272,6 +273,7 @@ export default function EclatLuxuryPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -291,6 +293,8 @@ export default function EclatLuxuryPage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
 
   MANIFEST = MANIFEST_LIVE();
   c = session?.generatedContent;

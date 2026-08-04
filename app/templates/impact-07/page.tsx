@@ -193,10 +193,7 @@ export default function AetherSoundPage() {
     AVIS_INLINE_SOURCE,
 
   );
-  COLLECTIONS_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], name: s.title })),
-    COLLECTIONS_SOURCE,
-  );
+  COLLECTIONS_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), COLLECTIONS_SOURCE);
   COLLECTIONS = COLLECTIONS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

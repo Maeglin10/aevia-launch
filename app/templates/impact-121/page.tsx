@@ -26,6 +26,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -146,7 +147,7 @@ function MANIFEST_LIVE() {
     { name: "Webby", wins: "Best User Interface", year: "2025", icon: <Medal className="w-4 h-4" /> },
     { name: "CSS Design Awards", wins: "Agency of the Year", year: "2025", icon: <Star className="w-4 h-4" /> }
   ],
-  culture: resolveList(clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+  culture: resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { title: "Radical Candor", desc: "We believe in direct, honest feedback to push the work further. No egos, just excellence." },
     { title: "Relentless Iteration", desc: "The first idea is rarely the best. We iterate relentlessly until the solution feels inevitable." },
     { title: "Detail Obsession", desc: "The difference between good and great is in the details. We sweat the micro-interactions." }
@@ -165,7 +166,7 @@ function MANIFEST_LIVE() {
     { name: "Marcus Thorne", role: "Creative Strategist", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" },
     { name: "Lena Volkov", role: "Motion Designer", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80" }
   ],
-  pricing: resolveList(clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+  pricing: resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { name: "Consult", price: "5K", desc: "Audit and strategy direction", features: ["UX Audit", "Brand Positioning", "Technical Review", "Actionable Roadmap"] },
     { name: "Sprint", price: "25K", desc: "Intensive 4-week product sprint", features: ["Rapid Prototyping", "Core User Flows", "Visual Direction", "Dev Handoff"], recommended: true },
     { name: "Partner", price: "Custom", desc: "Long-term dedicated team", features: ["Full Product Lifecycle", "Dedicated Squad", "Continuous Integration", "Quarterly Strategy"] }
@@ -205,6 +206,7 @@ export default function FolioStudioPage() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -224,6 +226,8 @@ export default function FolioStudioPage() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
 
   MANIFEST = MANIFEST_LIVE();
 

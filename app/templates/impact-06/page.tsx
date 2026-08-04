@@ -185,10 +185,7 @@ export default function NeuralisPage() {
     AVIS_INLINE_SOURCE,
 
   );
-  PRODUCTS_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title })),
-    PRODUCTS_SOURCE,
-  );
+  PRODUCTS_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), PRODUCTS_SOURCE);
   STATS = resolveList(clientStats(session), STATS_DEMO);
   INNOVATIONS = resolveList(
     clientServices(session)?.map((s, i) => ({ ...INNOVATIONS_DEMO[i % INNOVATIONS_DEMO.length], title: s.title })),

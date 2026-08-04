@@ -1770,7 +1770,7 @@ function CommandeFormSection() {
 type MenuItem = { nom: string; detail: string; prix: string };
 type MenuCat = { titre: string; items: MenuItem[] };
 
-const MENU_CATEGORIES_DEMO: MenuCat[] = [
+const MENU_CATEGORIES_DEMO: MenuCat[] = /* TARIFS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ nom: s.title, ...(s.price ? { prix: s.price } : {}) })), [
   {
     titre: 'Pains',
     items: [
@@ -1801,7 +1801,7 @@ const MENU_CATEGORIES_DEMO: MenuCat[] = [
       { nom: 'Opéra', detail: 'Biscuit joconde, ganache café, buttercream', prix: '5,00 €' },
     ],
   },
-];
+]);
 
 function MenuCatBlock({ cat, i }: { cat: MenuCat; i: number }) {
   return (

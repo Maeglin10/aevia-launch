@@ -105,7 +105,7 @@ export default function TorrefieCoffeePage() {
 
   TARIFS_ANON = resolveList(
 
-    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...TARIFS_ANON_SOURCE[i % TARIFS_ANON_SOURCE.length], name: s.title, price: s.price ?? TARIFS_ANON_SOURCE[i % TARIFS_ANON_SOURCE.length].price })),
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...TARIFS_ANON_SOURCE[i % TARIFS_ANON_SOURCE.length], name: s.title, price: s.price ?? TARIFS_ANON_SOURCE[i % TARIFS_ANON_SOURCE.length].price })),
 
     TARIFS_ANON_SOURCE,
 

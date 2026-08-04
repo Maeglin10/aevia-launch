@@ -120,10 +120,7 @@ export default function OasisWellnessPage() {
     AVIS_INLINE_SOURCE,
 
   );
-  TREATMENTS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...TREATMENTS_SOURCE[i % TREATMENTS_SOURCE.length], title: s.title })),
-    TREATMENTS_SOURCE,
-  );
+  TREATMENTS = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...TREATMENTS_SOURCE[i % TREATMENTS_SOURCE.length], title: s.title , ...(s.price ? { price: s.price } : {})})), TREATMENTS_SOURCE);
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

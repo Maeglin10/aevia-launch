@@ -29,6 +29,7 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let SERVICES_LIVE: any[] = SERVICES;
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -905,6 +906,7 @@ export default function MaskUnitHome() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -924,8 +926,10 @@ export default function MaskUnitHome() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   SERVICES_LIVE = resolveList(
-    clientServices({ formData: fd })?.map((s: any, i: number) => ({
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({
       n: String(i + 1).padStart(2, "0"),
       title: s.title,
       desc: s.desc || "",

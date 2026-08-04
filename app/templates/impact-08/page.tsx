@@ -46,6 +46,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -294,6 +295,7 @@ export default function VulcanMotorPremium() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -313,6 +315,8 @@ export default function VulcanMotorPremium() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   FLEET_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     FLEET_DEMO_SOURCE,
@@ -791,7 +795,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
 function EngineeringPage() {
   const aeroSteps = resolveList(
-    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { title: "Active Aero Coeffs", val: "0.24 - 0.38 Cd", desc: "Ailerons adaptatifs calibrés en millisecondes pour maximiser la force d'appui en courbe tout en maintenant la traînée à son minimum sur les lignes droites." },
     { title: "Silicon Escapement Vectoring", val: "4000 Cycles/sec", desc: "Notre contrôleur central de vectorisation ajuste le couple indépendant sur chaque roue 4000 fois par seconde, éliminant tout sous-virage mécanique." },
     { title: "Dynamic Energy Recovery", val: "800V Architecture", desc: "Système de récupération cinétique au freinage réinjectant instantanément la force stockée dans des supercondensateurs de grade aéronautique." }

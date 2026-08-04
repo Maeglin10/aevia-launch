@@ -39,6 +39,7 @@ import {
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+let bp: any = null;
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
@@ -369,6 +370,7 @@ export default function IvoryArchivePremium() {
       priceRange?: string; targetAudience?: string; brandColor?: string;
       email?: string; phone?: string; instagram?: string; linkedin?: string;
     };
+    businessProfile?: any;
     generatedContent?: {
       heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
       aboutText?: string; ctaText?: string; metaTitle?: string;
@@ -388,6 +390,8 @@ export default function IvoryArchivePremium() {
   }, []);
 
   fd = session?.formData;
+
+  bp = session?.businessProfile;
   LAB_METRICS = resolveList(
     clientStats(session)?.map((s: any, i: number) => ({ ...LAB_METRICS_SOURCE[i % LAB_METRICS_SOURCE.length], value: s.value, label: s.label })),
     LAB_METRICS_SOURCE,
@@ -1198,7 +1202,7 @@ function AboutPage({ onContact }: { onContact: () => void }) {
     "Réparti sur quatre nodes de haute sécurité — Zurich, Paris, Londres et Tokyo —, l'Archive opère dans la plus stricte confidentialité, au service des institutions muséales et des collectionneurs les plus exigeants."
   ]
   const VALUES = resolveList(
-    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { icon: ShieldCheck, title: "Discrétion", text: "La confidentialité absolue gouverne chacune de nos interventions, du premier contact à la conservation pérenne." },
     { icon: Microscope, title: "Science", text: "Une rigueur de laboratoire sans compromis : chaque diagnostic précède chaque geste, chaque geste est consigné." },
     { icon: History, title: "Mémoire", text: "Reconstituer et préserver la chaîne de provenance, condition même de l'authenticité et de la transmission." }
