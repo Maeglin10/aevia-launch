@@ -378,9 +378,9 @@ return (
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.3 }}
             style={{ fontSize: "1.05rem", color: "#666", lineHeight: 1.75, marginBottom: "3rem" }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.texte") ?? (<>
             On accepte 4 nouveaux projets par an. Si le vôtre est l'un d'eux, écrivons-nous.
-          </motion.p>
+          </>)}</motion.p>
           <Link href="/templates/impact-61/contact" style={{ textDecoration: "none" }}>
             <MagneticButton
               style={{

@@ -29,6 +29,7 @@ import {
   clientName,
   clientServices,
   clientStats,
+  clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -408,9 +409,9 @@ return (
                  <div className="order-2 lg:order-1">
                     <Reveal>
                        <SectionTitle subtitle="Chapitre III // L'Alchimie" title="Spirits of Aethelgard." alignment="left" />
-                       <p className="text-xl font-light text-white/40 leading-relaxed italic mb-16 uppercase tracking-widest">
+                       <p className="text-xl font-light text-white/40 leading-relaxed italic mb-16 uppercase tracking-widest">{/* TEXTE_SECTION */ clientText(sessionData, "alchemist.texte") ?? (<>
                           Le temps n'est pas un ennemi, c'est notre principal allié. Nos spiritueux sont élevés en fûts de chêne séculaires, capturant l'essence même de la patience.
-                       </p>
+                       </>)}</p>
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                           {[
                             { label: "Distillation", value: "Triple Copper Pot" },
@@ -451,9 +452,9 @@ return (
            <div className="max-w-[1200px] mx-auto px-8 md:px-20 text-center">
               <Reveal>
                  <SectionTitle subtitle="Privilège // Adhésion" title="Join The Circle." />
-                 <p className="max-w-2xl mx-auto text-xl font-light text-black/40 leading-relaxed italic mb-20">
+                 <p className="max-w-2xl mx-auto text-xl font-light text-black/40 leading-relaxed italic mb-20">{/* TEXTE_SECTION */ clientText(sessionData, "circle.texte") ?? (<>
                     Accédez à des millésimes exclusifs, des dégustations privées au domaine et une conciergerie dédiée à votre cave personnelle.
-                 </p>
+                 </>)}</p>
                  
                  <form className="max-w-xl mx-auto space-y-12" onSubmit={e => e.preventDefault()}>
                     <div className="grid md:grid-cols-2 gap-8">

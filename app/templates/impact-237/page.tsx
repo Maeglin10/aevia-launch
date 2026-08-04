@@ -842,11 +842,11 @@ function Manifesto() {
             margin: '0 auto',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (<>
           &ldquo;Un sourire n&apos;est pas qu&apos;une apparence —{' '}
           <span style={{ color: C.accent }}>c&apos;est la première chose que le monde retient de vous.</span>{' '}
           Nous le soignons avec la même exigence que vous lui accordez.&rdquo;
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
         <div

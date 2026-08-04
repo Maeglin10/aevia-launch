@@ -775,10 +775,10 @@ function Intro() {
             margin: '0 auto',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (<>
           En Alsace, le jardin est une extension naturelle de la maison.
           Nous le cultivons avec le même soin.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.18}>
         <div

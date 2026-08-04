@@ -745,9 +745,9 @@ function Intro() {
             margin: '0 auto',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "demarche.texte") ?? (<>
           "Un jardin n&apos;est pas un décor. C&apos;est un écosystème dont vous êtes responsable."
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
         <div

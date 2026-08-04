@@ -785,10 +785,10 @@ function Intro() {
             maxWidth: 980,
             margin: 'clamp(24px, 4vw, 44px) auto 0',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "intro.texte") ?? (<>
           À {clientCity(sessionData) ?? "Lyon"}, l&apos;art descend des murs des musées pour{' '}
           <span style={{ color: C.accent }}>vivre sur la peau des gens.</span>
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.22}>
         <div

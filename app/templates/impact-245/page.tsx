@@ -734,9 +734,9 @@ function Intro() {
             color: C.ink,
             letterSpacing: '-0.005em',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "hero.texte") ?? (<>
           La boulangerie artisanale, c'est refuser la vitesse pour retrouver le goût.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
         <div

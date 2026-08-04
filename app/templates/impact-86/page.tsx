@@ -639,9 +639,9 @@ export default function AuraWellnessPage() {
           <p
             className="text-[#2C2820] text-3xl md:text-5xl leading-tight mb-6"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
-          >
+          >{/* TEXTE_SECTION */ clientText(sessionData, "about.texte") ?? (<>
             "Le soin n'est pas un luxe.<br />C'est <em>un acte de retour à soi.</em>"
-          </p>
+          </>)}</p>
         </Reveal>
         <Reveal delay={0.15}>
           <p className="text-[#6B5E52] text-base max-w-2xl mx-auto leading-relaxed">{c?.aboutText ?? <>

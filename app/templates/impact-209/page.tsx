@@ -1406,9 +1406,9 @@ export default function Page() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
           style={{ ...bodyFont, fontSize: '12px', color: GRAY_MID, textAlign: 'center', marginTop: '32px', fontStyle: 'italic' }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "services.texte") ?? (<>
           * Tarifs définitifs établis lors du diagnostic. TVA 20% incluse.
-        </motion.p>
+        </>)}</motion.p>
       </section>
 
       {/* ── BEFORE / AFTER ──────────────────────────────────────────────────── */}

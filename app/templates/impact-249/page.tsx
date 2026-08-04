@@ -762,9 +762,9 @@ function Intro() {
             margin: '0 auto',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
           Un bon tatouage commence par une vraie conversation.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
         <div

@@ -806,13 +806,13 @@ function Intro() {
             maxWidth: 900,
             margin: '0 auto',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "apropos.texte") ?? (<>
           « La médecine est avant tout une relation humaine. Chaque consultation
           est un{' '}
           <span style={{ color: C.accent }}>moment de confiance</span> — celui
           où vous choisissez de vous confier, et où je m'engage à vous entendre
           vraiment. »
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.16}>
         <p

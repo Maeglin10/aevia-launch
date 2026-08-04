@@ -769,10 +769,10 @@ function Intro() {
             margin: '0 auto',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "approche.texte") ?? (<>
           "La peur du dentiste, c&rsquo;est souvent la peur de l&rsquo;inconnu.
           Nous vous expliquons tout avant de commencer."
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
         <div

@@ -4035,10 +4035,10 @@ function ContactPage() {
                 marginTop: 8,
                 fontWeight: 300,
               }}
-            >
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-17.texte") ?? (<>
               Prefer a call? Mention it in your message and we&apos;ll suggest a time
               slot.
-            </p>
+            </>)}</p>
           </div>
 
           {/* Form */}

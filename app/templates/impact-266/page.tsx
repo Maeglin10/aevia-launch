@@ -792,10 +792,10 @@ function Intro() {
             maxWidth: 920,
             margin: '0 auto',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "hero.texte") ?? (<>
           Sur la Côte d&apos;Azur, chaque mariage mérite la lumière qui lui
           ressemble.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.14}>
         <div

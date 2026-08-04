@@ -803,10 +803,10 @@ function Intro() {
             margin: 'clamp(22px,2.8vw,38px) auto 0',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "pains.texte") ?? (<>
           À {clientCity(sessionData) ?? "Bordeaux"}, le bon pain est aussi sérieux que le bon vin.
           C'est ainsi depuis toujours.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
         <div

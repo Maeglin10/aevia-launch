@@ -857,12 +857,12 @@ function Intro() {
             margin: 'clamp(20px,3vw,32px) auto 0',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (<>
           Votre confort, c&apos;est notre métier.{' '}
           <span style={{ color: C.accent }}>
             Votre facture d&apos;énergie, c&apos;est notre combat.
           </span>
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
         <div

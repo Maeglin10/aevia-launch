@@ -762,10 +762,10 @@ function Intro() {
             maxWidth: 900,
             margin: '0 auto',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "intro.texte") ?? (<>
           La couture lyonnaise ne copie pas la mode. Elle l&rsquo;ignore pour mieux la
           définir.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.16}>
         <div

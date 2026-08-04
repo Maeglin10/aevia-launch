@@ -793,11 +793,11 @@ function Intro() {
             maxWidth: 900,
             margin: '0 auto',
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
           La blessure n&apos;est pas une fin.{' '}
           <span style={{ color: C.accent }}>C&apos;est un point de départ</span>{' '}
           pour revenir plus fort.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.18}>
         <div

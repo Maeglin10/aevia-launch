@@ -99,8 +99,11 @@ for (const id of ids) {
     const cle =
       /\sid=["'`]([\w-]+)["'`]/.exec(bloc)?.[1] ?? `section-${k + 1}`;
 
-    // Le premier titre de la section.
-    const t = /<((?:motion|m)\.)?(h1|h2|h3)\b/.exec(bloc);
+    // Le premier titre de la section — ou, à défaut, son premier paragraphe :
+    // quarante sections ne portent qu'un texte, un manifeste, une citation.
+    const t =
+      /<((?:motion|m)\.)?(h1|h2|h3)\b/.exec(bloc) ??
+      (process.env.PARAGRAPHE ? /<((?:motion|m)\.)?(p)\b/.exec(bloc) : null);
     if (!t) { refus["sans titre"] = (refus["sans titre"] ?? 0) + 1; continue; }
     const balise = t[0].slice(1);
     const finOuv = finBalise(bloc, t.index + t[0].length);
@@ -114,8 +117,12 @@ for (const id of ids) {
     if (/<[A-Z]/.test(enfants)) { refus["composant"] = (refus["composant"] ?? 0) + 1; continue; }
     const litteral = enfants.replace(/\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/g, "").replace(/<[^>]*>/g, "").replace(/&[a-z]+;/g, "x").replace(/\s+/g, "").trim();
     if (litteral.length < 3) { refus["dynamique"] = (refus["dynamique"] ?? 0) + 1; continue; }
+    // Un paragraphe très court est une légende ou une étiquette, pas un texte de
+    // section : le retoucher n'apporte rien et brouille la liste des retouches.
+    if (t[2] === "p" && litteral.length < 40) { refus["trop court"] = (refus["trop court"] ?? 0) + 1; continue; }
 
-    const remp = `{/* TEXTE_SECTION */ clientText(${arg}, "${cle}.titre") ?? (<>${enfants}</>)}`;
+    const champ = t[2] === "p" ? "texte" : "titre";
+    const remp = `{/* TEXTE_SECTION */ clientText(${arg}, "${cle}.${champ}") ?? (<>${enfants}</>)}`;
     src = src.slice(0, d + finOuv + 1) + remp + src.slice(d + finFerm);
     n++;
     rang++;

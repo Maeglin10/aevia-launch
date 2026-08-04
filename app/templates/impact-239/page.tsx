@@ -789,7 +789,7 @@ function Manifesto() {
             margin: '0 auto',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "cabinet.texte") ?? (<>
           Le droit n&apos;est pas une fin en soi — c&apos;est l&apos;instrument
           par lequel{' '}
           <span style={{ fontStyle: 'italic', color: C.accentDark }}>
@@ -798,7 +798,7 @@ function Manifesto() {
           . Nous pratiquons le droit comme un art : avec rigueur, nuance et une
           conviction inébranlable que chaque client mérite une défense à la
           hauteur de ses enjeux.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
         <div

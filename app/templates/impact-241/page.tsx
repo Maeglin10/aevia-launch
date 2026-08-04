@@ -783,9 +783,9 @@ function Intro() {
             margin: '0 auto',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
           Un bien immobilier n'est pas qu'une transaction. C'est le décor d'un chapitre de vie — une naissance, un départ, une renaissance. Nous l'abordons avec cette conviction, et cette exigence.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.18}>
         <div

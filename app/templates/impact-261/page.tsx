@@ -760,10 +760,10 @@ function Intro() {
             margin: '0 auto',
             color: C.ink,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
           Les chiffres ne mentent pas. Mais seul un expert sait lire ce
           qu&apos;ils disent vraiment.
-        </p>
+        </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
         <div
