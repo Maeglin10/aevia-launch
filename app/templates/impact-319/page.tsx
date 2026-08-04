@@ -41,6 +41,7 @@ import {
   clientFaq,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -86,21 +87,24 @@ const EASE = [0.16, 1, 0.3, 1];
 const SERIF = "'Fraunces', serif";
 const SANS = "'Inter', sans-serif";
 
-const PHOTO = {
-  hero: "https://images.pexels.com/photos/10268087/pexels-photo-10268087.jpeg?auto=compress&cs=tinysrgb&w=2000", // Clean bright room
-  about: "https://images.pexels.com/photos/10574049/pexels-photo-10574049.jpeg?auto=compress&cs=tinysrgb&w=1200", // Eco products
+function PHOTO_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/10268087/pexels-photo-10268087.jpeg?auto=compress&cs=tinysrgb&w=2000"), // Clean bright room
+  about: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/10574049/pexels-photo-10574049.jpeg?auto=compress&cs=tinysrgb&w=1200"), // Eco products
   services: [
-    "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    "https://images.pexels.com/photos/10481134/pexels-photo-10481134.jpeg?auto=compress&cs=tinysrgb&w=800",
+    (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
+    (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
+    (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/10481134/pexels-photo-10481134.jpeg?auto=compress&cs=tinysrgb&w=800"),
   ],
   gallery: [
-    "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1585412727339-54e4bae3bbf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
+    (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1585412727339-54e4bae3bbf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
+    (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
+    (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
   ],
 };
+}
+let PHOTO = PHOTO_LIVE();
 
 // --- Reusable Components ---
 
@@ -346,6 +350,7 @@ export default function Template({ session: initialSession }: { session?: any } 
   // Data Binding
   const fd = session?.formData || {};
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
   const c = session?.generatedContent || {};
   const bp = session?.businessProfile;
 

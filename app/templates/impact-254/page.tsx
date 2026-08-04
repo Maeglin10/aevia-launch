@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -81,7 +82,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 const photo = (id: string, w = 1600) =>
-  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[0] || `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`));
 
 /* ── Typed data interfaces ────────────────────────────────────────────────── */
 interface Domain {

@@ -90,14 +90,15 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================= */
 
-const PRODUCTS_SOURCE = [
+function PRODUCTS_SOURCE_LIVE() {
+  return [
   {
     id: 1,
     name: "THE_VOID_LOAF",
     category: "Sourdough",
     price: "€8.50",
     desc: "48-hour fermentation. Charcoal-infused crust. Ancient grain blend.",
-    img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop"),
   },
   {
     id: 2,
@@ -105,7 +106,7 @@ const PRODUCTS_SOURCE = [
     category: "Viennoiserie",
     price: "€4.20",
     desc: "AOP butter. 256 layers. Golden honeycomb structure.",
-    img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&q=80"),
   },
   {
     id: 3,
@@ -113,7 +114,7 @@ const PRODUCTS_SOURCE = [
     category: "Tradition",
     price: "€2.80",
     desc: "High hydration. Stone-baked. Intense caramelization.",
-    img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&q=80"),
   },
   {
     id: 4,
@@ -121,9 +122,11 @@ const PRODUCTS_SOURCE = [
     category: "Patisserie",
     price: "€6.50",
     desc: "Seasonal fruit reduction. Vanilla bean emulsion. Shortcrust.",
-    img: "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?w=800&q=80",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?w=800&q=80"),
   },
 ];
+}
+let PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
 let PRODUCTS_DEMO = PRODUCTS_SOURCE;
 let PRODUCTS = PRODUCTS_DEMO;
 
@@ -292,8 +295,10 @@ export default function BoulangerieNoirePage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -478,7 +483,7 @@ export default function BoulangerieNoirePage() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1600&auto=format&fit=crop")}
+            src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1600&auto=format&fit=crop"))}
             alt="Bakery Hero"
             fill
             className="object-cover brightness-50 contrast-125 grayscale-[0.5]"

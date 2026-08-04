@@ -17,6 +17,7 @@ import {
 } from "./shared";
 import {
   clientCity,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -152,7 +153,7 @@ return (
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1600&auto=format&fit=crop")}
+            src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1600&auto=format&fit=crop"))}
             alt="Wellness Hero"
             fill
             className="object-cover grayscale brightness-90"
@@ -361,7 +362,7 @@ return (
             <Reveal delay={0.2}>
               <div className="relative h-[600px] lg:h-[700px] overflow-hidden rounded-sm">
                 <Image
-                  src={photo(1, "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop")}
+                  src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop"))}
                   alt="La méthode Luminale — nature et méditation"
                   fill
                   className="object-cover"

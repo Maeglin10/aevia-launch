@@ -15,6 +15,7 @@ import {
   clientAddress,
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -98,28 +99,28 @@ function DOCTORS_DEMO_LIVE() {
     role: "Médecin Généraliste & Directrice Médicale",
     formation: "Faculté " + (clientCity(sessionData) ?? "Paris") + " · Diplôme de médecine fonctionnelle",
     years: "18 ans",
-    img: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=800&auto=format&fit=crop"),
   },
   {
     name: "Dr. Marc Leclerc",
     role: "Cardiologue Interventionnel",
     formation: "Hôpital Européen Georges-Pompidou · Fellowship Johns Hopkins",
     years: "22 ans",
-    img: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=800&auto=format&fit=crop"),
   },
   {
     name: "Dr. Sophie Renard",
     role: "Dermatologue & Vénérologue",
     formation: "Hôpital Saint-Louis · DU Dermatologie esthétique",
     years: "14 ans",
-    img: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=800&auto=format&fit=crop"),
   },
   {
     name: "Dr. Antoine Moreau",
     role: "Nutritionniste & Endocrinologue",
     formation: "Faculté " + (clientCity(sessionData) ?? "Paris") + " · Diplôme de Nutri-thérapie",
     years: "12 ans",
-    img: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=800&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=800&auto=format&fit=crop"),
   },
 ];
 }
@@ -451,7 +452,7 @@ export default function Impact171Page() {
             <Reveal delay={0.2}>
               <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
                 <motion.div style={{ y: heroY }} className="absolute inset-0">
-                  <Image src={photo(0, "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1200&auto=format&fit=crop")}
+                  <Image src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1200&auto=format&fit=crop"))}
                     alt="Cabinet médical" fill className="object-cover" />
                 </motion.div>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/40 to-transparent" />
@@ -536,7 +537,7 @@ export default function Impact171Page() {
                 </div>
               </div>
               <div className="relative h-64 rounded-2xl overflow-hidden">
-                <Image src={photo(1, "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop")}
+                <Image src={photo(1, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop"))}
                   alt={activeSpecData.label} fill className="object-cover" />
               </div>
             </motion.div>

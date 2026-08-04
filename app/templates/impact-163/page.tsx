@@ -10,6 +10,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -748,7 +749,7 @@ export default function EssentialBlogPage() {
                 <motion.div
                   animate={{ scale: hoveredArticle === -1 ? 1.05 : 1 }}
                   transition={{ duration: 0.5 }}
-                  style={{ position: "absolute", inset: 0, backgroundImage: `url(${fd?.photoUrls?.[0] || `https://images.unsplash.com/${ARTICLES[0].img}?w=600&q=80`})`, backgroundSize: "cover", backgroundPosition: "center" }}
+                  style={{ position: "absolute", inset: 0, backgroundImage: `url(${fd?.photoUrls?.[0] || (clientPhotos(sessionData)[0] || `https://images.unsplash.com/${ARTICLES[0].img}?w=600&q=80`)})`, backgroundSize: "cover", backgroundPosition: "center" }}
                 />
               </div>
               <div style={{ padding: "36px 32px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>

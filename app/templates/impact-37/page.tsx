@@ -23,6 +23,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientReviews,
   clientStats,
   clientText,
@@ -67,7 +68,8 @@ let brand: any = null;
 const EASE_3: [number, number, number, number] = [0.65, 0, 0.35, 1]; // power3.inOut
 const EASE_4: [number, number, number, number] = [0.76, 0, 0.24, 1]; // power4.inOut
 
-const WINES_DEMO = [
+function WINES_DEMO_LIVE() {
+  return [
   {
     name: "Clos Ardent",
     vintage: "2018",
@@ -76,7 +78,7 @@ const WINES_DEMO = [
     note: "Cerise noire et cacao amer, une trame tannique serrée qui s'ouvre lentement. Le genre de bouteille qui impose le silence à table.",
     glass: "14",
     bottle: "78",
-    img: "https://images.pexels.com/photos/3820514/pexels-photo-3820514.jpeg?auto=compress&cs=tinysrgb&w=2000",
+    img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/3820514/pexels-photo-3820514.jpeg?auto=compress&cs=tinysrgb&w=2000"),
   },
   {
     name: "Pierre Blanche",
@@ -86,7 +88,7 @@ const WINES_DEMO = [
     note: "Tendu, salin, presque minéral. Une lame de citron confit sur un fond de craie — à boire face à des huîtres ou à personne.",
     glass: "12",
     bottle: "64",
-    img: "https://images.pexels.com/photos/11851422/pexels-photo-11851422.jpeg?auto=compress&cs=tinysrgb&w=2000",
+    img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/11851422/pexels-photo-11851422.jpeg?auto=compress&cs=tinysrgb&w=2000"),
   },
   {
     name: "Nuit Rousse",
@@ -96,7 +98,7 @@ const WINES_DEMO = [
     note: "Violette, poivre noir, lard fumé. Une syrah septentrionale qui garde de la retenue là où d'autres crient.",
     glass: "18",
     bottle: "96",
-    img: "https://images.pexels.com/photos/36826094/pexels-photo-36826094.jpeg?auto=compress&cs=tinysrgb&w=2000",
+    img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/36826094/pexels-photo-36826094.jpeg?auto=compress&cs=tinysrgb&w=2000"),
   },
   {
     name: "Vent d'Ambre",
@@ -106,7 +108,7 @@ const WINES_DEMO = [
     note: "Noix fraîche, curry doux, oxydation maîtrisée. Déroutant les dix premières secondes, inoubliable ensuite.",
     glass: "22",
     bottle: "128",
-    img: "https://images.pexels.com/photos/7372032/pexels-photo-7372032.jpeg?auto=compress&cs=tinysrgb&w=2000",
+    img: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/7372032/pexels-photo-7372032.jpeg?auto=compress&cs=tinysrgb&w=2000"),
   },
   {
     name: "Dernière Heure",
@@ -116,9 +118,11 @@ const WINES_DEMO = [
     note: "Brioche, pomme rôtie, une bulle si fine qu'elle disparaît. Notre bouteille de fin de service, celle qu'on ouvre pour rester.",
     glass: "26",
     bottle: "165",
-    img: "https://images.pexels.com/photos/30206422/pexels-photo-30206422.jpeg?auto=compress&cs=tinysrgb&w=2000",
+    img: (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/30206422/pexels-photo-30206422.jpeg?auto=compress&cs=tinysrgb&w=2000"),
   },
 ];
+}
+let WINES_DEMO = WINES_DEMO_LIVE();
 
 function WineHero() {
   const [active, setActive] = useState(0);
@@ -532,9 +536,11 @@ export default function ClosDuSoirPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  WINES_DEMO = WINES_DEMO_LIVE();
 
   STATS_INLINE = resolveList(
 

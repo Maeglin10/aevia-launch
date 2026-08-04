@@ -19,6 +19,7 @@ import {
   clientFaq,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -1724,7 +1725,7 @@ export default function Impact176Page() {
             style={{ borderRadius: 20, overflow: "hidden", position: "relative" }}
           >
             <img
-              src={photo(0, "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1400&auto=format&fit=crop")}
+              src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1400&auto=format&fit=crop"))}
               alt="Analytics dashboard"
               style={{
                 width: "100%",

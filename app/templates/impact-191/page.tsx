@@ -12,6 +12,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -231,7 +232,7 @@ export default function JardinsVivantsPage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&q=88&w=2400")} alt="Jardin paysagé luxuriant" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38)" }} />
+          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&q=88&w=2400"))} alt="Jardin paysagé luxuriant" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#101a0e] via-[#101a0e]/45 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#101a0e]/70 to-transparent" />
         </motion.div>
@@ -334,10 +335,10 @@ export default function JardinsVivantsPage() {
             <h2 className="text-4xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Nos <span className="text-[var(--brand,#2d5a27)] italic">créations.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 h-[65vh] min-h-[420px]">
-            <div className="col-span-2 relative overflow-hidden rounded-xl"><ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=85&w=1200")} alt="Jardin créé" /></div>
+            <div className="col-span-2 relative overflow-hidden rounded-xl"><ParallaxImg src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=85&w=1200"))} alt="Jardin créé" /></div>
             <div className="flex flex-col gap-3">
-              <div className="flex-1 relative overflow-hidden rounded-xl"><ParallaxImg src={photo(2, "https://images.unsplash.com/photo-1500993855538-c6a99f437aa7?auto=format&fit=crop&q=85&w=600")} alt="Potager" /></div>
-              <div className="flex-1 relative overflow-hidden rounded-xl"><ParallaxImg src={photo(3, "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=85&w=600")} alt="Massif fleurs" /></div>
+              <div className="flex-1 relative overflow-hidden rounded-xl"><ParallaxImg src={photo(2, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1500993855538-c6a99f437aa7?auto=format&fit=crop&q=85&w=600"))} alt="Potager" /></div>
+              <div className="flex-1 relative overflow-hidden rounded-xl"><ParallaxImg src={photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=85&w=600"))} alt="Massif fleurs" /></div>
             </div>
           </div>
         </div>

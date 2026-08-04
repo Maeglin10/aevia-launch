@@ -28,14 +28,15 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 
-const ARCHIVE_PROJECTS_DEMO = [
+function ARCHIVE_PROJECTS_DEMO_LIVE() {
+  return [
   {
     id: 1,
     title: "VILLA_AETHER",
     location: "Swiss Alps, CH",
     year: "2025",
     type: "Residential",
-    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: 2,
@@ -43,7 +44,7 @@ const ARCHIVE_PROJECTS_DEMO = [
     location: "Dubai, UAE",
     year: "2024",
     type: "Commercial",
-    img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: 3,
@@ -51,7 +52,7 @@ const ARCHIVE_PROJECTS_DEMO = [
     location: "Tokyo, JP",
     year: "2026",
     type: "Cultural",
-    img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: 4,
@@ -59,7 +60,7 @@ const ARCHIVE_PROJECTS_DEMO = [
     location: "Oslo, NO",
     year: "2023",
     type: "Residential",
-    img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: 5,
@@ -67,9 +68,11 @@ const ARCHIVE_PROJECTS_DEMO = [
     location: "Seoul, KR",
     year: "2022",
     type: "Commercial",
-    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"),
   },
 ];
+}
+let ARCHIVE_PROJECTS_DEMO = ARCHIVE_PROJECTS_DEMO_LIVE();
 let ARCHIVE_PROJECTS = ARCHIVE_PROJECTS_DEMO;
 
 const SERVICES_SOURCE = [
@@ -100,26 +103,29 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const TEAM_DEMO = [
+function TEAM_DEMO_LIVE() {
+  return [
   {
     name: "Elias Vorne",
     role: "Principal Architect",
     specialty: "Computational Design / Parametric Structures",
-    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop"),
   },
   {
     name: "Naomi Sato",
     role: "Design Director",
     specialty: "Cultural Institutions / Material Research",
-    img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop"),
   },
   {
     name: "Daan Mulder",
     role: "Technical Lead",
     specialty: "Structural Engineering / Sustainability Systems",
-    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop"),
   },
 ];
+}
+let TEAM_DEMO = TEAM_DEMO_LIVE();
 let TEAM = TEAM_DEMO;
 
 
@@ -155,8 +161,12 @@ export default function StructuraArchPage() {
   }, []);
 
   fd = session?.formData;
+
+
   sessionData = session;
   c = session?.generatedContent;
+  TEAM_DEMO = TEAM_DEMO_LIVE();
+  ARCHIVE_PROJECTS_DEMO = ARCHIVE_PROJECTS_DEMO_LIVE();
 
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
@@ -220,7 +230,7 @@ return (
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop")}
+            src={photo(0, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop"))}
             alt="Structura Hero"
             fill
             className="object-cover brightness-50 grayscale-[0.5]"

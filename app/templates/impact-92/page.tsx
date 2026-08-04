@@ -30,6 +30,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -53,7 +54,8 @@ let sessionData: any = null;
    chains at render time for shape differences).
    ========================================================================= */
 
-const LISTINGS_DEMO = [
+function LISTINGS_DEMO_LIVE() {
+  return [
   {
     id: 1,
     title: "The Obsidian Penthouse",
@@ -61,7 +63,7 @@ const LISTINGS_DEMO = [
     price: "$84,000,000",
     sqft: "12,400",
     features: ["Private Helipad", "100ft Infinity Pool", "24/7 Butler"],
-    img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80"),
   },
   {
     id: 2,
@@ -70,7 +72,7 @@ const LISTINGS_DEMO = [
     price: "€62,500,000",
     sqft: "18,000",
     features: ["Private Beach Access", "Wine Cave", "Grotto Spa"],
-    img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80"),
   },
   {
     id: 3,
@@ -79,9 +81,11 @@ const LISTINGS_DEMO = [
     price: "$45,000,000",
     sqft: "9,800",
     features: ["Automotive Gallery", "Outdoor Cinema", "Zen Garden"],
-    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"),
   },
 ];
+}
+let LISTINGS_DEMO = LISTINGS_DEMO_LIVE();
 
 const TESTIMONIALS_SOURCE = [
   {
@@ -263,9 +267,11 @@ export default function SkylineConciergePage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  LISTINGS_DEMO = LISTINGS_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -393,7 +399,7 @@ export default function SkylineConciergePage() {
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=80")}
+            src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=80"))}
             alt="Luxury Penthouse"
             fill
             className="object-cover opacity-50"
@@ -524,7 +530,7 @@ export default function SkylineConciergePage() {
           <Reveal delay={0.2}>
             <div className="relative aspect-video lg:aspect-[4/3] bg-neutral-900 border border-white/5">
               <Image
-                src={photo(1, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80")}
+                src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"))}
                 alt="Skyline Headquarter Consultation Room"
                 fill
                 className="object-cover opacity-60"
@@ -575,7 +581,7 @@ export default function SkylineConciergePage() {
                   onMouseLeave={() => setActiveListing(null)}
                 >
                   <Image
-                    src={item.img ?? item.photoUrl ?? photo(3 + i, "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80")}
+                    src={item.img ?? item.photoUrl ?? photo(3 + i, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80"))}
                     alt={item.title ?? item.name ?? "Estate"}
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0"
@@ -717,7 +723,7 @@ export default function SkylineConciergePage() {
           <Reveal delay={0.2}>
             <div className="relative aspect-square bg-black p-1">
               <Image
-                src={photo(2, "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80")}
+                src={photo(2, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80"))}
                 alt="Mountain View"
                 fill
                 className="object-cover opacity-80"

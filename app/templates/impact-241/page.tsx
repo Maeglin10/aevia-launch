@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import {
   clientCity,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -77,15 +78,18 @@ const SERIF = "Georgia, 'Times New Roman', Cambria, serif" as const;
 const SANS = "'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif" as const;
 
 /* ── Photos ───────────────────────────────────────────────────────────────── */
-const PHOTO = {
-  heroLiving: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2000&auto=format&fit=crop',
-  seqLiving: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1600&auto=format&fit=crop',
-  seqOffice: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1600&auto=format&fit=crop',
-  seqVineyard: 'https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?q=80&w=1600&auto=format&fit=crop',
-  editRow1: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=800&auto=format&fit=crop',
-  editRow2: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop',
-  expertiseSticky: 'https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?q=80&w=900&auto=format&fit=crop',
+function PHOTO_LIVE() {
+  return {
+  heroLiving: (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2000&auto=format&fit=crop'),
+  seqLiving: (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1600&auto=format&fit=crop'),
+  seqOffice: (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1600&auto=format&fit=crop'),
+  seqVineyard: (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?q=80&w=1600&auto=format&fit=crop'),
+  editRow1: (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=800&auto=format&fit=crop'),
+  editRow2: (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop'),
+  expertiseSticky: (clientPhotos(sessionData)[6] || 'https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?q=80&w=900&auto=format&fit=crop'),
 } as const;
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -2162,9 +2166,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
   EXPERTISE_ITEMS = EXPERTISE_ITEMS_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

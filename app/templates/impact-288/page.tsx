@@ -35,6 +35,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -94,16 +95,19 @@ const SANS = "'Roboto', system-ui, sans-serif" as const;
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
-const PHOTO = {
+function PHOTO_LIVE() {
+  return {
   tableau:
-    'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1600&auto=format&fit=crop'),
   technicien:
-    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1600&auto=format&fit=crop'),
   solaire:
-    'https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1600&auto=format&fit=crop'),
   borne:
-    'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=1600&auto=format&fit=crop'),
 } as const;
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives partagées
@@ -3122,9 +3126,11 @@ export default function Impact288Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
   ZONES = ZONES_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

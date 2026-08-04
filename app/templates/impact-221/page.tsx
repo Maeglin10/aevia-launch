@@ -38,6 +38,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -65,14 +66,17 @@ let sessionData: any = null;
    ════════════════════════════════════════════════════════════════════════════ */
 
 // ─── Verified Unsplash images ────────────────────────────────────────────────
-const IMG = {
-  hero:     'https://images.pexels.com/photos/34534102/pexels-photo-34534102.jpeg?auto=compress&cs=tinysrgb&w=2000',
-  city:     'https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=85&w=1600&auto=format&fit=crop',
-  ride:     'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?q=85&w=1600&auto=format&fit=crop',
-  detail:   'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=85&w=1600&auto=format&fit=crop',
-  bike:     'https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=85&w=1600&auto=format&fit=crop',
-  lifestyle:'https://images.unsplash.com/photo-1511994298241-608e28f14fde?q=85&w=1600&auto=format&fit=crop',
+function IMG_LIVE() {
+  return {
+  hero:     (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/34534102/pexels-photo-34534102.jpeg?auto=compress&cs=tinysrgb&w=2000'),
+  city:     (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=85&w=1600&auto=format&fit=crop'),
+  ride:     (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?q=85&w=1600&auto=format&fit=crop'),
+  detail:   (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=85&w=1600&auto=format&fit=crop'),
+  bike:     (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=85&w=1600&auto=format&fit=crop'),
+  lifestyle:(clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1511994298241-608e28f14fde?q=85&w=1600&auto=format&fit=crop'),
 };
+}
+let IMG = IMG_LIVE();
 
 // ─── Design tokens ───────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -1195,9 +1199,11 @@ export default function LumyxPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  IMG = IMG_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   SPEC_BULLETS = resolveList(

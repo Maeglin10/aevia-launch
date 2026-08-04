@@ -3,6 +3,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -90,16 +91,19 @@ const SERIF = "'Lora', serif";
 const SANS = "'Inter', sans-serif";
 const EASE = [0.16, 1, 0.3, 1];
 
-const PHOTOS = {
-  hero: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-  about: "https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-  event1: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  event2: "https://images.unsplash.com/photo-1515169067868-5387ec356754?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  event3: "https://images.unsplash.com/photo-1558402529-d2638a7023e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  event4: "https://images.pexels.com/photos/9275222/pexels-photo-9275222.jpeg?auto=compress&cs=tinysrgb&w=800",
-  speaker1: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-  speaker2: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+function PHOTOS_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"),
+  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"),
+  event1: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
+  event2: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1515169067868-5387ec356754?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
+  event3: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1558402529-d2638a7023e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
+  event4: (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/9275222/pexels-photo-9275222.jpeg?auto=compress&cs=tinysrgb&w=800"),
+  speaker1: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"),
+  speaker2: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"),
 };
+}
+let PHOTOS = PHOTOS_LIVE();
 
 const CustomInstagramIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -228,6 +232,8 @@ export default function Impact325SeminarHub({ session: initialSession }) {
   const fd = session?.formData || {};
 
   sessionData = session;
+  PHOTOS = PHOTOS_LIVE();
+
   const c = session?.generatedContent || {};
 
   // Override brand color if provided

@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -186,7 +187,7 @@ export default function OasisWellnessPage() {
         {/* ── HERO ──────────────────── */}
         <section id="hero" className="relative h-[110vh] min-h-[640px] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(0, "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=2400")} alt="Spa Background" fill className="object-cover" priority />
+            <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=2400"))} alt="Spa Background" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-b from-[#faf9f6]/20 via-transparent to-[#faf9f6]" />
           </div>
 
@@ -284,9 +285,9 @@ export default function OasisWellnessPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <Reveal>
                 <div className="aspect-[4/5] relative">
-                  <ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=1200")} alt="Relaxation Area" />
+                  <ParallaxImg src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=1200"))} alt="Relaxation Area" />
                   <div className="absolute -bottom-12 -right-12 w-64 h-64 bg-[#faf9f6] p-4 hidden lg:block">
-                     <Image src={photo(2, "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&q=80&w=800")} alt="Botanical" fill className="object-cover rounded-xl" />
+                     <Image src={photo(2, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&q=80&w=800"))} alt="Botanical" fill className="object-cover rounded-xl" />
                   </div>
                 </div>
               </Reveal>
@@ -357,7 +358,7 @@ export default function OasisWellnessPage() {
               </div>
               <Reveal>
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                  <ParallaxImg src={photo(3, "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&q=80&w=1200")} alt="Botanical oils" />
+                  <ParallaxImg src={photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&q=80&w=1200"))} alt="Botanical oils" />
                 </div>
               </Reveal>
             </div>

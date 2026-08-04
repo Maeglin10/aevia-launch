@@ -13,6 +13,7 @@ import "../premium.css";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientServices,
   clientStats,
   clientText,
@@ -56,9 +57,9 @@ let sessionData: any = null;
 
 function PROPERTIES_DEMO_LIVE() {
   return [
-  { id: "PRJ-0047", name: "Penthouse Trinity", loc: (clientCity(sessionData) ?? "Paris"), type: "Résidentiel", size: "340 m²", pts: "2.8B pts", imgFallback: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" },
-  { id: "PRJ-0031", name: "HQ Montparnasse", loc: (clientCity(sessionData) ?? "Paris"), type: "Commercial", size: "4 200 m²", pts: "18.4B pts", imgFallback: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80" },
-  { id: "PRJ-0018", name: "Villa Antibes", loc: "Côte d'Azur", type: "Prestige", size: "820 m²", pts: "6.1B pts", imgFallback: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" },
+  { id: "PRJ-0047", name: "Penthouse Trinity", loc: (clientCity(sessionData) ?? "Paris"), type: "Résidentiel", size: "340 m²", pts: "2.8B pts", imgFallback: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80") },
+  { id: "PRJ-0031", name: "HQ Montparnasse", loc: (clientCity(sessionData) ?? "Paris"), type: "Commercial", size: "4 200 m²", pts: "18.4B pts", imgFallback: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80") },
+  { id: "PRJ-0018", name: "Villa Antibes", loc: "Côte d'Azur", type: "Prestige", size: "820 m²", pts: "6.1B pts", imgFallback: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80") },
 ];
 }
 let PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
@@ -157,7 +158,7 @@ return (
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80")}
+            src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80"))}
             alt="Vision Hero"
             fill
             className="object-cover brightness-[0.4] grayscale-[80%]"

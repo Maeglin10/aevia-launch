@@ -47,7 +47,10 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "La halle", "h": "#services"}, {"l": "Votre événement", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO_DEMO = [{"k": "La nef", "sub": "600 m² sous verrière, 12 m sous ferme métallique.", "img": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80", "alt": "La nef dressée pour un dîner de gala"}, {"k": "Le studio", "sub": "200 m² attenants : cocktails, backstage ou plateau photo.", "img": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80", "alt": "Le studio attenant aménagé"}, {"k": "La cour", "sub": "La brique, la nuit, les guirlandes : le spot photo de Roubaix.", "img": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1920&q=80", "alt": "La cour intérieure éclairée"}];
+function HERO_DEMO_LIVE() {
+  return [{"k": "La nef", "sub": "600 m² sous verrière, 12 m sous ferme métallique.", "img": (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80"), "alt": "La nef dressée pour un dîner de gala"}, {"k": "Le studio", "sub": "200 m² attenants : cocktails, backstage ou plateau photo.", "img": (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80"), "alt": "Le studio attenant aménagé"}, {"k": "La cour", "sub": "La brique, la nuit, les guirlandes : le spot photo de Roubaix.", "img": (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1920&q=80"), "alt": "La cour intérieure éclairée"}];
+}
+let HERO_DEMO = HERO_DEMO_LIVE();
 let HERO = HERO_DEMO;
 
 const SERVICES_SOURCE = [{"titre": "La nef sous verrière", "desc": "600 m² modulables, sol béton lissé, murs de brique : le décor est déjà là. Gradins, scène et mobilier disponibles sur place.", "tag": "Nef"}, {"titre": "Technique intégrée", "desc": "Son 20 kW calibré, lumières scéniques, vidéoprojection 10 000 lumens, régisseur de la maison inclus dès 100 personnes.", "tag": "Technique"}, {"titre": "Le studio & la cour", "desc": "200 m² attenants pour cocktail ou backstage, cour de brique pour les pauses et les photos de nuit.", "tag": "Annexes"}, {"titre": "Mariages urbains", "desc": "Cérémonie sous la verrière, dîner dans la nef, DJ jusqu'à 4 h : l'insonorisation d'une ancienne usine a du bon.", "tag": "Mariage"}, {"titre": "Entreprises & lancements", "desc": "Keynotes, salons internes, soirées annuelles : accès camions, wifi fibre, loges — et Lille à 15 minutes.", "tag": "Corporate"}, {"titre": "Tournages & shootings", "desc": "La brique 1897 à la journée : plateaux, clips, mode. Fiche technique complète envoyée sur demande.", "tag": "Image"}];
@@ -90,9 +93,12 @@ export default function Halle1897Page() {
 
 
   fd = session?.formData;
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_DEMO = HERO_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -302,7 +308,7 @@ export default function Halle1897Page() {
       <section id="engagements" className="i370-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i370-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80")} alt="Le studio attenant de la halle" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(3, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80"))} alt="Le studio attenant de la halle" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>

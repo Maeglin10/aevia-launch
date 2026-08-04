@@ -47,6 +47,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -119,15 +120,18 @@ const SANS = "'Roboto', sans-serif" as const;
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const PHOTO = {
-  hero: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=1600&auto=format&fit=crop",
-  about: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1600&auto=format&fit=crop",
-  special: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1600&auto=format&fit=crop",
-  gallery1: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop",
-  gallery2: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800&auto=format&fit=crop",
-  gallery3: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop",
-  gallery4: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800&auto=format&fit=crop"
+function PHOTO_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=1600&auto=format&fit=crop"),
+  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1600&auto=format&fit=crop"),
+  special: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1600&auto=format&fit=crop"),
+  gallery1: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop"),
+  gallery2: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800&auto=format&fit=crop"),
+  gallery3: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop"),
+  gallery4: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800&auto=format&fit=crop")
 } as const;
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ── Primitives Reutilisables ─────────────────────────────────────────────── */
 
@@ -265,9 +269,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

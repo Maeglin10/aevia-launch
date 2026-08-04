@@ -12,6 +12,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -225,7 +226,7 @@ export default function CliniqueBoisVertPage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1559190394-df5a28aab5c5?auto=format&fit=crop&q=85&w=2400")} alt="Vétérinaire avec animal" fill className="object-cover object-center" priority style={{ filter: "brightness(0.4)" }} />
+          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1559190394-df5a28aab5c5?auto=format&fit=crop&q=85&w=2400"))} alt="Vétérinaire avec animal" fill className="object-cover object-center" priority style={{ filter: "brightness(0.4)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1a2a1c] via-[#1a2a1c]/45 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#1a2a1c]/70 to-transparent" />
         </motion.div>

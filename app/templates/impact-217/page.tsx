@@ -31,6 +31,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -90,10 +91,11 @@ const FONT_STACK =
 
 /* ── Photography (15 pre-verified Unsplash URLs — DO NOT alter photo IDs) ──── */
 const u = (id: string, w = 1600, q = 80): string =>
-  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=${q}&w=${w}&auto=format&fit=crop`);
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[0] || `https://images.unsplash.com/photo-${id}?q=${q}&w=${w}&auto=format&fit=crop`));
 
-const IMG = {
-  hero: 'https://images.pexels.com/photos/11324524/pexels-photo-11324524.jpeg?auto=compress&cs=tinysrgb&w=2000',
+function IMG_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/11324524/pexels-photo-11324524.jpeg?auto=compress&cs=tinysrgb&w=2000'),
   seq1: u('1460353581641-37baddab0fa2'),
   seq2: u('1556906781-9a412961c28c'),
   seq3: u('1595950653106-6c9ebd614d3a'),
@@ -109,6 +111,8 @@ const IMG = {
   look3: u('1539185441755-769473a23570', 1000),
   cta: u('1551107696-a4b0c5a0d9a2', 2000, 85),
 } as const;
+}
+let IMG = IMG_LIVE();
 
 /* ════════════════════════════════════════════════════════════════════════════
    Shared motion + small helpers
@@ -2537,9 +2541,11 @@ export default function ImpactSneakerPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  IMG = IMG_LIVE();
   SPECS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPECS_SOURCE[i % SPECS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     SPECS_SOURCE,

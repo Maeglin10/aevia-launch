@@ -47,6 +47,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientServices,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -118,15 +119,18 @@ const SANS = "'DM Sans', sans-serif" as const;
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const PHOTO = {
-  hero: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1600&auto=format&fit=crop",
-  about: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=1600&auto=format&fit=crop",
-  special: "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?q=80&w=1600&auto=format&fit=crop",
-  gallery1: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=800&auto=format&fit=crop",
-  gallery2: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=800&auto=format&fit=crop",
-  gallery3: "https://images.unsplash.com/photo-1629909615184-74f495363b67?q=80&w=800&auto=format&fit=crop",
-  gallery4: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=800&auto=format&fit=crop"
+function PHOTO_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1600&auto=format&fit=crop"),
+  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=1600&auto=format&fit=crop"),
+  special: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?q=80&w=1600&auto=format&fit=crop"),
+  gallery1: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=800&auto=format&fit=crop"),
+  gallery2: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=800&auto=format&fit=crop"),
+  gallery3: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1629909615184-74f495363b67?q=80&w=800&auto=format&fit=crop"),
+  gallery4: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=800&auto=format&fit=crop")
 } as const;
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ── Primitives Reutilisables ─────────────────────────────────────────────── */
 
@@ -264,9 +268,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

@@ -91,9 +91,9 @@ let SERVICES = SERVICES_DEMO;
 
 function REALISATIONS_DEMO_LIVE() {
   return [
-  { client: "MaisonDéco " + (clientCity({ formData: fd }) ?? "Paris"), sector: "E-commerce", desc: "Refonte UX + boutique Shopify. +68% de taux de conversion en 3 mois.", img: "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80" },
-  { client: "Cabinet Forêt & Associés", sector: "Juridique", desc: "Site vitrine + SEO local. Page 1 sur 8 requêtes cibles en 4 mois.", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80" },
-  { client: "Startup Finly", sector: "FinTech", desc: "MVP SaaS de 0 à prod en 6 semaines. Levée de fonds facilités par la démo.", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" },
+  { client: "MaisonDéco " + (clientCity({ formData: fd }) ?? "Paris"), sector: "E-commerce", desc: "Refonte UX + boutique Shopify. +68% de taux de conversion en 3 mois.", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80") },
+  { client: "Cabinet Forêt & Associés", sector: "Juridique", desc: "Site vitrine + SEO local. Page 1 sur 8 requêtes cibles en 4 mois.", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80") },
+  { client: "Startup Finly", sector: "FinTech", desc: "MVP SaaS de 0 à prod en 6 semaines. Levée de fonds facilités par la démo.", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80") },
 ];
 }
 let REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
@@ -309,7 +309,7 @@ export default function PixelRepublicPage() {
       {/* Hero */}
       <section ref={heroRef} className="imx25-hero" style={{ height: "100dvh", minHeight: "560px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1920&q=80")} alt="Agence web Pixel Republic Paris" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1920&q=80"))} alt="Agence web Pixel Republic Paris" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,5,20,0.93) 0%, rgba(5,5,20,0.48) 45%, rgba(5,5,20,0.10) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
@@ -427,7 +427,7 @@ export default function PixelRepublicPage() {
             </motion.a>
           </Reveal>
           <Reveal>
-            <img src={photo(1, "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80")} alt="Equipe Pixel Republic" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80"))} alt="Equipe Pixel Republic" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
         </div>
       </section>

@@ -9,6 +9,7 @@ import {
   clientCertifications,
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -236,7 +237,7 @@ export default function VertNaturePage() {
 
       <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1920&q=80")} alt="Paysagiste jardinier Bordeaux" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1920&q=80"))} alt="Paysagiste jardinier Bordeaux" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(6,14,2,0.92) 0%, rgba(6,14,2,0.38) 45%, rgba(6,14,2,0.06) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}14 0%, transparent 55%)` }} />
@@ -298,7 +299,7 @@ export default function VertNaturePage() {
 
       <section id="notre-approche" style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
-          <Reveal><img src={photo(1, "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80")} alt="Jardinier éco-responsable Bordeaux" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
+          <Reveal><img src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80"))} alt="Jardinier éco-responsable Bordeaux" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
           <Reveal delay={0.15}><div>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre approche</span>
             <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "notre-approche.titre") ?? (<>Un jardin beau<br /><em>est un jardin vivant.</em></>)}</h2>

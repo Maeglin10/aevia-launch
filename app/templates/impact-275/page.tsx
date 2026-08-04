@@ -1,4 +1,5 @@
 "use client";
+let sessionData: any = null;
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -42,6 +43,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -67,7 +69,6 @@ let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
 let brand: any = null;
 
 function shadeColor(hex: string, percent: number): string {
@@ -99,16 +100,19 @@ const SERIF = "'Playfair Display', Georgia, serif" as const;
 const SANS = 'Raleway, system-ui, sans-serif' as const;
 
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
-const PHOTO = {
+function PHOTO_LIVE() {
+  return {
   tribunal:
-    'https://images.pexels.com/photos/21253838/pexels-photo-21253838.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/21253838/pexels-photo-21253838.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   bureau:
-    'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1600&auto=format&fit=crop'),
   reunion:
-    'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop'),
   avocate:
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1600&auto=format&fit=crop'),
 } as const;
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -3237,9 +3241,11 @@ function Impact275Page() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
 
   STATS_INLINE = resolveList(
 

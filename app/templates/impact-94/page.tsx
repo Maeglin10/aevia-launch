@@ -39,6 +39,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -75,14 +76,15 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ]
 
-const ARRANGEMENTS_DEMO = [
+function ARRANGEMENTS_DEMO_LIVE() {
+  return [
   {
     id: "a-01",
     name: "Mémoire d'Été",
     season: "Été",
     price: "195€",
     description: "Composition estivale aux roses centifolia et pivoines pêche, cueillie au lever du soleil.",
-    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80",
+    image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80"),
     tag: "Exclusif",
   },
   {
@@ -91,7 +93,7 @@ const ARRANGEMENTS_DEMO = [
     season: "Printemps",
     price: "245€",
     description: "Bouquet monochrome de pivoines Sarah Bernhardt aux pétales soyeux et au parfum enivrant.",
-    image: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=800&q=80",
+    image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=800&q=80"),
     tag: "Best-seller",
   },
   {
@@ -100,7 +102,7 @@ const ARRANGEMENTS_DEMO = [
     season: "Automne",
     price: "175€",
     description: "Composition aux teintes profondes : dahlias café, chrysanthèmes bordeaux et branches de baies.",
-    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80",
+    image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80"),
     tag: "Saisonnier",
   },
   {
@@ -109,7 +111,7 @@ const ARRANGEMENTS_DEMO = [
     season: "Été",
     price: "220€",
     description: "Élégance orientale : lys Casa Blanca immaculés entre bambous lacqués et orchidées blanches.",
-    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80",
+    image: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80"),
     tag: "Signature",
   },
   {
@@ -118,7 +120,7 @@ const ARRANGEMENTS_DEMO = [
     season: "Printemps",
     price: "185€",
     description: "Bouquet aérien de jasmin frais, gardénias et muguet — le souvenir olfactif du sud.",
-    image: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=800&q=80",
+    image: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=800&q=80"),
     tag: "Parfumé",
   },
   {
@@ -127,10 +129,12 @@ const ARRANGEMENTS_DEMO = [
     season: "Hiver",
     price: "165€",
     description: "Anémones sauvages de nos jardins provençaux, iris noirs et renoncules bicolores.",
-    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80",
+    image: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80"),
     tag: "Hivernal",
   },
-]
+];
+}
+let ARRANGEMENTS_DEMO = ARRANGEMENTS_DEMO_LIVE();
 
 const EVENTS_SOURCE = [
   {
@@ -197,7 +201,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Botanica a sublimé notre mariage au-delà de mes espérances. Les compositions florales étaient d'une beauté renversante, et l'équipe d'une discrétion et d'un professionnalisme absolus.",
     rating: 5,
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+    avatar: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80"),
   },
   {
     name: "Arnaud Leclercq",
@@ -205,7 +209,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Pour notre centième anniversaire, Botanica a créé une installation florale qui a ébloui nos 300 invités. Un sens artistique exceptionnel, une exécution parfaite.",
     rating: 5,
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80",
+    avatar: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80"),
   },
   {
     name: "Clémentine Faure",
@@ -213,7 +217,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Je commande chez Botanica chaque semaine depuis trois ans. La qualité est invariablement irréprochable, les compositions toujours surprenantes et poétiques.",
     rating: 5,
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80",
+    avatar: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80"),
   },
 ];
 }
@@ -444,9 +448,11 @@ export default function Impact94Page() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   sessionData = session;
   c = session?.generatedContent;
+  ARRANGEMENTS_DEMO = ARRANGEMENTS_DEMO_LIVE();
   FAQ_ITEMS_DEMO = FAQ_ITEMS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
@@ -663,7 +669,7 @@ export default function Impact94Page() {
         {/* Parallax Image */}
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
-            src={photo(0, "https://images.pexels.com/photos/17023112/pexels-photo-17023112.jpeg?auto=compress&cs=tinysrgb&w=1600")}
+            src={photo(0, (clientPhotos(sessionData)[9] || "https://images.pexels.com/photos/17023112/pexels-photo-17023112.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
             alt="Bouquet de fleurs botanica"
             fill
             className="object-cover"
@@ -896,7 +902,7 @@ export default function Impact94Page() {
             <div className="relative">
               <div className="relative h-[700px] overflow-hidden">
                 <Image
-                  src={photo(1, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=1000&q=90")}
+                  src={photo(1, (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=1000&q=90"))}
                   alt="Atelier Botanica — Art botanique"
                   fill
                   className="object-cover"
@@ -977,7 +983,7 @@ export default function Impact94Page() {
               <div className="relative">
                 <div className="relative h-[500px] overflow-hidden">
                   <Image
-                    src={photo(2, "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=1000&q=90")}
+                    src={photo(2, (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=1000&q=90"))}
                     alt="Atelier Botanica — Savoir-faire artisanal"
                     fill
                     className="object-cover"
@@ -985,7 +991,7 @@ export default function Impact94Page() {
                 </div>
                 <div className="absolute -bottom-8 -right-8 w-56 h-56 overflow-hidden border-4 border-[#FAFAF9]">
                   <Image
-                    src={photo(3, "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&q=80")}
+                    src={photo(3, (clientPhotos(sessionData)[12] || "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&q=80"))}
                     alt="Détail floral"
                     fill
                     className="object-cover"

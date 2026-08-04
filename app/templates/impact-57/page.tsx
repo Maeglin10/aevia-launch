@@ -21,6 +21,7 @@ import {
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -749,7 +750,7 @@ function StudioTeaser() {
             }}
           >
             <img
-              src={photo(0, "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop")}
+              src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop"))}
               alt="MASK_UNIT studio"
               style={{
                 width: '100%',

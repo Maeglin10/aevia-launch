@@ -38,7 +38,8 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================== */
 
-const WORKS_DEMO = [
+function WORKS_DEMO_LIVE() {
+  return [
   {
     id: "01",
     client: "Aura Skincare",
@@ -46,7 +47,7 @@ const WORKS_DEMO = [
     year: "2025",
     desc: "A sensory digital experience focusing on fluid webgl interactions to mirror the viscosity of premium serums.",
     image:
-      "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: "02",
@@ -55,7 +56,7 @@ const WORKS_DEMO = [
     year: "2024",
     desc: "Redefining institutional trading platforms through brutalist UI and micro-latency data visualization.",
     image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: "03",
@@ -64,7 +65,7 @@ const WORKS_DEMO = [
     year: "2024",
     desc: "Real-time browser-based car configurator utilizing WebGPU for photorealistic ray tracing.",
     image:
-      "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: "04",
@@ -73,9 +74,11 @@ const WORKS_DEMO = [
     year: "2023",
     desc: "Digital archive for a legacy fashion house, utilizing typographic scroll-jacking to tell historical narratives.",
     image:
-      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1200&auto=format&fit=crop",
+      (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1200&auto=format&fit=crop"),
   },
 ];
+}
+let WORKS_DEMO = WORKS_DEMO_LIVE();
 let WORKS = WORKS_DEMO;
 
 const SERVICES_SOURCE = [
@@ -225,8 +228,10 @@ export default function TextRevealPage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  WORKS_DEMO = WORKS_DEMO_LIVE();
 
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
@@ -367,7 +372,7 @@ export default function TextRevealPage() {
             className="absolute inset-0 z-0"
           >
             <Image
-              src={photo(0, "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop")}
+              src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop"))}
               alt="Abstract background"
               fill
               className="object-cover"
@@ -575,7 +580,7 @@ export default function TextRevealPage() {
             <div className="flex flex-col items-center gap-4">
               <div className="w-16 h-16 rounded-full overflow-hidden relative">
                 <Image
-                  src={photo(1, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop")}
+                  src={photo(1, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop"))}
                   alt="Founder"
                   fill
                   className="object-cover grayscale"

@@ -32,6 +32,7 @@ import {
   clientCertifications,
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -94,22 +95,25 @@ const SANS = "'Open Sans', system-ui, sans-serif" as const;
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photos Unsplash (IDs réels plomberie / habitat) ─────────────────────── */
-const PHOTO = {
+function PHOTO_LIVE() {
+  return {
   salleBain:
-    'https://images.pexels.com/photos/7173665/pexels-photo-7173665.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/7173665/pexels-photo-7173665.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   plombier:
-    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1600&auto=format&fit=crop'),
   chaudiere:
-    'https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?q=80&w=1600&auto=format&fit=crop'),
   tuyauterie:
-    'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=1600&auto=format&fit=crop'),
   cuisine:
-    'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=1600&auto=format&fit=crop'),
   salleBainDesign:
-    'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?q=80&w=1600&auto=format&fit=crop'),
   heroWide:
-    'https://images.pexels.com/photos/7173665/pexels-photo-7173665.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/7173665/pexels-photo-7173665.jpeg?auto=compress&cs=tinysrgb&w=1600'),
 };
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives partagées
@@ -2858,9 +2862,11 @@ function Impact278Page() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
   TESTIMONIALS278_DEMO = TESTIMONIALS278_DEMO_LIVE();
   PROCESS_STEPS = PROCESS_STEPS_LIVE();
   SERVICES_DEMO = SERVICES_DEMO_LIVE();

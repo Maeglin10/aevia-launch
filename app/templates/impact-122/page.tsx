@@ -19,6 +19,7 @@ import { Menu, X, ArrowRight, Play, Bookmark, Share2, Clock, Calendar, Search, N
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -74,7 +75,8 @@ function RevealText({ text }: { text: string }) {
 
 // ─── DATA MANIFESTS ─────────────────────────────────────────────────────────
 
-const MANIFEST = {
+function MANIFEST_LIVE() {
+  return {
   hero: {
     category: "Architecture",
     title: "The Brutalist Revival of Eastern Europe",
@@ -95,7 +97,7 @@ const MANIFEST = {
       title: "When Machines Dream: The End of Human Art?",
       excerpt: "As generative models surpass human technical ability, we are forced to redefine what makes art inherently valuable.",
       author: "David Chen",
-      img: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80"
+      img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80")
     },
     {
       id: "ocean",
@@ -103,7 +105,7 @@ const MANIFEST = {
       title: "The Deep Sea Mining Rush",
       excerpt: "A new gold rush is happening miles beneath the ocean surface, threatening ecosystems we barely understand.",
       author: "Sarah Jenkins",
-      img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80"
+      img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80")
     },
     {
       id: "culinary",
@@ -111,7 +113,7 @@ const MANIFEST = {
       title: "The Return to Fire: Primal Cooking",
       excerpt: "Top chefs are ditching sous-vide machines for open flames, wood smoke, and instinct.",
       author: "Marco Rossi",
-      img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80"
+      img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80")
     }
   ],
   essays: [
@@ -134,7 +136,9 @@ const MANIFEST = {
     { q: "Where do you ship the print magazine?", a: "We ship globally. International shipping is included in the 'Print + Digital' tier price." },
     { q: "How often is the website updated?", a: "We publish 3-5 new long-form pieces daily, while our 'Latest' feed is updated continuously throughout the day." }
   ]
+};
 }
+let MANIFEST = MANIFEST_LIVE();
 
 // ─── MAIN PAGE ──────────────────────────────────────────────────────────────
 
@@ -171,8 +175,10 @@ export default function ChronicleEditorialPage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  MANIFEST = MANIFEST_LIVE();
 
 
   useEffect(() => {
@@ -322,7 +328,7 @@ export default function ChronicleEditorialPage() {
                 <Link href="#subscribe" className="group block">
                   <div className="relative w-full aspect-[16/9] md:aspect-[2/1] bg-[#e5e3de] mb-8 overflow-hidden">
                     <Image 
-                      src={photo(0, "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1600&q=80")} 
+                      src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1600&q=80"))} 
                       alt="Architecture" 
                       fill 
                       className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
@@ -346,7 +352,7 @@ export default function ChronicleEditorialPage() {
                     <div className="flex flex-col sm:flex-row items-center justify-between py-4 border-y border-[#1a1814]/10">
                       <div className="flex items-center gap-4 mb-4 sm:mb-0">
                         <Avatar className="w-10 h-10 border border-[#1a1814]/10">
-                          <AvatarImage src={photo(1, "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80")} />
+                          <AvatarImage src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80"))} />
                           <AvatarFallback>ER</AvatarFallback>
                         </Avatar>
                         <div className="text-left">
@@ -437,7 +443,7 @@ export default function ChronicleEditorialPage() {
             <div className="order-1 lg:order-2">
               <Reveal delay={0.2}>
                 <div className="relative w-full aspect-[3/4] bg-[#e5e3de] p-8 md:p-12 flex flex-col justify-end overflow-hidden group">
-                  <Image src={photo(2, "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80")} alt="Writing" fill className="object-cover opacity-80 mix-blend-multiply group-hover:scale-105 transition-transform duration-1000" />
+                  <Image src={photo(2, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80"))} alt="Writing" fill className="object-cover opacity-80 mix-blend-multiply group-hover:scale-105 transition-transform duration-1000" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1a1814]/90 via-[#1a1814]/20 to-transparent" />
                   <div className="relative z-10 text-white">
                     <div className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#d64000)] mb-4">Featured Essay</div>

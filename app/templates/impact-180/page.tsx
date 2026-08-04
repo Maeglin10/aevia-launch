@@ -11,6 +11,7 @@ import {
   clientAreas,
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -232,7 +233,7 @@ export default function ThermotekChauffagePage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, "https://images.pexels.com/photos/7859953/pexels-photo-7859953.jpeg?auto=compress&cs=tinysrgb&w=2400")} alt="Chauffagiste intervention chaudière" fill className="object-cover" priority style={{ filter: "brightness(0.5)" }} />
+          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/7859953/pexels-photo-7859953.jpeg?auto=compress&cs=tinysrgb&w=2400"))} alt="Chauffagiste intervention chaudière" fill className="object-cover" priority style={{ filter: "brightness(0.5)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0906] via-[#0a0906]/45 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0906]/60 to-transparent" />
           <div className="absolute inset-0 bg-[var(--brand,#ea580c)]/5 mix-blend-overlay" />

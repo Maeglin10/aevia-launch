@@ -21,6 +21,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -79,10 +80,10 @@ export default function Impact83Page() {
 
   // Product collections ← client's business profile (falls back to demo).
   const COLLECTIONS_DEMO = [
-    { name: "Constellation Noir", cat: "Haute Joaillerie", price: "€185,000", stone: "Diamant noir 8 ct", img: photo(0, "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=600&q=85") },
-    { name: "Éclipse Royale", cat: "Haute Horlogerie", price: "€48,000", stone: "Saphir de Ceylan", img: photo(1, "https://images.unsplash.com/photo-1548169874-53e85f753f1e?w=600&q=85") },
-    { name: "Eternité Rose", cat: "Alliance sur-mesure", price: "À partir de €12,000", stone: "Diamant rose 3 ct", img: photo(2, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=85") },
-    { name: "Heritage Tourbillon", cat: "Montre de collection", price: "€320,000", stone: "Rubis de Birmanie", img: photo(3, "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=85") },
+    { name: "Constellation Noir", cat: "Haute Joaillerie", price: "€185,000", stone: "Diamant noir 8 ct", img: photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=600&q=85")) },
+    { name: "Éclipse Royale", cat: "Haute Horlogerie", price: "€48,000", stone: "Saphir de Ceylan", img: photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1548169874-53e85f753f1e?w=600&q=85")) },
+    { name: "Eternité Rose", cat: "Alliance sur-mesure", price: "À partir de €12,000", stone: "Diamant rose 3 ct", img: photo(2, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=85")) },
+    { name: "Heritage Tourbillon", cat: "Montre de collection", price: "€320,000", stone: "Rubis de Birmanie", img: photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=85")) },
   ];
   const COLLECTIONS_LIST = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
@@ -376,7 +377,7 @@ export default function Impact83Page() {
           </Reveal>
           <Reveal delay={0.15}>
             <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
-              {[photo(4, "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600&q=85"),photo(5, "https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=600&q=85"),photo(6, "https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=600&q=85"),photo(7, "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=600&q=85")].map((src, i) => (
+              {[photo(4, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600&q=85")),photo(5, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=600&q=85")),photo(6, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=600&q=85")),photo(7, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=600&q=85"))].map((src, i) => (
                 <div key={i} style={{ aspectRatio: "1", overflow: "hidden", border: `1px solid ${C.border}` }}>
                   <img src={src} alt="Atelier" style={{ width: "100%", height: "100%", objectFit: "cover", filter: "sepia(0.3)" }} />
                 </div>

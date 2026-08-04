@@ -10,6 +10,7 @@ import {
   clientCity,
   clientHours,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -331,7 +332,7 @@ export default function LumiereYogaPage() {
       <style>{`@media (max-width: 640px) { #hero { height: 100dvh !important; min-height: 100dvh !important; } }`}</style>
       <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, "https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=1920&q=80")} alt="Lumière Yoga Studio Bordeaux" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=1920&q=80"))} alt="Lumière Yoga Studio Bordeaux" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(20,28,18,0.92) 0%, rgba(20,28,18,0.40) 45%, rgba(20,28,18,0.06) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
@@ -441,7 +442,7 @@ export default function LumiereYogaPage() {
           </Reveal>
           <Reveal delay={0.2}>
             <div style={{ borderRadius: 16, overflow: "hidden", aspectRatio: "4/5" }}>
-              <img src={photo(1, "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80")} alt="Pratique yoga Lumière Studio" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80"))} alt="Pratique yoga Lumière Studio" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
           </Reveal>
         </div>

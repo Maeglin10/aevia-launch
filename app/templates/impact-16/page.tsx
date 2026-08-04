@@ -13,6 +13,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientServices,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -58,14 +59,17 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 
 const CATEGORIES = ["Tous", "Portrait", "Mode", "Reportage", "Architecture", "Nature"]
 
-const WORKS_DEMO = [
-  { title: "La Lumière de Minuit", category: "Portrait", src: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80", year: "2025" },
-  { title: "Couture Invisible", category: "Mode", src: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80", year: "2025" },
-  { title: "Mémoire des Rues", category: "Reportage", src: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80", year: "2024" },
-  { title: "Béton & Lumière", category: "Architecture", src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80", year: "2024" },
-  { title: "Femme en Avant", category: "Mode", src: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80", year: "2025" },
-  { title: "Le Temps Suspendu", category: "Portrait", src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80", year: "2023" },
-]
+function WORKS_DEMO_LIVE() {
+  return [
+  { title: "La Lumière de Minuit", category: "Portrait", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80"), year: "2025" },
+  { title: "Couture Invisible", category: "Mode", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80"), year: "2025" },
+  { title: "Mémoire des Rues", category: "Reportage", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80"), year: "2024" },
+  { title: "Béton & Lumière", category: "Architecture", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80"), year: "2024" },
+  { title: "Femme en Avant", category: "Mode", src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80"), year: "2025" },
+  { title: "Le Temps Suspendu", category: "Portrait", src: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80"), year: "2023" },
+];
+}
+let WORKS_DEMO = WORKS_DEMO_LIVE();
 
 const SERVICES_SOURCE = [
   { title: "Portraits & Éditorial", desc: "Portraits intimes et éditoriaux pour magazines, agences et particuliers. Studio ou extérieur.", from: "600€" },
@@ -130,9 +134,11 @@ export default function ObscuraPage() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  WORKS_DEMO = WORKS_DEMO_LIVE();
 
 
   useEffect(() => {
@@ -260,7 +266,7 @@ return (
             {/* Hero */}
             <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
               <motion.div className="absolute inset-0" style={{ y: heroY }}>
-                <Image src={photo(0, "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=1600&q=85")} alt="Obscura Photography" fill className="object-cover" priority />
+                <Image src={photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=1600&q=85"))} alt="Obscura Photography" fill className="object-cover" priority />
                 <div className="absolute inset-0 bg-gradient-to-b from-[#0A0806]/70 via-[#0A0806]/20 to-[#0A0806]/90" />
               </motion.div>
               <motion.div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6" style={{ opacity: heroOpacity }}>
@@ -594,7 +600,7 @@ function ProposPage() {
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center mb-32">
           <div className="lg:col-span-5 relative aspect-[3/4] rounded-2xl overflow-hidden bg-white/5">
-            <Image src={photo(1, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80")} alt="Elena Korr Obscura" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
+            <Image src={photo(1, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80"))} alt="Elena Korr Obscura" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
           </div>
           <div className="lg:col-span-7">
             <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-4 block font-mono">Elena Korr</span>

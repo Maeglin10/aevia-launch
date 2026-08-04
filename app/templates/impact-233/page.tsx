@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -294,7 +295,7 @@ export default function CabinetOsteopathiePage() {
 
       <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&q=80")} alt="Cabinet ostéopathie Lyon" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&q=80"))} alt="Cabinet ostéopathie Lyon" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(6,5,3,0.93) 0%, rgba(6,5,3,0.40) 45%, rgba(6,5,3,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}16 0%, transparent 55%)` }} />
@@ -356,7 +357,7 @@ export default function CabinetOsteopathiePage() {
 
       <section id="approche" style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
-          <Reveal><img src={photo(1, "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80")} alt="Séance ostéopathie cabinet" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
+          <Reveal><img src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80"))} alt="Séance ostéopathie cabinet" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
           <Reveal delay={0.15}><div>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre approche</span>
             <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "approche.titre") ?? (<>Une prise en charge<br /><em>globale et précise.</em></>)}</h2>

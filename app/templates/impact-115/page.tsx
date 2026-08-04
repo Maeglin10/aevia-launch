@@ -72,7 +72,8 @@ let C: Record<string, string> = {
    DATA
    ========================================================================== */
 
-const PROJECTS_DEMO_SOURCE = [
+function PROJECTS_DEMO_SOURCE_LIVE() {
+  return [
   {
     id: "p1",
     title: "Verdant Canopy",
@@ -80,7 +81,7 @@ const PROJECTS_DEMO_SOURCE = [
     location: "Singapore",
     year: "2025",
     desc: "A living complex woven into Singapore's tropical canopy. The building breathes, captures rainwater, and lowers ambient temperature by 4°C through passive bio-ventilation.",
-    image: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1400&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1400&auto=format&fit=crop"),
   },
   {
     id: "p2",
@@ -89,7 +90,7 @@ const PROJECTS_DEMO_SOURCE = [
     location: "Kyoto, Japan",
     year: "2024",
     desc: "Refractive glass panels scatter sunlight into a living painting that transforms hourly, dissolving the boundary between interior serenity and the ancient garden beyond.",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400&auto=format&fit=crop"),
   },
   {
     id: "p3",
@@ -98,7 +99,7 @@ const PROJECTS_DEMO_SOURCE = [
     location: "Oslo, Norway",
     year: "2023",
     desc: "Sustainably harvested moss panels and reclaimed timber create a sound-dampening sanctuary that sequesters carbon while offering silent refuge in the city's core.",
-    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1400&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1400&auto=format&fit=crop"),
   },
   {
     id: "p4",
@@ -107,7 +108,7 @@ const PROJECTS_DEMO_SOURCE = [
     location: "Vals, Switzerland",
     year: "2026",
     desc: "Carved into the mountainside and clad in local quartzite, these baths harness geothermal energy to maintain perfect temperatures year-round — zero combustion.",
-    image: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1400&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1400&auto=format&fit=crop"),
   },
   {
     id: "p5",
@@ -116,9 +117,11 @@ const PROJECTS_DEMO_SOURCE = [
     location: "Bali, Indonesia",
     year: "2024",
     desc: "Structural bamboo arches span 24 metres, creating a community hub that withstands typhoon-force winds and remains fully biodegradable at end of life.",
-    image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=1400&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=1400&auto=format&fit=crop"),
   },
 ];
+}
+let PROJECTS_DEMO_SOURCE = PROJECTS_DEMO_SOURCE_LIVE();
 let PROJECTS_DEMO = PROJECTS_DEMO_SOURCE;
 let PROJECTS = PROJECTS_DEMO;
 
@@ -198,20 +201,23 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const TEAM_DEMO = [
+function TEAM_DEMO_LIVE() {
+  return [
   {
     name: "Elena Rostova",
     role: "Lead Architect & Founder",
     bio: "RIBA Gold Medal laureate. Former Chair of Sustainable Architecture at the AA. Elena's practice synthesises vernacular building wisdom with advanced computational design.",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop"),
   },
   {
     name: "Kenji Watanabe",
     role: "Partner — Material Science",
     bio: "PhD in bio-based composites from ETH Zürich. Kenji leads our material research division and has pioneered the structural use of myco-composites on three continents.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop",
+    image: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop"),
   },
 ];
+}
+let TEAM_DEMO = TEAM_DEMO_LIVE();
 let TEAM = TEAM_DEMO;
 
 /* ==========================================================================
@@ -592,8 +598,12 @@ export default function Impact115Page() {
   }, []);
 
   fd = session?.formData;
+
+
   sessionData = session;
   c = session?.generatedContent;
+  TEAM_DEMO = TEAM_DEMO_LIVE();
+  PROJECTS_DEMO_SOURCE = PROJECTS_DEMO_SOURCE_LIVE();
 
   PROJECTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PROJECTS_DEMO_SOURCE[i % PROJECTS_DEMO_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
@@ -907,7 +917,7 @@ export default function Impact115Page() {
             position: "absolute",
             inset: 0,
             backgroundImage:
-              `url(${photo(0, "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2000&auto=format&fit=crop")})`,
+              `url(${photo(0, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2000&auto=format&fit=crop"))})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             opacity: 0.32,

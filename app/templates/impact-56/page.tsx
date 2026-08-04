@@ -15,6 +15,7 @@ import { STATS, FEATURES, TESTIMONIALS, FAQS, Reveal } from "./shared";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -95,7 +96,7 @@ return (
       <section className="relative h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden bg-[#1A1A1A]">
         <motion.div style={{ y: heroY, opacity: opacityHero }} className="absolute inset-0 z-0">
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=2000&q=80&fit=crop")}
+            src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=2000&q=80&fit=crop"))}
             alt="Vignoble de Margaux au lever du soleil"
             fill
             className="object-cover brightness-50"
@@ -318,7 +319,7 @@ return (
           <div className="max-w-6xl mx-auto bg-[var(--brand,#2D1B0E)] text-white p-12 md:p-24 text-center relative overflow-hidden group shadow-2xl">
             <div
               className="absolute inset-0 bg-cover bg-center opacity-20 group-hover:opacity-30 transition-opacity duration-1000 mix-blend-luminosity"
-              style={{ backgroundImage: `url(${photo(1, "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=1600&q=80")})` }}
+              style={{ backgroundImage: `url(${photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=1600&q=80"))})` }}
             />
             <div className="relative z-10 font-sans">
               <div className="w-16 h-px bg-[#C4A265] mx-auto mb-8" />

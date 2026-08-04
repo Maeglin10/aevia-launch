@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -66,16 +67,19 @@ const SERIF = "'Playfair Display', Georgia, serif" as const;
 const SANS = "'Space Grotesk', system-ui, sans-serif" as const;
 
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
-const BASE = 'https://images.unsplash.com/photo-';
-const PHOTO = {
-  electrical: 'https://images.pexels.com/photos/7937305/pexels-photo-7937305.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  electricalHero: 'https://images.pexels.com/photos/7937305/pexels-photo-7937305.jpeg?auto=compress&cs=tinysrgb&w=2000',
-  electricalSm: 'https://images.pexels.com/photos/7937305/pexels-photo-7937305.jpeg?auto=compress&cs=tinysrgb&w=800',
-  smartHome: 'https://images.pexels.com/photos/32497160/pexels-photo-32497160.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  smartHomeSm: 'https://images.pexels.com/photos/32497160/pexels-photo-32497160.jpeg?auto=compress&cs=tinysrgb&w=800',
+const BASE = (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+function PHOTO_LIVE() {
+  return {
+  electrical: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/7937305/pexels-photo-7937305.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+  electricalHero: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/7937305/pexels-photo-7937305.jpeg?auto=compress&cs=tinysrgb&w=2000'),
+  electricalSm: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/7937305/pexels-photo-7937305.jpeg?auto=compress&cs=tinysrgb&w=800'),
+  smartHome: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/32497160/pexels-photo-32497160.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+  smartHomeSm: (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/32497160/pexels-photo-32497160.jpeg?auto=compress&cs=tinysrgb&w=800'),
   ev: `${BASE}1560472354-b33ff0c44a43?q=80&w=1600&auto=format&fit=crop`,
   evSm: `${BASE}1560472354-b33ff0c44a43?q=80&w=900&auto=format&fit=crop`,
 } as const;
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -2094,9 +2098,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

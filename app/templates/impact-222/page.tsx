@@ -25,6 +25,7 @@ import {
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -87,25 +88,28 @@ let C: Record<string, string> = {
 };
 
 /* Pre-verified Unsplash photo ids (return 200). Only w/q/fit altered. */
-const PHOTO = {
+function PHOTO_LIVE() {
+  return {
   facade:
-    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop'),
   interior:
-    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1600&auto=format&fit=crop'),
   city:
-    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1600&auto=format&fit=crop'),
   pool:
-    'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=1600&auto=format&fit=crop'),
   living:
-    'https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=1600&auto=format&fit=crop'),
   villa:
-    'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1600&auto=format&fit=crop'),
   modern:
-    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[6] || 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop'),
 } as const;
+}
+let PHOTO = PHOTO_LIVE();
 
 const hero = (w: number, q = 85): string =>
-  `https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=${q}&w=${w}&auto=format&fit=crop`;
+  (clientPhotos(sessionData)[7] || `https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=${q}&w=${w}&auto=format&fit=crop`);
 
 /* ─────────────────────────── SHARED PRIMITIVES ─────────────────────────── */
 
@@ -2506,9 +2510,11 @@ export default function ImpactTemplate(): React.ReactElement {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
   FOOTER_COLS = FOOTER_COLS_LIVE();
   SIGNATURES = SIGNATURES_LIVE();
 

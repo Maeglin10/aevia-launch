@@ -60,12 +60,15 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PROJECTS_DEMO = [
-  { title: "Stone House", location: "Mallorca, ES", year: "2024", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Cedar Pavilion", location: "Vancouver, CA", year: "2023", img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Clay Studio", location: "Oaxaca, MX", year: "2024", img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Glass Retreat", location: "Hokkaido, JP", year: "2023", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200" },
-]
+function PROJECTS_DEMO_LIVE() {
+  return [
+  { title: "Stone House", location: "Mallorca, ES", year: "2024", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Cedar Pavilion", location: "Vancouver, CA", year: "2023", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Clay Studio", location: "Oaxaca, MX", year: "2024", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Glass Retreat", location: "Hokkaido, JP", year: "2023", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200") },
+];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 let PROJECTS = PROJECTS_DEMO;
 
 const PILLARS_DEMO = [
@@ -109,9 +112,11 @@ export default function TerraArchitecturePage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 
 
@@ -238,7 +243,7 @@ export default function TerraArchitecturePage() {
               
               <Reveal delay={0.5}>
                 <div className="relative aspect-[4/5] bg-[var(--brand,#c4b5a2)]/20 rounded-sm">
-                   <ParallaxImg src={photo(0, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200")} alt="Main Project" />
+                   <ParallaxImg src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200"))} alt="Main Project" />
                 </div>
               </Reveal>
             </div>

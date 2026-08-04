@@ -59,7 +59,8 @@ let brand: any = null;
    ASTRUM REACH ORBITAL DATASET (ULTRA DENSITY)
    ========================================================================== */
 
-const MISSIONS_DEMO_SOURCE = [
+function MISSIONS_DEMO_SOURCE_LIVE() {
+  return [
   {
     id: "mis-lh-01",
     name: "Lunar Descent",
@@ -68,7 +69,7 @@ const MISSIONS_DEMO_SOURCE = [
     payload: "Scientific Relay",
     risk: "Medium",
     desc: "Une mission de précision visant à établir un relais de communication permanent au pôle sud lunaire. Exploitation de la glace d'eau pour le support de vie.",
-    img: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1600&q=80",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1600&q=80"),
     color: "#6366f1"
   },
   {
@@ -79,7 +80,7 @@ const MISSIONS_DEMO_SOURCE = [
     payload: "Bio-Synthetic Labs",
     risk: "Low",
     desc: "Station de recherche en microgravité dédiée à la synthèse moléculaire et aux tests de biocompatibilité pour les futurs colons martiens.",
-    img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600&q=80"),
     color: "#a855f7"
   },
   {
@@ -90,10 +91,12 @@ const MISSIONS_DEMO_SOURCE = [
     payload: "Terraforming Core",
     risk: "Extreme",
     desc: "L'engagement le plus ambitieux. Déploiement du premier réacteur à fusion pour l'épaississement de l'atmosphère martienne.",
-    img: "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=1600&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=1600&q=80"),
     color: "#f43f5e"
   }
-]
+];
+}
+let MISSIONS_DEMO_SOURCE = MISSIONS_DEMO_SOURCE_LIVE();
 let MISSIONS_DEMO = MISSIONS_DEMO_SOURCE;
 let MISSIONS = MISSIONS_DEMO;
 
@@ -240,9 +243,11 @@ export default function AstrumReachPremium() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  MISSIONS_DEMO_SOURCE = MISSIONS_DEMO_SOURCE_LIVE();
 
 
   MISSIONS_DEMO = resolveList(
@@ -409,7 +414,7 @@ return (
                   className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-[80vw] max-w-5xl opacity-40 mix-blend-screen pointer-events-none z-0"
                >
                   <img 
-                     src={photo(0, "https://images.pexels.com/photos/7327336/pexels-photo-7327336.jpeg?auto=compress&cs=tinysrgb&w=1600")}
+                     src={photo(0, (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/7327336/pexels-photo-7327336.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
                      className="w-full h-auto grayscale transition-all duration-1000"
                      alt="Starship"
                   />
@@ -762,7 +767,7 @@ function EngineeringPage() {
 
         <div className="border border-white/5 bg-black p-12 flex flex-col lg:flex-row items-center gap-12 font-mono">
           <div className="w-full lg:w-1/2 aspect-video relative">
-            <img src={photo(1, "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80")} alt="Telemetry HUD" className="w-full h-full object-cover grayscale" />
+            <img src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80"))} alt="Telemetry HUD" className="w-full h-full object-cover grayscale" />
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-transparent pointer-events-none" />
           </div>
           <div className="w-full lg:w-1/2">
@@ -819,7 +824,7 @@ function MaisonPage({ goTo }: { goTo: (p: ActivePage) => void }) {
             </div>
           </div>
           <div className="aspect-[4/5] bg-[#020205] border border-white/5 relative overflow-hidden">
-            <img src={photo(2, "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=800&q=80")} alt="Space helmet" className="w-full h-full object-cover grayscale opacity-50" />
+            <img src={photo(2, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=800&q=80"))} alt="Space helmet" className="w-full h-full object-cover grayscale opacity-50" />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent p-12 flex flex-col justify-end font-mono">
               <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-2">Tokyo_Launchpad_Registry</span>
               <h4 className="text-2xl font-black uppercase italic tracking-tighter text-white">Full Physiological Prep</h4>

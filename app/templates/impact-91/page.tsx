@@ -40,6 +40,7 @@ import {
   clientHours,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -498,7 +499,7 @@ function Hero() {
       {/* Parallax image */}
       <motion.div className="absolute inset-0 z-0" style={{ y: yImg }}>
         <Image
-          src={photo(0, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1920&auto=format&fit=crop")}
+          src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1920&auto=format&fit=crop"))}
           alt="Bijoux Aurelia"
           fill
           className="object-cover opacity-30"
@@ -706,7 +707,7 @@ function CollectionsSection() {
                   {/* Image */}
                   <div className="relative aspect-[3/4] overflow-hidden mb-6" style={{ backgroundColor: C.creamSoft }}>
                     <Image
-                      src={photo(2 + i, `https://images.unsplash.com/${piece.img}?q=80&w=600&auto=format&fit=crop`)}
+                      src={photo(2 + i, (clientPhotos(sessionData)[1] || `https://images.unsplash.com/${piece.img}?q=80&w=600&auto=format&fit=crop`))}
                       alt={piece.name}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -992,7 +993,7 @@ function AteliersSection() {
           <Reveal x={-40} y={0}>
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
-                src={photo(1, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=800&auto=format&fit=crop")}
+                src={photo(1, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=800&auto=format&fit=crop"))}
                 alt="Atelier Aurelia"
                 fill
                 className="object-cover"
@@ -1509,7 +1510,7 @@ function ContactSection() {
               style={{ backgroundColor: C.creamSoft, border: `1px solid ${C.border}` }}
             >
               <Image
-                src={photo(0, "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop")}
+                src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop"))}
                 alt="Localisation Aurelia"
                 fill
                 className="object-cover opacity-50"

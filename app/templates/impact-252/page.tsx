@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -121,10 +122,11 @@ interface TechItem {
    Data
    ════════════════════════════════════════════════════════════════════════════ */
 
-const TREATMENTS_DEMO: Treatment[] = [
+function TREATMENTS_DEMO_LIVE() {
+  return [
   {
     id: 'conservateurs',
-    imgId: 'https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'I',
     label: 'SOINS CONSERVATEURS',
     description:
@@ -132,7 +134,7 @@ const TREATMENTS_DEMO: Treatment[] = [
   },
   {
     id: 'esthetique',
-    imgId: 'https://images.pexels.com/photos/7789678/pexels-photo-7789678.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/7789678/pexels-photo-7789678.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'II',
     label: 'ESTHÉTIQUE',
     description:
@@ -140,13 +142,15 @@ const TREATMENTS_DEMO: Treatment[] = [
   },
   {
     id: 'implantologie',
-    imgId: 'https://images.pexels.com/photos/5355863/pexels-photo-5355863.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/5355863/pexels-photo-5355863.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'III',
     label: 'IMPLANTOLOGIE',
     description:
       'Implants zircone et titane, prothèses sur implant — retrouver une dentition complète et fonctionnelle.',
   },
 ];
+}
+let TREATMENTS_DEMO = TREATMENTS_DEMO_LIVE();
 
 const SPECIALTIES_DEMO: Specialty[] = [
   { title: 'Soins conservateurs', icon: '◇' },
@@ -157,10 +161,11 @@ const SPECIALTIES_DEMO: Specialty[] = [
   { title: 'Chirurgie orale', icon: '⬢' },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+function EDIT_ROWS_LIVE() {
+  return [
   {
     eyebrow: 'Notre approche',
-    imgId: 'https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     reverse: false,
     titleLine1: 'Le sourire',
     titleLine2: 'sans compromis.',
@@ -168,13 +173,15 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: 'Technologie',
-    imgId: 'https://images.pexels.com/photos/7789678/pexels-photo-7789678.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/7789678/pexels-photo-7789678.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     reverse: true,
     titleLine1: 'Radiologie 3D',
     titleLine2: '& CFAO.',
     body: 'Cone beam 3D pour une planification implantaire précise au millimètre. Scanner intraoral iTero pour des empreintes numériques parfaites. Prothèses CEREC fabriquées et posées en une seule séance, sans empreinte en alginate.',
   },
 ];
+}
+let EDIT_ROWS = EDIT_ROWS_LIVE();
 
 const TECH_ITEMS: TechItem[] = [
   {
@@ -224,7 +231,7 @@ let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 function unsplash(id: string, w = 1600) {
-  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
+  return ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[5] || `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`));
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -593,7 +600,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || unsplash('https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600', 2000)}
+          src={fd?.photoUrls?.[0] || unsplash((clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600'), 2000)}
           alt="Cabinet dentaire Smile & Co Lyon 6e"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
@@ -1302,7 +1309,7 @@ function TechPanel() {
             }}
           >
             <img
-              src={unsplash('https://images.pexels.com/photos/5355863/pexels-photo-5355863.jpeg?auto=compress&cs=tinysrgb&w=1600', 900)}
+              src={unsplash((clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/5355863/pexels-photo-5355863.jpeg?auto=compress&cs=tinysrgb&w=1600'), 900)}
               alt="Équipement technologique cabinet Smile & Co"
               loading="lazy"
               style={{
@@ -1582,7 +1589,7 @@ function AppointmentForm() {
     <section style={sec} id="rdv">
       {/* Fond subtil */}
       <img
-        src={unsplash('https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600', 1600)}
+        src={unsplash((clientPhotos(sessionData)[8] || 'https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600'), 1600)}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2048,9 +2055,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EDIT_ROWS = EDIT_ROWS_LIVE();
+  TREATMENTS_DEMO = TREATMENTS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(

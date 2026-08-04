@@ -28,6 +28,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -84,18 +85,21 @@ const SERIF = "'Cormorant Garamond', Georgia, serif" as const;
 const SANS = "'Jost', system-ui, sans-serif" as const;
 
 /* ── Photos Unsplash (IDs réels — ne pas modifier) ───────────────────────── */
-const PHOTO = {
-  hero: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop',
-  couple: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1600&auto=format&fit=crop',
-  decor: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1600&auto=format&fit=crop',
-  flowers: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=1600&auto=format&fit=crop',
-  ceremony: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop',
-  reception: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1600&auto=format&fit=crop',
-  bride: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1600&auto=format&fit=crop',
-  chateau: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop',
-  champetre: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=1600&auto=format&fit=crop',
-  laique: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1600&auto=format&fit=crop',
+function PHOTO_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop'),
+  couple: (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1600&auto=format&fit=crop'),
+  decor: (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1600&auto=format&fit=crop'),
+  flowers: (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=1600&auto=format&fit=crop'),
+  ceremony: (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop'),
+  reception: (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1600&auto=format&fit=crop'),
+  bride: (clientPhotos(sessionData)[6] || 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1600&auto=format&fit=crop'),
+  chateau: (clientPhotos(sessionData)[7] || 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop'),
+  champetre: (clientPhotos(sessionData)[8] || 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=1600&auto=format&fit=crop'),
+  laique: (clientPhotos(sessionData)[9] || 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1600&auto=format&fit=crop'),
 } as const;
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -3414,9 +3418,11 @@ export default function Impact280Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

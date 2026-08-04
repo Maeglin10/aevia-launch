@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientTagline,
   clientText,
@@ -70,7 +71,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 const unsplash = (id: string, w = 1600) =>
-  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[0] || `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`));
 
 /* ── Data interfaces ─────────────────────────────────────────────────────── */
 interface CraftPhase {
@@ -107,9 +108,10 @@ interface Testimonial {
 }
 
 /* ── Data ────────────────────────────────────────────────────────────────── */
-const PHASES: CraftPhase[] = [
+function PHASES_LIVE() {
+  return [
   {
-    img: unsplash('https://images.pexels.com/photos/7447286/pexels-photo-7447286.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+    img: unsplash((clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/7447286/pexels-photo-7447286.jpeg?auto=compress&cs=tinysrgb&w=1600')),
     index: 'I',
     title: 'LA PÂTE',
     body: 'Farine Label Rouge, levain naturel de 8 ans, pétrissage à la main. Rien ne presse quand on fait bien.',
@@ -121,12 +123,14 @@ const PHASES: CraftPhase[] = [
     body: "Four à sole, 250°C, enfournement à 5h du matin. La croûte se forme dans le premier quart d'heure.",
   },
   {
-    img: unsplash('https://images.pexels.com/photos/7447284/pexels-photo-7447284.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+    img: unsplash((clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/7447284/pexels-photo-7447284.jpeg?auto=compress&cs=tinysrgb&w=1600')),
     index: 'III',
     title: 'LA VIENNOISERIE',
     body: 'Croissants feuilletés 27 tours, brioches pur beurre AOP, pain au chocolat à la couverture Barry.',
   },
 ];
+}
+let PHASES = PHASES_LIVE();
 
 const SPECIALTIES_DEMO: Specialty[] = [
   { name: 'Pain de campagne au levain' },
@@ -141,7 +145,7 @@ function EDIT_ROWS_LIVE() {
   return [
   {
     eyebrow: 'Notre philosophie',
-    img: unsplash('https://images.pexels.com/photos/7447286/pexels-photo-7447286.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
+    img: unsplash((clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/7447286/pexels-photo-7447286.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
     imgAlt: 'Boulanger pétrissant la pâte à la main',
     titleLine1: 'Lenteur /',
     titleLine2: 'assumée.',
@@ -151,7 +155,7 @@ function EDIT_ROWS_LIVE() {
   },
   {
     eyebrow: "L'atelier",
-    img: unsplash('https://images.pexels.com/photos/7447284/pexels-photo-7447284.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
+    img: unsplash((clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/7447284/pexels-photo-7447284.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
     imgAlt: 'Viennoiseries dorées à la sortie du four',
     titleLine1: (clientCity(sessionData) ?? 'Lyon') + ', /',
     titleLine2: 'depuis 2011.',
@@ -503,7 +507,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || unsplash('https://images.pexels.com/photos/7447286/pexels-photo-7447286.jpeg?auto=compress&cs=tinysrgb&w=1600', 2000)}
+          src={fd?.photoUrls?.[0] || unsplash((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/7447286/pexels-photo-7447286.jpeg?auto=compress&cs=tinysrgb&w=1600'), 2000)}
           alt="Boulanger pétrissant la pâte à la Maison Brûlot"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -2147,9 +2151,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHASES = PHASES_LIVE();
   EDIT_ROWS = EDIT_ROWS_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

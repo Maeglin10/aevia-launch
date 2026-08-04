@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -81,7 +82,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo URL factory ───────────────────────────────────────────────────── */
 const photo = (id: string, w = 1600) =>
-  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[0] || `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`));
 
 /* ════════════════════════════════════════════════════════════════════════════
    Interfaces de données
@@ -131,21 +132,21 @@ function CREATIONS_DEMO_LIVE() {
     label: 'SOIE & ORGANZA',
     title: 'Soie & Organza',
     body: 'Robe du soir en soie naturelle, étole brodée à la main, bustier organza — ' + (clientCity(sessionData) ?? 'Lyon') + ', capitale mondiale de la soie, dans chaque fil.',
-    imgId: 'https://images.pexels.com/photos/4614208/pexels-photo-4614208.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/4614208/pexels-photo-4614208.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     index: 'II',
     label: 'BRODERIE MAIN',
     title: 'Broderie Main',
     body: "Broderie lyonnaise, fil d\'or, sequins cousus un à un — techniques transmises depuis les canuts du 18e siècle.",
-    imgId: 'https://images.pexels.com/photos/4614231/pexels-photo-4614231.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/4614231/pexels-photo-4614231.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     index: 'III',
     label: 'SCÈNE & SPECTACLE',
     title: 'Scène & Spectacle',
     body: 'Costumes de théâtre, opéra, ballet — précision de coupe pour permettre le mouvement sans jamais brider la performance.',
-    imgId: 'https://images.pexels.com/photos/6358795/pexels-photo-6358795.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/6358795/pexels-photo-6358795.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
 ];
 }
@@ -164,7 +165,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre héritage',
-    imgId: 'https://images.pexels.com/photos/4614208/pexels-photo-4614208.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/4614208/pexels-photo-4614208.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     title: (
       <>
         {clientCity(sessionData) ?? "Lyon"},{' '}
@@ -180,7 +181,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   },
   {
     eyebrow: "L\'atelier",
-    imgId: 'https://images.pexels.com/photos/4614231/pexels-photo-4614231.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/4614231/pexels-photo-4614231.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     title: (
       <>
         Vieux-Lyon
@@ -605,7 +606,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/4614208/pexels-photo-4614208.jpeg?auto=compress&cs=tinysrgb&w=2000'}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/4614208/pexels-photo-4614208.jpeg?auto=compress&cs=tinysrgb&w=2000')}
           alt="Atelier de couture soie naturelle Lyon"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1326,7 +1327,7 @@ function CraftPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || 'https://images.pexels.com/photos/6358795/pexels-photo-6358795.jpeg?auto=compress&cs=tinysrgb&w=900'}
+              src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/6358795/pexels-photo-6358795.jpeg?auto=compress&cs=tinysrgb&w=900')}
               alt="Atelier L'Atelier Soie — savoir-faire lyonnais"
               loading="lazy"
               style={{
@@ -1638,7 +1639,7 @@ function OrderForm() {
     <section style={sec} id="commande">
       {/* Photo de fond subtile */}
       <img
-        src={'https://images.pexels.com/photos/4614208/pexels-photo-4614208.jpeg?auto=compress&cs=tinysrgb&w=1200'}
+        src={(clientPhotos(sessionData)[8] || 'https://images.pexels.com/photos/4614208/pexels-photo-4614208.jpeg?auto=compress&cs=tinysrgb&w=1200')}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

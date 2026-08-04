@@ -32,6 +32,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -112,17 +113,20 @@ const SERIF = "'Outfit', sans-serif";
 const SANS = "'Inter', sans-serif";
 const EASE = [0.16, 1, 0.3, 1];
 
-const PHOTOS = {
-  hero: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=2000",
-  about: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=1200",
-  service1: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=800",
-  service2: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=800",
-  service3: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800",
-  gallery1: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&q=80&w=800",
-  gallery2: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=800",
-  gallery3: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&q=80&w=800",
-  gallery4: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
+function PHOTOS_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=2000"),
+  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=1200"),
+  service1: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=800"),
+  service2: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=800"),
+  service3: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800"),
+  gallery1: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&q=80&w=800"),
+  gallery2: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=800"),
+  gallery3: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&q=80&w=800"),
+  gallery4: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800"),
 };
+}
+let PHOTOS = PHOTOS_LIVE();
 
 // --- COMPONENTS ---
 
@@ -269,6 +273,7 @@ export default function Page({ session: initialSession }) {
   const [cData, setCData] = useState<any>(null);
   const [session, setSession] = useState(initialSession ?? null);
   sessionData = session;
+  PHOTOS = PHOTOS_LIVE();
 
   // Data lists
   // useState([]) infère never[] : ces états reçoivent ensuite les prestations et

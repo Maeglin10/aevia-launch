@@ -21,6 +21,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientServices,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -106,10 +107,10 @@ function MANIFEST_LIVE() {
     { id: "S-03", title: "Motion Engineering", icon: <Activity className="w-6 h-6" />, desc: "Physics-based animations, fluid simulations, and complex particle systems." }
   ],
   projects: [
-    { title: "Neon Genesis", tech: "Three.js / GLSL", desc: "Interactive product configurator for hyper-cars.", img: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80" },
-    { title: "Aether Protocol", tech: "React Three Fiber", desc: "Spatial data visualization for blockchain nodes.", img: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80" },
-    { title: "Void Analytics", tech: "WebGL / Canvas", desc: "Real-time particle system for tracking server loads.", img: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80" },
-    { title: "Cybernetics", tech: "Spline / React", desc: "Interactive 3D narrative for a tech hardware launch.", img: "https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?w=800&q=80" }
+    { title: "Neon Genesis", tech: "Three.js / GLSL", desc: "Interactive product configurator for hyper-cars.", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80") },
+    { title: "Aether Protocol", tech: "React Three Fiber", desc: "Spatial data visualization for blockchain nodes.", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80") },
+    { title: "Void Analytics", tech: "WebGL / Canvas", desc: "Real-time particle system for tracking server loads.", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80") },
+    { title: "Cybernetics", tech: "Spline / React", desc: "Interactive 3D narrative for a tech hardware launch.", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?w=800&q=80") }
   ],
   stats: [
     { label: "Vertices Rendered", val: "14.2B" },

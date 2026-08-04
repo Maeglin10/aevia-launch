@@ -27,6 +27,7 @@ import {
   clientAddress,
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -84,14 +85,17 @@ const SERIF = "'Libre Baskerville', Georgia, serif" as const;
 const SANS = "'Source Sans 3', system-ui, sans-serif" as const;
 
 /* ── Photos Unsplash (IDs réels, ne pas modifier) ─────────────────────────── */
-const PHOTO = {
-  hero: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1600&auto=format&fit=crop',
-  finance: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1600&auto=format&fit=crop',
-  meeting: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1600&auto=format&fit=crop',
-  charts: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600&auto=format&fit=crop',
-  expert: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1600&auto=format&fit=crop',
-  bureau: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1600&auto=format&fit=crop',
+function PHOTO_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1600&auto=format&fit=crop'),
+  finance: (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1600&auto=format&fit=crop'),
+  meeting: (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1600&auto=format&fit=crop'),
+  charts: (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600&auto=format&fit=crop'),
+  expert: (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1600&auto=format&fit=crop'),
+  bureau: (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1600&auto=format&fit=crop'),
 } as const;
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -2624,9 +2628,11 @@ export default function Impact289Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
   SPECIFICITES = SPECIFICITES_LIVE();
   PARTNER_CATEGORIES = PARTNER_CATEGORIES_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

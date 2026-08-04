@@ -20,6 +20,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientServices,
   clientStats,
   clientTeam,
@@ -142,12 +143,15 @@ const PROCESS = [
   { step: "Sound & Final Review", icon: "🔊" },
 ]
 
-const REELTHUMB = [
-  "https://images.pexels.com/photos/11063289/pexels-photo-11063289.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80&w=1200&auto=format&fit=crop",
-]
+function REELTHUMB_LIVE() {
+  return [
+  (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/11063289/pexels-photo-11063289.jpeg?auto=compress&cs=tinysrgb&w=1200"),
+  (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop"),
+  (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop"),
+  (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80&w=1200&auto=format&fit=crop"),
+];
+}
+let REELTHUMB = REELTHUMB_LIVE();
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -183,9 +187,11 @@ export default function KineticStudio() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  REELTHUMB = REELTHUMB_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -475,7 +481,7 @@ export default function KineticStudio() {
             <DialogTitle className="text-3xl text-white">Showreel 2025</DialogTitle>
           </DialogHeader>
           <div className="aspect-video bg-black relative rounded-lg overflow-hidden">
-            <Image src={photo(0, "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1600&q=80")} alt="Showreel" fill className="object-cover" />
+            <Image src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1600&q=80"))} alt="Showreel" fill className="object-cover" />
             <div className="absolute inset-0 flex items-center justify-center bg-black/30">
               <button className="text-white text-6xl hover:scale-110 transition-transform">{c?.ctaText ?? <>▶</>}</button>
             </div>

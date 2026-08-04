@@ -47,6 +47,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientReviews,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -119,15 +120,18 @@ const SANS = "'DM Sans', sans-serif" as const;
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const PHOTO = {
-  hero: "https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=1600&auto=format&fit=crop",
-  about: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=1600&auto=format&fit=crop",
-  special: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1600&auto=format&fit=crop",
-  gallery1: "https://images.pexels.com/photos/31393431/pexels-photo-31393431.jpeg?auto=compress&cs=tinysrgb&w=800",
-  gallery2: "https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=800&auto=format&fit=crop",
-  gallery3: "https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=800&auto=format&fit=crop",
-  gallery4: "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800&auto=format&fit=crop"
+function PHOTO_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=1600&auto=format&fit=crop"),
+  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=1600&auto=format&fit=crop"),
+  special: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1600&auto=format&fit=crop"),
+  gallery1: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/31393431/pexels-photo-31393431.jpeg?auto=compress&cs=tinysrgb&w=800"),
+  gallery2: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=800&auto=format&fit=crop"),
+  gallery3: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=800&auto=format&fit=crop"),
+  gallery4: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800&auto=format&fit=crop")
 } as const;
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ── Primitives Reutilisables ─────────────────────────────────────────────── */
 
@@ -265,9 +269,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

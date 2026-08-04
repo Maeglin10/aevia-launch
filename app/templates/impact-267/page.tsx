@@ -126,58 +126,64 @@ interface SafetyItem {
    DATA
    ════════════════════════════════════════════════════════════════════════════ */
 
-const PHOTO_BASE = 'https://images.unsplash.com/photo-';
+const PHOTO_BASE = (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-');
 
-const STYLES_DEMO: Style[] = [
+function STYLES_DEMO_LIVE() {
+  return [
   {
     id: 'geo',
     index: 'I',
     label: 'GÉOMÉTRIQUE',
     sub: 'Mandalas, polyèdres, lignes sacrées — précision mathématique et symbolisme dans chaque composition.',
-    img: `https://images.pexels.com/photos/6593372/pexels-photo-6593372.jpeg?auto=compress&cs=tinysrgb&w=1600`,
+    img: (clientPhotos(sessionData)[2] || `https://images.pexels.com/photos/6593372/pexels-photo-6593372.jpeg?auto=compress&cs=tinysrgb&w=1600`),
   },
   {
     id: 'veg',
     index: 'II',
     label: 'VÉGÉTAL & BOTANIQUE',
     sub: "Fleurs, feuilles, branches — l'encre noire qui capture la vie organique avec une finesse extrême.",
-  img: `https://images.pexels.com/photos/28991646/pexels-photo-28991646.jpeg?auto=compress&cs=tinysrgb&w=1600`,
+  img: (clientPhotos(sessionData)[3] || `https://images.pexels.com/photos/28991646/pexels-photo-28991646.jpeg?auto=compress&cs=tinysrgb&w=1600`),
   },
   {
     id: 'por',
     index: 'III',
     label: 'PORTRAITURE',
     sub: "Visages, yeux, expressions — le réalisme psychologique au service d'un tatouage qui vous représente.",
-    img: `https://images.pexels.com/photos/6593369/pexels-photo-6593369.jpeg?auto=compress&cs=tinysrgb&w=1600`,
+    img: (clientPhotos(sessionData)[4] || `https://images.pexels.com/photos/6593369/pexels-photo-6593369.jpeg?auto=compress&cs=tinysrgb&w=1600`),
   },
 ];
+}
+let STYLES_DEMO = STYLES_DEMO_LIVE();
 
-const ARTISTS_DEMO: Artist[] = [
+function ARTISTS_DEMO_LIVE() {
+  return [
   {
     name: 'ELENA',
     specialty: 'Géométrique & Mandala',
-    img: `https://images.pexels.com/photos/6593372/pexels-photo-6593372.jpeg?auto=compress&cs=tinysrgb&w=800`,
+    img: (clientPhotos(sessionData)[5] || `https://images.pexels.com/photos/6593372/pexels-photo-6593372.jpeg?auto=compress&cs=tinysrgb&w=800`),
     since: 'Depuis 2016',
   },
   {
     name: 'LUCAS',
     specialty: 'Botanique & Fineline',
-    img: `https://images.pexels.com/photos/28991646/pexels-photo-28991646.jpeg?auto=compress&cs=tinysrgb&w=800`,
+    img: (clientPhotos(sessionData)[6] || `https://images.pexels.com/photos/28991646/pexels-photo-28991646.jpeg?auto=compress&cs=tinysrgb&w=800`),
     since: 'Depuis 2018',
   },
   {
     name: 'MIRA',
     specialty: 'Portraiture réaliste',
-    img: `https://images.pexels.com/photos/6593369/pexels-photo-6593369.jpeg?auto=compress&cs=tinysrgb&w=800`,
+    img: (clientPhotos(sessionData)[7] || `https://images.pexels.com/photos/6593369/pexels-photo-6593369.jpeg?auto=compress&cs=tinysrgb&w=800`),
     since: 'Depuis 2014',
   },
   {
     name: 'SAMUEL',
     specialty: 'Abstract & Watercolor',
-    img: `https://images.pexels.com/photos/6593372/pexels-photo-6593372.jpeg?auto=compress&cs=tinysrgb&w=800`,
+    img: (clientPhotos(sessionData)[8] || `https://images.pexels.com/photos/6593372/pexels-photo-6593372.jpeg?auto=compress&cs=tinysrgb&w=800`),
     since: 'Depuis 2020',
   },
 ];
+}
+let ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
 
 function EDIT_ROWS_DEMO_SOURCE_LIVE() {
   return [
@@ -190,7 +196,7 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
       </>
     ),
     body: "Au cœur des Pentes de la Croix-Rousse, notre galerie-atelier accueille chaque client avec une consultation d'au moins une heure. Aucun flash, aucun copié-collé — chaque tatouage est un dessin original pensé pour vous, une seule fois.",
-    img: `https://images.pexels.com/photos/6593372/pexels-photo-6593372.jpeg?auto=compress&cs=tinysrgb&w=800`,
+    img: (clientPhotos(sessionData)[9] || `https://images.pexels.com/photos/6593372/pexels-photo-6593372.jpeg?auto=compress&cs=tinysrgb&w=800`),
     alt: "Vue de l'atelier Encre Vivante à Lyon",
     reverse: false,
   },
@@ -203,7 +209,7 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
       </>
     ),
     body: "Nous avons choisi les Pentes pour leur ADN : artisanat, indépendance, créativité. Nos clients viennent de toute la France et du monde entier pour un rendez-vous qui peut se réserver six mois à l'avance. La rareté, c'est une forme de respect.",
-    img: `https://images.pexels.com/photos/28991646/pexels-photo-28991646.jpeg?auto=compress&cs=tinysrgb&w=800`,
+    img: (clientPhotos(sessionData)[10] || `https://images.pexels.com/photos/28991646/pexels-photo-28991646.jpeg?auto=compress&cs=tinysrgb&w=800`),
     alt: 'Vue des Pentes de la Croix-Rousse à Lyon',
     reverse: true,
   },
@@ -609,7 +615,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || `https://images.pexels.com/photos/6593372/pexels-photo-6593372.jpeg?auto=compress&cs=tinysrgb&w=2000`}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[11] || `https://images.pexels.com/photos/6593372/pexels-photo-6593372.jpeg?auto=compress&cs=tinysrgb&w=2000`)}
           alt="Artiste en train de tatouer un motif géométrique"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1405,7 +1411,7 @@ function SafetyPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || `https://images.pexels.com/photos/6593369/pexels-photo-6593369.jpeg?auto=compress&cs=tinysrgb&w=900`}
+              src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[12] || `https://images.pexels.com/photos/6593369/pexels-photo-6593369.jpeg?auto=compress&cs=tinysrgb&w=900`)}
               alt="Poste de travail stérilisé — Atelier Encre Vivante"
               loading="lazy"
               style={{
@@ -1694,7 +1700,7 @@ function BookingForm() {
       <section style={sec} id="reservation">
         {/* Texture de fond subtile */}
         <img
-          src={`https://images.pexels.com/photos/6593372/pexels-photo-6593372.jpeg?auto=compress&cs=tinysrgb&w=1600`}
+          src={(clientPhotos(sessionData)[13] || `https://images.pexels.com/photos/6593372/pexels-photo-6593372.jpeg?auto=compress&cs=tinysrgb&w=1600`)}
           alt="Image de présentation"
           aria-hidden="true"
           loading="lazy"
@@ -1760,7 +1766,7 @@ function BookingForm() {
   return (
     <section style={sec} id="reservation">
       <img
-        src={`https://images.pexels.com/photos/6593369/pexels-photo-6593369.jpeg?auto=compress&cs=tinysrgb&w=1600`}
+        src={(clientPhotos(sessionData)[14] || `https://images.pexels.com/photos/6593369/pexels-photo-6593369.jpeg?auto=compress&cs=tinysrgb&w=1600`)}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2196,9 +2202,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
+  STYLES_DEMO = STYLES_DEMO_LIVE();
   EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
 
   EDIT_ROWS_DEMO = resolveList(

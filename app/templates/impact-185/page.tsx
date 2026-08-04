@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -351,7 +352,7 @@ export default function GentlemansCutPage() {
       `}</style>
       <section id="hero" ref={heroRef} className="imx185-hero relative h-[100dvh] min-h-[640px] flex [align-items:safe_flex-end] overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=88&w=2400")} alt="Barbier rasage traditionnel" fill className="object-cover object-top" priority style={{ filter: "brightness(0.35) contrast(1.05)" }} />
+          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=88&w=2400"))} alt="Barbier rasage traditionnel" fill className="object-cover object-top" priority style={{ filter: "brightness(0.35) contrast(1.05)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0908] via-[#0a0908]/55 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0908]/70 via-[#0a0908]/20 to-transparent" />
         </motion.div>
@@ -539,7 +540,7 @@ export default function GentlemansCutPage() {
                 </div>
               </div>
               <div className="relative aspect-[4/3] overflow-hidden">
-                <Image src={photo(1, "https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=85&w=900")} alt="Intérieur barbier vintage" fill className="object-cover" style={{ filter: "brightness(0.6) sepia(0.15)" }} />
+                <Image src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=85&w=900"))} alt="Intérieur barbier vintage" fill className="object-cover" style={{ filter: "brightness(0.6) sepia(0.15)" }} />
                 <div className="absolute inset-0 border border-[var(--brand,#c9a84c)]/15" />
               </div>
             </div>

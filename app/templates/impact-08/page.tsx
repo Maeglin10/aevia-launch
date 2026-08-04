@@ -57,7 +57,8 @@ let brand: any = null;
    VULCAN MOTOR GROUP DATASET (ULTRA DENSITY)
    ========================================================================= */
 
-const FLEET_DEMO_SOURCE = [
+function FLEET_DEMO_SOURCE_LIVE() {
+  return [
   {
     id: "vul-ty-01",
     name: "Tyrant GT",
@@ -67,7 +68,7 @@ const FLEET_DEMO_SOURCE = [
     topSpeed: "385 km/h",
     accel: "2.1s",
     desc: "L'apogée du Grand Tourisme. Un moteur V12 bi-turbo couplé à un système hybride de récupération d'énergie issu de la Formule 1.",
-    img: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=1600&q=80",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=1600&q=80"),
     color: "#3b82f6"
   },
   {
@@ -79,7 +80,7 @@ const FLEET_DEMO_SOURCE = [
     topSpeed: "340 km/h",
     accel: "1.9s",
     desc: "Conçue pour la piste. Une carrosserie entièrement en carbone pré-imprégné avec un appui aérodynamique actif de 800kg à 250km/h.",
-    img: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1600&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1600&q=80"),
     color: "#ef4444"
   },
   {
@@ -91,10 +92,12 @@ const FLEET_DEMO_SOURCE = [
     topSpeed: "410 km/h",
     accel: "1.7s",
     desc: "Le futur électrique. Quatre moteurs indépendants pilotés par une IA de vectorisation de couple en temps réel.",
-    img: "https://images.unsplash.com/photo-1611605645802-c21be743c321?w=1600&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1611605645802-c21be743c321?w=1600&q=80"),
     color: "#10b981"
   }
-]
+];
+}
+let FLEET_DEMO_SOURCE = FLEET_DEMO_SOURCE_LIVE();
 let FLEET_DEMO = FLEET_DEMO_SOURCE;
 let FLEET = FLEET_DEMO;
 
@@ -317,9 +320,11 @@ export default function VulcanMotorPremium() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  FLEET_DEMO_SOURCE = FLEET_DEMO_SOURCE_LIVE();
 
 
   FLEET_DEMO = resolveList(
@@ -644,7 +649,7 @@ return (
                   <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4">
                      <Reveal delay={0.2} scale={0.9}>
                         <div onClick={() => goTo("atelier")} className="aspect-[4/5] bg-zinc-900 border border-white/5 relative overflow-hidden group cursor-pointer">
-                           <img src={photo(0, "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80")} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" alt="Material" />
+                           <img src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80"))} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" alt="Material" />
                            <div className="absolute inset-0 flex items-end p-8 bg-gradient-to-t from-black/80 to-transparent">
                               <span className="text-[10px] font-black uppercase tracking-widest italic">Anodized_Alloy</span>
                            </div>
@@ -652,7 +657,7 @@ return (
                      </Reveal>
                      <Reveal delay={0.4} scale={0.9} y={100}>
                         <div onClick={() => goTo("atelier")} className="aspect-[4/5] bg-zinc-900 border border-white/5 relative overflow-hidden group mt-12 cursor-pointer">
-                           <img src={photo(1, "https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=800&q=80")} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" alt="Interior" />
+                           <img src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=800&q=80"))} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" alt="Interior" />
                            <div className="absolute inset-0 flex items-end p-8 bg-gradient-to-t from-black/80 to-transparent">
                               <span className="text-[10px] font-black uppercase tracking-widest italic">Alcantara_Grey</span>
                            </div>
@@ -844,7 +849,7 @@ function EngineeringPage() {
 
         <div className="border border-white/5 bg-zinc-950 p-12 flex flex-col lg:flex-row items-center gap-12">
           <div className="w-full lg:w-1/2 aspect-video relative">
-            <img src={photo(2, "https://images.unsplash.com/photo-1611605645802-c21be743c321?w=800&q=80")} alt="Aerodynamics tunnel" className="w-full h-full object-cover grayscale" />
+            <img src={photo(2, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1611605645802-c21be743c321?w=800&q=80"))} alt="Aerodynamics tunnel" className="w-full h-full object-cover grayscale" />
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--brand,#3b82f6)]/10 to-transparent pointer-events-none" />
           </div>
           <div className="w-full lg:w-1/2">
@@ -902,7 +907,7 @@ function AtelierPage() {
             </div>
           </div>
           <div className="aspect-[4/5] bg-zinc-900 border border-white/5 relative overflow-hidden">
-            <img src={photo(3, "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80")} alt="Design sketch" className="w-full h-full object-cover grayscale opacity-50" />
+            <img src={photo(3, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80"))} alt="Design sketch" className="w-full h-full object-cover grayscale opacity-50" />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent p-12 flex flex-col justify-end">
               <span className="text-[10px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest mb-2">Modena_Atelier_Registry</span>
               <h4 className="text-2xl font-black uppercase italic tracking-tighter text-white">4,200+ Combinations</h4>

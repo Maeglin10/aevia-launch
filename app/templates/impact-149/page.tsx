@@ -40,29 +40,32 @@ let brand: any = null;
    type — which is what made a €11,200 retreat look like a free template.
    Split screen from the bakery lab: the sanctuary is shown, one retreat at a
    time, and the swatches let a visitor choose rather than wait. */
-const HERO_SLIDES_DEMO = [
+function HERO_SLIDES_DEMO_LIVE() {
+  return [
   {
     n: "Elemental",
     d: "Forest bathing, breathwork, cold immersion. Three days to reset at cellular level.",
     meta: "3 days · from €2,400",
     c: "#7d8f7a",
-    img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1400&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1400&q=80"),
   },
   {
     n: "Deep Stillness",
     d: "Full sensory withdrawal, never more than four guests. Built for people who cannot switch off alone.",
     meta: "7 days · from €5,800",
     c: "#5a6b7d",
-    img: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1400&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1400&q=80"),
   },
   {
     n: "Inner Spring",
     d: "The complete Aether passage. Private chef, personalised ceremony, two months of follow-up.",
     meta: "14 days · from €11,200",
     c: "#9a8778",
-    img: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=1400&q=80",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=1400&q=80"),
   },
-]
+];
+}
+let HERO_SLIDES_DEMO = HERO_SLIDES_DEMO_LIVE();
 let HERO_SLIDES = HERO_SLIDES_DEMO;
 
 function AetherHero({ headline, subline }: { headline?: React.ReactNode; subline?: React.ReactNode }) {
@@ -226,9 +229,11 @@ export default function AetherWellnessPage() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  HERO_SLIDES_DEMO = HERO_SLIDES_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
@@ -358,7 +363,7 @@ export default function AetherWellnessPage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                  <Reveal>
                     <div className="relative aspect-[16/10] overflow-hidden rounded-[2.5rem]">
-                       <Image src={photo(0, "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=1200")} alt="Spa Detail" fill className="object-cover hover:scale-105 transition-transform duration-[2000ms]" />
+                       <Image src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=1200"))} alt="Spa Detail" fill className="object-cover hover:scale-105 transition-transform duration-[2000ms]" />
                        <div className="absolute inset-0 bg-black/5" />
                     </div>
                  </Reveal>

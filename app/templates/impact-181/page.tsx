@@ -9,6 +9,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
   clientCity,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -96,11 +97,14 @@ const SERVICES_SOURCE = [
 ]
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const REALISATIONS_DEMO = [
-  { title: "Piscine béton 9×4 m · Villa", tag: "Construction sur-mesure", img: "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Rénovation liner & plage", tag: "Rénovation complète", img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Couloir de nage · Contemporain", tag: "Bassin à débordement", img: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200" },
-]
+function REALISATIONS_DEMO_LIVE() {
+  return [
+  { title: "Piscine béton 9×4 m · Villa", tag: "Construction sur-mesure", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Rénovation liner & plage", tag: "Rénovation complète", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Couloir de nage · Contemporain", tag: "Bassin à débordement", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200") },
+];
+}
+let REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -167,9 +171,11 @@ export default function ToitPierrePiscinesPage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
   ZONES_DEMO = ZONES_DEMO_LIVE();
 
 
@@ -266,7 +272,7 @@ export default function ToitPierrePiscinesPage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=85&w=2400")} alt="Piscine sur-mesure" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
+          <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=85&w=2400"))} alt="Piscine sur-mesure" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1f2937] via-[#1f2937]/40 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#1f2937]/50 to-transparent" />
         </motion.div>

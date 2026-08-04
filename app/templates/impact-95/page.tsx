@@ -13,6 +13,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientServices,
   clientTeam,
   clientText,
@@ -272,7 +273,7 @@ function EquipeSection() {
       diploma: "DU Médecine esthétique — Sorbonne " + (clientCity(sessionData) ?? "Paris"),
       exp: "10 ans d'expérience · Spécialité injections",
       quote: "Je crois en une esthétique médicale honnête : améliorer sans effacer, sublimer sans uniformiser.",
-      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80&fit=crop",
+      image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80&fit=crop"),
     },
     {
       name: "Dr. Thomas Blanc",
@@ -280,7 +281,7 @@ function EquipeSection() {
       diploma: "DES Dermatologie — Université " + (clientCity(sessionData) ?? "Paris") + " Cité",
       exp: "Speaker IMCAS " + (clientCity(sessionData) ?? "Paris") + " · Expert lasers médicaux",
       quote: "La technologie laser permet aujourd'hui des résultats que l'on croyait réservés à la chirurgie. Avec moins de risques et zéro cicatrice.",
-      image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&q=80&fit=crop",
+      image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&q=80&fit=crop"),
     },
     {
       name: "Camille Martin",
@@ -288,7 +289,7 @@ function EquipeSection() {
       diploma: "IFSI " + (clientCity(sessionData) ?? "Paris") + " · DU Soins esthétiques",
       exp: "Coordinatrice des parcours patients",
       quote: "Mon rôle est de vous accompagner à chaque étape, de la première question jusqu'au suivi post-traitement.",
-      image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=800&q=80&fit=crop",
+      image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=800&q=80&fit=crop"),
     },
   ]
   const team: any[] = resolveList(clientTeam(sessionData), TEAM_DEMO)
@@ -917,7 +918,7 @@ export default function LumiereCliniquePage() {
         {/* Hero */}
         <section id="hero" ref={heroRef} className="relative min-h-[calc(100vh-80px)] overflow-hidden">
           <motion.div className="absolute inset-0" style={{ y: heroY }}>
-            <Image src={photo(0, "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=85&fit=crop")} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Lumière Clinic"))} fill className="object-cover" loading="lazy" />
+            <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=85&fit=crop"))} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Lumière Clinic"))} fill className="object-cover" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#FAFAF8]/95 via-[#FAFAF8]/70 to-[#FAFAF8]/20" />
           </motion.div>
           <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-24 min-h-[calc(100vh-80px)] flex flex-col justify-center">

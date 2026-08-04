@@ -11,6 +11,7 @@ import { Reveal, Counter, MagneticBtn } from "./shared";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -134,7 +135,7 @@ return (
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1600&q=80")}
+            src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1600&q=80"))}
             alt="Zen Hero"
             fill
             className="object-cover opacity-30 grayscale-[0.5]"

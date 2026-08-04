@@ -11,6 +11,7 @@ import {
   clientAddress,
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -58,13 +59,16 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const projects = [
-  { name: "Capsule Pro", category: "Packaging", client: "L'Oréal", year: "2025", angle: "-3deg", color: "#F97316", src: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80" },
-  { name: "Archeus Chair", category: "Furniture", client: "Cassina", year: "2025", angle: "2deg", color: "#6366F1", src: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80" },
-  { name: "HaloKit", category: "Consumer Electronics", client: "Sony Design", year: "2024", angle: "-2deg", color: "#0EA5E9", src: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80" },
-  { name: "Bloom Series", category: "Tableware", client: "Seletti", year: "2024", angle: "4deg", color: "#10B981", src: "https://images.unsplash.com/photo-1556742393-d75f468bfcb0?w=600&q=80" },
-  { name: "Kinetic Lamp", category: "Lighting", client: "Foscarini", year: "2023", angle: "-1deg", color: "#F59E0B", src: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80" },
+function projects_LIVE() {
+  return [
+  { name: "Capsule Pro", category: "Packaging", client: "L'Oréal", year: "2025", angle: "-3deg", color: "#F97316", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80") },
+  { name: "Archeus Chair", category: "Furniture", client: "Cassina", year: "2025", angle: "2deg", color: "#6366F1", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80") },
+  { name: "HaloKit", category: "Consumer Electronics", client: "Sony Design", year: "2024", angle: "-2deg", color: "#0EA5E9", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80") },
+  { name: "Bloom Series", category: "Tableware", client: "Seletti", year: "2024", angle: "4deg", color: "#10B981", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1556742393-d75f468bfcb0?w=600&q=80") },
+  { name: "Kinetic Lamp", category: "Lighting", client: "Foscarini", year: "2023", angle: "-1deg", color: "#F59E0B", src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80") },
 ];
+}
+let projects = projects_LIVE();
 
 const disciplines_SOURCE = [
   { icon: <Package className="w-5 h-5" />, title: "Packaging & Branding", desc: "Identités visuelles et packaging qui s'imposent en linéaire et survivent sur les feeds Instagram." },
@@ -85,14 +89,15 @@ const process = [
 
 /* ── Extended data for sub-pages ── */
 
-const projectDetails_SOURCE = [
+function projectDetails_SOURCE_LIVE() {
+  return [
   {
     name: "Capsule Pro",
     category: "Packaging",
     client: "L'Oréal",
     year: "2025",
     color: "#F97316",
-    src: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80",
+    src: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80"),
     description: "Une gamme de flacons rechargeables en aluminium recyclé pour la ligne premium L'Oréal Professionnel. Le système de capsules magnétiques simplifie le rechargement tout en maintenant l'élégance du packaging.",
     materials: "Aluminium recyclé 100%, ABS biosourcé, aimants néodyme",
     processUsed: "Conception CAO → Impression 3D métal → Moulage série",
@@ -104,7 +109,7 @@ const projectDetails_SOURCE = [
     client: "Cassina",
     year: "2025",
     color: "#6366F1",
-    src: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80",
+    src: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80"),
     description: "Fauteuil d'accueil pour les espaces hôteliers haut de gamme. Structure en frêne massif et assise en cuir pleine fleur. L'Archeus revisite les codes du design mid-century avec une approche contemporaine.",
     materials: "Frêne massif FSC, cuir pleine fleur tannage végétal, mousse HR recyclée",
     processUsed: "Esquisse → Modélisation 3D → Prototype 1:1 → Essais fatigue",
@@ -116,7 +121,7 @@ const projectDetails_SOURCE = [
     client: "Sony Design",
     year: "2024",
     color: "#0EA5E9",
-    src: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80",
+    src: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80"),
     description: "Écouteurs sans fil à réduction de bruit active avec étui de charge en céramique. Le HaloKit combine performance audio et minimalisme esthétique pour le marché premium.",
     materials: "Céramique zircone, silicone médical, drivers titane 10mm",
     processUsed: "Design industriel → Prototype fonctionnel → Tests acoustiques → Certification",
@@ -128,7 +133,7 @@ const projectDetails_SOURCE = [
     client: "Seletti",
     year: "2024",
     color: "#10B981",
-    src: "https://images.unsplash.com/photo-1556742393-d75f468bfcb0?w=600&q=80",
+    src: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1556742393-d75f468bfcb0?w=600&q=80"),
     description: "Collection de vaisselle en porcelaine inspirée des formes organiques des plantes succulentes. Chaque pièce est unique grâce à un procédé d'émaillage semi-aléatoire développé en interne.",
     materials: "Porcelaine de Limoges, émail réactif sans plomb, pigments naturels",
     processUsed: "Sculpture digitale → Impression 3D céramique → Émaillage artisanal",
@@ -140,13 +145,15 @@ const projectDetails_SOURCE = [
     client: "Foscarini",
     year: "2023",
     color: "#F59E0B",
-    src: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80",
+    src: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80"),
     description: "Luminaire cinétique dont l'abat-jour en lames d'aluminium réagit à la lumière naturelle pour créer des jeux d'ombres évolutifs tout au long de la journée.",
     materials: "Aluminium anodisé, moteur pas-à-pas silencieux, LED dimmable 2700K-5000K",
     processUsed: "Design paramétrique → Simulation lumière → Prototype mécanique → Production",
     ergonomics: "Contrôle via application et geste, rotation silencieuse < 20 dB, consommation 12W. Capteur crépusculaire intégré pour une adaptation automatique.",
   },
 ];
+}
+let projectDetails_SOURCE = projectDetails_SOURCE_LIVE();
 let projectDetails = projectDetails_SOURCE;
 
 function timeline_LIVE() {
@@ -229,9 +236,13 @@ export default function FormeStudioPage() {
   }, []);
 
   fd = session?.formData;
+
+
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  projectDetails_SOURCE = projectDetails_SOURCE_LIVE();
+  projects = projects_LIVE();
   timeline = timeline_LIVE();
   pricingTiers = pricingTiers_LIVE();
 
@@ -374,7 +385,7 @@ return (
           <section id="hero" ref={heroRef} className="relative min-h-dvh flex items-center pt-32 pb-16 px-6 overflow-hidden bg-[#F8F4F0]">
             <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
               <div className="absolute top-20 right-0 w-1/2 h-full opacity-20">
-                <Image src={photo(0, "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80")} alt="bg" fill className="object-cover" priority />
+                <Image src={photo(0, (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80"))} alt="bg" fill className="object-cover" priority />
               </div>
             </motion.div>
             <div className="max-w-6xl mx-auto w-full relative z-10">

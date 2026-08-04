@@ -40,6 +40,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -102,21 +103,24 @@ const SERIF = "'Barlow Condensed', sans-serif";
 const SANS = "'Roboto', sans-serif";
 const EASE = [0.16, 1, 0.3, 1];
 
-const PHOTO = {
-  hero: "https://images.pexels.com/photos/16509869/pexels-photo-16509869.jpeg?auto=compress&cs=tinysrgb&w=2000",
-  worker1: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=1200",
-  worker2: "https://images.unsplash.com/photo-1516216628859-9bccecab13ca?auto=format&fit=crop&q=80&w=1200",
-  tools: "https://images.pexels.com/photos/18274115/pexels-photo-18274115.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  pipe: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1200",
+function PHOTO_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/16509869/pexels-photo-16509869.jpeg?auto=compress&cs=tinysrgb&w=2000"),
+  worker1: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=1200"),
+  worker2: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1516216628859-9bccecab13ca?auto=format&fit=crop&q=80&w=1200"),
+  tools: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/18274115/pexels-photo-18274115.jpeg?auto=compress&cs=tinysrgb&w=1200"),
+  pipe: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1200"),
   gallery: [
-    "https://images.pexels.com/photos/16509869/pexels-photo-16509869.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1516216628859-9bccecab13ca?auto=format&fit=crop&q=80&w=800",
-    "https://images.pexels.com/photos/18274115/pexels-photo-18274115.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800"
+    (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/16509869/pexels-photo-16509869.jpeg?auto=compress&cs=tinysrgb&w=800"),
+    (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=800"),
+    (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1516216628859-9bccecab13ca?auto=format&fit=crop&q=80&w=800"),
+    (clientPhotos(sessionData)[8] || "https://images.pexels.com/photos/18274115/pexels-photo-18274115.jpeg?auto=compress&cs=tinysrgb&w=800"),
+    (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=800"),
+    (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800")
   ]
 };
+}
+let PHOTO = PHOTO_LIVE();
 
 const InstagramIcon = ({ size = 24, color = "currentColor" }) => (
   <svg
@@ -454,6 +458,8 @@ export default function PlumberDarkUrgent() {
   const fd = session?.formData || {};
 
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
+
   const c = session?.generatedContent || {};
   const bp = (session as any)?.businessProfile;
 

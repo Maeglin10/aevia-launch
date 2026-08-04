@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -368,7 +369,7 @@ export default function AtelierLeoniePage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=88&w=2400")} alt="Salon de coiffure élégant" fill className="object-cover object-center" priority style={{ filter: "brightness(0.4) saturate(0.9)" }} />
+          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=88&w=2400"))} alt="Salon de coiffure élégant" fill className="object-cover object-center" priority style={{ filter: "brightness(0.4) saturate(0.9)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#110c10] via-[#110c10]/45 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#110c10]/65 to-transparent" />
         </motion.div>
@@ -533,11 +534,11 @@ export default function AtelierLeoniePage() {
             <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>Le détail qui <span className="italic text-[var(--brand,#c97b7b)]">fait tout.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 h-[60vh] min-h-[400px]">
-            <div className="col-span-2 row-span-2 relative overflow-hidden"><ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=85&w=800")} alt="Coiffure femme" /></div>
-            <div className="relative overflow-hidden"><ParallaxImg src={photo(2, "https://images.unsplash.com/photo-1620331311520-246422fd82f9?auto=format&fit=crop&q=85&w=600")} alt="Couleur cheveux" /></div>
-            <div className="relative overflow-hidden"><ParallaxImg src={photo(3, "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=85&w=600")} alt="Balayage" /></div>
-            <div className="relative overflow-hidden"><ParallaxImg src={photo(4, "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=85&w=600")} alt="Maquillage brushing" /></div>
-            <div className="relative overflow-hidden"><ParallaxImg src={photo(5, "https://images.unsplash.com/photo-1554519515-242161756769?auto=format&fit=crop&q=85&w=600")} alt="Coiffure updo" /></div>
+            <div className="col-span-2 row-span-2 relative overflow-hidden"><ParallaxImg src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=85&w=800"))} alt="Coiffure femme" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src={photo(2, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1620331311520-246422fd82f9?auto=format&fit=crop&q=85&w=600"))} alt="Couleur cheveux" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src={photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=85&w=600"))} alt="Balayage" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src={photo(4, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=85&w=600"))} alt="Maquillage brushing" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src={photo(5, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1554519515-242161756769?auto=format&fit=crop&q=85&w=600"))} alt="Coiffure updo" /></div>
           </div>
         </div>
       </section>

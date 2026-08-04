@@ -112,33 +112,36 @@ function buildSeasonalMenus(items: { name: string; price: string; description?: 
   }));
 }
 
-const GALLERY_PHOTOS_DEMO = [
+function GALLERY_PHOTOS_DEMO_LIVE() {
+  return [
   {
-    src: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1200&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1200&auto=format&fit=crop"),
     alt: "Salle principale de restaurant gastronomique",
     className: "col-span-2 row-span-2",
   },
   {
-    src: "https://images.unsplash.com/photo-1481833761820-0509d3217039?q=80&w=800&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1481833761820-0509d3217039?q=80&w=800&auto=format&fit=crop"),
     alt: "Table dressée avec élégance",
     className: "col-span-1 row-span-1",
   },
   {
-    src: "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800&auto=format&fit=crop"),
     alt: "Bar à vin de la maison",
     className: "col-span-1 row-span-1",
   },
   {
-    src: "https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800&auto=format&fit=crop"),
     alt: "Salle privée pour événements",
     className: "col-span-1 row-span-1",
   },
   {
-    src: "https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?q=80&w=800&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?q=80&w=800&auto=format&fit=crop"),
     alt: "Détails de décoration intérieure",
     className: "col-span-1 row-span-1",
   },
 ];
+}
+let GALLERY_PHOTOS_DEMO = GALLERY_PHOTOS_DEMO_LIVE();
 let GALLERY_PHOTOS = GALLERY_PHOTOS_DEMO;
 
 const EXPERIENCES_SOURCE = [
@@ -232,9 +235,11 @@ export default function AeviaKitchenPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  GALLERY_PHOTOS_DEMO = GALLERY_PHOTOS_DEMO_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -368,7 +373,7 @@ export default function AeviaKitchenPage() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2400&auto=format&fit=crop")}
+            src={photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2400&auto=format&fit=crop"))}
             alt="Salle gastronomique Aevia Kitchen"
             fill
             className="object-cover brightness-[0.55]"
@@ -526,7 +531,7 @@ export default function AeviaKitchenPage() {
               <div className="relative">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-lg">
                   <Image
-                    src={photo(1, "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop")}
+                    src={photo(1, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop"))}
                     alt="Chef exécutif Aevia Kitchen"
                     fill
                     className="object-cover object-center"

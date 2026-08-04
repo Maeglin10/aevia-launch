@@ -16,6 +16,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -85,7 +86,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 function photo(id: string, w = 1600) {
-  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
+  return ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[0] || `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`));
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -132,67 +133,73 @@ interface SafetyItem {
    Données
    ════════════════════════════════════════════════════════════════════════════ */
 
-const STYLES_DEMO_SOURCE: Style[] = [
+function STYLES_DEMO_SOURCE_LIVE() {
+  return [
   {
     num: '1',
     roman: 'I',
     label: 'ILLUSTRATION',
     body: 'Personnages, scènes narratives, univers manga & bande dessinée — chaque pièce raconte une histoire unique.',
-    imgId: 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     num: '2',
     roman: 'II',
     label: 'NEO-TRADITIONNEL',
     body: 'Réinterprétation des codes old school avec palettes contemporaines et trait bold — intemporel et audacieux.',
-    imgId: 'https://images.pexels.com/photos/19669303/pexels-photo-19669303.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/19669303/pexels-photo-19669303.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     num: '3',
     roman: 'III',
     label: 'BOTANICA & GRAVURE',
     body: 'Flore, faune, gravure sur bois transposée en encre — finesse extrême, compositions équilibrées.',
-    imgId: 'https://images.pexels.com/photos/4125581/pexels-photo-4125581.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/4125581/pexels-photo-4125581.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
 ];
+}
+let STYLES_DEMO_SOURCE = STYLES_DEMO_SOURCE_LIVE();
 let STYLES_DEMO = STYLES_DEMO_SOURCE;
 
-const ARTISTS_DEMO: Artist[] = [
+function ARTISTS_DEMO_LIVE() {
+  return [
   {
     name: 'KIRA',
     specialty: 'Illustration & manga',
     wait: '3 mois',
     bio: "9 ans d\'expérience, collections muséales et fanzines underground.",
-    imgId: 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     name: 'THÉO',
     specialty: 'Neo-traditionnel & animaux',
     wait: '5 semaines',
     bio: 'Spécialiste couleur, influences tatami et botanique victorienne.',
-    imgId: 'https://images.pexels.com/photos/19669303/pexels-photo-19669303.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/19669303/pexels-photo-19669303.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     name: 'JADE',
     specialty: 'Botanica & gravure',
     wait: '6 semaines',
     bio: 'Fineline expert, tracé au quart de millimètre, adepte du noir pur.',
-    imgId: 'https://images.pexels.com/photos/4125581/pexels-photo-4125581.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/4125581/pexels-photo-4125581.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     name: 'MAX',
     specialty: 'Lettering & géométrie',
     wait: '4 semaines',
     bio: 'Typographie custom, design graphique, chaque lettre est une composition.',
-    imgId: 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
 ];
+}
+let ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
 
 function EDIT_ROWS_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre ADN',
-    imgId: 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[8] || 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     reverse: false,
     title: (
       <>
@@ -204,7 +211,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   },
   {
     eyebrow: 'Le studio',
-    imgId: 'https://images.pexels.com/photos/4125581/pexels-photo-4125581.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[9] || 'https://images.pexels.com/photos/4125581/pexels-photo-4125581.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     reverse: true,
     title: (
       <>
@@ -614,7 +621,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=2000'}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[10] || 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=2000')}
           alt="Studio Noir Absolu — Fine Art Tattoo Paris 3e"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
@@ -1440,7 +1447,7 @@ function SafetyPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || 'https://images.pexels.com/photos/19669303/pexels-photo-19669303.jpeg?auto=compress&cs=tinysrgb&w=900'}
+              src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[11] || 'https://images.pexels.com/photos/19669303/pexels-photo-19669303.jpeg?auto=compress&cs=tinysrgb&w=900')}
               alt="Hygiène et protocoles — Studio Noir Absolu"
               loading="lazy"
               style={{
@@ -1755,7 +1762,7 @@ function BookingForm() {
     <section style={sec} id="reservation">
       {/* Texture de fond discrète */}
       <img
-        src={'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1200'}
+        src={(clientPhotos(sessionData)[12] || 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1200')}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2288,9 +2295,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
+  STYLES_DEMO_SOURCE = STYLES_DEMO_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 

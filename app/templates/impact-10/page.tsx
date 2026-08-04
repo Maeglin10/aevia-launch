@@ -62,7 +62,8 @@ const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
 const SANS  = "'Jost', system-ui, sans-serif";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
-const ROOMS_DEMO = [
+function ROOMS_DEMO_LIVE() {
+  return [
   {
     num: '01',
     name: 'Prestige Room',
@@ -71,7 +72,7 @@ const ROOMS_DEMO = [
     price: '€480',
     tag: 'Most Requested',
     desc: 'A sanctuary of refined calm. Hand-stitched linen, aged oak flooring, and a private terrace overlooking the sculpted inner garden.',
-    img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85',
+    img: (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85'),
   },
   {
     num: '02',
@@ -81,7 +82,7 @@ const ROOMS_DEMO = [
     price: '€780',
     tag: 'Guest Favourite',
     desc: 'Soaring ceilings, a double marble bathroom, and floor-to-ceiling windows that frame the park like a living painting.',
-    img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85',
+    img: (clientPhotos(sessionData)[6] || 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85'),
   },
   {
     num: '03',
@@ -91,30 +92,35 @@ const ROOMS_DEMO = [
     price: '€1,200',
     tag: 'Signature',
     desc: 'Our most coveted address. A private dining room, butler antechamber, and a rooftop terrace overlooking the golden skyline at dusk.',
-    img: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85',
+    img: (clientPhotos(sessionData)[7] || 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85'),
   },
 ];
+}
+let ROOMS_DEMO = ROOMS_DEMO_LIVE();
 
-const EXPERIENCES_DEMO = [
+function EXPERIENCES_DEMO_LIVE() {
+  return [
   {
     label: "L\'Atelier",
     sub: 'Two Michelin Stars',
     desc: 'Chef Margaux Vernet elevates classical French gastronomy with ingredients sourced from our estate gardens and trusted regional producers.',
-    img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85',
+    img: (clientPhotos(sessionData)[8] || 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85'),
   },
   {
     label: 'Espace Étoile',
     sub: 'Spa & Thermal Circuit',
     desc: 'Seven treatment rooms, a Roman hammam, and a 25m heated pool. Every ritual is bespoke, every moment restorative.',
-    img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1000&q=85',
+    img: (clientPhotos(sessionData)[9] || 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1000&q=85'),
   },
   {
     label: 'Bar Lumière',
     sub: 'Rare Spirits & Cellar',
     desc: "An intimate bar presided over by our Maître d\'Alcools. Three thousand labels. One extraordinary conversation.",
-    img: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1000&q=85',
+    img: (clientPhotos(sessionData)[10] || 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1000&q=85'),
   },
 ];
+}
+let EXPERIENCES_DEMO = EXPERIENCES_DEMO_LIVE();
 
 const STATS_DEMO = [
   { n: '1887', l: 'Founded' },
@@ -166,7 +172,8 @@ type RoomFull = {
   amenities: string[];
 };
 
-const ROOMS_FULL_DEMO: RoomFull[] = [
+function ROOMS_FULL_DEMO_LIVE() {
+  return [
   {
     slug: 'prestige-room',
     name: 'Prestige Room',
@@ -176,11 +183,11 @@ const ROOMS_FULL_DEMO: RoomFull[] = [
     tag: 'Most Requested',
     desc: 'A sanctuary of refined calm. Hand-stitched linen, aged oak flooring and a private terrace overlooking the sculpted garden.',
     long: 'Nestled around the inner garden, the Prestige Room captures the art of living of the Grand Palais in its most essential form. Every material was chosen for touch as much as for the eye: hand-embroidered house linen, oak flooring softened by time, veined marble in the bathroom. A private terrace opens onto the sculpted garden — a refuge of silence at the heart of the city.',
-    img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85',
+    img: (clientPhotos(sessionData)[11] || 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85'),
     gallery: [
-      'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85',
-      'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=1200&q=85',
-      'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85',
+      (clientPhotos(sessionData)[12] || 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85'),
+      (clientPhotos(sessionData)[13] || 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=1200&q=85'),
+      (clientPhotos(sessionData)[14] || 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85'),
     ],
     amenities: ['Private terrace', 'King-size linen bed', 'Marble bathroom', 'Butler service', 'Fibre Wi-Fi', 'Prestige minibar'],
   },
@@ -193,11 +200,11 @@ const ROOMS_FULL_DEMO: RoomFull[] = [
     tag: 'Guest Favourite',
     desc: 'Soaring ceilings, a double marble bathroom and floor-to-ceiling windows that frame the park like a living painting.',
     long: 'The Deluxe Suite unfolds its generous volumes beneath classic French ceilings. Full-height windows frame the park like a canvas in perpetual motion, from the first foliage of spring to the golds of autumn. A separate sitting room, a double Carrara marble bathroom and a full dressing room make it a destination in its own right, conceived for stays that linger.',
-    img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85',
+    img: (clientPhotos(sessionData)[15] || 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85'),
     gallery: [
-      'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85',
-      'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=1200&q=85',
-      'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=85',
+      (clientPhotos(sessionData)[16] || 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85'),
+      (clientPhotos(sessionData)[17] || 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=1200&q=85'),
+      (clientPhotos(sessionData)[18] || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=85'),
     ],
     amenities: ['Separate sitting room', 'Double marble bathroom', 'Full dressing room', 'Panoramic park view', 'Barista coffee machine', 'Butler service'],
   },
@@ -210,11 +217,11 @@ const ROOMS_FULL_DEMO: RoomFull[] = [
     tag: 'Signature',
     desc: 'Our most coveted address. A private dining room, a butler antechamber and a rooftop terrace over the skyline.',
     long: 'The jewel of the house, the Grand Suite occupies the most sought-after corner of the palace. A private dining room seats up to eight guests, an antechamber dedicates a space to the butler attached to the suite, and the rooftop terrace embraces the golden skyline at dusk. Here, every detail is bespoke — from the choice of pillows to the menu of rare teas.',
-    img: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85',
+    img: (clientPhotos(sessionData)[19] || 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85'),
     gallery: [
-      'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85',
-      'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85',
-      'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=1200&q=85',
+      (clientPhotos(sessionData)[20] || 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85'),
+      (clientPhotos(sessionData)[21] || 'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85'),
+      (clientPhotos(sessionData)[22] || 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=1200&q=85'),
     ],
     amenities: ['Private dining room', 'Rooftop terrace', '24-hour dedicated butler', 'Reception antechamber', 'Private wine cellar', 'Unlimited spa access'],
   },
@@ -227,25 +234,28 @@ const ROOMS_FULL_DEMO: RoomFull[] = [
     tag: 'Exceptional',
     desc: 'The ultimate expression of the stay. Two bedrooms, a library, a grand piano and a suspended garden terrace.',
     long: 'On the top floor of the Grand Palais, the Presidential Suite extends across one hundred and eighty square metres of absolute elegance. Two principal bedrooms, a panelled library, a grand piano tuned each week and a suspended garden terrace offering a 360° view compose the setting of a stay without equal. A private chef, a chauffeured car and a personal concierge complete the experience.',
-    img: 'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85',
+    img: (clientPhotos(sessionData)[23] || 'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85'),
     gallery: [
-      'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85',
-      'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=1200&q=85',
-      'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85',
+      (clientPhotos(sessionData)[24] || 'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85'),
+      (clientPhotos(sessionData)[25] || 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=1200&q=85'),
+      (clientPhotos(sessionData)[26] || 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=85'),
     ],
     amenities: ['Two principal bedrooms', 'Library & grand piano', 'Suspended garden terrace', 'Private chef on request', 'Chauffeured car', 'Personal concierge'],
   },
 ];
+}
+let ROOMS_FULL_DEMO = ROOMS_FULL_DEMO_LIVE();
 let ROOMS_FULL = ROOMS_FULL_DEMO;
 
 // ─── Hotel services / experiences (Services sub-page) ─────────────────────────
-const SERVICES_DEMO = [
+function SERVICES_DEMO_LIVE() {
+  return [
   {
     glyph: '✦',
     label: 'Espace Étoile',
     sub: 'Spa & Thermal Circuit',
     desc: 'Seven treatment rooms, a Roman hammam and a 25-metre heated pool. Every ritual is bespoke, every moment restorative.',
-    img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1000&q=85',
+    img: (clientPhotos(sessionData)[27] || 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1000&q=85'),
     points: ['Roman hammam & sauna', '25 m heated pool', 'Bespoke signature treatments', '24-hour fitness suite'],
   },
   {
@@ -253,7 +263,7 @@ const SERVICES_DEMO = [
     label: "L'Atelier",
     sub: 'Two Michelin Stars',
     desc: 'Chef Margaux Vernet reimagines the French canon with produce grown fifty metres from the kitchen. The tasting menu changes with the moon.',
-    img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85',
+    img: (clientPhotos(sessionData)[28] || 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85'),
     points: ['Seasonal tasting menu', 'Estate kitchen garden', 'Wine pairings', 'Private chef\'s table'],
   },
   {
@@ -261,7 +271,7 @@ const SERVICES_DEMO = [
     label: 'Bar Lumière',
     sub: 'Rare Spirits & Cellar',
     desc: "An intimate bar presided over by our Maître d\'Alcools. Three thousand labels. One extraordinary conversation.",
-    img: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1000&q=85',
+    img: (clientPhotos(sessionData)[29] || 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1000&q=85'),
     points: ['3,000 labels', 'Dedicated Maître d\'Alcools', 'Signature cocktails', 'Private tasting evenings'],
   },
   {
@@ -269,7 +279,7 @@ const SERVICES_DEMO = [
     label: "Clefs d\'Or Concierge",
     sub: 'Available 24 Hours',
     desc: 'Reservations, private transfers, exceptional cultural access: our concierge composes every stay like a unique score.',
-    img: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1000&q=85',
+    img: (clientPhotos(sessionData)[30] || 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1000&q=85'),
     points: ['Private transfers & jet', 'Exclusive cultural access', 'Theatre reservations', 'Personal shopping'],
   },
   {
@@ -277,7 +287,7 @@ const SERVICES_DEMO = [
     label: 'Private Events',
     sub: 'Salons & Honour Gardens',
     desc: 'Weddings, gala dinners, executive retreats: our state salons and four hectares of gardens host your finest occasions.',
-    img: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1000&q=85',
+    img: (clientPhotos(sessionData)[31] || 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1000&q=85'),
     points: ['State salons', '4 hectares of gardens', 'Michelin catering', 'Dedicated coordination'],
   },
   {
@@ -285,13 +295,16 @@ const SERVICES_DEMO = [
     label: 'Car & Chauffeur',
     sub: 'Exceptional Mobility',
     desc: 'A fleet of prestige saloons and discreet chauffeurs to reach the airport or explore the city in complete serenity.',
-    img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1000&q=85',
+    img: (clientPhotos(sessionData)[32] || 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1000&q=85'),
     points: ['Prestige saloons', 'English-speaking chauffeurs', 'Airport transfers', 'Bespoke excursions'],
   },
 ];
+}
+let SERVICES_DEMO = SERVICES_DEMO_LIVE();
 
 // ─── Blog mock data (EN — art of living / travel / gastronomy) ────────────────
-const BLOG_POSTS_DEMO = [
+function BLOG_POSTS_DEMO_LIVE() {
+  return [
   {
     slug: 'art-of-the-table',
     title: 'The French Art of the Table, a Living Heritage',
@@ -299,7 +312,7 @@ const BLOG_POSTS_DEMO = [
     category: 'Art of Living',
     excerpt:
       'From the fold of the cloth to the choice of crystal, the French table is a silent choreography. A look inside a craft the Grand Palais perpetuates every evening.',
-    img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85',
+    img: (clientPhotos(sessionData)[33] || 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85'),
     body: [
       'Setting a table is not a utilitarian gesture: it is a form of courtesy addressed to the one you receive. In the French manner, the arrangement obeys a precise grammar, inherited from the great houses and passed down from generation to generation.',
       'Everything begins with the cloth, whose central fold must run perfectly down the middle of the table. The cutlery is laid from the outside in, in the order of service; the glasses align on a diagonal, from largest to smallest, above the tip of the knife.',
@@ -314,7 +327,7 @@ const BLOG_POSTS_DEMO = [
     category: 'Travel',
     excerpt:
       'Two hours from the palace, the châteaux of the Loire reveal formal gardens and troglodyte cellars. Our concierge composes the ideal day-long itinerary.',
-    img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&q=85',
+    img: (clientPhotos(sessionData)[34] || 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&q=85'),
     body: [
       'When the longing for the horizon makes itself felt, the Loire Valley offers an enchanted interlude. Barely two hours from the Grand Palais, it unrolls its Renaissance châteaux along a royal river, listed as a World Heritage site.',
       'Our concierge composes a bespoke day for you: a private château visit at opening, before the groups arrive, lunch in a guest house, then a tasting in a troglodyte cellar carved straight into the tufa.',
@@ -329,7 +342,7 @@ const BLOG_POSTS_DEMO = [
     category: 'Gastronomy',
     excerpt:
       "Two stars, a kitchen garden fifty metres from the stoves and a philosophy of the season. A meeting with the chef of L\'Atelier, at the Grand Palais.",
-    img: 'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1200&q=85',
+    img: (clientPhotos(sessionData)[35] || 'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1200&q=85'),
     body: [
       "\"A menu is, first of all, a season you listen to.\" So speaks Margaux Vernet, the two-star chef of L\'Atelier, the restaurant of the Grand Palais. In her world, the menu is never fixed: it breathes to the rhythm of the kitchen garden.",
       'Fifty metres separate the stoves from the growing beds. That proximity changes everything: the herbs are picked at the last minute, the vegetables harvested at perfect ripeness, and waste tends towards zero. "The shortest distance between the earth and the plate," she sums up.',
@@ -344,7 +357,7 @@ const BLOG_POSTS_DEMO = [
     category: 'Art of Living',
     excerpt:
       'Roman hammam, warm-oil massage and a herbal tea room: discover the treatment journey our spa reserves for the cold season.',
-    img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85',
+    img: (clientPhotos(sessionData)[36] || 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85'),
     body: [
       'When the city turns grey, Espace Étoile becomes a cocoon. For winter, our spa has designed a treatment journey conceived as an inner voyage, from the first breath of steam to the last sip of herbal tea.',
       'The ritual opens with the Roman hammam, whose moist heat prepares the skin and soothes the mind. Then comes a mineral-salt scrub, followed by a full-body massage with warm oils whose fragrances change with the season.',
@@ -353,6 +366,8 @@ const BLOG_POSTS_DEMO = [
     ],
   },
 ];
+}
+let BLOG_POSTS_DEMO = BLOG_POSTS_DEMO_LIVE();
 let BLOG_POSTS = BLOG_POSTS_DEMO;
 
 // ─── Hooks ───────────────────────────────────────────────────────────────────
@@ -625,7 +640,7 @@ function HeroSection() {
         style={{
           position: 'absolute',
           inset: '-10%',
-          backgroundImage: `url(${photo(0, "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1800&q=90")})`,
+          backgroundImage: `url(${photo(0, (clientPhotos(sessionData)[37] || "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1800&q=90"))})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center 30%',
           y: bgY,
@@ -1182,7 +1197,7 @@ function ExperienceRow({ exp, index }: { exp: typeof EXPERIENCES_DEMO[0]; index:
 function ParallaxDivider() {
   return (
     <ParallaxSection
-      imgSrc="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=85"
+      imgSrc={clientPhotos(sessionData)[38] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=85"}
       speed={0.35}
       height="55vh"
       overlay="rgba(26,18,8,0.55)"
@@ -1230,7 +1245,7 @@ function DiningSection() {
           top: '5rem',
           width: '45vw',
           height: '80%',
-          backgroundImage: `url(${photo(1, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85")})`,
+          backgroundImage: `url(${photo(1, (clientPhotos(sessionData)[39] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85"))})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           y: bgY,
@@ -1302,7 +1317,7 @@ function DiningSection() {
             <div
               style={{
                 height: '560px',
-                backgroundImage: `url(${photo(2, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85")})`,
+                backgroundImage: `url(${photo(2, (clientPhotos(sessionData)[40] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85"))})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 position: 'relative',
@@ -1385,7 +1400,7 @@ function LocationSection() {
               <div
                 style={{
                   height: '340px',
-                  backgroundImage: `url(${photo(3, "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1000&q=85")})`,
+                  backgroundImage: `url(${photo(3, (clientPhotos(sessionData)[41] || "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1000&q=85"))})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   position: 'relative',
@@ -1524,7 +1539,7 @@ function BookingCTA() {
         style={{
           position: 'absolute',
           inset: '-15%',
-          backgroundImage: `url(${photo(4, "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1600&q=85")})`,
+          backgroundImage: `url(${photo(4, (clientPhotos(sessionData)[42] || "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1600&q=85"))})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           y: bgY,
@@ -2002,7 +2017,7 @@ function ChambresPage({ roomSlug, setRoomSlug, goTo }: { roomSlug: string | null
         eyebrow="Accommodations"
         title="Rooms & Suites"
         subtitle="Four exceptional categories, each a variation on the same art of welcoming. Choose your refuge."
-        img="https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=1800&q=85"
+        img={clientPhotos(sessionData)[43] || "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=1800&q=85"}
       />
       <section style={{ background: CREAM, padding: '7rem 0' }}>
         <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem' }}>
@@ -2080,7 +2095,7 @@ function ServicesPage({ goTo }: { goTo: (p: HotelPage) => void }) {
         eyebrow="The Experience"
         title="Services & Experiences"
         subtitle="Spa, gastronomy, concierge: every service at the Grand Palais is designed so that everything feels simple and natural."
-        img="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1800&q=85"
+        img={clientPhotos(sessionData)[44] || "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1800&q=85"}
       />
       <section style={{ background: DARK, padding: '7rem 0' }}>
         <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem' }}>
@@ -2194,7 +2209,7 @@ function BlogPage({ blogSlug, setBlogSlug }: { blogSlug: string | null; setBlogS
         eyebrow="The Journal of the Palace"
         title="The Journal"
         subtitle="Our chronicles of the art of living, travel and gastronomy, written to the rhythm of the seasons."
-        img="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1800&q=85"
+        img={clientPhotos(sessionData)[45] || "https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1800&q=85"}
       />
       <section style={{ background: CREAM, padding: '7rem 0' }}>
         <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem' }}>
@@ -2259,7 +2274,7 @@ function ContactPage() {
         eyebrow="Reservations & Concierge"
         title="Contact"
         subtitle="Our team is at your service at every hour to compose a stay that reflects who you are."
-        img="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1800&q=85"
+        img={clientPhotos(sessionData)[46] || "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1800&q=85"}
       />
       <section style={{ background: CREAM, padding: '7rem 0' }}>
         <div className="gp-contact-grid" style={{ maxWidth: '70rem', margin: '0 auto', padding: '0 3rem', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: 'clamp(3rem, 5vw, 5rem)', alignItems: 'start' }}>
@@ -2349,7 +2364,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
         <SubPageHero
           eyebrow="Legal Information"
           title="Legal Notice"
-          img="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1800&q=85"
+          img={clientPhotos(sessionData)[47] || "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1800&q=85"}
         />
         <section style={{ background: CREAM, padding: '5rem 0 7rem' }}>
           <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>
@@ -2388,7 +2403,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
       <SubPageHero
         eyebrow="Data Protection"
         title="Privacy Policy"
-        img="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&q=85"
+        img={clientPhotos(sessionData)[48] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&q=85"}
       />
       <section id="contact" style={{ background: CREAM, padding: '5rem 0 7rem' }}>
         <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>
@@ -2468,9 +2483,19 @@ export default function GrandPalaisPage() {
   }, []);
 
   fd = session?.formData;
+
+
+
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  BLOG_POSTS_DEMO = BLOG_POSTS_DEMO_LIVE();
+  SERVICES_DEMO = SERVICES_DEMO_LIVE();
+  ROOMS_FULL_DEMO = ROOMS_FULL_DEMO_LIVE();
+  EXPERIENCES_DEMO = EXPERIENCES_DEMO_LIVE();
+  ROOMS_DEMO = ROOMS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
 

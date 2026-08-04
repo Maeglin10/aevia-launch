@@ -38,6 +38,7 @@ import {
   clientFaq,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -91,13 +92,14 @@ const FONT_BODY = "'Inter', system-ui, sans-serif";
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
-const COLLECTIONS_SOURCE = [
+function COLLECTIONS_SOURCE_LIVE() {
+  return [
   {
     name: "Éternité",
     category: "Bagues",
     desc: "Solitaires et alliances en platine 950, diamants GVS",
     from: "2 490 €",
-    img: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80"),
     tag: "Signature",
     pieces: 24,
   },
@@ -106,7 +108,7 @@ const COLLECTIONS_SOURCE = [
     category: "Colliers",
     desc: "Pendentifs en or jaune 18K, pierres précieuses certifiées GIA",
     from: "890 €",
-    img: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80"),
     tag: "Bestseller",
     pieces: 18,
   },
@@ -115,7 +117,7 @@ const COLLECTIONS_SOURCE = [
     category: "Boucles d'oreilles",
     desc: "Créoles et puces en or blanc 18K, diamants pavés",
     from: "680 €",
-    img: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&q=80"),
     tag: "Nouveau",
     pieces: 31,
   },
@@ -124,7 +126,7 @@ const COLLECTIONS_SOURCE = [
     category: "Bracelets",
     desc: "Joncs et chaînes en or 18K, fermoirs prestige sertis",
     from: "1 290 €",
-    img: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=80",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=80"),
     tag: "",
     pieces: 15,
   },
@@ -133,7 +135,7 @@ const COLLECTIONS_SOURCE = [
     category: "Bespoke",
     desc: "Créations uniques — votre vision, notre savoir-faire. Consultation gratuite.",
     from: "Sur devis",
-    img: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80",
+    img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80"),
     tag: "Exclusif",
     pieces: 0,
   },
@@ -142,11 +144,13 @@ const COLLECTIONS_SOURCE = [
     category: "Parures",
     desc: "Ensembles complets collier + boucles + bracelet, pierres assorties",
     from: "4 900 €",
-    img: "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=600&q=80",
+    img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=600&q=80"),
     tag: "Édition limitée",
     pieces: 7,
   },
 ];
+}
+let COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
 let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;
 
 const STATS_DEMO = [
@@ -412,9 +416,11 @@ export default function Impact157Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
   FAQS_DEMO = FAQS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
@@ -699,7 +705,7 @@ return (
             style={{
               position: "absolute",
               inset: 0,
-              background: `url(${photo(0, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=900&q=80")}) center/cover no-repeat`,
+              background: `url(${photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=900&q=80"))}) center/cover no-repeat`,
             }}
           />
           <div
@@ -1919,7 +1925,7 @@ return (
           style={{
             position: "absolute",
             inset: 0,
-            background: `url(${photo(1, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1600&q=80")}) center/cover no-repeat`,
+            background: `url(${photo(1, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1600&q=80"))}) center/cover no-repeat`,
             opacity: 0.08,
           }}
         />

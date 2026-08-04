@@ -30,6 +30,7 @@ import "../premium.css";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientServices,
   clientStats,
   clientText,
@@ -50,14 +51,15 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================= */
 
-const COLLECTIONS_SOURCE = [
+function COLLECTIONS_SOURCE_LIVE() {
+  return [
   {
     id: 1,
     name: "Astra Chrono",
     category: "Complications",
     price: "From CHF 125,000",
     desc: "A tourbillon masterpiece featuring a hand-finished skeleton dial and 72-hour power reserve.",
-    img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1200&q=80",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1200&q=80"),
   },
   {
     id: 2,
@@ -65,7 +67,7 @@ const COLLECTIONS_SOURCE = [
     category: "Professional",
     price: "From CHF 18,500",
     desc: "Titanium grade 5 case, water-resistant to 1000m with a helium escape valve and ceramic bezel.",
-    img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=1200&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=1200&q=80"),
   },
   {
     id: 3,
@@ -73,9 +75,11 @@ const COLLECTIONS_SOURCE = [
     category: "Heritage",
     price: "From CHF 85,000",
     desc: "Rose gold moonphase calendar that requires no adjustment for the next 122 years.",
-    img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1200&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1200&q=80"),
   },
 ];
+}
+let COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
 let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;
 
 const CRAFTSMANSHIP = [
@@ -209,9 +213,11 @@ export default function ZenithWatchesPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -357,7 +363,7 @@ export default function ZenithWatchesPage() {
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1600&q=80")}
+            src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1600&q=80"))}
             alt="Watch Movement"
             fill
             className="object-cover opacity-40 mix-blend-luminosity grayscale contrast-150"
@@ -565,7 +571,7 @@ export default function ZenithWatchesPage() {
           <Reveal>
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
               <Image
-                src={photo(1, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1200&q=80")}
+                src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1200&q=80"))}
                 alt="Vintage Heritage"
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-[2s] mix-blend-luminosity grayscale group-hover:grayscale-0"

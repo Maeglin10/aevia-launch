@@ -38,6 +38,7 @@ import {
   clientCity,
   clientHours,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -186,98 +187,101 @@ function Marquee({ items, speed = 40 }: { items: string[]; speed?: number }) {
 
 /* --- Data ------------------------------------------------------------------ */
 
-const SERVICES_SOURCE = [
+function SERVICES_SOURCE_LIVE() {
+  return [
   {
     title: "Coordination Complète",
     subtitle: "De A à Z",
     desc: "Nous prenons en charge la totalité de l'organisation — des premiers prestataires jusqu'au bouquet final. Votre rôle : vous laisser émouvoir.",
     icon: <Award className="w-6 h-6" />,
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80",
+    image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80"),
   },
   {
     title: "Décoration Florale",
     subtitle: "Art floral personnalisé",
     desc: "Nos fleuristes créent des compositions sur mesure : arches de fleurs, centres de table, boutonnières, et cascades pétales pour l'allée.",
     icon: <Flower2 className="w-6 h-6" />,
-    image: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80",
+    image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80"),
   },
   {
     title: "Animation Musicale",
     subtitle: "Quatuor à cordes & DJ",
     desc: "Cérémonie en quatuor de violons, cocktail jazz acoustique, soirée avec DJ résident — chaque moment sonore est orchestré avec soin.",
     icon: <Music className="w-6 h-6" />,
-    image: "https://images.unsplash.com/photo-1525772764200-be829a350797?w=600&q=80",
+    image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1525772764200-be829a350797?w=600&q=80"),
   },
   {
     title: "Photographie & Film",
     subtitle: "Souvenirs éternels",
     desc: "Nos photographes et vidéastes partenaires capturent chaque regard, chaque larme, chaque éclat de rire dans toute leur authenticité.",
     icon: <Camera className="w-6 h-6" />,
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80",
+    image: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80"),
   },
   {
     title: "Traiteur Gastronomique",
     subtitle: "Tables d'exception",
     desc: "Cocktail dînatoire ou banquet assis, menus entièrement personnalisés, accords mets-vins par notre sommelier référent. Le goût du bonheur.",
     icon: <Star className="w-6 h-6" />,
-    image: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80",
+    image: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80"),
   },
   {
     title: "Voyage de Noces",
     subtitle: "L'après aussi",
     desc: "Maldives, Kyoto, Santorini ou Amalfi — nous organisons votre lune de miel avec la même attention portée à chaque détail.",
     icon: <Heart className="w-6 h-6" />,
-    image: "https://images.unsplash.com/photo-1525772764200-be829a350797?w=600&q=80",
+    image: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1525772764200-be829a350797?w=600&q=80"),
   },
-]
+];
+}
+let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
 
 function GALLERY_ITEMS_DEMO_LIVE() {
   return [
   {
-    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80",
+    src: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80"),
     year: "2024",
     location: "Château de Vaux-le-Vicomte",
     size: "large",
   },
   {
-    src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80",
+    src: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80"),
     year: "2024",
     location: "Villa Ephrussi, Côte d'Azur",
     size: "small",
   },
   {
-    src: "https://images.unsplash.com/photo-1525772764200-be829a350797?w=800&q=80",
+    src: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1525772764200-be829a350797?w=800&q=80"),
     year: "2023",
     location: `Hôtel Meurice, ${clientCity(sessionData) ?? "Paris"}`,
     size: "small",
   },
   {
-    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80",
+    src: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80"),
     year: "2024",
     location: "Domaine de Chantilly",
     size: "medium",
   },
   {
-    src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80",
+    src: (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80"),
     year: "2023",
     location: "Château de Versailles",
     size: "medium",
   },
   {
-    src: "https://images.unsplash.com/photo-1525772764200-be829a350797?w=800&q=80",
+    src: (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1525772764200-be829a350797?w=800&q=80"),
     year: "2024",
     location: "Mas Provençal, Luberon",
     size: "small",
   },
   {
-    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80",
+    src: (clientPhotos(sessionData)[12] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80"),
     year: "2023",
     location: "Bordeaux, Vignoble Médoc",
     size: "small",
   },
   {
-    src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80",
+    src: (clientPhotos(sessionData)[13] || "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80"),
     year: "2024",
     location: "Abbaye de Fontfroide",
     size: "large",
@@ -372,14 +376,15 @@ const STEPS = [
   },
 ]
 
-const TESTIMONIALS_DEMO = [
+function TESTIMONIALS_DEMO_LIVE() {
+  return [
   {
     names: "Sophie & Mathieu",
     date: "14 Juin 2024",
     location: "Château de Vaux-le-Vicomte",
     quote: "Cérémonie a transformé notre rêve en quelque chose de bien au-delà. Chaque détail respirait l'amour. Nous avons pleuré, dansé, ri — et n'avons eu à penser à rien. Une magie absolue.",
     stars: 5,
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=200&q=80",
+    image: (clientPhotos(sessionData)[14] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=200&q=80"),
   },
   {
     names: "Clara & Antoine",
@@ -387,7 +392,7 @@ const TESTIMONIALS_DEMO = [
     location: "Villa Ephrussi, Côte d'Azur",
     quote: "L'équipe a su comprendre notre vision sans qu'on ait les mots pour la décrire. Les fleurs, la lumière, la musique — tout était parfaitement nous. Nos invités en parlent encore.",
     stars: 5,
-    image: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=200&q=80",
+    image: (clientPhotos(sessionData)[15] || "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=200&q=80"),
   },
   {
     names: "Amira & Lucas",
@@ -395,7 +400,7 @@ const TESTIMONIALS_DEMO = [
     location: "Abbaye de Fontfroide",
     quote: "Nous étions sceptiques sur le recours à une wedding planner — aujourd'hui, c'est la meilleure décision de nos préparatifs. Une tranquillité d'esprit inestimable, et un résultat époustouflant.",
     stars: 5,
-    image: "https://images.unsplash.com/photo-1525772764200-be829a350797?w=200&q=80",
+    image: (clientPhotos(sessionData)[16] || "https://images.unsplash.com/photo-1525772764200-be829a350797?w=200&q=80"),
   },
   {
     names: "Julie & Maxime",
@@ -403,9 +408,11 @@ const TESTIMONIALS_DEMO = [
     location: "Domaine de Chantilly",
     quote: "Notre mariage était un défi logistique — 180 invités, des prestataires dans 4 pays. Cérémonie a tout orchestré avec une sérénité impressionnante. Résultat : une perfection.",
     stars: 5,
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=200&q=80",
+    image: (clientPhotos(sessionData)[17] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=200&q=80"),
   },
-]
+];
+}
+let TESTIMONIALS_DEMO = TESTIMONIALS_DEMO_LIVE();
 
 const PARTNERS = [
   "Château de Versailles",
@@ -467,9 +474,13 @@ export default function Impact200Page() {
   }, []);
 
   fd = session?.formData;
+
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = TESTIMONIALS_DEMO_LIVE();
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   GALLERY_ITEMS_DEMO = GALLERY_ITEMS_DEMO_LIVE();
 
   STATS_INLINE = resolveList(
@@ -740,7 +751,7 @@ export default function Impact200Page() {
         {/* Parallax Image */}
         <motion.div className="absolute inset-0 z-0" style={{ y: heroY, opacity: heroOpacity }}>
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=90")}
+            src={photo(0, (clientPhotos(sessionData)[18] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=90"))}
             alt="Mariage de rêve"
             fill
             className="object-cover"
@@ -840,7 +851,7 @@ export default function Impact200Page() {
               <div className="relative w-full max-w-sm mx-auto">
                 <div className="aspect-[4/5] relative rounded-3xl overflow-hidden shadow-2xl shadow-[var(--brand,#DB2777)]/20">
                   <Image
-                    src={photo(1, "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80")}
+                    src={photo(1, (clientPhotos(sessionData)[19] || "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80"))}
                     alt="Mariage romantique"
                     fill
                     className="object-cover"

@@ -28,6 +28,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientServices,
   clientStats,
   clientText,
@@ -48,14 +49,15 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================= */
 
-const PROJECTS_DEMO = [
+function PROJECTS_DEMO_LIVE() {
+  return [
   {
     id: 1,
     name: "The Obsidian Loft",
     category: "Residential",
     location: "London, UK",
     desc: "A study in monochromatic minimalism, utilizing raw concrete and reclaimed oak to create a silent sanctuary.",
-    img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80"),
   },
   {
     id: 2,
@@ -63,7 +65,7 @@ const PROJECTS_DEMO = [
     category: "Commercial",
     location: "Paris, FR",
     desc: "Redefining workspace through glass-brick acoustics and architectural light channeling.",
-    img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80"),
   },
   {
     id: 3,
@@ -71,9 +73,11 @@ const PROJECTS_DEMO = [
     category: "Hospitality",
     location: "Kyoto, JP",
     desc: "Merging traditional Japanese spatial philosophy with brutalist structural integrity.",
-    img: "https://images.unsplash.com/photo-1590490359683-658d3d23f972?w=1200&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1590490359683-658d3d23f972?w=1200&q=80"),
   },
 ];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 const PHILOSOPHY_SOURCE = [
   {
@@ -207,9 +211,11 @@ export default function NovaSpacesPage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
   PHILOSOPHY = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
@@ -348,7 +354,7 @@ export default function NovaSpacesPage() {
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1600&q=80")}
+            src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1600&q=80"))}
             alt="Architectural Minimal"
             fill
             className="object-cover opacity-80"
@@ -542,7 +548,7 @@ export default function NovaSpacesPage() {
           <Reveal>
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-black/5">
               <Image
-                src={photo(1, "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80")}
+                src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80"))}
                 alt="Atelier"
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 transition-all duration-1000"

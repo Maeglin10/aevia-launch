@@ -3,6 +3,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientServices,
   clientStats,
   clientText,
@@ -54,21 +55,21 @@ function HERO_CUVEES_LIVE() {
     right: "DE VALROC",
     name: (clientName({ formData: fd }) ?? "Cuvée Prestige"),
     meta: "AOC " + (clientCity({ formData: fd }) ?? "Bordeaux") + " Grand Cru · 2020",
-    bottle: "https://images.unsplash.com/photo-1545608508-78f351665a1c?auto=format&fit=crop&q=85&w=620&h=1240",
+    bottle: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1545608508-78f351665a1c?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
   {
     left: "CHÂTEAU",
     right: "DE VALROC",
     name: "Cuvée Réserve",
     meta: "AOC " + (clientCity({ formData: fd }) ?? "Bordeaux") + " · 2021",
-    bottle: "https://images.unsplash.com/photo-1598866971869-22782ffd918e?auto=format&fit=crop&q=85&w=620&h=1240",
+    bottle: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1598866971869-22782ffd918e?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
   {
     left: "CHÂTEAU",
     right: "DE VALROC",
     name: "Blanc de Grâce",
     meta: (clientCity({ formData: fd }) ?? "Bordeaux") + " Blanc · 2022",
-    bottle: "https://images.unsplash.com/photo-1714377676631-bef738815d62?auto=format&fit=crop&q=85&w=620&h=1240",
+    bottle: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1714377676631-bef738815d62?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
 ];
 }
@@ -2008,7 +2009,7 @@ export default function WineryTemplate() {
               }}
             >
               <img
-                src={photo(0, "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=800&q=80")}
+                src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=800&q=80"))}
                 alt="Jean-Pierre Valroc"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />

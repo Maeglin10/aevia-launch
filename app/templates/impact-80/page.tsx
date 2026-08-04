@@ -38,14 +38,15 @@ let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
 let c: any = null;
 let brand: any = null;
 
-const PROJECTS_DEMO = [
+function PROJECTS_DEMO_LIVE() {
+  return [
   {
     name: "The Obsidian Villa",
     loc: "Malibu, CA",
     type: "Residential",
     year: "2024",
     area: "620 m²",
-    img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     name: "Glass Monolith",
@@ -53,7 +54,7 @@ const PROJECTS_DEMO = [
     type: "Commercial",
     year: "2024",
     area: "2 400 m²",
-    img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     name: "Serene Heights",
@@ -61,7 +62,7 @@ const PROJECTS_DEMO = [
     type: "Cultural",
     year: "2023",
     area: "1 100 m²",
-    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     name: "Meridian House",
@@ -69,9 +70,11 @@ const PROJECTS_DEMO = [
     type: "Residential",
     year: "2023",
     area: "480 m²",
-    img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop"),
   },
 ];
+}
+let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 let PROJECTS = PROJECTS_DEMO;
 
 const SERVICES = [
@@ -118,26 +121,29 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const TEAM_DEMO = [
+function TEAM_DEMO_LIVE() {
+  return [
   {
     name: "Elias Vorn",
     role: "Founding Principal",
     bio: "Trained at the ETH Zürich and the Architectural Association. Elias leads design strategy and maintains relationships with structural engineering consultants across Europe.",
-    img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop"),
   },
   {
     name: "Mara Solis",
     role: "Design Director",
     bio: "Formerly with Herzog & de Meuron. Mara oversees the development of every project from concept through construction administration, with a focus on material authenticity.",
-    img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop"),
   },
   {
     name: "Kenji Arao",
     role: "Technical Director",
     bio: "Structural specialist with a background in parametric engineering. Kenji ensures that the studio's formal ambitions are grounded in rigorous constructional logic.",
-    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=600&auto=format&fit=crop",
+    img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=600&auto=format&fit=crop"),
   },
 ];
+}
+let TEAM_DEMO = TEAM_DEMO_LIVE();
 let TEAM = TEAM_DEMO;
 
 const PROCESS = [
@@ -198,8 +204,12 @@ export default function SymmetryStudioPage() {
   }, []);
 
   fd = session?.formData;
+
+
   sessionData = session;
   c = session?.generatedContent;
+  TEAM_DEMO = TEAM_DEMO_LIVE();
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 
   PRESTATIONS_INLINE = resolveList(
@@ -292,7 +302,7 @@ return (
           <Reveal delay={0.5} y={0}>
             <div className="relative aspect-[4/5] overflow-hidden group">
               <ParallaxImg
-                src={photo(0, "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1400&auto=format&fit=crop")}
+                src={photo(0, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1400&auto=format&fit=crop"))}
                 alt="Architectural Minimal"
               />
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all duration-1000" />

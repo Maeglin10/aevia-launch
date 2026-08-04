@@ -48,7 +48,10 @@ const FONT = "'Libre Baskerville', Georgia, serif";
 const FONT_BODY = "'Cabin', system-ui, sans-serif";
 
 const NAV = [{"l": "Savoir-faire", "h": "#services"}, {"l": "L'atelier", "h": "#methode"}, {"l": "Repères", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO_DEMO = [{"k": "Mobilier contemporain", "line": "Le meuble dessiné pour votre mur, pas pour un catalogue.", "sub": "Noyer, frêne olivier, chêne de pays — massif uniquement.", "img": "https://images.pexels.com/photos/6790966/pexels-photo-6790966.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Ébéniste au travail dans son atelier"}, {"k": "Restauration", "line": "Rendre à un meuble ce que le temps lui a pris.", "sub": "Placages, colle d'os, vernis au tampon, serrures d'origine.", "img": "https://images.pexels.com/photos/34471533/pexels-photo-34471533.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Établi et outils de l'ébéniste"}, {"k": "Marqueterie", "line": "Le dessin fait de bois, pièce par pièce.", "sub": "Motifs contemporains ou reprises de modèles anciens.", "img": "https://images.pexels.com/photos/5974327/pexels-photo-5974327.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Rabot à main sur une pièce de bois massif"}];
+function HERO_DEMO_LIVE() {
+  return [{"k": "Mobilier contemporain", "line": "Le meuble dessiné pour votre mur, pas pour un catalogue.", "sub": "Noyer, frêne olivier, chêne de pays — massif uniquement.", "img": (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/6790966/pexels-photo-6790966.jpeg?auto=compress&cs=tinysrgb&w=1600"), "alt": "Ébéniste au travail dans son atelier"}, {"k": "Restauration", "line": "Rendre à un meuble ce que le temps lui a pris.", "sub": "Placages, colle d'os, vernis au tampon, serrures d'origine.", "img": (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/34471533/pexels-photo-34471533.jpeg?auto=compress&cs=tinysrgb&w=1600"), "alt": "Établi et outils de l'ébéniste"}, {"k": "Marqueterie", "line": "Le dessin fait de bois, pièce par pièce.", "sub": "Motifs contemporains ou reprises de modèles anciens.", "img": (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/5974327/pexels-photo-5974327.jpeg?auto=compress&cs=tinysrgb&w=1600"), "alt": "Rabot à main sur une pièce de bois massif"}];
+}
+let HERO_DEMO = HERO_DEMO_LIVE();
 let HERO = HERO_DEMO;
 
 const SERVICES_SOURCE = [{"titre": "Mobilier sur mesure", "desc": "Tables, bibliothèques, bureaux, lits : dessinés avec vous, assemblés à tenon-mortaise et queues d'aronde. Aucun panneau de particules ne franchit la porte.", "tag": "Sur mesure"}, {"titre": "Restauration de mobilier ancien", "desc": "Placages refaits à la colle d'os, finitions à la gomme-laque au tampon, ferrures d'époque remontées : la restauration qui respecte le meuble, pas qui le maquille.", "tag": "Restauration"}, {"titre": "Marqueterie & placage", "desc": "Motifs contemporains ou reprises de modèles Louis-Philippe : essences choisies pour leur veine, découpées à la scie à chantourner.", "tag": "Marqueterie"}, {"titre": "Escaliers & pièces d'agencement", "desc": "Limons, garde-corps, habillages : les grandes pièces de menuiserie qui structurent une maison, calculées et posées.", "tag": "Agencement"}, {"titre": "Pièces d'exception", "desc": "Cabinets, secrétaires, meubles d'apparat : les commandes qui prennent six mois et se transmettent ensuite.", "tag": "Exception"}, {"titre": "Conseil & expertise", "desc": "Estimer un meuble de famille, dire s'il vaut une restauration : un avis d'ébéniste avant de dépenser — parfois pour vous dire non.", "tag": "Conseil"}];
@@ -99,9 +102,11 @@ export default function EtabliMoreauPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_DEMO = HERO_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -320,7 +325,7 @@ export default function EtabliMoreauPage() {
       <section id="engagements" className="i379-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i379-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, "https://images.pexels.com/photos/34471533/pexels-photo-34471533.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="L'établi de l'ébéniste" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(3, (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/34471533/pexels-photo-34471533.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="L'établi de l'ébéniste" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>

@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -85,7 +86,7 @@ function photo(id: string, w = 1600) {
   // Client-provided full URLs (e.g. uploaded realisation photos) pass through
   // untouched; only bare Unsplash id fragments get wrapped.
   if (id.startsWith('http')) return id;
-  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
+  return ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[0] || `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`));
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -132,13 +133,13 @@ interface DesignStep {
 function PHASES_DEMO_LIVE() {
   return [
   {
-    imgId: 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'I',
     title: 'JARDINS CONTEMPORAINS',
     sub: "Lignes épurées, végétaux structurants, minéral et vivant en dialogue — le jardin comme prolongement de l\'architecture.",
   },
   {
-    imgId: 'https://images.pexels.com/photos/37680757/pexels-photo-37680757.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/37680757/pexels-photo-37680757.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'II',
     title: 'POTAGERS & JARDINS NOURRICIERS',
     sub: "Carrés surélevés, serre tunnel, composteur intégré — produire bio à 30min de " + (clientCity(sessionData) ?? "Paris") + ", c\'est possible.",
@@ -167,7 +168,7 @@ function EDIT_ROWS_LIVE() {
   return [
   {
     eyebrow: 'Notre approche',
-    imgId: 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     imgW: 800,
     reverse: false,
     titleLines: ['Chaque jardin', 'raconte une histoire.'],
@@ -175,7 +176,7 @@ function EDIT_ROWS_LIVE() {
   },
   {
     eyebrow: 'Île-de-France',
-    imgId: 'https://images.pexels.com/photos/37680757/pexels-photo-37680757.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/37680757/pexels-photo-37680757.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     imgW: 800,
     reverse: true,
     titleLines: [(clientCity(sessionData) ?? 'Paris') + ' &', 'petite couronne.'],
@@ -603,7 +604,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=2000'}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=2000')}
           alt="Jardin contemporain Vert Horizon Île-de-France"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1631,7 +1632,7 @@ function QuoteForm() {
     <section style={sec} id="devis">
       {/* Photo décorative en filigrane */}
       <img
-        src={'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=1600'}
+        src={(clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=1600')}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

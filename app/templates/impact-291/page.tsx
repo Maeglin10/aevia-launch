@@ -26,6 +26,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -88,18 +89,21 @@ const SANS = "'Inter', system-ui, sans-serif" as const;
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photos Unsplash (IDs réels, santé & thérapie) ──────────────────────── */
-const PHOTO = {
+function PHOTO_LIVE() {
+  return {
   therapy:
-    'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1600&auto=format&fit=crop'),
   cabinet:
-    'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600&auto=format&fit=crop'),
   consultation:
-    'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1600&auto=format&fit=crop'),
   wellness:
-    'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1600&auto=format&fit=crop'),
   hero:
-    'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1600&auto=format&fit=crop',
+    (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1600&auto=format&fit=crop'),
 } as const;
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives partagées
@@ -2594,9 +2598,11 @@ export default function Impact291Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
   INFO_BLOCKS = INFO_BLOCKS_LIVE();
 
   PED_ITEMS = resolveList(

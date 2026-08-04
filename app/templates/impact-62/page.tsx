@@ -11,6 +11,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -148,7 +149,7 @@ return (
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1600&q=80")}
+            src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1600&q=80"))}
             alt="Fine Dining Hero"
             fill
             className="object-cover brightness-[0.3]"
@@ -371,9 +372,9 @@ return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {ARTISANS.map((artisan, idx) => {
             const artisanImages = [
-              photo(1, "https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=800&q=80"),
-              photo(2, "https://images.unsplash.com/photo-1506368249639-73a05d6f6488?w=800&q=80"),
-              photo(3, "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80"),
+              photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=800&q=80")),
+              photo(2, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1506368249639-73a05d6f6488?w=800&q=80")),
+              photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80")),
             ];
             return (
               <Reveal key={idx} delay={idx * 0.12}>
@@ -471,7 +472,7 @@ return (
       <section className="relative py-40 px-6 md:px-12 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src={photo(4, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80")}
+            src={photo(4, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80"))}
             alt="Table Satori"
             fill
             className="object-cover brightness-[0.15]"

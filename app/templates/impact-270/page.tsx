@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -129,70 +130,76 @@ interface SafetyItem {
    Data
    ════════════════════════════════════════════════════════════════════════════ */
 
-const BASE = 'https://images.unsplash.com/photo-';
+const BASE = (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
 const ph = (id: string, w = 1600) =>
   id.startsWith('http') ? id : `${BASE}${id}?q=80&w=${w}&auto=format&fit=crop`;
 
-const STYLES_DEMO: Style[] = [
+function STYLES_DEMO_LIVE() {
+  return [
   {
-    src: ph('https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+    src: ph((clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600')),
     alt: 'Tatouage nature et plumes',
     index: 'I',
     label: 'NATURE & PLUMES',
     desc: "Oiseaux en vol, plumes délicates, branches fleuries — l'encre noire qui capture la légèreté du vivant.",
   },
   {
-    src: ph('https://images.pexels.com/photos/29547854/pexels-photo-29547854.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+    src: ph((clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/29547854/pexels-photo-29547854.jpeg?auto=compress&cs=tinysrgb&w=1600')),
     alt: 'Tatouage surréaliste',
     index: 'II',
     label: 'SURRÉALISME',
     desc: "Montres qui fondent, œils floraux, univers de Dalí transposés sur peau — l'imaginaire sans limites.",
   },
   {
-    src: ph('https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+    src: ph((clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600')),
     alt: 'Tatouage old school revisité',
     index: 'III',
     label: 'OLD SCHOOL REVISITÉ',
     desc: 'Ancres, roses, aigles — les codes traditionnels réinterprétés avec des couleurs modernes et un trait affiné.',
   },
 ];
+}
+let STYLES_DEMO = STYLES_DEMO_LIVE();
 
-const ARTISTS_DEMO: Artist[] = [
+function ARTISTS_DEMO_LIVE() {
+  return [
   {
     name: 'CLAIRE',
     specialty: 'Nature & illustration',
     badge: 'Nature & illustration',
-    img: ph('https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
+    img: ph((clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
     alt: 'Claire — artiste tatouage nature et illustration',
   },
   {
     name: 'HUGO',
     specialty: 'Surréalisme & dreamlike',
     badge: 'Surréalisme',
-    img: ph('https://images.pexels.com/photos/29547854/pexels-photo-29547854.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
+    img: ph((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/29547854/pexels-photo-29547854.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
     alt: 'Hugo — artiste tatouage surréaliste',
   },
   {
     name: 'ANNA',
     specialty: 'Old school revisité',
     badge: 'Old school',
-    img: ph('https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
+    img: ph((clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
     alt: 'Anna — artiste tatouage old school revisité',
   },
   {
     name: 'THÉO',
     specialty: 'Script & lettering poétique',
     badge: 'Lettering',
-    img: ph('https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
+    img: ph((clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
     alt: 'Théo — artiste tatouage script et lettering',
   },
 ];
+}
+let ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
 
 function EDIT_ROWS_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre univers',
-    img: ph('https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
+    img: ph((clientPhotos(sessionData)[8] || 'https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
     alt: 'Illustration et tatouage — Peau & Plume',
     numeral: '01',
     title: (
@@ -205,7 +212,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   },
   {
     eyebrow: (clientCity(sessionData) ?? 'Lille'),
-    img: ph('https://images.pexels.com/photos/29547854/pexels-photo-29547854.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
+    img: ph((clientPhotos(sessionData)[9] || 'https://images.pexels.com/photos/29547854/pexels-photo-29547854.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
     alt: 'Atelier lumineux Peau & Plume — Vieux-Lille',
     numeral: '02',
     title: (
@@ -607,7 +614,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || ph('https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600', 2000)}
+          src={fd?.photoUrls?.[0] || ph((clientPhotos(sessionData)[10] || 'https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600'), 2000)}
           alt="Tatouage nature et plumes — Peau & Plume Lille"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1395,7 +1402,7 @@ function SafetyPanel() {
               }}
             >
               <img
-                src={fd?.photoUrls?.[1] || ph('https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600', 900)}
+                src={fd?.photoUrls?.[1] || ph((clientPhotos(sessionData)[11] || 'https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600'), 900)}
                 alt="Hygiène irréprochable — Peau & Plume"
                 loading="lazy"
                 style={{
@@ -1696,7 +1703,7 @@ function BookingForm() {
     <section style={sec} id="reserver">
       {/* Fond fantôme */}
       <img
-        src={ph('https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600', 1200)}
+        src={ph((clientPhotos(sessionData)[12] || 'https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600'), 1200)}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2163,9 +2170,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
+  STYLES_DEMO = STYLES_DEMO_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 
   EDIT_ROWS = resolveList(

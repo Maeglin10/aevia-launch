@@ -14,6 +14,7 @@ import {
   clientFaq,
   clientHours,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -69,21 +70,27 @@ function Reveal({ children, className = "", delay = 0 }: { children: React.React
   )
 }
 
-const companies = [
-  { name: "Flux AI", sector: "AI/ML", raise: "$4.2M", logo: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=80&h=80&fit=crop&crop=center", cohort: "W23" },
-  { name: "Vanta Pay", sector: "Fintech", raise: "$8.1M", logo: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=80&h=80&fit=crop&crop=center", cohort: "S23" },
-  { name: "NeuraStack", sector: "Developer Tools", raise: "$3.5M", logo: "https://images.unsplash.com/photo-1620287341056-49a2f1ab2fdc?w=80&h=80&fit=crop&crop=center", cohort: "W23" },
-  { name: "Clio Health", sector: "HealthTech", raise: "$6.8M", logo: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=80&h=80&fit=crop&crop=center", cohort: "S22" },
-  { name: "Arco Climate", sector: "CleanTech", raise: "$12M", logo: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=80&h=80&fit=crop&crop=center", cohort: "W22" },
-  { name: "Forma Studio", sector: "Design Tools", raise: "$2.9M", logo: "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=80&h=80&fit=crop&crop=center", cohort: "S23" },
-]
+function companies_LIVE() {
+  return [
+  { name: "Flux AI", sector: "AI/ML", raise: "$4.2M", logo: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=80&h=80&fit=crop&crop=center"), cohort: "W23" },
+  { name: "Vanta Pay", sector: "Fintech", raise: "$8.1M", logo: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=80&h=80&fit=crop&crop=center"), cohort: "S23" },
+  { name: "NeuraStack", sector: "Developer Tools", raise: "$3.5M", logo: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1620287341056-49a2f1ab2fdc?w=80&h=80&fit=crop&crop=center"), cohort: "W23" },
+  { name: "Clio Health", sector: "HealthTech", raise: "$6.8M", logo: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=80&h=80&fit=crop&crop=center"), cohort: "S22" },
+  { name: "Arco Climate", sector: "CleanTech", raise: "$12M", logo: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=80&h=80&fit=crop&crop=center"), cohort: "W22" },
+  { name: "Forma Studio", sector: "Design Tools", raise: "$2.9M", logo: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=80&h=80&fit=crop&crop=center"), cohort: "S23" },
+];
+}
+let companies = companies_LIVE();
 
-const mentors_SOURCE = [
-  { name: "Sarah Chen", role: "Partner @ Sequoia", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face", expertise: "Growth" },
-  { name: "Marcus Reid", role: "Founder @ Linear", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face", expertise: "Product" },
-  { name: "Priya Nair", role: "CTO @ Stripe", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face", expertise: "Engineering" },
-  { name: "Tom Brandt", role: "GP @ a16z", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face", expertise: "GTM" },
-]
+function mentors_SOURCE_LIVE() {
+  return [
+  { name: "Sarah Chen", role: "Partner @ Sequoia", img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face"), expertise: "Growth" },
+  { name: "Marcus Reid", role: "Founder @ Linear", img: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"), expertise: "Product" },
+  { name: "Priya Nair", role: "CTO @ Stripe", img: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face"), expertise: "Engineering" },
+  { name: "Tom Brandt", role: "GP @ a16z", img: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face"), expertise: "GTM" },
+];
+}
+let mentors_SOURCE = mentors_SOURCE_LIVE();
 let mentors = mentors_SOURCE;
 
 function faqs_SOURCE_LIVE() {
@@ -133,9 +140,13 @@ export default function Impact24() {
   }, []);
 
   fd = session?.formData;
+
+
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  mentors_SOURCE = mentors_SOURCE_LIVE();
+  companies = companies_LIVE();
   faqs_SOURCE = faqs_SOURCE_LIVE();
 
 
@@ -486,7 +497,7 @@ return (
                   <div className="relative">
                     <div className="rounded-2xl overflow-hidden aspect-[4/5]">
                       <Image
-                        src={photo(0, "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=1000&fit=crop&crop=center")}
+                        src={photo(0, (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=1000&fit=crop&crop=center"))}
                         alt="Founders at Zero to One"
                         width={800}
                         height={1000}

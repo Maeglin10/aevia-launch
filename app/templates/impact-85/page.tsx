@@ -12,6 +12,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -51,12 +52,15 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
 // ─── Demo content — real data (businessProfile) replaces these wholesale via
 // resolveList when the client provided it; each field access below falls
 // back with `??` so the same JSX renders either shape.
-const PRODUCTS_DEMO = [
-  { id: "serum", name: "Luminos Sérum", tagline: "L'essence luminosité", desc: "Complexe Vita-C 15% encapsulé, niacinamide 5%, acide férulique et Bakuchiol certifié. La formule anti-âge cliniquement prouvée.", price: "148 €", volume: "30 ml", score: 98, image: "https://images.unsplash.com/photo-1556228852-6d35a585d566?w=600&q=80", badges: ["Cliniquement testé", "Végan"] },
-  { id: "moisture", name: "Cellulaire Crème", tagline: "Régénération nocturne", desc: "Rétinol 0,5% encapsulé, peptides de cuivre EGF-like, céramides NP et probiotiques lactobacillus. Régénération intensive nocturne.", price: "124 €", volume: "50 ml", score: 96, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80", badges: ["Dermatologiquement testé", "Sans parfum"] },
-  { id: "mask", name: "Kaolin Masque", tagline: "Pureté enzymatique", desc: "Kaolin, enzymes de papaye et ananas, zinc PCA et acide salicylique 1%. Purification douce et régulation du sébum.", price: "68 €", volume: "75 ml", score: 94, image: "https://images.unsplash.com/photo-1556228852-6d35a585d566?w=600&q=80", badges: ["Naturel", "Sensory"] },
-  { id: "protect", name: "Photon SPF 50+", tagline: "Protection ultime", desc: "SPF 50+ UVA/UVB, filtres minéraux nano, niacinamide 4%, vitamine E. Fini invisible, compatible sous le maquillage.", price: "58 €", volume: "50 ml", score: 99, image: "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&q=80", badges: ["SPF 50+", "Reef safe"] },
-]
+function PRODUCTS_DEMO_LIVE() {
+  return [
+  { id: "serum", name: "Luminos Sérum", tagline: "L'essence luminosité", desc: "Complexe Vita-C 15% encapsulé, niacinamide 5%, acide férulique et Bakuchiol certifié. La formule anti-âge cliniquement prouvée.", price: "148 €", volume: "30 ml", score: 98, image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1556228852-6d35a585d566?w=600&q=80"), badges: ["Cliniquement testé", "Végan"] },
+  { id: "moisture", name: "Cellulaire Crème", tagline: "Régénération nocturne", desc: "Rétinol 0,5% encapsulé, peptides de cuivre EGF-like, céramides NP et probiotiques lactobacillus. Régénération intensive nocturne.", price: "124 €", volume: "50 ml", score: 96, image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80"), badges: ["Dermatologiquement testé", "Sans parfum"] },
+  { id: "mask", name: "Kaolin Masque", tagline: "Pureté enzymatique", desc: "Kaolin, enzymes de papaye et ananas, zinc PCA et acide salicylique 1%. Purification douce et régulation du sébum.", price: "68 €", volume: "75 ml", score: 94, image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1556228852-6d35a585d566?w=600&q=80"), badges: ["Naturel", "Sensory"] },
+  { id: "protect", name: "Photon SPF 50+", tagline: "Protection ultime", desc: "SPF 50+ UVA/UVB, filtres minéraux nano, niacinamide 4%, vitamine E. Fini invisible, compatible sous le maquillage.", price: "58 €", volume: "50 ml", score: 99, image: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&q=80"), badges: ["SPF 50+", "Reef safe"] },
+];
+}
+let PRODUCTS_DEMO = PRODUCTS_DEMO_LIVE();
 
 const INGREDIENTS_SOURCE = [
   { name: "Vita-C encapsulé", origin: "Synthèse biotechnologique", icon: FlaskConical, desc: "Vitamine C stable à 15%, délivrée en microcapsules pour une efficacité maximale et une oxydation nulle." },
@@ -340,8 +344,10 @@ export default function AetherLabsPage() {
   }, []);
 
   fd = session?.formData;
+
   sessionData = session;
   c = session?.generatedContent;
+  PRODUCTS_DEMO = PRODUCTS_DEMO_LIVE();
 
   INGREDIENTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...INGREDIENTS_SOURCE[i % INGREDIENTS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
@@ -586,7 +592,7 @@ export default function AetherLabsPage() {
         </div>
         <div className="relative overflow-hidden min-h-[50vh] md:min-h-0">
           <motion.div className="absolute inset-0" style={{ y: heroY }}>
-            <Image src={photo(0, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=85")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aether Labs"))} fill className="object-cover" />
+            <Image src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=85"))} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aether Labs"))} fill className="object-cover" />
           </motion.div>
         </div>
       </section>

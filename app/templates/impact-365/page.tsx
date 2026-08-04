@@ -47,7 +47,10 @@ const FONT = "'Libre Baskerville', Georgia, serif";
 const FONT_BODY = "'Cabin', system-ui, sans-serif";
 
 const NAV = [{"l": "Nos produits", "h": "#services"}, {"l": "La ferme", "h": "#methode"}, {"l": "Paniers & prix", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO_DEMO = [{"k": "Le panier de la semaine", "line": "Composé mardi, cueilli jeudi, retiré vendredi.", "sub": "Légumes du moment, jamais les mêmes deux semaines de suite.", "img": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80", "alt": "Légumes du jardin en permaculture"}, {"k": "Le jardin", "line": "Deux hectares menés en bio, sans raccourci.", "sub": "Certification AB, sol vivant, rotations longues.", "img": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80", "alt": "Travail au jardin de la ferme"}, {"k": "Les saisons", "line": "En juin les fraises, en janvier les poireaux.", "sub": "On ne force rien — c'est le principe.", "img": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80", "alt": "Rangs de culture à la belle saison"}];
+function HERO_DEMO_LIVE() {
+  return [{"k": "Le panier de la semaine", "line": "Composé mardi, cueilli jeudi, retiré vendredi.", "sub": "Légumes du moment, jamais les mêmes deux semaines de suite.", "img": (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80"), "alt": "Légumes du jardin en permaculture"}, {"k": "Le jardin", "line": "Deux hectares menés en bio, sans raccourci.", "sub": "Certification AB, sol vivant, rotations longues.", "img": (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80"), "alt": "Travail au jardin de la ferme"}, {"k": "Les saisons", "line": "En juin les fraises, en janvier les poireaux.", "sub": "On ne force rien — c'est le principe.", "img": (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80"), "alt": "Rangs de culture à la belle saison"}];
+}
+let HERO_DEMO = HERO_DEMO_LIVE();
 let HERO = HERO_DEMO;
 
 const SERVICES_SOURCE = [{"titre": "Légumes de saison", "desc": "Quarante variétés sur l'année, cueillies la veille ou le matin de la vente. La tomate d'août et le panais de janvier — jamais l'inverse.", "tag": "Maraîchage"}, {"titre": "Œufs de plein air", "desc": "250 poules sur parcours herbeux, nourries au grain local complété par ce que la ferme produit. Ramassés chaque matin.", "tag": "Œufs"}, {"titre": "Volailles fermières", "desc": "Poulets élevés 110 jours minimum, en plein air, abattus en abattoir de proximité. Sur commande, retrait le vendredi.", "tag": "Volaille"}, {"titre": "Paniers hebdomadaires", "desc": "Petit (2 pers.) ou grand (4-5 pers.) : la récolte de la semaine, une recette pour le légume oublié, sans engagement.", "tag": "Paniers"}, {"titre": "Conserves de la ferme", "desc": "Coulis, ratatouille, soupes d'hiver : l'été mis en bocaux dans notre atelier agréé, pour les mois sans.", "tag": "Bocaux"}, {"titre": "Visites & œufs de vacances", "desc": "La ferme se visite le premier samedi du mois. Les enfants ramassent les œufs, les parents comprennent les prix.", "tag": "Visites"}];
@@ -98,9 +101,11 @@ export default function QuatreVentsPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_DEMO = HERO_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -319,7 +324,7 @@ export default function QuatreVentsPage() {
       <section id="engagements" className="i365-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i365-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80")} alt="Le jardin de la ferme en pleine saison" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(3, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80"))} alt="Le jardin de la ferme en pleine saison" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>

@@ -11,6 +11,7 @@ import { Reveal, Instagram, Twitter } from "./shared";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientText,
@@ -99,7 +100,7 @@ return (
       {/* Hero — asymmetric mosaic */}
       <section ref={heroRef} className="relative min-h-dvh overflow-hidden">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
-          <Image src={photo(0, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Vogue Noire"))} fill className="object-cover" />
+          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85"))} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Vogue Noire"))} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A08] via-[#0A0A08]/50 to-[#0A0A08]/20" />
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 min-h-dvh flex flex-col">
@@ -141,7 +142,7 @@ return (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <Reveal>
               <div className="relative aspect-[3/4] overflow-hidden">
-                <Image src={photo(1, "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&q=85")} alt="Editorial" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
+                <Image src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&q=85"))} alt="Editorial" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F0E0B]/80 to-transparent" />
                 <div className="absolute bottom-8 left-8">
                   <span className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#C9A86C)]">Couverture · Hiver 2025</span>
@@ -189,9 +190,9 @@ return (
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { cat: "Mode", title: "Les silhouettes de la saison", author: "Camille Renard", time: "5 min", img: photo(2, "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&q=85") },
-              { cat: "Beauté", title: "Le maquillage qui parle le plus", author: "Sasha Morel", time: "4 min", img: photo(3, "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=85") },
-              { cat: "Culture", title: "Derrière les coulisses du défilé", author: "Inès Kaboré", time: "6 min", img: photo(4, "https://images.unsplash.com/photo-1529693662653-9d480530a697?w=800&q=85") },
+              { cat: "Mode", title: "Les silhouettes de la saison", author: "Camille Renard", time: "5 min", img: photo(2, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&q=85")) },
+              { cat: "Beauté", title: "Le maquillage qui parle le plus", author: "Sasha Morel", time: "4 min", img: photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=85")) },
+              { cat: "Culture", title: "Derrière les coulisses du défilé", author: "Inès Kaboré", time: "6 min", img: photo(4, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1529693662653-9d480530a697?w=800&q=85")) },
             ].map((art, i) => (
               <Reveal key={art.title} delay={i * 0.1}>
                 <article className="group cursor-pointer">
@@ -232,7 +233,7 @@ return (
             ].map(({ name: m, img }, i) => (
               <Reveal key={m} delay={i * 0.07}>
                 <div className="relative aspect-[2/3] overflow-hidden group cursor-pointer">
-                  <Image src={photo(5 + i, `https://images.pexels.com/photos/${img}/pexels-photo-${img}.jpeg?auto=compress&cs=tinysrgb&w=600`)} alt={m} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                  <Image src={photo(5 + i, (clientPhotos(sessionData)[5] || `https://images.pexels.com/photos/${img}/pexels-photo-${img}.jpeg?auto=compress&cs=tinysrgb&w=600`))} alt={m} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                   <div className="absolute inset-0 bg-[#0A0A08]/50 group-hover:bg-transparent transition-all duration-700" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--brand,#C9A86C)]">{m}</span>

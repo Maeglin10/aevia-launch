@@ -82,13 +82,16 @@ const SANS = "'DM Sans', system-ui, sans-serif" as const;
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
-const PHOTO = {
-  blackwork: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1600&auto=format&fit=crop',
-  realism: 'https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?q=80&w=1600&auto=format&fit=crop',
-  watercolor: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?q=80&w=1600&auto=format&fit=crop',
-  heroWide: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=2000&auto=format&fit=crop',
-  safetyLeft: 'https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?q=80&w=900&auto=format&fit=crop',
+function PHOTO_LIVE() {
+  return {
+  blackwork: (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1600&auto=format&fit=crop'),
+  realism: (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?q=80&w=1600&auto=format&fit=crop'),
+  watercolor: (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?q=80&w=1600&auto=format&fit=crop'),
+  heroWide: (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=2000&auto=format&fit=crop'),
+  safetyLeft: (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?q=80&w=900&auto=format&fit=crop'),
 } as const;
+}
+let PHOTO = PHOTO_LIVE();
 
 /* ════════════════════════════════════════════════════════════════════════════
    TypeScript Interfaces
@@ -188,7 +191,7 @@ function EDIT_ROWS_DEMO_LIVE() {
   return [
   {
     eyebrow: 'Notre philosophie',
-    img: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=800&auto=format&fit=crop',
+    img: (clientPhotos(sessionData)[6] || 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=800&auto=format&fit=crop'),
     imgAlt: 'Artiste au travail dans le studio Dermis',
     titleLine1: 'Un tatouage,',
     titleLine2: 'c\'est pour la vie.',
@@ -197,7 +200,7 @@ function EDIT_ROWS_DEMO_LIVE() {
   },
   {
     eyebrow: 'Le studio',
-    img: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?q=80&w=800&auto=format&fit=crop',
+    img: (clientPhotos(sessionData)[7] || 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?q=80&w=800&auto=format&fit=crop'),
     imgAlt: 'Intérieur lumineux du studio Dermis à ' + (clientCity(sessionData) ?? 'Montpellier'),
     titleLine1: (clientCity(sessionData) ?? 'Montpellier'),
     titleLine2: 'Écusson.',
@@ -2165,9 +2168,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
   EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();
 
 

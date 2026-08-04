@@ -25,6 +25,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -166,7 +167,7 @@ export default function SereneRetreatHome() {
         }}
       >
         <motion.img
-          src={photo(0, "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1400&auto=format&fit=crop")}
+          src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1400&auto=format&fit=crop"))}
           alt="Serene spa landscape"
           style={{
             position: "absolute",
@@ -472,7 +473,7 @@ export default function SereneRetreatHome() {
               }}
             >
               <img
-                src={photo(1, "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?q=80&w=1400&auto=format&fit=crop")}
+                src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?q=80&w=1400&auto=format&fit=crop"))}
                 alt="Thermal circuit"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />

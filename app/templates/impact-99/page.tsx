@@ -82,14 +82,15 @@ const NAV_PAGES: { key: EmberPage; label: string }[] = [
    DATA STRUCTURES
    ========================================================================= */
 
-const MENU_HIGHLIGHTS_DEMO_SOURCE = [
+function MENU_HIGHLIGHTS_DEMO_SOURCE_LIVE() {
+  return [
   {
     id: 1,
     name: "Dry-Aged Wagyu",
     category: "Signature",
     price: "$185",
     desc: "45-day dry-aged A5 Wagyu, seared over Japanese white oak charcoal and finished with smoked sea salt.",
-    img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=1200&q=80",
+    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1544025162-d76694265947?w=1200&q=80"),
   },
   {
     id: 2,
@@ -97,7 +98,7 @@ const MENU_HIGHLIGHTS_DEMO_SOURCE = [
     category: "Appetizer",
     price: "$34",
     desc: "Wood-fired octopus tentacle with chorizo emulsion, squid ink tuile, and pickled mustard seeds.",
-    img: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=1200&q=80",
+    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=1200&q=80"),
   },
   {
     id: 3,
@@ -105,9 +106,11 @@ const MENU_HIGHLIGHTS_DEMO_SOURCE = [
     category: "Pairing",
     price: "$95",
     desc: "A curated flight of rare vintage reds, hand-selected to complement the intensity of wood-fired smoke.",
-    img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80",
+    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80"),
   },
 ];
+}
+let MENU_HIGHLIGHTS_DEMO_SOURCE = MENU_HIGHLIGHTS_DEMO_SOURCE_LIVE();
 let MENU_HIGHLIGHTS_DEMO = MENU_HIGHLIGHTS_DEMO_SOURCE;
 let MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_DEMO;
 
@@ -216,7 +219,8 @@ function buildCarteSections(items: { name: string; price: string; description?: 
 
 /* ── BLOG — mock FR articles ─────────────────────────────────────────────── */
 
-const BLOG_POSTS_DEMO = [
+function BLOG_POSTS_DEMO_LIVE() {
+  return [
   {
     slug: "art-maturation",
     title: "L'Art de la Maturation à Sec",
@@ -224,7 +228,7 @@ const BLOG_POSTS_DEMO = [
     category: "Gastronomie",
     excerpt:
       "Quarante-cinq jours, parfois quatre-vingt-dix. Plongée dans notre cave de maturation, là où le temps sculpte le goût de la viande.",
-    img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=1200&q=80",
+    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1544025162-d76694265947?w=1200&q=80"),
     body: [
       "La maturation à sec est une discipline de patience. Dans nos chambres à hygrométrie contrôlée, chaque pièce repose à 1°C pendant quarante-cinq à quatre-vingt-dix jours. L'eau s'évapore lentement, les enzymes naturelles attendrissent les fibres, et les arômes se concentrent jusqu'à atteindre une profondeur de noisette et de beurre noisette.",
       "Le secret tient autant dans la circulation de l'air que dans le choix des pièces. Nous ne sélectionnons que des bêtes élevées en pâturage d'altitude, dont le persillé supporte une longue maturation sans se dessécher.",
@@ -238,7 +242,7 @@ const BLOG_POSTS_DEMO = [
     category: "Vin",
     excerpt:
       "La fumée du bois change tout. Notre chef sommelier dévoile les principes d'accord entre grands crus et cuisson à l'âtre.",
-    img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80",
+    img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80"),
     body: [
       "La cuisson au feu de bois imprègne la viande de notes torréfiées et résineuses qui défient les accords classiques. Un vin trop délicat s'efface ; un vin trop tannique écrase le palais déjà sollicité par la fumée.",
       "Notre cave de 850 références s'articule autour d'un principe simple : la fumée appelle la profondeur. Les syrahs septentrionales, les grenaches solaires et les vieux bordeaux trouvent dans le bois de chêne un écho naturel.",
@@ -252,7 +256,7 @@ const BLOG_POSTS_DEMO = [
     category: "Chef",
     excerpt:
       "De l'apprentissage en brigade à la double étoile, le parcours de notre chef exécutif, gardien du laboratoire du feu.",
-    img: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=1200&q=80",
+    img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=1200&q=80"),
     body: [
       "Vingt années passées à apprivoiser la flamme. Notre chef exécutif a forgé sa maîtrise dans les plus grandes maisons avant de fonder Ember, avec une obsession : rendre au feu sa noblesse première.",
       "Le laboratoire du feu, comme il l'appelle, repose sur trois bois — hickory, cerisier et chêne — combinés pour composer un profil de fumée unique à chaque cuisson. Rien n'y est laissé au hasard : la densité de la braise, la distance à la flamme, le repos après la saisie.",
@@ -260,6 +264,8 @@ const BLOG_POSTS_DEMO = [
     ],
   },
 ];
+}
+let BLOG_POSTS_DEMO = BLOG_POSTS_DEMO_LIVE();
 let BLOG_POSTS = BLOG_POSTS_DEMO;
 
 /* ==========================================================================
@@ -749,7 +755,7 @@ function AboutPage({ goTo }: { goTo: (p: EmberPage) => void }) {
           <Reveal>
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
               <Image
-                src={photo(0, "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=1200&q=80")}
+                src={photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=1200&q=80"))}
                 alt="Le Chef au feu"
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-[2s] contrast-125 grayscale hover:grayscale-0"
@@ -1092,9 +1098,13 @@ export default function EmberGrillPage() {
   }, []);
 
   fd = session?.formData;
+
+
   sessionData = session;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  BLOG_POSTS_DEMO = BLOG_POSTS_DEMO_LIVE();
+  MENU_HIGHLIGHTS_DEMO_SOURCE = MENU_HIGHLIGHTS_DEMO_SOURCE_LIVE();
 
   MENU_HIGHLIGHTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...MENU_HIGHLIGHTS_DEMO_SOURCE[i % MENU_HIGHLIGHTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? MENU_HIGHLIGHTS_DEMO_SOURCE[i % MENU_HIGHLIGHTS_DEMO_SOURCE.length].price })),
@@ -1266,7 +1276,7 @@ export default function EmberGrillPage() {
           <section id="about" className="relative h-[100svh] flex items-center overflow-hidden">
             <div className="absolute inset-0">
               <Image
-                src={photo(0, "https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80")}
+                src={photo(0, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80"))}
                 alt="Fire & Smoke"
                 fill
                 className="object-cover opacity-50 contrast-125"
@@ -1462,7 +1472,7 @@ export default function EmberGrillPage() {
               <Reveal>
                 <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
                   <Image
-                    src={photo(1, "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80")}
+                    src={photo(1, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80"))}
                     alt="Wine Cellar"
                     fill
                     className="object-cover group-hover:scale-110 transition-all duration-[2s] contrast-125 grayscale hover:grayscale-0"

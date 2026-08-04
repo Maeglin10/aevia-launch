@@ -27,6 +27,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -50,11 +51,11 @@ function HeroSection() {
      the stage and states what the firm actually does there. So the visitor
      self-identifies their problem without the page losing its composure. */
   const AREA_MEDIA = [
-    { img: "https://images.pexels.com/photos/273682/pexels-photo-273682.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "€2.4B", statLabel: "d’opérations conseillées" },
-    { img: "https://images.pexels.com/photos/9409685/pexels-photo-9409685.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "140+", statLabel: "opérations menées depuis 2009" },
-    { img: "https://images.pexels.com/photos/9409682/pexels-photo-9409682.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "900+", statLabel: "marques et brevets déposés" },
-    { img: "https://images.pexels.com/photos/5668473/pexels-photo-5668473.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "87%", statLabel: "réglés avant audience" },
-    { img: "https://images.pexels.com/photos/6077091/pexels-photo-6077091.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "24h", statLabel: "de délai sur les urgences" },
+    { img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/273682/pexels-photo-273682.jpeg?auto=compress&cs=tinysrgb&w=2000"), stat: "€2.4B", statLabel: "d’opérations conseillées" },
+    { img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/9409685/pexels-photo-9409685.jpeg?auto=compress&cs=tinysrgb&w=2000"), stat: "140+", statLabel: "opérations menées depuis 2009" },
+    { img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/9409682/pexels-photo-9409682.jpeg?auto=compress&cs=tinysrgb&w=2000"), stat: "900+", statLabel: "marques et brevets déposés" },
+    { img: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/5668473/pexels-photo-5668473.jpeg?auto=compress&cs=tinysrgb&w=2000"), stat: "87%", statLabel: "réglés avant audience" },
+    { img: (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/6077091/pexels-photo-6077091.jpeg?auto=compress&cs=tinysrgb&w=2000"), stat: "24h", statLabel: "de délai sur les urgences" },
   ];
 
   const areas = resolveList(

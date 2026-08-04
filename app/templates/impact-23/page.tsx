@@ -12,6 +12,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientServices,
   clientStats,
   clientText,
@@ -50,13 +51,16 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const films_DEMO = [
-  { title: "Les Heures Perdues", type: "Long-métrage", year: "2025", festival: "Cannes — Sélection Officielle", src: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop" },
-  { title: "Poussière de Lumière", type: "Court-métrage", year: "2025", festival: "Sundance — Grand Prix", src: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&q=80" },
-  { title: "L'Écho du Silence", type: "Documentaire", year: "2024", festival: "IDFA — Best Documentary", src: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80" },
-  { title: "Fragments", type: "Court-métrage", year: "2024", festival: "César — Nommé", src: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=600&q=80" },
-  { title: "Mémoire Vive", type: "Série", year: "2023", festival: "Festival Séries Mania — Prix Spécial", src: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600&q=80" },
+function films_DEMO_LIVE() {
+  return [
+  { title: "Les Heures Perdues", type: "Long-métrage", year: "2025", festival: "Cannes — Sélection Officielle", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop") },
+  { title: "Poussière de Lumière", type: "Court-métrage", year: "2025", festival: "Sundance — Grand Prix", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&q=80") },
+  { title: "L'Écho du Silence", type: "Documentaire", year: "2024", festival: "IDFA — Best Documentary", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80") },
+  { title: "Fragments", type: "Court-métrage", year: "2024", festival: "César — Nommé", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=600&q=80") },
+  { title: "Mémoire Vive", type: "Série", year: "2023", festival: "Festival Séries Mania — Prix Spécial", src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600&q=80") },
 ];
+}
+let films_DEMO = films_DEMO_LIVE();
 
 const categories = ["Tous", "Long-métrage", "Court-métrage", "Documentaire", "Série"];
 
@@ -81,7 +85,7 @@ function filmsCatalogue_LIVE() {
     type: "Long-métrage",
     year: "2025",
     duration: "1h 47min",
-    src: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop",
+    src: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop"),
     synopsis: (clientCity(sessionData) ?? "Paris") + ", hiver 2024. Mathilde, ancienne pianiste prodige devenue accordeuse de pianos, traverse la capitale pour ses rendez-vous professionnels. Chaque instrument qu'elle accorde la ramène à un souvenir enfoui, un fragment de la vie qu'elle a abandonnée. Lorsqu'elle est appelée au Conservatoire pour un Steinway de concert, le passé la rattrape sous la forme d'Étienne, son ancien professeur, désormais atteint d'Alzheimer. Commence alors un voyage intérieur où la musique devient le seul pont entre mémoire et oubli.",
     cast: ["Léa Seydoux — Mathilde Verdier", "André Dussollier — Étienne Lacoste", "Noémie Merlant — Claire, la sœur de Mathilde", "Vincent Lindon — Paul, l'ex-mari", "Hafsia Herzi — Samira, amie et confidente"],
     crew: "Réalisé par Julien Ferraro · Scénario : Julien Ferraro & Camille Noé · Directeur de la photographie : Nicolas Bolduc · Musique originale : Alexandre Desplat · Montage : Laure Gardette",
@@ -92,7 +96,7 @@ function filmsCatalogue_LIVE() {
     type: "Court-métrage",
     year: "2025",
     duration: "22 min",
-    src: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&q=80",
+    src: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&q=80"),
     synopsis: "Dans un village du sud de la France, un vieux projectionniste prépare la dernière séance de son cinéma de plein air avant la démolition du terrain. Les bobines qu'il doit projeter se mélangent : scènes de fiction, archives familiales, souvenirs d'un amour perdu. Le film devient un acte de résistance poétique, une méditation sur la lumière qui persiste quand tout s'éteint.",
     cast: ["Jean-Pierre Darroussin — Auguste, le projectionniste", "Adèle Exarchopoulos — La jeune femme des archives", "Swann Arlaud — Le fils d'Auguste"],
     crew: "Réalisé par Clara Music-Hall · Directrice de la photographie : Céline Bozon · Montage : Albertine Lastera · Son : Brigitte Taillandier",
@@ -103,7 +107,7 @@ function filmsCatalogue_LIVE() {
     type: "Documentaire",
     year: "2024",
     duration: "1h 32min",
-    src: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80",
+    src: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80"),
     synopsis: "Pendant trois ans, la réalisatrice a suivi des bergers transhumants dans les Alpes du Sud. Entre solitudes immenses et rituels ancestraux, le film capture la beauté radicale d'un mode de vie en voie de disparition. Sans voix off ni musique additionnelle, le documentaire fait entendre le silence comme un langage à part entière — celui des bêtes, du vent, de la montagne.",
     cast: ["Jean-Marc Barthélémy — berger, vallée du Champsaur", "Marie-Louise Autran — bergère, col de Vars", "Pierre Magnan — vétérinaire itinérant"],
     crew: "Réalisé par Sophie Letourneur · Image : Tom Harari · Son : Xavier Thibault · Production : Studio Pelikan & Les Films du Worso",
@@ -114,7 +118,7 @@ function filmsCatalogue_LIVE() {
     type: "Court-métrage",
     year: "2024",
     duration: "18 min",
-    src: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=600&q=80",
+    src: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=600&q=80"),
     synopsis: "Un restaurateur d'art du Louvre découvre, sous les couches de vernis d'un tableau du XVIIe siècle, un portrait caché qui ressemble troublement à sa fille disparue. La frontière entre l'œuvre et la réalité se brouille dans ce thriller psychologique intimiste tourné dans les couloirs déserts du musée, entre fermeture et ouverture.",
     cast: ["Denis Lavant — Michel Fauré, restaurateur", "Lyna Khoudri — Inès, la fille disparue", "Isabelle Huppert — La conservatrice en chef"],
     crew: "Réalisé par Romain Music · Directeur de la photographie : Christophe Beaucarne · Musique : Rone · Décors : Katia Wyszkop",
@@ -125,7 +129,7 @@ function filmsCatalogue_LIVE() {
     type: "Série",
     year: "2023",
     duration: "6 × 52 min",
-    src: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600&q=80",
+    src: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600&q=80"),
     synopsis: "Lyon, 2043. La mémoire des défunts peut désormais être téléchargée et implantée. Alma, archiviste dans une clinique de mémoire, découvre que certains souvenirs ont été falsifiés à grande échelle. Sa quête de vérité l'entraîne dans une conspiration qui remet en question la notion même d'identité. Thriller d'anticipation ancré dans un réalisme social, la série interroge notre rapport au deuil, à la vérité et à la manipulation numérique.",
     cast: ["Vicky Krieps — Alma Renoir", "Tahar Rahim — Karim Ziani, enquêteur", "Virginie Efira — Dr. Hélène Vasseur", "Pio Marmaï — Lucas, le frère d'Alma", "Aïssa Maïga — Commandante Diallo"],
     crew: "Créée par Julien Ferraro & Nina Music · Réalisée par Julien Ferraro (épisodes 1-3) et Houda Benyamina (épisodes 4-6) · Directeur de la photographie : Julien Hirsch · Musique : Gesaffelstein",
@@ -169,9 +173,11 @@ export default function StudioPelikanPage() {
   }, []);
 
   fd = session?.formData;
+
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  films_DEMO = films_DEMO_LIVE();
   filmsCatalogue = filmsCatalogue_LIVE();
 
 
@@ -321,7 +327,7 @@ export default function StudioPelikanPage() {
           {/* Hero */}
           <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
-              <Image src={photo(0, "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop")} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Pelikan"))} fill className="object-cover" priority />
+              <Image src={photo(0, (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop"))} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Pelikan"))} fill className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-b from-[#100D08]/70 via-[#100D08]/30 to-[#100D08]/95" />
             </motion.div>
             <motion.div className="relative z-10 h-full flex flex-col justify-end pb-20 px-6" style={{ opacity: heroOpacity }}>
@@ -604,7 +610,7 @@ export default function StudioPelikanPage() {
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src={photo(1, "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80")} alt="Écriture" fill className="object-cover" />
+                  <Image src={photo(1, (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80"))} alt="Écriture" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#150F09]/80 to-transparent" />
                 </div>
               </Reveal>
@@ -616,7 +622,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
               <Reveal delay={0.1}>
                 <div className="relative overflow-hidden rounded-2xl order-2 lg:order-1" style={{ aspectRatio: "4/3" }}>
-                  <Image src={photo(2, "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=600&q=80")} alt="Tournage" fill className="object-cover" />
+                  <Image src={photo(2, (clientPhotos(sessionData)[12] || "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=600&q=80"))} alt="Tournage" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#100D08]/80 to-transparent" />
                 </div>
               </Reveal>
@@ -672,7 +678,7 @@ export default function StudioPelikanPage() {
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src={photo(3, "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80")} alt="Post-production" fill className="object-cover" />
+                  <Image src={photo(3, (clientPhotos(sessionData)[13] || "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80"))} alt="Post-production" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#150F09]/80 to-transparent" />
                 </div>
               </Reveal>
@@ -684,7 +690,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
               <Reveal delay={0.1}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src={photo(4, "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&q=80")} alt="Brand Content" fill className="object-cover" />
+                  <Image src={photo(4, (clientPhotos(sessionData)[14] || "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&q=80"))} alt="Brand Content" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#100D08]/80 to-transparent" />
                 </div>
               </Reveal>
@@ -827,7 +833,7 @@ export default function StudioPelikanPage() {
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src={photo(5, "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80")} alt="Studio Pelikan Paris" fill className="object-cover" />
+                  <Image src={photo(5, (clientPhotos(sessionData)[15] || "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80"))} alt="Studio Pelikan Paris" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#150F09]/80 to-transparent" />
                 </div>
               </Reveal>

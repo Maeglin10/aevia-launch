@@ -42,6 +42,7 @@ import {
   clientFaq,
   clientHours,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -283,14 +284,15 @@ const horaires = /* HORAIRES */ resolveList(clientHours({ formData: fd, business
 const creneaux = ["10h00", "11h30", "13h00", "14h30", "16h00", "17h30", "19h00"];
 
 // ─── Blog — articles wellness FR (index + single) ─────────────────────────────
-const blogArticles = [
+function blogArticles_LIVE() {
+  return [
   {
     slug: "rituel-du-soir",
     title: "Le rituel du soir : ralentir pour mieux dormir",
     date: "5 juin 2026",
     category: "Bien-être",
     readTime: "4 min",
-    cover: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=900&q=80",
+    cover: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=900&q=80"),
     excerpt:
       "Un sommeil réparateur ne s'improvise pas. Découvrez le rituel apaisant que nos thérapeutes recommandent pour préparer le corps au repos.",
     body: [
@@ -306,7 +308,7 @@ const blogArticles = [
     date: "22 mai 2026",
     category: "Ingrédients",
     readTime: "5 min",
-    cover: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=900&q=80",
+    cover: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=900&q=80"),
     excerpt:
       "Centella, marula, lotus bleu : derrière chaque nom se cache une histoire et une vertu précise. Petit guide des plantes qui composent nos formules.",
     body: [
@@ -322,7 +324,7 @@ const blogArticles = [
     date: "8 mai 2026",
     category: "Pratiques",
     readTime: "3 min",
-    cover: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=900&q=80",
+    cover: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=900&q=80"),
     excerpt:
       "Pas besoin de longues séances pour retrouver son calme. Voici trois exercices de respiration que vous pouvez pratiquer partout, à tout moment.",
     body: [
@@ -338,7 +340,7 @@ const blogArticles = [
     date: "26 avril 2026",
     category: "Inspiration",
     readTime: "4 min",
-    cover: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=900&q=80",
+    cover: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=900&q=80"),
     excerpt:
       "Un soin offert, c'est offrir du temps et de l'attention. Nos conseils pour choisir le rituel qui correspondra vraiment à la personne qui vous est chère.",
     body: [
@@ -349,6 +351,8 @@ const blogArticles = [
     ],
   },
 ];
+}
+let blogArticles = blogArticles_LIVE();
 
 // ─── Shared sub-page header (theme-native) ────────────────────────────────────
 const PageHero = ({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle?: string }) => (
@@ -408,7 +412,9 @@ export default function AuraWellnessPage() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
+  blogArticles = blogArticles_LIVE();
   sessionData = session;
   c = session?.generatedContent;
   bp = session?.businessProfile;
@@ -587,7 +593,7 @@ export default function AuraWellnessPage() {
       <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=1600&q=85")}
+            src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=1600&q=85"))}
             alt="Aura Wellness sanctuary"
             fill
             className="object-cover"
@@ -735,7 +741,7 @@ export default function AuraWellnessPage() {
               </div>
               <div className="relative min-h-[320px]">
                 <Image
-                  src={photo(1, "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80")}
+                  src={photo(1, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80"))}
                   alt={currentRitual.title}
                   fill
                   className="object-cover"
@@ -779,7 +785,7 @@ export default function AuraWellnessPage() {
           style={{ x: amenitiesX }}
         >
           <Image
-            src={photo(2, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1400&q=80")}
+            src={photo(2, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1400&q=80"))}
             alt="Aura Wellness thermal pools"
             fill
             className="object-cover"

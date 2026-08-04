@@ -9,6 +9,7 @@ import { C, stats, testimonials, NeedleAnimation, artists, portfolioItems } from
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -214,8 +215,8 @@ return (
                 <div style={{ aspectRatio: "3/2", overflow: "hidden", background: "#1a1a1a", position: "relative" }}>
                   <img
                     src={i === 0
-                      ? photo(0, "https://images.unsplash.com/photo-1604881991720-f91add269bed?w=800&q=80")
-                      : photo(1, "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=800&q=80")
+                      ? photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1604881991720-f91add269bed?w=800&q=80"))
+                      : photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=800&q=80"))
                     }
                     alt={artist.name}
                     style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) brightness(0.7)", transition: "filter 0.6s" }}
@@ -289,16 +290,16 @@ return (
               >
                 <img
                   src={[
-                    photo(2, "https://images.unsplash.com/photo-1604881991720-f91add269bed?w=600&q=80"),
-                    photo(3, "https://images.unsplash.com/photo-1550537687-c91072c4792d?w=600&q=80"),
-                    photo(4, "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?w=600&q=80"),
-                    photo(5, "https://images.unsplash.com/photo-1579869847514-7c1a19d2d2ad?w=600&q=80"),
-                    photo(6, "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=600&q=80"),
-                    photo(7, "https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?w=600&q=80"),
+                    photo(2, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1604881991720-f91add269bed?w=600&q=80")),
+                    photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1550537687-c91072c4792d?w=600&q=80")),
+                    photo(4, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?w=600&q=80")),
+                    photo(5, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1579869847514-7c1a19d2d2ad?w=600&q=80")),
+                    photo(6, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=600&q=80")),
+                    photo(7, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?w=600&q=80")),
                     // portfolioItems has 8 entries; this list had only 6, so the
                     // last two tiles resolved to undefined and rendered src="".
-                    photo(8, "https://images.pexels.com/photos/18349823/pexels-photo-18349823.jpeg?auto=compress&cs=tinysrgb&w=600"),
-                    photo(9, "https://images.pexels.com/photos/12548988/pexels-photo-12548988.jpeg?auto=compress&cs=tinysrgb&w=600"),
+                    photo(8, (clientPhotos(sessionData)[8] || "https://images.pexels.com/photos/18349823/pexels-photo-18349823.jpeg?auto=compress&cs=tinysrgb&w=600")),
+                    photo(9, (clientPhotos(sessionData)[9] || "https://images.pexels.com/photos/12548988/pexels-photo-12548988.jpeg?auto=compress&cs=tinysrgb&w=600")),
                   ][i]}
                   alt={item.title}
                   style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) brightness(0.6)", transition: "all 0.5s" }}

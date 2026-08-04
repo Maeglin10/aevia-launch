@@ -120,12 +120,12 @@ function HERO_VIEWS_DEMO_LIVE() {
   {
     k: "Le cabinet",
     d: "Une pièce calme au coeur de " + (clientCity({ formData: fd }) ?? "Montpellier") + ", pensée pour que la parole puisse se poser.",
-    img: "https://images.pexels.com/photos/4672717/pexels-photo-4672717.jpeg?auto=compress&cs=tinysrgb&w=1920",
+    img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/4672717/pexels-photo-4672717.jpeg?auto=compress&cs=tinysrgb&w=1920"),
   },
   {
     k: "La praticienne",
     d: "Psychologue clinicienne, formée aux thérapies fondées sur les preuves — TCC, EMDR, pleine conscience.",
-    img: "https://images.pexels.com/photos/3958409/pexels-photo-3958409.jpeg?auto=compress&cs=tinysrgb&w=1920",
+    img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/3958409/pexels-photo-3958409.jpeg?auto=compress&cs=tinysrgb&w=1920"),
   },
 ];
 }
@@ -388,7 +388,7 @@ export default function CabinetMoreauPage() {
       <section id="approche" style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(1, "https://images.pexels.com/photos/3958409/pexels-photo-3958409.jpeg?auto=compress&cs=tinysrgb&w=800")} alt="Psychologue bienveillante" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(1, (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/3958409/pexels-photo-3958409.jpeg?auto=compress&cs=tinysrgb&w=800"))} alt="Psychologue bienveillante" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Mon approche</span>

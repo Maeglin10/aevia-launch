@@ -3,6 +3,7 @@ import {
   clientCity,
   clientList,
   clientName,
+  clientPhotos,
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -89,20 +90,23 @@ const SERIF = "'Montserrat', sans-serif";
 const SANS = "'Roboto', sans-serif";
 const EASE = [0.16, 1, 0.3, 1];
 
-const PHOTOS = {
-  hero: "https://images.pexels.com/photos/17527817/pexels-photo-17527817.jpeg?auto=compress&cs=tinysrgb&w=2000",
-  about: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-  event1: "https://images.pexels.com/photos/27151463/pexels-photo-27151463.jpeg?auto=compress&cs=tinysrgb&w=800",
-  event2: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  event3: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  event4: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+function PHOTOS_LIVE() {
+  return {
+  hero: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/17527817/pexels-photo-17527817.jpeg?auto=compress&cs=tinysrgb&w=2000"),
+  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"),
+  event1: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/27151463/pexels-photo-27151463.jpeg?auto=compress&cs=tinysrgb&w=800"),
+  event2: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
+  event3: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
+  event4: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
   gallery: [
-    "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
+    (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
+    (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
+    (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80")
   ]
 };
+}
+let PHOTOS = PHOTOS_LIVE();
 
 const CustomInstagramIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -245,6 +249,8 @@ export default function Impact324TicketStore({ session: initialSession }) {
   const fd = session?.formData || {};
 
   sessionData = session;
+  PHOTOS = PHOTOS_LIVE();
+
   const c = session?.generatedContent || {};
 
   // Override brand color if provided

@@ -22,6 +22,7 @@ import { MosaicPush } from '@/lib/templates/hero-kit-3';
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
@@ -127,14 +128,15 @@ interface Testimonial {
 }
 
 /* ── Data ─────────────────────────────────────────────────────────────────── */
-const PHASES: Approach[] = [
+function PHASES_LIVE() {
+  return [
   {
     id: 'structure',
     index: 'I',
     label: 'STRUCTURE',
     title: 'Structure',
     body: "Colonne vertébrale, bassin, membres — rétablir l'équilibre musculo-squelettique pour libérer les tensions.",
-    imgId: 'https://images.pexels.com/photos/5794024/pexels-photo-5794024.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/5794024/pexels-photo-5794024.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     id: 'visceral',
@@ -142,7 +144,7 @@ const PHASES: Approach[] = [
     label: 'VISCÉRAL',
     title: 'Viscéral',
     body: "Foie, intestins, diaphragme — les organes ont leur propre mobilité que l'ostéopathie sait écouter.",
-    imgId: 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
     id: 'cranien',
@@ -150,9 +152,11 @@ const PHASES: Approach[] = [
     label: 'CRÂNIEN',
     title: 'Crânien',
     body: 'Micro-mouvements du crâne et des méninges — approche douce pour nourrissons, migraineux et post-traumatismes.',
-    imgId: 'https://images.pexels.com/photos/4506110/pexels-photo-4506110.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/4506110/pexels-photo-4506110.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
 ];
+}
+let PHASES = PHASES_LIVE();
 
 const SPECIALTIES_DEMO: Specialty[] = [
   {
@@ -198,7 +202,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
       </>
     ),
     body: "Chaque consultation est unique. Le corps est traité comme un système global — structure, viscères, crâne sont interdépendants. Nous n'imposons pas de protocole : nous écoutons, palpons, adaptons. Aucune séance ne ressemble à la précédente, parce qu'aucun patient ne ressemble à un autre.",
-    imgId: 'https://images.pexels.com/photos/5794024/pexels-photo-5794024.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/5794024/pexels-photo-5794024.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: 'Ostéopathe en consultation, écoute du corps',
     reverse: false,
     numeralLabel: 'I',
@@ -212,7 +216,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
       </>
     ),
     body: "Le cabinet est situé à deux pas des stations Oberkampf et République. Accessible aux personnes à mobilité réduite, le lieu est conçu pour la sérénité. La prise de rendez-vous en ligne est disponible 24h/24 — les premières disponibilités s'affichent en temps réel.",
-    imgId: 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: 'Cabinet ostéopathie Paris 11e, espace de soin lumineux',
     reverse: true,
     numeralLabel: 'II',
@@ -263,7 +267,7 @@ let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── Photo helper ─────────────────────────────────────────────────────────── */
 function photo(id: string, w = 1600) {
-  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
+  return ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[5] || `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`));
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -1435,7 +1439,7 @@ function PrinciplesPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || 'https://images.pexels.com/photos/4506110/pexels-photo-4506110.jpeg?auto=compress&cs=tinysrgb&w=900'}
+              src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/4506110/pexels-photo-4506110.jpeg?auto=compress&cs=tinysrgb&w=900')}
               alt="Ostéopathie crânienne — soin délicat sur le crâne"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -2209,9 +2213,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PHASES = PHASES_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 
   EDIT_ROWS = resolveList(

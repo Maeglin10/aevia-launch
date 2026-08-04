@@ -83,7 +83,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photographies Unsplash ──────────────────────────────────────────────── */
 const IMG = (id: string) =>
-  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`);
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[1] || `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`));
 
 /* ════════════════════════════════════════════════════════════════════════════
    Interfaces TypeScript
@@ -125,17 +125,18 @@ interface SeasonItem {
    Données
    ════════════════════════════════════════════════════════════════════════════ */
 
-const PHASES_DEMO: Project[] = [
+function PHASES_DEMO_LIVE() {
+  return [
   {
     id: 'p1',
-    img: IMG('https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+    img: IMG((clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg?auto=compress&cs=tinysrgb&w=1600')),
     index: 'I',
     label: 'JARDINS ALSACIENS',
     body: "Rosiers grimpants sur colombages, haies de buis taillées, verger en espalier — l\'horticulture traditionnelle alsacienne sublimée.",
   },
   {
     id: 'p2',
-    img: IMG('https://images.pexels.com/photos/11372382/pexels-photo-11372382.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+    img: IMG((clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/11372382/pexels-photo-11372382.jpeg?auto=compress&cs=tinysrgb&w=1600')),
     index: 'II',
     label: 'JARDINS CONTEMPORAINS',
     body: 'Vivaces structurantes, graminées, minéral naturel — la modernité qui respecte le style architectural de votre maison.',
@@ -148,6 +149,8 @@ const PHASES_DEMO: Project[] = [
     body: "Jardinières sur mesure, treillis végétalisé, plantes en pots hivernables — l\'espace extérieur quelle que soit la surface.",
   },
 ];
+}
+let PHASES_DEMO = PHASES_DEMO_LIVE();
 
 const SERVICES_SOURCE: Service[] = [
   {
@@ -177,10 +180,11 @@ const SERVICES_SOURCE: Service[] = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
+function EDIT_ROWS_DEMO_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre territoire',
-    img: 'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg?auto=compress&cs=tinysrgb&w=800',
+    img: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg?auto=compress&cs=tinysrgb&w=800'),
     title: (
       <>
         Le Bas-Rhin /{' '}
@@ -192,7 +196,7 @@ const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
   },
   {
     eyebrow: "L\'entreprise",
-    img: 'https://images.pexels.com/photos/11372382/pexels-photo-11372382.jpeg?auto=compress&cs=tinysrgb&w=800',
+    img: (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/11372382/pexels-photo-11372382.jpeg?auto=compress&cs=tinysrgb&w=800'),
     title: (
       <>
         Depuis 2003, /{' '}
@@ -203,6 +207,8 @@ const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
 let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_SOURCE;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
@@ -603,7 +609,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || `https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop`}
+          src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[6] || `https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop`)}
           alt="Jardin alsacien fleuri par Jardins d'Alsace"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1211,7 +1217,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   return (
     <div ref={ref} style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
       <motion.img
-        src={(src).startsWith('http') ? (src) : ((src).startsWith('http') ? (src) : `https://images.unsplash.com/photo-${src}&auto=format&fit=crop`)}
+        src={(src).startsWith('http') ? (src) : ((src).startsWith('http') ? (src) : (clientPhotos(sessionData)[7] || `https://images.unsplash.com/photo-${src}&auto=format&fit=crop`))}
         alt={alt}
         loading="lazy"
         style={{ width: '100%', height: '116%', objectFit: 'cover', y }}
@@ -1363,7 +1369,7 @@ function SeasonPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || `https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=900&auto=format&fit=crop`}
+              src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[8] || `https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=900&auto=format&fit=crop`)}
               alt="Jardin alsacien en automne"
               loading="lazy"
               style={{
@@ -1657,7 +1663,7 @@ function QuoteForm() {
     <section style={sec} id="devis">
       {/* Arrière-plan subtil */}
       <img
-        src={`https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop`}
+        src={(clientPhotos(sessionData)[9] || `https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop`)}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2160,9 +2166,13 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
+  PHASES_DEMO = PHASES_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   EDIT_ROWS_DEMO = resolveList(

@@ -12,6 +12,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientPhotos,
   clientServices,
   clientTeam,
   clientText,
@@ -74,12 +75,12 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 
 function projects_DEMO_LIVE() {
   return [
-  { name: "La Maison du Vent", location: "Marseille", type: "Résidentiel", area: "480 m²", year: "2025", src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80" },
-  { name: "Pavillon Zénith", location: "Lyon", type: "Cultural", area: "2 200 m²", year: "2025", src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80" },
-  { name: "Ateliers Kéops", location: (clientCity(sessionData) ?? "Paris") + " XIe", type: "Bureau mixte", area: "1 400 m²", year: "2024", src: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" },
-  { name: "Villa Terracotta", location: "Nice", type: "Résidentiel", area: "320 m²", year: "2024", src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" },
-  { name: "Cour des Arts", location: "Bordeaux", type: "Mixte culturel", area: "3 800 m²", year: "2023", src: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=600&q=80" },
-  { name: "Bibliothèque Nomade", location: "Nantes", type: "Public", area: "1 900 m²", year: "2023", src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" },
+  { name: "La Maison du Vent", location: "Marseille", type: "Résidentiel", area: "480 m²", year: "2025", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80") },
+  { name: "Pavillon Zénith", location: "Lyon", type: "Cultural", area: "2 200 m²", year: "2025", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80") },
+  { name: "Ateliers Kéops", location: (clientCity(sessionData) ?? "Paris") + " XIe", type: "Bureau mixte", area: "1 400 m²", year: "2024", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80") },
+  { name: "Villa Terracotta", location: "Nice", type: "Résidentiel", area: "320 m²", year: "2024", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80") },
+  { name: "Cour des Arts", location: "Bordeaux", type: "Mixte culturel", area: "3 800 m²", year: "2023", src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=600&q=80") },
+  { name: "Bibliothèque Nomade", location: "Nantes", type: "Public", area: "1 900 m²", year: "2023", src: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80") },
 ];
 }
 let projects_DEMO = projects_DEMO_LIVE();
@@ -297,7 +298,7 @@ return (
             {/* Hero */}
             <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
               <motion.div className="absolute inset-0" style={{ y: heroY }}>
-                <Image src={photo(0, "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1600&q=85")} alt="Kéops Architecture" fill className="object-cover" priority />
+                <Image src={photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1600&q=85"))} alt="Kéops Architecture" fill className="object-cover" priority />
                 <div className="absolute inset-0 bg-gradient-to-b from-[#1A1510]/50 to-[#F5F2ED]/80" />
               </motion.div>
               <motion.div className="relative z-10 h-full flex items-end pb-20 px-6" style={{ opacity: heroOpacity }}>
@@ -591,7 +592,7 @@ function AgencePage() {
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center mb-20">
           <div className="lg:col-span-5 relative aspect-[4/3] rounded-2xl overflow-hidden shadow-sm">
-            <Image src={photo(1, "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80")} alt="Kéops Agence" fill className="object-cover" />
+            <Image src={photo(1, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"))} alt="Kéops Agence" fill className="object-cover" />
           </div>
           <div className="lg:col-span-7">
             <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Notre histoire</span>
