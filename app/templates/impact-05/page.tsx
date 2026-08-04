@@ -160,7 +160,7 @@ let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 function PRICING_SOURCE_LIVE() {
-  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
+  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}), ...(s.price ? { annualPrice: s.price } : {}) })), [
   {
     name: "Starter",
     price: "0",
@@ -286,7 +286,7 @@ export default function NovaPlatformSaaS() {
     FEATURE_TABS_DEMO_SOURCE,
   );
   PRICING = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].price, annualPrice: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].annualPrice })),
     PRICING_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
