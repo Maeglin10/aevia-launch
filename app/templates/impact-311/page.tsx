@@ -31,6 +31,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -370,7 +371,7 @@ export default function AtelierPerformanceTemplate() {
   }, [fd]);
 
   const businessName = fd?.businessName || "Atelier Performance";
-  const heroTitle = c?.heroTitle || "L'Excellence Mécanique à l'État Pur.";
+  const heroTitle = clientTagline({ formData: fd, generatedContent: c }) || c?.heroTitle || "L'Excellence Mécanique à l'État Pur.";
   const heroSubtitle = c?.heroSubtitle || "Spécialistes en préparation et optimisation de véhicules de prestige. Poussez les limites de votre machine avec notre expertise de pointe.";
 
   // Prefer the client's real business data (services / reviews / faq) when the

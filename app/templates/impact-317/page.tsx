@@ -47,6 +47,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -266,7 +267,7 @@ export default function TemplatePage({ session: initialSession }: { session?: an
     }
   }, [fd]);
   const tagline = c.tagline || "Le nettoyage qui redonne vie à votre espace.";
-  const heroHeading = c.heroTitle || "L'énergie de la propreté à votre service";
+  const heroHeading = clientTagline({ formData: fd, generatedContent: c }) || c.heroTitle || "L'énergie de la propreté à votre service";
   const heroSub = c.heroSubtitle || "Des services de nettoyage résidentiels et commerciaux rapides, efficaces et éclatants pour un environnement toujours impeccable.";
   const cta1 = c.ctaPrimary || "Demander un devis";
   const cta2 = c.ctaSecondary || "Voir nos services";

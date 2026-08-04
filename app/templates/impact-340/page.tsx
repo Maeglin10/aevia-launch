@@ -14,6 +14,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -45,7 +46,8 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Technologie", "h": "#services"}, {"l": "Le protocole", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Conversations", "line": "Chaque mot compte. Surtout ceux qu'on ratait.", "sub": "Réduction de bruit ciblée sur la parole."}, {"k": "Musique", "line": "Le piano retrouve ses aigus, la salle son relief.", "sub": "Programmes dédiés musique, réglés à l'oreille."}, {"k": "Connecté", "line": "Le téléphone sonne directement dans l'oreille.", "sub": "Bluetooth, télé, visio — appairés au centre."}];
+const HERO_SOURCE = [{"k": "Conversations", "line": "Chaque mot compte. Surtout ceux qu'on ratait.", "sub": "Réduction de bruit ciblée sur la parole."}, {"k": "Musique", "line": "Le piano retrouve ses aigus, la salle son relief.", "sub": "Programmes dédiés musique, réglés à l'oreille."}, {"k": "Connecté", "line": "Le téléphone sonne directement dans l'oreille.", "sub": "Bluetooth, télé, visio — appairés au centre."}];
+let HERO = HERO_SOURCE;
 
 const SERVICES_SOURCE = [{"titre": "Mesure in-vivo", "desc": "Micro-sonde au tympan : on mesure ce que VOTRE oreille reçoit vraiment, pas la moyenne du fabricant. Le réglage devient objectif.", "tag": "Précision"}, {"titre": "Cabine d'environnements", "desc": "Restaurant, rue, open-space simulés en cabine : vos appareils sont réglés dans les situations qui vous posent problème.", "tag": "Réel"}, {"titre": "Appareils connectés", "desc": "Streaming téléphone et télé, réglages à distance entre deux rendez-vous, application de suivi de port.", "tag": "Connecté"}, {"titre": "Intra invisibles", "desc": "Empreinte numérique 3D, coque imprimée sur mesure : des intras profonds réellement invisibles, quand l'anatomie le permet — on vous le dit avant.", "tag": "Discrétion"}, {"titre": "Suivi augmenté", "desc": "Statistiques de port et d'environnement analysées à chaque contrôle : le réglage évolue avec votre vie, pas au hasard.", "tag": "Suivi"}, {"titre": "Ateliers proches aidants", "desc": "Une heure pour les proches : comment parler, se placer, régler la télé. L'appareillage réussit mieux à deux.", "tag": "Aidants"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
@@ -87,6 +89,21 @@ export default function OctaveAuditionPage() {
 
 
   fd = session?.formData;
+
+
+  // L'accroche du client remplace la première ligne du carrousel : c'est la
+
+
+  // seule des trois qui parle de lui, les autres décrivent des spécialités.
+
+
+  HERO = clientTagline({ formData: fd, generatedContent: c })
+
+
+    ? HERO_SOURCE.map((h, i) => (i === 0 ? { ...h, line: clientTagline({ formData: fd, generatedContent: c })! } : h))
+
+
+    : HERO_SOURCE;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

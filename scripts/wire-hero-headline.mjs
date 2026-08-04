@@ -75,32 +75,46 @@ for (const id of ids) {
   // Le premier titre du fichier : dans tous les thèmes mesurés, c'est le hero.
   // La balise est aussi souvent `motion.h1` que `h1`, et quatre-vingt-dix
   // thèmes n'ont pas de h1 du tout — leur hero porte un h2.
-  const h1 = /<((?:motion|m)\.)?(h1|h2)\b/.exec(src);
-  if (!h1) { restants.push(`${id} (pas de titre)`); continue; }
-  const balise = h1[0].slice(1);
-  const finOuv = finBalise(src, h1.index + h1[0].length);
-  if (finOuv === -1) { restants.push(`${id} (balise non fermée)`); continue; }
-  if (src[finOuv - 1] === "/") { restants.push(`${id} (titre auto-fermant)`); continue; }
-  const finFerm = fermeElement(src, finOuv + 1, balise.replace(".", "\\."));
-  if (finFerm === -1) { restants.push(`${id} (fermeture introuvable)`); continue; }
-  const enfants = src.slice(finOuv + 1, finFerm);
+  // Le premier titre est souvent celui du logo, écrit `{businessName}` — un
+  // titre entièrement dynamique. On essaie donc les titres dans l'ordre et on
+  // prend le premier qui porte vraiment une phrase.
+  // Un h2 n'est un titre de hero que dans les thèmes qui n'ont pas de h1 :
+  // ailleurs c'est un titre de section, et l'accroche du client y tomberait au
+  // milieu d'une galerie.
+  const aH1 = /<(?:(?:motion|m)\.)?h1\b/.test(src);
+  const titres = [...src.matchAll(aH1 ? /<((?:motion|m)\.)?(h1)\b/g : /<((?:motion|m)\.)?(h2)\b/g)];
+  if (titres.length === 0) { restants.push(`${id} (pas de titre)`); continue; }
+  let choisi = null, motif = "";
+  for (const h1 of titres) {
+    const balise = h1[0].slice(1);
+    const finOuv = finBalise(src, h1.index + h1[0].length);
+    if (finOuv === -1) { motif = "balise non fermée"; continue; }
+    if (src[finOuv - 1] === "/") { motif = "titre auto-fermant"; continue; }
+    const finFerm = fermeElement(src, finOuv + 1, balise.replace(".", "\\."));
+    if (finFerm === -1) { motif = "fermeture introuvable"; continue; }
+    const enfants = src.slice(finOuv + 1, finFerm);
 
-  if (/\.map\(/.test(enfants)) { restants.push(`${id} (titre construit par map)`); continue; }
-  if (/<[A-Z]/.test(enfants)) { restants.push(`${id} (titre confié à un composant)`); continue; }
-  if (/<(img|svg|video)\b/.test(enfants)) { restants.push(`${id} (titre graphique)`); continue; }
-  if (enfants.includes("clientTagline")) { restants.push(`${id} (déjà)`); continue; }
-  if (enfants.trim().length === 0) { restants.push(`${id} (titre vide)`); continue; }
+    if (/\.map\(/.test(enfants)) { motif = "titre construit par map"; continue; }
+    if (/<[A-Z]/.test(enfants)) { motif = "titre confié à un composant"; continue; }
+    if (/<(img|svg|video)\b/.test(enfants)) { motif = "titre graphique"; continue; }
+    if (enfants.includes("clientTagline")) { motif = "déjà"; continue; }
+    if (enfants.trim().length === 0) { motif = "titre vide"; continue; }
 
   // Un titre entièrement dynamique — `{slide.title}`, `{selectedProduct.name}` —
   // n'est pas le hero mais le titre d'une carte, d'une fiche ou d'une lightbox.
   // Y écrire l'accroche du client la ferait apparaître au mauvais endroit.
-  const litteral = enfants
+    const litteral = enfants
     .replace(/\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/g, "")
     .replace(/<[^>]*>/g, "")
     .replace(/&[a-z]+;/g, "x")
     .replace(/\s+/g, "")
     .trim();
-  if (litteral.length < 8) { restants.push(`${id} (titre dynamique)`); continue; }
+    if (litteral.length < 8) { motif = "titre dynamique"; continue; }
+    choisi = { finOuv, finFerm, enfants };
+    break;
+  }
+  if (!choisi) { restants.push(`${id} (${motif || "aucun titre exploitable"})`); continue; }
+  const { finOuv, finFerm, enfants } = choisi;
 
   const remp = `{/* ACCROCHE */ clientTagline(${arg}) ?? (<>${enfants}</>)}`;
   src = src.slice(0, finOuv + 1) + remp + src.slice(finFerm);

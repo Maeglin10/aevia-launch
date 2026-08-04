@@ -17,6 +17,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -521,14 +522,14 @@ function Hero() {
               color: C.text, maxWidth: 800,
               letterSpacing: '-0.02em', marginBottom: 24,
             }}
-          >
+          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
             Livraison &{' '}
             <span style={{ background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Logistique
             </span>
             <br />
             Sur-Mesure
-          </motion.h1>
+          </>)}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}

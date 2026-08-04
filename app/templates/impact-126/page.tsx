@@ -2,6 +2,7 @@
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
@@ -633,7 +634,16 @@ return (
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
-            ) : (
+            ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
+              <span style={{
+                    fontFamily: C.fontDisplay,
+                    fontSize: "clamp(18px, 2vw, 24px)",
+                    fontWeight: 600,
+                    letterSpacing: "0.28em",
+                    textTransform: "uppercase",
+                    color: C.dark,
+                  }}>{clientName({ formData: fd })}</span>
+            ) : (<>
               <>
                 {/* Terracotta logomark circle */}
                 <div
@@ -670,7 +680,7 @@ return (
                   Roma
                 </span>
               </>
-            )}
+            </>))}
           </div>
 
           {/* Right CTA */}

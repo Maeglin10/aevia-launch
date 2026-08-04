@@ -15,6 +15,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -46,7 +47,8 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Formations", "h": "#services"}, {"l": "Comment ça marche", "h": "#methode"}, {"l": "Formules", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Permis B", "line": "TU CALES ? ON REPART.", "sub": "La boîte manuelle apprise sans drame, en créneaux qui collent à tes cours ou ton taf."}, {"k": "Code intensif", "line": "LE CODE EN 3 SEMAINES.", "sub": "Stage accéléré encadré par un moniteur, examen dans la foulée dans un centre partenaire."}, {"k": "Permis boost", "line": "18 H CHRONO, PRÊT.", "sub": "Évaluation, plan d'heures serré, examens blancs filmés et débriefés."}];
+const HERO_SOURCE = [{"k": "Permis B", "line": "TU CALES ? ON REPART.", "sub": "La boîte manuelle apprise sans drame, en créneaux qui collent à tes cours ou ton taf."}, {"k": "Code intensif", "line": "LE CODE EN 3 SEMAINES.", "sub": "Stage accéléré encadré par un moniteur, examen dans la foulée dans un centre partenaire."}, {"k": "Permis boost", "line": "18 H CHRONO, PRÊT.", "sub": "Évaluation, plan d'heures serré, examens blancs filmés et débriefés."}];
+let HERO = HERO_SOURCE;
 
 const SERVICES_SOURCE = [{"titre": "Code accéléré", "desc": "Stage de 3 jours + accès illimité à l'application. Séances de correction en direct avec moniteur, pas un écran qui débite.", "tag": "Code"}, {"titre": "Permis B", "desc": "Créneaux 7h-21h et le samedi. Moniteur référent, livret numérique, points bloquants traités au simulateur avant la voiture.", "tag": "Conduite"}, {"titre": "Simulateur nouvelle génération", "desc": "Premières heures et situations à risque (pluie, nuit, autoroute) travaillées au simulateur — comptabilisées dans le forfait, deux fois moins chères.", "tag": "Simu"}, {"titre": "Conduite supervisée", "desc": "Après 18 ans : réduis le coût entre deux présentations en conduisant avec un proche, cadré par nous.", "tag": "Supervisée"}, {"titre": "Stage dernière ligne droite", "desc": "6 h sur les parcours d'examen de Montpellier la semaine du passage, examen blanc filmé et débriefé.", "tag": "Examen"}, {"titre": "CPF & financements", "desc": "Permis B éligible CPF, permis à 1 €/jour pour les 15-25 ans, mission locale acceptée. On monte le dossier avec toi.", "tag": "Financement"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
@@ -88,6 +90,21 @@ export default function PermisCapSudPage() {
 
 
   fd = session?.formData;
+
+
+  // L'accroche du client remplace la première ligne du carrousel : c'est la
+
+
+  // seule des trois qui parle de lui, les autres décrivent des spécialités.
+
+
+  HERO = clientTagline({ formData: fd, generatedContent: c })
+
+
+    ? HERO_SOURCE.map((h, i) => (i === 0 ? { ...h, line: clientTagline({ formData: fd, generatedContent: c })! } : h))
+
+
+    : HERO_SOURCE;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

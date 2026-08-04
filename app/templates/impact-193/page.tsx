@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -168,12 +169,14 @@ export default function OsteoGaiaPage() {
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
-            ) : (
+            ) : (/* NOM_LOGO */ clientName(sessionData) ? (
+              <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData)}</div>
+            ) : (<>
               <>
                 <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>Ostéo Gaïa</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c26b4c)]/60">Ostéopathe D.O. · {clientCity(sessionData) ?? "Montpellier"}</div>
               </>
-            )}
+            </>))}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#3a2e28]/30">
             {NAV.map(({ l, h }) => (

@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientName,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 import React, { useRef, useState, useEffect } from "react";
@@ -544,9 +545,9 @@ export default function Impact325SeminarHub({ session: initialSession }) {
             <motion.h1
               initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
               style={{ fontFamily: SERIF, fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 500, lineHeight: 1.1, margin: "0 0 24px 0", color: C.white }}
-            >
+            >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
               Elevate Your Corporate Strategy
-            </motion.h1>
+            </>)}</motion.h1>
 
             <motion.p
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.4 }}

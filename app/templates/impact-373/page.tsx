@@ -15,6 +15,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -46,7 +47,8 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Trajets", "h": "#services"}, {"l": "Comment ça marche", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Aéroport", "line": "NICE CÔTE D'AZUR, SANS COURIR.", "sub": "Vol suivi en temps réel, attente incluse, accueil pancarte au débarquement."}, {"k": "Soirées", "line": "SORTEZ. ON VOUS RAMÈNE.", "sub": "Monaco, Cannes, l'arrière-pays : la soirée finit quand vous voulez, pas quand les taxis rentrent."}, {"k": "Mise à disposition", "line": "UN CHAUFFEUR À LA JOURNÉE.", "sub": "Tournées pro, mariages, événements : la berline et son chauffeur restent avec vous."}];
+const HERO_SOURCE = [{"k": "Aéroport", "line": "NICE CÔTE D'AZUR, SANS COURIR.", "sub": "Vol suivi en temps réel, attente incluse, accueil pancarte au débarquement."}, {"k": "Soirées", "line": "SORTEZ. ON VOUS RAMÈNE.", "sub": "Monaco, Cannes, l'arrière-pays : la soirée finit quand vous voulez, pas quand les taxis rentrent."}, {"k": "Mise à disposition", "line": "UN CHAUFFEUR À LA JOURNÉE.", "sub": "Tournées pro, mariages, événements : la berline et son chauffeur restent avec vous."}];
+let HERO = HERO_SOURCE;
 
 const SERVICES_SOURCE = [{"titre": "Transferts aéroport", "desc": "Nice, Cannes-Mandelieu, Toulon-Hyères : vol suivi, 45 minutes d'attente incluses, accueil pancarte en salle d'arrivée.", "tag": "Aéroport"}, {"titre": "Gares & liaisons ville", "desc": "Nice-Ville, Antibes, Monaco : la correspondance sans stress, bagages portés, siège enfant sur demande.", "tag": "Gares"}, {"titre": "Mise à disposition", "desc": "À l'heure ou à la journée : rendez-vous professionnels enchaînés, shopping, visites — le chauffeur attend, vous vivez.", "tag": "Journée"}, {"titre": "Événements & mariages", "desc": "Cortèges coordonnés, navettes invités, retour des noctambules à 4 h : le transport de votre événement, planifié.", "tag": "Événements"}, {"titre": "Trajets longue distance", "desc": "Milan, Gênes, Lyon, Genève : le confort d'une berline plutôt que trois correspondances. Prix ferme avant départ.", "tag": "Longue distance"}, {"titre": "Entreprises & conciergeries", "desc": "Facturation mensuelle, chauffeurs référents, discrétion contractuelle : le partenaire transport de vos clients exigeants.", "tag": "Pro"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
@@ -88,6 +90,21 @@ export default function RivieraChauffeurPage() {
 
 
   fd = session?.formData;
+
+
+  // L'accroche du client remplace la première ligne du carrousel : c'est la
+
+
+  // seule des trois qui parle de lui, les autres décrivent des spécialités.
+
+
+  HERO = clientTagline({ formData: fd, generatedContent: c })
+
+
+    ? HERO_SOURCE.map((h, i) => (i === 0 ? { ...h, line: clientTagline({ formData: fd, generatedContent: c })! } : h))
+
+
+    : HERO_SOURCE;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

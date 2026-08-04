@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientName,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 import React, { useRef, useState, useEffect } from "react";
@@ -534,10 +535,10 @@ export default function Impact324TicketStore({ session: initialSession }) {
           <motion.h1
             initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: EASE }}
             style={{ fontFamily: SERIF, fontSize: "clamp(40px, 8vw, 90px)", fontWeight: 900, lineHeight: 1.1, margin: "0 0 24px 0", color: C.white, textTransform: "uppercase", letterSpacing: "-2px" }}
-          >
+          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
             Feel The <span style={{ color: C.primary, textShadow: `0 0 20px ${C.primary}80` }}>Vibe</span><br/>
             Live The <span style={{ WebkitTextStroke: `2px ${C.white}`, color: "transparent" }}>Moment</span>
-          </motion.h1>
+          </>)}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.4 }}

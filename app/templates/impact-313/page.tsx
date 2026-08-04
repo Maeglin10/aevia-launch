@@ -42,6 +42,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 const NAV = [
@@ -481,7 +482,7 @@ export default function PlumberDarkUrgent() {
   const businessEmail = fd.businessEmail || "contact@urgence-plomberie.fr";
   const businessCity = fd.businessCity || "Paris";
   
-  const heroTitle = c.heroTitle || "DÉPANNAGE PLOMBERIE D'URGENCE EN 30 MIN";
+  const heroTitle = clientTagline({ formData: fd, generatedContent: c }) || c.heroTitle || "DÉPANNAGE PLOMBERIE D'URGENCE EN 30 MIN";
   const heroSubtitle = c.heroSubtitle || "Fuite d'eau, débouchage, panne de chauffe-eau. Interventions 24h/24 et 7j/7 par des artisans qualifiés.";
 
   // Client-uploaded photos (uploaded in the brief) replace the stock

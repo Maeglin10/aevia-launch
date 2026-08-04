@@ -8,6 +8,7 @@ import { ArrowRight, MapPin, Mail, Phone, Clock, Star, Heart, Sun, Moon, X, Chec
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -284,12 +285,14 @@ export default function LumiereYogaPage() {
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : (
+          ) : (/* NOM_LOGO */ clientName(sessionData) ? (
+              <span style={{ fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>{clientName(sessionData)}</span>
+            ) : (<>
             <>
               <span style={{ fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>Lumière</span>
               <span style={{ fontSize: 13, letterSpacing: 4, fontWeight: 600, color: scrolled ? C.text : "rgba(255,255,255,0.8)", marginLeft: 8, textTransform: "uppercase" }}>Yoga Studio</span>
             </>
-          )}
+          </>))}
         </div>
         <div style={{ gap: 32, alignItems: "center" }} className="hidden md:flex">
           {NAV.map(({ l, h }) => (

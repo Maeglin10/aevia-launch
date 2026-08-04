@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { ArrowRight, MapPin, Mail, Phone, Clock, Star, CheckCircle, Calendar } from "lucide-react"
 import {
   clientCity,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,
@@ -194,12 +195,14 @@ export default function CabinetKinePage() {
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : (
+          ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
+              <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>{clientName({ formData: fd })}</span>
+            ) : (<>
             <>
               <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>Kiné</span>
               <span style={{ fontSize: 18, fontWeight: 300, color: scrolled ? C.text : "rgba(255,255,255,0.85)" }}> Mouvement</span>
             </>
-          )}
+          </>))}
         </div>
         <div style={{ gap: 32, alignItems: "center" }} className="hidden md:flex">
           {["Spécialités", "L'équipe", "Tarifs", "Contact"].map(l => {
