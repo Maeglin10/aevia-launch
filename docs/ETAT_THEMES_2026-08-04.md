@@ -1,80 +1,79 @@
 # État des 373 thèmes — 4 août 2026
 
 Ce que la mesure dit, pas ce que le code laisse croire. Chaque chiffre vient d'un
-balayage au navigateur : une session est semée avec des valeurs témoins
-improbables, chaque thème est ouvert, et l'on regarde ce qui apparaît vraiment
-dans le texte de la page.
+audit au navigateur : chaque thème reçoit sa propre entreprise — nom, ville,
+métier, couleur, prestations, tarifs, avis, horaires, équipe — et ses propres
+images tirées des banques, puis l'on regarde la page rendue.
 
-## Progression
+## L'état
 
-| balayage | thèmes sans aucun manque | ce qui a bougé |
+| mesure | résultat |
+|---|---|
+| thèmes affichant tous les blocs qu'ils déclarent | **352 / 373** |
+| thèmes affichant les photos du client | **369 / 373** (56 n'ont aucun emplacement photo) |
+| thèmes peignant la couleur du client | **351 / 373** (21 sont monochromes par dessein) |
+| thèmes sans aucun reste de démonstration | **296 / 373** |
+| pages plantées | **0** |
+| sections sans aucune entrée client | **196 / 3033** (6 %), dont 65 sans texte visible |
+| retouches de section offertes au client | **2210 sur 371 thèmes** |
+
+## Le chemin
+
+| balayage | thèmes sans manque | ce qui a bougé |
 |---|---|---|
-| 1 | 156 / 373 | état après le câblage des listes |
+| 1 | 156 | état après le câblage des listes |
 | 2 | 263 | accroche du hero, nom d'entreprise |
-| 3 | 281 | projections `target/suffix`, `q/n/l`, `prenom/titre` |
-| 4 | 302 | le contrat recevait `{ formData: fd }` seul — 27 thèmes |
-| 5 | 313 | grilles tarifaires |
-| 6 | 324 | dégel des constantes de module, crash impact-24 |
+| 4 | 302 | le contrat recevait `{ formData: fd }` seul |
+| 6 | 324 | dégel des constantes de module |
 | 7 | 331 | l'en-tête vit dans `layout.tsx` sur 62 thèmes |
-| 8 | 335 | 557 sous-pages reliées à la session |
 | 9 | 335 | ville de démonstration dans le texte |
-| 11 | 337 | ordre des recalculs, mentions légales |
-| 12 | 341 | tarifs, manifestes corrigés |
-| 13 | 348 | la ville d'exemple sur la moitié du catalogue qui ne la nommait pas |
-| 15 | 352 | `bp` déclaré jamais alimenté, calculs sur le tarif |
-| 16 | 357 | l'accroche du client devant le sous-titre rédigé pour lui |
+| 13 | 348 | la ville sur la moitié du catalogue qui ne la nommait pas |
 | 17 | 359 | constantes gelées dans les sous-pages |
+| audit final | 352 | mesure plus sévère : une entreprise différente par thème |
 
-## Ce qui a coûté le plus cher
+Le dernier chiffre est plus bas que le précédent parce que la mesure a changé :
+jusque-là les 373 thèmes recevaient la même session, ce qui masquait tout ce qui
+ne s'affiche que pour un métier donné.
 
-**L'en-tête n'est pas dans `page.tsx`.** Soixante-deux thèmes le rendent dans
-leur propre `layout.tsx`. La page a perdu le sien — impact-30 le dit en
-commentaire — et six balayages durant, le nom du client a été écrit dans un bloc
-que plus personne n'affichait. La mesure disait « le nom n'apparaît pas » sans
-dire dans quel fichier il aurait dû l'être.
+## Ce que le client peut changer
 
-**Le contrat recevait un tiers de la session.** `clientServices({ formData: fd })`
-ne renvoie jamais rien : les prestations vivent sous `businessProfile.services`.
-Vingt-sept thèmes, quarante appels.
+Le wizard recueille la donnée structurée — prestations, tarifs, avis, chiffres,
+équipe, questions, horaires, adresse, zones, labels, photos, couleur, identité
+légale — et **s'adapte à sa niche** : les 68 niches mènent à l'un des huit
+archétypes, et chaque archétype demande ce que ses thèmes affichent.
 
-**L'ordre des lignes.** Trois lignes doivent se suivre — la session arrive, le
-recalcul la lit, le consommateur lit le recalcul — et chaque passe de câblage
-insérait la sienne juste après `fd`, sans regarder les autres. Cent trente-huit
-fichiers.
+La prose passe par les retouches de section : chaque titre, chaque texte, chaque
+liste de libellés porte une clé stable que le panneau d'édition de l'aperçu
+déroule. Laisser un champ vide rend au thème son texte d'origine.
 
-**Les constantes de module.** Une passe qui câble `const courses = resolveList(…)`
-produit une valeur figée à l'import, quand `fd` vaut encore `null`. Six grilles
-tarifaires étaient mortes-nées le lendemain de leur câblage. `check-frozen.mjs`
-surveille ça maintenant.
+Les images viennent des photos du client, ou des deux banques — Pexels et
+Pixabay, interrogées ensemble et alternées pour que deux clients du même métier
+ne tombent pas sur la même.
 
-## Ce qui reste
+## Ce qui reste, et pourquoi
 
-Quatorze thèmes ont encore un manque, aucun bloquant :
+- **13 accroches** — le titre du hero est découpé lettre par lettre par un
+  composant d'animation. Y injecter une chaîne casserait le thème ; c'est le
+  sous-titre qui porte alors l'accroche du client.
+- **21 thèmes monochromes** — leur palette est faite de noirs, de blancs et de
+  gris. Il n'y a pas d'accent à recolorer, et en inventer un abîmerait le dessin.
+- **77 thèmes gardent une ville dans leurs exemples** — « ÉQUIPEMENT PUBLIC ·
+  BORDEAUX, 33 » sous une réalisation, « ESTP Paris » dans une biographie. Ce
+  sont les projets de démonstration, que le client remplace en fournissant les
+  siens ; la règle du catalogue est de garder l'exemple tant qu'il n'a rien donné.
+- **65 sections sans texte** — conteneurs, décors animés, séparateurs. Il n'y a
+  rien à y écrire.
 
-- **8 accroches** — le titre du hero est découpé lettre par lettre par un
-  composant d'animation, ou dessiné. Y injecter une chaîne casserait le thème ;
-  son accroche d'origine reste et le sous-titre porte celle du client.
-- **impact-14, impact-16, impact-18, impact-21** — leurs prestations, avis ou
-  tarifs vivent sur une vue interne que la mesure ne visite pas. Ces pages-là sont
-  câblées ; c'est le manifeste de la page d'accueil qui les déclarait à tort.
-- **impact-275** — ses avis n'affichent que les initiales de l'auteur, à dessein :
-  c'est un thème de pompes funèbres.
-- **impact-215** — le nom s'affiche, mais pas toujours selon ce que le client
-  remplit par ailleurs. À reprendre.
+## Les outils
 
-## Le test client
-
-`scripts/client-run.mjs` traverse le wizard comme un client — clics, saisie,
-téléversement d'une photo — et lit ce qui s'affiche sur l'aperçu. Onze métiers
-passés : le nom, la ville et l'accroche s'affichent dans tous les cas, aucune page
-ne plante, et plus aucune adresse e-mail de démonstration ne subsiste.
-
-## Outils de mesure
-
-    node scripts/theme-audit.mjs --range 1 40     # ce qu'un thème affiche vraiment
+    node scripts/final-audit.mjs --tranche 0 5   # une entreprise par thème
+    node scripts/section-audit.mjs               # sections sans entrée client
     node scripts/client-run.mjs "Santé" "Dentiste" "Cabinet Dupont" "Lyon"
-    node scripts/check-frozen.mjs                 # appels gelés à l'import
+    node scripts/check-frozen.mjs                # appels gelés à l'import
 
-Le balayage complet se lance en cinq tranches parallèles ; il dure une demi-heure.
+Après toute passe de câblage, enchaîner `check-frozen`, `unfreeze-module-calls`,
+`fix-partial-session`, `order-session-vars`, `order-live-calls`, puis rebâtir,
+redémarrer le serveur, et seulement ensuite mesurer.
+
 **Ne jamais reconstruire pendant une mesure** : `.next` est remplacé sous le
 serveur en marche et les 373 thèmes paraissent d'un coup ne plus rien afficher.
