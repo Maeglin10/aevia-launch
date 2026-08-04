@@ -18,6 +18,9 @@ dans le texte de la page.
 | 7 | 331 | l'en-tête vit dans `layout.tsx` sur 62 thèmes |
 | 8 | 335 | 557 sous-pages reliées à la session |
 | 9 | 335 | ville de démonstration dans le texte |
+| 11 | 337 | ordre des recalculs, mentions légales |
+| 12 | 341 | tarifs, manifestes corrigés |
+| 13 | 348 | la ville d'exemple sur la moitié du catalogue qui ne la nommait pas |
 
 ## Ce qui a coûté le plus cher
 
@@ -43,13 +46,21 @@ surveille ça maintenant.
 
 ## Ce qui reste
 
-Trente-huit thèmes ont encore un manque, aucun bloquant :
+Vingt-cinq thèmes ont encore un manque, aucun bloquant :
 
 - **13 accroches** — le titre du hero est découpé lettre par lettre ou mot par mot
   par un composant d'animation. Y injecter une chaîne casserait le thème ; son
   accroche d'origine reste, tout le reste de la page est au client.
-- **13 tarifs** — grilles dont la forme ne se ramène à aucune des règles écrites.
-- **12 divers** — un avis, un membre d'équipe, une certification par-ci par-là.
+- **5 avis, 2 auteurs** — listes lues par index plutôt que par `map`.
+- **3 tarifs, 2 prestations, 1 nom** — formes qui ne se ramènent à aucune des
+  règles écrites ; à traiter à la main.
+
+## Le test client
+
+`scripts/client-run.mjs` traverse le wizard comme un client — clics, saisie,
+téléversement d'une photo — et lit ce qui s'affiche sur l'aperçu. Onze métiers
+passés : le nom, la ville et l'accroche s'affichent dans tous les cas, aucune page
+ne plante, et plus aucune adresse e-mail de démonstration ne subsiste.
 
 ## Outils de mesure
 
