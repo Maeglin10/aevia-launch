@@ -2399,7 +2399,7 @@ function ContactSection() {
                 style={{ display: 'flex', flexDirection: 'column' as const, gap: 24 }}
               >
                 {[
-                  { label: 'Paris Studio', val: `14 Rue du Dragon, 75006 ${clientCity(sessionData) ?? "Paris"}` },
+                  { label: (clientCity(sessionData) ?? 'Paris') + ' Studio', val: `14 Rue du Dragon, 75006 ${clientCity(sessionData) ?? "Paris"}` },
                   { label: 'Geneva Office', val: '12 Quai du Mont-Blanc, 1201 Geneva' },
                   { label: 'Email', val: (fd?.email ?? 'contact@exemple.fr') },
                   { label: 'Horaires', val: 'Lun – Ven · 9h – 19h' },

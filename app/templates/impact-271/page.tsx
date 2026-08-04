@@ -2110,7 +2110,7 @@ function Footer() {
       >
         <span>
           © 2003–2026 Jardins d&apos;Alsace · SARL Reinhardt Paysage ·
-          Strasbourg, Bas-Rhin{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          {clientCity(sessionData) ?? "Strasbourg"}, Bas-Rhin{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#devis" style={{ color: 'inherit', textDecoration: 'none' }}>

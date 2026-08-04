@@ -2170,7 +2170,7 @@ return (
           }}
         >
           <div style={{ fontSize: 12, color: C.textMuted, letterSpacing: 0.5 }}>
-            © 2026 Aurum Jewelry SAS · 24, rue de la Paix · 75002 Paris{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2026 Aurum Jewelry SAS · 24, rue de la Paix · 75002 {clientCity(sessionData) ?? "Paris"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
           <div style={{ fontSize: 12, color: C.textMuted, letterSpacing: 0.5 }}>
             Garantie maison 10 ans · Livraison assurée 67 pays

@@ -444,7 +444,7 @@ export default function AtelierInteriorPage() {
           ))}
         </div>
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-[#f5f0eb]/10 text-[10px] font-bold uppercase tracking-widest text-[#f5f0eb]/20 flex flex-col sm:flex-row justify-between gap-4">
-          <span>© 2026 ATELIER INTERIOR. PARIS · LONDON · MILAN{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 ATELIER INTERIOR. {clientCity(sessionData) ?? "PARIS"} · LONDON · MILAN{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-6">
             <Link href="#contact" className="hover:text-[#f5f0eb] transition-colors">Mentions légales</Link>
             <Link href="#contact" className="hover:text-[#f5f0eb] transition-colors">Confidentialité</Link>

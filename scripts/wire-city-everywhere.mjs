@@ -90,9 +90,22 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
     if (!partage && !arg) continue;
 
     let k = 0;
-    const lignes = src.split("\n").map((ligne) => {
+    const lignes = src.split("\n").map((ligne0) => {
+      let ligne = ligne0;
       if (/^\s*(import|export type|\/\/|\*)/.test(ligne)) return ligne;
-      if (/alt=|alt:|aria|href=|placeholder|content=|@type|schema|clientCity/.test(ligne)) return ligne;
+      if (/alt=|alt:|aria|href=|placeholder|content=|@type|schema/.test(ligne)) return ligne;
+      /*
+        La ligne du tampon de pied contient déjà `clientCity(...)`, et l'écarter
+        entièrement laissait la ville de démonstration juste à côté : « © 2026
+        KinéSport Élite · Paris 15e · Voiron ». On masque les appels existants le
+        temps du remplacement, puis on les remet.
+      */
+      const masques = [];
+      ligne = ligne.replace(/client(?:City|CityOr)\([^()]*(?:\([^()]*\)[^()]*)*\)(?:\s*\?\?\s*"[^"]*")?/g, (m0) => {
+        masques.push(m0);
+        return `\u0000${masques.length - 1}\u0000`;
+      });
+      const demasquer = (x) => x.replace(/\u0000(\d+)\u0000/g, (_, i) => masques[Number(i)]);
       if (/RCS|Aevia|SIREN/.test(ligne)) return ligne;
 
       // Les chaînes de données, propres au guillemet ouvrant.
@@ -116,6 +129,8 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
       // Le texte JSX, seulement dans un fichier qui a une session.
       if (!partage) {
         out = out.replace(new RegExp(`(^|[\\s>(,·—–])(${ville})(?=[\\s<{.,;:!?·—–)]|$)`, "gi"), (m0, avant, v, pos) => {
+          // Une clé d'objet n'est pas du texte : `paris: { x: 472 }` doit rester.
+          if (/^\s*:/.test(out.slice(pos + m0.length))) return m0;
           const seg = out.slice(0, pos);
           const impair = (re) => (seg.match(re) || []).length % 2 === 1;
           if (impair(/(?<!\\)"/g) || impair(/(?<!\\)'/g) || impair(/(?<!\\)`/g)) return m0;
@@ -123,7 +138,7 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
           return `${avant}{clientCity(${arg}) ?? "${v}"}`;
         });
       }
-      return out;
+      return demasquer(out);
     });
 
     if (k === 0) continue;

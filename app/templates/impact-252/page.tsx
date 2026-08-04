@@ -2000,7 +2000,7 @@ function Footer() {
           color: 'rgba(200,234,240,0.38)',
         }}
       >
-        <span>© 2025–2026 Smile &amp; Co · Cabinet Dentaire · Lyon 6e{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2025–2026 Smile &amp; Co · Cabinet Dentaire · {clientCity(sessionData) ?? "Lyon"} 6e{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

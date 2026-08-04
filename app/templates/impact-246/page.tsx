@@ -2336,7 +2336,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.42)',
         }}
       >
-        <span>© 2026 ThermoFix Pro · Marseille · SIRET 000 000 000 00000{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 ThermoFix Pro · {clientCity(sessionData) ?? "Marseille"} · SIRET 000 000 000 00000{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#tf-msg" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

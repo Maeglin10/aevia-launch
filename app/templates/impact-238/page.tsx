@@ -2181,7 +2181,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Centre Kiné Atlantique — Kinésithérapie à Rennes{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 Centre Kiné Atlantique — Kinésithérapie à {clientCity(sessionData) ?? "Rennes"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>

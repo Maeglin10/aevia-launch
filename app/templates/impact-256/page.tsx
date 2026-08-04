@@ -2163,7 +2163,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2026 Force Brute · Coach Sportif Marseille. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 Force Brute · Coach Sportif {clientCity(sessionData) ?? "Marseille"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Confidentialité</a>

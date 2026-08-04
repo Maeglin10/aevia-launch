@@ -2042,7 +2042,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2008–2026 Maître Géraldine Voss — Avocate au Barreau de Toulouse. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2008–2026 Maître Géraldine Voss — Avocate au Barreau de {clientCity(sessionData) ?? "Toulouse"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>

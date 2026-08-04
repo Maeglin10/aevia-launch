@@ -2048,7 +2048,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 L&rsquo;Atelier Soie — Lyon. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 L&rsquo;Atelier Soie — {clientCity(sessionData) ?? "Lyon"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Couture &amp; Broderie sur-mesure · Haute Couture Lyonnaise

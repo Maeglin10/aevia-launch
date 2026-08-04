@@ -34,7 +34,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   KINÉPÉDIATRIE BORDEAUX — Kinésithérapie Pédiatrique & Respiratoire · {clientCity(sessionData) ?? "Bordeaux"}
+   KINÉPÉDIATRIE {clientCity(sessionData) ?? "BORDEAUX"} — Kinésithérapie Pédiatrique & Respiratoire · {clientCity(sessionData) ?? "Bordeaux"}
    Photographie réelle + chorégraphie éditoriale au défilement (style cabinet
    premium pédiatrique × chaleur familiale). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2170,7 +2170,7 @@ function Footer() {
           fontWeight: 300,
         }}
       >
-        <span>© 2026 KinéPédiatrie Bordeaux. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 KinéPédiatrie {clientCity(sessionData) ?? "Bordeaux"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
