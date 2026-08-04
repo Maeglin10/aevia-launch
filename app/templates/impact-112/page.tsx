@@ -1053,6 +1053,11 @@ export default function ArtisanMinimalPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
+  TESTIMONIALS = TESTIMONIALS_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -1069,11 +1074,6 @@ export default function ArtisanMinimalPage() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  bp = session?.businessProfile;
-  c = session?.generatedContent;
-  PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
-  TESTIMONIALS = TESTIMONIALS_LIVE();
 
 
 

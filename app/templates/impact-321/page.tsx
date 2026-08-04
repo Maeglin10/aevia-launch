@@ -8,6 +8,7 @@ import {
   clientStats,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -39,6 +40,7 @@ import {
   Cpu,
   Code
 } from 'lucide-react';
+let sessionData: any = null;
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Linkedin = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -361,6 +363,8 @@ export default function AIHorizonsTemplate() {
   }, []);
 
   const fd = session?.formData;
+
+  sessionData = session;
   const c = session?.generatedContent;
 
   const businessName = fd?.businessName || "AI Horizons '26";
@@ -973,7 +977,7 @@ export default function AIHorizonsTemplate() {
             
             <div style={{ flex: '1 1 min(500px, 100%)' }}>
               <Eyebrow text="À Propos de l'événement" />
-              <h2 className="title-section">Façonner le futur de <span className="gradient-text-primary">l'Intelligence Artificielle</span></h2>
+              <h2 className="title-section">{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>Façonner le futur de <span className="gradient-text-primary">l'Intelligence Artificielle</span></>)}</h2>
               <Reveal delay={0.2}>
                 <p style={{ fontSize: '18px', color: C.textMuted, lineHeight: 1.7, marginBottom: '24px' }}>
                   AI Horizons rassemble les esprits les plus brillants de l'industrie technologique pour explorer, débattre et construire l'avenir de l'IA. Pendant trois jours intenses, plongez au cœur des innovations qui redéfinissent notre monde.
@@ -1044,7 +1048,7 @@ export default function AIHorizonsTemplate() {
           
           <div style={{ textAlign: 'center', marginBottom: '80px' }}>
             <Eyebrow text="Line-up 2026" />
-            <h2 className="title-section">Les <span className="gradient-text-primary">Visionnaires</span></h2>
+            <h2 className="title-section">{/* TEXTE_SECTION */ clientText(sessionData, "speakers.titre") ?? (<>Les <span className="gradient-text-primary">Visionnaires</span></>)}</h2>
             <p style={{ color: C.textMuted, maxWidth: '600px', margin: '0 auto' }}>
               Apprenez directement de ceux qui construisent l'IA d'aujourd'hui et imaginent celle de demain.
             </p>
@@ -1102,7 +1106,7 @@ export default function AIHorizonsTemplate() {
           
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <Eyebrow text="Programme Officiel" />
-            <h2 className="title-section">Agenda <span className="gradient-text-primary">du Sommet</span></h2>
+            <h2 className="title-section">{/* TEXTE_SECTION */ clientText(sessionData, "agenda.titre") ?? (<>Agenda <span className="gradient-text-primary">du Sommet</span></>)}</h2>
           </div>
 
           {/* Tabs */}
@@ -1184,7 +1188,7 @@ export default function AIHorizonsTemplate() {
       <section id="sponsors" className="section-padding" style={{ backgroundColor: '#0a0a0a' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
           <Eyebrow text="Partenaires" />
-          <h2 className="title-section">Ils rendent cela <span className="gradient-text-primary">possible</span></h2>
+          <h2 className="title-section">{/* TEXTE_SECTION */ clientText(sessionData, "sponsors.titre") ?? (<>Ils rendent cela <span className="gradient-text-primary">possible</span></>)}</h2>
           
           <div style={{ 
             display: 'flex', 
@@ -1228,7 +1232,7 @@ export default function AIHorizonsTemplate() {
           
           <div style={{ textAlign: 'center', marginBottom: '80px' }}>
             <Eyebrow text="Billetterie" />
-            <h2 className="title-section">Sécurisez votre <span className="gradient-text-primary">Accès</span></h2>
+            <h2 className="title-section">{/* TEXTE_SECTION */ clientText(sessionData, "tickets.titre") ?? (<>Sécurisez votre <span className="gradient-text-primary">Accès</span></>)}</h2>
             <p style={{ color: C.textMuted, maxWidth: '600px', margin: '0 auto' }}>
               Les places sont limitées pour garantir une expérience de networking optimale.
             </p>
@@ -1294,7 +1298,7 @@ export default function AIHorizonsTemplate() {
           
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <Eyebrow text="FAQ" />
-            <h2 className="title-section">Questions <span className="gradient-text-primary">Fréquentes</span></h2>
+            <h2 className="title-section">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Questions <span className="gradient-text-primary">Fréquentes</span></>)}</h2>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -1312,9 +1316,9 @@ export default function AIHorizonsTemplate() {
       <section style={{ padding: '100px 5%', backgroundColor: C.primary, position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)' }} />
         <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}>
-          <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 900, color: C.bgDeep, marginBottom: '24px' }}>
+          <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 900, color: C.bgDeep, marginBottom: '24px' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
             Prêt à façonner l'avenir ?
-          </h2>
+          </>)}</h2>
           <p style={{ fontSize: '18px', color: 'rgba(3, 7, 18, 0.8)', marginBottom: '40px' }}>
             Rejoignez des milliers de professionnels à l'événement tech de l'année.
           </p>

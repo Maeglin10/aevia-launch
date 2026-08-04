@@ -32,7 +32,9 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
@@ -354,6 +356,8 @@ export default function AtelierPerformanceTemplate() {
   }, []);
 
   const fd = session?.formData;
+
+  sessionData = session;
   const c = session?.generatedContent;
   const bp = session?.businessProfile;
 
@@ -644,9 +648,9 @@ export default function AtelierPerformanceTemplate() {
                   textTransform: 'uppercase',
                   marginBottom: '1.5rem',
                   lineHeight: 1.2
-                }}>
+                }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                   Des Services Taillés pour la <span style={{ color: themeColor }}>Performance</span>
-                </h2>
+                </>)}</h2>
                 <p style={{ color: C.textMuted, fontSize: '1.125rem' }}>
                   De la simple reprogrammation à la préparation complète pour la compétition, nous maîtrisons chaque aspect de la mécanique haute performance.
                 </p>
@@ -808,9 +812,9 @@ export default function AtelierPerformanceTemplate() {
                   textTransform: 'uppercase',
                   marginBottom: '1.5rem',
                   lineHeight: 1.2
-                }}>
+                }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                   Une passion guidée par la <span style={{ color: themeColor }}>Technique</span>
-                </h2>
+                </>)}</h2>
                 <p style={{ color: C.textMuted, fontSize: '1.125rem', marginBottom: '1.5rem', lineHeight: 1.7 }}>
                   Fondé par des ingénieurs motoristes passionnés, notre atelier est équipé des dernières technologies de diagnostic et de métrologie. Nous ne faisons pas que remplacer des pièces, nous concevons des solutions.
                 </p>
@@ -852,9 +856,9 @@ export default function AtelierPerformanceTemplate() {
                     color: C.white,
                     textTransform: 'uppercase',
                     lineHeight: 1.2
-                  }}>
+                  }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                     Machines <span style={{ color: themeColor }}>Optimisées</span>
-                  </h2>
+                  </>)}</h2>
                 </Reveal>
               </div>
               <Reveal delay={0.2}>
@@ -931,9 +935,9 @@ export default function AtelierPerformanceTemplate() {
                   color: C.white,
                   textTransform: 'uppercase',
                   lineHeight: 1.2
-                }}>
+                }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                   Ils nous font <span style={{ color: themeColor }}>Confiance</span>
-                </h2>
+                </>)}</h2>
               </Reveal>
             </div>
 
@@ -1002,9 +1006,9 @@ export default function AtelierPerformanceTemplate() {
                   color: C.white,
                   textTransform: 'uppercase',
                   lineHeight: 1.2
-                }}>
+                }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
                   Questions <span style={{ color: themeColor }}>Fréquentes</span>
-                </h2>
+                </>)}</h2>
               </Reveal>
             </div>
 
@@ -1035,9 +1039,9 @@ export default function AtelierPerformanceTemplate() {
                     textTransform: 'uppercase',
                     lineHeight: 1.2,
                     marginBottom: '1.5rem'
-                  }}>
+                  }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                     Prendre <span style={{ color: themeColor }}>Rendez-vous</span>
-                  </h2>
+                  </>)}</h2>
                   <p style={{ color: C.textMuted, fontSize: '1.125rem', marginBottom: '3rem' }}>
                     Prêt à libérer le potentiel de votre véhicule ? Contactez-nous pour un devis personnalisé ou pour réserver votre session sur banc.
                   </p>

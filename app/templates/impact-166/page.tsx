@@ -836,6 +836,9 @@ export default function Impact166Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
 
   STATS_INLINE = resolveList(
 
@@ -852,9 +855,6 @@ export default function Impact166Page() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  bp = session?.businessProfile;
-  c = session?.generatedContent;
 
 
   TESTIMONIALS_DEMO = resolveList(

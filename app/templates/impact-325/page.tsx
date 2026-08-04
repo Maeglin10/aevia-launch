@@ -1,8 +1,10 @@
 "use client";
 import {
   clientCity,
+  clientList,
   clientName,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 import React, { useRef, useState, useEffect } from "react";
@@ -29,6 +31,7 @@ import {
   FileText,
   ChevronDown
 } from "lucide-react";
+let sessionData: any = null;
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Linkedin = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
@@ -223,6 +226,8 @@ export default function Impact325SeminarHub({ session: initialSession }) {
   }, []);
 
   const fd = session?.formData || {};
+
+  sessionData = session;
   const c = session?.generatedContent || {};
 
   // Override brand color if provided
@@ -592,9 +597,9 @@ export default function Impact325SeminarHub({ session: initialSession }) {
           <Reveal>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", marginBottom: "60px" }}>
               <Eyebrow text="Curriculum" />
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 600, margin: "0", color: C.text }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 600, margin: "0", color: C.text }}>{/* TEXTE_SECTION */ clientText(sessionData, "seminars.titre") ?? (<>
                 Upcoming Masterclasses
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -679,19 +684,19 @@ export default function Impact325SeminarHub({ session: initialSession }) {
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(400px, 100%), 1fr))", gap: "60px", alignItems: "center" }}>
           <Reveal>
             <Eyebrow text="For Enterprises" />
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 600, margin: "0 0 24px 0", color: C.text }}>
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 600, margin: "0 0 24px 0", color: C.text }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
               Transform your leadership team
-            </h2>
+            </>)}</h2>
             <p style={{ color: C.textMuted, fontSize: "16px", lineHeight: 1.7, marginBottom: "32px" }}>
               Our executive masterclasses are designed to provide actionable insights and strategic frameworks. We offer comprehensive corporate packages including private workshops, dedicated account management, and centralized invoicing.
             </p>
             <ul style={{ listStyle: "none", padding: 0, margin: "0 0 40px 0", display: "flex", flexDirection: "column", gap: "16px" }}>
-              {[
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
                 "Customized curriculum alignment",
                 "Volume licensing and group discounts",
                 "Post-seminar implementation support",
                 "Priority access to global industry experts"
-              ].map((item, i) => (
+              ]).map((item, i) => (
                 <li key={i} style={{ display: "flex", alignItems: "center", gap: "12px", color: C.text, fontSize: "15px" }}>
                   <Check size={18} color={C.primary} /> {item}
                 </li>

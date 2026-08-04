@@ -80,6 +80,8 @@ export default function OrbitHomePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  c = session?.generatedContent;
 
   STATS_INLINE = resolveList(
 
@@ -96,8 +98,6 @@ export default function OrbitHomePage() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  c = session?.generatedContent;
 
 
   PRESTATIONS_INLINE = resolveList(

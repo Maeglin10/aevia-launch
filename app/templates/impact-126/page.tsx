@@ -490,6 +490,9 @@ export default function ImpactRestaurantPage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
 
   STATS_INLINE = resolveList(
 
@@ -506,9 +509,6 @@ export default function ImpactRestaurantPage() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  bp = session?.businessProfile;
-  c = session?.generatedContent;
 
   WINES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...WINES_SOURCE[i % WINES_SOURCE.length], name: s.title, price: s.price ?? WINES_SOURCE[i % WINES_SOURCE.length].price })),

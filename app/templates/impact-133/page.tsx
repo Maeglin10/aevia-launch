@@ -2232,6 +2232,8 @@ export default function Impact133Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  c = session?.generatedContent;
 
   STATS_INLINE = resolveList(
 
@@ -2248,8 +2250,6 @@ export default function Impact133Page() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  c = session?.generatedContent;
 
   PROJECTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PROJECTS_SOURCE[i % PROJECTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),

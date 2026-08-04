@@ -2619,6 +2619,9 @@ export default function ArchitectureTemplate() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
 
   STATS_INLINE = resolveList(
 
@@ -2635,9 +2638,6 @@ export default function ArchitectureTemplate() {
     STATS_INLINE_SOURCE,
 
   );
-  bp = session?.businessProfile;
-  c = session?.generatedContent;
-  sessionData = session;
 
   PRESTATIONS_INLINE = resolveList(
 

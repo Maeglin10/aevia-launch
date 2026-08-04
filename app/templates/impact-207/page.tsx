@@ -2327,6 +2327,10 @@ export default function Impact207() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  HUBS = HUBS_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -2343,10 +2347,6 @@ export default function Impact207() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  bp = session?.businessProfile;
-  c = session?.generatedContent;
-  HUBS = HUBS_LIVE();
 
 
 

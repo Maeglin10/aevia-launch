@@ -601,6 +601,9 @@ export default function FloristHome() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
 
   STATS_INLINE = resolveList(
 
@@ -617,9 +620,6 @@ export default function FloristHome() {
     STATS_INLINE_SOURCE,
 
   );
-  bp = session?.businessProfile;
-  c = session?.generatedContent;
-  sessionData = session;
   HERO_BOUQUETS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...HERO_BOUQUETS_DEMO_SOURCE[i % HERO_BOUQUETS_DEMO_SOURCE.length], name: s.title, price: s.price ?? HERO_BOUQUETS_DEMO_SOURCE[i % HERO_BOUQUETS_DEMO_SOURCE.length].price })),
     HERO_BOUQUETS_DEMO_SOURCE,

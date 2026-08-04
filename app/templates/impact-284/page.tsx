@@ -2808,6 +2808,11 @@ export default function Impact284Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
+  EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
+  TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -2824,11 +2829,6 @@ export default function Impact284Page() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
-  EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
-  TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
 
 
   EQUIPEMENTS = resolveList(

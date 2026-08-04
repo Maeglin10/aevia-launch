@@ -467,6 +467,10 @@ export default function Impact200Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
+  GALLERY_ITEMS_DEMO = GALLERY_ITEMS_DEMO_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -483,10 +487,6 @@ export default function Impact200Page() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
-  GALLERY_ITEMS_DEMO = GALLERY_ITEMS_DEMO_LIVE();
 
 
   useEffect(() => {

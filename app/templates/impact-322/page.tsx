@@ -42,12 +42,15 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
   clientTagline,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Linkedin = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
@@ -199,6 +202,8 @@ export default function Impact322() {
   }, []);
 
   const fd = session?.formData || {};
+
+  sessionData = session;
   const c = session?.generatedContent || {};
   const bp = session?.businessProfile || {};
 
@@ -494,7 +499,7 @@ export default function Impact322() {
           </p>
           <div className="flex items-center justify-center gap-12 md:gap-24 opacity-40 grayscale flex-wrap">
             {/* Dummy Logos */}
-            {['Chanel', 'LVMH', 'Cartier', 'Dior', 'Rolex'].map((brand, i) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ['Chanel', 'LVMH', 'Cartier', 'Dior', 'Rolex']).map((brand, i) => (
               <span key={i} style={{ fontFamily: SERIF }} className="text-2xl font-bold tracking-wider">
                 {brand}
               </span>
@@ -524,9 +529,9 @@ export default function Impact322() {
             <div>
               <Reveal>
                 <Eyebrow text="Notre Signature" C={C} className="mb-6" />
-                <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light mb-8 leading-tight">
+                <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light mb-8 leading-tight">{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
                   L'Exigence au service <br />de l'<span style={{ fontStyle: 'italic', color: C.primary }}>Émotion</span>.
-                </h2>
+                </>)}</h2>
               </Reveal>
               
               <Reveal delay={0.2}>
@@ -563,9 +568,9 @@ export default function Impact322() {
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <Reveal>
               <Eyebrow text="Nos Expertises" C={C} className="mb-6" />
-              <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light">
+              <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Savoir-Faire <span style={{ fontStyle: 'italic', color: C.primary }}>Événementiel</span>
-              </h2>
+              </>)}</h2>
             </Reveal>
             <Reveal>
               <p className="max-w-md font-light" style={{ color: C.textMuted }}>
@@ -618,9 +623,9 @@ export default function Impact322() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 mb-16 text-center">
           <Reveal>
             <Eyebrow text="Portfolio" C={C} className="mb-6 justify-center" />
-            <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light">
+            <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light">{/* TEXTE_SECTION */ clientText(sessionData, "portfolio.titre") ?? (<>
               Nos Dernières <span style={{ fontStyle: 'italic', color: C.primary }}>Réalisations</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
 
@@ -661,9 +666,9 @@ export default function Impact322() {
             <div>
               <Reveal>
                 <Eyebrow text="Pourquoi Nous" C={C} className="mb-6" />
-                <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light mb-8">
+                <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                   L'Art de <span style={{ fontStyle: 'italic', color: C.primary }}>l'Excellence</span>
-                </h2>
+                </>)}</h2>
                 <p className="text-lg font-light mb-12" style={{ color: C.textMuted }}>
                   Nous ne laissons rien au hasard. Chaque étape de la conception à la réalisation est gérée avec une précision chirurgicale et une vision esthétique sans compromis.
                 </p>
@@ -707,9 +712,9 @@ export default function Impact322() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 text-center mb-16">
           <Reveal>
             <Eyebrow text="Témoignages" C={C} className="mb-6 justify-center" />
-            <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light">
+            <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Mots de nos <span style={{ fontStyle: 'italic', color: C.primary }}>Clients</span>
-            </h2>
+            </>)}</h2>
           </Reveal>
         </div>
 
@@ -757,10 +762,10 @@ export default function Impact322() {
             <div className="flex-1">
               <Reveal>
                 <Eyebrow text="Contact" C={C} className="mb-6" />
-                <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light mb-8">
+                <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                   Planifions votre <br />
                   <span style={{ fontStyle: 'italic', color: C.primary }}>Événement</span>
-                </h2>
+                </>)}</h2>
                 <p className="font-light mb-12" style={{ color: C.textMuted }}>
                   Confiez-nous vos envies, nous en ferons une réalité. Notre équipe est à votre disposition pour une première consultation confidentielle.
                 </p>

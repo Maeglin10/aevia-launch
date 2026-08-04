@@ -437,6 +437,9 @@ export default function Impact211Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
 
   STATS_INLINE = resolveList(
 
@@ -453,9 +456,6 @@ export default function Impact211Page() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  bp = session?.businessProfile;
-  c = session?.generatedContent;
 
   EVENTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EVENTS_SOURCE[i % EVENTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
