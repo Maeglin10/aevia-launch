@@ -168,7 +168,8 @@ const CARE_CARDS_DEMO: Care[] = [
   { title: 'Drainage lymphatique pédiatrique', icon: '💙' },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+function EDIT_ROWS_LIVE() {
+  return [
   {
     eyebrow: 'Notre approche',
     img: P.editorial1,
@@ -187,7 +188,7 @@ const EDIT_ROWS: EditRow[] = [
     eyebrow: 'Le cabinet',
     img: P.editorial2,
     alt: 'Cabinet de kinésithérapie pédiatrique à Bordeaux Mériadeck',
-    titleLine1: 'Bordeaux',
+    titleLine1: (clientCity(sessionData) ?? 'Bordeaux'),
     titleLine2: 'Mériadeck.',
     bullets: [
       'Environnement dédié aux enfants — jouets, couleurs vives, aucun blanc médical.',
@@ -198,6 +199,8 @@ const EDIT_ROWS: EditRow[] = [
     num: '02',
   },
 ];
+}
+let EDIT_ROWS = EDIT_ROWS_LIVE();;
 
 const METHOD_ITEMS: MethodItem[] = [
   {
@@ -2213,6 +2216,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  EDIT_ROWS = EDIT_ROWS_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

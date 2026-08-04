@@ -165,7 +165,8 @@ const SERVICES_SOURCE: Service[] = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
+function EDIT_ROWS_DEMO_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre démarche',
     img: 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -186,7 +187,7 @@ const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
     alt: 'Plantation naturaliste Loire-Atlantique',
     title: (
       <>
-        Nantes{' '}
+        {clientCity(sessionData) ?? "Nantes"}{' '}
         <span style={{ fontStyle: 'italic' }}>et sa région.</span>
       </>
     ),
@@ -195,6 +196,8 @@ const EDIT_ROWS_DEMO_SOURCE: EditRow[] = [
     roman: 'II',
   },
 ];
+}
+let EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();;
 let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_SOURCE;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
@@ -1827,7 +1830,7 @@ function Footer() {
     {
       title: "Zone d'action",
       href: '#realisations',
-      items: ['Nantes', 'Saint-Herblain', 'Rezé', 'Ancenis', 'La Roche-sur-Yon'],
+      items: [(clientCity(sessionData) ?? 'Nantes'), 'Saint-Herblain', 'Rezé', 'Ancenis', 'La Roche-sur-Yon'],
     },
     {
       title: 'Approche & Contact',
@@ -2020,6 +2023,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
 
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_DEMO = resolveList(

@@ -74,7 +74,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 const projects_DEMO = [
   { name: "La Maison du Vent", location: "Marseille", type: "Résidentiel", area: "480 m²", year: "2025", src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80" },
   { name: "Pavillon Zénith", location: "Lyon", type: "Cultural", area: "2 200 m²", year: "2025", src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80" },
-  { name: "Ateliers Kéops", location: "Paris XIe", type: "Bureau mixte", area: "1 400 m²", year: "2024", src: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" },
+  { name: "Ateliers Kéops", location: (clientCity(sessionData) ?? "Paris") + " XIe", type: "Bureau mixte", area: "1 400 m²", year: "2024", src: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" },
   { name: "Villa Terracotta", location: "Nice", type: "Résidentiel", area: "320 m²", year: "2024", src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" },
   { name: "Cour des Arts", location: "Bordeaux", type: "Mixte culturel", area: "3 800 m²", year: "2023", src: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=600&q=80" },
   { name: "Bibliothèque Nomade", location: "Nantes", type: "Public", area: "1 900 m²", year: "2023", src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" },
@@ -422,7 +422,7 @@ return (
             ]},
             { title: "Contact", links: [
               { name: "Prendre rendez-vous", key: "contact" },
-              { name: "Paris Showroom", key: "contact" },
+              { name: (clientCity(sessionData) ?? "Paris") + " Showroom", key: "contact" },
               { name: "Faire une demande", key: "contact" }
             ]},
           ].map(col => (

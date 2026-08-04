@@ -182,7 +182,8 @@ const ARTISTS_DEMO: Artist[] = [
   },
 ];
 
-const EDIT_ROWS_DEMO: EditRow[] = [
+function EDIT_ROWS_DEMO_LIVE() {
+  return [
   {
     eyebrow: 'Notre philosophie',
     img: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=800&auto=format&fit=crop',
@@ -195,13 +196,15 @@ const EDIT_ROWS_DEMO: EditRow[] = [
   {
     eyebrow: 'Le studio',
     img: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?q=80&w=800&auto=format&fit=crop',
-    imgAlt: 'Intérieur lumineux du studio Dermis à Montpellier',
-    titleLine1: 'Montpellier',
+    imgAlt: 'Intérieur lumineux du studio Dermis à ' + (clientCity(sessionData) ?? 'Montpellier'),
+    titleLine1: (clientCity(sessionData) ?? 'Montpellier'),
     titleLine2: 'Écusson.',
     body: 'Au cœur du centre historique, dans un studio lumineux aux volumes généreux. Sur rendez-vous uniquement — pas de walk-ins. Parce que votre tatouage mérite toute notre attention, du premier croquis à la cicatrisation.',
     reverse: true,
   },
 ];
+}
+let EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const SAFETY_STEPS: SafetyStep[] = [
@@ -1974,7 +1977,7 @@ function Footer() {
       items: [
         { label: 'Prendre RDV', href: '#reserver' },
         { label: 'Hygiène & Protocole', href: '#hygiene' },
-        { label: 'Montpellier Écusson', href: '#reserver' },
+        { label: (clientCity(sessionData) ?? 'Montpellier') + ' Écusson', href: '#reserver' },
         { label: 'Consultation offerte', href: '#reserver' },
       ],
     },
@@ -2160,6 +2163,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

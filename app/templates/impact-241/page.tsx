@@ -198,7 +198,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   {
     eyebrow: 'Notre approche',
     imgSrc: PHOTO.editRow1,
-    imgAlt: 'Appartement premium Bordeaux, approche exclusive',
+    imgAlt: 'Appartement premium ' + (clientCity(sessionData) ?? 'Bordeaux') + ', approche exclusive',
     ghostNum: 'I',
     title: (
       <>
@@ -214,7 +214,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   {
     eyebrow: 'Notre réseau',
     imgSrc: PHOTO.editRow2,
-    imgAlt: 'Réseau international Bordeaux, partenaires Knight Frank',
+    imgAlt: 'Réseau international ' + (clientCity(sessionData) ?? 'Bordeaux') + ', partenaires Knight Frank',
     ghostNum: 'II',
     title: (
       <>
@@ -267,7 +267,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "En trois ans, j'ai constitué un portefeuille de quatre appartements à Bordeaux via Clé de Voûte. Ils m'ont guidé sur le choix des quartiers, le montage fiscal et la gestion locative. Chaque acquisition a performé au-delà des projections initiales. C'est une vraie relation de confiance, sur le long terme — exactement ce qu'un investisseur sérieux recherche.",
     name: 'Laurent M.',
-    role: 'Investisseur privé · Bordeaux & Lyon',
+    role: 'Investisseur privé · ' + (clientCity(sessionData) ?? 'Bordeaux') + ' & Lyon',
   },
 ];
 }
@@ -1951,7 +1951,7 @@ function Footer() {
     {
       title: "Zone d\'action",
       items: [
-        { label: 'Bordeaux Centre', href: '#biens' },
+        { label: (clientCity(sessionData) ?? 'Bordeaux') + ' Centre', href: '#biens' },
         { label: 'Chartrons', href: '#biens' },
         { label: 'Triangle d\'Or', href: '#biens' },
         { label: 'Gironde & Vignobles', href: '#biens' },

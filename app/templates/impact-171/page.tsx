@@ -85,11 +85,12 @@ const SPECIALTIES_DEMO = [
   },
 ]
 
-const DOCTORS_DEMO = [
+function DOCTORS_DEMO_LIVE() {
+  return [
   {
     name: "Dr. Claire Fontaine",
     role: "Médecin Généraliste & Directrice Médicale",
-    formation: "Faculté Paris VI · Diplôme de médecine fonctionnelle",
+    formation: "Faculté " + (clientCity(sessionData) ?? "Paris") + " VI · Diplôme de médecine fonctionnelle",
     years: "18 ans",
     img: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=800&auto=format&fit=crop",
   },
@@ -110,11 +111,13 @@ const DOCTORS_DEMO = [
   {
     name: "Dr. Antoine Moreau",
     role: "Nutritionniste & Endocrinologue",
-    formation: "Faculté Paris VII · Diplôme de Nutri-thérapie",
+    formation: "Faculté " + (clientCity(sessionData) ?? "Paris") + " VII · Diplôme de Nutri-thérapie",
     years: "12 ans",
     img: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=800&auto=format&fit=crop",
   },
-]
+];
+}
+let DOCTORS_DEMO = DOCTORS_DEMO_LIVE();
 
 const STEPS = [
   { n: "01", title: "Évaluation", desc: "Entretien approfondi de 45 minutes pour comprendre votre historique médical et vos objectifs santé." },
@@ -247,6 +250,8 @@ export default function Impact171Page() {
   }, []);
 
   fd = session?.formData;
+
+  DOCTORS_DEMO = DOCTORS_DEMO_LIVE();
   SCIENCE = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SCIENCE_SOURCE[i % SCIENCE_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     SCIENCE_SOURCE,

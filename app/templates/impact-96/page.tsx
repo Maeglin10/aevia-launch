@@ -193,12 +193,15 @@ function SERVICES_DEMO_LIVE() {
 }
 let SERVICES_DEMO = SERVICES_DEMO_LIVE();;
 
-const STATS_DEMO = [
-  { val: "2009", label: "Fondé à Paris" },
+function STATS_DEMO_LIVE() {
+  return [
+  { val: "2009", label: "Fondé à " + (clientCity({ formData: fd }) ?? "Paris") },
   { val: "280+", label: "Productions livrées" },
   { val: "22", label: "Festivals internationaux" },
   { val: "94%", label: "Clients fidèles" },
 ];
+}
+let STATS_DEMO = STATS_DEMO_LIVE();;
 let STATS = STATS_DEMO;
 
 const TESTIMONIALS_DEMO_SOURCE = [
@@ -515,6 +518,8 @@ export default function UrbanPulsePage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_DEMO = STATS_DEMO_LIVE();
 
   SERVICES_DEMO = SERVICES_DEMO_LIVE();
 

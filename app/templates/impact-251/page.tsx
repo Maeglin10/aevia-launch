@@ -208,7 +208,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     roman: 'II',
     title: (
       <>
-        Bordeaux{' '}
+        {clientCity(sessionData) ?? "Bordeaux"}{' '}
         <span style={{ fontStyle: 'italic' }}>& Vignobles.</span>
       </>
     ),
@@ -2010,7 +2010,7 @@ function Footer() {
       items: [
         { label: 'Rencontre découverte', href: '#contact' },
         { label: 'Nous écrire', href: '#contact' },
-        { label: 'Bordeaux, France', href: '#contact' },
+        { label: (clientCity(sessionData) ?? 'Bordeaux') + ', France', href: '#contact' },
       ],
     },
   ];

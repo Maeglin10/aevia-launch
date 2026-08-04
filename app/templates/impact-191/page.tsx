@@ -73,14 +73,17 @@ const DEVIS_ETAPES = [
   { t: "Planning ferme", d: "Date de début, durée, et ce qui reste à votre charge (arrosage, évacuation). Écrit avant la signature." },
 ];
 
-const ZONES_DEMO = [
-  { v: "Annecy", d: "Et communes du lac : Veyrier, Menthon, Talloires, Sévrier" },
-  { v: "Annecy-le-Vieux · Cran-Gevrier", d: "Entretien hebdomadaire et création" },
+function ZONES_DEMO_LIVE() {
+  return [
+  { v: (clientCity({ formData: fd }) ?? "Annecy"), d: "Et communes du lac : Veyrier, Menthon, Talloires, Sévrier" },
+  { v: (clientCity({ formData: fd }) ?? "Annecy") + "-le-Vieux · Cran-Gevrier", d: "Entretien hebdomadaire et création" },
   { v: "La Roche-sur-Foron", d: "Création et élagage, sur planning" },
   { v: "Rumilly · Alby", d: "Déplacement compris dans le devis" },
   { v: "Thônes · Vallée de Manigod", d: "Terrains en pente, accès étudié au cas par cas" },
   { v: "Genève et Pays de Gex", d: "Sur étude, à partir de 3 jours de chantier" },
 ];
+}
+let ZONES_DEMO = ZONES_DEMO_LIVE();;
 let ZONES = ZONES_DEMO;
 
 const PRESTATIONS_SOURCE = [
@@ -93,11 +96,14 @@ const PRESTATIONS_SOURCE = [
 ]
 let PRESTATIONS_DEMO = PRESTATIONS_SOURCE;
 
-const TEMOIGNAGES_DEMO = [
-  { q: "Notre terrain en friche transformé en jardin à la française en 3 semaines. Plan proposé en 48h, devis clair, exécution irréprochable. On est bluffés.", n: "Marie-Claire & Paul G.", l: "Annecy-le-Vieux" },
+function TEMOIGNAGES_DEMO_LIVE() {
+  return [
+  { q: "Notre terrain en friche transformé en jardin à la française en 3 semaines. Plan proposé en 48h, devis clair, exécution irréprochable. On est bluffés.", n: "Marie-Claire & Paul G.", l: (clientCity({ formData: fd }) ?? "Annecy") + "-le-Vieux" },
   { q: "Élagage d'un grand chêne de 20m de haut réalisé en sécurité totale. Pas une fleur touchée dans le jardin. Équipe pro, rapide, nettoyage parfait.", n: "Hervé T.", l: "Thônes (74)" },
   { q: "Suivi entretien mensuel depuis 2 ans. Le jardin est toujours magnifique, même en mon absence. Ponctualité parfaite, conseils précieux sur les plantations.", n: "Charlotte S.", l: "Megève (74)" },
-]
+];
+}
+let TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -133,6 +139,10 @@ export default function JardinsVivantsPage() {
   }, []);
 
   fd = session?.formData;
+
+  TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
+
+  ZONES_DEMO = ZONES_DEMO_LIVE();
   c = session?.generatedContent;
   PRESTATIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title })),
@@ -430,7 +440,7 @@ export default function JardinsVivantsPage() {
           {[
             { t: "Prestations", ls: ["Création jardin", "Entretien régulier", "Élagage & abattage", "Potager & verger", "Arrosage automatique"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Portfolio réalisations", "Zone d'intervention", "Tarifs", "Blog jardinage"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 50 12 34 56"), (fd?.email ?? "contact@jardins-vivants.fr"), "Annecy & Haute-Savoie", "Lun-Sam 7h30-18h", "Devis gratuit 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 50 12 34 56"), (fd?.email ?? "contact@jardins-vivants.fr"), (clientCity({ formData: fd }) ?? "Annecy") + " & Haute-Savoie", "Lun-Sam 7h30-18h", "Devis gratuit 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/60 mb-5">{col.t}</h4>

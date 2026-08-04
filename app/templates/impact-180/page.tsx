@@ -78,14 +78,17 @@ const CONTRATS = [
   { f: "Copropriétés", p: "sur devis", n: "Chaufferie collective, télésurveillance, astreinte week-end et rapport annuel au syndic." },
 ];
 
-const ZONES_DEMO = [
-  { v: "Lyon et Villeurbanne", d: "Entretien et dépannage, sous 24 h en hiver" },
+function ZONES_DEMO_LIVE() {
+  return [
+  { v: "Lyon et " + (clientCity({ formData: fd }) ?? "Villeurbanne"), d: "Entretien et dépannage, sous 24 h en hiver" },
   { v: "Ouest lyonnais", d: "Écully, Tassin, Craponne, Francheville" },
   { v: "Est lyonnais", d: "Bron, Vénissieux, Saint-Priest, Décines" },
   { v: "Nord", d: "Caluire, Rillieux, Neuville, Genay" },
   { v: "Sud", d: "Oullins, Pierre-Bénite, Vernaison, Givors" },
   { v: "Reste du Rhône et Ain sud", d: "Installation uniquement, sur planning" },
 ];
+}
+let ZONES_DEMO = ZONES_DEMO_LIVE();;
 let ZONES = ZONES_DEMO;
 
 const SERVICES_SOURCE = [
@@ -141,6 +144,8 @@ export default function ThermotekChauffagePage() {
   }, []);
 
   fd = session?.formData;
+
+  ZONES_DEMO = ZONES_DEMO_LIVE();
   c = session?.generatedContent;
 
   REALISATIONS = REALISATIONS_LIVE();

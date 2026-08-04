@@ -342,7 +342,7 @@ export default function StudioPelikanPage() {
           {/* Stats */}
           <section id="tarifs" className="py-12 bg-[var(--brand,#C9A05A)]">
             <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
-              {[["38", "Films produits"], ["12", "Prix internationaux"], ["14 pays", "Distribution"], ["2012", "Fondé à Paris"]].map(([n, l]) => (
+              {[["38", "Films produits"], ["12", "Prix internationaux"], ["14 pays", "Distribution"], ["2012", "Fondé à " + (clientCity(sessionData) ?? "Paris")]].map(([n, l]) => (
                 <div key={l} className="text-center">
                   <p className="text-black text-3xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{n}</p>
                   <p className="text-black/50 text-xs uppercase tracking-widest">{l}</p>
@@ -627,7 +627,7 @@ export default function StudioPelikanPage() {
                   et européens pour garantir une qualité d&apos;image et de son irréprochable.
                 </p>
                 <div className="space-y-3">
-                  {["Direction de production et plan de travail", "Casting sur Paris, régions et international", "Repérages et autorisations de tournage", "Coordination avec les prestataires techniques", "Suivi quotidien et rushes dailies"].map(item => (
+                  {["Direction de production et plan de travail", "Casting sur " + (clientCity(sessionData) ?? "Paris") + ", régions et international", "Repérages et autorisations de tournage", "Coordination avec les prestataires techniques", "Suivi quotidien et rushes dailies"].map(item => (
                     <div key={item} className="flex items-start gap-2">
                       <ChevronRight className="w-3 h-3 text-[var(--brand,#C9A05A)] mt-1 shrink-0" />
                       <p className="text-white/50 text-sm">{item}</p>

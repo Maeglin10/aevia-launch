@@ -2255,7 +2255,8 @@ const Contact: React.FC = () => {
 
 /* ─────────────────────────── FOOTER ─────────────────────────── */
 
-const FOOTER_COLS: { head: string; links: string[] }[] = [
+function FOOTER_COLS_LIVE() {
+  return [
   { head: 'Agence', links: ['À propos', 'Notre équipe', 'Carrières', 'Presse'] },
   {
     head: 'Services',
@@ -2263,9 +2264,11 @@ const FOOTER_COLS: { head: string; links: string[] }[] = [
   },
   {
     head: 'Adresses',
-    links: ['Aix-en-Provence', 'Paris 8ᵉ', 'Lyon', 'Bordeaux'],
+    links: ['Aix-en-Provence', 'Paris 8ᵉ', 'Lyon', (clientCity(sessionData) ?? 'Bordeaux')],
   },
 ];
+}
+let FOOTER_COLS = FOOTER_COLS_LIVE();;
 
 const Footer: React.FC = () => (
   <footer
@@ -2502,6 +2505,8 @@ export default function ImpactTemplate(): React.ReactElement {
   }, []);
 
   fd = session?.formData;
+
+  FOOTER_COLS = FOOTER_COLS_LIVE();
   PROPERTIES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length], name: s.title, price: s.price ?? PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length].price })),
     PROPERTIES_DEMO_SOURCE,

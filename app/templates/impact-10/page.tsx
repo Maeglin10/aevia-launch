@@ -1416,11 +1416,14 @@ function LocationSection() {
 }
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
-const TESTIMONIALS_SOURCE = [
-  { name: 'Sophie R.', origin: 'Paris', text: 'An experience that redefined our expectations of hospitality. Every detail, every gesture — flawless.', stars: 5 },
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
+  { name: 'Sophie R.', origin: (clientCity(sessionData) ?? 'Paris'), text: 'An experience that redefined our expectations of hospitality. Every detail, every gesture — flawless.', stars: 5 },
   { name: 'James W.', origin: 'London', text: 'The Grand Palais is beyond comparison. The suite views, the silence, the staff — we return every autumn.', stars: 5 },
   { name: 'Hana T.', origin: 'Tokyo', text: 'The most extraordinary stay of our lives. Nothing prepares you for the quiet perfection of this place.', stars: 5 },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialsSection() {
@@ -2464,6 +2467,8 @@ export default function GrandPalaisPage() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

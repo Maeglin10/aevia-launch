@@ -677,7 +677,7 @@ return (
                   teamSize: 72,
                   growth: "$8M ARR, doubling annually",
                   founded: "2021",
-                  hq: "Paris, France",
+                  hq: (clientCity({ formData: fd }) ?? "Paris") + ", France",
                   investors: "Lowercarbon Capital, Breakthrough Energy, Zero to One",
                 },
                 {
@@ -761,7 +761,7 @@ return (
                   { icon: <Globe className="w-5 h-5" />, label: "€500K", sub: "Direct investment" },
                   { icon: <Users className="w-5 h-5" />, label: "120+", sub: "Mentors & advisors" },
                   { icon: <Calendar className="w-5 h-5" />, label: "48", sub: "Workshops & sessions" },
-                  { icon: <MapPin className="w-5 h-5" />, label: "Paris", sub: "In-person program" },
+                  { icon: <MapPin className="w-5 h-5" />, label: (clientCity({ formData: fd }) ?? "Paris"), sub: "In-person program" },
                 ].map(({ icon, label, sub }) => (
                   <div key={label} className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
                     <div className="w-10 h-10 bg-[var(--brand,#A3E635)]/10 text-[var(--brand,#A3E635)] rounded-xl flex items-center justify-center mx-auto mb-3">{icon}</div>

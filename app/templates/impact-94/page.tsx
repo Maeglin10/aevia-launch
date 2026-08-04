@@ -188,7 +188,8 @@ const STATS_DEMO = [
 ]
 let STATS = STATS_DEMO;
 
-const TESTIMONIALS_SOURCE = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: "Isabelle de Montblanc",
     role: "Mariée — Château du Vexin",
@@ -207,13 +208,15 @@ const TESTIMONIALS_SOURCE = [
   },
   {
     name: "Clémentine Faure",
-    role: "Styliste — Paris",
+    role: "Styliste — " + (clientCity(sessionData) ?? "Paris"),
     quote:
       "Je commande chez Botanica chaque semaine depuis trois ans. La qualité est invariablement irréprochable, les compositions toujours surprenantes et poétiques.",
     rating: 5,
     avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80",
   },
-]
+];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const MARQUEE_ITEMS = [
@@ -317,7 +320,8 @@ function useFonts() {
   }, [])
 }
 
-const FAQ_ITEMS_DEMO = [
+function FAQ_ITEMS_DEMO_LIVE() {
+  return [
   {
     q: "Quels sont vos délais de création ?",
     a: "Pour les bouquets standards, nous livrons sous 4 heures à Paris. Pour les compositions sur-mesure ou les événements, nous conseillons de nous contacter au moins 48 heures à l'avance.",
@@ -335,10 +339,12 @@ const FAQ_ITEMS_DEMO = [
     a: "Oui, nous proposons des abonnements hebdomadaires, bi-mensuels ou mensuels pour les particuliers et les entreprises. Contactez l'atelier pour personnaliser votre offre.",
   },
   {
-    q: "Puis-je commander pour un événement hors de Paris ?",
+    q: "Puis-je commander pour un événement hors de " + (clientCity(sessionData) ?? "Paris") + " ?",
     a: "Oui, notre équipe se déplace dans toute la France et en Europe pour concevoir les décors floraux de vos grands événements (mariages, lancements corporate).",
   },
-]
+];
+}
+let FAQ_ITEMS_DEMO = FAQ_ITEMS_DEMO_LIVE();
 
 function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -437,6 +443,10 @@ export default function Impact94Page() {
   }, []);
 
   fd = session?.formData;
+
+  FAQ_ITEMS_DEMO = FAQ_ITEMS_DEMO_LIVE();
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   bp = session?.businessProfile;
   sessionData = session;
   EVENTS = resolveList(

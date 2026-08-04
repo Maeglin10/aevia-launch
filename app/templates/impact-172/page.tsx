@@ -87,10 +87,10 @@ const DOMAINS_DEMO = [
 ]
 
 const PARTNERS_DEMO = [
-  { name: "Philippe Legrand", title: "Associé Fondateur", domain: "Droit des affaires", bar: "Paris, 1991", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" },
-  { name: "Marie-Sophie Renault", title: "Associée", domain: "Contentieux & Arbitrage", bar: "Paris, 1998", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80" },
-  { name: "Thomas Vigneron", title: "Associé", domain: "Fiscalité internationale", bar: "Paris, 2003", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" },
-  { name: "Claire Bourgeois", title: "Associée", domain: "Droit social", bar: "Paris & Bruxelles, 2005", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80" },
+  { name: "Philippe Legrand", title: "Associé Fondateur", domain: "Droit des affaires", bar: (clientCity(sessionData) ?? "Paris") + ", 1991", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" },
+  { name: "Marie-Sophie Renault", title: "Associée", domain: "Contentieux & Arbitrage", bar: (clientCity(sessionData) ?? "Paris") + ", 1998", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80" },
+  { name: "Thomas Vigneron", title: "Associé", domain: "Fiscalité internationale", bar: (clientCity(sessionData) ?? "Paris") + ", 2003", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" },
+  { name: "Claire Bourgeois", title: "Associée", domain: "Droit social", bar: (clientCity(sessionData) ?? "Paris") + " & Bruxelles, 2005", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80" },
 ]
 
 const REFERENCES = [

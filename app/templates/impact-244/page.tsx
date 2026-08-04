@@ -190,7 +190,8 @@ const SERVICES_SOURCE: Service[] = [
 let SERVICES_DEMO = SERVICES_SOURCE;
 
 /** 2 rangées éditoriales */
-const EDIT_ROWS_SOURCE: EditRow[] = [
+function EDIT_ROWS_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Notre démarche',
     imgId: 'https://images.pexels.com/photos/47014/pexels-photo-47014.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -206,7 +207,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     numeral: 'I',
   },
   {
-    eyebrow: 'Paris & environs',
+    eyebrow: (clientCity(sessionData) ?? 'Paris') + ' & environs',
     imgId: 'https://images.pexels.com/photos/31517332/pexels-photo-31517332.jpeg?auto=compress&cs=tinysrgb&w=1600',
     alt: 'Réception élégante en Île-de-France',
     title: (
@@ -220,6 +221,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     numeral: 'II',
   },
 ];
+}
+let EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();;
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 /** 4 piliers de design floral */
@@ -247,12 +250,13 @@ const FLORAL_ITEMS: FlowerItem[] = [
 ];
 
 /** 2 témoignages de couples */
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Atelier Céleste a transformé notre mariage au Château de Vaux-le-Vicomte en quelque chose d'absolument magique. Leur obsession du détail — chaque fleur, chaque bougie, chaque ruban — était visible. Nous vivions pleinement notre journée pendant qu'ils veillaient sur tout.",
     name: 'Sophie & Alexandre M.',
-    role: 'Mariés à Vaux-le-Vicomte · Paris',
+    role: 'Mariés à Vaux-le-Vicomte · ' + (clientCity(sessionData) ?? 'Paris'),
   },
   {
     quote:
@@ -261,6 +265,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     role: "Mariage en destination · Côte d'Azur",
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 // Live arrays — reassigned from the client's BusinessProfile in Page(), read by
@@ -2068,6 +2074,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;

@@ -57,7 +57,10 @@ const TARIFS_DEMO = [{"a": "Obsèques avec crémation", "p": "dès 2 990 €", "
 let TARIFS = TARIFS_DEMO;
 const AVIS_SOURCE = [{"texte": "Reçus un dimanche soir, sans aucune précipitation. Chaque choix avait son prix en face, personne n'a poussé vers le haut. La cérémonie ressemblait à notre mère.", "auteur": "Famille S.", "detail": "Obsèques et cérémonie"}, {"texte": "Les salons de recueillement clairs, face au jardin, ont changé ces trois jours. On pouvait venir à toute heure, rester longtemps, être tranquilles.", "auteur": "Paul et Anne G.", "detail": "Chambre funéraire"}, {"texte": "J'ai signé ma prévoyance ici après avoir comparé trois maisons : la seule qui m'a remis le devis-type complet sans que je le demande.", "auteur": "Josette M.", "detail": "Contrat de prévoyance"}];
 let AVIS_DEMO = AVIS_SOURCE;
-const STATS_DEMO = [{"value": "24h/24", "label": "Une voix qui répond"}, {"value": "3", "label": "Salons de recueillement"}, {"value": "1892", "label": "Maison fondée à Nice"}, {"value": "0 €", "label": "Le devis, toujours"}];
+function STATS_DEMO_LIVE() {
+  return [{"value": "24h/24", "label": "Une voix qui répond"}, {"value": "3", "label": "Salons de recueillement"}, {"value": "1892", "label": "Maison fondée à " + (clientCity(sessionData) ?? "Nice")}, {"value": "0 €", "label": "Le devis, toujours"}];
+}
+let STATS_DEMO = STATS_DEMO_LIVE();;
 let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -96,6 +99,8 @@ export default function RivesBlanchesPage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_DEMO = STATS_DEMO_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -396,7 +401,7 @@ export default function RivesBlanchesPage() {
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Pompes funèbres & prévoyance · {clientCity(sessionData) ?? "Nice"}<br />Habilitation préfectorale n° 26-06-0287</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Nice, Alpes-Maritimes" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Agence Lun–Sam 8h30–18h30 · Téléphone 24h/24" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Nice") + ", Alpes-Maritimes" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Agence Lun–Sam 8h30–18h30 · Téléphone 24h/24" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

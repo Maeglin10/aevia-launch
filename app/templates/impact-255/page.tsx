@@ -175,7 +175,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
     alt: 'Maître Voss en réunion de conseil',
     title: (
       <>
-        Toulouse{' '}
+        {clientCity(sessionData) ?? "Toulouse"}{' '}
         <span style={{ fontStyle: 'italic' }}>/ depuis 2008.</span>
       </>
     ),
@@ -1919,7 +1919,7 @@ function Footer() {
       title: 'Contact & Mentions légales',
       items: [
         { label: 'Prendre rendez-vous', href: '#contact' },
-        { label: 'Cabinet Toulouse', href: '#contact' },
+        { label: 'Cabinet ' + (clientCity(sessionData) ?? 'Toulouse'), href: '#contact' },
         { label: 'Mentions légales', href: '#contact' },
         { label: 'Politique de confidentialité', href: '#contact' },
       ],

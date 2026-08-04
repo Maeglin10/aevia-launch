@@ -1468,7 +1468,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Rénovation électrique complète de notre maison de 180 m² + installation domotique Somfy. Coordination parfaite, délais tenus à la journée. L\'attestation CONSUEL reçue en 48h après la fin du chantier.",
     name: 'Sophie & Mathieu R.',
-    role: 'Propriétaires · Toulouse Lardenne',
+    role: 'Propriétaires · ' + (clientCity(sessionData) ?? 'Toulouse') + ' Lardenne',
     detail: 'Mise aux normes + domotique',
   },
   {
@@ -1913,7 +1913,7 @@ function Footer() {
     },
     {
       title: 'Contact & Urgences',
-      items: ['📍 Toulouse & agglomération', '📞 ' + (fd?.phone ?? '05 XX XX XX XX'), '📧 ' + (fd?.email ?? 'contact@voltlux.fr'), '🚨 Urgences 24h/7j'],
+      items: ['📍 ' + (clientCity(sessionData) ?? 'Toulouse') + ' & agglomération', '📞 ' + (fd?.phone ?? '05 XX XX XX XX'), '📧 ' + (fd?.email ?? 'contact@voltlux.fr'), '🚨 Urgences 24h/7j'],
       hrefs: ['#devis', 'tel:+33500000000', 'mailto:contact@voltlux.fr', 'tel:+33500000000'],
     },
   ];

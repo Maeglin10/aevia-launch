@@ -520,7 +520,7 @@ export default function EclatSpaPage() {
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Institut beauté & spa · {clientCity({ formData: fd }) ?? "Nice"}<br />Mar–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: "Nice, Alpes-Maritimes" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 93 00 00 00") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Nice") + ", Alpes-Maritimes" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 93 00 00 00") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.rose }}>{item.icon}</span>{item.t}
               </div>

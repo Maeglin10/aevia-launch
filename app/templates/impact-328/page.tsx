@@ -431,7 +431,7 @@ export default function MaisonEstevePage() {
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Toulouse, Haute-Garonne" }, { icon: <Phone size={13} />, t: `${phone} — 24h/24, 7j/7` }, { icon: <Clock size={13} />, t: "Agence : Lun–Sam 8h30–18h30" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Toulouse") + ", Haute-Garonne" }, { icon: <Phone size={13} />, t: `${phone} — 24h/24, 7j/7` }, { icon: <Clock size={13} />, t: "Agence : Lun–Sam 8h30–18h30" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.gold }}>{item.icon}</span>{item.t}
                 </div>

@@ -1,5 +1,8 @@
 "use client";
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientServices,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -188,7 +191,7 @@ export default function ServicesPage() {
             ]},
             { title: "Contact", links: [
               { name: "Prendre rendez-vous", path: "/templates/impact-17/contact" },
-              { name: "Paris Showroom", path: "/templates/impact-17/contact" },
+              { name: (clientCity(sessionData) ?? "Paris") + " Showroom", path: "/templates/impact-17/contact" },
               { name: "Faire une demande", path: "/templates/impact-17/contact" }
             ]},
           ].map(col => (

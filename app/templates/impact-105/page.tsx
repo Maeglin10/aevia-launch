@@ -74,14 +74,17 @@ const MARIAGE = [
   { t: "Le jour J", d: "Une personne de l'atelier reste jusqu'à la fin du vin d'honneur, pour rafraîchir et redresser ce qui a bougé." },
 ];
 
-const ENTREPRISES = [
+function ENTREPRISES_LIVE() {
+  return [
   { t: "Abonnement hebdomadaire", p: "à partir de 65 € / semaine", d: "Une composition livrée et remplacée chaque semaine, vase inclus et lavé à chaque passage." },
   { t: "Accueil & réception", p: "sur devis", d: "Grande pièce pour hall d'immeuble ou comptoir d'hôtel. Format et hauteur étudiés sur place." },
   { t: "Événements d'entreprise", p: "sur devis", d: "Inaugurations, séminaires, remises de prix. Installation en dehors des heures d'ouverture." },
   { t: "Cadeaux clients", p: "à partir de 28 € l'unité", d: "Bouquets identiques, livrés le même jour sur plusieurs adresses, avec votre carte." },
   { t: "Facturation mensuelle", p: "—", d: "Une facture par mois, virement à 30 jours. Bon de commande accepté." },
-  { t: "Livraison sur Strasbourg", p: "incluse", d: "Comprise dans l'abonnement en centre-ville, à la Krutenau et à la Robertsau. Hors zone, 12 € par passage." },
+  { t: "Livraison sur " + (clientCity({ formData: fd }) ?? "Strasbourg"), p: "incluse", d: "Comprise dans l'abonnement en centre-ville, à la Krutenau et à la Robertsau. Hors zone, 12 € par passage." },
 ];
+}
+let ENTREPRISES = ENTREPRISES_LIVE();;
 
 function CREATIONS_LIVE() {
   return resolveList(
@@ -115,12 +118,15 @@ function CREATIONS_LIVE() {
 }
 let CREATIONS = CREATIONS_LIVE();
 
-const ATOUTS = [
+function ATOUTS_LIVE() {
+  return [
   "Fleurs sourcées auprès de producteurs locaux et certifiés",
   "Création sur mesure selon vos couleurs et votre budget",
-  "Livraison le jour même sur Strasbourg (commande avant 11h)",
+  "Livraison le jour même sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + " (commande avant 11h)",
   "Conseil personnalisé par nos fleuristes passionnées",
-]
+];
+}
+let ATOUTS = ATOUTS_LIVE();
 
 function AVIS_SOURCE_LIVE() {
   return [
@@ -177,6 +183,10 @@ export default function AtelierBloomPage() {
   }, []);
 
   fd = session?.formData;
+
+  ATOUTS = ATOUTS_LIVE();
+
+  ENTREPRISES = ENTREPRISES_LIVE();
 
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
   bp = session?.businessProfile;
@@ -475,7 +485,7 @@ export default function AtelierBloomPage() {
             <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6 }}>Fleuriste artisanale · {clientCity({ formData: fd }) ?? "Strasbourg"}<br />Lun–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: "Strasbourg, Bas-Rhin" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "03 88 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Strasbourg") + ", Bas-Rhin" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "03 88 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13 }}>
                 <span style={{ color: C.peach }}>{item.icon}</span>{item.t}
               </div>

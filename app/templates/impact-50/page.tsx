@@ -113,10 +113,11 @@ let AVIS = AVIS_DEMO;
    photographs were already in this file and verified at the merge — no third
    image was risked unseen. The headline never moves; only the photograph
    dissolves, on the slow beat that suits the room. */
-const HERO_VIEWS_DEMO = [
+function HERO_VIEWS_DEMO_LIVE() {
+  return [
   {
     k: "Le cabinet",
-    d: "Une pièce calme au coeur de Montpellier, pensée pour que la parole puisse se poser.",
+    d: "Une pièce calme au coeur de " + (clientCity({ formData: fd }) ?? "Montpellier") + ", pensée pour que la parole puisse se poser.",
     img: "https://images.pexels.com/photos/4672717/pexels-photo-4672717.jpeg?auto=compress&cs=tinysrgb&w=1920",
   },
   {
@@ -124,7 +125,9 @@ const HERO_VIEWS_DEMO = [
     d: "Psychologue clinicienne, formée aux thérapies fondées sur les preuves — TCC, EMDR, pleine conscience.",
     img: "https://images.pexels.com/photos/3958409/pexels-photo-3958409.jpeg?auto=compress&cs=tinysrgb&w=1920",
   },
-]
+];
+}
+let HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
 let HERO_VIEWS = HERO_VIEWS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -170,6 +173,8 @@ export default function CabinetMoreauPage() {
   }, []);
 
   fd = session?.formData;
+
+  HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
   c = session?.generatedContent;
   ACCOMPAGNEMENTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...ACCOMPAGNEMENTS_SOURCE[i % ACCOMPAGNEMENTS_SOURCE.length], titre: s.title, desc: s.desc || "" || "" })),
@@ -481,7 +486,7 @@ export default function CabinetMoreauPage() {
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Psychologue clinicienne · {clientCity({ formData: fd }) ?? "Montpellier"}<br />Lun–Ven 9h–19h | Sam 9h–13h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: "Montpellier, Hérault" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 34 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Montpellier") + ", Hérault" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 34 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{color: brand ?? 'var(--brand,#9fd4c9)' }}>{item.icon}</span>{item.t}
               </div>

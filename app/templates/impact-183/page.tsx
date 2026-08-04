@@ -140,7 +140,7 @@ export default function CouleursCOPiscinesPage() {
       l: r.location ?? r.context ?? "",
     })),
     [
-      { q: "Notre piscine béton avec liner bleu lagon est une réussite totale. Conseils précieux sur les finitions, chantier propre, délais tenus. Bluffés.", n: "Amélie B.", l: "Lille (59)" },
+      { q: "Notre piscine béton avec liner bleu lagon est une réussite totale. Conseils précieux sur les finitions, chantier propre, délais tenus. Bluffés.", n: "Amélie B.", l: (clientCity({ formData: fd }) ?? "Lille") + " (59)" },
       { q: "Rénovation complète : nouveau liner, margelles et filtration au sel. La piscine a retrouvé une seconde jeunesse. Rapport qualité-prix excellent.", n: "Paul & Martine G.", l: "Roubaix (59)" },
       { q: "Construction d'un couloir de nage avec plage immergée et éclairage LED. Résultat magnifique, livré dans les temps. Très pro et à l'écoute.", n: "Karim D.", l: "Tourcoing (59)" },
     ]
@@ -434,7 +434,7 @@ return (
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Revêtement & finitions", "Rénovation de bassin", "Aménagement extérieur", "Entretien & hivernage"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Nos réalisations", "Zone d'intervention", "Avis clients", "Conseils piscine"] },
-            { t: "Contact", ls: [(fd?.phone ?? "03 20 45 67 89"), (fd?.email ?? "contact@couleurs-co.fr"), "Lille Métropole", "Lundi-Vendredi 8h-18h", "Devis gratuit 24h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "03 20 45 67 89"), (fd?.email ?? "contact@couleurs-co.fr"), (clientCity({ formData: fd }) ?? "Lille") + " Métropole", "Lundi-Vendredi 8h-18h", "Devis gratuit 24h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#4d7c5f)] mb-5">{col.t}</h4>

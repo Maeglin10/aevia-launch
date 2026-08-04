@@ -226,12 +226,13 @@ const CERTS: CertItem[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Nous avons remplacé notre vieille chaudière et installé une pompe à chaleur air/eau. Aqua Confort a géré MaPrimeRénov' de A à Z — 65 % financés, et on économise 800 € par an sur nos factures. Équipe sérieuse, délais tenus.",
     name: 'Famille Renard',
-    role: 'Propriétaires · Lyon 7e',
+    role: 'Propriétaires · ' + (clientCity(sessionData) ?? 'Lyon') + ' 7e',
   },
   {
     quote:
@@ -240,6 +241,8 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
     role: 'Propriétaire bailleur · Villeurbanne',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -2295,6 +2298,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;

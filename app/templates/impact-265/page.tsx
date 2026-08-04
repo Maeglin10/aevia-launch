@@ -218,20 +218,23 @@ const CRAFT_STEPS: CraftStep[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     quote:
       "Je chante à l'Opéra de Lyon depuis dix ans, et L'Atelier Soie habille tous mes rôles. Leurs costumes vibrent avec ma voix — la soie suit le souffle, le bustier tient sans jamais contraindre. Ce sont des artisanes qui comprennent le corps en mouvement.",
     name: 'Isabelle Carron',
-    role: 'Soprano · Opéra de Lyon',
+    role: 'Soprano · Opéra de ' + (clientCity(sessionData) ?? 'Lyon'),
   },
   {
     quote:
       "Je voulais une robe qui soit un hommage à la robe de mariée de ma grand-mère. Elles ont tout reconstitué depuis une photographie de 1962 — le col, la broderie, le tombé. Je ne pensais pas que c'était possible. C'était au-delà.",
     name: 'Camille Berthet',
-    role: 'Mariée · Lyon, juin 2025',
+    role: 'Mariée · ' + (clientCity(sessionData) ?? 'Lyon') + ', juin 2025',
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -1909,8 +1912,8 @@ function Footer() {
     {
       title: 'Informations',
       items: [
-        { label: 'Lyon 2e — sur rendez-vous', href: '#commande' },
-        { label: 'Vieux-Lyon — sur rendez-vous', href: '#commande' },
+        { label: (clientCity(sessionData) ?? 'Lyon') + ' 2e — sur rendez-vous', href: '#commande' },
+        { label: 'Vieux-' + (clientCity(sessionData) ?? 'Lyon') + ' — sur rendez-vous', href: '#commande' },
         { label: 'Mentions légales', href: "/templates/impact-265" },
         { label: 'Confidentialité', href: "/templates/impact-265" },
       ],
@@ -2093,6 +2096,8 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 

@@ -2141,7 +2141,7 @@ function Footer() {
     {
       title: "Zone d'action",
       items: [
-        { label: 'Marseille (1er–16e)', href: '#zone' },
+        { label: (clientCity(sessionData) ?? 'Marseille') + ' (1er–16e)', href: '#zone' },
         { label: 'Aix-en-Provence', href: '#zone' },
         { label: 'Aubagne', href: '#zone' },
         { label: 'Cassis', href: '#zone' },

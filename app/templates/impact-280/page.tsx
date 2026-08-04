@@ -1811,7 +1811,7 @@ function ContactFormSection() {
                 {
                   Icon: MapPin,
                   label: 'Basé à',
-                  val: 'Strasbourg, Alsace',
+                  val: (clientCity(sessionData) ?? 'Strasbourg') + ', Alsace',
                 },
                 {
                   Icon: Calendar,
@@ -2576,7 +2576,7 @@ function PartnerCategory({
    ════════════════════════════════════════════════════════════════════════════ */
 function PracticalSection() {
   const zones = [
-    { region: 'Bas-Rhin (67)', villes: 'Strasbourg, Obernai, Haguenau, Sélestat, Saverne' },
+    { region: 'Bas-Rhin (67)', villes: (clientCity(sessionData) ?? 'Strasbourg') + ', Obernai, Haguenau, Sélestat, Saverne' },
     { region: 'Haut-Rhin (68)', villes: 'Colmar, Mulhouse, Guebwiller, Thann, Ribeauvillé' },
     { region: 'Moselle (57)', villes: 'Metz, Sarreguemines, Forbach, Sarrebourg' },
     { region: 'Baden (Allemagne)', villes: 'Freiburg, Baden-Baden, Offenburg' },

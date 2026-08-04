@@ -388,7 +388,7 @@ export default function TilleulsIdelPage() {
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Cabinet d'infirmiers libéraux · {clientCity(sessionData) ?? "Limoges"}<br />Conventionnés CPAM — Ordre national des infirmiers</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Limoges, Haute-Vienne" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Tournées 6h30–20h · 7j/7 pour les soins qui l'exigent" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Limoges") + ", Haute-Vienne" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Tournées 6h30–20h · 7j/7 pour les soins qui l'exigent" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

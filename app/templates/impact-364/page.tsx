@@ -53,7 +53,10 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "On écoute d'abord", "d": "Vos douleurs, vos chaussures, votre quotidien. Le pied raconte une vie — on la prend en compte."}, {"n": "02", "t": "Le soin, en douceur", "d": "Instruments stériles, gestes expliqués, jamais de douleur infligée « pour bien faire »."}, {"n": "03", "t": "Les conseils utiles", "d": "Chaussage, crème, auto-surveillance : trois conseils réalistes valent mieux que dix idéaux."}, {"n": "04", "t": "Le bon rythme de suivi", "d": "Toutes les 6 à 10 semaines selon les pieds — rappel proposé, jamais imposé."}];
 const ENGAGEMENT_DEMO = ["Diplômée d'État, inscrite à l'Ordre des pédicures-podologues", "Stérilisation autoclave contrôlée, instruments tracés par patient", "Tarifs affichés en salle d'attente, devis avant tout appareillage", "Visites à domicile le jeudi, en coordination avec infirmiers et familles"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS_DEMO = [{"a": "Soin de pédicurie (45 min)", "p": "38 €", "n": "Complet, crème et conseils compris."}, {"a": "Soin à domicile (jeudi)", "p": "48 €", "n": "Pau et première couronne, matériel stérile transporté."}, {"a": "Bilan + semelles fines", "p": "150 €", "n": "Fabrication 8 jours, ajustement à un mois inclus."}, {"a": "Réflexologie plantaire (30 min)", "p": "35 €", "n": "En complément d'un soin ou en séance seule."}];
+function TARIFS_DEMO_LIVE() {
+  return [{"a": "Soin de pédicurie (45 min)", "p": "38 €", "n": "Complet, crème et conseils compris."}, {"a": "Soin à domicile (jeudi)", "p": "48 €", "n": (clientCity(sessionData) ?? "Pau") + " et première couronne, matériel stérile transporté."}, {"a": "Bilan + semelles fines", "p": "150 €", "n": "Fabrication 8 jours, ajustement à un mois inclus."}, {"a": "Réflexologie plantaire (30 min)", "p": "35 €", "n": "En complément d'un soin ou en séance seule."}];
+}
+let TARIFS_DEMO = TARIFS_DEMO_LIVE();;
 let TARIFS = TARIFS_DEMO;
 const AVIS_SOURCE = [{"texte": "J'avais honte de mes pieds au point de repousser le rendez-vous deux ans. Accueil sans jugement, soin sans douleur, résultat spectaculaire. J'aurais dû venir bien avant.", "auteur": "Monique A., 67 ans", "detail": "Premier soin"}, {"texte": "Les semelles fines tiennent vraiment dans mes escarpins de travail. La douleur à l'avant-pied a disparu en trois semaines.", "auteur": "Sandrine V.", "detail": "Semelles discrètes"}, {"texte": "Elle vient chaque jeudi chez ma mère de 91 ans, coordonnée avec l'infirmière. Maman remarche dans le jardin — c'est tout ce qui compte.", "auteur": "Fils de Mme E.", "detail": "Soins à domicile"}];
 let AVIS_DEMO = AVIS_SOURCE;
@@ -96,6 +99,8 @@ export default function AllureAppuiPage() {
   }, []);
 
   fd = session?.formData;
+
+  TARIFS_DEMO = TARIFS_DEMO_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -395,7 +400,7 @@ export default function AllureAppuiPage() {
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Pédicure-podologue D.E. · {clientCity(sessionData) ?? "Pau"}<br />Ordre national des pédicures-podologues</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Pau, Pyrénées-Atlantiques" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Pau") + ", Pyrénées-Atlantiques" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

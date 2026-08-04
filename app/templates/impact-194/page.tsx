@@ -367,7 +367,7 @@ export default function TableExceptionPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
               { q: "Cocktail mariage pour 220 personnes, tout était parfait. La présentation des buffets épatante, les bouchées délicieuses, le service discret et rapide. Merci Table d'Exception !", n: "Anaïs & Pierre R.", l: "Mariage à Lyon · Mai 2025" },
-              { q: "Séminaire corporate avec repas assis 80 couverts. Menu sur mesure, chef présent, accords vins impeccables. Nos partenaires ont demandé le contact du traiteur dès le dessert.", n: "Directrice Générale · Lyon", l: "Groupe Solia · 60M€ CA" },
+              { q: "Séminaire corporate avec repas assis 80 couverts. Menu sur mesure, chef présent, accords vins impeccables. Nos partenaires ont demandé le contact du traiteur dès le dessert.", n: "Directrice Générale · " + (clientCity({ formData: fd }) ?? "Lyon"), l: "Groupe Solia · 60M€ CA" },
               { q: "Plateaux repas récurrents pour nos 40 collaborateurs. Qualité constante, livraison à l'heure, variété impressionnante. C'est devenu un rituel d'équipe incontournable.", n: "Thomas V.", l: "RH · Startup Lyonnaise" },
             ].map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
@@ -419,7 +419,7 @@ export default function TableExceptionPage() {
           {[
             { t: "Formules", ls: ["Cocktails & réceptions", "Repas assis", "Plateaux repas", "Livraison & installation", "Cuisine du monde"] },
             { t: "Infos", ls: ["Notre chef", "Portfolio", "Zone d'intervention", "Tarifs", "FAQ"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 78 34 56 78"), (fd?.email ?? "contact@table-exception.fr"), "Lyon & Rhône-Alpes", "Lun-Sam 8h-19h", "Devis sous 24h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 78 34 56 78"), (fd?.email ?? "contact@table-exception.fr"), (clientCity({ formData: fd }) ?? "Lyon") + " & Rhône-Alpes", "Lun-Sam 8h-19h", "Devis sous 24h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a853)]/35 mb-5">{col.t}</h4>

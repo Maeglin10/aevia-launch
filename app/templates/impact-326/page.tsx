@@ -443,7 +443,7 @@ export default function EtudeNotarialePage() {
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Bordeaux, Gironde" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h, jeudi jusqu'à 20h" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Bordeaux") + ", Gironde" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h, jeudi jusqu'à 20h" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: "#cfb37a" }}>{item.icon}</span>{item.t}
                 </div>
