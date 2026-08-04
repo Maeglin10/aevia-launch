@@ -659,7 +659,8 @@ function HeroSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 function ScrollCrossfade() {
   
-  const panels = [
+  const panels = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       img: PHOTO.ceremony,
       label: 'La cérémonie',
@@ -678,7 +679,47 @@ function ScrollCrossfade() {
       title: 'La fête de vos vies commence ici',
       desc: "Dîner gastronomique, scénographie de salle, animation et fin de soirée : nous coordonnons chaque prestataire pour que vous profitiez pleinement de chaque instant.",
     },
-  ];
+  ])[i % ([
+    {
+      img: PHOTO.ceremony,
+      label: 'La cérémonie',
+      title: 'Un moment suspendu dans le temps',
+      desc: 'Chaque cérémonie est une promesse unique, orchestrée dans les plus beaux lieux alsaciens — chapelles médiévales, châteaux des vignes ou jardins en fleurs.',
+    },
+    {
+      img: PHOTO.decor,
+      label: 'La décoration florale',
+      title: 'Une esthétique qui vous ressemble',
+      desc: "Arches de fleurs, compositions de table, voilages et bougies : nous créons l'ambiance visuelle dont vous avez rêvé, en collaboration avec les meilleurs fleuristes de la région.",
+    },
+    {
+      img: PHOTO.reception,
+      label: 'La réception',
+      title: 'La fête de vos vies commence ici',
+      desc: "Dîner gastronomique, scénographie de salle, animation et fin de soirée : nous coordonnons chaque prestataire pour que vous profitiez pleinement de chaque instant.",
+    },
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    {
+      img: PHOTO.ceremony,
+      label: 'La cérémonie',
+      title: 'Un moment suspendu dans le temps',
+      desc: 'Chaque cérémonie est une promesse unique, orchestrée dans les plus beaux lieux alsaciens — chapelles médiévales, châteaux des vignes ou jardins en fleurs.',
+    },
+    {
+      img: PHOTO.decor,
+      label: 'La décoration florale',
+      title: 'Une esthétique qui vous ressemble',
+      desc: "Arches de fleurs, compositions de table, voilages et bougies : nous créons l'ambiance visuelle dont vous avez rêvé, en collaboration avec les meilleurs fleuristes de la région.",
+    },
+    {
+      img: PHOTO.reception,
+      label: 'La réception',
+      title: 'La fête de vos vies commence ici',
+      desc: "Dîner gastronomique, scénographie de salle, animation et fin de soirée : nous coordonnons chaque prestataire pour que vous profitiez pleinement de chaque instant.",
+    },
+  ],
+  );
 const n = panels.length;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
@@ -1164,7 +1205,8 @@ function ServiceCard({
    4 · PROCESS SECTION — left sticky + right scroll
    ════════════════════════════════════════════════════════════════════════════ */
 function ProcessSection() {
-  const steps = [
+  const steps = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       num: '01',
       title: 'Consultation initiale',
@@ -1189,7 +1231,59 @@ function ProcessSection() {
       desc: "Le grand jour arrive. Notre équipe est sur place dès le matin pour coordonner chaque détail. Vous profitez pleinement de votre mariage pendant que nous veillons à ce que tout se déroule à la perfection.",
       duration: "Présence de l'équipe de 8h à minuit",
     },
-  ];
+  ])[i % ([
+    {
+      num: '01',
+      title: 'Consultation initiale',
+      desc: 'Nous nous rencontrons autour d&apos;un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C&apos;est le point de départ de notre collaboration.',
+      duration: 'Réunion de 1h30 — offerte',
+    },
+    {
+      num: '02',
+      title: 'Vision & moodboard',
+      desc: "Nous créons votre identité visuelle de mariage : planche d'inspiration, palette de couleurs, direction artistique, sélection des lieux et des prestataires. Votre mariage prend forme.",
+      duration: 'Livraison sous 2 semaines',
+    },
+    {
+      num: '03',
+      title: 'Coordination prestataires',
+      desc: "Nous gérons l'intégralité des relations avec vos prestataires : contrats, relances, briefings, confirmations. Vous avez un seul interlocuteur pour tout ce qui concerne votre mariage.",
+      duration: 'Suivi continu sur toute la préparation',
+    },
+    {
+      num: '04',
+      title: 'Jour J parfait',
+      desc: "Le grand jour arrive. Notre équipe est sur place dès le matin pour coordonner chaque détail. Vous profitez pleinement de votre mariage pendant que nous veillons à ce que tout se déroule à la perfection.",
+      duration: "Présence de l'équipe de 8h à minuit",
+    },
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    {
+      num: '01',
+      title: 'Consultation initiale',
+      desc: 'Nous nous rencontrons autour d&apos;un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C&apos;est le point de départ de notre collaboration.',
+      duration: 'Réunion de 1h30 — offerte',
+    },
+    {
+      num: '02',
+      title: 'Vision & moodboard',
+      desc: "Nous créons votre identité visuelle de mariage : planche d'inspiration, palette de couleurs, direction artistique, sélection des lieux et des prestataires. Votre mariage prend forme.",
+      duration: 'Livraison sous 2 semaines',
+    },
+    {
+      num: '03',
+      title: 'Coordination prestataires',
+      desc: "Nous gérons l'intégralité des relations avec vos prestataires : contrats, relances, briefings, confirmations. Vous avez un seul interlocuteur pour tout ce qui concerne votre mariage.",
+      duration: 'Suivi continu sur toute la préparation',
+    },
+    {
+      num: '04',
+      title: 'Jour J parfait',
+      desc: "Le grand jour arrive. Notre équipe est sur place dès le matin pour coordonner chaque détail. Vous profitez pleinement de votre mariage pendant que nous veillons à ce que tout se déroule à la perfection.",
+      duration: "Présence de l'équipe de 8h à minuit",
+    },
+  ],
+  );
 
   return (
     <section
@@ -2493,7 +2587,8 @@ function PracticalSection() {
     { annee: '2027', statut: 'Réservations anticipées', color: C.sage },
   ];
 
-  const modesTravail = [
+  const modesTravail = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       title: 'Réunions en présentiel',
       desc: 'Nous vous rencontrons à notre bureau de Strasbourg ou directement sur vos lieux de mariage.',
@@ -2510,7 +2605,43 @@ function PracticalSection() {
       title: 'Équipe dédiée',
       desc: "Un binôme wedding planner + assistante est attribué à votre mariage dès la signature du contrat.",
     },
-  ];
+  ])[i % ([
+    {
+      title: 'Réunions en présentiel',
+      desc: 'Nous vous rencontrons à notre bureau de Strasbourg ou directement sur vos lieux de mariage.',
+    },
+    {
+      title: 'Suivi à distance',
+      desc: 'Tous nos échanges sont organisés via notre espace client sécurisé, accessible 24h/24.',
+    },
+    {
+      title: 'Disponibilité étendue',
+      desc: 'En période de mariage (avril–novembre), nous sommes joignables 6j/7 pour répondre à vos questions.',
+    },
+    {
+      title: 'Équipe dédiée',
+      desc: "Un binôme wedding planner + assistante est attribué à votre mariage dès la signature du contrat.",
+    },
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    {
+      title: 'Réunions en présentiel',
+      desc: 'Nous vous rencontrons à notre bureau de Strasbourg ou directement sur vos lieux de mariage.',
+    },
+    {
+      title: 'Suivi à distance',
+      desc: 'Tous nos échanges sont organisés via notre espace client sécurisé, accessible 24h/24.',
+    },
+    {
+      title: 'Disponibilité étendue',
+      desc: 'En période de mariage (avril–novembre), nous sommes joignables 6j/7 pour répondre à vos questions.',
+    },
+    {
+      title: 'Équipe dédiée',
+      desc: "Un binôme wedding planner + assistante est attribué à votre mariage dès la signature du contrat.",
+    },
+  ],
+  );
 
   return (
     <section

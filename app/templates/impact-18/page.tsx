@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, Zap, BarChart3, Users, CheckCircle, ChevronDown, Globe, Layers, Bell, Shield, Code2, TrendingUp, Cpu, Server, Lock, HelpCircle } from "lucide-react";
 import {
   clientCity,
+  clientFaq,
   clientName,
   clientReviews,
   clientServices,
@@ -151,13 +152,28 @@ export default function StreamlinePage() {
 
   const { scrollYProgress } = useScroll();
 
-  const faqs = [
+  const faqs = resolveList(
+    clientFaq({ formData: fd })?.map((f: any, i: number) => ({ ...([
     { q: "Combien de temps dure l'essai gratuit ?", a: "14 jours, sans carte de crédit requise. Accès complet à toutes les fonctionnalités Growth." },
     { q: "Puis-je migrer depuis Jira, Asana ou Monday ?", a: "Oui. Notre outil d'import automatique gère Jira, Asana, Monday.com, Trello et Notion en quelques minutes." },
     { q: "Streamline est-il conforme RGPD ?", a: "Oui. Données hébergées en Europe (Frankfurt), DPA disponible, droit à l'effacement et à la portabilité respectés." },
     { q: "Y a-t-il un engagement de durée ?", a: "Non. Abonnement mensuel ou annuel (-20%), annulation à tout moment sans frais." },
     { q: "Quelle est la limite d'utilisateurs sur le plan Starter ?", a: "5 membres actifs sur le plan Starter. Passez à Growth pour des équipes illimitées." },
-  ];
+  ])[i % ([
+    { q: "Combien de temps dure l'essai gratuit ?", a: "14 jours, sans carte de crédit requise. Accès complet à toutes les fonctionnalités Growth." },
+    { q: "Puis-je migrer depuis Jira, Asana ou Monday ?", a: "Oui. Notre outil d'import automatique gère Jira, Asana, Monday.com, Trello et Notion en quelques minutes." },
+    { q: "Streamline est-il conforme RGPD ?", a: "Oui. Données hébergées en Europe (Frankfurt), DPA disponible, droit à l'effacement et à la portabilité respectés." },
+    { q: "Y a-t-il un engagement de durée ?", a: "Non. Abonnement mensuel ou annuel (-20%), annulation à tout moment sans frais." },
+    { q: "Quelle est la limite d'utilisateurs sur le plan Starter ?", a: "5 membres actifs sur le plan Starter. Passez à Growth pour des équipes illimitées." },
+  ]).length], q: f.q, a: f.a })),
+    [
+    { q: "Combien de temps dure l'essai gratuit ?", a: "14 jours, sans carte de crédit requise. Accès complet à toutes les fonctionnalités Growth." },
+    { q: "Puis-je migrer depuis Jira, Asana ou Monday ?", a: "Oui. Notre outil d'import automatique gère Jira, Asana, Monday.com, Trello et Notion en quelques minutes." },
+    { q: "Streamline est-il conforme RGPD ?", a: "Oui. Données hébergées en Europe (Frankfurt), DPA disponible, droit à l'effacement et à la portabilité respectés." },
+    { q: "Y a-t-il un engagement de durée ?", a: "Non. Abonnement mensuel ou annuel (-20%), annulation à tout moment sans frais." },
+    { q: "Quelle est la limite d'utilisateurs sur le plan Starter ?", a: "5 membres actifs sur le plan Starter. Passez à Growth pour des équipes illimitées." },
+  ],
+  );
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
@@ -576,11 +592,22 @@ function DocsPage() {
 }
 
 function BlogPage() {
-  const posts = [
+  const posts = resolveList(
+    clientServices({ formData: fd })?.map((s: any, i: number) => ({ ...([
     { title: "Comment réduire le temps de réunion de 40%", desc: "Découvrez nos techniques agiles et l'utilisation de tableaux de bord Kanban pour dynamiser la communication d'équipe.", date: "10 juin 2026" },
     { title: "Intégrer Salesforce & Slack sans écrire de code", desc: "Guide pas-à-pas pour synchroniser vos opportunités commerciales vers vos canaux d'alertes en 5 minutes.", date: "2 juin 2026" },
     { title: "Lancement de Streamline v3.0 : Rapidité décuplée", desc: "Découvrez notre nouveau moteur d'exécution asynchrone qui accélère le temps de réponse global de 50%.", date: "18 mai 2026" }
-  ];
+  ])[i % ([
+    { title: "Comment réduire le temps de réunion de 40%", desc: "Découvrez nos techniques agiles et l'utilisation de tableaux de bord Kanban pour dynamiser la communication d'équipe.", date: "10 juin 2026" },
+    { title: "Intégrer Salesforce & Slack sans écrire de code", desc: "Guide pas-à-pas pour synchroniser vos opportunités commerciales vers vos canaux d'alertes en 5 minutes.", date: "2 juin 2026" },
+    { title: "Lancement de Streamline v3.0 : Rapidité décuplée", desc: "Découvrez notre nouveau moteur d'exécution asynchrone qui accélère le temps de réponse global de 50%.", date: "18 mai 2026" }
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    { title: "Comment réduire le temps de réunion de 40%", desc: "Découvrez nos techniques agiles et l'utilisation de tableaux de bord Kanban pour dynamiser la communication d'équipe.", date: "10 juin 2026" },
+    { title: "Intégrer Salesforce & Slack sans écrire de code", desc: "Guide pas-à-pas pour synchroniser vos opportunités commerciales vers vos canaux d'alertes en 5 minutes.", date: "2 juin 2026" },
+    { title: "Lancement de Streamline v3.0 : Rapidité décuplée", desc: "Découvrez notre nouveau moteur d'exécution asynchrone qui accélère le temps de réponse global de 50%.", date: "18 mai 2026" }
+  ],
+  );
 
   return (
     <section className="py-24 px-6 bg-[#0D1117] border-t border-white/5">

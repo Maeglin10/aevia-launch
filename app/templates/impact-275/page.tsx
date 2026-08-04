@@ -1244,7 +1244,8 @@ function ExpertiseSection() {
    4 · PROCESS — Left sticky photo avocate + right scroll 4 étapes
    ════════════════════════════════════════════════════════════════════════════ */
 function ProcessSection() {
-  const steps = [
+  const steps = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       num: '01',
       title: 'Premier entretien',
@@ -1273,7 +1274,67 @@ function ProcessSection() {
       desc: 'Rédaction des actes, assignations, conclusions, plaidoiries devant le Tribunal Judiciaire de Marseille et les cours d\'appel. Le cabinet vous tient informé à chaque étape et répond à vos messages dans les 24h ouvrées.',
       detail: 'Compte rendu après chaque audience · Accès sécurisé à votre dossier',
     },
-  ];
+  ])[i % ([
+    {
+      num: '01',
+      title: 'Premier entretien',
+      sub: 'Écoute et diagnostic',
+      desc: 'La première consultation dure en général 60 à 90 minutes. Vous exposez votre situation en toute confidentialité. Maître Faure analyse vos droits, identifie les risques et répond à toutes vos questions sans jargon.',
+      detail: 'Tarif fixe · Rendez-vous disponible sous 48h · Visio ou présentiel',
+    },
+    {
+      num: '02',
+      title: 'Analyse du dossier',
+      sub: 'Constitution et étude des pièces',
+      desc: 'Toutes les pièces utiles sont rassemblées : actes d\'état civil, titres de propriété, contrat de mariage, relevés bancaires. Chaque élément est passé au crible pour construire votre stratégie sur des bases solides.',
+      detail: 'Devis honoraires transmis par écrit · Convention d\'honoraires signée',
+    },
+    {
+      num: '03',
+      title: 'Stratégie juridique',
+      sub: 'Construction du plan d\'action',
+      desc: 'En fonction des objectifs et des contraintes, Maître Faure définit la stratégie : négociation amiable, médiation familiale ou procédure judiciaire. Chaque option est expliquée avec ses avantages, ses risques et ses délais.',
+      detail: 'Réunion de stratégie · Calendrier de procédure · Communication régulière',
+    },
+    {
+      num: '04',
+      title: 'Défense active',
+      sub: 'Plaidoirie et suivi jusqu\'à l\'issue',
+      desc: 'Rédaction des actes, assignations, conclusions, plaidoiries devant le Tribunal Judiciaire de Marseille et les cours d\'appel. Le cabinet vous tient informé à chaque étape et répond à vos messages dans les 24h ouvrées.',
+      detail: 'Compte rendu après chaque audience · Accès sécurisé à votre dossier',
+    },
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    {
+      num: '01',
+      title: 'Premier entretien',
+      sub: 'Écoute et diagnostic',
+      desc: 'La première consultation dure en général 60 à 90 minutes. Vous exposez votre situation en toute confidentialité. Maître Faure analyse vos droits, identifie les risques et répond à toutes vos questions sans jargon.',
+      detail: 'Tarif fixe · Rendez-vous disponible sous 48h · Visio ou présentiel',
+    },
+    {
+      num: '02',
+      title: 'Analyse du dossier',
+      sub: 'Constitution et étude des pièces',
+      desc: 'Toutes les pièces utiles sont rassemblées : actes d\'état civil, titres de propriété, contrat de mariage, relevés bancaires. Chaque élément est passé au crible pour construire votre stratégie sur des bases solides.',
+      detail: 'Devis honoraires transmis par écrit · Convention d\'honoraires signée',
+    },
+    {
+      num: '03',
+      title: 'Stratégie juridique',
+      sub: 'Construction du plan d\'action',
+      desc: 'En fonction des objectifs et des contraintes, Maître Faure définit la stratégie : négociation amiable, médiation familiale ou procédure judiciaire. Chaque option est expliquée avec ses avantages, ses risques et ses délais.',
+      detail: 'Réunion de stratégie · Calendrier de procédure · Communication régulière',
+    },
+    {
+      num: '04',
+      title: 'Défense active',
+      sub: 'Plaidoirie et suivi jusqu\'à l\'issue',
+      desc: 'Rédaction des actes, assignations, conclusions, plaidoiries devant le Tribunal Judiciaire de Marseille et les cours d\'appel. Le cabinet vous tient informé à chaque étape et répond à vos messages dans les 24h ouvrées.',
+      detail: 'Compte rendu après chaque audience · Accès sécurisé à votre dossier',
+    },
+  ],
+  );
 
   return (
     <section
@@ -2176,7 +2237,8 @@ function ConsultationFormSection() {
    7 · STATS — 4 chiffres clés
    ════════════════════════════════════════════════════════════════════════════ */
 function StatsSection() {
-  const stats = [
+  const stats = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       value: '15',
       unit: 'ans',
@@ -2201,7 +2263,59 @@ function StatsSection() {
       label: "domaines d'expertise",
       sub: 'Famille · Divorce · Succession',
     },
-  ];
+  ])[i % ([
+    {
+      value: '15',
+      unit: 'ans',
+      label: "d'expérience",
+      sub: 'au Barreau de Marseille',
+    },
+    {
+      value: '+500',
+      unit: '',
+      label: 'dossiers traités',
+      sub: 'familles accompagnées',
+    },
+    {
+      value: '94',
+      unit: '%',
+      label: 'de satisfaction',
+      sub: 'enquête clients 2024',
+    },
+    {
+      value: '3',
+      unit: '',
+      label: "domaines d'expertise",
+      sub: 'Famille · Divorce · Succession',
+    },
+  ]).length], value: s.value, label: s.label })),
+    [
+    {
+      value: '15',
+      unit: 'ans',
+      label: "d'expérience",
+      sub: 'au Barreau de Marseille',
+    },
+    {
+      value: '+500',
+      unit: '',
+      label: 'dossiers traités',
+      sub: 'familles accompagnées',
+    },
+    {
+      value: '94',
+      unit: '%',
+      label: 'de satisfaction',
+      sub: 'enquête clients 2024',
+    },
+    {
+      value: '3',
+      unit: '',
+      label: "domaines d'expertise",
+      sub: 'Famille · Divorce · Succession',
+    },
+  ],
+  );
 
   return (
     <section

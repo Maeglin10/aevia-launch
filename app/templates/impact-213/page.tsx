@@ -21,6 +21,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -790,12 +791,25 @@ function StatsStrip() {
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: true })
 
-  const stats = [
+  const stats = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...([
     { target: 1840, suffix: '+', label: 'Chantiers réalisés' },
     { target: 22, suffix: ' ans', label: "D'expérience" },
     { target: 100, suffix: '%', label: 'Garantie décennale' },
     { target: 48, suffix: 'h', label: 'Délai devis offert' },
-  ]
+  ])[i % ([
+    { target: 1840, suffix: '+', label: 'Chantiers réalisés' },
+    { target: 22, suffix: ' ans', label: "D'expérience" },
+    { target: 100, suffix: '%', label: 'Garantie décennale' },
+    { target: 48, suffix: 'h', label: 'Délai devis offert' },
+  ]).length], target: s.value, label: s.label })),
+    [
+    { target: 1840, suffix: '+', label: 'Chantiers réalisés' },
+    { target: 22, suffix: ' ans', label: "D'expérience" },
+    { target: 100, suffix: '%', label: 'Garantie décennale' },
+    { target: 48, suffix: 'h', label: 'Délai devis offert' },
+  ],
+  )
 
   return (
     <section

@@ -3061,11 +3061,22 @@ function BlogPage({
 
 // ─── À PROPOS ─────────────────────────────────────────────────────────────────
 function AboutPage({ goTo }: { goTo: (p: EclatPage) => void }) {
-  const values = [
+  const values = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     { icon: <Leaf size={20} />, title: "Matières certifiées", text: "100% de nos tissus sont certifiés GOTS ou OEKO-TEX. Aucune fibre synthétique issue du pétrole depuis 2022." },
     { icon: <Package size={20} />, title: "Production raisonnée", text: "De petites séries fabriquées sur commande pour éviter la surproduction et le gaspillage textile." },
     { icon: <Star size={20} />, title: "Qualité durable", text: "Des coupes pensées pour durer dix ans, pas une saison. La qualité plutôt que la quantité." },
-  ];
+  ])[i % ([
+    { icon: <Leaf size={20} />, title: "Matières certifiées", text: "100% de nos tissus sont certifiés GOTS ou OEKO-TEX. Aucune fibre synthétique issue du pétrole depuis 2022." },
+    { icon: <Package size={20} />, title: "Production raisonnée", text: "De petites séries fabriquées sur commande pour éviter la surproduction et le gaspillage textile." },
+    { icon: <Star size={20} />, title: "Qualité durable", text: "Des coupes pensées pour durer dix ans, pas une saison. La qualité plutôt que la quantité." },
+  ]).length], title: s.title, text: s.desc || "" })),
+    [
+    { icon: <Leaf size={20} />, title: "Matières certifiées", text: "100% de nos tissus sont certifiés GOTS ou OEKO-TEX. Aucune fibre synthétique issue du pétrole depuis 2022." },
+    { icon: <Package size={20} />, title: "Production raisonnée", text: "De petites séries fabriquées sur commande pour éviter la surproduction et le gaspillage textile." },
+    { icon: <Star size={20} />, title: "Qualité durable", text: "Des coupes pensées pour durer dix ans, pas une saison. La qualité plutôt que la quantité." },
+  ],
+  );
   return (
     <div>
       <PageHero

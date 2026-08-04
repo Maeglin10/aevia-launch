@@ -503,7 +503,8 @@ return (
    ───────────────────────────────────────────── */
 
 function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) => void; activeModel: number; setActiveModel: (i: number) => void }) {
-  const watchModels = [
+  const watchModels = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     {
       name: "Calibre Tourbillon I",
       movement: "Manufacture LM-01",
@@ -552,7 +553,107 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
       desc: "La pureté absolue de la mesure du temps. Une lisibilité parfaite, débarrassée du superflu pour se concentrer sur l'essentiel.",
       details: "Boîtier en or blanc 18k, cadran guilloché main argenté, aiguilles en acier bleui à la flamme.",
     }
-  ];
+  ])[i % ([
+    {
+      name: "Calibre Tourbillon I",
+      movement: "Manufacture LM-01",
+      reserve: "72h",
+      complications: "Tourbillon, grande date",
+      price: "68 000€",
+      year: "2024",
+      limited: true,
+      category: "Complications",
+      desc: "L'expression ultime de la précision mécanique. Le tourbillon compense les effets de la gravité terrestre sur l'échappement, offrant une régularité chronométrique exceptionnelle.",
+      details: "Boîtier en or rose 18k de 41mm. Cadran en émail grand feu noir. Fond saphir transparent révélant les ponts anglés à la main.",
+    },
+    {
+      name: "Chronographe Rattrapante",
+      movement: "Manufacture LM-07",
+      reserve: "48h",
+      complications: "Chronographe, rattrapante",
+      price: "38 500€",
+      year: "2023",
+      limited: false,
+      category: "Chronographes",
+      desc: "Une complication reine pour mesurer les temps intermédiaires. Le double aiguillage permet de mesurer deux événements simultanés.",
+      details: "Boîtier en acier chirurgical 316L satiné. Cadran noir mat avec aiguilles rattrapante dorée. Roue à colonnes visible.",
+    },
+    {
+      name: "Perpétuel Calendrier",
+      movement: "Manufacture LM-14",
+      reserve: "80h",
+      complications: "Calendrier perpétuel, phases de lune",
+      price: "52 000€",
+      year: "2025",
+      limited: true,
+      category: "Complications",
+      desc: "Le temps astronomique au poignet. Conçu pour afficher la date exacte en tenant compte automatiquement de la durée des mois et des années bissextiles jusqu'en 2100.",
+      details: "Boîtier en platine 950 de 40mm. Indicateur des phases de lune en aventurine. Masse oscillante en or 22 carats.",
+    },
+    {
+      name: "Classique Trois Aiguilles",
+      movement: "Manufacture LM-03",
+      reserve: "60h",
+      complications: "Heures, minutes, secondes",
+      price: "18 000€",
+      year: "2025",
+      limited: false,
+      category: "Classique",
+      desc: "La pureté absolue de la mesure du temps. Une lisibilité parfaite, débarrassée du superflu pour se concentrer sur l'essentiel.",
+      details: "Boîtier en or blanc 18k, cadran guilloché main argenté, aiguilles en acier bleui à la flamme.",
+    }
+  ]).length], name: s.title, desc: s.desc || "" })),
+    [
+    {
+      name: "Calibre Tourbillon I",
+      movement: "Manufacture LM-01",
+      reserve: "72h",
+      complications: "Tourbillon, grande date",
+      price: "68 000€",
+      year: "2024",
+      limited: true,
+      category: "Complications",
+      desc: "L'expression ultime de la précision mécanique. Le tourbillon compense les effets de la gravité terrestre sur l'échappement, offrant une régularité chronométrique exceptionnelle.",
+      details: "Boîtier en or rose 18k de 41mm. Cadran en émail grand feu noir. Fond saphir transparent révélant les ponts anglés à la main.",
+    },
+    {
+      name: "Chronographe Rattrapante",
+      movement: "Manufacture LM-07",
+      reserve: "48h",
+      complications: "Chronographe, rattrapante",
+      price: "38 500€",
+      year: "2023",
+      limited: false,
+      category: "Chronographes",
+      desc: "Une complication reine pour mesurer les temps intermédiaires. Le double aiguillage permet de mesurer deux événements simultanés.",
+      details: "Boîtier en acier chirurgical 316L satiné. Cadran noir mat avec aiguilles rattrapante dorée. Roue à colonnes visible.",
+    },
+    {
+      name: "Perpétuel Calendrier",
+      movement: "Manufacture LM-14",
+      reserve: "80h",
+      complications: "Calendrier perpétuel, phases de lune",
+      price: "52 000€",
+      year: "2025",
+      limited: true,
+      category: "Complications",
+      desc: "Le temps astronomique au poignet. Conçu pour afficher la date exacte en tenant compte automatiquement de la durée des mois et des années bissextiles jusqu'en 2100.",
+      details: "Boîtier en platine 950 de 40mm. Indicateur des phases de lune en aventurine. Masse oscillante en or 22 carats.",
+    },
+    {
+      name: "Classique Trois Aiguilles",
+      movement: "Manufacture LM-03",
+      reserve: "60h",
+      complications: "Heures, minutes, secondes",
+      price: "18 000€",
+      year: "2025",
+      limited: false,
+      category: "Classique",
+      desc: "La pureté absolue de la mesure du temps. Une lisibilité parfaite, débarrassée du superflu pour se concentrer sur l'essentiel.",
+      details: "Boîtier en or blanc 18k, cadran guilloché main argenté, aiguilles en acier bleui à la flamme.",
+    }
+  ],
+  );
 
   const [filter, setFilter] = useState("Tout");
   const filteredList = filter === "Tout" ? watchModels : watchModels.filter(m => m.category === filter);
@@ -692,13 +793,28 @@ function ManufactureSubPage({ goTo }: { goTo: (p: any) => void }) {
 }
 
 function MaisonSubPage() {
-  const historyTimeline = [
+  const historyTimeline = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à Genève, se spécialisant dans la réparation de chronomètres de poche de haute précision." },
     { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de Genève et de kkew pour sa régularité de marche." },
     { year: "1961", title: "Collection Heritage", desc: "Lancement d'une gamme de garde-temps au design intemporel, marquant le début de l'exportation internationale de la marque." },
     { year: "1998", title: "Installation dans la Vallée", desc: "Rachat d'une ancienne ferme horlogère à La Vallée de Joux, regroupant l'ensemble de nos ateliers de création, de décoration et d'assemblage sous le même toit." },
     { year: "2019", title: "Le Titane Grade 5", desc: "Innovation technologique majeure avec un modèle entièrement squelette en titane microbillé pesant moins de 32 grammes." },
-  ];
+  ])[i % ([
+    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à Genève, se spécialisant dans la réparation de chronomètres de poche de haute précision." },
+    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de Genève et de kkew pour sa régularité de marche." },
+    { year: "1961", title: "Collection Heritage", desc: "Lancement d'une gamme de garde-temps au design intemporel, marquant le début de l'exportation internationale de la marque." },
+    { year: "1998", title: "Installation dans la Vallée", desc: "Rachat d'une ancienne ferme horlogère à La Vallée de Joux, regroupant l'ensemble de nos ateliers de création, de décoration et d'assemblage sous le même toit." },
+    { year: "2019", title: "Le Titane Grade 5", desc: "Innovation technologique majeure avec un modèle entièrement squelette en titane microbillé pesant moins de 32 grammes." },
+  ]).length], title: s.title, desc: s.desc || "" })),
+    [
+    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à Genève, se spécialisant dans la réparation de chronomètres de poche de haute précision." },
+    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de Genève et de kkew pour sa régularité de marche." },
+    { year: "1961", title: "Collection Heritage", desc: "Lancement d'une gamme de garde-temps au design intemporel, marquant le début de l'exportation internationale de la marque." },
+    { year: "1998", title: "Installation dans la Vallée", desc: "Rachat d'une ancienne ferme horlogère à La Vallée de Joux, regroupant l'ensemble de nos ateliers de création, de décoration et d'assemblage sous le même toit." },
+    { year: "2019", title: "Le Titane Grade 5", desc: "Innovation technologique majeure avec un modèle entièrement squelette en titane microbillé pesant moins de 32 grammes." },
+  ],
+  );
 
   return (
     <section className="py-32 px-6 bg-[#0C0B09] text-white min-h-dvh">

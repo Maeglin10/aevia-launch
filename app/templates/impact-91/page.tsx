@@ -36,6 +36,7 @@ import {
 import {
   clientAddress,
   clientCity,
+  clientFaq,
   clientName,
   clientReviews,
   clientServices,
@@ -1257,7 +1258,8 @@ function PressSection() {
 function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
-  const faqs = [
+  const faqs = resolveList(
+    clientFaq(sessionData)?.map((f: any, i: number) => ({ ...([
     {
       q: "Comment se déroule le processus de création sur mesure (Bespoke) ?",
       a: "Chaque projet débute par une consultation privée pour comprendre votre vision. Nous réalisons ensuite des esquisses à la main, suivies d'une modélisation 3D avant de façonner le bijou dans nos ateliers parisiens.",
@@ -1278,7 +1280,51 @@ function FaqSection() {
       q: "Vos créations sont-elles garanties ?",
       a: "Toutes nos pièces de haute joaillerie sont accompagnées d'un certificat d'authenticité certifiant la qualité des métaux et des pierres, et bénéficient d'une garantie à vie contre tout vice de fabrication.",
     },
-  ]
+  ])[i % ([
+    {
+      q: "Comment se déroule le processus de création sur mesure (Bespoke) ?",
+      a: "Chaque projet débute par une consultation privée pour comprendre votre vision. Nous réalisons ensuite des esquisses à la main, suivies d'une modélisation 3D avant de façonner le bijou dans nos ateliers parisiens.",
+    },
+    {
+      q: "Quels sont les délais de fabrication d'une pièce unique ?",
+      a: "Il faut généralement compter entre 6 et 12 semaines pour la création d'une pièce sur mesure, selon la complexité du design et la recherche de pierres précieuses spécifiques.",
+    },
+    {
+      q: "D'où proviennent vos métaux précieux et vos pierres ?",
+      a: "Nous utilisons exclusivement de l'or 18K recyclé certifié CoC (Chain of Custody) et des diamants naturels conformes au processus de Kimberley, garantissant une provenance éthique et responsable.",
+    },
+    {
+      q: "Proposez-vous un service de restauration ou de transformation ?",
+      a: "Oui, la Maison Aurelia propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.",
+    },
+    {
+      q: "Vos créations sont-elles garanties ?",
+      a: "Toutes nos pièces de haute joaillerie sont accompagnées d'un certificat d'authenticité certifiant la qualité des métaux et des pierres, et bénéficient d'une garantie à vie contre tout vice de fabrication.",
+    },
+  ]).length], q: f.q, a: f.a })),
+    [
+    {
+      q: "Comment se déroule le processus de création sur mesure (Bespoke) ?",
+      a: "Chaque projet débute par une consultation privée pour comprendre votre vision. Nous réalisons ensuite des esquisses à la main, suivies d'une modélisation 3D avant de façonner le bijou dans nos ateliers parisiens.",
+    },
+    {
+      q: "Quels sont les délais de fabrication d'une pièce unique ?",
+      a: "Il faut généralement compter entre 6 et 12 semaines pour la création d'une pièce sur mesure, selon la complexité du design et la recherche de pierres précieuses spécifiques.",
+    },
+    {
+      q: "D'où proviennent vos métaux précieux et vos pierres ?",
+      a: "Nous utilisons exclusivement de l'or 18K recyclé certifié CoC (Chain of Custody) et des diamants naturels conformes au processus de Kimberley, garantissant une provenance éthique et responsable.",
+    },
+    {
+      q: "Proposez-vous un service de restauration ou de transformation ?",
+      a: "Oui, la Maison Aurelia propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.",
+    },
+    {
+      q: "Vos créations sont-elles garanties ?",
+      a: "Toutes nos pièces de haute joaillerie sont accompagnées d'un certificat d'authenticité certifiant la qualité des métaux et des pierres, et bénéficient d'une garantie à vie contre tout vice de fabrication.",
+    },
+  ],
+  )
 
   return (
     <section id="faq" className="py-28 lg:py-36" style={{ backgroundColor: C.creamSoft }}>

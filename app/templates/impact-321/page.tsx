@@ -1,7 +1,11 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientServices,
+  clientStats,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -376,22 +380,52 @@ export default function AIHorizonsTemplate() {
   }, []);
 
   // Stats
-  const stats = [
+  const stats = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...([
     { value: "50+", label: "Conférenciers Experts" },
     { value: "3000+", label: "Participants" },
     { value: "3", label: "Jours d'Immersion" },
     { value: "100+", label: "Startups & Exposants" }
-  ];
+  ])[i % ([
+    { value: "50+", label: "Conférenciers Experts" },
+    { value: "3000+", label: "Participants" },
+    { value: "3", label: "Jours d'Immersion" },
+    { value: "100+", label: "Startups & Exposants" }
+  ]).length], value: s.value, label: s.label })),
+    [
+    { value: "50+", label: "Conférenciers Experts" },
+    { value: "3000+", label: "Participants" },
+    { value: "3", label: "Jours d'Immersion" },
+    { value: "100+", label: "Startups & Exposants" }
+  ],
+  );
 
   // Speakers
-  const speakers = [
+  const speakers = resolveList(
+    clientTeam(session)?.map((m: any, i: number) => ({ ...([
     { name: "Elena Rostova", role: "Directrice de Recherche IA, TechGiant", photo: PHOTOS.speakers[0] },
     { name: "Marc Delattre", role: "Fondateur, NeuralNetworks Inc.", photo: PHOTOS.speakers[1] },
     { name: "Dr. Sarah Chen", role: "Professeure en Éthique de l'IA", photo: PHOTOS.speakers[2] },
     { name: "James Holden", role: "CTO, FutureRobotics", photo: PHOTOS.speakers[3] },
     { name: "Camille Laurent", role: "Lead Data Scientist, DataCorp", photo: PHOTOS.speakers[4] },
     { name: "Alexandre Dubois", role: "Investisseur, AI Ventures", photo: PHOTOS.speakers[5] }
-  ];
+  ])[i % ([
+    { name: "Elena Rostova", role: "Directrice de Recherche IA, TechGiant", photo: PHOTOS.speakers[0] },
+    { name: "Marc Delattre", role: "Fondateur, NeuralNetworks Inc.", photo: PHOTOS.speakers[1] },
+    { name: "Dr. Sarah Chen", role: "Professeure en Éthique de l'IA", photo: PHOTOS.speakers[2] },
+    { name: "James Holden", role: "CTO, FutureRobotics", photo: PHOTOS.speakers[3] },
+    { name: "Camille Laurent", role: "Lead Data Scientist, DataCorp", photo: PHOTOS.speakers[4] },
+    { name: "Alexandre Dubois", role: "Investisseur, AI Ventures", photo: PHOTOS.speakers[5] }
+  ]).length], name: m.name, role: m.role })),
+    [
+    { name: "Elena Rostova", role: "Directrice de Recherche IA, TechGiant", photo: PHOTOS.speakers[0] },
+    { name: "Marc Delattre", role: "Fondateur, NeuralNetworks Inc.", photo: PHOTOS.speakers[1] },
+    { name: "Dr. Sarah Chen", role: "Professeure en Éthique de l'IA", photo: PHOTOS.speakers[2] },
+    { name: "James Holden", role: "CTO, FutureRobotics", photo: PHOTOS.speakers[3] },
+    { name: "Camille Laurent", role: "Lead Data Scientist, DataCorp", photo: PHOTOS.speakers[4] },
+    { name: "Alexandre Dubois", role: "Investisseur, AI Ventures", photo: PHOTOS.speakers[5] }
+  ],
+  );
 
   // Agenda
   const agendaDays = [
@@ -425,7 +459,8 @@ export default function AIHorizonsTemplate() {
   ];
 
   // Tickets
-  const tickets = [
+  const tickets = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...([
     {
       name: "Early Bird",
       price: "299€",
@@ -447,7 +482,53 @@ export default function AIHorizonsTemplate() {
       features: ["Accès prioritaire", "Toutes les conférences & panels", "Lounge VIP exclusif", "Dîner privé avec les speakers", "Accès illimité aux replays"],
       primary: false
     }
-  ];
+  ])[i % ([
+    {
+      name: "Early Bird",
+      price: "299€",
+      desc: "Accès limité aux 500 premiers inscrits.",
+      features: ["Accès aux 3 jours", "Conférences principales", "Application de networking", "Café & Déjeuners"],
+      primary: false
+    },
+    {
+      name: "Pass Standard",
+      price: "499€",
+      desc: "L'expérience complète AI Horizons.",
+      features: ["Accès aux 3 jours", "Toutes les conférences & panels", "Application de networking", "Café, Déjeuners & Cocktails", "Vidéos en replay"],
+      primary: true
+    },
+    {
+      name: "Pass VIP",
+      price: "999€",
+      desc: "Pour les cadres et investisseurs.",
+      features: ["Accès prioritaire", "Toutes les conférences & panels", "Lounge VIP exclusif", "Dîner privé avec les speakers", "Accès illimité aux replays"],
+      primary: false
+    }
+  ]).length], name: s.title, desc: s.desc || "" })),
+    [
+    {
+      name: "Early Bird",
+      price: "299€",
+      desc: "Accès limité aux 500 premiers inscrits.",
+      features: ["Accès aux 3 jours", "Conférences principales", "Application de networking", "Café & Déjeuners"],
+      primary: false
+    },
+    {
+      name: "Pass Standard",
+      price: "499€",
+      desc: "L'expérience complète AI Horizons.",
+      features: ["Accès aux 3 jours", "Toutes les conférences & panels", "Application de networking", "Café, Déjeuners & Cocktails", "Vidéos en replay"],
+      primary: true
+    },
+    {
+      name: "Pass VIP",
+      price: "999€",
+      desc: "Pour les cadres et investisseurs.",
+      features: ["Accès prioritaire", "Toutes les conférences & panels", "Lounge VIP exclusif", "Dîner privé avec les speakers", "Accès illimité aux replays"],
+      primary: false
+    }
+  ],
+  );
 
   // FAQ
   const faqs = [

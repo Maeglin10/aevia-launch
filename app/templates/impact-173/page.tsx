@@ -571,12 +571,25 @@ export default function Impact173Page() {
     { id: "renovation", label: "Réhabilitation" },
   ];
 
-  const STATS_DATA = [
+  const STATS_DATA = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...([
     { target: 340, suffix: "+", label: "Projets livrés", sub: "depuis 1989" },
     { target: 98, suffix: "%", label: "Délais tenus", sub: "contractuellement" },
     { target: 35, suffix: " ans", label: "D'expertise", sub: "fondé en 1989" },
     { target: 2400, suffix: "M€", label: "Volume construit", sub: "cumulé groupe" },
-  ];
+  ])[i % ([
+    { target: 340, suffix: "+", label: "Projets livrés", sub: "depuis 1989" },
+    { target: 98, suffix: "%", label: "Délais tenus", sub: "contractuellement" },
+    { target: 35, suffix: " ans", label: "D'expertise", sub: "fondé en 1989" },
+    { target: 2400, suffix: "M€", label: "Volume construit", sub: "cumulé groupe" },
+  ]).length], target: s.value, label: s.label })),
+    [
+    { target: 340, suffix: "+", label: "Projets livrés", sub: "depuis 1989" },
+    { target: 98, suffix: "%", label: "Délais tenus", sub: "contractuellement" },
+    { target: 35, suffix: " ans", label: "D'expertise", sub: "fondé en 1989" },
+    { target: 2400, suffix: "M€", label: "Volume construit", sub: "cumulé groupe" },
+  ],
+  );
 
   return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100dvh", fontFamily: FONT_BODY, overflowX: "hidden" }}>

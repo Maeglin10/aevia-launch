@@ -1202,14 +1202,31 @@ return (
 ───────────────────────────────────────────── */
 
 function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
-  const allDestinations = [
+  const allDestinations = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
     { name: "Maldives Privées", region: "Océan Indien", img: "photo-1514282401047-d79a71a590e8", duration: "10 nuits", price: "À partir de 12 400 €", tag: "Sérénité absolue", desc: "Villas sur pilotis, lagon turquoise privé, plongée de corail — l'archipel d'exception." },
     { name: "Kyoto Impériale", region: "Japon", img: "photo-1528360983277-13d401cdc186", duration: "12 nuits", price: "À partir de 9 800 €", tag: "Patrimoine vivant", desc: "Ryokans historiques, cérémonie du thé privée, géishas et jardins zen au lever du soleil." },
     { name: "Safari Masaï Mara", region: "Kenya", img: "photo-1516426122078-c23e76319801", duration: "9 nuits", price: "À partir de 14 200 €", tag: "Grande migration", desc: "Camp de luxe privé, safaris au lever du soleil, bush dinner sous les étoiles africaines." },
     { name: "Patagonie Sauvage", region: "Argentine & Chili", img: "photo-1501854140801-50d01698950b", duration: "14 nuits", price: "À partir de 8 900 €", tag: "Bout du monde", desc: "Torres del Paine, glaciers Perito Moreno, lodges isolés au cœur d'une nature absolue." },
     { name: "Grèce des Cyclades", region: "Méditerranée", img: "photo-1533105079780-92b9be482077", duration: "8 nuits", price: "À partir de 7 600 €", tag: "Lumière dorée", desc: "Santorin, Mykonos, Folegandros — voilier privatisé et îles secrètes hors des sentiers battus." },
     { name: "Rajasthan Royal", region: "Inde du Nord", img: "photo-1524492412937-b28074a5d7da", duration: "11 nuits", price: "À partir de 6 400 €", tag: "Fastes de l'Orient", desc: "Palace hotels historiques, Jaipur, Udaipur, Jaisalmer — un voyage dans un voyage." },
-  ];
+  ])[i % ([
+    { name: "Maldives Privées", region: "Océan Indien", img: "photo-1514282401047-d79a71a590e8", duration: "10 nuits", price: "À partir de 12 400 €", tag: "Sérénité absolue", desc: "Villas sur pilotis, lagon turquoise privé, plongée de corail — l'archipel d'exception." },
+    { name: "Kyoto Impériale", region: "Japon", img: "photo-1528360983277-13d401cdc186", duration: "12 nuits", price: "À partir de 9 800 €", tag: "Patrimoine vivant", desc: "Ryokans historiques, cérémonie du thé privée, géishas et jardins zen au lever du soleil." },
+    { name: "Safari Masaï Mara", region: "Kenya", img: "photo-1516426122078-c23e76319801", duration: "9 nuits", price: "À partir de 14 200 €", tag: "Grande migration", desc: "Camp de luxe privé, safaris au lever du soleil, bush dinner sous les étoiles africaines." },
+    { name: "Patagonie Sauvage", region: "Argentine & Chili", img: "photo-1501854140801-50d01698950b", duration: "14 nuits", price: "À partir de 8 900 €", tag: "Bout du monde", desc: "Torres del Paine, glaciers Perito Moreno, lodges isolés au cœur d'une nature absolue." },
+    { name: "Grèce des Cyclades", region: "Méditerranée", img: "photo-1533105079780-92b9be482077", duration: "8 nuits", price: "À partir de 7 600 €", tag: "Lumière dorée", desc: "Santorin, Mykonos, Folegandros — voilier privatisé et îles secrètes hors des sentiers battus." },
+    { name: "Rajasthan Royal", region: "Inde du Nord", img: "photo-1524492412937-b28074a5d7da", duration: "11 nuits", price: "À partir de 6 400 €", tag: "Fastes de l'Orient", desc: "Palace hotels historiques, Jaipur, Udaipur, Jaisalmer — un voyage dans un voyage." },
+  ]).length], name: s.title, desc: s.desc || "" })),
+    [
+    { name: "Maldives Privées", region: "Océan Indien", img: "photo-1514282401047-d79a71a590e8", duration: "10 nuits", price: "À partir de 12 400 €", tag: "Sérénité absolue", desc: "Villas sur pilotis, lagon turquoise privé, plongée de corail — l'archipel d'exception." },
+    { name: "Kyoto Impériale", region: "Japon", img: "photo-1528360983277-13d401cdc186", duration: "12 nuits", price: "À partir de 9 800 €", tag: "Patrimoine vivant", desc: "Ryokans historiques, cérémonie du thé privée, géishas et jardins zen au lever du soleil." },
+    { name: "Safari Masaï Mara", region: "Kenya", img: "photo-1516426122078-c23e76319801", duration: "9 nuits", price: "À partir de 14 200 €", tag: "Grande migration", desc: "Camp de luxe privé, safaris au lever du soleil, bush dinner sous les étoiles africaines." },
+    { name: "Patagonie Sauvage", region: "Argentine & Chili", img: "photo-1501854140801-50d01698950b", duration: "14 nuits", price: "À partir de 8 900 €", tag: "Bout du monde", desc: "Torres del Paine, glaciers Perito Moreno, lodges isolés au cœur d'une nature absolue." },
+    { name: "Grèce des Cyclades", region: "Méditerranée", img: "photo-1533105079780-92b9be482077", duration: "8 nuits", price: "À partir de 7 600 €", tag: "Lumière dorée", desc: "Santorin, Mykonos, Folegandros — voilier privatisé et îles secrètes hors des sentiers battus." },
+    { name: "Rajasthan Royal", region: "Inde du Nord", img: "photo-1524492412937-b28074a5d7da", duration: "11 nuits", price: "À partir de 6 400 €", tag: "Fastes de l'Orient", desc: "Palace hotels historiques, Jaipur, Udaipur, Jaisalmer — un voyage dans un voyage." },
+  ],
+  );
 
   return (
     <section id="realisations" style={{ padding: "140px 40px", background: C.bg, minHeight: "100dvh" }}>
