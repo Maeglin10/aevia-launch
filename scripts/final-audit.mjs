@@ -84,6 +84,10 @@ function donneesPour(id, i) {
         { day: "Dimanche", closed: true },
       ],
       geo: { primaryCity: ville, address: `${(i % 40) + 1} rue des Alpes, ${ville}`, serviceAreas: [ville] },
+      beforeAfter: [{ beforeUrl: "", afterUrl: "", caption: `Chantier ${id}` }],
+      paymentMethods: ["Carte bancaire"],
+      bookingSystem: { url: `https://rdv.example/${id}` },
+      contacts: { general: { email: `contact@${id}.fr`, phone: "04 50 11 22 33" } },
     },
     generatedContent: { heroHeadline: `Votre ${metier} à ${ville}`, aboutTitle: `À propos de ${nom}` },
   };
@@ -106,11 +110,30 @@ const BLOC_DE = {
   chiffre: "chiffres", equipier: "equipe", label: "engagements", question: "faq",
 };
 
+/*
+  Certaines données n'ont pas de bloc déclaré au manifeste : un téléphone, une
+  adresse, des horaires s'affichent là où le thème a prévu de les montrer, et
+  beaucoup n'en montrent aucun. On ne les compte donc pas en manque — on note ce
+  qui est affiché, pour dire ce qui est personnalisable et non ce qui manque.
+*/
+const OPTIONNELS = new Set(["telephone", "email", "adresse", "horaires", "realisation"]);
+
 const EMPLACEMENTS = fs.readFileSync(path.join(process.cwd(), "lib/templates/photoSlots.ts"), "utf8");
 const SANS_PHOTO = new Set();
 for (const m of EMPLACEMENTS.matchAll(/"(impact-[\w-]+)":\s*\{[^}]*?total:\s*(\d+)/g)) {
   if (Number(m[2]) === 0) SANS_PHOTO.add(m[1]);
 }
+
+// Les retouches offertes par thème, pour dire ce que le client peut encore changer.
+let RETOUCHES = {};
+try {
+  const m = /RETOUCHES: Record<string, RetouchePossible\[\]> = (\{[\s\S]*?\n\});/.exec(
+    fs.readFileSync(path.join(process.cwd(), "lib/templates/sectionManifest.ts"), "utf8"),
+  );
+  if (m) RETOUCHES = JSON.parse(m[1]);
+} catch { /* le manifeste n'a pas encore été généré */ }
+
+const fiches = [];
 
 const b = await chromium.launch();
 const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
@@ -183,10 +206,18 @@ for (const id of ids) {
       nom: d.nom, ville: d.ville, accroche: d.formData.tagline,
       prestation: `Prestation ${id}`, prix: "137 €", avis: `Travail impeccable chez ${d.nom}`,
       chiffre: "18", equipier: `Équipier ${id}`, label: `Label ${id}`, question: `Question ${id}`,
+      // Ce que le thème affiche seulement s'il a une section pour le montrer.
+      telephone: "04 50 11 22 33", email: `contact@${id}.fr`,
+      adresse: "rue des Alpes", horaires: "08:30", realisation: `Chantier ${id}`,
     })
       .filter(([k]) => !BLOC_DE[k] || (MANIFESTE[id] ?? []).includes(BLOC_DE[k]))
       .filter(([, v]) => !bas.includes(String(v).toLowerCase()))
       .map(([k]) => k);
+    const obligatoires = manquent.filter((k) => !OPTIONNELS.has(k));
+    const affiches = Object.entries({
+      telephone: "04 50 11 22 33", email: `contact@${id}.fr`,
+      adresse: "rue des Alpes", horaires: "08:30", realisation: `Chantier ${id}`,
+    }).filter(([, v]) => bas.includes(String(v).toLowerCase())).map(([k]) => k);
 
     const restes = [];
     for (const v of VILLES_DEMO) {
@@ -220,8 +251,14 @@ for (const id of ids) {
       ? "—"
       : photos.some((u) => chargees.includes(empreinte(u))) ? "oui" : "non";
 
+    fiches.push({
+      id, manquent: obligatoires, affiches, restes: [...new Set(restes)],
+      photos: photosVues, couleur: couleurVue, plantee: /couldn.t load/i.test(texte),
+      retouches: (RETOUCHES[id] ?? []).length,
+    });
     console.log(
-      `${id.padEnd(12)} manquent:${manquent.join(",") || "rien"}` +
+      `${id.padEnd(12)} manquent:${obligatoires.join(",") || "rien"}` +
+      ` | affiche:${affiches.join(",") || "—"}` +
       ` | restes:${[...new Set(restes)].slice(0, 3).join(",") || "rien"}` +
       ` | photos:${photosVues} | couleur:${couleurVue ? "oui" : "non"}` +
       (/couldn.t load/i.test(texte) ? " | PAGE PLANTÉE" : "") +
@@ -235,3 +272,5 @@ for (const id of ids) {
 }
 
 await b.close();
+
+if (process.env.FICHES) fs.writeFileSync(process.env.FICHES, JSON.stringify(fiches, null, 1));
