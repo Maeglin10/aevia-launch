@@ -16,6 +16,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -52,13 +53,13 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 };
 
 function films_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   { title: "Les Heures Perdues", type: "Long-métrage", year: "2025", festival: "Cannes — Sélection Officielle", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop") },
   { title: "Poussière de Lumière", type: "Court-métrage", year: "2025", festival: "Sundance — Grand Prix", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&q=80") },
   { title: "L'Écho du Silence", type: "Documentaire", year: "2024", festival: "IDFA — Best Documentary", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80") },
   { title: "Fragments", type: "Court-métrage", year: "2024", festival: "César — Nommé", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=600&q=80") },
   { title: "Mémoire Vive", type: "Série", year: "2023", festival: "Festival Séries Mania — Prix Spécial", src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600&q=80") },
-];
+]);
 }
 let films_DEMO = films_DEMO_LIVE();
 

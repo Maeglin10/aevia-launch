@@ -58,6 +58,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -2514,7 +2515,7 @@ export default function HorizonMaritimePage() {
 function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const [filter, setFilter] = useState<"all" | "motor" | "sailing" | "explorer">("all");
 
-  const fleetYachts = [
+  const fleetYachts = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
     {
       name: "M/Y Lumière",
       type: "motor",
@@ -2580,7 +2581,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       img: photo(4, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&q=80&w=1200")),
       desc: "Classic lines with modern naval architecture. Hand-finished teak decks, mahogany salon, and state-of-the-art rigging.",
     },
-  ];
+  ]);
 
   const filteredYachts = filter === "all" ? fleetYachts : fleetYachts.filter((y) => y.type === filter);
 

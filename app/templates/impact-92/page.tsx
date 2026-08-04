@@ -35,6 +35,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -55,7 +56,7 @@ let sessionData: any = null;
    ========================================================================= */
 
 function LISTINGS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     id: 1,
     title: "The Obsidian Penthouse",
@@ -83,7 +84,7 @@ function LISTINGS_DEMO_LIVE() {
     features: ["Automotive Gallery", "Outdoor Cinema", "Zen Garden"],
     img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"),
   },
-];
+]);
 }
 let LISTINGS_DEMO = LISTINGS_DEMO_LIVE();
 

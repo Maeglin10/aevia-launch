@@ -8,6 +8,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -72,7 +73,7 @@ let C: Record<string, string> = {
 };
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const SERIES_DEMO = [
+const SERIES_DEMO = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     title: "Lumière Naturelle",
     count: "24 clichés",
@@ -121,7 +122,7 @@ const SERIES_DEMO = [
     img: "photo-1536440136628-849c177e76a1",
     dims: "Portrait 4:5",
   },
-];
+]);
 
 const SERVICES_DEMO = [
   {

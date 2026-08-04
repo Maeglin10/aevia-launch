@@ -16,6 +16,7 @@ import {
   clientServices,
   clientTeam,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -66,12 +67,12 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 function PROJECTS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { title: "Flux Identity", client: "Flux Labs", type: "Brand System", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200"), year: "2024" },
   { title: "Prism Launch", client: "Prism Analytics", type: "Product Design", img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200"), year: "2024" },
   { title: "Ember Editorial", client: "Ember Magazine", type: "Editorial + Web", img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1200"), year: "2023" },
   { title: "Vertex Motion", client: "Vertex Films", type: "Motion Design", img: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200"), year: "2023" },
-];
+]);
 }
 let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 

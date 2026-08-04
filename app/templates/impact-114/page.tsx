@@ -40,6 +40,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -128,7 +129,7 @@ function useFonts() {
 const NAV_LINKS = ["Collections", "Tirages", "Terrain", "À propos", "Contact"]
 
 function SLIDES_DEMO_SOURCE_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: 1,
     title: "Forêts Primaires",
@@ -174,7 +175,7 @@ function SLIDES_DEMO_SOURCE_LIVE() {
     season: "Nuit polaire",
     year: "2025",
   },
-];
+]);
 }
 let SLIDES_DEMO_SOURCE = SLIDES_DEMO_SOURCE_LIVE();
 let SLIDES_DEMO = SLIDES_DEMO_SOURCE;

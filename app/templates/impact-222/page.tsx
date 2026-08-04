@@ -31,6 +31,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -808,7 +809,7 @@ type Property = {
   type: string;
 };
 
-const PROPERTIES_DEMO_SOURCE: Property[] = [
+const PROPERTIES_DEMO_SOURCE: Property[] = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     name: 'Le Domaine des Cèdres',
     img: PHOTO.villa,
@@ -833,7 +834,7 @@ const PROPERTIES_DEMO_SOURCE: Property[] = [
     city: 'Saint-Rémy',
     type: 'Mas de caractère',
   },
-];
+]);
 let PROPERTIES_DEMO = PROPERTIES_DEMO_SOURCE;
 
 const PropertyCard: React.FC<{ p: any; delay: number; index?: number }> = ({

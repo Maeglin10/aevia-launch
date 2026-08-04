@@ -32,6 +32,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -98,7 +99,7 @@ let HERO_PRODUCTS_DEMO = HERO_PRODUCTS_DEMO_SOURCE;
 let HERO_PRODUCTS = HERO_PRODUCTS_DEMO;
 
 function PRODUCTS_SOURCE_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     id: 1,
     name: "Helix Noir",
@@ -147,7 +148,7 @@ function PRODUCTS_SOURCE_LIVE() {
     img: (clientPhotos(sessionData)[8] || "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=800"),
     category: "Grande Complication",
   },
-];
+]);
 }
 let PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
 let PRODUCTS = PRODUCTS_SOURCE;

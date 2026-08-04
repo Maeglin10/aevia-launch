@@ -45,6 +45,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -101,7 +102,7 @@ const NAV_LINKS = [
 const STYLE_FILTERS = ["All", "Réaliste", "Géométrique", "Old School", "Japonais", "Blackwork", "Fine Line"];
 
 function PORTFOLIO_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     id: 1,
     title: "Koi Dragon Sleeve",
@@ -182,7 +183,7 @@ function PORTFOLIO_DEMO_LIVE() {
     duration: "7h",
     year: "2025",
   },
-];
+]);
 }
 let PORTFOLIO_DEMO = PORTFOLIO_DEMO_LIVE();
 let PORTFOLIO = PORTFOLIO_DEMO;

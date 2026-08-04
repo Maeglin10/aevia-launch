@@ -43,6 +43,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -93,7 +94,7 @@ const FONT_BODY = "'Inter', system-ui, sans-serif";
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
 function COLLECTIONS_SOURCE_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     name: "Éternité",
     category: "Bagues",
@@ -148,7 +149,7 @@ function COLLECTIONS_SOURCE_LIVE() {
     tag: "Édition limitée",
     pieces: 7,
   },
-];
+]);
 }
 let COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
 let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;

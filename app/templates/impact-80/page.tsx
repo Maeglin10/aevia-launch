@@ -22,6 +22,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  clientWorks,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -44,7 +45,7 @@ let c: any = null;
 let brand: any = null;
 
 function PROJECTS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     name: "The Obsidian Villa",
     loc: "Malibu, CA",
@@ -77,7 +78,7 @@ function PROJECTS_DEMO_LIVE() {
     area: "480 m²",
     img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop"),
   },
-];
+]);
 }
 let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 let PROJECTS = PROJECTS_DEMO;

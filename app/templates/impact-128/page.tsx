@@ -14,6 +14,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -52,12 +53,12 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 function PROPERTIES_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { title: "The Belvedere Penthouse", location: "Upper East Side, NY", price: "$12.5M", beds: 5, baths: 4, sqft: "6,200", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200"), tag: "Exclusive" },
   { title: "Château des Vignes", location: "Provence, France", price: "€8.9M", beds: 7, baths: 5, sqft: "9,400", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200"), tag: "New Listing" },
   { title: "Marina Bay Residence", location: "Singapore", price: "S$18.2M", beds: 4, baths: 3, sqft: "4,800", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=1200"), tag: "Penthouse" },
   { title: "Hampstead Manor", location: "London, UK", price: "£14.7M", beds: 8, baths: 6, sqft: "11,200", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200"), tag: "Heritage" },
-];
+]);
 }
 let PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
 

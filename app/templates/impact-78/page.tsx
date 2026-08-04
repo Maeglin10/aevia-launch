@@ -22,6 +22,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -34,7 +35,7 @@ let c: any = null;
 let brand: any = null;
 
 function WORK_REEL_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, client: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     id: 1,
     title: "VOID_BREW",
@@ -63,7 +64,7 @@ function WORK_REEL_DEMO_LIVE() {
     tags: ["Branding", "Retail", "3D"],
     img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=800&auto=format&fit=crop"),
   },
-];
+]);
 }
 let WORK_REEL_DEMO = WORK_REEL_DEMO_LIVE();
 let WORK_REEL = WORK_REEL_DEMO;

@@ -14,6 +14,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -63,14 +64,14 @@ const STATS_DEMO = [
 let STATS = STATS_DEMO;
 
 function BIENS_DEMO_SOURCE_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ titre: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { titre: "Appartement de standing", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "1 480 000 €", surface: "145 m²", pieces: 5, bains: 2, tag: "Exclusivité", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80") },
   { titre: "Maison familiale", lieu: "Neuilly-sur-Seine", prix: "2 250 000 €", surface: "280 m²", pieces: 7, bains: 3, tag: "Coup de cœur", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80") },
   { titre: "Penthouse vue Eiffel", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "3 900 000 €", surface: "210 m²", pieces: 5, bains: 3, tag: "Prestige", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80") },
   { titre: "Villa contemporaine", lieu: "Saint-Cloud", prix: "1 850 000 €", surface: "320 m²", pieces: 8, bains: 4, tag: "Jardin", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80") },
   { titre: "Loft design", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "890 000 €", surface: "120 m²", pieces: 3, bains: 2, tag: "Atypique", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80") },
   { titre: "Résidence Belle Époque", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "2 650 000 €", surface: "195 m²", pieces: 6, bains: 3, tag: "Haussmannien", img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80") },
-];
+]);
 }
 let BIENS_DEMO_SOURCE = BIENS_DEMO_SOURCE_LIVE();
 let BIENS_DEMO = BIENS_DEMO_SOURCE;

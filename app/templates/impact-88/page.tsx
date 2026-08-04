@@ -45,6 +45,7 @@ import {
   clientTagline,
   clientTeam,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -121,7 +122,7 @@ const NAV_LINKS = ["Concept", "Portfolio", "Services", "Artistes", "FAQ", "Conta
 
 const PORTFOLIO_FILTERS = ["Tout", "Gel", "Nail Art", "French", "Extensions", "Seasonal"]
 
-const PORTFOLIO_ITEMS = [
+const PORTFOLIO_ITEMS = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   { id: 1, category: "Nail Art", title: "Fleurs de Cerisier", desc: "Aquarelle sur base nude rosée", accent: "#FBCFE8", img: "photo-1604654894610-df63bc536371" },
   { id: 2, category: "Gel",      title: "Rose Velours",       desc: "Gel couleur longue tenue",      accent: "var(--brand,#ec4899)", img: "photo-1522337360788-8b13dee7a37e" },
   { id: 3, category: "French",   title: "French Classique",   desc: "Pointe blanche parfaite",       accent: "#FDF4FF", img: "photo-1604654894610-df63bc536371" },
@@ -131,7 +132,7 @@ const PORTFOLIO_ITEMS = [
   { id: 7, category: "Gel",      title: "Bordeaux Intense",   desc: "Gel semi-permanent vibrant",   accent: "#BE185D", img: "photo-1604654894610-df63bc536371" },
   { id: 8, category: "French",   title: "French Ombré",       desc: "Fondu rose à ivoire",          accent: "#F0ABFC", img: "photo-1522337360788-8b13dee7a37e" },
   { id: 9, category: "Seasonal", title: "Hiver Nacré",        desc: "Nacre & paillettes fines",     accent: "#C084FC", img: "photo-1604654894610-df63bc536371" },
-]
+])
 
 const SERVICES_SOURCE = [
   { id: 1, name: "Pose Gel Couleur",    price: "45€",  duration: "60 min",  desc: "Application longue tenue avec finition brillante ou mate. Tient 3 semaines sans éclats." },

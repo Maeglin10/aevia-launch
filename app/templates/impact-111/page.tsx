@@ -16,6 +16,7 @@ import {
   clientServices,
   clientTeam,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -61,12 +62,12 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 function PROJECTS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { title: "Stone House", location: "Mallorca, ES", year: "2024", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200") },
   { title: "Cedar Pavilion", location: "Vancouver, CA", year: "2023", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200") },
   { title: "Clay Studio", location: "Oaxaca, MX", year: "2024", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1200") },
   { title: "Glass Retreat", location: "Hokkaido, JP", year: "2023", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200") },
-];
+]);
 }
 let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 let PROJECTS = PROJECTS_DEMO;

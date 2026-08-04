@@ -37,6 +37,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -53,7 +54,7 @@ let brand: any = null;
    ========================================================================== */
 
 function COLLECTIONS_SOURCE_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: "art-01",
     title: "The Renaissance Veil",
@@ -81,7 +82,7 @@ function COLLECTIONS_SOURCE_LIVE() {
     desc: "Enluminures byzantines sur parchemin de soie, en cours de stabilisation pigmentaire.",
     image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1200&auto=format&fit=crop")
   }
-];
+]);
 }
 let COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
 let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;

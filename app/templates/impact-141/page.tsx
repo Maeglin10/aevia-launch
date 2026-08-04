@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
@@ -22,6 +23,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -37,7 +39,7 @@ let brand: any = null;
    ========================================================================== */
 
 function RELEASES_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
   {
     id: "r-01",
     title: "Neon Genesis",
@@ -68,7 +70,7 @@ function RELEASES_DEMO_LIVE() {
       (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop"),
     color: "#8b5cf6", // Violet
   },
-];
+]);
 }
 let RELEASES_DEMO = RELEASES_DEMO_LIVE();
 let RELEASES = RELEASES_DEMO;

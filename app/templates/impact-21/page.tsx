@@ -15,6 +15,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -60,13 +61,13 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 };
 
 function projects_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   { name: "Capsule Pro", category: "Packaging", client: "L'Oréal", year: "2025", angle: "-3deg", color: "var(--brand, #F97316)", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80") },
   { name: "Archeus Chair", category: "Furniture", client: "Cassina", year: "2025", angle: "2deg", color: "#6366F1", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80") },
   { name: "HaloKit", category: "Consumer Electronics", client: "Sony Design", year: "2024", angle: "-2deg", color: "#0EA5E9", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80") },
   { name: "Bloom Series", category: "Tableware", client: "Seletti", year: "2024", angle: "4deg", color: "#10B981", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1556742393-d75f468bfcb0?w=600&q=80") },
   { name: "Kinetic Lamp", category: "Lighting", client: "Foscarini", year: "2023", angle: "-1deg", color: "#F59E0B", src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80") },
-];
+]);
 }
 let projects = projects_LIVE();
 

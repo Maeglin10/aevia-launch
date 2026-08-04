@@ -16,6 +16,7 @@ import {
   clientPhotos,
   clientServices,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -60,14 +61,14 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 const CATEGORIES = ["Tous", "Portrait", "Mode", "Reportage", "Architecture", "Nature"]
 
 function WORKS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   { title: "La Lumière de Minuit", category: "Portrait", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80"), year: "2025" },
   { title: "Couture Invisible", category: "Mode", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80"), year: "2025" },
   { title: "Mémoire des Rues", category: "Reportage", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80"), year: "2024" },
   { title: "Béton & Lumière", category: "Architecture", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80"), year: "2024" },
   { title: "Femme en Avant", category: "Mode", src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80"), year: "2025" },
   { title: "Le Temps Suspendu", category: "Portrait", src: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80"), year: "2023" },
-];
+]);
 }
 let WORKS_DEMO = WORKS_DEMO_LIVE();
 
