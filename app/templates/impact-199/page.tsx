@@ -39,6 +39,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -47,6 +48,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { val: "10+", label: "Ans d'expérience" },
+                { val: "4 000+", label: "Tatouages réalisés" },
+                { val: "3", label: "Artistes experts" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Les avis, jusqu'ici écrit(e) dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
@@ -399,6 +410,22 @@ export default function Impact199Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -727,11 +754,7 @@ export default function Impact199Page() {
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1.1 }}
             >
-              {[
-                { val: "10+", label: "Ans d'expérience" },
-                { val: "4 000+", label: "Tatouages réalisés" },
-                { val: "3", label: "Artistes experts" },
-              ].map((stat) => (
+              {STATS_INLINE.map((stat) => (
                 <div key={stat.label}>
                   <p
                     className="text-4xl text-white"

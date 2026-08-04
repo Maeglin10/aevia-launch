@@ -20,10 +20,21 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: "43", suffix: " countries", label: "Active Network" },
+              { value: "6", suffix: " continents", label: "Global Reach" },
+              { value: "98.4%", suffix: "", label: "On-Time Rate" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -567,11 +578,7 @@ function RouteMapHero() {
               flexWrap: "wrap",
             }}
           >
-            {[
-              { value: "43", suffix: " countries", label: "Active Network" },
-              { value: "6", suffix: " continents", label: "Global Reach" },
-              { value: "98.4%", suffix: "", label: "On-Time Rate" },
-            ].map((s) => (
+            {STATS_INLINE.map((s) => (
               <div key={s.label}>
                 <div
                   style={{
@@ -2320,6 +2327,22 @@ export default function Impact207() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;

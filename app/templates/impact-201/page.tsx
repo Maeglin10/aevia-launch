@@ -18,6 +18,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 
@@ -25,6 +26,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { val: "850+", label: "Repas créés" },
+            { val: "4.9/5", label: "Note clients" },
+            { val: "3★", label: "Formation" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
@@ -731,6 +742,22 @@ export default function Impact201Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -1257,11 +1284,7 @@ return (
             zIndex: 10,
           }}
         >
-          {[
-            { val: "850+", label: "Repas créés" },
-            { val: "4.9/5", label: "Note clients" },
-            { val: "3★", label: "Formation" },
-          ].map((s) => (
+          {STATS_INLINE.map((s) => (
             <div key={s.label} style={{ marginBottom: 20 }}>
               <div
                 style={{

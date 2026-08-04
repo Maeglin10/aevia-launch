@@ -14,6 +14,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 
@@ -21,6 +22,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { label: "Années d'expérience", val: "22" },
+                    { label: "Étoiles Michelin", val: "2 ★" },
+                    { label: "Producteurs partenaires", val: "34" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
@@ -221,6 +232,22 @@ export default function AeviaKitchenPage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -544,11 +571,7 @@ export default function AeviaKitchenPage() {
                   </p>
                 </div>
                 <div className="mt-10 flex flex-wrap gap-6">
-                  {[
-                    { label: "Années d'expérience", val: "22" },
-                    { label: "Étoiles Michelin", val: "2 ★" },
-                    { label: "Producteurs partenaires", val: "34" },
-                  ].map((s) => (
+                  {STATS_INLINE.map((s) => (
                     <div key={s.label}>
                       <div className="text-3xl font-bold text-[var(--brand,#c9a855)] mb-1">{s.val}</div>
                       <div className="text-[10px] text-white/30 uppercase tracking-widest font-bold">

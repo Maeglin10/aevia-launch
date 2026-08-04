@@ -799,8 +799,8 @@ export default function ImpactAgencyTemplate() {
   bp = session?.businessProfile;
   sessionData = session;
   c = session?.generatedContent;
-
   TEAM_DEMO = TEAM_DEMO_LIVE();
+
 
 
   SERVICES = resolveList(

@@ -34,9 +34,21 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { val: "85", label: "variétés cultivées" },
+              { val: "320", label: "familles abonnées" },
+              { val: "28 ha", label: "de terres bio" },
+              { val: "26 ans", label: "d'agriculture durable" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -619,6 +631,22 @@ export default function TerreVivantePage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
@@ -931,12 +959,7 @@ export default function TerreVivantePage() {
             transition={{ duration: 0.85, delay: 0.58 }}
             style={{ display: "flex", gap: "3rem", justifyContent: "center", marginTop: "4rem", flexWrap: "wrap" }}
           >
-            {[
-              { val: "85", label: "variétés cultivées" },
-              { val: "320", label: "familles abonnées" },
-              { val: "28 ha", label: "de terres bio" },
-              { val: "26 ans", label: "d'agriculture durable" },
-            ].map((s) => (
+            {STATS_INLINE.map((s) => (
               <div key={s.label} style={{ textAlign: "center" }}>
                 <div style={{ fontFamily: C.headingFont, fontSize: "2.1rem", fontWeight: 700, color: C.accent }}>{s.val}</div>
                 <div style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", color: "rgba(253,249,238,0.55)", marginTop: "0.2rem", letterSpacing: "0.02em" }}>{s.label}</div>

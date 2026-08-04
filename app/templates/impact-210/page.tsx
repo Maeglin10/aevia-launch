@@ -25,6 +25,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -36,6 +37,16 @@ import {
 let brand: any = null;
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: '2 000+', label: 'Clients satisfaites' },
+            { value: '5★', label: 'Note Google' },
+            { value: '7 ans', label: "d'expérience" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -621,11 +632,7 @@ function Hero({ accentColor, particles }: { accentColor: string; particles: Part
             flexWrap: 'wrap',
           }}
         >
-          {[
-            { value: '2 000+', label: 'Clients satisfaites' },
-            { value: '5★', label: 'Note Google' },
-            { value: '7 ans', label: "d'expérience" },
-          ].map((stat) => (
+          {STATS_INLINE.map((stat) => (
             <div key={stat.label} style={{ textAlign: 'center' }}>
               <div
                 style={{
@@ -2255,6 +2262,22 @@ export default function NailStudioTemplate() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

@@ -22,9 +22,20 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { val: "14", label: "Projects Built" },
+              { val: "8", label: "Countries" },
+              { val: "4", label: "Awards 2025" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -1130,11 +1141,7 @@ function ParametricSection() {
           </motion.p>
 
           <div style={{ display: "flex", gap: 40 }}>
-            {[
-              { val: "14", label: "Projects Built" },
-              { val: "8", label: "Countries" },
-              { val: "4", label: "Awards 2025" },
-            ].map((s) => (
+            {STATS_INLINE.map((s) => (
               <motion.div
                 key={s.label}
                 initial={{ opacity: 0, y: 16 }}
@@ -2225,6 +2232,22 @@ export default function Impact133Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   c = session?.generatedContent;
 

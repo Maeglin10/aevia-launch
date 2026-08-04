@@ -45,12 +45,24 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: "< 2h", label: "Délai d'intervention" },
+              { value: "24/7", label: "Disponibilité urgence" },
+              { value: "1 500+", label: "Sinistres traités" },
+              { value: "100%", label: "Taux de restitution" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -190,6 +202,22 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -335,12 +363,7 @@ export default function Page() {
       <section style={{ padding: '80px 24px', background: C.bgDeep, borderBottom: `1px solid ${C.primary}0d` }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: 40, textAlign: 'center' }}>
-            {[
-              { value: "< 2h", label: "Délai d'intervention" },
-              { value: "24/7", label: "Disponibilité urgence" },
-              { value: "1 500+", label: "Sinistres traités" },
-              { value: "100%", label: "Taux de restitution" },
-            ].map((stat, i) => (
+            {STATS_INLINE.map((stat, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div style={{ padding: '16px 8px' }}>
                   <div style={{ fontFamily: SERIF, fontSize: 42, fontWeight: 700, color: C.primary, marginBottom: 6 }}>{stat.value}</div>

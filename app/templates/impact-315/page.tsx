@@ -46,12 +46,24 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: "4 200+", label: "Ménages réalisés", icon: <Home size={24} /> },
+              { value: "98%", label: "Clients satisfaits", icon: <ThumbsUp size={24} /> },
+              { value: "100%", label: "Personnel déclaré", icon: <Shield size={24} /> },
+              { value: "2 min", label: "Réservation en ligne", icon: <Zap size={24} /> }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Les engagements affichés à côté du texte « à propos ». Écrits en dur dans le
 // rendu jusqu'ici : le client pouvait les saisir, le thème ne les lisait pas.
@@ -307,6 +319,22 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -617,12 +645,7 @@ export default function Page() {
             gap: 40,
             textAlign: 'center',
           }}>
-            {[
-              { value: "4 200+", label: "Ménages réalisés", icon: <Home size={24} /> },
-              { value: "98%", label: "Clients satisfaits", icon: <ThumbsUp size={24} /> },
-              { value: "100%", label: "Personnel déclaré", icon: <Shield size={24} /> },
-              { value: "2 min", label: "Réservation en ligne", icon: <Zap size={24} /> },
-            ].map((stat, i) => (
+            {STATS_INLINE.map((stat, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div style={{ padding: '16px 8px' }}>
                   <div style={{ color: C.primary, marginBottom: 12, display: 'flex', justifyContent: 'center' }}>{stat.icon}</div>

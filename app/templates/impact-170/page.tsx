@@ -18,14 +18,26 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
+let fd: any = null;
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { label: "email", value: (fd?.email ?? "rafael@moreau.dev") },
+                { label: "linkedin", value: "/in/rafael-moreau" },
+                { label: "github", value: "@rafael-moreau" },
+                { label: "location", value: "Paris, France (remote OK)" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
-let fd: any = null;
 let c: any = null;
 let brand: any = null;
 
@@ -949,6 +961,22 @@ export default function Impact170Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   c = session?.generatedContent;
 
@@ -1898,12 +1926,7 @@ export default function Impact170Page() {
             </p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {[
-                { label: "email", value: (fd?.email ?? "rafael@moreau.dev") },
-                { label: "linkedin", value: "/in/rafael-moreau" },
-                { label: "github", value: "@rafael-moreau" },
-                { label: "location", value: "Paris, France (remote OK)" },
-              ].map((item) => (
+              {STATS_INLINE.map((item) => (
                 <div
                   key={item.label}
                   style={{

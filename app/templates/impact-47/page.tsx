@@ -40,6 +40,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -48,6 +49,17 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { val: "12 ans", label: "d'expérience" },
+            { val: "4,000+", label: "arrangements créés" },
+            { val: "98%", label: "clients satisfaits" },
+            { val: "350+", label: "mariages floraux" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -117,12 +129,7 @@ function HeroSection() {
           transition={{ delay: 1.2 }}
           style={{ display: "flex", gap: 40, justifyContent: "flex-start", marginTop: 64, flexWrap: "wrap" as const }}
         >
-          {[
-            { val: "12 ans", label: "d'expérience" },
-            { val: "4,000+", label: "arrangements créés" },
-            { val: "98%", label: "clients satisfaits" },
-            { val: "350+", label: "mariages floraux" },
-          ].map((s) => (
+          {STATS_INLINE.map((s) => (
             <div key={s.label} style={{ textAlign: "center" as const }}>
               <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 28, fontWeight: 700, color: C.accent }}>{s.val}</div>
               <div style={{ fontFamily: "'Poppins', system-ui", fontSize: 12, color: C.textMuted, marginTop: 4 }}>{s.label}</div>
@@ -594,6 +601,22 @@ export default function FloristHome() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;

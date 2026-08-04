@@ -49,9 +49,35 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  {
+                      label: "Hydration Ratio",
+                      val: 82,
+                      suffix: "%",
+                      desc: "Maximizing crumb elasticity through high-hydration dough processing.",
+                    },
+                    {
+                      label: "Cold Fermentation",
+                      val: 48,
+                      suffix: " HR",
+                      desc: "Slow enzymatic breakdown for optimal digestibility and complex flavor profile.",
+                    },
+                    {
+                      label: "Bake Temperature",
+                      val: 265,
+                      suffix: " °C",
+                      desc: "Intense heat burst for maximum oven spring and thin, glass-like crust.",
+                    }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -266,6 +292,22 @@ export default function BoulangerieNoirePage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   c = session?.generatedContent;
 
@@ -562,26 +604,7 @@ export default function BoulangerieNoirePage() {
                 </>}</p>
 
                 <div className="space-y-10">
-                  {[
-                    {
-                      label: "Hydration Ratio",
-                      val: 82,
-                      suffix: "%",
-                      desc: "Maximizing crumb elasticity through high-hydration dough processing.",
-                    },
-                    {
-                      label: "Cold Fermentation",
-                      val: 48,
-                      suffix: " HR",
-                      desc: "Slow enzymatic breakdown for optimal digestibility and complex flavor profile.",
-                    },
-                    {
-                      label: "Bake Temperature",
-                      val: 265,
-                      suffix: " °C",
-                      desc: "Intense heat burst for maximum oven spring and thin, glass-like crust.",
-                    },
-                  ].map((item, i) => (
+                  {STATS_INLINE.map((item, i) => (
                     <div
                       key={i}
                       className="group border-l border-stone-900 pl-8 hover:border-white transition-all"

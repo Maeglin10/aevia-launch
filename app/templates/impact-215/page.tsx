@@ -20,6 +20,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 
@@ -27,6 +28,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: '4 200+', label: 'Clients satisfaits' },
+                { value: '48h',    label: 'Livraison express' },
+                { value: '5 ans',  label: 'Garantie SAV' }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -1822,6 +1833,22 @@ export default function FlammeEtCoPage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
@@ -2299,11 +2326,7 @@ export default function FlammeEtCoPage() {
                 margin: '0 auto',
               }}
             >
-              {[
-                { value: '4 200+', label: 'Clients satisfaits' },
-                { value: '48h',    label: 'Livraison express' },
-                { value: '5 ans',  label: 'Garantie SAV' },
-              ].map((stat, idx) => (
+              {STATS_INLINE.map((stat, idx) => (
                 <div
                   key={idx}
                   style={{

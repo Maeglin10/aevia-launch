@@ -36,9 +36,21 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { val: "2016", label: "Fondé à Beaune" },
+            { val: "480+", label: "Pièces vendues" },
+            { val: "100%", label: "Fait main" },
+            { val: "4.9★", label: "Note moyenne" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -1041,6 +1053,22 @@ export default function ArtisanMinimalPage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
@@ -1647,12 +1675,7 @@ return (
             gap: 32,
           }}
         >
-          {[
-            { val: "2016", label: "Fondé à Beaune" },
-            { val: "480+", label: "Pièces vendues" },
-            { val: "100%", label: "Fait main" },
-            { val: "4.9★", label: "Note moyenne" },
-          ].map((s) => (
+          {STATS_INLINE.map((s) => (
             <StatItem key={s.label} val={s.val} label={s.label} />
           ))}
         </div>

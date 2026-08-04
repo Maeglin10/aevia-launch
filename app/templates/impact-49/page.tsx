@@ -55,9 +55,25 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  {
+                      value: "200+",
+                      label: "Entreprises clientes",
+                      color: "#6366F1",
+                    },
+                    { value: "89%", label: "Taux de rétention", color: "#10B981" },
+                    { value: "4.2×", label: "ROI moyen", color: "#F59E0B" },
+                    { value: "-34%", label: "Turnover constaté", color: "#EF4444" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -119,6 +135,22 @@ export default function Impact49Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   c = session?.generatedContent;
 
@@ -640,16 +672,7 @@ return (
             <Reveal delay={0.2}>
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                  {[
-                    {
-                      value: "200+",
-                      label: "Entreprises clientes",
-                      color: "#6366F1",
-                    },
-                    { value: "89%", label: "Taux de rétention", color: "#10B981" },
-                    { value: "4.2×", label: "ROI moyen", color: "#F59E0B" },
-                    { value: "-34%", label: "Turnover constaté", color: "#EF4444" },
-                  ].map((stat) => (
+                  {STATS_INLINE.map((stat) => (
                     <div
                       key={stat.label}
                       className="p-6 rounded-2xl bg-[#F9FAFB] border border-[#F3F4F6] text-center"

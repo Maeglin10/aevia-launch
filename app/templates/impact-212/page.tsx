@@ -22,6 +22,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -33,6 +34,16 @@ import {
 let brand: any = null;
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { val: '3 200+', label: 'Installations' },
+                { val: '15 ans', label: 'D\'expérience' },
+                { val: '< 2h',   label: 'Intervention urgence' }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -682,6 +693,22 @@ export default function ThermaProPage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -1197,11 +1224,7 @@ return (
                 overflow: 'hidden', border: `1px solid ${C.border}`,
               }}
             >
-              {[
-                { val: '3 200+', label: 'Installations' },
-                { val: '15 ans', label: 'D\'expérience' },
-                { val: '< 2h',   label: 'Intervention urgence' },
-              ].map(s => (
+              {STATS_INLINE.map(s => (
                 <div key={s.label} style={{ background: C.bgCard, padding: '1.25rem', textAlign: 'center' }}>
                   <div style={{
                     fontFamily: "'Barlow Condensed', sans-serif",

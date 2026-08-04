@@ -26,11 +26,22 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTagline,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { label: 'Revenu', val: '€48,2k', up: '+12%' },
+            { label: 'Utilisateurs', val: '9,841', up: '+8%' },
+            { label: 'Conversion', val: '4,7%', up: '+1,2pt' }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -265,11 +276,7 @@ function DashboardMockup() {
       <div style={{ padding: 22, display: 'grid', gap: 18 }}>
         {/* KPI row */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
-          {[
-            { label: 'Revenu', val: '€48,2k', up: '+12%' },
-            { label: 'Utilisateurs', val: '9,841', up: '+8%' },
-            { label: 'Conversion', val: '4,7%', up: '+1,2pt' },
-          ].map((k, i) => (
+          {STATS_INLINE.map((k, i) => (
             <motion.div
               key={k.label}
               initial={{ opacity: 0, y: 10 }}
@@ -1268,6 +1275,22 @@ export default function Impact219Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;

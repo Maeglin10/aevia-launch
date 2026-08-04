@@ -40,6 +40,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 
@@ -47,6 +48,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { val: "320+", label: "Mariages organisés" },
+                { val: "12", label: "Années d'expérience" },
+                { val: "100%", label: "Couples heureux" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -456,6 +467,22 @@ export default function Impact200Page() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
@@ -785,11 +812,7 @@ export default function Impact200Page() {
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1.1 }}
             >
-              {[
-                { val: "320+", label: "Mariages organisés" },
-                { val: "12", label: "Années d'expérience" },
-                { val: "100%", label: "Couples heureux" },
-              ].map((stat) => (
+              {STATS_INLINE.map((stat) => (
                 <div key={stat.label}>
                   <p
                     className="text-3xl text-[var(--brand,#DB2777)] font-semibold"
