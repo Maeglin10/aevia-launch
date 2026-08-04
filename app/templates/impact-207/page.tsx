@@ -111,10 +111,10 @@ let HUBS = HUBS_LIVE();
 // Routes: pairs of hub keys
 function ROUTES_LIVE() {
   return [
-  [(clientCity(sessionData) ?? "Paris"), "rotterdam"],
-  [(clientCity(sessionData) ?? "Paris"), "dubai"],
+  ["paris", "rotterdam"],
+  ["paris", "dubai"],
   ["dubai", "singapore"],
-  ["chicago", (clientCity(sessionData) ?? "Paris")],
+  ["chicago", "paris"],
   ["chicago", "saopaulo"],
   ["singapore", "dubai"],
 ];

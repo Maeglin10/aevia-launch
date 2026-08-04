@@ -117,6 +117,13 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
         if (!"[,:".includes(avantChar)) return m0;
         if (apresChar && !"],}".includes(apresChar)) return m0;
         if (valeur.includes("${") || !motCle.test(valeur)) return m0;
+        /*
+          Une chaîne qui n'est QUE le nom de la ville en minuscules est une clé
+          de recherche, pas un texte : `ROUTES = [["paris", "dubai"]]` sert à
+          lire `HUBS["paris"]`, et la remplacer par la ville du client fait
+          chercher une entrée qui n'existe pas — impact-207 plantait ainsi.
+        */
+        if (valeur.trim() === ville.toLowerCase()) return m0;
         const morceaux = valeur.split(new RegExp(motCle.source, "i"));
         if (morceaux.some(finitParBarre)) return m0;
         k++;
