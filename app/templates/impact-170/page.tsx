@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -107,7 +108,7 @@ const TIMELINE = [
   },
 ];
 
-const PROJECTS = [
+const PROJECTS_SOURCE = [
   {
     name: "Arkéo Platform",
     status: "production",
@@ -145,6 +146,7 @@ const PROJECTS = [
     color: C.cyan,
   },
 ];
+let PROJECTS = PROJECTS_SOURCE;
 
 const OPEN_SOURCE = [
   { repo: "vercel/next.js", contribution: "Fix: RSC streaming avec headers customs", pr: "#58291", merged: true },
@@ -943,6 +945,10 @@ export default function Impact170Page() {
   }, []);
 
   fd = session?.formData;
+  PROJECTS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PROJECTS_SOURCE[i % PROJECTS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
+    PROJECTS_SOURCE,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

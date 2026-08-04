@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -53,7 +54,7 @@ const TARIFS = [
   { f: "Duo", p: "45 €/personne", n: "À deux, même niveau souhaitable. Créneaux du soir uniquement." },
 ];
 
-const PROGRAMMES = [
+const PROGRAMMES_SOURCE = [
   { icon: Target, title: "Coaching privatif", desc: "Séances 1-on-1, 60 ou 90 minutes. Programme sur mesure selon vos objectifs : perte de poids, prise de masse, endurance, rééducation." },
   { icon: Zap, title: "Bootcamp intensif", desc: "Séances groupe de 4 max, HIIT, circuits training, cardio-renforcement. L'efficacité du collectif avec le suivi du coaching individuel." },
   { icon: TrendingUp, title: "Bilan & suivi mensuel", desc: "Composition corporelle, VO2max, tests force. Tableau de bord personnel, courbes de progression, ajustements de programme chaque mois." },
@@ -61,6 +62,7 @@ const PROGRAMMES = [
   { icon: Dumbbell, title: "Prépa compétition", desc: "Préparation physique spécifique à votre discipline (run, CrossFit, triathlon, tennis). Périodisation, pic de forme, stratégie de course." },
   { icon: Users, title: "Coaching en ligne", desc: "Programme 100% digital, suivi via app dédiée, vidéos explicatives, check-in hebdo en visio. Pour les voyageurs et profils full remote." },
 ]
+let PROGRAMMES = PROGRAMMES_SOURCE;
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -95,6 +97,10 @@ export default function MaxPerformancePage() {
   }, []);
 
   fd = session?.formData;
+  PROGRAMMES = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PROGRAMMES_SOURCE[i % PROGRAMMES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    PROGRAMMES_SOURCE,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

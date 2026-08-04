@@ -123,12 +123,13 @@ const TREATMENTS_DEMO = [
   },
 ]
 
-const SCIENCE = [
+const SCIENCE_SOURCE = [
   { icon: FlaskConical, title: "Protocoles validés", desc: "Tous nos traitements reposent sur des études cliniques de niveau 1 et des recommandations de sociétés savantes (SFML, SFD)." },
   { icon: Shield, title: "Produits CE médical", desc: "Nous utilisons exclusivement des produits homologués CE et FDA, approvisionnés directement auprès des laboratoires." },
   { icon: Microscope, title: "Matériel de pointe", desc: "Lasers médicaux Alma, Quanta et Cynosure. Maintenance certifiée, calibrage semestriel par les constructeurs." },
   { icon: Award, title: "Formation continue", desc: "Nos praticiens se forment chaque année aux congrès IMCAS (Paris), AMWC (Monaco) et AAD (USA)." },
 ]
+let SCIENCE = SCIENCE_SOURCE;
 
 const FAQ_ITEMS_DEMO = [
   {
@@ -776,6 +777,10 @@ export default function LumiereCliniquePage() {
   }, []);
 
   fd = session?.formData;
+  SCIENCE = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SCIENCE_SOURCE[i % SCIENCE_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    SCIENCE_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

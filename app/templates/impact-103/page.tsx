@@ -98,11 +98,12 @@ const EXPERTISE_DEMO = [
 ]
 let EXPERTISE = EXPERTISE_DEMO;
 
-const PARTNERS_DEMO = [
+const PARTNERS_DEMO_SOURCE = [
   { name: "Julian Thorne", role: "Managing Partner", focus: "Global Litigation", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800" },
   { name: "Elena Rossi", role: "Senior Partner", focus: "M&A / Private Equity", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" },
   { name: "Marcus Vane", role: "Senior Partner", focus: "International Law", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=800" },
 ]
+let PARTNERS_DEMO = PARTNERS_DEMO_SOURCE;
 let PARTNERS = PARTNERS_DEMO;
 
 
@@ -138,6 +139,10 @@ export default function LuminaLawPage() {
   }, []);
 
   fd = session?.formData;
+  PARTNERS_DEMO = resolveList(
+    clientTeam(session)?.map((m: any, i: number) => ({ ...PARTNERS_DEMO_SOURCE[i % PARTNERS_DEMO_SOURCE.length], name: m.name, role: m.role })),
+    PARTNERS_DEMO_SOURCE,
+  );
 
   AVIS_INLINE = resolveList(
 

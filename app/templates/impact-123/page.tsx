@@ -11,6 +11,7 @@ import {
   clientCity,
   clientName,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -62,12 +63,13 @@ const MODELS_DEMO = [
   { name: "Apex Track", year: "2024", topSpeed: "340 km/h", power: "900 hp", img: "https://images.pexels.com/photos/11189630/pexels-photo-11189630.jpeg?auto=compress&cs=tinysrgb&w=1200" },
 ]
 
-const SPECS = [
+const SPECS_SOURCE = [
   { label: "0-100 km/h", value: "2.1s" },
   { label: "Lateral G", value: "1.8G" },
   { label: "Weight", value: "1,240kg" },
   { label: "Aero Downforce", value: "800kg" },
 ]
+let SPECS = SPECS_SOURCE;
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -103,6 +105,10 @@ export default function VulcanMotorsPage() {
   }, []);
 
   fd = session?.formData;
+  SPECS = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...SPECS_SOURCE[i % SPECS_SOURCE.length], value: s.value, label: s.label })),
+    SPECS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

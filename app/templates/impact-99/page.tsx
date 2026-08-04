@@ -4,6 +4,7 @@ import {
   clientCity,
   clientName,
   clientPhotos,
+  clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -79,7 +80,7 @@ const NAV_PAGES: { key: EmberPage; label: string }[] = [
    DATA STRUCTURES
    ========================================================================= */
 
-const MENU_HIGHLIGHTS_DEMO = [
+const MENU_HIGHLIGHTS_DEMO_SOURCE = [
   {
     id: 1,
     name: "Dry-Aged Wagyu",
@@ -105,9 +106,10 @@ const MENU_HIGHLIGHTS_DEMO = [
     img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80",
   },
 ];
+let MENU_HIGHLIGHTS_DEMO = MENU_HIGHLIGHTS_DEMO_SOURCE;
 let MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_DEMO;
 
-const PHILOSOPHY = [
+const PHILOSOPHY_SOURCE = [
   {
     title: "The Fire Lab",
     desc: "We utilize three distinct wood types—Hickory, Cherry, and Oak—to create a complex smoke profile unique to every cut.",
@@ -124,6 +126,7 @@ const PHILOSOPHY = [
     icon: ChefHat,
   },
 ];
+let PHILOSOPHY = PHILOSOPHY_SOURCE;
 
 const STATS_SOURCE = [
   { label: "Wood Species", value: "3" },
@@ -1087,6 +1090,14 @@ export default function EmberGrillPage() {
   }, []);
 
   fd = session?.formData;
+  MENU_HIGHLIGHTS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...MENU_HIGHLIGHTS_DEMO_SOURCE[i % MENU_HIGHLIGHTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? MENU_HIGHLIGHTS_DEMO_SOURCE[i % MENU_HIGHLIGHTS_DEMO_SOURCE.length].price })),
+    MENU_HIGHLIGHTS_DEMO_SOURCE,
+  );
+  PHILOSOPHY = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    PHILOSOPHY_SOURCE,
+  );
 
   STATS = resolveList(
 

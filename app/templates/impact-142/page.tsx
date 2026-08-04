@@ -13,6 +13,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -56,25 +57,28 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const IMPACT = [
+const IMPACT_SOURCE = [
   { value: "2.4M", label: "Tons CO₂ Offset", icon: Leaf },
   { value: "180K", label: "Trees Planted", icon: TreePine },
   { value: "94%", label: "Waste Diverted", icon: Recycle },
   { value: "12", label: "Countries Active", icon: Globe },
 ]
+let IMPACT = IMPACT_SOURCE;
 
-const PROGRAMS_DEMO = [
+const PROGRAMS_DEMO_SOURCE = [
   { icon: TreePine, title: "Reforestation", desc: "Large-scale tree planting programs in deforested regions with indigenous community partnerships.", img: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=800" },
   { icon: Droplets, title: "Ocean Cleanup", desc: "AI-guided autonomous systems removing plastic from waterways before it reaches open ocean.", img: "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&q=80&w=800" },
   { icon: Sun, title: "Clean Energy", desc: "Community solar installations providing renewable energy to underserved populations.", img: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=800" },
 ]
+let PROGRAMS_DEMO = PROGRAMS_DEMO_SOURCE;
 let PROGRAMS = PROGRAMS_DEMO;
 
-const PLANS = [
+const PLANS_SOURCE = [
   { name: "Individual", price: "$9", desc: "Personal carbon offset subscription.", features: ["Monthly CO₂ offset", "Impact dashboard", "Quarterly reports", "Community access"] },
   { name: "Business", price: "$99", desc: "For companies serious about sustainability.", features: ["Team offsetting", "Sustainability badges", "API access", "Custom reports", "Priority support"], popular: true },
   { name: "Enterprise", price: "Custom", desc: "Full-scale corporate sustainability.", features: ["Unlimited seats", "White-label reports", "ESG integration", "Dedicated advisor", "Carbon audit"] },
 ]
+let PLANS = PLANS_SOURCE;
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -109,6 +113,18 @@ export default function VerdantImpactPage() {
   }, []);
 
   fd = session?.formData;
+  IMPACT = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...IMPACT_SOURCE[i % IMPACT_SOURCE.length], value: s.value, label: s.label })),
+    IMPACT_SOURCE,
+  );
+  PROGRAMS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PROGRAMS_DEMO_SOURCE[i % PROGRAMS_DEMO_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    PROGRAMS_DEMO_SOURCE,
+  );
+  PLANS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    PLANS_SOURCE,
+  );
 
   AVIS_INLINE = resolveList(
 

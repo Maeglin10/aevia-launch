@@ -65,7 +65,7 @@ const TICKER_ITEMS = [
   { sym: "BNB/USD", price: "568.22",    change: "+0.99%", up: true },
 ];
 
-const MARKET_CARDS = [
+const MARKET_CARDS_SOURCE = [
   { sym: "BTC", name: "Bitcoin",  price: "67,240.50", change: "+2.14%", vol: "$42.1B", cap: "$1.32T", up: true,  sparkline: "M0,30 C8,28 16,12 24,18 S40,8 48,5 S64,14 72,10 S84,6 96,2" },
   { sym: "ETH", name: "Ethereum", price: "3,521.88",  change: "+1.73%", vol: "$18.4B", cap: "$423B",  up: true,  sparkline: "M0,28 C8,32 16,20 24,22 S40,15 48,18 S64,10 72,8 S84,4 96,2" },
   { sym: "SOL", name: "Solana",   price: "172.44",    change: "+5.22%", vol: "$6.8B",  cap: "$78B",   up: true,  sparkline: "M0,35 C8,30 16,18 24,24 S40,12 48,6 S64,8 72,4 S84,2 96,1" },
@@ -73,13 +73,15 @@ const MARKET_CARDS = [
   { sym: "DOT", name: "Polkadot", price: "8.142",     change: "-1.24%", vol: "$0.4B",  cap: "$11B",   up: false, sparkline: "M0,10 C8,14 16,22 24,18 S40,28 48,32 S64,38 72,42 S84,44 96,48" },
   { sym: "LINK", name: "Chainlink",price: "18.52",    change: "+4.07%", vol: "$1.1B",  cap: "$11B",   up: true,  sparkline: "M0,40 C8,34 16,20 24,28 S40,14 48,8 S64,12 72,6 S84,3 96,0" },
 ];
+let MARKET_CARDS = MARKET_CARDS_SOURCE;
 
-const PORTFOLIO_DATA = [
+const PORTFOLIO_DATA_SOURCE = [
   { label: "Jan", val: 48 }, { label: "Feb", val: 55 }, { label: "Mar", val: 42 },
   { label: "Apr", val: 70 }, { label: "May", val: 65 }, { label: "Jun", val: 88 },
   { label: "Jul", val: 78 }, { label: "Aug", val: 95 }, { label: "Sep", val: 82 },
   { label: "Oct", val: 110 },{ label: "Nov", val: 98 }, { label: "Dec", val: 128 },
 ];
+let PORTFOLIO_DATA = PORTFOLIO_DATA_SOURCE;
 
 const FEATURES_SOURCE = [
   {
@@ -148,7 +150,7 @@ const TESTIMONIALS_SOURCE = [
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
-const PLANS = [
+const PLANS_SOURCE = [
   {
     name: "Retail",
     price: "$79",
@@ -199,6 +201,7 @@ const PLANS = [
     cta: "Contact sales",
   },
 ];
+let PLANS = PLANS_SOURCE;
 
 const STATS_DEMO = [
   { val: "$2.8T", label: "Volume processed/year" },
@@ -1033,6 +1036,18 @@ export default function Impact135Page() {
   }, []);
 
   fd = session?.formData;
+  MARKET_CARDS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...MARKET_CARDS_SOURCE[i % MARKET_CARDS_SOURCE.length], name: s.title, price: s.price ?? MARKET_CARDS_SOURCE[i % MARKET_CARDS_SOURCE.length].price })),
+    MARKET_CARDS_SOURCE,
+  );
+  PORTFOLIO_DATA = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...PORTFOLIO_DATA_SOURCE[i % PORTFOLIO_DATA_SOURCE.length], val: s.value, label: s.label })),
+    PORTFOLIO_DATA_SOURCE,
+  );
+  PLANS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    PLANS_SOURCE,
+  );
   FEATURES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
     FEATURES_SOURCE,

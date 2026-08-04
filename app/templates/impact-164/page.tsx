@@ -221,7 +221,7 @@ const TESTIMONIALS_SOURCE = [
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
-const PLANS = [
+const PLANS_SOURCE = [
   {
     name: "Lancement",
     price: "8 900 €",
@@ -268,6 +268,7 @@ const PLANS = [
     highlight: false,
   },
 ];
+let PLANS = PLANS_SOURCE;
 
 const FAQS_DEMO = [
   {
@@ -349,6 +350,10 @@ export default function BureauPage() {
   }, []);
 
   fd = session?.formData;
+  PLANS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    PLANS_SOURCE,
+  );
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

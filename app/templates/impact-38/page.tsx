@@ -25,6 +25,7 @@ import {
   clientCity,
   clientName,
   clientReviews,
+  clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
 
@@ -299,12 +300,13 @@ const PROCESS_TIMELINE = [
   },
 ];
 
-const SUBSCRIPTION_HIGHLIGHTS = [
+const SUBSCRIPTION_HIGHLIGHTS_SOURCE = [
   { icon: Leaf, title: "Torréfié à la commande", desc: "Votre café part à la torréfaction dès que votre commande est confirmée. Jamais de stock dormant." },
   { icon: Award, title: "Sélection curative mensuelle", desc: "Notre torréfacteur sélectionne chaque mois les meilleurs lots disponibles dans notre portefeuille." },
   { icon: Heart, title: "Pause & résiliation libres", desc: "Aucun engagement. Suspendez, sautez une livraison ou résiliez à tout moment depuis votre espace." },
   { icon: TrendingUp, title: "Économies progressives", desc: "Plus votre abonnement dure, plus vous bénéficiez de remises et d'accès prioritaire aux lots rares." },
 ];
+let SUBSCRIPTION_HIGHLIGHTS = SUBSCRIPTION_HIGHLIGHTS_SOURCE;
 
 const IMPACT_STATS_DEMO = [
   { value: "47", label: "Fermes partenaires", icon: Leaf },
@@ -766,6 +768,10 @@ export default function OriginRoastPage() {
   }, []);
 
   fd = session?.formData;
+  SUBSCRIPTION_HIGHLIGHTS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SUBSCRIPTION_HIGHLIGHTS_SOURCE[i % SUBSCRIPTION_HIGHLIGHTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    SUBSCRIPTION_HIGHLIGHTS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

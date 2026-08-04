@@ -22,6 +22,7 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -297,12 +298,13 @@ function buildPartners() {
   );
 }
 
-const TRUST_METRICS = [
+const TRUST_METRICS_SOURCE = [
   { value: 340, suffix: "+", label: "Attorneys Worldwide", decimals: 0 },
   { value: 98, suffix: "%", label: "Cases Won or Settled Favourably", decimals: 0 },
   { value: 60, suffix: "", label: "Countries — Active Mandates", decimals: 0 },
   { value: 127, suffix: "", label: "Years of Combined Partnership", decimals: 0 },
 ]
+let TRUST_METRICS = TRUST_METRICS_SOURCE;
 
 /* ==========================================================================
    1. EDITORIAL HERO TEXT REVEAL
@@ -2156,6 +2158,10 @@ export default function LegalFirmTemplate() {
   }, []);
 
   fd = session?.formData;
+  TRUST_METRICS = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...TRUST_METRICS_SOURCE[i % TRUST_METRICS_SOURCE.length], value: s.value, label: s.label })),
+    TRUST_METRICS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

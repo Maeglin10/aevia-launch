@@ -264,11 +264,12 @@ const TESTIMONIALS_SOURCE = [
 ];
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
-const PLANS = [
+const PLANS_SOURCE = [
   { name: "Essentiel", price: "49", unit: "/passage", features: ["2h de ménage", "Cuisine & sanitaires", "Aspiration & lavage sols", "Produits fournis"], popular: false },
   { name: "Confort", price: "89", unit: "/passage", features: ["3h30 de ménage", "Toutes pièces", "Repassage inclus (10 pièces)", "Vitres intérieures", "Produits éco fournis"], popular: true },
   { name: "Premium", price: "149", unit: "/passage", features: ["5h de ménage complet", "Toutes pièces + rangement", "Repassage illimité", "Vitres int. & ext.", "Nettoyage frigo/four", "Intervenante attitrée"], popular: false },
 ];
+let PLANS = PLANS_SOURCE;
 
 export default function Page() {
   const [session, setSession] = useState<{
@@ -299,6 +300,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  PLANS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    PLANS_SOURCE,
+  );
 
   ENGAGEMENTS = resolveList(clientCertifications(sessionData), ENGAGEMENTS_SOURCE);
 

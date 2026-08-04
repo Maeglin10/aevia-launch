@@ -33,6 +33,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -50,7 +51,7 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================= */
 
-const FLEET_DEMO = [
+const FLEET_DEMO_SOURCE = [
   {
     id: 1,
     name: "Global 7500",
@@ -82,9 +83,10 @@ const FLEET_DEMO = [
     desc: "Revolutionary comfort with the lowest cabin altitude in its class.",
   },
 ];
+let FLEET_DEMO = FLEET_DEMO_SOURCE;
 let FLEET = FLEET_DEMO;
 
-const VALUES = [
+const VALUES_SOURCE = [
   {
     icon: Clock,
     title: "Zero Wait Time",
@@ -106,13 +108,15 @@ const VALUES = [
     desc: "Charter a jet in as little as 4 hours. Our global fleet is always on standby for you.",
   },
 ];
+let VALUES = VALUES_SOURCE;
 
-const FLIGHT_LOGS = [
+const FLIGHT_LOGS_SOURCE = [
   { label: "Total Flights", value: "14,200+" },
   { label: "Countries Served", value: "120" },
   { label: "Fleet Availability", value: "99.8%" },
   { label: "Safety Rating", value: "Platinum" },
 ];
+let FLIGHT_LOGS = FLIGHT_LOGS_SOURCE;
 
 const NAV_LINKS = [
   { label: "Fleet", href: "#fleet" },
@@ -228,6 +232,18 @@ export default function VelocityJetsPage() {
   }, []);
 
   fd = session?.formData;
+  FLEET_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
+    FLEET_DEMO_SOURCE,
+  );
+  VALUES = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...VALUES_SOURCE[i % VALUES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    VALUES_SOURCE,
+  );
+  FLIGHT_LOGS = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...FLIGHT_LOGS_SOURCE[i % FLIGHT_LOGS_SOURCE.length], value: s.value, label: s.label })),
+    FLIGHT_LOGS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

@@ -167,12 +167,13 @@ function ShowreelModal({ onClose }: { onClose: () => void }) {
 }
 
 // ── Stats Bar ──────────────────────────────────────────────────────────────────
-const STATS = [
+const STATS_SOURCE = [
   { n: '5 ans', label: "d'existence" },
   { n: '80+', label: 'films livrés' },
   { n: '23', label: 'récompenses' },
   { n: '4', label: 'continents' },
 ];
+let STATS = STATS_SOURCE;
 
 // ── Clients ────────────────────────────────────────────────────────────────────
 const CLIENTS = ['Adidas', 'Apple', 'Vuitton', 'Spotify', 'Balenciaga', 'Hermès'];
@@ -206,6 +207,10 @@ export default function SkewOSHome() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...STATS_SOURCE[i % STATS_SOURCE.length], label: s.title, n: s.desc || "" || "" })),
+    STATS_SOURCE,
+  );
 
   STATS_INLINE = resolveList(
 

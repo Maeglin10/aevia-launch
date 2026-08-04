@@ -51,7 +51,7 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================= */
 
-const FLEET_DEMO = [
+const FLEET_DEMO_SOURCE = [
   {
     id: 1,
     name: "Azure Odyssey",
@@ -80,6 +80,7 @@ const FLEET_DEMO = [
     img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200&q=80",
   },
 ];
+let FLEET_DEMO = FLEET_DEMO_SOURCE;
 let FLEET = FLEET_DEMO;
 
 const DESTINATIONS_DEMO = [
@@ -218,6 +219,10 @@ export default function HorizonYachtPage() {
   }, []);
 
   fd = session?.formData;
+  FLEET_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length].price })),
+    FLEET_DEMO_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

@@ -55,11 +55,12 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PROPERTIES_DEMO = [
+const PROPERTIES_DEMO_SOURCE = [
   { name: "The Obsidian Penthouse", loc: "New York, NY", price: "$24,500,000", img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1200" },
   { name: "Azure Cliff Villa", loc: "Santorini, GR", price: "$12,800,000", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200" },
   { name: "Veridian Estate", loc: "Kyoto, JP", price: "$18,200,000", img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200" },
 ]
+let PROPERTIES_DEMO = PROPERTIES_DEMO_SOURCE;
 let PROPERTIES = PROPERTIES_DEMO;
 
 
@@ -95,6 +96,10 @@ export default function ArcaneRealtyPage() {
   }, []);
 
   fd = session?.formData;
+  PROPERTIES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length], name: s.title, price: s.price ?? PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length].price })),
+    PROPERTIES_DEMO_SOURCE,
+  );
 
   AVIS_INLINE = resolveList(
 

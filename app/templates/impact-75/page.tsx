@@ -30,6 +30,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -55,7 +56,7 @@ let brand: any = null;
    DATA
    ============================================================ */
 
-const HERO_PRODUCTS_DEMO = [
+const HERO_PRODUCTS_DEMO_SOURCE = [
   {
     id: 1,
     name: "Helix Noir",
@@ -87,9 +88,10 @@ const HERO_PRODUCTS_DEMO = [
     accent: "#1a3a5c",
   },
 ];
+let HERO_PRODUCTS_DEMO = HERO_PRODUCTS_DEMO_SOURCE;
 let HERO_PRODUCTS = HERO_PRODUCTS_DEMO;
 
-const PRODUCTS = [
+const PRODUCTS_SOURCE = [
   {
     id: 1,
     name: "Helix Noir",
@@ -139,8 +141,9 @@ const PRODUCTS = [
     category: "Grande Complication",
   },
 ];
+let PRODUCTS = PRODUCTS_SOURCE;
 
-const MATERIALS_DEMO = [
+const MATERIALS_DEMO_SOURCE = [
   {
     name: "Swiss Movement",
     subtitle: "ETA 2824-2 / In-house",
@@ -166,9 +169,10 @@ const MATERIALS_DEMO = [
     img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=800&auto=format&fit=crop",
   },
 ];
+let MATERIALS_DEMO = MATERIALS_DEMO_SOURCE;
 let MATERIALS = MATERIALS_DEMO;
 
-const BESTSELLERS_DEMO = [
+const BESTSELLERS_DEMO_SOURCE = [
   {
     name: "Meridian GMT",
     price: "€15 600",
@@ -206,6 +210,7 @@ const BESTSELLERS_DEMO = [
     ],
   },
 ];
+let BESTSELLERS_DEMO = BESTSELLERS_DEMO_SOURCE;
 let BESTSELLERS = BESTSELLERS_DEMO;
 
 const PUBLICATIONS = [
@@ -217,7 +222,7 @@ const PUBLICATIONS = [
   "GQ France",
 ];
 
-const GUARANTEES = [
+const GUARANTEES_SOURCE = [
   {
     icon: <Shield className="w-5 h-5" />,
     title: "5 ans de garantie",
@@ -239,6 +244,7 @@ const GUARANTEES = [
     desc: "Livraison en main propre par coursier sécurisé. Emballage signature coffret bois.",
   },
 ];
+let GUARANTEES = GUARANTEES_SOURCE;
 
 
 /* ============================================================
@@ -646,6 +652,26 @@ export default function OrbitAIPage() {
   }, []);
 
   fd = session?.formData;
+  HERO_PRODUCTS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length].price })),
+    HERO_PRODUCTS_DEMO_SOURCE,
+  );
+  PRODUCTS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title, price: s.price ?? PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length].price })),
+    PRODUCTS_SOURCE,
+  );
+  MATERIALS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...MATERIALS_DEMO_SOURCE[i % MATERIALS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
+    MATERIALS_DEMO_SOURCE,
+  );
+  BESTSELLERS_DEMO = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...BESTSELLERS_DEMO_SOURCE[i % BESTSELLERS_DEMO_SOURCE.length], val: s.value, label: s.label })),
+    BESTSELLERS_DEMO_SOURCE,
+  );
+  GUARANTEES = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...GUARANTEES_SOURCE[i % GUARANTEES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    GUARANTEES_SOURCE,
+  );
 
   FAQ_INLINE = resolveList(
 

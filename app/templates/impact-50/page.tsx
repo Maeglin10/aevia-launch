@@ -83,7 +83,7 @@ const SEANCES = [
   { n: "Supervision de professionnels", p: "95 €", d: "1 h, en individuel ou en petit groupe. Sur rendez-vous, en journée." },
 ];
 
-const ACCOMPAGNEMENTS = [
+const ACCOMPAGNEMENTS_SOURCE = [
   { titre: "Anxiété & troubles du stress", desc: "Prise en charge des troubles anxieux généralisés, phobies, TOC, stress post-traumatique et crises de panique. Protocoles TCC et EMDR.", tag: "Anxiété" },
   { titre: "Dépression & burnout", desc: "Accompagnement des épisodes dépressifs, épuisement professionnel et crises existentielles. Thérapie centrée sur la personne et activation comportementale.", tag: "Dépression" },
   { titre: "Thérapie de couple", desc: "Gestion des conflits, communication non-violente, infidélité, séparation. Séances individuelles ou en couple selon les besoins.", tag: "Couple" },
@@ -91,6 +91,7 @@ const ACCOMPAGNEMENTS = [
   { titre: "Deuil & transitions de vie", desc: "Perte d'un être cher, divorce, licenciement, retraite, déménagement. Accompagnement pour traverser et dépasser les grandes transitions.", tag: "Deuil" },
   { titre: "Développement personnel", desc: "Confiance en soi, assertivité, gestion des émotions, pleine conscience. Pour ceux qui vont bien et souhaitent aller encore mieux.", tag: "Bien-être" },
 ]
+let ACCOMPAGNEMENTS = ACCOMPAGNEMENTS_SOURCE;
 
 const APPROCHE = [
   "Thérapies validées scientifiquement : TCC, EMDR, pleine conscience",
@@ -168,6 +169,10 @@ export default function CabinetMoreauPage() {
   }, []);
 
   fd = session?.formData;
+  ACCOMPAGNEMENTS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...ACCOMPAGNEMENTS_SOURCE[i % ACCOMPAGNEMENTS_SOURCE.length], titre: s.title, desc: s.desc || "" || "" })),
+    ACCOMPAGNEMENTS_SOURCE,
+  );
   AVIS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
     AVIS_SOURCE,

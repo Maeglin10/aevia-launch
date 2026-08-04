@@ -61,11 +61,12 @@ const TREATMENTS_SOURCE = [
 ]
 let TREATMENTS = TREATMENTS_SOURCE;
 
-const PHILOSOPHY = [
+const PHILOSOPHY_SOURCE = [
   { icon: Wind, title: "Mindfulness", text: "Quiet the external noise to hear your inner voice." },
   { icon: Leaf, title: "Organic Purity", text: "100% natural, ethically sourced botanical ingredients." },
   { icon: Droplets, title: "Elemental Flow", text: "Harnessing water and heat for biological restoration." },
 ]
+let PHILOSOPHY = PHILOSOPHY_SOURCE;
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -100,6 +101,10 @@ export default function OasisWellnessPage() {
   }, []);
 
   fd = session?.formData;
+  PHILOSOPHY = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length], title: s.title, text: s.desc || "" || "" })),
+    PHILOSOPHY_SOURCE,
+  );
 
   AVIS_INLINE = resolveList(
 

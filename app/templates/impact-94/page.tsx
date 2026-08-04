@@ -130,7 +130,7 @@ const ARRANGEMENTS_DEMO = [
   },
 ]
 
-const EVENTS = [
+const EVENTS_SOURCE = [
   {
     icon: Heart,
     title: "Mariage",
@@ -150,6 +150,7 @@ const EVENTS = [
     features: ["Thématisation complète", "Fleurs de saison", "Accord olfactif", "Suivi personnalisé"],
   },
 ]
+let EVENTS = EVENTS_SOURCE;
 
 const ATELIER_STEPS = [
   {
@@ -435,6 +436,10 @@ export default function Impact94Page() {
   }, []);
 
   fd = session?.formData;
+  EVENTS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EVENTS_SOURCE[i % EVENTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    EVENTS_SOURCE,
+  );
   bp = session?.businessProfile;
   sessionData = session;
   TESTIMONIALS_DEMO = resolveList(

@@ -36,6 +36,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1189,7 +1190,7 @@ function Collections() {
 
 // ─── CRAFTSMANSHIP EDITORIAL ──────────────────────────────────────────────────
 
-const EDITORIAL_ROWS = [
+const EDITORIAL_ROWS_SOURCE = [
   {
     img: IMGS.editorial2,
     label: 'Finitions',
@@ -1204,7 +1205,8 @@ const EDITORIAL_ROWS = [
     text: "Notre fonderie interne élabore des alliages exclusifs depuis 1912. Le laiton utilisé pour nos platines est enrichi de bismuth pour améliorer l\'usinabilité à l\'échelle micronique. Une propriété de la maison que personne n\'a réussi à reproduire.",
     side: 'right' as const,
   },
-] as const;
+];
+let EDITORIAL_ROWS = EDITORIAL_ROWS_SOURCE;
 
 function EditorialRow({
   row,
@@ -1331,7 +1333,7 @@ function CraftsmanshipEditorial() {
 
 // ─── STICKY-SIDE SPECS ───────────────────────────────────────────────────────
 
-const SPECS = [
+const SPECS_SOURCE = [
   { label: 'Mouvement', value: 'Calibre HV-190A — Manufacture exclusive' },
   { label: 'Fréquence', value: '28 800 alt/h (4 Hz)' },
   { label: 'Réserve de marche', value: '72 heures minimum' },
@@ -1341,7 +1343,8 @@ const SPECS = [
   { label: 'Verre', value: 'Saphir anti-reflet double face' },
   { label: 'Bracelet', value: 'Alligator Louisiana — boucle déployante or 18ct' },
   { label: 'Finition', value: '37 étapes manuelles — 6 semaines d\'atelier' },
-] as const;
+];
+let SPECS = SPECS_SOURCE;
 
 function StickySpecs() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -2365,6 +2368,14 @@ export default function HoraVivaPage() {
   }, []);
 
   fd = session?.formData;
+  EDITORIAL_ROWS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDITORIAL_ROWS_SOURCE[i % EDITORIAL_ROWS_SOURCE.length], title: s.title, text: s.desc || "" || "" })),
+    EDITORIAL_ROWS_SOURCE,
+  );
+  SPECS = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...SPECS_SOURCE[i % SPECS_SOURCE.length], value: s.value, label: s.label })),
+    SPECS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

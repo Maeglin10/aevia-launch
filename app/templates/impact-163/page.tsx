@@ -13,6 +13,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -136,7 +137,7 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const AUTHORS = [
+const AUTHORS_SOURCE = [
   {
     name: "Marc Delacroix",
     role: "Ex-VP Growth, Spendr",
@@ -170,6 +171,7 @@ const AUTHORS = [
     color: "#D97706",
   },
 ];
+let AUTHORS = AUTHORS_SOURCE;
 
 const TESTIMONIALS_SOURCE = [
   {
@@ -218,7 +220,7 @@ const TESTIMONIALS_SOURCE = [
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
-const PLANS = [
+const PLANS_SOURCE = [
   {
     name: "Gratuit",
     price: "0",
@@ -264,6 +266,7 @@ const PLANS = [
     featured: false,
   },
 ];
+let PLANS = PLANS_SOURCE;
 
 const FAQS_DEMO = [
   {
@@ -360,6 +363,14 @@ export default function EssentialBlogPage() {
   }, []);
 
   fd = session?.formData;
+  AUTHORS = resolveList(
+    clientTeam(session)?.map((m: any, i: number) => ({ ...AUTHORS_SOURCE[i % AUTHORS_SOURCE.length], name: m.name, role: m.role })),
+    AUTHORS_SOURCE,
+  );
+  PLANS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    PLANS_SOURCE,
+  );
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,

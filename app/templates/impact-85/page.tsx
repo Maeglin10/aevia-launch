@@ -13,6 +13,7 @@ import {
   clientFaq,
   clientName,
   clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -55,12 +56,13 @@ const PRODUCTS_DEMO = [
   { id: "protect", name: "Photon SPF 50+", tagline: "Protection ultime", desc: "SPF 50+ UVA/UVB, filtres minéraux nano, niacinamide 4%, vitamine E. Fini invisible, compatible sous le maquillage.", price: "58 €", volume: "50 ml", score: 99, image: "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&q=80", badges: ["SPF 50+", "Reef safe"] },
 ]
 
-const INGREDIENTS = [
+const INGREDIENTS_SOURCE = [
   { name: "Vita-C encapsulé", origin: "Synthèse biotechnologique", icon: FlaskConical, desc: "Vitamine C stable à 15%, délivrée en microcapsules pour une efficacité maximale et une oxydation nulle." },
   { name: "Bakuchiol certifié", origin: "Psoralea corylifolia · Inde", icon: Leaf, desc: "Alternative botanique au rétinol cliniquement prouvée. Anti-âge sans irritation, compatible grossesse." },
   { name: "Peptides EGF-like", origin: "Biotechnologie blanc", icon: Microscope, desc: "Séquences peptidiques mimant le facteur de croissance épidermique pour stimuler la synthèse de collagène." },
   { name: "Probiotiques lactobacillus", origin: "Fermentation contrôlée", icon: Shield, desc: "Microbiome skin-safe. Renforcement de la barrière cutanée et réduction de l'inflammation de bas grade." },
 ]
+let INGREDIENTS = INGREDIENTS_SOURCE;
 
 const FAQS_DEMO = [
   { q: "Vos produits sont-ils adaptés aux peaux très sensibles ?", a: "Oui. Toutes nos formules sont testées sous contrôle dermatologique et exemptes d'huiles essentielles irritantes, de silicones et de parfums de synthèse pour minimiser les risques d'allergies." },
@@ -336,6 +338,10 @@ export default function AetherLabsPage() {
   }, []);
 
   fd = session?.formData;
+  INGREDIENTS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...INGREDIENTS_SOURCE[i % INGREDIENTS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
+    INGREDIENTS_SOURCE,
+  );
   TEMOIGNAGES_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], name: r.author, text: r.text })),
     TEMOIGNAGES_SOURCE,

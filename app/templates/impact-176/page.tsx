@@ -149,7 +149,7 @@ const TESTIMONIALS_SOURCE = [
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
-const PLANS = [
+const PLANS_SOURCE = [
   {
     name: "Starter",
     price: "€79",
@@ -198,6 +198,7 @@ const PLANS = [
     cta: "Contact sales",
   },
 ];
+let PLANS = PLANS_SOURCE;
 
 const FAQS_DEMO = [
   {
@@ -223,12 +224,13 @@ const FAQS_DEMO = [
 ];
 let FAQS = FAQS_DEMO;
 
-const LIVE_METRICS = [
+const LIVE_METRICS_SOURCE = [
   { label: "New users", val: "2,847", change: "+12.4%", up: true },
   { label: "MRR", val: "€48,290", change: "+8.1%", up: true },
   { label: "Churn rate", val: "1.8%", change: "-0.3%", up: true },
   { label: "NPS Score", val: "67", change: "+4", up: true },
 ];
+let LIVE_METRICS = LIVE_METRICS_SOURCE;
 
 const STATS_DEMO = [
   { val: "4,200+", label: "Active teams" },
@@ -1135,6 +1137,14 @@ export default function Impact176Page() {
   }, []);
 
   fd = session?.formData;
+  PLANS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    PLANS_SOURCE,
+  );
+  LIVE_METRICS = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...LIVE_METRICS_SOURCE[i % LIVE_METRICS_SOURCE.length], val: s.value, label: s.label })),
+    LIVE_METRICS_SOURCE,
+  );
   FEATURES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
     FEATURES_SOURCE,

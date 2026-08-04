@@ -68,7 +68,7 @@ let C: Record<string, string> = {
    DATA
    ========================================================================== */
 
-const PROJECTS_DEMO = [
+const PROJECTS_DEMO_SOURCE = [
   {
     id: "p1",
     title: "Verdant Canopy",
@@ -115,6 +115,7 @@ const PROJECTS_DEMO = [
     image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=1400&auto=format&fit=crop",
   },
 ];
+let PROJECTS_DEMO = PROJECTS_DEMO_SOURCE;
 let PROJECTS = PROJECTS_DEMO;
 
 const MARQUEE_ITEMS = [
@@ -587,6 +588,10 @@ export default function Impact115Page() {
   }, []);
 
   fd = session?.formData;
+  PROJECTS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PROJECTS_DEMO_SOURCE[i % PROJECTS_DEMO_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    PROJECTS_DEMO_SOURCE,
+  );
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,

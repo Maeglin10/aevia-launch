@@ -20,6 +20,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -71,7 +72,7 @@ const COLLECTIONS_SOURCE = [
 let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;
 let COLLECTIONS = COLLECTIONS_DEMO;
 
-const ENGINEERING = [
+const ENGINEERING_SOURCE = [
   { 
     title: "Acoustic Geometry", 
     desc: "Every enclosure is CNC-milled from solid blocks of aeronautical aluminum to eliminate internal resonances.",
@@ -88,13 +89,15 @@ const ENGINEERING = [
     icon: Activity
   },
 ];
+let ENGINEERING = ENGINEERING_SOURCE;
 
-const STATS = [
+const STATS_SOURCE = [
   { label: "Frequency Range", value: "8Hz - 120kHz" },
   { label: "Signal-to-Noise", value: "142dB" },
   { label: "Master Craftsmen", value: "12" },
   { label: "Countries Served", value: "45" },
 ];
+let STATS = STATS_SOURCE;
 
 /* ==========================================================================
    UTILITY COMPONENTS
@@ -168,6 +171,14 @@ export default function AetherSoundPage() {
   }, []);
 
   fd = session?.formData;
+  ENGINEERING = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...ENGINEERING_SOURCE[i % ENGINEERING_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    ENGINEERING_SOURCE,
+  );
+  STATS = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...STATS_SOURCE[i % STATS_SOURCE.length], value: s.value, label: s.label })),
+    STATS_SOURCE,
+  );
 
   AVIS_INLINE = resolveList(
 

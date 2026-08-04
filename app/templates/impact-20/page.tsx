@@ -670,7 +670,7 @@ const PRODUCTS_DEMO: ProductCard[] = [
   },
 ];
 
-const MATERIALS = [
+const MATERIALS_SOURCE = [
   {
     title: "Or 18 carats",
     desc: "Chaque alliage est fondu en interne, testé à 750/1000, contrôlé sous loupe ×40 avant toute mise en forme.",
@@ -692,6 +692,7 @@ const MATERIALS = [
     icon: "◉",
   },
 ];
+let MATERIALS = MATERIALS_SOURCE;
 
 const LOOKBOOK_DEMO = [
   { title: "Printemps 2025", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80", items: 8 },
@@ -907,6 +908,10 @@ export default function LuxuryJewelryTemplate() {
   }, []);
 
   fd = session?.formData;
+  MATERIALS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...MATERIALS_SOURCE[i % MATERIALS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    MATERIALS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

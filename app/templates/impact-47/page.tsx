@@ -14,11 +14,12 @@ import { DWELL, useSlides, HeldSwap, BlurThrough, SlideIndex, HairlineArrows } f
 /* HeldSwap on the bouquet: exit, half a beat of held emptiness, entry — the
    wine-lab swap, in a round medallion instead of an arch. Images and names
    come from the shop's own collections (verified at the merge). */
-const HERO_BOUQUETS_DEMO = [
+const HERO_BOUQUETS_DEMO_SOURCE = [
   { name: "Jardin de Printemps", price: "€65", img: "https://images.unsplash.com/photo-1523693916903-027d144a2b7d?w=900&h=900&fit=crop&q=80" },
   { name: "Blossom Drift", price: "€85", img: "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=900&h=900&fit=crop&q=80" },
   { name: "Dried Luxe", price: "€90", img: "https://images.unsplash.com/photo-1583228858294-6745cb25969e?w=900&h=900&fit=crop&q=80" },
 ];
+let HERO_BOUQUETS_DEMO = HERO_BOUQUETS_DEMO_SOURCE;
 let HERO_BOUQUETS = HERO_BOUQUETS_DEMO;
 import {
   C,
@@ -591,6 +592,10 @@ export default function FloristHome() {
   }, []);
 
   fd = session?.formData;
+  HERO_BOUQUETS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...HERO_BOUQUETS_DEMO_SOURCE[i % HERO_BOUQUETS_DEMO_SOURCE.length], name: s.title, price: s.price ?? HERO_BOUQUETS_DEMO_SOURCE[i % HERO_BOUQUETS_DEMO_SOURCE.length].price })),
+    HERO_BOUQUETS_DEMO_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

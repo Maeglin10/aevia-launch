@@ -31,6 +31,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -706,11 +707,12 @@ function Stats() {
 }
 
 // ─── Teachers ─────────────────────────────────────────────────────────────────
-const TEACHERS = [
+const TEACHERS_SOURCE = [
   { name: "Emma Dubois", role: "Hatha & Yin Yoga", bio: "18 ans de pratique, certifiée RYT-500. Spécialiste du yoga thérapeutique et de la méditation pleine conscience.", exp: "12 ans d'enseignement", initials: "ED", color: C.accent },
   { name: "Lucas Renaud", role: "Vinyasa & Ashtanga", bio: "Formé à Mysore auprès de maîtres indiens. Sa pratique dynamique guide vers la maîtrise de soi et la discipline.", exp: "8 ans d'enseignement", initials: "LR", color: "var(--brand,#6b8f6b)" },
   { name: "Amara Bah", role: "Kundalini & Pranayama", bio: "Experte en techniques respiratoires et en éveil de l'énergie. Elle accompagne les transformations profondes.", exp: "10 ans d'enseignement", initials: "AB", color: "#9b7b6b" },
 ];
+let TEACHERS = TEACHERS_SOURCE;
 
 function Teachers() {
   const ref = useRef<HTMLElement>(null);
@@ -809,7 +811,7 @@ function Testimonials() {
 }
 
 // ─── Pricing ──────────────────────────────────────────────────────────────────
-const PLANS = [
+const PLANS_SOURCE = [
   {
     name: "Découverte",
     price: "29",
@@ -838,6 +840,7 @@ const PLANS = [
     highlight: false,
   },
 ];
+let PLANS = PLANS_SOURCE;
 
 function Pricing() {
   const ref = useRef<HTMLElement>(null);
@@ -1014,6 +1017,14 @@ export default function Impact31() {
   }, []);
 
   fd = session?.formData;
+  TEACHERS = resolveList(
+    clientTeam(session)?.map((m: any, i: number) => ({ ...TEACHERS_SOURCE[i % TEACHERS_SOURCE.length], name: m.name, role: m.role })),
+    TEACHERS_SOURCE,
+  );
+  PLANS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    PLANS_SOURCE,
+  );
 
   STATS_INLINE = resolveList(
 

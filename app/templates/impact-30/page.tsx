@@ -1072,7 +1072,7 @@ function Team() {
 }
 
 // ─── Pricing ──────────────────────────────────────────────────────────────────
-const PLANS = [
+const PLANS_SOURCE = [
   {
     name: "Essentiel",
     price: "45",
@@ -1101,6 +1101,7 @@ const PLANS = [
     highlight: false,
   },
 ];
+let PLANS = PLANS_SOURCE;
 
 function Pricing() {
   const ref = useRef<HTMLElement>(null);
@@ -1412,6 +1413,10 @@ export default function Impact30() {
   }, []);
 
   fd = session?.formData;
+  PLANS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    PLANS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
