@@ -1770,8 +1770,7 @@ function CommandeFormSection() {
 type MenuItem = { nom: string; detail: string; prix: string };
 type MenuCat = { titre: string; items: MenuItem[] };
 
-function MENU_CATEGORIES_DEMO_LIVE() {
-  return resolveList(clientServices(sessionData)?.map((s: any) => ({ nom: s.title, ...(s.price ? { prix: s.price } : {}) })), [
+const MENU_CATEGORIES_DEMO: MenuCat[] = [
   {
     titre: 'Pains',
     items: [
@@ -1802,9 +1801,7 @@ function MENU_CATEGORIES_DEMO_LIVE() {
       { nom: 'Opéra', detail: 'Biscuit joconde, ganache café, buttercream', prix: '5,00 €' },
     ],
   },
-]);
-}
-let MENU_CATEGORIES_DEMO = MENU_CATEGORIES_DEMO_LIVE();
+];
 
 function MenuCatBlock({ cat, i }: { cat: MenuCat; i: number }) {
   return (
@@ -1912,7 +1909,16 @@ function MenuItemRow({ item, j, total }: { item: MenuItem; j: number; total: num
 function MenuSection() {
   const MENU_CATEGORIES = resolveList(
     (() => {
-      if (!bp?.menu?.length) return undefined;
+      // Le client d'une boulangerie remplit sa carte ; celui d'un traiteur
+      // remplit ses prestations. Les deux doivent nourrir la même grille.
+      if (!bp?.menu?.length) {
+        const prestations = clientServices(sessionData);
+        if (!prestations?.length) return undefined;
+        return [{
+          titre: "Nos produits",
+          items: prestations.map((s: any) => ({ nom: s.title, detail: s.desc ?? "", prix: s.price ?? "" })),
+        }];
+      }
       const groups: Record<string, any> = {};
       bp.menu.forEach((m: any) => {
         const cat = m.category ?? "Nos produits";
@@ -2794,7 +2800,6 @@ export default function Impact282Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  MENU_CATEGORIES_DEMO = MENU_CATEGORIES_DEMO_LIVE();
 
   PRODUCTEURS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRODUCTEURS_SOURCE[i % PRODUCTEURS_SOURCE.length], nom: s.title, description: s.desc || "" || "" })),
