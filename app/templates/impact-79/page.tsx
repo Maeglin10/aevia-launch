@@ -51,6 +51,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -91,7 +92,7 @@ let brand: any = null;
    ========================================================================= */
 
 function PRODUCTS_SOURCE_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: 1,
     name: "THE_VOID_LOAF",
@@ -124,7 +125,7 @@ function PRODUCTS_SOURCE_LIVE() {
     desc: "Seasonal fruit reduction. Vanilla bean emulsion. Shortcrust.",
     img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?w=800&q=80"),
   },
-];
+]);
 }
 let PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
 let PRODUCTS_DEMO = PRODUCTS_SOURCE;

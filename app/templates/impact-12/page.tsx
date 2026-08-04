@@ -15,6 +15,7 @@ import {
   clientPhotos,
   clientServices,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -77,12 +78,12 @@ const collections = [
 ];
 
 function editorials_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   { title: "La nuit appartient aux audacieuses", category: "Editorial", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80") },
   { title: "Silences et structures", category: "Fashion", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80") },
   { title: "L'héritage revisité", category: "Interview", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80") },
   { title: "Noir absolu, texture absolue", category: "Campaign", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=600&q=80") },
-];
+]);
 }
 let editorials = editorials_LIVE();
 

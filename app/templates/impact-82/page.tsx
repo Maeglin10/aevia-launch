@@ -16,6 +16,7 @@ import {
   clientReviews,
   clientTeam,
   clientText,
+  clientWorks,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -34,11 +35,11 @@ let sessionData: any = null;
 // resolveList when the client provided it; field access uses `??` chains so
 // the same JSX renders either shape.
 function PROGRAMMES_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { name: "Résidence Ithaque", loc: (clientCity(sessionData) ?? "Paris"), type: "Résidentiel premium", units: "28 appartements", delivery: "T2 2026", price: "À partir de 1,4 M€", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85"), badge: "Commercialisation" },
   { name: "Le Domaine de Chambord", loc: "Neuilly-sur-Seine", type: "Résidentiel de prestige", units: "42 appartements", delivery: "T4 2026", price: "À partir de 920 k€", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85"), badge: "Pré-vente" },
   { name: "Horizon Business Center", loc: "La Défense", type: "Bureaux class A", units: "8 500 m² de bureaux", delivery: "T1 2027", price: "Sur demande", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=85"), badge: "Investisseurs" },
-];
+]);
 }
 let PROGRAMMES_DEMO = PROGRAMMES_DEMO_LIVE();
 

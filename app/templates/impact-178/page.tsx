@@ -14,6 +14,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -58,11 +59,11 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 function BIENS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { type: "Appartement", title: "Haussmannien d'exception", loc: (clientCity(sessionData) ?? "Paris") + " 8ème", price: "2 450 000 €", surface: 185, pieces: 6, chambres: 4, sdb: 2, img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&q=80&w=1200"), badge: "Exclusivité" },
   { type: "Maison", title: "Villa contemporaine à toit-terrasse", loc: "Neuilly-sur-Seine", price: "3 200 000 €", surface: 260, pieces: 8, chambres: 5, sdb: 3, img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?auto=format&fit=crop&q=80&w=1200"), badge: "Nouveau" },
   { type: "Penthouse", title: "Duplex vue panoramique", loc: (clientCity(sessionData) ?? "Paris") + " 16ème", price: "4 800 000 €", surface: 220, pieces: 7, chambres: 4, sdb: 3, img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1200"), badge: "Coup de cœur" },
-];
+]);
 }
 let BIENS_DEMO = BIENS_DEMO_LIVE();
 

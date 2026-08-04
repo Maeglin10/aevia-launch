@@ -5,6 +5,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientWorks,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
@@ -65,7 +66,7 @@ const Instagram = (props: any) => (
 );
 
 function GRID_PHOTOS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   {
     id: 1,
     src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800&auto=format&fit=crop"),
@@ -122,7 +123,7 @@ function GRID_PHOTOS_DEMO_LIVE() {
     title: "Horizon Line",
     aspect: "aspect-[4/3]",
   },
-];
+]);
 }
 let GRID_PHOTOS_DEMO = GRID_PHOTOS_DEMO_LIVE();
 

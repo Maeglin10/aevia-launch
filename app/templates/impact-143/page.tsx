@@ -14,6 +14,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -52,11 +53,11 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 function PROJECTS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   { title: "Villa Serena", type: "Residential", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200"), desc: "Minimalist coastal retreat with organic textures and panoramic ocean views." },
   { title: "Maison Noire", type: "Penthouse", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=1200"), desc: "Dark luxury penthouse with travertine, brass accents, and bespoke furniture." },
   { title: "Bureau Lumière", type: "Commercial", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"), desc: "Biophilic office redesign for a tech company prioritizing employee wellbeing." },
-];
+]);
 }
 let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 

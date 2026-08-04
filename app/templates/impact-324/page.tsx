@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientList,
@@ -6,6 +7,7 @@ import {
   clientPhotos,
   clientTagline,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 import React, { useRef, useState, useEffect } from "react";
@@ -222,14 +224,14 @@ const CONTACT_LINES = [
 ];
 
 function MOCK_EVENTS_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
   { id: "e1", title: "Midnight Neon Tour", artist: "Syntax Error", date: "2026-08-15", time: "21:00", venue: "The Grand Arena, " + (clientCity(sessionData) ?? "Paris"), price: 45, image: PHOTOS.event1, category: "Electronic" },
   { id: "e2", title: "Acoustic Sessions", artist: "Elena Rossi", date: "2026-08-20", time: "19:30", venue: "Intimate Hall, Lyon", price: 35, image: PHOTOS.event2, category: "Acoustic" },
   { id: "e3", title: "Summer Vibes Festival", artist: "Various Artists", date: "2026-09-05", time: "14:00", venue: "Open Air Park, Marseille", price: 89, image: PHOTOS.event3, category: "Festival" },
   { id: "e4", title: "Symphony of the Night", artist: "Orchestre de " + (clientCity(sessionData) ?? "Paris"), date: "2026-09-12", time: "20:00", venue: "Philharmonie, " + (clientCity(sessionData) ?? "Paris"), price: 60, image: PHOTOS.event4, category: "Classical" },
   { id: "e5", title: "Rock Revival", artist: "The Thunders", date: "2026-09-25", time: "20:30", venue: "Zénith, Lille", price: 50, image: PHOTOS.gallery[0], category: "Rock" },
   { id: "e6", title: "Jazz & Wine Night", artist: "Blue Note Quartet", date: "2026-10-02", time: "20:00", venue: "Jazz Club, Bordeaux", price: 40, image: PHOTOS.gallery[1], category: "Jazz" },
-];
+]);
 }
 let MOCK_EVENTS = MOCK_EVENTS_LIVE();
 

@@ -34,6 +34,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -52,7 +53,7 @@ let brand: any = null;
    ========================================================================= */
 
 function COLLECTIONS_SOURCE_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: 1,
     name: "Astra Chrono",
@@ -77,7 +78,7 @@ function COLLECTIONS_SOURCE_LIVE() {
     desc: "Rose gold moonphase calendar that requires no adjustment for the next 122 years.",
     img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1200&q=80"),
   },
-];
+]);
 }
 let COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
 let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;

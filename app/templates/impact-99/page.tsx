@@ -7,6 +7,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -83,7 +84,7 @@ const NAV_PAGES: { key: EmberPage; label: string }[] = [
    ========================================================================= */
 
 function MENU_HIGHLIGHTS_DEMO_SOURCE_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: 1,
     name: "Dry-Aged Wagyu",
@@ -108,7 +109,7 @@ function MENU_HIGHLIGHTS_DEMO_SOURCE_LIVE() {
     desc: "A curated flight of rare vintage reds, hand-selected to complement the intensity of wood-fired smoke.",
     img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80"),
   },
-];
+]);
 }
 let MENU_HIGHLIGHTS_DEMO_SOURCE = MENU_HIGHLIGHTS_DEMO_SOURCE_LIVE();
 let MENU_HIGHLIGHTS_DEMO = MENU_HIGHLIGHTS_DEMO_SOURCE;

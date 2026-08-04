@@ -21,6 +21,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -618,7 +619,7 @@ function SectionReveal({
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 function PRODUCTS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
   {
     name: "Solitaire Éternité",
     image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80"),
@@ -673,7 +674,7 @@ function PRODUCTS_DEMO_LIVE() {
     category: "Parures",
     color: "linear-gradient(145deg, #101218 0%, #161a28 60%, #101218 100%)",
   },
-];
+]);
 }
 let PRODUCTS_DEMO = PRODUCTS_DEMO_LIVE();
 

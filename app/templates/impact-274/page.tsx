@@ -39,6 +39,7 @@ import {
   clientTagline,
   clientTeam,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -2236,7 +2237,7 @@ type BlogPost = {
   imgAlt: string;
 };
 
-const BLOG_POSTS: BlogPost[] = [
+const BLOG_POSTS: BlogPost[] = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), excerpt: o.desc || "" })), [
   {
     category: 'Nutrition',
     title: 'Alimentation équilibrée : les 5 principes clés pour votre santé au quotidien',
@@ -2261,7 +2262,7 @@ const BLOG_POSTS: BlogPost[] = [
     img: PHOTO.consultation,
     imgAlt: 'Activité physique et santé',
   },
-];
+]);
 
 function BlogSection() {
   const sec: React.CSSProperties = {

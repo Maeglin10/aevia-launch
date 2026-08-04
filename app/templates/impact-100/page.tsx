@@ -32,6 +32,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -50,7 +51,7 @@ let brand: any = null;
    ========================================================================= */
 
 function PROJECTS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: 1,
     name: "The Obsidian Loft",
@@ -75,7 +76,7 @@ function PROJECTS_DEMO_LIVE() {
     desc: "Merging traditional Japanese spatial philosophy with brutalist structural integrity.",
     img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1590490359683-658d3d23f972?w=1200&q=80"),
   },
-];
+]);
 }
 let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 

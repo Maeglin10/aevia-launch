@@ -31,6 +31,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -49,7 +50,7 @@ let brand: any = null;
    ========================================================================== */
 
 function VINTAGES_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
   {
     id: "v-2022",
     name: "The Crimson Sovereign",
@@ -77,7 +78,7 @@ function VINTAGES_DEMO_LIVE() {
     stock: "In-Vault",
     image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop")
   }
-];
+]);
 }
 let VINTAGES_DEMO = VINTAGES_DEMO_LIVE();
 

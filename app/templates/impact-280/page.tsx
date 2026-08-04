@@ -33,6 +33,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -2119,7 +2120,7 @@ function ContactFormSection() {
    7 · RÉALISATIONS SECTION — 3 mariages
    ════════════════════════════════════════════════════════════════════════════ */
 function RealizationsSection() {
-  const realisations_DEMO = [
+  const realisations_DEMO = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
     {
       img: PHOTO.chateau,
       tag: 'Mariage de château',
@@ -2150,7 +2151,7 @@ function RealizationsSection() {
       desc: "Une cérémonie laïque intimiste au bord du Rhin. Discours personnalisés, musique live acoustique, dîner à la table d'hôte. Un mariage d'une douceur rare pour 55 proches triés sur le volet.",
       color: C.taupe,
     },
-  ];
+  ]);
 
   const realisations = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({

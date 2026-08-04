@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { rafraichirPartage } from "./shared";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
@@ -16,6 +17,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientWorks,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -459,7 +461,7 @@ return (
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
+            {/* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
               {
                 name: "vaultkey",
                 year: "2023",
@@ -481,7 +483,7 @@ return (
                 img: photo(5, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=600&h=400&fit=crop&crop=center")),
                 stars: "1.2k",
               },
-            ].map((p, i) => (
+            ]).map((p, i) => (
               <Reveal key={p.name} delay={i * 0.1}>
                 <Link href="/templates/impact-29/work" className="group block border border-[var(--brand,#00F5D4)]/15 overflow-hidden hover:border-[var(--brand,#00F5D4)]/40 transition-all cursor-pointer">
                   <div className="relative aspect-video overflow-hidden">

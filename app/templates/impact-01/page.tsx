@@ -41,6 +41,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let bp: any = null;
 let sessionData: any = null;
@@ -116,7 +117,7 @@ const SERVICES_SOURCE = [
 let SERVICES = SERVICES_SOURCE;
 
 function PROJECTS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
   {
     id: 1,
     title: "Aether Labs",
@@ -165,7 +166,7 @@ function PROJECTS_DEMO_LIVE() {
     image:
       (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?q=80&w=1200&auto=format&fit=crop"),
   },
-];
+]);
 }
 let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 let PROJECTS = PROJECTS_DEMO;

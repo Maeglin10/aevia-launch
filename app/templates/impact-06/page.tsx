@@ -22,6 +22,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -49,7 +50,7 @@ let brand: any = null;
    ========================================================================= */
 
 function PRODUCTS_SOURCE_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   { 
     id: 1, 
     name: "Neural Link V2", 
@@ -74,7 +75,7 @@ function PRODUCTS_SOURCE_LIVE() {
     desc: "Retinal projection system with 32k resolution and integrated neural eye-tracking.",
     img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=1200&q=80")
   },
-];
+]);
 }
 let PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
 let PRODUCTS_DEMO = PRODUCTS_SOURCE;

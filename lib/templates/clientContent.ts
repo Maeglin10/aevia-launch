@@ -228,6 +228,63 @@ export function clientList(s: SessionLike | null | undefined, cle: string): stri
   return keep(brut.split("\n").map(trimmed), Boolean);
 }
 
+export interface ClientWork {
+  title: string;
+  /** Ce qui situe la réalisation : un lieu, une année, une catégorie. */
+  detail: string;
+  desc: string;
+  imageUrl?: string;
+  /** Alias, comme ailleurs dans ce fichier. */
+  name: string;
+  description: string;
+}
+
+/**
+ * Les réalisations du client.
+ *
+ * Un architecte, un paysagiste, un photographe montrent des projets ; le wizard
+ * les recueille sous `beforeAfter` pour les métiers de chantier, `listings` pour
+ * l'immobilier, `products` pour les boutiques. Les thèmes, eux, affichaient
+ * soixante-sept galeries d'exemples — d'où « ÉQUIPEMENT PUBLIC · BORDEAUX, 33 »
+ * sur le site d'un client savoyard, jusqu'à ce qu'il fournisse les siennes.
+ */
+export function clientWorks(s: SessionLike | null | undefined): ClientWork[] | undefined {
+  const oeuvre = (title: string, detail: string, desc: string, imageUrl?: string): ClientWork => ({
+    title, detail, desc, imageUrl, name: title, description: desc,
+  });
+
+  const avantApres = (s?.businessProfile?.beforeAfter ?? []) as any[];
+  const desChantiers = keep(
+    avantApres.map((r) =>
+      oeuvre(trimmed(r?.caption), "", trimmed(r?.caption), trimmed(r?.afterUrl) || trimmed(r?.beforeUrl) || undefined),
+    ),
+    (r) => Boolean(r.title || r.imageUrl),
+  );
+  if (desChantiers) return desChantiers;
+
+  const biens = (s?.businessProfile?.listings ?? []) as any[];
+  const desBiens = keep(
+    biens.map((r) =>
+      oeuvre(
+        trimmed(r?.title),
+        [trimmed(r?.city), trimmed(r?.surface), trimmed(r?.status)].filter(Boolean).join(" · "),
+        trimmed(r?.price),
+        trimmed(r?.photoUrl) || undefined,
+      ),
+    ),
+    (r) => Boolean(r.title),
+  );
+  if (desBiens) return desBiens;
+
+  const produits = (s?.businessProfile?.products ?? []) as any[];
+  return keep(
+    produits.map((r) =>
+      oeuvre(trimmed(r?.name), trimmed(r?.price), trimmed(r?.description), trimmed(r?.photoUrl) || undefined),
+    ),
+    (r) => Boolean(r.title),
+  );
+}
+
 /** Le nom de l'entreprise, tel qu'il doit apparaître partout. */
 export function clientName(s: SessionLike | null | undefined): string | undefined {
   return trimmed(s?.formData?.businessName) || undefined;

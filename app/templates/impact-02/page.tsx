@@ -9,6 +9,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
@@ -35,7 +36,7 @@ let brand: any = null;
    ========================================================================== */
 
 function PROJECTS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
   { id: 1, title: "Fluid Horizons", category: "Photography", year: "2026", image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop"), color: "var(--brand,#6366f1)", desc: "Capturing the ephemeral dance between sky and sea along the Icelandic coastline. A study in vastness, silence, and the weight of light at dusk.", role: "Photographer & Art Director", client: "National Geographic", duration: "3 Months" },
   { id: 2, title: "Tokyo Neon", category: "Street", year: "2025", image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1200&auto=format&fit=crop"), color: "#f43f5e", desc: "A nocturnal exploration of Shinjuku's electric veins — where neon bleeds into rain-slicked asphalt and human stories unfold in 1/125th of a second.", role: "Street Photographer", client: "Personal Project", duration: "6 Weeks" },
   { id: 3, title: "Concrete Poetry", category: "Architecture", year: "2025", image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=1200&auto=format&fit=crop"), color: "#10b981", desc: "Brutalist structures reimagined as sculptural poems. Exploring the tension between mass and void in post-war European architecture.", role: "Architecture Photographer", client: "Wallpaper Magazine", duration: "4 Months" },
@@ -44,7 +45,7 @@ function PROJECTS_DEMO_LIVE() {
   { id: 6, title: "Human Form", category: "Portrait", year: "2026", image: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1200&auto=format&fit=crop"), color: "#ec4899", desc: "An intimate portrait series celebrating the raw beauty of the human form — unretouched, unfiltered, unapologetically real.", role: "Portrait Photographer", client: "Vogue Italia", duration: "5 Weeks" },
   { id: 7, title: "Desert Shadows", category: "Landscape", year: "2025", image: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?q=80&w=1200&auto=format&fit=crop"), color: "#f59e0b", desc: "A minimalist approach to the Sahara. Using harsh midday light to create striking geometric compositions out of shifting dunes.", role: "Photographer", client: "Condé Nast Traveler", duration: "4 Weeks" },
   { id: 8, title: "Urban Pulse", category: "Street", year: "2023", image: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop"), color: "#3b82f6", desc: "The chaos of New York City distilled into frozen moments. A monochrome series focusing on the isolation within the crowd.", role: "Street Photographer", client: "The New Yorker", duration: "3 Months" },
-];
+]);
 }
 let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 

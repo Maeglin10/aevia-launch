@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientList,
@@ -6,6 +7,7 @@ import {
   clientPhotos,
   clientTagline,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 import React, { useRef, useState, useEffect } from "react";
@@ -207,12 +209,12 @@ function Eyebrow({ text }) {
 // --- MOCK DATA ---
 
 function MOCK_EVENTS_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
   { id: "s1", title: "Leadership Masterclass 2026", speaker: "Dr. Jonathan Hayes", date: "2026-09-10", time: "09:00 - 17:00", venue: "Grand Hotel " + (clientCity(sessionData) ?? "Paris"), price: 450, image: PHOTOS.event1, category: "Leadership", level: "Executive" },
   { id: "s2", title: "Future of AI in Business", speaker: "Sarah Chen", date: "2026-09-22", time: "10:00 - 16:00", venue: "Tech Hub London", price: 300, image: PHOTOS.event2, category: "Technology", level: "All Levels" },
   { id: "s3", title: "Advanced Financial Strategy", speaker: "Robert Sterling", date: "2026-10-05", time: "09:00 - 18:00", venue: "Finance Center Frankfurt", price: 600, image: PHOTOS.event3, category: "Finance", level: "Advanced" },
   { id: "s4", title: "Strategic Marketing Summit", speaker: "Elena Rodriguez", date: "2026-10-15", time: "09:30 - 15:30", venue: "Palais des Congrès", price: 350, image: PHOTOS.event4, category: "Marketing", level: "Intermediate" },
-];
+]);
 }
 let MOCK_EVENTS = MOCK_EVENTS_LIVE();
 

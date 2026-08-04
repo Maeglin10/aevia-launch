@@ -22,6 +22,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -49,7 +50,7 @@ let brand: any = null;
    ========================================================================= */
 
 function COLLECTIONS_SOURCE_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   { 
     id: 1, 
     name: "Aether One", 
@@ -74,7 +75,7 @@ function COLLECTIONS_SOURCE_LIVE() {
     desc: "R2R ladder DAC with femto-second clocking for the most natural digital-to-analog conversion.",
     img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&q=80")
   },
-];
+]);
 }
 let COLLECTIONS_SOURCE = COLLECTIONS_SOURCE_LIVE();
 let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;

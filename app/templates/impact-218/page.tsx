@@ -28,6 +28,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -909,7 +910,7 @@ type Vintage = {
   scarcity: string;
 };
 
-const VINTAGES_DEMO: Vintage[] = [
+const VINTAGES_DEMO: Vintage[] = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     year: '2018',
     name: 'Cuvée du Miroir',
@@ -934,7 +935,7 @@ const VINTAGES_DEMO: Vintage[] = [
     img: PHOTO.cellar,
     scarcity: '210 caisses',
   },
-];
+]);
 
 function VintageCard({ v, i }: { v: Vintage; i: number }) {
   const [hover, setHover] = useState(false);

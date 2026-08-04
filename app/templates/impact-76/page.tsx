@@ -23,6 +23,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  clientWorks,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -35,7 +36,7 @@ let c: any = null;
 let brand: any = null;
 
 function ARCHIVE_PROJECTS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     id: 1,
     title: "VILLA_AETHER",
@@ -76,7 +77,7 @@ function ARCHIVE_PROJECTS_DEMO_LIVE() {
     type: "Commercial",
     img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"),
   },
-];
+]);
 }
 let ARCHIVE_PROJECTS_DEMO = ARCHIVE_PROJECTS_DEMO_LIVE();
 let ARCHIVE_PROJECTS = ARCHIVE_PROJECTS_DEMO;

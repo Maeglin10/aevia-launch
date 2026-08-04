@@ -28,6 +28,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -73,7 +74,7 @@ let C: Record<string, string> = {
    ========================================================================== */
 
 function PROJECTS_DEMO_SOURCE_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: "p1",
     title: "Verdant Canopy",
@@ -119,7 +120,7 @@ function PROJECTS_DEMO_SOURCE_LIVE() {
     desc: "Structural bamboo arches span 24 metres, creating a community hub that withstands typhoon-force winds and remains fully biodegradable at end of life.",
     image: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=1400&auto=format&fit=crop"),
   },
-];
+]);
 }
 let PROJECTS_DEMO_SOURCE = PROJECTS_DEMO_SOURCE_LIVE();
 let PROJECTS_DEMO = PROJECTS_DEMO_SOURCE;

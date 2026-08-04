@@ -48,6 +48,7 @@ import {
   clientTagline,
   clientTeam,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -90,7 +91,7 @@ let C: Record<string, string> = {
 };
 
 function PROJECTS_DEMO_LIVE() {
-  return [
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: "01",
     title: "Folio Maison",
@@ -157,7 +158,7 @@ function PROJECTS_DEMO_LIVE() {
     image: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200&auto=format&fit=crop"),
     color: C.gold,
   },
-];
+]);
 }
 let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 let PROJECTS = PROJECTS_DEMO;
