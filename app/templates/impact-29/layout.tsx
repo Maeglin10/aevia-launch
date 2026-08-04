@@ -1,6 +1,6 @@
-import { clientName } from "@/lib/templates/clientContent";
 "use client"
 
+import { clientName } from "@/lib/templates/clientContent";
 import { useScroll, motion, AnimatePresence } from "framer-motion"
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link"

@@ -221,7 +221,10 @@ for (const id of ids) {
       return "import {\n" + [...noms].sort().map((n) => `  ${n},\n`).join("") + '} from "@/lib/templates/clientContent";';
     });
   } else {
-    const d = /(^|\n)\s*("use client";|'use client';)[^\n]*\n/.exec(src);
+    // Le point-virgule après la directive n'est pas toujours écrit : sept
+    // layouts ont reçu l'import au-dessus de leur « use client », ce que
+    // Turbopack refuse.
+    const d = /(^|\n)\s*("use client"|'use client')\s*;?[^\n]*\n/.exec(src);
     const at = d ? d.index + d[0].length : 0;
     src = src.slice(0, at) + 'import { clientName } from "@/lib/templates/clientContent";\n' + src.slice(at);
   }

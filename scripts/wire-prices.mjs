@@ -104,7 +104,7 @@ for (const id of ids) {
   src = src.slice(0, cible.j) + remp + src.slice(cible.fin + 1);
 
   if (!src.includes("templates/resolveList")) {
-    const d = /(^|\n)\s*("use client";|'use client';)[^\n]*\n/.exec(src);
+    const d = /(^|\n)\s*("use client"|'use client')\s*;?[^\n]*\n/.exec(src);
     const at = d ? d.index + d[0].length : 0;
     src = src.slice(0, at) + 'import { resolveList } from "@/lib/templates/resolveList";\n' + src.slice(at);
   }
@@ -115,7 +115,7 @@ for (const id of ids) {
       return "import {\n" + [...noms].sort().map((n) => `  ${n},\n`).join("") + '} from "@/lib/templates/clientContent";';
     });
   } else {
-    const d = /(^|\n)\s*("use client";|'use client';)[^\n]*\n/.exec(src);
+    const d = /(^|\n)\s*("use client"|'use client')\s*;?[^\n]*\n/.exec(src);
     const at = d ? d.index + d[0].length : 0;
     src = src.slice(0, at) + 'import { clientServices } from "@/lib/templates/clientContent";\n' + src.slice(at);
   }
