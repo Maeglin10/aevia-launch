@@ -124,7 +124,7 @@ const PROJECTS_DEMO = [
   },
 ]
 
-const MATERIALS = [
+const MATERIALS_SOURCE = [
   {
     name: 'Béton armé',
     desc: 'Structures portantes haute performance — résistance ≥ C35/45',
@@ -146,6 +146,7 @@ const MATERIALS = [
     gradient: 'repeating-linear-gradient(90deg, #8B5E3C 0px, #8B5E3C 2px, #6B4423 2px, #7a4f30 8px)',
   },
 ]
+let MATERIALS = MATERIALS_SOURCE;
 
 const TEAM_DEMO = [
   {
@@ -2000,6 +2001,10 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  MATERIALS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...MATERIALS_SOURCE[i % MATERIALS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
+    MATERIALS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

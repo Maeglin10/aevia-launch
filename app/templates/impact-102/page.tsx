@@ -11,6 +11,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -135,12 +136,13 @@ const PUBLICATIONS = [
   },
 ]
 
-const STATS = [
+const STATS_SOURCE = [
   { value: "47", label: "Published Papers" },
   { value: "$2.1B", label: "Research Funding" },
   { value: "312", label: "Scientists" },
   { value: "6", label: "Global Labs" },
 ]
+let STATS = STATS_SOURCE;
 
 const TEAM = resolveList(
 
@@ -218,6 +220,10 @@ export default function QBitLabsPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...STATS_SOURCE[i % STATS_SOURCE.length], value: s.value, label: s.label })),
+    STATS_SOURCE,
+  );
 
   bp = (session as any)?.businessProfile;
   c = session?.generatedContent;

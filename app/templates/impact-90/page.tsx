@@ -39,11 +39,12 @@ let brand: any = null;
    like a curtain, contents included, while the photograph changes behind.
    Photographs were verified at the merge; names, prices and copy are this
    bakery's own. */
-const HERO_BREADS_DEMO = [
+const HERO_BREADS_DEMO_SOURCE = [
   { name: "Miche au Levain", price: "8.50", c: "#8a6234", d: "Fermentation de 24 h, farine T65 moulue sur meule, mie ouverte, croûte caramélisée.", img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&q=80&w=1600" },
   { name: "Pain de Seigle", price: "6.90", c: "#6b4423", d: "40 % de seigle sombre, légère acidité, mie dense et moelleuse. Le mardi, jeudi et samedi.", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1600" },
   { name: "Brioche Feuilletée", price: "3.80", c: "#d9ae6c", d: "Beurre AOP, six tours, deux jours de repos au froid. Le week-end uniquement.", img: "https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&q=80&w=1600" },
 ];
+let HERO_BREADS_DEMO = HERO_BREADS_DEMO_SOURCE;
 let HERO_BREADS = HERO_BREADS_DEMO;
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
@@ -105,11 +106,12 @@ const PROCESS = [
   { step: "05", title: "Score & Bake", time: "45 min", desc: "Into the deck oven at 250°C with steam. The score blooms. The crust caramelises. The kitchen fills with bread." },
 ];
 
-const WORKSHOPS = [
+const WORKSHOPS_SOURCE = [
   { name: "Introduction to Sourdough", date: "Sat 17 May", price: "85", spots: 3 },
   { name: "Pain de Campagne Masterclass", date: "Sat 24 May", price: "95", spots: 6 },
   { name: "Viennoiserie Weekend", date: "Sat–Sun 7–8 Jun", price: "160", spots: 2 },
 ];
+let WORKSHOPS = WORKSHOPS_SOURCE;
 
 const SPECIALTIES_DEMO = ["Levain Signature", "Seigle 40%", "Brioche feuilletée", "Fougasse Olive", "Tourte de Meule", "Épi de Blé"];
 
@@ -1006,6 +1008,14 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  HERO_BREADS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...HERO_BREADS_DEMO_SOURCE[i % HERO_BREADS_DEMO_SOURCE.length], name: s.title, price: s.price ?? HERO_BREADS_DEMO_SOURCE[i % HERO_BREADS_DEMO_SOURCE.length].price })),
+    HERO_BREADS_DEMO_SOURCE,
+  );
+  WORKSHOPS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...WORKSHOPS_SOURCE[i % WORKSHOPS_SOURCE.length], name: s.title, price: s.price ?? WORKSHOPS_SOURCE[i % WORKSHOPS_SOURCE.length].price })),
+    WORKSHOPS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

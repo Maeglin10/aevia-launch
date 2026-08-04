@@ -232,7 +232,7 @@ const FAQS_DEMO = [
 ];
 let FAQS = FAQS_DEMO;
 
-const PRICING = [
+const PRICING_SOURCE = [
   {
     name: "Pièce unique",
     range: "42€ – 145€",
@@ -275,6 +275,7 @@ const PRICING = [
     hot: false,
   },
 ];
+let PRICING = PRICING_SOURCE;
 
 /* ─── STAT COUNTER ───────────────────────────────────────────── */
 function StatItem({ val, label }: { val: string; label: string }) {
@@ -1029,6 +1030,10 @@ export default function ArtisanMinimalPage() {
   }, []);
 
   fd = session?.formData;
+  PRICING = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
+    PRICING_SOURCE,
+  );
   PRODUCTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title })),
     PRODUCTS_SOURCE,

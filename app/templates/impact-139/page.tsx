@@ -66,11 +66,12 @@ const FEATURES_SOURCE = [
 let FEATURES_DEMO = FEATURES_SOURCE;
 let FEATURES = FEATURES_DEMO;
 
-const PLANS = [
+const PLANS_SOURCE = [
   { name: "Essential", price: "$79", desc: "3 sessions/week", features: ["3x Group Sessions", "Open Gym Access", "Monthly Check-in", "Community App"] },
   { name: "Performance", price: "$129", desc: "Unlimited sessions", features: ["Unlimited Sessions", "Monthly Body Scan", "Nutrition Guidance", "Recovery Suite", "Priority Booking"], popular: true },
   { name: "Elite", price: "$249", desc: "1:1 coaching", features: ["Everything in Performance", "2x PT Sessions/week", "Custom Meal Plans", "WhatsApp Support", "Quarterly Assessment"] },
 ]
+let PLANS = PLANS_SOURCE;
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -106,6 +107,10 @@ export default function ApexFitnessPage() {
   }, []);
 
   fd = session?.formData;
+  PLANS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    PLANS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

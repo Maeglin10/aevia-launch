@@ -33,6 +33,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -85,19 +86,20 @@ const PROVENANCE_LOGS = [
   { year: "2024", event: "Secured by The Ivory Archive for conservation." }
 ]
 
-const LAB_METRICS = [
+const LAB_METRICS_SOURCE = [
   { label: "Humidity", value: "42.5%", status: "Nominal" },
   { label: "UV Exposure", value: "0.01 lux", status: "Optimal" },
   { label: "CO2 Levels", value: "350 ppm", status: "Secure" },
   { label: "Surface Temp", value: "18.2°C", status: "Stable" }
 ]
+let LAB_METRICS = LAB_METRICS_SOURCE;
 
 /* ==========================================================================
    EXTENDED DATASET FOR SUB-PAGES (theme-native, luxury/art register)
    ========================================================================== */
 
 // Full curated collection for the Collection / Œuvres page (extends COLLECTIONS).
-const ARCHIVE_WORKS_DEMO = [
+const ARCHIVE_WORKS_DEMO_SOURCE = [
   ...COLLECTIONS,
   {
     id: "art-04",
@@ -127,6 +129,7 @@ const ARCHIVE_WORKS_DEMO = [
     image: "https://images.unsplash.com/photo-1620503374956-c942862f0372?q=80&w=1200&auto=format&fit=crop"
   }
 ]
+let ARCHIVE_WORKS_DEMO = ARCHIVE_WORKS_DEMO_SOURCE;
 let ARCHIVE_WORKS = ARCHIVE_WORKS_DEMO;
 
 // Long-form provenance + technical detail per work (Collection detail view).
@@ -385,6 +388,14 @@ export default function IvoryArchivePremium() {
   }, []);
 
   fd = session?.formData;
+  LAB_METRICS = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...LAB_METRICS_SOURCE[i % LAB_METRICS_SOURCE.length], value: s.value, label: s.label })),
+    LAB_METRICS_SOURCE,
+  );
+  ARCHIVE_WORKS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...ARCHIVE_WORKS_DEMO_SOURCE[i % ARCHIVE_WORKS_DEMO_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    ARCHIVE_WORKS_DEMO_SOURCE,
+  );
   COLLECTIONS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], title: s.title })),
     COLLECTIONS_SOURCE,

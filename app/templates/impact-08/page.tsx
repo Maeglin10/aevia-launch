@@ -1,5 +1,6 @@
 
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -38,6 +39,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -51,7 +53,7 @@ let brand: any = null;
    VULCAN MOTOR GROUP DATASET (ULTRA DENSITY)
    ========================================================================= */
 
-const FLEET_DEMO = [
+const FLEET_DEMO_SOURCE = [
   {
     id: "vul-ty-01",
     name: "Tyrant GT",
@@ -89,14 +91,16 @@ const FLEET_DEMO = [
     color: "#10b981"
   }
 ]
+let FLEET_DEMO = FLEET_DEMO_SOURCE;
 let FLEET = FLEET_DEMO;
 
-const PERFORMANCE_METRICS = [
+const PERFORMANCE_METRICS_SOURCE = [
   { label: "Aero Efficiency", value: "0.24 Cd", trend: "Optimal", percent: 92 },
   { label: "Thermal Stability", value: "84°C", trend: "Stable", percent: 88 },
   { label: "Torque Vectoring", value: "Active", trend: "Precise", percent: 96 },
   { label: "G-Force Max", value: "1.8 G", trend: "Extreme", percent: 84 }
 ]
+let PERFORMANCE_METRICS = PERFORMANCE_METRICS_SOURCE;
 
 const ENGINEERING_LOGS = [
   { timestamp: "12:04:12", unit: "Chassis_01", task: "Stress_Test", status: "PASS", load: "98%" },
@@ -308,6 +312,14 @@ export default function VulcanMotorPremium() {
   }, []);
 
   fd = session?.formData;
+  FLEET_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
+    FLEET_DEMO_SOURCE,
+  );
+  PERFORMANCE_METRICS = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...PERFORMANCE_METRICS_SOURCE[i % PERFORMANCE_METRICS_SOURCE.length], value: s.value, label: s.label })),
+    PERFORMANCE_METRICS_SOURCE,
+  );
   FLEET = FLEET_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

@@ -59,7 +59,7 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
   )
 }
 
-const FEATURES = [
+const FEATURES_SOURCE = [
   {
     id: "analytics",
     icon: BarChart2,
@@ -93,8 +93,9 @@ const FEATURES = [
     bullets: ["Chiffrement bout-en-bout", "SSO et 2FA obligatoires", "SOC2 Type II certifié"],
   },
 ]
+let FEATURES = FEATURES_SOURCE;
 
-const PRICING = [
+const PRICING_SOURCE = [
   {
     name: "Starter",
     price: "0",
@@ -120,6 +121,7 @@ const PRICING = [
     highlight: false,
   },
 ]
+let PRICING = PRICING_SOURCE;
 
 const TESTIMONIALS_SOURCE = [
   { name: "Mathieu Garnier", role: "CEO — Flowly", text: "En 3 semaines, Pulse a remplacé 4 outils différents. Notre équipe gagne 2h par jour.", rating: 5, avatar: "MG" },
@@ -158,6 +160,14 @@ export default function PulseAppPage() {
   }, []);
 
   fd = session?.formData;
+  FEATURES = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    FEATURES_SOURCE,
+  );
+  PRICING = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].price })),
+    PRICING_SOURCE,
+  );
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,

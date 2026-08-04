@@ -628,7 +628,7 @@ function Testimonials() {
 }
 
 // ─── Pricing ──────────────────────────────────────────────────────────────────
-const PLANS = [
+const PLANS_SOURCE = [
   {
     name: "Basic Care",
     price: "25",
@@ -660,6 +660,7 @@ const PLANS = [
     emoji: "💎",
   },
 ];
+let PLANS = PLANS_SOURCE;
 
 function Pricing() {
   const ref = useRef<HTMLElement>(null);
@@ -819,6 +820,10 @@ export default function Impact32() {
   }, []);
 
   fd = session?.formData;
+  PLANS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    PLANS_SOURCE,
+  );
 
   STATS_INLINE = resolveList(
 

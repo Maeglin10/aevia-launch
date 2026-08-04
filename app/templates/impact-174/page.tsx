@@ -75,7 +75,7 @@ const SCHEDULE = [
   { day: "Dim", classes: [{ time: "10h00", name: "CrossFit FORGE" }, { time: "11h30", name: "Récup Active" }] },
 ]
 
-const MEMBERSHIPS = [
+const MEMBERSHIPS_SOURCE = [
   {
     name: "Découverte",
     price: "39 €",
@@ -101,6 +101,7 @@ const MEMBERSHIPS = [
     highlight: false,
   },
 ]
+let MEMBERSHIPS = MEMBERSHIPS_SOURCE;
 
 const MARQUEE_ITEMS = [
   "HIIT · FORCE · CROSSFIT · YOGA · CARDIO · RÉCUPÉRATION",
@@ -168,6 +169,10 @@ export default function Impact174Page() {
   }, []);
 
   fd = session?.formData;
+  MEMBERSHIPS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...MEMBERSHIPS_SOURCE[i % MEMBERSHIPS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? MEMBERSHIPS_SOURCE[i % MEMBERSHIPS_SOURCE.length].price })),
+    MEMBERSHIPS_SOURCE,
+  );
   bp = session?.businessProfile;
   sessionData = session;
 

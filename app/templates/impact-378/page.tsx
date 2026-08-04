@@ -47,7 +47,8 @@ const FONT_BODY = "system-ui, -apple-system, sans-serif";
 
 const NAV = [{"l": "Expertises", "h": "#services"}, {"l": "Infos pratiques", "h": "#methode"}, {"l": "Honoraires", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 const HERO = [];
-const PARCOURS = [{"n": "01", "title": "Le bilan complet", "body": "Actifs, dettes, fiscalité, régimes matrimoniaux, objectifs de vie : deux heures pour photographier votre situation réelle — souvent la première fois qu'elle l'est."}, {"n": "02", "title": "La stratégie écrite", "body": "Un document clair : où vous allez, par quels véhicules, avec quels risques et quels horizons. Vous le gardez, même sans nous."}, {"n": "03", "title": "La mise en œuvre", "body": "Assurance-vie, PER, SCPI, immobilier : nous sélectionnons en architecture ouverte et négocions les frais d'entrée pour vous."}, {"n": "04", "title": "Le suivi annuel", "body": "Une revue par an minimum : la vie change, la fiscalité aussi. La stratégie s'ajuste, elle ne dort jamais."}];
+const PARCOURS_SOURCE = [{"n": "01", "title": "Le bilan complet", "body": "Actifs, dettes, fiscalité, régimes matrimoniaux, objectifs de vie : deux heures pour photographier votre situation réelle — souvent la première fois qu'elle l'est."}, {"n": "02", "title": "La stratégie écrite", "body": "Un document clair : où vous allez, par quels véhicules, avec quels risques et quels horizons. Vous le gardez, même sans nous."}, {"n": "03", "title": "La mise en œuvre", "body": "Assurance-vie, PER, SCPI, immobilier : nous sélectionnons en architecture ouverte et négocions les frais d'entrée pour vous."}, {"n": "04", "title": "Le suivi annuel", "body": "Une revue par an minimum : la vie change, la fiscalité aussi. La stratégie s'ajuste, elle ne dort jamais."}];
+let PARCOURS = PARCOURS_SOURCE;
 const SERVICES_SOURCE = [{"titre": "Bilan patrimonial", "desc": "La photographie complète : civil, fiscal, financier, immobilier. Le préalable à tout conseil sérieux — facturé, donc indépendant.", "tag": "Bilan"}, {"titre": "Épargne & placements", "desc": "Assurance-vie, PER, comptes-titres en architecture ouverte : les supports choisis pour votre stratégie, pas pour la commission.", "tag": "Placements"}, {"titre": "Immobilier patrimonial", "desc": "LMNP, déficit foncier, SCPI, démembrement : l'immobilier qui sert un objectif chiffré, pas une plaquette de promoteur.", "tag": "Immobilier"}, {"titre": "Retraite", "desc": "Bilan retraite complet, rachats de trimestres étudiés, PER optimisé : savoir à 45 ans ce qu'on touchera à 64.", "tag": "Retraite"}, {"titre": "Transmission", "desc": "Donations, assurance-vie, démembrement, pacte Dutreil : transmettre plus en payant le juste impôt — en lien avec votre notaire.", "tag": "Transmission"}, {"titre": "Dirigeants & professions libérales", "desc": "Rémunération, holding, prévoyance Madelin, cession d'entreprise : le patrimoine pro et perso enfin coordonnés.", "tag": "Dirigeants"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "CIF, contrôlé AMF", "d": "Le statut de Conseiller en Investissements Financiers nous soumet au contrôle de l'AMF et à une association agréée."}, {"n": "02", "t": "Lettre de mission", "d": "Périmètre, livrables et rémunération écrits avant de commencer — vous savez ce que vous payez et pourquoi."}, {"n": "03", "t": "Architecture ouverte", "d": "Aucun produit maison : nous comparons les contrats du marché et négocions les frais pour vous."}, {"n": "04", "t": "Transparence totale", "d": "Honoraires et rétrocessions détaillés dans chaque rapport annuel, au centime."}];
@@ -88,6 +89,10 @@ export default function CapHorizonPatrimoinePage() {
 
 
   fd = session?.formData;
+  PARCOURS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PARCOURS_SOURCE[i % PARCOURS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    PARCOURS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

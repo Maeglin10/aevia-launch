@@ -60,7 +60,7 @@ const STATS_DEMO = [
 ]
 let STATS = STATS_DEMO;
 
-const BIENS_DEMO = [
+const BIENS_DEMO_SOURCE = [
   { titre: "Appartement de standing", lieu: "Paris 16e", prix: "1 480 000 €", surface: "145 m²", pieces: 5, bains: 2, tag: "Exclusivité", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" },
   { titre: "Maison familiale", lieu: "Neuilly-sur-Seine", prix: "2 250 000 €", surface: "280 m²", pieces: 7, bains: 3, tag: "Coup de cœur", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" },
   { titre: "Penthouse vue Eiffel", lieu: "Paris 7e", prix: "3 900 000 €", surface: "210 m²", pieces: 5, bains: 3, tag: "Prestige", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" },
@@ -68,6 +68,7 @@ const BIENS_DEMO = [
   { titre: "Loft design", lieu: "Paris 11e", prix: "890 000 €", surface: "120 m²", pieces: 3, bains: 2, tag: "Atypique", img: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80" },
   { titre: "Résidence Belle Époque", lieu: "Paris 8e", prix: "2 650 000 €", surface: "195 m²", pieces: 6, bains: 3, tag: "Haussmannien", img: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80" },
 ]
+let BIENS_DEMO = BIENS_DEMO_SOURCE;
 let BIENS = BIENS_DEMO;
 
 const SERVICES_SOURCE = [
@@ -131,6 +132,10 @@ export default function PierreCoPage() {
   }, []);
 
   fd = session?.formData;
+  BIENS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...BIENS_DEMO_SOURCE[i % BIENS_DEMO_SOURCE.length], titre: s.title, prix: s.price ?? BIENS_DEMO_SOURCE[i % BIENS_DEMO_SOURCE.length].prix })),
+    BIENS_DEMO_SOURCE,
+  );
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

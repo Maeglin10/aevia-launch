@@ -65,11 +65,12 @@ function AudioBars({ active = false }: { active?: boolean }) {
   )
 }
 
-const PRODUCTS_DEMO = [
+const PRODUCTS_DEMO_SOURCE = [
   { name: "A1 Monitor", type: "Reference Studio Speakers", price: "$4,200", img: "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&q=80&w=1200", specs: "Carbon fiber dome, 120dB dynamic range." },
   { name: "Aether Tube", type: "Vacuum Tube Amplifier", price: "$8,900", img: "https://images.unsplash.com/photo-1614149162883-504ce4d13909?auto=format&fit=crop&q=80&w=1200", specs: "Hand-wired circuitry, pure Class A operation." },
   { name: "Void Pro", type: "Open-Back Headphones", price: "$1,850", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=1200", specs: "Planar magnetic drivers, aircraft-grade aluminum." },
 ]
+let PRODUCTS_DEMO = PRODUCTS_DEMO_SOURCE;
 let PRODUCTS = PRODUCTS_DEMO;
 
 
@@ -100,6 +101,10 @@ export default function AetherSoundPage() {
   }, []);
 
   fd = session?.formData;
+  PRODUCTS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_DEMO_SOURCE[i % PRODUCTS_DEMO_SOURCE.length], name: s.title, price: s.price ?? PRODUCTS_DEMO_SOURCE[i % PRODUCTS_DEMO_SOURCE.length].price })),
+    PRODUCTS_DEMO_SOURCE,
+  );
 
   AVIS_INLINE = resolveList(
 

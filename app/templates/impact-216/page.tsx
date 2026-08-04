@@ -758,7 +758,7 @@ function TrackerSection() {
 }
 
 // ─── 4. SERVICES ──────────────────────────────────────────────────────────────
-const SERVICES = [
+const SERVICES_SOURCE = [
   {
     icon: '⚡', title: 'Transport Express', color: C.accent,
     desc: 'Livraison J+1 garantie sur toute la France métropolitaine. Enlèvement avant 18h, livraison le lendemain matin.',
@@ -790,6 +790,7 @@ const SERVICES = [
     features: ['Livraison sur RDV', 'Installation incluse', 'Reprise anciens appareils'],
   },
 ];
+let SERVICES = SERVICES_SOURCE;
 
 function ServiceCard({ service, index }: { service: typeof SERVICES[0]; index: number }) {
   const [hovered, setHovered] = useState(false);
@@ -909,7 +910,7 @@ function StatsSection() {
 }
 
 // ─── 6. PRICING ───────────────────────────────────────────────────────────────
-const PRICING_PLANS = [
+const PRICING_PLANS_SOURCE = [
   {
     name: 'Starter', price: '349', period: '/mois', highlighted: false, badge: null,
     volume: "Jusqu'à 500 colis/mois",
@@ -932,6 +933,7 @@ const PRICING_PLANS = [
     cta: 'Contacter les ventes',
   },
 ];
+let PRICING_PLANS = PRICING_PLANS_SOURCE;
 
 function PricingCard({ plan, index }: { plan: typeof PRICING_PLANS[0]; index: number }) {
   const [hovered, setHovered] = useState(false);
@@ -1723,6 +1725,14 @@ export default function MeridianFreightPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    SERVICES_SOURCE,
+  );
+  PRICING_PLANS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_PLANS_SOURCE[i % PRICING_PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_PLANS_SOURCE[i % PRICING_PLANS_SOURCE.length].price })),
+    PRICING_PLANS_SOURCE,
+  );
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,

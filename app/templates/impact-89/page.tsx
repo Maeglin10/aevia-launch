@@ -228,7 +228,7 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const STYLE_GUIDE = [
+const STYLE_GUIDE_SOURCE = [
   {
     name: "Réalisme",
     artist: "Viktor Rein",
@@ -278,8 +278,9 @@ const STYLE_GUIDE = [
     color: "#A8C5A0",
   },
 ];
+let STYLE_GUIDE = STYLE_GUIDE_SOURCE;
 
-const FLASH_SALE = [
+const FLASH_SALE_SOURCE = [
   { title: "Serpent & Lune", artist: "Viktor", price: "€180", original: "€280", style: "Blackwork", available: 1 },
   { title: "Rose Traditionnelle", artist: "James", price: "€120", original: "€180", style: "Old School", available: 2 },
   { title: "Géo Sternum", artist: "Léa", price: "€200", original: "€320", style: "Géométrique", available: 1 },
@@ -287,6 +288,7 @@ const FLASH_SALE = [
   { title: "Feuille Botanique", artist: "Léa", price: "€90", original: "€150", style: "Fine Line", available: 3 },
   { title: "Crâne Architecture", artist: "Viktor", price: "€220", original: "€340", style: "Réaliste", available: 1 },
 ];
+let FLASH_SALE = FLASH_SALE_SOURCE;
 
 const PROCESS = [
   {
@@ -476,12 +478,13 @@ function AboutSection() {
 }
 
 /* ─── SERVICES SECTION ─── */
-const SERVICES_89 = [
+const SERVICES_89_SOURCE = [
   { name: "Consultation Projet", price: "Offert", time: "30-45 min", desc: "Discussion autour de vos idées, références, taille, emplacement et choix de l'artiste." },
   { name: "Création Flash", price: "Dès €120", time: "1-3 heures", desc: "Sélection d'un dessin original prêt à être tatoué, proposé par l'un de nos résidents." },
   { name: "Session Custom Intermédiaire", price: "€250 - €450", time: "2-4 heures", desc: "Réalisation d'une pièce personnalisée de taille moyenne, dessinée sur-mesure pour vous." },
   { name: "Session Journée complète", price: "€800 - €1000", time: "6-8 heures", desc: "Pour les grands projets (sleeves, dos complet, pièces complexes nécessitant plusieurs heures)." }
 ];
+let SERVICES_89 = SERVICES_89_SOURCE;
 
 function ServicesSection() {
   return (
@@ -556,6 +559,18 @@ export default function Impact89Page() {
   }, []);
 
   fd = session?.formData;
+  STYLE_GUIDE = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...STYLE_GUIDE_SOURCE[i % STYLE_GUIDE_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
+    STYLE_GUIDE_SOURCE,
+  );
+  FLASH_SALE = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...FLASH_SALE_SOURCE[i % FLASH_SALE_SOURCE.length], title: s.title, price: s.price ?? FLASH_SALE_SOURCE[i % FLASH_SALE_SOURCE.length].price })),
+    FLASH_SALE_SOURCE,
+  );
+  SERVICES_89 = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_89_SOURCE[i % SERVICES_89_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? SERVICES_89_SOURCE[i % SERVICES_89_SOURCE.length].price })),
+    SERVICES_89_SOURCE,
+  );
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,

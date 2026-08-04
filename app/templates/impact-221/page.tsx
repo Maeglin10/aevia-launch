@@ -38,6 +38,7 @@ import {
   clientCity,
   clientName,
   clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -492,11 +493,12 @@ function StickyCrossfade() {
 /* ════════════════════════════════════════════════════════════════════════════
    MODELS
    ════════════════════════════════════════════════════════════════════════════ */
-const MODELS = [
+const MODELS_SOURCE = [
   { name: 'Lumyx ONE', tagline: "L'essentiel réinventé",      price: '2 490', range: '120 km', speed: '35 km/h', charge: '3.5 h', img: IMG.bike,     badge: 'Bestseller',      accent: C.blue },
   { name: 'Lumyx PRO', tagline: 'Pour ceux qui vont plus loin',price: '3 890', range: '180 km', speed: '45 km/h', charge: '2.5 h', img: IMG.ride,     badge: 'Recommandé',      accent: '#7c3aed' },
   { name: 'Lumyx GT',  tagline: 'La performance absolue',     price: '5 490', range: '230 km', speed: '45 km/h', charge: '1.8 h', img: IMG.hero,     badge: 'Édition limitée', accent: brand ?? 'var(--brand,#f59e0b)' },
 ];
+let MODELS = MODELS_SOURCE;
 
 type ModelType = typeof MODELS[0];
 
@@ -603,7 +605,7 @@ function Models() {
 /* ════════════════════════════════════════════════════════════════════════════
    TECH EDITORIAL
    ════════════════════════════════════════════════════════════════════════════ */
-const EDITORIAL = [
+const EDITORIAL_SOURCE = [
   {
     eyebrow: 'Ingénierie',
     title:   'Batterie longue portée Samsung 21700',
@@ -621,6 +623,7 @@ const EDITORIAL = [
     reverse: true,
   },
 ];
+let EDITORIAL = EDITORIAL_SOURCE;
 
 type EditorialRowType = typeof EDITORIAL[0];
 
@@ -1171,6 +1174,14 @@ export default function LumyxPage() {
   }, []);
 
   fd = session?.formData;
+  MODELS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...MODELS_SOURCE[i % MODELS_SOURCE.length], name: s.title, price: s.price ?? MODELS_SOURCE[i % MODELS_SOURCE.length].price })),
+    MODELS_SOURCE,
+  );
+  EDITORIAL = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDITORIAL_SOURCE[i % EDITORIAL_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    EDITORIAL_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

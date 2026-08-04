@@ -70,7 +70,7 @@ const FEATURES_SOURCE = [
 let FEATURES_DEMO = FEATURES_SOURCE;
 let FEATURES = FEATURES_DEMO;
 
-const PRICING = [
+const PRICING_SOURCE = [
   {
     name: "Gratuit",
     price: "0",
@@ -99,6 +99,7 @@ const PRICING = [
     highlight: false,
   },
 ]
+let PRICING = PRICING_SOURCE;
 
 const TESTIMONIALS_SOURCE = [
   { name: "Alice Dupont", role: "CTO — StartupX", text: "On a migré en 2 jours. L'API est propre, la doc claire. On n'a jamais regardé en arrière.", avatar: "AD" },
@@ -136,6 +137,10 @@ export default function EssentialSaaSPage() {
   }, []);
 
   fd = session?.formData;
+  PRICING = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].price })),
+    PRICING_SOURCE,
+  );
   FEATURES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
     FEATURES_SOURCE,

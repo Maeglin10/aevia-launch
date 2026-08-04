@@ -73,7 +73,7 @@ const EQUIPE_DEMO = [
 ];
 let EQUIPE = EQUIPE_DEMO;
 
-const DOMAINES = [
+const DOMAINES_SOURCE = [
   { titre: "Droit des affaires & commercial", desc: "Création d'entreprise, rédaction de contrats, litiges commerciaux, contentieux entre associés, recouvrement de créances. Conseil aux PME et ETI.", tag: "Affaires" },
   { titre: "Droit du travail", desc: "Rupture conventionnelle, licenciement abusif, harcèlement, discrimination. Assistance salarié et employeur devant le Conseil de Prud'hommes.", tag: "Travail" },
   { titre: "Droit de la famille", desc: "Divorce, séparation de biens, garde d'enfants, pension alimentaire, succession et héritage. Médiation familiale proposée.", tag: "Famille" },
@@ -81,6 +81,7 @@ const DOMAINES = [
   { titre: "Droit pénal des affaires", desc: "Abus de biens sociaux, fraude, escroquerie, blanchiment. Défense pénale et assistance aux dirigeants mis en cause.", tag: "Pénal" },
   { titre: "Protection des données (RGPD)", desc: "Mise en conformité RGPD, rédaction de politiques de confidentialité, DPO externalisé, accompagnement en cas de violations.", tag: "RGPD" },
 ]
+let DOMAINES = DOMAINES_SOURCE;
 
 const ENGAGEMENTS_DEMO = [
   "Membre du Barreau de Paris depuis 2002",
@@ -141,6 +142,10 @@ export default function CabinetRenardPage() {
   }, []);
 
   fd = session?.formData;
+  DOMAINES = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...DOMAINES_SOURCE[i % DOMAINES_SOURCE.length], titre: s.title, desc: s.desc || "" || "" })),
+    DOMAINES_SOURCE,
+  );
   AVIS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
     AVIS_SOURCE,

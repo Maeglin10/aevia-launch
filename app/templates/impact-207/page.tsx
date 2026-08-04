@@ -1213,7 +1213,7 @@ function ServicesSection() {
 /* --------------------------------------------------------------------------
    DELIVERY TIMELINE — STICKY SCROLL SEQUENCE
    -------------------------------------------------------------------------- */
-const STAGES = [
+const STAGES_SOURCE = [
   {
     id: "pickup",
     label: "Pickup",
@@ -1250,6 +1250,7 @@ const STAGES = [
     time: "Day 3–5",
   },
 ]
+let STAGES = STAGES_SOURCE;
 
 function DeliveryTimeline() {
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -2151,6 +2152,10 @@ export default function Impact207() {
   }, []);
 
   fd = session?.formData;
+  STAGES = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...STAGES_SOURCE[i % STAGES_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),
+    STAGES_SOURCE,
+  );
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

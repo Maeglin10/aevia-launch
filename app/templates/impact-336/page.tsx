@@ -47,7 +47,8 @@ const FONT_BODY = FONT;
 
 const NAV = [{"l": "Services", "h": "#services"}, {"l": "Infos pratiques", "h": "#methode"}, {"l": "Prise en charge", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 const HERO = [];
-const PARCOURS = [{"n": "01", "title": "Photographiez", "body": "L'ordonnance en entier, recto complet, depuis votre téléphone. Un mail suffit — pas d'application à installer."}, {"n": "02", "title": "Nous préparons", "body": "Vérification des interactions, substitutions expliquées si besoin, tout est prêt et mis de côté sous deux heures."}, {"n": "03", "title": "Vous passez", "body": "Moins de cinq minutes au comptoir dédié. Carte Vitale et mutuelle : tiers payant appliqué, aucune avance de frais."}, {"n": "04", "title": "Nous suivons", "body": "Renouvellements anticipés, rappels quand il est temps, et un pharmacien joignable pour toute question sur le traitement."}];
+const PARCOURS_SOURCE = [{"n": "01", "title": "Photographiez", "body": "L'ordonnance en entier, recto complet, depuis votre téléphone. Un mail suffit — pas d'application à installer."}, {"n": "02", "title": "Nous préparons", "body": "Vérification des interactions, substitutions expliquées si besoin, tout est prêt et mis de côté sous deux heures."}, {"n": "03", "title": "Vous passez", "body": "Moins de cinq minutes au comptoir dédié. Carte Vitale et mutuelle : tiers payant appliqué, aucune avance de frais."}, {"n": "04", "title": "Nous suivons", "body": "Renouvellements anticipés, rappels quand il est temps, et un pharmacien joignable pour toute question sur le traitement."}];
+let PARCOURS = PARCOURS_SOURCE;
 const SERVICES_SOURCE = [{"titre": "Ordonnances & renouvellements", "desc": "Préparation anticipée par mail, renouvellement des traitements chroniques dans le cadre légal, livraison possible pour les patients isolés.", "tag": "Comptoir"}, {"titre": "Vaccination", "desc": "Grippe, COVID-19, rappels dTP : par nos pharmaciens formés, sans rendez-vous, tracé dans votre carnet de vaccination électronique.", "tag": "Prévention"}, {"titre": "Tests rapides", "desc": "Angine (TROD), glycémie, tension : résultat en quelques minutes et orientation médicale quand c'est nécessaire.", "tag": "Dépistage"}, {"titre": "Entretiens pharmaceutiques", "desc": "Asthme, anticoagulants, chimiothérapie orale : des entretiens de suivi pris en charge par l'Assurance Maladie.", "tag": "Suivi"}, {"titre": "Matériel médical", "desc": "Location et vente : cannes, fauteuils, lits médicalisés, tire-lait. Tarifs LPP, tiers payant sur ordonnance, livraison à domicile.", "tag": "Matériel"}, {"titre": "Préparations magistrales", "desc": "Préparatoire agréé sur place : dosages pédiatriques, gélules à façon, préparations dermatologiques sur prescription.", "tag": "Préparatoire"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "Horaires étendus", "d": "Lun–Sam 8h30–19h30 sans interruption, sous l'horloge de la Grande Rue."}, {"n": "02", "t": "Comptoir ordonnances", "d": "File dédiée aux ordonnances préparées : moins de cinq minutes, mesuré chaque mois."}, {"n": "03", "t": "Accès et parking", "d": "Arrêt de tram à 50 m, parking Saint-Pierre gratuit 30 minutes avec validation."}, {"n": "04", "t": "Garde et urgences", "d": "En dehors de nos horaires, composez le 3237 pour la pharmacie de garde, le 15 pour le SAMU."}];
@@ -88,6 +89,10 @@ export default function PharmacieHorlogePage() {
 
 
   fd = session?.formData;
+  PARCOURS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PARCOURS_SOURCE[i % PARCOURS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    PARCOURS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

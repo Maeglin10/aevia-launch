@@ -14,12 +14,13 @@ import { StickyProgress } from "@/lib/templates/hero-kit-3";
 /* StickyProgress — the "expensive" section from the two most polished
    recordings: the title stays pinned while the learner's path reveals
    step by step on scroll. */
-const PARCOURS = [
+const PARCOURS_SOURCE = [
   { n: "01", title: "Choisir son cours", body: "Un catalogue filtré par métier et par niveau, des extraits gratuits sur chaque cours — on sait ce qu'on achète avant de payer." },
   { n: "02", title: "Apprendre à son rythme", body: "Des leçons de dix minutes, reprises là où on s'est arrêté, sur téléphone comme sur ordinateur. À vie, pas par abonnement." },
   { n: "03", title: "Pratiquer sur projets", body: "Chaque module se termine par un projet corrigé par un mentor — pas un QCM. C'est le projet qui va dans le portfolio." },
   { n: "04", title: "Certifier et montrer", body: "Un certificat vérifiable en un lien, relié aux projets rendus. Les recruteurs voient le travail, pas juste le titre." },
 ];
+let PARCOURS = PARCOURS_SOURCE;
 
 /* No verified imagery exists for this template and a photo backdrop is not
    the platform's voice anyway — instead the subject rotates inside the
@@ -116,6 +117,10 @@ export default function Impact49Page() {
   }, []);
 
   fd = session?.formData;
+  PARCOURS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PARCOURS_SOURCE[i % PARCOURS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    PARCOURS_SOURCE,
+  );
 
   AVIS_INLINE = resolveList(
 

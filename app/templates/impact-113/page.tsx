@@ -70,7 +70,7 @@ const FEATURES_SOURCE = [
 let FEATURES_DEMO = FEATURES_SOURCE;
 let FEATURES = FEATURES_DEMO;
 
-const PRICING = [
+const PRICING_SOURCE = [
   {
     name: "Developer",
     price: "$0",
@@ -116,6 +116,7 @@ const PRICING = [
     popular: false,
   },
 ];
+let PRICING = PRICING_SOURCE;
 
 const TESTIMONIALS_SOURCE = [
   {
@@ -236,6 +237,10 @@ export default function NexusSaaSPage() {
   }, []);
 
   fd = session?.formData;
+  PRICING = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].price })),
+    PRICING_SOURCE,
+  );
   FEATURES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
     FEATURES_SOURCE,

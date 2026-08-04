@@ -56,7 +56,7 @@ const WORK_REEL_DEMO = [
 ];
 let WORK_REEL = WORK_REEL_DEMO;
 
-const EXPERTISE = [
+const EXPERTISE_SOURCE = [
   {
     code: "DOMAIN_01",
     title: "Creative Technology",
@@ -76,6 +76,7 @@ const EXPERTISE = [
     items: ["Identity Design", "Design Systems", "Brand Strategy"],
   },
 ];
+let EXPERTISE = EXPERTISE_SOURCE;
 
 const PROCESS_STEPS = [
   {
@@ -161,6 +162,10 @@ export default function AetherRoasteryPage() {
   }, []);
 
   fd = session?.formData;
+  EXPERTISE = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...EXPERTISE_SOURCE[i % EXPERTISE_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    EXPERTISE_SOURCE,
+  );
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,

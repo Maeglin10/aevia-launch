@@ -123,7 +123,7 @@ function useFonts() {
 
 const NAV_LINKS = ["Collections", "Tirages", "Terrain", "À propos", "Contact"]
 
-const SLIDES_DEMO = [
+const SLIDES_DEMO_SOURCE = [
   {
     id: 1,
     title: "Forêts Primaires",
@@ -170,6 +170,7 @@ const SLIDES_DEMO = [
     year: "2025",
   },
 ]
+let SLIDES_DEMO = SLIDES_DEMO_SOURCE;
 let SLIDES = SLIDES_DEMO;
 
 const COLLECTIONS_DEMO = [
@@ -218,7 +219,7 @@ const COLLECTIONS_DEMO = [
 ]
 let COLLECTIONS = COLLECTIONS_DEMO;
 
-const PRINTS = [
+const PRINTS_SOURCE = [
   {
     size: "30 × 20 cm",
     price: "89",
@@ -244,6 +245,7 @@ const PRINTS = [
     featured: false,
   },
 ]
+let PRINTS = PRINTS_SOURCE;
 
 const FIELD_NOTES = [
   {
@@ -578,6 +580,14 @@ export default function Impact114Page() {
   }, []);
 
   fd = session?.formData;
+  SLIDES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SLIDES_DEMO_SOURCE[i % SLIDES_DEMO_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    SLIDES_DEMO_SOURCE,
+  );
+  PRINTS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRINTS_SOURCE[i % PRINTS_SOURCE.length], label: s.title, desc: s.desc || "" || "", price: s.price ?? PRINTS_SOURCE[i % PRINTS_SOURCE.length].price })),
+    PRINTS_SOURCE,
+  );
 
   STATS_INLINE = resolveList(
 

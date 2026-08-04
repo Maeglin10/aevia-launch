@@ -171,11 +171,12 @@ const PRODUCTS_DEMO = [
   },
 ];
 
-const FEATURED = [
+const FEATURED_SOURCE = [
   { id: 101, name: 'MCZ Musa 11kW', type: 'Poêle à granulés', price: 2490, emoji: '✨', label: 'Classe A++', desc: 'Pellet ultra-silencieux, connexion Wi-Fi, programmable à distance.' },
   { id: 102, name: 'Invicta Prélude 8kW', type: 'Poêle à bois', price: 1290, emoji: '🔥', label: 'Flamme Verte 7★', desc: 'Design acier épuré, combustion optimisée, rendement 85 %.' },
   { id: 103, name: 'Stuv 16 Insert', type: 'Insert cheminée', price: 3200, emoji: '💎', label: 'Haut de gamme', desc: 'Façade vitrocéramique panoramique, habillage acier inoxydable.' },
 ];
+let FEATURED = FEATURED_SOURCE;
 
 const CATEGORIES = [
   { id: 1, label: 'Poêles à bois', count: 48, emoji: '🪵', desc: 'Chaleur naturelle & authenticité' },
@@ -184,12 +185,13 @@ const CATEGORIES = [
   { id: 4, label: 'Accessoires', count: 120, emoji: '🛠️', desc: 'Entretien & décoration' },
 ];
 
-const USPS = [
+const USPS_SOURCE = [
   { icon: '🚚', title: 'Livraison 48h', desc: 'Livraison express en France métropolitaine sous 48 heures ouvrées. Suivi en temps réel inclus.' },
   { icon: '🔧', title: 'Installation incluse', desc: 'Option installation par nos techniciens certifiés RGE. Devis gratuit sous 24h.' },
   { icon: '🌿', title: 'Certifiés Flamme Verte', desc: 'Tous nos appareils respectent les normes Flamme Verte & Écoconception 2022.' },
   { icon: '🛡️', title: 'SAV 5 ans', desc: 'Garantie constructeur jusqu\'à 5 ans. Service après-vente basé en France, réactif et humain.' },
 ];
+let USPS = USPS_SOURCE;
 
 const TESTIMONIALS_SOURCE = [
   { id: 1, name: 'Isabelle M.', city: (clientCity(sessionData) ?? "Lyon"), product: 'Invicta Prélude 8kW', rating: 5, text: 'Magnifique poêle, installation parfaite. Livré en 2 jours, service impeccable. Après 3 mois d\'utilisation, notre maison est toujours à la bonne température.', verified: true, date: 'Janvier 2025' },
@@ -201,10 +203,11 @@ const TESTIMONIALS_SOURCE = [
 ];
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
-const EXTRA_TESTIMONIALS = [
+const EXTRA_TESTIMONIALS_SOURCE = [
   { id: 7, name: 'Héloïse G.', city: (clientCity(sessionData) ?? "Rennes"), product: 'MCZ Musa 11kW', rating: 5, text: 'J\'hésite pendant des semaines, et finalement Flamme & Co m\'a convaincue avec un conseil personnalisé. Le poêle à granulés MCZ est parfait pour notre maison de 110 m².' , verified: true, date: 'Mars 2025' },
   { id: 8, name: 'Benoît L.', city: (clientCity(sessionData) ?? "Grenoble"), product: 'Invicta Prélude 8kW', rating: 5, text: 'Parfait pour nos hivers montagnards ! Très content de mon achat. Le rendement est au top, et l\'équipe Flamme & Co était disponible pour répondre à toutes mes questions.', verified: true, date: 'Octobre 2024' },
 ];
+let EXTRA_TESTIMONIALS = EXTRA_TESTIMONIALS_SOURCE;
 
 const FAQS_DEMO = [
   {
@@ -1811,6 +1814,18 @@ export default function FlammeEtCoPage() {
   }, []);
 
   fd = session?.formData;
+  FEATURED = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...FEATURED_SOURCE[i % FEATURED_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? FEATURED_SOURCE[i % FEATURED_SOURCE.length].price })),
+    FEATURED_SOURCE,
+  );
+  USPS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...USPS_SOURCE[i % USPS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    USPS_SOURCE,
+  );
+  EXTRA_TESTIMONIALS = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...EXTRA_TESTIMONIALS_SOURCE[i % EXTRA_TESTIMONIALS_SOURCE.length], text: r.text, name: r.author })),
+    EXTRA_TESTIMONIALS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

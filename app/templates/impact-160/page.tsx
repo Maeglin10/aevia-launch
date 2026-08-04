@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef } from "react"
@@ -31,6 +32,7 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -74,12 +76,13 @@ const DATA_CENTERS = [
   }
 ]
 
-const SYSTEM_METRICS = [
+const SYSTEM_METRICS_SOURCE = [
   { label: "Global Throughput", value: "4.2 Tbps", trend: "Stable" },
   { label: "Storage Fill", value: "68.4%", trend: "Expanding" },
   { label: "Request Velocity", value: "1.2M req/s", trend: "High" },
   { label: "Security Handshake", value: "Verified", trend: "Secure" }
 ]
+let SYSTEM_METRICS = SYSTEM_METRICS_SOURCE;
 
 const REDUNDANCY_LOGS = [
   { timestamp: "12:04:42", shard: "S-142", node: "EU-WEST", status: "SYNCED" },
@@ -171,6 +174,10 @@ export default function MonolithPremium() {
   }, []);
 
   fd = session?.formData;
+  SYSTEM_METRICS = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...SYSTEM_METRICS_SOURCE[i % SYSTEM_METRICS_SOURCE.length], value: s.value, label: s.label })),
+    SYSTEM_METRICS_SOURCE,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

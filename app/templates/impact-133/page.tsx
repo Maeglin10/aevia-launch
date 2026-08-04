@@ -69,7 +69,7 @@ let C: Record<string, string> = {
    DATA
    ========================================================================== */
 
-const PROJECTS = [
+const PROJECTS_SOURCE = [
   {
     id: "01",
     title: "Neo-Tokyo Spire",
@@ -115,6 +115,7 @@ const PROJECTS = [
     color: C.cyan,
   },
 ];
+let PROJECTS = PROJECTS_SOURCE;
 
 const SERVICES_SOURCE = [
   {
@@ -141,12 +142,13 @@ const SERVICES_SOURCE = [
 let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
-const TECH_STACK = [
+const TECH_STACK_SOURCE = [
   { name: "Grasshopper", sub: "Parametric modelling" },
   { name: "Rhino 3D", sub: "NURBS geometry" },
   { name: "Houdini", sub: "Procedural simulation" },
   { name: "Unreal Engine 5", sub: "Real-time render" },
 ];
+let TECH_STACK = TECH_STACK_SOURCE;
 
 const PRESS_DEMO = [
   { name: "Dezeen", quote: "The most ambitious practice of the decade." },
@@ -2221,6 +2223,14 @@ export default function Impact133Page() {
   }, []);
 
   fd = session?.formData;
+  PROJECTS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PROJECTS_SOURCE[i % PROJECTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    PROJECTS_SOURCE,
+  );
+  TECH_STACK = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...TECH_STACK_SOURCE[i % TECH_STACK_SOURCE.length], name: s.title, sub: s.desc || "" || "" })),
+    TECH_STACK_SOURCE,
+  );
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], label: s.title })),
     SERVICES_SOURCE,

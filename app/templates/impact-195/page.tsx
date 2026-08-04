@@ -75,7 +75,7 @@ const BLOG = [
   { k: "Organisation", d: "4 avril", t: "Le rétroplanning à 12 mois, semaine par semaine", e: "Quand réserver quoi, dans quel ordre, et les deux décisions qu'il ne faut jamais repousser." },
 ];
 
-const FORMULES = [
+const FORMULES_SOURCE = [
   { icon: Sparkles, title: "Coordination jour J", desc: "Gestion de votre mariage le jour même. Coordination prestataires, briefing équipes, timing, gestion imprévus. Vous profitez — on gère." },
   { icon: Gift, title: "Formule clé en main", desc: "De la recherche du lieu aux derniers confettis. Sélection prestataires, budget, déco, plan de table, animation. 100% serein." },
   { icon: Flower, title: "Conception florale & déco", desc: "Arche florale, centre de table, bouquets, pétales, compositions végétales. Style contemporain, romantique ou champêtre. Sur mesure." },
@@ -83,6 +83,7 @@ const FORMULES = [
   { icon: Music, title: "Recherche prestataires", desc: "Sélection DJ, orchestre, photographe, vidéaste, traiteur, officiant. 200+ prestataires partenaires vérifiés. Négociation tarifaire incluse." },
   { icon: Calendar, title: "Événements corporate & privés", desc: "Cocktail d'entreprise, anniversaire élaboré, soirée gala. Budget 5 000 à 200 000€. Expérience événementielle globale." },
 ]
+let FORMULES = FORMULES_SOURCE;
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -117,6 +118,10 @@ export default function MaisonElisePage() {
   }, []);
 
   fd = session?.formData;
+  FORMULES = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...FORMULES_SOURCE[i % FORMULES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    FORMULES_SOURCE,
+  );
   EQUIPE = resolveList(
     clientTeam(session)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
     EQUIPE_DEMO,

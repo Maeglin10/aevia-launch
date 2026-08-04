@@ -1,5 +1,9 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientCity,
+  clientServices,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import React, {
@@ -89,12 +93,13 @@ const MENU_ITEMS: Record<MenuCategory, { name: string; price: string; desc: stri
   ],
 };
 
-const WINES = [
+const WINES_SOURCE = [
   { name: "Barolo DOCG 'Monfortino' 2013", region: "Piedmont", grape: "Nebbiolo", price: "€450", note: "Giacomo Conterno. Complex, tar and roses, infinite length." },
   { name: "Brunello di Montalcino 2016", region: "Tuscany", grape: "Sangiovese Grosso", price: "€120", note: "Biondi-Santi. Elegant, bright cherry, mineral precision." },
   { name: "Franciacorta Cuvée Prestige", region: "Lombardy", grape: "Chardonnay · Pinot Noir", price: "€85", note: "Ca' del Bosco. Fine perlage, white flowers, citrus." },
   { name: "Amarone della Valpolicella 2015", region: "Veneto", grape: "Corvina", price: "€160", note: "Masi Costasera. Dark cherry, chocolate, robust structure." },
 ];
+let WINES = WINES_SOURCE;
 
 const MARQUEE_ITEMS = [
   "Burrata e Pomodorini",
@@ -470,6 +475,10 @@ export default function ImpactRestaurantPage() {
   }, []);
 
   fd = session?.formData;
+  WINES = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...WINES_SOURCE[i % WINES_SOURCE.length], name: s.title, price: s.price ?? WINES_SOURCE[i % WINES_SOURCE.length].price })),
+    WINES_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color

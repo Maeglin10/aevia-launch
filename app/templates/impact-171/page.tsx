@@ -124,12 +124,13 @@ const STEPS = [
   { n: "05", title: "Optimisation", desc: "Révision annuelle du protocole et intégration des nouvelles avancées médicales." },
 ]
 
-const SCIENCE = [
+const SCIENCE_SOURCE = [
   { icon: Microscope, title: "Diagnostic Précis", desc: "Analyses biologiques avancées avec équipements de dernière génération. Résultats en 24h." },
   { icon: Brain, title: "Protocoles Validés", desc: "Chaque traitement repose sur des études cliniques randomisées et les recommandations HAS." },
   { icon: Activity, title: "Suivi Continu", desc: "Dossier médical numérique partagé, alertes proactives et téléconsultation 7j/7." },
   { icon: Award, title: "Innovation Médicale", desc: "Intégration des thérapies émergentes : microbiome, génomique nutritionnelle et médecine régénérative." },
 ]
+let SCIENCE = SCIENCE_SOURCE;
 
 const TESTIMONIALS_SOURCE = [
   {
@@ -246,6 +247,10 @@ export default function Impact171Page() {
   }, []);
 
   fd = session?.formData;
+  SCIENCE = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SCIENCE_SOURCE[i % SCIENCE_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    SCIENCE_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

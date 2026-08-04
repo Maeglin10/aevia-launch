@@ -64,13 +64,14 @@ const URGENCE = [
   { t: "Canalisation bouchée", d: "Furet, hydrocureur et caméra si nécessaire. On vous montre l'image avant de proposer un remplacement." },
 ];
 
-const ENTRETIEN = [
+const ENTRETIEN_SOURCE = [
   { a: "Visite annuelle chaudière gaz", p: "119 €", n: "Obligatoire. Nettoyage, réglage, mesure de combustion, attestation remise sur place." },
   { a: "Contrat Sérénité", p: "16 € / mois", n: "Visite annuelle, dépannage prioritaire sous 4 h, main-d'œuvre incluse." },
   { a: "Entretien pompe à chaleur", p: "149 €", n: "Contrôle du circuit frigorifique, pression, filtres, unité extérieure." },
   { a: "Détartrage chauffe-eau", p: "à partir de 139 €", n: "Recommandé tous les trois ans en eau dure. Anode contrôlée, remplacée si besoin." },
   { a: "Contrôle de l'installation gaz", p: "95 €", n: "Certificat de conformité pour une vente ou une mise en location." },
 ];
+let ENTRETIEN = ENTRETIEN_SOURCE;
 
 const SERVICES_SOURCE = [
   { titre: "Plomberie générale", desc: "Fuite, canalisation bouchée, remplacement de chauffe-eau, robinetterie, WC. Devis gratuit et transparence sur les tarifs avant intervention.", tag: "Plomberie" },
@@ -137,6 +138,10 @@ export default function AquaThermPage() {
   }, []);
 
   fd = session?.formData;
+  ENTRETIEN = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...ENTRETIEN_SOURCE[i % ENTRETIEN_SOURCE.length], a: s.title, n: s.desc || "" || "", p: s.price ?? ENTRETIEN_SOURCE[i % ENTRETIEN_SOURCE.length].p })),
+    ENTRETIEN_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

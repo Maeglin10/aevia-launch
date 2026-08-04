@@ -73,7 +73,7 @@ const BILAN = [
   { t: "Le prix", d: "Gratuit avec une commande d'équipement, 25 € sinon. Aucun remboursement Sécurité sociale sur cet examen." },
 ];
 
-const LENTILLES = [
+const LENTILLES_SOURCE = [
   { a: "Adaptation première pose", p: "45 €", n: "Essai, mesures cornéennes, apprentissage de la pose et du retrait. Deux séances comprises." },
   { a: "Journalières · boîte de 90", p: "à partir de 42 €", n: "Silicone hydrogel. La solution la plus sûre pour un port occasionnel." },
   { a: "Mensuelles · boîte de 6", p: "à partir de 29 €", n: "Prévoir un produit d'entretien, environ 9 € par mois." },
@@ -81,6 +81,7 @@ const LENTILLES = [
   { a: "Multifocales (presbytie)", p: "à partir de 65 €", n: "Adaptation en trois essais en moyenne. Échange gratuit si la vision de près ne convient pas." },
   { a: "Contrôle annuel", p: "offert", n: "Obligatoire pour renouveler. Vérification de la cornée à la lampe à fente." },
 ];
+let LENTILLES = LENTILLES_SOURCE;
 
 const OFFRES_SOURCE = [
   { titre: "Lunettes de vue", desc: "Plus de 400 montures sélectionnées : grandes marques (Ray-Ban, Lindberg, Persol) et créateurs indépendants. Verres haute définition, anti-lumière bleue, amincis.", tag: "Vue" },
@@ -152,6 +153,10 @@ export default function VisionClairePage() {
   }, []);
 
   fd = session?.formData;
+  LENTILLES = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...LENTILLES_SOURCE[i % LENTILLES_SOURCE.length], a: s.title, n: s.desc || "" || "", p: s.price ?? LENTILLES_SOURCE[i % LENTILLES_SOURCE.length].p })),
+    LENTILLES_SOURCE,
+  );
   OFFRES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...OFFRES_SOURCE[i % OFFRES_SOURCE.length], titre: s.title })),
     OFFRES_SOURCE,

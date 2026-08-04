@@ -210,7 +210,7 @@ const RITUELS = [
   },
 ]
 
-const INGREDIENTS = [
+const INGREDIENTS_SOURCE = [
   {
     name: "Rose de Damas",
     scientific: "Rosa damascena",
@@ -266,6 +266,7 @@ const INGREDIENTS = [
     color: C.lavender,
   },
 ]
+let INGREDIENTS = INGREDIENTS_SOURCE;
 
 const REVIEWS_SOURCE = [
   {
@@ -312,7 +313,7 @@ const PRESS_ITEMS = [
   { name: "Le Figaro Madame", issue: "Luxe & Naturalité", quote: "L'atelier Lumière, où naît la beauté de demain." },
 ]
 
-const SETS = [
+const SETS_SOURCE = [
   {
     name: "Essentiel",
     price: "89€",
@@ -347,6 +348,7 @@ const SETS = [
     cta: "Choisir",
   },
 ]
+let SETS = SETS_SOURCE;
 
 const MARQUEE_ITEMS = [
   "Sérum Rose",
@@ -2344,6 +2346,14 @@ export default function Impact134Page() {
   }, []);
 
   fd = session?.formData;
+  INGREDIENTS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...INGREDIENTS_SOURCE[i % INGREDIENTS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
+    INGREDIENTS_SOURCE,
+  );
+  SETS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SETS_SOURCE[i % SETS_SOURCE.length], name: s.title, price: s.price ?? SETS_SOURCE[i % SETS_SOURCE.length].price })),
+    SETS_SOURCE,
+  );
   PRODUCTS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title })),
     PRODUCTS_SOURCE,

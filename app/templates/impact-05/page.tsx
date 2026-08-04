@@ -55,7 +55,7 @@ const STATS_DEMO = [
 ]
 let STATS = STATS_DEMO;
 
-const FEATURE_TABS_DEMO = [
+const FEATURE_TABS_DEMO_SOURCE = [
   {
     id: "performance",
     label: "Performance",
@@ -105,6 +105,7 @@ const FEATURE_TABS_DEMO = [
     img: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
   },
 ]
+let FEATURE_TABS_DEMO = FEATURE_TABS_DEMO_SOURCE;
 let FEATURE_TABS = FEATURE_TABS_DEMO;
 
 const TESTIMONIALS_SOURCE = [
@@ -157,7 +158,7 @@ const TESTIMONIALS_SOURCE = [
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
-const PRICING = [
+const PRICING_SOURCE = [
   {
     name: "Starter",
     price: "0",
@@ -214,6 +215,7 @@ const PRICING = [
     badge: null,
   },
 ]
+let PRICING = PRICING_SOURCE;
 
 const FAQS_DEMO = [
   { q: "How does the 14-day trial work?", a: "The Pro trial gives you full access to every Pro feature with no credit card required. At the end of 14 days, you choose to subscribe or downgrade to the free Starter plan — your data and projects are preserved either way." },
@@ -269,6 +271,14 @@ export default function NovaPlatformSaaS() {
   }, []);
 
   fd = session?.formData;
+  FEATURE_TABS_DEMO = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...FEATURE_TABS_DEMO_SOURCE[i % FEATURE_TABS_DEMO_SOURCE.length], value: s.value, label: s.label })),
+    FEATURE_TABS_DEMO_SOURCE,
+  );
+  PRICING = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].price })),
+    PRICING_SOURCE,
+  );
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,

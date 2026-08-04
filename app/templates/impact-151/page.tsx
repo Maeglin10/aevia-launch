@@ -28,6 +28,7 @@ import {
   clientCity,
   clientName,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -75,12 +76,13 @@ const VINTAGES_DEMO = [
   }
 ]
 
-const TERROIR_DATA = [
+const TERROIR_DATA_SOURCE = [
   { label: "Elevation", value: "450m", icon: <Layers className="w-4 h-4" /> },
   { label: "Soil Type", value: "Jurassic Limestone", icon: <Map className="w-4 h-4" /> },
   { label: "Avg Temp", value: "18.4°C", icon: <Thermometer className="w-4 h-4" /> },
   { label: "Hydration", value: "Clay-Filtered", icon: <Droplets className="w-4 h-4" /> }
 ]
+let TERROIR_DATA = TERROIR_DATA_SOURCE;
 
 /* ==========================================================================
    ANIMATION COMPONENTS
@@ -154,6 +156,10 @@ export default function AethelgardEstatePremium() {
   }, []);
 
   fd = session?.formData;
+  TERROIR_DATA = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({ ...TERROIR_DATA_SOURCE[i % TERROIR_DATA_SOURCE.length], value: s.value, label: s.label })),
+    TERROIR_DATA_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

@@ -28,6 +28,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
 
@@ -72,7 +73,7 @@ const PROJECTS_DEMO = [
   },
 ];
 
-const PHILOSOPHY = [
+const PHILOSOPHY_SOURCE = [
   {
     title: "Spatial Psychology",
     desc: "We design for the subconscious, utilizing negative space to reduce cognitive load and enhance focus.",
@@ -89,6 +90,7 @@ const PHILOSOPHY = [
     icon: Sparkles,
   },
 ];
+let PHILOSOPHY = PHILOSOPHY_SOURCE;
 
 const STATS_DEMO = [
   { label: "Spaces Transformed", value: "140+" },
@@ -203,6 +205,10 @@ export default function NovaSpacesPage() {
   }, []);
 
   fd = session?.formData;
+  PHILOSOPHY = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    PHILOSOPHY_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

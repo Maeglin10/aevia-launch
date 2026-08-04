@@ -13,6 +13,7 @@ import {
   clientName,
   clientPhotos,
   clientReviews,
+  clientServices,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -128,7 +129,7 @@ const GALLERY_PHOTOS_DEMO = [
 ];
 let GALLERY_PHOTOS = GALLERY_PHOTOS_DEMO;
 
-const EXPERIENCES = [
+const EXPERIENCES_SOURCE = [
   {
     title: "Déjeuner d'affaires",
     price: "75€",
@@ -155,6 +156,7 @@ const EXPERIENCES = [
     includes: ["Menu entièrement personnalisé", "Salle exclusive", "Décoration sur-mesure", "Équipe dédiée"],
   },
 ];
+let EXPERIENCES = EXPERIENCES_SOURCE;
 
 const REVIEWS_SOURCE = [
   {
@@ -218,6 +220,10 @@ export default function AeviaKitchenPage() {
   }, []);
 
   fd = session?.formData;
+  EXPERIENCES = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EXPERIENCES_SOURCE[i % EXPERIENCES_SOURCE.length], title: s.title, desc: s.desc || "" || "", price: s.price ?? EXPERIENCES_SOURCE[i % EXPERIENCES_SOURCE.length].price })),
+    EXPERIENCES_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

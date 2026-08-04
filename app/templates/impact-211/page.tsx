@@ -1,7 +1,9 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientName,
+  clientServices,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useCallback } from "react"
@@ -122,11 +124,12 @@ function buildCourses(items: { name: string; price: string; description?: string
 }
 
 // ─── Events ───────────────────────────────────────────────────────────────────
-const EVENTS = [
+const EVENTS_SOURCE = [
   { date: "14 Juin 2026", title: "Dîner des Vignerons", desc: "Un voyage gustatif à travers les grands crus de Bourgogne, en présence du domaine Leflaive.", seats: "12 couverts" },
   { date: "21 Juillet 2026", title: "Soirée Truffe d'Été", desc: "Menu entièrement dédié à la truffe noire melanosporum de nos partenaires du Périgord.", seats: "8 couverts" },
   { date: "3 Septembre 2026", title: "Table du Chef", desc: "Une expérience unique : dîner en cuisine, face aux fourneaux, avec commentaires du chef.", seats: "6 couverts" },
 ]
+let EVENTS = EVENTS_SOURCE;
 
 // ─── Hooks ────────────────────────────────────────────────────────────────────
 function useParallax(value: MotionValue<number>, distance: number) {
@@ -421,6 +424,10 @@ export default function Impact211Page() {
   }, []);
 
   fd = session?.formData;
+  EVENTS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...EVENTS_SOURCE[i % EVENTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    EVENTS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
