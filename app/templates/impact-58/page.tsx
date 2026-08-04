@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
@@ -21,12 +22,24 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// L'équipe, jusqu'ici écrit(e)s dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const EQUIPE_INLINE_SOURCE = [
+  { name: 'Léa Duval', role: 'Directrice Créative & Fondatrice', since: '2014', bio: 'Ancienne DOP chez Partizan, Léa a fondé le studio après 8 ans à diriger la photographie pour des marques comme Dior et Nike. Elle supervise toutes les directions artistiques.' },
+                { name: 'Marcus Stein', role: 'Directeur Technique / VFX Lead', since: '2015', bio: 'Formé au FxPhD, Marcus a développé le pipeline de rendu propriétaire du studio. Il a reçu deux prix AICP pour ses travaux sur la simulation de particules et de fluides.' },
+                { name: 'Camille Bouchard', role: 'Head of Strategy & Client Relations', since: '2019', bio: 'Ex-agence BBDO Paris, Camille gère les comptes stratégiques et l\'orchestration des projets multi-marchés. Elle parle 4 langues et gère simultanément 6 à 8 comptes actifs.' },
+                { name: 'Tom Iwata', role: '3D Motion Director', since: '2021', bio: 'Spécialiste Cinema 4D + Houdini, Tom a développé les identités motion de trois maisons de luxe en 2023. Ses boucles génèrent régulièrement plus de 50M d\'impressions sur les réseaux.' }
+];
+let EQUIPE_INLINE = EQUIPE_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -181,6 +194,20 @@ export default function SkewOSHome() {
   }, []);
 
   fd = session?.formData;
+
+  EQUIPE_INLINE = resolveList(
+
+    clientTeam(session)?.map((m: any, i: number) => ({
+
+      ...EQUIPE_INLINE_SOURCE[i % EQUIPE_INLINE_SOURCE.length],
+
+      name: m.name, role: m.role,
+
+    })),
+
+    EQUIPE_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -788,12 +815,7 @@ return (
               </h2>
             </Reveal>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: '4rem' }}>
-              {[
-                { name: 'Léa Duval', role: 'Directrice Créative & Fondatrice', since: '2014', bio: 'Ancienne DOP chez Partizan, Léa a fondé le studio après 8 ans à diriger la photographie pour des marques comme Dior et Nike. Elle supervise toutes les directions artistiques.' },
-                { name: 'Marcus Stein', role: 'Directeur Technique / VFX Lead', since: '2015', bio: 'Formé au FxPhD, Marcus a développé le pipeline de rendu propriétaire du studio. Il a reçu deux prix AICP pour ses travaux sur la simulation de particules et de fluides.' },
-                { name: 'Camille Bouchard', role: 'Head of Strategy & Client Relations', since: '2019', bio: 'Ex-agence BBDO Paris, Camille gère les comptes stratégiques et l\'orchestration des projets multi-marchés. Elle parle 4 langues et gère simultanément 6 à 8 comptes actifs.' },
-                { name: 'Tom Iwata', role: '3D Motion Director', since: '2021', bio: 'Spécialiste Cinema 4D + Houdini, Tom a développé les identités motion de trois maisons de luxe en 2023. Ses boucles génèrent régulièrement plus de 50M d\'impressions sur les réseaux.' },
-              ].map((m, i) => (
+              {EQUIPE_INLINE.map((m, i) => (
                 <Reveal key={m.name} delay={i * 0.1}>
                   <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: '2rem' }}>
                     <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: `linear-gradient(135deg, ${C.violet}22 0%, ${C.violet}44 100%)`, border: `1px solid ${C.violet}44`, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

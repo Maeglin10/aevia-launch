@@ -12,12 +12,24 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// L'équipe, jusqu'ici écrit(e)s dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const EQUIPE_INLINE_SOURCE = [
+  { name: "Noa Stein", role: "Founder & CLI Lead", gh: "noa-s", focus: "Core runtime, DX" },
+                { name: "Remi Osei", role: "Platform Engineer", gh: "remi_dev", focus: "Cloud orchestration" },
+                { name: "Aiko Park", role: "Developer Relations", gh: "aikopark", focus: "Docs, community" },
+                { name: "Lucas Vidal", role: "Security & Infra", gh: "lv_sec", focus: "Zero-trust, audit" }
+];
+let EQUIPE_INLINE = EQUIPE_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -131,6 +143,20 @@ export default function WaveFXPage() {
   }, []);
 
   fd = session?.formData;
+
+  EQUIPE_INLINE = resolveList(
+
+    clientTeam(session)?.map((m: any, i: number) => ({
+
+      ...EQUIPE_INLINE_SOURCE[i % EQUIPE_INLINE_SOURCE.length],
+
+      name: m.name, role: m.role,
+
+    })),
+
+    EQUIPE_INLINE_SOURCE,
+
+  );
   FEATURES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
     FEATURES_SOURCE,
@@ -340,12 +366,7 @@ export default function WaveFXPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { name: "Noa Stein", role: "Founder & CLI Lead", gh: "noa-s", focus: "Core runtime, DX" },
-                { name: "Remi Osei", role: "Platform Engineer", gh: "remi_dev", focus: "Cloud orchestration" },
-                { name: "Aiko Park", role: "Developer Relations", gh: "aikopark", focus: "Docs, community" },
-                { name: "Lucas Vidal", role: "Security & Infra", gh: "lv_sec", focus: "Zero-trust, audit" },
-              ].map((m, i) => (
+              {EQUIPE_INLINE.map((m, i) => (
                 <Reveal key={i} delay={i * 0.08}>
                   <div className="group p-6 bg-white/[0.02] border border-white/5 rounded-xl hover:border-[var(--brand,#6366f1)]/20 transition-all duration-500 cursor-default flex flex-col gap-4">
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--brand,#6366f1)]/20 to-blue-500/20 border border-[var(--brand,#6366f1)]/20 flex items-center justify-center">

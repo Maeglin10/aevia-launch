@@ -13,12 +13,24 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// L'équipe, jusqu'ici écrit(e)s dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const EQUIPE_INLINE_SOURCE = [
+  { name: "Eleanor Voss", title: "Managing Partner", focus: "M&A · Corporate Governance", called: "1994", initials: "EV" },
+                { name: "David Osei", title: "Senior Partner", focus: "Litigation · Dispute Resolution", called: "2001", initials: "DO" },
+                { name: "Margaux Petit", title: "Partner", focus: "Regulatory · Compliance", called: "2008", initials: "MP" },
+                { name: "James Lim", title: "Partner", focus: "Tax · International Structuring", called: "2010", initials: "JL" }
+];
+let EQUIPE_INLINE = EQUIPE_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -116,6 +128,20 @@ export default function LuminaLawPage() {
   }, []);
 
   fd = session?.formData;
+
+  EQUIPE_INLINE = resolveList(
+
+    clientTeam(session)?.map((m: any, i: number) => ({
+
+      ...EQUIPE_INLINE_SOURCE[i % EQUIPE_INLINE_SOURCE.length],
+
+      name: m.name, title: m.role,
+
+    })),
+
+    EQUIPE_INLINE_SOURCE,
+
+  );
   EXPERTISE = resolveList(
     clientServices(session)?.map((s, i) => ({ ...EXPERTISE_DEMO[i % EXPERTISE_DEMO.length], title: s.title })),
     EXPERTISE_DEMO,
@@ -388,12 +414,7 @@ export default function LuminaLawPage() {
               </h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              {[
-                { name: "Eleanor Voss", title: "Managing Partner", focus: "M&A · Corporate Governance", called: "1994", initials: "EV" },
-                { name: "David Osei", title: "Senior Partner", focus: "Litigation · Dispute Resolution", called: "2001", initials: "DO" },
-                { name: "Margaux Petit", title: "Partner", focus: "Regulatory · Compliance", called: "2008", initials: "MP" },
-                { name: "James Lim", title: "Partner", focus: "Tax · International Structuring", called: "2010", initials: "JL" },
-              ].map((a, i) => (
+              {EQUIPE_INLINE.map((a, i) => (
                 <Reveal key={a.name} delay={i * 0.1}>
                   <div className="flex flex-col gap-5">
                     <div className="w-16 h-16 bg-[var(--brand,#1a365d)] flex items-center justify-center flex-shrink-0">
