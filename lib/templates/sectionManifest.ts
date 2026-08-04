@@ -4,7 +4,7 @@
 // source, le type de champ à lui présenter, et un aperçu du texte d'origine qui
 // sert d'étiquette dans le panneau d'édition.
 //
-// 2197 retouches possibles sur 371 thèmes.
+// 2210 retouches possibles sur 371 thèmes.
 
 export interface RetouchePossible {
   /** La clé lue par le thème : « contact.titre ». */
@@ -124,6 +124,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "hero.texte",
       "type": "texte",
       "apercu": "Garments that speak in silence. Each piece considered from f"
+    },
+    {
+      "cle": "collection.texte",
+      "type": "texte",
+      "apercu": "Each garment in our SS26 collection is made to order in a si"
     },
     {
       "cle": "sustainability.texte",
@@ -393,6 +398,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "section-5.titre",
       "type": "texte",
       "apercu": "At the Heart of the City of Light"
+    },
+    {
+      "cle": "section-11.texte",
+      "type": "texte",
+      "apercu": "Written by the editorial team of the Grand Palais. The Journ"
     },
     {
       "cle": "section-13.titre",
@@ -784,6 +794,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     }
   ],
   "impact-113": [
+    {
+      "cle": "partners.texte",
+      "type": "texte",
+      "apercu": "Trusted by innovative engineering teams worldwide"
+    },
     {
       "cle": "realisations.titre",
       "type": "texte",
@@ -2175,6 +2190,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-154": [
     {
+      "cle": "section-5.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "section-6.texte",
       "type": "texte",
       "apercu": "L'accès à notre registre privé et aux opportunités d'acquisi"
@@ -2455,6 +2475,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Nos auteurs"
     },
     {
+      "cle": "section-5.texte",
+      "type": "texte",
+      "apercu": "Aucun spam. Désabonnement en 1 clic. RGPD compliant."
+    },
+    {
       "cle": "section-6.titre",
       "type": "texte",
       "apercu": "Ce qu'en disent nos lecteurs"
@@ -2468,9 +2493,19 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "section-8.titre",
       "type": "texte",
       "apercu": "Questions fréquentes"
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": "Rejoignez les 52 000 professionnels informés."
     }
   ],
   "impact-164": [
+    {
+      "cle": "hero.texte",
+      "type": "texte",
+      "apercu": "Branding, web, campagnes, direction artistique. On ne fait p"
+    },
     {
       "cle": "hero.liste1",
       "type": "liste",
@@ -2994,6 +3029,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "{c?.heroHeadline ?? Votre piscine sur- mesure à . }"
     },
     {
+      "cle": "section-2.texte",
+      "type": "texte",
+      "apercu": "Construction · Rénovation · Entretien de piscines"
+    },
+    {
       "cle": "services.titre",
       "type": "texte",
       "apercu": "Tout ce que nous faisons."
@@ -3037,6 +3077,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     }
   ],
   "impact-180": [
+    {
+      "cle": "section-2.texte",
+      "type": "texte",
+      "apercu": "Panne de chauffage ? Astreinte 7j/7 de novembre à mars"
+    },
     {
       "cle": "services.titre",
       "type": "texte",
@@ -4118,6 +4163,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "{c?.aboutTitle ?? fd?.businessName ?? Notre Processus en 4 É"
     },
     {
+      "cle": "section-5.texte",
+      "type": "texte",
+      "apercu": "Grâce à notre statut RGE, vous êtes éligible à toutes les ai"
+    },
+    {
       "cle": "avis.titre",
       "type": "texte",
       "apercu": "Ce que Disent Nos Clients"
@@ -4403,6 +4453,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     }
   ],
   "impact-220": [
+    {
+      "cle": "section-2.texte",
+      "type": "texte",
+      "apercu": "\"Une montre Hora Viva n'est pas un objet que l'on porte. C'e"
+    },
     {
       "cle": "collections.titre",
       "type": "texte",
@@ -4890,6 +4945,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-235": [
     {
+      "cle": "section-2.texte",
+      "type": "texte",
+      "apercu": "Un vêtement sur mesure ne se porte pas — il se vit. Il conna"
+    },
+    {
       "cle": "section-5.titre",
       "type": "texte",
       "apercu": "Nos tissus ont une biographie"
@@ -4931,7 +4991,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "contact.texte",
       "type": "texte",
-      "apercu": ""
+      "apercu": "c est la première chose que le monde retient de vous."
     },
     {
       "cle": "services.titre",
@@ -10487,6 +10547,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     }
   ],
   "impact-52": [
+    {
+      "cle": "section-1.texte",
+      "type": "texte",
+      "apercu": "[SYS:ONLINE] | NODE_ID: PF_BERLIN_01 | UPTIME: 99.97%"
+    },
     {
       "cle": "section-5.texte",
       "type": "texte",

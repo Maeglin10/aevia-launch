@@ -672,9 +672,9 @@ function Manifesto() {
             margin: '0 auto 40px',
             maxWidth: 900,
           }}
-        >
+        >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
           Un vêtement sur mesure ne se porte pas — il se vit. Il connaît votre corps mieux que vous ne croyez le connaître vous-même.
-        </blockquote>
+        </>)}</blockquote>
       </Reveal>
 
       <Reveal delay={0.2}>

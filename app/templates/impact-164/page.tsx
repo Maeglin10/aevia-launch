@@ -15,6 +15,7 @@ import {
   clientServices,
   clientStats,
   clientTeam,
+  clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -535,9 +536,9 @@ return (
               <span style={{ color: C.accent, WebkitTextStroke: "0px" }}>QUI</span><br />
               MARCHENT
             </div>
-            <div style={{ fontFamily: C.mono, fontSize: 13, color: C.textMuted, lineHeight: 1.8, maxWidth: 380 }}>
+            <div style={{ fontFamily: C.mono, fontSize: 13, color: C.textMuted, lineHeight: 1.8, maxWidth: 380 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.texte") ?? (<>
               Branding, web, campagnes, direction artistique. On ne fait pas joli pour le portfolio — on fait efficace pour vos résultats.
-            </div>
+            </>)}</div>
           </motion.div>
 
           <div style={{ display: "flex", gap: 24, alignItems: "center" }}>

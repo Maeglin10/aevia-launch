@@ -998,9 +998,9 @@ export default function EssentialBlogPage() {
                   S'ABONNER GRATUITEMENT
                 </motion.button>
               </div>
-              <p style={{ fontSize: 11, color: "rgba(250,250,250,0.25)", fontFamily: C.sans, letterSpacing: "0.04em" }}>
+              <p style={{ fontSize: 11, color: "rgba(250,250,250,0.25)", fontFamily: C.sans, letterSpacing: "0.04em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.texte") ?? (<>
                 Aucun spam. Désabonnement en 1 clic. RGPD compliant.
-              </p>
+              </>)}</p>
 
               {/* Social proof mini */}
               <div style={{ display: "flex", gap: 16, marginTop: 32, alignItems: "center" }}>
@@ -1192,9 +1192,9 @@ export default function EssentialBlogPage() {
       {/* FINAL CTA */}
       <section id="contact" style={{ background: C.accent, padding: "80px 48px", textAlign: "center" }}>
         <Reveal>
-          <div style={{ fontFamily: C.serif, fontSize: "clamp(36px, 5vw, 72px)", fontWeight: 700, color: C.white, letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 24 }}>
+          <div style={{ fontFamily: C.serif, fontSize: "clamp(36px, 5vw, 72px)", fontWeight: 700, color: C.white, letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (<>
             Rejoignez les 52 000<br />professionnels informés.
-          </div>
+          </>)}</div>
         </Reveal>
         <Reveal delay={0.15}>
           <p style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", fontFamily: C.sans, marginBottom: 40 }}>

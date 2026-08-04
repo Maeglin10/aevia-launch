@@ -310,7 +310,7 @@ export default function AquanovaPiscinesPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3 text-white">
             <div className="w-2 h-2 bg-[var(--brand-light)] rounded-full animate-pulse" />
-            <span className="font-bold text-sm">Construction · Rénovation · Entretien de piscines</span>
+            <span className="font-bold text-sm">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>Construction · Rénovation · Entretien de piscines</>)}</span>
           </div>
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2 text-white/80 text-sm font-semibold"><Clock className="w-4 h-4" /> Devis sous 48h</span>

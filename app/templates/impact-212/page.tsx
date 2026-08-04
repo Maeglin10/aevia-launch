@@ -1365,9 +1365,9 @@ return (
                 fontSize: 'clamp(18px, 3vw, 24px)', fontWeight: 800,
                 color: C.white, marginBottom: 6,
               }}>Jusqu'à 70% d'aides sur votre installation</div>
-              <div style={{ color: C.textMuted, fontSize: 'clamp(13px, 1.5vw, 14.5px)' }}>
+              <div style={{ color: C.textMuted, fontSize: 'clamp(13px, 1.5vw, 14.5px)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.texte") ?? (<>
                 Grâce à notre statut RGE, vous êtes éligible à toutes les aides de l'État. Nos conseillers gèrent les dossiers pour vous.
-              </div>
+              </>)}</div>
             </div>
             <a href="#contact" style={{
               flexShrink: 0, background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
