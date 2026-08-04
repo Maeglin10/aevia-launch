@@ -20,13 +20,24 @@ const dry = process.argv.includes("--dry");
 // Les layouts portent l'en-tête et le pied de soixante-deux thèmes : c'est là
 // que vivent leurs liens « appeler » et « écrire ».
 const FICHIER = process.argv.includes("--layout") ? "layout.tsx" : "page.tsx";
+// `--sous` parcourt les sous-pages — /contact, /services — où vivent la plupart
+// des liens « appeler » et « écrire » du catalogue.
+const SOUS = process.argv.includes("--sous");
 const ids = fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"));
+const cibles = [];
+for (const id of ids) {
+  if (!SOUS) { cibles.push([id, path.join(ROOT, id, FICHIER)]); continue; }
+  const dossier = path.join(ROOT, id);
+  for (const sous of fs.readdirSync(dossier)) {
+    const f = path.join(dossier, sous, "page.tsx");
+    if (fs.existsSync(f)) cibles.push([`${id}/${sous}`, f]);
+  }
+}
 
 let tel = 0, mail = 0, touched = 0;
 const skipped = [];
 
-for (const id of ids) {
-  const file = path.join(ROOT, id, FICHIER);
+for (const [id, file] of cibles) {
   if (!fs.existsSync(file)) continue;
   let src = fs.readFileSync(file, "utf8");
   const before = src;

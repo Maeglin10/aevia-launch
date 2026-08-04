@@ -57,7 +57,29 @@ const milestones = [
   { year: "2024", label: "Fonds IV", value: "500M€ — focus IA & infrastructure" },
 ];
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function Page() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState("Tous");
@@ -151,7 +173,7 @@ export default function Page() {
                   </div>
                   <div className="flex items-center gap-3 text-sm text-white/50">
                     <Mail className="w-4 h-4 text-[#C9A86C] shrink-0" />
-                    <span>pitch@summit-capital.vc</span>
+                    <span>{fd?.email ?? "pitch@summit-capital.vc"}</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-white/50">
                     <Phone className="w-4 h-4 text-[#C9A86C] shrink-0" />

@@ -1,10 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRight, MapPin, Mail, Phone } from "lucide-react";
 import { ARTISANS, Reveal } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [formState, setFormState] = useState({ name: "", email: "", guests: "2", date: "", time: "", notes: "" });
   const [submitted, setSubmitted] = useState(false);
 
@@ -70,7 +92,7 @@ export default function ContactPage() {
                   <MapPin className="w-4 h-4 text-[#b8860b]" /> SATORI PARIS
                 </h4>
                 <p>18 Rue Troyon, 75017 Paris, France</p>
-                <p>paris@satori-gastronomy.com · +33 1 42 68 90 20</p>
+                <p>{fd?.email ?? "paris@satori-gastronomy.com"} · +33 1 42 68 90 20</p>
               </div>
 
               <div className="border-l-2 border-[#b8860b]/30 pl-6 space-y-2">
@@ -78,7 +100,7 @@ export default function ContactPage() {
                   <MapPin className="w-4 h-4 text-[#b8860b]" /> SATORI TOKYO
                 </h4>
                 <p>5-chōme-2-1 Ginza, Chuo City, Tokyo 104-0061, Japan</p>
-                <p>tokyo@satori-gastronomy.com · +81 3 5562 9010</p>
+                <p>{fd?.email ?? "tokyo@satori-gastronomy.com"} · +81 3 5562 9010</p>
               </div>
 
               <div className="border-l-2 border-[#b8860b]/30 pl-6 space-y-2">
@@ -86,7 +108,7 @@ export default function ContactPage() {
                   <MapPin className="w-4 h-4 text-[#b8860b]" /> SATORI GENEVA
                 </h4>
                 <p>Quai du Mont-Blanc 19, 1201 Geneva, Switzerland</p>
-                <p>geneva@satori-gastronomy.com · +41 22 908 7050</p>
+                <p>{fd?.email ?? "geneva@satori-gastronomy.com"} · +41 22 908 7050</p>
               </div>
             </div>
           </div>

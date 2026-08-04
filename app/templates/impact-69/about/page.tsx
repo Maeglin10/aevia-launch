@@ -1,10 +1,33 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import React from "react";
 import { motion } from "framer-motion";
 import { C, TextReveal, MagneticButton } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function AboutPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const handleEmailClick = () => {
     window.location.href = "mailto:contact@exemple.fr";
   };
@@ -88,7 +111,7 @@ export default function AboutPage() {
           For editorial licensing, commercial usage, or private commissions, get in touch directly. For print enquiries, visit the shop.
         </p>
         <MagneticButton onClick={handleEmailClick} style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 14, color: C.bg, background: C.cream, padding: "18px 48px", borderRadius: 2, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700 }}>
-          contact@exemple.fr
+          {fd?.email ?? "contact@exemple.fr"}
         </MagneticButton>
       </section>
     </div>

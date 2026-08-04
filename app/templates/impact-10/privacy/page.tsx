@@ -11,7 +11,7 @@ import {
   useSpring,
   AnimatePresence,
 } from 'framer-motion';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from "react";
 
 // ─── Font Loader ─────────────────────────────────────────────────────────────
 const useFonts = () => {
@@ -1583,7 +1583,7 @@ function BookingCTA() {
         <BlurReveal delay={0.4}>
           <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
             <a
-              href="tel:+33140000000"
+              href={`tel:${fd?.phone ?? "+33140000000"}`}
               style={{
                 fontFamily: SANS,
                 fontSize: '0.65rem',
@@ -1598,7 +1598,7 @@ function BookingCTA() {
               +33 1 40 00 00 00
             </a>
             <a
-              href="mailto:reservations@grandpalais.fr"
+              href={`mailto:${fd?.email ?? "reservations@grandpalais.fr"}`}
               style={{
                 fontFamily: SANS,
                 fontSize: '0.65rem',
@@ -1610,7 +1610,7 @@ function BookingCTA() {
                 paddingBottom: '2px',
               }}
             >
-              reservations@grandpalais.fr
+              {fd?.email ?? "reservations@grandpalais.fr"}
             </a>
           </div>
         </BlurReveal>
@@ -2281,8 +2281,8 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
             <p style={para}><span style={strong}>Aevia WS</span> — sole trader (auto-entrepreneur).</p>
             <p style={para}>Publication director: <span style={strong}>Valentin Milliand</span>.</p>
             <p style={para}>SIREN: <span style={strong}><LegalIdentity /></span> — RCS Bourg-en-Bresse.</p>
-            <p style={para}>Contact: <span style={strong}>valentinmilliand@aevia.services</span></p>
-            <p style={para}>Registered office address provided on request at valentinmilliand@aevia.services.</p>
+            <p style={para}>Contact: <span style={strong}>{fd?.email ?? "valentinmilliand@aevia.services"}</span></p>
+            <p style={para}>Registered office address provided on request at {fd?.email ?? "valentinmilliand@aevia.services"}.</p>
 
             <h2 style={sectionTitle}>VAT</h2>
             <p style={para}>VAT not applicable, art. 293 B of the French Tax Code (CGI).</p>
@@ -2321,7 +2321,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
           <h2 style={{ ...sectionTitle, marginTop: '1.5rem' }}>Data controller</h2>
           <p style={para}>
             The controller of personal data is <span style={strong}>Aevia WS</span>, publisher of the site. For any
-            question, write to <span style={strong}>valentinmilliand@aevia.services</span>.
+            question, write to <span style={strong}>{fd?.email ?? "valentinmilliand@aevia.services"}</span>.
           </p>
 
           <h2 style={sectionTitle}>Data collected</h2>
@@ -2345,7 +2345,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
           <h2 style={sectionTitle}>Your rights</h2>
           <p style={para}>
             In accordance with the GDPR, you have the right to access, rectify, erase, port and object to the processing of
-            your data. To exercise these rights, write to contact@exemple.fr.
+            your data. To exercise these rights, write to {fd?.email ?? "contact@exemple.fr"}.
           </p>
 
           <h2 style={sectionTitle}>Cookies</h2>
@@ -2360,7 +2360,29 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
 }
 
 // ─── Root Page ────────────────────────────────────────────────────────────────
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function GrandPalaisPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   useFonts();
 
   const [scrolled, setScrolled] = useState(false);

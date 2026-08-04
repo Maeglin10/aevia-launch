@@ -4191,7 +4191,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               Contact: <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span>
             </p>
             <p style={para}>
-              Registered office address available on request at contact@exemple.fr.
+              Registered office address available on request at {fd?.email ?? "contact@exemple.fr"}.
             </p>
 
             <h2 style={sectionTitle}>VAT</h2>
@@ -4261,7 +4261,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
           <p style={para}>
             Under the GDPR, you have the right to access, rectify, erase, port, and object
             to the processing of your data. To exercise these rights, write to
-            contact@exemple.fr.
+            {fd?.email ?? "contact@exemple.fr"}.
           </p>
 
           <h2 style={sectionTitle}>Cookies</h2>

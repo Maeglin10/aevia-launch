@@ -1,11 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Shield, Send } from "lucide-react";
 import { C, mono, sans } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [form, setForm] = useState({ name: "", email: "", company: "", size: "1-50", message: "" });
   const [sent, setSent] = useState(false);
 
@@ -50,7 +72,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <h4 style={{ fontFamily: mono, fontSize: "0.9rem", fontWeight: 700, color: C.text, marginBottom: "0.25rem" }}>EMAIL DE CONTACT</h4>
-                <p style={{ fontFamily: mono, fontSize: "1.1rem", color: C.text }}>soc@neuronsec.fr</p>
+                <p style={{ fontFamily: mono, fontSize: "1.1rem", color: C.text }}>{fd?.email ?? "soc@neuronsec.fr"}</p>
                 <p style={{ fontFamily: sans, fontSize: "0.8rem", color: C.textMuted, marginTop: "0.25rem" }}>Pour toute demande commerciale ou demande de POC SOC.</p>
               </div>
             </div>
@@ -62,7 +84,7 @@ export default function ContactPage() {
               <div>
                 <h4 style={{ fontFamily: mono, fontSize: "0.9rem", fontWeight: 700, color: C.text, marginBottom: "0.25rem" }}>SIÈGE & SOC</h4>
                 <p style={{ fontFamily: sans, fontSize: "1rem", color: C.textMuted }}>75010 Paris, France</p>
-                <p style={{ fontFamily: sans, fontSize: "0.8rem", color: C.textMuted, marginTop: "0.25rem" }}>Adresse physique communiquée sur demande à contact@exemple.fr.</p>
+                <p style={{ fontFamily: sans, fontSize: "0.8rem", color: C.textMuted, marginTop: "0.25rem" }}>Adresse physique communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}.</p>
               </div>
             </div>
           </div>

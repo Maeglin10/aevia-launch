@@ -3683,7 +3683,7 @@ function ContactPage() {
             <p style={{ color: "rgba(240,236,224,0.7)", fontSize: 15, lineHeight: 1.8, fontStyle: "italic" }}>
               Place Vendôme, 75001 Paris (sur rendez-vous uniquement)<br />
               Téléphone : +33 1 42 60 00 00<br />
-              E-mail : contact@exemple.fr
+              E-mail : {fd?.email ?? "contact@exemple.fr"}
             </p>
           </div>
 
@@ -3767,7 +3767,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
               SIREN : <LegalIdentity /><br />
               RCS : Bourg-en-Bresse<br />
               Adresse : communiquée sur demande<br />
-              E-mail : contact@exemple.fr
+              E-mail : {fd?.email ?? "contact@exemple.fr"}
             </p>
           </div>
           <div>
@@ -3867,7 +3867,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         <div>
           <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Vos Droits</h3>
           <p>
-            Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Vous pouvez exercer ce droit à tout moment par e-mail à : contact@exemple.fr.
+            Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Vous pouvez exercer ce droit à tout moment par e-mail à : {fd?.email ?? "contact@exemple.fr"}.
           </p>
         </div>
       </div>

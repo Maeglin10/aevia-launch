@@ -1,11 +1,34 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import React from "react";
 import Link from "next/link";
 import { Plane, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function MentionsLegales() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   return (
     <div className="premium-theme min-h-dvh bg-[#050505] text-[#ffffff] font-sans selection:bg-[#00f2ff] selection:text-black">
       {/* ── NAVIGATION ── */}
@@ -76,7 +99,7 @@ export default function MentionsLegales() {
 
           <h2>4. Limites de responsabilité</h2>
           <p>
-            Les informations contenues sur ce site sont aussi précises que possibles et le site est périodiquement remis à jour, mais peut toutefois contenir des inexactitudes, des omissions ou des lacunes. Si vous constatez une lacune, erreur ou ce qui parait être un dysfonctionnement, merci de bien vouloir le signaler par courriel à ops@velocityjets.com en décrivant le problème de la manière la plus précise possible.
+            Les informations contenues sur ce site sont aussi précises que possibles et le site est périodiquement remis à jour, mais peut toutefois contenir des inexactitudes, des omissions ou des lacunes. Si vous constatez une lacune, erreur ou ce qui parait être un dysfonctionnement, merci de bien vouloir le signaler par courriel à {fd?.email ?? "ops@velocityjets.com"} en décrivant le problème de la manière la plus précise possible.
           </p>
         </div>
       </section>

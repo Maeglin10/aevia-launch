@@ -850,7 +850,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic leading-loose">
-                    Adresse communiquée sur demande à contact@exemple.fr
+                    Adresse communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}
                   </p>
                 </div>
                 <Separator className="bg-white/5" />
@@ -986,7 +986,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               </LegalBlock>
               <LegalBlock title="Contact">{fd?.email ?? "contact@exemple.fr"}</LegalBlock>
               <LegalBlock title="Siège social">
-                Adresse du siège social communiquée sur demande à contact@exemple.fr
+                Adresse du siège social communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}
               </LegalBlock>
               <LegalBlock title="TVA">
                 TVA non applicable, art. 293 B du CGI
@@ -1000,7 +1000,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <LegalBlock title="Responsable du traitement">
                 Aevia WS, représentée par Valentin Milliand, est responsable du
                 traitement des données collectées sur ce site. Contact :
-                contact@exemple.fr.
+                {fd?.email ?? "contact@exemple.fr"}.
               </LegalBlock>
               <LegalBlock title="Données collectées">
                 Les informations transmises via les formulaires de réservation et de

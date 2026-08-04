@@ -1,11 +1,34 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
 import { Shield, Eye, Lock, Globe, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { C, mono, sans } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function RedTeamPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const workflow = [
     { step: "01", phase: "Reconnaissance (OSINT)", desc: "Cartographie passive de la surface d'attaque externe, fuites d'identifiants sur le Dark Web, fuites de métadonnées de documents." },
     { step: "02", phase: "Intrusion Initiale", desc: "Campagnes de spear-phishing ultra-ciblées, attaques par force brute, contournement MFA ou exploitation de vulnérabilités Zero-Day." },

@@ -1,9 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TerminalWindow } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [email, setEmail] = useState("");
   const [payload, setPayload] = useState("");
   const [connected, setConnected] = useState(false);
@@ -27,10 +49,10 @@ export default function ContactPage() {
 
         <TerminalWindow title="ping.sh — establish connection">
           <div style={{ marginBottom: "28px", fontSize: "13px", color: "#008F11", letterSpacing: "0.06em" }}>
-            <div>ghost@shell:~$ ping ghost@shell.io</div>
-            <div style={{ color: "#005500", marginTop: "6px" }}>PING ghost@shell.io 56 bytes of data.</div>
-            <div style={{ color: "#005500" }}>64 bytes from ghost@shell.io: icmp_seq=0 ttl=64 time=0.42 ms</div>
-            <div style={{ color: "#00FF41", marginTop: "6px" }}>--- ghost@shell.io ping statistics ---</div>
+            <div>ghost@shell:~$ ping {fd?.email ?? "ghost@shell.io"}</div>
+            <div style={{ color: "#005500", marginTop: "6px" }}>PING {fd?.email ?? "ghost@shell.io"} 56 bytes of data.</div>
+            <div style={{ color: "#005500" }}>64 bytes from {fd?.email ?? "ghost@shell.io"}: icmp_seq=0 ttl=64 time=0.42 ms</div>
+            <div style={{ color: "#00FF41", marginTop: "6px" }}>--- {fd?.email ?? "ghost@shell.io"} ping statistics ---</div>
             <div style={{ color: "#005500" }}>1 packets transmitted, 1 received, 0.0% packet loss</div>
           </div>
 

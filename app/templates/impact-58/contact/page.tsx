@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Mail, MapPin, CheckCircle } from 'lucide-react';
@@ -126,14 +126,36 @@ function SuccessScreen() {
           marginTop: '0.5rem',
         }}
       >
-        brief@skewos.studio
+        {fd?.email ?? "brief@skewos.studio"}
       </div>
     </motion.div>
   );
 }
 
 // ── Main Component ─────────────────────────────────────────────────────────────
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [form, setForm] = useState<FormData>({
     nom: '',
     email: '',
@@ -512,7 +534,7 @@ export default function ContactPage() {
                 </span>
               </div>
               <a
-                href="mailto:brief@skewos.studio"
+                href={`mailto:${fd?.email ?? "brief@skewos.studio"}`}
                 style={{
                   fontFamily: "'Syne Mono', monospace",
                   fontSize: '0.75rem',
@@ -524,7 +546,7 @@ export default function ContactPage() {
                 onMouseEnter={(e) => (e.currentTarget.style.color = C.violetLight)}
                 onMouseLeave={(e) => (e.currentTarget.style.color = C.violet)}
               >
-                brief@skewos.studio
+                {fd?.email ?? "brief@skewos.studio"}
               </a>
             </div>
 

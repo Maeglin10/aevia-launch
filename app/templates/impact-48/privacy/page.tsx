@@ -1,9 +1,32 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import React from "react";
 import { C, F, PageHero } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function Privacy() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const sectionTitle: React.CSSProperties = {
     fontFamily: F.sans,
     fontSize: 20,
@@ -33,7 +56,7 @@ export default function Privacy() {
 
           <h2 style={{ ...sectionTitle, marginTop: 24 }}>Responsable du traitement</h2>
           <p style={para}>
-            Le responsable du traitement des données personnelles est <span style={strong}>Valentin Milliand</span>. Pour toute question, écrivez à <span style={strong}>contact@exemple.fr</span>.
+            Le responsable du traitement des données personnelles est <span style={strong}>Valentin Milliand</span>. Pour toute question, écrivez à <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span>.
           </p>
 
           <h2 style={sectionTitle}>Données collectées</h2>

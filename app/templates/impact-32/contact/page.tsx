@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
@@ -175,7 +175,7 @@ function ContactHero() {
 
         {/* Emergency call strip */}
         <motion.a
-          href="tel:+33556000001"
+          href={`tel:${fd?.phone ?? "+33556000001"}`}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
@@ -852,7 +852,7 @@ function AppointmentForm() {
               <p style={{ fontSize: 13, color: C.textMuted, margin: 0, lineHeight: 1.55 }}>
                 Vos données sont utilisées uniquement pour la gestion de votre rendez-vous. Aucune
                 donnée n'est partagée avec des tiers. Conformément au RGPD, vous pouvez exercer vos
-                droits à contact@pawcare-bordeaux.fr
+                droits à {fd?.email ?? "contact@pawcare-bordeaux.fr"}
               </p>
             </div>
 
@@ -1246,7 +1246,29 @@ function EmergencyFAQ() {
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   return (
     <>
       <ContactHero />

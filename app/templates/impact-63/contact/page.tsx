@@ -1,9 +1,32 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import React from "react";
 import { C, SectionLabel, PageWrapper } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const boutiques = [
     { city: "Paris", address: "Rue du Faubourg Saint-Honoré, 75008", note: "Sur rendez-vous uniquement" },
     { city: "Genève", address: "Rue du Rhône, 1204 Genève", note: "Sur rendez-vous uniquement" },
@@ -32,17 +55,17 @@ export default function ContactPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
                 <div style={{ padding: "1.75rem", background: C.bgCard, border: `1px solid ${C.border}` }}>
                   <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.5rem" }}>ADRESSE</div>
-                  <div style={{ fontSize: "1rem", color: C.textMuted, lineHeight: 1.65 }}>Adresse communiquée sur demande à<br /><span style={{ color: C.gold }}>contact@exemple.fr</span></div>
+                  <div style={{ fontSize: "1rem", color: C.textMuted, lineHeight: 1.65 }}>Adresse communiquée sur demande à<br /><span style={{ color: C.gold }}>{fd?.email ?? "contact@exemple.fr"}</span></div>
                 </div>
 
                 <div style={{ padding: "1.75rem", background: C.bgCard, border: `1px solid ${C.border}` }}>
                   <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.5rem" }}>EMAIL</div>
-                  <a href="mailto:contact@exemple.fr" style={{ fontSize: "1rem", color: C.gold, textDecoration: "none" }}>contact@exemple.fr</a>
+                  <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: "1rem", color: C.gold, textDecoration: "none" }}>contact@exemple.fr</a>
                 </div>
 
                 <div style={{ padding: "1.75rem", background: C.bgCard, border: `1px solid ${C.border}` }}>
                   <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.5rem" }}>TÉLÉPHONE</div>
-                  <a href="tel:+41220000000" style={{ fontSize: "1rem", color: C.textMuted, textDecoration: "none" }}>+41 22 000 00 00</a>
+                  <a href={`tel:${fd?.phone ?? "+41220000000"}`} style={{ fontSize: "1rem", color: C.textMuted, textDecoration: "none" }}>+41 22 000 00 00</a>
                   <div style={{ fontSize: "0.8rem", color: C.textDim, marginTop: "0.25rem" }}>Lundi – Samedi, 9h – 18h (CET)</div>
                 </div>
 

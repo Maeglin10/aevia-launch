@@ -2,7 +2,7 @@
 "use client"
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react";
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -105,7 +105,29 @@ function Footer() {
   )
 }
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function MentionsPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   return (
     <div className="bg-[#0c0a08] text-[#f5efe6] min-h-dvh selection:bg-amber-700 selection:text-white" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
       <Navbar currentPage="mentions" />
@@ -119,7 +141,7 @@ export default function MentionsPage() {
               Entrepreneur individuel<br />
               SIREN <LegalIdentity /><br />
               RCS Bourg-en-Bresse<br />
-              valentinmilliand@aevia.services
+              {fd?.email ?? "valentinmilliand@aevia.services"}
             </p>
           </div>
           <div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import Link from 'next/link';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Award, Clock } from 'lucide-react';
@@ -182,7 +182,29 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[0]; index: n
 }
 
 // ── Main Component ─────────────────────────────────────────────────────────────
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function WorkPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [activeFilter, setActiveFilter] = useState('Tous');
 
   const filteredProjects =

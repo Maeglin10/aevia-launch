@@ -2114,7 +2114,7 @@ function Footer() {
           >
             <div>📍 12 rue de la Paix, 44000 Nantes</div>
             <div style={{ marginTop: 6 }}>📞 02 40 XX XX XX</div>
-            <div style={{ marginTop: 6 }}>✉️ contact@marchand-partners.fr</div>
+            <div style={{ marginTop: 6 }}>✉️ {fd?.email ?? "contact@marchand-partners.fr"}</div>
           </div>
         </div>
 

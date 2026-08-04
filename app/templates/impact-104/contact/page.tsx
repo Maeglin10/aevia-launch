@@ -1,10 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { C, FONT, FONT_BODY , CSS_VARIABLES } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function LumiereDoreeContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [sent, setSent] = useState(false);
 
   function handleSubmit(e: React.FormEvent) {
@@ -285,8 +307,8 @@ export default function LumiereDoreeContactPage() {
             </h3>
             <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, color: C.textMuted, lineHeight: 1.8 }}>
               Paris 11e (Bastille)<br />
-              <a href="tel:+33612345678" style={{ color: C.accent, textDecoration: "none" }}>06 12 XX XX XX</a><br />
-              <a href="mailto:contact@lumieredoree.fr" style={{ color: C.accent, textDecoration: "none" }}>contact@lumieredoree.fr</a>
+              <a href={`tel:${fd?.phone ?? "+33612345678"}`} style={{ color: C.accent, textDecoration: "none" }}>06 12 XX XX XX</a><br />
+              <a href={`mailto:${fd?.email ?? "contact@lumieredoree.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>contact@lumieredoree.fr</a>
             </p>
           </div>
           <div>

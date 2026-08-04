@@ -549,7 +549,7 @@ return (
             </p>
             <div className="space-y-4">
               <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="block w-full bg-[var(--brand,#00F5D4)] text-[#0A0E1A] font-bold text-sm py-4 hover:bg-[#00E5C4] transition-colors cursor-pointer text-center">
-                contact@exemple.fr →
+                {fd?.email ?? "contact@exemple.fr"} →
               </a>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="border border-[var(--brand,#00F5D4)]/20 text-[var(--brand,#00F5D4)] text-sm py-4 hover:bg-[var(--brand,#00F5D4)]/10 transition-colors cursor-pointer flex items-center justify-center gap-2">

@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React from "react";
@@ -6,7 +7,29 @@ import Link from "next/link";
 import { MapPin, Phone, Mail, Clock, Calendar } from "lucide-react";
 import { C, SectionReveal, GoldDivider } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   return (
     <div style={{ minHeight: "100dvh", backgroundColor: C.bg, paddingTop: "8rem", paddingBottom: "5rem" }}>
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 1.5rem" }}>

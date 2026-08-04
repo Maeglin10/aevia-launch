@@ -1438,7 +1438,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <Para>Directeur de la publication : <Strong>Valentin Milliand</Strong>.</Para>
               <Para>SIREN : <Strong><LegalIdentity /></Strong> — RCS Bourg-en-Bresse.</Para>
               <Para>Contact : <Strong>{fd?.email ?? "contact@exemple.fr"}</Strong></Para>
-              <Para>Adresse du siège social communiquée sur demande à contact@exemple.fr.</Para>
+              <Para>Adresse du siège social communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}.</Para>
 
               <Heading>TVA</Heading>
               <Para>TVA non applicable, art. 293 B du CGI.</Para>

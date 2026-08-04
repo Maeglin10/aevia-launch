@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 
 // The nav and footer both link "Nos Tartes" here, but the route never existed
 // — every visitor clicking it hit a 404. TARTES_DATA was already authored in
@@ -9,7 +10,29 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { C, FONT_HEADING, FONT_BODY, TARTES_DATA } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function TartesPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   return (
     <section
       style={{

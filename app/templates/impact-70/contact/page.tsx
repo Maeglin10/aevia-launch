@@ -1,10 +1,33 @@
 "use client";
+import { useEffect, useState } from "react";
 
 import React from "react";
 import { Mail, Clock, MapPin, Sparkles } from "lucide-react";
 import { Reveal } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   return (
     <section className="py-20 bg-[#050005] min-h-[70vh]">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
@@ -29,7 +52,7 @@ export default function ContactPage() {
                   <Mail className="w-5 h-5 text-[#ff00ff] flex-shrink-0" />
                   <div>
                     <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">Secure Routing Address</div>
-                    <div className="text-sm font-bold text-white/70 mt-1">contact@exemple.fr</div>
+                    <div className="text-sm font-bold text-white/70 mt-1">{fd?.email ?? "contact@exemple.fr"}</div>
                   </div>
                 </div>
                 <div className="flex gap-6 items-center pl-6 border-l border-white/5 hover:border-[#ff00ff] transition-all">

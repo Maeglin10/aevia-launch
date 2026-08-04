@@ -1,10 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CheckCircle } from "lucide-react";
 import { PROTOCOLS, SPECIALISTS, Reveal } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function RdvPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [submitted, setSubmitted] = useState(false);
 
   function handleSubmit(e: React.FormEvent) {
@@ -120,7 +142,7 @@ export default function RdvPage() {
               </div>
 
               <p className="text-[10px] text-[#3A3028] leading-relaxed">
-                Les informations recueillies sont destinées à Cypher Clinic afin de traiter votre demande de rendez-vous. Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès et de suppression — contact@exemple.fr.
+                Les informations recueillies sont destinées à Cypher Clinic afin de traiter votre demande de rendez-vous. Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès et de suppression — {fd?.email ?? "contact@exemple.fr"}.
               </p>
 
               <button type="submit" className="w-full border border-[#C9A86C] text-[#C9A86C] py-4 text-xs tracking-widest uppercase hover:bg-[#C9A86C] hover:text-[#0C0C0A] transition-all duration-300 cursor-pointer">

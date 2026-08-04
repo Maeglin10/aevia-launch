@@ -18,7 +18,29 @@ const useFonts = () => {
 
 
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function ContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -43,7 +65,7 @@ export default function ContactPage() {
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <Mail className="w-4 h-4 text-[#C46A3E] shrink-0" />
-                <span>contact@keops-archi.fr</span>
+                <span>{fd?.email ?? "contact@keops-archi.fr"}</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <Phone className="w-4 h-4 text-[#C46A3E] shrink-0" />

@@ -1538,7 +1538,7 @@ function ContactPage() {
             <p style={{ color: "#F5EDE8", opacity: 0.6, fontSize: 14, lineHeight: 1.7 }}>
               Rue des Francs-Bourgeois, 75004 Paris<br />
               Du lundi au vendredi, de 10h à 18h.<br />
-              E-mail : contact@ether-parfums.com<br />
+              E-mail : {fd?.email ?? "contact@ether-parfums.com"}<br />
               Téléphone : +33 1 44 55 66 77
             </p>
           </div>
@@ -1574,7 +1574,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
               SIREN : <LegalIdentity /><br />
               RCS : Bourg-en-Bresse<br />
               Adresse : communiquée sur demande<br />
-              E-mail : contact@exemple.fr
+              E-mail : {fd?.email ?? "contact@exemple.fr"}
             </p>
           </div>
           <div>

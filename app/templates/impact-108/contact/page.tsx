@@ -1,10 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { C, FONT, FONT_BODY } from "../shared";
 
+
+// Variables de module lues par toute la page : le contrat les reçoit au rendu.
+let sessionData: any = null;
+let fd: any = null;
+let bp: any = null;
+let c: any = null;
+
 export default function LedgerContactPage() {
+  const [__session, __setSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => s && __setSession(s))
+      .catch(() => {});
+  }, []);
+
+  sessionData = __session;
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
+
   const [sent, setSent] = useState(false);
 
   function handleSubmit(e: React.FormEvent) {
@@ -293,8 +315,8 @@ export default function LedgerContactPage() {
             <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, color: C.textMuted, lineHeight: 2 }}>
               14 allée de Tourny<br />
               33000 Bordeaux<br />
-              <a href="tel:+33556000000" style={{ color: C.accent, textDecoration: "none", fontWeight: 700 }}>05 56 XX XX XX</a><br />
-              <a href="mailto:contact@ledger-associes.fr" style={{ color: C.accent, textDecoration: "none", fontWeight: 700 }}>contact@ledger-associes.fr</a>
+              <a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 700 }}>05 56 XX XX XX</a><br />
+              <a href={`mailto:${fd?.email ?? "contact@ledger-associes.fr"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 700 }}>contact@ledger-associes.fr</a>
             </p>
           </div>
           <div>
