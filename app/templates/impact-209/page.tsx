@@ -1044,6 +1044,9 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  c = session?.generatedContent;
+  STYLISTS = STYLISTS_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -1060,9 +1063,6 @@ export default function Page() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  c = session?.generatedContent;
-  STYLISTS = STYLISTS_LIVE();
 
 
   SERVICES_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);

@@ -1,8 +1,10 @@
 "use client";
 import {
   clientCity,
+  clientList,
   clientName,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 import React, { useRef, useState, useEffect } from "react";
@@ -28,6 +30,7 @@ import {
   CreditCard,
   ChevronDown
 } from "lucide-react";
+let sessionData: any = null;
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -240,6 +243,8 @@ export default function Impact324TicketStore({ session: initialSession }) {
   }, []);
 
   const fd = session?.formData || {};
+
+  sessionData = session;
   const c = session?.generatedContent || {};
 
   // Override brand color if provided
@@ -564,9 +569,9 @@ export default function Impact324TicketStore({ session: initialSession }) {
           <Reveal>
             <div style={{ textAlign: "center", marginBottom: "64px" }}>
               <Eyebrow text="Upcoming Shows" />
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, margin: "16px 0", color: C.white, textTransform: "uppercase" }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, margin: "16px 0", color: C.white, textTransform: "uppercase" }}>{/* TEXTE_SECTION */ clientText(sessionData, "events.titre") ?? (<>
                 Secure Your Spot
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -654,20 +659,20 @@ export default function Impact324TicketStore({ session: initialSession }) {
           <div style={{ flex: "1 1 500px" }}>
             <Reveal>
               <Eyebrow text="Exclusive Access" />
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, margin: "16px 0 24px 0", color: C.white, textTransform: "uppercase" }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, margin: "16px 0 24px 0", color: C.white, textTransform: "uppercase" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                 Upgrade to VIP Experience
-              </h2>
+              </>)}</h2>
               <p style={{ color: C.textMuted, fontSize: "16px", lineHeight: 1.6, marginBottom: "32px" }}>
                 Take your concert experience to the next level. Enjoy premium seating, exclusive backstage access, complimentary drinks, and meet & greet opportunities with your favorite artists.
               </p>
               
               <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "40px" }}>
-                {[
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
                   "Early Entry & Dedicated VIP Entrance",
                   "Premium Front Row or Balcony Seating",
                   "Exclusive Merchandise Package",
                   "Access to VIP Lounge & Private Bar"
-                ].map((perk, i) => (
+                ]).map((perk, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                     <div style={{ width: "24px", height: "24px", borderRadius: "50%", backgroundColor: `${C.primary}20`, display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <Check size={14} color={C.primary} />
@@ -718,9 +723,9 @@ export default function Impact324TicketStore({ session: initialSession }) {
           <Reveal>
             <div style={{ textAlign: "center", marginBottom: "64px" }}>
               <Eyebrow text="Fan Reviews" />
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, margin: "16px 0", color: C.white, textTransform: "uppercase" }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, margin: "16px 0", color: C.white, textTransform: "uppercase" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                 Hear the crowd
-              </h2>
+              </>)}</h2>
             </div>
           </Reveal>
 
@@ -753,7 +758,7 @@ export default function Impact324TicketStore({ session: initialSession }) {
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 56 }}>
             <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.primary, marginBottom: 12 }}>About</div>
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 800, color: C.text, lineHeight: 1.1 }}>Who puts the shows on</h2>
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 800, color: C.text, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>Who puts the shows on</>)}</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 20 }}>
             {ABOUT_STATS.map((a) => (
@@ -771,7 +776,7 @@ export default function Impact324TicketStore({ session: initialSession }) {
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: 56 }}>
             <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.primary, marginBottom: 12 }}>Contact</div>
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 800, color: C.text, lineHeight: 1.1 }}>Reaching a human</h2>
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 800, color: C.text, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Reaching a human</>)}</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 20, marginBottom: 32 }}>
             {CONTACT_LINES.map((c) => (
@@ -791,7 +796,7 @@ export default function Impact324TicketStore({ session: initialSession }) {
         <div style={{ position: "absolute", inset: 0, backgroundImage: `radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 70%)` }} />
         <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 }}>
           <Reveal>
-            <h2 style={{ fontFamily: SERIF, fontSize: "32px", fontWeight: 800, margin: "0 0 16px 0", color: C.white, textTransform: "uppercase" }}>Never Miss a Show</h2>
+            <h2 style={{ fontFamily: SERIF, fontSize: "32px", fontWeight: 800, margin: "0 0 16px 0", color: C.white, textTransform: "uppercase" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Never Miss a Show</>)}</h2>
             <p style={{ color: "rgba(255,255,255,0.9)", fontSize: "16px", marginBottom: "32px" }}>Subscribe to our newsletter for pre-sale codes, exclusive drops, and VIP offers.</p>
             <form onSubmit={e => e.preventDefault()} style={{ display: "flex", gap: "12px", maxWidth: "500px", margin: "0 auto", flexWrap: "wrap" }}>
               <input type="email" placeholder="Enter your email" style={{ flex: "1 1 200px", padding: "16px", borderRadius: "30px", border: "none", outline: "none", fontFamily: SANS }} />

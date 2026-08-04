@@ -43,7 +43,9 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 const NAV = [
   { l: "Services", h: "#services" },
@@ -450,6 +452,8 @@ export default function PlumberDarkUrgent() {
   }, []);
 
   const fd = session?.formData || {};
+
+  sessionData = session;
   const c = session?.generatedContent || {};
   const bp = (session as any)?.businessProfile;
 
@@ -885,7 +889,7 @@ export default function PlumberDarkUrgent() {
           <div style={{ textAlign: "center", marginBottom: "4rem" }}>
             <Reveal>
               <Eyebrow color={C.primary}>Nos Interventions</Eyebrow>
-              <h2 className="title-large" style={{ color: C.white, marginTop: "1rem" }}>EXPERTISE & RÉACTIVITÉ</h2>
+              <h2 className="title-large" style={{ color: C.white, marginTop: "1rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>EXPERTISE & RÉACTIVITÉ</>)}</h2>
             </Reveal>
           </div>
 
@@ -1025,9 +1029,9 @@ export default function PlumberDarkUrgent() {
             <div style={{ paddingLeft: "10%" }}>
               <Reveal delay={0.2}>
                 <Eyebrow color={C.primary}>Pourquoi nous choisir</Eyebrow>
-                <h2 className="title-medium" style={{ color: C.white, marginBottom: "1.5rem", marginTop: "1rem" }}>
+                <h2 className="title-medium" style={{ color: C.white, marginBottom: "1.5rem", marginTop: "1rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "avantages.titre") ?? (<>
                   LA GARANTIE D'UN TRAVAIL BIEN FAIT, SANS SURPRISE
-                </h2>
+                </>)}</h2>
                 <p className="text-body" style={{ marginBottom: "2rem" }}>
                   Face à une urgence de plomberie, vous avez besoin d'un partenaire de confiance. Notre équipe de professionnels qualifiés intervient rapidement avec un équipement de pointe pour résoudre vos problèmes durablement.
                 </p>
@@ -1070,7 +1074,7 @@ export default function PlumberDarkUrgent() {
            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem", flexWrap: "wrap", gap: "1rem" }}>
             <Reveal>
               <Eyebrow color={C.primary}>Nos Réalisations</Eyebrow>
-              <h2 className="title-medium" style={{ color: C.white, marginTop: "1rem" }}>INTERVENTIONS RÉCENTES</h2>
+              <h2 className="title-medium" style={{ color: C.white, marginTop: "1rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>INTERVENTIONS RÉCENTES</>)}</h2>
             </Reveal>
             <Reveal delay={0.2}>
               <Button href="#" variant="outline">Voir tout</Button>
@@ -1125,7 +1129,7 @@ export default function PlumberDarkUrgent() {
           <div style={{ textAlign: "center", marginBottom: "4rem" }}>
             <Reveal>
               <Eyebrow color={C.primary}>Témoignages Clients</Eyebrow>
-              <h2 className="title-medium" style={{ color: C.white, marginTop: "1rem" }}>ILS NOUS ONT FAIT CONFIANCE</h2>
+              <h2 className="title-medium" style={{ color: C.white, marginTop: "1rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>ILS NOUS ONT FAIT CONFIANCE</>)}</h2>
             </Reveal>
           </div>
 
@@ -1174,9 +1178,9 @@ export default function PlumberDarkUrgent() {
             <div>
               <Reveal>
                 <Eyebrow color={C.primary}>Foire Aux Questions</Eyebrow>
-                <h2 className="title-medium" style={{ color: C.white, marginTop: "1rem", marginBottom: "1.5rem" }}>
+                <h2 className="title-medium" style={{ color: C.white, marginTop: "1rem", marginBottom: "1.5rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                   QUESTIONS FRÉQUENTES
-                </h2>
+                </>)}</h2>
                 <p className="text-body" style={{ marginBottom: "2rem" }}>
                   Vous avez une question concernant nos interventions, nos tarifs ou nos garanties ? Consultez notre FAQ ou contactez-nous directement.
                 </p>
@@ -1217,9 +1221,9 @@ export default function PlumberDarkUrgent() {
             
             <div>
               <Reveal>
-                <h2 className="title-large" style={{ color: C.white, marginBottom: "1.5rem" }}>
+                <h2 className="title-large" style={{ color: C.white, marginBottom: "1.5rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                   BESOIN D'UNE INTERVENTION URGENTE ?
-                </h2>
+                </>)}</h2>
                 <p style={{ fontFamily: SANS, fontSize: "1.25rem", color: "rgba(255,255,255,0.8)", marginBottom: "2rem" }}>
                   Nos techniciens sont prêts à intervenir 24h/24 et 7j/7. N'attendez pas que les dégâts s'aggravent.
                 </p>

@@ -38,7 +38,9 @@ import {
   clientServices,
   clientStats,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -304,6 +306,8 @@ export default function GarageMinimalistTemplate() {
   }, []);
 
   const fd = session?.formData || {};
+
+  sessionData = session;
   const bp = session?.businessProfile;
 
   const statsResolved = resolveList(
@@ -604,7 +608,7 @@ export default function GarageMinimalistTemplate() {
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", marginBottom: "4rem" }}>
             <Reveal>
               <Eyebrow>Nos Prestations</Eyebrow>
-              <h2 style={{ fontSize: "2.5rem", fontWeight: 800, color: C.graphite }}>Expertise Multimarque</h2>
+              <h2 style={{ fontSize: "2.5rem", fontWeight: 800, color: C.graphite }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Expertise Multimarque</>)}</h2>
               <p style={{ maxWidth: "600px", margin: "1rem auto 0" }}>
                 De l'entretien courant aux réparations complexes, notre atelier est équipé pour répondre à tous vos besoins avec précision et transparence.
               </p>
@@ -659,9 +663,9 @@ export default function GarageMinimalistTemplate() {
             <div>
               <Reveal>
                 <Eyebrow>La Différence</Eyebrow>
-                <h2 style={{ fontSize: "2.5rem", fontWeight: 800, color: C.graphite, marginBottom: "1.5rem" }}>
+                <h2 style={{ fontSize: "2.5rem", fontWeight: 800, color: C.graphite, marginBottom: "1.5rem" }}>{/* TEXTE_SECTION */ clientText(sessionData, "why-us.titre") ?? (<>
                   Pourquoi choisir notre garage ?
-                </h2>
+                </>)}</h2>
                 <p style={{ marginBottom: "2.5rem" }}>
                   Nous avons repensé l'expérience du garage automobile. Fini l'opacité, les devis incompréhensibles et l'attente interminable. Nous vous offrons un service moderne, clair et efficace.
                 </p>
@@ -713,7 +717,7 @@ export default function GarageMinimalistTemplate() {
           <div style={{ textAlign: "center", marginBottom: "4rem" }}>
             <Reveal>
               <Eyebrow>Témoignages</Eyebrow>
-              <h2 style={{ fontSize: "2.5rem", fontWeight: 800, color: C.graphite }}>Ce que disent nos clients</h2>
+              <h2 style={{ fontSize: "2.5rem", fontWeight: 800, color: C.graphite }}>{/* TEXTE_SECTION */ clientText(sessionData, "testimonials.titre") ?? (<>Ce que disent nos clients</>)}</h2>
             </Reveal>
           </div>
 
@@ -744,7 +748,7 @@ export default function GarageMinimalistTemplate() {
           <div style={{ textAlign: "center", marginBottom: "4rem" }}>
             <Reveal>
               <Eyebrow>Notre Méthodologie</Eyebrow>
-              <h2 style={{ fontSize: "2.5rem", fontWeight: 800, color: C.graphite }}>Simple. Rapide. Transparent.</h2>
+              <h2 style={{ fontSize: "2.5rem", fontWeight: 800, color: C.graphite }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Simple. Rapide. Transparent.</>)}</h2>
             </Reveal>
           </div>
 
@@ -777,7 +781,7 @@ export default function GarageMinimalistTemplate() {
           <div style={{ maxWidth: "800px", margin: "0 auto" }}>
             <Reveal style={{ textAlign: "center", marginBottom: "3rem" }}>
               <Eyebrow>Questions Fréquentes</Eyebrow>
-              <h2 style={{ fontSize: "2.5rem", fontWeight: 800, color: C.graphite }}>Vos questions, nos réponses</h2>
+              <h2 style={{ fontSize: "2.5rem", fontWeight: 800, color: C.graphite }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>Vos questions, nos réponses</>)}</h2>
             </Reveal>
 
             <div style={{ backgroundColor: C.bgCard, padding: "2rem", borderRadius: "8px", boxShadow: "0 4px 20px rgba(0,0,0,0.03)" }}>
@@ -822,7 +826,7 @@ export default function GarageMinimalistTemplate() {
             <div style={{ maxWidth: "500px", width: "100%" }}>
               <Reveal>
                 <Eyebrow>Contactez-nous</Eyebrow>
-                <h2 style={{ fontSize: "2.5rem", fontWeight: 800, marginBottom: "1.5rem", color: C.white }}>Prendre rendez-vous</h2>
+                <h2 style={{ fontSize: "2.5rem", fontWeight: 800, marginBottom: "1.5rem", color: C.white }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Prendre rendez-vous</>)}</h2>
                 <p style={{ color: "#a1a1aa", marginBottom: "3rem" }}>
                   Remplissez le formulaire ci-dessous ou contactez-nous directement. Nous vous répondrons dans les plus brefs délais pour confirmer votre rendez-vous.
                 </p>

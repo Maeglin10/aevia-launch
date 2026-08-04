@@ -631,6 +631,10 @@ export default function TerreVivantePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  plans = plans_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -647,10 +651,6 @@ export default function TerreVivantePage() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  bp = session?.businessProfile;
-  c = session?.generatedContent;
-  plans = plans_LIVE();
 
 
 

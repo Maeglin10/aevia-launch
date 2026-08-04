@@ -2262,6 +2262,10 @@ export default function NailStudioTemplate() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -2278,10 +2282,6 @@ export default function NailStudioTemplate() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   SERVICES_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
   TESTIMONIALS_DEMO = resolveList(

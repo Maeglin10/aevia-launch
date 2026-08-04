@@ -4,7 +4,7 @@
 // source, le type de champ à lui présenter, et un aperçu du texte d'origine qui
 // sert d'étiquette dans le panneau d'édition.
 //
-// 2135 retouches possibles sur 361 thèmes.
+// 2197 retouches possibles sur 371 thèmes.
 
 export interface RetouchePossible {
   /** La clé lue par le thème : « contact.titre ». */
@@ -7501,6 +7501,134 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Discutons de votre projet"
     }
   ],
+  "impact-311": [
+    {
+      "cle": "services.titre",
+      "type": "texte",
+      "apercu": "Des Services Taillés pour la Performance"
+    },
+    {
+      "cle": "section-4.titre",
+      "type": "texte",
+      "apercu": "Une passion guidée par la Technique"
+    },
+    {
+      "cle": "section-5.titre",
+      "type": "texte",
+      "apercu": "Machines Optimisées"
+    },
+    {
+      "cle": "section-6.titre",
+      "type": "texte",
+      "apercu": "Ils nous font Confiance"
+    },
+    {
+      "cle": "faq.titre",
+      "type": "texte",
+      "apercu": "Questions Fréquentes"
+    },
+    {
+      "cle": "contact.titre",
+      "type": "texte",
+      "apercu": "Prendre Rendez-vous"
+    }
+  ],
+  "impact-312": [
+    {
+      "cle": "services.titre",
+      "type": "texte",
+      "apercu": "Expertise Multimarque"
+    },
+    {
+      "cle": "why-us.titre",
+      "type": "texte",
+      "apercu": "Pourquoi choisir notre garage ?"
+    },
+    {
+      "cle": "testimonials.titre",
+      "type": "texte",
+      "apercu": "Ce que disent nos clients"
+    },
+    {
+      "cle": "section-7.titre",
+      "type": "texte",
+      "apercu": "Simple. Rapide. Transparent."
+    },
+    {
+      "cle": "faq.titre",
+      "type": "texte",
+      "apercu": "Vos questions, nos réponses"
+    },
+    {
+      "cle": "contact.titre",
+      "type": "texte",
+      "apercu": "Prendre rendez-vous"
+    }
+  ],
+  "impact-313": [
+    {
+      "cle": "services.titre",
+      "type": "texte",
+      "apercu": "EXPERTISE & RÉACTIVITÉ"
+    },
+    {
+      "cle": "avantages.titre",
+      "type": "texte",
+      "apercu": "LA GARANTIE D'UN TRAVAIL BIEN FAIT, SANS SURPRISE"
+    },
+    {
+      "cle": "realisations.titre",
+      "type": "texte",
+      "apercu": "INTERVENTIONS RÉCENTES"
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": "ILS NOUS ONT FAIT CONFIANCE"
+    },
+    {
+      "cle": "section-6.titre",
+      "type": "texte",
+      "apercu": "QUESTIONS FRÉQUENTES"
+    },
+    {
+      "cle": "contact.titre",
+      "type": "texte",
+      "apercu": "BESOIN D'UNE INTERVENTION URGENTE ?"
+    }
+  ],
+  "impact-314": [
+    {
+      "cle": "services.titre",
+      "type": "texte",
+      "apercu": "Solutions Complètes"
+    },
+    {
+      "cle": "apropos.titre",
+      "type": "texte",
+      "apercu": "L'Exigence au service de votre Habitat"
+    },
+    {
+      "cle": "realisations.titre",
+      "type": "texte",
+      "apercu": "Projets Récents"
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": "Avis de nos clients"
+    },
+    {
+      "cle": "section-6.titre",
+      "type": "texte",
+      "apercu": "Questions Fréquentes"
+    },
+    {
+      "cle": "contact.titre",
+      "type": "texte",
+      "apercu": "Prêt à démarrer votre projet ?"
+    }
+  ],
   "impact-315": [
     {
       "cle": "services.titre",
@@ -7575,6 +7703,43 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Demandez votre devis personnalisé"
     }
   ],
+  "impact-317": [
+    {
+      "cle": "services.titre",
+      "type": "texte",
+      "apercu": "Des services conçus pour briller"
+    },
+    {
+      "cle": "tarifs.titre",
+      "type": "texte",
+      "apercu": "Calculez votre tarif"
+    },
+    {
+      "cle": "avantages.titre",
+      "type": "texte",
+      "apercu": "Une approche différente du nettoyage"
+    },
+    {
+      "cle": "section-6.titre",
+      "type": "texte",
+      "apercu": "Des résultats éclatants"
+    },
+    {
+      "cle": "section-7.titre",
+      "type": "texte",
+      "apercu": "Ce qu'ils disent de nous"
+    },
+    {
+      "cle": "section-8.titre",
+      "type": "texte",
+      "apercu": "Questions Fréquentes"
+    },
+    {
+      "cle": "contact.titre",
+      "type": "texte",
+      "apercu": "Prêt à faire briller votre intérieur ?"
+    }
+  ],
   "impact-318": [
     {
       "cle": "services.titre",
@@ -7602,6 +7767,43 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Intervention rapide"
     }
   ],
+  "impact-319": [
+    {
+      "cle": "services.titre",
+      "type": "texte",
+      "apercu": "Des solutions pour chaque espace"
+    },
+    {
+      "cle": "section-4.titre",
+      "type": "texte",
+      "apercu": "L'alliance de l'efficacité et de l'écologie."
+    },
+    {
+      "cle": "section-5.titre",
+      "type": "texte",
+      "apercu": "Avant, pendant, après."
+    },
+    {
+      "cle": "section-6.titre",
+      "type": "texte",
+      "apercu": "Ce qu'ils disent de nous"
+    },
+    {
+      "cle": "section-7.titre",
+      "type": "texte",
+      "apercu": "Tout savoir sur notre approche"
+    },
+    {
+      "cle": "contact.titre",
+      "type": "texte",
+      "apercu": "Prêt pour un intérieur plus sain ?"
+    },
+    {
+      "cle": "bloc.liste1",
+      "type": "liste",
+      "apercu": ",\n                   · ,\n                   · ,\n                  "
+    }
+  ],
   "impact-32": [
     {
       "cle": "services.titre",
@@ -7627,6 +7829,134 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "section-7.titre",
       "type": "texte",
       "apercu": "Questions fréquentes"
+    }
+  ],
+  "impact-321": [
+    {
+      "cle": "about.titre",
+      "type": "texte",
+      "apercu": "Façonner le futur de l'Intelligence Artificielle"
+    },
+    {
+      "cle": "speakers.titre",
+      "type": "texte",
+      "apercu": "Les Visionnaires"
+    },
+    {
+      "cle": "agenda.titre",
+      "type": "texte",
+      "apercu": "Agenda du Sommet"
+    },
+    {
+      "cle": "sponsors.titre",
+      "type": "texte",
+      "apercu": "Ils rendent cela possible"
+    },
+    {
+      "cle": "tickets.titre",
+      "type": "texte",
+      "apercu": "Sécurisez votre Accès"
+    },
+    {
+      "cle": "section-8.titre",
+      "type": "texte",
+      "apercu": "Questions Fréquentes"
+    },
+    {
+      "cle": "section-9.titre",
+      "type": "texte",
+      "apercu": "Prêt à façonner l'avenir ?"
+    }
+  ],
+  "impact-322": [
+    {
+      "cle": "about.titre",
+      "type": "texte",
+      "apercu": "L'Exigence au service de l' Émotion ."
+    },
+    {
+      "cle": "services.titre",
+      "type": "texte",
+      "apercu": "Savoir-Faire Événementiel"
+    },
+    {
+      "cle": "portfolio.titre",
+      "type": "texte",
+      "apercu": "Nos Dernières Réalisations"
+    },
+    {
+      "cle": "section-6.titre",
+      "type": "texte",
+      "apercu": "L'Art de l'Excellence"
+    },
+    {
+      "cle": "section-7.titre",
+      "type": "texte",
+      "apercu": "Mots de nos Clients"
+    },
+    {
+      "cle": "contact.titre",
+      "type": "texte",
+      "apercu": "Planifions votre Événement"
+    },
+    {
+      "cle": "bloc.liste1",
+      "type": "liste",
+      "apercu": "Chanel · LVMH · Cartier"
+    }
+  ],
+  "impact-324": [
+    {
+      "cle": "events.titre",
+      "type": "texte",
+      "apercu": "Secure Your Spot"
+    },
+    {
+      "cle": "section-3.titre",
+      "type": "texte",
+      "apercu": "Upgrade to VIP Experience"
+    },
+    {
+      "cle": "section-5.titre",
+      "type": "texte",
+      "apercu": "Hear the crowd"
+    },
+    {
+      "cle": "about.titre",
+      "type": "texte",
+      "apercu": "Who puts the shows on"
+    },
+    {
+      "cle": "contact.titre",
+      "type": "texte",
+      "apercu": "Reaching a human"
+    },
+    {
+      "cle": "section-8.titre",
+      "type": "texte",
+      "apercu": "Never Miss a Show"
+    },
+    {
+      "cle": "bloc.liste1",
+      "type": "liste",
+      "apercu": "Early Entry & Dedicated VIP Entrance · Premium Front Row or Balcony Seating · Exclusive Merchandise Package"
+    }
+  ],
+  "impact-325": [
+    {
+      "cle": "seminars.titre",
+      "type": "texte",
+      "apercu": "Upcoming Masterclasses"
+    },
+    {
+      "cle": "section-4.titre",
+      "type": "texte",
+      "apercu": "Transform your leadership team"
+    },
+    {
+      "cle": "bloc.liste1",
+      "type": "liste",
+      "apercu": "Customized curriculum alignment · Volume licensing and group discounts · Post-seminar implementation support"
     }
   ],
   "impact-326": [

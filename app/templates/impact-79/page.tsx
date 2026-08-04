@@ -292,6 +292,8 @@ export default function BoulangerieNoirePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  c = session?.generatedContent;
 
   STATS_INLINE = resolveList(
 
@@ -308,8 +310,6 @@ export default function BoulangerieNoirePage() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  c = session?.generatedContent;
 
   PRODUCTS_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), PRODUCTS_SOURCE);
   PRODUCTS = PRODUCTS_DEMO.map((row, i) => ({

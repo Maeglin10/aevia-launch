@@ -532,6 +532,9 @@ export default function ClosDuSoirPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   STATS_INLINE = resolveList(
 
@@ -548,9 +551,6 @@ export default function ClosDuSoirPage() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Wine regions ← bp.menu grouped by category (real business menu) else demo

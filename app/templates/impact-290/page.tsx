@@ -3226,6 +3226,9 @@ function Impact290Page() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
 
   STATS_INLINE = resolveList(
 
@@ -3242,9 +3245,6 @@ function Impact290Page() {
     STATS_INLINE_SOURCE,
 
   );
-  bp = session?.businessProfile;
-  c = session?.generatedContent;
-  sessionData = session;
 
   ENGAGEMENTS = resolveList(
 

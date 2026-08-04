@@ -183,6 +183,9 @@ export default function Impact26() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  c = session?.generatedContent;
+  testimonials_SOURCE = testimonials_SOURCE_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -199,9 +202,6 @@ export default function Impact26() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  c = session?.generatedContent;
-  testimonials_SOURCE = testimonials_SOURCE_LIVE();
 
 
   testimonials = resolveList(

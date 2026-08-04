@@ -3164,6 +3164,11 @@ export default function Impact287Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -3180,11 +3185,6 @@ export default function Impact287Page() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();
 
 
   OUTDOOR_SPOTS = resolveList(

@@ -96,6 +96,8 @@ export default function VelvetHomePage() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  c = session?.generatedContent;
 
   STATS_INLINE = resolveList(
 
@@ -112,8 +114,6 @@ export default function VelvetHomePage() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  c = session?.generatedContent;
 
 
   AVIS_INLINE = resolveList(

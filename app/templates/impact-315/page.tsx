@@ -319,6 +319,11 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PLANS_SOURCE = PLANS_SOURCE_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -335,11 +340,6 @@ export default function Page() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  PLANS_SOURCE = PLANS_SOURCE_LIVE();
 
 
   PLANS = resolveList(

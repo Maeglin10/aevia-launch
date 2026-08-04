@@ -693,6 +693,9 @@ export default function ThermaProPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   STATS_INLINE = resolveList(
 
@@ -709,9 +712,6 @@ export default function ThermaProPage() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

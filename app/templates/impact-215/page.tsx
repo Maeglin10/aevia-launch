@@ -1833,6 +1833,11 @@ export default function FlammeEtCoPage() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  sessionData = session;
+  EXTRA_TESTIMONIALS_SOURCE = EXTRA_TESTIMONIALS_SOURCE_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -1849,11 +1854,6 @@ export default function FlammeEtCoPage() {
     STATS_INLINE_SOURCE,
 
   );
-  bp = session?.businessProfile;
-  c = session?.generatedContent;
-  sessionData = session;
-  EXTRA_TESTIMONIALS_SOURCE = EXTRA_TESTIMONIALS_SOURCE_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
 
   FEATURED = resolveList(

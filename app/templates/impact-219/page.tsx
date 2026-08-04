@@ -1275,6 +1275,10 @@ export default function Impact219Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  bp = session?.businessProfile;
+  c = session?.generatedContent;
+  TIERS = TIERS_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -1291,10 +1295,6 @@ export default function Impact219Page() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  bp = session?.businessProfile;
-  c = session?.generatedContent;
-  TIERS = TIERS_LIVE();
 
 
 

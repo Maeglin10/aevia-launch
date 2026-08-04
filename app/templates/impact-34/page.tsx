@@ -87,6 +87,8 @@ export default function Home() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  c = session?.generatedContent;
 
   STATS_INLINE = resolveList(
 
@@ -103,8 +105,6 @@ export default function Home() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  c = session?.generatedContent;
 
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

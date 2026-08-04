@@ -531,6 +531,10 @@ export default function Impact175Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
+  PAST_EVENTS_DEMO = PAST_EVENTS_DEMO_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -547,10 +551,6 @@ export default function Impact175Page() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
-  PAST_EVENTS_DEMO = PAST_EVENTS_DEMO_LIVE();
 
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),

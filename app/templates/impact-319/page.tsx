@@ -39,10 +39,13 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientList,
   clientName,
   clientReviews,
   clientServices,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -342,6 +345,7 @@ export default function Template({ session: initialSession }: { session?: any } 
 
   // Data Binding
   const fd = session?.formData || {};
+  sessionData = session;
   const c = session?.generatedContent || {};
   const bp = session?.businessProfile;
 
@@ -786,9 +790,9 @@ export default function Template({ session: initialSession }: { session?: any } 
               <Eyebrow text="Notre Expertise" color={C.primary} />
             </Reveal>
             <Reveal delay={0.1}>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", color: C.black, marginBottom: "20px", fontWeight: 400 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", color: C.black, marginBottom: "20px", fontWeight: 400 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Des solutions pour chaque espace
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -862,19 +866,19 @@ export default function Template({ session: initialSession }: { session?: any } 
           <div style={{ flex: "1 1 400px" }}>
             <Reveal direction="right">
               <Eyebrow text="Notre Philosophie" color={C.primary} />
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", color: C.black, marginBottom: "30px", fontWeight: 400, lineHeight: 1.2 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", color: C.black, marginBottom: "30px", fontWeight: 400, lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
                 L'alliance de l'efficacité et de l'écologie.
-              </h2>
+              </>)}</h2>
               <p style={{ fontFamily: SANS, fontSize: "16px", color: C.textMuted, lineHeight: 1.7, marginBottom: "20px" }}>
                 Nous croyons fermement qu'il n'est pas nécessaire d'utiliser des produits chimiques agressifs pour obtenir un résultat impeccable. Au contraire, la nature nous offre tout ce dont nous avons besoin pour nettoyer, assainir et parfumer nos intérieurs.
               </p>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 40px 0" }}>
-                {[
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
                   "Santé préservée pour vous et vos proches.",
                   "Respect des surfaces et matériaux délicats.",
                   "Impact environnemental réduit au minimum.",
                   "Parfums naturels et apaisants."
-                ].map((item, i) => (
+                ]).map((item, i) => (
                   <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "12px", fontFamily: SANS, fontSize: "15px", color: C.text }}>
                     <CheckCircle2 color={C.primary} size={20} style={{ flexShrink: 0, marginTop: "2px" }} />
                     <span>{item}</span>
@@ -896,9 +900,9 @@ export default function Template({ session: initialSession }: { session?: any } 
                 <Eyebrow text="Nos Réalisations" color={C.primary} />
               </Reveal>
               <Reveal delay={0.1}>
-                <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 40px)", color: C.black, fontWeight: 400 }}>
+                <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 40px)", color: C.black, fontWeight: 400 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
                   Avant, pendant, après.
-                </h2>
+                </>)}</h2>
               </Reveal>
             </div>
             <Reveal delay={0.2}>
@@ -933,9 +937,9 @@ export default function Template({ session: initialSession }: { session?: any } 
         <div style={{ maxWidth: "1200px", margin: "0 auto", position: "relative", zIndex: 1 }}>
           <div style={{ textAlign: "center", marginBottom: "60px" }}>
             <Reveal>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 400 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 400 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                 Ce qu'ils disent de nous
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -973,9 +977,9 @@ export default function Template({ session: initialSession }: { session?: any } 
               <Eyebrow text="Questions Fréquentes" color={C.primary} />
             </Reveal>
             <Reveal delay={0.1}>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 40px)", color: C.black, fontWeight: 400 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 40px)", color: C.black, fontWeight: 400 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                 Tout savoir sur notre approche
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -993,9 +997,9 @@ export default function Template({ session: initialSession }: { session?: any } 
           <div style={{ flex: "1 1 400px" }}>
             <Reveal>
               <Eyebrow text="Contact" color={C.primary} />
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", color: C.black, marginBottom: "20px", fontWeight: 400 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", color: C.black, marginBottom: "20px", fontWeight: 400 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                 Prêt pour un intérieur plus sain ?
-              </h2>
+              </>)}</h2>
               <p style={{ fontFamily: SANS, fontSize: "16px", color: C.textMuted, lineHeight: 1.6, marginBottom: "40px" }}>
                 Discutons de vos besoins d'entretien. Remplissez le formulaire ou contactez-nous directement, nous vous répondrons dans les plus brefs délais.
               </p>

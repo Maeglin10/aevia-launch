@@ -232,6 +232,9 @@ export default function AeviaKitchenPage() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   STATS_INLINE = resolveList(
 
@@ -248,9 +251,6 @@ export default function AeviaKitchenPage() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
   EXPERIENCES = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EXPERIENCES_SOURCE[i % EXPERIENCES_SOURCE.length], title: s.title, desc: s.desc || "" || "", price: s.price ?? EXPERIENCES_SOURCE[i % EXPERIENCES_SOURCE.length].price })),
     EXPERIENCES_SOURCE,

@@ -48,7 +48,9 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const InstagramIcon = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -230,6 +232,8 @@ export default function TemplatePage({ session: initialSession }: { session?: an
   }, []);
 
   const fd = session?.formData || {};
+
+  sessionData = session;
   const c = session?.generatedContent || {};
   const bp = session?.businessProfile;
 
@@ -664,9 +668,9 @@ export default function TemplatePage({ session: initialSession }: { session?: an
           <div style={{ textAlign: "center", marginBottom: "80px", maxWidth: "800px", margin: "0 auto 80px" }}>
             <Reveal>
               <Eyebrow>Nos Prestations</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 800, color: C.text, marginTop: "16px", marginBottom: "24px", lineHeight: 1.2 }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 800, color: C.text, marginTop: "16px", marginBottom: "24px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Des services conçus pour <span style={{ color: C.primary }}>briller</span>
-              </h2>
+              </>)}</h2>
               <p style={{ fontFamily: SANS, fontSize: "18px", color: C.textMuted }}>
                 Que ce soit pour votre domicile ou votre entreprise, nous avons la solution de nettoyage parfaite pour vous.
               </p>
@@ -722,9 +726,9 @@ export default function TemplatePage({ session: initialSession }: { session?: an
            <div style={{ textAlign: "center", marginBottom: "60px" }}>
             <Reveal>
               <Eyebrow>Estimation instantanée</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, color: C.text, marginTop: "16px" }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, color: C.text, marginTop: "16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
                 Calculez votre tarif
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -886,9 +890,9 @@ export default function TemplatePage({ session: initialSession }: { session?: an
             <div>
               <Reveal>
                 <Eyebrow>Pourquoi Nous Choisir</Eyebrow>
-                <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 800, color: C.text, marginTop: "16px", marginBottom: "32px" }}>
+                <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 800, color: C.text, marginTop: "16px", marginBottom: "32px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "avantages.titre") ?? (<>
                   Une approche différente du nettoyage
-                </h2>
+                </>)}</h2>
                 
                 <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
                   {[
@@ -931,9 +935,9 @@ export default function TemplatePage({ session: initialSession }: { session?: an
           <div style={{ textAlign: "center", marginBottom: "60px" }}>
             <Reveal>
               <Eyebrow>Nos Réalisations</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, color: C.text, marginTop: "16px" }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, color: C.text, marginTop: "16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                 Des résultats éclatants
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -964,9 +968,9 @@ export default function TemplatePage({ session: initialSession }: { session?: an
           <div style={{ textAlign: "center", marginBottom: "80px" }}>
             <Reveal>
               <Eyebrow color={C.accent}>Avis Clients</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, color: C.white, marginTop: "16px" }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, color: C.white, marginTop: "16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
                 Ce qu'ils disent de nous
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -1009,9 +1013,9 @@ export default function TemplatePage({ session: initialSession }: { session?: an
           <div style={{ textAlign: "center", marginBottom: "60px" }}>
             <Reveal>
               <Eyebrow>FAQ</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, color: C.text, marginTop: "16px" }}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, color: C.text, marginTop: "16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>
                 Questions Fréquentes
-              </h2>
+              </>)}</h2>
             </Reveal>
           </div>
 
@@ -1067,9 +1071,9 @@ export default function TemplatePage({ session: initialSession }: { session?: an
         <div style={{ maxWidth: "1200px", margin: "0 auto", backgroundColor: C.white, borderRadius: "40px", overflow: "hidden", display: "flex", flexDirection: "column", md: { flexDirection: "row" }, boxShadow: "0 40px 80px rgba(0,0,0,0.05)" }} className="md:flex-row flex-col flex">
           
           <div style={{ flex: 1, padding: "clamp(40px, 6vw, 80px)", backgroundColor: C.primary, color: C.white }}>
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 800, marginBottom: "24px", lineHeight: 1.2 }}>
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 800, marginBottom: "24px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Prêt à faire briller votre intérieur ?
-            </h2>
+            </>)}</h2>
             <p style={{ fontFamily: SANS, fontSize: "18px", opacity: 0.9, marginBottom: "40px", lineHeight: 1.6 }}>
               Contactez-nous dès aujourd'hui pour un devis personnalisé ou pour planifier votre première prestation.
             </p>

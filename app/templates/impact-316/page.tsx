@@ -202,6 +202,9 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  sessionData = session;
 
   STATS_INLINE = resolveList(
 
@@ -218,9 +221,6 @@ export default function Page() {
     STATS_INLINE_SOURCE,
 
   );
-  c = session?.generatedContent;
-  bp = session?.businessProfile;
-  sessionData = session;
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

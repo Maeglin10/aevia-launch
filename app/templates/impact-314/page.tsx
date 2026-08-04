@@ -35,7 +35,9 @@ import {
   clientReviews,
   clientServices,
   clientTagline,
+  clientText,
 } from "@/lib/templates/clientContent";
+let sessionData: any = null;
 
 const NAV = [
   { l: "Services", h: "#services" },
@@ -266,6 +268,7 @@ export default function Page({ session: initialSession }) {
   const [fd, setFd] = useState<any>(null);
   const [cData, setCData] = useState<any>(null);
   const [session, setSession] = useState(initialSession ?? null);
+  sessionData = session;
 
   // Data lists
   // useState([]) infère never[] : ces états reçoivent ensuite les prestations et
@@ -671,9 +674,9 @@ export default function Page({ session: initialSession }) {
                 <Eyebrow text="Nos Compétences" color={C.primary} />
               </div>
               <Reveal delay={0.1}>
-                <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 700, color: C.text, marginBottom: "24px" }}>
+                <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 700, color: C.text, marginBottom: "24px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                   Solutions Complètes
-                </h2>
+                </>)}</h2>
               </Reveal>
               <Reveal delay={0.2}>
                 <p style={{ fontFamily: SANS, color: C.textMuted, maxWidth: "600px", margin: "0 auto", fontSize: "18px", lineHeight: 1.6 }}>
@@ -783,9 +786,9 @@ export default function Page({ session: initialSession }) {
               <div style={{ flex: "1 1 500px" }}>
                 <Eyebrow text="Pourquoi nous choisir" color={C.primary} />
                 <Reveal delay={0.1}>
-                  <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 700, color: C.text, marginBottom: "24px", lineHeight: 1.2 }}>
+                  <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 700, color: C.text, marginBottom: "24px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "apropos.titre") ?? (<>
                     L'Exigence au service de votre Habitat
-                  </h2>
+                  </>)}</h2>
                 </Reveal>
                 <Reveal delay={0.2}>
                   <p style={{ fontFamily: SANS, color: C.textMuted, fontSize: "18px", lineHeight: 1.6, marginBottom: "40px" }}>
@@ -825,9 +828,9 @@ export default function Page({ session: initialSession }) {
               <div>
                 <Eyebrow text="Nos Réalisations" color={C.primary} />
                 <Reveal delay={0.1}>
-                  <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 700, color: C.text, lineHeight: 1.2 }}>
+                  <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 700, color: C.text, lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
                     Projets Récents
-                  </h2>
+                  </>)}</h2>
                 </Reveal>
               </div>
               <Reveal delay={0.2}>
@@ -893,9 +896,9 @@ export default function Page({ session: initialSession }) {
                 <Eyebrow text="Témoignages" color={C.primary} />
               </div>
               <Reveal delay={0.1}>
-                <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 700, color: C.text, marginBottom: "24px" }}>
+                <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 700, color: C.text, marginBottom: "24px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
                   Avis de nos clients
-                </h2>
+                </>)}</h2>
               </Reveal>
             </div>
 
@@ -944,9 +947,9 @@ export default function Page({ session: initialSession }) {
                 <Eyebrow text="Foire aux questions" color={C.primary} />
               </div>
               <Reveal delay={0.1}>
-                <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 700, color: C.text, marginBottom: "24px" }}>
+                <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 700, color: C.text, marginBottom: "24px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                   Questions Fréquentes
-                </h2>
+                </>)}</h2>
               </Reveal>
             </div>
 
@@ -976,9 +979,9 @@ export default function Page({ session: initialSession }) {
               
               <div style={{ flex: "1 1 400px", position: "relative", zIndex: 1 }}>
                 <Reveal>
-                  <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 700, color: C.white, marginBottom: "24px", lineHeight: 1.2 }}>
+                  <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 700, color: C.white, marginBottom: "24px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
                     Prêt à démarrer votre projet ?
-                  </h2>
+                  </>)}</h2>
                   <p style={{ fontFamily: SANS, color: "rgba(255,255,255,0.8)", fontSize: "18px", lineHeight: 1.6, marginBottom: "40px" }}>
                     Contactez-nous dès aujourd'hui pour un devis gratuit et personnalisé. Notre équipe vous répondra dans les plus brefs délais.
                   </p>

@@ -976,6 +976,9 @@ export default function Impact198Page() {
   }, []);
 
   fd = session?.formData;
+  sessionData = session;
+  c = session?.generatedContent;
+  TEAM_DEMO = TEAM_DEMO_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -992,9 +995,6 @@ export default function Impact198Page() {
     STATS_INLINE_SOURCE,
 
   );
-  sessionData = session;
-  c = session?.generatedContent;
-  TEAM_DEMO = TEAM_DEMO_LIVE();
 
 
   SERVICES_DEMO = resolveList(
