@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -14,12 +15,24 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { label: "Clients_Fidèles", val: 1200, suffix: "+" },
+            { label: "Soin_Signature", val: 14, suffix: "" },
+            { label: "Expertise_Années", val: 12, suffix: "+" },
+            { label: "Certification", val: 100, suffix: "%" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -56,6 +69,22 @@ export default function AtelierBeautePage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(session)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -403,12 +432,7 @@ return (
           ========================================== */}
       <section className="py-24 bg-[#1a1814] text-white">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-2 lg:grid-cols-4 gap-16 text-center">
-          {[
-            { label: "Clients_Fidèles", val: 1200, suffix: "+" },
-            { label: "Soin_Signature", val: 14, suffix: "" },
-            { label: "Expertise_Années", val: 12, suffix: "+" },
-            { label: "Certification", val: 100, suffix: "%" },
-          ].map((stat, i) => (
+          {STATS_INLINE.map((stat, i) => (
             <Reveal key={i} delay={i * 0.1}>
               <div className="text-5xl md:text-7xl font-light text-[var(--brand,#c9b7a1)] mb-4 italic tabular-nums">
                 <Counter to={stat.val} suffix={stat.suffix} />

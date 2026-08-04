@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useState, useEffect } from "react";
@@ -19,6 +20,31 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les avis, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const AVIS_INLINE_SOURCE = [
+  {
+                  quote: "Une expérience sonore et sensorielle sans équivalent. Velvet transcende la simple nuit.",
+                  author: "M.R.",
+                  role: "Membre depuis 2021",
+                  dark: false,
+                },
+                {
+                  quote: "L'intimité, la sécurité, le son. Ici, rien n'est laissé au hasard.",
+                  author: "C.L.",
+                  role: "Membre VIP",
+                  dark: true,
+                },
+                {
+                  quote: "Chaque soir est une performance artistique. Je n'ai trouvé nulle part ailleurs cela.",
+                  author: "A.B.",
+                  role: "Membre Obsidien",
+                  dark: false,
+                }
+];
+let AVIS_INLINE = AVIS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -55,6 +81,20 @@ export default function VelvetHomePage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_INLINE = resolveList(
+
+    clientReviews(session)?.map((r: any, i: number) => ({
+
+      ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
+
+      quote: r.text, author: r.author,
+
+    })),
+
+    AVIS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -384,26 +424,7 @@ return (
               </h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                {
-                  quote: "Une expérience sonore et sensorielle sans équivalent. Velvet transcende la simple nuit.",
-                  author: "M.R.",
-                  role: "Membre depuis 2021",
-                  dark: false,
-                },
-                {
-                  quote: "L'intimité, la sécurité, le son. Ici, rien n'est laissé au hasard.",
-                  author: "C.L.",
-                  role: "Membre VIP",
-                  dark: true,
-                },
-                {
-                  quote: "Chaque soir est une performance artistique. Je n'ai trouvé nulle part ailleurs cela.",
-                  author: "A.B.",
-                  role: "Membre Obsidien",
-                  dark: false,
-                },
-              ].map((t, i) => (
+              {AVIS_INLINE.map((t, i) => (
                 <Reveal key={i} delay={i * 0.12}>
                   <div
                     className={`p-10 border flex flex-col gap-8 h-full ${

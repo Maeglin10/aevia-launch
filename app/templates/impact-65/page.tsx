@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
 
@@ -18,6 +19,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les avis, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const AVIS_INLINE_SOURCE = [
+  { quote: "We replaced our entire observability stack with Carbon in a weekend. The performance gain was immediate — and our infra bill dropped 40%.", name: "T. Nakamura", title: "CTO · Helix Labs" },
+              { quote: "I've been in edge computing for a decade. Carbon's routing intelligence is the first thing I've seen that actually works at 6ms global P99.", name: "A. Osei", title: "Principal Eng · Meridian" },
+              { quote: "The DX is phenomenal. I shipped a distributed service in Go in under 2 hours. Zero config, zero yak shaving. Just works.", name: "P. Leclerc", title: "Senior SWE · Phantom IO" }
+];
+let AVIS_INLINE = AVIS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -54,6 +65,20 @@ export default function CarbonLabPage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_INLINE = resolveList(
+
+    clientReviews(session)?.map((r: any, i: number) => ({
+
+      ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
+
+      quote: r.text, name: r.author,
+
+    })),
+
+    AVIS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -260,11 +285,7 @@ return (
             </h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
-            {[
-              { quote: "We replaced our entire observability stack with Carbon in a weekend. The performance gain was immediate — and our infra bill dropped 40%.", name: "T. Nakamura", title: "CTO · Helix Labs" },
-              { quote: "I've been in edge computing for a decade. Carbon's routing intelligence is the first thing I've seen that actually works at 6ms global P99.", name: "A. Osei", title: "Principal Eng · Meridian" },
-              { quote: "The DX is phenomenal. I shipped a distributed service in Go in under 2 hours. Zero config, zero yak shaving. Just works.", name: "P. Leclerc", title: "Senior SWE · Phantom IO" },
-            ].map((t, i) => (
+            {AVIS_INLINE.map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#050505] p-12 flex flex-col gap-6 hover:bg-[var(--brand,#0070f3)]/5 transition-all duration-700 border border-transparent hover:border-[var(--brand,#0070f3)]/20">
                   <div className="flex gap-1">{[...Array(5)].map((_, s) => <span key={s} className="text-[var(--brand,#0070f3)] text-xs">★</span>)}</div>

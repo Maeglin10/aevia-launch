@@ -36,6 +36,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
@@ -44,6 +45,31 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les avis, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const AVIS_INLINE_SOURCE = [
+  {
+              name: "Camille R.",
+              text: "Kira a su comprendre exactement ce que je voulais. Le résultat dépasse tout ce que j'avais imaginé. Chef-d'œuvre.",
+              style: "Japanese",
+              stars: 5,
+            },
+            {
+              name: "Thomas D.",
+              text: "Théo est un génie de la géométrie. Mon sleeve blackwork est une œuvre d'art. Studio impeccable, équipe pro.",
+              style: "Blackwork",
+              stars: 5,
+            },
+            {
+              name: "Éléonore V.",
+              text: "Léa a réalisé mon tatouage floral fineline avec une précision époustouflante. Je recommande les yeux fermés.",
+              style: "Fineline",
+              stars: 5,
+            }
+];
+let AVIS_INLINE = AVIS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 let bp: any = null;
@@ -371,6 +397,20 @@ export default function Impact199Page() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_INLINE = resolveList(
+
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
+
+      ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
+
+      text: r.text, name: r.author,
+
+    })),
+
+    AVIS_INLINE_SOURCE,
+
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -1518,26 +1558,7 @@ export default function Impact199Page() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-6 max-w-7xl mx-auto">
-          {[
-            {
-              name: "Camille R.",
-              text: "Kira a su comprendre exactement ce que je voulais. Le résultat dépasse tout ce que j'avais imaginé. Chef-d'œuvre.",
-              style: "Japanese",
-              stars: 5,
-            },
-            {
-              name: "Thomas D.",
-              text: "Théo est un génie de la géométrie. Mon sleeve blackwork est une œuvre d'art. Studio impeccable, équipe pro.",
-              style: "Blackwork",
-              stars: 5,
-            },
-            {
-              name: "Éléonore V.",
-              text: "Léa a réalisé mon tatouage floral fineline avec une précision époustouflante. Je recommande les yeux fermés.",
-              style: "Fineline",
-              stars: 5,
-            },
-          ].map((testimonial, i) => (
+          {AVIS_INLINE.map((testimonial, i) => (
             <Reveal key={i} delay={i * 0.1}>
               <div className="bg-[#0A0A0A] border border-white/5 p-8 space-y-4">
                 <div className="flex items-center gap-1">

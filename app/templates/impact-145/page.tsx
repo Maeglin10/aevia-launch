@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -17,6 +18,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les avis, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const AVIS_INLINE_SOURCE = [
+  { quote: "Arcane found our Notting Hill townhouse entirely off-market. Their network is unlike anything we'd encountered at Knight Frank or Savills.", name: "H. Pemberton", origin: "London W11 · £9.4M" },
+                { quote: "The level of discretion was absolute. Three continents, one advisor — the whole transaction felt effortless.", name: "A. Reinhardt", origin: "Zurich · $18.2M" },
+                { quote: "Arcane doesn't just sell properties. They understand how your life should feel. We bought exactly the wrong house twice before them.", name: "S. Miyamoto", origin: "Tokyo · ¥2.1B" }
+];
+let AVIS_INLINE = AVIS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -84,6 +95,20 @@ export default function ArcaneRealtyPage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_INLINE = resolveList(
+
+    clientReviews(session)?.map((r: any, i: number) => ({
+
+      ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
+
+      quote: r.text, name: r.author,
+
+    })),
+
+    AVIS_INLINE_SOURCE,
+
+  );
   PROPERTIES = PROPERTIES_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
@@ -289,11 +314,7 @@ export default function ArcaneRealtyPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
-              {[
-                { quote: "Arcane found our Notting Hill townhouse entirely off-market. Their network is unlike anything we'd encountered at Knight Frank or Savills.", name: "H. Pemberton", origin: "London W11 · £9.4M" },
-                { quote: "The level of discretion was absolute. Three continents, one advisor — the whole transaction felt effortless.", name: "A. Reinhardt", origin: "Zurich · $18.2M" },
-                { quote: "Arcane doesn't just sell properties. They understand how your life should feel. We bought exactly the wrong house twice before them.", name: "S. Miyamoto", origin: "Tokyo · ¥2.1B" },
-              ].map((t, i) => (
+              {AVIS_INLINE.map((t, i) => (
                 <Reveal key={i} delay={i * 0.12}>
                   <div className="bg-[#0a0a0a] p-16 flex flex-col gap-8 group hover:bg-black transition-colors duration-500">
                     <div className="text-5xl text-white/10 font-serif leading-none">&ldquo;</div>

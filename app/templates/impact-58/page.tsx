@@ -22,6 +22,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -29,6 +30,17 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { num: '01', label: 'Brief Déconstruit', desc: 'Chaque projet commence par une session de 2h où nous défaisons activement le brief. Nous cherchons ce que la marque ne sait pas encore qu\'elle veut dire.' },
+                { num: '02', label: 'Concept Cinétique', desc: 'Livraison de 3 concepts de mouvement sous forme de storyboards animatiques. Pas de moodboards statiques — seul le mouvement révèle le vrai potentiel.' },
+                { num: '03', label: 'Production Intégrée', desc: 'Direction artistique, capture, VFX et sound design sous un même toit. Zéro perte en translation entre les départements — tout le monde parle la même langue.' },
+                { num: '04', label: 'Diffusion & Adaptation', desc: 'Livraison multi-formats optimisés pour chaque plateforme : broadcast 4K, social 9:16, digital 16:9, DOOH, et declinaisons internationales si nécessaire.' }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 
 // L'équipe, jusqu'ici écrit(e)s dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
@@ -194,6 +206,22 @@ export default function SkewOSHome() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(session)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      num: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
 
   EQUIPE_INLINE = resolveList(
 
@@ -840,12 +868,7 @@ return (
               <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: 'clamp(2rem, 4vw, 4rem)', color: C.text, textTransform: 'uppercase', lineHeight: 1, marginBottom: '5rem' }}>Comment on crée.</h2>
             </Reveal>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '0', borderTop: `1px solid ${C.border}` }}>
-              {[
-                { num: '01', label: 'Brief Déconstruit', desc: 'Chaque projet commence par une session de 2h où nous défaisons activement le brief. Nous cherchons ce que la marque ne sait pas encore qu\'elle veut dire.' },
-                { num: '02', label: 'Concept Cinétique', desc: 'Livraison de 3 concepts de mouvement sous forme de storyboards animatiques. Pas de moodboards statiques — seul le mouvement révèle le vrai potentiel.' },
-                { num: '03', label: 'Production Intégrée', desc: 'Direction artistique, capture, VFX et sound design sous un même toit. Zéro perte en translation entre les départements — tout le monde parle la même langue.' },
-                { num: '04', label: 'Diffusion & Adaptation', desc: 'Livraison multi-formats optimisés pour chaque plateforme : broadcast 4K, social 9:16, digital 16:9, DOOH, et declinaisons internationales si nécessaire.' },
-              ].map((s, i) => (
+              {STATS_INLINE.map((s, i) => (
                 <Reveal key={s.num} delay={i * 0.1}>
                   <div style={{ padding: '3rem 2.5rem', borderRight: i < 3 ? `1px solid ${C.border}` : 'none', borderBottom: `1px solid ${C.border}` }}>
                     <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: '3rem', color: `${C.violet}15`, lineHeight: 1, marginBottom: '2rem' }}>{s.num}</div>

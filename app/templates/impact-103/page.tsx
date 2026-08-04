@@ -21,6 +21,16 @@ import {
 // Global state variables for subpage compatibility
 let fd: any = null;
 
+// Les avis, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const AVIS_INLINE_SOURCE = [
+  { quote: "Lumina Law navigated our cross-border merger with precision and discretion. Their partners think like strategists, not just lawyers. The outcome exceeded expectations at every level.", name: "C. Harding", title: "CFO · Global Ventures Ltd" },
+                { quote: "When we faced a regulatory crisis, their team assembled overnight and had a response strategy by morning. Lumina's institutional knowledge is unmatched in our industry.", name: "P. Nkosi", title: "CEO · Meridian Industries" },
+                { quote: "We've retained Lumina for eight years across litigation, M&A, and regulatory matters. They have become an indispensable extension of our executive leadership.", name: "S. Fontaine", title: "General Counsel · Arcadia Group" }
+];
+let AVIS_INLINE = AVIS_INLINE_SOURCE;
+
+
 // L'équipe, jusqu'ici écrit(e)s dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
 const EQUIPE_INLINE_SOURCE = [
@@ -128,6 +138,20 @@ export default function LuminaLawPage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_INLINE = resolveList(
+
+    clientReviews(session)?.map((r: any, i: number) => ({
+
+      ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
+
+      quote: r.text, name: r.author,
+
+    })),
+
+    AVIS_INLINE_SOURCE,
+
+  );
 
   EQUIPE_INLINE = resolveList(
 
@@ -384,11 +408,7 @@ export default function LuminaLawPage() {
               </h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { quote: "Lumina Law navigated our cross-border merger with precision and discretion. Their partners think like strategists, not just lawyers. The outcome exceeded expectations at every level.", name: "C. Harding", title: "CFO · Global Ventures Ltd" },
-                { quote: "When we faced a regulatory crisis, their team assembled overnight and had a response strategy by morning. Lumina's institutional knowledge is unmatched in our industry.", name: "P. Nkosi", title: "CEO · Meridian Industries" },
-                { quote: "We've retained Lumina for eight years across litigation, M&A, and regulatory matters. They have become an indispensable extension of our executive leadership.", name: "S. Fontaine", title: "General Counsel · Arcadia Group" },
-              ].map((t, i) => (
+              {AVIS_INLINE.map((t, i) => (
                 <Reveal key={i} delay={i * 0.12}>
                   <div className="bg-white p-10 border border-black/5 flex flex-col gap-6 h-full">
                     <Quote className="w-6 h-6 text-[var(--brand,#1a365d)]/20" />

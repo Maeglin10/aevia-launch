@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -17,6 +18,16 @@ import {
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les avis, jusqu'ici écrit(e) dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const AVIS_INLINE_SOURCE = [
+  { quote: "We installed the Studio Array in our film scoring stage. The first session, the composer wept. The clarity revealed things we had been missing for a decade.", name: "J. Wren", origin: "London · Scoring Stage B" },
+                { quote: "I've designed rooms with every major brand. None hold a candle to what their engineering team achieved at this price point. Extraordinary.", name: "M. Belfort", origin: "Paris · Studio Acoustics" },
+                { quote: "The monitoring accuracy of the Reference Series changed my mixes. I'm hearing nuances I used to think only other engineers had the ears to perceive.", name: "T. Osei", origin: "Lagos · Mastering Engineer" }
+];
+let AVIS_INLINE = AVIS_INLINE_SOURCE;
+
 let c: any = null;
 let brand: any = null;
 
@@ -89,6 +100,20 @@ export default function AetherSoundPage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_INLINE = resolveList(
+
+    clientReviews(session)?.map((r: any, i: number) => ({
+
+      ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
+
+      quote: r.text, name: r.author,
+
+    })),
+
+    AVIS_INLINE_SOURCE,
+
+  );
   PRODUCTS = PRODUCTS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
@@ -318,11 +343,7 @@ export default function AetherSoundPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
-              {[
-                { quote: "We installed the Studio Array in our film scoring stage. The first session, the composer wept. The clarity revealed things we had been missing for a decade.", name: "J. Wren", origin: "London · Scoring Stage B" },
-                { quote: "I've designed rooms with every major brand. None hold a candle to what their engineering team achieved at this price point. Extraordinary.", name: "M. Belfort", origin: "Paris · Studio Acoustics" },
-                { quote: "The monitoring accuracy of the Reference Series changed my mixes. I'm hearing nuances I used to think only other engineers had the ears to perceive.", name: "T. Osei", origin: "Lagos · Mastering Engineer" },
-              ].map((t, i) => (
+              {AVIS_INLINE.map((t, i) => (
                 <Reveal key={i} delay={i * 0.12}>
                   <div className="bg-[#050505] p-14 flex flex-col gap-8 hover:bg-black transition-colors">
                     <div className="text-6xl text-white/5 font-serif leading-none">&ldquo;</div>
