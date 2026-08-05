@@ -48,15 +48,23 @@ for (const fiche of fiches) {
   );
   if (cibles.length === 0) continue;
 
-  const file = path.join(ROOT, fiche.id, "page.tsx");
-  if (!fs.existsSync(file)) continue;
-  let src = fs.readFileSync(file, "utf8");
+  /*
+    L'en-tête de soixante-deux thèmes vit dans `layout.tsx`, et leur module
+    partagé porte parfois le nom lui aussi : ne regarder que `page.tsx` laissait
+    le nom illisible là où il est le plus visible.
+  */
+  const fichiers = ["page.tsx", "layout.tsx", "shared.tsx"]
+    .map((f) => path.join(ROOT, fiche.id, f))
+    .filter((f) => fs.existsSync(f));
+  if (fichiers.length === 0) continue;
   let n = 0;
 
   // Le halo suit la couleur la plus sombre rencontrée : c'est la plus menacée.
   const lum = Math.min(...cibles.map(([, c]) => luminance(c) ?? 1));
   const halo = lum < 0.5 ? HALO_CLAIR : HALO_SOMBRE;
 
+  for (const file of fichiers) {
+  const src = fs.readFileSync(file, "utf8");
   const lignes = src.split("\n").map((ligne) => {
     if (!/client(?:Name|Phone|Email)\(/.test(ligne)) return ligne;
     if (/alt=|aria-|title=|content=|textShadow/.test(ligne)) return ligne;
@@ -79,8 +87,11 @@ for (const fiche of fiches) {
       + ligne.slice(balise.index + balise[0].length);
   });
 
+  const neuf = lignes.join("\n");
+  if (neuf !== src && !dry) fs.writeFileSync(file, neuf);
+  }
+
   if (n === 0) continue;
-  if (!dry) fs.writeFileSync(file, lignes.join("\n"));
   faits += n;
   touches.push(`${fiche.id} (${n})`);
 }

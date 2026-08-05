@@ -71,7 +71,7 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
-              <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>{clientName(__layoutSession)}</span>
+              <span className="text-xl font-bold tracking-wide" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Libre Baskerville', serif" }}>{clientName(__layoutSession)}</span>
             ) : (<>
               <>
             <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>Blueprint</span>
@@ -168,7 +168,7 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
             </div>
           </div>
           <div className="pt-8 border-t border-[#2A1E12] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 {/* NOM_PIED */ clientName(__layoutSession) ?? "Blueprint Developments"} — Tous droits réservés</span>
+            <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>© 2024 {/* NOM_PIED */ clientName(__layoutSession) ?? "Blueprint Developments"} — Tous droits réservés</span>
             <div className="flex gap-6">
               <Link href="/templates/impact-82/legal" className="hover:text-[#F7F5F2] transition-colors cursor-pointer">
                 Mentions légales
