@@ -526,7 +526,7 @@ function Nav() {
         ) : (
           <>
             <Wrench size={20} color={C.accent} strokeWidth={2} />
-            ThermoFix&nbsp;<span style={{ color: C.accent }}>{clientName(sessionData) ?? "Pro"}</span>
+            ThermoFix&nbsp;<span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  color: C.accent }}>{clientName(sessionData) ?? "Pro"}</span>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.accent, display: 'inline-block', marginLeft: 2 }} />
           </>
         )}

@@ -649,7 +649,7 @@ return (
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Wok Master"))}</Eyebrow>
+                <Eyebrow style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Wok Master"))}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1254,7 +1254,7 @@ return (
             marginBottom: 64
           }}>
             <div>
-              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Wok Master"))}</h4>
+              <h4 style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Wok Master"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
                 Asian fast-food {clientCity(sessionData) ?? "Paris"}
               </p>

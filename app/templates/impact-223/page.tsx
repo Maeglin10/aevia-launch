@@ -218,7 +218,7 @@ export default function VoltProPage() {
                 <div className="w-8 h-8 bg-[var(--brand,#facc15)] flex items-center justify-center">
                   <Zap className="w-4 h-4 text-black fill-black" />
                 </div>
-                <span className="text-lg font-extrabold tracking-[0.15em] uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>VoltPro</>)}</span>
+                <span className="text-lg font-extrabold tracking-[0.15em] uppercase" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>VoltPro</>)}</span>
               </>
             )}
           </Link>

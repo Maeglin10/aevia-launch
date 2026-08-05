@@ -73,6 +73,8 @@ for (const fiche of fiches) {
       n++;
       return ligne.replace(/style=\{\{/, `style={{ textShadow: ${halo}, `);
     }
+    // Une balise ouverte sur plusieurs lignes : son `style` est ailleurs.
+    if (/^\s*(?:[\w-]+=|\}\}|\/?>)/.test(ligne) && !/</.test(ligne)) return ligne;
     /*
       La balise qui porte le texte, pas la première de la ligne : celle-ci est
       souvent une icône auto-fermante — `<Droplets size={24} />` — et poser le
@@ -82,6 +84,12 @@ for (const fiche of fiches) {
       .filter((m) => m[3] !== "/" && m.index < ligne.indexOf("client"));
     const balise = balises[balises.length - 1];
     if (!balise) return ligne;
+    /*
+      La balise peut déjà porter un `style` ouvert sur une ligne précédente : y
+      en ajouter un second casse le fichier. On ne regarde donc pas la ligne mais
+      la balise entière.
+    */
+    if (/\sstyle=/.test(balise[2])) return ligne;
     n++;
     return ligne.slice(0, balise.index)
       + `<${balise[1]}${balise[2]} style={{ textShadow: ${halo} }}>`

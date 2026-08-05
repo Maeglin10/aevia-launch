@@ -257,7 +257,7 @@ export default function LumiereDoreePage() {
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 48 }}>
-              <span style={{ fontFamily: FONT, fontStyle: "italic", fontSize: 20, color: C.white }}>{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Studio Lumière Dorée"))}</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontStyle: "italic", fontSize: 20, color: C.white }}>{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Studio Lumière Dorée"))}</span>
               <button onClick={() => setMenuOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: C.white }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <line x1="18" y1="6" x2="6" y2="18" />

@@ -246,7 +246,7 @@ export default function StudioNomaPage() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <><span style={{ fontFamily: FONT, fontSize: 22, fontWeight: 600, color: scrolled ? C.text : "#fff", letterSpacing: 1 }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Studio <em>Noma</em></>)}</span></>
+            <><span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontSize: 22, fontWeight: 600, color: scrolled ? C.text : "#fff", letterSpacing: 1 }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Studio <em>Noma</em></>)}</span></>
           )}
         <div style={{ gap: 32, alignItems: "center" }} className="hidden md:flex">
           {NAV.map(({ l, h }) => (

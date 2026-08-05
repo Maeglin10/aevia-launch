@@ -291,7 +291,7 @@ export default function LumiereYogaPage() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (/* NOM_LOGO */ clientName(sessionData) ? (
-              <span style={{ fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>{clientName(sessionData)}</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>{clientName(sessionData)}</span>
             ) : (<>
             <>
               <span style={{ fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>Lumière</span>
