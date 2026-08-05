@@ -228,7 +228,7 @@ export default function ConservatoireAccordPage() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+          <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  display: "flex", alignItems: "center", gap: 10 }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
             <Music size={20} color={scrolled ? C.amber : "#fff"} />
             <span style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: scrolled ? C.text : "#fff" }}>Conservatoire<span style={{ color: C.amber }}> Accord</span></span>
           </>)}</div>

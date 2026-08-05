@@ -203,7 +203,7 @@ export default function CabinetKinePage() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
-              <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>{clientName({ formData: fd })}</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>{clientName({ formData: fd })}</span>
             ) : (<>
             <>
               <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>Kiné</span>

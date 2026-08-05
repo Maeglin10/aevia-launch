@@ -238,7 +238,7 @@ export default function VisionClairePage() {
               <div style={{ background: C.cyan, borderRadius: 8, padding: "7px 9px", display: "flex" }}>
                 <Eye size={18} color="#fff" />
               </div>
-              <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Vision<span style={{ color: C.cyan }}>Claire</span></>)}</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Vision<span style={{ color: C.cyan }}>Claire</span></>)}</span>
             </>
           )}
         </div>
