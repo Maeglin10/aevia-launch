@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus, X } from "lucide-react";
 import type { BusinessProfile } from "@/lib/sessions";
 import { useAutoSaveStep } from "@/components/wizard/useAutoSaveStep";
@@ -47,7 +47,28 @@ export function ServiceRdvStep({
 
   const services = value?.services ?? [];
   const team = value?.team ?? [];
-  const openingHours = value?.openingHours ?? DAYS.map((day) => ({ day, closed: false } as OpeningHour));
+  /*
+    Quatorze champs d'horaires vides à remplir un par un : c'est le bloc le plus
+    lourd du wizard et celui qui fait fermer l'onglet. On propose donc la semaine
+    la plus courante — du lundi au vendredi, neuf heures dix-huit heures, samedi
+    et dimanche fermés. Le client corrige ce qui diffère au lieu de tout saisir,
+    et ce qu'il voit à l'écran est ce qui partira sur son site.
+  */
+  const HORAIRES_USUELS: OpeningHour[] = DAYS.map((day) =>
+    day === "Samedi" || day === "Dimanche"
+      ? ({ day, closed: true } as OpeningHour)
+      : ({ day, closed: false, open: "09:00", close: "18:00" } as OpeningHour),
+  );
+  const openingHours = value?.openingHours ?? HORAIRES_USUELS;
+
+  /*
+    Ces horaires proposés doivent exister dans la session, pas seulement à
+    l'écran : sans cela, un client qui les accepte tels quels n'envoie rien.
+  */
+  useEffect(() => {
+    if (!value?.openingHours) onChange({ ...(value ?? {}), openingHours: HORAIRES_USUELS });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const sources = value?.reputation?.sources ?? [];
 
   const patch = (partial: Partial<BusinessProfile>) => onChange({ ...value, ...partial });
@@ -207,19 +228,24 @@ export function ServiceRdvStep({
         <div className="flex gap-2">
           <select
             className={`${input} w-40`}
+            aria-label="Outil de réservation"
             value={value?.bookingSystem?.provider ?? ""}
             onChange={(e) => patch({ bookingSystem: { ...value?.bookingSystem, provider: e.target.value } })}
           >
-            <option value="">…</option>
+            {/* « … » ne dit pas ce qu'on attend. */}
+            <option value="">Aucun outil</option>
             {BOOKING_PROVIDERS.map((p) => (
               <option key={p} value={p}>{p}</option>
             ))}
           </select>
           <input
             className={`${input} flex-1`}
+            aria-label="Lien de réservation"
+            type="url"
+            inputMode="url"
             value={value?.bookingSystem?.url ?? ""}
             onChange={(e) => patch({ bookingSystem: { ...value?.bookingSystem, url: e.target.value } })}
-            placeholder="Lien de réservation"
+            placeholder="https://…"
           />
         </div>
       </div>
@@ -231,11 +257,15 @@ export function ServiceRdvStep({
           {openingHours.map((h, i) => (
             <div key={h.day} className="flex items-center gap-2 text-sm">
               <span className="w-20 text-zinc-400 shrink-0">{h.day}</span>
-              <label className="flex items-center gap-1.5 text-xs text-zinc-500 shrink-0">
+              {/* Une case de treize pixels ne se coche pas au doigt : la zone
+                  cliquable englobe le mot et tient la hauteur minimale. */}
+              <label className="flex items-center gap-2 text-sm text-zinc-400 shrink-0 min-h-[44px] px-1 cursor-pointer">
                 <input
                   type="checkbox"
+                  className="w-4 h-4 accent-red-600 cursor-pointer"
                   checked={!!h.closed}
                   onChange={(e) => updateHour(i, "closed", e.target.checked)}
+                  aria-label={`${h.day} — fermé`}
                 />
                 Fermé
               </label>
@@ -243,6 +273,7 @@ export function ServiceRdvStep({
                 <>
                   <input
                     type="time"
+                    aria-label={`${h.day} — heure d'ouverture`}
                     className={`${input} w-28`}
                     value={h.open ?? ""}
                     onChange={(e) => updateHour(i, "open", e.target.value)}
@@ -250,6 +281,7 @@ export function ServiceRdvStep({
                   <span className="text-zinc-600">→</span>
                   <input
                     type="time"
+                    aria-label={`${h.day} — heure de fermeture`}
                     className={`${input} w-28`}
                     value={h.close ?? ""}
                     onChange={(e) => updateHour(i, "close", e.target.value)}
@@ -264,7 +296,7 @@ export function ServiceRdvStep({
       {/* Reputation sources */}
       <div className="space-y-2">
         <p className={label}>Avis clients</p>
-        <p className="text-xs text-zinc-500">Si tu as ton lien Planity/Google, ajoute-le, sinon laisse vide.</p>
+        <p className="text-xs text-zinc-500">Si vous avez un lien Planity ou Google, ajoutez-le ; sinon, laissez vide.</p>
         <div className="flex flex-col gap-2">
           {sources.map((s, i) => (
             <div key={i} className="flex items-center gap-2">

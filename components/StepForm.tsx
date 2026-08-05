@@ -5,9 +5,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight, ArrowLeft, Loader2, Check, ExternalLink, Upload, X, Plus, Image as ImageIcon, Info,
+  ArrowRight, ArrowLeft, Loader2, Check, ExternalLink, Upload, X, Plus, Image as ImageIcon, Info, Search,
 } from "lucide-react";
 import { useLang } from "@/lib/LangContext";
+import { iconeDe } from "@/lib/templates/sectorIcons";
 import { INDUSTRIES, SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/lib/templates/sectors";
 import { SECTOR_EXTRA_QUESTIONS } from "@/lib/templates/sector-questions";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
@@ -703,7 +704,10 @@ export function StepForm() {
                             : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
                         }`}
                       >
-                        <span className="text-xl">{ind.emoji}</span>
+                        {(() => {
+                          const Icone = iconeDe(ind.id);
+                          return <Icone className="w-5 h-5 shrink-0 opacity-80" aria-hidden="true" />;
+                        })()}
                         <span className="text-base font-medium leading-tight">{ind.labels[locale] ?? ind.label}</span>
                       </button>
                     ))}
@@ -712,7 +716,7 @@ export function StepForm() {
                       onClick={() => { set("industry", "other"); set("sector", "other"); set("template", ""); setIndustryPhase("specialty"); }}
                       className="flex items-center gap-3 px-3 py-3 rounded-xl border border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white text-left transition-all"
                     >
-                      <span className="text-xl">🔍</span>
+                      <Search className="w-5 h-5 shrink-0 opacity-80" aria-hidden="true" />
                       <span className="text-base font-medium">{t.sectorOther}</span>
                     </button>
                   </div>
@@ -760,7 +764,10 @@ export function StepForm() {
                               : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
                           }`}
                         >
-                          <span className="text-xl">{s.emoji}</span>
+                          {(() => {
+                            const Icone = iconeDe(s.id);
+                            return <Icone className="w-5 h-5 shrink-0 opacity-80" aria-hidden="true" />;
+                          })()}
                           <span className="text-base font-medium leading-tight">{s.labels?.[locale] ?? s.label}</span>
                           {form.sector === s.id && <Check className="w-4 h-4 text-red-400 ml-auto shrink-0" />}
                         </button>
@@ -1053,12 +1060,14 @@ export function StepForm() {
                   <div className="flex items-center gap-3">
                     <input
                       type="color"
+                      aria-label="Choisir la couleur de marque"
                       value={form.brandColor}
                       onChange={(e) => set("brandColor", e.target.value)}
                       className="w-12 h-12 rounded-xl border-2 border-zinc-700 cursor-pointer bg-transparent p-1"
                     />
                     <input
                       type="text"
+                      aria-label="Couleur de marque, code hexadécimal"
                       value={form.brandColor}
                       onChange={(e) => {
                         const v = e.target.value;

@@ -169,23 +169,40 @@ for (let etape = 1; etape <= 7; etape++) {
       c.click();
       return `choix « ${c.innerText.replace(/\s+/g, " ").trim().slice(0, 26)} »`;
     }
-    for (const e of document.querySelectorAll("input[type=text], input[type=email], input[type=tel], textarea")) {
-      if (e.value) continue;
-      const nom = (e.name || e.placeholder || "").toLowerCase();
-      const valeur = nom.includes("mail") ? "marie@atelier-vidal.fr"
-        : nom.includes("tel") || nom.includes("phone") ? "04 50 11 22 33"
-        : nom.includes("ville") || nom.includes("city") ? "Annecy"
-        : "Ateliers Vidal & Fils";
-      const poseur = Object.getOwnPropertyDescriptor(
-        e.tagName === "TEXTAREA" ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype, "value").set;
-      poseur.call(e, valeur);
-      e.dispatchEvent(new Event("input", { bubbles: true }));
-    }
-    const bouton = [...document.querySelectorAll("button")]
-      .find((b) => /continuer|suivant|générer/i.test(b.innerText) && !b.disabled);
-    if (bouton) { bouton.click(); return "continuer"; }
-    return null;
+    return "remplir";
   });
+
+  /*
+    Les champs se remplissent par le clavier, pas par un événement fabriqué :
+    React n'écoute pas un `input` synthétique posé sur la valeur, et le bouton
+    « Continuer » restait grisé tour après tour.
+  */
+  if (avance === "remplir") {
+    const champs = await p.$$("input[type=text], input[type=email], input[type=tel], input:not([type]), textarea");
+    for (const champ of champs) {
+      const dejaRempli = await champ.inputValue().catch(() => "x");
+      if (dejaRempli) continue;
+      const indice = ((await champ.getAttribute("placeholder")) ?? (await champ.getAttribute("name")) ?? "").toLowerCase();
+      const valeur = /mail|@/.test(indice) ? "marie@ateliers-vidal.fr"
+        : /t[ée]l|phone|06|04/.test(indice) ? "04 50 11 22 33"
+        : /ville|city|lyon|paris/.test(indice) ? "Annecy"
+        : /instagram|@/.test(indice) ? "ateliersvidal"
+        : /siret|siren/.test(indice) ? "85254622500017"
+        : /adresse|rue/.test(indice) ? "12 rue des Alpes, Annecy"
+        : /accompagn|faites|activit/.test(indice) ? "Plomberie, chauffage et salles de bain à Annecy depuis 1998."
+        : "Ateliers Vidal & Fils";
+      await champ.fill(valeur).catch(() => {});
+    }
+    for (const c of await p.$$("input[type=checkbox]")) await c.check().catch(() => {});
+    await p.waitForTimeout(300);
+    const suite = await p.evaluate(() => {
+      const b = [...document.querySelectorAll("button")]
+        .find((x) => /continuer|suivant|générer/i.test(x.innerText) && !x.disabled && x.getAttribute("aria-disabled") !== "true");
+      if (b) { b.click(); return "continuer"; }
+      return null;
+    });
+    if (!suite) { console.log(`(bloqué à l'étape ${etape} : « Continuer » reste inactif)`); break; }
+  }
   if (!avance) { console.log(`(bloqué à l'étape ${etape} : aucun bouton actif)`); break; }
   await p.waitForTimeout(1200);
   fiches.push(await releve(`etape-${etape + 1}`));
