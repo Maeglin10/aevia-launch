@@ -103,7 +103,7 @@ export default function MaisonDrouetLayout({
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block', margin: '0 auto' }}
               />
             ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
-              <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.goldDim }}>{clientName(__layoutSession)}</div>
+              <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.goldDim }}>{clientName(__layoutSession)}</div>
             ) : (<>
               <>
           <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.goldDim }}>MAISON</div>

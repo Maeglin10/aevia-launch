@@ -236,7 +236,7 @@ export default function PierreCoPage() {
             />
           ) : (
             <>
-              <span style={{ fontFamily: FONT_SERIF, fontSize: 20, color: scrolled ? C.text : "#fff" }}>{clientName({ formData: fd }) ?? "Pierre"}</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT_SERIF, fontSize: 20, color: scrolled ? C.text : "#fff" }}>{clientName({ formData: fd }) ?? "Pierre"}</span>
               <span style={{ fontSize: 12, color: C.accent, fontWeight: 700, letterSpacing: 2, marginLeft: 6 }}>&amp; CO</span>
             </>
           )}

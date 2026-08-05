@@ -170,7 +170,7 @@ export default function AutoExpertPage() {
                 <div className="w-7 h-7 bg-[var(--brand,#dc2626)] flex items-center justify-center">
                   <Wrench className="w-4 h-4 text-white" />
                 </div>
-                <span className="font-bold text-[#f1f3f5] tracking-wide text-sm">{clientName({ formData: fd }) ?? "AUTO"}<span className="text-[var(--brand,#dc2626)]">EXPERT</span></span>
+                <span className="font-bold text-[#f1f3f5] tracking-wide text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName({ formData: fd }) ?? "AUTO"}<span className="text-[var(--brand,#dc2626)]">EXPERT</span></span>
               </>
             )}
           </div>

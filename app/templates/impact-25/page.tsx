@@ -265,7 +265,7 @@ export default function PixelRepublicPage() {
               <div style={{ width: 32, height: 32, background: `linear-gradient(135deg, ${C.accent}, ${C.violet2})`, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Code2 size={16} color="#fff" />
               </div>
-              <span style={{ fontSize: 18, fontWeight: 700, color: scrolled ? C.text : "#fff" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Pixel<span style={{ color: C.accent }}>Republic</span></>)}</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 700, color: scrolled ? C.text : "#fff" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Pixel<span style={{ color: C.accent }}>Republic</span></>)}</span>
             </>
           )}
         </div>

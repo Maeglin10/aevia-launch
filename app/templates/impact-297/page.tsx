@@ -643,7 +643,7 @@ return (
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Dr. Camille Faure"))}</Eyebrow>
+                <Eyebrow style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Dr. Camille Faure"))}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
