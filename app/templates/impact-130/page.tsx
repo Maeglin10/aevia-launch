@@ -258,7 +258,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     name: "Sara Lüdi",
     role: "Directrice Marketing, Helix Pharma",
-    city: "Lausanne",
+    city: (clientCity(sessionData) ?? "Lausanne"),
     avatar: "SL",
     rating: 5,
     text: "Le brief était complexe — concilier rigueur scientifique et accessibilité grand public. Ils ont livré exactement ça, et au-delà.",
@@ -296,7 +296,7 @@ function TEAM_DEMO_LIVE() {
   {
     name: "Amélie Favre",
     role: "Senior Brand Designer",
-    bio: "Spécialiste identités visuelles systémiques. ECAL Lausanne, stage Wolff Olins Londres.",
+    bio: "Spécialiste identités visuelles systémiques. ECAL " + (clientCity(sessionData) ?? "Lausanne") + ", stage Wolff Olins Londres.",
     initials: "AF",
   },
   {

@@ -141,10 +141,10 @@ interface Material {
 
 const MATERIALS_SOURCE: Material[] = [
   {
-    name: 'Soie de Lyon',
+    name: 'Soie de ' + (clientCity(sessionData) ?? 'Lyon'),
     origin: 'Fabrique Bucol, Rhône-Alpes',
     description:
-      "Tissée sur les métiers jacquard de la Maison Bucol depuis 1878. Éclat d\'un satin, douceur d\'un nuage. La soie de Lyon répond à la lumière comme nulle autre.",
+      "Tissée sur les métiers jacquard de la Maison Bucol depuis 1878. Éclat d\'un satin, douceur d\'un nuage. La soie de " + (clientCity(sessionData) ?? "Lyon") + " répond à la lumière comme nulle autre.",
   },
   {
     name: 'Laine Loro Piana',

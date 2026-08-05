@@ -1,7 +1,9 @@
 "use client"
 
 import React from "react"
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 import Image from "next/image"
 import { MapPin, CheckCircle } from "lucide-react"
@@ -45,9 +47,9 @@ export default function RealisationsPage() {
       image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800&q=80"
     },
     {
-      name: "Technopole Lyon-Nord",
+      name: "Technopole " + (clientCity(sessionData) ?? "Lyon") + "-Nord",
       type: "Bureaux & Laboratoires",
-      location: "Lyon",
+      location: (clientCity(sessionData) ?? "Lyon"),
       size: "12 500 m²",
       status: "Livré 2022",
       image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"

@@ -1596,7 +1596,7 @@ function Realisations() {
     },
     {
       type: 'Démolition & Restructuration',
-      location: 'Bureaux reconversion — Villeurbanne',
+      location: 'Bureaux reconversion — ' + (clientCity(sessionData) ?? 'Villeurbanne'),
       surface: '480 m²',
       year: '2022',
       description: 'Démolition sélective de 42 cloisons, création de 3 dalles de béton allégé, réhabilitation façade briques apparentes.',
@@ -1973,7 +1973,7 @@ function Testimonials() {
     {
       text: "Nous avons fait appel à Bâtisseurs Durand pour la démolition et restructuration de nos bureaux en open space. Travaux réalisés le week-end pour ne pas perturber l'activité. Propre, rapide et dans les prix.",
       author: 'Marie-Claire Peyroux',
-      role: 'Dirigeante PME — Villeurbanne',
+      role: 'Dirigeante PME — ' + (clientCity(sessionData) ?? 'Villeurbanne'),
       rating: 4,
     },
   ]
@@ -2725,7 +2725,7 @@ function Footer() {
               Zones
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {[(clientCity(sessionData) ?? 'Lyon') + ' & Métropole', 'Villeurbanne', 'Caluire-et-Cuire', 'Vienne', 'Bourgoin-Jallieu', 'Villefranche-sur-Saône'].map((z) => (
+              {[(clientCity(sessionData) ?? 'Lyon') + ' & Métropole', (clientCity(sessionData) ?? 'Villeurbanne'), 'Caluire-et-Cuire', 'Vienne', 'Bourgoin-Jallieu', 'Villefranche-sur-Saône'].map((z) => (
                 <span key={z} style={{ fontSize: 13, color: C.textMuted }}>{z}</span>
               ))}
             </div>

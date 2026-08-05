@@ -1,5 +1,7 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+} from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -146,8 +148,8 @@ export default function MaisonPage() {
   useFonts();
 
   const historyTimeline = [
-    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à Genève, se spécialisant dans la réparation de chronomètres de poche de haute précision." },
-    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de Genève et de kkew pour sa régularité de marche." },
+    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à " + (clientCity(sessionData) ?? "Genève") + ", se spécialisant dans la réparation de chronomètres de poche de haute précision." },
+    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de " + (clientCity(sessionData) ?? "Genève") + " et de kkew pour sa régularité de marche." },
     { year: "1961", title: "Collection Heritage", desc: "Lancement d'une gamme de garde-temps au design intemporel, marquant le début de l'exportation internationale de la marque." },
     { year: "1998", title: "Installation dans la Vallée", desc: "Rachat d'une ancienne ferme horlogère à La Vallée de Joux, regroupant l'ensemble de nos ateliers de création, de décoration et d'assemblage sous le même toit." },
     { year: "2019", title: "Le Titane Grade 5", desc: "Innovation technologique majeure avec un modèle entièrement squelette en titane microbillé pesant moins de 32 grammes." },

@@ -161,7 +161,7 @@ const seasonData: Record<
     icon: <Snowflake size={18} />,
     color: "#6ea8d0",
     items: [
-      { name: "Choux de Bruxelles", desc: "Tendres et légèrement sucrés après gelée", emoji: "🥦" },
+      { name: "Choux de " + (clientCity(sessionData) ?? "Bruxelles"), desc: "Tendres et légèrement sucrés après gelée", emoji: "🥦" },
       { name: "Carottes de sable", desc: "Extra-sucrées, élevées en pleine terre", emoji: "🥕" },
       { name: "Endives bressanes", desc: "Blanches et tendres, culture traditionnelle", emoji: "🌿" },
       { name: "Mâche", desc: "Douce et délicate, sans assaisonnement", emoji: "🥗" },
@@ -181,7 +181,7 @@ const testimonials_SOURCE = [
   },
   {
     name: "Chef Antoine Moreau",
-    role: "Restaurant L'Ardoise, Lyon",
+    role: "Restaurant L'Ardoise, " + (clientCity(sessionData) ?? "Lyon"),
     text: "En tant que chef, j'ai besoin de produits irréprochables. Terre Vivante est mon seul fournisseur de légumes depuis deux ans. La traçabilité et la fraîcheur sont incomparables.",
     rating: 5,
     avatar: "AM",

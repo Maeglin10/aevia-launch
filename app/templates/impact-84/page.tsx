@@ -64,7 +64,7 @@ let TEMOIGNAGES_DEMO = TEMOIGNAGES_SOURCE;
 function MEDECINS_DEMO_LIVE() {
   return [
   { name: "Dr. Kenji Nakamura", spec: "Médecine esthétique faciale", exp: "14 ans", bio: "Formé à l'Académie de médecine esthétique de " + (clientCity({ formData: fd }) ?? "Paris") + ". Spécialiste des techniques d'injection ultra-précises et de la morphologie faciale.", badge: "Certifié AME" },
-  { name: "Dr. Sophie Bellamy", spec: "Laser & Régénération cutanée", exp: "9 ans", bio: "Docteure en dermatologie, IDRM Lausanne. Experte des protocoles laser CO₂ et PRP pour les cicatrices et le vieillissement cutané.", badge: "Dermatologie" },
+  { name: "Dr. Sophie Bellamy", spec: "Laser & Régénération cutanée", exp: "9 ans", bio: "Docteure en dermatologie, IDRM " + (clientCity(sessionData) ?? "Lausanne") + ". Experte des protocoles laser CO₂ et PRP pour les cicatrices et le vieillissement cutané.", badge: "Dermatologie" },
   { name: "Dr. Malik Osei", spec: "Corps & Médecine anti-âge", exp: "11 ans", bio: "Médecin du sport reconverti en esthétique corporelle. Approche globale alliant nutrition, hormonal et intervention pour des résultats durables.", badge: "Anti-âge" },
 ];
 }
@@ -274,7 +274,7 @@ return (
                   Chez Cypher Clinic, nous rejetons l'idée de beauté standardisée. Chaque visage est un code unique que nous lisons avec précision avant d'intervenir. Notre protocole d'analyse morphologique en 14 points est réalisé par un médecin qualifié — jamais une esthéticienne.
                 </>}</p>
                 <p className="text-[#8A8278] leading-relaxed mb-10 text-base">
-                  Nos médecins sont formés dans les instituts de référence mondiale (Académie de médecine esthétique de {clientCity({ formData: fd }) ?? "Paris"}, IDRM Lausanne). Chaque acte est documenté photographiquement avant et après pour un suivi rigoureux de votre évolution.
+                  Nos médecins sont formés dans les instituts de référence mondiale (Académie de médecine esthétique de {clientCity({ formData: fd }) ?? "Paris"}, IDRM {clientCity(sessionData) ?? "Lausanne"}). Chaque acte est documenté photographiquement avant et après pour un suivi rigoureux de votre évolution.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 border-t border-[#2A2820] pt-10">
                   {[{ v: "+2400", l: "Patients traités" }, { v: "14", l: "Points d'analyse" }, { v: "9 ans", l: "D'expertise" }].map((s, i) => (

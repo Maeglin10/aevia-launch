@@ -122,7 +122,7 @@ function PROJECTS_DEMO_LIVE() {
     name: "Campus Tech Sud",
     type: "Bureaux & campus formation",
     category: "commercial",
-    location: "Montpellier, 34",
+    location: (clientCity(sessionData) ?? "Montpellier") + ", 34",
     surface: "8 200 m²",
     units: null,
     budget: "18.5M€",
@@ -137,7 +137,7 @@ function PROJECTS_DEMO_LIVE() {
     name: "Centre Commercial Avenir",
     type: "Commerce & loisirs",
     category: "commercial",
-    location: "Nantes, 44",
+    location: (clientCity(sessionData) ?? "Nantes") + ", 44",
     surface: "22 000 m²",
     units: null,
     budget: "45M€",
@@ -164,10 +164,10 @@ function PROJECTS_DEMO_LIVE() {
   },
   {
     id: "05",
-    name: "Pont Industriel de Lyon Est",
+    name: "Pont Industriel de " + (clientCity(sessionData) ?? "Lyon") + " Est",
     type: "Génie civil",
     category: "commercial",
-    location: "Lyon, 69",
+    location: (clientCity(sessionData) ?? "Lyon") + ", 69",
     surface: "—",
     units: null,
     budget: "11M€",
@@ -258,7 +258,7 @@ const TEAM_DEMO = [
     name: "Marie-Ange Delorme",
     role: "Directrice Technique",
     since: "Structure Bâtisseurs depuis 2008",
-    certs: ["École Centrale Nantes", "Expert structure béton"],
+    certs: ["École Centrale " + (clientCity(sessionData) ?? "Nantes"), "Expert structure béton"],
     desc: "Pilote la cellule études et la coordination des lots techniques sur les grands projets.",
   },
   {
@@ -308,7 +308,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     stars: 5,
   },
   {
-    quote: "Sur le pont ferroviaire de Lyon Est, zéro interruption de trafic ferroviaire non planifiée. Une performance technique remarquable.",
+    quote: "Sur le pont ferroviaire de " + (clientCity(sessionData) ?? "Lyon") + " Est, zéro interruption de trafic ferroviaire non planifiée. Une performance technique remarquable.",
     name: "Thierry Boulanger",
     role: "Chef de projet infrastructure",
     company: "SNCF Réseau",
@@ -1523,7 +1523,7 @@ export default function Impact173Page() {
             {[
               { title: "Missions", links: ["Construction Neuve", "Réhabilitation", "Gros Œuvre", "Promotion & AMO"] },
               { title: "Projets", links: ["Résidentiel", "Tertiaire", "Équipements publics", "Génie civil"] },
-              { title: "Contact", links: [(clientCity(sessionData) ?? "Grenoble") + " (siège)", "Montpellier", "Nantes", (fd?.email ?? "contact@structure-batisseurs.fr")] },
+              { title: "Contact", links: [(clientCity(sessionData) ?? "Grenoble") + " (siège)", (clientCity(sessionData) ?? "Montpellier"), (clientCity(sessionData) ?? "Nantes"), (fd?.email ?? "contact@structure-batisseurs.fr")] },
             ].map(col => (
               <div key={col.title}>
                 <div style={{ fontSize: 11, color: C.orange, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>{col.title}</div>

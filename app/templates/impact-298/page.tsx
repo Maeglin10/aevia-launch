@@ -86,7 +86,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DR. ESTELLE BLANC — Chirurgien-dentiste Montpellier Antigone — implantologie, orthodontie invisible. EB Garamond, turquoise / blanc.
+   DR. ESTELLE BLANC — Chirurgien-dentiste {clientCity(sessionData) ?? "Montpellier"} Antigone — implantologie, orthodontie invisible. EB Garamond, turquoise / blanc.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -526,7 +526,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-              Implantologie, orthodontie invisible, blanchiment. Cabinet Montpellier Antigone.
+              Implantologie, orthodontie invisible, blanchiment. Cabinet {clientCity(sessionData) ?? "Montpellier"} Antigone.
             </>}</p>
           </Reveal>
 
@@ -1128,7 +1128,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        Montpellier Antigone
+                        {clientCity(sessionData) ?? "Montpellier"} Antigone
                       </div>
                     </div>
                   </div>
@@ -1248,7 +1248,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Dr. Estelle Blanc"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Chirurgien-dentiste Montpellier Antigone
+                Chirurgien-dentiste {clientCity(sessionData) ?? "Montpellier"} Antigone
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

@@ -31,7 +31,7 @@ function PROJECTS_LIVE() {
   { name: "Domaine Bois-Fleuri", type: "Résidentiel luxe", location: "Neuilly-sur-Seine", size: "8 villas", status: "Livraison 2025", image: clientPhotoAt(11, "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80"), progress: 92 },
   { name: "Le Carré Saint-Cloud", type: "Mixte", location: "Saint-Cloud", size: "120 logements + commerces", status: "Permis obtenu", image: clientPhotoAt(12, "https://images.unsplash.com/photo-1460317442991-0ec209397118?w=800&q=80"), progress: 20 },
   { name: "Athéna Bureaux", type: "Tertiaire", location: clientCityOr("Paris") + " 8e", size: "6 500 m²", status: "Livré 2024", image: clientPhotoAt(13, "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"), progress: 100 },
-  { name: "Villeneuve Parc", type: "Résidentiel senior", location: "Lyon", size: "96 logements", status: "En cours", image: clientPhotoAt(14, "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80"), progress: 60 },
+  { name: "Villeneuve Parc", type: "Résidentiel senior", location: clientCityOr("Lyon"), size: "96 logements", status: "En cours", image: clientPhotoAt(14, "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80"), progress: 60 },
 ];
 }
 export let PROJECTS = PROJECTS_LIVE();

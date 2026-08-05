@@ -834,7 +834,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   { quote: '"Le design est dingue. Mes collègues pensaient que c\'était une moto italienne de luxe. Et l\'autonomie est réelle — pas juste sur papier."',  name: 'Thomas M.', city: 'Paris, 75', stars: 5 },
   { quote: '"J\'habite en banlieue de ' + (clientCity(sessionData) ?? 'Bordeaux') + ' et le Lumyx ONE couvre mes 18 km de trajet chaque jour sans sourciller. La charge rapide le soir en 3h30, c\'est parfait pour mon rythme."', name: 'Sophie L.', city: (clientCity(sessionData) ?? 'Bordeaux') + ', 33', stars: 5 },
   { quote: '"La qualité de fabrication est bluffante. Cadre aluminium, finitions impeccables. On sent que c\'est fait pour durer. Je recommande sans hésitation."', name: 'Antoine R.', city: 'Strasbourg, 67', stars: 5 },
-  { quote: '"Passée du vélo classique au Lumyx GT et je ne reviendrai jamais en arrière. La montée du Vieux-Nantes, les 45 km/h en palier — la liberté absolue."', name: 'Lucie B.', city: 'Nantes, 44', stars: 5 },
+  { quote: '"Passée du vélo classique au Lumyx GT et je ne reviendrai jamais en arrière. La montée du Vieux-' + (clientCity(sessionData) ?? 'Nantes') + ', les 45 km/h en palier — la liberté absolue."', name: 'Lucie B.', city: (clientCity(sessionData) ?? 'Nantes') + ', 44', stars: 5 },
   { quote: '"Le GPS intégré et l\'app sont vraiment bien foutus. Suivi temps réel, historique de trajets, verrouillage à distance. J\'ai même retrouvé mon scoot après une fausse alerte vol."', name: 'Maxime P.', city: 'Rennes, 35', stars: 5 },
 ];
 }

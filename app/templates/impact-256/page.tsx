@@ -286,7 +286,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     quote: "J'ai terminé mon premier triathlon après 6 mois de préparation coaching. Le programme de périodisation était chirurgical. Je n'aurais pas pu sans lui.",
     name: 'Thomas R.',
-    role: 'Cycliste amateur · Aix-en-Provence',
+    role: 'Cycliste amateur · ' + (clientCity(sessionData) ?? 'Aix-en-Provence'),
     result: 'Triathlon complété',
   },
 ];

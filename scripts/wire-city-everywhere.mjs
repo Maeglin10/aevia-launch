@@ -48,8 +48,12 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
   const presents = fichiers.filter((f) => fs.existsSync(f));
   if (presents.length === 0) continue;
 
-  // La ville d'exemple : celle que le thème nomme lui-même, sinon la plus
-  // fréquente de tout le dossier.
+  /*
+    Toutes les villes du thème, pas seulement la dominante : un thème qui parle
+    de « Nantes » dans son hero et de « Bordeaux » dans une réalisation en
+    gardait une des deux, et le site du client citait encore une ville où il n'a
+    jamais travaillé.
+  */
   let ville = null;
   for (const f of presents) {
     const m = /clientCity\([^)]*\)\s*\?\?\s*"([^"]+)"/.exec(fs.readFileSync(f, "utf8"));
@@ -73,13 +77,27 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
   if (!ville) continue;
 
   /*
+    On répète l'opération pour chaque autre ville nommée au moins deux fois :
+    une mention isolée dans un exemple reste l'exemple du thème, deux mentions
+    forment un lieu, et un lieu doit être celui du client.
+  */
+  const toutLeDossier = presents.map((f) => fs.readFileSync(f, "utf8")).join("\n")
+    .split("\n").filter((l) => !/RCS|Aevia|SIREN/.test(l)).join("\n");
+  const autres = VILLES.filter((v) => {
+    if (v === ville) return false;
+    const n = (toutLeDossier.match(new RegExp(`\\b${v.replace(/-/g, "\\-")}\\b`, "g")) || []).length;
+    return n >= 2;
+  });
+
+  /*
     La casse compte : « NEW YORK · LONDON · PARIS » et « BORDEAUX, FRANCE » sont
     écrits en capitales dans les pieds de page, et un motif sensible à la casse
     les laissait passer — soixante « Paris » et vingt-deux « Bordeaux » sur le
     site de clients savoyards. Le repli garde la graphie d'origine.
   */
-  const motCle = new RegExp(`\\b${ville.replace(/-/g, "\\-")}\\b`, "i");
   let n = 0;
+  for (const nomVille of [ville, ...autres]) {
+  const motCle = new RegExp(`\\b${nomVille.replace(/-/g, "\\-")}\\b`, "i");
 
   for (const f of presents) {
     let src = fs.readFileSync(f, "utf8");
@@ -106,7 +124,9 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
         return `\u0000${masques.length - 1}\u0000`;
       });
       const demasquer = (x) => x.replace(/\u0000(\d+)\u0000/g, (_, i) => masques[Number(i)]);
-      if (/RCS|Aevia|SIREN/.test(ligne)) return ligne;
+      // La ligne est masquée à ce stade : la rendre telle quelle y laisserait les
+      // marqueurs, et le fichier ne compilerait plus.
+      if (/RCS|Aevia|SIREN/.test(ligne)) return demasquer(ligne);
 
       // Les chaînes de données, propres au guillemet ouvrant.
       let out = ligne.replace(/"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)'/g, (m0, dbl, sgl, pos) => {
@@ -123,11 +143,11 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
           lire `HUBS["paris"]`, et la remplacer par la ville du client fait
           chercher une entrée qui n'existe pas — impact-207 plantait ainsi.
         */
-        if (valeur.trim() === ville.toLowerCase()) return m0;
+        if (valeur.trim() === nomVille.toLowerCase()) return m0;
         const morceaux = valeur.split(new RegExp(motCle.source, "i"));
         if (morceaux.some(finitParBarre)) return m0;
         k++;
-        const appel = partage ? `clientCityOr(${q}${ville}${q})` : `(clientCity(${arg}) ?? ${q}${ville}${q})`;
+        const appel = partage ? `clientCityOr(${q}${nomVille}${q})` : `(clientCity(${arg}) ?? ${q}${nomVille}${q})`;
         return morceaux.map((x) => (x ? `${q}${x}${q}` : null))
           .reduce((acc, x, i) => { if (i > 0) acc.push(appel); if (x) acc.push(x); return acc; }, [])
           .join(" + ");
@@ -135,7 +155,7 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
 
       // Le texte JSX, seulement dans un fichier qui a une session.
       if (!partage) {
-        out = out.replace(new RegExp(`(^|[\\s>(,·—–])(${ville})(?=[\\s<{.,;:!?·—–)]|$)`, "gi"), (m0, avant, v, pos) => {
+        out = out.replace(new RegExp(`(^|[\\s>(,·—–])(${nomVille})(?=[\\s<{.,;:!?·—–)]|$)`, "gi"), (m0, avant, v, pos) => {
           // Une clé d'objet n'est pas du texte : `paris: { x: 472 }` doit rester.
           if (/^\s*:/.test(out.slice(pos + m0.length))) return m0;
           const seg = out.slice(0, pos);
@@ -164,6 +184,7 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
     }
     if (!dry) fs.writeFileSync(f, src);
     n += k;
+  }
   }
 
   if (n === 0) continue;

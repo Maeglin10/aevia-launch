@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -23,7 +24,7 @@ const GUIDE_EXTENDED = [
     image:
       "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop",
     bio_extended:
-      "Formée à l'Université de Heidelberg et au Stanford Center on Longevity, le Dr. Metz a fondé Luminal après avoir identifié l'écart béant entre les traitements cliniques du burnout et les besoins réels des hauts performeurs. Sa méthode intègre les neurosciences contemporaines avec une approche profondément humaine. Elle a accompagné plus de 400 dirigeants et professionnels de haut niveau au cours de la dernière décennie, et publie régulièrement dans des revues de neuropsychologie appliquée.",
+      "Formée à l'Université de Heidelberg et au Stanford Center on Longevity, le Dr. " + (clientCity(sessionData) ?? "Metz") + " a fondé Luminal après avoir identifié l'écart béant entre les traitements cliniques du burnout et les besoins réels des hauts performeurs. Sa méthode intègre les neurosciences contemporaines avec une approche profondément humaine. Elle a accompagné plus de 400 dirigeants et professionnels de haut niveau au cours de la dernière décennie, et publie régulièrement dans des revues de neuropsychologie appliquée.",
   },
   {
     background: "Tradition Zen Rinzai",

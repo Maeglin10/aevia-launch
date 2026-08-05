@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientCity,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -244,7 +245,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               {[
                 { icon: <Phone size={15} />, text: (fd?.phone ?? "01 42 56 78 90") },
                 { icon: <Mail size={15} />, text: (fd?.email ?? "contact@smilestudio.paris") },
-                { icon: <MapPin size={15} />, text: "42 Av. des Champs-Élysées, 75008 Paris" },
+                { icon: <MapPin size={15} />, text: "42 Av. des Champs-Élysées, 75008 " + (clientCity(__layoutSession) ?? "Paris") },
               ].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.62)", fontSize: 14 }}>
                   <span style={{ color: C.accent }}>{item.icon}</span>

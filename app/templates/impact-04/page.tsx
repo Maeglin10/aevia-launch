@@ -81,7 +81,7 @@ const MENU_ITEMS: Record<string, { name: string; desc: string; price: string; ta
     { name: "Châteauneuf-du-Pape Blanc", desc: "Château de Beaucastel · Rhône Valley · 2020 — White peach, honeysuckle, extraordinary weight", price: "145", tag: "Sommelier Pick", allergens: "Sulfites" },
     { name: "Barolo Riserva 'Monfortino'", desc: "Giacomo Conterno · Piedmont, Italy · 2016 — Tar, roses, great tannin structure", price: "220", allergens: "Sulfites" },
     { name: "Dom Pérignon Rosé", desc: "Vintage Champagne · Épernay, France · 2013 — Raspberry, toast, exceptional mousse", price: "390", tag: "Prestige", allergens: "Sulfites" },
-    { name: "Pétrus", desc: "Pomerol AOC · Bordeaux, France · 2015 — Truffles, dark plum, iron — the pinnacle", price: "980", allergens: "Sulfites" },
+    { name: "Pétrus", desc: "Pomerol AOC · " + (clientCity(sessionData) ?? "Bordeaux") + ", France · 2015 — Truffles, dark plum, iron — the pinnacle", price: "980", allergens: "Sulfites" },
   ],
 }
 

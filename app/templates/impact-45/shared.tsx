@@ -1,5 +1,7 @@
 "use client";
-import { clientCityOr } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect } from "react";
 import { motion, useMotionValue, useSpring, animate } from "framer-motion";
@@ -111,9 +113,9 @@ export const testimonials = [
   },
   {
     name: "Marc T.",
-    location: "Bordeaux",
+    location: clientCityOr("Bordeaux"),
     rating: 5,
-    text: "Traveled from Bordeaux specifically for Théo's blackwork. The chest piece he created is the most important piece of art I own — and I wear it everywhere.",
+    text: "Traveled from " + clientCityOr("Bordeaux") + " specifically for Théo's blackwork. The chest piece he created is the most important piece of art I own — and I wear it everywhere.",
     style: "Full Chest Blackwork",
   },
 ];

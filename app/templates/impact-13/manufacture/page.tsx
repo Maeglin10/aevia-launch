@@ -1,5 +1,7 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+} from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -185,7 +187,7 @@ export default function ManufacturePage() {
             </div>
             <div className="space-y-2">
               <h3 className="text-[#B49A6A] text-lg font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>2. Décoration</h3>
-              <p className="text-xs leading-relaxed">Côtes de Genève, perlage des platines, et étirage des flancs. C'est à cette étape que le métal brut devient une œuvre d'art horlogère, révélant ses reflets subtils.</p>
+              <p className="text-xs leading-relaxed">Côtes de {clientCity(sessionData) ?? "Genève"}, perlage des platines, et étirage des flancs. C'est à cette étape que le métal brut devient une œuvre d'art horlogère, révélant ses reflets subtils.</p>
             </div>
             <div className="space-y-2">
               <h3 className="text-[#B49A6A] text-lg font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>3. Assemblage</h3>

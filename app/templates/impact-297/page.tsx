@@ -86,7 +86,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DR. CAMILLE FAURE — Médecin généraliste Toulouse Capitole — médecine sportive, prévention, téléconsultation. Spectral, violet / or.
+   DR. CAMILLE FAURE — Médecin généraliste {clientCity(sessionData) ?? "Toulouse"} Capitole — médecine sportive, prévention, téléconsultation. Spectral, violet / or.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -527,7 +527,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-              Cabinet médical Toulouse Capitole. Généraliste, médecine du sport, téléconsultation disponible.
+              Cabinet médical {clientCity(sessionData) ?? "Toulouse"} Capitole. Généraliste, médecine du sport, téléconsultation disponible.
             </>}</p>
           </Reveal>
 
@@ -1129,7 +1129,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        Toulouse Capitole
+                        {clientCity(sessionData) ?? "Toulouse"} Capitole
                       </div>
                     </div>
                   </div>
@@ -1249,7 +1249,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Dr. Camille Faure"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Médecin généraliste Toulouse Capitole
+                Médecin généraliste {clientCity(sessionData) ?? "Toulouse"} Capitole
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

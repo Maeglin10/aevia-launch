@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -43,7 +44,7 @@ export default function PrintsPage() {
               <TextReveal text="inside." delay={0.15} style={{ color: C.amber }} />
             </h2>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.75, fontWeight: 300, marginBottom: 40, maxWidth: 440 }}>
-              Museum-quality archival prints, handcrafted in Lyon. Three sizes, three paper surfaces, each signed and numbered. Shipping worldwide with custom framing options.
+              Museum-quality archival prints, handcrafted in {clientCity(sessionData) ?? "Lyon"}. Three sizes, three paper surfaces, each signed and numbered. Shipping worldwide with custom framing options.
             </p>
             <MagneticButton style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: C.bg, background: C.cream, padding: "16px 36px", borderRadius: 2, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 600 }}>
               Shop All Prints

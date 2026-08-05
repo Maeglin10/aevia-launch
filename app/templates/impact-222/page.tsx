@@ -23,6 +23,7 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import {
+  clientAccrocheRestante,
   clientCity,
   clientHeroLine,
   clientName,
@@ -585,6 +586,13 @@ const Hero: React.FC = () => {
             </span>{' '}
             des vies
           </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
+          {clientAccrocheRestante(sessionData)}
+        </p>
+      )}
+
 
           <motion.p
             style={{ y: subY }}
@@ -824,7 +832,7 @@ const PROPERTIES_DEMO_SOURCE: Property[] = /* REALISATIONS */ resolveList(client
     img: PHOTO.city,
     surface: '280 m²',
     price: '6 200 000 €',
-    city: 'Paris 8ᵉ',
+    city: (clientCity(sessionData) ?? 'Paris') + ' 8ᵉ',
     type: 'Penthouse',
   },
   {
@@ -1181,7 +1189,7 @@ const StickyShowcase: React.FC = () => (
                 lineHeight: 1.1,
               }}
             >
-              Villa Hélios, Aix-en-Provence
+              Villa Hélios, {clientCity(sessionData) ?? "Aix-en-Provence"}
             </h4>
           </div>
         </div>
@@ -1282,7 +1290,7 @@ function SIGNATURES_LIVE() {
   },
   {
     img: PHOTO.living,
-    city: 'Lyon — Presqu’île',
+    city: (clientCity(sessionData) ?? 'Lyon') + ' — Presqu’île',
     caption: 'Appartement Confluence',
     detail:
       'Un duplex de 240 m² aux volumes traversants, mariant pierre dorée lyonnaise et design contemporain épuré.',
@@ -2271,7 +2279,7 @@ function FOOTER_COLS_LIVE() {
   },
   {
     head: 'Adresses',
-    links: ['Aix-en-Provence', 'Paris 8ᵉ', 'Lyon', (clientCity(sessionData) ?? 'Bordeaux')],
+    links: [(clientCity(sessionData) ?? 'Aix-en-Provence'), (clientCity(sessionData) ?? 'Paris') + ' 8ᵉ', (clientCity(sessionData) ?? 'Lyon'), (clientCity(sessionData) ?? 'Bordeaux')],
   },
 ];
 }

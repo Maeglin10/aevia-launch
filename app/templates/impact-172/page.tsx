@@ -290,7 +290,7 @@ export default function LegrandPage() {
         </motion.div>
         <div className="imx172-hero-content relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32">
           <Reveal>
-            <p className="text-[var(--brand,#C9A855)] text-xs tracking-[0.3em] uppercase mb-8">Fondé en 1991 · {clientCity(sessionData) ?? "Paris"} · Bruxelles · Luxembourg</p>
+            <p className="text-[var(--brand,#C9A855)] text-xs tracking-[0.3em] uppercase mb-8">Fondé en 1991 · {clientCity(sessionData) ?? "Paris"} · {clientCity(sessionData) ?? "Bruxelles"} · Luxembourg</p>
           </Reveal>
           <Reveal delay={0.1}>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.0] text-[#F9F6F0] mb-8 max-w-4xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{<>
@@ -546,7 +546,7 @@ export default function LegrandPage() {
               </Reveal>
               <Reveal delay={0.1}>
                 <div className="space-y-5">
-                  {[{ Icon: MapPin, text: `14 avenue Montaigne, 75008 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: "+33 1 44 20 00 00" }, { Icon: Mail, text: (fd?.email ?? "contact@legrand-associes.fr") }, { Icon: Globe, text: "Également à Bruxelles & Luxembourg" }].map(({ Icon, text }) => (
+                  {[{ Icon: MapPin, text: `14 avenue Montaigne, 75008 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: "+33 1 44 20 00 00" }, { Icon: Mail, text: (fd?.email ?? "contact@legrand-associes.fr") }, { Icon: Globe, text: "Également à " + (clientCity(sessionData) ?? "Bruxelles") + " & Luxembourg" }].map(({ Icon, text }) => (
                     <div key={text} className="flex items-center gap-4 text-sm text-[#8A7860]">
                       <Icon className="w-4 h-4 text-[var(--brand,#C9A855)] flex-shrink-0" />
                       {text}

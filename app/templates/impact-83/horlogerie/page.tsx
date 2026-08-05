@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
@@ -42,7 +43,7 @@ export default function HorlogeriePage() {
               Horlogerie <em>Perpétuelle</em>
             </h1>
             <p style={{ fontSize: 18, color: C.textMuted, maxWidth: 600, margin: "24px auto 0", lineHeight: 1.7 }}>
-              Des complications d&apos;exception assemblées à la main par nos maîtres horlogers dans notre manufacture de Genève.
+              Des complications d&apos;exception assemblées à la main par nos maîtres horlogers dans notre manufacture de {clientCity(sessionData) ?? "Genève"}.
             </p>
           </div>
         </Reveal>

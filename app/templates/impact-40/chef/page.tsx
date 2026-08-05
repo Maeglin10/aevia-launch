@@ -1,5 +1,7 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -121,7 +123,7 @@ export default function ChefPage() {
                 La cuisine comme dialogue entre la terre et la saison
               </h2>
               <p style={{ fontFamily: C.bodyFont, color: C.textLight, lineHeight: 1.85, fontSize: "0.93rem", marginBottom: "1.2rem" }}>
-                Né à Lyon en 1981, Gabriel Renaud grandit entre les marchés de la Presqu'île et la cuisine de sa grand-mère savoyarde. Très tôt passionné par les produits bruts, il entre à l'École Ferrandi {clientCity(sessionData) ?? "Paris"} à 18 ans, où il apprend la rigueur classique tout en développant un regard sensible sur les matières premières.
+                Né à {clientCity(sessionData) ?? "Lyon"} en 1981, Gabriel Renaud grandit entre les marchés de la Presqu'île et la cuisine de sa grand-mère savoyarde. Très tôt passionné par les produits bruts, il entre à l'École Ferrandi {clientCity(sessionData) ?? "Paris"} à 18 ans, où il apprend la rigueur classique tout en développant un regard sensible sur les matières premières.
               </p>
               <p style={{ fontFamily: C.bodyFont, color: C.textLight, lineHeight: 1.85, fontSize: "0.93rem", marginBottom: "1.2rem" }}>
                 Après des stages formateurs auprès de Paul Bocuse à Collonges-au-Mont-d'Or et chez Alain Ducasse au Louis XV à Monaco, il passe deux ans au Japon où il découvre le concept de <em>shun</em> — cuisiner l'instant exact de la maturité d'un ingrédient. Cette philosophie du temps juste deviendra le cœur de son identité culinaire.

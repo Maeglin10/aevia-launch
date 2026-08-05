@@ -8,6 +8,7 @@ import { Building2, MapPin, ArrowRight, Star, Phone, Mail, Search, Bed, Bath, Sq
 import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientAccrocheRestante,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -402,6 +403,13 @@ export default function AltaTransactionsPage() {
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.92] tracking-tight mb-10 text-white"
             style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic" }}>{<>{clientHeroLine(sessionData, 0, 3, 15) ?? "L'immobilier de"}<br />
             <span className="text-[var(--brand,#b8944a)] not-italic">{clientHeroLine(sessionData, 1, 3, 15) ?? "prestige"}</span>{clientHeroLine(sessionData, 2, 3, 15) ?? ", autrement."}</>}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
+          {clientAccrocheRestante(sessionData)}
+        </p>
+      )}
+
 
           <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75 }}
             className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>

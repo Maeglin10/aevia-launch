@@ -162,6 +162,7 @@ const registre = [];
 
 for (const id of ids) {
   const griefs = [];
+  const couleurs = {};
   for (let essai = 0; essai < essais; essai++) {
     const e = ENTREPRISES[(ids.indexOf(id) + essai) % ENTREPRISES.length];
     const d = donneesPour(id, e);
@@ -292,7 +293,7 @@ for (const id of ids) {
           if (s.visibility === "hidden" || s.display === "none" || Number(s.opacity) < 0.4) continue;
           const r = el.getBoundingClientRect();
           if (r.top < 0 || r.bottom > innerHeight || r.width < 30 || r.height < 10 || r.height > 200) continue;
-          out.push({ x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height), t: t.slice(0, 30) });
+          out.push({ x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height), t: t.slice(0, 30), couleur: s.color });
           if (out.length >= 4) break;
         }
         return out;
@@ -303,7 +304,11 @@ for (const id of ids) {
           png = await p.screenshot({ clip: { x: c.x, y: c.y, width: Math.min(c.w, 600), height: c.h } });
         } catch { continue; }
         const rapport = await rapportDe(png);
-        if (rapport !== null && rapport < 2.5) griefs.push(`illisible : «${c.t}» ${rapport.toFixed(1)}:1`);
+        if (rapport !== null && rapport < 2.5) {
+          griefs.push(`illisible : «${c.t}» ${rapport.toFixed(1)}:1`);
+          // La couleur rendue, pour que le correctif sache de quel côté éclairer.
+          (couleurs[c.t] ??= c.couleur);
+        }
       }
 
       // 6. Le rendu s'est-il passé sans casse ?
@@ -316,7 +321,7 @@ for (const id of ids) {
   }
 
   const uniques = [...new Set(griefs)];
-  registre.push({ id, recu: uniques.length === 0, griefs: uniques });
+  registre.push({ id, recu: uniques.length === 0, griefs: uniques, couleurs });
   console.log(`${id.padEnd(12)} ${uniques.length === 0 ? "reçu" : `recalé — ${uniques.slice(0, 3).join(" · ")}`}`.slice(0, 180));
 }
 

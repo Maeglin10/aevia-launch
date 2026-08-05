@@ -167,7 +167,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     name: "Marc & Isabelle Delacroix",
-    origin: "Genève",
+    origin: (clientCity(sessionData) ?? "Genève"),
     trip: "Grèce des Cyclades, 8 nuits",
     rating: 5,
     text: "Le voilier privatisé était une idée absolument parfaite. Santorin sans les foules à l'aube, Folegandros que personne ne connaît, une baie secrète à Amorgos… Évasion Dorée connaît vraiment la Grèce.",
@@ -1126,7 +1126,7 @@ return (
                 <span style={{ fontSize: 20, fontWeight: 400, color: C.white, letterSpacing: "0.08em" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Évasion Dorée"))}</span>
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", fontFamily: "system-ui", lineHeight: 1.8, maxWidth: 280, marginBottom: 24 }}>
-                Agence de voyages de luxe sur mesure depuis 2006. {clientCity(sessionData) ?? "Paris"} · Genève · Monaco. IATA 88-2-0456.
+                Agence de voyages de luxe sur mesure depuis 2006. {clientCity(sessionData) ?? "Paris"} · {clientCity(sessionData) ?? "Genève"} · Monaco. IATA 88-2-0456.
               </p>
               <div style={{ display: "flex", gap: 12 }}>
                 {[Camera, MessageSquare, Users2].map((Icon, i) => (
