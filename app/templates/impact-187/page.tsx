@@ -408,7 +408,7 @@ export default function MaxPerformancePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#f97316)]/6 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f8f5f0]/8">
-          <span>© 2026 Max Performance · SIRET 123 456 789 00100 · BPJEPS AF · {clientCity({ formData: fd }) ?? "Paris"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Max Performance"} · SIRET 123 456 789 00100 · BPJEPS AF · {clientCity({ formData: fd }) ?? "Paris"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#f97316)]/20">Stop Waiting. Start Performing.</span>
         </div>
       </footer>

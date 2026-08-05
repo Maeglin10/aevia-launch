@@ -625,7 +625,7 @@ export default function GentlemansCutPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#c9a84c)]/6 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f5f0e8]/8" style={{ fontFamily: "'DM Mono', monospace" }}>
-          <span>© 2026 Gentleman's Cut · SIRET 890 123 456 00078 · {clientCity({ formData: fd }) ?? "Bordeaux"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Gentleman's Cut"} · SIRET 890 123 456 00078 · {clientCity({ formData: fd }) ?? "Bordeaux"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#c9a84c)]/20">The Art of Grooming</span>
         </div>
       </footer>

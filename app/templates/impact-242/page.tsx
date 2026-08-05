@@ -2186,7 +2186,7 @@ function Footer() {
         }}
       >
         <span>
-          © {new Date().getFullYear()} Fiduciaire Marchand &amp; Partners. Tous droits réservés. Membre de l&apos;OEC.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © {new Date().getFullYear()} {clientName(sessionData) ?? "Fiduciaire Marchand & Partners."} Tous droits réservés. Membre de l&apos;OEC.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>

@@ -1749,7 +1749,7 @@ export default function Page() {
             ))}
           </div>
           <p style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, margin: 0 }}>
-            © 2024 L'Atelier Coiffure · Mentions légales · Politique de confidentialité{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2024 {clientName(sessionData) ?? "L'Atelier Coiffure"} · Mentions légales · Politique de confidentialité{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </p>
         </div>
       </footer>

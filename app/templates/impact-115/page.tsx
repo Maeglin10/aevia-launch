@@ -2104,7 +2104,7 @@ export default function Impact115Page() {
                 letterSpacing: "0.06em",
               }}
             >
-              © {new Date().getFullYear()} Rostova Architecture Studio. All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © {new Date().getFullYear()} {clientName(sessionData) ?? "Rostova Architecture Studio. All"} rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </span>
             <div style={{ display: "flex", gap: 28 }}>
               {["Privacy", "Terms", "Cookies"].map((item) => (

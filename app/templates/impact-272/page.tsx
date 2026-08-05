@@ -2179,7 +2179,7 @@ function Footer() {
           fontWeight: 300,
         }}
       >
-        <span>© 2026 KinéPédiatrie {clientCity(sessionData) ?? "Bordeaux"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "KinéPédiatrie"} {clientCity(sessionData) ?? "Bordeaux"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

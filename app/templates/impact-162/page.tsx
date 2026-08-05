@@ -645,7 +645,7 @@ return (
             </div>
           </div>
           <div className="pt-8 border-t border-[#4A3520] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 Le Matin Doré · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+            <span>© 2024 {clientName(sessionData) ?? "Le Matin Doré"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div className="flex gap-6">
               {["Mentions légales", "Confidentialité"].map(l => (
                 <Link key={l} href="#menu" className="hover:text-[#FDFAF5] transition-colors cursor-pointer">{l}</Link>

@@ -2727,7 +2727,7 @@ export default function LuxuryJewelryTemplate() {
                 fontFamily: "Georgia, serif",
               }}
             >
-              © 2025 Maison Élara. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2025 {clientName(sessionData) ?? "Maison Élara. Tous"} droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: 32 }}>
               {[

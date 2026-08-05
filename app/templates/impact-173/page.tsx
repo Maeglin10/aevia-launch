@@ -1539,7 +1539,7 @@ export default function Impact173Page() {
             ))}
           </div>
           <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 28, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-            <div style={{ fontSize: 12, color: C.textMuted }}>© 2025 Structure Bâtisseurs · Tous droits réservés · {clientCity(sessionData) ?? "Grenoble"}, France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
+            <div style={{ fontSize: 12, color: C.textMuted }}>© 2025 {clientName(sessionData) ?? "Structure Bâtisseurs"} · Tous droits réservés · {clientCity(sessionData) ?? "Grenoble"}, France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
             <div style={{ display: "flex", gap: 32 }}>
               {["Mentions légales", "RGPD", "Politique cookies"].map(l => (
                 <a key={l} href="#contact" style={{ fontSize: 12, color: C.textMuted, textDecoration: "none" }}>{l}</a>

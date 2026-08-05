@@ -472,7 +472,7 @@ export default function AetherSoundPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 AETHER SOUND AG. ALL RIGHTS RESERVED.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "AETHER SOUND AG. ALL"} RIGHTS RESERVED.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-white transition-colors">Privacy Circle</Link>
              <Link href="#contact" className="hover:text-white transition-colors">Technical Terms</Link>

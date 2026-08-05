@@ -455,7 +455,7 @@ export default function WaveFXPage() {
           ))}
         </div>
         <div className="max-w-[1000px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 WAVEFX LABS.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "WAVEFX LABS."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span>MIT LICENSE · OPEN SOURCE</span>
         </div>
       </footer>

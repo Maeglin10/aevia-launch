@@ -2143,7 +2143,7 @@ export default function Impact167Page() {
             color: "rgba(255,255,255,0.25)",
           }}
         >
-          © 2025 Rive Gauche Immobilier. Tous droits réservés. Carte professionnelle T n° 75-XXX-2024.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2025 {clientName(sessionData) ?? "Rive Gauche Immobilier. Tous"} droits réservés. Carte professionnelle T n° 75-XXX-2024.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </div>
         <div style={{ display: "flex", gap: 28 }}>
           {["Mentions légales", "Confidentialité", "Plan du site"].map((link) => (

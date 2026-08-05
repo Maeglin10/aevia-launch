@@ -1976,7 +1976,7 @@ export default function ImpactFrequencePage() {
             letterSpacing: 1,
           }}
         >
-          <span>© 2025 Fréquence · HEBDOMADAIRE · INDÉPENDANT · DEPUIS 2019{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2025 {clientName(sessionData) ?? "Fréquence"} · HEBDOMADAIRE · INDÉPENDANT · DEPUIS 2019{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span>Confidentialité · Mentions légales · CGU</span>
         </div>
       </footer>

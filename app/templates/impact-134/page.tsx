@@ -36,6 +36,7 @@ import {
   clientCity,
   clientHeroSubtitle,
   clientList,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -2296,7 +2297,7 @@ function Footer() {
             className="text-[11px]"
             style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.35)" }}
           >
-            © 2025 Lumière Beauty. Tous droits réservés. Formulé & fabriqué en France.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2025 {clientName(sessionData) ?? "Lumière Beauty. Tous"} droits réservés. Formulé & fabriqué en France.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </p>
           <div className="flex gap-6">
             {["Mentions légales", "Confidentialité", "CGV"].map((item) => (

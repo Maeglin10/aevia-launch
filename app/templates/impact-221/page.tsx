@@ -1152,7 +1152,7 @@ function Footer() {
         </div>
 
         <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: '1.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-          <div style={{ color: C.muted, fontSize: '0.8rem' }}>© 2026 Lumyx SAS — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
+          <div style={{ color: C.muted, fontSize: '0.8rem' }}>© 2026 {clientName(sessionData) ?? "Lumyx SAS"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
           <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
             {['Mentions légales', 'Politique de confidentialité', 'CGV'].map((item) => (
               <a key={item} href="#about" style={{ color: C.muted, textDecoration: 'none', fontSize: '0.78rem', transition: 'color 0.2s', cursor: 'pointer' }}

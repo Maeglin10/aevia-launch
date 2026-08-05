@@ -1332,7 +1332,7 @@ return (
             ))}
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: `1px solid ${C.border}`, paddingTop: 32 }}>
-            <p style={{ color: C.textDim, fontSize: 13 }}>© 2025 Verso Studio SA, {clientCity(sessionData) ?? "Genève"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</p>
+            <p style={{ color: C.textDim, fontSize: 13 }}>© 2025 {clientName(sessionData) ?? "Verso Studio SA"}, {clientCity(sessionData) ?? "Genève"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</p>
             <div style={{ display: "flex", gap: 20 }}>
               {[{ icon: <MessageSquare size={16} />, label: "Twitter" }, { icon: <Camera size={16} />, label: "Instagram" }, { icon: <Link2 size={16} />, label: "LinkedIn" }].map((s, i) => (
                 <a key={i} href="#stats" style={{ color: C.textDim, transition: "color 0.2s" }}

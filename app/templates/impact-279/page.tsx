@@ -2520,7 +2520,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 Cabinet Soler · Ostéopathe D.O. · ADELI&nbsp;69XXXXXXX ·
+          © 2026 {clientName(sessionData) ?? "Cabinet Soler"} · Ostéopathe D.O. · ADELI&nbsp;69XXXXXXX ·
           Registre ARS Auvergne-Rhône-Alpes{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>

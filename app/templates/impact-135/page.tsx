@@ -2177,7 +2177,7 @@ export default function Impact135Page() {
               color: C.subdued,
             }}
           >
-            © 2026 TradeOS Inc. · All rights reserved · SOC 2 Type II{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 {clientName(sessionData) ?? "TradeOS Inc."} · All rights reserved · SOC 2 Type II{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
           <span
             style={{

@@ -1233,7 +1233,7 @@ function Footer() {
             color: C.muted,
           }}
         >
-          <span>© 2026 NovaSaaS SAS. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "NovaSaaS SAS. Tous"} droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span>Fait avec soin à {clientCity(sessionData) ?? "Lyon"}, France.</span>
         </div>
       </div>

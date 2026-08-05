@@ -1609,7 +1609,7 @@ export default function Impact114Page() {
             className="text-xs text-[#8b7355]/40"
             style={{ fontFamily: "'Source Serif 4', serif" }}
           >
-            © 2026 Terra · Julien Moreau Photography. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 {clientName(sessionData) ?? "Terra"} · Julien Moreau Photography. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
         </div>
       </footer>

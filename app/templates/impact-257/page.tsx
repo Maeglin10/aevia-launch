@@ -2081,7 +2081,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Dr. Alexandre Moulin. Médecin conventionné secteur 2 · RPPS
+          © 2026 {clientName(sessionData) ?? "Dr. Alexandre Moulin. Médecin"} conventionné secteur 2 · RPPS
           xxxxxxxxx.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>

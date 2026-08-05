@@ -2433,7 +2433,7 @@ const Footer: React.FC = () => (
             color: 'rgba(255,255,255,0.5)',
           }}
         >
-          © 2026 Solis Immobilier — Carte professionnelle CPI 1301 2024 000 047
+          © 2026 {clientName(sessionData) ?? "Solis Immobilier"} — Carte professionnelle CPI 1301 2024 000 047
           218{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 24 }}>

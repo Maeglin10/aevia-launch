@@ -2649,7 +2649,7 @@ export default function AquaPrestigePage() {
             }}
           >
             <p style={{ color: C.textMuted, fontSize: '0.78rem' }}>
-              © {new Date().getFullYear()} Aqua Prestige — Tous droits réservés. SIRET : 512 345 678 00019{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © {new Date().getFullYear()} {clientName(sessionData) ?? "Aqua Prestige"} — Tous droits réservés. SIRET : 512 345 678 00019{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: 'flex', gap: '1.5rem' }}>
               {['Mentions légales', 'Politique de confidentialité', 'CGV'].map((item) => (

@@ -609,7 +609,7 @@ export default function Impact174Page() {
             <Dumbbell className="w-5 h-5 text-[var(--brand,#84cc16)]" />
             <span className="text-xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "FORGE"))}</span>
           </div>
-          <p className="text-xs text-[#f5f5f5]/30 uppercase tracking-widest">© 2026 FORGE Performance · {clientCity(sessionData) ?? "Paris"} 11ème{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
+          <p className="text-xs text-[#f5f5f5]/30 uppercase tracking-widest">© 2026 {clientName(sessionData) ?? "FORGE Performance"} · {clientCity(sessionData) ?? "Paris"} 11ème{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
           <div className="flex gap-6">
             {["Instagram", "TikTok", "YouTube"].map(s => (
               <span key={s} className="text-xs text-[#f5f5f5]/30 hover:text-[var(--brand,#84cc16)] transition-colors cursor-pointer uppercase tracking-widest">{s}</span>

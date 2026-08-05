@@ -2258,7 +2258,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Aqua Confort {clientCity(sessionData) ?? "Lyon"} — SIRET 000 000 000 00000 · RGE certifié{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Aqua Confort"} {clientCity(sessionData) ?? "Lyon"} — SIRET 000 000 000 00000 · RGE certifié{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="/templates/impact-260" style={{ color: 'inherit', textDecoration: 'none' }}>

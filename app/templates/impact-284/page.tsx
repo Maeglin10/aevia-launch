@@ -2760,7 +2760,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024 Cabinet Dent&apos;Or — Dr. Mathieu Prévost. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024 {clientName(sessionData) ?? "Cabinet Dent&apos"};Or — Dr. Mathieu Prévost. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Acte médical soumis au secret professionnel · Résultat non garanti · À titre

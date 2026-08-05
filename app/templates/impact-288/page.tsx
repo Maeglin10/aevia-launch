@@ -3065,7 +3065,7 @@ function FooterSection() {
               lineHeight: 1.6,
             }}
           >
-            © {new Date().getFullYear()} Ampère &amp; Fils · SIRET 000 000 000 00000 ·
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Ampère & Fils"} · SIRET 000 000 000 00000 ·
             RGE n°E-E210000 · IRVE certifié INERIS · Assurance décennale Allianz n°SIN-XXX-XXXXX
           {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
           <div
