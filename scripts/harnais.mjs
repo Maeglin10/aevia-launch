@@ -273,10 +273,21 @@ for (const id of ids) {
       */
       if (!couleurVue && LIT_LA_COULEUR.has(id)) griefs.push("couleur non peinte");
 
-      // 4. Ce qui reste de la démonstration.
+      /*
+        4. Ce qui reste de la démonstration. Une ville n'est un reste que si elle
+        désigne le lieu d'exercice. « Soie de Lyon » est une matière, « École
+        Centrale Nantes » un diplôme, « dentelle de Calais » une dentelle : les
+        remplacer par la ville du client donnerait « soie de Annecy ». Ce sont
+        des contenus d'exemple, que le client remplace en fournissant les siens.
+      */
+      const AUTRE_QUE_UN_LIEU = /(?:soie|dentelle|lainage|toile|pierre|marbre|école|ecole|institut|université|universite|estp|ensa|hall|salle|opéra|opera|gare|musée|musee|lycée|lycee)\s+(?:de\s+|centrale\s+)?$/i;
       for (const v of VILLES_DEMO) {
         if (v === e.ville) continue;
-        if (new RegExp(`\\b${v}\\b`, "i").test(tout)) { griefs.push(`reste : ${v}`); break; }
+        const m = new RegExp(`(.{0,24})\\b${v}\\b`, "i").exec(tout);
+        if (!m) continue;
+        if (AUTRE_QUE_UN_LIEU.test(m[1])) continue;
+        griefs.push(`reste : ${v}`);
+        break;
       }
 
       // 5. Le nom et le numéro, lisibles sur les pixels.
