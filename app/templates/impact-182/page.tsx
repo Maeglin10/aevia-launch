@@ -8,6 +8,7 @@ import { HardHat, Hammer, Phone, Star, MapPin, ArrowRight, CheckCircle, Ruler, S
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAccrocheRestante,
   clientAreas,
   clientCity,
   clientEyebrow,
@@ -32,7 +33,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   BÂTIR SOLIDE — Maçon & Gros Œuvre (Marseille)
+   BÂTIR SOLIDE — Maçon & Gros Œuvre ({clientCity(sessionData) ?? "Marseille"})
    Palette : sable chaud #d4a96a / brun terre #5c3317 / blanc cassé / ardoise
    Fonts : Barlow (titres condensed bold) + Source Sans (corps)
    Style : puissant, artisanal, solide, méditerranéen
@@ -194,7 +195,7 @@ export default function BatirSolidePage() {
       l: r.location ?? "",
     })),
     [
-      { q: "Extension de 40 m² réalisée en 3 mois top chrono. Qualité béton irréprochable, finitions soignées, aucun dépassement budget. Chapeau.", n: "Jean-Pierre M.", l: "Marseille 12ème" },
+      { q: "Extension de 40 m² réalisée en 3 mois top chrono. Qualité béton irréprochable, finitions soignées, aucun dépassement budget. Chapeau.", n: "Jean-Pierre M.", l: (clientCity(sessionData) ?? "Marseille") + " 12ème" },
       { q: "Suppression d'un mur porteur de 6m avec IPN. Bâtir Solide a géré l'étude de structure et les travaux. Parfait, aucune fissure, résultat propre.", n: "Nathalie & Frédéric D.", l: "Aix-en-Provence" },
       { q: "Ravalement ITE de notre immeuble 6 logements. Dossier MaPrimeRénov' entièrement géré par l'équipe. Économies énergétiques bluffantes.", n: "Syndicat copropriété Les Pins", l: "Aubagne (13)" },
     ]
@@ -276,6 +277,13 @@ export default function BatirSolidePage() {
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
             className="text-6xl md:text-8xl lg:text-[9rem] font-black leading-[0.85] tracking-tighter mb-9 uppercase text-white">{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "On construit"}<br />{clientHeroLine(sessionData, 1, 3, 12) ?? "pour"}<span className="text-[var(--brand,#d4a96a)]">{clientHeroLine(sessionData, 2, 3, 12) ?? "durer."}</span>
           </>}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
+          {clientAccrocheRestante(sessionData)}
+        </p>
+      )}
+
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
             className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
@@ -467,7 +475,7 @@ export default function BatirSolidePage() {
           {[
             { t: "Savoir-faire", ls: ["Gros œuvre", "Extensions", "Ravalement ITE", "Rénovation structurelle", "Dallage & terrassement"] },
             { t: "Certifications", ls: ["Qualibat 3311", "Garantie Décennale", "RGE ITE", "MaPrimeRénov' éligible", "Assurance civile"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 91 23 45 67"), (fd?.email ?? "devis@batirsolide.fr"), "Marseille & PACA", "Lundi-Vendredi 7h-18h", "Devis gratuit 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 91 23 45 67"), (fd?.email ?? "devis@batirsolide.fr"), (clientCity(sessionData) ?? "Marseille") + " & PACA", "Lundi-Vendredi 7h-18h", "Devis gratuit 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a96a)] mb-5">{col.t}</h4>

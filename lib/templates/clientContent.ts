@@ -481,6 +481,21 @@ export function clientTrade(s: SessionLike | null | undefined): string | undefin
 }
 
 /**
+ * L'accroche du client, si le titre ne l'a pas déjà prise.
+ *
+ * Sur les thèmes dont le titre ne tient qu'en sept caractères, le contrat y
+ * écrit « Plombier à Annecy » pour ne pas déborder — et la phrase que le client
+ * a écrite ne se lit alors nulle part. Cette fonction la rend, une seule fois,
+ * et ne rend rien quand elle est déjà à l'écran.
+ */
+export function clientAccrocheRestante(s: SessionLike | null | undefined): string | undefined {
+  const accroche = clientTagline(s);
+  if (!accroche) return undefined;
+  if (accroche === phraseRetenue) return undefined;
+  return accroche;
+}
+
+/**
  * La courte ligne posée au-dessus du titre du hero.
  *
  * Les thèmes y écrivent leur propre identité — « VISUAL STORYTELLER », « PALACE

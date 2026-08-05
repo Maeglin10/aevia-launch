@@ -177,7 +177,7 @@ export const PRESS = [
   {
     quote: "Entrer dans la Maison Drouet, c'est comprendre que la montre n'est pas un objet. C'est un argument philosophique sur le temps.",
     author: "Nicolas Foulc",
-    outlet: "Vogue Paris",
+    outlet: "Vogue " + clientCityOr("Paris"),
     year: "2024",
   },
 ];

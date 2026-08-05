@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
   clientHeroLine,
   clientName,
@@ -249,7 +250,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Fuite importante un dimanche matin. Technicien sur place en 90 minutes, problème résolu avant midi. Pas de dégât des eaux. Le tarif forfaitaire annoncé par téléphone a été respecté à l'euro près. Je recommande sans hésiter.",
     name: 'Marc Vidal',
-    role: 'Propriétaire bailleur · Villeurbanne',
+    role: 'Propriétaire bailleur · ' + (clientCity(sessionData) ?? 'Villeurbanne'),
   },
 ];
 }
@@ -752,6 +753,13 @@ function Hero() {
             24h / 7j.
           </span>
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
+          {clientAccrocheRestante(sessionData)}
+        </p>
+      )}
+
         <motion.p
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -2171,7 +2179,7 @@ function Footer() {
               }}
             >
               <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-              {clientCity(sessionData) ?? "Lyon"} · Villeurbanne · Bron · Vénissieux
+              {clientCity(sessionData) ?? "Lyon"} · {clientCity(sessionData) ?? "Villeurbanne"} · Bron · Vénissieux
             </div>
           </div>
         </div>

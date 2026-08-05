@@ -1,5 +1,7 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+} from "@/lib/templates/clientContent";
 
 import { motion, useScroll, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -77,7 +79,7 @@ function filmsCatalogue_LIVE() {
     synopsis: "Un restaurateur d'art du Louvre découvre, sous les couches de vernis d'un tableau du XVIIe siècle, un portrait caché qui ressemble troublement à sa fille disparue. La frontière entre l'œuvre et la réalité se brouille dans ce thriller psychologique intimiste tourné dans les couloirs déserts du musée, entre fermeture et ouverture.",
     cast: ["Denis Lavant — Michel Fauré, restaurateur", "Lyna Khoudri — Inès, la fille disparue", "Isabelle Huppert — La conservatrice en chef"],
     crew: "Réalisé par Romain Music · Directeur de la photographie : Christophe Beaucarne · Musique : Rone · Décors : Katia Wyszkop",
-    festivals: ["César 2024 — Nommé Meilleur Court-Métrage", "Festival de Cannes 2024 — Quinzaine des Cinéastes", "Annecy Cinéma Espagnol & Italien 2024 — Prix Spécial"],
+    festivals: ["César 2024 — Nommé Meilleur Court-Métrage", "Festival de Cannes 2024 — Quinzaine des Cinéastes", (clientCity(sessionData) ?? "Annecy") + " Cinéma Espagnol & Italien 2024 — Prix Spécial"],
   },
   {
     title: "Mémoire Vive",
@@ -85,10 +87,10 @@ function filmsCatalogue_LIVE() {
     year: "2023",
     duration: "6 × 52 min",
     src: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600&q=80",
-    synopsis: "Lyon, 2043. La mémoire des défunts peut désormais être téléchargée et implantée. Alma, archiviste dans une clinique de mémoire, découvre que certains souvenirs ont été falsifiés à grande échelle. Sa quête de vérité l'entraîne dans une conspiration qui remet en question la notion même d'identité. Thriller d'anticipation ancré dans un réalisme social, la série interroge notre rapport au deuil, à la vérité et à la manipulation numérique.",
+    synopsis: (clientCity(sessionData) ?? "Lyon") + ", 2043. La mémoire des défunts peut désormais être téléchargée et implantée. Alma, archiviste dans une clinique de mémoire, découvre que certains souvenirs ont été falsifiés à grande échelle. Sa quête de vérité l'entraîne dans une conspiration qui remet en question la notion même d'identité. Thriller d'anticipation ancré dans un réalisme social, la série interroge notre rapport au deuil, à la vérité et à la manipulation numérique.",
     cast: ["Vicky Krieps — Alma Renoir", "Tahar Rahim — Karim Ziani, enquêteur", "Virginie Efira — Dr. Hélène Vasseur", "Pio Marmaï — Lucas, le frère d'Alma", "Aïssa Maïga — Commandante Diallo"],
     crew: "Créée par Julien Ferraro & Nina Music · Réalisée par Julien Ferraro (épisodes 1-3) et Houda Benyamina (épisodes 4-6) · Directeur de la photographie : Julien Hirsch · Musique : Gesaffelstein",
-    festivals: ["Festival Séries Mania 2023 — Prix Spécial du Jury", "MIPCOM Cannes 2023 — Série Française de l'Année", "Festival de la Fiction de La Rochelle 2023 — Grand Prix"],
+    festivals: ["Festival Séries Mania 2023 — Prix Spécial du Jury", "MIPCOM Cannes 2023 — Série Française de l'Année", "Festival de la Fiction de " + (clientCity(sessionData) ?? "La Rochelle") + " 2023 — Grand Prix"],
   },
 ];
 }

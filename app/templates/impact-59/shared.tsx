@@ -1,5 +1,8 @@
 "use client";
-import { clientPhotoAt } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+  clientPhotoAt,
+} from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
@@ -63,7 +66,7 @@ export let RETREATS = RETREATS_LIVE();
 
 export const LINEAGE = [
   {
-    name: "Dr. Clara Metz",
+    name: "Dr. Clara " + clientCityOr("Metz"),
     role: "Founder & Lead Clinician",
     bio: "Former neuropsychologist specialized in burnout recovery, Clara developed the Luminal Method after a decade in clinical practice.",
     avatar: "CM",

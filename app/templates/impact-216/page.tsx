@@ -603,19 +603,19 @@ function Hero() {
 function SHIPMENTS_LIVE() {
   return [
   {
-    id: 'MF-2406-8821', from: 'Paris CDG', to: 'Lyon Part-Dieu',
+    id: 'MF-2406-8821', from: (clientCity(sessionData) ?? 'Paris') + ' CDG', to: (clientCity(sessionData) ?? 'Lyon') + ' Part-Dieu',
     status: 'En transit', progress: 68, eta: "Aujourd'hui 17h30",
     steps: ['Enlèvement', 'Tri CDG', 'En route', 'Livraison'], currentStep: 2,
   },
   {
-    id: 'MF-2406-4437', from: (clientCity({ formData: fd }) ?? 'Bordeaux'), to: 'Lille Métropole',
+    id: 'MF-2406-4437', from: (clientCity({ formData: fd }) ?? 'Bordeaux'), to: (clientCity(sessionData) ?? 'Lille') + ' Métropole',
     status: 'En cours de tri', progress: 34, eta: 'Demain 10h00',
     steps: ['Enlèvement', 'Tri ' + (clientCity({ formData: fd }) ?? 'Bordeaux'), 'En route', 'Livraison'], currentStep: 1,
   },
   {
-    id: 'MF-2406-9904', from: 'Strasbourg', to: 'Marseille',
+    id: 'MF-2406-9904', from: (clientCity(sessionData) ?? 'Strasbourg'), to: (clientCity(sessionData) ?? 'Marseille'),
     status: 'Livré', progress: 100, eta: 'Livré 09h14',
-    steps: ['Enlèvement', 'Tri Strasbourg', 'En route', 'Livraison'], currentStep: 3,
+    steps: ['Enlèvement', 'Tri ' + (clientCity(sessionData) ?? 'Strasbourg'), 'En route', 'Livraison'], currentStep: 3,
   },
 ];
 }
@@ -1040,12 +1040,12 @@ function PricingSection() {
 // ─── 7. COVERAGE MAP ──────────────────────────────────────────────────────────
 function AGENCIES_LIVE() {
   return [
-  { name: 'Paris',      cx: 370, cy: 210, main: true },
-  { name: 'Lyon',       cx: 420, cy: 345, main: true },
-  { name: 'Marseille',  cx: 415, cy: 455, main: true },
+  { name: (clientCity(sessionData) ?? 'Paris'),      cx: 370, cy: 210, main: true },
+  { name: (clientCity(sessionData) ?? 'Lyon'),       cx: 420, cy: 345, main: true },
+  { name: (clientCity(sessionData) ?? 'Marseille'),  cx: 415, cy: 455, main: true },
   { name: (clientCity({ formData: fd }) ?? 'Bordeaux'),   cx: 235, cy: 390, main: false },
-  { name: 'Lille',      cx: 355, cy: 130, main: false },
-  { name: 'Strasbourg', cx: 525, cy: 195, main: false },
+  { name: (clientCity(sessionData) ?? 'Lille'),      cx: 355, cy: 130, main: false },
+  { name: (clientCity(sessionData) ?? 'Strasbourg'), cx: 525, cy: 195, main: false },
   { name: 'Nantes',     cx: 210, cy: 290, main: false },
 ];
 }

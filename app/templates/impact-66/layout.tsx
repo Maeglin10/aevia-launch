@@ -317,7 +317,7 @@ export default function AtelierLayout({
               </Link>
             </div>
             <div className="flex gap-10">
-              <span>{clientCity(__layoutSession) ?? "Paris"} VIII // Lyon // Bordeaux</span>
+              <span>{clientCity(__layoutSession) ?? "Paris"} VIII // {clientCity(__layoutSession) ?? "Lyon"} // {clientCity(__layoutSession) ?? "Bordeaux"}</span>
               <span>The Art of Precision</span>
             </div>
           </div>

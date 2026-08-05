@@ -210,7 +210,7 @@ function Eyebrow({ text }) {
 
 // "About" and "Contact" were both in the navigation with no section behind them.
 const ABOUT_STATS = [
-  { t: "Since 2011", d: "Started as a 200-capacity room above a bar in Lille. Same three people still book every act on the calendar." },
+  { t: "Since 2011", d: "Started as a 200-capacity room above a bar in " + (clientCity(sessionData) ?? "Lille") + ". Same three people still book every act on the calendar." },
   { t: "No dynamic pricing", d: "The price printed on the announcement is the price at checkout, on the day, for the last seat as for the first." },
   { t: "Artists paid on the night", d: "Settlement in the dressing room, before the load-out. Support acts included, no thirty-day terms." },
   { t: "Rooms we run ourselves", d: "Four venues, all owned or on long leases. Nothing is subcontracted to a promoter we have not worked with for years." },
@@ -229,7 +229,7 @@ function MOCK_EVENTS_LIVE() {
   { id: "e2", title: "Acoustic Sessions", artist: "Elena Rossi", date: "2026-08-20", time: "19:30", venue: "Intimate Hall, Lyon", price: 35, image: PHOTOS.event2, category: "Acoustic" },
   { id: "e3", title: "Summer Vibes Festival", artist: "Various Artists", date: "2026-09-05", time: "14:00", venue: "Open Air Park, Marseille", price: 89, image: PHOTOS.event3, category: "Festival" },
   { id: "e4", title: "Symphony of the Night", artist: "Orchestre de " + (clientCity(sessionData) ?? "Paris"), date: "2026-09-12", time: "20:00", venue: "Philharmonie, " + (clientCity(sessionData) ?? "Paris"), price: 60, image: PHOTOS.event4, category: "Classical" },
-  { id: "e5", title: "Rock Revival", artist: "The Thunders", date: "2026-09-25", time: "20:30", venue: "Zénith, Lille", price: 50, image: PHOTOS.gallery[0], category: "Rock" },
+  { id: "e5", title: "Rock Revival", artist: "The Thunders", date: "2026-09-25", time: "20:30", venue: "Zénith, " + (clientCity(sessionData) ?? "Lille"), price: 50, image: PHOTOS.gallery[0], category: "Rock" },
   { id: "e6", title: "Jazz & Wine Night", artist: "Blue Note Quartet", date: "2026-10-02", time: "20:00", venue: "Jazz Club, Bordeaux", price: 40, image: PHOTOS.gallery[1], category: "Jazz" },
 ]);
 }

@@ -57,7 +57,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   HORA VIVA — Manufacture Horlogère Suisse, Genève
+   HORA VIVA — Manufacture Horlogère Suisse, {clientCity(sessionData) ?? "Genève"}
    Luxury Swiss watchmaking · Fondée en 1834
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -234,7 +234,7 @@ function Nav() {
                   marginTop: '2px',
                 }}
               >
-                GENÈVE · EST. 1834
+                {clientCity(sessionData) ?? "GENÈVE"} · EST. 1834
               </span>
             </>
           )}
@@ -751,7 +751,7 @@ const CROSSFADE_CHAPTERS = [
     img: IMGS.editorial1,
     title: "L\'Héritage",
     subtitle: 'Six générations · Une signature',
-    desc: "Fondée en 1834 par Léonard Marchetti, la maison a traversé deux siècles sans jamais délocaliser une seule opération. L\'ADN de Genève est inscrit dans chaque pivot.",
+    desc: "Fondée en 1834 par Léonard Marchetti, la maison a traversé deux siècles sans jamais délocaliser une seule opération. L\'ADN de " + (clientCity(sessionData) ?? "Genève") + " est inscrit dans chaque pivot.",
   },
 ] as const;
 
@@ -1479,12 +1479,12 @@ function StickySpecs() {
 // ─── HERITAGE TIMELINE ───────────────────────────────────────────────────────
 
 const TIMELINE = [
-  { year: '1834', event: 'Fondation de la maison par Léonard Marchetti à Genève, au cœur du quartier des Eaux-Vives.' },
+  { year: '1834', event: 'Fondation de la maison par Léonard Marchetti à ' + (clientCity(sessionData) ?? 'Genève') + ', au cœur du quartier des Eaux-Vives.' },
   { year: '1872', event: 'Premier calibre manufacture entièrement réalisé en interne. Brevets déposés sur l\'échappement à ancre modifié.' },
   { year: '1921', event: 'Création de l\'atelier d\'émail Grand Feu. Hora Viva devient l\'une des trois dernières maisons à maîtriser cette technique.' },
   { year: '1967', event: 'Lancement de la Perpétuelle — premier calendrier perpétuel de petite complication suisse certifié COSC.' },
   { year: '2001', event: 'Ouverture de la nouvelle manufacture à Plan-les-Ouates. 4 200 m² dédiés exclusivement à l\'horlogerie mécanique.' },
-  { year: '2024', event: 'Présentation du Calibre HV-190A au SIHH — 312 composants, 72h de réserve, tourbillon volant côtes de Genève.' },
+  { year: '2024', event: 'Présentation du Calibre HV-190A au SIHH — 312 composants, 72h de réserve, tourbillon volant côtes de ' + (clientCity(sessionData) ?? 'Genève') + '.' },
 ] as const;
 
 function Heritage() {
@@ -2117,7 +2117,7 @@ function Footer() {
                 marginBottom: '24px',
               }}
             >
-              GENÈVE · MANUFACTURE HORLOGÈRE
+              {clientCity(sessionData) ?? "GENÈVE"} · MANUFACTURE HORLOGÈRE
             </div>
             <p
               style={{
@@ -2142,7 +2142,7 @@ function Footer() {
               }}
             >
               {[
-                { icon: <MapPin size={12} color={T.goldDim} />, text: '14, rue de Rive · CH-1204 Genève' },
+                { icon: <MapPin size={12} color={T.goldDim} />, text: '14, rue de Rive · CH-1204 ' + (clientCity(sessionData) ?? 'Genève') },
                 { icon: <Phone size={12} color={T.goldDim} />, text: '+41 22 310 88 40' },
                 { icon: <Mail size={12} color={T.goldDim} />, text: (fd?.email ?? 'atelier@horaviva.ch') },
               ].map(({ icon, text }) => (
@@ -2297,7 +2297,7 @@ function Footer() {
               opacity: 0.5,
             }}
           >
-            © 2024 Hora Viva SA · Genève · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2024 Hora Viva SA · {clientCity(sessionData) ?? "Genève"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: 'flex', gap: '24px' }}>
             {['Mentions légales', 'Confidentialité', 'CGV'].map((l) => (

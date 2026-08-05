@@ -1309,7 +1309,7 @@ const STORY_ROWS: StoryRow[] = [
     img: IMG.story1,
     index: '01',
     title: 'Built in the workshop, not the boardroom',
-    body: 'AirForge started in a Lyon garage with a heat press and an obsession. Every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.',
+    body: 'AirForge started in a ' + (clientCity(sessionData) ?? 'Lyon') + ' garage with a heat press and an obsession. Every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.',
   },
   {
     img: IMG.story2,
@@ -2115,7 +2115,7 @@ function Footer() {
             >
               <Zap size={24} color={C.accent} fill={C.accent} strokeWidth={1} />{fd?.businessName ?? (clientName(sessionData) ?? "AirForge")}</div>
             <p style={{ margin: '0 0 24px', color: C.textMuted, fontSize: 15, lineHeight: 1.6, maxWidth: 320 }}>
-              Performance sneakers forged in Lyon. Limited runs, built to outlast
+              Performance sneakers forged in {clientCity(sessionData) ?? "Lyon"}. Limited runs, built to outlast
               the hype.
             </p>
             <div style={{ display: 'flex', gap: 14 }}>

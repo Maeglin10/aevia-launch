@@ -1,5 +1,7 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -92,7 +94,7 @@ export default function Contact() {
             >
               {[
                 { label: 'Studio ' + (clientCity(sessionData) ?? 'Paris'), val: '14 Rue du Dragon, 75006 ' + (clientCity(sessionData) ?? 'Paris') },
-                { label: 'Bureau Genève', val: '12 Quai du Mont-Blanc, 1201 Genève' },
+                { label: 'Bureau ' + (clientCity(sessionData) ?? 'Genève'), val: '12 Quai du Mont-Blanc, 1201 ' + (clientCity(sessionData) ?? 'Genève') },
                 { label: 'Email', val: (fd?.email ?? 'contact@exemple.fr') },
                 { label: 'Horaires', val: 'Lun – Ven · 9h – 19h' },
               ].map((item) => (

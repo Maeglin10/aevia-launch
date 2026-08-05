@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
@@ -37,7 +38,7 @@ export default function TeamPage() {
       initials: "CL",
       color: "#4a90d9",
       diplomas: [
-        "Diplôme d'État de Docteur en Chirurgie Dentaire — Université Paris VII (Cochin)",
+        "Diplôme d'État de Docteur en Chirurgie Dentaire — Université " + (clientCity(sessionData) ?? "Paris") + " VII (Cochin)",
         "Post-Graduate en Implantologie et Parodontologie — New York University (NYU)",
         "D.U. de Reconstruction Osseuse Maxillo-Faciale — Hôpital de la Salpêtrière"
       ],

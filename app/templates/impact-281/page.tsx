@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
   clientHeroLine,
   clientName,
@@ -551,6 +552,13 @@ function HeroSection() {
             à vos mesures
           </span>
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
+          {clientAccrocheRestante(sessionData)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}
@@ -1101,7 +1109,7 @@ const PROCESS_STEPS: ProcessStep[] = [
   {
     num: '02',
     titre: 'Choix des étoffes',
-    body: 'Nous vous guidons dans notre sélection de tissus nobles — soie de Lyon, lainage anglais, dentelle de Calais — pour trouver la matière qui sublimera votre tenue.',
+    body: 'Nous vous guidons dans notre sélection de tissus nobles — soie de ' + (clientCity(sessionData) ?? 'Lyon') + ', lainage anglais, dentelle de Calais — pour trouver la matière qui sublimera votre tenue.',
   },
   {
     num: '03',
@@ -1776,7 +1784,7 @@ type Material = {
 const MATERIALS_SOURCE: Material[] = [
   {
     nom: 'Soie',
-    origine: 'Soie de Lyon · France',
+    origine: 'Soie de ' + (clientCity(sessionData) ?? 'Lyon') + ' · France',
     description:
       "Tissée sur les métiers jacquard lyonnais, notre soie charmeuse capte la lumière avec une fluidité incomparable. Elle habille aussi bien une robe de cocktail qu'un chemisier de soirée.",
     accent: 'Légèreté · Lumière · Sensualité',

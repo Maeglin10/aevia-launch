@@ -293,7 +293,7 @@ export default function AureliusHeritageLayout({
           }}
         >
           <span>© {new Date().getFullYear()} Aurelius Heritage. Tous droits réservés.</span>
-          <span>{clientCity(__layoutSession) ?? "Paris"} — Genève — Tokyo</span>
+          <span>{clientCity(__layoutSession) ?? "Paris"} — {clientCity(__layoutSession) ?? "Genève"} — Tokyo</span>
         </div>
       </footer>
     </div>

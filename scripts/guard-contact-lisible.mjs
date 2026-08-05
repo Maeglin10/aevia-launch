@@ -43,8 +43,9 @@ const touches = [];
 
 for (const fiche of fiches) {
   // On ne s'occupe que du nom de l'entreprise et de son numéro.
+  // Les cinq entreprises du harnais, et le numéro qu'elles partagent.
   const cibles = Object.entries(fiche.couleurs ?? {}).filter(([texte]) =>
-    /Ateliers Vidal|04 50 11/.test(texte),
+    /Ateliers Vidal|Maison Bonnefoy|Clinique du Lac|Comptoir des Alpes|Studio Margaux|04 50 11/.test(texte),
   );
   if (cibles.length === 0) continue;
 

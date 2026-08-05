@@ -91,7 +91,7 @@ const savoirFaire_SOURCE = [
 let savoirFaire = savoirFaire_SOURCE;
 
 const timeline = [
-  { year: "1887", event: "Fondation par Édouard Lecomte à Genève" },
+  { year: "1887", event: "Fondation par Édouard Lecomte à " + (clientCity(sessionData) ?? "Genève") },
   { year: "1923", event: "Premier tourbillon maison breveté" },
   { year: "1961", event: "Lancement de la collection Heritage" },
   { year: "1998", event: "Acquisition de la manufacture de La Vallée de Joux" },
@@ -779,7 +779,7 @@ function ManufactureSubPage({ goTo }: { goTo: (p: any) => void }) {
           </div>
           <div className="space-y-2">
             <h3 className="text-[var(--brand,#B49A6A)] text-lg font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>2. Décoration</h3>
-            <p className="text-xs leading-relaxed">Côtes de Genève, perlage des platines, et étirage des flancs. C'est à cette étape que le métal brut devient une œuvre d'art horlogère, révélant ses reflets subtils.</p>
+            <p className="text-xs leading-relaxed">Côtes de {clientCity(sessionData) ?? "Genève"}, perlage des platines, et étirage des flancs. C'est à cette étape que le métal brut devient une œuvre d'art horlogère, révélant ses reflets subtils.</p>
           </div>
           <div className="space-y-2">
             <h3 className="text-[var(--brand,#B49A6A)] text-lg font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>3. Assemblage</h3>
@@ -800,21 +800,21 @@ function ManufactureSubPage({ goTo }: { goTo: (p: any) => void }) {
 function MaisonSubPage() {
   const historyTimeline = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
-    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à Genève, se spécialisant dans la réparation de chronomètres de poche de haute précision." },
-    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de Genève et de kkew pour sa régularité de marche." },
+    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à " + (clientCity(sessionData) ?? "Genève") + ", se spécialisant dans la réparation de chronomètres de poche de haute précision." },
+    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de " + (clientCity(sessionData) ?? "Genève") + " et de kkew pour sa régularité de marche." },
     { year: "1961", title: "Collection Heritage", desc: "Lancement d'une gamme de garde-temps au design intemporel, marquant le début de l'exportation internationale de la marque." },
     { year: "1998", title: "Installation dans la Vallée", desc: "Rachat d'une ancienne ferme horlogère à La Vallée de Joux, regroupant l'ensemble de nos ateliers de création, de décoration et d'assemblage sous le même toit." },
     { year: "2019", title: "Le Titane Grade 5", desc: "Innovation technologique majeure avec un modèle entièrement squelette en titane microbillé pesant moins de 32 grammes." },
   ])[i % ([
-    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à Genève, se spécialisant dans la réparation de chronomètres de poche de haute précision." },
-    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de Genève et de kkew pour sa régularité de marche." },
+    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à " + (clientCity(sessionData) ?? "Genève") + ", se spécialisant dans la réparation de chronomètres de poche de haute précision." },
+    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de " + (clientCity(sessionData) ?? "Genève") + " et de kkew pour sa régularité de marche." },
     { year: "1961", title: "Collection Heritage", desc: "Lancement d'une gamme de garde-temps au design intemporel, marquant le début de l'exportation internationale de la marque." },
     { year: "1998", title: "Installation dans la Vallée", desc: "Rachat d'une ancienne ferme horlogère à La Vallée de Joux, regroupant l'ensemble de nos ateliers de création, de décoration et d'assemblage sous le même toit." },
     { year: "2019", title: "Le Titane Grade 5", desc: "Innovation technologique majeure avec un modèle entièrement squelette en titane microbillé pesant moins de 32 grammes." },
   ]).length], title: s.title, desc: s.desc || "" })),
     [
-    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à Genève, se spécialisant dans la réparation de chronomètres de poche de haute précision." },
-    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de Genève et de kkew pour sa régularité de marche." },
+    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à " + (clientCity(sessionData) ?? "Genève") + ", se spécialisant dans la réparation de chronomètres de poche de haute précision." },
+    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de " + (clientCity(sessionData) ?? "Genève") + " et de kkew pour sa régularité de marche." },
     { year: "1961", title: "Collection Heritage", desc: "Lancement d'une gamme de garde-temps au design intemporel, marquant le début de l'exportation internationale de la marque." },
     { year: "1998", title: "Installation dans la Vallée", desc: "Rachat d'une ancienne ferme horlogère à La Vallée de Joux, regroupant l'ensemble de nos ateliers de création, de décoration et d'assemblage sous le même toit." },
     { year: "2019", title: "Le Titane Grade 5", desc: "Innovation technologique majeure avec un modèle entièrement squelette en titane microbillé pesant moins de 32 grammes." },
