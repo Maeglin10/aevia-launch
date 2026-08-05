@@ -133,7 +133,7 @@ interface SafetyItem {
    ════════════════════════════════════════════════════════════════════════════ */
 
 function BASE_LIVE() {
-  return (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+  return 'https://images.unsplash.com/photo-';
 }
 let BASE = BASE_LIVE();
 const ph = (id: string, w = 1600) =>

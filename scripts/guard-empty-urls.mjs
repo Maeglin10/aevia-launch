@@ -21,7 +21,14 @@ const seulement = process.argv.slice(2).filter((a) => a.startsWith("impact-"));
 
 // Les champs qui portent une adresse, et rien d'autre : un `title ?? repli`
 // garde son `??`, une chaîne de titre vide n'a jamais fait disparaître d'image.
-const ADRESSE = /\b(\w+)\.(afterUrl|beforeUrl|imageUrl|photoUrl|imgUrl|coverUrl|logoUrl|avatarUrl|url|img|image|src|cover|photo|avatar|logo|thumbnail|thumb)\s*\?\?/g;
+const CHAMPS = "afterUrl|beforeUrl|imageUrl|photoUrl|imgUrl|coverUrl|logoUrl|avatarUrl|url|img|image|src|cover|photo|avatar|logo|thumbnail|thumb";
+/*
+  L'accès peut passer par un indice et des points d'interrogation :
+  `bp?.beforeAfter?.[0]?.afterUrl ?? PHOTO.gallery1`. Le motif d'origine n'en
+  voyait que la forme simple, et cinq thèmes rendaient encore des images sans
+  source dès que le client décrivait une réalisation sans photo.
+*/
+const ADRESSE = new RegExp(`(\\w|\\])\\??\\.(${CHAMPS})\\s*\\?\\?`, "g");
 
 let faits = 0;
 const touches = [];
@@ -41,9 +48,9 @@ for (const id of ids) {
   let n = 0;
   for (const f of fichiers) {
     const src = fs.readFileSync(f, "utf8");
-    const neuf = src.replace(ADRESSE, (m0, objet, champ) => {
+    const neuf = src.replace(ADRESSE, (m0, avant, champ) => {
       n++;
-      return `${objet}.${champ} ||`;
+      return `${m0.slice(0, m0.length - 2).replace(/\s*$/, "")} ||`;
     });
     if (neuf === src) continue;
     if (!dry) fs.writeFileSync(f, neuf);

@@ -71,7 +71,7 @@ const SANS = "'Space Grotesk', system-ui, sans-serif" as const;
 
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
 function BASE_LIVE() {
-  return (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+  return 'https://images.unsplash.com/photo-';
 }
 let BASE = BASE_LIVE();
 function PHOTO_LIVE() {

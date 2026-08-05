@@ -83,7 +83,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
 function PHOTO_BASE_LIVE() {
-  return (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+  return 'https://images.unsplash.com/photo-';
 }
 let PHOTO_BASE = PHOTO_BASE_LIVE();
 function P_LIVE() {
