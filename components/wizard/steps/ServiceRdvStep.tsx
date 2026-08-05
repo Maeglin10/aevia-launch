@@ -45,7 +45,13 @@ export function ServiceRdvStep({
 }) {
   useAutoSaveStep(sessionId, "businessProfile", value);
 
-  const services = value?.services ?? [];
+  /*
+    Une première ligne déjà ouverte. « Prestations » ne montrait qu'un lien
+    « + Ajouter une prestation » : le client pressé passait devant sans le voir,
+    et son site sortait sans la seule chose qui le décrit vraiment. Une ligne
+    vide en place se remplit ; un lien se manque.
+  */
+  const services = value?.services?.length ? value.services : [{ name: "" } as Service];
   const team = value?.team ?? [];
   /*
     Quatorze champs d'horaires vides à remplir un par un : c'est le bloc le plus
@@ -120,7 +126,12 @@ export function ServiceRdvStep({
 
       {/* Services */}
       <div className="space-y-2">
-        <p className={label}>Prestations</p>
+        <p className={label}>
+          Prestations
+          <span className="ml-2 font-normal normal-case text-zinc-500">
+            ce que vous vendez — c'est ce que vos clients liront en premier
+          </span>
+        </p>
         <div className="flex flex-col gap-3">
           {services.map((s, i) => (
             <div key={i} className="bg-zinc-800/60 border border-zinc-700 rounded-xl p-3 flex flex-col gap-2">
@@ -129,19 +140,22 @@ export function ServiceRdvStep({
                   className={`${input} flex-1`}
                   value={s.name}
                   onChange={(e) => updateService(i, "name", e.target.value)}
-                  placeholder="Nom de la prestation"
+                  placeholder="Ex. Rénovation de salle de bain"
+                  aria-label="Nom de la prestation"
                 />
                 <input
                   className={`${input} w-24`}
                   value={s.price ?? ""}
                   onChange={(e) => updateService(i, "price", e.target.value)}
-                  placeholder="Prix"
+                  placeholder="2 400 €"
+                  aria-label="Prix de la prestation"
                 />
                 <input
                   className={`${input} w-24`}
                   value={s.duration ?? ""}
                   onChange={(e) => updateService(i, "duration", e.target.value)}
-                  placeholder="Durée"
+                  placeholder="1 semaine"
+                  aria-label="Durée de la prestation"
                 />
                 <button type="button" onClick={() => removeService(i)} aria-label="Supprimer">
                   <X size={14} className="text-zinc-500 hover:text-zinc-300 transition-colors" />
@@ -151,7 +165,8 @@ export function ServiceRdvStep({
                 className={`${input} w-full`}
                 value={s.description ?? ""}
                 onChange={(e) => updateService(i, "description", e.target.value)}
-                placeholder="Description courte (optionnel)"
+                placeholder="Dépose, plomberie, carrelage et pose des équipements (facultatif)"
+                aria-label="Description de la prestation"
               />
             </div>
           ))}
