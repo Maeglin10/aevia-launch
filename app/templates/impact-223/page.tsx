@@ -167,7 +167,7 @@ export default function VoltProPage() {
     bp?.beforeAfter?.map((r: any, i: number) => ({
       label: r.caption ?? REALIZATIONS_DEMO[i % REALIZATIONS_DEMO.length].label,
       tag: REALIZATIONS_DEMO[i % REALIZATIONS_DEMO.length].tag,
-      img: r.afterUrl ?? r.beforeUrl ?? REALIZATIONS_DEMO[i % REALIZATIONS_DEMO.length].img,
+      img: r.afterUrl || r.beforeUrl || REALIZATIONS_DEMO[i % REALIZATIONS_DEMO.length].img,
     })),
     REALIZATIONS_DEMO
   );

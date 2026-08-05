@@ -400,7 +400,7 @@ export default function NoirCouturePage() {
                   bp?.beforeAfter?.map((b: any, i: number) => ({
                     title: b.caption ?? editorials[i % editorials.length].title,
                     category: editorials[i % editorials.length].category,
-                    src: b.afterUrl ?? b.beforeUrl ?? editorials[i % editorials.length].src,
+                    src: b.afterUrl || b.beforeUrl || editorials[i % editorials.length].src,
                   })),
                   editorials
                 ).map((e: any, i: number) => (
@@ -699,7 +699,7 @@ function EditorialSubPage() {
     bp?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? editorialItems_DEMO[i % editorialItems_DEMO.length].title,
       category: editorialItems_DEMO[i % editorialItems_DEMO.length].category,
-      src: b.afterUrl ?? b.beforeUrl ?? editorialItems_DEMO[i % editorialItems_DEMO.length].src,
+      src: b.afterUrl || b.beforeUrl || editorialItems_DEMO[i % editorialItems_DEMO.length].src,
       text: editorialItems_DEMO[i % editorialItems_DEMO.length].text,
     })),
     editorialItems_DEMO

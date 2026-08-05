@@ -180,7 +180,7 @@ export default function LegrandPage() {
       title: m.role ?? PARTNERS_DEMO[i % PARTNERS_DEMO.length].title,
       domain: m.specialty ?? PARTNERS_DEMO[i % PARTNERS_DEMO.length].domain,
       bar: m.credentials ?? PARTNERS_DEMO[i % PARTNERS_DEMO.length].bar,
-      image: m.photoUrl ?? PARTNERS_DEMO[i % PARTNERS_DEMO.length].image,
+      image: m.photoUrl || PARTNERS_DEMO[i % PARTNERS_DEMO.length].image,
     })),
     PARTNERS_DEMO
   );

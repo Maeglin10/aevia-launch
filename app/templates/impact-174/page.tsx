@@ -205,7 +205,7 @@ export default function Impact174Page() {
       role: t.role ?? COACHES_DEMO[i % COACHES_DEMO.length].role,
       certs: t.credentials ?? COACHES_DEMO[i % COACHES_DEMO.length].certs,
       quote: t.bio ?? t.specialty ?? COACHES_DEMO[i % COACHES_DEMO.length].quote,
-      img: t.photoUrl ?? COACHES_DEMO[i % COACHES_DEMO.length].img,
+      img: t.photoUrl || COACHES_DEMO[i % COACHES_DEMO.length].img,
     })),
     COACHES_DEMO
   );

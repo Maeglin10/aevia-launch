@@ -119,7 +119,7 @@ export default function ObscuraPage() {
     bpLocal?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? WORKS_DEMO[i % WORKS_DEMO.length].title,
       category: WORKS_DEMO[i % WORKS_DEMO.length].category,
-      src: b.afterUrl ?? b.beforeUrl ?? WORKS_DEMO[i % WORKS_DEMO.length].src,
+      src: b.afterUrl || b.beforeUrl || WORKS_DEMO[i % WORKS_DEMO.length].src,
       year: WORKS_DEMO[i % WORKS_DEMO.length].year,
     })),
     WORKS_DEMO
@@ -367,7 +367,7 @@ function PortfolioPage({ activeCategory, setActiveCategory }: { activeCategory: 
     bp?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? WORKS_DEMO[i % WORKS_DEMO.length].title,
       category: WORKS_DEMO[i % WORKS_DEMO.length].category,
-      src: b.afterUrl ?? b.beforeUrl ?? WORKS_DEMO[i % WORKS_DEMO.length].src,
+      src: b.afterUrl || b.beforeUrl || WORKS_DEMO[i % WORKS_DEMO.length].src,
       year: WORKS_DEMO[i % WORKS_DEMO.length].year,
     })),
     WORKS_DEMO

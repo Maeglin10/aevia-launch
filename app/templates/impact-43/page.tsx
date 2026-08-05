@@ -114,7 +114,7 @@ export default function SereneRetreatHome() {
       name: t.name ?? TEAM_DEMO[i % TEAM_DEMO.length].name,
       role: t.role ?? TEAM_DEMO[i % TEAM_DEMO.length].role,
       bio: t.bio ?? t.credentials ?? TEAM_DEMO[i % TEAM_DEMO.length].bio,
-      image: t.photoUrl ?? TEAM_DEMO[i % TEAM_DEMO.length].image,
+      image: t.photoUrl || TEAM_DEMO[i % TEAM_DEMO.length].image,
       specialties: t.specialty ? [t.specialty] : TEAM_DEMO[i % TEAM_DEMO.length].specialties,
     })),
     TEAM_DEMO

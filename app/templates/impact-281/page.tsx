@@ -2333,7 +2333,7 @@ function CreationsSection() {
       <div style={grid}>
         {resolveList(
           bp?.beforeAfter?.map((b: any, i: number) => ({
-            img: b.afterUrl ?? b.beforeUrl ?? CREATIONS_DEMO[i % CREATIONS_DEMO.length].img,
+            img: b.afterUrl || b.beforeUrl || CREATIONS_DEMO[i % CREATIONS_DEMO.length].img,
             alt: b.caption ?? CREATIONS_DEMO[i % CREATIONS_DEMO.length].alt,
             titre: b.caption ?? CREATIONS_DEMO[i % CREATIONS_DEMO.length].titre,
             sous: CREATIONS_DEMO[i % CREATIONS_DEMO.length].sous,

@@ -843,7 +843,7 @@ const PropertyCard: React.FC<{ p: any; delay: number; index?: number }> = ({
   index = 0,
 }) => {
   const [hover, setHover] = useState<boolean>(false);
-  const img = p.photoUrl ?? p.img ?? PROPERTIES_DEMO[index % PROPERTIES_DEMO.length].img;
+  const img = p.photoUrl || p.img || PROPERTIES_DEMO[index % PROPERTIES_DEMO.length].img;
   return (
     <Reveal delay={delay} y={36}>
       <div

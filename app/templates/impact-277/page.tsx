@@ -2192,7 +2192,7 @@ function ProjectsSection() {
       <div style={grid}>
         {resolveList(
           bp?.beforeAfter?.map((r: any, i: number) => ({
-            img: r.afterUrl ?? r.beforeUrl ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
+            img: r.afterUrl || r.beforeUrl || PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
             alt: r.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].alt,
             tag: PROJECTS_DEMO[i % PROJECTS_DEMO.length].tag,
             title: r.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,

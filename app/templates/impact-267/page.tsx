@@ -1188,7 +1188,7 @@ function ArtistCards() {
     clientTeam(sessionData)?.map((t: any, i: number) => ({
       name: t.name ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].name,
       specialty: t.specialty ?? t.role ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].specialty,
-      img: t.photoUrl ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].img,
+      img: t.photoUrl || ARTISTS_DEMO[i % ARTISTS_DEMO.length].img,
       since: ARTISTS_DEMO[i % ARTISTS_DEMO.length].since,
     })),
     ARTISTS_DEMO,

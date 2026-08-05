@@ -247,7 +247,7 @@ return (
               <Reveal key={p.title ?? p.name ?? i} delay={i * 0.1}>
                 <div className="group cursor-pointer">
                   <div className="relative aspect-video overflow-hidden mb-6">
-                    <Image src={p.img ?? p.photoUrl ?? photo(1 + i, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85"))} alt={p.title ?? p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <Image src={p.img || p.photoUrl || photo(1 + i, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85"))} alt={p.title ?? p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1A1612]/60 to-transparent" />
                     {(p.badge ?? p.status) && <span className="absolute top-4 left-4 px-3 py-1 bg-[var(--brand,#C9A86C)] text-[#1A1612] text-[10px] uppercase tracking-widest font-medium">{p.badge ?? p.status}</span>}
                   </div>
@@ -280,9 +280,9 @@ return (
             {equipe.map((m: any, i: number) => (
               <Reveal key={m.name ?? i} delay={i * 0.1}>
                 <div>
-                  {(m.img ?? m.photoUrl) && (
+                  {(m.img || m.photoUrl) && (
                     <div className="relative aspect-[4/5] overflow-hidden mb-6 grayscale hover:grayscale-0 transition-all duration-700">
-                      <Image src={m.img ?? m.photoUrl} alt={m.name} fill className="object-cover" />
+                      <Image src={m.img || m.photoUrl} alt={m.name} fill className="object-cover" />
                     </div>
                   )}
                   <p className="text-xs tracking-widest text-[var(--brand,#C9A86C)] uppercase mb-2">{m.role}</p>

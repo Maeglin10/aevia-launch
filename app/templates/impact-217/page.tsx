@@ -2243,7 +2243,7 @@ function buildLookbook217(): Look[] {
   const D = LOOKBOOK_DEMO;
   return resolveList<Look>(
     bp?.beforeAfter?.map((b: any, i: number) => ({
-      img: b.afterUrl ?? b.beforeUrl ?? D[i % D.length].img,
+      img: b.afterUrl || b.beforeUrl || D[i % D.length].img,
       tall: D[i % D.length].tall,
       label: b.caption ?? D[i % D.length].label,
     })),

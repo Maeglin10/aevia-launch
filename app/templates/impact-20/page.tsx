@@ -731,7 +731,7 @@ function buildLookbook() {
   return resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? LOOKBOOK_DEMO[i % LOOKBOOK_DEMO.length].title,
-      image: b.afterUrl ?? b.beforeUrl ?? LOOKBOOK_DEMO[i % LOOKBOOK_DEMO.length].image,
+      image: b.afterUrl || b.beforeUrl || LOOKBOOK_DEMO[i % LOOKBOOK_DEMO.length].image,
       items: LOOKBOOK_DEMO[i % LOOKBOOK_DEMO.length].items,
     })),
     LOOKBOOK_DEMO

@@ -292,12 +292,12 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
    "Chronos Watch"
   ]
  },
+ // Son unique image est le logo du client, pas une photographie : ce thème SaaS
+ // n'a aucun emplacement où poser une photo d'entreprise.
  "impact-119": {
-  n: 1,
-  total: 1,
-  labels: [
-   null
-  ]
+  n: 0,
+  total: 0,
+  labels: []
  },
  "impact-12": {
   n: 8,

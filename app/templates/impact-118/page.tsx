@@ -135,7 +135,7 @@ export default function ChronosLuxuryPage() {
       name: b.caption ?? COLLECTION_DEMO[i % COLLECTION_DEMO.length].name,
       series: COLLECTION_DEMO[i % COLLECTION_DEMO.length].series,
       price: COLLECTION_DEMO[i % COLLECTION_DEMO.length].price,
-      img: b.afterUrl ?? b.beforeUrl ?? COLLECTION_DEMO[i % COLLECTION_DEMO.length].img,
+      img: b.afterUrl || b.beforeUrl || COLLECTION_DEMO[i % COLLECTION_DEMO.length].img,
       desc: b.caption ?? COLLECTION_DEMO[i % COLLECTION_DEMO.length].desc,
     })),
     COLLECTION_DEMO

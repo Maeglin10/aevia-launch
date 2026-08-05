@@ -118,6 +118,15 @@ const BLOC_DE = {
 */
 const OPTIONNELS = new Set(["telephone", "email", "adresse", "horaires", "realisation"]);
 
+// Les vues intérieures de chaque thème, pour y chercher les photos du client.
+const SOUS_PAGES = {};
+for (const id of fs.readdirSync(path.join(process.cwd(), "app/templates")).filter((d) => d.startsWith("impact-"))) {
+  const dossier = path.join(process.cwd(), "app/templates", id);
+  if (!fs.statSync(dossier).isDirectory()) continue;
+  SOUS_PAGES[id] = fs.readdirSync(dossier)
+    .filter((s) => s !== "legal" && fs.existsSync(path.join(dossier, s, "page.tsx")));
+}
+
 const EMPLACEMENTS = fs.readFileSync(path.join(process.cwd(), "lib/templates/photoSlots.ts"), "utf8");
 const SANS_PHOTO = new Set();
 for (const m of EMPLACEMENTS.matchAll(/"(impact-[\w-]+)":\s*\{[^}]*?total:\s*(\d+)/g)) {
@@ -265,9 +274,34 @@ for (const id of ids) {
     try { decode = decodeURIComponent(brut); } catch { /* adresse non décodable */ }
     const chargees = brut + " " + decode;
     // Un thème sans emplacement photo n'a rien à montrer : ce n'est pas un manque.
-    const photosVues = SANS_PHOTO.has(id) || photos.length === 0
+    let photosVues = SANS_PHOTO.has(id) || photos.length === 0
       ? "—"
       : photos.some((u) => chargees.includes(empreinte(u))) ? "oui" : "non";
+    /*
+      Un thème peut ne montrer aucune photo sur son accueil et les réserver à ses
+      vues intérieures : impact-14 tient ses douze emplacements dans « la flotte »,
+      « les destinations » et « l'expérience », et passait pour ne pas afficher
+      celles du client alors qu'il les affiche toutes, une page plus loin.
+    */
+    if (photosVues === "non") {
+      for (const sous of SOUS_PAGES[id] ?? []) {
+        try {
+          await p.goto(`${BASE}/templates/${id}/${sous}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 30000 });
+          await p.waitForTimeout(1800);
+          const vues = await p.evaluate(() =>
+            [...document.querySelectorAll("img")].map((i) => i.currentSrc || i.src).concat(
+              [...document.querySelectorAll("*")].map((e) => getComputedStyle(e).backgroundImage).filter((x) => x && x !== "none"),
+            ).join(" "));
+          let decodeSous = vues;
+          try { decodeSous = decodeURIComponent(vues); } catch { /* adresse non décodable */ }
+          if (photos.some((u) => `${vues} ${decodeSous}`.includes(empreinte(u)))) { photosVues = "oui"; break; }
+        } catch { /* sous-page injoignable */ }
+      }
+    }
+    if (process.env.CONTEXTE === "photos" && photosVues === "non") {
+      console.log(`   ↳ ${id} demandées : ${photos.map(empreinte).join(", ") || "aucune"}`);
+      console.log(`   ↳ ${id} chargées  : ${images.filter((u) => /http|_next/.test(u)).slice(0, 4).join(" ").slice(0, 220) || "aucune"}`);
+    }
 
     fiches.push({
       id, manquent: obligatoires, affiches, restes: [...new Set(restes)],

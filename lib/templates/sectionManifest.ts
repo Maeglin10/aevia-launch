@@ -4,7 +4,7 @@
 // source, le type de champ à lui présenter, et un aperçu du texte d'origine qui
 // sert d'étiquette dans le panneau d'édition.
 //
-// 2210 retouches possibles sur 371 thèmes.
+// 2235 retouches possibles sur 371 thèmes.
 
 export interface RetouchePossible {
   /** La clé lue par le thème : « contact.titre ». */
@@ -47,6 +47,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "{accent && ( )}"
     },
     {
+      "cle": "section-12.texte",
+      "type": "texte",
+      "apercu": "Written by the IMPACT Studio team. Provided for informationa"
+    },
+    {
       "cle": "section-15.titre",
       "type": "texte",
       "apercu": "What guides us."
@@ -75,6 +80,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "about.liste1",
       "type": "liste",
       "apercu": "Strategic Thinking · Pixel Perfection · Clean Code"
+    },
+    {
+      "cle": "bloc-116043.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-02": [
@@ -123,7 +133,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.texte",
       "type": "texte",
-      "apercu": "Garments that speak in silence. Each piece considered from f"
+      "apercu": ""
     },
     {
       "cle": "collection.texte",
@@ -1151,6 +1161,16 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "The Collection"
     },
     {
+      "cle": "section-4.texte",
+      "type": "texte",
+      "apercu": "Pure Botanical Extracts"
+    },
+    {
+      "cle": "section-4.texte-2",
+      "type": "texte",
+      "apercu": "Olfactory Architecture"
+    },
+    {
       "cle": "science.titre",
       "type": "texte",
       "apercu": "Molecular Sourcing"
@@ -2107,6 +2127,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-150": [
     {
+      "cle": "practice-areas.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "landmark-cases.titre",
       "type": "texte",
       "apercu": "Cases that shaped the law."
@@ -2367,6 +2392,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Œuvres sélectionnées"
     },
     {
+      "cle": "section-3.texte",
+      "type": "texte",
+      "apercu": "Partenaires & Diffusions"
+    },
+    {
       "cle": "section-6.titre",
       "type": "texte",
       "apercu": "Capturer le temps suspendu."
@@ -2505,6 +2535,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "hero.texte",
       "type": "texte",
       "apercu": "Branding, web, campagnes, direction artistique. On ne fait p"
+    },
+    {
+      "cle": "services.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "hero.liste1",
@@ -2665,6 +2700,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "–15% sur votre première commande."
     },
     {
+      "cle": "section-12.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "section-17.titre",
       "type": "texte",
       "apercu": "Un savoir-faire qui se transmet."
@@ -2688,6 +2728,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "bloc.liste1",
       "type": "liste",
       "apercu": "Camera · MessageSquare · Link2"
+    },
+    {
+      "cle": "bloc-110322.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-169": [
@@ -3832,6 +3877,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Témoignages"
     },
     {
+      "cle": "section-8.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Commençons"
@@ -4000,6 +4050,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "section-4.titre",
       "type": "texte",
       "apercu": "Du brief au lancement"
+    },
+    {
+      "cle": "section-5.texte",
+      "type": "texte",
+      "apercu": "Ils nous ont fait confiance"
     },
     {
       "cle": "section-6.titre",
@@ -4316,6 +4371,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-217": [
     {
+      "cle": "section-2.texte",
+      "type": "texte",
+      "apercu": "The Anatomy"
+    },
+    {
       "cle": "drops.titre",
       "type": "texte",
       "apercu": "This season s forged icons"
@@ -4379,6 +4439,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     }
   ],
   "impact-219": [
+    {
+      "cle": "realisations.texte",
+      "type": "texte",
+      "apercu": "PLUS DE 4 000 ÉQUIPES NOUS FONT CONFIANCE"
+    },
     {
       "cle": "features.titre",
       "type": "texte",
@@ -4815,6 +4880,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Mentions légales"
     },
     {
+      "cle": "section-27.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "bloc.liste1",
       "type": "liste",
       "apercu": ",  · écriture (partenariats Moulin d · , "
@@ -4948,6 +5018,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "section-2.texte",
       "type": "texte",
       "apercu": "Un vêtement sur mesure ne se porte pas — il se vit. Il conna"
+    },
+    {
+      "cle": "collections.texte",
+      "type": "texte",
+      "apercu": "Les collections"
     },
     {
       "cle": "section-5.titre",
@@ -6793,6 +6868,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "section-5.titre",
       "type": "texte",
       "apercu": "Experience"
+    },
+    {
+      "cle": "section-6.texte",
+      "type": "texte",
+      "apercu": "// by_the_numbers"
     },
     {
       "cle": "section-8.titre",
@@ -10560,6 +10640,16 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-53": [
     {
+      "cle": "work.texte",
+      "type": "texte",
+      "apercu": "SELECTED PORTFOLIO"
+    },
+    {
+      "cle": "work.texte-2",
+      "type": "texte",
+      "apercu": "PROJECTS"
+    },
+    {
       "cle": "bloc.liste1",
       "type": "liste",
       "apercu": "PHANTOM · ATLAS CO. · NOVA SYS"
@@ -10651,9 +10741,29 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "section-6.titre",
       "type": "texte",
       "apercu": "Nous sommes une équipe d'obsédés. 12 ans à repousser les lim"
+    },
+    {
+      "cle": "section-7.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "section-7.texte-2",
+      "type": "texte",
+      "apercu": ""
     }
   ],
   "impact-58": [
+    {
+      "cle": "section-2.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "section-6.texte",
+      "type": "texte",
+      "apercu": ""
+    },
     {
       "cle": "section-7.titre",
       "type": "texte",
@@ -11109,6 +11219,16 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "section-2.titre",
       "type": "texte",
       "apercu": "Selected Work."
+    },
+    {
+      "cle": "section-3.texte",
+      "type": "texte",
+      "apercu": "MANIFESTO // CORE_DOCTRINE"
+    },
+    {
+      "cle": "section-3.texte-2",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "section-4.titre",
@@ -11781,6 +11901,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     }
   ],
   "impact-99": [
+    {
+      "cle": "hero.texte",
+      "type": "texte",
+      "apercu": ""
+    },
     {
       "cle": "section-2.titre",
       "type": "texte",

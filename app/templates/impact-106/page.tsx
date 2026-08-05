@@ -197,7 +197,7 @@ export default function StudioVersaPage() {
       title: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
       client: PROJECTS_DEMO[i % PROJECTS_DEMO.length].client,
       type: PROJECTS_DEMO[i % PROJECTS_DEMO.length].type,
-      img: b.afterUrl ?? b.beforeUrl ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
+      img: b.afterUrl || b.beforeUrl || PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
       year: PROJECTS_DEMO[i % PROJECTS_DEMO.length].year,
     })),
     PROJECTS_DEMO

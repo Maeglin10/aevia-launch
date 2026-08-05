@@ -250,7 +250,7 @@ export default function NovaSpacesPage() {
       category: PROJECTS_DEMO[i % PROJECTS_DEMO.length].category,
       location: b.location ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].location,
       desc: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].desc,
-      img: b.afterUrl ?? b.beforeUrl ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
+      img: b.afterUrl || b.beforeUrl || PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
     })),
     PROJECTS_DEMO
   );

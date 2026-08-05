@@ -929,7 +929,7 @@ function ProgressDot({
 function CollectionSequence() {
   const COLLECTIONS = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
-      img: b.afterUrl ?? b.beforeUrl ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].img,
+      img: b.afterUrl || b.beforeUrl || COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].img,
       index: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].index,
       label: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].label,
       caption: b.caption ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].caption,
