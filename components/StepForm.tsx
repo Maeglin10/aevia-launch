@@ -31,6 +31,11 @@ const REGISTRY_BY_ID = Object.fromEntries(
 
 const TOTAL_STEPS = 7;
 
+/** Le nom de chaque étape, dans l'ordre où le client les traverse. */
+const NOMS_ETAPES = (t: StepFormStrings) => [
+  t.s1Title, t.s2Title, t.s3Title, t.s4Title, t.s5Title, t.s6Title, t.s7Title,
+];
+
 // ─── i18n ────────────────────────────────────────────────────────────────────
 // UI chrome translations. Template *labels* stay as product names; their
 // descriptions, category names, business types, tones, field labels,
@@ -47,6 +52,7 @@ type StepFormStrings = {
   s5Title: string; s5Sub: string;
   s6Title: string;
   s7Title: string; s7Sub: string;
+  stepCount: string;
   fBusinessName: string; fWhatYouDo: string; fCity: string;
   fMainService: string; fBenefits: string; fPriceRange: string;
   fTargetAudience: string; phTargetAudience: string;
@@ -78,7 +84,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s3Title: "Votre entreprise",
     s4Title: "Votre offre", s4SectorSub: "Ces questions permettent d'adapter le contenu à votre métier.",
     s5Title: "Vos visuels", s5Sub: "Ajoutez votre logo et des photos pour personnaliser votre site.",
-    s6Title: "Presque fini !",
+    s6Title: "Presque fini !", stepCount: "étape {n} sur {total}",
     s7Title: "Informations légales", s7Sub: "Pour générer vos mentions légales et CGV automatiquement. Tout est optionnel.",
     fBusinessName: "Nom de l'entreprise", fWhatYouDo: "Ce que vous faites", fCity: "Ville",
     fMainService: "Service principal", fBenefits: "3 avantages clés", fPriceRange: "Gamme de prix",
@@ -111,7 +117,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s3Title: "Your business",
     s4Title: "Your offer", s4SectorSub: "These questions help tailor the content to your profession.",
     s5Title: "Your visuals", s5Sub: "Add your logo and photos to personalise your site.",
-    s6Title: "Almost there!",
+    s6Title: "Almost there!", stepCount: "step {n} of {total}",
     s7Title: "Legal information", s7Sub: "To auto-generate your legal notice and terms of sale. Everything is optional.",
     fBusinessName: "Business name", fWhatYouDo: "What you do", fCity: "City",
     fMainService: "Main service", fBenefits: "3 key benefits", fPriceRange: "Price range",
@@ -144,7 +150,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s3Title: "Tu negocio",
     s4Title: "Tu oferta", s4SectorSub: "Estas preguntas permiten adaptar el contenido a tu profesión.",
     s5Title: "Tus visuales", s5Sub: "Añade tu logo y fotos para personalizar tu sitio.",
-    s6Title: "¡Casi listo!",
+    s6Title: "¡Casi listo!", stepCount: "paso {n} de {total}",
     s7Title: "Información legal", s7Sub: "Para generar automáticamente tu aviso legal y condiciones de venta. Todo es opcional.",
     fBusinessName: "Nombre del negocio", fWhatYouDo: "Qué haces", fCity: "Ciudad",
     fMainService: "Servicio principal", fBenefits: "3 beneficios clave", fPriceRange: "Rango de precios",
@@ -177,7 +183,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s3Title: "Ihr Unternehmen",
     s4Title: "Ihr Angebot", s4SectorSub: "Diese Fragen ermöglichen es, den Inhalt auf Ihren Beruf abzustimmen.",
     s5Title: "Ihre Bilder", s5Sub: "Fügen Sie Ihr Logo und Fotos hinzu, um Ihre Website zu personalisieren.",
-    s6Title: "Fast geschafft!",
+    s6Title: "Fast geschafft!", stepCount: "Schritt {n} von {total}",
     s7Title: "Rechtliche Angaben", s7Sub: "Zur automatischen Erstellung von Impressum und AGB. Alles optional.",
     fBusinessName: "Firmenname", fWhatYouDo: "Was Sie tun", fCity: "Stadt",
     fMainService: "Hauptleistung", fBenefits: "3 Vorteile", fPriceRange: "Preisspanne",
@@ -210,7 +216,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s3Title: "O seu negócio",
     s4Title: "A sua oferta", s4SectorSub: "Estas perguntas permitem adaptar o conteúdo à sua profissão.",
     s5Title: "Os seus visuais", s5Sub: "Adicione o seu logotipo e fotos para personalizar o seu site.",
-    s6Title: "Quase lá!",
+    s6Title: "Quase lá!", stepCount: "passo {n} de {total}",
     s7Title: "Informações legais", s7Sub: "Para gerar automaticamente seus avisos legais e termos de venda. Tudo é opcional.",
     fBusinessName: "Nome do negócio", fWhatYouDo: "O que faz", fCity: "Cidade",
     fMainService: "Serviço principal", fBenefits: "3 benefícios", fPriceRange: "Faixa de preço",
@@ -663,6 +669,19 @@ export function StepForm() {
         ))}
       </div>
 
+      {/*
+        Sept pastilles numérotées ne disent pas ce qui attend le client. Le nom
+        de l'étape en cours, et le compte, lui montrent où il en est et ce qu'il
+        lui reste — deux chiffres qui décident de continuer ou de fermer.
+      */}
+      <p className="mt-3 mb-6 text-center text-sm text-zinc-400">
+        <span className="text-zinc-300 font-medium">{NOMS_ETAPES(t)[step - 1]}</span>
+        <span className="mx-2 text-zinc-600">·</span>
+        {t.stepCount.replace("{n}", String(step)).replace("{total}", String(TOTAL_STEPS))}
+      </p>
+
+      {/* La barre d'action flotte au-dessus du contenu : la dernière ligne du
+          formulaire doit rester atteignable en dessous. */}
       {/* Step content */}
       <AnimatePresence mode="wait">
         <motion.div
@@ -1201,7 +1220,7 @@ export function StepForm() {
         colle donc au bas de l'écran sur mobile, comme dans tout tunnel d'achat,
         et redevient une simple ligne dès qu'il y a de la place.
       */}
-      <div className="flex items-center justify-between gap-3 mt-6 max-sm:fixed max-sm:inset-x-0 max-sm:bottom-0 max-sm:z-40 max-sm:mt-0 max-sm:border-t max-sm:border-zinc-800 max-sm:bg-[#09090b]/95 max-sm:px-5 max-sm:py-4 max-sm:backdrop-blur">
+      <div className="sticky bottom-0 z-40 -mx-5 mt-10 flex items-center justify-between gap-3 border-t border-zinc-800/80 bg-[#09090b]/95 px-5 py-4 backdrop-blur sm:mx-0 sm:rounded-2xl sm:border sm:px-5">
         {(step > 1 || (step === 1 && industryPhase === "specialty" && form.industry !== "other")) ? (
           <button
             onClick={() => {
