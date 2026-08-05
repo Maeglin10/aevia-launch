@@ -3,6 +3,7 @@ import {
   clientAddress,
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -379,14 +380,14 @@ export default function CreativePortfolioSPA() {
           </motion.div>
 
           <div className="overflow-hidden mb-2">
-            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.7 }} className="text-7xl sm:text-8xl md:text-[10rem] lg:text-[12rem] font-extralight tracking-[-0.04em] leading-[0.85]">{c?.heroHeadline ?? <>
+            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.7 }} className="text-7xl sm:text-8xl md:text-[10rem] lg:text-[12rem] font-extralight tracking-[-0.04em] leading-[0.85]">{c?.heroHeadline ?? <>{clientHeroLine(sessionData, 0, 2, 5) ?? (<>
               Elena
-            </>}</motion.h1>
+            </>)}</>}</motion.h1>
           </div>
           <div className="overflow-hidden mb-12">
-            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.85 }} className="text-7xl sm:text-8xl md:text-[10rem] lg:text-[12rem] font-black tracking-[-0.04em] leading-[0.85] italic">
+            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.85 }} className="text-7xl sm:text-8xl md:text-[10rem] lg:text-[12rem] font-black tracking-[-0.04em] leading-[0.85] italic">{clientHeroLine(sessionData, 1, 2, 5) ?? (<>
               Korr<span className="text-amber-400">.</span>
-            </motion.h1>
+            </>)}</motion.h1>
           </div>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }} className="text-base md:text-xl text-white/50 max-w-2xl mx-auto leading-relaxed font-light">{fd?.tagline ?? c?.heroSubline ?? <>

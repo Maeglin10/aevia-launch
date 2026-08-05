@@ -38,6 +38,7 @@ import {
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -870,9 +871,9 @@ return (
               color: C.text,
               marginBottom: 8,
             }}
-          >{c?.heroHeadline ?? <>
+          >{c?.heroHeadline ?? <>{clientHeroLine(sessionData, 0, 2, 6) ?? (<>
             INK
-          </>}</motion.h1>
+          </>)}</>}</motion.h1>
           <motion.div
             initial={{ opacity: 0, scaleX: 0 }}
             animate={{ opacity: 1, scaleX: 1 }}
@@ -896,9 +897,9 @@ return (
               color: C.accent,
               marginBottom: 40,
             }}
-          >
+          >{clientHeroLine(sessionData, 1, 2, 6) ?? (<>
             & IRON
-          </motion.h1>
+          </>)}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0 }}

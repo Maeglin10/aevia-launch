@@ -17,14 +17,60 @@ import { searchPixabayImages } from "@/lib/stock-media/pixabay";
 
 export const runtime = "nodejs";
 
+/*
+  Les banques d'images indexent en anglais. « plombier » y ramenait un cimetière
+  militaire, « avocat » des fruits, « traiteur » n'importe quoi : le premier
+  élément visuel du site du client tenait à un hasard de traduction. On envoie
+  donc le terme anglais du métier, et l'on ajoute le mot qui cadre la scène —
+  « at work », « shop », « interior » — pour écarter les portraits d'illustration.
+*/
+const METIER_EN: Record<string, string> = {
+  plombier: "plumber at work", electricien: "electrician at work",
+  coiffeur: "hair salon interior", barbier: "barber shop",
+  avocat: "law office lawyer", notaire: "notary office",
+  comptable: "accountant office desk", restaurateur: "restaurant interior",
+  restaurant: "restaurant interior", boulangerie: "bakery bread shop",
+  brasserie: "brasserie interior", caviste: "wine shop",
+  photographe: "photographer camera studio", architecte: "architecture studio model",
+  "kinésithérapeute": "physiotherapy treatment", kine: "physiotherapy treatment",
+  "ostéopathe": "osteopathy treatment", osteo: "osteopathy treatment",
+  fleuriste: "flower shop florist", medecin: "doctor consultation",
+  "médecin": "doctor consultation", dentiste: "dental practice",
+  veterinaire: "veterinary clinic", "vétérinaire": "veterinary clinic",
+  pharmacie: "pharmacy interior", opticien: "optician eyewear store",
+  infirmier: "nurse care", laboratoire: "medical laboratory",
+  podologue: "podiatry care", paysagiste: "landscape gardener garden",
+  menuisier: "carpenter workshop wood", couvreur: "roofer roof work",
+  peintre: "house painter wall", serrurier: "locksmith door",
+  macon: "mason bricklayer construction", "maçon": "mason bricklayer construction",
+  carreleur: "tiler tiles floor", jardinier: "gardener garden",
+  toiletteur: "dog grooming salon", tatoueur: "tattoo studio",
+  couture: "sewing atelier fabric", bijouterie: "jewellery shop",
+  mariage: "wedding celebration", coach: "personal trainer gym",
+  menage: "house cleaning service", demenageur: "moving company boxes",
+  pressing: "dry cleaning shop", securite: "security guard",
+  formation: "training classroom", creche: "nursery children",
+  vtc: "private driver car", vitrier: "glazier window",
+  pisciniste: "swimming pool construction", cuisiniste: "kitchen showroom",
+  hotel: "hotel room interior", producteur: "local farm produce",
+  esthetique: "beauty salon treatment", naturopathe: "naturopathy herbs",
+};
+
+/** Le terme envoyé aux banques : l'anglais du métier, à défaut ce qu'on a reçu. */
+function requeteUtile(q: string): string {
+  const clef = q.toLowerCase().trim();
+  return METIER_EN[clef] ?? q;
+}
+
 export async function GET(req: NextRequest) {
   const q = (req.nextUrl.searchParams.get("q") ?? "").trim();
   const n = Math.min(Number(req.nextUrl.searchParams.get("n") ?? 12), 30);
   if (!q) return NextResponse.json({ images: [] });
 
+  const terme = requeteUtile(q);
   const [pexels, pixabay] = await Promise.allSettled([
-    searchPexelsImages(q, { perPage: n }),
-    searchPixabayImages(q, { perPage: n }),
+    searchPexelsImages(terme, { perPage: n }),
+    searchPixabayImages(terme, { perPage: n }),
   ]);
 
   const dePexels =

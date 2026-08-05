@@ -2,6 +2,7 @@
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientHours,
   clientName,
   clientPhotos,
@@ -926,9 +927,9 @@ return (
                 letterSpacing: "-0.02em",
                 margin: 0,
               }}
-            >{c?.heroHeadline ?? <>
+            >{c?.heroHeadline ?? <>{clientHeroLine(sessionData, 0, 2, 10) ?? (<>
               Cucina
-            </>}</motion.h1>
+            </>)}</>}</motion.h1>
           </div>
           <div style={{ overflow: "hidden", marginBottom: 36 }}>
             <motion.h1
@@ -945,9 +946,9 @@ return (
                 letterSpacing: "-0.02em",
                 margin: 0,
               }}
-            >
+            >{clientHeroLine(sessionData, 1, 2, 10) ?? (<>
               Autentica.
-            </motion.h1>
+            </>)}</motion.h1>
           </div>
 
           <motion.p
