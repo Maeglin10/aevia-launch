@@ -20,6 +20,8 @@ import {
 } from "./shared";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -169,13 +171,10 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <h1 className="text-5xl sm:text-6xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12 break-words">{c?.heroHeadline ?? <>
-              The Art of <br />{" "}
-              <span className="italic font-normal text-[var(--brand,#c9b7a1)]">
-                Precision.
-              </span>
+            <h1 className="text-5xl sm:text-6xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12 break-words">{<>{clientHeroLine(sessionData, 0, 2, 10) ?? "The Art of"}<br />{" "}
+              <span className="italic font-normal text-[var(--brand,#c9b7a1)]">{clientHeroLine(sessionData, 1, 2, 10) ?? "Precision."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-[#1a1814]/40 leading-relaxed font-light mb-12 italic">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-[#1a1814]/40 leading-relaxed font-light mb-12 italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Un sanctuaire dédié à la beauté structurelle. Onglerie, regard et
               rituels visage conçus comme des œuvres d'art.
             </>}</p>

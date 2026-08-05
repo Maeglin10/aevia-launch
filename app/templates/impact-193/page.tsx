@@ -9,6 +9,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientPhotos,
@@ -234,12 +236,11 @@ export default function OsteoGaiaPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[84px] font-bold leading-[0.9] tracking-tight mb-7 text-[#f5f0e8]" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{c?.heroHeadline ?? <>
-            Retrouvez l'équilibre<br /><span className="text-[var(--brand,#c26b4c)] italic">de votre corps.</span>
+            className="text-5xl md:text-7xl lg:text-[84px] font-bold leading-[0.9] tracking-tight mb-7 text-[#f5f0e8]" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 21) ?? "Retrouvez l'équilibre"}<br /><span className="text-[var(--brand,#c26b4c)] italic">{clientHeroLine(sessionData, 1, 2, 21) ?? "de votre corps."}</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-md text-sm text-[#f5f0e8]/30 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-md text-sm text-[#f5f0e8]/30 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Cabinet d'ostéopathie à Montpellier. Douleurs du dos, nourrissons, sportifs, grossesse. Approche globale, douce et personnalisée. Prise en charge mutuelle partielle.
           </>}</motion.p>
 

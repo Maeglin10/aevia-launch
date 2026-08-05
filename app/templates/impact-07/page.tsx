@@ -16,6 +16,8 @@ import { Volume2, Music, Mic2, Disc, Waves, Globe, Mail, MapPin, ChevronRight, A
 import "../premium.css";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -309,10 +311,9 @@ export default function AetherSoundPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <Reveal>
-             <h1 className="text-5xl sm:text-6xl md:text-[14rem] font-black leading-[0.9] md:leading-[0.75] tracking-tight md:tracking-tighter mb-12 uppercase text-white italic break-words">{c?.heroHeadline ?? <>
-               The <br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Silence.</span>
+             <h1 className="text-5xl sm:text-6xl md:text-[14rem] font-black leading-[0.9] md:leading-[0.75] tracking-tight md:tracking-tighter mb-12 uppercase text-white italic break-words">{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "The"}<br/> <span className="text-[var(--brand,#c9a84c)] not-italic">{clientHeroLine(sessionData, 1, 2, 8) ?? "Silence."}</span>
              </>}</h1>
-             <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{fd?.tagline ?? c?.heroSubline ?? <>
+             <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                Redefining the threshold of hearing. Precision sonic instruments for the world's most discerning ears.
              </>}</p>
              <div className="flex flex-col sm:flex-row gap-6">

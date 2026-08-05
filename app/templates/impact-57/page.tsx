@@ -20,6 +20,8 @@ import {
 } from './shared';
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1076,11 +1078,11 @@ return (
                   color: C.text,
                   marginBottom: '1.5rem',
                 }}
-              >{c?.heroHeadline ?? <>
-                <MaskedTitle text="We Build" delay={0.3} />
-                <MaskedTitle text="Brands That" delay={0.4} />
+              >{<>
+                <MaskedTitle text={clientHeroLine(sessionData, 0, 3, 12) ?? "We Build"} delay={0.3} />
+                <MaskedTitle text={clientHeroLine(sessionData, 1, 3, 12) ?? "Brands That"} delay={0.4} />
                 <span style={{ color: C.accent }}>
-                  <MaskedTitle text="Break Rules." delay={0.5} />
+                  <MaskedTitle text={clientHeroLine(sessionData, 2, 3, 12) ?? "Break Rules."} delay={0.5} />
                 </span>
               </>}</h1>
               <p
@@ -1091,7 +1093,7 @@ return (
                   lineHeight: 1.8,
                   maxWidth: '45ch',
                 }}
-              >{fd?.tagline ?? c?.heroSubline ?? <>
+              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Studio créatif spécialisé dans les identités de marque disruptives, le motion design et les expériences digitales immersives.
               </>}</p>
             </div>

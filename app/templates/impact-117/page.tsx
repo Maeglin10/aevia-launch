@@ -9,6 +9,8 @@ import { Truck, ArrowRight, Menu, Zap, Globe, Shield, BarChart3, Clock, Package,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -196,12 +198,11 @@ export default function VoltLogisticsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
                 <Reveal delay={0.1}>
-                  <h1 className="text-7xl md:text-[9rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-10">{c?.heroHeadline ?? <>
-                    The Speed<br/>Of <span className="text-[var(--brand,#ffb400)]">Light.</span>
+                  <h1 className="text-7xl md:text-[9rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-10">{<>{clientHeroLine(sessionData, 0, 3, 9) ?? "The Speed"}<br/>{clientHeroLine(sessionData, 1, 3, 9) ?? "Of"}<span className="text-[var(--brand,#ffb400)]">{clientHeroLine(sessionData, 2, 3, 9) ?? "Light."}</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.25}>
-                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
+                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                     Autonomous, all-electric, and AI-driven logistics. We don't just deliver packages; we engineer time and efficiency.
                   </>}</p>
                 </Reveal>

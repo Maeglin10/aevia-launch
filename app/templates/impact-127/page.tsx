@@ -10,6 +10,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -271,12 +273,11 @@ export default function PulseEventsPage() {
 
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
             <Reveal delay={0.1} y={70}>
-              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] mb-10 uppercase">{c?.heroHeadline ?? <>
-                Feel<br/>The <span className="text-[var(--brand,#ec4899)]">Pulse.</span>
+              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] mb-10 uppercase">{<>{clientHeroLine(sessionData, 0, 3, 6) ?? "Feel"}<br/>{clientHeroLine(sessionData, 1, 3, 6) ?? "The"}<span className="text-[var(--brand,#ec4899)]">{clientHeroLine(sessionData, 2, 3, 6) ?? "Pulse."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.25}>
-              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Curated live music experiences in the world's most iconic venues. Electronic, orchestral, indie — all unforgettable.
               </>}</p>
             </Reveal>

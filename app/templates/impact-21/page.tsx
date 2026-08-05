@@ -10,6 +10,8 @@ import { Menu, X, ArrowRight, Layers, Cpu, Package, Eye, ChevronRight, Globe, Aw
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -391,13 +393,12 @@ return (
             </motion.div>
             <div className="max-w-6xl mx-auto w-full relative z-10">
               <Reveal delay={0.1}>
-                <h1 className="text-gray-900 text-6xl md:text-8xl font-bold leading-none mb-8">{c?.heroHeadline ?? <>
-                  Design<br />
-                  <em className="font-light text-[var(--brand,#F97316)]">qui dure.</em>
+                <h1 className="text-gray-900 text-6xl md:text-8xl font-bold leading-none mb-8">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Design"}<br />
+                  <em className="font-light text-[var(--brand,#F97316)]">{clientHeroLine(sessionData, 1, 2, 9) ?? "qui dure."}</em>
                 </>}</h1>
               </Reveal>
               <Reveal delay={0.2}>
-                <p className="text-gray-500 text-xl max-w-lg leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="text-gray-500 text-xl max-w-lg leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   Packaging, mobilier, objets tech. Forme Studio crée des produits qui se distinguent, se vendent, et résistent au temps.
                 </>}</p>
               </Reveal>

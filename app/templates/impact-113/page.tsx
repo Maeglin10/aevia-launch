@@ -19,6 +19,8 @@ import "../premium.css";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientReviews,
@@ -409,11 +411,8 @@ export default function NexusSaaSPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[1.1] mb-8"
-          >{c?.heroHeadline ?? <>
-            Infrastructure for the <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#a78bfa)] via-fuchsia-300 to-indigo-400">
-              Next Generation.
-            </span>
+          >{<>{clientHeroLine(sessionData, 0, 2, 22) ?? "Infrastructure for the"}<br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#a78bfa)] via-fuchsia-300 to-indigo-400">{clientHeroLine(sessionData, 1, 2, 22) ?? "Next Generation."}</span>
           </>}</motion.h1>
 
           <motion.p
@@ -421,7 +420,7 @@ export default function NexusSaaSPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-12 leading-relaxed"
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Build, deploy, and scale globally distributed applications in
             seconds. We handle the infrastructure complexity so you can focus on
             writing code.

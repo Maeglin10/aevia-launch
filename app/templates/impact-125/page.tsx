@@ -8,6 +8,8 @@ import { Rocket, ArrowRight, Menu, Globe, Shield, Satellite, Zap, Radio, Chevron
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -212,12 +214,11 @@ export default function AstrumReachPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
                 <Reveal delay={0.1} y={60}>
-                  <h1 className="text-6xl md:text-[9rem] font-light tracking-tighter leading-[0.8] uppercase mb-12">{c?.heroHeadline ?? <>
-                    Infinite <br/> <span className="text-[var(--brand,#06b6d4)] font-bold">Horizon.</span>
+                  <h1 className="text-6xl md:text-[9rem] font-light tracking-tighter leading-[0.8] uppercase mb-12">{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "Infinite"}<br/> <span className="text-[var(--brand,#06b6d4)] font-bold">{clientHeroLine(sessionData, 1, 2, 8) ?? "Horizon."}</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">{fd?.tagline ?? c?.heroSubline ?? <>
+                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                     Reliable, cost-effective orbital transport for the next generation of space exploration. From LEO to deep space, we bridge the gap.
                   </>}</p>
                 </Reveal>

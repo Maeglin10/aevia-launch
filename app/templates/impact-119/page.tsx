@@ -9,6 +9,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientReviews,
   clientServices,
@@ -182,12 +184,11 @@ return (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
               <div>
                 <Reveal delay={0.1} y={60}>
-                  <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8">{c?.heroHeadline ?? <>
-                    Deploy<br/>Without<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-blue-500">Limits.</span>
+                  <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "Deploy"}<br/>{clientHeroLine(sessionData, 1, 3, 7) ?? "Without"}<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-blue-500">{clientHeroLine(sessionData, 2, 3, 7) ?? "Limits."}</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
-                  <p className="text-xl text-slate-400 font-light max-w-lg leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+                  <p className="text-xl text-slate-400 font-light max-w-lg leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                     High-performance cloud infrastructure designed for modern engineering teams. Bare metal performance with serverless ease.
                   </>}</p>
                 </Reveal>

@@ -7,6 +7,8 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { ArrowRight, MapPin, Mail, Phone, Clock, Star, CheckCircle, Calendar } from "lucide-react"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -256,12 +258,11 @@ export default function CabinetKinePage() {
 
         <motion.div className="imx-hero196-content" style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(42px, 5.5vw, 76px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
-            Retrouver le mouvement,<br /><em>retrouver la vie.</em>
+            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(42px, 5.5vw, 76px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{<>{clientHeroLine(sessionData, 0, 2, 23) ?? "Retrouver le mouvement,"}<br /><em>{clientHeroLine(sessionData, 1, 2, 23) ?? "retrouver la vie."}</em>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Kiné Mouvement accompagne chaque patient avec une approche personnalisée et bienveillante. Rééducation orthopédique, neurologique, sportive et respiratoire — nous sommes là à chaque étape.
           </>}</motion.p>
 

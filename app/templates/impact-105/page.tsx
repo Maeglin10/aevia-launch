@@ -7,6 +7,8 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight } from "lucide-react"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -307,12 +309,11 @@ export default function AtelierBloomPage() {
 
         <motion.div className="i105-hero-inner" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(42px, 5.5vw, 72px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
-            La beauté du vivant,<br /><em>dans chaque bouquet.</em>
+            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(42px, 5.5vw, 72px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{<>{clientHeroLine(sessionData, 0, 2, 20) ?? "La beauté du vivant,"}<br /><em>{clientHeroLine(sessionData, 1, 2, 20) ?? "dans chaque bouquet."}</em>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Créations florales sur mesure pour vos moments de vie — mariages, anniversaires, deuils et décoration. Fleurs fraîches de saison, sourçage local, passion artisanale.
           </>}</motion.p>
 

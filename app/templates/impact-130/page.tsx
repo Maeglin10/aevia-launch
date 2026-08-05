@@ -663,7 +663,7 @@ export default function Impact130Page() {
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,
   );
-  STATS = resolveList(clientStats(session), STATS_DEMO);
+  STATS = resolveList(clientStats(session)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, "") })), STATS_DEMO);
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
     ...row,
     image: clientPhotos(session)[0 + i] || row.image,

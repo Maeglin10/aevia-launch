@@ -19,6 +19,8 @@ import { ArrowRight, ArrowUpRight, Play, Maximize, X, Globe, ArrowDown, Sparkles
 import "../premium.css";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -388,11 +390,7 @@ export default function TextRevealPage() {
           >
             {/* The white background with black text creates the mask effect via mix-blend-multiply */}
             <div className="w-full h-full bg-white flex items-center justify-center">
-              <h1 className="text-[15vw] font-black tracking-tighter text-black leading-none text-center">{c?.heroHeadline ?? <>
-                DIGITAL
-                <br />
-                REALITY
-              </>}</h1>
+              <h1 className="text-[15vw] font-black tracking-tighter text-black leading-none text-center">{<>{clientHeroLine(sessionData, 0, 2, 7) ?? "DIGITAL"}<br />{clientHeroLine(sessionData, 1, 2, 7) ?? "REALITY"}</>}</h1>
             </div>
           </motion.div>
 
@@ -431,7 +429,7 @@ export default function TextRevealPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-zinc-400 text-xl font-light leading-relaxed">
             <Reveal delay={0.2}>
-              <p>{fd?.tagline ?? c?.heroSubline ?? <>
+              <p>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 In a sea of templates and infinite scrolling, user attention is
                 the most valuable currency. We believe that true digital luxury
                 isn't about minimalism—it's about intentional friction and

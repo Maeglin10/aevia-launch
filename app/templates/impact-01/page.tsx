@@ -32,6 +32,8 @@ import {
 } from "lucide-react";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientList,
   clientName,
@@ -1232,9 +1234,7 @@ return (
                 margin: 0,
                 color: T.text,
               }}
-            >{c?.heroHeadline ?? <>
-              We build the
-            </>}</motion.h1>
+            >{<>{clientHeroLine(sessionData, 0, 1, 12) ?? "We build the"}</>}</motion.h1>
           </div>
 
           <div style={{ overflow: "hidden", paddingBottom: 16, marginBottom: 16 }}>
@@ -1274,7 +1274,7 @@ return (
               maxWidth: 600,
               margin: "0 auto 56px",
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Full-service creative studio crafting immersive digital experiences,
             brand identities, and high-performance products for ambitious brands.
           </>}</motion.p>

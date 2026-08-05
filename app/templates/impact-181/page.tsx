@@ -9,6 +9,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -286,12 +288,11 @@ export default function ToitPierrePiscinesPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.88] tracking-tight mb-9 text-white">{c?.heroHeadline ?? <>
-            La piscine de vos<br />rêves, entre<br /><span className="text-[#fca5a5]">de bonnes mains.</span>
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.88] tracking-tight mb-9 text-white">{<>{clientHeroLine(sessionData, 0, 3, 17) ?? "La piscine de vos"}<br />{clientHeroLine(sessionData, 1, 3, 17) ?? "rêves, entre"}<br /><span className="text-[#fca5a5]">{clientHeroLine(sessionData, 2, 3, 17) ?? "de bonnes mains."}</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Construction, rénovation, sécurité, couverture et entretien de piscines. Pisciniste qualifié depuis 20 ans. Devis gratuit, garantie décennale.
           </>}</motion.p>
 

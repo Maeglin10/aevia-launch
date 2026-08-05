@@ -20,6 +20,8 @@ import {
 } from "framer-motion"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientReviews,
   clientServices,
   clientStats,
@@ -631,13 +633,13 @@ function HeroSection() {
           }}
         >
           <span style={{ display: "block" }}>
-            <HeroWordReveal text="Authority" />
+            <HeroWordReveal text={clientHeroLine(sessionData, 0, 3, 13) ?? "Authority"} />
           </span>
           <span style={{ display: "block", fontStyle: "italic", fontWeight: 300 }}>
-            <HeroWordReveal text="in every" />
+            <HeroWordReveal text={clientHeroLine(sessionData, 1, 3, 13) ?? "in every"} />
           </span>
           <span style={{ display: "block" }}>
-            <HeroWordReveal text="jurisdiction." />
+            <HeroWordReveal text={clientHeroLine(sessionData, 2, 3, 13) ?? "jurisdiction."} />
           </span>
         </h1>
 
@@ -658,7 +660,7 @@ function HeroSection() {
           animate={{ opacity: 0.8, y: 0 }}
           transition={{ duration: 1, delay: 0.9 }}
         >
-          {clientTagline(sessionData) ?? "For over a century, Alderton & Sterling has represented sovereign governments, global corporations, and ultra-high-net-worth families in the most consequential legal matters of the age."}
+          {clientHeroSubtitle(sessionData) ?? "For over a century, Alderton & Sterling has represented sovereign governments, global corporations, and ultra-high-net-worth families in the most consequential legal matters of the age."}
         </motion.p>
 
         {/* CTA row */}

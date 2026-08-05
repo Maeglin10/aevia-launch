@@ -12,6 +12,8 @@ import { ArrowRight, Zap, Users, TrendingUp, Globe, CheckCircle, ChevronDown, Ro
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientPhotos,
@@ -310,16 +312,15 @@ return (
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
                 className="text-6xl md:text-8xl font-bold leading-[1.0] mb-6"
-              >{c?.heroHeadline ?? <>
-                From idea to<br />
-                <span className="text-[var(--brand,#A3E635)]">funded startup.</span>
+              >{<>{clientHeroLine(sessionData, 0, 2, 15) ?? "From idea to"}<br />
+                <span className="text-[var(--brand,#A3E635)]">{clientHeroLine(sessionData, 1, 2, 15) ?? "funded startup."}</span>
               </>}</motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-xl text-white/60 max-w-2xl mb-10 leading-relaxed"
-              >{fd?.tagline ?? c?.heroSubline ?? <>
+              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Zero to One is a 12-week accelerator for pre-seed founders. We invest €500K, open our network, and help you build the company you imagined.
               </>}</motion.p>
               <motion.div

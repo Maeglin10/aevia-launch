@@ -10,6 +10,8 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, TrendingUp, BarChart3, Globe, Users, ChevronRight, Building2, DollarSign, Award, Mail, Phone, Calendar, Send } from "lucide-react";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -275,12 +277,10 @@ return (
                   <p className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-6">Venture Capital — {clientCity({ formData: fd }) ?? "Paris"} · Berlin · Dubai</p>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <h1 className="text-white text-4xl sm:text-5xl md:text-8xl leading-tight md:leading-none mb-4 md:mb-8 break-words" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>
-                    Financer les<br /><em>champions</em> de<br />demain
-                  </>}</h1>
+                  <h1 className="text-white text-4xl sm:text-5xl md:text-8xl leading-tight md:leading-none mb-4 md:mb-8 break-words" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{<>{clientHeroLine(sessionData, 0, 4, 12) ?? "Financer les"}<br /><em>{clientHeroLine(sessionData, 1, 4, 12) ?? "champions"}</em>{clientHeroLine(sessionData, 2, 4, 12) ?? "de"}<br />{clientHeroLine(sessionData, 3, 4, 12) ?? "demain"}</>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
-                  <p className="text-white/60 text-base sm:text-xl max-w-lg leading-relaxed mb-6 md:mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+                  <p className="text-white/60 text-base sm:text-xl max-w-lg leading-relaxed mb-6 md:mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                     500M€ sous gestion. 47 participations actives. Un seul objectif : accompagner les entrepreneurs qui redéfinissent des marchés entiers.
                   </>}</p>
                 </Reveal>

@@ -9,6 +9,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -232,12 +234,11 @@ export default function AtelierInteriorPage() {
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-12 pb-24">
             <Reveal delay={0.15} y={70}>
-              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{c?.heroHeadline ?? <>
-                Spaces<br/>That <em className="text-[var(--brand,#8b7355)]">Speak.</em>
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 6) ?? "Spaces"}<br/>{clientHeroLine(sessionData, 1, 3, 6) ?? "That"}<em className="text-[var(--brand,#8b7355)]">{clientHeroLine(sessionData, 2, 3, 6) ?? "Speak."}</em>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[#2a2520]/50 font-light leading-relaxed mb-8">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="max-w-lg text-lg text-[#2a2520]/50 font-light leading-relaxed mb-8">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Bespoke interior design for discerning clients. We create environments that elevate daily life into something extraordinary.
               </>}</p>
               <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-4 bg-[#2a2520] text-[#f5f0eb] text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-[var(--brand,#8b7355)] transition-colors">

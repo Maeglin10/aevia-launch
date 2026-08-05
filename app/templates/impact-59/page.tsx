@@ -18,6 +18,8 @@ import {
 } from "./shared";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -168,11 +170,10 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-bold leading-[1.15] pb-4 tracking-tighter mb-12 uppercase font-serif">{c?.heroHeadline ?? <>
-              Rest is <br />{" "}
-              <span className="italic font-light">the work.</span>
+            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-bold leading-[1.15] pb-4 tracking-tighter mb-12 uppercase font-serif">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Rest is"}<br />{" "}
+              <span className="italic font-light">{clientHeroLine(sessionData, 1, 2, 9) ?? "the work."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-black/50 leading-relaxed font-light mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-black/50 leading-relaxed font-light mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Luminal designs profound retreat experiences in the world&apos;s most
               transformative landscapes. We create the conditions for genuine
               rest through carefully calibrated stillness.

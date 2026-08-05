@@ -9,6 +9,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientServices,
@@ -234,12 +236,11 @@ export default function NeonPulsePage() {
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
               <div className="relative z-10">
                 <Reveal delay={0.1} y={80}>
-                  <h1 className="text-7xl md:text-[10vw] font-black tracking-tighter leading-[0.8] uppercase mb-12 italic">{c?.heroHeadline ?? <>
-                    Pulse <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-[var(--brand,#22d3ee)]">The Void.</span>
+                  <h1 className="text-7xl md:text-[10vw] font-black tracking-tighter leading-[0.8] uppercase mb-12 italic">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Pulse"}<br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-[var(--brand,#22d3ee)]">{clientHeroLine(sessionData, 1, 2, 9) ?? "The Void."}</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">{fd?.tagline ?? c?.heroSubline ?? <>
+                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                     The ultra-high-fidelity marketplace for digital artists. Own a piece of the neon future on the most secure neural mesh.
                   </>}</p>
                 </Reveal>

@@ -9,6 +9,8 @@ import Link from "next/link"
 import { Menu, X, ArrowRight, Check, Star, Zap, BarChart2, Shield, Users, Clock, Globe, ChevronRight, Play, Sparkles } from "lucide-react"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientReviews,
   clientServices,
@@ -256,12 +258,11 @@ export default function EssentialSaaSPage() {
       {/* Hero */}
       <section id="hero" className="pt-28 pb-20 px-6 max-w-7xl mx-auto text-center">
         <Reveal delay={0.1}>
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6 max-w-4xl mx-auto">{c?.heroHeadline ?? <>
-            Gérez votre business<br />avec <span className="text-[var(--brand,#6366F1)]">clarté et vitesse</span>
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6 max-w-4xl mx-auto">{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "Gérez votre business"}<br />{clientHeroLine(sessionData, 1, 3, 10) ?? "avec"}<span className="text-[var(--brand,#6366F1)]">{clientHeroLine(sessionData, 2, 3, 10) ?? "clarté et vitesse"}</span>
           </>}</h1>
         </Reveal>
         <Reveal delay={0.2}>
-          <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+          <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Flowbase réunit vos projets, votre équipe et vos analytics dans une plateforme unique. Moins d&apos;outils, plus d&apos;impact.
           </>}</p>
         </Reveal>

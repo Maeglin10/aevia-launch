@@ -10,6 +10,8 @@ import { Scale, ArrowRight, Menu, Star, Shield, Gavel, Briefcase, Landmark, Glob
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -276,12 +278,11 @@ export default function LuminaLawPage() {
                   </div>
                 </Reveal>
                 <Reveal delay={0.1} y={60}>
-                  <h1 className="text-5xl sm:text-6xl md:text-[9rem] font-bold tracking-tighter leading-[0.95] md:leading-[0.8] text-[#1a1a1a] mb-6 md:mb-12 uppercase break-words" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
-                    Power <br/> <span className="text-[var(--brand,#1a365d)] font-light italic italic-none">In Truth.</span>
+                  <h1 className="text-5xl sm:text-6xl md:text-[9rem] font-bold tracking-tighter leading-[0.95] md:leading-[0.8] text-[#1a1a1a] mb-6 md:mb-12 uppercase break-words" style={{ fontFamily: "serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Power"}<br/> <span className="text-[var(--brand,#1a365d)] font-light italic italic-none">{clientHeroLine(sessionData, 1, 2, 9) ?? "In Truth."}</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <p className="text-base md:text-xl text-black/60 font-light max-w-lg leading-relaxed mb-6 md:mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
+                  <p className="text-base md:text-xl text-black/60 font-light max-w-lg leading-relaxed mb-6 md:mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                     Lumina Law is a high-stakes firm dedicated to complex litigation and corporate strategy. When the outcome defines your legacy, we are the standard.
                   </>}</p>
                 </Reveal>

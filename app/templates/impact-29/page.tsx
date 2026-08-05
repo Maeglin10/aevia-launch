@@ -12,6 +12,7 @@ import Image from "next/image"
 import { Reveal, ScrollImage, projects, skills, timeline, stats, services, process, testimonials, clients } from "./shared"
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -99,9 +100,7 @@ return (
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-bold leading-[1.1] mb-6"
             style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
-          >{c?.heroHeadline ?? <>
-            // Raphaël Genet
-          </>}</motion.h1>
+          >{<>{clientHeroLine(sessionData, 0, 1, 16) ?? "// Raphaël Genet"}</>}</motion.h1>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

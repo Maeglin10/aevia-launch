@@ -10,6 +10,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -264,12 +266,11 @@ return (
             <p className="text-[#C9A86C] text-xs tracking-[0.3em] uppercase mb-6">Torréfaction artisanale · {clientCity(sessionData) ?? "Paris"}</p>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-5xl md:text-7xl font-light text-white leading-[1.0] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{c?.heroHeadline ?? <>
-              Un café<br /><em>comme un rituel</em>
+            <h1 className="text-5xl md:text-7xl font-light text-white leading-[1.0] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 15) ?? "Un café"}<br /><em>{clientHeroLine(sessionData, 1, 2, 15) ?? "comme un rituel"}</em>
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#D4C9B0] text-lg max-w-md mb-10 leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="text-[#D4C9B0] text-lg max-w-md mb-10 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Chaque tasse est une promesse — de qualité, de soin, de présence. Bienvenue au Matin Doré.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">

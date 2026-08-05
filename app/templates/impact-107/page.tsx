@@ -9,6 +9,8 @@ import { Compass, ArrowRight, Menu, Star, MapPin, Mountain, Camera, Globe, Tent,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -233,12 +235,11 @@ export default function MeridianJourneyPage() {
               </div>
             </Reveal>
             <Reveal delay={0.15} y={70}>
-              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black tracking-tighter leading-[0.8] mb-8 uppercase">{c?.heroHeadline ?? <>
-                Into The<br/><span className="text-[var(--brand,#2dd4bf)]">Unknown.</span>
+              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black tracking-tighter leading-[0.8] mb-8 uppercase">{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "Into The"}<br/><span className="text-[var(--brand,#2dd4bf)]">{clientHeroLine(sessionData, 1, 2, 8) ?? "Unknown."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-white/50 font-light leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="max-w-lg text-lg text-white/50 font-light leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Guided expeditions to the world's most remote landscapes. Small teams, real challenge, permanent transformation.
               </>}</p>
             </Reveal>

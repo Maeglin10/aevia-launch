@@ -2021,7 +2021,7 @@ export default function Page() {
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
   );
-  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  STATS = resolveList(clientStats(sessionData)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, "") })), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, yellow: brand };

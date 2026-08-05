@@ -11,6 +11,8 @@ import { InvertSweep } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -202,10 +204,10 @@ export default function AquaVertPressingPage() {
           <div className="i344-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "140px 24px 80px" }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: "inherit", opacity: 0.7 }}>Pressing écologique · {clientCity(sessionData) ?? "Strasbourg"}</span>
             <h1 style={{ fontFamily: FONT, fontSize: "clamp(36px, 5.4vw, 68px)", lineHeight: 1.08, margin: "18px 0 20px", maxWidth: 820 }}>
-              {c?.heroHeadline ?? (<>Le propre qui ne pollue<br /><em style={{ color: C.accent }}>ni vos fibres, ni la ville.</em></>)}
+              {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 27) ?? "Le propre qui ne pollue"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 27) ?? "ni vos fibres, ni la ville."}</em></>)}
             </h1>
             <p style={{ fontSize: 16.5, opacity: 0.75, lineHeight: 1.75, maxWidth: 560, marginBottom: 32 }}>
-              {fd?.tagline ?? c?.heroSubline ?? "Aquanettoyage à l'eau, détergents certifiés Écolabel, consigne de cintres et livraison à vélo dans tout Neudorf. Le pressing d'à côté, en mieux pour tout le monde."}
+              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Aquanettoyage à l'eau, détergents certifiés Écolabel, consigne de cintres et livraison à vélo dans tout Neudorf. Le pressing d'à côté, en mieux pour tout le monde."}
             </p>
             <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
               <a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none" }}>Programmer une collecte</a>

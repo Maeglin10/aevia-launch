@@ -20,6 +20,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientServices,
@@ -289,14 +291,10 @@ export default function MorphStudioPage() {
             
             <div className="relative z-10">
               <Reveal>
-                <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter leading-none text-white mb-8">{c?.heroHeadline ?? <>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#22d3ee)] to-purple-500">
-                    MORPH
-                  </span><br/>
-                  STUDIO.
-                </>}</h1>
+                <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter leading-none text-white mb-8">{<>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#22d3ee)] to-purple-500">{clientHeroLine(sessionData, 0, 2, 7) ?? "MORPH"}</span><br/>{clientHeroLine(sessionData, 1, 2, 7) ?? "STUDIO."}</>}</h1>
                 
-                <p className="max-w-xl text-lg md:text-xl text-zinc-400 leading-relaxed mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="max-w-xl text-lg md:text-xl text-zinc-400 leading-relaxed mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   {MANIFEST.hero.desc}
                 </>}</p>
                 

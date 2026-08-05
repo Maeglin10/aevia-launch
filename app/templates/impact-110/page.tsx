@@ -9,6 +9,8 @@ import { Flower2, ArrowRight, Menu, Star, Sparkles, MapPin, Clock, Phone, Heart,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -200,13 +202,12 @@ export default function OasisWellnessPage() {
               </div>
             </Reveal>
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-7xl md:text-[8rem] lg:text-[10rem] font-light italic leading-[0.85] tracking-tighter mb-12" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
-                Breath of <br/> <span className="font-bold not-italic">Serenity.</span>
+              <h1 className="text-7xl md:text-[8rem] lg:text-[10rem] font-light italic leading-[0.85] tracking-tighter mb-12" style={{ fontFamily: "serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Breath of"}<br/> <span className="font-bold not-italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "Serenity."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-                <p className="text-lg text-[var(--brand,#2c3e2d)]/60 font-light max-w-sm leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="text-lg text-[var(--brand,#2c3e2d)]/60 font-light max-w-sm leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   A sanctuary dedicated to biological restoration and deep mindfulness. Rediscover your essence in the heart of the city.
                 </>}</p>
                 <div className="w-[1px] h-20 bg-[var(--brand,#2c3e2d)]/10 hidden md:block" />

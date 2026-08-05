@@ -12,6 +12,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientServices,
@@ -242,8 +243,7 @@ export default function ChronosLuxuryPage() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#d4af37)]/60 block mb-10 italic">Defining Time Since 1924</span>
                 </Reveal>
                 <Reveal delay={0.2} y={70}>
-                  <h1 className="text-7xl md:text-[9rem] font-extralight tracking-tighter leading-[0.85] text-white mb-12 uppercase" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
-                    Mastery In <br/> <span className="text-[var(--brand,#d4af37)] italic">Motion.</span>
+                  <h1 className="text-7xl md:text-[9rem] font-extralight tracking-tighter leading-[0.85] text-white mb-12 uppercase" style={{ fontFamily: "serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 10) ?? "Mastery In"}<br/> <span className="text-[var(--brand,#d4af37)] italic">{clientHeroLine(sessionData, 1, 2, 10) ?? "Motion."}</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.4}>

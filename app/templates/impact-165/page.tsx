@@ -9,6 +9,8 @@ import Link from "next/link"
 import { Menu, X, ArrowRight, Check, Star, Zap, Shield, BarChart2, Bell, MessageSquare, Users, Smartphone, Apple, Play, ChevronRight } from "lucide-react"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientReviews,
   clientServices,
@@ -295,12 +297,11 @@ export default function PulseAppPage() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <Reveal delay={0.1}>
-              <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6">{c?.heroHeadline ?? <>
-                L&apos;app qui fait<br />travailler votre<br /><span className="text-[var(--brand,#6366F1)]">équipe mieux</span>
+              <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6">{<>{clientHeroLine(sessionData, 0, 3, 16) ?? "L app qui fait"}<br />{clientHeroLine(sessionData, 1, 3, 16) ?? "travailler votre"}<br /><span className="text-[var(--brand,#6366F1)]">{clientHeroLine(sessionData, 2, 3, 16) ?? "équipe mieux"}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-lg text-[#4B4570] leading-relaxed mb-8 max-w-lg">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="text-lg text-[#4B4570] leading-relaxed mb-8 max-w-lg">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Analytics temps réel, notifications intelligentes, collaboration native. Pulse connecte votre équipe et vos données dans une seule application mobile.
               </>}</p>
             </Reveal>

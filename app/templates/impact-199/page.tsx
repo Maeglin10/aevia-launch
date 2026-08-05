@@ -35,6 +35,8 @@ import {
   clientAddress,
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientPhotos,
@@ -724,11 +726,8 @@ export default function Impact199Page() {
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            >{c?.heroHeadline ?? <>
-              L'ART VIVANT
-              <br />
-              <span className="text-[var(--brand,#DC2626)]">SUR</span> VOTRE PEAU
-            </>}</motion.h1>
+            >{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "L'ART VIVANT"}<br />
+              <span className="text-[var(--brand,#DC2626)]">{clientHeroLine(sessionData, 1, 3, 12) ?? "SUR"}</span>{clientHeroLine(sessionData, 2, 3, 12) ?? "VOTRE PEAU"}</>}</motion.h1>
 
             {/* Subtitle */}
             <motion.p
@@ -736,7 +735,7 @@ export default function Impact199Page() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Trois artistes d'exception, un seul objectif : transformer votre vision en œuvre permanente. Tatouage sur mesure à Paris depuis 2014.
             </>}</motion.p>
 

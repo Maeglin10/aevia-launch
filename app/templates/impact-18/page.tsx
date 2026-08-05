@@ -11,6 +11,8 @@ import { Menu, X, ArrowRight, Zap, BarChart3, Users, CheckCircle, ChevronDown, G
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -307,13 +309,12 @@ return (
               </div>
               <div className="max-w-6xl mx-auto w-full relative z-10">
                 <Reveal delay={0.1} className="text-center">
-                  <h1 className="text-white text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight mb-4 md:mb-6">{c?.heroHeadline ?? <>
-                    Gérez tout votre travail<br />
-                    <span className="bg-gradient-to-r from-[var(--brand,#3B82F6)] to-[#8B5CF6] bg-clip-text text-transparent">en un seul endroit</span>
+                  <h1 className="text-white text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight mb-4 md:mb-6">{<>{clientHeroLine(sessionData, 0, 2, 24) ?? "Gérez tout votre travail"}<br />
+                    <span className="bg-gradient-to-r from-[var(--brand,#3B82F6)] to-[#8B5CF6] bg-clip-text text-transparent">{clientHeroLine(sessionData, 1, 2, 24) ?? "en un seul endroit"}</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2} className="text-center">
-                  <p className="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto mb-6 md:mb-10">{fd?.tagline ?? c?.heroSubline ?? <>Projets, équipes, analytics, intégrations. Streamline centralise votre stack de productivité et automatise ce qui peut l'être.</>}</p>
+                  <p className="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto mb-6 md:mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>Projets, équipes, analytics, intégrations. Streamline centralise votre stack de productivité et automatise ce qui peut l'être.</>}</p>
                 </Reveal>
                 <Reveal delay={0.3} className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
                   <button onClick={() => goTo("tarifs")} className="bg-[var(--brand,#3B82F6)] text-white font-bold px-8 py-4 rounded-xl hover:bg-[#2563EB] transition-colors cursor-pointer flex items-center justify-center gap-2">

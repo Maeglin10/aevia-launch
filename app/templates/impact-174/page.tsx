@@ -14,6 +14,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientPhotos,
@@ -319,14 +321,11 @@ export default function Impact174Page() {
             <span className="text-xs font-bold uppercase tracking-[0.5em] text-[var(--brand,#84cc16)] block mb-6">{clientCity(sessionData) ?? "Paris"} · Hautes-Performances</span>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none text-white mb-8 uppercase tracking-tighter" style={{ fontFamily: "'Oswald', sans-serif" }}>{c?.heroHeadline ?? <>
-              FORGEZ<br />
-              <span className="text-[var(--brand,#84cc16)]">VOTRE</span><br />
-              CORPS.
-            </>}</h1>
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none text-white mb-8 uppercase tracking-tighter" style={{ fontFamily: "'Oswald', sans-serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 6) ?? "FORGEZ"}<br />
+              <span className="text-[var(--brand,#84cc16)]">{clientHeroLine(sessionData, 1, 3, 6) ?? "VOTRE"}</span><br />{clientHeroLine(sessionData, 2, 3, 6) ?? "CORPS."}</>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#f5f5f5]/50 text-lg leading-relaxed mb-10 max-w-md">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="text-[#f5f5f5]/50 text-lg leading-relaxed mb-10 max-w-md">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               L'entraînement haute intensité rencontre la précision scientifique. Programmes sur-mesure, coachs d'élite, résultats mesurables.
             </>}</p>
           </Reveal>

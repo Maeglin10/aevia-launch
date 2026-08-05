@@ -20,6 +20,8 @@ import { Sparkles, Droplets, Wind, Menu, X, ArrowRight, Flower2, Moon, Sun, Star
 import { DWELL, useSlides, HeldSwap, BlurThrough, CircularLabel, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -523,9 +525,8 @@ export default function EclatLuxuryPage() {
               transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
               className="text-7xl md:text-9xl lg:text-[12rem] leading-[0.8] tracking-tighter text-white mb-12"
               style={{ fontFamily: "Georgia, serif" }}
-            >{c?.heroHeadline ?? <>
-              ÉCLAT <br/>
-              <span className="text-zinc-600 italic font-light">ABSOLU</span>
+            >{<>{clientHeroLine(sessionData, 0, 2, 6) ?? "ÉCLAT"}<br/>
+              <span className="text-zinc-600 italic font-light">{clientHeroLine(sessionData, 1, 2, 6) ?? "ABSOLU"}</span>
             </>}</motion.h1>
 
             <motion.p 
@@ -533,7 +534,7 @@ export default function EclatLuxuryPage() {
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1 }}
               className="max-w-2xl mx-auto text-lg md:text-xl text-zinc-400 font-light italic tracking-wide"
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Architectural scent structures crafted in Grasse. Where botanical rarity meets quantum precision.
             </>}</motion.p>
           </div>

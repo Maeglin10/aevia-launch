@@ -306,6 +306,122 @@ export function clientTagline(s: SessionLike | null | undefined): string | undef
   );
 }
 
+/**
+ * L'accroche du client, répartie sur les lignes que le thème a prévues.
+ *
+ * Le titre d'un hero est rarement une chaîne : c'est deux, trois ou quatre
+ * lignes, chacune avec sa couleur, sa graisse et son animation propre. Garder
+ * celles du thème donnait « We build the internet's best. » sur le site d'un
+ * plombier — la première chose que le visiteur lit parlait d'une autre
+ * entreprise.
+ *
+ * On coupe donc l'accroche aux mots, en `total` parts d'à peu près même
+ * longueur, et le thème garde tout le reste : le nombre de lignes, leurs
+ * styles, leurs animations.
+ *
+ * Rien à répartir sans accroche : le thème garde alors la sienne.
+ */
+/**
+ * Découpe une phrase en `total` lignes d'à peu près même longueur.
+ *
+ * Couper au nombre de mots déséquilibre — « Votre plombier de / confiance à
+ * Annecy depuis 1998 ». On vise pour chaque ligne une longueur écrite d'environ
+ * un `total`-ième de la phrase, en gardant assez de mots pour les suivantes.
+ */
+function couperEnLignes(phrase: string, total: number): string[] {
+  const mots = phrase.split(/\s+/).filter(Boolean);
+  if (mots.length <= total) {
+    const out = mots.slice();
+    while (out.length < total) out.push("");
+    return out;
+  }
+  const longueur = phrase.length;
+  const lignes: string[] = [];
+  let courante = "";
+  for (let i = 0; i < mots.length; i++) {
+    const restantes = total - lignes.length;
+    const motsRestants = mots.length - i;
+    const cible = (longueur - lignes.join(" ").length) / restantes;
+    const apres = courante ? courante.length + 1 + mots[i].length : mots[i].length;
+    const trop = Boolean(courante) && Math.abs(apres - cible) > Math.abs(courante.length - cible);
+    if (trop && restantes > 1 && motsRestants >= restantes) {
+      lignes.push(courante);
+      courante = mots[i];
+    } else {
+      courante = courante ? `${courante} ${mots[i]}` : mots[i];
+    }
+  }
+  if (courante) lignes.push(courante);
+  while (lignes.length < total) lignes.push("");
+  while (lignes.length > total) lignes[total - 1] += ` ${lignes.pop()}`;
+  return lignes;
+}
+
+/**
+ * La phrase que le titre du hero peut accueillir sans casser sa mise en page.
+ *
+ * Un titre de hero est dessiné pour ce qu'il dit : « TAME YOUR BIOLOGY. » tient
+ * en cent soixante-seize pixels parce que sa plus longue ligne fait neuf
+ * caractères. Y verser « Votre coiffeur de confiance à Chambéry depuis 1998 »
+ * couvrait l'écran entier et passait par-dessus l'en-tête.
+ *
+ * Ce qui compte est donc la ligne la plus longue, pas le total : on essaie
+ * l'accroche, puis « Coiffeur à Chambéry », puis le nom, et l'on retient la
+ * première dont aucune ligne ne dépasse le gabarit du thème. Si rien ne tient,
+ * le thème garde son titre — son dessin passe avant.
+ */
+function phraseDeHero(
+  s: SessionLike | null | undefined,
+  total: number,
+  maxLigne?: number,
+): string | undefined {
+  const large = maxLigne && maxLigne > 0 ? Math.max(maxLigne, 6) + 2 : Infinity;
+  const metier = trimmed(s?.formData?.businessType);
+  const majuscule = (x: string) => `${x[0].toUpperCase()}${x.slice(1)}`;
+  const ville = clientCity(s);
+  const candidates = [
+    clientTagline(s),
+    metier && ville ? `${majuscule(metier)} à ${ville}` : undefined,
+    metier ? majuscule(metier) : undefined,
+    clientName(s),
+  ];
+  for (const x of candidates) {
+    if (!x) continue;
+    if (couperEnLignes(x, total).every((l) => l.length <= large)) return x;
+  }
+  return undefined;
+}
+
+export function clientHeroLine(
+  s: SessionLike | null | undefined,
+  rang: number,
+  total: number,
+  maxLigne?: number,
+): string | undefined {
+  if (total < 1 || rang < 0 || rang >= total) return undefined;
+  const phrase = phraseDeHero(s, total, maxLigne);
+  if (!phrase) return undefined;
+  return couperEnLignes(phrase, total)[rang] || undefined;
+}
+
+/**
+ * La ligne sous le titre du hero, quand le titre porte déjà l'accroche.
+ *
+ * Répéter l'accroche deux fois de suite — en très gros, puis en petit — se lit
+ * comme un bégaiement. Le sous-titre annonce donc ce que l'entreprise fait :
+ * ses trois premières prestations, à défaut les communes qu'elle dessert. Rien
+ * n'est inventé ; sans ces données, le thème garde sa phrase.
+ */
+export function clientHeroSubtitle(s: SessionLike | null | undefined): string | undefined {
+  const presta = (clientServices(s) ?? []).map((x) => x.title).filter(Boolean).slice(0, 3);
+  if (presta.length >= 2) return presta.join(" · ");
+  const zones = clientAreas(s) ?? [];
+  if (zones.length >= 2) return `Interventions à ${zones.slice(0, 4).join(", ")}`;
+  const ville = clientCity(s);
+  if (presta.length === 1 && ville) return `${presta[0]} · ${ville}`;
+  return undefined;
+}
+
 /** La ville, pour les sur-titres du genre « Couvreur-zingueur · Lyon ». */
 export function clientCity(s: SessionLike | null | undefined): string | undefined {
   return (

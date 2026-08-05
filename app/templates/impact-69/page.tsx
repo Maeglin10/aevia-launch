@@ -1,6 +1,8 @@
 "use client";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientStats,
   clientText,
@@ -144,10 +146,10 @@ return (
         </motion.div>
 
         <motion.div style={{ opacity: heroOpacity, position: "relative", zIndex: 1, textAlign: "center", maxWidth: 900, padding: "0 24px" }}>
-          <h1 style={{ fontSize: "clamp(52px, 9vw, 120px)", fontWeight: 900, lineHeight: 1.15, letterSpacing: "-0.03em", marginBottom: 40, color: C.cream, paddingBottom: "0.15em" }}>{c?.heroHeadline ?? <>
-            <TextReveal text="Finding" delay={0.3} style={{ display: "block" }} />
-            <TextReveal text="depth" delay={0.5} style={{ display: "block", color: C.amber }} />
-            <TextReveal text="in stillness." delay={0.7} style={{ display: "block", color: C.moss }} />
+          <h1 style={{ fontSize: "clamp(52px, 9vw, 120px)", fontWeight: 900, lineHeight: 1.15, letterSpacing: "-0.03em", marginBottom: 40, color: C.cream, paddingBottom: "0.15em" }}>{<>
+            <TextReveal text={clientHeroLine(sessionData, 0, 3, 13) ?? "Finding"} delay={0.3} style={{ display: "block" }} />
+            <TextReveal text={clientHeroLine(sessionData, 1, 3, 13) ?? "depth"} delay={0.5} style={{ display: "block", color: C.amber }} />
+            <TextReveal text={clientHeroLine(sessionData, 2, 3, 13) ?? "in stillness."} delay={0.7} style={{ display: "block", color: C.moss }} />
           </>}</h1>
 
           <motion.p
@@ -155,7 +157,7 @@ return (
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.1 }}
             style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 17, color: C.muted, lineHeight: 1.7, maxWidth: 540, margin: "0 auto 48px", fontWeight: 300 }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Documentary and fine art landscapes from the world's most remote wilderness areas. Limited edition prints, each signed and numbered.
           </>}</motion.p>
 

@@ -9,6 +9,8 @@ import { Menu, X, ArrowRight, Scale, Shield, Briefcase, Users, Building, FileTex
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientServices,
@@ -291,12 +293,11 @@ export default function LegrandPage() {
             <p className="text-[var(--brand,#C9A855)] text-xs tracking-[0.3em] uppercase mb-8">Fondé en 1991 · {clientCity(sessionData) ?? "Paris"} · Bruxelles · Luxembourg</p>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.0] text-[#F9F6F0] mb-8 max-w-4xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.heroHeadline ?? <>
-              <em>L&apos;excellence</em><br />juridique au service<br />de vos ambitions
-            </>}</h1>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.0] text-[#F9F6F0] mb-8 max-w-4xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{<>
+              <em>{clientHeroLine(sessionData, 0, 3, 10) ?? "L excellence"}</em><br />{clientHeroLine(sessionData, 1, 3, 10) ?? "juridique au service"}<br />{clientHeroLine(sessionData, 2, 3, 10) ?? "de vos ambitions"}</>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 font-light leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 font-light leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Cabinet d&apos;avocats d&apos;affaires indépendant, Legrand & Associés conseille les entreprises et les institutions dans leurs opérations les plus complexes depuis plus de trente ans.
             </>}</p>
           </Reveal>

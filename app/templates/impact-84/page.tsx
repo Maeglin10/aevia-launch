@@ -22,6 +22,8 @@ import {
 import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -181,12 +183,11 @@ return (
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-12 md:pt-32 md:pb-24 w-full flex flex-col justify-center">
           <Reveal delay={0.1}>
-            <h1 className="text-4xl md:text-7xl font-light text-[#F0EBE0] leading-[1.2] mb-4 md:mb-8 max-w-3xl pb-2 md:pb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{c?.heroHeadline ?? <>
-              L&apos;art de la médecine<br />esthétique de <em>précision</em>
+            <h1 className="text-4xl md:text-7xl font-light text-[#F0EBE0] leading-[1.2] mb-4 md:mb-8 max-w-3xl pb-2 md:pb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "L art de la médecine"}<br />{clientHeroLine(sessionData, 1, 3, 10) ?? "esthétique de"}<em>{clientHeroLine(sessionData, 2, 3, 10) ?? "précision"}</em>
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#8A8278] text-base md:text-lg max-w-xl mb-6 md:mb-12 leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="text-[#8A8278] text-base md:text-lg max-w-xl mb-6 md:mb-12 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Une harmonie mesurée entre rigueur scientifique et vision artistique du visage. Nos protocoles de pointe respectent votre morphologie naturelle pour des résultats invisibles et durables.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-5">

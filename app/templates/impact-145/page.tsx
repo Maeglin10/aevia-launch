@@ -9,6 +9,8 @@ import { MapPin, ArrowRight, Menu, Star, Shield, Key, Home, Building2, Map, Chev
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -212,13 +214,12 @@ export default function ArcaneRealtyPage() {
 
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-[10rem] font-light tracking-tighter leading-[0.8] text-white mb-12 uppercase break-words">{c?.heroHeadline ?? <>
-                Rare <br/> <span className="font-bold italic">Holdings.</span>
+              <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-[10rem] font-light tracking-tighter leading-[0.8] text-white mb-12 uppercase break-words">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Rare"}<br/> <span className="font-bold italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "Holdings."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col items-center justify-center gap-12">
-                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed italic">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   Securing the world's most exclusive architectural masterpieces for the most discerning collectors.
                 </>}</p>
                 <div className="flex flex-wrap justify-center gap-8">

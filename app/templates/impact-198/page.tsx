@@ -14,6 +14,8 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1344,9 +1346,7 @@ export default function Impact198Page() {
                 lineHeight: 0.95,
                 marginBottom: 0,
               }}
-            >{c?.heroHeadline ?? <>
-              L'art du soin
-            </>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 1, 13) ?? "L'art du soin"}</>}</h1>
           </TextReveal>
           <TextReveal immediate delay={0.45}>
             <h1
@@ -1376,7 +1376,7 @@ export default function Impact198Page() {
               margin: "0 auto 40px",
               lineHeight: 1.7,
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Formules exclusives, ingrédients naturels certifiés et expertise parisienne au service de votre beauté naturelle.
           </>}</motion.p>
 

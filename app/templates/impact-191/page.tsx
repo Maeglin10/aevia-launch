@@ -10,6 +10,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -246,12 +248,11 @@ export default function JardinsVivantsPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-8 text-white" style={{ fontFamily: "'Cardo', Georgia, serif" }}>{c?.heroHeadline ?? <>
-            Un jardin qui<br /><span className="text-[#a8d5a0] italic">vous ressemble.</span>
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-8 text-white" style={{ fontFamily: "'Cardo', Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 15) ?? "Un jardin qui"}<br /><span className="text-[#a8d5a0] italic">{clientHeroLine(sessionData, 1, 2, 15) ?? "vous ressemble."}</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-md text-sm text-white/33 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-md text-sm text-white/33 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Création et entretien de jardins en Haute-Savoie. Paysagiste qualifié, 100% local, devis gratuit sous 48h. De la terrasse au grand parc — chaque espace mérite de vivre.
           </>}</motion.p>
 

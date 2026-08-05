@@ -10,6 +10,8 @@ import { ArrowRight, Globe, Activity, Shield, ChevronRight, Gauge } from "lucide
 import { Reveal, GridBackground } from "./shared";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -138,13 +140,12 @@ return (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-end">
             <div>
               <Reveal delay={0.1} y={100}>
-                <h1 className="text-7xl md:text-[14vw] font-black tracking-tighter leading-[1.15] pb-4 uppercase mb-16 italic text-white">{c?.heroHeadline ?? <>
-                  Beyond <br /> <span className="text-white/10 not-italic italic">Steel.</span>
+                <h1 className="text-7xl md:text-[14vw] font-black tracking-tighter leading-[1.15] pb-4 uppercase mb-16 italic text-white">{<>{clientHeroLine(sessionData, 0, 2, 6) ?? "Beyond"}<br /> <span className="text-white/10 not-italic italic">{clientHeroLine(sessionData, 1, 2, 6) ?? "Steel."}</span>
                 </>}</h1>
               </Reveal>
               <Reveal delay={0.3}>
                 <div className="flex flex-col sm:flex-row gap-12 items-center">
-                  <p className="text-xl text-white/30 font-light max-w-sm leading-relaxed uppercase italic">{fd?.tagline ?? c?.heroSubline ?? <>
+                  <p className="text-xl text-white/30 font-light max-w-sm leading-relaxed uppercase italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                     Uncompromising structural engineering. We deliver the highest strength-to-weight ratio in the industry.
                   </>}</p>
                   <div className="h-px w-20 bg-[var(--brand,#0070f3)] hidden sm:block" />

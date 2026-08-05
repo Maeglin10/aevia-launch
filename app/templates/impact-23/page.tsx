@@ -10,6 +10,8 @@ import { Menu, X, ArrowRight, Film, Camera, ChevronRight, Award, Globe, Users, P
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -337,13 +339,12 @@ export default function StudioPelikanPage() {
                   <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Société de production · {clientCity(sessionData) ?? "Paris"}</p>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>
-                    Studio<br /><em>Pelikan</em>
+                  <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{<>{clientHeroLine(sessionData, 0, 2, 7) ?? "Studio"}<br /><em>{clientHeroLine(sessionData, 1, 2, 7) ?? "Pelikan"}</em>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <p className="text-white/50 text-lg max-w-sm">{fd?.tagline ?? c?.heroSubline ?? <>Cinéma d&apos;auteur, documentaire, série. Depuis 2012, nous produisons des œuvres qui voyagent.</>}</p>
+                    <p className="text-white/50 text-lg max-w-sm">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>Cinéma d&apos;auteur, documentaire, série. Depuis 2012, nous produisons des œuvres qui voyagent.</>}</p>
                     <button onClick={() => goTo("films")} className="shrink-0 border border-[var(--brand,#C9A05A)]/40 text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[var(--brand,#C9A05A)] hover:text-black transition-all cursor-pointer flex items-center gap-2">
                       <Play className="w-3 h-3 fill-current" /> Voir la bande démo
                     </button>

@@ -46,6 +46,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -552,9 +554,7 @@ return (
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Le Burger Artisanal du 9ème
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 1, 27) ?? "Le Burger Artisanal du 9ème"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -565,7 +565,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Steaks homemade, frites fraîches, sauce secrète. Livraison 30 min.
             </>}</p>
           </Reveal>

@@ -2,6 +2,8 @@
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientList,
   clientName,
@@ -872,9 +874,7 @@ export default function Impact211Page() {
             textAlign: "center",
             lineHeight: 1.1,
             letterSpacing: "-0.01em",
-          }}>{c?.heroHeadline ?? <>
-            Une expérience<br />hors du temps
-          </>}</h1>
+          }}>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Une expérience"}<br />{clientHeroLine(sessionData, 1, 2, 14) ?? "hors du temps"}</>}</h1>
         </motion.div>
 
         {/* Initial hero text */}
@@ -899,7 +899,7 @@ export default function Impact211Page() {
             fontWeight: 300,
             color: C.cream,
             marginBottom: "0.5rem",
-          }}>{fd?.tagline ?? c?.heroSubline ?? <>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maison Éclat"))}</>}</p>
+          }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maison Éclat"))}</>}</p>
           <p style={{ ...eyebrowStyle, textAlign: "center", marginBottom: "2rem" }}>
             7ème arrondissement · {clientCity({ formData: fd }) ?? "Paris"}
           </p>

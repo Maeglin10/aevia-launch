@@ -15,6 +15,8 @@ import {
 import { Reveal, projects, gridOverlay, monoStyle, Label } from "./shared"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -931,17 +933,14 @@ return (
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-6xl md:text-[7rem] font-bold leading-[0.9] mb-8 max-w-5xl"
-          >{c?.heroHeadline ?? <>
-            We build<br />
-            <span className="text-[var(--brand,#9B5CF6)]">the third</span><br />
-            dimension.
-          </>}</motion.h1>
+          >{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "We build"}<br />
+            <span className="text-[var(--brand,#9B5CF6)]">{clientHeroLine(sessionData, 1, 3, 10) ?? "the third"}</span><br />{clientHeroLine(sessionData, 2, 3, 10) ?? "dimension."}</>}</motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg text-white/50 max-w-xl mb-10 leading-relaxed"
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Vertex Studio creates 3D product visualizations, AR experiences, and real-time environments for brands that want to stand out in the spatial era.
           </>}</motion.p>
           <motion.div

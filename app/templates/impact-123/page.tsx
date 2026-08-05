@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientServices,
@@ -243,8 +244,7 @@ export default function VulcanMotorsPage() {
 
           <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <Reveal delay={0.1} y={60}>
-              <h1 className="text-7xl md:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-12">{c?.heroHeadline ?? <>
-                Pure<br/>Kinetic<br/><span className="text-red-600">Soul.</span>
+              <h1 className="text-7xl md:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-12">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "Pure"}<br/>{clientHeroLine(sessionData, 1, 3, 7) ?? "Kinetic"}<br/><span className="text-red-600">{clientHeroLine(sessionData, 2, 3, 7) ?? "Soul."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.25}>

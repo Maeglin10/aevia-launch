@@ -9,6 +9,8 @@ import { Heart, Star, Phone, MapPin, Calendar, Sparkles, Music, Camera, Flower, 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -217,9 +219,7 @@ export default function MaisonElisePage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 65 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.44, ease: [0.16, 1, 0.3, 1] }}>
-            <h1 className="font-bold leading-[0.88] tracking-tight mb-4 text-[#fdfaf7]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>{c?.heroHeadline ?? <>
-              Votre plus beau
-            </>}</h1>
+            <h1 className="font-bold leading-[0.88] tracking-tight mb-4 text-[#fdfaf7]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>{<>{clientHeroLine(sessionData, 0, 1, 15) ?? "Votre plus beau"}</>}</h1>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 65 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}>
             <h1 className="font-bold italic leading-[0.88] tracking-tight mb-10 text-[var(--brand,#c4a06a)]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>
@@ -228,7 +228,7 @@ export default function MaisonElisePage() {
           </motion.div>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-sm text-sm text-[#fdfaf7]/28 leading-relaxed mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-sm text-sm text-[#fdfaf7]/28 leading-relaxed mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Wedding planner sur la Côte d'Azur. Coordination jour J, organisation clé en main, déco florale, corporate. Chaque événement mérite d'être extraordinaire.
           </>}</motion.p>
 

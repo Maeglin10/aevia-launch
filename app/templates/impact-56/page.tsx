@@ -21,6 +21,8 @@ import {
 } from "./shared";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -116,13 +118,12 @@ return (
 
         <motion.div style={{ y: textY }} className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white mt-10">
           <Reveal delay={0.1}>
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif font-light tracking-tighter mb-8 leading-[1.1] pb-3 drop-shadow-xl">{c?.heroHeadline ?? <>
-              L'Âme de <br /> <span className="italic">Margaux.</span>
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif font-light tracking-tighter mb-8 leading-[1.1] pb-3 drop-shadow-xl">{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "L'Âme de"}<br /> <span className="italic">{clientHeroLine(sessionData, 1, 2, 8) ?? "Margaux."}</span>
             </>}</h1>
           </Reveal>
 
           <Reveal delay={0.2}>
-            <p className="text-lg md:text-xl font-sans font-light tracking-wide max-w-2xl mx-auto mb-12 text-zinc-200">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="text-lg md:text-xl font-sans font-light tracking-wide max-w-2xl mx-auto mb-12 text-zinc-200">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Une terre de graves, des vignes centenaires et le temps pour seul allié. L'expression la plus pure d'un grand terroir.
             </>}</p>
           </Reveal>

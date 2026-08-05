@@ -46,6 +46,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -519,9 +521,7 @@ export default function Page() {
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Smart Home<br />& Tertiaire
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 11) ?? "Smart Home"}<br />{clientHeroLine(sessionData, 1, 2, 11) ?? "& Tertiaire"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -532,7 +532,7 @@ export default function Page() {
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Électricien {clientCity(sessionData) ?? "Bordeaux"} Mériadeck. Smart home, alarmes, domotique, installations tertiaires.
             </>}</p>
           </Reveal>

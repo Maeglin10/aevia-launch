@@ -9,6 +9,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -389,16 +391,14 @@ export default function AtelierLeoniePage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-4 text-white" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>{c?.heroHeadline ?? <>
-            L'art de la
-          </>}</motion.h1>
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-4 text-white" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 1, 11) ?? "L'art de la"}</>}</motion.h1>
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-[88px] font-bold italic leading-[0.88] tracking-tight mb-10 text-[var(--brand,#c97b7b)]" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>
             coiffure.
           </motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-sm text-sm text-white/32 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-sm text-sm text-white/32 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Salon de coiffure premium à {clientCity(sessionData) ?? "Paris"}. Coupe, couleur, soins, extensions, coiffure de mariée. Stylistes passionnées, produits haut de gamme, résultat sur mesure.
           </>}</motion.p>
 

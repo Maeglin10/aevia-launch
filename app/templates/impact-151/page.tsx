@@ -26,6 +26,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientServices,
@@ -292,8 +294,7 @@ return (
 
           <div className="relative z-10 text-center max-w-6xl px-8">
              <Reveal>
-                <h1 className="text-7xl md:text-[14vw] font-light italic leading-[0.8] tracking-tighter uppercase mb-16" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
-                   Time <br/> <span className="not-italic font-black text-[var(--brand,#c4a661)]/5 italic">Is_The_Master.</span>
+                <h1 className="text-7xl md:text-[14vw] font-light italic leading-[0.8] tracking-tighter uppercase mb-16" style={{ fontFamily: "serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Time"}<br/> <span className="not-italic font-black text-[var(--brand,#c4a661)]/5 italic">{clientHeroLine(sessionData, 1, 2, 14) ?? "Is_The_Master."}</span>
                 </>}</h1>
                 <div className="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-32">
                    <div className="flex flex-col items-center">
@@ -301,7 +302,7 @@ return (
                       <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20">Establishment</span>
                    </div>
                    <div className="w-px h-16 bg-white/10 hidden md:block" />
-                   <p className="max-w-xs text-xs text-white/40 leading-loose uppercase tracking-widest font-light italic">{fd?.tagline ?? c?.heroSubline ?? <>
+                   <p className="max-w-xs text-xs text-white/40 leading-loose uppercase tracking-widest font-light italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                       Dans le silence de nos caves, chaque goutte écrit l'histoire d'un héritage inébranlable.
                    </>}</p>
                    <div className="w-px h-16 bg-white/10 hidden md:block" />
