@@ -787,7 +787,7 @@ export function StepForm() {
                   </Link>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   {(SECTOR_TEMPLATES[form.sector] ?? []).map((tid, rang) => {
                     const meta = REGISTRY_BY_ID[tid];
                     const isSelected = form.template === tid;
@@ -1185,8 +1185,14 @@ export function StepForm() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Nav buttons */}
-      <div className="flex items-center justify-between mt-6">
+      {/*
+        Sur un téléphone, l'étape du design demandait deux mille pixels de
+        défilement avant d'atteindre « Continuer » : deux écrans et demi à
+        remonter pour valider un choix fait tout en haut. La barre d'action se
+        colle donc au bas de l'écran sur mobile, comme dans tout tunnel d'achat,
+        et redevient une simple ligne dès qu'il y a de la place.
+      */}
+      <div className="flex items-center justify-between gap-3 mt-6 max-sm:fixed max-sm:inset-x-0 max-sm:bottom-0 max-sm:z-40 max-sm:mt-0 max-sm:border-t max-sm:border-zinc-800 max-sm:bg-[#09090b]/95 max-sm:px-5 max-sm:py-4 max-sm:backdrop-blur">
         {(step > 1 || (step === 1 && industryPhase === "specialty" && form.industry !== "other")) ? (
           <button
             onClick={() => {
@@ -1199,7 +1205,7 @@ export function StepForm() {
                 if (step === 2) setIndustryPhase("specialty");
               }
             }}
-            className="flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-700 text-zinc-400 text-base hover:text-white transition-colors"
+            className="flex items-center gap-2 px-4 py-3 min-h-[44px] rounded-full border border-zinc-700 text-zinc-400 text-base hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> {t.back}
           </button>
@@ -1211,7 +1217,7 @@ export function StepForm() {
           <button
             onClick={goNext}
             aria-disabled={!canNext()}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-base font-semibold transition-all ${
+            className={`flex items-center gap-2 px-5 py-3 min-h-[44px] rounded-full bg-red-600 hover:bg-red-500 text-white text-base font-semibold transition-all ${
               canNext() ? "" : "opacity-50"
             }`}
           >
