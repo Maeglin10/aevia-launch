@@ -14,6 +14,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -253,7 +254,7 @@ return (
             </Reveal>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8 md:mt-16 max-w-md">
-            {[["250k+", "Apprenants actifs"], ["500+", "Cours disponibles"], ["92%", "Taux d'emploi"]].map(([n, l]) => (
+            {(clientStats(sessionData)?.map((s: any) => [s.value, s.label]) ?? [["250k+", "Apprenants actifs"], ["500+", "Cours disponibles"], ["92%", "Taux d'emploi"]]).map(([n, l]) => (
               <Reveal key={l}>
                 <div className="text-center">
                   <p className="text-gray-900 text-2xl font-bold">{n}</p>

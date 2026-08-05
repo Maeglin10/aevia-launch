@@ -20,6 +20,7 @@ import {
   clientName,
   clientPhotos,
   clientServices,
+  clientStats,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -343,7 +344,7 @@ export default function Impact174Page() {
           {/* Stats row */}
           <Reveal delay={0.4}>
             <div className="flex gap-8 mt-12 pt-8 border-t border-[#f5f5f5]/5">
-              {[["2000+", "Membres"], ["15", "Programs"], ["7j/7", "Ouvert"]].map(([v, l]) => (
+              {(clientStats(sessionData)?.map((s: any) => [s.value, s.label]) ?? [["2000+", "Membres"], ["15", "Programs"], ["7j/7", "Ouvert"]]).map(([v, l]) => (
                 <div key={l}>
                   <div className="text-2xl font-bold text-[var(--brand,#84cc16)]" style={{ fontFamily: "'Oswald', sans-serif" }}>{v}</div>
                   <div className="text-xs text-[#f5f5f5]/40 uppercase tracking-widest">{l}</div>

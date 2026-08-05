@@ -16,6 +16,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
   clientWorks,
 } from "@/lib/templates/clientContent";
@@ -413,7 +414,7 @@ return (
                 </div>
               </Reveal>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-16 max-w-sm">
-                {[["50+", "Produits lancés"], ["12 ans", "D'expérience"], ["18", "Récompenses design"]].map(([n, l]) => (
+                {(clientStats(sessionData)?.map((s: any) => [s.value, s.label]) ?? [["50+", "Produits lancés"], ["12 ans", "D'expérience"], ["18", "Récompenses design"]]).map(([n, l]) => (
                   <Reveal key={l}>
                     <div>
                       <p className="text-gray-900 text-2xl font-bold">{n}</p>
