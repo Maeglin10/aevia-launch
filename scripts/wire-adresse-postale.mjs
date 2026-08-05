@@ -19,7 +19,12 @@ const dry = process.argv.includes("--dry");
 const seulement = process.argv.slice(2).filter((a) => a.startsWith("impact-"));
 
 // Une adresse : un code postal français suivi d'une ville, dans une chaîne.
-const ADRESSE = /(["'])((?:[^"'\\]|\\.){6,90}?\b\d{5}\s+[A-ZÉÈÀÂÎÔÛ][\wÀ-ÿ'-]+(?:[\s-][A-ZÉÈÀÂÎÔÛ][\wÀ-ÿ'-]+){0,2})\1/g;
+/*
+  La classe ne doit exclure que le guillemet ouvrant : écarter les deux sortes
+  empêchait le motif de traverser « 123 Avenue de l'Automobile », et l'adresse la
+  plus visible du lot passait entre les mailles.
+*/
+const ADRESSE = /(["'])((?:(?!\1)[^\\]|\\.){6,90}?\b\d{5}\s+[A-ZÉÈÀÂÎÔÛ][\wÀ-ÿ'-]+(?:[\s-][A-ZÉÈÀÂÎÔÛ][\wÀ-ÿ'-]+){0,2})\1/g;
 
 let faits = 0;
 const touches = [];
