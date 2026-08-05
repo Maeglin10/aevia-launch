@@ -15,8 +15,30 @@ describe("resolveList", () => {
     expect(resolveList([], demo)).toBe(demo);
   });
 
-  it("returns real data unchanged when present", () => {
+  it("keeps the client's values and fills presentation fields from demo", () => {
+    // Le contrat a changé : resolveList fusionne désormais chaque ligne
+    // (démo puis client) pour que les champs de présentation — icône, image,
+    // couleur — que le client ne fournit jamais ne partent pas indéfinis
+    // (React #130, la page d'un vrai client ne s'affichait pas du tout).
+    const demoRich = [{ title: "Demo Service A", price: "0€", icon: "★" }];
     const real = [{ title: "Vraie prestation", price: "45€" }];
-    expect(resolveList(real, demo)).toBe(real);
+    expect(resolveList(real, demoRich)).toEqual([
+      { title: "Vraie prestation", price: "45€", icon: "★" },
+    ]);
+  });
+
+  it("loops demo presentation fields when the client has more rows", () => {
+    const demoRich = [{ icon: "★" }, { icon: "☆" }];
+    const real = [{ title: "A" }, { title: "B" }, { title: "C" }];
+    expect(resolveList(real, demoRich)).toEqual([
+      { icon: "★", title: "A" },
+      { icon: "☆", title: "B" },
+      { icon: "★", title: "C" },
+    ]);
+  });
+
+  it("leaves string arrays untouched (no char-indexed objects)", () => {
+    const real = ["Décennale", "RGE"];
+    expect(resolveList(real, ["Demo label"])).toEqual(["Décennale", "RGE"]);
   });
 });
