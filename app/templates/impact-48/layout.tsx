@@ -122,7 +122,7 @@ export default function ArchitectureLayout({ children }: { children: React.React
               />
             ) : (
               <>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
+            <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  display: 'flex', flexDirection: 'column', gap: 1 }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               <span
                 style={{
                   fontFamily: F.sans,
@@ -266,7 +266,7 @@ export default function ArchitectureLayout({ children }: { children: React.React
               </Link>
               <p style={{ fontFamily: F.sans, fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>Studio d'architecture et d'urbanisme. Conception de bâtiments pérennes, sobres et généreux. {clientCity(__layoutSession) ?? "Paris"} · Genève.</p>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.35)" }}>{clientEmail(__layoutSession) ?? "contact@exemple.fr"}</span>
+                <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.35)" }}>{clientEmail(__layoutSession) ?? "contact@exemple.fr"}</span>
               </div>
             </div>
 
@@ -292,7 +292,7 @@ export default function ArchitectureLayout({ children }: { children: React.React
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap" as const }}>
               <span style={{ fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.3)" }}>{clientCity(__layoutSession) ?? "Paris"} · Genève</span>
             </div>
-            <p style={{ fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Atelier Moreau"} · Leroy. Tous droits réservés.</p>
+            <p style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: F.sans, fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Atelier Moreau"} · Leroy. Tous droits réservés.</p>
           </div>
         </div>
       </footer>
