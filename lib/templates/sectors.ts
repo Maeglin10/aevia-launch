@@ -171,19 +171,19 @@ export const SECTORS: SectorInfo[] = INDUSTRIES.flatMap((ind) => ind.specialties
 
 /** Map sector id → ordered template IDs (best first). */
 export const SECTOR_TEMPLATES: Record<string, string[]> = {
-  medecin:             ['impact-243', 'impact-257', 'impact-274', 'impact-285', 'impact-297', 'impact-171', 'impact-231'],
+  medecin:             ['impact-243', 'impact-257', 'impact-274', 'impact-285', 'impact-297', 'impact-171', 'impact-231', 'impact-95'],
   dentiste:            ['impact-237', 'impact-252', 'impact-273', 'impact-284', 'impact-298', 'impact-30'],
-  kine:                ['impact-238', 'impact-253', 'impact-272', 'impact-283', 'impact-299'],
+  kine:                ['impact-238', 'impact-253', 'impact-272', 'impact-283', 'impact-299', 'impact-210', 'impact-31'],
   osteo:               ['impact-248', 'impact-264', 'impact-279', 'impact-291', 'impact-300', 'impact-233'],
   avocat:              ['impact-239', 'impact-255', 'impact-275', 'impact-286', 'impact-301', 'impact-46', 'impact-172', 'impact-193'],
-  comptable:           ['impact-242', 'impact-254', 'impact-261', 'impact-289', 'impact-302', 'impact-48'],
-  coach:               ['impact-240', 'impact-256', 'impact-276', 'impact-287', 'impact-303'],
+  comptable:           ['impact-242', 'impact-254', 'impact-261', 'impact-289', 'impact-302', 'impact-48', 'impact-108'],
+  coach:               ['impact-240', 'impact-256', 'impact-276', 'impact-287', 'impact-303', 'impact-119', 'impact-139', 'impact-87'],
   plombier:            ['impact-246', 'impact-260', 'impact-278', 'impact-290', 'impact-304', 'impact-212', 'impact-214', 'impact-215', 'impact-313', 'impact-314'],
   electricien:         ['impact-236', 'impact-247', 'impact-277', 'impact-288', 'impact-305', 'impact-223', 'impact-228'],
   boulangerie:         ['impact-245', 'impact-259', 'impact-269', 'impact-282', 'impact-306', 'impact-33', 'impact-90'],
-  mariage:             ['impact-244', 'impact-251', 'impact-266', 'impact-280', 'impact-307', 'impact-175', 'impact-200', 'impact-322'],
-  couture:             ['impact-235', 'impact-258', 'impact-265', 'impact-281', 'impact-308', 'impact-12'],
-  tatoueur:            ['impact-249', 'impact-262', 'impact-267', 'impact-270', 'impact-309', 'impact-199', 'impact-226'],
+  mariage:             ['impact-244', 'impact-251', 'impact-266', 'impact-280', 'impact-307', 'impact-175', 'impact-200', 'impact-322', 'impact-105'],
+  couture:             ['impact-235', 'impact-258', 'impact-265', 'impact-281', 'impact-308', 'impact-12', 'impact-184'],
+  tatoueur:            ['impact-249', 'impact-262', 'impact-267', 'impact-270', 'impact-309', 'impact-199', 'impact-226', 'impact-124'],
   paysagiste:          ['impact-250', 'impact-263', 'impact-268', 'impact-271', 'impact-310', 'impact-232'],
   pisciniste:          ['impact-179', 'impact-181', 'impact-183', 'impact-15', 'impact-177'],
   restaurant:          ['impact-04',  'impact-99',  'impact-189', 'impact-211', 'impact-126', 'impact-74', 'impact-201'],
@@ -191,7 +191,7 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   // Genuinely scarce in the current 315-template catalog even after a full
   // manual review — no more real matches exist without fabricating content.
   veterinaire:         ['impact-32'],
-  menage:              ['impact-178', 'impact-315', 'impact-316', 'impact-317', 'impact-318', 'impact-319'],
+  menage:              ['impact-178', 'impact-315', 'impact-316', 'impact-317', 'impact-318', 'impact-319', 'impact-191'],
   garage_auto:         ['impact-311', 'impact-312', 'impact-139', 'impact-221'],
   // Genuinely scarce (see note above) — Studio Coach Sportif (impact-227) was
   // closer to 1:1 coaching and went to `coach` instead of here.
@@ -220,19 +220,19 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   // Sans ces lignes, les thèmes existent mais aucun secteur n'y mène :
   // la galerie et le formulaire n'ont rien à proposer à un notaire,
   // un opticien ou une pharmacie. Ordre : le plus abouti d'abord.
-  assurance:            ['impact-337', 'impact-338'],
+  assurance:            ['impact-337', 'impact-338', 'impact-19'],
   audioprothesiste:     ['impact-339', 'impact-340'],
   auto_ecole:           ['impact-341', 'impact-342'],
-  brasserie:            ['impact-380'],
-  caviste:              ['impact-381'],
+  brasserie:            ['impact-380', 'impact-37'],
+  caviste:              ['impact-381', 'impact-131', 'impact-218'],
   commerce_bouche:      ['impact-345', 'impact-346'],
   controle_technique:   ['impact-349', 'impact-350'],
   couvreur:             ['impact-351', 'impact-352'],
   creche:               ['impact-353', 'impact-354'],
   cuisiniste:           ['impact-327', 'impact-334'],
-  demenageur:           ['impact-329'],
+  demenageur:           ['impact-329', 'impact-39'],
   ecole_musique:        ['impact-377'],
-  formation:            ['impact-347', 'impact-348'],
+  formation:            ['impact-347', 'impact-348', 'impact-11', 'impact-49'],
   gestion_patrimoine:   ['impact-378'],
   infirmier:            ['impact-355', 'impact-356'],
   laboratoire:          ['impact-357', 'impact-358'],
@@ -245,7 +245,7 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   podologue:            ['impact-363', 'impact-364'],
   pompes_funebres:      ['impact-328', 'impact-335'],
   pressing:             ['impact-343', 'impact-344'],
-  producteur:           ['impact-365', 'impact-366'],
+  producteur:           ['impact-365', 'impact-366', 'impact-40'],
   recrutement:          ['impact-36', 'impact-382'],
   sage_femme:           ['impact-367', 'impact-368'],
   salle_reception:      ['impact-369', 'impact-370'],
@@ -253,7 +253,7 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   serrurier:            ['impact-192', 'impact-332'],
   toiletteur:           ['impact-227', 'impact-383'],
   vitrier:              ['impact-375', 'impact-376'],
-  vtc:                  ['impact-373', 'impact-374'],
+  vtc:                  ['impact-373', 'impact-374', 'impact-123', 'impact-221'],
 };
 
 /** Short display name per template for the step-2 card. */
