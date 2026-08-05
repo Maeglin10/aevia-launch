@@ -1319,7 +1319,7 @@ function TestimonialsSection() {
                 </p>
                 <div className="flex items-center justify-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--brand,#ec4899)] to-[#8B5CF6] flex items-center justify-center text-white text-[14px] font-[700]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    {testimonials[active].avatar ?? (testimonials[active].name ?? testimonials[active].author ?? "?")[0]}
+                    {testimonials[active].avatar || (testimonials[active].name ?? testimonials[active].author ?? "?")[0]}
                   </div>
                   <div className="text-left">
                     <p className="text-[14px] font-[600] text-[var(--brand-light,#831843)]" style={{ fontFamily: "'Inter', sans-serif" }}>{testimonials[active].name ?? testimonials[active].author}</p>

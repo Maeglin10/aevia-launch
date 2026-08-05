@@ -212,7 +212,11 @@ for (const id of ids) {
           const lf = fondDe(e);
           if (lt !== null && lf !== null) {
             const ratio = (Math.max(lt, lf) + 0.05) / (Math.min(lt, lf) + 0.05);
-            if (ratio < 2.2) out.contraste.push(`«${e.textContent.trim().slice(0, 34)}» ${ratio.toFixed(1)}:1`);
+            if (ratio < 2.2) {
+              // Où le texte se trouve : l'en-tête, le premier écran, la suite.
+              const zone = r.top < 120 ? "en-tête" : r.top < 900 ? "hero" : "corps";
+              out.contraste.push(`«${e.textContent.trim().slice(0, 34)}» ${ratio.toFixed(1)}:1 [${zone}]`);
+            }
           }
         }
       }

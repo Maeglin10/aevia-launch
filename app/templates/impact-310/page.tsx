@@ -370,7 +370,7 @@ export default function Page() {
 
   const GALLERY_DEMO = [PHOTO.gallery1, PHOTO.gallery2, PHOTO.gallery3, PHOTO.gallery4];
   const GALLERY = resolveList(
-    bp?.beforeAfter?.map((r: any) => r.afterUrl || r.beforeUrl || r.imageUrl),
+    bp?.beforeAfter?.map((r: any) => r.afterUrl || r.beforeUrl || r.imageUrl)?.filter(Boolean),
     GALLERY_DEMO
   );
 return (

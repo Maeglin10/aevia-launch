@@ -1092,22 +1092,22 @@ return (
           }}>
             <Reveal delay={0.1}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[0]?.afterUrl ?? bp?.beforeAfter?.[0]?.beforeUrl ?? PHOTO.gallery1} alt={bp?.beforeAfter?.[0]?.caption ?? "Visuel galerie 1"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[0]?.afterUrl || bp?.beforeAfter?.[0]?.beforeUrl || PHOTO.gallery1} alt={bp?.beforeAfter?.[0]?.caption ?? "Visuel galerie 1"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.2}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[1]?.afterUrl ?? bp?.beforeAfter?.[1]?.beforeUrl ?? PHOTO.gallery2} alt={bp?.beforeAfter?.[1]?.caption ?? "Visuel galerie 2"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[1]?.afterUrl || bp?.beforeAfter?.[1]?.beforeUrl || PHOTO.gallery2} alt={bp?.beforeAfter?.[1]?.caption ?? "Visuel galerie 2"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.3}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[2]?.afterUrl ?? bp?.beforeAfter?.[2]?.beforeUrl ?? PHOTO.gallery3} alt={bp?.beforeAfter?.[2]?.caption ?? "Visuel galerie 3"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[2]?.afterUrl || bp?.beforeAfter?.[2]?.beforeUrl || PHOTO.gallery3} alt={bp?.beforeAfter?.[2]?.caption ?? "Visuel galerie 3"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.4}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[3]?.afterUrl ?? bp?.beforeAfter?.[3]?.beforeUrl ?? PHOTO.gallery4} alt={bp?.beforeAfter?.[3]?.caption ?? "Visuel galerie 4"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[3]?.afterUrl || bp?.beforeAfter?.[3]?.beforeUrl || PHOTO.gallery4} alt={bp?.beforeAfter?.[3]?.caption ?? "Visuel galerie 4"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
           </div>

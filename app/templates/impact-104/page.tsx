@@ -82,7 +82,7 @@ export default function LumiereDoreePage() {
     TEMOIGNAGES_DEMO
   );
   const GALERIE = resolveList(
-    bpLocal?.beforeAfter?.map((b: any, i: number) => b.afterUrl || b.beforeUrl || GALERIE_DEMO[i % GALERIE_DEMO.length]),
+    bpLocal?.beforeAfter?.map((b: any, i: number) => b.afterUrl || b.beforeUrl || GALERIE_DEMO[i % GALERIE_DEMO.length])?.filter(Boolean),
     GALERIE_DEMO
   );
 

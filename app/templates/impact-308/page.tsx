@@ -913,22 +913,22 @@ export default function Page() {
           }}>
             <Reveal delay={0.1}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[0]?.afterUrl ?? PHOTO.gallery1} alt="Visuel galerie 1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[0]?.afterUrl || PHOTO.gallery1} alt="Visuel galerie 1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.2}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[1]?.afterUrl ?? PHOTO.gallery2} alt="Visuel galerie 2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[1]?.afterUrl || PHOTO.gallery2} alt="Visuel galerie 2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.3}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[2]?.afterUrl ?? PHOTO.gallery3} alt="Visuel galerie 3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[2]?.afterUrl || PHOTO.gallery3} alt="Visuel galerie 3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.4}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[3]?.afterUrl ?? PHOTO.gallery4} alt="Visuel galerie 4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[3]?.afterUrl || PHOTO.gallery4} alt="Visuel galerie 4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
           </div>

@@ -122,7 +122,7 @@ interface Transformation {
 
 /* ── Data ────────────────────────────────────────────────────────────────── */
 function PHOTO_BASE_LIVE() {
-  return (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-');
+  return 'https://images.unsplash.com/photo-';
 }
 let PHOTO_BASE = PHOTO_BASE_LIVE();
 
