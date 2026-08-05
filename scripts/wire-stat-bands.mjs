@@ -29,8 +29,12 @@ const seulement = process.argv.slice(2).filter((a) => a.startsWith("impact-"));
 const ENTREE =
   /client(?:Services|Reviews|Stats|Faq|Team|Areas|Certifications|Name|City|Tagline|Address|Photos|LegalForm|Text|List)\s*\(|\bfd\??\.|\bbp\??\.|\bc\??\.[a-z]|__layoutSession|sessionData/;
 
-// Ce qui se lit comme un chiffre clé : « 15+ », « 4.9/5 », « 100% », « 72h ».
-const CHIFFRE = /^[\d]+(?:[.,]\d+)?\s*(?:\+|%|k|K|M|h|H|\/\s*\d+(?:[.,]\d+)?|x|X|°)?$/;
+/*
+  Ce qui se lit comme un chiffre clé : « 15+ », « 4.9/5 », « 100% », « 72h »,
+  « 250k+ ». N'accepter qu'un seul caractère d'unité laissait passer « 250k+ »
+  pour du texte, et le bandeau du hero d'impact-11 restait celui du thème.
+*/
+const CHIFFRE = /^\d[\d\s.,]*[a-zA-Z+%°/\d]{0,4}$/;
 
 function ferme(s, i, o, c) {
   let n = 0, guil = null;
@@ -130,6 +134,12 @@ function pairesDeChaines(corps) {
   return paires >= 2 ? paires : null;
 }
 
+// Un bandeau de chiffres commence par des chiffres : « 250k+ », « 92% », « 27 ».
+function premieresValeursChiffrees(corps) {
+  const premiers = [...corps.matchAll(/\[\s*(["'])((?:(?!\1).)*)\1/g)].map((m) => m[2]);
+  return premiers.length >= 2 && premiers.every((x) => CHIFFRE.test(x.trim()));
+}
+
 let faitsA = 0, faitsB = 0;
 const touches = [];
 const ids = seulement.length ? seulement : fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"));
@@ -143,6 +153,26 @@ for (const id of ids) {
   const cablees = variablesCablees(src);
   const citeUneCablee = (bloc) => [...cablees].some((n) => new RegExp(`[^\\w.]${n}\\b`).test(bloc));
   let n = 0;
+
+  /*
+    Les bandeaux de chiffres ne vivent pas tous dans une section muette : celui
+    d'impact-11 — « 250k+ Apprenants actifs · 500+ Cours disponibles · 92% Taux
+    d'emploi » — trône sous le titre du hero, dans une section qui porte par
+    ailleurs le nom et l'accroche du client. On traite donc les tableaux de
+    paires partout, à condition que la première valeur de chaque paire se lise
+    comme un chiffre : « Apprenants actifs » n'en est pas un.
+  */
+  for (const m of [...src.matchAll(/\[/g)].reverse()) {
+    const f = ferme(src, m.index, "[", "]");
+    if (f === -1) continue;
+    if (!/^\s*\.map\(/.test(src.slice(f + 1))) continue;
+    const corps = src.slice(m.index, f + 1);
+    if (!pairesDeChaines(corps)) continue;
+    if (!premieresValeursChiffrees(corps)) continue;
+    const remp = `(clientStats(sessionData)?.map((s: any) => [s.value, s.label]) ?? ${corps})`;
+    src = src.slice(0, m.index) + remp + src.slice(f + 1);
+    n++; faitsA++;
+  }
 
   for (const { deb, fin } of sections(src).reverse()) {
     const bloc = src.slice(deb, fin);

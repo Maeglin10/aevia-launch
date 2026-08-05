@@ -17,6 +17,7 @@ import {
   clientName,
   clientPhotos,
   clientServices,
+  clientStats,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -337,7 +338,7 @@ function EquipeSection() {
 
         <Reveal>
           <div className="bg-[#F0EDE8] p-10 md:p-14 grid md:grid-cols-4 gap-10 border border-[#D8D0C8]">
-            {[["3", "Médecins"], ["10+", "Ans d'expérience min."], ["4 800+", "Patients suivis"], ["97%", "Satisfaction patient"]].map(([val, label]) => (
+            {(clientStats(sessionData)?.map((s: any) => [s.value, s.label]) ?? [["3", "Médecins"], ["10+", "Ans d'expérience min."], ["4 800+", "Patients suivis"], ["97%", "Satisfaction patient"]]).map(([val, label]) => (
               <div key={label} className="text-center">
                 <div className="text-4xl font-light text-[var(--brand,#3A8080)] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{val}</div>
                 <div className="text-xs text-[#8A8278] uppercase tracking-wide">{label}</div>
