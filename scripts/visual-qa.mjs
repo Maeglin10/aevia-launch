@@ -267,8 +267,15 @@ for (const id of ids) {
         démonstration — impact-02 annonçait « Elena Korr. » sur le site d'une
         entreprise qui s'appelle autrement.
       */
+      /*
+        Le titre du hero, pas le plus gros texte de l'écran. Prendre n'importe
+        quel élément faisait passer pour un titre de démonstration le nom d'un
+        vin sur la carte d'un domaine, celui d'une collection dans un carrousel,
+        un mot d'un titre animé — des contenus d'exemple que le client remplace
+        en fournissant les siens, et qui n'ont rien à voir avec le titre.
+      */
       let plusGros = null;
-      for (const e of document.querySelectorAll("h1, h2, h3, div, span, p")) {
+      for (const e of document.querySelectorAll("h1, h2")) {
         const r = e.getBoundingClientRect();
         if (r.top > 900 || r.bottom < 0) continue;
         const s = getComputedStyle(e);

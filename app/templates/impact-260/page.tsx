@@ -179,7 +179,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre engagement',
-    img: ph((clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600')) + '&w=800',
+    img: ph((clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600')),
     alt: 'Plombier Aqua Confort Lyon au travail',
     title: (
       <>
@@ -650,7 +650,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || (ph((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600')) + '&w=2000')}
+          src={fd?.photoUrls?.[0] || (ph((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600')))}
           alt="Plombier Aqua Confort Lyon en intervention"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
