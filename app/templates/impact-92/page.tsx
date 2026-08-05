@@ -582,7 +582,7 @@ export default function SkylineConciergePage() {
                   onMouseLeave={() => setActiveListing(null)}
                 >
                   <Image
-                    src={item.img ?? item.photoUrl ?? photo(3 + i, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80"))}
+                    src={item.img || item.photoUrl || photo(3 + i, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80"))}
                     alt={item.title ?? item.name ?? "Estate"}
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0"

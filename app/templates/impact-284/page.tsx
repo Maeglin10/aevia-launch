@@ -2326,7 +2326,7 @@ function MembreCard({ m, i }: { m: any; i: number }) {
           }}
         >
           <img
-            src={m.photo ?? m.photoUrl ?? EQUIPE_DEMO[i % EQUIPE_DEMO.length].photo}
+            src={m.photo || m.photoUrl || EQUIPE_DEMO[i % EQUIPE_DEMO.length].photo}
             alt={`${fullName} — ${m.titre ?? m.role ?? ''}`}
             loading="lazy"
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

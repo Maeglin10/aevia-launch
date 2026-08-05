@@ -412,7 +412,7 @@ export default function AetherLabsPage() {
       volume: product.volume,
       price: parsePriceToNumber(product.price),
       qty: productQty,
-      image: product.image ?? product.photoUrl ?? PRODUCTS_DEMO[0].image,
+      image: product.image || product.photoUrl || PRODUCTS_DEMO[0].image,
     }
     setCart((prev) => {
       const existing = prev.find((p) => p.key === key)
@@ -626,7 +626,7 @@ export default function AetherLabsPage() {
             <motion.div key={activeProduct} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.4 }}
               className="grid md:grid-cols-2 gap-16 items-center">
               <div className="relative aspect-square overflow-hidden bg-[#F0EBE0]">
-                <Image src={current.image ?? current.photoUrl ?? PRODUCTS_DEMO[0].image} alt={current.name} fill className="object-cover" />
+                <Image src={current.image || current.photoUrl || PRODUCTS_DEMO[0].image} alt={current.name} fill className="object-cover" />
                 <div className="absolute top-4 right-4 flex flex-col gap-2">
                   {(current.badges ?? []).map((b: string) => (
                     <span key={b} className="bg-[#F8F6F2]/90 backdrop-blur-sm text-[#1C1814] text-[10px] tracking-widests uppercase px-2.5 py-1">{b}</span>

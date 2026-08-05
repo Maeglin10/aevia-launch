@@ -941,7 +941,7 @@ function ProgressDot({
 function ProjectSequence() {
   const PHASES: Project[] = resolveList(
     bp?.beforeAfter?.map((r: any, i: number) => ({
-      imgId: r.afterUrl ?? r.beforeUrl ?? r.imageUrl ?? PHASES_DEMO[i % PHASES_DEMO.length].imgId,
+      imgId: r.afterUrl || r.beforeUrl || r.imageUrl || PHASES_DEMO[i % PHASES_DEMO.length].imgId,
       index: PHASES_DEMO[i % PHASES_DEMO.length].index,
       title: r.caption ?? PHASES_DEMO[i % PHASES_DEMO.length].title,
       sub: r.description ?? PHASES_DEMO[i % PHASES_DEMO.length].sub,

@@ -311,9 +311,9 @@ function EquipeSection() {
           {team.map((doc: any, i: number) => (
             <Reveal key={doc.name ?? i} delay={i * 0.1}>
               <div className="bg-[#FAFAF8] border border-[#E8E4DE] group overflow-hidden">
-                {(doc.image ?? doc.photoUrl) && (
+                {(doc.image || doc.photoUrl) && (
                   <div className="relative aspect-[3/4] overflow-hidden">
-                    <Image src={doc.image ?? doc.photoUrl} alt={doc.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700 grayscale" loading="lazy" />
+                    <Image src={doc.image || doc.photoUrl} alt={doc.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700 grayscale" loading="lazy" />
                     <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[var(--brand,#3A8080)] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
                   </div>
                 )}

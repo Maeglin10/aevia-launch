@@ -110,7 +110,7 @@ export default function Home() {
       loc: projects_DEMO[i % projects_DEMO.length].loc,
       year: projects_DEMO[i % projects_DEMO.length].year,
       type: projects_DEMO[i % projects_DEMO.length].type,
-      img: b.afterUrl ?? b.beforeUrl ?? projects_DEMO[i % projects_DEMO.length].img,
+      img: b.afterUrl || b.beforeUrl || projects_DEMO[i % projects_DEMO.length].img,
       area: projects_DEMO[i % projects_DEMO.length].area,
       concrete: projects_DEMO[i % projects_DEMO.length].concrete,
       structure: projects_DEMO[i % projects_DEMO.length].structure,
@@ -130,7 +130,7 @@ export default function Home() {
     clientTeam(sessionData)?.map((m: any, i: number) => ({
       name: m.name,
       role: m.role ?? m.specialty ?? "",
-      img: m.photoUrl ?? team_DEMO[i % team_DEMO.length].img,
+      img: m.photoUrl || team_DEMO[i % team_DEMO.length].img,
     })),
     team_DEMO
   );

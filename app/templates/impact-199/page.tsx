@@ -497,7 +497,7 @@ export default function Impact199Page() {
       bio: t.bio ?? t.credentials ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].bio,
       slots: ARTISTS_DEMO[i % ARTISTS_DEMO.length].slots,
       tag: ARTISTS_DEMO[i % ARTISTS_DEMO.length].tag,
-      image: t.photoUrl ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].image,
+      image: t.photoUrl || ARTISTS_DEMO[i % ARTISTS_DEMO.length].image,
     })),
     ARTISTS_DEMO,
   );
@@ -515,7 +515,7 @@ export default function Impact199Page() {
     FAQS_DEMO,
   );
   const GALLERY_IMAGES = resolveList(
-    bp?.beforeAfter?.map((b: any, i: number) => b.afterUrl ?? b.beforeUrl ?? GALLERY_IMAGES_DEMO[i % GALLERY_IMAGES_DEMO.length]),
+    bp?.beforeAfter?.map((b: any, i: number) => b.afterUrl || b.beforeUrl || GALLERY_IMAGES_DEMO[i % GALLERY_IMAGES_DEMO.length]),
     GALLERY_IMAGES_DEMO,
   );
 

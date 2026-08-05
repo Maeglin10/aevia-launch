@@ -954,7 +954,7 @@ function ProjectSequence() {
   const PROJECTS: Project[] = resolveList(
     bp?.beforeAfter?.map((r: any, i: number) => ({
       id: `proj-${i + 1}`,
-      src: r.afterUrl ?? r.beforeUrl ?? r.imageUrl,
+      src: r.afterUrl || r.beforeUrl || r.imageUrl,
       index: PROJECTS_DEMO[i % PROJECTS_DEMO.length].index,
       title: r.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
       sub: r.description ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].sub,

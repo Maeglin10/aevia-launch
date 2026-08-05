@@ -205,7 +205,7 @@ export default function MorphStudioPage() {
       title: b.caption ?? MANIFEST.projects[i % MANIFEST.projects.length].title,
       tech: MANIFEST.projects[i % MANIFEST.projects.length].tech,
       desc: MANIFEST.projects[i % MANIFEST.projects.length].desc,
-      img: b.afterUrl ?? b.beforeUrl ?? MANIFEST.projects[i % MANIFEST.projects.length].img,
+      img: b.afterUrl || b.beforeUrl || MANIFEST.projects[i % MANIFEST.projects.length].img,
     })),
     MANIFEST.projects
   );

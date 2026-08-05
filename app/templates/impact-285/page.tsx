@@ -2324,7 +2324,7 @@ let TEAM_DEMO = TEAM_DEMO_LIVE();
 function TeamMemberCard({ member, i }: { member: any; i: number }) {
   const [hover, setHover] = useState(false);
   const accent = member.accent ?? TEAM_DEMO[i % TEAM_DEMO.length].accent;
-  const img = member.photoUrl ?? member.img ?? TEAM_DEMO[i % TEAM_DEMO.length].img;
+  const img = member.photoUrl || member.img || TEAM_DEMO[i % TEAM_DEMO.length].img;
   const name = member.nom ?? member.name;
 
   const card: React.CSSProperties = {

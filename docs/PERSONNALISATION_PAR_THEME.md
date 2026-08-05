@@ -17,7 +17,7 @@ horaires, adresse, réalisations — et ses propres images.
 | thème | blocs | en plus | retouches | photos | couleur | reste |
 |---|---|---|---|---|---|---|
 | impact-01 | ✓ | email, realisation | 14 | ✓ | ✓ | ✓ |
-| impact-02 | ✓ | email, adresse, realisation | 8 | ✓ | — | Paris |
+| impact-02 | ✓ | email, adresse, realisation | 8 | ✓ | — | ✓ |
 | impact-03 | ✓ | realisation | 5 | — | ✓ | ✓ |
 | impact-04 | ✓ | horaires | 7 | ✓ | — | Paris |
 | impact-05 | ✓ | — | 8 | ✓ | ✓ | NaN/undefined |
@@ -25,7 +25,7 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-07 | ✓ | realisation | 6 | ✓ | ✓ | ✓ |
 | impact-08 | ✓ | — | 7 | ✓ | ✓ | ✓ |
 | impact-09 | ✓ | — | 7 | ✓ | ✓ | ✓ |
-| impact-10 | ✓ | telephone, email | 8 | ✗ | — | ✓ |
+| impact-10 | ✓ | telephone, email | 8 | ✓ | ✓ | ✓ |
 | impact-11 | ✓ | — | 4 | — | ✓ | ✓ |
 | impact-12 | ✓ | realisation | 10 | ✓ | — | ✓ |
 | impact-13 | ✓ | horaires | 9 | ✓ | ✓ | ✓ |
@@ -215,7 +215,7 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-197 | ✓ | email | 12 | ✓ | ✓ | ✓ |
 | impact-198 | ✓ | — | 5 | ✓ | ✓ | ✓ |
 | impact-199 | ✓ | adresse, horaires, realisation | 9 | ✓ | ✓ | ✓ |
-| impact-200 | ✓ | adresse, horaires, realisation | 7 | ✗ | — | ✓ |
+| impact-200 | ✓ | adresse, horaires, realisation | 7 | ✓ | ✓ | ✓ |
 | impact-201 | ✓ | — | 7 | ✓ | ✓ | ✓ |
 | impact-207 | ✓ | email | 9 | — | ✓ | ✓ |
 | impact-208 | ✓ | horaires, realisation | 8 | ✓ | ✓ | Paris, Marseille |

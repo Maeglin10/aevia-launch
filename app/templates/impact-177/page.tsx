@@ -136,7 +136,7 @@ export default function MaelleDumasPiscinesPage() {
       city: PROJECTS_DEMO[i % PROJECTS_DEMO.length].city,
       surface: PROJECTS_DEMO[i % PROJECTS_DEMO.length].surface,
       style: "Réalisation",
-      img: b.afterUrl ?? b.beforeUrl ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
+      img: b.afterUrl || b.beforeUrl || PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
     })),
     PROJECTS_DEMO
   );

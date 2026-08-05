@@ -1092,7 +1092,7 @@ function ArtistesSection() {
                 {(artist.img || artist.photoUrl) && (
                   <div className="relative h-[260px] overflow-hidden">
                     <Image
-                      src={photo(1 + (artist.id ?? i), artist.photoUrl ?? (clientPhotos(sessionData)[2] || `https://images.unsplash.com/${artist.img}?w=600&q=80`))}
+                      src={photo(1 + (artist.id ?? i), artist.photoUrl || (clientPhotos(sessionData)[2] || `https://images.unsplash.com/${artist.img}?w=600&q=80`))}
                       alt={artist.name}
                       fill
                       className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
@@ -1367,7 +1367,7 @@ function TestimonialsSection() {
                 </p>
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[var(--brand,#ec4899)] to-[#8B5CF6] flex items-center justify-center text-white text-[11px] font-[700]">
-                    {t.avatar ?? (t.name ?? t.author ?? "?")[0]}
+                    {t.avatar || (t.name ?? t.author ?? "?")[0]}
                   </div>
                   <div>
                     <p className="text-[12px] font-[600] text-[var(--brand-light,#831843)]" style={{ fontFamily: "'Inter', sans-serif" }}>{t.name ?? t.author}</p>

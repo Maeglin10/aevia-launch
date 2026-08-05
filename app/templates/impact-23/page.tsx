@@ -217,7 +217,7 @@ export default function StudioPelikanPage() {
       type: films_DEMO[i % films_DEMO.length].type,
       year: films_DEMO[i % films_DEMO.length].year,
       festival: films_DEMO[i % films_DEMO.length].festival,
-      src: b.afterUrl ?? b.beforeUrl ?? films_DEMO[i % films_DEMO.length].src,
+      src: b.afterUrl || b.beforeUrl || films_DEMO[i % films_DEMO.length].src,
     })),
     films_DEMO
   );

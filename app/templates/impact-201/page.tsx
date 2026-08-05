@@ -631,7 +631,7 @@ function ExperienceCard({
     >
       <div style={{ position: "relative", aspectRatio: "4/5", overflow: "hidden" }}>
         <motion.img
-          src={exp.photoUrl || (clientPhotos(sessionData)[0] || `https://images.unsplash.com/${exp.img ?? demoImg}?q=80&w=700&auto=format&fit=crop`)}
+          src={exp.photoUrl || (clientPhotos(sessionData)[0] || `https://images.unsplash.com/${exp.img || demoImg}?q=80&w=700&auto=format&fit=crop`)}
           alt={exp.title ?? exp.name}
           style={{
             width: "100%",

@@ -2068,7 +2068,7 @@ function EquipeSection() {
     clientTeam(sessionData)?.map((m: any, i: number) => {
       const [prenom, ...rest] = (m.name ?? "").split(" ");
       return {
-        photo: m.photoUrl ?? equipe_demo[i % equipe_demo.length].photo,
+        photo: m.photoUrl || equipe_demo[i % equipe_demo.length].photo,
         prenom: prenom || m.name,
         nom: rest.join(" "),
         specialite: m.specialty ?? m.role,

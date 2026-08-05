@@ -376,7 +376,7 @@ return (
               <Reveal key={p.id ?? p.title ?? i} delay={i * 0.08}>
                 <div className="bg-[#050505] group overflow-hidden">
                   <div className="relative aspect-video overflow-hidden">
-                    <img src={p.photoUrl ?? p.img ?? photo(1 + i, PROPERTIES_DEMO[i % PROPERTIES_DEMO.length].imgFallback)} alt={p.name ?? p.title} className="w-full h-full object-cover brightness-50 grayscale group-hover:brightness-[0.7] group-hover:grayscale-0 transition-all duration-700" />
+                    <img src={p.photoUrl || p.img || photo(1 + i, PROPERTIES_DEMO[i % PROPERTIES_DEMO.length].imgFallback)} alt={p.name ?? p.title} className="w-full h-full object-cover brightness-50 grayscale group-hover:brightness-[0.7] group-hover:grayscale-0 transition-all duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent" />
                     {p.id && <div className="absolute top-4 left-4 text-[10px] font-mono font-bold text-[var(--brand,#e11d48)] uppercase tracking-widest border border-[var(--brand,#e11d48)]/30 px-2 py-1">{p.id}</div>}
                   </div>

@@ -136,7 +136,7 @@ function WineHero() {
       name: w.name ?? WINES_DEMO[i % WINES_DEMO.length].name,
       note: w.description ?? WINES_DEMO[i % WINES_DEMO.length].note,
       glass: w.price ?? WINES_DEMO[i % WINES_DEMO.length].glass,
-      img: w.imageUrl ?? WINES_DEMO[i % WINES_DEMO.length].img,
+      img: w.imageUrl || WINES_DEMO[i % WINES_DEMO.length].img,
     })),
     WINES_DEMO
   );

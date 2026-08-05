@@ -177,7 +177,7 @@ export default function KeopsPage() {
       type: projects_DEMO[i % projects_DEMO.length].type,
       area: projects_DEMO[i % projects_DEMO.length].area,
       year: projects_DEMO[i % projects_DEMO.length].year,
-      src: b.afterUrl ?? b.beforeUrl ?? projects_DEMO[i % projects_DEMO.length].src,
+      src: b.afterUrl || b.beforeUrl || projects_DEMO[i % projects_DEMO.length].src,
     })),
     projects_DEMO
   );

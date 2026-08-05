@@ -207,7 +207,7 @@ function buildCollections() {
       season: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].season,
       caption: b.caption ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].caption,
       sub: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].sub,
-      img: b.afterUrl ?? b.beforeUrl ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].img,
+      img: b.afterUrl || b.beforeUrl || COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].img,
     })),
     COLLECTIONS_DEMO
   );

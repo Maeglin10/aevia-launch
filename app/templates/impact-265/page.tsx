@@ -942,7 +942,7 @@ function CreationSequence() {
       label: CREATIONS_DEMO[i % CREATIONS_DEMO.length].label,
       title: b.caption ?? CREATIONS_DEMO[i % CREATIONS_DEMO.length].title,
       body: b.caption ?? CREATIONS_DEMO[i % CREATIONS_DEMO.length].body,
-      imgId: b.afterUrl ?? b.beforeUrl ?? CREATIONS_DEMO[i % CREATIONS_DEMO.length].imgId,
+      imgId: b.afterUrl || b.beforeUrl || CREATIONS_DEMO[i % CREATIONS_DEMO.length].imgId,
     })),
     CREATIONS_DEMO
   );

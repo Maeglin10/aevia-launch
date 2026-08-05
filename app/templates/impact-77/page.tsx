@@ -183,7 +183,7 @@ export default function HorologsLuxePage() {
   const GRID_PHOTOS = resolveList(
     bpLocal?.beforeAfter?.map((b: any, i: number) => ({
       id: i + 1,
-      src: b.afterUrl ?? b.beforeUrl ?? GRID_PHOTOS_DEMO[i % GRID_PHOTOS_DEMO.length].src,
+      src: b.afterUrl || b.beforeUrl || GRID_PHOTOS_DEMO[i % GRID_PHOTOS_DEMO.length].src,
       category: GRID_PHOTOS_DEMO[i % GRID_PHOTOS_DEMO.length].category,
       title: b.caption ?? GRID_PHOTOS_DEMO[i % GRID_PHOTOS_DEMO.length].title,
       aspect: GRID_PHOTOS_DEMO[i % GRID_PHOTOS_DEMO.length].aspect,

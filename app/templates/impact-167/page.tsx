@@ -417,7 +417,7 @@ function PropertyCard({
         }}
       >
         <img
-          src={property.image ?? property.photoUrl ?? photo(2 + index, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop"))}
+          src={property.image || property.photoUrl || photo(2 + index, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop"))}
           alt={property.title ?? property.name ?? "Bien"}
           style={{
             width: "100%",

@@ -870,7 +870,7 @@ export default function AuraWellnessPage() {
                 <div className="bg-white rounded-2xl overflow-hidden border border-[#D8D0C4] group cursor-pointer">
                   <div className="relative h-64 overflow-hidden">
                     <Image
-                      src={t.photoUrl ?? ((["1559599101-f09722fb4948", "1573496359142-b8d87734a5a2", "1507003211169-0a1dd7228f2d"][i % 3]).startsWith('http') ? (["1559599101-f09722fb4948", "1573496359142-b8d87734a5a2", "1507003211169-0a1dd7228f2d"][i % 3]) : `https://images.unsplash.com/photo-${["1559599101-f09722fb4948", "1573496359142-b8d87734a5a2", "1507003211169-0a1dd7228f2d"][i % 3]}?w=600&q=80`)}
+                      src={t.photoUrl || ((["1559599101-f09722fb4948", "1573496359142-b8d87734a5a2", "1507003211169-0a1dd7228f2d"][i % 3]).startsWith('http') ? (["1559599101-f09722fb4948", "1573496359142-b8d87734a5a2", "1507003211169-0a1dd7228f2d"][i % 3]) : `https://images.unsplash.com/photo-${["1559599101-f09722fb4948", "1573496359142-b8d87734a5a2", "1507003211169-0a1dd7228f2d"][i % 3]}?w=600&q=80`)}
                       alt={t.name}
                       fill
                       className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"

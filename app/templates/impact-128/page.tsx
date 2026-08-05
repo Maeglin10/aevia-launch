@@ -228,7 +228,7 @@ export default function HavenEstatesPage() {
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group cursor-pointer">
                     <div className="relative aspect-[16/10] overflow-hidden rounded-sm mb-6">
-                      <ParallaxImg src={p.img ?? p.photoUrl ?? photo(2 + i, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200"))} alt={p.title ?? p.name ?? "Property"} />
+                      <ParallaxImg src={p.img || p.photoUrl || photo(2 + i, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200"))} alt={p.title ?? p.name ?? "Property"} />
                       {(p.tag ?? p.status) && (
                         <div className="absolute top-6 left-6 flex gap-2">
                           <span className="px-3 py-1 bg-[var(--brand,#b8860b)] text-white text-[10px] font-bold uppercase tracking-widest rounded-full">{p.tag ?? p.status}</span>

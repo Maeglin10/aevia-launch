@@ -188,7 +188,7 @@ export default function CreativePortfolioSPA() {
       ...PROJECTS_DEMO[i % PROJECTS_DEMO.length],
       id: i + 1,
       title: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
-      image: b.afterUrl ?? b.beforeUrl ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].image,
+      image: b.afterUrl || b.beforeUrl || PROJECTS_DEMO[i % PROJECTS_DEMO.length].image,
     })),
     PROJECTS_DEMO
   );

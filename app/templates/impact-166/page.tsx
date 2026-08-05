@@ -806,7 +806,7 @@ export default function Impact166Page() {
     bpLocal?.beforeAfter?.map((b: any, i: number) => ({
       ...SERIES_DEMO[i % SERIES_DEMO.length],
       title: b.caption ?? SERIES_DEMO[i % SERIES_DEMO.length].title,
-      img: b.afterUrl ?? b.beforeUrl ?? SERIES_DEMO[i % SERIES_DEMO.length].img,
+      img: b.afterUrl || b.beforeUrl || SERIES_DEMO[i % SERIES_DEMO.length].img,
     })),
     SERIES_DEMO
   );

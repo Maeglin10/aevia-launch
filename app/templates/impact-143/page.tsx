@@ -147,7 +147,7 @@ export default function AtelierInteriorPage() {
     bp?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
       type: PROJECTS_DEMO[i % PROJECTS_DEMO.length].type,
-      img: b.afterUrl ?? b.beforeUrl ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
+      img: b.afterUrl || b.beforeUrl || PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
       desc: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].desc,
     })),
     PROJECTS_DEMO

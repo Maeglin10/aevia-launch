@@ -563,7 +563,7 @@ export default function Impact171Page() {
                 <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group cursor-pointer">
                   {(doc.img || doc.photoUrl) && (
                     <div className="relative h-56 overflow-hidden">
-                      <Image src={doc.img ?? doc.photoUrl} alt={doc.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <Image src={doc.img || doc.photoUrl} alt={doc.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#134E4A]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
                   )}

@@ -2156,7 +2156,7 @@ function RealizationsSection() {
   const realisations = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       ...realisations_DEMO[i % realisations_DEMO.length],
-      img: b.afterUrl ?? realisations_DEMO[i % realisations_DEMO.length].img,
+      img: b.afterUrl || realisations_DEMO[i % realisations_DEMO.length].img,
       desc: b.caption ?? realisations_DEMO[i % realisations_DEMO.length].desc,
     })),
     realisations_DEMO

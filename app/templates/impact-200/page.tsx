@@ -539,7 +539,7 @@ export default function Impact200Page() {
   );
   const GALLERY_ITEMS = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
-      src: b.afterUrl ?? b.beforeUrl ?? GALLERY_ITEMS_DEMO[i % GALLERY_ITEMS_DEMO.length].src,
+      src: b.afterUrl || b.beforeUrl || GALLERY_ITEMS_DEMO[i % GALLERY_ITEMS_DEMO.length].src,
       year: GALLERY_ITEMS_DEMO[i % GALLERY_ITEMS_DEMO.length].year,
       location: b.caption ?? GALLERY_ITEMS_DEMO[i % GALLERY_ITEMS_DEMO.length].location,
       size: GALLERY_ITEMS_DEMO[i % GALLERY_ITEMS_DEMO.length].size,

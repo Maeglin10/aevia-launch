@@ -144,7 +144,7 @@ export default function AquanovaPiscinesPage() {
     bpLocal?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].title,
       tag: "Réalisation",
-      img: b.afterUrl ?? b.beforeUrl ?? REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].img,
+      img: b.afterUrl || b.beforeUrl || REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].img,
     })),
     REALISATIONS_DEMO
   );

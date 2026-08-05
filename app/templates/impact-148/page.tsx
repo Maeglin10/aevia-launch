@@ -313,7 +313,7 @@ export default function NeonPulsePage() {
                    <div className="group relative">
                       <div className="relative aspect-[3/4] mb-10 overflow-hidden rounded-[2rem] bg-white/[0.02] border border-white/10 p-4">
                          <div className="relative w-full h-full overflow-hidden rounded-[1.5rem]">
-                            <Image src={drop.img ?? (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200")} alt={drop.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000 grayscale group-hover:grayscale-0" />
+                            <Image src={drop.img || (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200")} alt={drop.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000 grayscale group-hover:grayscale-0" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                             <div className="absolute bottom-6 left-6">
                                <h3 className="text-3xl font-black italic uppercase mb-2">{drop.name}</h3>
