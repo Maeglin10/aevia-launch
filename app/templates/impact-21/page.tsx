@@ -1143,7 +1143,7 @@ return (
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Politique de conf.</button>
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Mentions légales</button>
           </div>
-          <span>© 2026 Forme Studio. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Forme Studio. Tous"} droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
         </div>
       </footer>
     </div>

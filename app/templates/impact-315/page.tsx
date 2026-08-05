@@ -1464,7 +1464,7 @@ export default function Page() {
             fontSize: 11.5,
             letterSpacing: '0.05em',
           }}>
-            © {new Date().getFullYear()} Brise de Propreté. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Brise"} de Propreté. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

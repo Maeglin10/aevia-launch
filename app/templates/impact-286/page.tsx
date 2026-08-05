@@ -2507,7 +2507,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 Cabinet Vidal — Maître Clara Vidal, Avocate. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Cabinet Vidal"} — Maître Clara Vidal, Avocate. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a

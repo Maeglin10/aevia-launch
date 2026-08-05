@@ -974,7 +974,7 @@ return (
         ))}
       </footer>
       <div style={{ padding: "20px 44px", display: "flex", justifyContent: "space-between", background: C.bg }}>
-        <span style={{ fontFamily: C.mono, fontSize: 10, color: C.borderLight, letterSpacing: 2, textTransform: "uppercase" }}>© 2026 Bureau — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+        <span style={{ fontFamily: C.mono, fontSize: 10, color: C.borderLight, letterSpacing: 2, textTransform: "uppercase" }}>© 2026 {clientName(sessionData) ?? "Bureau"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
         <span style={{ fontFamily: C.mono, fontSize: 10, color: C.borderLight, letterSpacing: 2, textTransform: "uppercase" }}>Mentions légales · Confidentialité</span>
       </div>
     </div>

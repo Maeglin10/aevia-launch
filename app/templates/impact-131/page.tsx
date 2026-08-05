@@ -2569,7 +2569,7 @@ export default function WineryTemplate() {
                 textTransform: "uppercase",
               }}
             >
-              © 2024 Château de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2024 {clientName(sessionData) ?? "Château"} de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["Instagram", "LinkedIn", "Newsletter"]).map((s) => (

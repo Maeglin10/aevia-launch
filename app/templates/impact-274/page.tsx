@@ -2678,7 +2678,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 Dr. Sophie Renard — Médecin Généraliste. RPPS : 10 003 456 789{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Dr. Sophie Renard"} — Médecin Généraliste. RPPS : 10 003 456 789{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a href="/templates/impact-274" style={{ color: 'inherit', textDecoration: 'none' }}>

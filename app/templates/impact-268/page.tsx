@@ -2077,7 +2077,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.36)',
         }}
       >
-        <span>© 2026 Vert Horizon · {clientTrade(sessionData) ?? "Paysagiste"} Île-de-France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Vert Horizon"} · {clientTrade(sessionData) ?? "Paysagiste"} Île-de-France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a
             href="#devis"

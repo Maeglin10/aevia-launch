@@ -556,7 +556,7 @@ export default function CliniqueBoisVertPage() {
           </div>
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 Clinique du Bois Vert · SIRET 012 345 678 00090 · Ordre National des Vétérinaires{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Clinique"} du Bois Vert · SIRET 012 345 678 00090 · Ordre National des Vétérinaires{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#3a7d44)]/25">Clinique vétérinaire · {clientCity(sessionData) ?? "Toulouse"}</span>
         </div>
       </footer>

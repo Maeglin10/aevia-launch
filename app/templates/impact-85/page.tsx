@@ -1033,7 +1033,7 @@ export default function AetherLabsPage() {
             </div>
           </div>
           <div className="pt-8 border-t border-[#1C1814] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 Aether Labs — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2024 {clientName(sessionData) ?? "Aether Labs"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
             <div className="flex gap-6">
               {[
                 { name: "Mentions légales", path: "/templates/impact-85/legal/mentions-legales" },

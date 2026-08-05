@@ -440,7 +440,7 @@ export default function ArcaneRealtyPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 ARCANE REALTY GLOBAL HOLDINGS. BUILT FOR THE INFINITE.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "ARCANE REALTY GLOBAL HOLDINGS."} BUILT FOR THE INFINITE.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <div className="flex gap-12 italic">
              <Link href="#contact" className="hover:text-white transition-colors">Privacy Circle</Link>
              <Link href="#contact" className="hover:text-white transition-colors">Listing Verification</Link>

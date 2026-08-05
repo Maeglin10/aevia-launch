@@ -2128,7 +2128,7 @@ function Footer() {
           color: C.textFaint,
         }}
       >
-        <span>© 2026 Studio Athletic. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Studio Athletic. Tous"} droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span>Conçu pour performer.</span>
       </div>
       <style>{`

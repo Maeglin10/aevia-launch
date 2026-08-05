@@ -530,7 +530,7 @@ export default function VanguardLegalPage() {
            ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
-           <span>© 2026 VANGUARD STRATEGIC LEGAL DEFENSE. CONNECTION ENCRYPTED.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+           <span>© 2026 {clientName(sessionData) ?? "VANGUARD STRATEGIC LEGAL DEFENSE."} CONNECTION ENCRYPTED.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
            <div className="flex gap-12">
               <span>SYSTEM_STATUS: NOMINAL</span>
               <Link href="/templates/impact-147/legal" className="hover:text-[var(--brand,#00ff41)] transition-all">PRIVACY_PROTOCOL_ENABLED</Link>

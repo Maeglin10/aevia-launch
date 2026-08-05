@@ -2226,7 +2226,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Studio Noir Absolu. {clientCity(sessionData) ?? "Paris"} 3e Marais. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Studio Noir Absolu."} {clientCity(sessionData) ?? "Paris"} 3e Marais. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a

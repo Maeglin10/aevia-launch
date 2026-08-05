@@ -1611,7 +1611,7 @@ function ContactFooter() {
             <span className="text-white/40 text-[12px]" style={{ fontFamily: "'Inter', sans-serif" }}>· {clientCity(sessionData) ?? "Paris"}</span>
           </div>
           <p className="text-[11px] text-white/40 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
-            © 2025 Velvet Nails — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2025 {clientName(sessionData) ?? "Velvet Nails"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div className="flex gap-5">
             <Link href="/templates/impact-88/mentions-legales" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>

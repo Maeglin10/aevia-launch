@@ -16,6 +16,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -2170,7 +2171,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Cabinet Dentaire Sorrento. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Cabinet Dentaire Sorrento. Tous"} droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Dr. Clara Sorrento · RPPS 00000000000 · Ordre des Chirurgiens-Dentistes

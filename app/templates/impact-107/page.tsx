@@ -455,7 +455,7 @@ export default function MeridianJourneyPage() {
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 MERIDIAN EXPEDITIONS.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "MERIDIAN EXPEDITIONS."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span>INTO THE UNKNOWN.</span>
         </div>
       </footer>

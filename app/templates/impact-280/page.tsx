@@ -3248,7 +3248,7 @@ function FooterSection() {
               lineHeight: 1.6,
             }}
           >
-            © {new Date().getFullYear()} Les Épousailles d&apos;Alsace · SIRET 852 346 710 00014 ·
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Les Épousailles"} d&apos;Alsace · SIRET 852 346 710 00014 ·
             APE 8230Z · Auto-entrepreneur{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
           <div style={{ display: 'flex', gap: 22 }}>

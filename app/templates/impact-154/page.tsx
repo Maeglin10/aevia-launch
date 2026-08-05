@@ -903,7 +903,7 @@ return (
            </div>
 
            <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black text-white/10 uppercase tracking-[0.4em] italic">
-              <span>© 2026 THE IVORY ARCHIVE FOUNDATION. // ALL_RIGHTS_RESERVED{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+              <span>© 2026 {clientName(sessionData) ?? "THE IVORY ARCHIVE FOUNDATION."} // ALL_RIGHTS_RESERVED{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
               <div className="flex gap-12">
                  <span>SECURITY: LVL_9</span>
                  <span>LATENCY: 14ms</span>

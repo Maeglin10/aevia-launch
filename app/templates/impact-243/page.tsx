@@ -2222,7 +2222,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.36)',
         }}
       >
-        <span>© 2026 Cabinet Dr. Élodie Beaumont — Médecin généraliste · {clientCity(sessionData) ?? "Strasbourg"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Cabinet Dr. Élodie Beaumont"} — Médecin généraliste · {clientCity(sessionData) ?? "Strasbourg"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

@@ -463,7 +463,7 @@ export default function AutoExpertPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f1f3f5]/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f1f3f5]/8">
-          <span>© 2026 AutoExpert {clientCity(sessionData) ?? "Rennes"} · SIRET 345 678 901 00022 · FCA · {clientCity(sessionData) ?? "Rennes"} (35){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "AutoExpert"} {clientCity(sessionData) ?? "Rennes"} · SIRET 345 678 901 00022 · FCA · {clientCity(sessionData) ?? "Rennes"} (35){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#dc2626)]/15">Garage multimarque {clientCity({ formData: fd }) ?? "Rennes"}</span>
         </div>
       </footer>

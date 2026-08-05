@@ -565,7 +565,7 @@ export default function MorphStudioPage() {
         </div>
 
         <div className="max-w-[1600px] mx-auto border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600">
-          <div>© 2026 MORPH STUDIO INC.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
+          <div>© 2026 {clientName(sessionData) ?? "MORPH STUDIO INC."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
             ALL SYSTEMS NOMINAL

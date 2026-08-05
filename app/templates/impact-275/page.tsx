@@ -3163,7 +3163,7 @@ function FooterSection() {
               color: 'rgba(249,247,242,0.35)',
             }}
           >
-            © {new Date().getFullYear()} Cabinet Faure — Tous droits réservés · {clientCity(sessionData) ?? "Marseille"}, France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Cabinet Faure"} — Tous droits réservés · {clientCity(sessionData) ?? "Marseille"}, France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: 'flex', gap: 24 }}>
             {['Mentions légales', 'Politique de confidentialité', 'RGPD'].map(

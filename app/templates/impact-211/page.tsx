@@ -1754,7 +1754,7 @@ export default function Impact211Page() {
           {/* Bottom bar */}
           <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
             <p style={{ fontFamily: font.sans, fontSize: "0.72rem", fontWeight: 300, color: C.creamMuted, opacity: 0.5, letterSpacing: "0.06em" }}>
-              © 2026 Maison Éclat · Tous droits réservés · SIRET 123 456 789 00010{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "Maison Éclat"} · Tous droits réservés · SIRET 123 456 789 00010{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
               {["Mentions légales", "Politique de confidentialité", "CGV"].map((link) => (

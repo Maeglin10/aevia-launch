@@ -26,6 +26,7 @@ import {
   clientAddress,
   clientCity,
   clientHeroLine,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -2109,7 +2110,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Cabinet Dentaire Rosenfeld · {clientCity(sessionData) ?? "Strasbourg"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Cabinet Dentaire Rosenfeld"} · {clientCity(sessionData) ?? "Strasbourg"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="/templates/impact-273" style={{ color: 'inherit', textDecoration: 'none' }}>

@@ -1674,7 +1674,7 @@ export default function Impact199Page() {
 
             <div className="text-center md:text-right space-y-1">
               <p className="text-white/20 text-xs">
-                © {new Date().getFullYear()} Encre & Âme. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+                © {new Date().getFullYear()} {clientName(sessionData) ?? "Encre"} & Âme. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
               </p>
               <p className="text-white/15 text-xs">{clientAddress(sessionData) ?? "42 Rue Oberkampf, Paris XI"}</p>
               <div className="flex items-center justify-center md:justify-end gap-4 mt-2">

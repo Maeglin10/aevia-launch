@@ -2155,7 +2155,7 @@ function Footer() {
           color: 'rgba(236,220,204,0.38)',
         }}
       >
-        <span>© 2026 Maison Nuptiale · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Maison Nuptiale"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

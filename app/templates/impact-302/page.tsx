@@ -1296,7 +1296,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Nexus Compta. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Nexus Compta. Tous"} droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

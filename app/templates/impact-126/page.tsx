@@ -2042,7 +2042,7 @@ return (
               letterSpacing: "0.1em",
             }}
           >
-            <span>© {new Date().getFullYear()} Ristorante Aureliano. Tutti i diritti riservati.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© {new Date().getFullYear()} {clientName(sessionData) ?? "Ristorante Aureliano. Tutti"} i diritti riservati.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
             <div style={{ display: "flex", gap: 28 }}>
               {["Privacy Policy", "Cookie", "Legal"].map((l) => (
                 <a

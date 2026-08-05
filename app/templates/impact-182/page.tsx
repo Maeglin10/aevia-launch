@@ -486,7 +486,7 @@ export default function BatirSolidePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 Bâtir Solide · SIRET 567 890 123 00045 · Qualibat 3311 · Assurance Décennale SMABTP{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Bâtir Solide"} · SIRET 567 890 123 00045 · Qualibat 3311 · Assurance Décennale SMABTP{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#d4a96a)]/30">Maçon certifié · Région PACA</span>
         </div>
       </footer>

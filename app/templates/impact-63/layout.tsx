@@ -204,7 +204,7 @@ export default function MaisonDrouetLayout({
         </div>
         <div style={{ maxWidth: "1300px", margin: "4rem auto 0", paddingTop: "2rem", borderTop: "1px solid #1A1A1A", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
           <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", letterSpacing: "0.15em", color: C.textDim }}>
-            © {new Date().getFullYear()} MAISON DROUET. TOUS DROITS RÉSERVÉS.
+            © {new Date().getFullYear()} {clientName(__layoutSession) ?? "MAISON DROUET. TOUS DROITS"} RÉSERVÉS.
           </div>
           <div style={{ display: "flex", gap: "2rem" }}>
             <Link href="/templates/impact-63/legal" style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", color: C.textDim, textDecoration: "none", cursor: "pointer" }}>

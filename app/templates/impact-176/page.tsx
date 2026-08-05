@@ -2219,7 +2219,7 @@ export default function Impact176Page() {
               color: C.subdued,
             }}
           >
-            © 2026 Metric Analytics · All rights reserved · GDPR · Privacy Policy{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 {clientName(sessionData) ?? "Metric Analytics"} · All rights reserved · GDPR · Privacy Policy{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <div

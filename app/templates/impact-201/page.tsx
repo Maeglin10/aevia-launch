@@ -2806,7 +2806,7 @@ return (
                 fontFamily: C.fontSans,
               }}
             >
-              © 2025 Maison Saveur — Chef Antoine Lefèvre{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2025 {clientName(sessionData) ?? "Maison Saveur"} — Chef Antoine Lefèvre{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               {["Mentions légales", "Politique de confidentialité", "CGV"].map(

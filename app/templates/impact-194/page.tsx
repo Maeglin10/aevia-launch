@@ -437,7 +437,7 @@ export default function TableExceptionPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#fefcf8]/8">
-          <span>© 2026 Table d'Exception · SIRET 789 012 345 00066 · Traiteur agréé · {clientCity(sessionData) ?? "Lyon"} (69){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Table"} d'Exception · SIRET 789 012 345 00066 · Traiteur agréé · {clientCity(sessionData) ?? "Lyon"} (69){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#d4a853)]/15">L'art de recevoir</span>
         </div>
       </footer>

@@ -707,7 +707,7 @@ export default function Page() {
             </div>
           </div>
           <div style={{ paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.1)', textAlign: 'center', fontSize: 11.5, letterSpacing: '0.05em' }}>
-            © {new Date().getFullYear()} Pro-Nettoyage Services. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Pro-Nettoyage Services. Tous"} droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

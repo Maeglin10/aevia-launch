@@ -1193,7 +1193,7 @@ return (
           </div>
 
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.2)", fontFamily: "system-ui" }}>© 2024 Évasion Dorée — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.2)", fontFamily: "system-ui" }}>© 2024 {clientName(sessionData) ?? "Évasion Dorée"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
               {[1,2,3,4,5].map(i => <Star key={i} size={11} fill={C.accent} color={C.accent} />)}
               <span style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", fontFamily: "system-ui", marginLeft: 8 }}>4.97/5 — 1 200+ voyageurs</span>
