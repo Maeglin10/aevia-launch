@@ -42,6 +42,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientCity,
   clientFaq,
   clientName,
@@ -283,7 +284,7 @@ export default function TemplatePage({ session: initialSession }: { session?: an
   const cta2 = c.ctaSecondary || "Voir nos services";
   const phone = fd.phone || "01 23 45 67 89";
   const email = fd.email || "contact@menagedynamique.fr";
-  const address = fd.address || "123 Avenue de la Propreté, 75000 Paris";
+  const address = fd.address || (clientAddress(sessionData) ?? "123 Avenue de la Propreté, 75000 Paris");
 
   const defaultServices = [
     { title: "Nettoyage Résidentiel", desc: "Un intérieur étincelant pour votre confort au quotidien, avec des produits respectueux de l'environnement." },

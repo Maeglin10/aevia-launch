@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientAddress,
   clientCity,
   clientList,
   clientName,
@@ -2314,7 +2315,7 @@ export default function WineryTemplate() {
 
               {/* Contact details */}
               {[
-                { label: "Adresse", value: "Château de Valroc, Route des Graves, 33760 Escoussans" },
+                { label: "Adresse", value: (clientAddress(sessionData) ?? "Château de Valroc, Route des Graves, 33760 Escoussans") },
                 { label: "Téléphone", value: "+33 5 56 23 78 90" },
                 { label: "Email", value: (fd?.email ?? "contact@chateau-valroc.fr") },
               ].map((c) => (
@@ -2760,7 +2761,7 @@ export default function WineryTemplate() {
             required
             value={orderForm.address}
             onChange={(e) => setOrderForm((f) => ({ ...f, address: e.target.value }))}
-            placeholder="12 rue des Graves, 33760 Escoussans"
+            placeholder={clientAddress(sessionData) ?? "12 rue des Graves, 33760 Escoussans"}
             className="mb131-field"
             style={modalInputStyle}
           />

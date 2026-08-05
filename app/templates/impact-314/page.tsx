@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientCity,
   clientFaq,
   clientName,
@@ -410,7 +411,7 @@ export default function Page({ session: initialSession }) {
   }, [fd]);
   const phone = fd?.phone || "01 23 45 67 89";
   const email = fd?.email || "contact@plomberie-confort.fr";
-  const address = fd?.address || "15 Rue de la Paix, 75002 Paris";
+  const address = fd?.address || (clientAddress(sessionData) ?? "15 Rue de la Paix, 75002 Paris");
 
   const getIcon = (name) => {
     const icons = {

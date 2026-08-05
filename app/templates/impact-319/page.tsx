@@ -37,6 +37,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientCity,
   clientFaq,
   clientList,
@@ -358,7 +359,7 @@ export default function Template({ session: initialSession }: { session?: any } 
   const businessName = fd.businessName || "Éco-Clean Habitat";
   const contactEmail = fd.contactEmail || "contact@eco-clean-habitat.fr";
   const contactPhone = fd.contactPhone || "01 23 45 67 89";
-  const contactAddress = fd.contactAddress || "123 Rue de la Nature, 75001 Paris";
+  const contactAddress = fd.contactAddress || (clientAddress(sessionData) ?? "123 Rue de la Nature, 75001 Paris");
 
   // Colors
   const brandColor = fd.brandColor || DEFAULT_BRAND_COLOR;
