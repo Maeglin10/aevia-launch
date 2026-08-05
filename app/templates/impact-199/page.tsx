@@ -736,7 +736,7 @@ export default function Impact199Page() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-              Trois artistes d'exception, un seul objectif : transformer votre vision en œuvre permanente. Tatouage sur mesure à Paris depuis 2014.
+              Trois artistes d'exception, un seul objectif : transformer votre vision en œuvre permanente. Tatouage sur mesure à {clientCity(sessionData) ?? "Paris"} depuis 2014.
             </>}</motion.p>
 
             {/* CTAs */}

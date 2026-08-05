@@ -28,7 +28,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   GENTLEMAN'S CUT — Barbier premium (Bordeaux)
+   GENTLEMAN'S CUT — Barbier premium ({clientCity(sessionData) ?? "Bordeaux"})
    Palette : noir encre #0a0908 / or vintage #c9a84c / ivoire #f5f0e8 / charcoal #1e1c1a
    Fonts : Playfair Display (titres) + DM Mono (labels)
    Style : éditorial masculin, premium, brasserie chic, contrasté

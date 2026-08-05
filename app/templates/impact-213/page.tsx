@@ -1216,7 +1216,7 @@ function BlueprintFloorPlan() {
           fontFamily: 'Inter, sans-serif',
         }}
       >
-        Plan d'architecte — Résidence les Cèdres, Lyon 9e
+        Plan d'architecte — Résidence les Cèdres, {clientCity(sessionData) ?? "Lyon"} 9e
       </div>
       <svg
         ref={ref}

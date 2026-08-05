@@ -41,7 +41,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MOREAU DELACROIX AVOCATS — Cabinet d'avocats · Paris 16e
+   MOREAU DELACROIX AVOCATS — Cabinet d'avocats · {clientCity(sessionData) ?? "Paris"} 16e
    Photographie réelle + chorégraphie de défilement éditoriale (style
    juridique premium × élégance chapitrée). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

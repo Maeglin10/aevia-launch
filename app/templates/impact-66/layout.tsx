@@ -242,7 +242,7 @@ export default function AtelierLayout({
                 </div>
                 <p className="text-white/20 max-w-sm mb-12 uppercase tracking-widest text-[10px] font-bold leading-relaxed italic">
                   Une exploration architecturale de la beauté. Précision, pureté
-                  et rituels d'exception au cœur de Paris.
+                  et rituels d'exception au cœur de {clientCity(__layoutSession) ?? "Paris"}.
                 </p>
               </Reveal>
             </div>

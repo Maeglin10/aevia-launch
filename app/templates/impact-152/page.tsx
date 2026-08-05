@@ -450,7 +450,7 @@ export default function StudioNomaPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 40 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 24, fontWeight: 400, color: "#fff", marginBottom: 12 }}>Studio <em style={{ color: C.accent }}>Noma</em></div>
-            <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Architecture d'intérieur & décoration à Lyon depuis 2012.</p>
+            <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Architecture d'intérieur & décoration à {clientCity(sessionData) ?? "Lyon"} depuis 2012.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {[{ icon: <MapPin size={14} />, t: (clientCity(sessionData) ?? "Lyon") + ", Rhône-Alpes" }, { icon: <Mail size={14} />, t: (fd?.email ?? "contact@studionoma.fr") }, { icon: <Clock size={14} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (

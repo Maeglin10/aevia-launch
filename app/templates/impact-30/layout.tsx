@@ -239,7 +239,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <span style={{ fontWeight: 800, fontSize: 20 }}>SmileStudio</span>
             </div>
             <p style={{ color: "rgba(255,255,255,0.58)", fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-              Cabinet dentaire d'excellence au cœur de Paris 8e. Soins de pointe, équipe bienveillante et résultats qui transforment votre sourire.
+              Cabinet dentaire d'excellence au cœur de {clientCity(__layoutSession) ?? "Paris"} 8e. Soins de pointe, équipe bienveillante et résultats qui transforment votre sourire.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
               {[

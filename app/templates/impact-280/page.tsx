@@ -50,7 +50,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LES ÉPOUSAILLES D'ALSACE — Wedding planner & événementiel · Strasbourg
+   LES ÉPOUSAILLES D'ALSACE — Wedding planner & événementiel · {clientCity(sessionData) ?? "Strasbourg"}
    Romantique, élégant, haut de gamme. Fichier autonome. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 
