@@ -428,7 +428,7 @@ return (
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9 }}>
         {clientName(sessionData) ?? "impact-71"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
