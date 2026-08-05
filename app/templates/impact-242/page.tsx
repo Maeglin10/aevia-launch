@@ -19,6 +19,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -673,7 +674,7 @@ function Hero() {
             margin: 'clamp(20px,3vw,32px) 0 clamp(18px,2.5vw,28px)',
             textShadow: '0 16px 60px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 13) ?? (<>
           VOS CHIFFRES
           <br />
           ENFIN CLAIRS.

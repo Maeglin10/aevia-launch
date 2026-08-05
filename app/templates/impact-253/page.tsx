@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, MapPin, Quote, Trophy } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -679,7 +680,7 @@ function Hero() {
             textShadow: '0 10px 56px rgba(0,0,0,0.55)',
             maxWidth: '14ch',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 11) ?? (<>
           Récupérer /{' '}
           <span style={{ color: C.accentLight }}>plus vite.</span>
         </>)}</motion.h1>

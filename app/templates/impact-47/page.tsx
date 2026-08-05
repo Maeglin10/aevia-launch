@@ -41,6 +41,7 @@ import {
   clientAddress,
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -96,7 +97,7 @@ function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.4 }}
           style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(56px, 9vw, 120px)", fontWeight: 700, color: C.accent, lineHeight: 0.95, margin: "0 0 28px" }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 9) ?? (<>
           For Every<br />
           <span style={{ color: C.text }}>Moment.</span>
         </>)}</motion.h1>

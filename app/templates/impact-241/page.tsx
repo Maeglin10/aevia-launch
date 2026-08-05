@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import {
   clientCity,
+  clientHeroLine,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -692,7 +693,7 @@ function Hero() {
             margin: '22px 0 22px',
             textShadow: '0 12px 60px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 19) ?? (<>
           Trouver le bien
           <br />
           qui vous ressemble.

@@ -53,6 +53,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -87,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO PEAK PERFORMANCE — Coach sportif {clientCity(sessionData) ?? "Paris"} Est — transformation physique, nutrition, suivi app. Poppins, noir / vert néon.
+   STUDIO PEAK PERFORMANCE — {clientTrade(sessionData) ?? "Coach sportif"} {clientCity(sessionData) ?? "Paris"} Est — transformation physique, nutrition, suivi app. Poppins, noir / vert néon.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -1265,7 +1266,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Peak Performance"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Coach sportif {clientCity(sessionData) ?? "Paris"} Est
+                {clientTrade(sessionData) ?? "Coach sportif"} {clientCity(sessionData) ?? "Paris"} Est
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

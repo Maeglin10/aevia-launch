@@ -19,6 +19,7 @@ import {
   clientServices,
   clientTeam,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -33,7 +34,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CLINIQUE DU BOIS VERT — Vétérinaire ({clientCity(sessionData) ?? "Toulouse"})
+   CLINIQUE DU BOIS VERT — {clientTrade(sessionData) ?? "Vétérinaire"} ({clientCity(sessionData) ?? "Toulouse"})
    Palette : blanc chaud #fdfaf6 / vert nature #3a7d44 / vert clair #e8f5eb / brun doux #4a3728
    Fonts : Lora (serif chaleureux titres) + Source Sans 3 (corps)
    Style : chaleureux, naturel, confiance, bienveillant
@@ -194,7 +195,7 @@ export default function CliniqueBoisVertPage() {
                 </div>
                 <div>
                   <div className="font-bold text-[#2d2318] text-sm leading-tight" style={{ fontFamily: "'Lora', Georgia, serif" }}>{clientName(sessionData) ?? "Clinique du Bois Vert"}</div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60">Vétérinaire · {clientCity(sessionData) ?? "Toulouse"}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60">{clientTrade(sessionData) ?? "Vétérinaire"} · {clientCity(sessionData) ?? "Toulouse"}</div>
                 </div>
               </>
             )}
@@ -512,7 +513,7 @@ export default function CliniqueBoisVertPage() {
               <div className="w-7 h-7 bg-[var(--brand,#3a7d44)] rounded-full flex items-center justify-center"><Heart className="w-3.5 h-3.5 text-white" /></div>
               <span className="font-bold text-white text-sm" style={{ fontFamily: "'Lora', serif" }}>Clinique du Bois Vert</span>
             </div>
-            <p className="text-white/20 text-sm leading-relaxed">Vétérinaire à {clientCity(sessionData) ?? "Toulouse"}. Consultations, chirurgie, urgences 7j/7. Chats, chiens, NAC.</p>
+            <p className="text-white/20 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Vétérinaire"} à {clientCity(sessionData) ?? "Toulouse"}. Consultations, chirurgie, urgences 7j/7. Chats, chiens, NAC.</p>
           </div>
           {[
             { t: "Soins", ls: [

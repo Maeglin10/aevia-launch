@@ -10,6 +10,8 @@ import { DWELL, useSlides, SlideIndex, HeldSwap } from "@/lib/templates/hero-kit
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -267,10 +269,10 @@ export default function MaisonEstevePage() {
             Pompes funèbres & prévoyance · {clientCity(sessionData) ?? "Toulouse"}
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 1.0, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(36px, 4.8vw, 64px)", fontWeight: 400, color: C.text, lineHeight: 1.12, margin: "18px 0 22px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>Accompagner,<br /><em style={{ color: C.accent }}>avec calme et clarté.</em></>)}
+            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 21) ?? "Accompagner,"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 21) ?? "avec calme et clarté."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.9 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.8, maxWidth: 470, marginBottom: 34 }}>
-            {fd?.tagline ?? c?.heroSubline ?? "Depuis trois générations, notre maison organise des obsèques dignes et des cérémonies fidèles à la personne — au prix annoncé, sans jamais rien presser."}
+            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Depuis trois générations, notre maison organise des obsèques dignes et des cérémonies fidèles à la personne — au prix annoncé, sans jamais rien presser."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72, duration: 0.9 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 3, padding: "15px 30px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }}>

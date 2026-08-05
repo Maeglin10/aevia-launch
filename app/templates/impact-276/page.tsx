@@ -36,6 +36,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientHours,
   clientList,
   clientPhotos,
@@ -44,6 +45,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -72,7 +74,7 @@ const navHref = (label: unknown) =>
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   THOMAS LEBRUN COACH — Coach sportif & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran
+   THOMAS LEBRUN COACH — {clientTrade(sessionData) ?? "Coach sportif"} & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran
    Template Skylaunch premium · style sport/impact · 'use client' · auto-suffisant.
    Palette : noir intense / orange vif / blanc pur / gris acier
    ════════════════════════════════════════════════════════════════════════════ */
@@ -550,7 +552,7 @@ function HeroSection() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
           >
-            <Eyebrow>Coach sportif & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran</Eyebrow>
+            <Eyebrow>{clientTrade(sessionData) ?? "Coach sportif"} & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran</Eyebrow>
           </motion.div>
 
           <motion.h1
@@ -559,7 +561,7 @@ function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, ease: EASE, delay: 0.25 }}
             style={{ marginTop: 24, marginBottom: 0 }}
-          >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+          >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 7) ?? (<>
             DÉPASSE<br />
             <span className="r276-hero-orange">TES</span><br />
             LIMITES
@@ -2883,7 +2885,7 @@ function FooterSection() {
                   marginBottom: 28,
                 }}
               >
-                Coach sportif & nutritionnel certifié BPJEPS à {clientCity(sessionData) ?? "Bordeaux"} Caudéran.
+                {clientTrade(sessionData) ?? "Coach sportif"} & nutritionnel certifié BPJEPS à {clientCity(sessionData) ?? "Bordeaux"} Caudéran.
                 Transformations réelles, méthode personnalisée, résultats garantis.
               </p>
 

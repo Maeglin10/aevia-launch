@@ -20,6 +20,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -558,7 +559,7 @@ function Hero() {
             margin: '0 0 28px',
             maxWidth: 900,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 18) ?? (<>
           L&apos;art de vous<br />
           <em style={{ fontStyle: 'italic', color: C.ecruDeep }}>habiller juste</em>
         </>)}</h1>

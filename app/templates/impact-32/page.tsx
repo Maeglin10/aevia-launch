@@ -28,6 +28,7 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientName,
   clientReviews,
   clientServices,
@@ -381,7 +382,7 @@ function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
           style={{ fontSize: "clamp(36px, 4vw, 58px)", fontWeight: 800, color: C.text, lineHeight: 1.1, letterSpacing: -1.5, marginBottom: 24 }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 20) ?? (<>
           Vos animaux méritent{" "}
           <span style={{ color: C.accent }}>le meilleur soin</span>
         </>)}</motion.h1>

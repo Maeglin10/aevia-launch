@@ -41,6 +41,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -598,7 +599,7 @@ function HeroSection() {
             maxWidth: 860,
             margin: '0 auto 24px',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 19) ?? (<>
           Votre droit défendu{' '}
           <em style={{ color: C.white, fontStyle: 'italic' }}>avec conviction</em>
         </>)}</motion.h1>

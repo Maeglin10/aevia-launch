@@ -26,6 +26,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -517,7 +518,7 @@ function HeroSection() {
             textShadow: '0 12px 60px rgba(0,0,0,0.55)',
             maxWidth: 1100,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 22) ?? (<>
           Votre droit du travail{' '}
           <span style={{ fontStyle: 'italic', color: C.goldLight }}>
             défendu

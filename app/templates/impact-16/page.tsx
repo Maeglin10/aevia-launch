@@ -16,6 +16,7 @@ import {
   clientPhotos,
   clientServices,
   clientText,
+  clientTrade,
   clientWorks,
 } from "@/lib/templates/clientContent";
 
@@ -273,7 +274,7 @@ return (
               <motion.div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6" style={{ opacity: heroOpacity }}>
                 <Reveal>
                   <div className="flex items-center gap-2 text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-8">
-                    <Camera className="w-4 h-4" /> Photographe · {clientCity(sessionData) ?? "Paris"}
+                    <Camera className="w-4 h-4" /> {clientTrade(sessionData) ?? "Photographe"} · {clientCity(sessionData) ?? "Paris"}
                   </div>
                 </Reveal>
                 <Reveal delay={0.1}>
@@ -347,7 +348,7 @@ return (
       {/* Footer */}
       <footer className="bg-[#060402] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20 font-mono">
-          <span className="text-[var(--brand,#C9A86C)]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>Obscura · Photographe {clientCity(sessionData) ?? "Paris"}</span>
+          <span className="text-[var(--brand,#C9A86C)]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>Obscura · {clientTrade(sessionData) ?? "Photographe"} {clientCity(sessionData) ?? "Paris"}</span>
           <div className="flex gap-6">
             <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Mentions légales</a>
             <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Politique de Confidentialité</a>

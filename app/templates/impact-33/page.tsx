@@ -28,6 +28,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientHours,
   clientName,
   clientReviews,
@@ -201,7 +202,7 @@ function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
           style={{ fontFamily: FONT_HEADING, fontSize: "clamp(36px, 5vw, 72px)", fontWeight: 700, color: C.text, lineHeight: 1.08, letterSpacing: -1.5, marginBottom: "clamp(14px,3vw,24px)" }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 15) ?? (<>
           Le pain, l'art,{" "}
           <em style={{ color: C.accent, fontStyle: "italic" }}>la tradition</em>
         </>)}</motion.h1>

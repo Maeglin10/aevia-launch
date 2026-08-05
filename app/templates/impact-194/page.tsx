@@ -17,6 +17,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -158,7 +159,7 @@ export default function TableExceptionPage() {
             ) : (
               <>
                 <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Table d'Exception"}</div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/60">Traiteur · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/60">{clientTrade(sessionData) ?? "Traiteur"} · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes</div>
               </>
             )}
           </div>
@@ -199,7 +200,7 @@ export default function TableExceptionPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-10 h-[1px] bg-[var(--brand,#d4a853)]/60" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4a853)]/65">Traiteur haut de gamme · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4a853)]/65">{clientTrade(sessionData) ?? "Traiteur"} haut de gamme · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes</span>
             </div>
           </motion.div>
 
@@ -419,7 +420,7 @@ export default function TableExceptionPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-bold text-[#fefcf8] mb-1 text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>Table d'Exception</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">Traiteur · {clientCity({ formData: fd }) ?? "Lyon"}</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">{clientTrade(sessionData) ?? "Traiteur"} · {clientCity({ formData: fd }) ?? "Lyon"}</div>
             <p className="text-[#fefcf8]/15 text-sm leading-relaxed">Traiteur haut de gamme à {clientCity({ formData: fd }) ?? "Lyon"}. Mariages, corporate, cocktails, plateaux. Chef et équipe sur place.</p>
           </div>
           {[

@@ -53,6 +53,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -90,7 +91,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉO PÉRINATAL {clientCity(sessionData) ?? "NICE"} — Ostéopathe périnatal {clientCity(sessionData) ?? "Nice"} Cimiez — nourrissons, grossesse, post-partum. Merriweather, rose / vert sauge.
+   OSTÉO PÉRINATAL {clientCity(sessionData) ?? "NICE"} — {clientTrade(sessionData) ?? "Ostéopathe"} périnatal {clientCity(sessionData) ?? "Nice"} Cimiez — nourrissons, grossesse, post-partum. Merriweather, rose / vert sauge.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -1257,7 +1258,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Ostéo Périnatal Nice"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Ostéopathe périnatal {clientCity(sessionData) ?? "Nice"} Cimiez
+                {clientTrade(sessionData) ?? "Ostéopathe"} périnatal {clientCity(sessionData) ?? "Nice"} Cimiez
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

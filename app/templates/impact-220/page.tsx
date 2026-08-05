@@ -33,6 +33,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -507,7 +508,7 @@ function Hero() {
             marginTop: '20px',
             letterSpacing: '-0.01em',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 16) ?? (<>
           L'art de mesurer
           <br />
           <em style={{ fontStyle: 'italic', color: T.cream }}>le temps</em>

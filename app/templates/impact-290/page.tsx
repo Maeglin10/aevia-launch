@@ -34,6 +34,7 @@ import {
   clientAddress,
   clientCertifications,
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -368,7 +369,7 @@ function HeroSection() {
             textShadow: '0 10px 50px rgba(0,0,0,0.45)',
             maxWidth: 900,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 32) ?? (<>
           Votre confort,{' '}
           <span
             style={{

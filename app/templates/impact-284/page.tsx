@@ -29,6 +29,7 @@ import {
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -532,7 +533,7 @@ function HeroSection() {
             margin: '28px 0 22px',
             textShadow: '0 14px 60px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 14) ?? (<>
           Le sourire que{' '}
           <span style={{ fontStyle: 'italic', color: C.goldLight }}>
             vous méritez

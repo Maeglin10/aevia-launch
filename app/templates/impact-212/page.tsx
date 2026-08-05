@@ -18,6 +18,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientReviews,
@@ -1161,14 +1163,11 @@ return (
                 color: C.white, marginBottom: 24,
                 letterSpacing: '-1px', maxWidth: 900,
               }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-              VOTRE CONFORT<br />
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 16) ?? "VOTRE CONFORT"}<br />
               <span style={{
                 background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
                 WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-              }}>THERMIQUE</span><br />
-              ENTRE NOS MAINS.
-            </>}</>)}</motion.h1>
+              }}>{clientHeroLine(sessionData, 1, 3, 16) ?? "THERMIQUE"}</span><br />{clientHeroLine(sessionData, 2, 3, 16) ?? "ENTRE NOS MAINS."}</>}</>)}</motion.h1>
 
             {/* Subtitle */}
             <motion.p
@@ -1179,7 +1178,7 @@ return (
                 color: C.textMuted, fontSize: 'clamp(15px, 2.2vw, 18px)', lineHeight: 1.7,
                 maxWidth: 540, marginBottom: 40,
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Spécialiste du chauffage, de la climatisation et des pompes à chaleur depuis 2009. Installation, entretien et dépannage 24h/7j dans toute la métropole lyonnaise.
             </>}</motion.p>
 

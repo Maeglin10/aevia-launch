@@ -31,6 +31,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -555,7 +556,7 @@ function HeroSection() {
             textShadow: '0 8px 40px rgba(0,0,0,0.5)',
             maxWidth: 900,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 21) ?? (<>
           L&apos;eau maîtrisée,{' '}
           <span style={{color: brand ?? 'var(--brand,#e87070)' }}>votre confort</span>{' '}
           assuré

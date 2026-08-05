@@ -14,12 +14,14 @@ import { ArrowRight, ChevronDown, Trophy, Dumbbell, MapPin } from 'lucide-react'
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -706,7 +708,7 @@ function Hero() {
             margin: '0 0 28px',
             textShadow: '0 8px 48px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 10) ?? (<>
           DEVENEZ<br />
           <span style={{ color: C.accent }}>PLUS</span> FORT.
         </>)}</motion.h1>
@@ -2070,7 +2072,7 @@ function Footer() {
               marginBottom: 24,
             }}
           >
-            Coach sportif personnel certifié à {clientCity(sessionData) ?? "Marseille"}. Programmes sur mesure,
+            {clientTrade(sessionData) ?? "Coach sportif"} personnel certifié à {clientCity(sessionData) ?? "Marseille"}. Programmes sur mesure,
             résultats prouvés.
           </p>
           <div

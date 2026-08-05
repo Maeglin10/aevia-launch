@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, LineMask, SlideIndex, useSlides } from "@/lib/te
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -17,6 +18,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -212,7 +214,7 @@ export default function AllureAppuiPage() {
       {/* ── HERO ────────────────────────────────────────────────────────── */}
 
       <section className="i364-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
-        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Podologue · {clientCity(sessionData) ?? "Pau"}</span>
+        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>{clientTrade(sessionData) ?? "Podologue"} · {clientCity(sessionData) ?? "Pau"}</span>
         <div style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.6vw, 58px)", color: C.text, lineHeight: 1.14, margin: "18px 0 8px" }}><LineMask lines={S.lines} index={i} /></div>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
           {fd?.tagline ?? c?.heroSubline ?? "Un cabinet qui prend le temps : soins de pédicurie sans douleur, semelles discrètes, attention particulière aux pieds âgés et aux pieds abîmés par la vie. On repart plus léger, littéralement."}
@@ -253,7 +255,7 @@ export default function AllureAppuiPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Les soins</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 19) ?? (<>
                 Le pied a le droit<br /><em>d'être bien traité.</em>
               </>)}</h2>
             </div>

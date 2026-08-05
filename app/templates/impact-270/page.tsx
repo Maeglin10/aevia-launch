@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Feather, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -683,7 +684,7 @@ function Hero() {
             margin: 'clamp(16px,2vw,28px) 0 clamp(14px,2vw,22px)',
             textShadow: '0 12px 60px rgba(0,0,0,0.5)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 17) ?? (<>
           Peau&nbsp;/
           <br />
           &amp;&nbsp;plume.

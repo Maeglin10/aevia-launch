@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Coffee, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -695,7 +696,7 @@ function Hero() {
             margin: 'clamp(18px,2.4vw,32px) 0 clamp(16px,2vw,28px)',
             textShadow: '0 10px 50px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 19) ?? (<>
           Le pain&nbsp;/ de {clientCity(sessionData) ?? "Bordeaux"}.
         </>)}</motion.h1>
 

@@ -9,6 +9,8 @@ import { ArrowRight, Shield, Zap, Activity, Lock } from "lucide-react";
 import { C, mono, sans, STATS, TESTIMONIALS, useCounter, LiveTerminal } from "./shared";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -143,12 +145,12 @@ return (
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.7 }}
               style={{ fontFamily: mono, fontSize: "clamp(34px, 6vw, 88px)", fontWeight: 700, lineHeight: 1.15, paddingBottom: "0.15em", letterSpacing: "-0.02em", marginBottom: "1.25rem" }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
-              <span style={{ color: C.text }}>Votre infrastructure.</span>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>
+              <span style={{ color: C.text }}>{clientHeroLine(sessionData, 0, 3, 13) ?? "Votre infrastructure."}</span>
               <br />
-              <span style={{ color: C.green }}>Nos sentinelles.</span>
+              <span style={{ color: C.green }}>{clientHeroLine(sessionData, 1, 3, 13) ?? "Nos sentinelles."}</span>
               <br />
-              <span style={{ color: C.textMuted, fontSize: "0.55em", fontWeight: 400 }}>SOC · Red Team · ISO 27001</span>
+              <span style={{ color: C.textMuted, fontSize: "0.55em", fontWeight: 400 }}>{clientHeroLine(sessionData, 2, 3, 13) ?? "SOC · Red Team · ISO 27001"}</span>
             </>}</>)}</motion.h1>
 
             <motion.p
@@ -156,7 +158,7 @@ return (
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
               style={{ fontFamily: sans, fontSize: "1.1rem", color: C.textMuted, lineHeight: 1.75, maxWidth: "500px", marginBottom: "2.5rem" }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               NeuronSec est le centre opérationnel de cybersécurité des entreprises qui ne peuvent pas se permettre d'être hackées. SOC 24/7, Red Team offensif, conformité NIS2 et ISO 27001.
             </>}</motion.p>
 

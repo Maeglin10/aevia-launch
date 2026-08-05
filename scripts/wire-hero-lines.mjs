@@ -94,11 +94,31 @@ for (const id of ids) {
     codemod prenait le « )} » qui referme `clientText(…) ?? (<> … </>)` pour un
     morceau de texte et le remplaçait, cassant quatre-vingt-onze fichiers.
   */
-  if (/client(Tagline|HeroLine|Name|Text)/.test(dedans)) { refus["déjà"] = (refus["déjà"] ?? 0) + 1; continue; }
+  if (/client(Tagline|HeroLine|Name)/.test(dedans)) { refus["déjà"] = (refus["déjà"] ?? 0) + 1; continue; }
+
+  /*
+    Quatre-vingt-sept titres ont été rendus retouchables par la passe des
+    sections : leur texte vit dans le repli de `clientText(…) ?? (<> … </>)`. Le
+    client pouvait le réécrire à la main, mais son accroche n'y entrait pas —
+    « Reach the Beyond. » restait sur le site d'un plombier. On travaille alors à
+    l'intérieur du repli, en laissant la retouche par-dessus : ce que le client
+    écrit lui-même passe toujours en premier.
+  */
+  let decalage = 0;
+  let corps = dedans;
+  const retouche = /client(?:Text|List)\([^)]*\)\s*\?\?\s*\(<>/.exec(dedans);
+  if (retouche) {
+    const debut = retouche.index + retouche[0].length;
+    const fin = dedans.lastIndexOf("</>)");
+    if (fin <= debut) { refus["repli illisible"] = (refus["repli illisible"] ?? 0) + 1; continue; }
+    corps = dedans.slice(debut, fin);
+    decalage = debut;
+    if (/client[A-Z]/.test(corps)) { refus["déjà"] = (refus["déjà"] ?? 0) + 1; continue; }
+  }
   if (/\.map\(/.test(dedans)) { refus["map"] = (refus["map"] ?? 0) + 1; continue; }
 
   // Forme 1 — des composants d'animation qui reçoivent chacun leur ligne.
-  const props = [...dedans.matchAll(/\btext=(["'])((?:(?!\1).)*)\1/g)];
+  const props = [...corps.matchAll(/\btext=(["'])((?:(?!\1).)*)\1/g)];
   let remplacements = null;
   if (props.length >= 1 && props.every((m) => texteNet(m[2]).length >= 2)) {
     remplacements = props.map((m, i) => ({
@@ -113,17 +133,17 @@ for (const id of ids) {
   if (!remplacements) {
     const morceaux = [];
     let curseur = 0;
-    for (const m of dedans.matchAll(/<[^>]*>/g)) {
-      const avant = dedans.slice(curseur, m.index);
+    for (const m of corps.matchAll(/<[^>]*>/g)) {
+      const avant = corps.slice(curseur, m.index);
       if (estDuTexte(avant)) morceaux.push({ deb: curseur, fin: m.index, texte: avant });
       curseur = m.index + m[0].length;
     }
-    const queue = dedans.slice(curseur);
+    const queue = corps.slice(curseur);
     if (estDuTexte(queue)) morceaux.push({ deb: curseur, fin: dedans.length, texte: queue });
     if (morceaux.length >= 1) {
       remplacements = morceaux.map((x, i) => ({
-        deb: finOuv + 1 + x.deb,
-        fin: finOuv + 1 + x.fin,
+        deb: finOuv + 1 + decalage + x.deb,
+        fin: finOuv + 1 + decalage + x.fin,
         original: texteNet(x.texte),
         neuf: `{clientHeroLine(sessionData, ${i}, ${morceaux.length}, GABARIT) ?? ${JSON.stringify(texteNet(x.texte))}}`,
       }));
@@ -161,7 +181,7 @@ for (const id of ids) {
   const besoins = new Set(["clientHeroLine"]);
 
   // Pour la forme 1, les positions sont relatives au contenu du titre.
-  const base = remplacements[0].deb < finOuv ? finOuv + 1 : 0;
+  const base = remplacements[0].deb < finOuv ? finOuv + 1 + decalage : 0;
   for (const r of [...remplacements].sort((a, b) => b.deb - a.deb)) {
     const deb = base + r.deb;
     const fin = base + r.fin;

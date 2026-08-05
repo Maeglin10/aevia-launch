@@ -22,6 +22,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -544,7 +545,7 @@ function HeroSection() {
             margin: '28px 0 24px',
             textShadow: '0 12px 60px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 17) ?? (<>
           L&apos;excellence{' '}
           <span style={{ fontStyle: 'italic', color: C.goldLight }}>
             à vos mesures

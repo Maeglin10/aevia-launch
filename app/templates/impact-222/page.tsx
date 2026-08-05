@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -576,7 +577,7 @@ const Hero: React.FC = () => {
               margin: '24px 0 0',
               letterSpacing: '-0.015em',
             }}
-          >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+          >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 15) ?? (<>
             Des espaces qui
             <br />
             <span style={{ fontStyle: 'italic', color: C.goldSoft }}>

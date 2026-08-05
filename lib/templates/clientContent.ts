@@ -422,6 +422,20 @@ export function clientHeroSubtitle(s: SessionLike | null | undefined): string | 
   return undefined;
 }
 
+/**
+ * Le métier du client, tel qu'il l'a nommé au wizard.
+ *
+ * Les thèmes écrivent le leur en toutes lettres dans leurs sur-titres —
+ * « Paysagiste · Nantes », « Ostéopathe · Lyon » — et le site d'un coiffeur
+ * annonçait « PAYSAGISTE · CHAMBÉRY ». La ville était juste, le métier venait
+ * de la démonstration.
+ */
+export function clientTrade(s: SessionLike | null | undefined): string | undefined {
+  const brut = trimmed(s?.formData?.businessType) || trimmed(s?.formData?.niche);
+  if (!brut) return undefined;
+  return `${brut[0].toUpperCase()}${brut.slice(1)}`;
+}
+
 /** La ville, pour les sur-titres du genre « Couvreur-zingueur · Lyon ». */
 export function clientCity(s: SessionLike | null | undefined): string | undefined {
   return (

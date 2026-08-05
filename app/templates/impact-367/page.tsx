@@ -11,6 +11,8 @@ import { ParticleOrb } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -210,10 +212,10 @@ export default function CabinetNaissancesPage() {
         <div style={{ position: "relative", zIndex: 1, maxWidth: 780 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Sage-femme · {clientCity(sessionData) ?? "Aix-en-Provence"}</span>
           <h1 style={{ fontFamily: FONT, fontSize: "clamp(36px, 5.2vw, 66px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>Neuf mois, une naissance,<br /><em style={{ color: C.accentDark }}>et tout ce qui vient après.</em></>)}
+            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 27) ?? "Neuf mois, une naissance,"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 27) ?? "et tout ce qui vient après."}</em></>)}
           </>)}</h1>
           <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.78, maxWidth: 560, margin: "0 auto 32px" }}>
-            {fd?.tagline ?? c?.heroSubline ?? "Suivi de grossesse, préparation à la naissance, retour à la maison, rééducation : une sage-femme conventionnée vous accompagne du test positif aux premiers mois — et pour votre suivi gynécologique ensuite."}
+            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Suivi de grossesse, préparation à la naissance, retour à la maison, rééducation : une sage-femme conventionnée vous accompagne du test positif aux premiers mois — et pour votre suivi gynécologique ensuite."}
           </p>
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 999, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>

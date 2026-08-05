@@ -12,6 +12,8 @@ import { C, STATS, OrbitCenter, AnimatedCounter } from "./shared";
 import "../premium.css";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientReviews,
@@ -181,13 +183,9 @@ return (
                   marginBottom: "32px",
                   paddingBottom: "0.15em",
                 }}
-              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
-                Brands that
-                <br />
-                <span style={{ color: C.accent }}>shift</span>
-                <br />
-                perception.
-              </>}</>)}</motion.h1>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 11) ?? "Brands that"}<br />
+                <span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 3, 11) ?? "shift"}</span>
+                <br />{clientHeroLine(sessionData, 2, 3, 11) ?? "perception."}</>}</>)}</motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
@@ -201,7 +199,7 @@ return (
                   maxWidth: "480px",
                   marginBottom: "48px",
                 }}
-              >{fd?.tagline ?? c?.heroSubline ?? <>
+              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 We build identity systems for ambitious companies — from seed-stage startups to century-old maisons. Strategy, visual identity, and art direction that makes the right people stop scrolling.
               </>}</motion.p>
 

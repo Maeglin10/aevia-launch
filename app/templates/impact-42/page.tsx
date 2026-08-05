@@ -29,6 +29,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -167,14 +169,13 @@ export default function EchoChamberPage() {
 
           <motion.h1 initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.2 }}
             style={{ fontFamily: C.headingFont, fontSize: "clamp(4rem, 10vw, 9rem)", fontWeight: 400, color: C.white, lineHeight: 0.95, marginBottom: "1.5rem", letterSpacing: "0.04em" }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
-            ECHO<br />
-            <span style={{ color: C.accent }}>CHAMBER</span>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 7) ?? "ECHO"}<br />
+            <span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 7) ?? "CHAMBER"}</span>
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.34 }}
             style={{ fontFamily: C.bodyFont, fontSize: "1.05rem", color: C.textLight, maxWidth: 540, margin: "0 auto 3rem", lineHeight: 1.75, letterSpacing: "0.01em" }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Trois studios indépendants. SSL, Neve, Pro Tools HDX. 200+ artistes enregistrés. Votre son mérite ce qu'il y a de mieux.
           </>}</motion.p>
 

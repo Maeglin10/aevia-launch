@@ -33,6 +33,7 @@ import {
   clientAddress,
   clientCertifications,
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -40,6 +41,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -54,7 +56,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AMPÈRE & FILS — Électricien artisan · {clientCity(sessionData) ?? "Nantes"} & Loire-Atlantique
+   AMPÈRE & FILS — {clientTrade(sessionData) ?? "Électricien"} artisan · {clientCity(sessionData) ?? "Nantes"} & Loire-Atlantique
    Template premium calqué sur impact-218. Auto-suffisant. 'use client'.
    10 sous-composants : Hero · Crossfade · Services · Process · Testimonials
                         DevisForm · IRVE · Solaire · Certif · Footer
@@ -557,7 +559,7 @@ function HeroSection() {
             margin: '28px 0 20px',
             textShadow: '0 12px 60px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 18) ?? (<>
           L&apos;électricité{' '}
           <span
             style={{
@@ -2872,7 +2874,7 @@ function FooterSection() {
                 margin: '0 0 22px',
               }}
             >
-              Électricien artisan à {clientCity(sessionData) ?? "Nantes"} depuis 1989. Installation, rénovation,
+              {clientTrade(sessionData) ?? "Électricien"} artisan à {clientCity(sessionData) ?? "Nantes"} depuis 1989. Installation, rénovation,
               bornes IRVE et panneaux solaires en Loire-Atlantique.
             </p>
 

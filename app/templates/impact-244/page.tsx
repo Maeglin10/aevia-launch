@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Heart } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -694,7 +695,7 @@ function Hero() {
             margin: '28px 0 20px',
             textShadow: '0 12px 64px rgba(0,0,0,0.44)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 27) ?? (<>
           L&apos;art d&apos;un&nbsp;/
           <br />
           mariage parfait.

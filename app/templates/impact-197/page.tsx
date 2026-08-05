@@ -13,6 +13,8 @@ import { Badge } from "@/components/ui/badge";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -615,9 +617,8 @@ return (
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             style={{ fontSize: "clamp(48px, 7.5vw, 110px)", fontWeight: 300, lineHeight: 1.0, letterSpacing: "-0.02em", color: C.white, marginBottom: 28, maxWidth: 800 }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            Le monde<br />
-            <em style={{ color: C.accent, fontStyle: "italic" }}>autrement.</em>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 10) ?? "Le monde"}<br />
+            <em style={{ color: C.accent, fontStyle: "italic" }}>{clientHeroLine(sessionData, 1, 2, 10) ?? "autrement."}</em>
           </>}</>)}</motion.h1>
 
           <motion.p
@@ -625,7 +626,7 @@ return (
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
             style={{ fontSize: "clamp(16px, 2vw, 20px)", color: "rgba(255,255,255,0.65)", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 48, maxWidth: 520, fontWeight: 300 }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Voyages sur mesure en classe affaires et première. Expériences exclusives inaccessibles au grand public. Conciergerie 24h/24 sur tous les continents.
           </>}</motion.p>
 

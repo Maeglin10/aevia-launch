@@ -22,6 +22,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -688,7 +689,7 @@ function Hero() {
             textShadow: '0 8px 48px rgba(0,0,0,0.4)',
             maxWidth: '14ch',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 12) ?? (<>
           RETROUVER
           <br />
           LE MOUVEMENT

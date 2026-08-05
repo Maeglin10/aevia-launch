@@ -11,6 +11,8 @@ import { PortalZoom } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -217,10 +219,10 @@ export default function DomaineCharmillesPage() {
             Domaine de réception · Val de Loire
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.9, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(36px, 5vw, 64px)", color: "#fff", lineHeight: 1.1, margin: "16px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>
-            {c?.heroHeadline ?? (<>Le lieu fait<br /><em style={{ color: C.hi }}>la moitié du souvenir.</em></>)}
+            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 22) ?? "Le lieu fait"}<br /><em style={{ color: C.hi }}>{clientHeroLine(sessionData, 1, 2, 22) ?? "la moitié du souvenir."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }} style={{ fontSize: 17, color: "rgba(255,255,255,0.78)", lineHeight: 1.75, marginBottom: 32, maxWidth: 520 }}>
-            {fd?.tagline ?? c?.heroSubline ?? "Une longère de tuffeau, un parc de quatre hectares, une salle de 220 couverts et des chambres pour les lève-tard : le Domaine des Charmilles reçoit mariages, séminaires et grandes tablées familiales."}
+            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Une longère de tuffeau, un parc de quatre hectares, une salle de 220 couverts et des chambres pour les lève-tard : le Domaine des Charmilles reçoit mariages, séminaires et grandes tablées familiales."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>

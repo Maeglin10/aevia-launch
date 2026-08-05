@@ -18,6 +18,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -252,7 +253,7 @@ export default function SecurFastPage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
             className="max-w-md text-sm text-[#f0f4ff]/28 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Serrurier professionnel à {clientCity({ formData: fd }) ?? "Strasbourg"}. Urgences 24h/24, 7j/7. Ouverture de porte, changement de serrure, porte blindée. Intervention sous 30 min. Devis avant intervention.
+            {clientTrade(sessionData) ?? "Serrurier"} professionnel à {clientCity({ formData: fd }) ?? "Strasbourg"}. Urgences 24h/24, 7j/7. Ouverture de porte, changement de serrure, porte blindée. Intervention sous 30 min. Devis avant intervention.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-4 mb-8">
@@ -453,7 +454,7 @@ export default function SecurFastPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2.5 mb-5"><Lock className="w-4 h-4 text-[var(--brand,#2563eb)]" /><span className="font-bold text-[#f0f4ff] text-sm">SÉC'URFAST</span></div>
-            <p className="text-[#f0f4ff]/15 text-sm leading-relaxed">Serrurier urgence {clientCity({ formData: fd }) ?? "Strasbourg"}. Disponible 24h/24. Ouverture porte, serrures, porte blindée, contrôle d'accès.</p>
+            <p className="text-[#f0f4ff]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Serrurier"} urgence {clientCity({ formData: fd }) ?? "Strasbourg"}. Disponible 24h/24. Ouverture porte, serrures, porte blindée, contrôle d'accès.</p>
           </div>
           {[
             { t: "Services", ls: ["Urgence 24h/24", "Changement serrure", "Porte blindée", "Contrôle d'accès", "Coffre-fort"] },

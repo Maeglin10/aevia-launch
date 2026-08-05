@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, LineMask, SlideIndex, useSlides } from "@/lib/te
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -240,7 +241,7 @@ export default function CTLumierePage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Contrôles</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 23) ?? (<>
                 Tous les véhicules,<br /><em>tous les cas de la vie.</em>
               </>)}</h2>
             </div>

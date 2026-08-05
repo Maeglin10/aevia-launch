@@ -11,6 +11,8 @@ import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientReviews,
@@ -258,10 +260,10 @@ export default function PharmacieDuParcPage() {
             Ouvert Lun–Sam 8h30–19h30, sans interruption
           </motion.div>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }} style={{ fontSize: "clamp(34px, 4.6vw, 60px)", fontWeight: 800, letterSpacing: -1.2, lineHeight: 1.08, margin: "0 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>Votre pharmacie,<br /><span style={{ color: C.accent }}>au-delà du comptoir.</span></>)}
+            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 20) ?? "Votre pharmacie,"}<br /><span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 20) ?? "au-delà du comptoir."}</span></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 500, marginBottom: 32 }}>
-            {fd?.tagline ?? c?.heroSubline ?? "Ordonnances préparées à l'avance, vaccination sans rendez-vous, tests rapides et vrai conseil de pharmaciens diplômés — au cœur du quartier du Parc, à Lille."}
+            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Ordonnances préparées à l'avance, vaccination sans rendez-vous, tests rapides et vrai conseil de pharmaciens diplômés — au cœur du quartier du Parc, à Lille."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={`mailto:${mail}`} style={{ background: C.accent, color: "#fff", borderRadius: 10, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, boxShadow: C.shadowLg }} whileHover={{ scale: 1.03 }}>

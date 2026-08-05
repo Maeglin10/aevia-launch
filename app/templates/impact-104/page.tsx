@@ -1,6 +1,8 @@
 "use client";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -368,9 +370,8 @@ export default function LumiereDoreePage() {
               marginBottom: 24,
               fontStyle: "italic",
             }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
-            Chaque amour mérite<br />
-            <span style={{ color: C.accent, fontStyle: "italic" }}>d&apos;être raconté</span>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 19) ?? "Chaque amour mérite"}<br />
+            <span style={{ color: C.accent, fontStyle: "italic" }}>{clientHeroLine(sessionData, 1, 2, 19) ?? "d être raconté"}</span>
           </>}</>)}</motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 28 }}
@@ -385,7 +386,7 @@ export default function LumiereDoreePage() {
               marginBottom: 40,
               maxWidth: 500,
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Photographe de mariage basée à {clientCity({ formData: fd }) ?? "Paris"}, je capture vos émotions avec discrétion et sensibilité pour des souvenirs qui durent toute une vie.
           </>}</motion.p>
           <motion.div

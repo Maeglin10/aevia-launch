@@ -34,6 +34,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
   clientHours,
   clientList,
   clientName,
@@ -566,7 +567,7 @@ function HeroSection() {
             textShadow: '0 8px 48px rgba(0,0,0,0.45)',
             maxWidth: 820,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 12) ?? (<>
           Retrouver le{' '}
           <span style={{ fontStyle: 'italic', color: C.turqLight }}>
             mouvement

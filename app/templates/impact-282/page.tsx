@@ -34,6 +34,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
   clientHours,
   clientName,
   clientPhotos,
@@ -528,7 +529,7 @@ function HeroSection() {
             margin: '28px 0 22px',
             textShadow: '0 12px 60px rgba(0,0,0,0.5)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 14) ?? (<>
           Le pain de nos{' '}
           <span style={{ fontStyle: 'italic', color: C.wheatLight }}>
             grands-pères

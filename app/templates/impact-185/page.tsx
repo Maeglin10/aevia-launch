@@ -16,6 +16,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -366,7 +367,7 @@ export default function GentlemansCutPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-10">
               <div className="w-12 h-[1px] bg-[var(--brand,#c9a84c)]/60" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c9a84c)]/70" style={{ fontFamily: "'DM Mono', monospace" }}>Barbier Traditionnel · {clientCity({ formData: fd }) ?? "Bordeaux"}</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c9a84c)]/70" style={{ fontFamily: "'DM Mono', monospace" }}>{clientTrade(sessionData) ?? "Barbier"} Traditionnel · {clientCity({ formData: fd }) ?? "Bordeaux"}</span>
             </div>
           </motion.div>
 
@@ -608,7 +609,7 @@ export default function GentlemansCutPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2.5 mb-5"><Scissors className="w-4 h-4 text-[var(--brand,#c9a84c)]" /><span className="font-bold text-[#f5f0e8] text-sm">Gentleman's Cut</span></div>
-            <p className="text-[#f5f0e8]/15 text-sm leading-relaxed" style={{ fontFamily: "'DM Mono', monospace" }}>Barbier traditionnel à {clientCity({ formData: fd }) ?? "Bordeaux"}. Coupe, rasage, barbe. Depuis 2011.</p>
+            <p className="text-[#f5f0e8]/15 text-sm leading-relaxed" style={{ fontFamily: "'DM Mono', monospace" }}>{clientTrade(sessionData) ?? "Barbier"} traditionnel à {clientCity({ formData: fd }) ?? "Bordeaux"}. Coupe, rasage, barbe. Depuis 2011.</p>
           </div>
           {[
             { t: "Services", ls: ["Coupe classique", "Rasage traditionnel", "Combo barbe + coupe", "Taille de barbe", "Coloration & gris"] },

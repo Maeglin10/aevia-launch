@@ -304,7 +304,7 @@ export default function NeuralisPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-20">
           <Reveal>
-             <h1 className="text-5xl sm:text-6xl md:text-[11rem] font-black leading-[0.9] md:leading-[0.8] tracking-tight md:tracking-tighter mb-12 uppercase text-white break-words">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Tame Your"}<br/> <span className="text-[var(--brand,#00f2ff)]">{clientHeroLine(sessionData, 1, 2, 9) ?? "Biology."}</span>
+             <h1 className="text-5xl sm:text-6xl md:text-[11rem] font-black leading-[0.9] md:leading-[0.8] tracking-tight md:tracking-tighter mb-12 uppercase text-white break-words">{<>Tame Your<br/> <span className="text-[var(--brand,#00f2ff)]">Biology.</span>
              </>}</h1>
              <p className="max-w-md text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                The apex of neuro-synthetic integration. Engineered for the evolutionary elite.

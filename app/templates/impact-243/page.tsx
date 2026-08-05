@@ -29,6 +29,7 @@ import { PortalZoom } from '@/lib/templates/hero-kit-3';
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -686,7 +687,7 @@ function Hero() {
             margin: '0 0 26px',
             textShadow: '0 12px 56px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 16) ?? (<>
           La médecine
           <br />
           qui vous écoute.

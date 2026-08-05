@@ -14,12 +14,14 @@ import { ArrowRight, ChevronDown, Zap } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -37,7 +39,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO ATHLETIC — Coach sportif personnel · {clientCity(sessionData) ?? "Lyon"}
+   STUDIO ATHLETIC — {clientTrade(sessionData) ?? "Coach sportif"} personnel · {clientCity(sessionData) ?? "Lyon"}
    Photographie réelle + chorégraphie de défilement éditoriale (athletic ×
    performance × coaching premium). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -654,7 +656,7 @@ function Hero() {
         }}
       >
         <Reveal y={16}>
-          <Eyebrow>Coach sportif personnel · {clientCity(sessionData) ?? "Lyon"}</Eyebrow>
+          <Eyebrow>{clientTrade(sessionData) ?? "Coach sportif"} personnel · {clientCity(sessionData) ?? "Lyon"}</Eyebrow>
         </Reveal>
 
         <motion.h1
@@ -673,7 +675,7 @@ function Hero() {
             margin: 'clamp(20px,3vh,36px) 0 clamp(18px,3vh,30px)',
             textShadow: '0 16px 70px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 8) ?? (<>
           LE CORPS
           <br />
           QUE VOUS
@@ -2038,7 +2040,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Coach sportif personnel premium à {clientCity(sessionData) ?? "Lyon"}. Résultats garantis,
+            {clientTrade(sessionData) ?? "Coach sportif"} personnel premium à {clientCity(sessionData) ?? "Lyon"}. Résultats garantis,
             méthode prouvée, suivi 24/7.
           </p>
           <div

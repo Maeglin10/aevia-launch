@@ -36,6 +36,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -321,7 +322,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.35 }}
           style={{ fontSize: fl(2.6, 6.5), fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.03em', textTransform: 'uppercase' as const, marginBottom: '1.5rem', maxWidth: '750px' }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 12) ?? (<>
           Redéfinir<br />le mouvement<br />
           <span style={{ color: C.blue, textShadow: `0 0 40px ${C.blueGlow}` }}>urbain</span>
         </>)}</motion.h1>

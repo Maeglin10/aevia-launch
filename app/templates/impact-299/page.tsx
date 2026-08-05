@@ -53,6 +53,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -87,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   KINÉPRO SPORT {clientCity(sessionData) ?? "LYON"} — Kinésithérapeute du sport {clientCity(sessionData) ?? "Lyon"} Confluence — athlètes, rééducation post-op, dry needling. Barlow Condensed, bleu / orange.
+   KINÉPRO SPORT {clientCity(sessionData) ?? "LYON"} — {clientTrade(sessionData) ?? "Kinésithérapeute"} du sport {clientCity(sessionData) ?? "Lyon"} Confluence — athlètes, rééducation post-op, dry needling. Barlow Condensed, bleu / orange.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -1254,7 +1255,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "KinéPro Sport Lyon"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Kinésithérapeute du sport {clientCity(sessionData) ?? "Lyon"} Confluence
+                {clientTrade(sessionData) ?? "Kinésithérapeute"} du sport {clientCity(sessionData) ?? "Lyon"} Confluence
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
