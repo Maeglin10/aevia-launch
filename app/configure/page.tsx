@@ -19,7 +19,12 @@ export default function ConfigurePage() {
   return (
     <div id="main-content" className="font-aevia-body min-h-screen bg-[#09090b] text-white pt-16 flex flex-col">
       <AeviaHeader />
-      <div className="mx-auto max-w-xl px-6 pt-16 pb-[180px] sm:pb-16 flex flex-col items-center flex-1 w-full">
+      {/*
+        La largeur se décide dans le formulaire, étape par étape : le choix du
+        design a besoin de trois colonnes, les autres étapes se lisent mieux en
+        une colonne étroite.
+      */}
+      <div className="mx-auto max-w-5xl px-6 pt-16 pb-[180px] sm:pb-16 flex flex-col items-center flex-1 w-full">
         <div className="text-center mb-10">
           <h1 className="font-aevia-display text-3xl font-bold text-white mb-3">{t.title}</h1>
           <p className="text-zinc-300">{t.sub}</p>
