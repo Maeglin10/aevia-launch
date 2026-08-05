@@ -322,6 +322,14 @@ export function clientTagline(s: SessionLike | null | undefined): string | undef
  * Rien à répartir sans accroche : le thème garde alors la sienne.
  */
 /**
+ * Ce que le titre du hero a retenu, pour que le sous-titre ne le répète pas.
+ *
+ * Le titre est rendu avant lui : au moment où le sous-titre se calcule, cette
+ * valeur est celle de la page en cours.
+ */
+let phraseRetenue: string | undefined;
+
+/**
  * Découpe une phrase en `total` lignes d'à peu près même longueur.
  *
  * Couper au nombre de mots déséquilibre — « Votre plombier de / confiance à
@@ -422,6 +430,7 @@ export function clientHeroLine(
   if (total < 1 || rang < 0 || rang >= total) return undefined;
   const phrase = phraseDeHero(s, total, maxLigne);
   if (!phrase) return undefined;
+  phraseRetenue = phrase;
   /*
     Une ligne sans mot reste vide : rendre la main au thème pour la seule ligne
     en trop mélangeait les deux titres — « Plombier / à Annecy / de demain » sur
@@ -439,6 +448,15 @@ export function clientHeroLine(
  * n'est inventé ; sans ces données, le thème garde sa phrase.
  */
 export function clientHeroSubtitle(s: SessionLike | null | undefined): string | undefined {
+  /*
+    L'accroche d'abord, si le titre ne l'a pas prise. Le gabarit du thème réduit
+    souvent la phrase du client à « Plombier à Annecy » pour ne pas déborder — et
+    ce qu'il a écrit ne se lisait alors nulle part. Le titre note ce qu'il a
+    retenu ; le sous-titre reprend le reste.
+  */
+  const accroche = clientTagline(s);
+  if (accroche && accroche !== phraseRetenue) return accroche;
+
   const presta = (clientServices(s) ?? []).map((x) => x.title).filter(Boolean).slice(0, 3);
   if (presta.length >= 2) return presta.join(" · ");
   const zones = clientAreas(s) ?? [];
