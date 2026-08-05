@@ -1144,7 +1144,7 @@ export default function Impact170Page() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
-              <span style={{ opacity: 0.5 }}>{clientName({ formData: fd })}</span>
+              <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  opacity: 0.92 }}>{clientName({ formData: fd })}</span>
             ) : (<>
             <>
           rafael.moreau<span style={{ opacity: 0.5 }}>@dev</span>

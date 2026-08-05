@@ -118,7 +118,8 @@ for (const id of ids) {
         if (parseFloat(s.fontSize) < 12) continue;
         const texte = e.innerText.replace(/\s+/g, " ").trim();
         if (texte.length < 3 || texte.length > 60) continue;
-        out.push({ x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height), texte });
+        // La couleur calculée : c'est elle qui dira de quel côté poser le halo.
+        out.push({ x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height), texte, couleur: s.color });
         if (out.length >= 24) break;
       }
       return out;
@@ -133,6 +134,7 @@ for (const id of ids) {
       const rapport = await rapportDe(png);
       if (rapport !== null && rapport < 2.5) {
         fiche.illisibles.push(`«${c.texte.slice(0, 34)}» ${rapport.toFixed(1)}:1`);
+        (fiche.couleurs ??= {})[c.texte.slice(0, 34)] = c.couleur;
         // Pour vérifier de l'œil ce que la mesure a découpé.
         if (process.env.VIGNETTES) {
           fs.mkdirSync(process.env.VIGNETTES, { recursive: true });
