@@ -31,6 +31,8 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -893,9 +895,8 @@ export default function TerreVivantePage() {
               lineHeight: 1.08,
               marginBottom: "1.5rem",
             }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
-            De nos champs<br />
-            <span style={{ color: C.accent }}>à votre table</span>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 13) ?? "De nos champs"}<br />
+            <span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 13) ?? "à votre table"}</span>
           </>}</>)}</motion.h1>
 
           <motion.p
@@ -910,7 +911,7 @@ export default function TerreVivantePage() {
               margin: "0 auto 2.75rem",
               lineHeight: 1.8,
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Terre Vivante cultive 85 variétés de légumes, fruits et herbes dans le Beaujolais. Chaque panier raconte la saison, cueilli le matin même.
           </>}</motion.p>
 

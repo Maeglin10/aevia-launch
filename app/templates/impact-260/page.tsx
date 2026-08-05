@@ -22,6 +22,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -744,7 +745,7 @@ function Hero() {
             margin: 'clamp(16px,2.5vw,28px) 0 clamp(14px,2vw,22px)',
             textShadow: '0 12px 50px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 15) ?? (<>
           Confort garanti{' '}
           <br />
           <span style={{ fontStyle: 'normal', fontWeight: 300, color: C.accentLight }}>

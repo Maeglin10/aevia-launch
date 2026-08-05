@@ -14,6 +14,8 @@ import {
 } from "framer-motion";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientReviews,
@@ -1389,10 +1391,8 @@ export default function Impact170Page() {
                   lineHeight: 1.1,
                   letterSpacing: "-0.02em",
                 }}
-              >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-                Rafaël
-                <br />
-                <span style={{ color: C.green }}>Moreau</span>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 6) ?? "Rafaël"}<br />
+                <span style={{ color: C.green }}>{clientHeroLine(sessionData, 1, 2, 6) ?? "Moreau"}</span>
               </>}</>)}</h1>
             </TextReveal>
 
@@ -1423,7 +1423,7 @@ export default function Impact170Page() {
                 marginBottom: 40,
                 maxWidth: 480,
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               8 ans d'expérience sur des systèmes distribués à haute disponibilité.
               Je construis des APIs qui tiennent à l'échelle, des frontends qui se
               chargent en 80ms, et des équipes qui livrent sans drama.

@@ -22,6 +22,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -677,7 +678,7 @@ function Hero() {
             margin: '24px 0 28px',
             textShadow: '0 8px 50px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 5) ?? (<>
           CÂBLÉ
           <br />
           <span style={{ color: C.accent }}>/POUR</span>

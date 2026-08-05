@@ -20,6 +20,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -690,7 +691,7 @@ function Hero() {
             textShadow: '0 14px 70px rgba(0,0,0,0.55)',
             maxWidth: 820,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 8) ?? (<>
           Le droit
           <br />à votre
           <br />service

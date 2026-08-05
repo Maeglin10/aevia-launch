@@ -16,6 +16,7 @@ import { DWELL, useSlides, BlurThrough, HairlineArrows } from '@/lib/templates/h
 import { PortalZoom } from '@/lib/templates/hero-kit-3';
 import {
   clientCity,
+  clientHeroLine,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -668,7 +669,7 @@ function Hero() {
             margin: '26px 0 20px',
             textShadow: '0 14px 60px rgba(0,0,0,0.5)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 17) ?? (<>
           Mariages /{' '}
           <span style={{ fontStyle: 'italic', color: C.accentLight }}>
             Côte d&apos;Azur.

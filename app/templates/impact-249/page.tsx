@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -660,7 +661,7 @@ function Hero() {
             textShadow: '0 14px 60px rgba(0,0,0,0.55)',
             maxWidth: '10em',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 12) ?? (<>
           L&apos;encre
           <br />
           comme art.

@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, TrendingUp } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -661,7 +662,7 @@ function Hero() {
             textShadow: '0 16px 64px rgba(0,0,0,0.5)',
             maxWidth: 900,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 17) ?? (<>
           Votre croissance,
           <br />
           notre expertise.

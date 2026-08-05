@@ -51,6 +51,8 @@ import {
 } from "lucide-react";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -1455,13 +1457,9 @@ export default function HorizonMaritimePage() {
                 marginBottom: "1.5rem",
                 letterSpacing: -1,
               }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-              Beyond the
-              <br />
-              <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>ordinary</em>
-              <br />
-              horizon.
-            </>}</>)}</motion.h1>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "Beyond the"}<br />
+              <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>{clientHeroLine(sessionData, 1, 3, 10) ?? "ordinary"}</em>
+              <br />{clientHeroLine(sessionData, 2, 3, 10) ?? "horizon."}</>}</>)}</motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 24 }}
@@ -1476,7 +1474,7 @@ export default function HorizonMaritimePage() {
                 lineHeight: 1.8,
                 marginBottom: "2.5rem",
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Bespoke yacht charters and private aviation transfers across the world's most
               extraordinary waters. Curated for those who demand perfection without effort.
             </>}</motion.p>

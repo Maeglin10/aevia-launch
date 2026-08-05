@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Leaf, MapPin, Send } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -642,7 +643,7 @@ function Hero() {
             textShadow: '0 12px 60px rgba(0,0,0,0.4)',
             maxWidth: '14ch',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 14) ?? (<>
           Jardins /{' '}
           <span style={{ color: C.accentLight }}>qui respirent.</span>
         </>)}</motion.h1>

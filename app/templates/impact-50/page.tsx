@@ -24,6 +24,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -318,7 +319,7 @@ export default function CabinetMoreauPage() {
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Psychologue clinicienne à {clientCity({ formData: fd }) ?? "Montpellier"}, je vous accompagne face aux difficultés émotionnelles, relationnelles et professionnelles avec bienveillance et méthodes fondées sur les preuves.
+            {clientTrade(sessionData) ?? "Psychologue"} clinicienne à {clientCity({ formData: fd }) ?? "Montpellier"}, je vous accompagne face aux difficultés émotionnelles, relationnelles et professionnelles avec bienveillance et méthodes fondées sur les preuves.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -490,7 +491,7 @@ export default function CabinetMoreauPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: brand ?? 'var(--brand,#9fd4c9)', marginBottom: 8 }}>Laurence Moreau</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Psychologue clinicienne · {clientCity({ formData: fd }) ?? "Montpellier"}<br />Lun–Ven 9h–19h | Sam 9h–13h</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Psychologue"} clinicienne · {clientCity({ formData: fd }) ?? "Montpellier"}<br />Lun–Ven 9h–19h | Sam 9h–13h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Montpellier") + ", Hérault" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 34 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h" }].map((item, i) => (

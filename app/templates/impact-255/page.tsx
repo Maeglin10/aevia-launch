@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Shield, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -683,7 +684,7 @@ function Hero() {
             maxWidth: '16ch',
             textShadow: '0 12px 60px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 11) ?? (<>
           Votre droit{' '}
           <span style={{ color: C.accentLight }}>/</span>
           <br />

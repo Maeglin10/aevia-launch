@@ -37,6 +37,7 @@ import {
   clientAddress,
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientHours,
   clientList,
   clientName,
@@ -547,7 +548,7 @@ function Hero() {
             fontSize: "clamp(52px, 8vw, 120px)",
             color: C.cream,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 16) ?? (<>
           L'Orfèvrerie
           <br />
           <span style={{ color: C.gold }}>comme Art Vivant</span>

@@ -28,6 +28,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientHours,
   clientList,
   clientName,
@@ -557,7 +558,7 @@ function HeroSection() {
             margin: '28px 0 20px',
             textShadow: '0 10px 50px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 20) ?? (<>
           Ton corps,{' '}
           <span
             style={{

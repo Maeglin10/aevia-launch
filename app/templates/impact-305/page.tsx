@@ -53,6 +53,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -90,7 +91,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   COURANT FORT {clientCity(sessionData) ?? "BORDEAUX"} — Électricien tertiaire {clientCity(sessionData) ?? "Bordeaux"} — smart home, alarmes, domotique. Exo 2, bleu nuit / lime.
+   COURANT FORT {clientCity(sessionData) ?? "BORDEAUX"} — {clientTrade(sessionData) ?? "Électricien"} tertiaire {clientCity(sessionData) ?? "Bordeaux"} — smart home, alarmes, domotique. Exo 2, bleu nuit / lime.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -533,7 +534,7 @@ export default function Page() {
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-              Électricien {clientCity(sessionData) ?? "Bordeaux"} Mériadeck. Smart home, alarmes, domotique, installations tertiaires.
+              {clientTrade(sessionData) ?? "Électricien"} {clientCity(sessionData) ?? "Bordeaux"} Mériadeck. Smart home, alarmes, domotique, installations tertiaires.
             </>}</p>
           </Reveal>
 
@@ -1258,7 +1259,7 @@ export default function Page() {
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Courant Fort Bordeaux"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Électricien tertiaire {clientCity(sessionData) ?? "Bordeaux"}
+                {clientTrade(sessionData) ?? "Électricien"} tertiaire {clientCity(sessionData) ?? "Bordeaux"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

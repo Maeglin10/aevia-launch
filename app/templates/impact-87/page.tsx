@@ -8,6 +8,8 @@ import { C, FONT, FONT_BODY, STATS, COURS, AVIS, Reveal } from "./shared";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -337,9 +339,8 @@ export default function IronClubPage() {
               letterSpacing: 2,
               marginBottom: 24,
             }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
-            Plus fort.<br />
-            <span style={{ color: C.accent }}>Chaque jour.</span>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 12) ?? "Plus fort."}<br />
+            <span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 12) ?? "Chaque jour."}</span>
           </>}</>)}</motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 28 }}
@@ -353,7 +354,7 @@ export default function IronClubPage() {
               marginBottom: 36,
               maxWidth: 520,
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             La salle de sport et CrossFit de référence à {clientCity({ formData: fd }) ?? "Lyon"}. Une communauté soudée, des coachs certifiés, des résultats qui parlent d&apos;eux-mêmes.
           </>}</motion.p>
           <motion.div

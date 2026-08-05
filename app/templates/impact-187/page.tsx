@@ -14,6 +14,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -26,7 +27,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MAX PERFORMANCE — Coach sportif personnel ({clientCity({ formData: fd }) ?? "Paris"})
+   MAX PERFORMANCE — {clientTrade(sessionData) ?? "Coach sportif"} personnel ({clientCity({ formData: fd }) ?? "Paris"})
    Palette : noir #0a0a0a / orange électrique #f97316 / gris foncé #1a1a1a / blanc cassé #f8f5f0
    Fonts : Anton (titres impact) + Geist (corps)
    Style : énergie, impact, transformation, résultats
@@ -195,7 +196,7 @@ export default function MaxPerformancePage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-10 h-[2px] bg-[var(--brand,#f97316)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/70">Coach sportif certifié · {clientCity({ formData: fd }) ?? "Paris"} & Online</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/70">{clientTrade(sessionData) ?? "Coach sportif"} certifié · {clientCity({ formData: fd }) ?? "Paris"} & Online</span>
             </div>
           </motion.div>
 
@@ -391,7 +392,7 @@ export default function MaxPerformancePage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-black uppercase text-[#f8f5f0] text-sm mb-5" style={{ fontFamily: "'Anton', sans-serif" }}>MAX<span className="text-[var(--brand,#f97316)]">.</span>PERF</div>
-            <p className="text-[#f8f5f0]/15 text-sm leading-relaxed">Coach sportif certifié BPJEPS. {clientCity({ formData: fd }) ?? "Paris"} & online worldwide. Coaching privé, bootcamp, prépa compétition.</p>
+            <p className="text-[#f8f5f0]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Coach sportif"} certifié BPJEPS. {clientCity({ formData: fd }) ?? "Paris"} & online worldwide. Coaching privé, bootcamp, prépa compétition.</p>
           </div>
           {[
             { t: "Programmes", ls: ["Coaching privatif", "Bootcamp", "Prépa compétition", "Coaching en ligne", "Nutrition & récup"] },

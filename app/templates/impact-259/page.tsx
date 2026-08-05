@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Coffee, MapPin, Quote, Star } from 'lucide-rea
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -701,7 +702,7 @@ function Hero() {
             margin: 'clamp(20px,2.4vw,34px) 0 0',
             textShadow: '0 14px 64px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 13) ?? (<>
           Pain vivant /{' '}
           <span style={{ color: C.accentLight, fontStyle: 'italic' }}>
             café vivant.

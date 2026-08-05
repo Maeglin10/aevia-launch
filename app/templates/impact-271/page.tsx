@@ -14,12 +14,14 @@ import { ArrowRight, ChevronDown, Sun, MapPin, Leaf } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -656,7 +658,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
         >
           <Eyebrow color={C.accentLight}>
-            Paysagiste · {clientCity(sessionData) ?? "Strasbourg"} &amp; Bas-Rhin
+            {clientTrade(sessionData) ?? "Paysagiste"} · {clientCity(sessionData) ?? "Strasbourg"} &amp; Bas-Rhin
           </Eyebrow>
         </motion.div>
 
@@ -676,7 +678,7 @@ function Hero() {
             textShadow: '0 12px 60px rgba(0,0,0,0.45)',
             maxWidth: 900,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 20) ?? (<>
           L&apos;Alsace&nbsp;/
           <br />
           en fleurs.

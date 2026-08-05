@@ -37,6 +37,7 @@ import {
   clientAddress,
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientHours,
   clientName,
   clientPhotos,
@@ -779,7 +780,7 @@ function Hero() {
           <h1
             className="text-[clamp(52px,8vw,96px)] font-[700] italic leading-[0.92] tracking-[-0.02em] text-[var(--brand-light,#831843)] mb-8"
             style={{ fontFamily: "'Playfair Display', serif" }}
-          >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+          >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 27) ?? (<>
             <motion.span
               className="block"
               initial={{ opacity: 0, y: 32 }}

@@ -36,6 +36,8 @@ import {
   clientCertifications,
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -811,10 +813,8 @@ return (
                 marginBottom: 36,
                 fontStyle: "italic",
               }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-              L'art du bijou
-              <br />
-              <span style={{ color: C.gold }}>intemporel.</span>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "L'art du bijou"}<br />
+              <span style={{ color: C.gold }}>{clientHeroLine(sessionData, 1, 2, 14) ?? "intemporel."}</span>
             </>}</>)}</h1>
 
             <p
@@ -826,7 +826,7 @@ return (
                 marginBottom: 52,
                 fontWeight: 300,
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Depuis 1947, Aurum Jewelry crée des bijoux qui traversent les
               générations. Diamants GIA certifiés, or 18K, platine 950 — chaque
               pièce est une œuvre unique taillée à {clientCity(sessionData) ?? "Paris"}.

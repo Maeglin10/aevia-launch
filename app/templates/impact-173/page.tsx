@@ -33,6 +33,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -762,11 +764,8 @@ export default function Impact173Page() {
               textTransform: "uppercase",
               color: C.text,
               marginBottom: 0,
-            }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-              ON<br />
-              <span style={{ WebkitTextStroke: `2px ${C.orange}`, WebkitTextFillColor: "transparent", color: "transparent" }}>
-                BÂTIT.
-              </span>
+            }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 6) ?? "ON"}<br />
+              <span style={{ WebkitTextStroke: `2px ${C.orange}`, WebkitTextFillColor: "transparent", color: "transparent" }}>{clientHeroLine(sessionData, 1, 2, 6) ?? "BÂTIT."}</span>
             </>}</>)}</h1>
             <div className="imx-hero173-h1" style={{
               fontFamily: FONT_HEADING,
@@ -785,7 +784,7 @@ export default function Impact173Page() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
               style={{ maxWidth: 520, fontSize: 16, color: C.textSub, lineHeight: 1.8, marginTop: 48, marginBottom: 56 }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Entreprise générale de construction depuis 35 ans. Gros œuvre, réhabilitation, promotion immobilière. Prix ferme, délais tenus, interlocuteur unique.
             </>}</motion.p>
 

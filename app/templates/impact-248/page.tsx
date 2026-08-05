@@ -21,6 +21,7 @@ import {
 import { MosaicPush } from '@/lib/templates/hero-kit-3';
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -757,7 +758,7 @@ function Hero() {
             margin: 'clamp(22px,3vw,36px) 0 clamp(18px,2vw,28px)',
             textShadow: '0 12px 60px rgba(0,0,0,0.5)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 19) ?? (<>
           Le mouvement&nbsp;/
           <br />
           retrouvé.

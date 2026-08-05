@@ -26,6 +26,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -543,7 +544,7 @@ function HeroSection() {
             textShadow: '0 10px 50px rgba(0,0,0,0.42)',
             maxWidth: 960,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 21) ?? (<>
           La rigueur au service{' '}
           <span style={{ fontStyle: 'italic', color: 'rgba(232,240,248,0.9)' }}>
             de votre réussite

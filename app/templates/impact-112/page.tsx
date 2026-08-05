@@ -33,6 +33,8 @@ import {
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -1421,12 +1423,8 @@ return (
                   color: C.text,
                   marginBottom: 28,
                 }}
-              >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-                La main,
-                <br />
-                la flamme,
-                <br />
-                <span style={{ color: C.terracotta }}>l'objet.</span>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "La main,"}<br />{clientHeroLine(sessionData, 1, 3, 10) ?? "la flamme,"}<br />
+                <span style={{ color: C.terracotta }}>{clientHeroLine(sessionData, 2, 3, 10) ?? "l'objet."}</span>
               </>}</>)}</motion.h1>
 
               <motion.p
@@ -1440,7 +1438,7 @@ return (
                   maxWidth: 420,
                   marginBottom: 44,
                 }}
-              >{fd?.tagline ?? c?.heroSubline ?? <>
+              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Céramiques artisanales tournées à la main en Bourgogne. Grès,
                 porcelaine, émaux naturels. Chaque pièce est unique et livrée
                 avec son certificat d'authenticité.

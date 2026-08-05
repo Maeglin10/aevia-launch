@@ -1,6 +1,8 @@
 "use client";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -282,12 +284,11 @@ return (
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontFamily: C.serif, fontSize: "clamp(3.5rem,9vw,8.5rem)", fontWeight: 400, lineHeight: 0.9, letterSpacing: "-0.01em", color: "#fff", marginBottom: "1.5rem", fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            Des piscines<br />qui vous<br /><span style={{ color: C.terraLight }}>ressemblent.</span>
+            style={{ fontFamily: C.serif, fontSize: "clamp(3.5rem,9vw,8.5rem)", fontWeight: 400, lineHeight: 0.9, letterSpacing: "-0.01em", color: "#fff", marginBottom: "1.5rem", fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "Des piscines"}<br />{clientHeroLine(sessionData, 1, 3, 12) ?? "qui vous"}<br /><span style={{ color: C.terraLight }}>{clientHeroLine(sessionData, 2, 3, 12) ?? "ressemblent."}</span>
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontFamily: C.sans, fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 480, marginBottom: "2.5rem" }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            style={{ fontFamily: C.sans, fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 480, marginBottom: "2.5rem" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Conception, construction et rénovation de piscines en Auvergne-Rhône-Alpes. Du projet à la mise en eau, une approche sur-mesure et humaine.
           </>}</motion.p>
 

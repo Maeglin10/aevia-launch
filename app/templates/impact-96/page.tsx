@@ -33,6 +33,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientReviews,
   clientServices,
@@ -941,17 +943,13 @@ return (
                 color: C.text,
                 marginBottom: 32,
               }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-              Faire exister
-              <br />
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 13) ?? "Faire exister"}<br />
               <span
                 style={{
                   color: C.amber,
                   WebkitTextStroke: "0px",
                 }}
-              >
-                l'image
-              </span>
+              >{clientHeroLine(sessionData, 1, 2, 13) ?? "l'image"}</span>
               <span style={{ color: "rgba(240,234,216,0.18)" }}>.</span>
             </>}</>)}</motion.h1>
 
@@ -967,7 +965,7 @@ return (
                 marginBottom: 44,
                 fontWeight: 400,
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Maison de production parisienne. Fiction, documentaire, publicité de prestige.
               Nous fabriquons des images qui traversent le temps.
             </>}</motion.p>

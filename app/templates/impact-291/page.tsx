@@ -25,12 +25,14 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -48,7 +50,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉOPATHIE ALSACE — Ostéopathe D.O., {clientCity(sessionData) ?? "Strasbourg"} Orangerie
+   OSTÉOPATHIE ALSACE — {clientTrade(sessionData) ?? "Ostéopathe"} D.O., {clientCity(sessionData) ?? "Strasbourg"} Orangerie
    Template premium Skylaunch impact-291
    Auto-suffisant · 'use client' · framer-motion + lucide-react uniquement.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -522,7 +524,7 @@ function HeroSection() {
       >
         <Reveal y={16}>
           <Eyebrow color="rgba(248,244,237,0.80)" align="center">
-            Ostéopathe D.O. · {clientCity(sessionData) ?? "Strasbourg"} Orangerie
+            {clientTrade(sessionData) ?? "Ostéopathe"} D.O. · {clientCity(sessionData) ?? "Strasbourg"} Orangerie
           </Eyebrow>
         </Reveal>
 
@@ -540,7 +542,7 @@ function HeroSection() {
             margin: '26px 0 20px',
             textShadow: '0 10px 50px rgba(0,0,0,0.42)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 16) ?? (<>
           Retrouver{' '}
           <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'rgba(212,131,110,0.92)' }}>
             l&apos;équilibre

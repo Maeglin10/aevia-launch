@@ -8,12 +8,15 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -274,11 +277,11 @@ export default function AquaThermPage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
         <motion.div className="mb228-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(48px, 6vw, 82px)", letterSpacing: 1, color: "#fff", lineHeight: 0.95, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            PANNE ?<br /><span style={{ color: C.accent }}>ON ARRIVE.</span>
+            style={{ fontFamily: FONT, fontSize: "clamp(48px, 6vw, 82px)", letterSpacing: 1, color: "#fff", lineHeight: 0.95, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>
+            PANNE ?<br /><span style={{ color: C.accent }}>{clientHeroLine(sessionData, 0, 1, 10) ?? "ON ARRIVE."}</span>
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             AquaTherm, plombier chauffagiste à {clientCity(sessionData) ?? "Lille"}. Urgences en moins d'une heure, devis gratuit, certifié RGE et Qualigaz. Plomberie, chauffage, PAC, climatisation.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -430,7 +433,7 @@ export default function AquaThermPage() {
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 22, letterSpacing: 1, color: C.accent, marginBottom: 8 }}>AquaTherm</div>
-            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Plombier chauffagiste RGE · {clientCity(sessionData) ?? "Lille"}<br />Urgences 24h/24 · 7j/7</p>
+            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Plombier"} chauffagiste RGE · {clientCity(sessionData) ?? "Lille"}<br />Urgences 24h/24 · 7j/7</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lille") + ", Nord" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "03 20 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 24h/24" }].map((item, i) => (

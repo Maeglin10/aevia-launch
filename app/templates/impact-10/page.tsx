@@ -17,6 +17,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -710,7 +711,7 @@ function HeroSection() {
             marginBottom: '2.5rem',
             y: headingY,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 6) ?? (<>
           Grand<br />
           <em style={{ fontStyle: 'italic' }}>Palais</em>
         </>)}</motion.h1>

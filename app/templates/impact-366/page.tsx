@@ -11,6 +11,8 @@ import { CrossPush } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -217,10 +219,10 @@ export default function PotagerEstuairePage() {
             Maraîchage bio · Golfe du Morbihan
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.9, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(36px, 5vw, 64px)", color: "#fff", lineHeight: 1.1, margin: "16px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>
-            {c?.heroHeadline ?? (<>Un champ, cent familles,<br /><em style={{ color: C.hi }}>et les saisons pour contrat.</em></>)}
+            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Un champ, cent familles,"}<br /><em style={{ color: C.hi }}>{clientHeroLine(sessionData, 1, 2, 14) ?? "et les saisons pour contrat."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }} style={{ fontSize: 17, color: "rgba(255,255,255,0.78)", lineHeight: 1.75, marginBottom: 32, maxWidth: 520 }}>
-            {fd?.tagline ?? c?.heroSubline ?? "Le Potager nourrit cent familles en AMAP et le marché du samedi : légumes bio plantés, cueillis et distribués par la même équipe. S'engager sur une saison, c'est ce qui fait tenir une ferme."}
+            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Le Potager nourrit cent familles en AMAP et le marché du samedi : légumes bio plantés, cueillis et distribués par la même équipe. S'engager sur une saison, c'est ce qui fait tenir une ferme."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>

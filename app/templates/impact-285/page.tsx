@@ -36,6 +36,7 @@ import {
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
   clientHours,
   clientName,
   clientPhotos,
@@ -534,7 +535,7 @@ function HeroSection() {
             margin: '30px 0 24px',
             textShadow: '0 10px 50px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 17) ?? (<>
           Votre santé entre{' '}
           <span style={{ fontStyle: 'italic', color: C.salmonLight }}>
             de bonnes mains

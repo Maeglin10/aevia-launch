@@ -16,6 +16,7 @@ import { C, F, projects, teamMembers, processSteps } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientList,
   clientServices,
   clientStats,
@@ -369,7 +370,7 @@ function HeroSection() {
               letterSpacing: '-0.03em',
               margin: '0 0 32px',
             }}
-          >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+          >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 8) ?? (<>
             Space
             <br />
             <span style={{ color: C.accent }}>Defines</span>

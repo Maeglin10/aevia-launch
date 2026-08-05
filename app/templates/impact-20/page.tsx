@@ -15,6 +15,8 @@ import Link from "next/link";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -1443,9 +1445,7 @@ export default function LuxuryJewelryTemplate() {
                   color: "#f0ece0",
                   marginBottom: 24,
                 }}
-              >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-                L'art du
-                <br />
+              >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 13) ?? "L'art du"}<br />
                 <span
                   style={{
                     background:
@@ -1454,9 +1454,7 @@ export default function LuxuryJewelryTemplate() {
                     WebkitTextFillColor: "transparent",
                     display: "block",
                   }}
-                >
-                  bijou éternel
-                </span>
+                >{clientHeroLine(sessionData, 1, 2, 13) ?? "bijou éternel"}</span>
               </>}</>)}</h1>
             </SectionReveal>
 
@@ -1472,7 +1470,7 @@ export default function LuxuryJewelryTemplate() {
                   fontFamily: "Georgia, serif",
                   fontStyle: "italic",
                 }}
-              >{fd?.tagline ?? c?.heroSubline ?? <>
+              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Chaque pièce naît d'un dialogue entre la lumière et la matière.
                 Façonnée à la main par nos maîtres joailliers, elle porte une
                 histoire qui traverse les générations.

@@ -14,12 +14,14 @@ import { ArrowRight, ChevronDown, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -671,7 +673,7 @@ function Hero() {
             textShadow: '0 14px 64px rgba(0,0,0,0.5)',
             maxWidth: 860,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 9) ?? (<>
           Jardins
           <br />
           en ville.
@@ -2067,7 +2069,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.36)',
         }}
       >
-        <span>© 2026 Vert Horizon · Paysagiste Île-de-France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 Vert Horizon · {clientTrade(sessionData) ?? "Paysagiste"} Île-de-France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a
             href="#devis"

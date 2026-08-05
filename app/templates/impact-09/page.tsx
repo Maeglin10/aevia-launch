@@ -39,6 +39,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -390,13 +392,13 @@ return (
                      <motion.h1
                         style={{ scale: textScale }}
                         className="text-5xl sm:text-6xl md:text-[15vw] font-black tracking-tight md:tracking-tighter uppercase mb-8 md:mb-16 leading-[0.9] md:leading-[0.7] italic flex flex-col break-words"
-                     >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-                        <span>Reach the</span>
-                        <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Beyond.</span>
+                     >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>
+                        <span>{clientHeroLine(sessionData, 0, 2, 9) ?? "Reach the"}</span>
+                        <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>{clientHeroLine(sessionData, 1, 2, 9) ?? "Beyond."}</span>
                      </>}</>)}</motion.h1>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-24 items-end text-left max-w-5xl">
-                        <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{fd?.tagline ?? c?.heroSubline ?? <>
+                        <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                            Nous maîtrisons le transit orbital commercial. Conçu pour l'élite évolutive, notre service assure une sécurité absolue vers les destinations lointaines.
                         </>}</p>
                         <div className="flex flex-col sm:flex-row gap-8 justify-end">

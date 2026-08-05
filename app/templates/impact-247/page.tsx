@@ -14,12 +14,14 @@ import { ArrowRight, ChevronDown, Zap } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -34,7 +36,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   VOLT & LUX — Électricien Certifié & Domotique · {clientCity(sessionData) ?? "Toulouse"}
+   VOLT & LUX — {clientTrade(sessionData) ?? "Électricien"} Certifié & Domotique · {clientCity(sessionData) ?? "Toulouse"}
    Photographie réelle + chorégraphie de défilement éditoriale. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -481,7 +483,7 @@ function Hero() {
         }}
       >
         <Reveal y={16}>
-          <Eyebrow color={C.yellow}>Électricien certifié · {clientCity(sessionData) ?? "Toulouse"}</Eyebrow>
+          <Eyebrow color={C.yellow}>{clientTrade(sessionData) ?? "Électricien"} certifié · {clientCity(sessionData) ?? "Toulouse"}</Eyebrow>
         </Reveal>
 
         <motion.h1
@@ -500,7 +502,7 @@ function Hero() {
             maxWidth: '14ch',
             textShadow: '0 16px 60px rgba(0,0,0,0.6)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 18) ?? (<>
           L&apos;électricité{' '}
           <span style={{ fontStyle: 'italic', color: C.yellow }}>/ sans</span>
           {' '}compromis.
@@ -1966,7 +1968,7 @@ function Footer() {
               maxWidth: 300,
             }}
           >
-            Électricien certifié Qualifelec à {clientCity(sessionData) ?? "Toulouse"}. Mise aux normes,
+            {clientTrade(sessionData) ?? "Électricien"} certifié Qualifelec à {clientCity(sessionData) ?? "Toulouse"}. Mise aux normes,
             domotique &amp; bornes IRVE depuis 2012.
           </p>
           <div

@@ -9,6 +9,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientList,
   clientName,
@@ -1231,10 +1233,8 @@ export default function ImpactEclatPage() {
                 fontStyle: "italic",
                 marginBottom: 40,
               }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-              La chaleur<br />
-              comme<br />
-              <span style={{ color: C.gold }}>philosophie.</span>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "La chaleur"}<br />{clientHeroLine(sessionData, 1, 3, 12) ?? "comme"}<br />
+              <span style={{ color: C.gold }}>{clientHeroLine(sessionData, 2, 3, 12) ?? "philosophie."}</span>
             </>}</>)}</h1>
 
             <p
@@ -1246,7 +1246,7 @@ export default function ImpactEclatPage() {
                 maxWidth: 440,
                 fontWeight: 300,
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Lin, soie, tencel. Des matières qui respirent, des coupes qui durent.
               La mode éditoriale pour celles qui choisissent la qualité sur la quantité.
             </>}</p>

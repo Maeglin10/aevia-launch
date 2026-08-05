@@ -53,6 +53,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -569,7 +570,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-              Espèces locales, irrigation économe, terrasses. Paysagiste {clientCity(sessionData) ?? "Montpellier"}.
+              Espèces locales, irrigation économe, terrasses. {clientTrade(sessionData) ?? "Paysagiste"} {clientCity(sessionData) ?? "Montpellier"}.
             </>}</p>
           </Reveal>
 
@@ -1394,7 +1395,7 @@ return (
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Jardins de l'Hérault"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Paysagiste méditerranéen {clientCity(sessionData) ?? "Montpellier"}
+                {clientTrade(sessionData) ?? "Paysagiste"} méditerranéen {clientCity(sessionData) ?? "Montpellier"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

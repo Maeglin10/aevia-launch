@@ -22,6 +22,7 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientReviews,
   clientServices,
@@ -529,7 +530,7 @@ function Hero({ accentColor, particles }: { accentColor: string; particles: Part
             color: brand ?? '#1a0a10',
             marginBottom: 24,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 11) ?? (<>
           L&apos;art{' '}
           <span className="shimmer-text">au bout</span>
           <br />

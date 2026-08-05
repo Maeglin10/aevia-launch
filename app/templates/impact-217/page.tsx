@@ -30,6 +30,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -619,7 +620,7 @@ function Hero() {
             maxWidth: '14ch',
             willChange: 'transform',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 26) ?? (<>
           Forged for
           <br />
           the{' '}

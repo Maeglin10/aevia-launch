@@ -29,12 +29,14 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -52,7 +54,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET SOLER — Ostéopathe D.O., {clientCity(sessionData) ?? "Lyon"} · Brotteaux
+   CABINET SOLER — {clientTrade(sessionData) ?? "Ostéopathe"} D.O., {clientCity(sessionData) ?? "Lyon"} · Brotteaux
    Template premium holistique. Palette forêt × beige lin × terracotta.
    Auto-suffisant. 'use client'. Calqué sur le style éditorial impact-218.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -531,7 +533,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.terraLight} align="center">
-            Ostéopathe D.O. · {clientCity(sessionData) ?? "Lyon"} · Brotteaux
+            {clientTrade(sessionData) ?? "Ostéopathe"} D.O. · {clientCity(sessionData) ?? "Lyon"} · Brotteaux
           </Eyebrow>
         </Reveal>
 
@@ -550,7 +552,7 @@ function HeroSection() {
             textShadow: '0 12px 60px rgba(0,0,0,0.45)',
             maxWidth: 1000,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 19) ?? (<>
           Le mouvement libre,{' '}
           <span style={{ fontStyle: 'italic', color: C.terraLight }}>
             la santé retrouvée

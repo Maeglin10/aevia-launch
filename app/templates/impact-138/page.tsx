@@ -8,12 +8,15 @@ import { Eye, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight } from "
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -291,13 +294,12 @@ export default function VisionClairePage() {
 
         <motion.div className="mb138-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontSize: "clamp(40px, 5.5vw, 70px)", fontWeight: 900, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            Bien voir le monde,<br /><span style={{ color: C.cyan }}>avec style.</span>
+            style={{ fontSize: "clamp(40px, 5.5vw, 70px)", fontWeight: 900, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 19) ?? "Bien voir le monde,"}<br /><span style={{ color: C.cyan }}>{clientHeroLine(sessionData, 1, 2, 19) ?? "avec style."}</span>
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{fd?.tagline ?? c?.heroSubline ?? <>
-            Opticien indépendant à {clientCity({ formData: fd }) ?? "Nantes"} depuis 20 ans. Lunettes, lentilles, examens de vue complets — tiers-payant toutes mutuelles, conseils personnalisés, délais rapides.
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            {clientTrade(sessionData) ?? "Opticien"} indépendant à {clientCity({ formData: fd }) ?? "Nantes"} depuis 20 ans. Lunettes, lentilles, examens de vue complets — tiers-payant toutes mutuelles, conseils personnalisés, délais rapides.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -476,7 +478,7 @@ export default function VisionClairePage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontSize: 20, fontWeight: 800, color: C.cyan, marginBottom: 8 }}>VisionClaire</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Opticien indépendant · {clientCity({ formData: fd }) ?? "Nantes"}<br />Mar–Sam 9h–19h</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Opticien"} indépendant · {clientCity({ formData: fd }) ?? "Nantes"}<br />Mar–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Nantes") + ", Loire-Atlantique" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "02 40 00 00 01") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (

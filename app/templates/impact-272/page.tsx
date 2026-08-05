@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Heart, MapPin, Quote } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -697,7 +698,7 @@ function Hero() {
             margin: '28px 0 24px',
             textShadow: '0 10px 60px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 21) ?? (<>
           Kiné{' '}
           <span style={{ fontStyle: 'normal', color: C.accentLight }}>
             /

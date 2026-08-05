@@ -8,6 +8,8 @@ import Link from "next/link"
 import { Atom, Cpu, Binary, Globe, ArrowRight, ExternalLink, Download, Menu, X } from "lucide-react"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientReviews,
@@ -479,9 +481,9 @@ export default function QBitLabsPage() {
                     letterSpacing: "-0.02em",
                     maxWidth: 640,
                   }}
-                >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
+                >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>
                   The future of computation{" "}
-                  <span style={{ fontWeight: 700 }}>is quantum.</span>
+                  <span style={{ fontWeight: 700 }}>{clientHeroLine(sessionData, 0, 1, 11) ?? "is quantum."}</span>
                 </>}</>)}</h1>
               </Reveal>
 
@@ -494,7 +496,7 @@ export default function QBitLabsPage() {
                     maxWidth: 520,
                     margin: "0 0 40px",
                   }}
-                >{fd?.tagline ?? c?.heroSubline ?? <>
+                >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   QBit Labs is an independent quantum computing research institute
                   advancing fault-tolerant processors, quantum algorithms, and the
                   foundational science of the post-classical era.

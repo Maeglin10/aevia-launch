@@ -34,6 +34,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -41,6 +42,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -55,7 +57,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ÉLECTRICITÉ DUMONT — Électricien certifié · {clientCity(sessionData) ?? "Paris"}
+   ÉLECTRICITÉ DUMONT — {clientTrade(sessionData) ?? "Électricien"} certifié · {clientCity(sessionData) ?? "Paris"}
    Photographie réelle + chorégraphie de défilement éditoriale (style Impact ×
    fiabilité artisanale × urgence). Fichier entièrement autonome. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -540,7 +542,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.yellow}>
-            Électricien certifié · {clientCity(sessionData) ?? "Paris"}
+            {clientTrade(sessionData) ?? "Électricien"} certifié · {clientCity(sessionData) ?? "Paris"}
           </Eyebrow>
         </Reveal>
 
@@ -560,7 +562,7 @@ function HeroSection() {
             textTransform: 'uppercase',
             maxWidth: 900,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 18) ?? (<>
           L&apos;électricité{' '}
           <span style={{ color: C.yellow }}>sans</span>
           <br />
