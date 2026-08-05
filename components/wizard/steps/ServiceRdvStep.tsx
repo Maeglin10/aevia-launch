@@ -274,7 +274,7 @@ export function ServiceRdvStep({
                   <input
                     type="time"
                     aria-label={`${h.day} — heure d'ouverture`}
-                    className={`${input} w-28`}
+                    className={`${input} w-32`}
                     value={h.open ?? ""}
                     onChange={(e) => updateHour(i, "open", e.target.value)}
                   />
@@ -282,7 +282,7 @@ export function ServiceRdvStep({
                   <input
                     type="time"
                     aria-label={`${h.day} — heure de fermeture`}
-                    className={`${input} w-28`}
+                    className={`${input} w-32`}
                     value={h.close ?? ""}
                     onChange={(e) => updateHour(i, "close", e.target.value)}
                   />
@@ -301,7 +301,7 @@ export function ServiceRdvStep({
           {sources.map((s, i) => (
             <div key={i} className="flex items-center gap-2">
               <input
-                className={`${input} w-28`}
+                className={`${input} w-32`}
                 value={s.platform}
                 onChange={(e) => updateSource(i, "platform", e.target.value)}
                 placeholder="Plateforme"
