@@ -442,7 +442,7 @@ export default function TorrefieCoffeePage() {
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-[#f5f0ea]/10 text-[10px] font-bold uppercase tracking-widest text-[#f5f0ea]/20 flex justify-between">
           <span>© 2026 TORRÉFIÉ ROASTERS.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span>BORDEAUX, FRANCE</span>
+          <span>{(clientCity({ formData: fd }) ?? "Bordeaux").toUpperCase()}, FRANCE</span>
         </div>
       </footer>
     </div>
