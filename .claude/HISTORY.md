@@ -328,3 +328,51 @@ les photos »* → d'où le balayage images bloquées.
   faible, global et préexistant sur les 315 templates. À traiter une fois.
 - Sujets des images réutilisées à contrôler en prod (proxy bloquant ici).
 - Déploiement Vercel manuel puis curl de vérification.
+
+---
+
+## 2026-08-05 — Session : audit des derniers commits + email client, NaN, test périmé
+
+**Fait :** `28be446` `5fe2ec8`
+- **Audit** des 50 commits de `claude/audit-themes-wizard-behy90` : 0 bloc
+  manquant sur 373 thèmes, 0 page plantée, mais la doc d'audit
+  (`ETAT_THEMES_2026-08-04.md`, 352/373) **précède** les 4 derniers commits
+  (12 thèmes, sections muettes, carrousels, images vides) — jamais re-mesurée.
+- **Email client** câblé sur 26 thèmes : l'email de contact affiché et le
+  `mailto:` sont désormais `fd?.email ?? "<démo>"`. Trois formes traitées
+  (texte JSX, objet `{label,href}`, href figé) via `scripts/wire-contact-emails.mjs`.
+- **Bug de nom de champ** : 4 thèmes lisaient `fd.contactEmail` (jamais rempli
+  par le wizard) → `fd?.email` (impact-319, 322, 324, 325).
+- **impact-05** : `Saves $NaN/year` + `annualPrice undefined` → parsing robuste
+  (`String(x).replace(/[^0-9.]/g,"")`) + garde `Number.isFinite`.
+- **Test périmé** : `resolveList.test.ts` assérait encore `toBe(real)` alors que
+  l'impl fusionne démo+client depuis `8f1d72d`. Réécrit → 22/22 verts.
+
+**Comment :**
+- Codemod conservateur avec dry-run avant `--apply`, diff ligne à ligne relu.
+- Contrôles : `next build` **exit 0** (compilé 3.2 min, 38/38 pages statiques),
+  `vitest` **22/22**, plus vérif statique (`grep .contactEmail` → aucun).
+
+**Pourquoi :** demande fondateur — « regarde si tous les thèmes sont
+personnalisables et si les tests ont été faits ». L'email `valentinmilliand@
+aevia.services` est **volontaire** (contact fondateur depuis les démos) : laissé
+partout où il est en repli `fd?.email ??` ou en contexte légal Aevia.
+
+**Erreurs / limites de la session :**
+- **Pas de mesure navigateur possible ici** : ni `node_modules`, ni
+  `BLOB_READ_WRITE_TOKEN` → `/api/sessions` répondrait 404 et le test serait
+  faux (règle CLAUDE.md). Vérification limitée à build + vitest + statique.
+  La mesure visuelle avec vraie session reste à faire en prod / env jetonné.
+- Premier classement email « codé en dur vs repli » **faux** : le `??` portait
+  sur le nom, pas sur l'email (impact-39). Repris avec le bon critère.
+
+**Restes à faire :**
+- **Décision fondateur** : 13 emails en pages légales/RGPD + prose « écrivez à …
+  pour exercer vos droits » (impact-26, 12, 13, 32, 154, 35, 99, 85, 48, 15, 93,
+  46, 89, 88, 01) — responsable de traitement = Aevia WS ou le client ?
+- **impact-44** (3 adresses par rôle) et **impact-41** (contact presse, const
+  module) : choix de design, non câblés.
+- **impact-99** (multi-page, lit `session?.formData`) : 2 affichages contact à
+  câbler, à vérifier au navigateur.
+- Re-mesure globale des 373 thèmes après les commits post-`b337bd5`.
+- Déploiement Vercel manuel + curl.
