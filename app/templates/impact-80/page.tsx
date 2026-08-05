@@ -15,6 +15,8 @@ import {
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -284,14 +286,13 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <div className="relative z-10">
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-[1.15] text-[#1a1a1a] mb-16 uppercase pb-4">{c?.heroHeadline ?? <>
-                Pure <br />{" "}
-                <span className="font-bold italic opacity-50">Volume.</span>
+              <h1 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-[1.15] text-[#1a1a1a] mb-16 uppercase pb-4">{<>{clientHeroLine(sessionData, 0, 2, 7) ?? "Pure"}<br />{" "}
+                <span className="font-bold italic opacity-50">{clientHeroLine(sessionData, 1, 2, 7) ?? "Volume."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col gap-16">
-                <p className="text-2xl text-black/40 font-light max-w-lg leading-relaxed italic">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="text-2xl text-black/40 font-light max-w-lg leading-relaxed italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   Architectural interventions that harmonize human ritual with the
                   absolute geometry of nature.
                 </>}</p>

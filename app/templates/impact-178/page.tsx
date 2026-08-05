@@ -9,6 +9,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -398,13 +400,11 @@ export default function AltaTransactionsPage() {
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.92] tracking-tight mb-10 text-white"
-            style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic" }}>{c?.heroHeadline ?? <>
-            L'immobilier de<br />
-            <span className="text-[var(--brand,#b8944a)] not-italic">prestige</span>, autrement.
-          </>}</motion.h1>
+            style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic" }}>{<>{clientHeroLine(sessionData, 0, 3, 15) ?? "L'immobilier de"}<br />
+            <span className="text-[var(--brand,#b8944a)] not-italic">{clientHeroLine(sessionData, 1, 3, 15) ?? "prestige"}</span>{clientHeroLine(sessionData, 2, 3, 15) ?? ", autrement."}</>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             15 ans d'expertise sur le marché parisien haut de gamme. 120 transactions par an. Une équipe de 6 experts totalement dédiés à vos ambitions patrimoniales.
           </>}</motion.p>
 

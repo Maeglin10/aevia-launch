@@ -11,6 +11,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientServices,
@@ -328,12 +330,11 @@ export default function NoirCouturePage() {
                     <p className="text-white/40 text-xs tracking-widest uppercase mb-4">Maison fondée en 1998</p>
                   </Reveal>
                   <Reveal delay={0.1}>
-                    <h1 className="text-white text-5xl md:text-7xl leading-none mb-8" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 400 }}>{c?.heroHeadline ?? <>
-                      Couture<br /><em>Noire</em>
+                    <h1 className="text-white text-5xl md:text-7xl leading-none mb-8" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 400 }}>{<>{clientHeroLine(sessionData, 0, 2, 7) ?? "Couture"}<br /><em>{clientHeroLine(sessionData, 1, 2, 7) ?? "Noire"}</em>
                     </>}</h1>
                   </Reveal>
                   <Reveal delay={0.2}>
-                    <p className="text-white/60 text-sm leading-relaxed max-w-xs mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+                    <p className="text-white/60 text-sm leading-relaxed max-w-xs mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                       L'art de la silhouette. Chaque pièce est une déclaration. Chaque collection, un manifeste.
                     </>}</p>
                   </Reveal>

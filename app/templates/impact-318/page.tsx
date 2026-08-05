@@ -42,6 +42,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -338,13 +340,13 @@ export default function Page() {
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 900, margin: '0 auto', padding: '0 24px', textAlign: 'center' }}>
           <Reveal delay={0.25}>
             <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(36px, 6vw, 78px)', lineHeight: 1.08, fontWeight: 700, color: C.white, marginBottom: 20, textShadow: '0 4px 20px rgba(0,0,0,0.5)' }}>
-              {c?.heroHeadline ?? <>Nettoyage extrême<br />après sinistre & chantier</>}
+              {<>{clientHeroLine(sessionData, 0, 2, 13) ?? "Nettoyage extrême"}<br />{clientHeroLine(sessionData, 1, 2, 13) ?? "après sinistre & chantier"}</>}
             </h1>
           </Reveal>
 
           <Reveal delay={0.4}>
             <p style={{ fontSize: 'clamp(15px, 1.6vw, 19px)', lineHeight: 1.6, color: 'rgba(255,255,255,0.8)', maxWidth: 650, margin: '0 auto 36px' }}>
-              {fd?.tagline ?? c?.heroSubline ?? "Intervention rapide 24h/24. Dégât des eaux, incendie, fin de chantier, décontamination. Équipement professionnel et protocoles certifiés."}
+              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Intervention rapide 24h/24. Dégât des eaux, incendie, fin de chantier, décontamination. Équipement professionnel et protocoles certifiés."}
             </p>
           </Reveal>
 

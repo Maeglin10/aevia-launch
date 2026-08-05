@@ -10,6 +10,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -228,12 +230,11 @@ export default function ApexFitnessPage() {
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <Reveal delay={0.1} y={70}>
-              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] uppercase mb-10">{c?.heroHeadline ?? <>
-                Train<br/><span className="text-[var(--brand,#84cc16)]">Harder.</span>
+              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] uppercase mb-10">{<>{clientHeroLine(sessionData, 0, 2, 7) ?? "Train"}<br/><span className="text-[var(--brand,#84cc16)]">{clientHeroLine(sessionData, 1, 2, 7) ?? "Harder."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.25}>
-              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Science-backed programming. Expert coaching. A community that pushes you further than you'd go alone.
               </>}</p>
             </Reveal>

@@ -9,6 +9,8 @@ import { Sparkles, ArrowRight, Menu, Star, Layers, Eye, Zap, Megaphone, PenTool,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -228,12 +230,11 @@ export default function KineticMarqueePage() {
         <section id="hero" className="relative min-h-dvh flex flex-col justify-center pt-32 pb-20 overflow-hidden">
           <motion.div style={{ opacity: heroOpacity }} className="max-w-[1600px] mx-auto px-6 md:px-12 w-full mb-20">
             <Reveal delay={0.1} y={60}>
-              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] mb-10 uppercase">{c?.heroHeadline ?? <>
-                We Make<br/>It <span className="text-[var(--brand,#f97316)] italic">Move.</span>
+              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] mb-10 uppercase">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "We Make"}<br/>{clientHeroLine(sessionData, 1, 3, 7) ?? "It"}<span className="text-[var(--brand,#f97316)] italic">{clientHeroLine(sessionData, 2, 3, 7) ?? "Move."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.25}>
-              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Brand identity, web experiences, and motion design for companies that refuse to stand still.
               </>}</p>
             </Reveal>

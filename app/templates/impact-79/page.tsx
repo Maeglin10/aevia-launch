@@ -45,6 +45,8 @@ import { Flame, Droplets, Thermometer, Wind, Zap, Globe, Activity, Terminal, Box
 import "../premium.css";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -498,11 +500,10 @@ export default function BoulangerieNoirePage() {
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <h1 className="text-4xl sm:text-5xl md:text-9xl lg:text-[7.5rem] xl:text-[9.5rem] 2xl:text-[10.5rem] font-black leading-[1.15] tracking-tighter mb-8 md:mb-12 uppercase pb-4 break-words">{c?.heroHeadline ?? <>
-              The Architecture <br />{" "}
-              <span className="text-stone-800 italic">of Crust.</span>
+            <h1 className="text-4xl sm:text-5xl md:text-9xl lg:text-[7.5rem] xl:text-[9.5rem] 2xl:text-[10.5rem] font-black leading-[1.15] tracking-tighter mb-8 md:mb-12 uppercase pb-4 break-words">{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "The Architecture"}<br />{" "}
+              <span className="text-stone-800 italic">{clientHeroLine(sessionData, 1, 2, 16) ?? "of Crust."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 md:mb-12 uppercase tracking-tight italic">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 md:mb-12 uppercase tracking-tight italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               High-hydration molecular baking. Stone hearth methodology.
               Precision-engineered for the modern palate.
             </>}</p>

@@ -16,6 +16,8 @@ import {
 } from "./shared";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -163,13 +165,12 @@ return (
 
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-6xl md:text-[14vw] font-light tracking-tighter leading-[1.15] text-white mb-6 md:mb-16 uppercase italic pb-4 md:pb-6">{c?.heroHeadline ?? <>
-                Ethereal <br /> <span className="font-bold not-italic">Rhythm.</span>
+              <h1 className="text-6xl md:text-[14vw] font-light tracking-tighter leading-[1.15] text-white mb-6 md:mb-16 uppercase italic pb-4 md:pb-6">{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "Ethereal"}<br /> <span className="font-bold not-italic">{clientHeroLine(sessionData, 1, 2, 8) ?? "Rhythm."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col items-center justify-center gap-6 md:gap-16">
-                <p className="text-lg md:text-2xl text-white/40 font-light max-w-2xl leading-relaxed italic">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="text-lg md:text-2xl text-white/40 font-light max-w-2xl leading-relaxed italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   Where the light fades and the soul awakens. An immersive sanctuary for the world's most discerning nocturnal explorers.
                 </>}</p>
                 <div className="flex flex-wrap justify-center gap-4 md:gap-10">

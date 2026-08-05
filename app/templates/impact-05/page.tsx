@@ -21,6 +21,8 @@ import { Menu, X, ArrowRight, Check, ChevronDown, Zap, Shield, Globe, BarChart3,
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -448,9 +450,7 @@ return (
 
         <motion.div style={{ y: heroY, opacity: heroOpacity, x: smx, rotateY: smx }} className="relative z-10 text-center px-6 max-w-5xl mx-auto">
           <div className="overflow-hidden mb-3">
-            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.5 }} className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.88]">{c?.heroHeadline ?? <>
-              Ship faster.
-            </>}</motion.h1>
+            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.5 }} className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.88]">{<>{clientHeroLine(sessionData, 0, 1, 12) ?? "Ship faster."}</>}</motion.h1>
           </div>
           <div className="overflow-hidden mb-10">
             <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.65 }} className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.88]">
@@ -458,7 +458,7 @@ return (
             </motion.h1>
           </div>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             The all-in-one platform that replaces your entire infrastructure toolkit. Build, deploy, and scale to millions of users without changing your workflow.
           </>}</motion.p>
 

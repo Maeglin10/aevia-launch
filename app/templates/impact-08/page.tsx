@@ -36,6 +36,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -475,13 +477,13 @@ return (
                     <motion.h1
                       style={{ scale: heroScale }}
                       className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-12 leading-[0.7] italic flex flex-col"
-                    >{c?.heroHeadline ?? <>
-                       <span>Force of</span>
-                       <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Nature.</span>
+                    >{<>
+                       <span>{clientHeroLine(sessionData, 0, 2, 8) ?? "Force of"}</span>
+                       <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>{clientHeroLine(sessionData, 1, 2, 8) ?? "Nature."}</span>
                     </>}</motion.h1>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
-                       <p className="max-w-xl text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{fd?.tagline ?? c?.heroSubline ?? <>
+                       <p className="max-w-xl text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                           Nous ne construisons pas des voitures. Nous domptons la physique. Chaque courbe est dictée par le vent, chaque watt est maîtrisé par l'IA.
                        </>}</p>
                        <div className="flex flex-col sm:flex-row gap-8 md:justify-end">

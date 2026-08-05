@@ -12,6 +12,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import { Reveal, ScrollImage, projects as projects_DEMO, services as services_DEMO, team as team_DEMO, testimonials as testimonials_DEMO, processSteps } from "./shared"
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -185,9 +186,7 @@ export default function Home() {
                 className="text-white"
               >
                 <div className="text-xs font-bold tracking-[0.4em] uppercase mb-6 opacity-70">{clientCity(sessionData) ?? "Paris"} · Founded 2008</div>
-                <h1 className="font-black leading-[0.85] text-white mb-8" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(64px, 12vw, 160px)", letterSpacing: "-0.02em" }}>{c?.heroHeadline ?? <>
-                  WE BUILD<br />WHAT<br />MATTERS.
-                </>}</h1>
+                <h1 className="font-black leading-[0.85] text-white mb-8" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(64px, 12vw, 160px)", letterSpacing: "-0.02em" }}>{<>{clientHeroLine(sessionData, 0, 3, 8) ?? "WE BUILD"}<br />{clientHeroLine(sessionData, 1, 3, 8) ?? "WHAT"}<br />{clientHeroLine(sessionData, 2, 3, 8) ?? "MATTERS."}</>}</h1>
               </motion.div>
             </div>
           </div>

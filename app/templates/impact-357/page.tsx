@@ -11,6 +11,8 @@ import { TrackingCollapse } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -217,9 +219,9 @@ export default function AxisBioPage() {
 
       <section className="i357-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Biologie médicale · {clientCity(sessionData) ?? "Metz"}</span>
-        <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 62px)", color: C.text, lineHeight: 1.1, margin: "18px 0 8px" }}>Un résultat juste,<br /><TrackingCollapse word={S.word} index={i} from="0.34em" to="0.04em" style={{ color: C.accentDark }} /></h1>
+        <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 62px)", color: C.text, lineHeight: 1.1, margin: "18px 0 8px" }}>{clientHeroLine(sessionData, 0, 1, 18) ?? "Un résultat juste,"}<br /><TrackingCollapse word={S.word} index={i} from="0.34em" to="0.04em" style={{ color: C.accentDark }} /></h1>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {fd?.tagline ?? c?.heroSubline ?? "Sans rendez-vous dès 7 h, résultats du jour avant 17 h sur le serveur sécurisé, biologistes joignables pour interpréter. La biologie médicale accréditée COFRAC, au coin de la rue."}
+          {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Sans rendez-vous dès 7 h, résultats du jour avant 17 h sur le serveur sécurisé, biologistes joignables pour interpréter. La biologie médicale accréditée COFRAC, au coin de la rue."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

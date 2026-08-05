@@ -17,6 +17,8 @@ import {
 } from "./shared";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -139,10 +141,7 @@ return (
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
-              >{c?.heroHeadline ?? <>
-                Generative <br />
-                Art Pipelines
-              </>}</h1>
+              >{<>{clientHeroLine(sessionData, 0, 2, 13) ?? "Generative"}<br />{clientHeroLine(sessionData, 1, 2, 13) ?? "Art Pipelines"}</>}</h1>
             </Reveal>
 
             <Reveal delay={0.2}>
@@ -154,7 +153,7 @@ return (
                   maxWidth: 480,
                   marginBottom: 40,
                 }}
-              >{fd?.tagline ?? c?.heroSubline ?? <>
+              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Consolidate your rendering stack onto a direct GPU cluster.
                 Build, mutation, and deployment layered in mathematical vector spaces.
               </>}</p>

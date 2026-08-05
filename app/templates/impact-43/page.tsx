@@ -25,6 +25,8 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -250,9 +252,7 @@ export default function SereneRetreatHome() {
                 marginBottom: 28,
                 fontStyle: "italic",
               }}
-            >{c?.heroHeadline ?? <>
-              Where stillness<br />becomes medicine
-            </>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "Where stillness"}<br />{clientHeroLine(sessionData, 1, 2, 16) ?? "becomes medicine"}</>}</h1>
           </TextReveal>
 
           <TextReveal delay={0.6}>
@@ -267,7 +267,7 @@ export default function SereneRetreatHome() {
                 maxWidth: 500,
                 margin: "0 auto 48px",
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               A curated sanctuary of thermal waters, ancient botanicals,
               and silence. Sixty kilometres from the city. A world apart.
             </>}</p>

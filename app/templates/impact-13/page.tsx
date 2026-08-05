@@ -11,6 +11,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientPhotos,
@@ -271,12 +273,11 @@ return (
                   <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-6">Manufacture horlogère · Depuis 1887</p>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <h1 className="text-white text-6xl md:text-8xl leading-none mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{c?.heroHeadline ?? <>
-                    L'art du<br /><em>mouvement</em>
+                  <h1 className="text-white text-6xl md:text-8xl leading-none mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "L'art du"}<br /><em>{clientHeroLine(sessionData, 1, 2, 9) ?? "mouvement"}</em>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
-                  <p className="text-white/60 text-lg max-w-md leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+                  <p className="text-white/60 text-lg max-w-md leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                     Chaque montre est une œuvre de précision. Assemblée à la main par nos maîtres horlogers dans notre manufacture de La Vallée de Joux.
                   </>}</p>
                 </Reveal>

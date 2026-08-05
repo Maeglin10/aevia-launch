@@ -9,6 +9,8 @@ import Link from "next/link";
 import { BookOpen, Users, Star, Play, ChevronRight, Menu, X, ArrowRight, Clock, Award, BarChart2, Globe, CheckCircle } from "lucide-react";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -228,14 +230,11 @@ return (
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="max-w-3xl">
             <Reveal delay={0.1}>
-              <h1 className="text-gray-900 text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-4 md:mb-6">{c?.heroHeadline ?? <>
-                Apprenez les<br />
-                <span className="text-[var(--brand,#7C3AED)]">compétences</span><br />
-                de demain
-              </>}</h1>
+              <h1 className="text-gray-900 text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-4 md:mb-6">{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "Apprenez les"}<br />
+                <span className="text-[var(--brand,#7C3AED)]">{clientHeroLine(sessionData, 1, 3, 12) ?? "compétences"}</span><br />{clientHeroLine(sessionData, 2, 3, 12) ?? "de demain"}</>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-gray-500 text-base sm:text-xl leading-relaxed mb-6 md:mb-10 max-w-xl">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="text-gray-500 text-base sm:text-xl leading-relaxed mb-6 md:mb-10 max-w-xl">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Des cours en ligne créés par des experts, des certifications reconnues, et un mentoring personnalisé pour accélérer votre carrière.
               </>}</p>
             </Reveal>

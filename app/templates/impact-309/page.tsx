@@ -48,6 +48,8 @@ import { CrossPush } from '@/lib/templates/hero-kit-3';
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -649,9 +651,7 @@ return (
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Tatouage Fineline<br />& Aquarelle
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 17) ?? "Tatouage Fineline"}<br />{clientHeroLine(sessionData, 1, 2, 17) ?? "& Aquarelle"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -662,7 +662,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Studio féminin sur rendez-vous. Fineline, aquarelle, tatouages délicats et durables. {clientCity(sessionData) ?? "Bordeaux"}.
             </>}</p>
           </Reveal>

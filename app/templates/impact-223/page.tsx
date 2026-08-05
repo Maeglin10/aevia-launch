@@ -9,6 +9,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -284,12 +286,11 @@ export default function VoltProPage() {
               </div>
             </Reveal>
             <Reveal delay={0.12} y={60}>
-              <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-[9rem] font-extrabold tracking-tighter leading-[0.85] uppercase mb-8 break-words">{c?.heroHeadline ?? <>
-                L'électricité<br />sans<br /><span className="text-[var(--brand,#facc15)]">compromis.</span>
+              <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-[9rem] font-extrabold tracking-tighter leading-[0.85] uppercase mb-8 break-words">{<>{clientHeroLine(sessionData, 0, 3, 13) ?? "L'électricité"}<br />{clientHeroLine(sessionData, 1, 3, 13) ?? "sans"}<br /><span className="text-[var(--brand,#facc15)]">{clientHeroLine(sessionData, 2, 3, 13) ?? "compromis."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.28}>
-              <p className="max-w-xl text-base md:text-lg text-white/45 leading-relaxed mb-10" style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.82rem" }}>{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="max-w-xl text-base md:text-lg text-white/45 leading-relaxed mb-10" style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.82rem" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Installation, mise en conformité, domotique et dépannage 7j/7. Devis gratuit sous 24h, intervention soignée, attestation CONSUEL garantie.
               </>}</p>
             </Reveal>

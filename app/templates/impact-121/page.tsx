@@ -19,6 +19,8 @@ import { Separator } from "@/components/ui/separator"
 import { ArrowUpRight, CheckCircle2, Menu, X, Play, ArrowRight, Circle, Square, Triangle, Hexagon, Star, Award, Trophy, Medal } from "lucide-react"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -336,15 +338,14 @@ export default function FolioStudioPage() {
         <section id="hero" className="relative pt-40 md:pt-60 pb-20 px-6 md:px-12 max-w-[1800px] mx-auto min-h-[90vh] flex flex-col justify-center">
           <motion.div style={{ y: heroY, opacity: heroOpacity }} className="max-w-[1400px]">
             <Reveal>
-              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-medium tracking-tighter leading-[0.9] mb-12">{c?.heroHeadline ?? <>
-                Digital craft <br />
-                <span className="text-zinc-400">for ambitious brands.</span>
+              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-medium tracking-tighter leading-[0.9] mb-12">{<>{clientHeroLine(sessionData, 0, 2, 21) ?? "Digital craft"}<br />
+                <span className="text-zinc-400">{clientHeroLine(sessionData, 1, 2, 21) ?? "for ambitious brands."}</span>
               </>}</h1>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-24 items-end">
               <div className="md:col-span-5 md:col-start-8">
                 <Reveal delay={0.2}>
-                  <p className="text-xl md:text-2xl text-zinc-600 leading-normal mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+                  <p className="text-xl md:text-2xl text-zinc-600 leading-normal mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                     {MANIFEST.hero.sub}
                   </>}</p>
                   <div className="flex items-center gap-6">

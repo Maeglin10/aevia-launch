@@ -9,6 +9,8 @@ import { Volume2, ArrowRight, Menu, Star, Activity, Shield, Mic2, Speaker, Headp
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -231,13 +233,12 @@ export default function AetherSoundPage() {
               </div>
             </Reveal>
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-7xl md:text-[9rem] font-light tracking-tighter leading-[0.85] text-white mb-12 uppercase">{c?.heroHeadline ?? <>
-                Zero <br/> <span className="font-bold italic">Artifact.</span>
+              <h1 className="text-7xl md:text-[9rem] font-light tracking-tighter leading-[0.85] text-white mb-12 uppercase">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Zero"}<br/> <span className="font-bold italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "Artifact."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col items-center justify-center gap-12">
-                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   Luthier-grade acoustic engineering for the discerning audiophile. Experience the silence between the notes.
                 </>}</p>
                 <div className="flex flex-wrap justify-center gap-8">

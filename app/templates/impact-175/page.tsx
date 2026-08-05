@@ -14,6 +14,8 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -943,9 +945,7 @@ export default function Impact175Page() {
                 lineHeight: 0.95,
                 letterSpacing: "-0.01em",
               }}
-            >{c?.heroHeadline ?? <>
-              Chaque instant
-            </>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 1, 14) ?? "Chaque instant"}</>}</h1>
           </TextReveal>
           <TextReveal immediate delay={0.65}>
             <h1
@@ -975,7 +975,7 @@ export default function Impact175Page() {
               margin: "0 auto 44px",
               lineHeight: 1.75,
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Nous créons des événements d'exception pour les maisons de prestige, les institutions et les particuliers exigeants.
           </>}</motion.p>
 

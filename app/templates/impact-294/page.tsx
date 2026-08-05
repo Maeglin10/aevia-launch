@@ -46,6 +46,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -550,9 +552,7 @@ return (
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Le Vrai Kebab<br />Méditerranéen
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 13) ?? "Le Vrai Kebab"}<br />{clientHeroLine(sessionData, 1, 2, 13) ?? "Méditerranéen"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -563,7 +563,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Viande halal certifiée, mezze généreux, recettes de Noailles. Click & collect.
             </>}</p>
           </Reveal>

@@ -52,6 +52,8 @@ import {
 } from "./shared";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -229,7 +231,7 @@ return (
           className="relative z-10 max-w-5xl mx-auto px-6 text-center"
         >
           <Reveal delay={0.1}>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-[1.1] md:leading-[1.05] tracking-tight mb-4 md:mb-6 break-words">{c?.heroHeadline ?? <>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-[1.1] md:leading-[1.05] tracking-tight mb-4 md:mb-6 break-words">{<>
               Apprenez ce que{" "}
               <span className="relative inline-block align-bottom" style={{ minWidth: "5.2em" }}>
                 <HeldSwap index={heroI} tilt={5} className="inline-block">
@@ -242,13 +244,11 @@ return (
                   className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--brand,#6366F1)]/30 rounded-full origin-left"
                 />
               </span>
-              <br />
-              quand vous voulez.
-            </>}</h1>
+              <br />{clientHeroLine(sessionData, 0, 1, 18) ?? "quand vous voulez."}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.2}>
-            <p className="text-base sm:text-lg text-[#4B5563] mb-6 md:mb-10 max-w-2xl mx-auto leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="text-base sm:text-lg text-[#4B5563] mb-6 md:mb-10 max-w-2xl mx-auto leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Plus de 3 200 cours conçus par des experts pour accélérer votre carrière,
               changer de métier ou maîtriser une nouvelle compétence.
             </>}</p>

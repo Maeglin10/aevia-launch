@@ -14,6 +14,8 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -1188,9 +1190,7 @@ return (
                 color: C.cream,
                 marginBottom: 8,
               }}
-            >{c?.heroHeadline ?? <>
-              La grande cuisine
-            </>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 1, 17) ?? "La grande cuisine"}</>}</h1>
           </TextReveal>
           <TextReveal immediate delay={0.3}>
             <h1
@@ -1219,7 +1219,7 @@ return (
                 maxWidth: 500,
                 fontWeight: 300,
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Antoine Lefèvre, formé chez Alain Passard et Anne-Sophie Pic,
               compose pour vous des menus d&apos;exception à domicile —
               produits locaux, technique irréprochable, émotions garanties.

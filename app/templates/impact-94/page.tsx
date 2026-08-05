@@ -38,6 +38,8 @@ import {
   clientAddress,
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -699,10 +701,8 @@ export default function Impact94Page() {
             transition={{ duration: 1.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-7xl md:text-[10rem] lg:text-[13rem] font-normal italic text-[#FAFAF9] leading-none tracking-tight"
             style={{ fontFamily: "'Bodoni Moda', serif" }}
-          >{c?.heroHeadline ?? <>
-            L&apos;art
-            <br />
-            <span className="text-[var(--brand,#CA8A04)]">floral</span>
+          >{<>{clientHeroLine(sessionData, 0, 2, 6) ?? "L art"}<br />
+            <span className="text-[var(--brand,#CA8A04)]">{clientHeroLine(sessionData, 1, 2, 6) ?? "floral"}</span>
           </>}</motion.h1>
 
           <motion.p
@@ -710,7 +710,7 @@ export default function Impact94Page() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="mt-8 text-lg md:text-xl text-[#FAFAF9]/80 font-light max-w-lg mx-auto leading-relaxed"
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Compositions botaniques d&apos;exception, créées à la main pour les moments qui méritent l&apos;extraordinaire.
           </>}</motion.p>
 

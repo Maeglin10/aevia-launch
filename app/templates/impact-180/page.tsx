@@ -10,6 +10,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -241,12 +243,11 @@ export default function ThermotekChauffagePage() {
 
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.88] tracking-tight mb-9">{c?.heroHeadline ?? <>
-            Votre confort<br />thermique,<br /><span className="text-[var(--brand,#ea580c)]">notre priorité.</span>
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.88] tracking-tight mb-9">{<>{clientHeroLine(sessionData, 0, 3, 15) ?? "Votre confort"}<br />{clientHeroLine(sessionData, 1, 3, 15) ?? "thermique,"}<br /><span className="text-[var(--brand,#ea580c)]">{clientHeroLine(sessionData, 2, 3, 15) ?? "notre priorité."}</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Installation, entretien et dépannage de chaudières, pompes à chaleur et planchers chauffants. Certifié RGE, éligible aides MaPrimeRénov'. Intervention d'urgence sous 4h.
           </>}</motion.p>
 

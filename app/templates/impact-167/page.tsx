@@ -15,6 +15,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1259,9 +1261,7 @@ export default function Impact167Page() {
                   fontStyle: "italic",
                   marginBottom: 28,
                 }}
-              >{c?.heroHeadline ?? <>
-                L'art de trouver<br />l'exceptionnel
-              </>}</h1>
+              >{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "L'art de trouver"}<br />{clientHeroLine(sessionData, 1, 2, 16) ?? "l'exceptionnel"}</>}</h1>
             </TextReveal>
 
             <TextReveal immediate delay={0.7}>
@@ -1275,7 +1275,7 @@ export default function Impact167Page() {
                   maxWidth: 420,
                   marginBottom: 44,
                 }}
-              >{fd?.tagline ?? c?.heroSubline ?? <>
+              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Vingt-huit années à rechercher, négocier et transmettre les biens les plus rares de {clientCity(sessionData) ?? "Paris"}. Un accès privilégié au marché invisible.
               </>}</p>
             </TextReveal>

@@ -1,6 +1,8 @@
 "use client";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -314,9 +316,8 @@ export default function HorologsLuxePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl sm:text-6xl md:text-9xl lg:text-[10.5rem] font-black leading-[0.88] tracking-tighter mb-10 uppercase break-words"
-          >{c?.heroHeadline ?? <>
-            Mastery of<br />
-            <span className="text-stone-600 italic">Duration.</span>
+          >{<>{clientHeroLine(sessionData, 0, 2, 10) ?? "Mastery of"}<br />
+            <span className="text-stone-600 italic">{clientHeroLine(sessionData, 1, 2, 10) ?? "Duration."}</span>
           </>}</motion.h1>
 
           <motion.p
@@ -325,7 +326,7 @@ export default function HorologsLuxePage() {
             transition={{ duration: 0.9, delay: 0.78, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-xl text-base text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic"
             style={{ fontSize: "0.82rem" }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Hand-assembled manufacture movements for the discerning
             collector. Swiss precision, exceptional finishing — calibrated
             to perfection.

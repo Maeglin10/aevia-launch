@@ -9,6 +9,8 @@ import { Scissors, Star, Phone, MapPin, Clock, ChevronRight, Shield, Calendar, M
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -369,16 +371,14 @@ export default function GentlemansCutPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-6xl md:text-8xl lg:text-[96px] font-bold leading-[0.85] tracking-tight mb-3 text-[#f5f0e8]">{c?.heroHeadline ?? <>
-            The Art
-          </>}</motion.h1>
+            className="text-6xl md:text-8xl lg:text-[96px] font-bold leading-[0.85] tracking-tight mb-3 text-[#f5f0e8]">{<>{clientHeroLine(sessionData, 0, 1, 7) ?? "The Art"}</>}</motion.h1>
           <motion.h1 initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
             className="text-6xl md:text-8xl lg:text-[96px] font-bold italic leading-[0.85] tracking-tight mb-10 text-[var(--brand,#c9a84c)]">
             of Grooming.
           </motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-sm text-sm text-[#f5f0e8]/30 leading-relaxed mb-12" style={{ fontFamily: "'DM Mono', monospace", fontStyle: "normal" }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-sm text-sm text-[#f5f0e8]/30 leading-relaxed mb-12" style={{ fontFamily: "'DM Mono', monospace", fontStyle: "normal" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Coupe au ciseau, rasage droit, taille de barbe. Techniques ancestrales, produits artisanaux, précision chirurgicale.
           </>}</motion.p>
 

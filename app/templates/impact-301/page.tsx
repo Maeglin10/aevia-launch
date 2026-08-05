@@ -46,6 +46,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -542,9 +544,7 @@ export default function Page() {
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Droit des Affaires<br />& Startups
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 18) ?? "Droit des Affaires"}<br />{clientHeroLine(sessionData, 1, 2, 18) ?? "& Startups"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -555,7 +555,7 @@ export default function Page() {
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               M&A, levées de fonds, RGPD. Cabinet {clientCity(sessionData) ?? "Bordeaux"} Chartrons — expertise juridique de haut niveau.
             </>}</p>
           </Reveal>

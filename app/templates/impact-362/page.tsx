@@ -11,6 +11,8 @@ import { InvertSweep } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -208,10 +210,10 @@ export default function DuoPeinturesPage() {
           <div className="i362-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "140px 24px 80px" }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: "inherit", opacity: 0.7 }}>Peinture & rénovation · {clientCity(sessionData) ?? "Orléans"}</span>
             <h1 style={{ fontFamily: FONT, fontSize: "clamp(36px, 5.4vw, 68px)", lineHeight: 1.08, margin: "18px 0 20px", maxWidth: 820 }}>
-              {c?.heroHeadline ?? (<>Avant, après :<br /><em style={{ color: C.accent }}>c'est tout notre métier.</em></>)}
+              {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 24) ?? "Avant, après :"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 24) ?? "c'est tout notre métier."}</em></>)}
             </h1>
             <p style={{ fontSize: 16.5, opacity: 0.75, lineHeight: 1.75, maxWidth: 560, marginBottom: 32 }}>
-              {fd?.tagline ?? c?.heroSubline ?? "Un père compagnon, une fille reprise d'entreprise : deux peintres qui rénovent cages d'escalier, appartements locatifs et maisons familiales — vite, proprement, au prix écrit."}
+              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Un père compagnon, une fille reprise d'entreprise : deux peintres qui rénovent cages d'escalier, appartements locatifs et maisons familiales — vite, proprement, au prix écrit."}
             </p>
             <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
               <a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none" }}>Demander un devis</a>

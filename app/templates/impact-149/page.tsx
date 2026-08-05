@@ -18,6 +18,7 @@ import {
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3"
 import {
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -106,9 +107,8 @@ function AetherHero({ headline, subline }: { headline?: React.ReactNode; subline
             }}
           >
             {headline ?? (
-              <>
-                Pure <br />
-                <span className="italic lowercase">presence.</span>
+              <>{clientHeroLine(sessionData, 0, 2, 9) ?? "Pure"}<br />
+                <span className="italic lowercase">{clientHeroLine(sessionData, 1, 2, 9) ?? "presence."}</span>
               </>
             )}
           </h1>

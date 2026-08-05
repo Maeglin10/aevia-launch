@@ -36,6 +36,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientPhotos,
@@ -776,11 +778,7 @@ export default function Impact200Page() {
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            >{c?.heroHeadline ?? <>
-              Votre Jour,
-              <br />
-              Notre Art
-            </>}</motion.h1>
+            >{<>{clientHeroLine(sessionData, 0, 2, 11) ?? "Votre Jour,"}<br />{clientHeroLine(sessionData, 1, 2, 11) ?? "Notre Art"}</>}</motion.h1>
 
             {/* Serif subtitle */}
             <motion.p
@@ -789,7 +787,7 @@ export default function Impact200Page() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Nous orchestrons chaque détail de votre mariage avec une élégance méticuleuse, pour que ce jour reste gravé à jamais dans les mémoires.
             </>}</motion.p>
 

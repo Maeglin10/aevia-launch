@@ -15,6 +15,8 @@ import {
 } from "./shared";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -122,12 +124,11 @@ return (
               <p className="text-[10px] tracking-[0.4em] uppercase text-[var(--brand,#C9A86C)] mb-8">Numéro 214 · Janvier 2025</p>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light leading-[1.15] mb-8 tracking-tight pb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? <>
-                Corps<br /><em>Céleste</em>
+              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light leading-[1.15] mb-8 tracking-tight pb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 7) ?? "Corps"}<br /><em>{clientHeroLine(sessionData, 1, 2, 7) ?? "Céleste"}</em>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-[#A0988A] text-lg max-w-md leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="text-[#A0988A] text-lg max-w-md leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 La saison Automne / Hiver 2025 porte en elle une nouvelle grammaire du corps. Entre retenue et explosion, les maisons réinventent leur vocabulaire.
               </>}</p>
               <Link href={`${basePath}/editoriaux`} className="inline-flex items-center gap-3 text-sm tracking-widest uppercase border-b border-[var(--brand,#C9A86C)] pb-1 text-[var(--brand,#C9A86C)] hover:text-[#F0EBE0] hover:border-[#F0EBE0] transition-colors cursor-pointer">
