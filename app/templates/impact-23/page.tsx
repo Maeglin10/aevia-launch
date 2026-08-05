@@ -236,28 +236,13 @@ export default function StudioPelikanPage() {
     setMobileOpen(false);
   };
 
-  const navItems: { label: string; target: ActivePage }[] = resolveList(
-    clientStats(sessionData)?.map((s: any, i: number) => ({ ...([
+  const navItems: { label: string; target: ActivePage }[] = [
     { label: "Films", target: "films" },
     { label: "Services", target: "services" },
     { label: "À propos", target: "propos" },
     { label: "Presse", target: "propos" },
     { label: "Contact", target: "home" },
-  ])[i % ([
-    { label: "Films", target: "films" },
-    { label: "Services", target: "services" },
-    { label: "À propos", target: "propos" },
-    { label: "Presse", target: "propos" },
-    { label: "Contact", target: "home" },
-  ]).length], target: s.value, label: s.label })),
-    [
-    { label: "Films", target: "films" },
-    { label: "Services", target: "services" },
-    { label: "À propos", target: "propos" },
-    { label: "Presse", target: "propos" },
-    { label: "Contact", target: "home" },
-  ],
-  );
+  ];
 
   const { scrollYProgress } = useScroll();
   const heroRef = useRef(null);
