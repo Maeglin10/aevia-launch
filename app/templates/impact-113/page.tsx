@@ -18,6 +18,7 @@ import { ChevronRight, ArrowRight, Shield, Zap, Activity, Globe, Lock, BarChart,
 import "../premium.css";
 import {
   clientCity,
+  clientEyebrow,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
@@ -389,14 +390,7 @@ export default function NexusSaaSPage() {
                 {tr({ formData: fd }, "Pricing")}
               </Link>
             </div>
-            <div className="mt-12 pt-8 border-t border-white/10 flex flex-col gap-4">
-              <button className="w-full py-4 border border-white/20 rounded-xl font-semibold">
-                Sign In
-              </button>
-              <button className="w-full py-4 bg-white text-black rounded-xl font-semibold">
-                Start Free Trial
-              </button>
-            </div>
+            <div className="mt-12 pt-8 border-t border-white/10 flex flex-col gap-4">{clientEyebrow(sessionData) ?? "Sign In Start Free Trial"}</div>
           </motion.div>
         )}
       </AnimatePresence>

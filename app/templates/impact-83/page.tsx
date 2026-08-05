@@ -20,6 +20,7 @@ const HERO_CRAFTS = [
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEyebrow,
   clientName,
   clientPhotos,
   clientReviews,
@@ -196,9 +197,7 @@ export default function Impact83Page() {
                 color: C.accent,
                 marginBottom: 24,
               }}
-            >
-              Maison de Joaillerie & Horlogerie
-            </motion.p>
+            >{clientEyebrow(sessionData) ?? "Maison de Joaillerie & Horlogerie"}</motion.p>
 
             <motion.h1
               initial={{ opacity: 0, y: 30 }}

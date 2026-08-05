@@ -11,6 +11,7 @@ import { Menu, X, ArrowRight, CheckCircle, ChevronRight, Phone, Mail, Clock, Awa
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientEyebrow,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
@@ -926,7 +927,7 @@ export default function LumiereCliniquePage() {
           </motion.div>
           <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-24 min-h-[calc(100vh-80px)] flex flex-col justify-center">
             <Reveal>
-              <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#3A8080)] mb-8">Médecine esthétique de précision</p>
+              <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#3A8080)] mb-8">{clientEyebrow(sessionData) ?? "Médecine esthétique de précision"}</p>
             </Reveal>
             <Reveal delay={0.1}>
               <h1 className="text-5xl md:text-7xl font-light leading-[1.0] mb-8 max-w-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 14) ?? "La beauté"}<br /><em>{clientHeroLine(sessionData, 1, 3, 14) ?? "comme résultat"}</em><br />{clientHeroLine(sessionData, 2, 3, 14) ?? "de la science"}</>}</h1>

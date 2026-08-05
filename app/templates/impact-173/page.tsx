@@ -32,6 +32,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEyebrow,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
@@ -750,9 +751,7 @@ export default function Impact173Page() {
               style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 40, flexWrap: "wrap" }}
             >
               <div style={{ width: 40, height: 2, background: C.orange, flexShrink: 0 }} />
-              <div style={{ fontSize: 11, letterSpacing: 2, color: C.orange, textTransform: "uppercase", fontWeight: 600, whiteSpace: "normal", maxWidth: 220 }}>
-                Depuis 1989 · Construire l'avenir
-              </div>
+              <div style={{ fontSize: 11, letterSpacing: 2, color: C.orange, textTransform: "uppercase", fontWeight: 600, whiteSpace: "normal", maxWidth: 220 }}>{clientEyebrow(sessionData) ?? "Depuis 1989 · Construire l'avenir"}</div>
             </motion.div>
 
             <h1 className="imx-hero173-h1" style={{

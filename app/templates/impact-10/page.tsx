@@ -17,6 +17,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -695,9 +696,7 @@ function HeroSection() {
             letterSpacing: '0.3em',
             marginBottom: '2rem',
           }}
-        >
-          Palace — Founded 1887
-        </motion.p>
+        >{clientEyebrow(sessionData) ?? "Palace — Founded 1887"}</motion.p>
 
         <motion.h1
           initial={{ opacity: 0, y: 60 }}

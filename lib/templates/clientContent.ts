@@ -462,6 +462,21 @@ export function clientTrade(s: SessionLike | null | undefined): string | undefin
   return `${brut[0].toUpperCase()}${brut.slice(1)}`;
 }
 
+/**
+ * La courte ligne posée au-dessus du titre du hero.
+ *
+ * Les thèmes y écrivent leur propre identité — « VISUAL STORYTELLER », « PALACE
+ * — FOUNDED 1887 » — et c'était la dernière ligne du hero à parler d'une autre
+ * entreprise une fois le titre et le sous-titre branchés. Elle annonce le métier
+ * et la ville, ce que le client a saisi lui-même.
+ */
+export function clientEyebrow(s: SessionLike | null | undefined): string | undefined {
+  const metier = clientTrade(s);
+  const ville = clientCity(s);
+  if (metier && ville) return `${metier} · ${ville}`;
+  return metier ?? undefined;
+}
+
 /** La ville, pour les sur-titres du genre « Couvreur-zingueur · Lyon ». */
 export function clientCity(s: SessionLike | null | undefined): string | undefined {
   return (

@@ -33,6 +33,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -492,9 +493,7 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
-        >
-          <Label>Manufacture · Genève · Fondée 1834</Label>
-        </motion.div>
+        >{clientEyebrow(sessionData) ?? "Manufacture · Genève · Fondée 1834"}</motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 30 }}

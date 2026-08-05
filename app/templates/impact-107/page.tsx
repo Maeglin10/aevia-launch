@@ -9,6 +9,7 @@ import { Compass, ArrowRight, Menu, Star, MapPin, Mountain, Camera, Globe, Tent,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -231,7 +232,7 @@ export default function MeridianJourneyPage() {
             <Reveal>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-[1px] bg-[var(--brand,#2dd4bf)]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)]">Expedition Storytelling</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)]">{clientEyebrow(sessionData) ?? "Expedition Storytelling"}</span>
               </div>
             </Reveal>
             <Reveal delay={0.15} y={70}>

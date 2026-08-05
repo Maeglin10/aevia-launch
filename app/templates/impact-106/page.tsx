@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -282,7 +283,7 @@ export default function StudioVersaPage() {
             <Reveal>
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-[2px] bg-[var(--brand,#f97316)]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#f97316)]">Multidisciplinary Creative Studio</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#f97316)]">{clientEyebrow(sessionData) ?? "Multidisciplinary Creative Studio"}</span>
               </div>
             </Reveal>
             <Reveal delay={0.1} y={60}>

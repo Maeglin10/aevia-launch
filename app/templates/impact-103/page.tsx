@@ -10,6 +10,7 @@ import { Scale, ArrowRight, Menu, Star, Shield, Gavel, Briefcase, Landmark, Glob
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -274,7 +275,7 @@ export default function LuminaLawPage() {
                 <Reveal>
                   <div className="inline-flex items-center gap-4 mb-5 md:mb-10">
                      <div className="w-12 h-[2px] bg-[var(--brand,#1a365d)]" />
-                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1a365d)]">Elite Legal Counsel</span>
+                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1a365d)]">{clientEyebrow(sessionData) ?? "Elite Legal Counsel"}</span>
                   </div>
                 </Reveal>
                 <Reveal delay={0.1} y={60}>

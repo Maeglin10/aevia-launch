@@ -14,6 +14,7 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -1173,9 +1174,7 @@ return (
                   color: C.gold,
                   fontFamily: C.fontSans,
                 }}
-              >
-                Chef privé · Formation étoilée
-              </span>
+              >{clientEyebrow(sessionData) ?? "Chef privé · Formation étoilée"}</span>
             </div>
           </TextReveal>
 

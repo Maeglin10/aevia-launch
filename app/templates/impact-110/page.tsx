@@ -9,6 +9,7 @@ import { Flower2, ArrowRight, Menu, Star, Sparkles, MapPin, Clock, Phone, Heart,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -197,7 +198,7 @@ export default function OasisWellnessPage() {
             <Reveal>
               <div className="flex items-center justify-center gap-4 mb-8">
                 <div className="h-[1px] w-12 bg-[var(--brand,#2c3e2d)]/30" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2c3e2d)]/50">Quiet the soul, heal the body</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2c3e2d)]/50">{clientEyebrow(sessionData) ?? "Quiet the soul, heal the body"}</span>
                 <div className="h-[1px] w-12 bg-[var(--brand,#2c3e2d)]/30" />
               </div>
             </Reveal>

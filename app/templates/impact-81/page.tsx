@@ -15,6 +15,7 @@ import {
 } from "./shared";
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -121,7 +122,7 @@ return (
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 min-h-dvh flex flex-col">
           <div className="flex-1 flex flex-col justify-center">
             <Reveal>
-              <p className="text-[10px] tracking-[0.4em] uppercase text-[var(--brand,#C9A86C)] mb-8">Numéro 214 · Janvier 2025</p>
+              <p className="text-[10px] tracking-[0.4em] uppercase text-[var(--brand,#C9A86C)] mb-8">{clientEyebrow(sessionData) ?? "Numéro 214 · Janvier 2025"}</p>
             </Reveal>
             <Reveal delay={0.1}>
               <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light leading-[1.15] mb-8 tracking-tight pb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 7) ?? "Corps"}<br /><em>{clientHeroLine(sessionData, 1, 2, 7) ?? "Céleste"}</em>
