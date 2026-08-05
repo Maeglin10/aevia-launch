@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -704,9 +705,7 @@ function Hero() {
             lineHeight: 1.7,
             marginBottom: 'clamp(28px,3.5vw,48px)',
           }}
-        >
-          Droit des affaires et contentieux commercial. 15 ans d'expérience au service des entreprises qui ne transigent pas sur leurs droits.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Droit des affaires et contentieux commercial. 15 ans d'expérience au service des entreprises qui ne transigent pas sur leurs droits."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

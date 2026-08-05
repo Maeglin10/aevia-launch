@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -697,10 +698,7 @@ function Hero() {
             lineHeight: 1.6,
             marginBottom: 'clamp(28px,3.5vw,46px)',
           }}
-        >
-          Création, plantation et entretien de jardins alsaciens et contemporains
-          depuis 2003. Plus de 600 jardins réalisés dans le Bas-Rhin.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Création, plantation et entretien de jardins alsaciens et contemporains depuis 2003. Plus de 600 jardins réalisés dans le Bas-Rhin."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

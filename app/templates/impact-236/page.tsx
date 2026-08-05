@@ -23,6 +23,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -699,11 +700,7 @@ function Hero() {
             marginBottom: 38,
             fontWeight: 400,
           }}
-        >
-          Électricien qualifié depuis 2009 en Île-de-France. Installation,
-          domotique, mise aux normes et bornes IRVE — du devis à la réception,
-          sans compromis.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Électricien qualifié depuis 2009 en Île-de-France. Installation, domotique, mise aux normes et bornes IRVE — du devis à la réception, sans compromis."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

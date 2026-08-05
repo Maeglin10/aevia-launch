@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -521,10 +522,7 @@ function Hero() {
             lineHeight: 1.65,
             marginBottom: 36,
           }}
-        >
-          Mise aux normes, domotique clé en main, bornes IRVE — 12 ans d&apos;expertise
-          certifiée Qualifelec au service des particuliers et professionnels toulousains.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Mise aux normes, domotique clé en main, bornes IRVE — 12 ans d&apos;expertise certifiée Qualifelec au service des particuliers et professionnels toulousains."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

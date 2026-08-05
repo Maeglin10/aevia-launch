@@ -23,6 +23,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -525,10 +526,7 @@ function Hero() {
             maxWidth: 560,
             lineHeight: 1.6,
           }}
-        >
-          Des vins de garde nés d&apos;un seul terroir, élevés sans hâte et
-          confiés, chaque année, à une poignée d&apos;amateurs.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Des vins de garde nés d&apos;un seul terroir, élevés sans hâte et confiés, chaque année, à une poignée d&apos;amateurs."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

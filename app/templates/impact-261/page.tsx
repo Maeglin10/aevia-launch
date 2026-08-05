@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -681,10 +682,7 @@ function Hero() {
             lineHeight: 1.65,
             marginBottom: 38,
           }}
-        >
-          Cabinet d'expertise comptable et de conseil en gestion à Bordeaux.
-          Nous transformons vos chiffres en leviers de croissance.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Cabinet d'expertise comptable et de conseil en gestion à Bordeaux. Nous transformons vos chiffres en leviers de croissance."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}

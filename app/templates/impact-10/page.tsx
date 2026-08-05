@@ -18,6 +18,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -730,9 +731,7 @@ function HeroSection() {
             fontWeight: 300,
             fontStyle: 'italic',
           }}
-        >
-          Where time is measured not in hours, but in moments that endure.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Where time is measured not in hours, but in moments that endure."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

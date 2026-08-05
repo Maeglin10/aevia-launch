@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -740,10 +741,7 @@ function Hero() {
             lineHeight: 1.68,
             letterSpacing: '0.01em',
           }}
-        >
-          Consultations de 45 minutes, bilan fonctionnel complet, protocole
-          personnalisé. La santé que vous méritez vraiment.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Consultations de 45 minutes, bilan fonctionnel complet, protocole personnalisé. La santé que vous méritez vraiment."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

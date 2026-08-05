@@ -21,6 +21,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -710,10 +711,7 @@ function Hero() {
             lineHeight: 1.64,
             marginBottom: 42,
           }}
-        >
-          Un cabinet parisien fondé sur l&apos;exigence, l&apos;écoute et
-          vingt-cinq ans d&apos;engagement au service de nos clients.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Un cabinet parisien fondé sur l&apos;exigence, l&apos;écoute et vingt-cinq ans d&apos;engagement au service de nos clients."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 26 }}

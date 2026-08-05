@@ -21,6 +21,7 @@ import {
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -712,9 +713,7 @@ function Hero() {
             marginBottom: 38,
             letterSpacing: '0.01em',
           }}
-        >
-          L'agence bordelaise de référence pour l'immobilier de prestige, l'investissement locatif et les propriétés d'exception en Gironde.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "L'agence bordelaise de référence pour l'immobilier de prestige, l'investissement locatif et les propriétés d'exception en Gironde."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}

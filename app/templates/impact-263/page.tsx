@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -661,9 +662,7 @@ function Hero() {
             lineHeight: 1.7,
             marginBottom: 38,
           }}
-        >
-          Conception paysagère, permaculture et éco-jardinage sur mesure. Chaque projet commence par écouter votre sol.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Conception paysagère, permaculture et éco-jardinage sur mesure. Chaque projet commence par écouter votre sol."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

@@ -29,6 +29,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientList,
   clientName,
@@ -582,10 +583,7 @@ function HeroSection() {
             lineHeight: 1.65,
             fontWeight: 400,
           }}
-        >
-          Coaching outdoor & bien-être sur la Côte d&apos;Azur. Séances en
-          plein air, yoga face à la mer, running & nutrition méditerranéenne.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Coaching outdoor & bien-être sur la Côte d&apos;Azur. Séances en plein air, yoga face à la mer, running & nutrition méditerranéenne."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

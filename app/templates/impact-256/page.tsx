@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -727,10 +728,7 @@ function Hero() {
             lineHeight: 1.6,
             marginBottom: 40,
           }}
-        >
-          Coaching personnalisé · Résultats garantis. La méthode qui transforme
-          réellement votre corps et votre santé.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Coaching personnalisé · Résultats garantis. La méthode qui transforme réellement votre corps et votre santé."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

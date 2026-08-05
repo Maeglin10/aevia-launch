@@ -28,6 +28,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -557,10 +558,7 @@ function HeroSection() {
             maxWidth: 580,
             lineHeight: 1.6,
           }}
-        >
-          Nous orchestrons chaque détail de votre grand jour en Alsace, de la
-          première idée jusqu&apos;au dernier sourire.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Nous orchestrons chaque détail de votre grand jour en Alsace, de la première idée jusqu&apos;au dernier sourire."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

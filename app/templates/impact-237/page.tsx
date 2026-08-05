@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -766,9 +767,7 @@ function Hero() {
             lineHeight: 1.7,
             marginBottom: 44,
           }}
-        >
-          Soins sans douleur, technologie numérique, expertise esthétique — le cabinet de référence de la Côte d&apos;Azur.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Soins sans douleur, technologie numérique, expertise esthétique — le cabinet de référence de la Côte d&apos;Azur."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}

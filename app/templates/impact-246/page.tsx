@@ -24,6 +24,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -806,11 +807,7 @@ function Hero() {
             lineHeight: 1.65,
             marginBottom: 'clamp(32px,4vw,48px)',
           }}
-        >
-          Plomberie, chauffage, climatisation — intervention d'urgence en moins
-          d'une heure sur Marseille et sa métropole. Devis gratuit avant toute
-          action.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Plomberie, chauffage, climatisation — intervention d'urgence en moins d'une heure sur Marseille et sa métropole. Devis gratuit avant toute action."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}

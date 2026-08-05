@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -712,10 +713,7 @@ function Hero() {
             lineHeight: 1.72,
             margin: '0 0 38px',
           }}
-        >
-          Cabinet spécialisé sport & rééducation. Protocoles validés. Retour
-          terrain optimisé.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Cabinet spécialisé sport & rééducation. Protocoles validés. Retour terrain optimisé."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

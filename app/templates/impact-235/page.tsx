@@ -21,6 +21,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -574,9 +575,7 @@ function Hero() {
             maxWidth: 520,
             lineHeight: 1.65,
           }}
-        >
-          Chaque vêtement naît d&apos;une rencontre — entre votre corps, votre histoire, et les mains de l&apos;atelier.
-        </p>
+        >{clientHeroSubtitle(sessionData) ?? "Chaque vêtement naît d&apos;une rencontre — entre votre corps, votre histoire, et les mains de l&apos;atelier."}</p>
 
         <a
           href="#contact"

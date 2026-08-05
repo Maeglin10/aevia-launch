@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -749,10 +750,7 @@ function Hero() {
             maxWidth: 520,
             lineHeight: 1.72,
           }}
-        >
-          De la première esquisse à la dernière danse — nous orchestrons chaque
-          instant pour que vous n'ayez qu'à vivre.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "De la première esquisse à la dernière danse — nous orchestrons chaque instant pour que vous n'ayez qu'à vivre."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

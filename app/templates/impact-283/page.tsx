@@ -35,6 +35,7 @@ import {
   clientAddress,
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientList,
   clientName,
@@ -591,11 +592,7 @@ function HeroSection() {
             marginBottom: 40,
             fontWeight: 400,
           }}
-        >
-          Kinésithérapeutes diplômés d'État, spécialisés en rééducation
-          orthopédique, respiratoire et neurologique. Équipements de pointe au
-          cœur du quartier Antigone.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Kinésithérapeutes diplômés d'État, spécialisés en rééducation orthopédique, respiratoire et neurologique. Équipements de pointe au cœur du quartier Antigone."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 18 }}

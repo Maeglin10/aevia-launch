@@ -37,6 +37,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -332,9 +333,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.55 }}
           style={{ fontSize: fl(1, 1.25), color: C.whiteOff, maxWidth: '480px', lineHeight: 1.65, marginBottom: '2.5rem' }}
-        >
-          Lumyx repense la mobilité électrique avec une ingénierie de précision et un design qui impose le respect.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Lumyx repense la mobilité électrique avec une ingénierie de précision et un design qui impose le respect."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

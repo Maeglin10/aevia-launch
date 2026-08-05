@@ -32,6 +32,7 @@ import {
   clientCertifications,
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -575,11 +576,7 @@ function HeroSection() {
             fontWeight: 400,
             marginBottom: 36,
           }}
-        >
-          Intervention rapide sur toutes vos installations de plomberie,
-          chauffage et salle de bain. Devis gratuit, tarifs transparents,
-          garantie biennale sur tous nos travaux.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Intervention rapide sur toutes vos installations de plomberie, chauffage et salle de bain. Devis gratuit, tarifs transparents, garantie biennale sur tous nos travaux."}</motion.p>
 
         {/* Badge urgence */}
         <motion.div

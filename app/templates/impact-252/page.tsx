@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -685,10 +686,7 @@ function Hero() {
             lineHeight: 1.7,
             letterSpacing: '0.04em',
           }}
-        >
-          Soins conservateurs, esthétique dentaire et implantologie — une
-          expertise complète dans un cabinet pensé pour votre confort.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Soins conservateurs, esthétique dentaire et implantologie — une expertise complète dans un cabinet pensé pour votre confort."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

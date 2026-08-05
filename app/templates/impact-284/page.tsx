@@ -30,6 +30,7 @@ import {
   clientAddress,
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -552,10 +553,7 @@ function HeroSection() {
             maxWidth: 580,
             lineHeight: 1.62,
           }}
-        >
-          Implantologie avancée, orthodontie invisible et esthétique dentaire —
-          au cœur des Chartrons, par une équipe passionnée et ultra-équipée.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Implantologie avancée, orthodontie invisible et esthétique dentaire — au cœur des Chartrons, par une équipe passionnée et ultra-équipée."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}

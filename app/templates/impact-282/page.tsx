@@ -35,6 +35,7 @@ import {
   clientAddress,
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientPhotos,
@@ -548,11 +549,7 @@ function HeroSection() {
             maxWidth: 580,
             lineHeight: 1.65,
           }}
-        >
-          Artisan boulanger depuis 1978 au cœur du Vieux-Bourg, nous pétrissons
-          chaque matin des pains au levain naturel, des viennoiseries feuilletées
-          et des pâtisseries de saison.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Artisan boulanger depuis 1978 au cœur du Vieux-Bourg, nous pétrissons chaque matin des pains au levain naturel, des viennoiseries feuilletées et des pâtisseries de saison."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

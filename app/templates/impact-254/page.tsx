@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -679,9 +680,7 @@ function Hero() {
             lineHeight: 1.7,
             marginBottom: 'clamp(28px,3vw,44px)',
           }}
-        >
-          Cabinet indépendant, 35 ans d&apos;ancrage parisien. Nous transformons vos obligations comptables et fiscales en avantages concurrentiels mesurables.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Cabinet indépendant, 35 ans d&apos;ancrage parisien. Nous transformons vos obligations comptables et fiscales en avantages concurrentiels mesurables."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}

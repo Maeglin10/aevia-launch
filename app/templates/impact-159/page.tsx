@@ -21,6 +21,7 @@ import {
 } from "framer-motion"
 import {
   clientCity,
+  clientHeroSubtitle,
   clientList,
   clientReviews,
   clientServices,
@@ -1059,11 +1060,7 @@ function HeroSection({
             margin: "0 auto 56px",
             letterSpacing: "0.04em",
           }}
-        >
-          Graphene-infused silk. CRISPR bioluminescent mesh. Nitinol shape-memory wool.
-          We engineer textiles at the intersection of materials science, biotechnology, and
-          haute couture.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Graphene-infused silk. CRISPR bioluminescent mesh. Nitinol shape-memory wool. We engineer textiles at the intersection of materials science, biotechnology, and haute couture."}</motion.p>
 
         {/* CTAs */}
         <motion.div

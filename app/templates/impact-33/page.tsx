@@ -29,6 +29,7 @@ import {
   clientCity,
   clientFaq,
   clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientReviews,
@@ -210,10 +211,7 @@ function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.22 }}
           style={{ fontSize: "clamp(15px,2vw,19px)", color: C.textMuted, lineHeight: 1.7, marginBottom: "clamp(20px,4vw,40px)", maxWidth: 560 }}
-        >
-          La Fournée, c'est l'amour du pain au levain, des viennoiseries pur beurre et des pâtisseries
-          de saison. Tout est fait maison chaque jour dès 4h du matin dans notre fournil ouvert sur la rue.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "La Fournée, c'est l'amour du pain au levain, des viennoiseries pur beurre et des pâtisseries de saison. Tout est fait maison chaque jour dès 4h du matin dans notre fournil ouvert sur la rue."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.32 }}
