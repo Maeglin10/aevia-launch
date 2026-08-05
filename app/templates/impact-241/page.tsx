@@ -2036,7 +2036,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            12 cours de l'Intendance, 33000 Bordeaux
+            12 cours de l'Intendance, 33000 {clientCity(sessionData) ?? "Bordeaux"}
           </div>
         </div>
 

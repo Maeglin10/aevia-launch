@@ -285,7 +285,7 @@ export default function CabinetRenardPage() {
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Cabinet Renard & Associés — expertise en droit des affaires, droit du travail, droit de la famille et RGPD. 22 ans d'exercice au Barreau de Paris.
+            Cabinet Renard & Associés — expertise en droit des affaires, droit du travail, droit de la famille et RGPD. 22 ans d'exercice au Barreau de {clientCity(sessionData) ?? "Paris"}.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -440,7 +440,7 @@ export default function CabinetRenardPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", fontWeight: 300, color: C.gold, marginBottom: 8 }}>Maître Renard & Associés</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Cabinet d'avocats · {clientCity({ formData: fd }) ?? "Paris"}<br />Barreau de Paris</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Cabinet d'avocats · {clientCity({ formData: fd }) ?? "Paris"}<br />Barreau de {clientCity(sessionData) ?? "Paris"}</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "01 44 00 00 01") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (

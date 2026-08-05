@@ -1183,7 +1183,7 @@ function ServicesSection() {
             }}
           >
             De la mise aux normes à l'installation solaire, Ampère &amp; Fils
-            couvre l'ensemble de vos besoins électriques à Nantes et en
+            couvre l'ensemble de vos besoins électriques à {clientCity(sessionData) ?? "Nantes"} et en
             Loire-Atlantique.
           </p>
         </Reveal>

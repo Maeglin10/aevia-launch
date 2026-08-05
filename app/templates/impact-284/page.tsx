@@ -63,7 +63,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET DENT'OR — Chirurgien-dentiste & implantologie · Bordeaux Chartrons
+   CABINET DENT'OR — Chirurgien-dentiste & implantologie · {clientCity(sessionData) ?? "Bordeaux"} Chartrons
    Photographie réelle Unsplash + choreographie de défilement éditoriale
    (style premium × élégance médicale). Fichier 'use client' auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2780,7 +2780,7 @@ function FooterSection() {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PAGE — Impact 284 · Cabinet Dent'Or · Bordeaux Chartrons
+   PAGE — Impact 284 · Cabinet Dent'Or · {clientCity(sessionData) ?? "Bordeaux"} Chartrons
    ════════════════════════════════════════════════════════════════════════════ */
 
 export default function Impact284Page() {

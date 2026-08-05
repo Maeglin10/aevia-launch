@@ -182,7 +182,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                   </div>
                 </div>
               </Link>
-              <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 14, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>Cabinet d'avocats spécialisé en droit des sociétés, fusions-acquisitions, propriété intellectuelle et contentieux commercial. Paris, France.</p>
+              <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 14, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>Cabinet d'avocats spécialisé en droit des sociétés, fusions-acquisitions, propriété intellectuelle et contentieux commercial. {clientCity(__layoutSession) ?? "Paris"}, France.</p>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <MessageSquare size={14} color={C.accent} />
                 <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Source Sans Pro', system-ui", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>{clientEmail(__layoutSession) ?? "contact@exemple.fr"}</span>

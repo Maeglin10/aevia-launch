@@ -932,7 +932,7 @@ export default function Impact175Page() {
               fontWeight: 500,
             }}
           >
-            Agence d'Événementiel · Paris · Monte-Carlo
+            Agence d'Événementiel · {clientCity(sessionData) ?? "Paris"} · Monte-Carlo
           </motion.div>
 
           <TextReveal immediate delay={0.5}>

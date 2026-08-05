@@ -2133,7 +2133,7 @@ export default function Impact167Page() {
               letterSpacing: "0.1em",
             }}
           >
-            12 Rue de l'Université, 75007 Paris
+            12 Rue de l'Université, 75007 {clientCity(sessionData) ?? "Paris"}
           </div>
         </div>
         <div

@@ -1325,7 +1325,7 @@ export default function Page() {
           >
             <GoldDivider />
             <p style={{ ...bodyFont, fontSize: '15px', color: GRAY_MID, lineHeight: 1.8, maxWidth: '460px', margin: '0 auto 40px', letterSpacing: '0.02em' }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-              Un salon d'exception au cœur de Paris. Chaque rendez-vous est une rencontre entre votre personnalité et l'expertise de nos artisans coiffeurs.
+              Un salon d'exception au cœur de {clientCity(sessionData) ?? "Paris"}. Chaque rendez-vous est une rencontre entre votre personnalité et l'expertise de nos artisans coiffeurs.
             </>}</p>
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' as const }}>
               <a
