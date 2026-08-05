@@ -164,7 +164,7 @@ export default function MaisonElisePage() {
               />
             ) : (
               <>
-                <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ fontFamily: "'Lora', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Maison Élise"}</div>
+                <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Lora', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Maison Élise"}</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)]/60">Wedding Planner · {clientCity({ formData: fd }) ?? "Nice"} & Riviera</div>
               </>
             )}

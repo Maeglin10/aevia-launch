@@ -338,7 +338,7 @@ export default function AtelierLeoniePage() {
               />
             ) : (
               <>
-                <div className="font-bold text-[#1a1218] tracking-widest text-sm" style={{ fontFamily: "'Bodoni Moda', 'Georgia', serif" }}>{clientName(sessionData) ?? "ATELIER LÉONIE"}</div>
+                <div className="font-bold text-[#1a1218] tracking-widest text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Bodoni Moda', 'Georgia', serif" }}>{clientName(sessionData) ?? "ATELIER LÉONIE"}</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)]/60">Salon de coiffure · {clientCity(sessionData) ?? "Paris"}</div>
               </>
             )}

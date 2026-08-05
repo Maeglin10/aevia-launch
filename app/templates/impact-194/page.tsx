@@ -158,7 +158,7 @@ export default function TableExceptionPage() {
               />
             ) : (
               <>
-                <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Table d'Exception"}</div>
+                <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Playfair Display', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Table d'Exception"}</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/60">{clientTrade(sessionData) ?? "Traiteur"} · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes</div>
               </>
             )}

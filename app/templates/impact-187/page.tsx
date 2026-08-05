@@ -146,7 +146,7 @@ export default function MaxPerformancePage() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <span className="font-black text-[#f8f5f0] tracking-widest text-sm uppercase" style={{ fontFamily: "'Anton', impact, sans-serif" }}>{clientName({ formData: fd }) ?? "MAX"}<span className="text-[var(--brand,#f97316)]">.</span>PERF</span>
+              <span className="font-black text-[#f8f5f0] tracking-widest text-sm uppercase" style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: "'Anton', impact, sans-serif" }}>{clientName({ formData: fd }) ?? "MAX"}<span className="text-[var(--brand,#f97316)]">.</span>PERF</span>
             )}
           </div>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-[#f8f5f0]/25">
