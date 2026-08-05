@@ -37,11 +37,25 @@ export async function GET(req: NextRequest) {
           lien: r.url,
         }))
       : [];
+// La grande version d'une vignette Pixabay : « …_150.jpg » devient « …_1280.jpg ».
+function grandeTaille(apercu: string | undefined): string | undefined {
+  if (!apercu?.includes("cdn.pixabay.com")) return undefined;
+  const grand = apercu.replace(/_\d+\.(jpe?g|png)$/i, "_1280.$1");
+  return grand === apercu ? undefined : grand;
+}
+
   const dePixabay =
     pixabay.status === "fulfilled"
       ? pixabay.value.map((r: any) => ({
-          url: r.largeImageURL ?? r.webformatURL,
-          apercu: r.webformatURL,
+          /*
+            `largeImageURL` et `webformatURL` pointent sur `pixabay.com/get/…`,
+            une adresse signée qui **expire en vingt-quatre heures** : le site
+            livré aujourd'hui perdait ses photos demain, et le navigateur les
+            recevait déjà cassées à la mesure. `previewURL` vit sur le CDN, à
+            demeure ; sa grande version se déduit du suffixe de taille.
+          */
+          url: grandeTaille(r.previewURL) ?? r.largeImageURL ?? r.webformatURL,
+          apercu: r.previewURL ?? r.webformatURL,
           auteur: r.user,
           source: "Pixabay" as const,
           lien: r.pageURL,
