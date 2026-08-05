@@ -34,6 +34,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -539,11 +540,7 @@ function Hero() {
             margin: '0 auto',
             lineHeight: 1.7,
           }}
-        >
-          Depuis six générations, nous cisèlerons chaque seconde
-          <br />
-          avec la rigueur d'un art qui ne souffre aucun compromis.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Depuis six générations, nous cisèlerons chaque seconde <br /> avec la rigueur d'un art qui ne souffre aucun compromis."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 10 }}

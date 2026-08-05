@@ -329,7 +329,22 @@ export function clientTagline(s: SessionLike | null | undefined): string | undef
  * un `total`-ième de la phrase, en gardant assez de mots pour les suivantes.
  */
 function couperEnLignes(phrase: string, total: number): string[] {
-  const mots = phrase.split(/\s+/).filter(Boolean);
+  /*
+    Un mot-outil ne tient pas une ligne à lui seul. « Photographe à Valence »
+    coupé en trois donnait « Photographe / à / Valence », et le « à » solitaire
+    en cinquante-six pixels se lit comme une coquille. On l'attache donc au mot
+    qui le suit avant de répartir.
+  */
+  const bruts = phrase.split(/\s+/).filter(Boolean);
+  const mots: string[] = [];
+  for (let i = 0; i < bruts.length; i++) {
+    if (bruts[i].length <= 3 && /^\p{L}+$/u.test(bruts[i]) && i + 1 < bruts.length) {
+      mots.push(`${bruts[i]} ${bruts[i + 1]}`);
+      i++;
+    } else {
+      mots.push(bruts[i]);
+    }
+  }
   if (mots.length <= total) {
     const out = mots.slice();
     while (out.length < total) out.push("");
@@ -344,7 +359,13 @@ function couperEnLignes(phrase: string, total: number): string[] {
     const cible = (longueur - lignes.join(" ").length) / restantes;
     const apres = courante ? courante.length + 1 + mots[i].length : mots[i].length;
     const trop = Boolean(courante) && Math.abs(apres - cible) > Math.abs(courante.length - cible);
-    if (trop && restantes > 1 && motsRestants >= restantes) {
+    /*
+      Après avoir poussé la ligne courante il restera `restantes - 1` lignes à
+      remplir : exiger autant de mots que de lignes restantes était un cran trop
+      strict, et « Charpentes Traditionnelles de Savoie » tenait tout entier sur
+      la première ligne, la seconde vide.
+    */
+    if (trop && restantes > 1 && motsRestants >= restantes - 1) {
       lignes.push(courante);
       courante = mots[i];
     } else {
@@ -401,7 +422,12 @@ export function clientHeroLine(
   if (total < 1 || rang < 0 || rang >= total) return undefined;
   const phrase = phraseDeHero(s, total, maxLigne);
   if (!phrase) return undefined;
-  return couperEnLignes(phrase, total)[rang] || undefined;
+  /*
+    Une ligne sans mot reste vide : rendre la main au thème pour la seule ligne
+    en trop mélangeait les deux titres — « Plombier / à Annecy / de demain » sur
+    le site d'un plombier annécien.
+  */
+  return couperEnLignes(phrase, total)[rang] ?? "";
 }
 
 /**

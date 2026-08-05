@@ -22,6 +22,7 @@ import { MosaicPush } from '@/lib/templates/hero-kit-3';
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -776,10 +777,7 @@ function Hero() {
             maxWidth: 520,
             lineHeight: 1.7,
           }}
-        >
-          Cabinet d'ostéopathie générale — adultes, sportifs, nourrissons et femmes
-          enceintes. Approche globale, mains expertes, résultats durables.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Cabinet d'ostéopathie générale — adultes, sportifs, nourrissons et femmes enceintes. Approche globale, mains expertes, résultats durables."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

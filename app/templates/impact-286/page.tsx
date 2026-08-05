@@ -27,6 +27,7 @@ import {
   clientAddress,
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -537,10 +538,7 @@ function HeroSection() {
             maxWidth: 580,
             lineHeight: 1.62,
           }}
-        >
-          Droit social, licenciement, harcèlement moral — une avocate engagée à
-          vos côtés, de la consultation à la plaidoirie.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Droit social, licenciement, harcèlement moral — une avocate engagée à vos côtés, de la consultation à la plaidoirie."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

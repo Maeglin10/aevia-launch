@@ -211,6 +211,20 @@ for (const id of ids) {
       const deb = finFerm + m.index;
       src = src.slice(0, deb) + "clientHeroSubtitle(sessionData)" + src.slice(deb + m[0].length);
       besoins.add("clientHeroSubtitle");
+    } else {
+      /*
+        Aucun sous-titre branché : celui du thème parle alors d'une autre
+        entreprise — « Coaching sportif premium à Chambéry » sous le titre d'un
+        coiffeur. On lui donne les prestations du client, et le texte du thème
+        reste en repli.
+      */
+      const para = /<((?:motion|m)\.)?p\b[^>]*>([\s\S]{40,400}?)<\/(?:motion\.|m\.)?p>/.exec(suite);
+      if (para && !/[{}]/.test(para[2]) && /\p{L}/u.test(para[2])) {
+        const texte = para[2].replace(/\s+/g, " ").trim();
+        const deb = finFerm + para.index + para[0].indexOf(para[2]);
+        src = src.slice(0, deb) + `{clientHeroSubtitle(sessionData) ?? ${JSON.stringify(texte)}}` + src.slice(deb + para[2].length);
+        besoins.add("clientHeroSubtitle");
+      }
     }
   }
 

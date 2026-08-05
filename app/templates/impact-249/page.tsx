@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -680,10 +681,7 @@ function Hero() {
             lineHeight: 1.72,
             marginBottom: 'clamp(28px,4vw,44px)',
           }}
-        >
-          Quatre artistes, une obsession partagée : chaque tatouage est une
-          œuvre originale conçue spécialement pour vous.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Quatre artistes, une obsession partagée : chaque tatouage est une œuvre originale conçue spécialement pour vous."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

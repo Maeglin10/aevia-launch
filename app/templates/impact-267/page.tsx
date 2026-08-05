@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -700,10 +701,7 @@ function Hero() {
             lineHeight: 1.65,
             marginBottom: 'clamp(28px, 4vh, 48px)',
           }}
-        >
-          Art corporel sur-mesure. 100 % création originale.
-          Chaque tatouage naît d&apos;une conversation unique.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Art corporel sur-mesure. 100 % création originale. Chaque tatouage naît d&apos;une conversation unique."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

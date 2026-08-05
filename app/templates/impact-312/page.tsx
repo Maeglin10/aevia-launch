@@ -33,6 +33,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -551,9 +552,7 @@ export default function GarageMinimalistTemplate() {
             </Reveal>
             
             <Reveal delay={0.2}>
-              <p style={{ fontSize: "1.25rem", maxWidth: "600px", marginBottom: "2.5rem", color: C.textMuted }}>
-                Un service transparent, des techniciens experts et un atelier moderne pour prendre soin de votre véhicule dans les meilleures conditions.
-              </p>
+              <p style={{ fontSize: "1.25rem", maxWidth: "600px", marginBottom: "2.5rem", color: C.textMuted }}>{clientHeroSubtitle(sessionData) ?? "Un service transparent, des techniciens experts et un atelier moderne pour prendre soin de votre véhicule dans les meilleures conditions."}</p>
             </Reveal>
 
             <Reveal delay={0.4}>

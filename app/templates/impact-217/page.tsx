@@ -31,6 +31,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -653,10 +654,7 @@ function Hero() {
               fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)',
               lineHeight: 1.5,
             }}
-          >
-            Performance-grade sneakers, built like industrial machinery and
-            finished like couture. Limited runs. Forged to outlast.
-          </p>
+          >{clientHeroSubtitle(sessionData) ?? "Performance-grade sneakers, built like industrial machinery and finished like couture. Limited runs. Forged to outlast."}</p>
           <a
             href="#drops"
             style={{display: 'inline-flex',

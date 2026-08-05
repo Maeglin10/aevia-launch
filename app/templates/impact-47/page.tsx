@@ -42,6 +42,7 @@ import {
   clientCity,
   clientFaq,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -107,9 +108,7 @@ function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
           style={{ fontFamily: "'Poppins', system-ui", fontSize: 18, color: C.textMuted, lineHeight: 1.7, maxWidth: 520, margin: "0 0 48px" }}
-        >
-          Hand-crafted seasonal arrangements, botanical bouquet subscriptions, and wedding floral direction from our Parisian studio.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Hand-crafted seasonal arrangements, botanical bouquet subscriptions, and wedding floral direction from our Parisian studio."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -703,10 +704,7 @@ function Hero() {
             maxWidth: 520,
             lineHeight: 1.65,
           }}
-        >
-          Quatre artistes, zéro flash, cent pour cent sur mesure. Chaque tatouage
-          est une œuvre conçue pour une seule peau.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Quatre artistes, zéro flash, cent pour cent sur mesure. Chaque tatouage est une œuvre conçue pour une seule peau."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

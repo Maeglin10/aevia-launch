@@ -40,6 +40,7 @@ import {
 import {
   clientCity,
   clientFaq,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -513,9 +514,7 @@ function SplitRevealHero() {
             <br />
             <span style={{ color: C.emeraldGlow }}>qui durent.</span>
           </>)}</h1>
-          <p style={{ color: C.textMuted, fontSize: 18, lineHeight: 1.6, maxWidth: 440, marginBottom: 48, fontFamily: "'DM Sans', system-ui, sans-serif" }}>
-            Verso est un studio de branding genevois. Nous créons des identités visuelles, des expériences digitales et des systèmes de communication pour des marques exigeantes.
-          </p>
+          <p style={{ color: C.textMuted, fontSize: 18, lineHeight: 1.6, maxWidth: 440, marginBottom: 48, fontFamily: "'DM Sans', system-ui, sans-serif" }}>{clientHeroSubtitle(sessionData) ?? "Verso est un studio de branding genevois. Nous créons des identités visuelles, des expériences digitales et des systèmes de communication pour des marques exigeantes."}</p>
 
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}

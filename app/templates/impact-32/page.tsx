@@ -29,6 +29,7 @@ import {
   clientCity,
   clientFaq,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -390,10 +391,7 @@ function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
           style={{ fontSize: 18, color: C.textMuted, lineHeight: 1.72, marginBottom: 36, maxWidth: 490 }}
-        >
-          PawCare Clinic, c'est une équipe de vétérinaires passionnés à Bordeaux, dédiée à la
-          santé et au bonheur de vos compagnons à poils, plumes ou écailles.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "PawCare Clinic, c'est une équipe de vétérinaires passionnés à Bordeaux, dédiée à la santé et au bonheur de vos compagnons à poils, plumes ou écailles."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}

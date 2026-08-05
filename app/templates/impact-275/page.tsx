@@ -42,6 +42,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -617,11 +618,7 @@ function HeroSection() {
             lineHeight: 1.65,
             fontWeight: 400,
           }}
-        >
-          Maître Isabelle Faure accompagne familles et particuliers dans les moments
-          les plus délicats de la vie. Divorce, succession, garde — avec rigueur et
-          humanité.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Maître Isabelle Faure accompagne familles et particuliers dans les moments les plus délicats de la vie. Divorce, succession, garde — avec rigueur et humanité."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

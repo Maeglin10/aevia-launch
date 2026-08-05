@@ -34,6 +34,7 @@ import {
 } from "lucide-react"
 import {
   clientCity,
+  clientHeroSubtitle,
   clientList,
   clientPhotos,
   clientReviews,
@@ -1119,9 +1120,7 @@ function Hero() {
           transition={{ delay: 0.75, duration: 0.8 }}
           className="text-[15px] leading-[1.8] mb-10 max-w-[400px]"
           style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.textMuted }}
-        >
-          Formulés en petits lots dans notre atelier parisien, nos soins unissent la puissance de la botanique et la précision de la cosmétologie moderne.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Formulés en petits lots dans notre atelier parisien, nos soins unissent la puissance de la botanique et la précision de la cosmétologie moderne."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

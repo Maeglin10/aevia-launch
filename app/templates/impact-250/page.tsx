@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -670,11 +671,7 @@ function Hero() {
             lineHeight: 1.68,
             marginBottom: 40,
           }}
-        >
-          Conception, plantation et aménagement extérieur sur-mesure. Nous
-          créons des espaces verts qui respirent, produisent et enchantent —
-          saison après saison.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Conception, plantation et aménagement extérieur sur-mesure. Nous créons des espaces verts qui respirent, produisent et enchantent — saison après saison."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

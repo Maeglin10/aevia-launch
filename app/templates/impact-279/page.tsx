@@ -30,6 +30,7 @@ import {
   clientAddress,
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -571,10 +572,7 @@ function HeroSection() {
             maxWidth: 580,
             lineHeight: 1.65,
           }}
-        >
-          Une approche holistique du corps — écouter, comprendre et accompagner
-          chaque patient vers une santé durable et un mouvement retrouvé.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Une approche holistique du corps — écouter, comprendre et accompagner chaque patient vers une santé durable et un mouvement retrouvé."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

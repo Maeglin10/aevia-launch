@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -674,9 +675,7 @@ function Hero() {
             maxWidth: 520,
             lineHeight: 1.7,
           }}
-        >
-          Vêtements uniques, construits à la main, pour une personne à la fois.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Vêtements uniques, construits à la main, pour une personne à la fois."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

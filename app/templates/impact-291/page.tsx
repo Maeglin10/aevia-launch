@@ -26,6 +26,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -563,10 +564,7 @@ function HeroSection() {
             lineHeight: 1.65,
             margin: '0 0 12px',
           }}
-        >
-          Ostéopathie &amp; thérapies manuelles — pour nourrissons, enfants,
-          adultes et sportifs. Approche globale, techniques douces.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Ostéopathie &amp; thérapies manuelles — pour nourrissons, enfants, adultes et sportifs. Approche globale, techniques douces."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -649,10 +650,7 @@ function Hero() {
             maxWidth: 540,
             lineHeight: 1.65,
           }}
-        >
-          Un soin manuel précis et personnalisé pour que votre corps retrouve
-          sa liberté de mouvement.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Un soin manuel précis et personnalisé pour que votre corps retrouve sa liberté de mouvement."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}

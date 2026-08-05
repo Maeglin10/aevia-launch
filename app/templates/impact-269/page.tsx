@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -713,10 +714,7 @@ function Hero() {
             lineHeight: 1.65,
             marginBottom: 'clamp(28px,3.5vw,44px)',
           }}
-        >
-          Pains au levain, canelés bordelais, brunch du dimanche — depuis 2007 dans le
-          quartier des Chartrons.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Pains au levain, canelés bordelais, brunch du dimanche — depuis 2007 dans le quartier des Chartrons."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
