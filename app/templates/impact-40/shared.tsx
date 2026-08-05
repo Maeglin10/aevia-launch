@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientAddress,
   clientCityOr,
 } from "@/lib/templates/clientContent";
 

@@ -41,6 +41,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientCity,
   clientList,
   clientName,
@@ -787,7 +788,7 @@ export default function Impact322() {
                   </div>
                   <div className="flex items-center gap-4">
                     <MapPin style={{ color: C.primary }} size={20} />
-                    <span className="font-light">{fd?.location || "8 Avenue Montaigne, 75008 Paris"}</span>
+                    <span className="font-light">{fd?.location || (clientAddress(sessionData) ?? "8 Avenue Montaigne, 75008 Paris")}</span>
                   </div>
                 </div>
               </Reveal>

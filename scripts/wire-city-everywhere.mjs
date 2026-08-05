@@ -134,8 +134,18 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
         const valeur = dbl !== undefined ? dbl : sgl;
         const avantChar = ligne.slice(0, pos).replace(/\s+$/, "").slice(-1);
         const apresChar = ligne.slice(pos + m0.length).replace(/^\s+/, "").slice(0, 1);
-        if (!"[,:".includes(avantChar)) return m0;
-        if (apresChar && !"],}".includes(apresChar)) return m0;
+        /*
+          La chaîne peut aussi être la valeur d'un attribut — `body="… Nantes …"`,
+          `title: "Iron Club Lyon — …"` — et s'arrêter aux seules données laissait
+          la ville de démonstration dans les phrases, là où elle se lit le plus.
+        */
+        /*
+          Pas les attributs JSX : `title="… Lyon 2e"` ne se concatène pas avec des
+          « + » sans accolades, et quatre fichiers ont cessé de compiler avant
+          qu'on s'en aperçoive. Le gain — cinq mentions — ne valait pas le risque.
+        */
+        if (!"[,:(".includes(avantChar)) return m0;
+        if (apresChar && !"],},)".includes(apresChar)) return m0;
         if (valeur.includes("${") || !motCle.test(valeur)) return m0;
         /*
           Une chaîne qui n'est QUE le nom de la ville en minuscules est une clé
