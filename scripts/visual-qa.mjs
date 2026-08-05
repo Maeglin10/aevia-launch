@@ -184,15 +184,42 @@ for (const id of ids) {
         `backgroundColor` transparent du body donnait « 1,1:1 » sur des titres
         parfaitement lisibles. Dans ce cas on ne juge pas.
       */
+      /*
+        Le fond d'un texte est le premier aplat rencontré en remontant. Une image
+        rencontrée avant met fin à la recherche : on ne sait pas de quelle
+        couleur elle est à cet endroit. Et si le seul aplat trouvé est celui de
+        la page alors que le texte est posé sur une photo, c'est la photo qu'on
+        voit, pas l'aplat — on s'abstient encore.
+      */
       const fondDe = (e) => {
         for (let x = e; x; x = x.parentElement) {
           const s = getComputedStyle(x);
-          if (s.backgroundImage && s.backgroundImage !== "none") return null;
+          if (s.backgroundImage && s.backgroundImage !== "none" && /url\(|gradient\(/.test(s.backgroundImage)) return null;
           const l = lum(s.backgroundColor);
-          if (l !== null) return l;
+          if (l === null) continue;
+          if (x === document.body || x === document.documentElement) return { l, page: true };
+          return { l, page: false };
         }
-        return 1;
+        return { l: 1, page: true };
       };
+
+      /*
+        Une photo de hero est presque toujours une sœur du texte, pas une aïeule :
+        remonter les ancêtres ne la voyait pas, le fond trouvé était l'aplat du
+        body, et cent quatre-vingt-onze en-têtes parfaitement lisibles — blanc sur
+        photo — passaient pour illisibles. On relève donc les rectangles de tout
+        ce qui porte une image, et l'on s'abstient de juger un texte posé dessus.
+      */
+      const surImage = [];
+      for (const e of document.querySelectorAll("img, [style*='background'], *")) {
+        const s = getComputedStyle(e);
+        const porte = e.tagName === "IMG" || (s.backgroundImage && s.backgroundImage !== "none" && /url\(/.test(s.backgroundImage));
+        if (!porte) continue;
+        const r = e.getBoundingClientRect();
+        if (r.width < 60 || r.height < 60) continue;
+        surImage.push(r);
+      }
+      const posePar = (r) => surImage.some((z) => r.left >= z.left - 2 && r.right <= z.right + 2 && r.top >= z.top - 2 && r.bottom <= z.bottom + 2);
 
       for (const e of document.querySelectorAll("h1, h2, h3, p, span, div, li, a, button")) {
         const propre = [...e.childNodes].some((x) => x.nodeType === 3 && x.textContent.trim().length > 2);
@@ -209,7 +236,8 @@ for (const id of ids) {
         // Le contraste, seulement sur du texte qu'on lit vraiment.
         if (parseFloat(s.fontSize) >= 11 && out.contraste.length < 6) {
           const lt = lum(s.color);
-          const lf = fondDe(e);
+          const fond = fondDe(e);
+          const lf = fond && !(fond.page && posePar(r)) ? fond.l : null;
           if (lt !== null && lf !== null) {
             const ratio = (Math.max(lt, lf) + 0.05) / (Math.min(lt, lf) + 0.05);
             if (ratio < 2.2) {
