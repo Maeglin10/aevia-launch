@@ -201,7 +201,7 @@ export default function JardinsVivantsPage() {
               <>
                 <Leaf className="w-5 h-5 text-[var(--brand,#2d5a27)]" />
                 <div>
-                  <div className="font-bold text-[#1e2a1c] text-sm leading-tight" style={{ fontFamily: "'Cardo', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Jardins Vivants"}</div>
+                  <div className="font-bold text-[#1e2a1c] text-sm leading-tight" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Cardo', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Jardins Vivants"}</div>
                   <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/50">{clientTrade(sessionData) ?? "Paysagiste"} · {clientCity({ formData: fd }) ?? "Annecy"}</div>
                 </div>
               </>

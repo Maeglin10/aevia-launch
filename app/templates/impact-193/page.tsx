@@ -186,7 +186,7 @@ export default function OsteoGaiaPage() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (/* NOM_LOGO */ clientName(sessionData) ? (
-              <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData)}</div>
+              <div className="font-bold text-[#3a2e28] text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData)}</div>
             ) : (<>
               <>
                 <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>Ostéo Gaïa</div>
