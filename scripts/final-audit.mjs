@@ -166,65 +166,78 @@ for (const id of ids) {
   const erreurs = [];
   p.on("pageerror", (e) => erreurs.push(String(e.message).slice(0, 90)));
   try {
-    await p.goto(`${BASE}/templates/${id}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 30000 });
-    await p.waitForTimeout(2600);
     /*
-      Le texte se récolte pendant la descente, pas à l'arrivée. Un compteur animé
-      qui remonte hors du champ se remet à zéro : impact-69 et impact-214
-      affichaient bien « 18 » au passage, et « 0 » une fois revenu en haut, d'où
-      deux chiffres comptés absents pendant deux campagnes de mesure.
+      Trois essais avant de conclure. Cinq tranches mesurent en parallèle ; il
+      arrive qu'une page n'ait rien rendu à l'échéance, et une page vide fait
+      manquer tous les blocs à la fois — impact-02 et impact-04 sont passés
+      ainsi pour vides alors qu'ils affichent tout. Le nom de l'entreprise sert
+      de témoin : aucun thème ne l'omet.
     */
-    const vus = await p.evaluate(async () => {
-      const morceaux = [];
-      for (let y = 0; y < document.body.scrollHeight; y += 900) {
-        window.scrollTo(0, y);
-        await new Promise((r) => setTimeout(r, 260));
-        morceaux.push(document.body.innerText);
-      }
-      window.scrollTo(0, 0);
-      return morceaux.join("\n");
-    });
-    /*
-      Un compteur animé part de zéro quand il entre dans le champ. Cinq cents
-      millisecondes après le défilement, six thèmes affichaient encore « 0 » et
-      passaient pour ne pas montrer les chiffres du client. Mille quatre cents ne
-      suffisaient pas non plus : impact-69 et impact-214 comptent lentement et
-      passaient encore pour muets. Deux mille cinq cents les rattrapent.
-    */
-    await p.waitForTimeout(2500);
+    let vus = "", texte = "", images = [], couleurVue = false;
+    for (let essai = 0; essai < 3; essai++) {
+      await p.goto(`${BASE}/templates/${id}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 30000 });
+      await p.waitForTimeout(2600);
+      /*
+        Le texte se récolte pendant la descente, pas à l'arrivée. Un compteur animé
+        qui remonte hors du champ se remet à zéro : impact-69 et impact-214
+        affichaient bien « 18 » au passage, et « 0 » une fois revenu en haut, d'où
+        deux chiffres comptés absents pendant deux campagnes de mesure.
+      */
+      vus = await p.evaluate(async () => {
+        const morceaux = [];
+        for (let y = 0; y < document.body.scrollHeight; y += 900) {
+          window.scrollTo(0, y);
+          await new Promise((r) => setTimeout(r, 260));
+          morceaux.push(document.body.innerText);
+        }
+        window.scrollTo(0, 0);
+        return morceaux.join("\n");
+      });
+      /*
+        Un compteur animé part de zéro quand il entre dans le champ. Cinq cents
+        millisecondes après le défilement, six thèmes affichaient encore « 0 » et
+        passaient pour ne pas montrer les chiffres du client. Mille quatre cents ne
+        suffisaient pas non plus : impact-69 et impact-214 comptent lentement et
+        passaient encore pour muets. Deux mille cinq cents les rattrapent.
+      */
+      await p.waitForTimeout(2500);
 
-    const { texte, images, couleurVue } = await p.evaluate((couleur) => {
-      const hex = couleur.replace("#", "").toLowerCase();
-      const rgb = [0, 2, 4].map((k) => parseInt(hex.slice(k, k + 2), 16));
-      const cible = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
-      /*
-        La couleur de marque se pose rarement en aplat : le plus souvent dans un
-        dégradé, un liseré, un remplissage de svg, une ombre. Ne regarder que
-        `color`, `background-color` et `border-color` faisait conclure qu'un
-        thème ne la peignait pas alors qu'elle était partout.
-      */
-      let vue = false;
-      const cibleCourte = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
-      for (const e of document.querySelectorAll("*")) {
-        const s = getComputedStyle(e);
-        const tout = [s.color, s.backgroundColor, s.borderColor, s.backgroundImage,
-          s.boxShadow, s.outlineColor, s.fill, s.stroke, s.textDecorationColor].join(" ");
-        if (tout.includes(cible) || tout.includes(cibleCourte)) { vue = true; break; }
-      }
-      /*
-        Une photo peut être une image ou un fond CSS. Ne regarder que les
-        balises `img` faisait conclure qu'un thème n'affichait pas les photos du
-        client alors qu'il les peignait en arrière-plan.
-      */
-      const fonds = [...document.querySelectorAll("*")]
-        .map((e) => getComputedStyle(e).backgroundImage)
-        .filter((v) => v && v !== "none");
-      return {
-        texte: document.body.innerText,
-        images: [...document.querySelectorAll("img")].map((i) => i.currentSrc || i.src).concat(fonds),
-        couleurVue: vue,
-      };
-    }, d.couleur);
+      ({ texte, images, couleurVue } = await p.evaluate((couleur) => {
+        const hex = couleur.replace("#", "").toLowerCase();
+        const rgb = [0, 2, 4].map((k) => parseInt(hex.slice(k, k + 2), 16));
+        const cible = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+        /*
+          La couleur de marque se pose rarement en aplat : le plus souvent dans un
+          dégradé, un liseré, un remplissage de svg, une ombre. Ne regarder que
+          `color`, `background-color` et `border-color` faisait conclure qu'un
+          thème ne la peignait pas alors qu'elle était partout.
+        */
+        let vue = false;
+        const cibleCourte = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+        for (const e of document.querySelectorAll("*")) {
+          const s = getComputedStyle(e);
+          const tout = [s.color, s.backgroundColor, s.borderColor, s.backgroundImage,
+            s.boxShadow, s.outlineColor, s.fill, s.stroke, s.textDecorationColor].join(" ");
+          if (tout.includes(cible) || tout.includes(cibleCourte)) { vue = true; break; }
+        }
+        /*
+          Une photo peut être une image ou un fond CSS. Ne regarder que les
+          balises `img` faisait conclure qu'un thème n'affichait pas les photos du
+          client alors qu'il les peignait en arrière-plan.
+        */
+        const fonds = [...document.querySelectorAll("*")]
+          .map((e) => getComputedStyle(e).backgroundImage)
+          .filter((v) => v && v !== "none");
+        return {
+          texte: document.body.innerText,
+          images: [...document.querySelectorAll("img")].map((i) => i.currentSrc || i.src).concat(fonds),
+          couleurVue: vue,
+        };
+      }, d.couleur));
+
+      if (texte.toLowerCase().includes(d.nom.toLowerCase())) break;
+      await p.waitForTimeout(1500);
+    }
 
     const bas = `${vus}\n${texte}`.toLowerCase();
     const manquent = Object.entries({
