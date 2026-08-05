@@ -56,8 +56,15 @@ async function rapportDe(png) {
     écarte le plus.
   */
   const mediane = lum[Math.floor(lum.length * 0.5)];
-  const bas = lum[Math.floor(lum.length * 0.02)];
-  const haut = lum[Math.floor(lum.length * 0.98)];
+  /*
+    Presque aux extrêmes, pas aux centiles : un lien fin sur un aplat n'occupe
+    qu'une poignée de pixels, et s'arrêter à deux pour cent revenait à mesurer
+    le fond contre lui-même — « ÉQUIPE », gris sur noir et parfaitement lisible,
+    ressortait à 1,2:1. On écarte seulement de quoi ignorer l'anticrénelage.
+  */
+  const marge = Math.max(2, Math.floor(lum.length * 0.005));
+  const bas = lum[marge];
+  const haut = lum[lum.length - 1 - marge];
   const texte = Math.abs(haut - mediane) >= Math.abs(mediane - bas) ? haut : bas;
   const clair = Math.max(texte, mediane);
   const sombre = Math.min(texte, mediane);
@@ -88,7 +95,20 @@ for (const id of ids) {
     // Les textes qu'on lit vraiment : assez grands, assez longs, bien visibles.
     const cibles = await p.evaluate(() => {
       const out = [];
+      /*
+        On ne juge que ce qui sert : un lien, un bouton, un titre, une donnée du
+        client. Les bandes défilantes que les thèmes posent en texte fantôme —
+        « BRAND · DESIGN · MOTION » presque noir sur noir — sont un décor voulu,
+        pas un défaut de lisibilité.
+      */
+      const utile = (e) => {
+        if (e.closest("a, button, [role=button], nav, header")) return true;
+        if (/^(H1|H2|H3)$/.test(e.tagName)) return true;
+        const t = e.innerText ?? "";
+        return /Ateliers Vidal|Annecy|plombier|04 50 11 22 33/i.test(t);
+      };
       for (const e of document.querySelectorAll("h1,h2,h3,p,a,button,span,li,div")) {
+        if (!utile(e)) continue;
         const propre = [...e.childNodes].some((x) => x.nodeType === 3 && x.textContent.trim().length > 2);
         if (!propre) continue;
         const s = getComputedStyle(e);
@@ -113,6 +133,11 @@ for (const id of ids) {
       const rapport = await rapportDe(png);
       if (rapport !== null && rapport < 2.5) {
         fiche.illisibles.push(`«${c.texte.slice(0, 34)}» ${rapport.toFixed(1)}:1`);
+        // Pour vérifier de l'œil ce que la mesure a découpé.
+        if (process.env.VIGNETTES) {
+          fs.mkdirSync(process.env.VIGNETTES, { recursive: true });
+          fs.writeFileSync(path.join(process.env.VIGNETTES, `${id}-${c.texte.slice(0, 12).replace(/[^\w]/g, "_")}.png`), png);
+        }
       }
     }
   } catch (e) {
