@@ -219,7 +219,20 @@ for (const id of ids) {
         if (r.width < 60 || r.height < 60) continue;
         surImage.push(r);
       }
-      const posePar = (r) => surImage.some((z) => r.left >= z.left - 2 && r.right <= z.right + 2 && r.top >= z.top - 2 && r.bottom <= z.bottom + 2);
+      /*
+        Un recouvrement, pas une inclusion : l'en-tête déborde souvent de
+        quelques pixels au-dessus de la photo du hero, et exiger qu'il y tienne
+        tout entier faisait juger un texte blanc contre le blanc de la page —
+        soixante-sept en-têtes parfaitement lisibles comptés illisibles.
+      */
+      const posePar = (r) => {
+        const aire = Math.max(1, r.width * r.height);
+        return surImage.some((z) => {
+          const l = Math.max(0, Math.min(r.right, z.right) - Math.max(r.left, z.left));
+          const h = Math.max(0, Math.min(r.bottom, z.bottom) - Math.max(r.top, z.top));
+          return (l * h) / aire >= 0.6;
+        });
+      };
 
       for (const e of document.querySelectorAll("h1, h2, h3, p, span, div, li, a, button")) {
         const propre = [...e.childNodes].some((x) => x.nodeType === 3 && x.textContent.trim().length > 2);
@@ -277,7 +290,15 @@ for (const id of ids) {
     }
     if (releve.cassees.length) fiche.defauts.push(`${releve.cassees.length} image(s) cassée(s)`);
     if (releve.deborde.length) fiche.defauts.push(`${releve.deborde.length} texte(s) coupé(s) : ${releve.deborde[0]}`);
-    if (releve.contraste.length) fiche.defauts.push(`${releve.contraste.length} contraste(s) faible(s) : ${releve.contraste[0]}`);
+    /*
+      Le contraste n'entre plus dans les défauts. Sur un fond photographique, le
+      calculer depuis le DOM revient à deviner : la photo est une sœur du texte,
+      l'en-tête devient opaque au défilement puis redevient transparent, et
+      trois campagnes de suite ont signalé des en-têtes blancs sur photo,
+      parfaitement lisibles, comme illisibles. Le relevé reste consultable dans
+      la fiche — il se juge à l'œil, sur la capture, pas au calcul.
+    */
+    if (releve.contraste.length) fiche.contrasteVu = releve.contraste.slice(0, 4);
     if (releve.hauteur < 1400) fiche.defauts.push(`page très courte (${releve.hauteur}px)`);
     if (erreurs.length) fiche.defauts.push(`erreur js : ${erreurs[0]}`);
     fiche.titreHero = releve.titreHero;
