@@ -2163,7 +2163,7 @@ function Footer() {
         { label: 'Devis en ligne', href: '#devis' },
         { label: 'Interventions 24h/7j', href: '#interventions' },
         { label: 'Certifications RGE', href: "/templates/impact-246" },
-        { label: 'contact@thermofix-pro.fr', href: 'mailto:contact@thermofix-pro.fr' },
+        { label: fd?.email ?? 'contact@thermofix-pro.fr', href: `mailto:${fd?.email ?? 'contact@thermofix-pro.fr'}` },
       ],
     },
   ];

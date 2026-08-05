@@ -138,7 +138,7 @@ export default function ProposPage() {
                 </p>
                 
                 <div className="flex gap-4">
-                  <a href={`mailto:${fd?.email ?? "contact@obscura.fr"}`} className="bg-[#C9A86C] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B8975E] transition-colors flex items-center gap-2 font-mono"><Mail className="w-4 h-4" /> contact@obscura.fr</a>
+                  <a href={`mailto:${fd?.email ?? "contact@obscura.fr"}`} className="bg-[#C9A86C] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B8975E] transition-colors flex items-center gap-2 font-mono"><Mail className="w-4 h-4" /> {fd?.email ?? "contact@obscura.fr"}</a>
                   <a href="#contact" className="border border-white/10 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors flex items-center gap-2 font-mono"><Instagram className="w-4 h-4" /> @obscuraphoto</a>
                 </div>
               </div>

@@ -2376,7 +2376,7 @@ function FooterSection() {
       items: [
         { label: 'Prendre rendez-vous', href: '#rendez-vous' },
         { label: '01 42 65 XX XX', href: 'tel:+33142650000' },
-        { label: 'contact@maissonceleste.fr', href: 'mailto:contact@maisonceleste.fr' },
+        { label: fd?.email ?? 'contact@maisonceleste.fr', href: `mailto:${fd?.email ?? 'contact@maisonceleste.fr'}` },
         { label: 'Instagram', href: "/templates/impact-281" },
       ],
     },

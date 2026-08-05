@@ -1946,7 +1946,7 @@ function Footer() {
         { label: 'Prendre rendez-vous', href: '#contact' },
         { label: (clientCity(sessionData) ?? 'Paris'), href: '#contact' },
         { label: '+33 1 45 00 00 00', href: 'tel:+33145000000' },
-        { label: 'contact@mda-avocats.fr', href: 'mailto:contact@mda-avocats.fr' },
+        { label: fd?.email ?? 'contact@mda-avocats.fr', href: `mailto:${fd?.email ?? 'contact@mda-avocats.fr'}` },
       ],
     },
   ];

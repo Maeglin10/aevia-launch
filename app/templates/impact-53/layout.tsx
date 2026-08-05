@@ -338,7 +338,7 @@ export default function Impact53Layout({
                 marginBottom: "0.5rem",
               }}
             >
-              hello@meshwarp.studio
+              {fd?.email ?? "hello@meshwarp.studio"}
             </a>
             <span
               style={{

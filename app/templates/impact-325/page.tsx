@@ -266,7 +266,7 @@ export default function Impact325SeminarHub({ session: initialSession }) {
     if (p[4]) { PHOTOS.event3 = p[4]; if (MOCK_EVENTS[2]) MOCK_EVENTS[2].image = p[4]; }
     if (p[5]) { PHOTOS.event4 = p[5]; if (MOCK_EVENTS[3]) MOCK_EVENTS[3].image = p[5]; }
   }, [fd]);
-  const contactEmail = fd.contactEmail || "contact@executivehub.example";
+  const contactEmail = fd?.email || "contact@executivehub.example";
 
   // State
   const [cartOpen, setCartOpen] = useState(false);

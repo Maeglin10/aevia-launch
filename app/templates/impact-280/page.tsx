@@ -3049,7 +3049,7 @@ function FooterSection() {
       heading: 'Contact',
       links: [
         { label: '+33 3 88 00 00 00', href: 'tel:+33388000000' },
-        { label: 'contact@epousailles-alsace.fr', href: 'mailto:contact@epousailles-alsace.fr' },
+        { label: fd?.email ?? 'contact@epousailles-alsace.fr', href: `mailto:${fd?.email ?? 'contact@epousailles-alsace.fr'}` },
         { label: `12 rue du Mariage, ${clientCity(sessionData) ?? "Strasbourg"}`, href: "/templates/impact-280" },
         { label: 'Du lundi au vendredi 9h–18h', href: "/templates/impact-280" },
       ],

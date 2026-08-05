@@ -29,7 +29,7 @@ export default function AboutPage() {
   c = __session?.generatedContent;
 
   const handleEmailClick = () => {
-    window.location.href = "mailto:contact@exemple.fr";
+    window.location.href = `mailto:${__session?.formData?.email ?? "contact@exemple.fr"}`;
   };
 
   return (

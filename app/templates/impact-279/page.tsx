@@ -2355,7 +2355,7 @@ function FooterSection() {
         { label: (clientCity(sessionData) ?? 'Lyon') + ' — Brotteaux', href: '#cabinet' },
         { label: 'Métro A — Foch', href: '#cabinet' },
         { label: '04 78 XX XX XX', href: 'tel:+33478000000' },
-        { label: 'Email', href: 'mailto:cabinet.soler@gmail.com' },
+        { label: 'Email', href: `mailto:${fd?.email ?? 'cabinet.soler@gmail.com'}` },
       ],
     },
   ];

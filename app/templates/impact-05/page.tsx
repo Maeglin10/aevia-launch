@@ -746,13 +746,19 @@ return (
                     <div className="flex items-baseline gap-1">
                       {plan.price !== "Custom" && <span className="text-sm text-zinc-500">$</span>}
                       <span className="text-5xl font-black text-white">
-                        {plan.price === "Custom" ? plan.price : billingAnnual ? plan.annualPrice : plan.price}
+                        {plan.price === "Custom" ? plan.price : billingAnnual ? (plan.annualPrice ?? plan.price) : plan.price}
                       </span>
                       {plan.period && <span className="text-sm text-zinc-500 ml-1">{plan.period}</span>}
                     </div>
-                    {plan.price !== "0" && plan.price !== "Custom" && billingAnnual && (
-                      <p className="text-[10px] text-emerald-400 mt-1">Saves ${(Number(plan.price) - Number(plan.annualPrice)) * 12}/year</p>
-                    )}
+                    {(() => {
+                      const pNum = Number(String(plan.price).replace(/[^0-9.]/g, ""));
+                      const aNum = Number(String(plan.annualPrice).replace(/[^0-9.]/g, ""));
+                      const showSaves = plan.price !== "0" && plan.price !== "Custom" && billingAnnual
+                        && Number.isFinite(pNum) && Number.isFinite(aNum) && pNum > aNum;
+                      return showSaves ? (
+                        <p className="text-[10px] text-emerald-400 mt-1">Saves ${(pNum - aNum) * 12}/year</p>
+                      ) : null;
+                    })()}
                   </div>
                   <ul className="space-y-3 mb-10 flex-1">
                     {plan.features.map((feature, j) => (

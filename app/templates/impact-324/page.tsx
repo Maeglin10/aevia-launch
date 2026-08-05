@@ -283,7 +283,7 @@ export default function Impact324TicketStore({ session: initialSession }) {
     if (p[4]) { PHOTOS.gallery[0] = p[4]; if (MOCK_EVENTS[4]) MOCK_EVENTS[4].image = p[4]; }
     if (p[5]) { PHOTOS.gallery[1] = p[5]; if (MOCK_EVENTS[5]) MOCK_EVENTS[5].image = p[5]; }
   }, [fd]);
-  const contactEmail = fd.contactEmail || "hello@liveticket.example";
+  const contactEmail = fd?.email || "hello@liveticket.example";
 
   // State
   const [cartOpen, setCartOpen] = useState(false);
@@ -799,7 +799,7 @@ export default function Impact324TicketStore({ session: initialSession }) {
               </div>
             ))}
           </div>
-          <a href="mailto:box.office@example.com" style={{ display: "inline-flex", alignItems: "center", gap: 10, backgroundColor: C.primary, color: C.white, borderRadius: 10, padding: "14px 30px", fontFamily: SANS, fontSize: 14, fontWeight: 700, textDecoration: "none", letterSpacing: 1, textTransform: "uppercase" }}>
+          <a href={`mailto:${contactEmail}`} style={{ display: "inline-flex", alignItems: "center", gap: 10, backgroundColor: C.primary, color: C.white, borderRadius: 10, padding: "14px 30px", fontFamily: SANS, fontSize: 14, fontWeight: 700, textDecoration: "none", letterSpacing: 1, textTransform: "uppercase" }}>
             Email the box office
           </a>
         </div>

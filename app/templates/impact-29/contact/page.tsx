@@ -78,7 +78,7 @@ const channels = [
     icon: Mail,
     label: "Email",
     value: (fd?.email ?? "contact@exemple.fr"),
-    href: "mailto:contact@exemple.fr",
+    href: `mailto:${fd?.email ?? "contact@exemple.fr"}`,
     note: "Response within 1 business day",
     primary: true,
   },

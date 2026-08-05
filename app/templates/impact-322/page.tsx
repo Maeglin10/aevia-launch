@@ -783,7 +783,7 @@ export default function Impact322() {
                   </div>
                   <div className="flex items-center gap-4">
                     <Mail style={{ color: C.primary }} size={20} />
-                    <span className="font-light">{fd?.contactEmail || "contact@agence-prestige.com"}</span>
+                    <span className="font-light">{fd?.email || "contact@agence-prestige.com"}</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <MapPin style={{ color: C.primary }} size={20} />

@@ -356,7 +356,7 @@ export default function Template({ session: initialSession }: { session?: any } 
   const bp = session?.businessProfile;
 
   const businessName = fd.businessName || "Éco-Clean Habitat";
-  const contactEmail = fd.contactEmail || "contact@eco-clean-habitat.fr";
+  const contactEmail = fd?.email || "contact@eco-clean-habitat.fr";
   const contactPhone = fd.contactPhone || "01 23 45 67 89";
   const contactAddress = fd.contactAddress || "123 Rue de la Nature, 75001 Paris";
 

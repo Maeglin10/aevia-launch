@@ -53,7 +53,7 @@ export default function ContactPage() {
                 <Mail className="w-5 h-5 text-rose-500" />
                 <div>
                   <h4 className="text-white/60 mb-1">Direct Message</h4>
-                  <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-white hover:text-rose-500 transition-colors">contact@exemple.fr</a>
+                  <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-white hover:text-rose-500 transition-colors">{fd?.email ?? "contact@exemple.fr"}</a>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white/[0.01] border border-white/5 rounded-xl">

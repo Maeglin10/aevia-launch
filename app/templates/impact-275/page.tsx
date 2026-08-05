@@ -2996,7 +2996,7 @@ function FooterSection() {
     'Contact': [
       { label: '18, rue Breteuil — 13006', href: '#contact' },
       { label: '04 91 XX XX XX', href: 'tel:0491000000' },
-      { label: 'contact@cabinet-faure.fr', href: 'mailto:contact@cabinet-faure.fr' },
+      { label: fd?.email ?? 'contact@cabinet-faure.fr', href: `mailto:${fd?.email ?? 'contact@cabinet-faure.fr'}` },
       { label: 'Prendre RDV', href: '#contact' },
     ],
   };
