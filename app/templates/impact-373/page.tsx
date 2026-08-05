@@ -11,6 +11,7 @@ import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientEyebrow,
   clientName,
   clientPhotos,
   clientReviews,
@@ -222,7 +223,7 @@ export default function RivieraChauffeurPage() {
       {/* ── HERO ────────────────────────────────────────────────────────── */}
 
       <section className="i373-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
-        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Chauffeur privé · Côte d'Azur</span>
+        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>{clientEyebrow(sessionData) ?? "Chauffeur privé · Côte d'Azur"}</span>
         <HardCutRebuild index={i} stagger={0.09}>
               {[
                 <div key="k" style={{ fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 12 }}>{S.k}</div>,

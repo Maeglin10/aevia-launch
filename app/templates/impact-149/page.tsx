@@ -18,6 +18,7 @@ import {
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3"
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientName,
   clientPhotos,
@@ -88,9 +89,7 @@ function AetherHero({ headline, subline }: { headline?: React.ReactNode; subline
           <div
             className="absolute left-4 bottom-8 z-10 text-[10px] uppercase tracking-[0.3em] text-white/70 hidden md:block"
             style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
-          >
-            Switzerland · Iceland · Japan
-          </div>
+          >{clientEyebrow(sessionData) ?? "Switzerland · Iceland · Japan"}</div>
         </div>
 
         {/* the type half */}

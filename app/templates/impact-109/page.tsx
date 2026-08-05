@@ -9,6 +9,7 @@ import { Volume2, ArrowRight, Menu, Star, Activity, Shield, Mic2, Speaker, Headp
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -228,7 +229,7 @@ export default function AetherSoundPage() {
             <Reveal>
               <div className="flex items-center justify-center gap-4 mb-12">
                 <AudioBars active />
-                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/40">Pure Signal Integrity</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/40">{clientEyebrow(sessionData) ?? "Pure Signal Integrity"}</span>
                 <AudioBars active />
               </div>
             </Reveal>

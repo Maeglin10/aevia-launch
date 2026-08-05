@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -268,7 +269,7 @@ export default function BatirSolidePage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-6">
               <div className="w-10 h-[2px] bg-[var(--brand,#d4a96a)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a96a)]">Maçon & Gros Œuvre · Région PACA</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a96a)]">{clientEyebrow(sessionData) ?? "Maçon & Gros Œuvre · Région PACA"}</span>
             </div>
           </motion.div>
 

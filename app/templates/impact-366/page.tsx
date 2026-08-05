@@ -11,6 +11,7 @@ import { CrossPush } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -215,9 +216,7 @@ export default function PotagerEstuairePage() {
         <CrossPush images={HERO.map((s) => s.img)} index={i} overlay={0.5} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,8,10,0.92) 0%, rgba(8,8,10,0.40) 46%, rgba(8,8,10,0.10) 100%)", pointerEvents: "none" }} />
         <div className="i366-herotext" style={{ position: "relative", zIndex: 1, padding: "0 72px 76px", maxWidth: 860 }}>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.hi }}>
-            Maraîchage bio · Golfe du Morbihan
-          </motion.span>
+          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.hi }}>{clientEyebrow(sessionData) ?? "Maraîchage bio · Golfe du Morbihan"}</motion.span>
           <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.9, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(36px, 5vw, 64px)", color: "#fff", lineHeight: 1.1, margin: "16px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>
             {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Un champ, cent familles,"}<br /><em style={{ color: C.hi }}>{clientHeroLine(sessionData, 1, 2, 14) ?? "et les saisons pour contrat."}</em></>)}
           </>)}</motion.h1>

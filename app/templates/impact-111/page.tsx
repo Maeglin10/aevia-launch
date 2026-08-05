@@ -9,6 +9,7 @@ import { Ruler, ArrowRight, Menu, Star, MapPin, TreePine, Shovel, Layers, Mounta
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -219,7 +220,7 @@ export default function TerraArchitecturePage() {
                 <Reveal>
                   <div className="flex items-center gap-4 mb-8">
                      <div className="w-12 h-[1px] bg-[#3d3a35]/30" />
-                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#3d3a35]/50">Sustainability First Architecture</span>
+                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#3d3a35]/50">{clientEyebrow(sessionData) ?? "Sustainability First Architecture"}</span>
                   </div>
                 </Reveal>
                 <Reveal delay={0.1} y={60}>

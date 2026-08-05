@@ -8,6 +8,7 @@ import Link from "next/link";
 import { ArrowRight, Search, Menu, X, Clock, BookOpen, TrendingUp, Users, Star, Check, Rss, MessageSquare, Camera, Link2, ChevronRight, Calendar } from "lucide-react";
 import {
   clientCity,
+  clientEyebrow,
   clientFaq,
   clientName,
   clientPhotos,
@@ -600,9 +601,7 @@ export default function EssentialBlogPage() {
                   <div style={{ padding: "4px 12px", background: C.accent, fontSize: 10, fontFamily: C.sans, fontWeight: 800, letterSpacing: "0.12em", color: C.white }}>
                     {FEATURED_ARTICLE.cat}
                   </div>
-                  <div style={{ fontSize: 11, color: "rgba(250,250,250,0.3)", fontFamily: C.sans, letterSpacing: "0.06em" }}>
-                    À LA UNE
-                  </div>
+                  <div style={{ fontSize: 11, color: "rgba(250,250,250,0.3)", fontFamily: C.sans, letterSpacing: "0.06em" }}>{clientEyebrow(sessionData) ?? "À LA UNE"}</div>
                 </div>
                 <h1 className="imx-hero-title" style={{
                   fontFamily: C.serif, fontSize: "clamp(30px, 3.5vw, 52px)",

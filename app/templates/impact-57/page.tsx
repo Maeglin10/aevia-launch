@@ -20,6 +20,7 @@ import {
 } from './shared';
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -1052,9 +1053,7 @@ return (
               fontSize: '0.65rem',
               color: C.textDim,
             }}
-          >
-            AWWWARDS SOTD ×38
-          </div>
+          >{clientEyebrow(sessionData) ?? "AWWWARDS SOTD ×38"}</div>
         </div>
 
         {/* Bottom content */}

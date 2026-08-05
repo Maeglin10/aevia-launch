@@ -20,6 +20,7 @@ import { Sparkles, Droplets, Wind, Menu, X, ArrowRight, Flower2, Moon, Sun, Star
 import { DWELL, useSlides, HeldSwap, BlurThrough, CircularLabel, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -515,7 +516,7 @@ export default function EclatLuxuryPage() {
               className="mb-6 flex justify-center items-center gap-4"
             >
               <span className="h-[1px] w-12 bg-fuchsia-900/50 block" />
-              <span className="text-[10px] tracking-[0.4em] text-fuchsia-300/80 uppercase font-bold">Haute Parfumerie</span>
+              <span className="text-[10px] tracking-[0.4em] text-fuchsia-300/80 uppercase font-bold">{clientEyebrow(sessionData) ?? "Haute Parfumerie"}</span>
               <span className="h-[1px] w-12 bg-fuchsia-900/50 block" />
             </motion.div>
             

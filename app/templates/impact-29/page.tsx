@@ -12,6 +12,7 @@ import Image from "next/image"
 import { Reveal, ScrollImage, projects, skills, timeline, stats, services, process, testimonials, clients } from "./shared"
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientName,
   clientPhotos,
@@ -91,9 +92,7 @@ return (
           }} />
         </div>
         <motion.div style={{ y: heroY }} className="max-w-6xl mx-auto px-6 relative w-full">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-[var(--brand,#00F5D4)] text-xs mb-4">
-            <span className="text-[#475569]">$ </span>whoami
-          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-[var(--brand,#00F5D4)] text-xs mb-4">{clientEyebrow(sessionData) ?? "$ whoami"}</motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

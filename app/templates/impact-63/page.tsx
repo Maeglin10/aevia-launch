@@ -22,6 +22,7 @@ import {
 } from "@/lib/templates/hero-kit";
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -88,9 +89,7 @@ function HeroWatch() {
                 transition={{ duration: 0.8, ease: EASE_3 }}
                 style={{ width: 44, height: 1, display: "block" }}
               />
-              <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.34em", textTransform: "uppercase", color: C.textMuted }}>
-                Manufacture · Vallée de Joux
-              </span>
+              <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.34em", textTransform: "uppercase", color: C.textMuted }}>{clientEyebrow(sessionData) ?? "Manufacture · Vallée de Joux"}</span>
             </Rise>
 
             <motion.h1

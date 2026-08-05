@@ -51,6 +51,7 @@ import {
 } from "lucide-react";
 import {
   clientCity,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -1438,9 +1439,7 @@ export default function HorizonMaritimePage() {
                   letterSpacing: 4,
                   textTransform: "uppercase",
                 }}
-              >
-                Private Maritime Journeys
-              </p>
+              >{clientEyebrow(sessionData) ?? "Private Maritime Journeys"}</p>
             </div>
 
             {/* Main headline */}
