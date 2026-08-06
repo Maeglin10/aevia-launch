@@ -80,7 +80,7 @@ function rendreLesBoutonsLisibles() {
 */
 function detacherLesTextesDuClient(donnees: Record<string, unknown> | undefined) {
   if (!donnees) return;
-  const valeurs = ["tagline", "businessName", "city", "phone", "address"]
+  const valeurs = ["tagline", "businessName", "city", "phone", "address", "businessType"]
     .map((k) => (typeof donnees[k] === "string" ? (donnees[k] as string).trim() : ""))
     .filter((v) => v.length >= 4);
   if (valeurs.length === 0) return;
