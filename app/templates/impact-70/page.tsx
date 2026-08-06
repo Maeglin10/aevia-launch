@@ -195,7 +195,7 @@ return (
             <span>BERLIN / IBIZA / TOKYO / MIAMI</span>
             <div className="flex gap-6">
               <Music className="w-4 h-4 text-[var(--brand,#ff00ff)] animate-pulse" />
-              <Sparkles className="w-4 h-4 text-[#4b0082]" />
+              <Sparkles className="w-4 h-4 text-[var(--brand,#4b0082)]" />
             </div>
           </div>
         </section>
@@ -362,7 +362,7 @@ return (
 
               {/* Obsidien */}
               <Reveal delay={0.2}>
-                <div className="bg-[#0d000d] border border-white/10 p-10 flex flex-col gap-8 hover:border-[#4b0082]/50 transition-colors duration-500">
+                <div className="bg-[#0d000d] border border-white/10 p-10 flex flex-col gap-8 hover:border-[var(--brand,#4b0082)]/50 transition-colors duration-500">
                   <div>
                     <div className="text-[10px] font-bold tracking-[0.4em] uppercase text-white/20 mb-3">Prestige</div>
                     <h3 className="text-3xl font-bold text-white uppercase tracking-wider italic">Obsidien</h3>
@@ -374,7 +374,7 @@ return (
                   </p>
                   <button
                     onClick={() => router.push("/templates/impact-70/members")}
-                    className="mt-auto px-8 py-4 border border-[#4b0082]/50 text-white/60 font-bold uppercase tracking-widest text-[10px] rounded-full hover:bg-[#4b0082]/20 hover:text-white transition-all cursor-pointer bg-transparent"
+                    className="mt-auto px-8 py-4 border border-[var(--brand,#4b0082)]/50 text-white/60 font-bold uppercase tracking-widest text-[10px] rounded-full hover:bg-[var(--brand,#4b0082)]/20 hover:text-white transition-all cursor-pointer bg-transparent"
                   >
                     Rejoindre
                   </button>
@@ -416,7 +416,7 @@ return (
                   name: "LUMIÈRE NOIRE",
                   genre: "Ambient / Ceremonial",
                   gradient: "from-[#050005] via-[#200038] to-[#0d000d]",
-                  accent: "#4b0082",
+                  accent: "var(--brand,#4b0082)",
                 },
               ].map((artist, i) => (
                 <Reveal key={i} delay={i * 0.1}>
@@ -489,7 +489,7 @@ return (
         {/* ── CTA ───────────────────── */}
         <section className="py-60 bg-white text-black text-center relative overflow-hidden">
           {/* Abstract Circle Gradient */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-gradient-to-tr from-[var(--brand,#ff00ff)]/20 to-[#4b0082]/20 blur-[120px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-gradient-to-tr from-[var(--brand,#ff00ff)]/20 to-[var(--brand,#4b0082)]/20 blur-[120px] pointer-events-none" />
 
           <div className="max-w-4xl mx-auto px-6 relative z-10">
             <Reveal>

@@ -489,7 +489,7 @@ return (
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 mt-10 pt-8 flex justify-between items-center text-xs text-white/20">
-          <span>© 2026 {clientName(sessionData) ?? "Atelier Mécanique. Tous"} droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Atelier Mécanique."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a
             href="/templates/impact-13"
             onClick={(e) => { e.preventDefault(); goTo("legal"); }}

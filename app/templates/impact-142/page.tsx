@@ -191,7 +191,7 @@ export default function VerdantImpactPage() {
 
   // Dynamic Services & Testimonials Mutation for Session Data
   return (
-    <div className="bg-[#f6faf4] text-[#1a2e1a] font-sans min-h-dvh selection:bg-emerald-500 selection:text-white overflow-x-hidden">
+    <div className="bg-[#f6faf4] text-[var(--brand,#1a2e1a)] font-sans min-h-dvh selection:bg-emerald-500 selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f6faf4]/90 backdrop-blur-xl border-b border-emerald-600/10 py-4" : "bg-transparent py-8"}`}>
@@ -211,13 +211,13 @@ export default function VerdantImpactPage() {
             <span className="text-xl font-bold tracking-tight">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Verdant</>)}</span>
           </>
             )}</Link>
-          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#1a2e1a]/40">
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1a2e1a)]/40">
             {["Impact", "Programs", "Pricing", "About", "Contact"].map(l => (
               <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-emerald-600 transition-colors">{l}</a>
             ))}
           </div>
           <div className="flex items-center gap-4">
-            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-6 py-2.5 text-[#1a2e1a]/60 text-[10px] font-bold uppercase tracking-widest hover:text-emerald-600 transition-colors">Log In</button>
+            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-6 py-2.5 text-[var(--brand,#1a2e1a)]/60 text-[10px] font-bold uppercase tracking-widest hover:text-emerald-600 transition-colors">Log In</button>
             <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-6 py-2.5 bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-emerald-700 transition-colors">{tr({ formData: fd }, "Get Started")}</button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6" /></SheetTrigger>
@@ -246,7 +246,7 @@ export default function VerdantImpactPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[#1a2e1a]/50 font-light leading-relaxed mb-8">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="max-w-lg text-lg text-[var(--brand,#1a2e1a)]/50 font-light leading-relaxed mb-8">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Measurable climate action for individuals and businesses. Track your carbon footprint, offset with verified projects.
               </>}</p>
               <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-4 bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-emerald-700 transition-colors">
@@ -293,7 +293,7 @@ export default function VerdantImpactPage() {
                       </div>
                       <div>
                         <h3 className="text-xl font-bold mb-2 group-hover:text-emerald-600 transition-colors">{p.title}</h3>
-                        <p className="text-sm text-[#1a2e1a]/40 leading-relaxed">{p.desc}</p>
+                        <p className="text-sm text-[var(--brand,#1a2e1a)]/40 leading-relaxed">{p.desc}</p>
                       </div>
                     </div>
                   </div>
@@ -318,11 +318,11 @@ export default function VerdantImpactPage() {
                   <div className={`p-8 rounded-2xl border h-full flex flex-col ${p.popular ? "bg-emerald-50 border-emerald-600/30 relative" : "bg-[#f6faf4] border-emerald-600/10"}`}>
                     {p.popular && <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1 bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full">Best Value</div>}
                     <h3 className="text-xl font-bold mb-2">{p.name}</h3>
-                    <div className="text-4xl font-black text-emerald-600 mb-2">{p.price}<span className="text-lg text-[#1a2e1a]/30 font-normal">{p.price !== "Custom" ? "/mo" : ""}</span></div>
-                    <p className="text-sm text-[#1a2e1a]/40 mb-6">{p.desc}</p>
+                    <div className="text-4xl font-black text-emerald-600 mb-2">{p.price}<span className="text-lg text-[var(--brand,#1a2e1a)]/30 font-normal">{p.price !== "Custom" ? "/mo" : ""}</span></div>
+                    <p className="text-sm text-[var(--brand,#1a2e1a)]/40 mb-6">{p.desc}</p>
                     <ul className="space-y-3 flex-1 mb-8">
                       {p.features.map((f, j) => (
-                        <li key={j} className="flex items-center gap-2 text-sm text-[#1a2e1a]/60">
+                        <li key={j} className="flex items-center gap-2 text-sm text-[var(--brand,#1a2e1a)]/60">
                           <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> {f}
                         </li>
                       ))}
@@ -368,10 +368,10 @@ export default function VerdantImpactPage() {
                 <Reveal delay={0.2}>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-emerald-600 block mb-4">Our DNA</span>
                   <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>Restoring Balance to the Planet.</>}</h2>
-                  <p className="text-sm text-[#1a2e1a]/60 leading-relaxed mb-6">{c?.aboutText ?? <>
+                  <p className="text-sm text-[var(--brand,#1a2e1a)]/60 leading-relaxed mb-6">{c?.aboutText ?? <>
                     Founded in 2021, Verdant was built on a simple premise: climate action should be transparent, accessible, and highly measurable. We partner with local communities and leverage cutting-edge technology to verify every ton of carbon offset.
                   </>}</p>
-                  <p className="text-sm text-[#1a2e1a]/60 leading-relaxed">
+                  <p className="text-sm text-[var(--brand,#1a2e1a)]/60 leading-relaxed">
                     By combining community-led reforestation with high-tech ocean reclamation, we ensure your contributions create long-term ecological resilience.
                   </p>
                 </Reveal>
@@ -393,9 +393,9 @@ export default function VerdantImpactPage() {
               {AVIS_INLINE.map((t, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="p-8 bg-[#f6faf4] border border-emerald-600/5 rounded-2xl flex flex-col justify-between h-full hover:border-emerald-600/20 transition-all duration-300">
-                    <p className="text-[#1a2e1a]/60 leading-relaxed italic mb-8">"{t.quote}"</p>
+                    <p className="text-[var(--brand,#1a2e1a)]/60 leading-relaxed italic mb-8">"{t.quote}"</p>
                     <div>
-                      <div className="font-bold text-sm text-[#1a2e1a]">{t.author}</div>
+                      <div className="font-bold text-sm text-[var(--brand,#1a2e1a)]">{t.author}</div>
                       <div className="text-xs text-emerald-600 font-medium mt-1">{t.role}</div>
                     </div>
                   </div>
@@ -416,21 +416,21 @@ export default function VerdantImpactPage() {
               {contactSubmitted ? (
                 <div className="p-12 bg-white rounded-3xl border border-emerald-600/20 shadow-sm flex flex-col items-center justify-center">
                   <CheckCircle2 className="w-12 h-12 text-emerald-600 mb-4" />
-                  <p className="text-xl font-bold text-[#1a2e1a]">Merci, nous vous répondrons sous 24h.</p>
+                  <p className="text-xl font-bold text-[var(--brand,#1a2e1a)]">Merci, nous vous répondrons sous 24h.</p>
                 </div>
               ) : (
                 <form onSubmit={(e) => { e.preventDefault(); setContactSubmitted(true); }} className="space-y-4 max-w-md mx-auto text-left">
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[#1a2e1a]/50 mb-2">Name</label>
-                    <input required type="text" placeholder="John Doe" className="w-full px-5 py-3.5 bg-white border border-emerald-600/10 rounded-xl text-sm focus:outline-none focus:border-emerald-600 transition-colors text-[#1a2e1a]" />
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#1a2e1a)]/50 mb-2">Name</label>
+                    <input required type="text" placeholder="John Doe" className="w-full px-5 py-3.5 bg-white border border-emerald-600/10 rounded-xl text-sm focus:outline-none focus:border-emerald-600 transition-colors text-[var(--brand,#1a2e1a)]" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[#1a2e1a]/50 mb-2">Email</label>
-                    <input required type="email" placeholder="john@example.com" className="w-full px-5 py-3.5 bg-white border border-emerald-600/10 rounded-xl text-sm focus:outline-none focus:border-emerald-600 transition-colors text-[#1a2e1a]" />
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#1a2e1a)]/50 mb-2">Email</label>
+                    <input required type="email" placeholder="john@example.com" className="w-full px-5 py-3.5 bg-white border border-emerald-600/10 rounded-xl text-sm focus:outline-none focus:border-emerald-600 transition-colors text-[var(--brand,#1a2e1a)]" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[#1a2e1a]/50 mb-2">Message</label>
-                    <textarea required rows={4} placeholder="How can we help your business offset carbon?" className="w-full px-5 py-3.5 bg-white border border-emerald-600/10 rounded-xl text-sm focus:outline-none focus:border-emerald-600 transition-colors text-[#1a2e1a]" />
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#1a2e1a)]/50 mb-2">Message</label>
+                    <textarea required rows={4} placeholder="How can we help your business offset carbon?" className="w-full px-5 py-3.5 bg-white border border-emerald-600/10 rounded-xl text-sm focus:outline-none focus:border-emerald-600 transition-colors text-[var(--brand,#1a2e1a)]" />
                   </div>
                   <button type="submit" className="w-full py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 transition-colors duration-300">
                     Send Message
@@ -442,7 +442,7 @@ export default function VerdantImpactPage() {
         </section>
       </main>
 
-      <footer className="bg-[#1a2e1a] text-white pt-24 pb-12 px-6">
+      <footer className="bg-[var(--brand,#1a2e1a)] text-white pt-24 pb-12 px-6">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
           <div>
             <div className="flex items-center gap-3 mb-6">

@@ -1664,7 +1664,7 @@ export default function Impact200Page() {
                 className="text-white/30 text-xs italic mb-1"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
-                © {new Date().getFullYear()} {clientName(sessionData) ?? "Cérémonie. Tous"} droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+                © {new Date().getFullYear()} {clientName(sessionData) ?? "Cérémonie."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
               </p>
               <p
                 className="text-white/20 text-xs"

@@ -530,7 +530,7 @@ export default function NoirCouturePage() {
             ))}
           </div>
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
-            <span>© 2026 {clientName(sessionData) ?? "Noir Couture. Tous"} droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+            <span>© 2026 {clientName(sessionData) ?? "Noir Couture."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div className="flex gap-6">
               <a
                 href="/templates/impact-12"
