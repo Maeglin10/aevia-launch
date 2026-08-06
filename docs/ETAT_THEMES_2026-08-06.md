@@ -111,3 +111,32 @@ dentiste et une fleuriste à un avocat : « care » et « conseil » se trouvent
 partout. Il exige désormais un mot qui nomme le métier ou, à défaut, la même
 catégorie, un voisinage trop proche étant écarté — le client choisit sur la
 démonstration qu'il regarde, photo de chien comprise.
+
+## Mesures finales sur les 373
+
+| Contrôle | Avant | Après |
+|---|---|---|
+| Pages qui plantent avec les données d'un client | 5 | **0** |
+| Titres coupés par la barre de navigation | 23 | **0** |
+| Accroche du client en double ou absente | 16 / 26 | **0 / 0** |
+| Mots collés, apostrophes perdues, entités affichées | 19 / 21 / 81 | **0** |
+| Pied de page portant la donnée de la démonstration | 74 | **9** (décor de thème) |
+| Débordement latéral, téléphone et ordinateur | — | **0** |
+| Textes du client hors écran | 57 | **0** |
+| Métiers ne voyant qu'une majorité de jumeaux | 10 / 49 | **0** |
+| Textes superposés | 10 | **3** (partis pris typographiques) |
+
+## Ce qui reste, et pourquoi
+
+- **Neuf pieds de page** nomment une ville de décor — « Vieux-Lille », « Paris /
+  Tokyo / Zürich » sur une agence internationale fictive. Les remplacer par la
+  ville du client donnerait « Annecy / Tokyo / Zürich ». Le client les modifie
+  par les retouches de section.
+- **Trois superpositions** sont voulues : un « VULCAN » en filigrane derrière le
+  titre, un nom d'atelier écrit verticalement, deux lignes de titre décalées.
+- **Cent vingt-deux zones tactiles** font moins de trente pixels de haut : ce
+  sont des liens de menu en ligne. Les agrandir toucherait au dessin de chaque
+  en-tête.
+- **Quatre-vingt-quatre thèmes** ont un texte peu contrasté à l'état nu. C'est
+  le choix de leurs auteurs ; seuls les textes que la personnalisation dégradait
+  ont été traités.
