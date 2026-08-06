@@ -76,3 +76,38 @@ Un chiffre à zéro ne dit pas qu'une page est belle. Les trois défauts corrig�
 aujourd'hui ont tous été **vus sur une capture d'écran d'abord**, mesurés
 ensuite. La planche contact reste le point de départ ; l'instrument sert à
 généraliser à 373, pas à décider.
+
+## Ce que le client écrit, et ce que son site en fait
+
+Le test se fait par le wizard, comme un client : « Ateliers Vidal & Fils »,
+plombier à Annecy, une accroche, un téléphone, une couleur. Puis on regarde ce
+que la page affiche.
+
+Quatre défauts, tous sur la donnée du client lui-même :
+
+- **Son nom soudé à celui de la démonstration.** Le logo de cinq thèmes tient en
+  deux fragments — « Bâtir » puis « Solide » en couleur d'accent. Seul le premier
+  était câblé : le site affichait « ATELIERS VIDAL & FILSSOLIDE ».
+- **Son accroche affichée deux fois**, dont une en gris sur une photo grise,
+  mesurée à 1,1:1. Cinq thèmes appelaient à la fois le sous-titre du hero et le
+  bloc prévu pour les titres trop étroits — les deux rendent la même phrase.
+- **Son accroche affichée trois fois**, sur impact-118 et impact-123 : dans une
+  boucle, chaque carte remplaçait sa propre description par l'accroche.
+- **Son accroche nulle part.** Mesure en cours de correction.
+
+## Dix métiers ne voyaient que des jumeaux
+
+La ressemblance entre thèmes ne gêne pas le client dans la galerie — il ne la
+parcourt pas. Elle le gêne dans **sa** liste. Mesuré : dix métiers sur
+quarante-neuf proposaient une majorité de modèles issus des deux groupes qui se
+ressemblent ; un dentiste voyait cinq propositions quasi identiques sur six.
+
+Le remède n'est pas de retoucher ces thèmes — pris un par un, ils sont bons — ni
+de les cacher. On complète chaque liste avec des modèles variés du même domaine.
+Après : zéro métier dans ce cas, minimum quatre modèles chacun.
+
+Le premier filtre, par mots-clés, proposait une clinique vétérinaire à un
+dentiste et une fleuriste à un avocat : « care » et « conseil » se trouvent
+partout. Il exige désormais un mot qui nomme le métier ou, à défaut, la même
+catégorie, un voisinage trop proche étant écarté — le client choisit sur la
+démonstration qu'il regarde, photo de chien comprise.
