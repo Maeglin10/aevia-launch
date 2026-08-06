@@ -2222,7 +2222,7 @@ function Footer({ accentColor }: { accentColor: string }) {
       </div>
 
       <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12 }}>
-        © 2025 {clientName(sessionData) ?? "Studio Nail. All"} rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+        © 2025 {clientName(sessionData) ?? "Studio Nail."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </div>
     </footer>
   );

@@ -37,7 +37,7 @@ let brand: any = null;
    tuiles CSS — pictogramme, teinte, libellé — comme une signalétique. */
 
 let C: Record<string, string> = {
-  bg: "#f7faf8", bgSection: "#eef4f0", bgDark: "#123528",
+  bg: "#f7faf8", bgSection: "#eef4f0", bgDark: "var(--brand,#123528)",
   text: "#14231c", textMuted: "#5b6b62",
   accent: "var(--brand,#1a7a52)", accentDark: "#125c3d", accentLight: "#dcefe5",
   mint: "#7fc7a4",
@@ -60,7 +60,7 @@ const HERO_UNIVERS = [
     line: "Votre ordonnance préparée avant votre arrivée.",
     tiles: [
       { icon: Pill, t: "Renouvellement", d: "Traitements chroniques suivis, rappels quand il est temps.", bg: "#e3f2ea", fg: "#125c3d" },
-      { icon: ShieldCheck, t: "Tiers payant", d: "Aucune avance de frais avec carte Vitale et mutuelle.", bg: "#123528", fg: "#dcefe5" },
+      { icon: ShieldCheck, t: "Tiers payant", d: "Aucune avance de frais avec carte Vitale et mutuelle.", bg: "var(--brand,#123528)", fg: "#dcefe5" },
       { icon: Stethoscope, t: "Conseil du pharmacien", d: "Interactions vérifiées à chaque délivrance.", bg: "#f2ecdc", fg: "#5c4a1e" },
     ],
   },
@@ -68,7 +68,7 @@ const HERO_UNIVERS = [
     k: "Prévention",
     line: "Vaccins et dépistage, sans rendez-vous médical.",
     tiles: [
-      { icon: Syringe, t: "Vaccination", d: "Grippe, COVID, rappels — pharmaciens formés, sur place.", bg: "#123528", fg: "#dcefe5" },
+      { icon: Syringe, t: "Vaccination", d: "Grippe, COVID, rappels — pharmaciens formés, sur place.", bg: "var(--brand,#123528)", fg: "#dcefe5" },
       { icon: HeartPulse, t: "Tests TROD", d: "Angine, glycémie, tension : résultat en quelques minutes.", bg: "#e3f2ea", fg: "#125c3d" },
       { icon: CheckCircle, t: "Entretiens", d: "Asthme, anticoagulants : suivis personnalisés remboursés.", bg: "#e8e9f4", fg: "#2e3470" },
     ],
@@ -79,7 +79,7 @@ const HERO_UNIVERS = [
     tiles: [
       { icon: Baby, t: "Bébé & maman", d: "Lait, soins, tire-lait en location sur ordonnance.", bg: "#f2ecdc", fg: "#5c4a1e" },
       { icon: Cross, t: "Matériel médical", d: "Béquilles, lits, tensiomètres — vente et location LPP.", bg: "#e3f2ea", fg: "#125c3d" },
-      { icon: Star, t: "Dermo-cosmétique", d: "Peaux sensibles et traitements : conseils de diplômés.", bg: "#123528", fg: "#dcefe5" },
+      { icon: Star, t: "Dermo-cosmétique", d: "Peaux sensibles et traitements : conseils de diplômés.", bg: "var(--brand,#123528)", fg: "#dcefe5" },
     ],
   },
 ];
@@ -328,7 +328,7 @@ export default function PharmacieDuParcPage() {
                   <span style={{ fontSize: 14.5, lineHeight: 1.65, opacity: 0.9 }}>{step}</span>
                 </div>
               ))}
-              <a href={`mailto:${mail}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 10, background: C.mint, color: "#123528", borderRadius: 10, padding: "13px 26px", fontWeight: 700, fontSize: 14.5, textDecoration: "none" }}>
+              <a href={`mailto:${mail}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 10, background: C.mint, color: "var(--brand,#123528)", borderRadius: 10, padding: "13px 26px", fontWeight: 700, fontSize: 14.5, textDecoration: "none" }}>
                 {mail}
               </a>
             </div>

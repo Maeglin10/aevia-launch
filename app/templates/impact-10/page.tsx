@@ -1826,7 +1826,7 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
           }}
         >
           <span style={{ fontFamily: SANS, fontSize: '0.58rem', color: `${CREAM}35`, letterSpacing: '0.08em' }}>
-            © 2026 {clientName(sessionData) ?? "Grand Palais. All"} rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2026 {clientName(sessionData) ?? "Grand Palais."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: 'flex', gap: '2rem' }}>
             {([

@@ -1017,7 +1017,7 @@ export default function StudioPelikanPage() {
             <button onClick={() => goTo("films")} className="hover:text-[var(--brand,#C9A05A)] transition-colors cursor-pointer">Films</button>
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#C9A05A)] transition-colors cursor-pointer">Mentions légales</button>
           </div>
-          <span>© 2026 {clientName(sessionData) ?? "Studio Pelikan. Tous"} droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Studio Pelikan."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         </div>
       </footer>
     </div>

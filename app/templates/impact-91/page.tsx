@@ -1801,7 +1801,7 @@ function Footer() {
             className="text-[11px] tracking-[0.08em]"
             style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}40` }}
           >
-            © 2025 {clientName(sessionData) ?? "Aurelia Joaillerie. Tous"} droits réservés. Entreprise du Patrimoine Vivant.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2025 {clientName(sessionData) ?? "Aurelia Joaillerie."} Tous droits réservés. Entreprise du Patrimoine Vivant.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div className="flex gap-6">
             <Link

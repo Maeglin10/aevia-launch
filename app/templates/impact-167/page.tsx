@@ -49,7 +49,7 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  navy: "#1a2744",
+  navy: "var(--brand,#1a2744)",
   navyDark: "#0f1829",
   navyMid: "#243156",
   ivory: "#f8f5ef",
@@ -2143,7 +2143,7 @@ export default function Impact167Page() {
             color: "rgba(255,255,255,0.25)",
           }}
         >
-          © 2025 {clientName(sessionData) ?? "Rive Gauche Immobilier. Tous"} droits réservés. Carte professionnelle T n° 75-XXX-2024.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2025 {clientName(sessionData) ?? "Rive Gauche Immobilier."} Tous droits réservés. Carte professionnelle T n° 75-XXX-2024.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </div>
         <div style={{ display: "flex", gap: 28 }}>
           {["Mentions légales", "Confidentialité", "Plan du site"].map((link) => (

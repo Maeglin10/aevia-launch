@@ -196,7 +196,7 @@ function MANIFEST_LIVE() {
       name: "Soleil // 02",
       notes: "Grasse Rose / Saffron / Sandalwood",
       desc: "Liquid gold trapped in crystal. The blinding warmth of a Mediterranean summer.",
-      color: "from-[#221811] to-[#3a200e]",
+      color: "from-[#221811] to-[var(--brand,#3a200e)]",
       accent: "#fbbf24"
     },
     {
