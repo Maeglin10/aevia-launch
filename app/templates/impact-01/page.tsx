@@ -1210,7 +1210,9 @@ return (
             y: heroTextY,
             opacity: heroOpacity,
             textAlign: "center",
-            padding: "0 24px",
+            /* TITRE_DEGAGE — la première ligne du titre passait sous la barre
+               de navigation : trente-deux pixels de lettres rognés. */
+            padding: "56px 24px 0",
             maxWidth: 1100,
             margin: "0 auto",
           }}
