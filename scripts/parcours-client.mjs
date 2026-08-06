@@ -54,14 +54,19 @@ const DOMAINE_DE = {};
   let domaine = null;
   for (const ligne of bloc.split("\n")) {
     // Le domaine s'ouvre par son identifiant, seul sur sa ligne.
-    const dom = /^\s*id:\s*'([\w_-]+)',\s*$/.exec(ligne);
+    /*
+      Un libellé qui porte une apostrophe est écrit entre guillemets doubles —
+      « Décorateur d'intérieur » — et ne lire que les apostrophes rendait ce
+      métier introuvable dans le wizard.
+    */
+    const dom = /^\s*id:\s*['"]([\w_-]+)['"],\s*$/.exec(ligne);
     if (dom) { domaine = dom[1]; continue; }
-    const domLabel = /^\s*label:\s*'((?:[^'\\]|\\.)*)',\s*$/.exec(ligne);
-    if (domLabel && domaine && !LIBELLES[domaine]) { LIBELLES[domaine] = domLabel[1].replace(/\\'/g, "'"); continue; }
+    const domLabel = /^\s*label:\s*(['"])((?:(?!\1)[^\\]|\\.)*)\1,\s*$/.exec(ligne);
+    if (domLabel && domaine && !LIBELLES[domaine]) { LIBELLES[domaine] = domLabel[2].replace(/\\'/g, "'"); continue; }
     // Une spécialité tient sur une ligne : identifiant puis libellé.
-    const spec = /\{\s*id:\s*'([\w_-]+)',\s*label:\s*'((?:[^'\\]|\\.)*)'/.exec(ligne);
+    const spec = /\{\s*id:\s*['"]([\w_-]+)['"],\s*label:\s*(['"])((?:(?!\2)[^\\]|\\.)*)\2/.exec(ligne);
     if (spec) {
-      LIBELLES[spec[1]] = spec[2].replace(/\\'/g, "'");
+      LIBELLES[spec[1]] = spec[3].replace(/\\'/g, "'");
       DOMAINE_DE[spec[1]] = domaine;
     }
   }
