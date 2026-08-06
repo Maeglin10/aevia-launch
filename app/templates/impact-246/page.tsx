@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -2161,7 +2162,7 @@ function Footer() {
         { label: 'Devis en ligne', href: '#devis' },
         { label: 'Interventions 24h/7j', href: '#interventions' },
         { label: 'Certifications RGE', href: "/templates/impact-246" },
-        { label: 'contact@thermofix-pro.fr', href: 'mailto:contact@thermofix-pro.fr' },
+        { label: (clientEmail(sessionData) ?? 'contact@thermofix-pro.fr'), href: 'mailto:contact@thermofix-pro.fr' },
       ],
     },
   ];

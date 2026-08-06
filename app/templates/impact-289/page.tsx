@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -2342,7 +2343,7 @@ function FooterSection() {
       items: [
         { label: 'Diagnostic gratuit', href: '#contact' },
         { label: '03 88 XX XX XX', href: 'tel:+33388000000' },
-        { label: 'contact@schreiber-ec.fr', href: 'mailto:contact@schreiber-ec.fr' },
+        { label: (clientEmail(sessionData) ?? 'contact@schreiber-ec.fr'), href: 'mailto:contact@schreiber-ec.fr' },
         { label: `14 rue de Neudorf, ${clientCity(sessionData) ?? "Strasbourg"}`, href: '#contact' },
       ],
     },

@@ -19,6 +19,8 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
+  clientEmail,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -1944,8 +1946,8 @@ function Footer() {
       items: [
         { label: 'Prendre rendez-vous', href: '#contact' },
         { label: (clientCity(sessionData) ?? 'Paris'), href: '#contact' },
-        { label: '+33 1 45 00 00 00', href: 'tel:+33145000000' },
-        { label: 'contact@mda-avocats.fr', href: 'mailto:contact@mda-avocats.fr' },
+        { label: (clientPhone(sessionData) ?? '+33 1 45 00 00 00'), href: 'tel:+33145000000' },
+        { label: (clientEmail(sessionData) ?? 'contact@mda-avocats.fr'), href: 'mailto:contact@mda-avocats.fr' },
       ],
     },
   ];

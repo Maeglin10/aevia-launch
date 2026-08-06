@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -2075,7 +2076,7 @@ function Footer() {
         items: [
           { label: (clientCity(sessionData) ?? 'Paris') + ' Marais', href: '#reservation' },
           { label: 'Sur rendez-vous', href: '#reservation' },
-          { label: 'studio@noirAbsolu.fr', href: 'mailto:studio@noirAbsolu.fr' },
+          { label: (clientEmail(sessionData) ?? 'studio@noirAbsolu.fr'), href: 'mailto:studio@noirAbsolu.fr' },
           { label: 'Instagram', href: "/templates/impact-262" },
         ],
       },
