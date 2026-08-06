@@ -575,7 +575,7 @@ function Hero() {
             maxWidth: 520,
             lineHeight: 1.65,
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Chaque vêtement naît d&apos;une rencontre — entre votre corps, votre histoire, et les mains de l&apos;atelier."}</p>
+        >{clientHeroSubtitle(sessionData) ?? "Chaque vêtement naît d'une rencontre — entre votre corps, votre histoire, et les mains de l'atelier."}</p>
 
         <a
           href="#contact"

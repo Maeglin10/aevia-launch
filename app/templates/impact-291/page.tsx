@@ -564,7 +564,7 @@ function HeroSection() {
             lineHeight: 1.65,
             margin: '0 0 12px',
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Ostéopathie &amp; thérapies manuelles — pour nourrissons, enfants, adultes et sportifs. Approche globale, techniques douces."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Ostéopathie & thérapies manuelles — pour nourrissons, enfants, adultes et sportifs. Approche globale, techniques douces."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -1263,7 +1263,7 @@ const TESTIMONIALS_SOURCE: Testi[] = [
   {
     quote:
       'Notre bébé de 5 semaines souffrait de coliques et refusait de tourner la tête d\'un côté. L\'ostéopathe a été d\'une douceur impressionnante. Deux séances ont suffi. Le soulagement a été immédiat — pour lui et pour nous.',
-    name: 'Sophie &amp; Arthur B.',
+    name: 'Sophie & Arthur B.',
     role: 'Coliques nourrisson — 5 semaines',
     suivi: 'Suivi sur 2 séances',
   },
@@ -1271,7 +1271,7 @@ const TESTIMONIALS_SOURCE: Testi[] = [
     quote:
       'Je venais pour des céphalées de tension et un stress professionnel intense. Au-delà du soulagement physique, j\'ai retrouvé un sommeil réparateur. Je n\'aurais jamais cru qu\'une manipulation du crâne puisse avoir autant d\'effet sur le mental.',
     name: 'Isabelle M.',
-    role: 'Stress chronique &amp; céphalées',
+    role: 'Stress chronique & céphalées',
     suivi: 'Suivi mensuel depuis 4 mois',
   },
 ];

@@ -2515,7 +2515,7 @@ function FooterSection() {
     {
       title: 'Ressources',
       items: [
-        { label: 'Santé &amp; conseils', href: '#blog' },
+        { label: 'Santé & conseils', href: '#blog' },
         { label: 'Prendre RDV', href: '#rdv' },
         { label: 'Contact', href: '#infos' },
         { label: 'Urgences : 15', href: 'tel:15' },

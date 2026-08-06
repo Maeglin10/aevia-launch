@@ -368,7 +368,7 @@ export default function NovaSpacesPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <h1 style={{ /* TITRE_DEGAGE */ marginTop: 308 }} className="text-5xl sm:text-6xl md:text-7xl lg:text-[14rem] font-light leading-[0.95] lg:leading-[0.85] tracking-tighter mb-12 uppercase text-black break-words">{<>{clientHeroLine(sessionData, 0, 2, 11) ?? "The Silence"}<br />{" "}
+            <h1 className="hero-ecran-court text-5xl sm:text-6xl md:text-7xl lg:text-[14rem] font-light leading-[0.95] lg:leading-[0.85] tracking-tighter mb-12 uppercase text-black break-words">{<>{clientHeroLine(sessionData, 0, 2, 11) ?? "The Silence"}<br />{" "}
               <span className="font-black italic">{clientHeroLine(sessionData, 1, 2, 11) ?? "Of Space."}</span>
             </>}</h1>
             <p className="max-w-md text-xl text-black/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>

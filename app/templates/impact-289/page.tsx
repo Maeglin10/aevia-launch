@@ -564,7 +564,7 @@ function HeroSection() {
             lineHeight: 1.65,
             fontWeight: 400,
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Depuis 28 ans, nous accompagnons les TPE et PME d&apos;Alsace dans leur comptabilité, leur fiscalité et leur développement. Experts du droit local Alsace-Moselle."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Depuis 28 ans, nous accompagnons les TPE et PME d'Alsace dans leur comptabilité, leur fiscalité et leur développement. Experts du droit local Alsace-Moselle."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}

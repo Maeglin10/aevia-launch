@@ -311,7 +311,7 @@ export default function AetherSoundPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <Reveal>
-             <h1 style={{ /* TITRE_DEGAGE */ marginTop: 279 }} className="text-5xl sm:text-6xl md:text-[14rem] font-black leading-[0.9] md:leading-[0.75] tracking-tight md:tracking-tighter mb-12 uppercase text-white italic break-words">{<>The<br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Silence.</span>
+             <h1 style={{ /* TITRE_DEGAGE */ marginTop: 128 }} className="hero-ecran-court text-5xl sm:text-6xl md:text-[14rem] font-black leading-[0.9] md:leading-[0.75] tracking-tight md:tracking-tighter mb-12 uppercase text-white italic break-words">{<>The<br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Silence.</span>
              </>}</h1>
              <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                Redefining the threshold of hearing. Precision sonic instruments for the world's most discerning ears.

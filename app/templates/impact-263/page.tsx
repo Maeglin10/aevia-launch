@@ -750,7 +750,7 @@ function Intro() {
             color: C.ink,
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "demarche.texte") ?? (<>
-          "Un jardin n&apos;est pas un décor. C&apos;est un écosystème dont vous êtes responsable."
+          "Un jardin n'est pas un décor. C'est un écosystème dont vous êtes responsable."
         </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
@@ -1436,7 +1436,7 @@ function EcoPanel() {
                 lineHeight: 1.6,
               }}
             >
-              "Créer de la biodiversité, c&apos;est aussi investir dans votre propre qualité de vie."
+              "Créer de la biodiversité, c'est aussi investir dans votre propre qualité de vie."
             </div>
           </div>
         </div>

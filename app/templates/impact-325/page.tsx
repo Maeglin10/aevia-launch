@@ -363,7 +363,7 @@ export default function Impact325SeminarHub({ session: initialSession }) {
           ) : (
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <Building color={scrolled ? C.primary : C.white} size={28} />
-              <h1 style={{ fontFamily: SERIF, fontSize: "22px", fontWeight: 700, margin: 0, color: scrolled ? C.primary : C.white }}>
+              <h1 className="hero-ecran-court" style={{ fontFamily: SERIF, fontSize: "22px", fontWeight: 700, margin: 0, color: scrolled ? C.primary : C.white }}>
                 {businessName}
               </h1>
             </div>
@@ -562,7 +562,7 @@ export default function Impact325SeminarHub({ session: initialSession }) {
           <div style={{ maxWidth: "700px" }}>
             <motion.h1
               initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-              style={{ /* TITRE_DEGAGE */ marginTop: 308,  fontFamily: SERIF, fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 500, lineHeight: 1.1, margin: "0 0 24px 0", color: C.white }}
+              style={{  fontFamily: SERIF, fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 500, lineHeight: 1.1, margin: "0 0 24px 0", color: C.white }}
             >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
               Elevate Your Corporate Strategy
             </>)}</motion.h1>
