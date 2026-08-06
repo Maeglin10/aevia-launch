@@ -228,6 +228,62 @@ export function clientList(s: SessionLike | null | undefined, cle: string): stri
   return keep(brut.split("\n").map(trimmed), Boolean);
 }
 
+export interface ClientDish {
+  /** Le nom du plat ou de l'article, tel que le client l'a écrit. */
+  name: string;
+  category: string;
+  description: string;
+  price: string;
+  /** Alias, comme ailleurs dans ce fichier. */
+  title: string;
+  desc: string;
+}
+
+function dish(name?: string, category?: string, description?: string, price?: string): ClientDish {
+  const n = name ?? "";
+  const d = description ?? "";
+  return { name: n, title: n, category: category ?? "", description: d, desc: d, price: price ?? "" };
+}
+
+/**
+ * La carte du restaurant, telle que le client l'a saisie.
+ *
+ * Le wizard la demande depuis toujours — l'archétype « restauration » a un champ
+ * « menu », et la session sait la stocker. Mais aucune fonction ne savait la
+ * relire : dix-sept thèmes déclaraient une section « carte » et affichaient les
+ * plats de leur démonstration, sur le site d'un restaurateur qui avait rempli la
+ * sienne. Pour lui, c'est le contenu principal de sa page.
+ */
+export function clientMenu(s: SessionLike | null | undefined): ClientDish[] | undefined {
+  const rows = (s?.businessProfile?.menu ?? []) as any[];
+  const fromProfile = keep(
+    rows.map((r) => dish(trimmed(r?.name) || trimmed(r?.title), trimmed(r?.category), trimmed(r?.description) || trimmed(r?.desc), trimmed(r?.price))),
+    (r) => Boolean(r.name),
+  );
+  if (fromProfile) return fromProfile;
+
+  // Le contenu généré emploie « menuItems » ; on l'accepte aussi.
+  const gen = (s?.generatedContent?.menuItems ?? []) as any[];
+  return keep(
+    gen.map((r) => dish(trimmed(r?.name) || trimmed(r?.title), trimmed(r?.category), trimmed(r?.description) || trimmed(r?.desc), trimmed(r?.price))),
+    (r) => Boolean(r.name),
+  );
+}
+
+/**
+ * Le catalogue de la boutique, tel que le client l'a saisi.
+ *
+ * Même histoire que la carte : quinze thèmes déclaraient une section
+ * « produits » sans jamais lire ceux du client.
+ */
+export function clientProducts(s: SessionLike | null | undefined): ClientDish[] | undefined {
+  const rows = (s?.businessProfile?.products ?? []) as any[];
+  return keep(
+    rows.map((r) => dish(trimmed(r?.name) || trimmed(r?.title), trimmed(r?.category), trimmed(r?.description) || trimmed(r?.desc), trimmed(r?.price))),
+    (r) => Boolean(r.name),
+  );
+}
+
 export interface ClientWork {
   title: string;
   /** Ce qui situe la réalisation : un lieu, une année, une catégorie. */
