@@ -52,9 +52,14 @@ let c: any = null;
    the gold word's letter-spacing spreads apart as it leaves and the next
    arrives wide then settles (TrackingCollapse, v12 — the hair-salon
    recording itself), while the plaque re-tints to match (Retint). */
+/*
+  Le titre du hero s'ecrit « L'ART DU » suivi d'un mot qui defile. « COULEUR »
+  donnait « L'ART DU COULEUR » : le mot est feminin. Les trois mots sont
+  desormais masculins, l'article reste juste a chaque tour.
+*/
 const HERO_SERVICES = [
   { word: 'CHEVEU', name: 'Coupe & Brushing', tint: 'rgba(43,34,24,0.92)' },
-  { word: 'COULEUR', name: 'Coloration végétale', tint: 'rgba(64,42,26,0.92)' },
+  { word: 'COLORIS', name: 'Coloration végétale', tint: 'rgba(64,42,26,0.92)' },
   { word: 'BALAYAGE', name: 'Balayage & Mèches', tint: 'rgba(55,45,28,0.92)' },
 ];
 
@@ -1221,10 +1226,15 @@ export default function Page() {
             position: 'absolute', inset: 0, zIndex: 0,
             backgroundImage: `url(${clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=1800'})`,
             backgroundSize: 'cover', backgroundPosition: 'center',
-            opacity: 0.22,
+            /*
+              Assez presente pour dire le metier, assez discrete pour que le
+              paragraphe gris du theme reste lisible par-dessus : a 0,22 la
+              photographie mangeait le texte.
+            */
+            opacity: 0.14,
           }}
           initial={{ opacity: 0, scale: 1.06 }}
-          animate={{ opacity: 0.22, scale: 1 }}
+          animate={{ opacity: 0.14, scale: 1 }}
           transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
         />
         {/* Background decorative lines */}
