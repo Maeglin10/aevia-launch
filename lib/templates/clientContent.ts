@@ -118,6 +118,21 @@ export function clientServices(s: SessionLike | null | undefined): ClientService
   );
   if (fromProfile) return fromProfile;
 
+  /*
+    Un restaurateur ne remplit pas de « prestations » : son archétype lui demande
+    une carte, un commerçant un catalogue. Les thèmes, eux, lisent presque tous
+    « clientServices » pour leur section d'offres — mesuré : trente-deux thèmes
+    affichaient les plats de leur démonstration à un restaurateur qui avait
+    rempli la sienne, faute de ce repli.
+
+    On sert donc la carte, puis le catalogue, quand il n'y a pas de prestations.
+    Un établissement qui remplit les deux garde ses prestations en premier.
+  */
+  const carte = clientMenu(s);
+  if (carte) return carte.map((d) => service(d.name, d.description, d.price));
+  const catalogue = clientProducts(s);
+  if (catalogue) return catalogue.map((d) => service(d.name, d.description, d.price));
+
   const gen = (s?.generatedContent?.services ?? []) as any[];
   return keep(
     gen.map((r) =>
