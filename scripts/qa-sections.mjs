@@ -181,6 +181,13 @@ for (const id of ids) {
         if (texte.includes(valeur.toLowerCase())) return false;
         // Une photo du client dans la page vaut preuve pour une galerie.
         if (nom === "réalisations" && sources.includes("pexels-photo-7937300")) return false;
+        /*
+          Beaucoup de thèmes alimentent leur section de réalisations avec les
+          prestations du client — un cabinet d'architecture montre ses missions,
+          un studio ses projets. La donnée affichée est bien la sienne : c'est
+          ce qu'on veut vérifier, pas le champ d'origine.
+        */
+        if (nom === "réalisations" && texte.includes("détartrage vidal")) return false;
         return true;
       })
       .map(([nom]) => nom);
