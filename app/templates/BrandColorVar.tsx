@@ -65,6 +65,74 @@ function rendreLesBoutonsLisibles() {
   }
 }
 
+/*
+  Ce que le client écrit finit souvent sur une photographie — son accroche sous
+  le titre du hero, sa ville, son téléphone. La couleur de ce texte a été choisie
+  pour la phrase de la démonstration, à cet endroit-là de cette image-là.
+
+  Mesuré : soixante-dix thèmes affichent une donnée du client en dessous du seuil
+  de lisibilité alors que le thème nu, lui, se lit bien — « Votre plombier de
+  confiance à Annecy » écrit en brun sombre sur une photographie de pains dorés.
+
+  On ne touche ni à la couleur ni à la taille : une ombre portée d'un pixel
+  suffit à détacher les lettres du fond. Elle ne s'applique qu'aux textes qui
+  portent la donnée du client, et seulement quand ils sont posés sur une image.
+*/
+function detacherLesTextesDuClient(donnees: Record<string, unknown> | undefined) {
+  if (!donnees) return;
+  const valeurs = ["tagline", "businessName", "city", "phone", "address"]
+    .map((k) => (typeof donnees[k] === "string" ? (donnees[k] as string).trim() : ""))
+    .filter((v) => v.length >= 4);
+  if (valeurs.length === 0) return;
+
+  const surUneImage = (e: Element): boolean => {
+    let n: Element | null = e;
+    for (let i = 0; i < 6 && n; i++) {
+      const s = getComputedStyle(n);
+      if (s.backgroundImage && s.backgroundImage !== "none") return true;
+      // Beaucoup de thèmes posent la photographie en <img> calée derrière le texte.
+      if (n.querySelector?.("img")) return true;
+      n = n.parentElement;
+    }
+    return false;
+  };
+
+  for (const e of document.querySelectorAll<HTMLElement>("p, span, h1, h2, h3, div, a")) {
+    if (e.children.length > 0) continue;
+    const t = (e.textContent ?? "").trim();
+    if (t.length < 4) continue;
+    if (!valeurs.some((v) => t.includes(v))) continue;
+    if (!surUneImage(e)) continue;
+    // Une ombre déjà posée n'empêche pas de corriger la couleur : ce sont deux
+    // décisions distinctes, et la première ne sauve pas un brun sur du doré.
+    const ombreDejaLa = getComputedStyle(e).textShadow !== "none";
+
+    const c = versRGB(getComputedStyle(e).color);
+    if (!c) continue;
+
+    /*
+      Le titre du hero est lisible sur cette photographie : ses auteurs l'ont
+      choisi pour elle. Quand la phrase du client s'en écarte franchement —
+      brun sombre sous un titre crème, sur impact-259 — elle reprend sa
+      couleur. C'est celle du thème, pas une couleur inventée.
+    */
+    const section = e.closest("section, header, div[class*='hero'], main") ?? document.body;
+    const titre = section.querySelector("h1, h2");
+    const ct = titre ? versRGB(getComputedStyle(titre).color) : null;
+    let lum = luminance(...c);
+    if (ct && Math.abs(luminance(...ct) - lum) > 0.25) {
+      e.style.setProperty("color", `rgb(${ct[0]}, ${ct[1]}, ${ct[2]})`, "important");
+      lum = luminance(...ct);
+    }
+
+    if (!ombreDejaLa) {
+      e.style.textShadow = lum > 0.45
+        ? "0 1px 3px rgba(0,0,0,0.55)"
+        : "0 1px 3px rgba(255,255,255,0.65)";
+    }
+  }
+}
+
 export function BrandColorVar() {
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -77,12 +145,19 @@ export function BrandColorVar() {
           const root = document.documentElement.style;
           root.setProperty("--brand", c);
           root.setProperty("--brand-light", lighten(c));
-          /*
-            Après la cascade, pas pendant : les styles en ligne des thèmes et
-            les animations d'apparition se posent au rendu suivant.
-          */
-          requestAnimationFrame(() => requestAnimationFrame(rendreLesBoutonsLisibles));
         }
+        /*
+          Chaque thème va chercher la session de son côté : le texte du client
+          apparaît donc après notre première passe, et parfois bien après — le
+          temps d'une animation d'entrée. On repasse à quelques reprises, sur
+          moins de trois secondes, plutôt que d'observer tout le document.
+        */
+        const passer = () => {
+          rendreLesBoutonsLisibles();
+          detacherLesTextesDuClient(d?.formData);
+        };
+        requestAnimationFrame(() => requestAnimationFrame(passer));
+        for (const delai of [400, 1200, 2500]) setTimeout(passer, delai);
       })
       .catch(() => {});
   }, []);
