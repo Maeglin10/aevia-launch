@@ -62,7 +62,7 @@ for (const id of ids) {
       let anime = 0;
       for (const e of document.querySelectorAll("*")) {
         const s = getComputedStyle(e);
-        if (s.animationName !== "none" || s.transitionProperty !== "all" && s.transitionDuration !== "0s") anime++;
+        if (s.animationName !== "none" || parseFloat(s.transitionDuration) > 0) anime++;
 
         /*
           Un bloc resté à opacité nulle alors qu'il porte du texte et occupe de
@@ -76,6 +76,13 @@ for (const id of ids) {
         if (t.length < 12) continue;
         const r = e.getBoundingClientRect();
         if (r.width < 40 || r.height < 20) continue;
+        /*
+          Seul ce qui est dans le champ compte. Un bloc à opacité nulle situé
+          au-dessus de la fenêtre a simplement joué son animation de sortie —
+          sur impact-43, les cinq signalés étaient à plus de trois mille pixels
+          au-dessus du regard.
+        */
+        if (r.bottom < 0 || r.top > window.innerHeight) continue;
         invisibles++;
       }
       return { invisibles, anime };
