@@ -81,15 +81,24 @@ for (const id of ids) {
     tagline: "Votre plombier de confiance à Annecy depuis 1998",
     email: `contact@${id}.fr`, phone: "04 50 11 22 33", brandColor: "#c2410c", template: id,
   };
-  const r = await fetch(`${BASE}/api/sessions`, {
-    method: "POST", headers: { "content-type": "application/json" },
-    body: JSON.stringify({ formData: d }),
-  });
-  const { sessionId } = await r.json();
+  /*
+    SANS_SESSION=1 mesure le thème tel que ses auteurs l'ont laissé, sans aucune
+    donnée client. C'est la seule façon de distinguer ce que la personnalisation
+    a cassé de ce qui était ainsi depuis le début — et donc de savoir quoi
+    corriger.
+  */
+  let sessionId = null;
+  if (!process.env.SANS_SESSION) {
+    const r = await fetch(`${BASE}/api/sessions`, {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ formData: d }),
+    });
+    ({ sessionId } = await r.json());
+  }
   const p = await ctx.newPage();
   const fiche = { id, illisibles: [] };
   try {
-    await p.goto(`${BASE}/templates/${id}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 30000 });
+    await p.goto(sessionId ? `${BASE}/templates/${id}?session=${sessionId}` : `${BASE}/templates/${id}`, { waitUntil: "domcontentloaded", timeout: 30000 });
     await p.waitForTimeout(2400);
 
     // Les textes qu'on lit vraiment : assez grands, assez longs, bien visibles.

@@ -31,6 +31,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import {
+  clientPhone,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -2055,7 +2056,7 @@ return (
             >
               {[
                 { icon: <Mail size={14} />, value: (fd?.email ?? "hello@impact.studio") },
-                { icon: <Phone size={14} />, value: "+33 1 42 86 00 00" },
+                { icon: <Phone size={14} />, value: (clientPhone(sessionData) ?? "+33 1 42 86 00 00") },
                 { icon: <MapPin size={14} />, value: (clientCity({ formData: fd }) ?? "Paris") + ", France" },
               ].map((item, i) => (
                 <div
