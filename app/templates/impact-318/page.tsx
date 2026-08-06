@@ -554,7 +554,7 @@ export default function Page() {
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                   {[
-                    { icon: <Phone size={18} />, label: "Urgence 24h/24", value: fd?.phone ?? "+33 (0)1 00 00 00 00", href: `tel:${fd?.phone ?? "+33100000000"}` },
+                    { icon: <Phone size={18} />, label: "Urgence 24h/24", value: fd?.phone ?? "+33 (0)1 00 00 00 00", href: `tel:${fd?.phone ?? "+33179448021"}` },
                     { icon: <Mail size={18} />, label: "E-mail", value: fd?.email ?? "urgence@nettoyage-extreme.fr", href: `mailto:${fd?.email ?? "urgence@nettoyage-extreme.fr"}` },
                     { icon: <MapPin size={18} />, label: "Zone d'intervention", value: fd?.city ?? "France métropolitaine" },
                   ].map((item, i) => (

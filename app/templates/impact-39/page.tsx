@@ -156,7 +156,7 @@ return (
                     Devis gratuit <ArrowRight size={18} />
                   </span>
                 </Link>
-                <a href={`tel:${fd?.phone ?? "+33100000000"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.white, padding: "16px 32px", borderRadius: 10, fontWeight: 700, fontSize: 16, textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.25)" }}>
+                <a href={`tel:${fd?.phone ?? "+33131287618"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.white, padding: "16px 32px", borderRadius: 10, fontWeight: 700, fontSize: 16, textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.25)" }}>
                   <Phone size={16} /> Appeler
                 </a>
               </motion.div>

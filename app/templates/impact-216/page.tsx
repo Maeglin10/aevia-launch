@@ -1573,7 +1573,7 @@ function ContactSection() {
                   </div>
                   <div className="form-grid-2">
                     <FormInput id="email" label="Email professionnel" type="email" placeholder="j.dupont@entreprise.fr" required />
-                    <FormInput id="phone" label="Téléphone" type="tel" placeholder="+33 6 00 00 00 00" />
+                    <FormInput id="phone" label="Téléphone" type="tel" placeholder="+33 6 76 23 71 63" />
                   </div>
                   <FormSelect id="service-type" label="Type de service" options={SERVICE_OPTIONS} required />
                   <FormSelect id="monthly-volume" label="Volume mensuel estimé" options={VOLUME_OPTIONS} required />

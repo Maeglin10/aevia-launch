@@ -1922,7 +1922,7 @@ function Footer() {
     {
       title: 'Contact & Urgences',
       items: ['📍 ' + (clientCity(sessionData) ?? 'Toulouse') + ' & agglomération', '📞 ' + (fd?.phone ?? '05 20 51 51 51'), '📧 ' + (fd?.email ?? 'contact@voltlux.fr'), '🚨 Urgences 24h/7j'],
-      hrefs: ['#devis', 'tel:+33500000000', 'mailto:contact@voltlux.fr', 'tel:+33500000000'],
+      hrefs: ['#devis', 'tel:+33520511332', 'mailto:contact@voltlux.fr', 'tel:+33520511332'],
     },
   ];
 

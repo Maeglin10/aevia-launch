@@ -1813,7 +1813,7 @@ function OrderForm() {
                   onChange={(e) => setTel(e.target.value)}
                   onFocus={() => setFocused('tel')}
                   onBlur={() => setFocused(null)}
-                  placeholder="+33 6 00 00 00 00"
+                  placeholder="+33 6 22 65 19 54"
                   autoComplete="tel"
                 />
               </div>

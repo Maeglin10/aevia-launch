@@ -1811,7 +1811,7 @@ function QuoteForm() {
                     type="tel"
                     value={tel}
                     onChange={(e) => setTel(e.target.value)}
-                    placeholder="06 00 00 00 00"
+                    placeholder="06 23 72 22 65"
                     autoComplete="tel"
                     suppressHydrationWarning
                   />

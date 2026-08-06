@@ -577,7 +577,7 @@ function SubscriptionModal({ plan, onClose }: { plan: PlanInfo; onClose: () => v
                 </div>
                 <div>
                   <label htmlFor="sm-phone" style={{ display: "block", fontFamily: C.bodyFont, fontSize: "0.78rem", fontWeight: 700, color: C.textLight, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.4rem" }}>Téléphone</label>
-                  <input id="sm-phone" name="phone" type="tel" required placeholder="06 12 34 56 78" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, borderRadius: "0.7rem", padding: "0.85rem 1rem", fontSize: "0.9rem", fontFamily: C.bodyFont, outline: "none", color: C.text, background: C.white }} />
+                  <input id="sm-phone" name="phone" type="tel" required placeholder="06 23 52 52 80" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, borderRadius: "0.7rem", padding: "0.85rem 1rem", fontSize: "0.9rem", fontFamily: C.bodyFont, outline: "none", color: C.text, background: C.white }} />
                 </div>
               </div>
               <div style={{ marginBottom: "1.75rem" }}>

@@ -1825,7 +1825,7 @@ function AppointmentForm() {
                   type="tel"
                   value={tel}
                   onChange={(e) => setTel(e.target.value)}
-                  placeholder="+33 6 00 00 00 00"
+                  placeholder="+33 6 21 58 16 43"
                   autoComplete="tel"
                 />
               </div>

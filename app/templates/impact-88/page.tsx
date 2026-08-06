@@ -514,7 +514,7 @@ function BookingModalProvider({ children }: { children: React.ReactNode }) {
                           id="bk-phone"
                           type="tel"
                           required
-                          placeholder="06 12 34 56 78"
+                          placeholder="06 35 56 18 62"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 min-h-[44px] text-[var(--brand-light,#831843)] outline-none focus:border-[var(--brand,#ec4899)] focus:ring-2 focus:ring-[var(--brand,#ec4899)]/20 focus:bg-white transition-all"
@@ -1526,9 +1526,9 @@ function ContactFooter() {
                   <span className="text-[11px] font-[600] uppercase tracking-[0.2em] text-[#F9A8D4]" style={{ fontFamily: "'Inter', sans-serif" }}>Contact</span>
                 </div>
                 <div className="space-y-3">
-                  <a href={`tel:${fd?.phone ?? "+33123456789"}`} className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <a href={`tel:${fd?.phone ?? "+33135561862"}`} className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
                     <Phone className="w-3.5 h-3.5" />
-                    {fd?.phone ?? "+33 1 23 45 67 89"}
+                    {fd?.phone ?? "+33 1 35 56 18 62"}
                   </a>
                   <a href={`mailto:${fd?.email ?? "bonjour@velvetnails.fr"}`} className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
                     <Mail className="w-3.5 h-3.5" />{fd?.email ?? "bonjour@velvetnails.fr"}</a>
@@ -1771,7 +1771,7 @@ function ContactSection() {
             <div className="space-y-4 font-[300] text-[#9D174D] text-[14px]" style={{ fontFamily: "'Inter', sans-serif" }}>
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[var(--brand,#ec4899)]" />
-                <span>{fd?.phone ?? "+33 1 23 45 67 89"}</span>
+                <span>{fd?.phone ?? "+33 1 35 56 18 62"}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-[var(--brand,#ec4899)]" />

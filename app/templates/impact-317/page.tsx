@@ -282,7 +282,7 @@ export default function TemplatePage({ session: initialSession }: { session?: an
   const heroSub = c?.heroSubtitle || "Des services de nettoyage résidentiels et commerciaux rapides, efficaces et éclatants pour un environnement toujours impeccable.";
   const cta1 = c.ctaPrimary || "Demander un devis";
   const cta2 = c.ctaSecondary || "Voir nos services";
-  const phone = fd.phone || "01 23 45 67 89";
+  const phone = fd.phone || "01 78 37 77 85";
   const email = fd.email || "contact@menagedynamique.fr";
   const address = fd.address || (clientAddress(sessionData) ?? "123 Avenue de la Propreté, 75000 Paris");
 

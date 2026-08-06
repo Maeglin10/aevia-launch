@@ -253,7 +253,7 @@ const FAQS_DEMO = [
   },
   {
     q: 'Puis-je retourner un produit si je ne suis pas satisfait ?',
-    a: 'Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au ' + (fd?.phone ?? '01 23 45 67 89') + '.'
+    a: 'Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au ' + (fd?.phone ?? '01 75 16 68 52') + '.'
   },
   {
     q: 'Les appareils Flamme Verte ouvrent-ils droit à des crédits d\'impôt ?',
@@ -2811,7 +2811,7 @@ export default function FlammeEtCoPage() {
                   padding: '1rem',
                 }}>
                   <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', marginBottom: '0.35rem' }}>Service client</p>
-                  <p style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 700 }}>{fd?.phone ?? "01 23 45 67 89"}</p>
+                  <p style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 700 }}>{fd?.phone ?? "01 75 16 68 52"}</p>
                   <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', marginTop: '0.2rem' }}>Lun–Ven, 9h–18h</p>
                 </div>
               </div>

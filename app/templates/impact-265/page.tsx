@@ -1812,7 +1812,7 @@ function OrderForm() {
                   style={fieldBase}
                   value={telephone}
                   onChange={(e) => setTelephone(e.target.value)}
-                  placeholder="+33 6 00 00 00 00"
+                  placeholder="+33 6 20 51 13 32"
                   autoComplete="tel"
                 />
               </div>

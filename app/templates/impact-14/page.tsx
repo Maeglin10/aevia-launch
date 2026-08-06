@@ -1252,7 +1252,7 @@ export default function HorizonMaritimePage() {
               }}
             >
               <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 3, textTransform: "uppercase" }}>
-                {fd?.phone ?? "+33 1 23 45 67 89"}
+                {fd?.phone ?? "+33 1 24 59 55 91"}
               </p>
             </div>
           </motion.div>
@@ -2448,12 +2448,12 @@ export default function HorizonMaritimePage() {
           >
             <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
               <a
-                href={`tel:${fd?.phone ?? "+33123456789"}`}
+                href={`tel:${fd?.phone ?? "+33124595591"}`}
                 style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}
               >
                 <Phone size={12} style={{color: brand ?? 'var(--brand,#c9a84c)' }} />
                 <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>
-                  {fd?.phone ?? "+33 1 23 45 67 89"}
+                  {fd?.phone ?? "+33 1 24 59 55 91"}
                 </span>
               </a>
               <a

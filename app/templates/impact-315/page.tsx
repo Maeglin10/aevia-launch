@@ -1227,7 +1227,7 @@ export default function Page() {
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Téléphone</div>
-                      <a href={`tel:${fd?.phone ?? "+33100000000"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{fd?.phone ?? "+33 (0)1 00 00 00 00"}</a>
+                      <a href={`tel:${fd?.phone ?? "+33176237163"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{fd?.phone ?? "+33 (0)1 00 00 00 00"}</a>
                     </div>
                   </div>
 

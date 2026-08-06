@@ -566,7 +566,7 @@ function BookingModal({ cls, onClose }: { cls: ClassInfo; onClose: () => void })
               </div>
               <div style={{ marginBottom: 28 }}>
                 <label htmlFor="bm-phone" style={{ display: "block", fontSize: 12, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 6 }}>Téléphone</label>
-                <input id="bm-phone" name="phone" type="tel" required placeholder="06 12 34 56 78" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 14, fontFamily: FONT_BODY, outline: "none", color: C.text }} />
+                <input id="bm-phone" name="phone" type="tel" required placeholder="06 23 52 52 80" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 14, fontFamily: FONT_BODY, outline: "none", color: C.text }} />
               </div>
 
               <motion.button

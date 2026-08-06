@@ -1894,7 +1894,7 @@ function ReservationForm() {
                   type="tel"
                   value={tel}
                   onChange={(e) => setTel(e.target.value)}
-                  placeholder="+33 6 00 00 00 00"
+                  placeholder="+33 6 23 72 22 65"
                   autoComplete="tel"
                 />
               </div>

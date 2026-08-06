@@ -1883,7 +1883,7 @@ function BookingForm() {
                   style={fieldBase}
                   value={telephone}
                   onChange={(e) => setTelephone(e.target.value)}
-                  placeholder="06 00 00 00 00"
+                  placeholder="06 73 82 62 30"
                   autoComplete="tel"
                 />
               </div>

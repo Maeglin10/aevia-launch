@@ -1516,7 +1516,7 @@ export default function Impact200Page() {
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                           className="w-full bg-[#FDF2F8] border border-[var(--brand,#DB2777)]/20 focus:border-[var(--brand,#DB2777)] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors"
-                          placeholder="+33 6 00 00 00 00"
+                          placeholder="+33 6 69 54 50 61"
                           style={{ fontFamily: "'Cormorant Infant', serif" }}
                         />
                       </div>

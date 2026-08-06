@@ -1971,7 +1971,7 @@ function DevisFormSection() {
                   name="telephone"
                   type="tel"
                   required
-                  placeholder="06 12 34 56 78"
+                  placeholder="06 25 86 28 87"
                   value={form.telephone}
                   onChange={handleChange}
                   style={inputStyle}

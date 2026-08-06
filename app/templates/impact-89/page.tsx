@@ -2070,7 +2070,7 @@ return (
                   {[
                     { label: "Prénom & Nom", type: "text", placeholder: "Alexandre Martin" },
                     { label: "Email", type: "email", placeholder: "alexandre@email.com" },
-                    { label: "Téléphone", type: "tel", placeholder: "+33 6 00 00 00 00" },
+                    { label: "Téléphone", type: "tel", placeholder: "+33 6 36 63 21 73" },
                   ].map((field) => (
                     <div key={field.label}>
                       <label style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: C.textDim, display: "block", marginBottom: 8 }}>

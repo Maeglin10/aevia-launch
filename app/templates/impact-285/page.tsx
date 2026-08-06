@@ -1681,7 +1681,7 @@ function RdvFormSection() {
                   type="tel"
                   value={telephone}
                   onChange={(e) => setTelephone(e.target.value)}
-                  placeholder="06 12 34 56 78"
+                  placeholder="06 22 65 19 54"
                   autoComplete="tel"
                 />
               </div>

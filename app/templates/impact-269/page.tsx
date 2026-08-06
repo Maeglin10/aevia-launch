@@ -1834,7 +1834,7 @@ function OrderForm() {
                   style={{ ...field, fontSize: '16px' }}
                   value={tel}
                   onChange={(e) => setTel(e.target.value)}
-                  placeholder="06 12 34 56 78"
+                  placeholder="06 24 79 25 76"
                   autoComplete="tel"
                 />
               </div>

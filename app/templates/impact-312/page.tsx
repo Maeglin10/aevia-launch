@@ -353,7 +353,7 @@ export default function GarageMinimalistTemplate() {
   );
 
   const businessName = fd.businessName || "Garage Minimalist";
-  const phone = fd.phone || "01 23 45 67 89";
+  const phone = fd.phone || "01 73 82 62 30";
   const email = fd.email || "contact@garageminimalist.fr";
   const address = fd.location || (clientAddress(sessionData) ?? "123 Avenue de l'Automobile, 75000 Paris");
 

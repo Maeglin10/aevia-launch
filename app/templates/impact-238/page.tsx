@@ -1930,7 +1930,7 @@ function BookingForm() {
                   type="tel"
                   value={tel}
                   onChange={(e) => setTel(e.target.value)}
-                  placeholder="06 12 34 56 78"
+                  placeholder="06 20 51 13 32"
                   autoComplete="tel"
                   required
                 />

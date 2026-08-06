@@ -488,7 +488,7 @@ function Nav() {
         ))}
       </div>
       <a
-        href={`tel:${fd?.phone ?? "0400000000"}`}
+        href={`tel:${fd?.phone ?? "0475166852"}`}
         style={{ textDecoration: 'none' }}
         className="ac-navcta"
       >
@@ -1958,7 +1958,7 @@ function QuoteForm() {
                     style={fieldStyle}
                     value={tel}
                     onChange={(e) => setTel(e.target.value)}
-                    placeholder="06 00 00 00 00"
+                    placeholder="06 75 16 68 52"
                     autoComplete="tel"
                     onFocus={(e) => (e.target.style.borderColor = C.accent)}
                     onBlur={(e) => (e.target.style.borderColor = 'rgba(14,116,144,0.30)')}
@@ -2153,7 +2153,7 @@ function Footer() {
             }}
           >
             <a
-              href={`tel:${fd?.phone ?? "0400000000"}`}
+              href={`tel:${fd?.phone ?? "0475166852"}`}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -2166,7 +2166,7 @@ function Footer() {
               }}
             >
               <Phone size={13} strokeWidth={2} />
-              {fd?.phone ?? "04 00 00 00 00"}
+              {fd?.phone ?? "04 75 16 68 52"}
             </a>
             <div
               style={{

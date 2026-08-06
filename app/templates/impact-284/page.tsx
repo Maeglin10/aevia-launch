@@ -1819,7 +1819,7 @@ function BilanFormSection() {
                   type="tel"
                   value={telephone}
                   onChange={(e) => setTelephone(e.target.value)}
-                  placeholder="06 00 00 00 00"
+                  placeholder="06 21 58 16 43"
                   autoComplete="tel"
                 />
               </div>

@@ -499,7 +499,7 @@ function QuoteModal({ service, onClose }: { service: string; onClose: () => void
                 </div>
                 <div>
                   <label htmlFor="qm-phone" className="block text-white/50 text-xs tracking-widest uppercase mb-2 font-mono">Téléphone</label>
-                  <input id="qm-phone" name="phone" type="tel" required className="w-full bg-[#131008] border border-white/10 focus:border-[var(--brand,#C9A86C)] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors font-sans" placeholder="06 12 34 56 78" />
+                  <input id="qm-phone" name="phone" type="tel" required className="w-full bg-[#131008] border border-white/10 focus:border-[var(--brand,#C9A86C)] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors font-sans" placeholder="06 26 73 61 38" />
                 </div>
               </div>
 

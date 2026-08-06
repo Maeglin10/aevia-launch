@@ -872,7 +872,7 @@ function BookingForm({ services = SERVICES, stylists = STYLISTS }: { services?: 
                   </div>
                   <div>
                     <label style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>Téléphone</label>
-                    <input type="tel" placeholder="+33 6 12 34 56 78" style={inputStyle} />
+                    <input type="tel" placeholder="+33 6 78 37 77 85" style={inputStyle} />
                   </div>
 
                   {/* Summary */}
