@@ -43,7 +43,7 @@ let C: Record<string, string> = {
   bg: "#f0f7ff",
   bgSection: "#e4f0fc",
   text: "#0b2240",
-  textMuted: "var(--brand-light,#486887)",
+  textMuted: "#486887",
   accent: "#0f3460",
   accentDark: "#091f3d",
   accentLight: "#cce5ff",

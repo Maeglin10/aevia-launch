@@ -34,6 +34,7 @@ import {
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientPhone,
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -1401,7 +1402,7 @@ export default function Impact200Page() {
                   {
                     icon: <Phone className="w-5 h-5" />,
                     label: "Téléphone",
-                    value: "+33 1 47 00 00 00",
+                    value: (clientPhone(sessionData) ?? "+33 1 47 00 00 00"),
                     sub: "Lundi – Vendredi, 9h – 19h",
                   },
                   {
@@ -1663,7 +1664,7 @@ export default function Impact200Page() {
                 className="text-white/30 text-xs italic mb-1"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
-                © {new Date().getFullYear()} Cérémonie. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+                © {new Date().getFullYear()} {clientName(sessionData) ?? "Cérémonie."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
               </p>
               <p
                 className="text-white/20 text-xs"

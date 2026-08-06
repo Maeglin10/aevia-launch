@@ -160,3 +160,56 @@ body {
   overflow-x: clip;
   max-width: 100vw;
 }
+
+/*
+  Écrans courts : le titre du hero passait sous la barre de navigation.
+
+  Six thèmes composent leur hero autour d'un titre très grand, ancré au bas de
+  l'écran. Sur un portable de 1366×768 — environ 650 pixels utiles une fois le
+  navigateur déduit — ce titre remonte derrière le menu : on lisait « CABLE »
+  pour « CÂBLÉ », l'accent mangé par la barre.
+
+  La règle ne se déclenche qu'en dessous de 820 pixels de haut. Au-delà — tout
+  écran de portable récent — le rendu est celui d'origine, au pixel près.
+*/
+/*
+  Mesuré sur iPhone SE (375×667) : sans réduction, le titre ne passe sous
+  aucune barre — le hero mobile est composé autrement. La règle y rapetissait
+  donc un titre déjà correct. Elle ne vise que les écrans larges et courts.
+*/
+@media (max-height: 820px) and (min-width: 900px) {
+  /*
+    Deux pièges ici. La taille est posée en style en ligne, qui l'emporte sur
+    une classe — d'où « important ». Et « em » se rapporte au parent, pas au
+    titre : à 0,74em, un titre de cent pixels tombait à douze, illisible. On
+    réduit donc le rendu du titre lui-même, sans toucher à la taille écrite
+    dans le thème.
+  */
+  .hero-ecran-court {
+    zoom: 0.68;
+  }
+
+  /*
+    impact-236 empile davantage sous sa barre : un surtitre, trois lignes de
+    titre, un paragraphe et un bouton. Il lui faut un cran de plus, mesuré au
+    navigateur — en dessous, le surtitre croisait encore le logo.
+  */
+  .hero-ecran-court-fort {
+    zoom: 0.6;
+  }
+}
+
+/*
+  Le lien d'évitement au clavier : son air ne lui vient qu'au focus.
+
+  Posé en style en ligne, l'espacement s'appliquait aussi quand le lien est
+  masqué : sa boîte passait de un pixel sur un à trente-deux sur seize. Invisible
+  à l'œil — « clip-path » le masque — mais assez grande pour recouvrir le texte
+  d'en dessous dans une mesure de chevauchement.
+
+  La classe l'emporte sur la remise à zéro des soixante thèmes, qui n'agit que
+  par le sélecteur universel.
+*/
+.lien-evitement:focus {
+  padding: 8px 16px !important;
+}

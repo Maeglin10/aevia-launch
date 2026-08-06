@@ -32,6 +32,7 @@ import {
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientPhone,
   clientAddress,
   clientCity,
   clientFaq,
@@ -721,13 +722,13 @@ export default function Impact199Page() {
 
             {/* Main Title */}
             <motion.h1
-              className="text-[clamp(4rem,12vw,10rem)] leading-[0.9] tracking-wide text-white mb-6"
-              style={{ fontFamily: "'Bebas Neue', cursive" }}
+              className="hero-ecran-court text-[clamp(4rem,12vw,10rem)] leading-[0.9] tracking-wide text-white mb-6"
+              style={{  fontFamily: "'Bebas Neue', cursive" }}
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "L'ART VIVANT"}<br />
-              <span className="text-[var(--brand,#DC2626)]">{clientHeroLine(sessionData, 1, 3, 12) ?? "SUR"}</span>{clientHeroLine(sessionData, 2, 3, 12) ?? "VOTRE PEAU"}</>}</motion.h1>
+              <span className="text-[var(--brand,#DC2626)]">{clientHeroLine(sessionData, 1, 3, 12) ?? "SUR"}</span>{" "}{clientHeroLine(sessionData, 2, 3, 12) ?? "VOTRE PEAU"}</>}</motion.h1>
 
             {/* Subtitle */}
             <motion.p
@@ -736,7 +737,7 @@ export default function Impact199Page() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-              Trois artistes d'exception, un seul objectif : transformer votre vision en œuvre permanente. Tatouage sur mesure à Paris depuis 2014.
+              Trois artistes d'exception, un seul objectif : transformer votre vision en œuvre permanente. Tatouage sur mesure à {clientCity(sessionData) ?? "Paris"} depuis 2014.
             </>}</motion.p>
 
             {/* CTAs */}
@@ -1345,7 +1346,7 @@ export default function Impact199Page() {
                   {
                     icon: <Phone className="w-5 h-5" />,
                     label: "Téléphone",
-                    value: "+33 1 42 00 00 00",
+                    value: (clientPhone(sessionData) ?? "+33 1 42 00 00 00"),
                     sub: "Du mardi au samedi",
                   },
                   {
@@ -1674,7 +1675,7 @@ export default function Impact199Page() {
 
             <div className="text-center md:text-right space-y-1">
               <p className="text-white/20 text-xs">
-                © {new Date().getFullYear()} Encre & Âme. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+                © {new Date().getFullYear()} {clientName(sessionData) ?? "Encre"} & Âme. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
               </p>
               <p className="text-white/15 text-xs">{clientAddress(sessionData) ?? "42 Rue Oberkampf, Paris XI"}</p>
               <div className="flex items-center justify-center md:justify-end gap-4 mt-2">

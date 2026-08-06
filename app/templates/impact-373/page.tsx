@@ -232,7 +232,7 @@ export default function RivieraChauffeurPage() {
               ]}
             </HardCutRebuild>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {fd?.tagline ?? c?.heroSubline ?? "Aéroport, gares, soirées, mise à disposition : un chauffeur VTC carté, une berline hybride impeccable, un prix annoncé avant de monter — et jamais de majoration surprise."}
+          {c?.heroSubline ?? "Aéroport, gares, soirées, mise à disposition : un chauffeur VTC carté, une berline hybride impeccable, un prix annoncé avant de monter — et jamais de majoration surprise."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

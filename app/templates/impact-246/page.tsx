@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -2161,7 +2162,7 @@ function Footer() {
         { label: 'Devis en ligne', href: '#devis' },
         { label: 'Interventions 24h/7j', href: '#interventions' },
         { label: 'Certifications RGE', href: "/templates/impact-246" },
-        { label: 'contact@thermofix-pro.fr', href: 'mailto:contact@thermofix-pro.fr' },
+        { label: (clientEmail(sessionData) ?? 'contact@thermofix-pro.fr'), href: 'mailto:contact@thermofix-pro.fr' },
       ],
     },
   ];
@@ -2334,7 +2335,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.42)',
         }}
       >
-        <span>© 2026 ThermoFix Pro · {clientCity(sessionData) ?? "Marseille"} · SIRET 000 000 000 00000{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "ThermoFix Pro"} · {clientCity(sessionData) ?? "Marseille"} · SIRET 000 000 000 00000{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#tf-msg" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

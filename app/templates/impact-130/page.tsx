@@ -38,6 +38,8 @@ import {
   Palette,
 } from "lucide-react";
 import {
+  clientHeroPrestations,
+  clientAccrocheRestante,
   clientCity,
   clientFaq,
   clientHeroSubtitle,
@@ -78,7 +80,7 @@ let C: Record<string, string> = {
   bgCard: "#111711",
   bgPanel: "#0f140f",
   text: "#f0f4f0",
-  textMuted: "var(--brand,#8a9e8a)",
+  textMuted: "#8a9e8a",
   textDim: "#4a5e4a",
   emerald: "#014421",
   emeraldMid: "#025e30",
@@ -509,12 +511,12 @@ function SplitRevealHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h1 style={{ fontSize: "clamp(48px, 5.5vw, 88px)", fontWeight: 700, lineHeight: 1.0, color: C.text, fontFamily: "'DM Sans', system-ui, sans-serif", marginBottom: 28, letterSpacing: "-0.03em" }}>{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          <h1 style={{ fontSize: "clamp(48px, 5.5vw, 88px)", fontWeight: 700, lineHeight: 1.0, color: C.text, fontFamily: "'DM Sans', system-ui, sans-serif", marginBottom: 28, letterSpacing: "-0.03em" }}>{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             Identités
             <br />
             <span style={{ color: C.emeraldGlow }}>qui durent.</span>
           </>)}</h1>
-          <p style={{ color: C.textMuted, fontSize: 18, lineHeight: 1.6, maxWidth: 440, marginBottom: 48, fontFamily: "'DM Sans', system-ui, sans-serif" }}>{clientHeroSubtitle(sessionData) ?? "Verso est un studio de branding genevois. Nous créons des identités visuelles, des expériences digitales et des systèmes de communication pour des marques exigeantes."}</p>
+          <p style={{ color: C.textMuted, fontSize: 18, lineHeight: 1.6, maxWidth: 440, marginBottom: 48, fontFamily: "'DM Sans', system-ui, sans-serif" }}>{clientHeroPrestations(sessionData) ?? "Verso est un studio de branding genevois. Nous créons des identités visuelles, des expériences digitales et des systèmes de communication pour des marques exigeantes."}</p>
 
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
@@ -1332,7 +1334,7 @@ return (
             ))}
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: `1px solid ${C.border}`, paddingTop: 32 }}>
-            <p style={{ color: C.textDim, fontSize: 13 }}>© 2025 Verso Studio SA, {clientCity(sessionData) ?? "Genève"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</p>
+            <p style={{ color: C.textDim, fontSize: 13 }}>© 2025 {clientName(sessionData) ?? "Verso Studio SA"}, {clientCity(sessionData) ?? "Genève"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</p>
             <div style={{ display: "flex", gap: 20 }}>
               {[{ icon: <MessageSquare size={16} />, label: "Twitter" }, { icon: <Camera size={16} />, label: "Instagram" }, { icon: <Link2 size={16} />, label: "LinkedIn" }].map((s, i) => (
                 <a key={i} href="#stats" style={{ color: C.textDim, transition: "color 0.2s" }}

@@ -7,6 +7,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowUpRight, X, Menu, Check } from "lucide-react";
 import {
+  clientPhone,
   clientCity,
   clientFaq,
   clientList,
@@ -45,7 +46,7 @@ let C: Record<string, string> = {
   white: "#F5F5F0",
   text: "#0A0A0A",
   textMuted: "#666666",
-  accent: "var(--brand,#dcff00)",
+  accent: "#dcff00",
   accentDark: "#B8D900",
   border: "#0A0A0A",
   borderLight: "#E0E0DA",
@@ -147,7 +148,7 @@ const CASES = [
     year: "2024",
     result: "Onboarding: -62% de drop",
     color: "#0A0A0A",
-    textColor: "var(--brand,#dcff00)",
+    textColor: "#dcff00",
     desc: "Un outil de data viz puissant mais incompréhensible pour les non-techs. 3 semaines de research, refonte de l'onboarding, taux de complétion passé de 21% à 84%.",
   },
 ];
@@ -961,7 +962,7 @@ return (
         {[
           { title: "Services", links: ["Branding", "Web & Dev", "Campagnes", "Direction Art", "UX Design"] },
           { title: "Agence", links: ["À propos", "Travaux", "Manifeste", "Carrières", "Blog"] },
-          { title: "Contact", links: ["Réserver un call", (fd?.email ?? "hello@bureau.co"), "+33 1 23 45 67 89", (clientCity({ formData: fd }) ?? "Paris") + " 75011"] },
+          { title: "Contact", links: ["Réserver un call", (fd?.email ?? "hello@bureau.co"), (clientPhone(sessionData) ?? "+33 1 23 45 67 89"), (clientCity({ formData: fd }) ?? "Paris") + " 75011"] },
         ].map((col, i) => (
           <div key={i} style={{ padding: "48px 44px", borderRight: i < 2 ? `1px solid ${C.borderLight}` : undefined }}>
             <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 4, color: C.accent, marginBottom: 20, textTransform: "uppercase", fontWeight: 700 }}>{col.title}</div>
@@ -974,7 +975,7 @@ return (
         ))}
       </footer>
       <div style={{ padding: "20px 44px", display: "flex", justifyContent: "space-between", background: C.bg }}>
-        <span style={{ fontFamily: C.mono, fontSize: 10, color: C.borderLight, letterSpacing: 2, textTransform: "uppercase" }}>© 2026 Bureau — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+        <span style={{ fontFamily: C.mono, fontSize: 10, color: C.borderLight, letterSpacing: 2, textTransform: "uppercase" }}>© 2026 {clientName(sessionData) ?? "Bureau"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
         <span style={{ fontFamily: C.mono, fontSize: 10, color: C.borderLight, letterSpacing: 2, textTransform: "uppercase" }}>Mentions légales · Confidentialité</span>
       </div>
     </div>

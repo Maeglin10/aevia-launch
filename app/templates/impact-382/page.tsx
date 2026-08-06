@@ -218,7 +218,7 @@ export default function TrajectoiresRhPage() {
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Recrutement & chasse · {clientCity(sessionData) ?? "Nantes"}</span>
         <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 64px)", color: C.text, lineHeight: 1.12, margin: "18px 0 8px", minHeight: "2.3em" }}><WordFlight text={S.line} keyed={i} className="" /></h1>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {fd?.tagline ?? c?.heroSubline ?? "Cadres, techniciens, dirigeants : un cabinet qui rencontre chaque candidat, comprend votre entreprise avant de chercher, et garantit son recrutement pendant un an. Les PME du Grand Ouest méritent mieux qu'un CV de plus."}
+          {c?.heroSubline ?? "Cadres, techniciens, dirigeants : un cabinet qui rencontre chaque candidat, comprend votre entreprise avant de chercher, et garantit son recrutement pendant un an. Les PME du Grand Ouest méritent mieux qu'un CV de plus."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

@@ -16,9 +16,17 @@ import { useLang } from "@/lib/LangContext";
 import { themeRating, themeActive } from "@/lib/theme-stats";
 
 // ─── Quality filter ───────────────────────────────────────────────────────────
-// Only truly missing page.tsx files are hidden — everything else is shown for audit.
-const HIDDEN_IMPACT = new Set([
+// Hidden from the gallery (pages still exist at their direct URL, just not
+// listed/promoted).
+//  - impact-202..206: page.tsx missing.
+//  - impact-326..383: 2026-08 batch parked by owner review — same short visual
+//    archetype (page.tsx size collapses to ~430 lines from 326 up, contiguous),
+//    too samey and the animation image slots render empty in preview. Not shown
+//    and not QA'd for now, pending rework. Remove an id from this range to
+//    re-surface a theme once reworked.
+const HIDDEN_IMPACT = new Set<string>([
   "impact-202","impact-203","impact-204","impact-205","impact-206",
+  ...Array.from({ length: 383 - 326 + 1 }, (_, i) => `impact-${326 + i}`),
 ]);
 
 // ─── Featured (hand-picked best) ─────────────────────────────────────────────

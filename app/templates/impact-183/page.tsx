@@ -246,7 +246,7 @@ return (
 
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "La piscine"}<br />{clientHeroLine(sessionData, 1, 3, 10) ?? "qui change"}<span className="text-[#7db88f]">{clientHeroLine(sessionData, 2, 3, 10) ?? "tout."}</span>
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "La piscine"}<br />{clientHeroLine(sessionData, 1, 3, 10) ?? "qui change"}{" "}<span className="text-[#7db88f]">{clientHeroLine(sessionData, 2, 3, 10) ?? "tout."}</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}

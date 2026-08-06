@@ -18,6 +18,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -690,7 +691,7 @@ function Hero() {
             maxWidth: 560,
             lineHeight: 1.65,
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Chaque mariage est une œuvre unique. Nous sommes là pour lui donner la lumière qu&apos;il mérite."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Chaque mariage est une œuvre unique. Nous sommes là pour lui donner la lumière qu'il mérite."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -2169,7 +2170,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2026 Villa Émeraude Events. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Villa Émeraude Events."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

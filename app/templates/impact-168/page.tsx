@@ -2294,7 +2294,7 @@ export default function ImpactEclatPage() {
             fontFamily: C.sans,
           }}
         >
-          <span>© 2025 Éclat — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2025 {clientName(sessionData) ?? "Éclat"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <a
               href="/templates/impact-168"

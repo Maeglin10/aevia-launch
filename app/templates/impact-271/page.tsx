@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   JARDINS D'ALSACE — Paysagiste & Horticulture · Strasbourg & Bas-Rhin
+   JARDINS D'ALSACE — Paysagiste & Horticulture · {clientCity(sessionData) ?? "Strasbourg"} & Bas-Rhin
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

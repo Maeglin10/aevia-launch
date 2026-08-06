@@ -148,7 +148,7 @@ return (
                   lineHeight: 1.1,
                   marginBottom: 24,
                 }}
-              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 8) ?? "Travaillez là où"}<span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 3, 8) ?? "l'ambition"}</span>{clientHeroLine(sessionData, 2, 3, 8) ?? "prend vie"}</>}</>)}</motion.h1>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 8) ?? "Travaillez là où"}{" "}<span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 3, 8) ?? "l'ambition"}</span>{" "}{clientHeroLine(sessionData, 2, 3, 8) ?? "prend vie"}</>}</>)}</motion.h1>
 
               <motion.p
                 initial={{ opacity: 0 }}

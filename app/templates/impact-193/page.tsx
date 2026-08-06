@@ -242,7 +242,7 @@ export default function OsteoGaiaPage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
             className="max-w-md text-sm text-[#f5f0e8]/30 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Cabinet d'ostéopathie à Montpellier. Douleurs du dos, nourrissons, sportifs, grossesse. Approche globale, douce et personnalisée. Prise en charge mutuelle partielle.
+            Cabinet d'ostéopathie à {clientCity(sessionData) ?? "Montpellier"}. Douleurs du dos, nourrissons, sportifs, grossesse. Approche globale, douce et personnalisée. Prise en charge mutuelle partielle.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-4">
@@ -473,7 +473,7 @@ export default function OsteoGaiaPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f5f0e8]/8">
-          <span>© 2026 Ostéo Gaïa · Emma Dubois D.O. · ADELI 340012345 · {clientCity(sessionData) ?? "Montpellier"} (34){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Ostéo Gaïa"} · Emma Dubois D.O. · ADELI 340012345 · {clientCity(sessionData) ?? "Montpellier"} (34){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#c26b4c)]/20">{clientTrade(sessionData) ?? "Ostéopathe"} · {clientCity(sessionData) ?? "Montpellier"}</span>
         </div>
       </footer>

@@ -2297,7 +2297,7 @@ function Footer() {
               opacity: 0.5,
             }}
           >
-            © 2024 Hora Viva SA · {clientCity(sessionData) ?? "Genève"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2024 {clientName(sessionData) ?? "Hora Viva SA"} · {clientCity(sessionData) ?? "Genève"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: 'flex', gap: '24px' }}>
             {['Mentions légales', 'Confidentialité', 'CGV'].map((l) => (

@@ -44,7 +44,7 @@ let C: Record<string, string> = {
   bgDark: "#0f172a",
   bgSection: "#f1f5f9",
   text: "#0f172a",
-  textMuted: "var(--brand,#64748b)",
+  textMuted: "#64748b",
   accent: "var(--brand-light,#6366f1)",
   accentDark: "#4f46e5",
   accentLight: "#e0e7ff",

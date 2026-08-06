@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
@@ -69,7 +70,7 @@ let C: Record<string, string> = {
   black: '#0d0d0d',
   blackDeep: '#080808',
   blackMid: '#1a1a1a',
-  champagne: 'var(--brand-light,#e8d5b0)',
+  champagne: '#e8d5b0',
   champagneDeep: '#d4bc93',
   champagneLight: '#f2e8d0',
   white: '#ffffff',
@@ -553,9 +554,9 @@ function HeroSection() {
           </span>
         </>)}</motion.h1>
       {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
-        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
+      {clientAccrocheRestante(sessionData, 1, 17) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 17)}
         </p>
       )}
 
@@ -2385,7 +2386,7 @@ function FooterSection() {
       items: [
         { label: 'Prendre rendez-vous', href: '#rendez-vous' },
         { label: '01 42 65 XX XX', href: 'tel:+33142650000' },
-        { label: 'contact@maissonceleste.fr', href: 'mailto:contact@maisonceleste.fr' },
+        { label: (clientEmail(sessionData) ?? 'contact@maissonceleste.fr'), href: 'mailto:contact@maisonceleste.fr' },
         { label: 'Instagram', href: "/templates/impact-281" },
       ],
     },

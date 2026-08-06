@@ -587,9 +587,9 @@ const Hero: React.FC = () => {
             des vies
           </>)}</motion.h1>
       {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
-        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
+      {clientAccrocheRestante(sessionData, 1, 15) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 15)}
         </p>
       )}
 
@@ -2433,7 +2433,7 @@ const Footer: React.FC = () => (
             color: 'rgba(255,255,255,0.5)',
           }}
         >
-          © 2026 Solis Immobilier — Carte professionnelle CPI 1301 2024 000 047
+          © 2026 {clientName(sessionData) ?? "Solis Immobilier"} — Carte professionnelle CPI 1301 2024 000 047
           218{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 24 }}>

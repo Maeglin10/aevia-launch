@@ -7,6 +7,7 @@ import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { Atom, Cpu, Binary, Globe, ArrowRight, ExternalLink, Download, Menu, X } from "lucide-react"
 import {
+  clientEmail,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -1351,7 +1352,7 @@ export default function QBitLabsPage() {
                   {
                     label: "Email address",
                     type: "email",
-                    placeholder: "jane@institute.edu",
+                    placeholder: (clientEmail(sessionData) ?? "jane@institute.edu"),
                   },
                 ].map((field) => (
                   <div key={field.label} style={{ marginBottom: 20 }}>
@@ -1659,7 +1660,7 @@ export default function QBitLabsPage() {
             }}
           >
             <span style={{ fontSize: 12, color: "#525252" }}>
-              © 2026 QBit Labs. All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "QBit Labs."} All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {["Privacy Policy", "Terms of Use", "Accessibility"].map((l) => (

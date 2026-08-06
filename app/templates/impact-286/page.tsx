@@ -49,7 +49,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET VIDAL — Maître Clara Vidal · Avocate droit social & travail
+   CABINET VIDAL — Maître Clara Vidal · Avocate droit social & travail{" "}
    {clientCity(sessionData) ?? "Lyon"} Confluence · Design éditorial premium style Grand Palais × Barreau.
    Auto-suffisant. 'use client'. Pas d'imports externes sauf react/framer/lucide.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2507,7 +2507,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 Cabinet Vidal — Maître Clara Vidal, Avocate. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Cabinet Vidal"} — Maître Clara Vidal, Avocate. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a

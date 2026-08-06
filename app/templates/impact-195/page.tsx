@@ -429,7 +429,7 @@ export default function MaisonElisePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#fdfaf7]/8">
-          <span>© 2026 Maison Élise · SIRET 678 901 234 00055 · {clientCity(sessionData) ?? "Nice"} (06){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Maison Élise"} · SIRET 678 901 234 00055 · {clientCity(sessionData) ?? "Nice"} (06){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#c4a06a)]/18">Wedding Planner · Côte d'Azur</span>
         </div>
       </footer>

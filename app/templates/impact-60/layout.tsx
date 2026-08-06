@@ -133,7 +133,7 @@ export default function ZenithLayout({
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
-          <span>© {new Date().getFullYear()} ZENITH WATCH ATELIER SA. VALENTIN MILLIAND. TIME IS AN ART.</span>
+          <span>© {new Date().getFullYear()} {clientName(__layoutSession) ?? "ZENITH WATCH ATELIER SA."} VALENTIN MILLIAND. TIME IS AN ART.</span>
           <div className="flex gap-12">
             <span>GENEVA</span>
             <span>ZURICH</span>

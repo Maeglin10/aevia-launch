@@ -37,6 +37,8 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
+  clientEmail,
   clientAddress,
   clientCity,
   clientFaq,
@@ -357,8 +359,8 @@ export default function Template({ session: initialSession }: { session?: any } 
   const bp = session?.businessProfile;
 
   const businessName = fd.businessName || "Éco-Clean Habitat";
-  const contactEmail = fd.contactEmail || "contact@eco-clean-habitat.fr";
-  const contactPhone = fd.contactPhone || "01 23 45 67 89";
+  const contactEmail = clientEmail(sessionData) || "contact@eco-clean-habitat.fr";
+  const contactPhone = clientPhone(sessionData) || "01 23 45 67 89";
   const contactAddress = fd.contactAddress || (clientAddress(sessionData) ?? "123 Rue de la Nature, 75001 Paris");
 
   // Colors
@@ -685,7 +687,7 @@ export default function Template({ session: initialSession }: { session?: any } 
                   fontWeight: 400,
                 }}
               >
-                {c.heroTitle || "La pureté au naturel pour votre intérieur."}
+                {c?.heroTitle || "La pureté au naturel pour votre intérieur."}
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
@@ -698,7 +700,7 @@ export default function Template({ session: initialSession }: { session?: any } 
                   marginBottom: "40px",
                 }}
               >
-                {clientTagline(sessionData) ?? (c.heroSubtitle || "Services de nettoyage professionnel respectueux de l'environnement, de votre santé et de votre bien-être.")}
+                {clientTagline(sessionData) ?? (c?.heroSubtitle || "Services de nettoyage professionnel respectueux de l'environnement, de votre santé et de votre bien-être.")}
               </p>
             </Reveal>
             <Reveal delay={0.3} className="flex flex-col sm:flex-row gap-4">

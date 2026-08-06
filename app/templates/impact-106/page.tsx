@@ -287,7 +287,7 @@ export default function StudioVersaPage() {
               </div>
             </Reveal>
             <Reveal delay={0.1} y={60}>
-              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-black tracking-tighter leading-[0.8] mb-8 max-w-4xl">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "Design"}<br/>{clientHeroLine(sessionData, 1, 3, 7) ?? "With"}<span className="text-[var(--brand,#f97316)] italic">{clientHeroLine(sessionData, 2, 3, 7) ?? "Intent."}</span>
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-black tracking-tighter leading-[0.8] mb-8 max-w-4xl">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "Design"}<br/>{clientHeroLine(sessionData, 1, 3, 7) ?? "With"}{" "}<span className="text-[var(--brand,#f97316)] italic">{clientHeroLine(sessionData, 2, 3, 7) ?? "Intent."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
@@ -591,7 +591,7 @@ export default function StudioVersaPage() {
           ))}
         </div>
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 STUDIO VERSA.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "STUDIO VERSA."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>DESIGN WITH INTENT.</span>
         </div>
       </footer>

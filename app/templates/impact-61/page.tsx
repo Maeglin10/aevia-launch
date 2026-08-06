@@ -7,6 +7,7 @@ import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { C, TextReveal, MagneticButton, CountUp } from "./shared";
 import {
+  clientAccrocheRestante,
   clientCity,
   clientName,
   clientPhotos,
@@ -234,7 +235,7 @@ return (
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "4rem", borderBottom: `1px solid ${C.border}`, paddingBottom: "2rem" }}>
             <div>
               <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", color: C.textDim, marginBottom: "0.75rem" }}>PROJETS RÉCENTS</div>
-              <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, color: C.text, letterSpacing: "-0.03em", lineHeight: 1 }}>{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+              <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, color: C.text, letterSpacing: "-0.03em", lineHeight: 1 }}>{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
                 Réalisations
               </>)}</h2>
             </div>

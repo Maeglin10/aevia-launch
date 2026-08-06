@@ -1,6 +1,8 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
+  clientAccrocheRestante,
   clientCity,
   clientList,
   clientName,
@@ -266,7 +268,7 @@ export default function Impact325SeminarHub({ session: initialSession }) {
     if (p[4]) { PHOTOS.event3 = p[4]; if (MOCK_EVENTS[2]) MOCK_EVENTS[2].image = p[4]; }
     if (p[5]) { PHOTOS.event4 = p[5]; if (MOCK_EVENTS[3]) MOCK_EVENTS[3].image = p[5]; }
   }, [fd]);
-  const contactEmail = fd.contactEmail || "contact@executivehub.example";
+  const contactEmail = clientEmail(sessionData) || "contact@executivehub.example";
 
   // State
   const [cartOpen, setCartOpen] = useState(false);
@@ -363,7 +365,7 @@ export default function Impact325SeminarHub({ session: initialSession }) {
           ) : (
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <Building color={scrolled ? C.primary : C.white} size={28} />
-              <h1 style={{ fontFamily: SERIF, fontSize: "22px", fontWeight: 700, margin: 0, color: scrolled ? C.primary : C.white }}>
+              <h1 className="hero-ecran-court" style={{ fontFamily: SERIF, fontSize: "22px", fontWeight: 700, margin: 0, color: scrolled ? C.primary : C.white }}>
                 {businessName}
               </h1>
             </div>
@@ -562,8 +564,8 @@ export default function Impact325SeminarHub({ session: initialSession }) {
           <div style={{ maxWidth: "700px" }}>
             <motion.h1
               initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-              style={{ fontFamily: SERIF, fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 500, lineHeight: 1.1, margin: "0 0 24px 0", color: C.white }}
-            >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+              style={{  fontFamily: SERIF, fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 500, lineHeight: 1.1, margin: "0 0 24px 0", color: C.white }}
+            >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
               Elevate Your Corporate Strategy
             </>)}</motion.h1>
 

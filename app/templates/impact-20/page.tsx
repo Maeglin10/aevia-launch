@@ -189,7 +189,7 @@ function RotatingJewel({ rotationSpeed }: { rotationSpeed: number }) {
         >
           <defs>
             <radialGradient id="goldGrad" cx="50%" cy="35%" r="65%">
-              <stop offset="0%" stopColor="var(--brand-light,#f5e6b8)" />
+              <stop offset="0%" stopColor="#f5e6b8" />
               <stop offset="40%" stopColor="var(--brand,#d4af6b)" />
               <stop offset="100%" stopColor="#8b6914" />
             </radialGradient>
@@ -2727,7 +2727,7 @@ export default function LuxuryJewelryTemplate() {
                 fontFamily: "Georgia, serif",
               }}
             >
-              © 2025 Maison Élara. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2025 {clientName(sessionData) ?? "Maison Élara."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: 32 }}>
               {[
@@ -2862,7 +2862,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
                 height: 120,
                 borderRadius: "50%",
                 border: "2px stroke #d4af6b",
-                background: "radial-gradient(circle, var(--brand-light,#f5e6b8) 0%, #c8963a 70%, transparent 100%)",
+                background: "radial-gradient(circle, #f5e6b8 0%, #c8963a 70%, transparent 100%)",
                 opacity: 0.15,
                 filter: "blur(2px)",
                 animation: "jewel-spin 10s linear infinite",

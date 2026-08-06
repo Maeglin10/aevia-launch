@@ -11,6 +11,7 @@ import { ArrowRight, ArrowUpRight, ChevronDown, ChevronLeft, ChevronRight } from
 import { resolveList } from "@/lib/templates/resolveList"
 import { Reveal, ScrollImage, projects as projects_DEMO, services as services_DEMO, team as team_DEMO, testimonials as testimonials_DEMO, processSteps } from "./shared"
 import {
+  clientAccrocheRestante,
   clientCity,
   clientHeroLine,
   clientName,
@@ -299,7 +300,7 @@ export default function Home() {
                 <h2 className="font-black text-4xl md:text-5xl uppercase leading-[0.9] mb-8" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                   CONCRETE IS HONEST.<br />WE ARE BRUTAL.
                 </>)}</h2>
-                <p className="text-white/60 leading-relaxed mb-8 text-lg">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="text-white/60 leading-relaxed mb-8 text-lg">{clientAccrocheRestante(sessionData, 3, 8) ?? c?.heroSubline ?? <>
                   We don't design for awards. We design for people and cities. Brutalism is not a style — it's a conviction that architecture should be truthful about its materials and its purpose.
                 </>}</p>
                 <Link href="/templates/impact-28/services" className="inline-flex items-center gap-2 bg-white text-black font-bold text-sm uppercase tracking-widest px-8 py-4 hover:bg-gray-100 transition-colors cursor-pointer">

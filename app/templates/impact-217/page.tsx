@@ -79,7 +79,7 @@ let C: Record<string, string> = {
   bgAlt: '#101012',
   bgCard: '#141417',
   bgCardHover: '#1b1b1f',
-  accent: 'var(--brand,#d4ff00)', // acid yellow
+  accent: '#d4ff00', // acid yellow
   accentDim: 'var(--brand-light,#aacc00)',
   white: '#f5f6f7',
   textMuted: '#8d909a',
@@ -2199,7 +2199,7 @@ function Footer() {
             fontSize: 13,
           }}
         >
-          <span>© 2026 AirForge. All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "AirForge."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div style={{ display: 'flex', gap: 24 }}>
             <a href="#contact" style={{ color: C.textFaint, textDecoration: 'none' }}>
               Privacy

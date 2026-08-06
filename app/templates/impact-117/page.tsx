@@ -198,7 +198,7 @@ export default function VoltLogisticsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
                 <Reveal delay={0.1}>
-                  <h1 className="text-7xl md:text-[9rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-10">{<>{clientHeroLine(sessionData, 0, 3, 9) ?? "The Speed"}<br/>{clientHeroLine(sessionData, 1, 3, 9) ?? "Of"}<span className="text-[var(--brand,#ffb400)]">{clientHeroLine(sessionData, 2, 3, 9) ?? "Light."}</span>
+                  <h1 className="text-7xl md:text-[9rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-10">{<>{clientHeroLine(sessionData, 0, 3, 9) ?? "The Speed"}<br/>{clientHeroLine(sessionData, 1, 3, 9) ?? "Of"}{" "}<span className="text-[var(--brand,#ffb400)]">{clientHeroLine(sessionData, 2, 3, 9) ?? "Light."}</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.25}>
@@ -425,7 +425,7 @@ export default function VoltLogisticsPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/20">
-          <span>© 2026 VOLT LOGISTICS GLOBAL. ALL SYSTEMS ACTIVE.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "VOLT LOGISTICS GLOBAL. ALL"} SYSTEMS ACTIVE.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2"><MapPin className="w-3 h-3" /> NYC HQ</Link>
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> GLOBAL NETWORK</Link>

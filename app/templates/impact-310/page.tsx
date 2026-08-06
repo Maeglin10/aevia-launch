@@ -88,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   JARDINS DE L'HÉRAULT — Paysagiste méditerranéen Montpellier — espèces locales, irrigation, terrasses. Fraunces, olive / sable.
+   JARDINS DE L'HÉRAULT — Paysagiste méditerranéen {clientCity(sessionData) ?? "Montpellier"} — espèces locales, irrigation, terrasses. Fraunces, olive / sable.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -1439,7 +1439,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Jardins de l'Hérault. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Jardins"} de l'Hérault. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

@@ -297,7 +297,7 @@ export default function PulseAppPage() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <Reveal delay={0.1}>
-              <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6">{<>{clientHeroLine(sessionData, 0, 3, 16) ?? "L app qui fait"}<br />{clientHeroLine(sessionData, 1, 3, 16) ?? "travailler votre"}<br /><span className="text-[var(--brand,#6366F1)]">{clientHeroLine(sessionData, 2, 3, 16) ?? "équipe mieux"}</span>
+              <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6">{<>{clientHeroLine(sessionData, 0, 3, 16) ?? "L'app qui fait"}<br />{clientHeroLine(sessionData, 1, 3, 16) ?? "travailler votre"}<br /><span className="text-[var(--brand,#6366F1)]">{clientHeroLine(sessionData, 2, 3, 16) ?? "équipe mieux"}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>

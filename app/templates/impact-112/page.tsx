@@ -2945,7 +2945,7 @@ return (
             }}
           >
             <div style={{ fontSize: "0.73rem", color: C.muted }}>
-              © 2026 Terre & Geste · Atelier de céramique · Beaune, Bourgogne · Micro-entreprise{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "Terre"} & Geste · Atelier de céramique · Beaune, Bourgogne · Micro-entreprise{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </div>
             <div style={{ display: "flex", gap: 24 }}>
               {["Mentions légales", "Confidentialité", "CGV"].map((link) => (

@@ -36,7 +36,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉO ATLANTIQUE — Cabinet d'Ostéopathie & Thérapies Manuelles · Nantes
+   OSTÉO ATLANTIQUE — Cabinet d'Ostéopathie & Thérapies Manuelles · {clientCity(sessionData) ?? "Nantes"}
    Chorégraphie de défilement éditoriale. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -2021,7 +2021,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2026 Ostéo Atlantique · {clientCity(sessionData) ?? "Nantes"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Ostéo Atlantique"} · {clientCity(sessionData) ?? "Nantes"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#reserver" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
