@@ -21,6 +21,7 @@ import {
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientPhotos,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -1457,7 +1458,15 @@ function GallerySection({ accentColor }: { accentColor: string }) {
                       : 'span 1',
                 gridRow: item.aspect === 'portrait' ? 'span 2' : 'span 1',
                 borderRadius: 16,
-                background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}88 100%)`,
+                /*
+                  La galerie de ce salon d'onglerie n'etait faite que de carres
+                  de couleur : huit degrades, pas une seule image, sur un metier
+                  qui se vend par la photographie. Les photos du client passent
+                  devant ; sans elles, le degrade du theme reste.
+                */
+                background: clientPhotos(sessionData)[i]
+                  ? `url(${clientPhotos(sessionData)[i]}) center/cover no-repeat`
+                  : `linear-gradient(135deg, ${item.color} 0%, ${item.color}88 100%)`,
                 position: 'relative',
                 overflow: 'hidden',
                 cursor: 'pointer',
