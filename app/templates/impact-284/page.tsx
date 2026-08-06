@@ -2595,7 +2595,7 @@ function FooterSection() {
               }}
             >
               <Phone size={15} color={C.gold} strokeWidth={1.6} />
-              05 56 XX XX XX
+              05 56 21 58 58
             </div>
             <div
               style={{
@@ -2733,7 +2733,7 @@ function FooterSection() {
               </div>
             </div>
             <GoldButton filled>
-              <a href={`tel:${fd?.phone ?? "+33556XXXXXX"}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <a href={`tel:${fd?.phone ?? "+33556215858"}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: 8 }}>
                 Appeler maintenant
               </a>
             </GoldButton>

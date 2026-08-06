@@ -2644,7 +2644,7 @@ function FooterSection() {
             }}
           >
             <Phone size={14} color={C.salmon} strokeWidth={1.6} />
-            02 40 XX XX XX
+            02 40 22 65 65
           </div>
 
           {/* Horaires condensés */}

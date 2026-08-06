@@ -1624,7 +1624,7 @@ function AppointmentFormSection() {
                   style={fieldBase}
                   value={telephone}
                   onChange={(e) => setTelephone(e.target.value)}
-                  placeholder="06 XX XX XX XX"
+                  placeholder="06 20 51 51 51"
                   autoComplete="tel"
                 />
               </div>

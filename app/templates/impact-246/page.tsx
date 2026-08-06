@@ -750,7 +750,7 @@ function Hero() {
             animation: 'tf-pulse 1.8s ease-in-out infinite',
           }}
         />
-        24h/7j — 04 91 XX XX XX
+        24h/7j — 04 91 79 44 44
       </motion.div>
 
       {/* Contenu centré gauche */}
@@ -2018,7 +2018,7 @@ function QuoteForm() {
                     type="tel"
                     value={form.telephone}
                     onChange={set('telephone')}
-                    placeholder="06 XX XX XX XX"
+                    placeholder="06 79 44 44 44"
                     autoComplete="tel"
                   />
                 </div>
@@ -2158,7 +2158,7 @@ function Footer() {
     {
       title: 'Urgences & Contact',
       items: [
-        { label: '04 91 XX XX XX', href: 'tel:0491000000' },
+        { label: '04 91 79 44 44', href: 'tel:0491000000' },
         { label: 'Devis en ligne', href: '#devis' },
         { label: 'Interventions 24h/7j', href: '#interventions' },
         { label: 'Certifications RGE', href: "/templates/impact-246" },
@@ -2256,7 +2256,7 @@ function Footer() {
               }}
             >
               <Phone size={14} strokeWidth={2} />
-              04 91 XX XX XX
+              04 91 79 44 44
             </a>
           </div>
         </div>

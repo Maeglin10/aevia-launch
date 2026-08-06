@@ -1023,7 +1023,7 @@ function ReserveForm() {
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="06 XX XX XX XX"
+                  placeholder="06 72 75 75 75"
                   required
                   {...focusHandlers}
                   style={{ ...fieldStyle, width: '100%' }}

@@ -1721,7 +1721,7 @@ function RdvFormSection() {
           <Reveal delay={0.28}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {[
-                { icon: Phone, text: (fd?.phone ?? '04 67 XX XX XX') + ' — Lun-Ven 8h–19h' },
+                { icon: Phone, text: (fd?.phone ?? '04 67 20 51 51') + ' — Lun-Ven 8h–19h' },
                 { icon: MapPin, text: `12 Avenue de Palavas, 34000 ${clientCity(sessionData) ?? "Montpellier"}` },
                 { icon: FileText, text: 'Ordonnance médicale requise' },
                 { icon: CreditCard, text: 'Secteur 1 & 2 — CB, chèque, espèces' },
@@ -1826,7 +1826,7 @@ function RdvFormSection() {
                     fontWeight: 500,
                   }}
                 >
-                  04 67 XX XX XX · {fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}
+                  04 67 20 51 51 · {fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}
                 </div>
               </div>
             ) : (
@@ -1897,7 +1897,7 @@ function RdvFormSection() {
                     required
                     value={form.telephone}
                     onChange={handleChange}
-                    placeholder="06 XX XX XX XX"
+                    placeholder="06 20 51 51 51"
                     style={inputStyle}
                   />
                 </div>
@@ -2927,7 +2927,7 @@ function PracticalSection() {
                 }}
               >
                 <Phone size={15} strokeWidth={2} />
-                04 67 XX XX XX
+                04 67 20 51 51
               </a>
               <a
                 href={`mailto:${fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}`}
@@ -2984,7 +2984,7 @@ function FooterSection() {
     {
       titre: 'Contact',
       liens: [
-        { label: '04 67 XX XX XX', href: 'tel:+33467000000' },
+        { label: '04 67 20 51 51', href: 'tel:+33467000000' },
         { label: 'cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr', href: 'mailto:cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr' },
         { label: '12 Av. de Palavas, Antigone', href: '#pratique' },
         { label: 'Urgences : Hôpital Lapeyronie', href: "/templates/impact-283" },

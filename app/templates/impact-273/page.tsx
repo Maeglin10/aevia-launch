@@ -1715,7 +1715,7 @@ function AppointmentForm() {
           >
             Remplissez ce formulaire, nous vous confirmons votre
             rendez-vous sous 24h. Urgences : appelez directement le
-            +33 3 88 XX XX XX.
+            +33 3 88 79 44 44.
           </p>
         </Reveal>
 
@@ -1815,7 +1815,7 @@ function AppointmentForm() {
                   style={fieldBase}
                   value={telephone}
                   onChange={(e) => setTelephone(e.target.value)}
-                  placeholder="+33 6 XX XX XX XX"
+                  placeholder="+33 6 79 44 44 44"
                   autoComplete="tel"
                 />
               </div>
@@ -2002,7 +2002,7 @@ function Footer() {
               }}
             >
               <Phone size={14} color={C.accent} strokeWidth={1.5} />
-              +33 3 88 XX XX XX
+              +33 3 88 79 44 44
             </div>
             <div
               style={{

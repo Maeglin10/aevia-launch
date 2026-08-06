@@ -2342,7 +2342,7 @@ function FooterSection() {
       title: 'Contact',
       items: [
         { label: 'Diagnostic gratuit', href: '#contact' },
-        { label: '03 88 XX XX XX', href: 'tel:+33388000000' },
+        { label: '03 88 26 13 13', href: 'tel:+33388000000' },
         { label: (clientEmail(sessionData) ?? 'contact@schreiber-ec.fr'), href: 'mailto:contact@schreiber-ec.fr' },
         { label: `14 rue de Neudorf, ${clientCity(sessionData) ?? "Strasbourg"}`, href: '#contact' },
       ],

@@ -1595,7 +1595,7 @@ return (
                             onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))}
                             onFocus={() => setFocusedField('phone')}
                             onBlur={() => setFocusedField(null)}
-                            placeholder="06 XX XX XX XX"
+                            placeholder="06 72 75 75 75"
                             style={inputStyle('phone')}
                           />
                         </div>

@@ -1838,7 +1838,7 @@ function Footer() {
     {
       title: 'Approche & Contact',
       href: '#philosophie',
-      items: ['Notre philosophie', 'Biodiversité', 'Garantie reprise 2 ans', (fd?.email ?? 'contact@atelierterranantes.fr'), (fd?.phone ?? '02 40 XX XX XX')],
+      items: ['Notre philosophie', 'Biodiversité', 'Garantie reprise 2 ans', (fd?.email ?? 'contact@atelierterranantes.fr'), (fd?.phone ?? '02 40 74 89 89')],
     },
   ];
 

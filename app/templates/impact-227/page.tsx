@@ -247,7 +247,7 @@ function BarberBookingModal({
                     </div>
                     <div>
                       <label htmlFor="brb-phone" style={labelCls}>Téléphone *</label>
-                      <input id="brb-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="06 XX XX XX XX" style={inputCls} />
+                      <input id="brb-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="06 78 37 37 37" style={inputCls} />
                     </div>
                     <div>
                       <label htmlFor="brb-email" style={labelCls}>Email</label>

@@ -192,7 +192,7 @@ function InquiryModal({
                         value={tel}
                         onChange={(e) => setTel(e.target.value)}
                         className="w-full border border-[#11182a]/15 px-4 py-3 text-sm text-[#11182a] outline-none focus:border-[var(--brand,#b8944a)] focus:ring-2 focus:ring-[var(--brand,#b8944a)]/25 transition-colors"
-                        placeholder="06 XX XX XX XX"
+                        placeholder="06 23 72 72 72"
                       />
                     </div>
                     <div>

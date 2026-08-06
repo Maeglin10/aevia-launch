@@ -2710,7 +2710,7 @@ function PracticalSection() {
     {
       icon: Phone,
       label: 'Téléphone',
-      lines: [(fd?.phone ?? '04 91 XX XX XX'), 'Du lundi au vendredi', '9h – 18h30'],
+      lines: [(fd?.phone ?? '04 91 21 58 58'), 'Du lundi au vendredi', '9h – 18h30'],
     },
     {
       icon: Mail,
@@ -2994,7 +2994,7 @@ function FooterSection() {
     ],
     'Contact': [
       { label: '18, rue Breteuil — 13006', href: '#contact' },
-      { label: '04 91 XX XX XX', href: 'tel:0491000000' },
+      { label: '04 91 21 58 58', href: 'tel:0491000000' },
       { label: (clientEmail(sessionData) ?? 'contact@cabinet-faure.fr'), href: 'mailto:contact@cabinet-faure.fr' },
       { label: 'Prendre RDV', href: '#contact' },
     ],

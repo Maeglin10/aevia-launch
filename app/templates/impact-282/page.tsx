@@ -1632,7 +1632,7 @@ function CommandeFormSection() {
                   letterSpacing: '0.08em',
                 }}
               >
-                Nous vous recontactons dans les 24h pour confirmer. Boulangerie du Beffroi — 03 20 XX XX XX
+                Nous vous recontactons dans les 24h pour confirmer. Boulangerie du Beffroi — 03 20 79 44 44
               </p>
             </div>
           </Reveal>
@@ -2482,7 +2482,7 @@ function HorairesSection() {
                       color: C.ink,
                     }}
                   >
-                    03 20 XX XX XX
+                    03 20 79 44 44
                   </div>
                 </div>
               </div>
@@ -2614,7 +2614,7 @@ function FooterSection() {
               }}
             >
               <Phone size={13} color={C.wheat} strokeWidth={1.5} />
-              03 20 XX XX XX
+              03 20 79 44 44
             </div>
             <div
               style={{

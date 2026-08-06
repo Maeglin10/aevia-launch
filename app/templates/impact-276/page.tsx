@@ -1996,7 +1996,7 @@ function BilanFormSection() {
                       }}
                     >
                       <Phone size={14} color={C.orange} />
-                      06 XX XX XX XX
+                      06 22 65 65 65
                     </div>
                   </div>
                 ) : (
@@ -2988,7 +2988,7 @@ function FooterSection() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {[
                   { icon: MapPin, label: (clientCity(sessionData) ?? 'Bordeaux') + ' Caudéran, 33200' },
-                  { icon: Phone, label: (fd?.phone ?? '06 XX XX XX XX') },
+                  { icon: Phone, label: (fd?.phone ?? '06 22 65 65 65') },
                   { icon: Mail, label: (fd?.email ?? 'thomas@lebruncoach.fr') },
                   { icon: Clock, label: 'Lun–Sam · 7h–20h' },
                 ].map((c) => {
