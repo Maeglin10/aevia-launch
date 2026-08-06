@@ -104,7 +104,7 @@ const INITIAL_C = {
   bgDeep: "#f0fdfa",
   bgCard: "#ffffff",
   text: "#1e293b",
-  textMuted: "var(--brand-light,#64748b)",
+  textMuted: "#64748b",
   accent: "#f59e0b",
   white: "#ffffff",
   black: "#000000",
