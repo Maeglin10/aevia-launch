@@ -57,7 +57,7 @@ let C: Record<string, string> = {
   bgAlt: '#0b1825',
   bgCard: '#0f2030',
   text: '#e4eef5',
-  textMuted: 'var(--brand-light,#7fa8c4)',
+  textMuted: '#7fa8c4',
   accent: '#1e8fbf',
   accentLight: '#3ab5e8',
   accentDark: '#155f80',

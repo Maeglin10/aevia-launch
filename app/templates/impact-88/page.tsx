@@ -108,7 +108,7 @@ let C: Record<string, string> = {
   bgDeep:    "#FCE7F3",
   primary:   "var(--brand,#ec4899)",
   secondary: "#8B5CF6",
-  text:      "var(--brand-light,#831843)",
+  text: "#831843",
   textSoft:  "#9D174D",
   textMuted: "#BE185D",
   textLight: "#F9A8D4",

@@ -80,7 +80,7 @@ let C: Record<string, string> = {
   bgCard: "#111711",
   bgPanel: "#0f140f",
   text: "#f0f4f0",
-  textMuted: "var(--brand,#8a9e8a)",
+  textMuted: "#8a9e8a",
   textDim: "#4a5e4a",
   emerald: "#014421",
   emeraldMid: "#025e30",

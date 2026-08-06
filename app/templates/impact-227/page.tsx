@@ -48,7 +48,7 @@ let C: Record<string, string> = {
   bgSection: "#f0ece5",
   bgDark: "#1c1410",
   text: "#1c1410",
-  textMuted: "var(--brand-light,#6b5c4c)",
+  textMuted: "#6b5c4c",
   accent: "#8b6914",
   accentLight: "#f5e8c8",
   copper: "#b5651d",
