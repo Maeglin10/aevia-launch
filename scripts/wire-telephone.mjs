@@ -52,6 +52,15 @@ for (const d of fs.readdirSync(ROOT).filter((x) => x.startsWith("impact-"))) {
       return `>{clientPhone(${arg}) ?? ${JSON.stringify(numero)}}<`;
     });
 
+    /*
+      Cas 1 bis : le numéro est du texte JSX sans balise collée — « {ville} ·
+      +33 1 00 00 00 00 ». Il suit une expression et finit la ligne.
+    */
+    neuve = neuve.replace(/(\}\s*[·|—-]?\s*)((?:\+33\s?|0)\d(?:[\s.\-]\d{2}){4})(\s*)$/g, (m0, avant, numero, apres) => {
+      n++;
+      return `${avant}{clientPhone(${arg}) ?? ${JSON.stringify(numero)}}${apres}`;
+    });
+
     // Cas 2 : le numéro est un élément d'une liste ou la valeur d'une clé.
     neuve = neuve.replace(/([[,:]\s*)"((?:\+33\s?|0)\d(?:[\s.\-]\d{2}){4})"/g, (m0, avant, numero) => {
       n++;

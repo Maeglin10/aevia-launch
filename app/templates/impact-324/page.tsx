@@ -1,6 +1,7 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientAccrocheRestante,
   clientCity,
   clientList,
@@ -284,7 +285,7 @@ export default function Impact324TicketStore({ session: initialSession }) {
     if (p[4]) { PHOTOS.gallery[0] = p[4]; if (MOCK_EVENTS[4]) MOCK_EVENTS[4].image = p[4]; }
     if (p[5]) { PHOTOS.gallery[1] = p[5]; if (MOCK_EVENTS[5]) MOCK_EVENTS[5].image = p[5]; }
   }, [fd]);
-  const contactEmail = fd.contactEmail || "hello@liveticket.example";
+  const contactEmail = clientEmail(sessionData) || "hello@liveticket.example";
 
   // State
   const [cartOpen, setCartOpen] = useState(false);

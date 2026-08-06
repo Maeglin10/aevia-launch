@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Heart } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -1956,7 +1957,7 @@ function Footer() {
               color: 'rgba(255,255,255,0.45)',
             }}
           >
-            {clientCity(sessionData) ?? "Paris"} · +33 1 00 00 00 00
+            {clientCity(sessionData) ?? "Paris"} · {clientPhone(sessionData) ?? "+33 1 00 00 00 00"}
           </div>
         </div>
 

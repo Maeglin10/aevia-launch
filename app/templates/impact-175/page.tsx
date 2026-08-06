@@ -13,6 +13,7 @@ import {
 } from "framer-motion";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -1656,7 +1657,7 @@ export default function Impact175Page() {
       >
         <div style={{ fontFamily: C.font, fontSize: 18, color: C.champagne }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Confluence Events"))}</div>
         <div style={{ fontFamily: C.fontSans, fontSize: 12, letterSpacing: "0.05em" }}>
-          © 2025 {clientName(sessionData) ?? "Confluence"} · {clientCity(sessionData) ?? "Paris"} · Monte-Carlo · info@confluence-events.fr{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2025 {clientName(sessionData) ?? "Confluence"} · {clientCity(sessionData) ?? "Paris"} · Monte-Carlo · {clientEmail(sessionData) ?? "info@confluence-events.fr"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </div>
       </footer>
     </div>

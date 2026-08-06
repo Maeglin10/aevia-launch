@@ -45,11 +45,22 @@ for (const id of ids) {
   };
   let fiche = { id, restes: [] };
   try {
+    /*
+      L'adresse ne vit pas dans le formulaire mais dans le profil : le wizard la
+      range sous « businessProfile.geo.address », et c'est là que le contrat va
+      la chercher. L'envoyer ailleurs faisait conclure que dix-sept thèmes
+      gardaient la ville de leur démonstration.
+    */
     const r = await fetch(`${BASE}/api/sessions`, {
       method: "POST", headers: { "content-type": "application/json" },
       body: JSON.stringify({ formData }),
     });
     const { sessionId } = await r.json();
+    // La création n'accepte que le formulaire ; le profil se pose ensuite.
+    await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
+      method: "PATCH", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ businessProfile: { geo: { address: CLIENT.adresse, primaryCity: CLIENT.ville } } }),
+    });
     const p = await ctx.newPage();
     await p.goto(`${BASE}/templates/${id}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 30000 });
     await p.waitForTimeout(2200);
@@ -78,12 +89,12 @@ for (const id of ids) {
         10234567890 » se lisait comme tel ; et un vrai numéro français compte
         exactement dix chiffres.
       */
-      const IDENTIFIANTS = /(RPPS|SIRET|SIREN|ADELI|RCS|TVA|N°|no\s|IBAN|APE|NAF)\D{0,4}$/i;
+      const IDENTIFIANTS = /(RPPS|SIRET|SIREN|ADELI|RCS|TVA|N°|IBAN|APE|NAF)[\s:\d]{0,12}$/i;
       for (const m of texte.matchAll(/(?:\+33\s?|0)[\d\s.\-]{8,16}\d/g)) {
         const chiffres = m[0].replace(/\D/g, "").replace(/^33/, "0");
         if (chiffres.length !== 10) continue;
         if (chiffres.endsWith(client.telCompact.slice(1))) continue;
-        if (IDENTIFIANTS.test(texte.slice(Math.max(0, m.index - 14), m.index))) continue;
+        if (IDENTIFIANTS.test(texte.slice(Math.max(0, m.index - 26), m.index))) continue;
         restes.push(`téléphone ${m[0].trim()}`);
       }
 
@@ -102,7 +113,11 @@ for (const id of ids) {
         "Strasbourg", "Nice", "Lille", "Montpellier", "Chambéry", "Grenoble", "Dijon", "Caen",
         "Angers", "Reims", "Tours", "Roubaix", "Avignon", "Aix-en-Provence", "Biarritz"];
       for (const v of villes) {
-        if (new RegExp(`\\b${v}\\b`).test(texte)) restes.push(`ville ${v}`);
+        const m = new RegExp(`(.{0,8})\\b${v}\\b`).exec(texte);
+        if (!m) continue;
+        // « RCS Paris » nomme un tribunal de commerce, pas la ville du client.
+        if (/RCS|Tribunal|greffe/i.test(m[1])) continue;
+        restes.push(`ville ${v}`);
       }
 
       return { id: identifiant, restes: [...new Set(restes)].slice(0, 5) };
