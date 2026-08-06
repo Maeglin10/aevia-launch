@@ -1,6 +1,7 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
   clientList,
   clientName,
@@ -563,7 +564,7 @@ export default function Impact325SeminarHub({ session: initialSession }) {
             <motion.h1
               initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
               style={{  fontFamily: SERIF, fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 500, lineHeight: 1.1, margin: "0 0 24px 0", color: C.white }}
-            >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+            >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
               Elevate Your Corporate Strategy
             </>)}</motion.h1>
 

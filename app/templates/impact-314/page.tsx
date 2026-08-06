@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientAddress,
   clientCity,
   clientFaq,

@@ -1,6 +1,7 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
   clientList,
   clientName,
@@ -553,7 +554,7 @@ export default function Impact324TicketStore({ session: initialSession }) {
           <motion.h1
             initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: EASE }}
             style={{  fontFamily: SERIF, fontSize: "clamp(40px, 8vw, 90px)", fontWeight: 900, lineHeight: 1.1, margin: "0 0 24px 0", color: C.white, textTransform: "uppercase", letterSpacing: "-2px" }}
-          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             Feel The <span style={{ color: C.primary, textShadow: `0 0 20px ${C.primary}80` }}>Vibe</span><br/>
             Live The <span style={{ WebkitTextStroke: `2px ${C.white}`, color: "transparent" }}>Moment</span>
           </>)}</motion.h1>

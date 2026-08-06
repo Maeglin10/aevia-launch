@@ -20,6 +20,7 @@ import {
 } from "framer-motion"
 import Link from "next/link"
 import {
+  clientAccrocheRestante,
   clientCity,
   clientHeroSubtitle,
   clientReviews,
@@ -490,7 +491,7 @@ function ParallaxMountainHero() {
             textTransform: "uppercase",
             overflowWrap: "break-word",
           }}
-        >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+        >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
           The World's<br />
           <span style={{ color: C.accent }}>Highest</span><br />
           Summits

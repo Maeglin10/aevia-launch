@@ -15,6 +15,7 @@ import {
 import Link from "next/link"
 import { TemplateIcon } from '@/components/TemplateIcon'
 import {
+  clientAccrocheRestante,
   clientCity,
   clientHeroSubtitle,
   clientList,
@@ -539,7 +540,7 @@ function RouteMapHero() {
               letterSpacing: "-0.03em",
               maxWidth: 820,
             }}
-          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             Move Cargo
             <br />
             <span style={{ color: T.accent }}>Without Limits.</span>

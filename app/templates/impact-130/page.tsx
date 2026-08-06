@@ -38,6 +38,7 @@ import {
   Palette,
 } from "lucide-react";
 import {
+  clientAccrocheRestante,
   clientCity,
   clientFaq,
   clientHeroSubtitle,
@@ -509,7 +510,7 @@ function SplitRevealHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h1 style={{ fontSize: "clamp(48px, 5.5vw, 88px)", fontWeight: 700, lineHeight: 1.0, color: C.text, fontFamily: "'DM Sans', system-ui, sans-serif", marginBottom: 28, letterSpacing: "-0.03em" }}>{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          <h1 style={{ fontSize: "clamp(48px, 5.5vw, 88px)", fontWeight: 700, lineHeight: 1.0, color: C.text, fontFamily: "'DM Sans', system-ui, sans-serif", marginBottom: 28, letterSpacing: "-0.03em" }}>{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             Identités
             <br />
             <span style={{ color: C.emeraldGlow }}>qui durent.</span>
