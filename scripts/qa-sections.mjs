@@ -188,6 +188,8 @@ for (const id of ids) {
           ce qu'on veut vérifier, pas le champ d'origine.
         */
         if (nom === "réalisations" && texte.includes("détartrage vidal")) return false;
+        // Une boutique nourrit son portfolio de son catalogue : c'est aussi sa donnee.
+        if (nom === "réalisations" && (texte.includes("coffret bellevaux") || texte.includes("tarte marquisats"))) return false;
         return true;
       })
       .map(([nom]) => nom);
