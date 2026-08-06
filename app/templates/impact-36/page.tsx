@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
@@ -18,6 +19,7 @@ import {
   MatchScore,
 } from "./shared"
 import {
+  clientWorks,
   clientCity,
   clientName,
   clientReviews,
@@ -63,6 +65,21 @@ export default function Home() {
 
   fd = session?.formData;
   sessionData = session;
+  /*
+    Les references du client passent devant celles de la demonstration. Le
+    theme declare une section « realisations » et n'en lisait aucune : un
+    cabinet de recrutement affichait les etudes de cas de NovaTech Capital,
+    quels que soient les chantiers que son client avait saisis.
+  */
+  const CAS_CLIENTS = resolveList(
+    clientWorks(sessionData)?.map((w: any, i: number) => ({
+      ...CASE_STUDIES[i % CASE_STUDIES.length],
+      company: w.title || w.name,
+      challenge: w.desc || w.description || CASE_STUDIES[i % CASE_STUDIES.length].challenge,
+      outcome: w.detail || CASE_STUDIES[i % CASE_STUDIES.length].outcome,
+    })),
+    CASE_STUDIES,
+  );
   memoriserSession(sessionData);
   c = session?.generatedContent;
 
@@ -456,7 +473,7 @@ return (
           </SectionReveal>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24 }}>
-            {CASE_STUDIES.map((cs, i) => (
+            {CAS_CLIENTS.map((cs, i) => (
               <SectionReveal key={cs.company} delay={i * 0.1}>
                 <div
                   style={{
