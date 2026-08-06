@@ -23,6 +23,7 @@ import {
 } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhotos,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -838,6 +839,22 @@ export default function OriginRoastPage() {
         <motion.div style={{ position: "absolute", inset: 0, scale: heroScale, backgroundImage: `radial-gradient(${C.caramel}12 1px, transparent 1px)`, backgroundSize: "24px 24px" }} />
         <div style={{ position: "absolute", top: "8%", right: "4%", width: 560, height: 560, background: `radial-gradient(circle, ${C.caramel}18 0%, transparent 65%)`, borderRadius: "50%", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: "-12%", left: "12%", width: 440, height: 440, background: `radial-gradient(circle, ${C.caramel}12 0%, transparent 65%)`, borderRadius: "50%", pointerEvents: "none" }} />
+        {/*
+          Une photographie de torréfaction. Le hero de ce torréfacteur ne
+          montrait que des halos en dégradé et un disque orange : aucun grain,
+          aucune machine, rien du métier. La photo du client passe devant.
+        */}
+        <motion.div
+          style={{
+            position: "absolute", inset: 0, zIndex: 0,
+            backgroundImage: `url(${clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/1695052/pexels-photo-1695052.jpeg?auto=compress&cs=tinysrgb&w=1800"})`,
+            backgroundSize: "cover", backgroundPosition: "center",
+            opacity: 0.28,
+          }}
+          initial={{ opacity: 0, scale: 1.08 }}
+          animate={{ opacity: 0.28, scale: 1 }}
+          transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+        />
         <ParticleField />
 
         <motion.div style={{ position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "80px 5%", width: "100%", opacity: heroOpacity, y: heroY }}>

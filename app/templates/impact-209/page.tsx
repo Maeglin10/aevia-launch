@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, BlurThrough, Retint, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
 import { TrackingCollapse } from '@/lib/templates/hero-kit-3';
 import {
+  clientPhotos,
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -1209,6 +1210,23 @@ export default function Page() {
           background: `linear-gradient(160deg, ${BG} 0%, #f0e8da 50%, #ede3d4 100%)`,
         }}
       >
+        {/*
+          Une photographie de salon. Le hero de ce coiffeur n'offrait qu'un
+          dégradé crème et huit traits décoratifs — rien du métier, sur un
+          thème dont le sujet est justement visuel. La photo du client passe
+          devant ; celle-ci ne sert que tant qu'il n'en a pas donné.
+        */}
+        <motion.div
+          style={{
+            position: 'absolute', inset: 0, zIndex: 0,
+            backgroundImage: `url(${clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=1800'})`,
+            backgroundSize: 'cover', backgroundPosition: 'center',
+            opacity: 0.22,
+          }}
+          initial={{ opacity: 0, scale: 1.06 }}
+          animate={{ opacity: 0.22, scale: 1 }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+        />
         {/* Background decorative lines */}
         {Array.from({ length: 8 }).map((_, i) => (
           <div
