@@ -198,3 +198,18 @@ body {
     zoom: 0.6;
   }
 }
+
+/*
+  Le lien d'évitement au clavier : son air ne lui vient qu'au focus.
+
+  Posé en style en ligne, l'espacement s'appliquait aussi quand le lien est
+  masqué : sa boîte passait de un pixel sur un à trente-deux sur seize. Invisible
+  à l'œil — « clip-path » le masque — mais assez grande pour recouvrir le texte
+  d'en dessous dans une mesure de chevauchement.
+
+  La classe l'emporte sur la remise à zéro des soixante thèmes, qui n'agit que
+  par le sélecteur universel.
+*/
+.lien-evitement:focus {
+  padding: 8px 16px !important;
+}
