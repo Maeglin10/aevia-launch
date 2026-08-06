@@ -17,6 +17,7 @@ import {
 } from "@/lib/templates/hero-kit-2"
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3"
 import {
+  clientAccrocheRestante,
   clientCity,
   clientEyebrow,
   clientHeroLine,
@@ -319,7 +320,7 @@ export default function AetherWellnessPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <AetherHero headline={c?.heroHeadline} subline={fd?.tagline ?? c?.heroSubline} />
+        <AetherHero headline={c?.heroHeadline} subline={clientAccrocheRestante(sessionData, 2, 9) ?? c?.heroSubline} />
 
         {/* ── PILLARS ───────────────── */}
         <section className="py-40 bg-white border-y border-black/5">

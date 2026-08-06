@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { GhostSolid } from "@/lib/templates/hero-kit-2";
 import {
+  clientAccrocheRestante,
   clientCertifications,
   clientCity,
   clientHeroLine,
@@ -208,7 +209,7 @@ export default function SentinellePage() {
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Sécurité privée · {clientCity(sessionData) ?? "Marseille"}</span>
         <div style={{ margin: "18px 0 8px" }}><GhostSolid ghost="VOTRE SITE" solid="PROTÉGÉ." accent={C.accent} className="" /></div>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {fd?.tagline ?? c?.heroSubline ?? "Gardiennage, rondes, événementiel, télésurveillance : des agents cartés CNAPS, encadrés, équipés'et contrôlés — parce que la sécurité est un métier réglementé, pas un gilet jaune fluo."}
+          {clientAccrocheRestante(sessionData, 1, 18) ?? c?.heroSubline ?? "Gardiennage, rondes, événementiel, télésurveillance : des agents cartés CNAPS, encadrés, équipés'et contrôlés — parce que la sécurité est un métier réglementé, pas un gilet jaune fluo."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

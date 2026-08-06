@@ -36,6 +36,7 @@ import {
   Pen,
 } from "lucide-react";
 import {
+  clientAccrocheRestante,
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -914,7 +915,7 @@ return (
               lineHeight: 1.7,
               fontWeight: 300,
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientAccrocheRestante(sessionData, 2, 6) ?? c?.heroSubline ?? <>
             Tatouage luxury à {clientCity({ formData: fd }) ?? "Paris"}. Trois artistes. Un standard absolu d'excellence — de la consultation à la cicatrisation.
           </>}</motion.p>
 

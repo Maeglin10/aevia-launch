@@ -21,7 +21,6 @@ import { Separator } from "@/components/ui/separator"
 import { Menu, X, Clock, MapPin, Phone, Mail, Star, ChevronDown, ArrowRight, Leaf, Flame, Wine, Utensils, CalendarDays, Users, Camera, Award, Globe, CheckCircle2 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientAccrocheRestante,
   clientCity,
   clientFaq,
   clientHours,
@@ -405,12 +404,6 @@ return (
 
           <div className="overflow-hidden mb-4">
             <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.6 }} className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-light tracking-[-0.02em] leading-[0.85] text-[#f5efe6]">{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "L'Étoile Restaurant"))}</>}</motion.h1>
-      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
-        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
-        </p>
-      )}
 
           </div>
           <div className="overflow-hidden mb-12">

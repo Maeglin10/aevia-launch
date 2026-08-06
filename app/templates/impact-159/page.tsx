@@ -20,6 +20,7 @@ import {
   MotionValue,
 } from "framer-motion"
 import {
+  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
   clientHeroSubtitle,
@@ -1061,7 +1062,7 @@ function HeroSection({
             margin: "0 auto 56px",
             letterSpacing: "0.04em",
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Graphene-infused silk. CRISPR bioluminescent mesh. Nitinol shape-memory wool. We engineer textiles at the intersection of materials science, biotechnology, and haute couture."}</motion.p>
+        >{clientHeroPrestations(sessionData) ?? "Graphene-infused silk. CRISPR bioluminescent mesh. Nitinol shape-memory wool. We engineer textiles at the intersection of materials science, biotechnology, and haute couture."}</motion.p>
 
         {/* CTAs */}
         <motion.div

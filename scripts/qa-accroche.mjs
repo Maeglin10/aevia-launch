@@ -51,8 +51,14 @@ for (const id of ids) {
         absente d'impact-06, 07, 08 et de vingt autres — alors qu'elle s'y lit,
         en majuscules.
       */
-      const texte = (document.body.innerText ?? "").toLowerCase();
-      const cherche = accroche.toLowerCase();
+      /*
+        Un titre répartit la phrase sur plusieurs lignes — « Votre plombier / de
+        confiance à Annecy / depuis 1998 » — et « innerText » y met des sauts de
+        ligne. Chercher la phrase telle qu'elle a été saisie ne la trouvait donc
+        pas, alors qu'elle se lit entièrement à l'écran.
+      */
+      const texte = (document.body.innerText ?? "").toLowerCase().replace(/\s+/g, " ");
+      const cherche = accroche.toLowerCase().replace(/\s+/g, " ");
       let fois = 0, i = 0;
       while ((i = texte.indexOf(cherche, i)) >= 0) { fois++; i += cherche.length; }
 

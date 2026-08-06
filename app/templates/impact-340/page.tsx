@@ -218,7 +218,7 @@ export default function OctaveAuditionPage() {
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Centre auditif · {clientCity(sessionData) ?? "Nantes"}</span>
         <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 64px)", color: C.text, lineHeight: 1.12, margin: "18px 0 8px", minHeight: "2.3em" }}><WordFlight text={S.line} keyed={i} className="" /></h1>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {fd?.tagline ?? c?.heroSubline ?? "Appareils connectés, réglages par l'oreille ET par la donnée : mesure in-vivo, environnements sonores réels, application de suivi. L'audition, traitée comme une science exacte."}
+          {c?.heroSubline ?? "Appareils connectés, réglages par l'oreille ET par la donnée : mesure in-vivo, environnements sonores réels, application de suivi. L'audition, traitée comme une science exacte."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

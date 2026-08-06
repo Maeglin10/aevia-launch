@@ -20,6 +20,7 @@ import {
 } from "framer-motion"
 import Link from "next/link"
 import {
+  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
   clientHeroSubtitle,
@@ -511,7 +512,7 @@ function ParallaxMountainHero() {
             margin:       "0 auto 48px",
             lineHeight:   1.7,
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Full-service expedition logistics for K2, Vinson Massif, and Aconcagua. Where preparation is the difference between summit and survival."}</motion.p>
+        >{clientHeroPrestations(sessionData) ?? "Full-service expedition logistics for K2, Vinson Massif, and Aconcagua. Where preparation is the difference between summit and survival."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}

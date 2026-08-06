@@ -12,6 +12,7 @@ import {
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
   clientFaq,
@@ -541,7 +542,7 @@ function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.7 }}
             style={{ fontFamily: C.fontBody, fontSize: 'clamp(15px, 2vw, 20px)', color: C.textMuted, maxWidth: 560, lineHeight: 1.75, marginBottom: 40 }}
-          >{clientHeroSubtitle(sessionData) ?? "Transport routier express, messagerie B2B, logistique e-commerce et entreposage pour les entreprises françaises. 18 ans d'expertise, 97.8 % de livraisons à temps."}</motion.p>
+          >{clientHeroPrestations(sessionData) ?? "Transport routier express, messagerie B2B, logistique e-commerce et entreposage pour les entreprises françaises. 18 ans d'expertise, 97.8 % de livraisons à temps."}</motion.p>
 
           {/* CTAs */}
           <motion.div

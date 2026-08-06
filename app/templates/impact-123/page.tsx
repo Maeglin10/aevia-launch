@@ -248,9 +248,9 @@ export default function VulcanMotorsPage() {
               <h1 className="text-7xl md:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-12">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "Pure"}<br/>{clientHeroLine(sessionData, 1, 3, 7) ?? "Kinetic"}<br/><span className="text-red-600">{clientHeroLine(sessionData, 2, 3, 7) ?? "Soul."}</span>
               </>}</h1>
       {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
+      {clientAccrocheRestante(sessionData, 3, 7) && (
         <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
+          {clientAccrocheRestante(sessionData, 3, 7)}
         </p>
       )}
 

@@ -9,6 +9,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { LineScroll } from "@/lib/templates/hero-kit-3";
 import {
+  clientAccrocheRestante,
   clientCertifications,
   clientCity,
   clientHeroLine,
@@ -204,7 +205,7 @@ export default function VerreEtLumierePage() {
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Miroiterie d'agencement · Colmar</span>
         <div style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.6vw, 58px)", color: C.text, lineHeight: 1.14, margin: "18px 0 8px" }}><LineScroll lines={S.lines} index={i} /></div>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {fd?.tagline ?? c?.heroSubline ?? "Verrières d'atelier, garde-corps, planchers et marches de verre, cloisons toute hauteur : la miroiterie qui travaille avec les architectes — calculs, DTU et poésie de la lumière compris."}
+          {clientAccrocheRestante(sessionData, 1, 24) ?? c?.heroSubline ?? "Verrières d'atelier, garde-corps, planchers et marches de verre, cloisons toute hauteur : la miroiterie qui travaille avec les architectes — calculs, DTU et poésie de la lumière compris."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

@@ -49,7 +49,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET VIDAL — Maître Clara Vidal · Avocate droit social & travail
+   CABINET VIDAL — Maître Clara Vidal · Avocate droit social & travail{" "}
    {clientCity(sessionData) ?? "Lyon"} Confluence · Design éditorial premium style Grand Palais × Barreau.
    Auto-suffisant. 'use client'. Pas d'imports externes sauf react/framer/lucide.
    ════════════════════════════════════════════════════════════════════════════ */

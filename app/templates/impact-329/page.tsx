@@ -10,6 +10,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
+  clientAccrocheRestante,
   clientCertifications,
   clientCity,
   clientName,
@@ -265,6 +266,20 @@ export default function CapDemenagementsPage() {
               <h1 key="big" style={{ fontSize: "clamp(38px, 6vw, 76px)", fontWeight: 900, letterSpacing: -1.5, lineHeight: 1.02, margin: "0 0 18px" }}>
                 {c?.heroHeadline ?? f.big}
               </h1>,
+              /*
+                Le hero de ce thème est un carrousel de formules : son titre et
+                son paragraphe décrivent la formule affichée, pas l'entreprise.
+                La phrase du client n'avait donc aucune place — et ne se lisait
+                nulle part. Cette ligne n'apparaît que s'il en a écrit une.
+              */
+              clientAccrocheRestante(sessionData) ? (
+                <p
+                  key="accroche"
+                  style={{ fontSize: 17, color: C.text, opacity: 0.82, lineHeight: 1.6, maxWidth: 520, margin: "0 0 14px" }}
+                >
+                  {clientAccrocheRestante(sessionData)}
+                </p>
+              ) : null,
               <div key="p" style={{ fontSize: 21, fontWeight: 800, color: C.accent, marginBottom: 14 }}>{f.p}</div>,
               <p key="d" style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 520, margin: 0 }}>
                 {c?.heroSubline ?? f.d}
