@@ -107,6 +107,11 @@ for (const id of ids) {
     tagline: "Votre plombier de confiance à Annecy depuis 1998",
     email: "contact@ateliers-vidal.fr", phone: "04 50 11 22 33",
     brandColor: "#c2410c", template: id,
+    // Les photos du client vivent dans le formulaire, sous « photoUrls ».
+    photoUrls: [
+      "https://images.pexels.com/photos/7937300/pexels-photo-7937300.jpeg?w=800",
+      "https://images.pexels.com/photos/7937300/pexels-photo-7937300.jpeg?w=801",
+    ],
   };
   /*
     Le contrat lit ces blocs dans le profil, pas dans le formulaire :
@@ -155,13 +160,29 @@ for (const id of ids) {
     await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await p.waitForTimeout(1400);
 
-    const texte = (await p.evaluate(() => (document.body.innerText ?? "").toLowerCase().replace(/\s+/g, " "))) ?? "";
+    /*
+      Une galerie de réalisations montre des images, pas des mots : sur
+      impact-210, les photos du client s'affichent et aucun libellé n'apparaît.
+      On relève donc aussi les URL présentes dans la page, pour reconnaître une
+      photo fournie par le client.
+    */
+    const { texte, sources } = await p.evaluate(() => ({
+      texte: (document.body.textContent ?? "").toLowerCase().replace(/\s+/g, " "),
+      sources: [...document.querySelectorAll("*")]
+        .flatMap((e) => [e.getAttribute?.("src") ?? "", getComputedStyle(e).backgroundImage ?? ""])
+        .join(" "),
+    }));
     const muettes = ATTENDUS
       .filter(([nom]) => (DECLARE[nom] ?? []).some((b2) => declares.includes(b2)))
       .filter(([nom]) => !(carteSeule && nom === "prestations"))
       // Un theme qui declare carte ET catalogue n'affiche qu'une source : la carte prime.
       .filter(([nom]) => !(nom === "produits" && declares.includes("menu")))
-      .filter(([, valeur]) => !texte.includes(valeur.toLowerCase()))
+      .filter(([nom, valeur]) => {
+        if (texte.includes(valeur.toLowerCase())) return false;
+        // Une photo du client dans la page vaut preuve pour une galerie.
+        if (nom === "réalisations" && sources.includes("pexels-photo-7937300")) return false;
+        return true;
+      })
       .map(([nom]) => nom);
 
     fiche = { id, muettes, declares: declares.length };
