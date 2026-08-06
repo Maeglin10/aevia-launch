@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET FAURE — Maître Isabelle Faure · Avocate droit de la famille & succession
+   CABINET FAURE — Maître Isabelle Faure · Avocate droit de la famille & succession{" "}
    {clientCity(sessionData) ?? "Marseille"} · Barreau de {clientCity(sessionData) ?? "Marseille"}
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
@@ -40,6 +40,7 @@ import {
 // used to derive companion shades from the client's brand color.
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -2994,7 +2995,7 @@ function FooterSection() {
     'Contact': [
       { label: '18, rue Breteuil — 13006', href: '#contact' },
       { label: '04 91 XX XX XX', href: 'tel:0491000000' },
-      { label: 'contact@cabinet-faure.fr', href: 'mailto:contact@cabinet-faure.fr' },
+      { label: (clientEmail(sessionData) ?? 'contact@cabinet-faure.fr'), href: 'mailto:contact@cabinet-faure.fr' },
       { label: 'Prendre RDV', href: '#contact' },
     ],
   };
@@ -3163,7 +3164,7 @@ function FooterSection() {
               color: 'rgba(249,247,242,0.35)',
             }}
           >
-            © {new Date().getFullYear()} Cabinet Faure — Tous droits réservés · {clientCity(sessionData) ?? "Marseille"}, France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Cabinet Faure"} — Tous droits réservés · {clientCity(sessionData) ?? "Marseille"}, France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: 'flex', gap: 24 }}>
             {['Mentions légales', 'Politique de confidentialité', 'RGPD'].map(
@@ -3286,12 +3287,12 @@ return (
 
         ::selection {
           background: rgba(26,58,92,0.18);
-          color: #1a3a5c;
+          color: var(--brand,#1a3a5c);
         }
 
         input:focus, select:focus, textarea:focus {
           outline: none;
-          border-color: #1a3a5c !important;
+          border-color: var(--brand,#1a3a5c) !important;
           box-shadow: 0 0 0 2px rgba(26,58,92,0.12);
         }
 
@@ -3300,7 +3301,7 @@ return (
         /* Scrollbar discrète */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #e8e4dc; }
-        ::-webkit-scrollbar-thumb { background: #1a3a5c; border-radius: 0; }
+        ::-webkit-scrollbar-thumb { background: var(--brand,#1a3a5c); border-radius: 0; }
 
         /* Responsive utilitaires r275 */
         @media (max-width: 860px){

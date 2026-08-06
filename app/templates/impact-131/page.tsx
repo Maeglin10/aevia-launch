@@ -2066,7 +2066,7 @@ export default function WineryTemplate() {
                 marginBottom: 24,
               }}
             >
-              Quatrième génération du domaine, Jean-Pierre a étudié l'oenologie à Bordeaux et fait ses armes dans la vallée du Rhône avant de reprendre Château de Valroc en 2005. Sa philosophie : laisser parler le terroir, intervenir le moins possible.
+              Quatrième génération du domaine, Jean-Pierre a étudié l'oenologie à {clientCity(sessionData) ?? "Bordeaux"} et fait ses armes dans la vallée du Rhône avant de reprendre Château de Valroc en 2005. Sa philosophie : laisser parler le terroir, intervenir le moins possible.
             </p>
             <p
               style={{
@@ -2569,7 +2569,7 @@ export default function WineryTemplate() {
                 textTransform: "uppercase",
               }}
             >
-              © 2024 Château de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2024 {clientName(sessionData) ?? "Château"} de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["Instagram", "LinkedIn", "Newsletter"]).map((s) => (

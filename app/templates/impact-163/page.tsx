@@ -1270,7 +1270,7 @@ export default function EssentialBlogPage() {
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
             <p style={{ fontSize: 11, color: "rgba(250,250,250,0.18)", fontFamily: C.sans }}>
-              © 2026 L'Essentiel — Media indépendant · ISSN 2698-XXXX{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "L'Essentiel"} — Media indépendant · ISSN 2698-XXXX{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <p style={{ fontSize: 11, color: "rgba(250,250,250,0.18)", fontFamily: C.sans }}>{fd?.city ?? "Paris"}, France</p>
           </div>

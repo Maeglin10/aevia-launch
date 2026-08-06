@@ -201,7 +201,7 @@ export default function MaxPerformancePage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}>
-            <h1 className="font-black uppercase leading-none tracking-tight mb-2 text-[#f8f5f0]" style={{ fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(64px,10vw,120px)" }}>{c?.heroHeadline ?? <>
+            <h1 className="font-black uppercase leading-none tracking-tight mb-2 text-[#f8f5f0]" style={{ /* TITRE_DEGAGE */ marginTop: 87,  fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(64px,10vw,120px)" }}>{c?.heroHeadline ?? <>
               STOP
             </>}</h1>
             <h1 className="font-black uppercase leading-none tracking-tight mb-2 text-[var(--brand,#f97316)]" style={{ fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(64px,10vw,120px)" }}>
@@ -408,7 +408,7 @@ export default function MaxPerformancePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#f97316)]/6 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f8f5f0]/8">
-          <span>© 2026 Max Performance · SIRET 123 456 789 00100 · BPJEPS AF · {clientCity({ formData: fd }) ?? "Paris"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Max Performance"} · SIRET 123 456 789 00100 · BPJEPS AF · {clientCity({ formData: fd }) ?? "Paris"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#f97316)]/20">Stop Waiting. Start Performing.</span>
         </div>
       </footer>

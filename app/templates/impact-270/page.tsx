@@ -703,7 +703,7 @@ function Hero() {
             maxWidth: 480,
             lineHeight: 1.7,
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Atelier de tatouage artistique et d&apos;illustration à Vieux-Lille. Sur rendez-vous uniquement."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Atelier de tatouage artistique et d'illustration à Vieux-Lille. Sur rendez-vous uniquement."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

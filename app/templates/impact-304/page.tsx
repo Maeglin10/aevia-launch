@@ -765,7 +765,7 @@ return (
                 height: '100%'
               }}>
                 <div style={{ color: C.primary, marginBottom: 20 }}><Shield size={32} /></div>
-                <h3 style={{ fontFamily: SERIF, fontSize: 20, color: C.primary, marginBottom: 12, fontWeight: 700 }}>Garantie &amp; Sécurité</h3>
+                <h3 style={{ fontFamily: SERIF, fontSize: 20, color: C.primary, marginBottom: 12, fontWeight: 700 }}>Garantie & Sécurité</h3>
                 <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>Conformité totale avec les normes en vigueur et transparence tarifaire.</p>
               </div>
             </Reveal>
@@ -1073,7 +1073,7 @@ return (
           }}>
             <div>
               <Reveal>
-                <Eyebrow>Contact &amp; Réservations</Eyebrow>
+                <Eyebrow>Contact & Réservations</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 44px)',
@@ -1307,7 +1307,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Rapido Plomberie {clientCity(sessionData) ?? "Paris"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Rapido Plomberie"} {clientCity(sessionData) ?? "Paris"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

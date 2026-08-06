@@ -20,6 +20,8 @@ import {
   Sparkles,
 } from 'lucide-react';
 import {
+  clientHeroPrestations,
+  clientAccrocheRestante,
   clientCity,
   clientFaq,
   clientHeroSubtitle,
@@ -395,7 +397,7 @@ function Hero() {
               lineHeight: 1.04,
               margin: '22px 0 18px',
             }}
-          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             Pilotez votre croissance,{' '}
             <span
               style={{
@@ -407,7 +409,7 @@ function Hero() {
               sans le chaos.
             </span>
           </>)}</h1>
-          <p style={{ fontSize: 18, color: C.inkSoft, lineHeight: 1.65, maxWidth: 480, margin: '0 0 32px' }}>{clientHeroSubtitle(sessionData) ?? "NovaSaaS réunit vos données, vos équipes et vos automatisations dans une seule plateforme. Décidez plus vite, avec des analyses en temps réel."}</p>
+          <p style={{ fontSize: 18, color: C.inkSoft, lineHeight: 1.65, maxWidth: 480, margin: '0 0 32px' }}>{clientHeroPrestations(sessionData) ?? "NovaSaaS réunit vos données, vos équipes et vos automatisations dans une seule plateforme. Décidez plus vite, avec des analyses en temps réel."}</p>
           <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
             <a href="#cta" style={{ ...primaryBtn, padding: '15px 28px', fontSize: 16 }}>
               Démarrer gratuitement <ArrowRight size={17} />
@@ -1233,7 +1235,7 @@ function Footer() {
             color: C.muted,
           }}
         >
-          <span>© 2026 NovaSaaS SAS. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "NovaSaaS SAS."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span>Fait avec soin à {clientCity(sessionData) ?? "Lyon"}, France.</span>
         </div>
       </div>

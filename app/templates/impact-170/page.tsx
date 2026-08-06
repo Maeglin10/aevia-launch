@@ -64,7 +64,7 @@ let C: Record<string, string> = {
   surface: "#131720",
   card: "#181f2d",
   cardBorder: "#1e2a3a",
-  green: "var(--brand,#00ff41)",
+  green: "#00ff41",
   greenDim: "rgba(0,255,65,0.12)",
   greenGlow: "rgba(0,255,65,0.08)",
   cyan: "#00e5ff",
@@ -188,7 +188,7 @@ const TERMINAL_LINES = [
   { delay: 3.6, text: "$ node --version && npx tsc --version", color: C.green },
   { delay: 4.0, text: "v22.4.0  TypeScript 5.5.3", color: C.text },
   { delay: 4.6, text: "$ echo $AVAILABLE_FOR_WORK", color: C.green },
-  { delay: 5.0, text: "true — open to senior / staff positions (remote preferred)", color: "var(--brand,#00ff41)" },
+  { delay: 5.0, text: "true — open to senior / staff positions (remote preferred)", color: "#00ff41" },
   { delay: 5.6, text: "$ _", color: C.green },
 ];
 

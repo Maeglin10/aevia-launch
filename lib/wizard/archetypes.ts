@@ -12,21 +12,28 @@ export interface ArchetypeConfig {
   coreFields: Array<keyof import("@/lib/sessions").BusinessCore>;
 }
 
+/*
+  Ce que chaque archétype demande vient de ce que ses thèmes affichent, pas d'une
+  idée du métier : trente-quatre métiers montraient un bandeau de chiffres que le
+  wizard ne demandait pas, vingt-sept une foire aux questions, sept une équipe.
+  Ces sections restaient en démonstration, et le client ne savait pas qu'il
+  aurait pu les remplir.
+*/
 export const ARCHETYPES: Record<ArchetypeId, ArchetypeConfig> = {
   service_rdv: {
     id: "service_rdv",
     catalogueFields: ["services", "team", "beforeAfter"],
-    coreFields: ["bookingSystem", "openingHours", "reputation", "certifications"],
+    coreFields: ["bookingSystem", "openingHours", "reputation", "certifications", "keyStats", "faq", "geo"],
   },
   food: {
     id: "food",
-    catalogueFields: ["menu"],
-    coreFields: ["openingHours", "bookingSystem", "reputation"],
+    catalogueFields: ["menu", "team", "beforeAfter"],
+    coreFields: ["openingHours", "bookingSystem", "reputation", "keyStats", "faq", "certifications", "geo"],
   },
   produits: {
     id: "produits",
-    catalogueFields: ["products", "commerce"],
-    coreFields: ["reputation", "openingHours", "geo", "paymentMethods"],
+    catalogueFields: ["products", "commerce", "team"],
+    coreFields: ["reputation", "openingHours", "geo", "paymentMethods", "keyStats", "faq", "certifications"],
   },
   immobilier: {
     id: "immobilier",
@@ -41,23 +48,23 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeConfig> = {
   */
   portfolio_projets: {
     id: "portfolio_projets",
-    catalogueFields: ["services", "beforeAfter", "team"],
-    coreFields: ["certifications", "geo", "keyStats", "reputation"],
+    catalogueFields: ["services", "beforeAfter", "team", "products"],
+    coreFields: ["certifications", "geo", "keyStats", "reputation", "faq", "openingHours"],
   },
   expertise_b2b: {
     id: "expertise_b2b",
-    catalogueFields: ["services", "team"],
+    catalogueFields: ["services", "team", "beforeAfter"],
     coreFields: ["keyStats", "faq", "certifications", "reputation", "openingHours"],
   },
   hotellerie: {
     id: "hotellerie",
-    catalogueFields: ["services", "products"],
-    coreFields: ["openingHours", "bookingSystem", "geo", "reputation", "paymentMethods"],
+    catalogueFields: ["services", "products", "team"],
+    coreFields: ["openingHours", "bookingSystem", "geo", "reputation", "paymentMethods", "keyStats", "faq"],
   },
   domicile: {
     id: "domicile",
-    catalogueFields: ["services", "beforeAfter"],
-    coreFields: ["geo", "faq", "emergency", "certifications", "openingHours", "reputation"],
+    catalogueFields: ["services", "beforeAfter", "team", "products"],
+    coreFields: ["geo", "faq", "emergency", "certifications", "openingHours", "reputation", "keyStats"],
   },
 };
 

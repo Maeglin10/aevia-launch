@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import {
+  clientPhone,
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -51,15 +52,15 @@ function shadeColor(hex: string, percent: number): string {
 
 let C: Record<string, string> = {
   bg: "#FBF7EF",
-  bgDark: "var(--brand, #0A2540)",
+  bgDark: "var(--brand,#0A2540)",
   bgCard: "#FFFFFF",
-  text: "var(--brand, #0A2540)",
-  textMuted: "var(--brand,#6b7b8d)",
+  text: "var(--brand,#0A2540)",
+  textMuted: "#6b7b8d",
   textLight: "rgba(10,37,64,0.55)",
   accent: 'var(--brand-light,#c9a96e)',
   accentDark: "#9E7A45",
   accentLight: "#F0E6D3",
-  marine: "var(--brand, #0A2540)",
+  marine: "var(--brand,#0A2540)",
   marineMid: "#1A3A5C",
   sand: "#FBF7EF",
   sandDark: "#F0E6D3",
@@ -1144,7 +1145,7 @@ return (
             {[
               { title: "Destinations", links: ["Maldives", "Japon", "Kenya", "Patagonie", "Grèce", "Rajasthan"] },
               { title: "Services", links: ["Voyages sur mesure", "Classe affaires", "Conciergerie 24h", "Voyages famille", "Lune de miel"] },
-              { title: "Contact", links: ["Consultation gratuite", "+33 1 42 68 90 00", (fd?.email ?? "paris@evasion-doree.fr"), "Mentions légales", "CGV"] },
+              { title: "Contact", links: ["Consultation gratuite", (clientPhone(sessionData) ?? "+33 1 42 68 90 00"), (fd?.email ?? "paris@evasion-doree.fr"), "Mentions légales", "CGV"] },
             ].map(col => (
               <div key={col.title}>
                 <h4 style={{ fontSize: 11, fontWeight: 600, color: C.accent, letterSpacing: "0.12em", marginBottom: 20, fontFamily: "system-ui" }}>
@@ -1193,7 +1194,7 @@ return (
           </div>
 
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.2)", fontFamily: "system-ui" }}>© 2024 Évasion Dorée — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.2)", fontFamily: "system-ui" }}>© 2024 {clientName(sessionData) ?? "Évasion Dorée"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
               {[1,2,3,4,5].map(i => <Star key={i} size={11} fill={C.accent} color={C.accent} />)}
               <span style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", fontFamily: "system-ui", marginLeft: 8 }}>4.97/5 — 1 200+ voyageurs</span>

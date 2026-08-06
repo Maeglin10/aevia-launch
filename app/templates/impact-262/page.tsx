@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -2075,7 +2076,7 @@ function Footer() {
         items: [
           { label: (clientCity(sessionData) ?? 'Paris') + ' Marais', href: '#reservation' },
           { label: 'Sur rendez-vous', href: '#reservation' },
-          { label: 'studio@noirAbsolu.fr', href: 'mailto:studio@noirAbsolu.fr' },
+          { label: (clientEmail(sessionData) ?? 'studio@noirAbsolu.fr'), href: 'mailto:studio@noirAbsolu.fr' },
           { label: 'Instagram', href: "/templates/impact-262" },
         ],
       },
@@ -2226,7 +2227,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Studio Noir Absolu. {clientCity(sessionData) ?? "Paris"} 3e Marais. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Studio Noir Absolu."} {clientCity(sessionData) ?? "Paris"} 3e Marais. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a

@@ -16,6 +16,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -767,7 +768,7 @@ function Hero() {
             lineHeight: 1.7,
             marginBottom: 44,
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Soins sans douleur, technologie numérique, expertise esthétique — le cabinet de référence de la Côte d&apos;Azur."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Soins sans douleur, technologie numérique, expertise esthétique — le cabinet de référence de la Côte d'Azur."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}
@@ -2170,7 +2171,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Cabinet Dentaire Sorrento. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Cabinet Dentaire Sorrento."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Dr. Clara Sorrento · RPPS 00000000000 · Ordre des Chirurgiens-Dentistes

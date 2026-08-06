@@ -40,6 +40,7 @@ import {
   clientHeroLine,
   clientHours,
   clientList,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -557,20 +558,20 @@ function HeroSection() {
           </motion.div>
 
           <motion.h1
-            className="r276-hero-title"
+            className="hero-ecran-court r276-hero-title"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, ease: EASE, delay: 0.25 }}
-            style={{ marginTop: 24, marginBottom: 0 }}
+            style={{  marginTop: 24, marginBottom: 0 }}
           >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 7) ?? (<>
             DÉPASSE<br />
             <span className="r276-hero-orange">TES</span><br />
             LIMITES
           </>)}</motion.h1>
       {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
-        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
+      {clientAccrocheRestante(sessionData, 1, 7) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 7)}
         </p>
       )}
 
@@ -3059,7 +3060,7 @@ function FooterSection() {
                 margin: 0,
               }}
             >
-              © 2025 Thomas Lebrun Coach — {clientCity(sessionData) ?? "Bordeaux"} Caudéran. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2025 {clientName(sessionData) ?? "Thomas Lebrun Coach"} — {clientCity(sessionData) ?? "Bordeaux"} Caudéran. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               {LINKS.map((l) => (

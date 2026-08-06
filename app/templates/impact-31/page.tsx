@@ -26,6 +26,7 @@ import {
   Leaf,
 } from "lucide-react";
 import {
+  clientAccrocheRestante,
   clientCity,
   clientFaq,
   clientHours,
@@ -395,7 +396,7 @@ function Hero() {
             letterSpacing: -1,
             marginBottom: 24,
           }}
-        >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+        >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
           Trouvez votre{" "}
           <em style={{ color: C.accent, fontStyle: "italic" }}>équilibre intérieur</em>
         </>)}</motion.h1>

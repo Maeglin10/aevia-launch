@@ -52,7 +52,7 @@ let C: Record<string, string> = {
   bg: "#faf7f4",
   bgSection: "#f2ece5",
   text: "#2a1f14",
-  textMuted: "var(--brand-light,#7a6655)",
+  textMuted: "#7a6655",
   accent: "#4a7c6f",
   accentDark: "#355c52",
   accentLight: "#d8ede9",

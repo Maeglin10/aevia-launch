@@ -322,7 +322,7 @@ export default function Impact174Page() {
             <span className="text-xs font-bold uppercase tracking-[0.5em] text-[var(--brand,#84cc16)] block mb-6">{clientCity(sessionData) ?? "Paris"} · Hautes-Performances</span>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none text-white mb-8 uppercase tracking-tighter" style={{ fontFamily: "'Oswald', sans-serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 6) ?? "FORGEZ"}<br />
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none text-white mb-8 uppercase tracking-tighter" style={{ /* TITRE_DEGAGE */ marginTop: 36,  fontFamily: "'Oswald', sans-serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 6) ?? "FORGEZ"}<br />
               <span className="text-[var(--brand,#84cc16)]">{clientHeroLine(sessionData, 1, 3, 6) ?? "VOTRE"}</span><br />{clientHeroLine(sessionData, 2, 3, 6) ?? "CORPS."}</>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
@@ -609,7 +609,7 @@ export default function Impact174Page() {
             <Dumbbell className="w-5 h-5 text-[var(--brand,#84cc16)]" />
             <span className="text-xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "FORGE"))}</span>
           </div>
-          <p className="text-xs text-[#f5f5f5]/30 uppercase tracking-widest">© 2026 FORGE Performance · {clientCity(sessionData) ?? "Paris"} 11ème{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
+          <p className="text-xs text-[#f5f5f5]/30 uppercase tracking-widest">© 2026 {clientName(sessionData) ?? "FORGE Performance"} · {clientCity(sessionData) ?? "Paris"} 11ème{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
           <div className="flex gap-6">
             {["Instagram", "TikTok", "YouTube"].map(s => (
               <span key={s} className="text-xs text-[#f5f5f5]/30 hover:text-[var(--brand,#84cc16)] transition-colors cursor-pointer uppercase tracking-widest">{s}</span>

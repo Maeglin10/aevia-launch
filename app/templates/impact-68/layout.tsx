@@ -433,7 +433,7 @@ export default function OrbitLayout({
           className="flex-footer-68"
         >
           <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "12px", color: C.textMuted }}>
-            © {new Date().getFullYear()} Orbit Studio. All rights reserved.
+            © {new Date().getFullYear()} {clientName(__layoutSession) ?? "Orbit Studio. All"} rights reserved.
           </p>
           <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "12px", color: C.textMuted }}>
             {clientCity(__layoutSession) ?? "Paris"} · {clientEmail(__layoutSession) ?? "contact@exemple.fr"} · +33 1 XX XX XX XX

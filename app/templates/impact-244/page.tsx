@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Heart } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -1956,7 +1957,7 @@ function Footer() {
               color: 'rgba(255,255,255,0.45)',
             }}
           >
-            {clientCity(sessionData) ?? "Paris"} · +33 1 00 00 00 00
+            {clientCity(sessionData) ?? "Paris"} · {clientPhone(sessionData) ?? "+33 1 00 00 00 00"}
           </div>
         </div>
 
@@ -2028,7 +2029,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.36)',
         }}
       >
-        <span>© 2026 Atelier Céleste. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Atelier Céleste."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Confidentialité</a>

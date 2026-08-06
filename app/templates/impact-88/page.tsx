@@ -108,7 +108,7 @@ let C: Record<string, string> = {
   bgDeep:    "#FCE7F3",
   primary:   "var(--brand,#ec4899)",
   secondary: "#8B5CF6",
-  text:      "var(--brand-light,#831843)",
+  text: "#831843",
   textSoft:  "#9D174D",
   textMuted: "#BE185D",
   textLight: "#F9A8D4",
@@ -808,9 +808,9 @@ function Hero() {
             </motion.span>
           </>)}</h1>
       {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
-        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
+      {clientAccrocheRestante(sessionData, 1, 27) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 27)}
         </p>
       )}
 
@@ -1611,7 +1611,7 @@ function ContactFooter() {
             <span className="text-white/40 text-[12px]" style={{ fontFamily: "'Inter', sans-serif" }}>· {clientCity(sessionData) ?? "Paris"}</span>
           </div>
           <p className="text-[11px] text-white/40 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
-            © 2025 Velvet Nails — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2025 {clientName(sessionData) ?? "Velvet Nails"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div className="flex gap-5">
             <Link href="/templates/impact-88/mentions-legales" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>

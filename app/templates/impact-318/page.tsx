@@ -458,7 +458,7 @@ export default function Page() {
                   {c?.aboutTitle ?? "Spécialistes des situations critiques"}
                 </h2>
                 <p style={{ fontSize: 15, lineHeight: 1.7, color: C.textMuted, marginBottom: 20 }}>
-                  {c?.aboutText ?? "Nettoyage Extrême intervient dans les situations où le nettoyage classique ne suffit plus. Après un sinistre, un incendie ou un chantier, nos équipes formées aux protocoles de décontamination restaurent vos locaux à l'état d'origine."}
+                  {c?.aboutText ?? "Nettoyage Extrême intervient dans les situations où le nettoyage classique ne suffit plus. Après'un sinistre, un incendie ou un chantier, nos équipes formées aux protocoles de décontamination restaurent vos locaux à l'état d'origine."}
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 32 }}>
                   {["Intervention < 2h en zone urbaine", "Matériel professionnel haute capacité", "Rapport d'intervention pour assurances", "Protocoles EN 14476 certifiés", "Équipes formées risques chimiques"].map((item, i) => (
@@ -644,7 +644,7 @@ export default function Page() {
             </div>
           </div>
           <div style={{ paddingTop: 32, borderTop: `1px solid ${C.primary}12`, textAlign: 'center', fontSize: 11.5, letterSpacing: '0.05em' }}>
-            © {new Date().getFullYear()} Nettoyage Extrême. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Nettoyage Extrême."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

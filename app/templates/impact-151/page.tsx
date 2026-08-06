@@ -526,9 +526,9 @@ return (
            </div>
 
            <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black text-white/10 uppercase tracking-[0.4em] italic">
-              <span>© 2026 AETHELGARD ESTATE & SPIRITS GROUP SA. // ALL_RIGHTS_RESERVED{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+              <span>© 2026 {clientName(sessionData) ?? "AETHELGARD ESTATE"} & SPIRITS GROUP SA. // ALL_RIGHTS_RESERVED{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
               <div className="flex gap-12">
-                 <span>BORDEAUX</span>
+                 <span>{(clientCity(sessionData) ?? "Bordeaux").toUpperCase()}</span>
                  <span>TUSCANY</span>
                  <span>HIGHLANDS</span>
               </div>

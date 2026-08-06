@@ -282,8 +282,9 @@ function WineHero() {
                 transformOrigin: "left center",
               }}
             >
-              {active === 0 && c?.heroHeadline ? c.heroHeadline : wine.name}
+              {active === 0 && c?.heroHeadline ? c?.heroHeadline : wine.name}
             </motion.h1>
+
 
             {/* 300ms — grape + vintage */}
             <motion.div
@@ -318,7 +319,7 @@ function WineHero() {
                 marginBottom: 34,
               }}
             >
-              {active === 0 && (fd?.tagline ?? c?.heroSubline) ? (c.heroSubline ?? fd.tagline) : wine.note}
+              {active === 0 && (fd?.tagline ?? c?.heroSubline) ? (c?.heroSubline ?? fd.tagline) : wine.note}
             </motion.p>
 
             {/* 500ms — price + CTAs */}

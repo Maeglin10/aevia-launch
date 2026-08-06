@@ -105,8 +105,8 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  primary: "var(--brand,#39ff14)",
-  primaryLight: "var(--brand-light,#66ff44)",
+  primary: "#39ff14",
+  primaryLight: "#66ff44",
   primaryDark: "#22cc00",
   bg: "#0a0a0a",
   bgDeep: "#050505",
@@ -1310,7 +1310,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Studio Peak Performance. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Studio Peak Performance."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

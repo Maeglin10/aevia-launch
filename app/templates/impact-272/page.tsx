@@ -707,9 +707,9 @@ function Hero() {
           pour les tout-petits.
         </>)}</motion.h1>
       {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
-        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
+      {clientAccrocheRestante(sessionData, 1, 21) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 21)}
         </p>
       )}
 
@@ -2179,7 +2179,7 @@ function Footer() {
           fontWeight: 300,
         }}
       >
-        <span>© 2026 KinéPédiatrie {clientCity(sessionData) ?? "Bordeaux"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "KinéPédiatrie"} {clientCity(sessionData) ?? "Bordeaux"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

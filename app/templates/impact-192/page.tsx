@@ -30,7 +30,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   SÉC'URFAST — Serrurier urgence & sécurité (Strasbourg)
+   SÉC'URFAST — Serrurier urgence & sécurité ({clientCity(sessionData) ?? "Strasbourg"})
    Palette : nuit #0d1524 / acier #1e3a5f / bleu électrique #2563eb / blanc froid #f0f4ff
    Fonts : Exo 2 (moderne, tech, lisible) + Inter
    Style : disponible 24/7, fiable, urgent, bleu nuit professionnel
@@ -470,7 +470,7 @@ export default function SecurFastPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f0f4ff]/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f0f4ff]/8">
-          <span>© 2026 SÉC'URFAST · SIRET 567 890 123 00044 · Agréé assurances · Strasbourg (67){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "SÉC'URFAST"} · SIRET 567 890 123 00044 · Agréé assurances · {clientCity(sessionData) ?? "Strasbourg"} (67){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#2563eb)]/20">Serrurier urgence · 24h/24</span>
         </div>
       </footer>

@@ -170,7 +170,14 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
           if (/^\s*:/.test(out.slice(pos + m0.length))) return m0;
           const seg = out.slice(0, pos);
           const impair = (re) => (seg.match(re) || []).length % 2 === 1;
-          if (impair(/(?<!\\)"/g) || impair(/(?<!\\)'/g) || impair(/(?<!\\)`/g)) return m0;
+          /*
+            L'apostrophe française n'ouvre pas une chaîne. La compter comme telle
+            faisait croire à une chaîne béante dès qu'un texte disait
+            « Cabinet dentaire d'excellence au cœur de Paris 8e » — et la passe
+            s'abstenait sur tout ce qui portait une apostrophe, c'est-à-dire sur
+            la moitié des phrases françaises.
+          */
+          if (impair(/(?<!\\)"/g) || impair(/(?<!\\)`/g)) return m0;
           k++;
           return `${avant}{clientCity(${arg}) ?? "${v}"}`;
         });

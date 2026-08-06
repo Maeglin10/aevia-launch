@@ -582,7 +582,7 @@ export default function LuminaLawPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-black/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-black/10">
-          <span>© 2026 LUMINA LAW GLOBAL PARTNERSHIP. STRENGTH IN TRUTH.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "LUMINA LAW GLOBAL PARTNERSHIP."} STRENGTH IN TRUTH.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <div className="flex gap-12">
              <Link href="#contact" className="hover:text-black transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> LONDON · NEW YORK · SINGAPORE</Link>
              <Link href="#contact" className="hover:text-black transition-colors flex items-center gap-2"><FileText className="w-3 h-3" /> LEGAL TERMS</Link>

@@ -456,7 +456,22 @@ export function clientHeroSubtitle(s: SessionLike | null | undefined): string | 
   */
   const accroche = clientTagline(s);
   if (accroche && accroche !== phraseRetenue) return accroche;
+  return clientHeroPrestations(s);
+}
 
+/**
+ * Ce que l'entreprise fait, jamais son accroche.
+ *
+ * « phraseRetenue » n'est fiable que si le titre s'évalue avant le sous-titre —
+ * or React ne le garantit pas, et l'ordre du JSX n'est pas celui de l'écran. Sur
+ * seize thèmes, le paragraphe s'évaluait le premier, rendait l'accroche, puis le
+ * titre la reprenait : le visiteur la lisait deux fois.
+ *
+ * Quand un thème porte déjà l'accroche ailleurs, il appelle cette fonction-ci.
+ * Le choix se fait une fois, au câblage, et ne dépend plus de rien à
+ * l'exécution.
+ */
+export function clientHeroPrestations(s: SessionLike | null | undefined): string | undefined {
   const presta = (clientServices(s) ?? []).map((x) => x.title).filter(Boolean).slice(0, 3);
   if (presta.length >= 2) return presta.join(" · ");
   const zones = clientAreas(s) ?? [];
@@ -488,11 +503,24 @@ export function clientTrade(s: SessionLike | null | undefined): string | undefin
  * a écrite ne se lit alors nulle part. Cette fonction la rend, une seule fois,
  * et ne rend rien quand elle est déjà à l'écran.
  */
-export function clientAccrocheRestante(s: SessionLike | null | undefined): string | undefined {
+export function clientAccrocheRestante(
+  s: SessionLike | null | undefined,
+  total?: number,
+  maxLigne?: number,
+): string | undefined {
   const accroche = clientTagline(s);
   if (!accroche) return undefined;
-  if (accroche === phraseRetenue) return undefined;
-  return accroche;
+
+  /*
+    Avec le gabarit du titre, on sait sans rien mémoriser si celui-ci prendra
+    l'accroche. C'est la seule façon fiable : « phraseRetenue » suppose que le
+    titre s'évalue avant cette ligne, or React ne le garantit pas — sur seize
+    thèmes le paragraphe passait le premier, rendait l'accroche, et le titre la
+    reprenait. Le visiteur la lisait deux fois.
+  */
+  if (total && total > 0) return phraseDeHero(s, total, maxLigne) === accroche ? undefined : accroche;
+
+  return accroche === phraseRetenue ? undefined : accroche;
 }
 
 /**

@@ -310,7 +310,7 @@ function Navbar() {
                 <TemplateIcon emoji="🐾" size={20} color="#fff" />
               </div>
               <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>
-                {clientName(sessionData) ?? "Paw"}<span style={{ color: C.accent }}>Care</span>
+                {clientName(sessionData) ?? "Paw"}{!clientName(sessionData) && <span style={{ color: C.accent }}>Care</span>}
               </span>
             </>
           )}
@@ -391,7 +391,7 @@ function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
           style={{ fontSize: 18, color: C.textMuted, lineHeight: 1.72, marginBottom: 36, maxWidth: 490 }}
-        >{clientHeroSubtitle(sessionData) ?? "PawCare Clinic, c'est une équipe de vétérinaires passionnés à Bordeaux, dédiée à la santé et au bonheur de vos compagnons à poils, plumes ou écailles."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "PawCare Clinic, c'est une équipe de vétérinaires passionnés'à Bordeaux, dédiée à la santé et au bonheur de vos compagnons à poils, plumes ou écailles."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}

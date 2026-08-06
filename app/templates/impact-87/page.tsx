@@ -828,7 +828,7 @@ export default function IronClubPage() {
               fontFamily: FONT_BODY,
             }}
           >
-            <span>© 2025 Iron Club — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2025 {clientName(sessionData) ?? "Iron Club"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
             <div style={{ display: "flex", gap: 24 }}>
               <a href="/templates/impact-87/legal" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
               <a href="/templates/impact-87/legal" style={{ color: "inherit", textDecoration: "none" }}>Politique de confidentialité</a>

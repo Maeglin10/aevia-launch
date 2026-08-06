@@ -37,6 +37,8 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
+  clientEmail,
   clientCity,
   clientFaq,
   clientName,
@@ -488,12 +490,12 @@ export default function PlumberDarkUrgent() {
   );
 
   const businessName = fd.businessName || "Urgence Plomberie 24/7";
-  const businessPhone = fd.businessPhone || "01 23 45 67 89";
-  const businessEmail = fd.businessEmail || "contact@urgence-plomberie.fr";
+  const businessPhone = clientPhone(sessionData) || "01 23 45 67 89";
+  const businessEmail = clientEmail(sessionData) || "contact@urgence-plomberie.fr";
   const businessCity = fd.businessCity || "Paris";
   
-  const heroTitle = clientTagline({ formData: fd, generatedContent: c }) || c.heroTitle || "DÉPANNAGE PLOMBERIE D'URGENCE EN 30 MIN";
-  const heroSubtitle = c.heroSubtitle || "Fuite d'eau, débouchage, panne de chauffe-eau. Interventions 24h/24 et 7j/7 par des artisans qualifiés.";
+  const heroTitle = clientTagline({ formData: fd, generatedContent: c }) || c?.heroTitle || "DÉPANNAGE PLOMBERIE D'URGENCE EN 30 MIN";
+  const heroSubtitle = c?.heroSubtitle || "Fuite d'eau, débouchage, panne de chauffe-eau. Interventions 24h/24 et 7j/7 par des artisans qualifiés.";
 
   // Client-uploaded photos (uploaded in the brief) replace the stock
   // Unsplash placeholders — hero shot first.

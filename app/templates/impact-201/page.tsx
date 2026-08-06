@@ -1180,7 +1180,7 @@ return (
 
           <TextReveal immediate delay={0.2}>
             <h1
-              style={{
+              style={{ /* TITRE_DEGAGE */ marginTop: 87, 
                 fontFamily: C.font,
                 fontSize: "clamp(48px, 7vw, 96px)",
                 fontWeight: 300,
@@ -1531,7 +1531,7 @@ return (
             >
               {[
                 { val: "12 ans", label: "En cuisine professionnelle" },
-                { val: "850+", label: "Repas d&apos;exception créés" },
+                { val: "850+", label: "Repas d'exception créés" },
                 { val: "100%", label: "Produits sourcés localement" },
                 { val: "4.9/5", label: "Satisfaction clients" },
               ].map((s) => (
@@ -2343,7 +2343,7 @@ return (
                 }}
               >
                 {[
-                  { icon: "📍", label: "Zone d&apos;intervention", val: (clientCity(sessionData) ?? "Paris") + " · Sur demande ailleurs" },
+                  { icon: "📍", label: "Zone d'intervention", val: (clientCity(sessionData) ?? "Paris") + " · Sur demande ailleurs" },
                   { icon: "🕐", label: "Délai de réservation", val: "3 jours minimum · 3–4 semaines pour grandes occasions" },
                   { icon: "📞", label: "Contact direct", val: "+33 6 XX XX XX XX" },
                   { icon: "✦", label: "Devis", val: "Gratuit · Réponse sous 24h · Sans engagement" },
@@ -2806,7 +2806,7 @@ return (
                 fontFamily: C.fontSans,
               }}
             >
-              © 2025 Maison Saveur — Chef Antoine Lefèvre{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2025 {clientName(sessionData) ?? "Maison Saveur"} — Chef Antoine Lefèvre{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               {["Mentions légales", "Politique de confidentialité", "CGV"].map(

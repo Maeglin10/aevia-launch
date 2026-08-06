@@ -2127,7 +2127,7 @@ function Footer() {
           color: 'rgba(196,220,204,0.46)',
         }}
       >
-        <span>© 2026 KinéSport Élite · {clientCity(sessionData) ?? "Paris"} 15e{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "KinéSport Élite"} · {clientCity(sessionData) ?? "Paris"} 15e{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

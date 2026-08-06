@@ -31,6 +31,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import {
+  clientPhone,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -1210,7 +1211,9 @@ return (
             y: heroTextY,
             opacity: heroOpacity,
             textAlign: "center",
-            padding: "0 24px",
+            /* TITRE_DEGAGE — la première ligne du titre passait sous la barre
+               de navigation : trente-deux pixels de lettres rognés. */
+            padding: "56px 24px 0",
             maxWidth: 1100,
             margin: "0 auto",
           }}
@@ -2053,7 +2056,7 @@ return (
             >
               {[
                 { icon: <Mail size={14} />, value: (fd?.email ?? "hello@impact.studio") },
-                { icon: <Phone size={14} />, value: "+33 1 42 86 00 00" },
+                { icon: <Phone size={14} />, value: (clientPhone(sessionData) ?? "+33 1 42 86 00 00") },
                 { icon: <MapPin size={14} />, value: (clientCity({ formData: fd }) ?? "Paris") + ", France" },
               ].map((item, i) => (
                 <div

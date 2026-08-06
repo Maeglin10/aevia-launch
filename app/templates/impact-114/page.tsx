@@ -944,7 +944,7 @@ export default function Impact114Page() {
                   fontFamily: "'Source Serif 4', serif",
                   backgroundColor: selectedPrint === i ? "#faf8f3" : "transparent",
                   borderColor: selectedPrint === i ? "#faf8f3" : "rgba(250,248,243,0.18)",
-                  color: selectedPrint === i ? "var(--brand, #2d1b0e)" : "rgba(250,248,243,0.45)",
+                  color: selectedPrint === i ? "var(--brand,#2d1b0e)" : "rgba(250,248,243,0.45)",
                 }}
               >
                 {p.size}
@@ -1025,7 +1025,7 @@ export default function Impact114Page() {
                       fontFamily: "'Source Serif 4', serif",
                       backgroundColor: selectedPrint === i ? "#faf8f3" : "transparent",
                       borderColor: selectedPrint === i ? "#faf8f3" : "rgba(250,248,243,0.18)",
-                      color: selectedPrint === i ? "var(--brand, #2d1b0e)" : "rgba(250,248,243,0.45)",
+                      color: selectedPrint === i ? "var(--brand,#2d1b0e)" : "rgba(250,248,243,0.45)",
                     }}
                   >
                     <Download className="w-3 h-3" />
@@ -1609,7 +1609,7 @@ export default function Impact114Page() {
             className="text-xs text-[#8b7355]/40"
             style={{ fontFamily: "'Source Serif 4', serif" }}
           >
-            © 2026 Terra · Julien Moreau Photography. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 {clientName(sessionData) ?? "Terra"} · Julien Moreau Photography. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
         </div>
       </footer>

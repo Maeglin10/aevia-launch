@@ -18,6 +18,7 @@ import {
   StyleInjector,
 } from './shared';
 import {
+  clientAccrocheRestante,
   clientCity,
   clientName,
   clientReviews,
@@ -537,7 +538,7 @@ return (
                   color: C.text,
                   margin: 0,
                 }}
-              >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+              >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
                 TRAVAUX<br />SÉLECTIONNÉS
               </>)}</h2>
               <Link

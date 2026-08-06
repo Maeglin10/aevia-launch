@@ -63,7 +63,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET DENT'OR — Chirurgien-dentiste & implantologie · Bordeaux Chartrons
+   CABINET DENT'OR — Chirurgien-dentiste & implantologie · {clientCity(sessionData) ?? "Bordeaux"} Chartrons
    Photographie réelle Unsplash + choreographie de défilement éditoriale
    (style premium × élégance médicale). Fichier 'use client' auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2760,7 +2760,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024 Cabinet Dent&apos;Or — Dr. Mathieu Prévost. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024 {clientName(sessionData) ?? "Cabinet Dent&apos"};Or — Dr. Mathieu Prévost. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Acte médical soumis au secret professionnel · Résultat non garanti · À titre
@@ -2780,7 +2780,7 @@ function FooterSection() {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PAGE — Impact 284 · Cabinet Dent'Or · Bordeaux Chartrons
+   PAGE — Impact 284 · Cabinet Dent'Or · {clientCity(sessionData) ?? "Bordeaux"} Chartrons
    ════════════════════════════════════════════════════════════════════════════ */
 
 export default function Impact284Page() {

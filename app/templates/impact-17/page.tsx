@@ -414,7 +414,7 @@ return (
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
             <p className="text-white text-xl mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Kéops"))}</p>
-            <p className="text-white/30 text-sm leading-relaxed">Agence d'architecture fondée à Paris. Projets résidentiels, culturels et mixtes.</p>
+            <p className="text-white/30 text-sm leading-relaxed">Agence d'architecture fondée à {clientCity(sessionData) ?? "Paris"}. Projets résidentiels, culturels et mixtes.</p>
           </div>
           {[
             { title: "Projets", links: [
@@ -444,7 +444,7 @@ return (
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between text-xs text-white/20 gap-4">
-          <span>© 2026 Kéops Architecture. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Kéops Architecture."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-6">
             <a href="/templates/impact-17" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C46A3E)] transition-colors">Mentions légales</a>
             <a href="/templates/impact-17" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C46A3E)] transition-colors">Confidentialité</a>

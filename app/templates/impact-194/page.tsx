@@ -29,7 +29,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TABLE D'EXCEPTION — Traiteur premium & buffets événementiels (Lyon)
+   TABLE D'EXCEPTION — Traiteur premium & buffets événementiels ({clientCity(sessionData) ?? "Lyon"})
    Palette : blanc chaud #fefcf8 / champagne #d4a853 / bordeaux #7c2d3e / anthracite #1f1d1a
    Fonts : Playfair Display (titres gastronomiques) + Source Sans 3
    Style : gastronomique, festif, chaleur, prestige accessible
@@ -437,7 +437,7 @@ export default function TableExceptionPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#fefcf8]/8">
-          <span>© 2026 Table d'Exception · SIRET 789 012 345 00066 · Traiteur agréé · Lyon (69){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Table"} d'Exception · SIRET 789 012 345 00066 · Traiteur agréé · {clientCity(sessionData) ?? "Lyon"} (69){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#d4a853)]/15">L'art de recevoir</span>
         </div>
       </footer>

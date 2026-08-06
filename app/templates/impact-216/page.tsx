@@ -12,6 +12,8 @@ import {
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientHeroPrestations,
+  clientAccrocheRestante,
   clientCity,
   clientFaq,
   clientHeroSubtitle,
@@ -526,7 +528,7 @@ function Hero() {
               color: C.text, maxWidth: 800,
               letterSpacing: '-0.02em', marginBottom: 24,
             }}
-          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             Livraison &{' '}
             <span style={{ background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Logistique
@@ -540,7 +542,7 @@ function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.7 }}
             style={{ fontFamily: C.fontBody, fontSize: 'clamp(15px, 2vw, 20px)', color: C.textMuted, maxWidth: 560, lineHeight: 1.75, marginBottom: 40 }}
-          >{clientHeroSubtitle(sessionData) ?? "Transport routier express, messagerie B2B, logistique e-commerce et entreposage pour les entreprises françaises. 18 ans d'expertise, 97.8 % de livraisons à temps."}</motion.p>
+          >{clientHeroPrestations(sessionData) ?? "Transport routier express, messagerie B2B, logistique e-commerce et entreposage pour les entreprises françaises. 18 ans d'expertise, 97.8 % de livraisons à temps."}</motion.p>
 
           {/* CTAs */}
           <motion.div

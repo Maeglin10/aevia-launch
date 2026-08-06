@@ -43,7 +43,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉO RÉPUBLIQUE — Cabinet d'Ostéopathie · Paris 11e
+   OSTÉO RÉPUBLIQUE — Cabinet d'Ostéopathie · {clientCity(sessionData) ?? "Paris"} 11e
    Chorégraphie éditoriale premium : crossfade sticky 320vh, panneau principe
    collant, formulaire RDV interactif. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2062,7 +2062,7 @@ function Footer() {
               maxWidth: 300,
             }}
           >
-            Cabinet d'ostéopathie D.O. · Paris 11e.
+            Cabinet d'ostéopathie D.O. · {clientCity(sessionData) ?? "Paris"} 11e.
             <br />
             Adultes, sportifs, nourrissons, femmes enceintes.
           </p>

@@ -20,6 +20,8 @@ import {
   MotionValue,
 } from "framer-motion"
 import {
+  clientHeroPrestations,
+  clientAccrocheRestante,
   clientCity,
   clientHeroSubtitle,
   clientList,
@@ -135,8 +137,8 @@ function MATERIALS_LIVE(): Material[] {
     code: "BM-088",
     type: "Photonic Living Fabric",
     status: "R&D",
-    statusColor: "var(--brand-light,#67e8f9)",
-    accentGradient: "linear-gradient(135deg,var(--brand-light,#67e8f9),#86efac)",
+    statusColor: "#67e8f9",
+    accentGradient: "linear-gradient(135deg,#67e8f9,#86efac)",
     desc:
       "CRISPR-engineered bioluminescent proteins (Lux operon variant) suspended in a biocompatible hydrogel matrix and encapsulated within hollow polyamide microfibers. Emits visible photons in direct response to the wearer's serotonin and cortisol levels.",
     tagline: "Your mood, made visible.",
@@ -148,7 +150,7 @@ function MATERIALS_LIVE(): Material[] {
       { label: "Response Lag",    value: "<200",    unit: "ms"    },
       { label: "Half-Life",       value: "36",      unit: "months"},
     ],
-    palette: ["var(--brand-light,#67e8f9)","#22d3ee","#06b6d4","#0891b2","#164e63","#083344"],
+    palette: ["#67e8f9","#22d3ee","#06b6d4","#0891b2","#164e63","#083344"],
     applications: ["Luxury Mood-Wear","Stage Performance","Health Monitoring","Experiential Art"],
     weight: "52 g/m²",
     origin: "Tokyo BioLab · 2025",
@@ -208,8 +210,8 @@ function MATERIALS_LIVE(): Material[] {
     code: "BM-088",
     type: "Photonic Living Fabric",
     status: "R&D",
-    statusColor: "var(--brand-light,#67e8f9)",
-    accentGradient: "linear-gradient(135deg,var(--brand-light,#67e8f9),#86efac)",
+    statusColor: "#67e8f9",
+    accentGradient: "linear-gradient(135deg,#67e8f9,#86efac)",
     desc:
       "CRISPR-engineered bioluminescent proteins (Lux operon variant) suspended in a biocompatible hydrogel matrix and encapsulated within hollow polyamide microfibers. Emits visible photons in direct response to the wearer's serotonin and cortisol levels.",
     tagline: "Your mood, made visible.",
@@ -221,7 +223,7 @@ function MATERIALS_LIVE(): Material[] {
       { label: "Response Lag",    value: "<200",    unit: "ms"    },
       { label: "Half-Life",       value: "36",      unit: "months"},
     ],
-    palette: ["var(--brand-light,#67e8f9)","#22d3ee","#06b6d4","#0891b2","#164e63","#083344"],
+    palette: ["#67e8f9","#22d3ee","#06b6d4","#0891b2","#164e63","#083344"],
     applications: ["Luxury Mood-Wear","Stage Performance","Health Monitoring","Experiential Art"],
     weight: "52 g/m²",
     origin: "Tokyo BioLab · 2025",
@@ -283,8 +285,8 @@ function MATERIALS_LIVE(): Material[] {
     code: "BM-088",
     type: "Photonic Living Fabric",
     status: "R&D",
-    statusColor: "var(--brand-light,#67e8f9)",
-    accentGradient: "linear-gradient(135deg,var(--brand-light,#67e8f9),#86efac)",
+    statusColor: "#67e8f9",
+    accentGradient: "linear-gradient(135deg,#67e8f9,#86efac)",
     desc:
       "CRISPR-engineered bioluminescent proteins (Lux operon variant) suspended in a biocompatible hydrogel matrix and encapsulated within hollow polyamide microfibers. Emits visible photons in direct response to the wearer's serotonin and cortisol levels.",
     tagline: "Your mood, made visible.",
@@ -296,7 +298,7 @@ function MATERIALS_LIVE(): Material[] {
       { label: "Response Lag",    value: "<200",    unit: "ms"    },
       { label: "Half-Life",       value: "36",      unit: "months"},
     ],
-    palette: ["var(--brand-light,#67e8f9)","#22d3ee","#06b6d4","#0891b2","#164e63","#083344"],
+    palette: ["#67e8f9","#22d3ee","#06b6d4","#0891b2","#164e63","#083344"],
     applications: ["Luxury Mood-Wear","Stage Performance","Health Monitoring","Experiential Art"],
     weight: "52 g/m²",
     origin: "Tokyo BioLab · 2025",
@@ -1042,7 +1044,7 @@ function HeroSection({
             backgroundSize: "200% 200%",
             animation: "shimmer-x 6s linear infinite",
           }}
-        >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+        >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
           The Fabric<br/>of Tomorrow.
         </>)}</motion.h1>
 
@@ -1060,7 +1062,7 @@ function HeroSection({
             margin: "0 auto 56px",
             letterSpacing: "0.04em",
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Graphene-infused silk. CRISPR bioluminescent mesh. Nitinol shape-memory wool. We engineer textiles at the intersection of materials science, biotechnology, and haute couture."}</motion.p>
+        >{clientHeroPrestations(sessionData) ?? "Graphene-infused silk. CRISPR bioluminescent mesh. Nitinol shape-memory wool. We engineer textiles at the intersection of materials science, biotechnology, and haute couture."}</motion.p>
 
         {/* CTAs */}
         <motion.div
@@ -1134,7 +1136,7 @@ function HeroSection({
                 i < 4
                   ? "var(--brand,#c084fc)"
                   : i < 7
-                  ? "var(--brand-light,#67e8f9)"
+                  ? "#67e8f9"
                   : "#86efac",
               opacity: 0.5,
               borderRadius: 2,
@@ -1404,7 +1406,7 @@ function ApplicationsSection() {
             fontSize: 10,
             letterSpacing: "0.5em",
             textTransform: "uppercase",
-            color: "var(--brand-light,#67e8f9)",
+            color: "#67e8f9",
             display: "block",
             marginBottom: 16,
           }}

@@ -151,8 +151,8 @@ export default function ToitsDeLoirePage() {
     ? [
         {
           k: (CLIENT_SERVICES?.[0]?.title as string) ?? HERO[0].k,
-          line: c.heroHeadline as string,
-          sub: (c.heroSubline as string) ?? HERO[0].sub,
+          line: c?.heroHeadline as string,
+          sub: (c?.heroSubline as string) ?? HERO[0].sub,
         },
         // Les diapositives suivantes viennent des services du client, pas du
         // thème : garder « L'ARDOISE, POSÉE AU CROCHET » et « Ardoise d'Anjou »

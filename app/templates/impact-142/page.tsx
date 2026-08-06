@@ -242,7 +242,7 @@ export default function VerdantImpactPage() {
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-24">
             <Reveal delay={0.15} y={60}>
-              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-black tracking-tighter leading-[0.85] mb-8">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "Offset"}<br/>{clientHeroLine(sessionData, 1, 3, 7) ?? "Your"}<span className="text-emerald-600">{clientHeroLine(sessionData, 2, 3, 7) ?? "Impact."}</span>
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-black tracking-tighter leading-[0.85] mb-8">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "Offset"}<br/>{clientHeroLine(sessionData, 1, 3, 7) ?? "Your"}{" "}<span className="text-emerald-600">{clientHeroLine(sessionData, 2, 3, 7) ?? "Impact."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
@@ -471,7 +471,7 @@ export default function VerdantImpactPage() {
           ))}
         </div>
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/20 flex flex-col sm:flex-row justify-between gap-4">
-          <span>© 2026 VERDANT IMPACT. B-CORP CERTIFIED{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "VERDANT IMPACT. B-CORP CERTIFIED"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <div className="flex gap-6">
             <Link href="#contact" className="hover:text-white transition-colors">Mentions légales</Link>
             <Link href="#contact" className="hover:text-white transition-colors">Confidentialité</Link>

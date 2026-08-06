@@ -16,6 +16,7 @@ import {
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientCity,
   clientEyebrow,
   clientHeroLine,
@@ -1376,7 +1377,7 @@ function LocationSection() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {[
                   { icon: '◎', label: 'Address', val: `8 Avenue de la Paix, 75009 ${clientCity(sessionData) ?? "Paris"}` },
-                  { icon: '◎', label: 'Telephone', val: '+33 1 40 00 00 00' },
+                  { icon: '◎', label: 'Telephone', val: (clientPhone(sessionData) ?? '+33 1 40 00 00 00') },
                   { icon: '◎', label: 'Reservations', val: (fd?.email ?? 'reservations@grandpalais.fr') },
                   { icon: '◎', label: 'Concierge', val: 'Available 24 hours' },
                 ].map(({ icon, label, val }) => (
@@ -1825,7 +1826,7 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
           }}
         >
           <span style={{ fontFamily: SANS, fontSize: '0.58rem', color: `${CREAM}35`, letterSpacing: '0.08em' }}>
-            © 2026 Grand Palais. All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2026 {clientName(sessionData) ?? "Grand Palais."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: 'flex', gap: '2rem' }}>
             {([
@@ -2280,7 +2281,7 @@ function ContactPage() {
           {/* Info */}
           <div>
             {[
-              { label: 'Telephone', val: '+33 1 40 00 00 00' },
+              { label: 'Telephone', val: (clientPhone(sessionData) ?? '+33 1 40 00 00 00') },
               { label: 'Reservations', val: (fd?.email ?? 'reservations@grandpalais.fr') },
               { label: 'Address', val: `8 Avenue de la Paix, 75009 ${clientCity(sessionData) ?? "Paris"}` },
               { label: 'Concierge', val: 'Available 24 hours a day' },

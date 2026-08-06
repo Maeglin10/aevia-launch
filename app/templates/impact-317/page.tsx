@@ -278,8 +278,8 @@ export default function TemplatePage({ session: initialSession }: { session?: an
     }
   }, [fd]);
   const tagline = c.tagline || "Le nettoyage qui redonne vie à votre espace.";
-  const heroHeading = clientTagline({ formData: fd, generatedContent: c }) || c.heroTitle || "L'énergie de la propreté à votre service";
-  const heroSub = c.heroSubtitle || "Des services de nettoyage résidentiels et commerciaux rapides, efficaces et éclatants pour un environnement toujours impeccable.";
+  const heroHeading = clientTagline({ formData: fd, generatedContent: c }) || c?.heroTitle || "L'énergie de la propreté à votre service";
+  const heroSub = c?.heroSubtitle || "Des services de nettoyage résidentiels et commerciaux rapides, efficaces et éclatants pour un environnement toujours impeccable.";
   const cta1 = c.ctaPrimary || "Demander un devis";
   const cta2 = c.ctaSecondary || "Voir nos services";
   const phone = fd.phone || "01 23 45 67 89";

@@ -8,6 +8,7 @@ import { Car, ArrowRight, Menu, Zap, Gauge, Shield, Settings, Timer, ChevronRigh
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAccrocheRestante,
   clientCity,
   clientHeroLine,
   clientName,
@@ -207,7 +208,7 @@ export default function VulcanMotorsPage() {
                 <div className="w-10 h-10 bg-red-600 flex items-center justify-center -skew-x-12 group-hover:scale-110 transition-transform duration-500">
                   <Car className="w-6 h-6 text-black fill-current" />
                 </div>
-                <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName(sessionData) ?? "Vulcan"}<span className="text-red-600">Motors</span></span>
+                <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName(sessionData) ?? "Vulcan"}{!clientName(sessionData) && <span className="text-red-600">Motors</span>}</span>
               </>
             )}
           </Link>
@@ -246,6 +247,13 @@ export default function VulcanMotorsPage() {
             <Reveal delay={0.1} y={60}>
               <h1 className="text-7xl md:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-12">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "Pure"}<br/>{clientHeroLine(sessionData, 1, 3, 7) ?? "Kinetic"}<br/><span className="text-red-600">{clientHeroLine(sessionData, 2, 3, 7) ?? "Soul."}</span>
               </>}</h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 3, 7) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 3, 7)}
+        </p>
+      )}
+
             </Reveal>
             <Reveal delay={0.25}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-4xl border-t border-white/10 pt-12">
@@ -288,7 +296,7 @@ export default function VulcanMotorsPage() {
                          </div>
                          <div>
                             <h4 className="text-xl font-bold uppercase italic mb-2 tracking-tight">{f.t}</h4>
-                            <p className="text-white/40 leading-relaxed text-sm max-w-sm">{fd?.tagline ?? c?.heroSubline ?? <>{f.d}</>}</p>
+                            <p className="text-white/40 leading-relaxed text-sm max-w-sm">{f.d}</p>
                          </div>
                       </div>
                     ))}
@@ -488,7 +496,7 @@ export default function VulcanMotorsPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 VULCAN MOTORS ATELIER. REDLINE ADDICTED.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "VULCAN MOTORS ATELIER. REDLINE"} ADDICTED.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2">MODENA, IT</Link>
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2">SILVERSTONE, UK</Link>

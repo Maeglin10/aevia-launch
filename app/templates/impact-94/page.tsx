@@ -700,8 +700,8 @@ export default function Impact94Page() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-7xl md:text-[10rem] lg:text-[13rem] font-normal italic text-[#FAFAF9] leading-none tracking-tight"
-            style={{ fontFamily: "'Bodoni Moda', serif" }}
-          >{<>{clientHeroLine(sessionData, 0, 2, 6) ?? "L art"}<br />
+            style={{ /* TITRE_DEGAGE */ marginTop: 77,  fontFamily: "'Bodoni Moda', serif" }}
+          >{<>{clientHeroLine(sessionData, 0, 2, 6) ?? "L'art"}<br />
             <span className="text-[var(--brand,#CA8A04)]">{clientHeroLine(sessionData, 1, 2, 6) ?? "floral"}</span>
           </>}</motion.h1>
 
@@ -1301,7 +1301,7 @@ export default function Impact94Page() {
           </div>
 
           <p className="text-[10px] text-[#FAFAF9]/30 uppercase tracking-[0.2em] text-center">
-            © 2024 Botanica Atelier Floral — {clientCity(sessionData) ?? "Paris"} · Marais · 4e arrondissement{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2024 {clientName(sessionData) ?? "Botanica Atelier Floral"} — {clientCity(sessionData) ?? "Paris"} · Marais · 4e arrondissement{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
 
           <div className="flex items-center gap-4">

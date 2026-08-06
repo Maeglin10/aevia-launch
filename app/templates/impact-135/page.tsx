@@ -47,7 +47,7 @@ let C: Record<string, string> = {
   card:      "#131619",
   border:    "#1e2328",
   borderHi:  "#2a3038",
-  accent: 'var(--brand,#00ff88)',
+  accent: '#00ff88',
   accentDim: "var(--brand-light,#00cc6a)",
   accentGlow:"rgba(0,255,136,0.12)",
   red:       "#ff4040",
@@ -2177,7 +2177,7 @@ export default function Impact135Page() {
               color: C.subdued,
             }}
           >
-            © 2026 TradeOS Inc. · All rights reserved · SOC 2 Type II{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 {clientName(sessionData) ?? "TradeOS Inc."} · All rights reserved · SOC 2 Type II{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
           <span
             style={{

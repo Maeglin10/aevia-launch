@@ -19,6 +19,8 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
+  clientEmail,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -41,7 +43,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MOREAU DELACROIX AVOCATS — Cabinet d'avocats · Paris 16e
+   MOREAU DELACROIX AVOCATS — Cabinet d'avocats · {clientCity(sessionData) ?? "Paris"} 16e
    Photographie réelle + chorégraphie de défilement éditoriale (style
    juridique premium × élégance chapitrée). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -207,7 +209,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
         <span style={{ fontStyle: 'italic' }}>la stratégie.</span>
       </>
     ),
-    body: 'Avant de concevoir la stratégie juridique, nous prenons le temps de comprendre la situation dans sa globalité : les enjeux humains, financiers et relationnels. Cette écoute active nous permet d&apos;élaborer des solutions sur mesure, combinant rigueur technique et approche pragmatique, dans l&apos;intérêt exclusif de nos clients.',
+    body: 'Avant de concevoir la stratégie juridique, nous prenons le temps de comprendre la situation dans sa globalité : les enjeux humains, financiers et relationnels. Cette écoute active nous permet d\'élaborer des solutions sur mesure, combinant rigueur technique et approche pragmatique, dans l\'intérêt exclusif de nos clients.',
     img: PHOTO.librarySm,
     alt: 'Bibliothèque de droit du cabinet',
   },
@@ -711,7 +713,7 @@ function Hero() {
             lineHeight: 1.64,
             marginBottom: 42,
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Un cabinet parisien fondé sur l&apos;exigence, l&apos;écoute et vingt-cinq ans d&apos;engagement au service de nos clients."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Un cabinet parisien fondé sur l'exigence, l'écoute et vingt-cinq ans d'engagement au service de nos clients."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 26 }}
@@ -1944,8 +1946,8 @@ function Footer() {
       items: [
         { label: 'Prendre rendez-vous', href: '#contact' },
         { label: (clientCity(sessionData) ?? 'Paris'), href: '#contact' },
-        { label: '+33 1 45 00 00 00', href: 'tel:+33145000000' },
-        { label: 'contact@mda-avocats.fr', href: 'mailto:contact@mda-avocats.fr' },
+        { label: (clientPhone(sessionData) ?? '+33 1 45 00 00 00'), href: 'tel:+33145000000' },
+        { label: (clientEmail(sessionData) ?? 'contact@mda-avocats.fr'), href: 'mailto:contact@mda-avocats.fr' },
       ],
     },
   ];

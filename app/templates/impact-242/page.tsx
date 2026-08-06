@@ -661,11 +661,11 @@ function Hero() {
           </Eyebrow>
         </motion.div>
 
-        <motion.h1
+        <motion.h1 className="hero-ecran-court"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, ease: EASE, delay: 0.2 }}
-          style={{
+          style={{   
             fontFamily: FONT,
             fontWeight: 800,
             color: C.white,
@@ -681,9 +681,9 @@ function Hero() {
           ENFIN CLAIRS.
         </>)}</motion.h1>
       {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
-        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
+      {clientAccrocheRestante(sessionData, 1, 13) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 13)}
         </p>
       )}
 
@@ -2186,7 +2186,7 @@ function Footer() {
         }}
       >
         <span>
-          © {new Date().getFullYear()} Fiduciaire Marchand &amp; Partners. Tous droits réservés. Membre de l&apos;OEC.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © {new Date().getFullYear()} {clientName(sessionData) ?? "Fiduciaire Marchand & Partners."} Tous droits réservés. Membre de l&apos;OEC.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>

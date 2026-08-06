@@ -187,7 +187,7 @@ export default function SegmentLayout({
         </div>
         <div style={{ maxWidth: "1300px", margin: "4rem auto 0", paddingTop: "2rem", borderTop: "1px solid #222", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
           <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", color: "#444" }}>
-            © {new Date().getFullYear()} SEGMENT ARCHITECTES. TOUS DROITS RÉSERVÉS.
+            © {new Date().getFullYear()} {clientName(__layoutSession) ?? "SEGMENT ARCHITECTES. TOUS DROITS"} RÉSERVÉS.
           </div>
           <div style={{ display: "flex", gap: "2rem" }}>
             <Link href="/templates/impact-61/legal" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.6rem", color: "#444", textDecoration: "none", cursor: "pointer" }}>

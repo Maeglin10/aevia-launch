@@ -26,6 +26,8 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
+  clientEmail,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -50,7 +52,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LES ÉPOUSAILLES D'ALSACE — Wedding planner & événementiel · Strasbourg
+   LES ÉPOUSAILLES D'ALSACE — Wedding planner & événementiel · {clientCity(sessionData) ?? "Strasbourg"}
    Romantique, élégant, haut de gamme. Fichier autonome. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -558,7 +560,7 @@ function HeroSection() {
             maxWidth: 580,
             lineHeight: 1.6,
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Nous orchestrons chaque détail de votre grand jour en Alsace, de la première idée jusqu&apos;au dernier sourire."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Nous orchestrons chaque détail de votre grand jour en Alsace, de la première idée jusqu'au dernier sourire."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -933,7 +935,7 @@ function ServicesSection() {
         'Rétroplanning minute par minute',
         'Coordination sur place toute la journée',
         "Gestion des imprévus et des urgences",
-        'Présence jusqu&apos;en fin de soirée',
+        'Présence jusqu\'en fin de soirée',
       ],
     },
     {
@@ -1216,7 +1218,7 @@ function ProcessSection() {
     {
       num: '01',
       title: 'Consultation initiale',
-      desc: 'Nous nous rencontrons autour d&apos;un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C&apos;est le point de départ de notre collaboration.',
+      desc: 'Nous nous rencontrons autour d\'un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C\'est le point de départ de notre collaboration.',
       duration: 'Réunion de 1h30 — offerte',
     },
     {
@@ -1241,7 +1243,7 @@ function ProcessSection() {
     {
       num: '01',
       title: 'Consultation initiale',
-      desc: 'Nous nous rencontrons autour d&apos;un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C&apos;est le point de départ de notre collaboration.',
+      desc: 'Nous nous rencontrons autour d\'un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C\'est le point de départ de notre collaboration.',
       duration: 'Réunion de 1h30 — offerte',
     },
     {
@@ -1267,7 +1269,7 @@ function ProcessSection() {
     {
       num: '01',
       title: 'Consultation initiale',
-      desc: 'Nous nous rencontrons autour d&apos;un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C&apos;est le point de départ de notre collaboration.',
+      desc: 'Nous nous rencontrons autour d\'un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C\'est le point de départ de notre collaboration.',
       duration: 'Réunion de 1h30 — offerte',
     },
     {
@@ -1806,7 +1808,7 @@ function ContactFormSection() {
                 {
                   Icon: Phone,
                   label: 'Téléphone',
-                  val: '+33 3 88 00 00 00',
+                  val: (clientPhone(sessionData) ?? '+33 3 88 00 00 00'),
                 },
                 {
                   Icon: Mail,
@@ -3047,8 +3049,8 @@ function FooterSection() {
     {
       heading: 'Contact',
       links: [
-        { label: '+33 3 88 00 00 00', href: 'tel:+33388000000' },
-        { label: 'contact@epousailles-alsace.fr', href: 'mailto:contact@epousailles-alsace.fr' },
+        { label: (clientPhone(sessionData) ?? '+33 3 88 00 00 00'), href: 'tel:+33388000000' },
+        { label: (clientEmail(sessionData) ?? 'contact@epousailles-alsace.fr'), href: 'mailto:contact@epousailles-alsace.fr' },
         { label: `12 rue du Mariage, ${clientCity(sessionData) ?? "Strasbourg"}`, href: "/templates/impact-280" },
         { label: 'Du lundi au vendredi 9h–18h', href: "/templates/impact-280" },
       ],
@@ -3248,7 +3250,7 @@ function FooterSection() {
               lineHeight: 1.6,
             }}
           >
-            © {new Date().getFullYear()} Les Épousailles d&apos;Alsace · SIRET 852 346 710 00014 ·
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Les Épousailles"} d&apos;Alsace · SIRET 852 346 710 00014 ·
             APE 8230Z · Auto-entrepreneur{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
           <div style={{ display: 'flex', gap: 22 }}>
