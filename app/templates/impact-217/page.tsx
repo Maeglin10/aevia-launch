@@ -2446,7 +2446,7 @@ function SneakerCartDrawer({
                   </div>
                   <div>
                     <label htmlFor="sk-phone" style={labelStyle}>Phone *</label>
-                    <input id="sk-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+33 6 XX XX XX XX" style={inputStyle} />
+                    <input id="sk-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+33 6 77 30 30 30" style={inputStyle} />
                   </div>
                   <div>
                     <label htmlFor="sk-address" style={labelStyle}>Shipping address *</label>

@@ -1698,7 +1698,7 @@ export default function Impact211Page() {
               <div style={{ ...eyebrowStyle, marginBottom: "1.5rem" }}>Contact</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
                 {[
-                  { label: "Réservations", value: "+33 1 42 61 XX XX" },
+                  { label: "Réservations", value: "+33 1 42 61 71 68" },
                   { label: "Email", value: (fd?.email ?? "table@maisoneclat.fr") },
                   { label: "Adresse", value: `14 rue de Varenne, 75007 ${clientCity({ formData: fd }) ?? "Paris"}` },
                 ].map((item) => (

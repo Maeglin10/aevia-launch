@@ -2731,7 +2731,7 @@ return (
             >
               {[
                 { Icon: MapPin, t: "Atelier · Beaune, Bourgogne" },
-                { Icon: Phone, t: "+33 3 80 XX XX XX" },
+                { Icon: Phone, t: "+33 3 80 71 68 68" },
                 { Icon: Mail, t: (fd?.email ?? "julie@terreetgeste.fr") },
               ].map(({ Icon, t }) => (
                 <div

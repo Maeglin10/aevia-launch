@@ -1804,7 +1804,7 @@ function QuoteForm() {
                     type="tel"
                     value={tel}
                     onChange={(e) => setTel(e.target.value)}
-                    placeholder="06 XX XX XX XX"
+                    placeholder="06 20 51 51 51"
                     autoComplete="tel"
                   />
                 </div>
@@ -1921,7 +1921,7 @@ function Footer() {
     },
     {
       title: 'Contact & Urgences',
-      items: ['📍 ' + (clientCity(sessionData) ?? 'Toulouse') + ' & agglomération', '📞 ' + (fd?.phone ?? '05 XX XX XX XX'), '📧 ' + (fd?.email ?? 'contact@voltlux.fr'), '🚨 Urgences 24h/7j'],
+      items: ['📍 ' + (clientCity(sessionData) ?? 'Toulouse') + ' & agglomération', '📞 ' + (fd?.phone ?? '05 20 51 51 51'), '📧 ' + (fd?.email ?? 'contact@voltlux.fr'), '🚨 Urgences 24h/7j'],
       hrefs: ['#devis', 'tel:+33500000000', 'mailto:contact@voltlux.fr', 'tel:+33500000000'],
     },
   ];

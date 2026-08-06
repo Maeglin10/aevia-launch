@@ -188,7 +188,7 @@ function BookingModal({
                     </div>
                     <div>
                       <label htmlFor="bk-phone" className={labelCls}>Téléphone *</label>
-                      <input id="bk-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls} placeholder="06 XX XX XX XX" />
+                      <input id="bk-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls} placeholder="06 21 58 58 58" />
                     </div>
                     <div>
                       <label htmlFor="bk-email" className={labelCls}>Email</label>

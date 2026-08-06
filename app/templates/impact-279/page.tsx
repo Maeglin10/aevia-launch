@@ -2165,7 +2165,7 @@ function PracticalSection() {
       icon: <Phone size={26} color={C.terra} strokeWidth={1.4} />,
       title: 'Contact',
       lines: [
-        (fd?.phone ?? '04 78 XX XX XX'),
+        (fd?.phone ?? '04 78 25 86 86'),
         (fd?.email ?? 'cabinet.soler@gmail.com'),
         'Urgences : via Doctolib',
         'Réponse sous 24h',
@@ -2354,7 +2354,7 @@ function FooterSection() {
       items: [
         { label: (clientCity(sessionData) ?? 'Lyon') + ' — Brotteaux', href: '#cabinet' },
         { label: 'Métro A — Foch', href: '#cabinet' },
-        { label: '04 78 XX XX XX', href: 'tel:+33478000000' },
+        { label: '04 78 25 86 86', href: 'tel:+33478000000' },
         { label: 'Email', href: 'mailto:cabinet.soler@gmail.com' },
       ],
     },

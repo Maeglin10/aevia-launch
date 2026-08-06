@@ -2401,7 +2401,7 @@ return (
             >
               {[
                 { icon: MapPin, label: `12 rue Oberkampf, 75011 ${clientCity({ formData: fd }) ?? "Paris"}` },
-                { icon: Phone, label: "+33 1 48 XX XX XX" },
+                { icon: Phone, label: "+33 1 48 34 49 49" },
                 { icon: Mail, label: (fd?.email ?? "contact@urbanpulse.fr") },
               ].map(({ icon: Icon, label }) => (
                 <div

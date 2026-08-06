@@ -191,7 +191,7 @@ function AppointmentModal({
                     </div>
                     <div>
                       <label htmlFor="rdv-phone" className={labelCls}>Téléphone *</label>
-                      <input id="rdv-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls} placeholder="06 XX XX XX XX" />
+                      <input id="rdv-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls} placeholder="06 22 65 65 65" />
                     </div>
                     <div>
                       <label htmlFor="rdv-email" className={labelCls}>Email</label>

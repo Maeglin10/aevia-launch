@@ -1803,7 +1803,7 @@ function BookingSection({ accentColor }: { accentColor: string }) {
                   required
                   value={contactPhone}
                   onChange={(e) => setContactPhone(e.target.value)}
-                  placeholder="06 XX XX XX XX"
+                  placeholder="06 70 61 61 61"
                   style={{
                     width: '100%', padding: '12px 16px', borderRadius: 10,
                     border: `1px solid ${accentColor}30`, fontSize: 14, outline: 'none',

@@ -1374,7 +1374,7 @@ function CartDrawer({
                   </div>
                   <div>
                     <label htmlFor="ck-phone" style={labelStyle}>Téléphone *</label>
-                    <input id="ck-phone" type="tel" required value={ckPhone} onChange={(e) => setCkPhone(e.target.value)} placeholder="06 XX XX XX XX" style={inputStyle} />
+                    <input id="ck-phone" type="tel" required value={ckPhone} onChange={(e) => setCkPhone(e.target.value)} placeholder="06 75 16 16 16" style={inputStyle} />
                   </div>
                   <div>
                     <label htmlFor="ck-address" style={labelStyle}>Adresse de livraison *</label>

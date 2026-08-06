@@ -225,7 +225,7 @@ function ConsultationModal({
                     </div>
                     <div>
                       <label htmlFor="tat-phone" style={labelCls}>Téléphone *</label>
-                      <input id="tat-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="06 XX XX XX XX" style={inputCls} />
+                      <input id="tat-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="06 77 30 30 30" style={inputCls} />
                     </div>
                     <div>
                       <label htmlFor="tat-message" style={labelCls}>Votre projet (facultatif)</label>
