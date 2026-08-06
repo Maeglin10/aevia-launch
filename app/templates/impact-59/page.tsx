@@ -170,7 +170,7 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-bold leading-[1.15] pb-4 tracking-tighter mb-12 uppercase font-serif">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Rest is"}<br />{" "}
+            <h1 style={{ /* TITRE_DEGAGE */ marginTop: 40 }} className="text-6xl md:text-8xl lg:text-[10rem] font-bold leading-[1.15] pb-4 tracking-tighter mb-12 uppercase font-serif">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Rest is"}<br />{" "}
               <span className="italic font-light">{clientHeroLine(sessionData, 1, 2, 9) ?? "the work."}</span>
             </>}</h1>
             <p className="max-w-xl text-lg md:text-xl text-black/50 leading-relaxed font-light mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>

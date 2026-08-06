@@ -661,11 +661,11 @@ function Hero() {
           </Eyebrow>
         </motion.div>
 
-        <motion.h1
+        <motion.h1 className="hero-ecran-court"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, ease: EASE, delay: 0.2 }}
-          style={{
+          style={{   
             fontFamily: FONT,
             fontWeight: 800,
             color: C.white,

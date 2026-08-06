@@ -188,7 +188,7 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase italic pb-4">{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "Space"}<br /> <span className="text-[var(--brand,#e11d48)]">{clientHeroLine(sessionData, 1, 2, 8) ?? "As Data."}</span>
+            <h1 style={{ /* TITRE_DEGAGE */ marginTop: 103 }} className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase italic pb-4">{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "Space"}<br /> <span className="text-[var(--brand,#e11d48)]">{clientHeroLine(sessionData, 1, 2, 8) ?? "As Data."}</span>
             </>}</h1>
             <p className="max-w-xl text-lg md:text-xl text-white/30 leading-relaxed font-bold mb-12 uppercase tracking-tight">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Sub-millimeter LiDAR scanning and neural radiance fields for

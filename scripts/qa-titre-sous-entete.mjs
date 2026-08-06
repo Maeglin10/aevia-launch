@@ -38,7 +38,20 @@ for (const id of ids) {
     await p.goto(`${BASE}/templates/${id}`, { waitUntil: "domcontentloaded", timeout: 30000 });
     await p.waitForTimeout(2200);
     fiche = await p.evaluate((identifiant) => {
-      const titre = document.querySelector("h1") ?? document.querySelector("h2");
+      /*
+        Le premier titre du document n'est pas toujours celui du hero : sur
+        impact-324 et impact-325, c'est le logo, écrit en h1 à l'intérieur de
+        l'en-tête. Un logo dans l'en-tête est recouvert par définition — le
+        compter, c'était mesurer la barre contre elle-même.
+      */
+      const barres = [...document.querySelectorAll("header, nav, [class*='fixed'], [class*='sticky']")]
+        .filter((e) => ["fixed", "sticky"].includes(getComputedStyle(e).position));
+      const dansLaBarre = (n) => barres.some((e) => e.contains(n));
+      const titre = [...document.querySelectorAll("h1, h2")].find((h) => {
+        if (dansLaBarre(h)) return false;
+        const r = h.getBoundingClientRect();
+        return r.height >= 20 && r.top < 400;
+      });
       if (!titre) return { id: identifiant, recouvrement: 0, sansTitre: true };
       const rt = titre.getBoundingClientRect();
       if (rt.top > 400 || rt.height < 20) return { id: identifiant, recouvrement: 0 };
@@ -48,9 +61,7 @@ for (const id of ids) {
         défile avec la page ne masque rien — on ne retient que ceux qui restent.
       */
       let bas = 0;
-      for (const e of document.querySelectorAll("header, nav, [class*='fixed'], [class*='sticky']")) {
-        const s = getComputedStyle(e);
-        if (s.position !== "fixed" && s.position !== "sticky") continue;
+      for (const e of barres) {
         const r = e.getBoundingClientRect();
         if (r.top > 40 || r.height < 24 || r.height > 200) continue;
         bas = Math.max(bas, r.bottom);

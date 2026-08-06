@@ -1180,7 +1180,7 @@ return (
 
           <TextReveal immediate delay={0.2}>
             <h1
-              style={{
+              style={{ /* TITRE_DEGAGE */ marginTop: 87, 
                 fontFamily: C.font,
                 fontSize: "clamp(48px, 7vw, 96px)",
                 fontWeight: 300,

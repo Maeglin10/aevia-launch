@@ -201,7 +201,7 @@ export default function MaxPerformancePage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}>
-            <h1 className="font-black uppercase leading-none tracking-tight mb-2 text-[#f8f5f0]" style={{ fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(64px,10vw,120px)" }}>{c?.heroHeadline ?? <>
+            <h1 className="font-black uppercase leading-none tracking-tight mb-2 text-[#f8f5f0]" style={{ /* TITRE_DEGAGE */ marginTop: 87,  fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(64px,10vw,120px)" }}>{c?.heroHeadline ?? <>
               STOP
             </>}</h1>
             <h1 className="font-black uppercase leading-none tracking-tight mb-2 text-[var(--brand,#f97316)]" style={{ fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(64px,10vw,120px)" }}>
