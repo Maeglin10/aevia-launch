@@ -458,7 +458,7 @@ export default function Page() {
                   {c?.aboutTitle ?? "Spécialistes des situations critiques"}
                 </h2>
                 <p style={{ fontSize: 15, lineHeight: 1.7, color: C.textMuted, marginBottom: 20 }}>
-                  {c?.aboutText ?? "Nettoyage Extrême intervient dans les situations où le nettoyage classique ne suffit plus. Après un sinistre, un incendie ou un chantier, nos équipes formées aux protocoles de décontamination restaurent vos locaux à l'état d'origine."}
+                  {c?.aboutText ?? "Nettoyage Extrême intervient dans les situations où le nettoyage classique ne suffit plus. Après'un sinistre, un incendie ou un chantier, nos équipes formées aux protocoles de décontamination restaurent vos locaux à l'état d'origine."}
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 32 }}>
                   {["Intervention < 2h en zone urbaine", "Matériel professionnel haute capacité", "Rapport d'intervention pour assurances", "Protocoles EN 14476 certifiés", "Équipes formées risques chimiques"].map((item, i) => (

@@ -198,7 +198,7 @@ export default function VoltLogisticsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
                 <Reveal delay={0.1}>
-                  <h1 className="text-7xl md:text-[9rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-10">{<>{clientHeroLine(sessionData, 0, 3, 9) ?? "The Speed"}<br/>{clientHeroLine(sessionData, 1, 3, 9) ?? "Of"}<span className="text-[var(--brand,#ffb400)]">{clientHeroLine(sessionData, 2, 3, 9) ?? "Light."}</span>
+                  <h1 className="text-7xl md:text-[9rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-10">{<>{clientHeroLine(sessionData, 0, 3, 9) ?? "The Speed"}<br/>{clientHeroLine(sessionData, 1, 3, 9) ?? "Of"}{" "}<span className="text-[var(--brand,#ffb400)]">{clientHeroLine(sessionData, 2, 3, 9) ?? "Light."}</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.25}>

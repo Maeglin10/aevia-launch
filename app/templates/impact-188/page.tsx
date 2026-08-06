@@ -244,7 +244,7 @@ export default function CliniqueBoisVertPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-7 text-white" style={{ fontFamily: "'Lora', Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 14) ?? "Prendre soin"}<br />{clientHeroLine(sessionData, 1, 3, 14) ?? "de ceux qu'ils"}<span className="text-[#6bbf78] italic">{clientHeroLine(sessionData, 2, 3, 14) ?? "aiment."}</span>
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-7 text-white" style={{ fontFamily: "'Lora', Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 14) ?? "Prendre soin"}<br />{clientHeroLine(sessionData, 1, 3, 14) ?? "de ceux qu'ils"}{" "}<span className="text-[#6bbf78] italic">{clientHeroLine(sessionData, 2, 3, 14) ?? "aiment."}</span>
           </>}</motion.h1>
       {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
       {clientAccrocheRestante(sessionData) && (

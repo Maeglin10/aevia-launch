@@ -371,7 +371,7 @@ export default function LumiereDoreePage() {
               fontStyle: "italic",
             }}
           >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 19) ?? "Chaque amour mérite"}<br />
-            <span style={{ color: C.accent, fontStyle: "italic" }}>{clientHeroLine(sessionData, 1, 2, 19) ?? "d être raconté"}</span>
+            <span style={{ color: C.accent, fontStyle: "italic" }}>{clientHeroLine(sessionData, 1, 2, 19) ?? "d'être raconté"}</span>
           </>}</>)}</motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 28 }}

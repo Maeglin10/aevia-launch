@@ -275,7 +275,7 @@ export default function BatirSolidePage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
-            className="text-6xl md:text-8xl lg:text-[9rem] font-black leading-[0.85] tracking-tighter mb-9 uppercase text-white">{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "On construit"}<br />{clientHeroLine(sessionData, 1, 3, 12) ?? "pour"}<span className="text-[var(--brand,#d4a96a)]">{clientHeroLine(sessionData, 2, 3, 12) ?? "durer."}</span>
+            className="text-6xl md:text-8xl lg:text-[9rem] font-black leading-[0.85] tracking-tighter mb-9 uppercase text-white">{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "On construit"}<br />{clientHeroLine(sessionData, 1, 3, 12) ?? "pour"}{" "}<span className="text-[var(--brand,#d4a96a)]">{clientHeroLine(sessionData, 2, 3, 12) ?? "durer."}</span>
           </>}</motion.h1>
       {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
       {clientAccrocheRestante(sessionData) && (

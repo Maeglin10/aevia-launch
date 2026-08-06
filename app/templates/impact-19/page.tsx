@@ -278,7 +278,7 @@ return (
                   <p className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-6">Venture Capital — {clientCity({ formData: fd }) ?? "Paris"} · Berlin · Dubai</p>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <h1 className="text-white text-4xl sm:text-5xl md:text-8xl leading-tight md:leading-none mb-4 md:mb-8 break-words" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{<>{clientHeroLine(sessionData, 0, 4, 12) ?? "Financer les"}<br /><em>{clientHeroLine(sessionData, 1, 4, 12) ?? "champions"}</em>{clientHeroLine(sessionData, 2, 4, 12) ?? "de"}<br />{clientHeroLine(sessionData, 3, 4, 12) ?? "demain"}</>}</h1>
+                  <h1 className="text-white text-4xl sm:text-5xl md:text-8xl leading-tight md:leading-none mb-4 md:mb-8 break-words" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{<>{clientHeroLine(sessionData, 0, 4, 12) ?? "Financer les"}<br /><em>{clientHeroLine(sessionData, 1, 4, 12) ?? "champions"}</em>{" "}{clientHeroLine(sessionData, 2, 4, 12) ?? "de"}<br />{clientHeroLine(sessionData, 3, 4, 12) ?? "demain"}</>}</h1>
       {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
       {clientAccrocheRestante(sessionData) && (
         <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>

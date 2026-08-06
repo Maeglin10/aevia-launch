@@ -234,7 +234,7 @@ export default function AtelierInteriorPage() {
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-12 pb-24">
             <Reveal delay={0.15} y={70}>
-              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 6) ?? "Spaces"}<br/>{clientHeroLine(sessionData, 1, 3, 6) ?? "That"}<em className="text-[var(--brand,#8b7355)]">{clientHeroLine(sessionData, 2, 3, 6) ?? "Speak."}</em>
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 6) ?? "Spaces"}<br/>{clientHeroLine(sessionData, 1, 3, 6) ?? "That"}{" "}<em className="text-[var(--brand,#8b7355)]">{clientHeroLine(sessionData, 2, 3, 6) ?? "Speak."}</em>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>

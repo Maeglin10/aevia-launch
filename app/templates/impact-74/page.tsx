@@ -396,7 +396,7 @@ export default function AeviaKitchenPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="font-serif text-6xl md:text-8xl lg:text-[9.5rem] leading-[0.92] tracking-tight mb-10 text-white"
-          >{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "L art de la"}<br />
+          >{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "L'art de la"}<br />
             <em className="text-[var(--brand,#c9a855)]">{clientHeroLine(sessionData, 1, 2, 16) ?? "table française."}</em>
           </>}</motion.h1>
 

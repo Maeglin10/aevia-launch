@@ -224,7 +224,7 @@ export default function TerraArchitecturePage() {
                   </div>
                 </Reveal>
                 <Reveal delay={0.1} y={60}>
-                  <h1 className="text-[3rem] sm:text-7xl md:text-[8rem] font-light tracking-tighter leading-[0.85] mb-6 md:mb-12 uppercase">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "Rooted"}<br/>{clientHeroLine(sessionData, 1, 3, 7) ?? "In"}<span className="italic text-[var(--brand,#6c6459)] font-normal">{clientHeroLine(sessionData, 2, 3, 7) ?? "Nature."}</span>
+                  <h1 className="text-[3rem] sm:text-7xl md:text-[8rem] font-light tracking-tighter leading-[0.85] mb-6 md:mb-12 uppercase">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "Rooted"}<br/>{clientHeroLine(sessionData, 1, 3, 7) ?? "In"}{" "}<span className="italic text-[var(--brand,#6c6459)] font-normal">{clientHeroLine(sessionData, 2, 3, 7) ?? "Nature."}</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>

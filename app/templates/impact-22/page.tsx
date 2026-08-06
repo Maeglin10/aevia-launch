@@ -230,7 +230,7 @@ return (
             </div>
             <div className="max-w-6xl mx-auto w-full relative z-10 text-center">
               <Reveal delay={0.1}>
-                <h1 className="text-white text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-6 break-words">{<>{clientHeroLine(sessionData, 0, 2, 25) ?? "L infrastructure IA"}<br className="hidden sm:inline" />{" "}
+                <h1 className="text-white text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-6 break-words">{<>{clientHeroLine(sessionData, 0, 2, 25) ?? "L'infrastructure IA"}<br className="hidden sm:inline" />{" "}
                   <span className="bg-gradient-to-r from-[var(--brand,#06B6D4)] to-[#8B5CF6] bg-clip-text text-transparent">{clientHeroLine(sessionData, 1, 2, 25) ?? "pour les builders sérieux"}</span>
                 </>}</h1>
               </Reveal>
