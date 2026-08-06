@@ -2682,7 +2682,7 @@ export default function WineryTemplate() {
               required
               value={tastingForm.phone}
               onChange={(e) => setTastingForm((f) => ({ ...f, phone: e.target.value }))}
-              placeholder="+33 6 00 00 00 00"
+              placeholder="+33 6 72 75 59 19"
               className="mb131-field"
               style={modalInputStyle}
             />

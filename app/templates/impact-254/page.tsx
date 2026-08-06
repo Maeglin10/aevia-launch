@@ -1799,7 +1799,7 @@ function ContactForm() {
                   style={fieldStyle}
                   value={tel}
                   onChange={(e) => setTel(e.target.value)}
-                  placeholder="+33 6 00 00 00 00"
+                  placeholder="+33 6 78 37 77 85"
                   autoComplete="tel"
                 />
               </div>

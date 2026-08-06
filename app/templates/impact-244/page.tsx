@@ -1788,7 +1788,7 @@ function ContactForm() {
                   style={fieldBase}
                   value={form.tel}
                   onChange={set('tel')}
-                  placeholder="+33 6 00 00 00 00"
+                  placeholder="+33 6 77 30 74 74"
                   autoComplete="tel"
                 />
               </div>
@@ -1957,7 +1957,7 @@ function Footer() {
               color: 'rgba(255,255,255,0.45)',
             }}
           >
-            {clientCity(sessionData) ?? "Paris"} · {clientPhone(sessionData) ?? "+33 1 00 00 00 00"}
+            {clientCity(sessionData) ?? "Paris"} · {clientPhone(sessionData) ?? "+33 1 77 30 74 74"}
           </div>
         </div>
 

@@ -2298,7 +2298,7 @@ export default function AquaPrestigePage() {
                             name="phone"
                             value={formData.phone}
                             onChange={handleFormChange}
-                            placeholder="06 00 00 00 00"
+                            placeholder="06 74 89 65 41"
                             className="ap-input"
                             style={{
                               width: '100%',

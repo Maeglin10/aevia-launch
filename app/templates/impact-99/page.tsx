@@ -547,7 +547,7 @@ function ReservationPage() {
                       <input
                         type="tel"
                         required
-                        placeholder="06 00 00 00 00"
+                        placeholder="06 37 70 24 84"
                         style={{ fontSize: 16 }}
                         className={FIELD_CLASS}
                       />
@@ -610,7 +610,7 @@ function ReservationPage() {
 
               <div className="p-12 border border-white/5 bg-white/[0.01] rounded-sm space-y-8">
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Phone className="w-5 h-5 text-[var(--brand,#ff4d00)]" /> {fd?.phone ?? "01 23 45 67 89"}
+                  <Phone className="w-5 h-5 text-[var(--brand,#ff4d00)]" /> {fd?.phone ?? "01 37 70 24 84"}
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
                   <Mail className="w-5 h-5 text-[var(--brand,#ff4d00)]" />{fd?.email ?? "contact@exemple.fr"}</div>
@@ -871,7 +871,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">
-                    {fd?.phone ?? "01 23 45 67 89"}
+                    {fd?.phone ?? "01 37 70 24 84"}
                   </p>
                 </div>
                 <Separator className="bg-white/5" />

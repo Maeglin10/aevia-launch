@@ -360,7 +360,7 @@ export default function Template({ session: initialSession }: { session?: any } 
 
   const businessName = fd.businessName || "Éco-Clean Habitat";
   const contactEmail = clientEmail(sessionData) || "contact@eco-clean-habitat.fr";
-  const contactPhone = clientPhone(sessionData) || "01 23 45 67 89";
+  const contactPhone = clientPhone(sessionData) || "01 20 51 13 32";
   const contactAddress = fd.contactAddress || (clientAddress(sessionData) ?? "123 Rue de la Nature, 75001 Paris");
 
   // Colors
@@ -1051,7 +1051,7 @@ export default function Template({ session: initialSession }: { session?: any } 
                   </div>
                   <div style={{ flex: "1 1 200px", display: "flex", flexDirection: "column", gap: "8px" }}>
                     <label style={{ fontFamily: SANS, fontSize: "14px", fontWeight: 500, color: C.text }}>Téléphone</label>
-                    <input type="tel" placeholder="06 12 34 56 78" style={{ padding: "12px 16px", borderRadius: "8px", border: `1px solid ${C.border}`, fontFamily: SANS, fontSize: "15px", outline: "none", transition: "border-color 0.3s" }} onFocus={(e) => e.target.style.borderColor = C.primary} onBlur={(e) => e.target.style.borderColor = C.border} />
+                    <input type="tel" placeholder="06 20 51 13 32" style={{ padding: "12px 16px", borderRadius: "8px", border: `1px solid ${C.border}`, fontFamily: SANS, fontSize: "15px", outline: "none", transition: "border-color 0.3s" }} onFocus={(e) => e.target.style.borderColor = C.primary} onBlur={(e) => e.target.style.borderColor = C.border} />
                   </div>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>

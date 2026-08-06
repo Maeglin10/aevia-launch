@@ -609,7 +609,7 @@ export default function Page() {
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                   {[
-                    { icon: <Phone size={18} />, label: "Téléphone", value: fd?.phone ?? "+33 (0)1 00 00 00 00", href: `tel:${fd?.phone ?? "+33100000000"}` },
+                    { icon: <Phone size={18} />, label: "Téléphone", value: fd?.phone ?? "+33 (0)1 00 00 00 00", href: `tel:${fd?.phone ?? "+33177307474"}` },
                     { icon: <Mail size={18} />, label: "E-mail", value: fd?.email ?? "commercial@pro-nettoyage.fr", href: `mailto:${fd?.email ?? "commercial@pro-nettoyage.fr"}` },
                     { icon: <MapPin size={18} />, label: "Zone d'intervention", value: fd?.city ?? "Île-de-France & Grand Ouest" },
                   ].map((item, i) => (

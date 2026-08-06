@@ -1048,7 +1048,7 @@ export default function AuraWellnessPage() {
                       </div>
                       <div>
                         <label className="block text-[#2C2820]/70 text-xs tracking-widest uppercase mb-2" htmlFor="tel">Téléphone</label>
-                        <input id="tel" type="tel" required placeholder="+33 6 00 00 00 00" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[var(--brand,#7C9E87)] transition-colors" style={{ fontSize: "16px" }} />
+                        <input id="tel" type="tel" required placeholder="+33 6 33 42 82 40" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[var(--brand,#7C9E87)] transition-colors" style={{ fontSize: "16px" }} />
                       </div>
                     </div>
                     <div>

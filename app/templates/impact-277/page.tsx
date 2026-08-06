@@ -1258,7 +1258,7 @@ function ProcessSection() {
                     letterSpacing: '0.04em',
                   }}
                 >
-                  {fd?.phone ?? "01 23 45 67 89"}
+                  {fd?.phone ?? "01 23 72 22 65"}
                 </div>
                 <div
                   style={{
@@ -1818,7 +1818,7 @@ function DevisFormSection() {
                     style={fieldBase}
                     value={tel}
                     onChange={(e) => setTel(e.target.value)}
-                    placeholder="06 12 34 56 78"
+                    placeholder="06 23 72 22 65"
                     type="tel"
                     autoComplete="tel"
                     required
@@ -2305,7 +2305,7 @@ function UrgencySection() {
         {/* Numéro d'urgence mis en avant */}
         <Reveal delay={0.2}>
           <a
-            href={`tel:${fd?.phone ?? "0123456789"}`}
+            href={`tel:${fd?.phone ?? "0123722265"}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -2328,7 +2328,7 @@ function UrgencySection() {
                   letterSpacing: '0.04em',
                 }}
               >
-                {fd?.phone ?? "01 23 45 67 89"}
+                {fd?.phone ?? "01 23 72 22 65"}
               </div>
               <div
                 style={{
@@ -2544,7 +2544,7 @@ function FooterSection() {
 
           {/* Numéro urgence footer */}
           <a
-            href={`tel:${fd?.phone ?? "0123456789"}`}
+            href={`tel:${fd?.phone ?? "0123722265"}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -2563,7 +2563,7 @@ function FooterSection() {
                 letterSpacing: '0.06em',
               }}
             >
-              {fd?.phone ?? "01 23 45 67 89"}
+              {fd?.phone ?? "01 23 72 22 65"}
             </span>
           </a>
         </div>

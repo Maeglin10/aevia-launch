@@ -1872,7 +1872,7 @@ function AppointmentForm() {
                   onChange={(e) => setTel(e.target.value)}
                   onFocus={() => setFocused('tel')}
                   onBlur={() => setFocused(null)}
-                  placeholder="06 00 00 00 00"
+                  placeholder="06 77 30 74 74"
                   autoComplete="tel"
                   style={{
                     ...fieldBase,

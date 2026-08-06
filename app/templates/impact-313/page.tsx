@@ -490,7 +490,7 @@ export default function PlumberDarkUrgent() {
   );
 
   const businessName = fd.businessName || "Urgence Plomberie 24/7";
-  const businessPhone = clientPhone(sessionData) || "01 23 45 67 89";
+  const businessPhone = clientPhone(sessionData) || "01 74 89 65 41";
   const businessEmail = clientEmail(sessionData) || "contact@urgence-plomberie.fr";
   const businessCity = fd.businessCity || "Paris";
   

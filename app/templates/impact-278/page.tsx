@@ -1902,7 +1902,7 @@ function DevisFormSection() {
                   }}
                   value={form.telephone}
                   onChange={(e) => setForm({ ...form, telephone: e.target.value })}
-                  placeholder="06 12 34 56 78"
+                  placeholder="06 24 79 25 76"
                   autoComplete="tel"
                   type="tel"
                 />

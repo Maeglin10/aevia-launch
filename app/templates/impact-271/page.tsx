@@ -1849,7 +1849,7 @@ function QuoteForm() {
                     type="tel"
                     value={telephone}
                     onChange={(e) => setTelephone(e.target.value)}
-                    placeholder="06 00 00 00 00"
+                    placeholder="06 77 30 74 74"
                     autoComplete="tel"
                   />
                 </div>

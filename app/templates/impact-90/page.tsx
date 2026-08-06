@@ -388,7 +388,7 @@ function BookingModalProvider({ children }: { children: React.ReactNode }) {
                         id="bk-phone"
                         type="tel"
                         required
-                        placeholder="06 12 34 56 78"
+                        placeholder="06 28 87 67 60"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         className="mlbk-field"

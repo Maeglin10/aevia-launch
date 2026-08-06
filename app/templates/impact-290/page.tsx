@@ -1874,7 +1874,7 @@ function DevisFormSection() {
                   name="telephone"
                   type="tel"
                   required
-                  placeholder="06 12 34 56 78"
+                  placeholder="06 78 37 77 85"
                   value={form.telephone}
                   onChange={handleChange}
                   onFocus={() => setFocused('telephone')}

@@ -1831,7 +1831,7 @@ function ContactForm() {
                   style={fieldBase}
                   value={telephone}
                   onChange={(e) => setTelephone(e.target.value)}
-                  placeholder="+33 6 00 00 00 00"
+                  placeholder="+33 6 21 58 16 43"
                   autoComplete="tel"
                 />
               </div>

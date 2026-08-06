@@ -692,7 +692,7 @@ export default function LumiereYogaPage() {
                       autoComplete="tel"
                       value={bookingForm.phone}
                       onChange={(e) => setBookingForm((f) => ({ ...f, phone: e.target.value }))}
-                      placeholder="06 12 34 56 78"
+                      placeholder="06 79 44 80 21"
                       className="imx-focus"
                       style={{ width: "100%", minHeight: 44, padding: "11px 14px", borderRadius: 8, border: `1px solid ${C.border}`, fontSize: 14, color: C.text, background: C.bg, boxSizing: "border-box" }}
                     />

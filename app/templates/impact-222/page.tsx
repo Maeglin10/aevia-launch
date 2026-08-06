@@ -2175,7 +2175,7 @@ const Contact: React.FC = () => {
                   <input
                     style={inputBase}
                     type="tel"
-                    placeholder="+33 6 12 34 56 78"
+                    placeholder="+33 6 73 82 62 30"
                     value={form.telephone}
                     onChange={update('telephone')}
                     onFocus={focus}

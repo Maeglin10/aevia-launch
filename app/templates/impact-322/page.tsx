@@ -781,7 +781,7 @@ export default function Impact322() {
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
                     <Phone style={{ color: C.primary }} size={20} />
-                    <span className="font-light">{fd?.contactPhone || "+33 1 23 45 67 89"}</span>
+                    <span className="font-light">{fd?.contactPhone || "+33 1 74 89 65 41"}</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <Mail style={{ color: C.primary }} size={20} />
