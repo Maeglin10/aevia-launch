@@ -8,6 +8,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { Reveal, MagneticBtn, Counter, MENUS, WINE_PAIRINGS, ARTISANS } from "./shared";
 import {
+  clientMenu,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -101,6 +102,21 @@ export default function SatoriHomePage() {
 
   fd = session?.formData;
   sessionData = session;
+  /*
+    La carte de ce restaurant est rangee par categories. Celle du client aussi —
+    chaque plat porte la sienne — il suffit donc de la regrouper. Sans carte
+    saisie, celle du theme reste, intacte.
+  */
+  const plats = clientMenu(sessionData);
+  const CARTE = plats?.length
+    ? Object.entries(
+        plats.reduce((acc: Record<string, any[]>, p: any) => {
+          const cle = p.category || MENUS[0].category;
+          (acc[cle] ??= []).push({ name: p.name, description: p.description, price: p.price });
+          return acc;
+        }, {}),
+      ).map(([category, items], i) => ({ id: i + 1, category, items }))
+    : MENUS;
   memoriserSession(sessionData);
   c = session?.generatedContent;
 
@@ -235,7 +251,7 @@ return (
         </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-px border border-[#f5efe0]/10">
-          {MENUS.map((menu, colIdx) => (
+          {CARTE.map((menu, colIdx) => (
             <div key={menu.id} className="bg-[#1a1612] p-8 md:p-10">
               <Reveal delay={colIdx * 0.1}>
                 <div className="mb-8 pb-6 border-b border-[#f5efe0]/10">

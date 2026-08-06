@@ -39,6 +39,15 @@ const DONNEES = {
   // Le contrat lit « q » et « a », pas « question »/« answer ».
   faq: [{ q: "Intervenez-vous le dimanche ?", a: "Oui, au tarif annoncé d'avance." }],
   /*
+    Les « réalisations » ne sont ni des prestations ni une carte : le contrat
+    les lit dans « beforeAfter », des chantiers avant/après.
+  */
+  beforeAfter: [
+    // Le contrat lit « caption », pas « title ».
+    { caption: "Salle de bain Marquisats", afterUrl: "https://images.pexels.com/photos/7937300/pexels-photo-7937300.jpeg?w=800" },
+    { caption: "Chaufferie Bellevaux", afterUrl: "https://images.pexels.com/photos/7937300/pexels-photo-7937300.jpeg?w=800" },
+  ],
+  /*
     Les thèmes de restauration et de commerce ne lisent pas « services » mais
     « menu » et « products » — deux blocs distincts dans le profil.
   */
@@ -48,9 +57,11 @@ const DONNEES = {
 
 const ATTENDUS = [
   ["prestations", "Détartrage Vidal"],
+  ["réalisations", "Salle de bain Marquisats"],
   ["carte", "Tarte Marquisats"],
   ["produits", "Coffret Bellevaux"],
-  ["avis", "Perrine Anselme"],
+  // Certains themes n'affichent que les initiales de l'auteur : on cherche son texte.
+  ["avis", "chantier laissé propre"],
   ["chiffres", "Chantiers Vidal"],
   ["équipe", "Éloi Vidal"],
   ["engagements", "Qualibat Marquisats"],
@@ -75,7 +86,8 @@ for (const m of capacites.matchAll(/"(impact-[\w-]+)":\s*\[([^\]]*)\]/g)) {
   BLOCS[m[1]] = [...m[2].matchAll(/"([a-z]+)"/g)].map((x) => x[1]);
 }
 const DECLARE = {
-  prestations: ["prestations", "tarifs", "realisations"],
+  prestations: ["prestations", "tarifs"],
+  "réalisations": ["realisations"],
   carte: ["menu"],
   produits: ["produits"],
   avis: ["avis"],
@@ -116,6 +128,7 @@ for (const id of ids) {
     team: DONNEES.team,
     certifications: DONNEES.certifications,
     faq: DONNEES.faq,
+    beforeAfter: DONNEES.beforeAfter,
     /*
       On n'envoie que ce que le thème déclare : le contrat sert la carte avant
       le catalogue, si bien qu'un thème de boutique recevant les deux montrerait
@@ -146,6 +159,8 @@ for (const id of ids) {
     const muettes = ATTENDUS
       .filter(([nom]) => (DECLARE[nom] ?? []).some((b2) => declares.includes(b2)))
       .filter(([nom]) => !(carteSeule && nom === "prestations"))
+      // Un theme qui declare carte ET catalogue n'affiche qu'une source : la carte prime.
+      .filter(([nom]) => !(nom === "produits" && declares.includes("menu")))
       .filter(([, valeur]) => !texte.includes(valeur.toLowerCase()))
       .map(([nom]) => nom);
 
