@@ -130,11 +130,31 @@ export function CookieBanner() {
           // pointer-events-none sur la bande : seule la carte visible doit
           // intercepter les clics, pas les marges transparentes autour d'elle.
           className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6 pointer-events-none"
+          /*
+            Soixante thèmes injectent leur propre remise à zéro :
+            `*, *::before, *::after { margin: 0; padding: 0 }`. Écrite hors des
+            couches de Tailwind, elle l'emporte sur les utilitaires quelle que
+            soit leur spécificité — `p-4` et `mx-auto` n'avaient plus aucun
+            effet. Le bandeau se collait au bord gauche, texte coupé au ras de
+            l'écran, sur le premier élément que lit un visiteur.
+
+            Le style en ligne, lui, passe devant la remise à zéro. On le pose
+            ici plutôt que de retoucher soixante thèmes.
+          */
+          style={{ padding: 16 }}
         >
-          <div ref={shellRef} className="pointer-events-auto mx-auto max-w-4xl bg-zinc-900 border border-zinc-700 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden">
+          <div
+            ref={shellRef}
+            className="pointer-events-auto mx-auto max-w-4xl bg-zinc-900 border border-zinc-700 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden"
+            style={{ marginLeft: "auto", marginRight: "auto" }}
+          >
 
             {mode === "banner" ? (
-              <div className="px-4 py-3 sm:px-5 sm:py-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+              /* padding en ligne : voir la remise à zéro des thèmes, plus haut */
+              <div
+                className="px-4 py-3 sm:px-5 sm:py-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4"
+                style={{ padding: "14px 18px" }}
+              >
                 <p className="flex-1 text-zinc-400 text-xs sm:text-sm leading-snug sm:leading-relaxed">
                   {t.text}{" "}
                   <a href="https://aevia.services/fr/legal/cookies" target="_blank" rel="noopener noreferrer"
@@ -144,15 +164,18 @@ export function CookieBanner() {
                 </p>
                 <div className="flex gap-1.5 sm:gap-2 shrink-0">
                   <button onClick={() => save({ analytics: false, marketing: false })}
-                    className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-zinc-600 text-zinc-300 hover:text-white hover:border-zinc-400 text-xs sm:text-sm font-medium transition-colors">
+                    className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-zinc-600 text-zinc-300 hover:text-white hover:border-zinc-400 text-xs sm:text-sm font-medium transition-colors"
+                    style={{ padding: "7px 15px" }}>
                     {t.reject}
                   </button>
                   <button onClick={() => setMode("customize")}
-                    className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-red-500/40 text-red-400 hover:bg-red-500/10 text-xs sm:text-sm font-medium transition-colors">
+                    className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-red-500/40 text-red-400 hover:bg-red-500/10 text-xs sm:text-sm font-medium transition-colors"
+                    style={{ padding: "7px 15px" }}>
                     {t.customize}
                   </button>
                   <button onClick={() => save({ analytics: true, marketing: true })}
-                    className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-red-600 hover:bg-red-500 text-white text-xs sm:text-sm font-semibold transition-colors">
+                    className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-red-600 hover:bg-red-500 text-white text-xs sm:text-sm font-semibold transition-colors"
+                    style={{ padding: "7px 15px" }}>
                     {t.accept}
                   </button>
                 </div>

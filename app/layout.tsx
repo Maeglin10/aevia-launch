@@ -201,7 +201,19 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col">
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-red-600 focus:text-white focus:rounded-lg focus:font-semibold">Skip to main content</a>
+        {/*
+          Le lien d'évitement au clavier. Son fond et ses marges n'existent qu'au
+          focus, et soixante thèmes remettent marges et espacements à zéro par un
+          sélecteur qui l'emporte sur Tailwind : le lien apparaissait sans air,
+          texte au ras du fond rouge. Le style en ligne passe devant.
+        */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-red-600 focus:text-white focus:rounded-lg focus:font-semibold"
+          style={{ padding: "8px 16px" }}
+        >
+          Aller au contenu principal
+        </a>
         <LangProvider>
           <ConsentAwareAnalytics />
           {children}
