@@ -101,7 +101,14 @@ function detacherLesTextesDuClient(donnees: Record<string, unknown> | undefined)
     if (e.children.length > 0) continue;
     const t = (e.textContent ?? "").trim();
     if (t.length < 4) continue;
-    if (!valeurs.some((v) => t.includes(v))) continue;
+    /*
+      Les thèmes mettent volontiers leurs titres en capitales par la feuille de
+      style, mais « textContent » rend la casse du source — sauf quand le
+      remplacement s'est fait en dur. On compare donc sans tenir compte de la
+      casse : « ATELIERS VIDAL & FILS » est bien le nom saisi au wizard.
+    */
+    const tb = t.toLowerCase();
+    if (!valeurs.some((v) => tb.includes(v.toLowerCase()))) continue;
     if (!surUneImage(e)) continue;
     // Une ombre déjà posée n'empêche pas de corriger la couleur : ce sont deux
     // décisions distinctes, et la première ne sauve pas un brun sur du doré.
@@ -123,6 +130,20 @@ function detacherLesTextesDuClient(donnees: Record<string, unknown> | undefined)
     if (ct && Math.abs(luminance(...ct) - lum) > 0.25) {
       e.style.setProperty("color", `rgb(${ct[0]}, ${ct[1]}, ${ct[2]})`, "important");
       lum = luminance(...ct);
+    }
+
+    /*
+      Sur téléphone, un nom long — « ATELIERS VIDAL & FILS » là où le thème
+      écrivait un mot — sort de l'écran par la droite : soixante pixels perdus,
+      mesurés sur impact-57. On n'autorise la césure que là où ça dépasse
+      vraiment ; ailleurs, rien ne change.
+    */
+    const r = e.getBoundingClientRect();
+    if (r.right > document.documentElement.clientWidth + 4) {
+      e.style.overflowWrap = "anywhere";
+      e.style.maxWidth = "100%";
+      // Une ligne tenue sur un seul rang ne peut pas se replier : il faut le lui permettre.
+      if (getComputedStyle(e).whiteSpace.startsWith("nowrap")) e.style.whiteSpace = "normal";
     }
 
     if (!ombreDejaLa) {
