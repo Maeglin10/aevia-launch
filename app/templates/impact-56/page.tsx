@@ -132,7 +132,7 @@ return (
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 font-sans">
               <Link
                 href="/templates/impact-56/vins"
-                className="w-full sm:w-auto px-10 py-4 bg-[var(--brand,#2D1B0E)] text-white font-bold uppercase tracking-widest text-sm hover:bg-white hover:text-[var(--brand,#2D1B0E)] transition-colors duration-300 cursor-pointer text-center"
+                className="w-full sm:w-auto px-10 py-4 bg-[#2D1B0E] text-white font-bold uppercase tracking-widest text-sm hover:bg-white hover:text-[#2D1B0E] transition-colors duration-300 cursor-pointer text-center"
                 style={{ textDecoration: "none" }}
               >
                 Découvrir nos Vins
@@ -154,13 +154,13 @@ return (
       </section>
 
       {/* ─── STATS BAR ─── */}
-      <section className="py-20 border-b border-[var(--brand,#2D1B0E)]/10 bg-white relative z-10">
+      <section className="py-20 border-b border-[#2D1B0E]/10 bg-white relative z-10">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-12 md:gap-4 divide-x-0 md:divide-x divide-[var(--brand,#2D1B0E)]/10">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-12 md:gap-4 divide-x-0 md:divide-x divide-[#2D1B0E]/10">
             {STATS.map((stat, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="flex flex-col items-center text-center">
-                  <div className="text-4xl lg:text-5xl font-serif text-[var(--brand,#2D1B0E)] mb-3 leading-none pb-1">
+                  <div className="text-4xl lg:text-5xl font-serif text-[#2D1B0E] mb-3 leading-none pb-1">
                     {stat.value}<span className="text-zinc-400 font-sans text-2xl">{stat.suffix}</span>
                   </div>
                   <div className="text-xs uppercase tracking-widest text-zinc-500 font-sans font-bold">
@@ -179,7 +179,7 @@ return (
           <div className="text-center mb-20">
             <Reveal>
               <h2 className="text-xs font-sans uppercase tracking-[0.2em] text-[#C4A265] font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Le Domaine</>)}</h2>
-              <h3 className="text-4xl md:text-5xl font-serif text-[var(--brand,#2D1B0E)] mb-6 leading-normal pb-2">{c?.aboutTitle ?? fd?.businessName ?? <>L'Art du Grand Vin</>}</h3>
+              <h3 className="text-4xl md:text-5xl font-serif text-[#2D1B0E] mb-6 leading-normal pb-2">{c?.aboutTitle ?? fd?.businessName ?? <>L'Art du Grand Vin</>}</h3>
               <p className="text-zinc-600 font-sans max-w-2xl mx-auto text-lg leading-relaxed">{c?.aboutText ?? <>
                 De la vigne à la bouteille, chaque étape est guidée par l'exigence absolue et le respect d'une nature généreuse.
               </>}</p>
@@ -193,7 +193,7 @@ return (
                   <TabsTrigger
                     key={feature.id}
                     value={feature.id}
-                    className="justify-start px-8 py-6 text-left data-[state=active]:bg-[var(--brand,#2D1B0E)] data-[state=active]:text-white text-zinc-500 hover:text-[var(--brand,#2D1B0E)] transition-all duration-300 cursor-pointer rounded-none border border-transparent data-[state=active]:shadow-xl"
+                    className="justify-start px-8 py-6 text-left data-[state=active]:bg-[#2D1B0E] data-[state=active]:text-white text-zinc-500 hover:text-[#2D1B0E] transition-all duration-300 cursor-pointer rounded-none border border-transparent data-[state=active]:shadow-xl"
                   >
                     <div className="flex items-center gap-6">
                       <div className="opacity-70">{feature.icon}</div>
@@ -213,13 +213,13 @@ return (
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
                       transition={{ duration: 0.5 }}
-                      className="bg-white border border-[var(--brand,#2D1B0E)]/5 overflow-hidden shadow-2xl"
+                      className="bg-white border border-[#2D1B0E]/5 overflow-hidden shadow-2xl"
                     >
                       <div className="aspect-[16/9] relative w-full overflow-hidden">
                         <Image src={feature.image} alt={feature.title} fill className="object-cover hover:scale-105 transition-transform duration-1000" />
                       </div>
                       <div className="p-10 md:p-14">
-                        <h4 className="text-3xl font-serif text-[var(--brand,#2D1B0E)] mb-6 leading-snug pb-1">{feature.title}</h4>
+                        <h4 className="text-3xl font-serif text-[#2D1B0E] mb-6 leading-snug pb-1">{feature.title}</h4>
                         <p className="text-zinc-600 font-sans leading-relaxed mb-10 text-lg">{feature.description}</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 font-sans">
                           {feature.bullets.map((bullet, i) => (
@@ -240,7 +240,7 @@ return (
       </section>
 
       {/* ─── TESTIMONIALS ─── */}
-      <section className="py-32 bg-[var(--brand,#2D1B0E)] text-white overflow-hidden relative">
+      <section className="py-32 bg-[#2D1B0E] text-white overflow-hidden relative">
         <div className="absolute top-0 right-0 p-20 opacity-5 pointer-events-none">
           <Grape className="w-96 h-96" />
         </div>
@@ -260,7 +260,7 @@ return (
                   <Reveal delay={i * 0.1}>
                     <Card className="bg-[#3D1C22] border-none shadow-xl h-full font-sans">
                       <CardContent className="p-10 flex flex-col h-full justify-between relative overflow-hidden">
-                        <div className="absolute top-0 right-0 bg-[#C4A265] text-[var(--brand,#2D1B0E)] font-bold px-4 py-2 text-xl font-serif rounded-bl-xl">
+                        <div className="absolute top-0 right-0 bg-[#C4A265] text-[#2D1B0E] font-bold px-4 py-2 text-xl font-serif rounded-bl-xl">
                           {testi.score}
                         </div>
                         <div>
@@ -290,8 +290,8 @@ return (
               ))}
             </CarouselContent>
             <div className="flex justify-center gap-6 mt-16">
-              <CarouselPrevious className="relative inset-auto translate-y-0 bg-transparent border-white/20 text-white hover:bg-white hover:text-[var(--brand,#2D1B0E)] w-12 h-12 transition-colors" />
-              <CarouselNext className="relative inset-auto translate-y-0 bg-transparent border-white/20 text-white hover:bg-white hover:text-[var(--brand,#2D1B0E)] w-12 h-12 transition-colors" />
+              <CarouselPrevious className="relative inset-auto translate-y-0 bg-transparent border-white/20 text-white hover:bg-white hover:text-[#2D1B0E] w-12 h-12 transition-colors" />
+              <CarouselNext className="relative inset-auto translate-y-0 bg-transparent border-white/20 text-white hover:bg-white hover:text-[#2D1B0E] w-12 h-12 transition-colors" />
             </div>
           </Carousel>
         </div>
@@ -303,7 +303,7 @@ return (
           <Reveal>
             <div className="text-center mb-16">
               <h2 className="text-xs font-sans uppercase tracking-[0.2em] text-[#C4A265] font-bold mb-4 font-sans">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Service</>)}</h2>
-              <h3 className="text-4xl font-serif text-[var(--brand,#2D1B0E)] leading-tight pb-2">Questions Fréquentes</h3>
+              <h3 className="text-4xl font-serif text-[#2D1B0E] leading-tight pb-2">Questions Fréquentes</h3>
             </div>
           </Reveal>
 
@@ -311,7 +311,7 @@ return (
             <Accordion type="single" collapsible className="w-full font-sans">
               {FAQS.map((faq, i) => (
                 <AccordionItem key={i} value={`item-${i}`} className="border-zinc-300">
-                  <AccordionTrigger className="text-left text-[var(--brand,#2D1B0E)] hover:text-[#C4A265] hover:no-underline font-bold text-lg py-6 transition-colors">
+                  <AccordionTrigger className="text-left text-[#2D1B0E] hover:text-[#C4A265] hover:no-underline font-bold text-lg py-6 transition-colors">
                     {faq.question}
                   </AccordionTrigger>
                   <AccordionContent className="text-zinc-600 leading-relaxed pb-6 text-base">
@@ -327,7 +327,7 @@ return (
       {/* ─── CTA BANNER ─── */}
       <section className="py-24 px-6 relative z-10 bg-white">
         <Reveal>
-          <div className="max-w-6xl mx-auto bg-[var(--brand,#2D1B0E)] text-white p-12 md:p-24 text-center relative overflow-hidden group shadow-2xl">
+          <div className="max-w-6xl mx-auto bg-[#2D1B0E] text-white p-12 md:p-24 text-center relative overflow-hidden group shadow-2xl">
             <div
               className="absolute inset-0 bg-cover bg-center opacity-20 group-hover:opacity-30 transition-opacity duration-1000 mix-blend-luminosity"
               style={{ backgroundImage: `url(${photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=1600&q=80"))})` }}
@@ -340,7 +340,7 @@ return (
               </p>
               <Link
                 href="/templates/impact-56/visite"
-                className="px-12 py-5 bg-[#C4A265] text-[var(--brand,#2D1B0E)] font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors duration-300 cursor-pointer inline-block text-center"
+                className="px-12 py-5 bg-[#C4A265] text-[#2D1B0E] font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors duration-300 cursor-pointer inline-block text-center"
                 style={{ textDecoration: "none" }}
               >
                 Réserver une Visite

@@ -69,7 +69,7 @@ let C: Record<string, string> = {
   black: '#0d0d0d',
   blackDeep: '#080808',
   blackMid: '#1a1a1a',
-  champagne: 'var(--brand-light,#e8d5b0)',
+  champagne: '#e8d5b0',
   champagneDeep: '#d4bc93',
   champagneLight: '#f2e8d0',
   white: '#ffffff',

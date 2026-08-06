@@ -74,7 +74,7 @@ let C: Record<string, string> = {
   bgCard: '#ffffff',
   accent: 'var(--brand,#1a7a5a)',
   accentDark: '#125c43',
-  accentLight: 'var(--brand-light,#c8e6d8)',
+  accentLight: '#c8e6d8',
   white: '#ffffff',
   ink: '#0c1e1a',
   textMuted: '#4a6b5a',

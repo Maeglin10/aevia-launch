@@ -84,7 +84,7 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  marine: 'var(--brand,#1a3a5c)',
+  marine: '#1a3a5c',
   marineDark: '#112640',
   marineMid: '#22487a',
   gold: '#c9a84c',

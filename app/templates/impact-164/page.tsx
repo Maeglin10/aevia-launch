@@ -45,7 +45,7 @@ let C: Record<string, string> = {
   white: "#F5F5F0",
   text: "#0A0A0A",
   textMuted: "#666666",
-  accent: "var(--brand,#dcff00)",
+  accent: "#dcff00",
   accentDark: "#B8D900",
   border: "#0A0A0A",
   borderLight: "#E0E0DA",
@@ -147,7 +147,7 @@ const CASES = [
     year: "2024",
     result: "Onboarding: -62% de drop",
     color: "#0A0A0A",
-    textColor: "var(--brand,#dcff00)",
+    textColor: "#dcff00",
     desc: "Un outil de data viz puissant mais incompréhensible pour les non-techs. 3 semaines de research, refonte de l'onboarding, taux de complétion passé de 21% à 84%.",
   },
 ];
