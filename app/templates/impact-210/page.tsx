@@ -552,7 +552,7 @@ function Hero({ accentColor, particles }: { accentColor: string; particles: Part
             lineHeight: 1.7,
             fontWeight: 300,
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Gel, semi-permanent, nail art sur mesure — every detail crafted with precision and a touch of <em>parisian elegance</em>."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Gel, semi-permanent, nail art sur mesure — chaque détail travaillé avec précision, dans une élégance toute parisienne."}</motion.p>
 
         {/* CTA group */}
         <motion.div
