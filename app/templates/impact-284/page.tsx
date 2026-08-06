@@ -27,6 +27,7 @@ import {
   Activity,
 } from 'lucide-react';
 import {
+  clientPhone,
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -2595,7 +2596,7 @@ function FooterSection() {
               }}
             >
               <Phone size={15} color={C.gold} strokeWidth={1.6} />
-              05 56 21 58 58
+              {clientPhone(sessionData) ?? "05 56 21 58 58"}
             </div>
             <div
               style={{

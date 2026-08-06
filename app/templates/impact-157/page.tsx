@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientAddress,
   clientCertifications,
   clientCity,
@@ -624,7 +625,7 @@ return (
         {/* CTA — hidden on mobile */}
         <div className="aurum-cta" style={{ display: "flex", alignItems: "center", gap: 24 }}>
           <span style={{ fontSize: 12, color: C.textMuted, letterSpacing: 1 }}>
-            +33 1 42 60 20 51
+            {clientPhone(sessionData) ?? "+33 1 42 60 20 51"}
           </span>
           <motion.a
             href="#hero"
