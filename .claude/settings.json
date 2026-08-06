@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "c=$(jq -r '.tool_input.command // \"\"'); if { printf '%s' \"$c\" | grep -qE '(^|[;&|(])[[:space:]]*(npm|pnpm|bun)[[:space:]]+(i|install|add|update|up)([[:space:]]|$)' || printf '%s' \"$c\" | grep -qE '(^|[;&|(])[[:space:]]*yarn[[:space:]]+(add|install|upgrade|up)([[:space:]]|$)'; } && ! printf '%s' \"$c\" | grep -qE -- '--frozen-lockfile|--immutable|--offline'; then jq -nc '{hookSpecificOutput:{hookEventName:\"PreToolUse\",permissionDecision:\"deny\",permissionDecisionReason:\"BLOCKED (supply-chain guard): a blind dependency install can pull a compromised package (see the keyv 2026-08-04 npm worm). Reinstall from the verified lockfile instead (npm ci / pnpm install --frozen-lockfile / yarn install --immutable). To add or update a dependency, first check today advisories and scan install hooks, then run it intentionally.\"}}'; fi",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
