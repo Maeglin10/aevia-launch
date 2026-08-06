@@ -172,7 +172,12 @@ body {
   La règle ne se déclenche qu'en dessous de 820 pixels de haut. Au-delà — tout
   écran de portable récent — le rendu est celui d'origine, au pixel près.
 */
-@media (max-height: 820px) {
+/*
+  Mesuré sur iPhone SE (375×667) : sans réduction, le titre ne passe sous
+  aucune barre — le hero mobile est composé autrement. La règle y rapetissait
+  donc un titre déjà correct. Elle ne vise que les écrans larges et courts.
+*/
+@media (max-height: 820px) and (min-width: 900px) {
   /*
     Deux pièges ici. La taille est posée en style en ligne, qui l'emporte sur
     une classe — d'où « important ». Et « em » se rapporte au parent, pas au
