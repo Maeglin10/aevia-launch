@@ -286,7 +286,7 @@ export default function VoltProPage() {
               </div>
             </Reveal>
             <Reveal delay={0.12} y={60}>
-              <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-[9rem] font-extrabold tracking-tighter leading-[0.85] uppercase mb-8 break-words">{<>{clientHeroLine(sessionData, 0, 3, 13) ?? "L'électricité"}<br />{clientHeroLine(sessionData, 1, 3, 13) ?? "sans"}<br /><span className="text-[var(--brand,#facc15)]">{clientHeroLine(sessionData, 2, 3, 13) ?? "compromis."}</span>
+              <h1 className="hero-ecran-court text-4xl sm:text-5xl md:text-8xl lg:text-[9rem] font-extrabold tracking-tighter leading-[0.85] uppercase mb-8 break-words">{<>{clientHeroLine(sessionData, 0, 3, 13) ?? "L'électricité"}<br />{clientHeroLine(sessionData, 1, 3, 13) ?? "sans"}<br /><span className="text-[var(--brand,#facc15)]">{clientHeroLine(sessionData, 2, 3, 13) ?? "compromis."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.28}>

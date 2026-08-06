@@ -322,7 +322,7 @@ export default function Impact174Page() {
             <span className="text-xs font-bold uppercase tracking-[0.5em] text-[var(--brand,#84cc16)] block mb-6">{clientCity(sessionData) ?? "Paris"} · Hautes-Performances</span>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none text-white mb-8 uppercase tracking-tighter" style={{ fontFamily: "'Oswald', sans-serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 6) ?? "FORGEZ"}<br />
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none text-white mb-8 uppercase tracking-tighter" style={{ /* TITRE_DEGAGE */ marginTop: 36,  fontFamily: "'Oswald', sans-serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 6) ?? "FORGEZ"}<br />
               <span className="text-[var(--brand,#84cc16)]">{clientHeroLine(sessionData, 1, 3, 6) ?? "VOTRE"}</span><br />{clientHeroLine(sessionData, 2, 3, 6) ?? "CORPS."}</>}</h1>
           </Reveal>
           <Reveal delay={0.2}>

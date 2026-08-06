@@ -676,11 +676,11 @@ function Hero() {
           <Eyebrow color={C.accentLight}>Kinésithérapie · {clientCity(sessionData) ?? "Rennes"}</Eyebrow>
         </motion.div>
 
-        <motion.h1
+        <motion.h1 className="hero-ecran-court"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, ease: EASE, delay: 0.25 }}
-          style={{
+          style={{  
             fontFamily: SANS,
             fontWeight: 800,
             fontSize: 'clamp(3rem,10vw,9rem)',

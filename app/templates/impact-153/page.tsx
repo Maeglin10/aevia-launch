@@ -479,7 +479,7 @@ function ParallaxMountainHero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          style={{
+          style={{ /* TITRE_DEGAGE */ marginTop: 120, 
             fontFamily:   "'Syne', sans-serif",
             fontWeight:   800,
             fontSize:     "clamp(36px, 10vw, 130px)",

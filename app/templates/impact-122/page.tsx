@@ -255,7 +255,7 @@ export default function ChronicleEditorialPage() {
               />
             ) : (
               <>
-                <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{clientName({ formData: fd }) ?? c?.heroHeadline ?? <>
+                <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{ /* TITRE_DEGAGE */ marginTop: 144,  fontFamily: "Georgia, serif" }}>{clientName({ formData: fd }) ?? c?.heroHeadline ?? <>
                   Chronicle.
                 </>}</h1>
                 {!scrolled && <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1a1814]/50 mt-1">Est. 1924</span>}

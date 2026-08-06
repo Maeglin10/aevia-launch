@@ -660,11 +660,11 @@ function Hero() {
           <Eyebrow>{clientTrade(sessionData) ?? "Coach sportif"} personnel · {clientCity(sessionData) ?? "Lyon"}</Eyebrow>
         </Reveal>
 
-        <motion.h1
+        <motion.h1 className="hero-ecran-court"
           initial={{ opacity: 0, y: 48 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, ease: EASE, delay: 0.12 }}
-          style={{
+          style={{ 
             fontFamily: DISPLAY,
             fontWeight: 900,
             fontStyle: 'italic',
