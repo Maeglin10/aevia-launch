@@ -101,15 +101,28 @@ for (const id of ids) {
     « businessProfile.services », « reputation.featuredReviews », etc. Les
     envoyer ailleurs faisait conclure que toutes les sections étaient muettes.
   */
+  /*
+    Un restaurateur ne remplit pas de prestations, un commerçant non plus : leur
+    archétype leur demande une carte ou un catalogue. Envoyer les trois en même
+    temps ferait primer les prestations — c'est le comportement voulu, mais ce
+    n'est pas le cas qu'on veut mesurer ici.
+  */
+  const declares = BLOCS[id] ?? [];
+  const carteSeule = declares.includes("menu") || declares.includes("produits");
   const businessProfile = {
-    services: DONNEES.services.map((s) => ({ name: s.title, description: s.description })),
+    services: carteSeule ? [] : DONNEES.services.map((s) => ({ name: s.title, description: s.description })),
     reputation: { featuredReviews: DONNEES.reviews },
     keyStats: DONNEES.keyStats,
     team: DONNEES.team,
     certifications: DONNEES.certifications,
     faq: DONNEES.faq,
-    menu: DONNEES.menu,
-    products: DONNEES.products,
+    /*
+      On n'envoie que ce que le thème déclare : le contrat sert la carte avant
+      le catalogue, si bien qu'un thème de boutique recevant les deux montrerait
+      la carte. Un vrai commerçant ne remplit que son catalogue.
+    */
+    menu: declares.includes("menu") ? DONNEES.menu : [],
+    products: declares.includes("produits") && !declares.includes("menu") ? DONNEES.products : [],
   };
   let fiche = { id, muettes: [] };
   try {
@@ -130,9 +143,9 @@ for (const id of ids) {
     await p.waitForTimeout(1400);
 
     const texte = (await p.evaluate(() => (document.body.innerText ?? "").toLowerCase().replace(/\s+/g, " "))) ?? "";
-    const declares = BLOCS[id] ?? [];
     const muettes = ATTENDUS
       .filter(([nom]) => (DECLARE[nom] ?? []).some((b2) => declares.includes(b2)))
+      .filter(([nom]) => !(carteSeule && nom === "prestations"))
       .filter(([, valeur]) => !texte.includes(valeur.toLowerCase()))
       .map(([nom]) => nom);
 
