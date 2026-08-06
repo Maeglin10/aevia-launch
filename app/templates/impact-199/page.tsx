@@ -32,6 +32,7 @@ import {
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientPhone,
   clientAddress,
   clientCity,
   clientFaq,
@@ -1345,7 +1346,7 @@ export default function Impact199Page() {
                   {
                     icon: <Phone className="w-5 h-5" />,
                     label: "Téléphone",
-                    value: "+33 1 42 00 00 00",
+                    value: (clientPhone(sessionData) ?? "+33 1 42 00 00 00"),
                     sub: "Du mardi au samedi",
                   },
                   {

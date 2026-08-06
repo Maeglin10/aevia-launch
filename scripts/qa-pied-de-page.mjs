@@ -72,11 +72,18 @@ for (const id of ids) {
       /*
         Un numéro qui n'est pas le sien. On compare les chiffres seuls : les
         thèmes écrivent « 02 40 12 34 56 », « +33 2 40 … », « 02.40.12.34.56 ».
+
+        Deux précautions apprises en mesurant : un numéro d'ordre professionnel
+        — RPPS, SIRET, SIREN, TVA, ADELI — n'est pas un téléphone, et « RPPS
+        10234567890 » se lisait comme tel ; et un vrai numéro français compte
+        exactement dix chiffres.
       */
+      const IDENTIFIANTS = /(RPPS|SIRET|SIREN|ADELI|RCS|TVA|N°|no\s|IBAN|APE|NAF)\D{0,4}$/i;
       for (const m of texte.matchAll(/(?:\+33\s?|0)[\d\s.\-]{8,16}\d/g)) {
         const chiffres = m[0].replace(/\D/g, "").replace(/^33/, "0");
-        if (chiffres.length < 10) continue;
+        if (chiffres.length !== 10) continue;
         if (chiffres.endsWith(client.telCompact.slice(1))) continue;
+        if (IDENTIFIANTS.test(texte.slice(Math.max(0, m.index - 14), m.index))) continue;
         restes.push(`téléphone ${m[0].trim()}`);
       }
 

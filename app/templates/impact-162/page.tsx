@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Menu, X, ArrowRight, Coffee, Clock, MapPin, Phone, Mail, Star, Heart, ChevronRight, Loader2, CheckCircle2 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -505,7 +506,7 @@ return (
                   Venez nous <em>rendre visite</em>
                 </>)}</h2>
                 <div className="space-y-5 mb-10">
-                  {[{ Icon: MapPin, text: `34 rue de la Roquette, 75011 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: "+33 1 43 48 22 10" }, { Icon: Mail, text: (fd?.email ?? "bonjour@lematindore.fr") }, { Icon: Instagram, text: "@lematindore" }].map(({ Icon, text }) => (
+                  {[{ Icon: MapPin, text: `34 rue de la Roquette, 75011 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 43 48 22 10") }, { Icon: Mail, text: (fd?.email ?? "bonjour@lematindore.fr") }, { Icon: Instagram, text: "@lematindore" }].map(({ Icon, text }) => (
                     <div key={text} className="flex items-center gap-4 text-sm text-[#6B5A40]">
                       <Icon className="w-4 h-4 text-[var(--brand,#8B5E3C)] flex-shrink-0" />
                       {text}
