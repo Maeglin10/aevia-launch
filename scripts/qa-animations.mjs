@@ -82,7 +82,7 @@ for (const id of ids) {
           sur impact-43, les cinq signalés étaient à plus de trois mille pixels
           au-dessus du regard.
         */
-        if (r.bottom < 0 || r.top > window.innerHeight) continue;
+        if (r.bottom < 40 || r.top > window.innerHeight - 40) continue;
         invisibles++;
       }
       return { invisibles, anime };
