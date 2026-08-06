@@ -207,7 +207,7 @@ export default function VulcanMotorsPage() {
                 <div className="w-10 h-10 bg-red-600 flex items-center justify-center -skew-x-12 group-hover:scale-110 transition-transform duration-500">
                   <Car className="w-6 h-6 text-black fill-current" />
                 </div>
-                <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName(sessionData) ?? "Vulcan"}<span className="text-red-600">Motors</span></span>
+                <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName(sessionData) ?? "Vulcan"}{!clientName(sessionData) && <span className="text-red-600">Motors</span>}</span>
               </>
             )}
           </Link>
@@ -288,7 +288,7 @@ export default function VulcanMotorsPage() {
                          </div>
                          <div>
                             <h4 className="text-xl font-bold uppercase italic mb-2 tracking-tight">{f.t}</h4>
-                            <p className="text-white/40 leading-relaxed text-sm max-w-sm">{fd?.tagline ?? c?.heroSubline ?? <>{f.d}</>}</p>
+                            <p className="text-white/40 leading-relaxed text-sm max-w-sm">{f.d}</p>
                          </div>
                       </div>
                     ))}

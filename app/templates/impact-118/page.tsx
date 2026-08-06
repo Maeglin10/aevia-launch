@@ -308,7 +308,7 @@ export default function ChronosLuxuryPage() {
                           </div>
                           <div className="text-xl font-bold italic">{c.price}</div>
                         </div>
-                        <p className="text-sm text-white/40 leading-relaxed font-light">{fd?.tagline ?? c?.heroSubline ?? <>{c.desc}</>}</p>
+                        <p className="text-sm text-white/40 leading-relaxed font-light">{c.desc}</p>
                       </div>
                     </Reveal>
                   ))}
