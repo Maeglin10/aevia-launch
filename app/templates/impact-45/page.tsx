@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown, Star } from "lucide-react";
 import { C, stats, testimonials, NeedleAnimation, artists, portfolioItems } from "./shared";
 import {
+  clientAccrocheRestante,
   clientCity,
   clientHeroSubtitle,
   clientName,
@@ -45,7 +46,7 @@ function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.4 }}
             style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(52px, 8vw, 100px)", fontWeight: 700, color: C.white, lineHeight: 0.95, margin: "0 0 32px", letterSpacing: "-0.02em" }}
-          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             INK<br />
             <span style={{ color: C.accent }}>WORTH</span><br />
             WEARING

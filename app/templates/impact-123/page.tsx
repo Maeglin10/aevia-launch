@@ -8,6 +8,7 @@ import { Car, ArrowRight, Menu, Zap, Gauge, Shield, Settings, Timer, ChevronRigh
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAccrocheRestante,
   clientCity,
   clientHeroLine,
   clientName,
@@ -246,6 +247,13 @@ export default function VulcanMotorsPage() {
             <Reveal delay={0.1} y={60}>
               <h1 className="text-7xl md:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-12">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "Pure"}<br/>{clientHeroLine(sessionData, 1, 3, 7) ?? "Kinetic"}<br/><span className="text-red-600">{clientHeroLine(sessionData, 2, 3, 7) ?? "Soul."}</span>
               </>}</h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
+          {clientAccrocheRestante(sessionData)}
+        </p>
+      )}
+
             </Reveal>
             <Reveal delay={0.25}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-4xl border-t border-white/10 pt-12">

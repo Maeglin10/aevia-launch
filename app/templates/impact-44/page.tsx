@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientAccrocheRestante,
   clientCity,
   clientName,
   clientTagline,
@@ -218,7 +219,7 @@ function HeroSection() {
               marginBottom: 24,
               textShadow: `0 0 60px rgba(0,255,100,0.2)`,
             }}
-          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             ENTER THE VOID
           </>)}</h1>
           <div style={{

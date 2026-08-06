@@ -22,6 +22,7 @@ import {
 import { DWELL, useSlides, BentoCascade, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { DifferentialExit } from "@/lib/templates/hero-kit-3";
 import {
+  clientAccrocheRestante,
   clientCity,
   clientList,
   clientName,
@@ -341,7 +342,7 @@ return (
         <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
           <div style={{ marginBottom: "5rem" }}>
             <div style={{ fontFamily: FONT_MONO, fontSize: "0.6rem", color: C.red, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "1rem" }}>CLIENT WORDS //</div>
-            <h2 style={{ fontFamily: FONT_SYNE, fontWeight: 900, fontSize: "clamp(2.5rem,6vw,5rem)", color: C.white, textTransform: "uppercase", lineHeight: 0.95, letterSpacing: "-0.03em" }}>{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>WHAT THEY<br />SAY.</>)}</h2>
+            <h2 style={{ fontFamily: FONT_SYNE, fontWeight: 900, fontSize: "clamp(2.5rem,6vw,5rem)", color: C.white, textTransform: "uppercase", lineHeight: 0.95, letterSpacing: "-0.03em" }}>{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>WHAT THEY<br />SAY.</>)}</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: "2px", background: C.dim }}>
             {[

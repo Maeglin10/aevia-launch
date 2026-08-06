@@ -41,6 +41,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientAddress,
   clientCity,
   clientList,
@@ -455,7 +456,7 @@ export default function Impact322() {
             <h1 
               style={{ fontFamily: SERIF, fontSize: 'clamp(40px, 8vw, 90px)', lineHeight: 1.1 }}
               className="mb-8 font-light"
-            >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+            >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
               Créateurs d'Événements <br />
               <span style={{ fontStyle: 'italic', color: C.primary }}>d'Exception</span>
             </>)}</h1>

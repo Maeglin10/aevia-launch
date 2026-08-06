@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientAccrocheRestante,
   clientAddress,
   clientCity,
   clientEyebrow,
@@ -380,6 +381,13 @@ export default function CreativePortfolioSPA() {
             <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.7 }} className="text-7xl sm:text-8xl md:text-[10rem] lg:text-[12rem] font-extralight tracking-[-0.04em] leading-[0.85]">{c?.heroHeadline ?? <>{clientHeroLine(sessionData, 0, 2, 5) ?? (<>
               Elena
             </>)}</>}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
+          {clientAccrocheRestante(sessionData)}
+        </p>
+      )}
+
           </div>
           <div className="overflow-hidden mb-12">
             <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.85 }} className="text-7xl sm:text-8xl md:text-[10rem] lg:text-[12rem] font-black tracking-[-0.04em] leading-[0.85] italic">{clientHeroLine(sessionData, 1, 2, 5) ?? (<>

@@ -11,6 +11,7 @@ import { Watch, ArrowRight, Menu, Star, Sparkles, Shield, Clock, Award, Hammer, 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAccrocheRestante,
   clientCity,
   clientEyebrow,
   clientHeroLine,
@@ -246,6 +247,13 @@ export default function ChronosLuxuryPage() {
                 <Reveal delay={0.2} y={70}>
                   <h1 className="text-7xl md:text-[9rem] font-extralight tracking-tighter leading-[0.85] text-white mb-12 uppercase" style={{ fontFamily: "serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 10) ?? "Mastery In"}<br/> <span className="text-[var(--brand,#d4af37)] italic">{clientHeroLine(sessionData, 1, 2, 10) ?? "Motion."}</span>
                   </>}</h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
+          {clientAccrocheRestante(sessionData)}
+        </p>
+      )}
+
                 </Reveal>
                 <Reveal delay={0.4}>
                   <div className="flex flex-col items-center justify-center gap-12">

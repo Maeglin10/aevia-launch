@@ -20,6 +20,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import {
+  clientAccrocheRestante,
   clientCity,
   clientFaq,
   clientHeroSubtitle,
@@ -395,7 +396,7 @@ function Hero() {
               lineHeight: 1.04,
               margin: '22px 0 18px',
             }}
-          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             Pilotez votre croissance,{' '}
             <span
               style={{

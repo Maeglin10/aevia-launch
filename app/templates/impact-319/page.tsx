@@ -685,7 +685,7 @@ export default function Template({ session: initialSession }: { session?: any } 
                   fontWeight: 400,
                 }}
               >
-                {c.heroTitle || "La pureté au naturel pour votre intérieur."}
+                {c?.heroTitle || "La pureté au naturel pour votre intérieur."}
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
@@ -698,7 +698,7 @@ export default function Template({ session: initialSession }: { session?: any } 
                   marginBottom: "40px",
                 }}
               >
-                {clientTagline(sessionData) ?? (c.heroSubtitle || "Services de nettoyage professionnel respectueux de l'environnement, de votre santé et de votre bien-être.")}
+                {clientTagline(sessionData) ?? (c?.heroSubtitle || "Services de nettoyage professionnel respectueux de l'environnement, de votre santé et de votre bien-être.")}
               </p>
             </Reveal>
             <Reveal delay={0.3} className="flex flex-col sm:flex-row gap-4">

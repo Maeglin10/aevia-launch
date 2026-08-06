@@ -33,6 +33,7 @@ import {
   Moon,
 } from "lucide-react"
 import {
+  clientAccrocheRestante,
   clientCity,
   clientHeroSubtitle,
   clientList,
@@ -1107,7 +1108,7 @@ function Hero() {
             fontSize: "clamp(42px, 5.5vw, 80px)",
             color: C.text,
           }}
-        >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+        >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
           La Beauté
           <br />
           Authentique

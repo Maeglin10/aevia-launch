@@ -12,6 +12,7 @@ import {
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientAccrocheRestante,
   clientCity,
   clientFaq,
   clientHeroSubtitle,
@@ -526,7 +527,7 @@ function Hero() {
               color: C.text, maxWidth: 800,
               letterSpacing: '-0.02em', marginBottom: 24,
             }}
-          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             Livraison &{' '}
             <span style={{ background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Logistique

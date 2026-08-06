@@ -11,6 +11,7 @@ import { ArrowRight, Terminal, GitBranch, ExternalLink, ChevronRight, Code2, Sta
 import Image from "next/image"
 import { Reveal, ScrollImage, projects, skills, timeline, stats, services, process, testimonials, clients } from "./shared"
 import {
+  clientAccrocheRestante,
   clientCity,
   clientEyebrow,
   clientHeroLine,
@@ -100,6 +101,13 @@ return (
             className="font-bold leading-[1.1] mb-6"
             style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
           >{<>{clientHeroLine(sessionData, 0, 1, 16) ?? "// Raphaël Genet"}</>}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
+          {clientAccrocheRestante(sessionData)}
+        </p>
+      )}
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

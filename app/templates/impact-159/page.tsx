@@ -20,6 +20,7 @@ import {
   MotionValue,
 } from "framer-motion"
 import {
+  clientAccrocheRestante,
   clientCity,
   clientHeroSubtitle,
   clientList,
@@ -1042,7 +1043,7 @@ function HeroSection({
             backgroundSize: "200% 200%",
             animation: "shimmer-x 6s linear infinite",
           }}
-        >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+        >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
           The Fabric<br/>of Tomorrow.
         </>)}</motion.h1>
 
