@@ -428,7 +428,7 @@ return (
                <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
                   <Reveal>
                      <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8 font-mono">Mission_Manifest</div>
-                     <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic">{/* TEXTE_SECTION */ clientText(sessionData, "manifest.titre") ?? (<>
+                     <h2 className="text-5xl sm:text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic">{/* TEXTE_SECTION */ clientText(sessionData, "manifest.titre") ?? (<>
                         The <br/> <span className="text-white/5" style={{ WebkitTextStroke: "1px white" }}>Destinations.</span>
                      </>)}</h2>
                   </Reveal>
