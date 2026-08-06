@@ -74,7 +74,7 @@ let C: Record<string, string> = {
   bgSoft: '#f2f0ea',
   bgCard: '#ffffff',
   navy: '#11182a',
-  navy2: 'var(--brand,#1c2540)',
+  navy2: '#1c2540',
   navySoft: '#2c3654',
   gold: '#b8944a',
   goldSoft: '#cdab66',

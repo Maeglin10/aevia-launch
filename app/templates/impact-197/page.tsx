@@ -51,7 +51,7 @@ function shadeColor(hex: string, percent: number): string {
 
 let C: Record<string, string> = {
   bg: "#FBF7EF",
-  bgDark: "var(--brand, #0A2540)",
+  bgDark: "#0A2540",
   bgCard: "#FFFFFF",
   text: "#0A2540",
   textMuted: "#6b7b8d",
@@ -59,7 +59,7 @@ let C: Record<string, string> = {
   accent: 'var(--brand-light,#c9a96e)',
   accentDark: "#9E7A45",
   accentLight: "#F0E6D3",
-  marine: "var(--brand, #0A2540)",
+  marine: "#0A2540",
   marineMid: "#1A3A5C",
   sand: "#FBF7EF",
   sandDark: "#F0E6D3",

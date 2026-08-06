@@ -347,7 +347,7 @@ export default function VelocityJetsPage() {
   }, []);
 
   return (
-    <div className="premium-theme min-h-dvh bg-[#050505] text-[#ffffff] font-sans selection:bg-[var(--brand,#00f2ff)] selection:text-black overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#050505] text-[#ffffff] font-sans selection:bg-[#00f2ff] selection:text-black overflow-x-hidden">
       {/* ── NAVIGATION ── */}
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-black/80 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}
@@ -363,14 +363,14 @@ export default function VelocityJetsPage() {
             ) : (
               <>
                 <div className="relative">
-                  <Plane className="w-8 h-8 text-[var(--brand,#00f2ff)] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-[var(--brand,#00f2ff)]/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <Plane className="w-8 h-8 text-[#00f2ff] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-[#00f2ff]/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xl font-black tracking-tighter uppercase leading-none italic">
                     Velocity
                   </span>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#00f2ff)] -mt-1">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[#00f2ff] -mt-1">
                     Jet Charter
                   </span>
                 </div>
@@ -383,7 +383,7 @@ export default function VelocityJetsPage() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="hover:text-[var(--brand,#00f2ff)] transition-colors cursor-pointer"
+                className="hover:text-[#00f2ff] transition-colors cursor-pointer"
               >
                 {link.label}
               </Link>
@@ -392,16 +392,16 @@ export default function VelocityJetsPage() {
 
           <div className="flex items-center gap-8">
             <button className="hidden md:flex items-center gap-3 group">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[var(--brand,#00f2ff)] transition-colors">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[#00f2ff] transition-colors">
                 Track_Flight
               </span>
-              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/20 group-hover:border-[var(--brand,#00f2ff)] group-hover:text-[var(--brand,#00f2ff)] transition-all">
+              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/20 group-hover:border-[#00f2ff] group-hover:text-[#00f2ff] transition-all">
                 <Navigation className="w-4 h-4" />
               </div>
             </button>
             <button
               onClick={() => setMenuOpen(true)}
-              className="lg:hidden text-[var(--brand,#00f2ff)]"
+              className="lg:hidden text-[#00f2ff]"
             >
               <Menu className="w-6 h-6" />
             </button>
@@ -420,7 +420,7 @@ export default function VelocityJetsPage() {
           >
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute top-10 right-8 text-[var(--brand,#00f2ff)]"
+              className="absolute top-10 right-8 text-[#00f2ff]"
             >
               <X className="w-8 h-8" />
             </button>
@@ -430,7 +430,7 @@ export default function VelocityJetsPage() {
                   key={link.label}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -457,7 +457,7 @@ export default function VelocityJetsPage() {
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
             <h1 className="text-[clamp(2.5rem,6.5vw,8rem)] font-black italic leading-[0.9] tracking-tighter mb-10 uppercase break-words">{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "Redefining"}<br />{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#00f2ff)] via-white to-[var(--brand,#00f2ff)]">{clientHeroLine(sessionData, 1, 2, 16) ?? "Air Superiority."}</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f2ff] via-white to-[#00f2ff]">{clientHeroLine(sessionData, 1, 2, 16) ?? "Air Superiority."}</span>
             </>}</h1>
             <p className="max-w-2xl text-lg text-white/40 leading-relaxed font-light italic mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Access the world's most advanced fleet of private aircraft. From
@@ -465,7 +465,7 @@ export default function VelocityJetsPage() {
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-6">
               <Link href="#contact">
-                <MagneticBtn className="px-12 py-5 bg-[var(--brand,#00f2ff)] text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-white transition-all cursor-pointer shadow-2xl shadow-[var(--brand,#00f2ff)]/20">
+                <MagneticBtn className="px-12 py-5 bg-[#00f2ff] text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-white transition-all cursor-pointer shadow-2xl shadow-[#00f2ff]/20">
                   Instant_Quote
                 </MagneticBtn>
               </Link>
@@ -498,7 +498,7 @@ export default function VelocityJetsPage() {
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
             <div className="text-center mb-24">
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-4 block">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] mb-4 block">
                 The Velocity Standard
               </span>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
@@ -513,11 +513,11 @@ export default function VelocityJetsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             {VALUES.map((v, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="group p-10 border border-white/5 bg-black/40 hover:border-[var(--brand,#00f2ff)]/30 transition-all relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-6 text-white/5 group-hover:text-[var(--brand,#00f2ff)]/10 transition-colors">
+                <div className="group p-10 border border-white/5 bg-black/40 hover:border-[#00f2ff]/30 transition-all relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-6 text-white/5 group-hover:text-[#00f2ff]/10 transition-colors">
                     <v.icon className="w-24 h-24" />
                   </div>
-                  <div className="w-12 h-12 rounded-sm bg-[var(--brand,#00f2ff)]/10 flex items-center justify-center text-[var(--brand,#00f2ff)] mb-8 group-hover:bg-[var(--brand,#00f2ff)] group-hover:text-black transition-all">
+                  <div className="w-12 h-12 rounded-sm bg-[#00f2ff]/10 flex items-center justify-center text-[#00f2ff] mb-8 group-hover:bg-[#00f2ff] group-hover:text-black transition-all">
                     <v.icon className="w-5 h-5" />
                   </div>
                   <h3 className="text-xl font-black uppercase mb-4 italic tracking-tight">
@@ -537,12 +537,12 @@ export default function VelocityJetsPage() {
       <section id="about" className="py-32 px-6 md:px-12 bg-[#050505] border-b border-white/5">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-8 block">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] mb-8 block">
               Velocity Creed
             </span>
             <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">{c?.aboutTitle ?? fd?.businessName ?? <>
               Aviation Engineered <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#00f2ff)] via-white to-[var(--brand,#00f2ff)]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f2ff] via-white to-[#00f2ff]">
                 For Absolute Freedom.
               </span>
             </>}</h2>
@@ -554,7 +554,7 @@ export default function VelocityJetsPage() {
             </>}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pt-8 border-t border-white/10">
               <div>
-                <div className="text-2xl font-black text-[var(--brand,#00f2ff)] font-mono italic">04 HRS</div>
+                <div className="text-2xl font-black text-[#00f2ff] font-mono italic">04 HRS</div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">DISPATCH READY</div>
               </div>
               <div>
@@ -578,8 +578,8 @@ export default function VelocityJetsPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               <div className="absolute bottom-8 left-8 flex items-center gap-3">
-                <div className="w-2.5 h-2.5 rounded-full bg-[var(--brand,#00f2ff)] animate-ping" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#00f2ff)]">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#00f2ff] animate-ping" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00f2ff]">
                   HANGAR ALPHA // OPERATIONS ACTIVE
                 </span>
               </div>
@@ -595,14 +595,14 @@ export default function VelocityJetsPage() {
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
               <div>
                 <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-6 uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "fleet.titre") ?? (<>
-                  The <br /> <span className="text-[var(--brand,#00f2ff)]">Fleet.</span>
+                  The <br /> <span className="text-[#00f2ff]">Fleet.</span>
                 </>)}</h2>
                 <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
                   Curated Aircraft for Global Reach
                 </p>
               </div>
               <div className="flex gap-4">
-                <button className="px-8 py-4 border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest hover:border-[var(--brand,#00f2ff)] hover:text-[var(--brand,#00f2ff)] transition-all">
+                <button className="px-8 py-4 border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest hover:border-[#00f2ff] hover:text-[#00f2ff] transition-all">
                   Download_Spec_Sheets
                 </button>
               </div>
@@ -626,7 +626,7 @@ export default function VelocityJetsPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
                   <div className="absolute inset-0 p-10 flex flex-col justify-end">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#00f2ff)] mb-2">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#00f2ff] mb-2">
                       {jet.class}
                     </span>
                     <h3 className="text-4xl font-black italic uppercase mb-8 tracking-tighter leading-none">
@@ -667,7 +667,7 @@ export default function VelocityJetsPage() {
                               </div>
                             </div>
                             <div className="flex items-end justify-end">
-                              <button className="w-10 h-10 rounded-full bg-[var(--brand,#00f2ff)] flex items-center justify-center text-black">
+                              <button className="w-10 h-10 rounded-full bg-[#00f2ff] flex items-center justify-center text-black">
                                 <ArrowRight className="w-5 h-5" />
                               </button>
                             </div>
@@ -691,7 +691,7 @@ export default function VelocityJetsPage() {
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
             <div className="text-center mb-24">
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-4 block">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] mb-4 block">
                 Telemetry of Trust
               </span>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">{/* TEXTE_SECTION */ clientText(sessionData, "testimonials.titre") ?? (<>
@@ -704,13 +704,13 @@ export default function VelocityJetsPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {AVIS.map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="p-12 border border-white/5 bg-black/40 hover:border-[var(--brand,#00f2ff)]/30 transition-all relative">
-                  <div className="text-5xl text-[var(--brand,#00f2ff)]/20 font-serif absolute top-6 left-8 font-black leading-none">“</div>
+                <div className="p-12 border border-white/5 bg-black/40 hover:border-[#00f2ff]/30 transition-all relative">
+                  <div className="text-5xl text-[#00f2ff]/20 font-serif absolute top-6 left-8 font-black leading-none">“</div>
                   <p className="text-sm text-white/50 leading-relaxed font-light italic mb-8 relative z-10 pt-4">
                     {t.quote}
                   </p>
                   <div className="border-t border-white/5 pt-6 flex items-center justify-between">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#00f2ff)]">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#00f2ff]">
                       {t.author}
                     </span>
                     <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">
@@ -725,7 +725,7 @@ export default function VelocityJetsPage() {
       </section>
 
       {/* ── PERFORMANCE HUD ── */}
-      <section id="realisations" className="py-32 bg-[var(--brand,#00f2ff)] text-black">
+      <section id="realisations" className="py-32 bg-[#00f2ff] text-black">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <Reveal>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-8 block">
@@ -764,7 +764,7 @@ export default function VelocityJetsPage() {
               <div className="relative z-10 h-full flex flex-col justify-between p-8">
                 <div className="flex justify-between items-start">
                   <div className="flex flex-col">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#00f2ff)]">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#00f2ff]">
                       Network_Feed_Live
                     </span>
                     <span className="text-[12px] font-black text-white/50 tracking-tighter font-mono italic">
@@ -772,13 +772,13 @@ export default function VelocityJetsPage() {
                     </span>
                   </div>
                   <div className="flex gap-2">
-                    <div className="w-1.5 h-1.5 bg-[var(--brand,#00f2ff)] rounded-full animate-ping" />
-                    <div className="w-1.5 h-1.5 bg-[var(--brand,#00f2ff)] rounded-full" />
+                    <div className="w-1.5 h-1.5 bg-[#00f2ff] rounded-full animate-ping" />
+                    <div className="w-1.5 h-1.5 bg-[#00f2ff] rounded-full" />
                   </div>
                 </div>
 
                 <div className="flex justify-center">
-                  <Gauge className="w-32 h-32 text-[var(--brand,#00f2ff)] opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000" />
+                  <Gauge className="w-32 h-32 text-[#00f2ff] opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000" />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -793,7 +793,7 @@ export default function VelocityJetsPage() {
                           repeatType: "reverse",
                           delay: i * 0.5,
                         }}
-                        className="h-full bg-[var(--brand,#00f2ff)]"
+                        className="h-full bg-[#00f2ff]"
                       />
                     </div>
                   ))}
@@ -809,7 +809,7 @@ export default function VelocityJetsPage() {
         <div className="max-w-[800px] mx-auto">
           <Reveal>
             <div className="text-center mb-20">
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-4 block">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] mb-4 block">
                 Aviation Operations FAQ
               </span>
               <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic">{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
@@ -823,7 +823,7 @@ export default function VelocityJetsPage() {
             <Accordion type="single" collapsible className="w-full space-y-4">
               {FAQS.map((faq, i) => (
                 <AccordionItem key={i} value={`faq-${i}`} className="border border-white/5 bg-black/40 px-6 rounded-sm">
-                  <AccordionTrigger className="text-[11px] font-bold uppercase tracking-widest text-[var(--brand,#00f2ff)] hover:no-underline py-5">
+                  <AccordionTrigger className="text-[11px] font-bold uppercase tracking-widest text-[#00f2ff] hover:no-underline py-5">
                     {faq.q}
                   </AccordionTrigger>
                   <AccordionContent className="text-white/40 text-sm font-light italic leading-relaxed pb-6">
@@ -840,7 +840,7 @@ export default function VelocityJetsPage() {
       <section id="contact" className="py-32 px-6 md:px-12 bg-[#080808]">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
           <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] mb-8 block">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] mb-8 block">
               Flight Dispatch Desk
             </span>
             <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
@@ -852,7 +852,7 @@ export default function VelocityJetsPage() {
             </p>
             <div className="space-y-6">
               <div className="flex items-center gap-6">
-                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[var(--brand,#00f2ff)]">
+                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[#00f2ff]">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
@@ -861,7 +861,7 @@ export default function VelocityJetsPage() {
                 </div>
               </div>
               <div className="flex items-center gap-6">
-                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[var(--brand,#00f2ff)]">
+                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[#00f2ff]">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
@@ -870,7 +870,7 @@ export default function VelocityJetsPage() {
                 </div>
               </div>
               <div className="flex items-center gap-6">
-                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[var(--brand,#00f2ff)]">
+                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[#00f2ff]">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
@@ -885,7 +885,7 @@ export default function VelocityJetsPage() {
             <div className="p-12 border border-white/5 bg-black/40">
               {contactSubmitted ? (
                 <div className="text-center py-12">
-                  <div className="w-16 h-16 rounded-full border border-[var(--brand,#00f2ff)]/20 flex items-center justify-center text-[var(--brand,#00f2ff)] mx-auto mb-6 bg-[var(--brand,#00f2ff)]/5">
+                  <div className="w-16 h-16 rounded-full border border-[#00f2ff]/20 flex items-center justify-center text-[#00f2ff] mx-auto mb-6 bg-[#00f2ff]/5">
                     <ShieldCheck className="w-8 h-8" />
                   </div>
                   <h3 className="text-2xl font-black uppercase mb-4 tracking-tighter">FLIGHT INQUIRY REGISTERED</h3>
@@ -907,7 +907,7 @@ export default function VelocityJetsPage() {
                       <input
                         type="text"
                         required
-                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[var(--brand,#00f2ff)] transition-colors rounded-sm"
+                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00f2ff] transition-colors rounded-sm"
                         placeholder="KTEB or New York"
                       />
                     </div>
@@ -916,7 +916,7 @@ export default function VelocityJetsPage() {
                       <input
                         type="text"
                         required
-                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[var(--brand,#00f2ff)] transition-colors rounded-sm"
+                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00f2ff] transition-colors rounded-sm"
                         placeholder="LSGG or Geneva"
                       />
                     </div>
@@ -927,7 +927,7 @@ export default function VelocityJetsPage() {
                       <input
                         type="email"
                         required
-                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[var(--brand,#00f2ff)] transition-colors rounded-sm"
+                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00f2ff] transition-colors rounded-sm"
                         placeholder="client@confidential.com"
                       />
                     </div>
@@ -935,7 +935,7 @@ export default function VelocityJetsPage() {
                       <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">PHONE NUMBER</label>
                       <input
                         type="tel"
-                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[var(--brand,#00f2ff)] transition-colors rounded-sm"
+                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00f2ff] transition-colors rounded-sm"
                         placeholder="+1 (555) 019-2834"
                       />
                     </div>
@@ -943,7 +943,7 @@ export default function VelocityJetsPage() {
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">AIRCRAFT CLASS</label>
                     <select
-                      className="w-full bg-black border border-white/10 px-4 py-3 text-sm text-white/60 focus:outline-none focus:border-[var(--brand,#00f2ff)] transition-colors rounded-sm"
+                      className="w-full bg-black border border-white/10 px-4 py-3 text-sm text-white/60 focus:outline-none focus:border-[#00f2ff] transition-colors rounded-sm"
                     >
                       <option value="ultra">Ultra Long Range (e.g. Global 7500)</option>
                       <option value="long">Long Range (e.g. Gulfstream G650)</option>
@@ -955,13 +955,13 @@ export default function VelocityJetsPage() {
                     <textarea
                       required
                       rows={3}
-                      className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[var(--brand,#00f2ff)] transition-colors rounded-sm resize-none"
+                      className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00f2ff] transition-colors rounded-sm resize-none"
                       placeholder="Catering preferences, ground transport coordination..."
                     />
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-4 bg-[var(--brand,#00f2ff)] text-black text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-colors cursor-pointer"
+                    className="w-full py-4 bg-[#00f2ff] text-black text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-colors cursor-pointer"
                   >
                     REQUEST INSTANT TELEMETRY
                   </button>
@@ -978,12 +978,12 @@ export default function VelocityJetsPage() {
           <div className="lg:col-span-5">
             <Reveal>
               <div className="flex items-center gap-3 mb-10">
-                <Plane className="w-10 h-10 text-[var(--brand,#00f2ff)]" />
+                <Plane className="w-10 h-10 text-[#00f2ff]" />
                 <div className="flex flex-col">
                   <span className="text-2xl font-black tracking-tighter uppercase leading-none italic">
                     Velocity
                   </span>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#00f2ff)] -mt-1">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[#00f2ff] -mt-1">
                     Jet Charter
                   </span>
                 </div>
@@ -996,7 +996,7 @@ export default function VelocityJetsPage() {
                 {[Globe, Globe, Globe].map((Icon, i) => (
                   <button
                     key={i}
-                    className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/20 hover:bg-[var(--brand,#00f2ff)] hover:text-black transition-all"
+                    className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/20 hover:bg-[#00f2ff] hover:text-black transition-all"
                   >
                     <Icon className="w-4 h-4" />
                   </button>
@@ -1006,14 +1006,14 @@ export default function VelocityJetsPage() {
           </div>
 
           <div className="lg:col-span-2 lg:col-start-7">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#00f2ff)] mb-10">
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#00f2ff] mb-10">
               Capabilities
             </h4>
             <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   Charter_Search
                 </Link>
@@ -1021,7 +1021,7 @@ export default function VelocityJetsPage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   Empty_Leg_Deals
                 </Link>
@@ -1029,7 +1029,7 @@ export default function VelocityJetsPage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   Group_Charters
                 </Link>
@@ -1037,7 +1037,7 @@ export default function VelocityJetsPage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   Medical_Evac
                 </Link>
@@ -1046,14 +1046,14 @@ export default function VelocityJetsPage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#00f2ff)] mb-10">
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#00f2ff] mb-10">
               Experience
             </h4>
             <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   Jet_Card_Login
                 </Link>
@@ -1061,7 +1061,7 @@ export default function VelocityJetsPage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   Concierge_Desk
                 </Link>
@@ -1069,7 +1069,7 @@ export default function VelocityJetsPage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   Catering_Menu
                 </Link>
@@ -1077,7 +1077,7 @@ export default function VelocityJetsPage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   Ground_Logistics
                 </Link>
@@ -1086,14 +1086,14 @@ export default function VelocityJetsPage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#00f2ff)] mb-10">
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#00f2ff] mb-10">
               Institutional
             </h4>
             <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   Safety_Audit
                 </Link>
@@ -1101,7 +1101,7 @@ export default function VelocityJetsPage() {
               <li>
                 <Link
                   href="#about"
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   Our_Team
                 </Link>
@@ -1109,7 +1109,7 @@ export default function VelocityJetsPage() {
               <li>
                 <Link
                   href="#about"
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   Sustainability
                 </Link>
@@ -1117,7 +1117,7 @@ export default function VelocityJetsPage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   Contact
                 </Link>
@@ -1137,9 +1137,9 @@ export default function VelocityJetsPage() {
             </div>
           </div>
           <div className="flex gap-10">
-            <Link href="#contact" className="hover:text-[var(--brand,#00f2ff)] transition-colors">Mentions Légales</Link>
-            <Link href="#contact" className="hover:text-[var(--brand,#00f2ff)] transition-colors">Confidentialité</Link>
-            <Link href="#contact" className="hover:text-[var(--brand,#00f2ff)] transition-colors">CGU</Link>
+            <Link href="#contact" className="hover:text-[#00f2ff] transition-colors">Mentions Légales</Link>
+            <Link href="#contact" className="hover:text-[#00f2ff] transition-colors">Confidentialité</Link>
+            <Link href="#contact" className="hover:text-[#00f2ff] transition-colors">CGU</Link>
           </div>
         </div>
       </footer>

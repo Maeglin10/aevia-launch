@@ -198,7 +198,7 @@ const GALLERY_ITEMS = [
    UTILITY: PARTICLE GENERATOR
    ========================================================================== */
 
-const PARTICLE_COLORS = ['#d4356a', 'var(--brand-light,#ffd700)', '#FFFFFF', '#FFB6C1', '#FFF0F5', '#FFE4E1'];
+const PARTICLE_COLORS = ['#d4356a', '#ffd700', '#FFFFFF', '#FFB6C1', '#FFF0F5', '#FFE4E1'];
 
 const generateParticles = (): Particle[] =>
   Array.from({ length: 38 }, (_, i) => ({
@@ -507,7 +507,7 @@ function Hero({ accentColor, particles }: { accentColor: string; particles: Part
           width: 400,
           height: 400,
           borderRadius: '50%',
-          background: `radial-gradient(circle, var(--brand-light,#ffd700)22 0%, transparent 70%)`,
+          background: `radial-gradient(circle, #ffd70022 0%, transparent 70%)`,
           filter: 'blur(50px)',
           pointerEvents: 'none',
         }}
@@ -1349,7 +1349,7 @@ function BeforeAfterSection({ accentColor }: { accentColor: string }) {
                         position: 'absolute',
                         bottom: 12,
                         right: 6,
-                        color: 'var(--brand-light,#ffd700)',
+                        color: '#ffd700',
                         fontSize: 10,
                         lineHeight: 1,
                       }}
@@ -1975,7 +1975,7 @@ function TestimonialsSection({ accentColor }: { accentColor: string }) {
             >
               <div style={{ display: 'flex', gap: 2 }}>
                 {Array.from({ length: t.rating ?? 5 }).map((_, j) => (
-                  <span key={j} style={{ color: 'var(--brand-light,#ffd700)', fontSize: 16 }}>
+                  <span key={j} style={{ color: '#ffd700', fontSize: 16 }}>
                     ★
                   </span>
                 ))}

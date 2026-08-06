@@ -73,7 +73,7 @@ function VanguardHero({ headline, subline }: { headline?: string; subline?: Reac
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[10px] font-bold uppercase tracking-[0.42em] mb-8 text-[var(--brand,#00ff41)]"
+            className="text-[10px] font-bold uppercase tracking-[0.42em] mb-8 text-[#00ff41]"
           >
             {s.k}
           </motion.div>
@@ -98,7 +98,7 @@ function VanguardHero({ headline, subline }: { headline?: string; subline?: Reac
           <div className="mt-11 flex flex-wrap items-center gap-6">
             <a
               href="#offense"
-              className="min-h-[46px] px-9 grid place-items-center bg-white text-black font-black uppercase tracking-widest text-[10px] hover:bg-[var(--brand,#00ff41)] transition-all duration-700"
+              className="min-h-[46px] px-9 grid place-items-center bg-white text-black font-black uppercase tracking-widest text-[10px] hover:bg-[#00ff41] transition-all duration-700"
             >
               Request Strategy Brief
             </a>
@@ -222,7 +222,7 @@ export default function VanguardLegalPage() {
   }, []);
 
   return (
-    <div className="bg-[#02040a] text-white font-mono min-h-dvh selection:bg-[var(--brand,#00ff41)] selection:text-black overflow-x-hidden">
+    <div className="bg-[#02040a] text-white font-mono min-h-dvh selection:bg-[#00ff41] selection:text-black overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#02040a]/95 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-10"}`}>
@@ -236,26 +236,26 @@ export default function VanguardLegalPage() {
               />
             ) : (
               <>
-            <div className="w-10 h-10 border border-[var(--brand,#00ff41)]/30 flex items-center justify-center group-hover:border-[var(--brand,#00ff41)] transition-all duration-500">
-              <Shield className="w-5 h-5 text-[var(--brand,#00ff41)]" />
+            <div className="w-10 h-10 border border-[#00ff41]/30 flex items-center justify-center group-hover:border-[#00ff41] transition-all duration-500">
+              <Shield className="w-5 h-5 text-[#00ff41]" />
             </div>
-            <span className="text-xl font-bold tracking-tighter uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Vanguard <span className="text-[var(--brand,#00ff41)]">Legal</span></>)}</span>
+            <span className="text-xl font-bold tracking-tighter uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Vanguard <span className="text-[#00ff41]">Legal</span></>)}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">
             {NAV.map(({ l, h }) => (
-              <Link key={l} href={h} className="hover:text-[var(--brand,#00ff41)] transition-colors">{l}</Link>
+              <Link key={l} href={h} className="hover:text-[#00ff41] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
-            <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors underline underline-offset-8 decoration-[var(--brand,#00ff41)]/20">Secure Portal</button>
-            <button className="px-8 py-3 bg-[var(--brand,#00ff41)] text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white transition-all duration-500 shadow-[0_0_20px_rgba(0,255,65,0.2)]">Enlist</button>
+            <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors underline underline-offset-8 decoration-[#00ff41]/20">Secure Portal</button>
+            <button className="px-8 py-3 bg-[#00ff41] text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white transition-all duration-500 shadow-[0_0_20px_rgba(0,255,65,0.2)]">Enlist</button>
             <Sheet>
               <SheetTrigger className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#02040a] border-white/5 p-12 text-white font-mono">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {NAV.map(({ l, h }) => (
-                    <Link key={l} href={h} className="text-3xl font-bold uppercase tracking-tighter hover:text-[var(--brand,#00ff41)] transition-all italic">{l}</Link>
+                    <Link key={l} href={h} className="text-3xl font-bold uppercase tracking-tighter hover:text-[#00ff41] transition-all italic">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -275,7 +275,7 @@ export default function VanguardLegalPage() {
             <Reveal>
               <div className="flex flex-col md:flex-row items-end justify-between mb-32 gap-8 border-b border-white/5 pb-16">
                 <div className="max-w-2xl">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00ff41)] block mb-6">Offensive Protocol</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00ff41] block mb-6">Offensive Protocol</span>
                   <h2 className="text-6xl md:text-[8vw] font-black uppercase tracking-tighter text-white leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "offense.titre") ?? (<>Neutralize <br/> <span className="font-light not-italic opacity-20">The Risk.</span></>)}</h2>
                 </div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-white/20 mb-4">Total Recovered: $2.4B — 2025</div>
@@ -290,10 +290,10 @@ export default function VanguardLegalPage() {
               ] as any[]).map((item: any, i: number) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className={`p-16 flex flex-col h-full border-white/5 group ${i < 2 ? "md:border-r" : ""}`}>
-                    <div className="w-16 h-16 border border-[var(--brand,#00ff41)]/20 flex items-center justify-center mb-12 group-hover:bg-[var(--brand,#00ff41)] group-hover:text-black transition-all duration-700">
+                    <div className="w-16 h-16 border border-[#00ff41]/20 flex items-center justify-center mb-12 group-hover:bg-[#00ff41] group-hover:text-black transition-all duration-700">
                       <item.icon className="w-6 h-6" />
                     </div>
-                    <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#00ff41)]/40 mb-4 italic">Protocol: 0{i+1}</div>
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-[#00ff41]/40 mb-4 italic">Protocol: 0{i+1}</div>
                     <h3 className="text-3xl font-black uppercase mb-8 tracking-tighter italic">{item.t}</h3>
                     <p className="text-white/30 leading-relaxed text-sm font-light mb-12 italic">{item.d}</p>
                     <Link href="#hero" className="mt-auto flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest group-hover:gap-8 transition-all">
@@ -322,7 +322,7 @@ export default function VanguardLegalPage() {
                             { v: "14", l: "SECURE OPERATIONAL HUBS", d: "Strategic locations in London, Zug, Singapore, and Grand Cayman." }
                           ].map((item, i) => (
                             <div key={i} className="flex gap-10 group">
-                               <div className="text-4xl font-black italic text-[var(--brand,#00ff41)] shrink-0 w-24">0{i+1}</div>
+                               <div className="text-4xl font-black italic text-[#00ff41] shrink-0 w-24">0{i+1}</div>
                                <div>
                                   <h4 className="text-lg font-bold uppercase tracking-widest mb-2 italic">{(item as any).t || (item as any).l}</h4>
                                   <p className="text-xs text-white/20 font-light italic leading-relaxed">{(item as any).d}</p>
@@ -334,16 +334,16 @@ export default function VanguardLegalPage() {
                  </div>
                  <Reveal delay={0.3}>
                     <div className="aspect-square relative border border-white/5 bg-[#050505] p-12 overflow-hidden flex items-center justify-center">
-                       <div className="relative w-full h-full border border-[var(--brand,#00ff41)]/5 rounded-full flex items-center justify-center">
-                          <div className="w-full h-full border border-[var(--brand,#00ff41)]/10 rounded-full animate-[ping_4s_linear_infinite] opacity-20" />
+                       <div className="relative w-full h-full border border-[#00ff41]/5 rounded-full flex items-center justify-center">
+                          <div className="w-full h-full border border-[#00ff41]/10 rounded-full animate-[ping_4s_linear_infinite] opacity-20" />
                           <div className="absolute inset-0 flex items-center justify-center">
-                             <Globe className="w-32 h-32 text-[var(--brand,#00ff41)]/10" />
+                             <Globe className="w-32 h-32 text-[#00ff41]/10" />
                           </div>
                           {/* Node markers */}
-                          <div className="absolute top-1/4 right-1/4 w-3 h-3 bg-[var(--brand,#00ff41)] rounded-full shadow-[0_0_15px_#00ff41]" />
-                          <div className="absolute bottom-1/3 left-1/4 w-2 h-2 bg-[var(--brand,#00ff41)] rounded-full shadow-[0_0_10px_#00ff41] opacity-50" />
+                          <div className="absolute top-1/4 right-1/4 w-3 h-3 bg-[#00ff41] rounded-full shadow-[0_0_15px_#00ff41]" />
+                          <div className="absolute bottom-1/3 left-1/4 w-2 h-2 bg-[#00ff41] rounded-full shadow-[0_0_10px_#00ff41] opacity-50" />
                        </div>
-                       <div className="absolute bottom-10 left-10 text-[10px] font-mono text-[var(--brand,#00ff41)]/40 space-y-1">
+                       <div className="absolute bottom-10 left-10 text-[10px] font-mono text-[#00ff41]/40 space-y-1">
                           <p>SCANNING_NODE: ZUG_ALPHA</p>
                           <p>STATUS: ACTIVE</p>
                           <p>SIGNAL_STRENGTH: 100%</p>
@@ -360,7 +360,7 @@ export default function VanguardLegalPage() {
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-32 border-b border-white/5 pb-16 max-w-3xl">
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00ff41)] block mb-6">Intelligence</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00ff41] block mb-6">Intelligence</span>
                 <h2 className="text-6xl md:text-[7vw] font-black uppercase tracking-tighter text-white leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "intelligence.titre") ?? (<>Know First. <br/> <span className="font-light not-italic opacity-20">Act Early.</span></>)}</h2>
               </div>
             </Reveal>
@@ -368,7 +368,7 @@ export default function VanguardLegalPage() {
               {INTELLIGENCE.map((n, i) => (
                 <Reveal key={n.t} delay={i * 0.06}>
                   <div className="bg-black p-10 h-full font-mono">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#00ff41)] mb-5">// {n.k}</div>
+                    <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00ff41] mb-5">// {n.k}</div>
                     <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-4 italic">{n.t}</h3>
                     <p className="text-sm text-white/35 leading-relaxed">{n.d}</p>
                   </div>
@@ -383,7 +383,7 @@ export default function VanguardLegalPage() {
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-32 border-b border-white/5 pb-16 max-w-3xl">
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00ff41)] block mb-6">Archive</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00ff41] block mb-6">Archive</span>
                 <h2 className="text-6xl md:text-[7vw] font-black uppercase tracking-tighter text-white leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "archive.titre") ?? (<>Case <br/> <span className="font-light not-italic opacity-20">Files.</span></>)}</h2>
               </div>
             </Reveal>
@@ -391,7 +391,7 @@ export default function VanguardLegalPage() {
               {ARCHIVE.map((a, i) => (
                 <Reveal key={a.t} delay={i * 0.06}>
                   <div className="py-10 grid grid-cols-1 md:grid-cols-[140px_1fr] gap-8">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#00ff41)] pt-2">{a.y}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00ff41] pt-2">{a.y}</span>
                     <div>
                       <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white mb-3 italic">{a.t}</h3>
                       <p className="text-sm text-white/35 leading-relaxed max-w-[75ch]">{a.d}</p>
@@ -409,26 +409,26 @@ export default function VanguardLegalPage() {
           </div>
         </section>
 
-        <section id="reports" className="py-40 bg-[#02040a] border-t border-[var(--brand,#00ff41)]/10">
+        <section id="reports" className="py-40 bg-[#02040a] border-t border-[#00ff41]/10">
           <div className="max-w-6xl mx-auto px-6 md:px-12 font-mono">
             <Reveal>
-              <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#00ff41)]/40 mb-6">// verified operators</p>
+              <p className="text-[10px] uppercase tracking-[0.5em] text-[#00ff41]/40 mb-6">// verified operators</p>
               <h2 className="text-4xl md:text-7xl font-black text-white mb-20 leading-none tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "reports.titre") ?? (<>
-                FIELD<br /><span className="text-[var(--brand,#00ff41)]/10">REPORTS.</span>
+                FIELD<br /><span className="text-[#00ff41]/10">REPORTS.</span>
               </>)}</h2>
             </Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[var(--brand,#00ff41)]/5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#00ff41]/5">
               {resolveList(clientReviews(sessionData)?.map((r: any) => ({ quote: r.text ?? r.quote, handle: r.name ?? r.author, org: r.location ?? r.context ?? "" })), [
                 { quote: "Our red team couldn't find a single gap after deployment. The threat graph identified a lateral movement path we had missed for two years. Mission critical.", handle: "// SEC_LEAD_ORION", org: "Fortune 500 · Financial Sector" },
                 { quote: "Six ransomware attempts blocked in 90 days. Zero successful intrusions. The AI intercepts attacks before our SOC analysts even see the alert.", handle: "// CISO_MERIDIAN", org: "Critical Infrastructure" },
                 { quote: "We replaced four separate tools with this single platform. Coverage increased 40%, cost dropped 60%. The ROI conversation with the board was the easiest I've had.", handle: "// INFOSEC_VOSS", org: "Global SaaS · Series C" },
               ] as any[]).map((t: any, i: number) => (
                 <Reveal key={i} delay={i * 0.1}>
-                  <div className="bg-[#02040a] p-10 flex flex-col gap-6 hover:bg-black transition-colors border border-[var(--brand,#00ff41)]/5 hover:border-[var(--brand,#00ff41)]/20">
-                    <Terminal className="w-4 h-4 text-[var(--brand,#00ff41)]/40" />
+                  <div className="bg-[#02040a] p-10 flex flex-col gap-6 hover:bg-black transition-colors border border-[#00ff41]/5 hover:border-[#00ff41]/20">
+                    <Terminal className="w-4 h-4 text-[#00ff41]/40" />
                     <p className="text-white/40 leading-relaxed flex-1 text-sm">{t.quote}</p>
-                    <div className="border-t border-[var(--brand,#00ff41)]/10 pt-6">
-                      <div className="text-[var(--brand,#00ff41)] text-xs font-bold tracking-widest">{t.handle}</div>
+                    <div className="border-t border-[#00ff41]/10 pt-6">
+                      <div className="text-[#00ff41] text-xs font-bold tracking-widest">{t.handle}</div>
                       <div className="text-[10px] text-white/20 mt-1">{t.org}</div>
                     </div>
                   </div>
@@ -439,15 +439,15 @@ export default function VanguardLegalPage() {
         </section>
 
         {/* ── TEAM ──────────────────── */}
-        <section id="equipe" className="py-40 bg-black border-t border-[var(--brand,#00ff41)]/10">
+        <section id="equipe" className="py-40 bg-black border-t border-[#00ff41]/10">
           <div className="max-w-6xl mx-auto px-6 md:px-12 font-mono">
             <Reveal>
-              <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#00ff41)]/40 mb-6">// core team</p>
+              <p className="text-[10px] uppercase tracking-[0.5em] text-[#00ff41]/40 mb-6">// core team</p>
               <h2 className="text-4xl md:text-7xl font-black text-white mb-20 leading-none tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "equipe.titre") ?? (<>
                 OPERATORS.
               </>)}</h2>
             </Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-[var(--brand,#00ff41)]/5">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-[#00ff41]/5">
               {resolveList(clientTeam(sessionData)?.map((tm: any, i: number) => ({ handle: (["WRAITH", "CIPHER", "GHOST", "SPECTER"][i % 4]), name: tm.name, role: tm.role ?? tm.specialty ?? "", clearance: (["ALPHA", "BRAVO", "CHARLIE"][i % 3]), years: tm.credentials ?? "" })), [
                 { handle: "WRAITH", name: "Elara Voss", role: "Threat Intelligence", clearance: "ALPHA", years: "14yr" },
                 { handle: "CIPHER", name: "Ryo Tanaka", role: "Offensive Security", clearance: "BRAVO", years: "11yr" },
@@ -456,10 +456,10 @@ export default function VanguardLegalPage() {
               ] as any[]).map((m: any, i: number) => (
                 <Reveal key={m.handle} delay={i * 0.08}>
                   <div className="bg-black p-10 hover:bg-[#02040a] transition-colors group">
-                    <div className="w-12 h-12 border border-[var(--brand,#00ff41)]/20 flex items-center justify-center mb-6 group-hover:border-[var(--brand,#00ff41)]/60 transition-colors">
-                      <span className="text-[var(--brand,#00ff41)] text-xs font-black">{m.handle.slice(0, 2)}</span>
+                    <div className="w-12 h-12 border border-[#00ff41]/20 flex items-center justify-center mb-6 group-hover:border-[#00ff41]/60 transition-colors">
+                      <span className="text-[#00ff41] text-xs font-black">{m.handle.slice(0, 2)}</span>
                     </div>
-                    <div className="text-[10px] text-[var(--brand,#00ff41)]/40 mb-1">[{m.clearance}] · {m.years}</div>
+                    <div className="text-[10px] text-[#00ff41]/40 mb-1">[{m.clearance}] · {m.years}</div>
                     <div className="text-white font-bold text-sm tracking-wider mb-1">{m.name}</div>
                     <div className="text-[10px] text-white/20 uppercase tracking-widest">{m.role}</div>
                   </div>
@@ -470,7 +470,7 @@ export default function VanguardLegalPage() {
         </section>
 
         {/* ── CTA ───────────────────── */}
-        <section className="py-60 bg-[var(--brand,#00ff41)] text-black text-center relative overflow-hidden">
+        <section className="py-60 bg-[#00ff41] text-black text-center relative overflow-hidden">
           <div className="absolute inset-0 opacity-[0.02]">
              <div className="w-[150%] h-[150%] border-2 border-dashed border-black rounded-full -translate-x-1/4 -translate-y-1/4 animate-[spin_60s_linear_infinite]" />
           </div>
@@ -497,17 +497,17 @@ export default function VanguardLegalPage() {
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-20 mb-40">
            <div className="md:col-span-2">
               <Link href="#hero" className="flex items-center gap-4 mb-10 group">
-                <div className="w-10 h-10 border border-[var(--brand,#00ff41)]/30 flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-[var(--brand,#00ff41)]" />
+                <div className="w-10 h-10 border border-[#00ff41]/30 flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-[#00ff41]" />
                 </div>
-                <span className="text-xl font-bold tracking-tighter uppercase text-white italic">Vanguard <span className="text-[var(--brand,#00ff41)]">Legal</span></span>
+                <span className="text-xl font-bold tracking-tighter uppercase text-white italic">Vanguard <span className="text-[#00ff41]">Legal</span></span>
               </Link>
               <p className="text-white/20 max-w-sm leading-relaxed mb-12 text-[10px] font-bold uppercase italic">
                  "Conflict is inevitable. Neutralization is an choice. We are the choice of the prepared."
               </p>
               <div className="flex gap-10">
                  {SOCIALS.map(s => (
-                   <Link key={s.l} href={s.h} target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-[var(--brand,#00ff41)] transition-colors underline underline-offset-8 decoration-[var(--brand,#00ff41)]/10">{s.l}</Link>
+                   <Link key={s.l} href={s.h} target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-[#00ff41] transition-colors underline underline-offset-8 decoration-[#00ff41]/10">{s.l}</Link>
                  ))}
               </div>
            </div>
@@ -518,7 +518,7 @@ export default function VanguardLegalPage() {
              { t: "RESOURCES", l: ["Portal", "Status", "Manual", "Press"] }
            ].map((col, i) => (
              <div key={i} className="space-y-12">
-                <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00ff41)]/40">{col.t}</h4>
+                <h4 className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00ff41]/40">{col.t}</h4>
                 <ul className="space-y-6">
                    {col.l.map(link => (
                      <li key={link} className="text-xs font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors italic">
@@ -533,7 +533,7 @@ export default function VanguardLegalPage() {
            <span>© 2026 {clientName(sessionData) ?? "VANGUARD STRATEGIC LEGAL DEFENSE."} CONNECTION ENCRYPTED.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
            <div className="flex gap-12">
               <span>SYSTEM_STATUS: NOMINAL</span>
-              <Link href="/templates/impact-147/legal" className="hover:text-[var(--brand,#00ff41)] transition-all">PRIVACY_PROTOCOL_ENABLED</Link>
+              <Link href="/templates/impact-147/legal" className="hover:text-[#00ff41] transition-all">PRIVACY_PROTOCOL_ENABLED</Link>
            </div>
         </div>
       </footer>
