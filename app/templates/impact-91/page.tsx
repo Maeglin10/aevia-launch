@@ -555,9 +555,9 @@ function Hero() {
           <span style={{ color: C.gold }}>comme Art Vivant</span>
         </>)}</motion.h1>
       {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
+      {clientAccrocheRestante(sessionData, 1, 16) && (
         <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
+          {clientAccrocheRestante(sessionData, 1, 16)}
         </p>
       )}
 

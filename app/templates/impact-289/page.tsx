@@ -49,7 +49,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SCHREIBER & ASSOCIÉS — Expert-comptable & commissaires aux comptes
+   SCHREIBER & ASSOCIÉS — Expert-comptable & commissaires aux comptes{" "}
    {clientCity(sessionData) ?? "Strasbourg"} Neudorf · Alsace-Moselle
    Page premium auto-suffisante. 'use client'. Framer Motion + Lucide React.
    ════════════════════════════════════════════════════════════════════════════ */

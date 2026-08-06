@@ -248,9 +248,9 @@ export default function ChronosLuxuryPage() {
                   <h1 className="text-7xl md:text-[9rem] font-extralight tracking-tighter leading-[0.85] text-white mb-12 uppercase" style={{ fontFamily: "serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 10) ?? "Mastery In"}<br/> <span className="text-[var(--brand,#d4af37)] italic">{clientHeroLine(sessionData, 1, 2, 10) ?? "Motion."}</span>
                   </>}</h1>
       {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
+      {clientAccrocheRestante(sessionData, 2, 10) && (
         <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
+          {clientAccrocheRestante(sessionData, 2, 10)}
         </p>
       )}
 

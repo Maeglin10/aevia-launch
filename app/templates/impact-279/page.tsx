@@ -1561,7 +1561,7 @@ function AppointmentFormSection() {
             }}
           >
             Décrivez votre situation ci-dessous. Le Dr Soler reviendra vers vous
-            dans les 24 heures pour confirmer votre rendez-vous au cabinet de
+            dans les 24 heures pour confirmer votre rendez-vous au cabinet de{" "}
             {clientCity(sessionData) ?? "Lyon"}.
           </p>
         </Reveal>

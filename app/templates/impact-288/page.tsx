@@ -572,9 +572,9 @@ function HeroSection() {
           </span>
         </>)}</motion.h1>
       {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
+      {clientAccrocheRestante(sessionData, 1, 18) && (
         <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
+          {clientAccrocheRestante(sessionData, 1, 18)}
         </p>
       )}
 
@@ -593,7 +593,7 @@ function HeroSection() {
             marginBottom: 0,
           }}
         >
-          Installations électriques, bornes IRVE et panneaux photovoltaïques à
+          Installations électriques, bornes IRVE et panneaux photovoltaïques à{" "}
           {clientCity(sessionData) ?? "Nantes"} et partout en Loire-Atlantique. Certifié RGE, QualiPV, Qualifelec.
         </motion.p>
 

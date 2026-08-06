@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown, Star } from "lucide-react";
 import { C, stats, testimonials, NeedleAnimation, artists, portfolioItems } from "./shared";
 import {
+  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
   clientHeroSubtitle,
@@ -57,7 +58,7 @@ function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
             style={{ fontFamily: "'Barlow', system-ui", fontSize: 18, color: C.textMuted, lineHeight: 1.7, maxWidth: 520, marginBottom: 48 }}
-          >{clientHeroSubtitle(sessionData) ?? "Noir Ink is Paris's premier fine line and blackwork studio. Two artists. Twelve years. Thousands of pieces built to outlast a lifetime."}</motion.p>
+          >{clientHeroPrestations(sessionData) ?? "Noir Ink is Paris's premier fine line and blackwork studio. Two artists. Twelve years. Thousands of pieces built to outlast a lifetime."}</motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

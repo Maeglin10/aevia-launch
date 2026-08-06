@@ -36,7 +36,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET VAILLANT & ASSOCIÉS — Expert-Comptable & Commissariat aux Comptes
+   CABINET VAILLANT & ASSOCIÉS — Expert-Comptable & Commissariat aux Comptes{" "}
    {clientCity(sessionData) ?? "Paris"} · Photographie réelle + chorégraphie éditoriale au défilement.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

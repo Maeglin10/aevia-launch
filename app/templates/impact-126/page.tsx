@@ -1,6 +1,7 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
   clientHeroLine,
   clientHours,
@@ -964,7 +965,7 @@ return (
               maxWidth: 500,
               margin: "0 auto 48px",
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientAccrocheRestante(sessionData, 2, 10) ?? c?.heroSubline ?? <>
             A celebration of Roman culinary heritage — sourced daily from Campo de' Fiori, prepared with the rigor of a centuries-old tradition.
           </>}</motion.p>
 

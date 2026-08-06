@@ -20,7 +20,6 @@ import {
 } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientAccrocheRestante,
   clientCity,
   clientFaq,
   clientName,
@@ -285,12 +284,6 @@ function WineHero() {
             >
               {active === 0 && c?.heroHeadline ? c?.heroHeadline : wine.name}
             </motion.h1>
-      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
-        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
-        </p>
-      )}
 
 
             {/* 300ms — grape + vintage */}

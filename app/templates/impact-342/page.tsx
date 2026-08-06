@@ -231,7 +231,7 @@ export default function PermisCapSudPage() {
               ]}
             </HardCutRebuild>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {fd?.tagline ?? c?.heroSubline ?? "Code en accéléré, conduite en créneaux du soir et du samedi, résultats affichés'à la vitrine. Pas de blabla : un plan d'heures écrit, un prix qui ne bouge pas, ton permis."}
+          {c?.heroSubline ?? "Code en accéléré, conduite en créneaux du soir et du samedi, résultats affichés'à la vitrine. Pas de blabla : un plan d'heures écrit, un prix qui ne bouge pas, ton permis."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
