@@ -26,6 +26,7 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhotos,
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -184,14 +185,25 @@ function Hero() {
       <div style={{ position: "absolute", top: -80, right: -80, width: 500, height: 500, borderRadius: "50%", background: `radial-gradient(circle, ${C.accentLight} 0%, transparent 70%)`, opacity: 0.6, zIndex: 0 }} />
       <div style={{ position: "absolute", bottom: -60, left: -60, width: 350, height: 350, borderRadius: "50%", background: `radial-gradient(circle, ${C.cream} 0%, transparent 70%)`, zIndex: 0 }} />
 
-      {/* Large decorative emoji */}
+      {/*
+        Une photographie de pain, pas une icône. Le hero de cette boulangerie
+        montrait une baguette en emoji de cent quatre-vingts pixels à douze pour
+        cent d'opacité, sur un fond crème vide — le seul thème « métier » du
+        catalogue à n'avoir aucune image. La photo du client passe devant ;
+        celle-ci ne sert que tant qu'il n'en a pas fourni.
+      */}
       <motion.div
-        style={{ position: "absolute", right: "8%", top: "50%", transform: "translateY(-50%)", opacity: 0.12, zIndex: 0, userSelect: "none" }}
-        animate={{ rotate: [0, 3, 0, -3, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <TemplateIcon emoji="🥖" size={180} />
-      </motion.div>
+        style={{
+          position: "absolute", right: 0, top: 0, bottom: 0, width: "46%", zIndex: 0,
+          backgroundImage: `url(${clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/32459865/pexels-photo-32459865.jpeg?auto=compress&cs=tinysrgb&w=1400"})`,
+          backgroundSize: "cover", backgroundPosition: "center",
+          maskImage: "linear-gradient(to right, transparent, #000 42%)",
+          WebkitMaskImage: "linear-gradient(to right, transparent, #000 42%)",
+        }}
+        initial={{ opacity: 0, scale: 1.06 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+      />
 
       {/* Content — padding/margins now use clamp() so they shrink on narrow
           viewports instead of staying pinned at desktop values (120px/80px
