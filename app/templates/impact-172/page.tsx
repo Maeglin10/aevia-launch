@@ -294,7 +294,7 @@ export default function LegrandPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.0] text-[#F9F6F0] mb-8 max-w-4xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{<>
-              <em>{clientHeroLine(sessionData, 0, 3, 10) ?? "L excellence"}</em><br />{clientHeroLine(sessionData, 1, 3, 10) ?? "juridique au service"}<br />{clientHeroLine(sessionData, 2, 3, 10) ?? "de vos ambitions"}</>}</h1>
+              <em>{clientHeroLine(sessionData, 0, 3, 10) ?? "L'excellence"}</em><br />{clientHeroLine(sessionData, 1, 3, 10) ?? "juridique au service"}<br />{clientHeroLine(sessionData, 2, 3, 10) ?? "de vos ambitions"}</>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="text-[#C8B89A] text-lg max-w-lg mb-12 font-light leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>

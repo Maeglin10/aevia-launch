@@ -183,7 +183,7 @@ return (
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-12 md:pt-32 md:pb-24 w-full flex flex-col justify-center">
           <Reveal delay={0.1}>
-            <h1 className="text-4xl md:text-7xl font-light text-[#F0EBE0] leading-[1.2] mb-4 md:mb-8 max-w-3xl pb-2 md:pb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "L art de la médecine"}<br />{clientHeroLine(sessionData, 1, 3, 10) ?? "esthétique de"}<em>{clientHeroLine(sessionData, 2, 3, 10) ?? "précision"}</em>
+            <h1 className="text-4xl md:text-7xl font-light text-[#F0EBE0] leading-[1.2] mb-4 md:mb-8 max-w-3xl pb-2 md:pb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "L'art de la médecine"}<br />{clientHeroLine(sessionData, 1, 3, 10) ?? "esthétique de"}{" "}<em>{clientHeroLine(sessionData, 2, 3, 10) ?? "précision"}</em>
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>

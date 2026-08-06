@@ -701,7 +701,7 @@ export default function Impact94Page() {
             transition={{ duration: 1.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-7xl md:text-[10rem] lg:text-[13rem] font-normal italic text-[#FAFAF9] leading-none tracking-tight"
             style={{ /* TITRE_DEGAGE */ marginTop: 77,  fontFamily: "'Bodoni Moda', serif" }}
-          >{<>{clientHeroLine(sessionData, 0, 2, 6) ?? "L art"}<br />
+          >{<>{clientHeroLine(sessionData, 0, 2, 6) ?? "L'art"}<br />
             <span className="text-[var(--brand,#CA8A04)]">{clientHeroLine(sessionData, 1, 2, 6) ?? "floral"}</span>
           </>}</motion.h1>
 

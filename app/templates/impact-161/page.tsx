@@ -258,7 +258,7 @@ export default function EssentialSaaSPage() {
       {/* Hero */}
       <section id="hero" className="pt-28 pb-20 px-6 max-w-7xl mx-auto text-center">
         <Reveal delay={0.1}>
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6 max-w-4xl mx-auto">{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "Gérez votre business"}<br />{clientHeroLine(sessionData, 1, 3, 10) ?? "avec"}<span className="text-[var(--brand,#6366F1)]">{clientHeroLine(sessionData, 2, 3, 10) ?? "clarté et vitesse"}</span>
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6 max-w-4xl mx-auto">{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "Gérez votre business"}<br />{clientHeroLine(sessionData, 1, 3, 10) ?? "avec"}{" "}<span className="text-[var(--brand,#6366F1)]">{clientHeroLine(sessionData, 2, 3, 10) ?? "clarté et vitesse"}</span>
           </>}</h1>
         </Reveal>
         <Reveal delay={0.2}>

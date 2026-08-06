@@ -727,7 +727,7 @@ export default function Impact199Page() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "L'ART VIVANT"}<br />
-              <span className="text-[var(--brand,#DC2626)]">{clientHeroLine(sessionData, 1, 3, 12) ?? "SUR"}</span>{clientHeroLine(sessionData, 2, 3, 12) ?? "VOTRE PEAU"}</>}</motion.h1>
+              <span className="text-[var(--brand,#DC2626)]">{clientHeroLine(sessionData, 1, 3, 12) ?? "SUR"}</span>{" "}{clientHeroLine(sessionData, 2, 3, 12) ?? "VOTRE PEAU"}</>}</motion.h1>
 
             {/* Subtitle */}
             <motion.p
