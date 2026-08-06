@@ -8,7 +8,6 @@ import Link from "next/link"
 import { Wrench, Car, Settings, Zap, Shield, Clock, Star, Phone, MapPin, CheckCircle, AlertTriangle, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
-  clientAccrocheRestante,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -220,12 +219,6 @@ export default function AutoExpertPage() {
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-8 text-[#f1f3f5]">{<>{clientHeroLine(sessionData, 0, 3, 16) ?? "Votre voiture"}<br />{clientHeroLine(sessionData, 1, 3, 16) ?? "entre"}{" "}<span className="text-[var(--brand,#dc2626)]">{clientHeroLine(sessionData, 2, 3, 16) ?? "de bonnes mains."}</span>
           </>}</motion.h1>
-      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
-        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
-        </p>
-      )}
 
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}

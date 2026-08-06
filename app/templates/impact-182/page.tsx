@@ -8,7 +8,6 @@ import { HardHat, Hammer, Phone, Star, MapPin, ArrowRight, CheckCircle, Ruler, S
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientAccrocheRestante,
   clientAreas,
   clientCity,
   clientEyebrow,
@@ -229,7 +228,7 @@ export default function BatirSolidePage() {
             ) : (
               <>
                 <HardHat className="w-6 h-6 text-[var(--brand,#d4a96a)]" />
-                <span className="font-black text-lg tracking-wide text-white uppercase">{clientName(sessionData) ?? "Bâtir"}<span className="text-[var(--brand,#d4a96a)]">Solide</span></span>
+                <span className="font-black text-lg tracking-wide text-white uppercase">{clientName(sessionData) ?? "Bâtir"}{!clientName(sessionData) && <span className="text-[var(--brand,#d4a96a)]">Solide</span>}</span>
               </>
             )}
           </div>
@@ -277,12 +276,6 @@ export default function BatirSolidePage() {
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
             className="text-6xl md:text-8xl lg:text-[9rem] font-black leading-[0.85] tracking-tighter mb-9 uppercase text-white">{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "On construit"}<br />{clientHeroLine(sessionData, 1, 3, 12) ?? "pour"}{" "}<span className="text-[var(--brand,#d4a96a)]">{clientHeroLine(sessionData, 2, 3, 12) ?? "durer."}</span>
           </>}</motion.h1>
-      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
-      {clientAccrocheRestante(sessionData) && (
-        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.8, marginTop: 12, maxWidth: "44ch" }}>
-          {clientAccrocheRestante(sessionData)}
-        </p>
-      )}
 
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}

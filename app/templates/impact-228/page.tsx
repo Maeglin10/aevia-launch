@@ -229,7 +229,7 @@ export default function AquaThermPage() {
           ) : (
             <>
               <div style={{ background: C.accent, borderRadius: 6, padding: "6px 8px" }}><Flame size={18} color="#fff" /></div>
-              <span style={{ fontFamily: FONT, fontSize: 24, letterSpacing: 1, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Aqua"}<span style={{ color: C.accent }}>Therm</span></span>
+              <span style={{ fontFamily: FONT, fontSize: 24, letterSpacing: 1, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Aqua"}{!clientName(sessionData) && <span style={{ color: C.accent }}>Therm</span>}</span>
             </>
           )}
         </div>

@@ -495,7 +495,7 @@ function Nav() {
         ) : (
           <>
             <Dumbbell size={20} color={C.accent} strokeWidth={2} />
-            <span>{clientName(sessionData) ?? "FORCE"}<span style={brandAccent}> BRUTE</span></span>
+            <span>{clientName(sessionData) ?? "FORCE"}{!clientName(sessionData) && <span style={brandAccent}> BRUTE</span>}</span>
           </>
         )}
       </div>
