@@ -1484,7 +1484,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     stars: 5,
   },
   {
-    name: 'Martine &amp; Jean-Pierre R.',
+    name: 'Martine & Jean-Pierre R.',
     city: 'Rezé (44400)',
     project: 'Panneaux solaires 6 kWc',
     text: "Pose de 16 panneaux photovoltaïques sur notre toit. Bilan de production sérieux, dossier MaPrimeRénov' géré de A à Z. Premier mois : 80 % de notre consommation couverte. Bravo pour le suivi !",
@@ -2668,7 +2668,7 @@ function CertifSection() {
               lineHeight: 1.7,
             }}
           >
-            Ampère &amp; Fils détient toutes les certifications nécessaires pour
+            Ampère & Fils détient toutes les certifications nécessaires pour
             vous ouvrir l'accès aux aides et subventions de l'État. Vous êtes
             entre de bonnes mains.
           </p>
@@ -2714,7 +2714,7 @@ function CertifSection() {
                 lineHeight: 1.15,
               }}
             >
-              Prêt à démarrer votre projet&nbsp;?
+              Prêt à démarrer votre projet ?
             </h3>
             <p
               style={{
@@ -2855,7 +2855,7 @@ function FooterSection() {
                     lineHeight: 1,
                   }}
                 >
-                  Ampère &amp; Fils
+                  Ampère & Fils
                 </div>
                 <div
                   style={{

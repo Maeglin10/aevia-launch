@@ -558,7 +558,7 @@ function HeroSection() {
             maxWidth: 580,
             lineHeight: 1.6,
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Nous orchestrons chaque détail de votre grand jour en Alsace, de la première idée jusqu&apos;au dernier sourire."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Nous orchestrons chaque détail de votre grand jour en Alsace, de la première idée jusqu'au dernier sourire."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -933,7 +933,7 @@ function ServicesSection() {
         'Rétroplanning minute par minute',
         'Coordination sur place toute la journée',
         "Gestion des imprévus et des urgences",
-        'Présence jusqu&apos;en fin de soirée',
+        'Présence jusqu\'en fin de soirée',
       ],
     },
     {
@@ -1216,7 +1216,7 @@ function ProcessSection() {
     {
       num: '01',
       title: 'Consultation initiale',
-      desc: 'Nous nous rencontrons autour d&apos;un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C&apos;est le point de départ de notre collaboration.',
+      desc: 'Nous nous rencontrons autour d\'un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C\'est le point de départ de notre collaboration.',
       duration: 'Réunion de 1h30 — offerte',
     },
     {
@@ -1241,7 +1241,7 @@ function ProcessSection() {
     {
       num: '01',
       title: 'Consultation initiale',
-      desc: 'Nous nous rencontrons autour d&apos;un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C&apos;est le point de départ de notre collaboration.',
+      desc: 'Nous nous rencontrons autour d\'un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C\'est le point de départ de notre collaboration.',
       duration: 'Réunion de 1h30 — offerte',
     },
     {
@@ -1267,7 +1267,7 @@ function ProcessSection() {
     {
       num: '01',
       title: 'Consultation initiale',
-      desc: 'Nous nous rencontrons autour d&apos;un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C&apos;est le point de départ de notre collaboration.',
+      desc: 'Nous nous rencontrons autour d\'un thé pour apprendre à vous connaître. Vous nous partagez votre vision, vos envies, votre budget. C\'est le point de départ de notre collaboration.',
       duration: 'Réunion de 1h30 — offerte',
     },
     {

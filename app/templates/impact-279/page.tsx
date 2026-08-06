@@ -1310,7 +1310,7 @@ type Testimonial = {
 const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
-      'J&apos;avais une lombalgie chronique depuis trois ans. En deux séances, le Dr Soler a identifié une restriction que personne n&apos;avait vue. Après quatre séances, je n&apos;ai plus de douleurs quotidiennes. Un praticien exceptionnel.',
+      'J\'avais une lombalgie chronique depuis trois ans. En deux séances, le Dr Soler a identifié une restriction que personne n\'avait vue. Après quatre séances, je n\'ai plus de douleurs quotidiennes. Un praticien exceptionnel.',
     name: 'Sophie M.',
     situation: 'Lombalgie chronique · 38 ans',
     stars: 5,
@@ -1324,7 +1324,7 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
   },
   {
     quote:
-      'Triathlète amateur, je venais pour une tendinite récidivante. Le Dr Soler a trouvé une déséquilibre pelvien à l&apos;origine du problème. Je cours maintenant sans douleur et je vois le cabinet tous les deux mois en préventif.',
+      'Triathlète amateur, je venais pour une tendinite récidivante. Le Dr Soler a trouvé une déséquilibre pelvien à l\'origine du problème. Je cours maintenant sans douleur et je vois le cabinet tous les deux mois en préventif.',
     name: 'Thomas L.',
     situation: 'Sportif · Triathlète amateur',
     stars: 5,

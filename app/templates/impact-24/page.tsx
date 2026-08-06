@@ -615,7 +615,7 @@ return (
           <div className="max-w-6xl mx-auto">
             <Reveal>
               <p className="text-[var(--brand,#A3E635)] text-sm font-semibold tracking-widest uppercase mb-4">Portfolio</p>
-              <h1 className="text-5xl md:text-7xl font-bold mb-4">{c?.heroHeadline ?? "Companies we&apos;ve backed"}</h1>
+              <h1 className="text-5xl md:text-7xl font-bold mb-4">{c?.heroHeadline ?? "Companies we've backed"}</h1>
               <p className="text-white/50 text-lg max-w-3xl mb-6 leading-relaxed">120+ startups across AI, fintech, health, climate, and developer tools. Here are some of the teams we&apos;re proudest to partner with.</p>
             </Reveal>
 

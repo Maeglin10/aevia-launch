@@ -374,7 +374,7 @@ export default function Impact324TicketStore({ session: initialSession }) {
           ) : (
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <Music color={C.primary} size={28} />
-              <h1 style={{ fontFamily: SERIF, fontSize: "24px", fontWeight: 800, margin: 0, color: C.white }}>
+              <h1 className="hero-ecran-court" style={{ fontFamily: SERIF, fontSize: "24px", fontWeight: 800, margin: 0, color: C.white }}>
                 {businessName.toUpperCase()}
               </h1>
             </div>
@@ -552,7 +552,7 @@ export default function Impact324TicketStore({ session: initialSession }) {
         <div style={{ position: "relative", zIndex: 2, maxWidth: 1400, margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
           <motion.h1
             initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: EASE }}
-            style={{ /* TITRE_DEGAGE */ marginTop: 300,  fontFamily: SERIF, fontSize: "clamp(40px, 8vw, 90px)", fontWeight: 900, lineHeight: 1.1, margin: "0 0 24px 0", color: C.white, textTransform: "uppercase", letterSpacing: "-2px" }}
+            style={{  fontFamily: SERIF, fontSize: "clamp(40px, 8vw, 90px)", fontWeight: 900, lineHeight: 1.1, margin: "0 0 24px 0", color: C.white, textTransform: "uppercase", letterSpacing: "-2px" }}
           >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
             Feel The <span style={{ color: C.primary, textShadow: `0 0 20px ${C.primary}80` }}>Vibe</span><br/>
             Live The <span style={{ WebkitTextStroke: `2px ${C.white}`, color: "transparent" }}>Moment</span>

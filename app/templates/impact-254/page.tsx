@@ -680,7 +680,7 @@ function Hero() {
             lineHeight: 1.7,
             marginBottom: 'clamp(28px,3vw,44px)',
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Cabinet indépendant, 35 ans d&apos;ancrage parisien. Nous transformons vos obligations comptables et fiscales en avantages concurrentiels mesurables."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Cabinet indépendant, 35 ans d'ancrage parisien. Nous transformons vos obligations comptables et fiscales en avantages concurrentiels mesurables."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}
@@ -760,7 +760,7 @@ function Intro() {
             margin: 'clamp(24px,3vw,40px) auto 0',
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
-          "La comptabilité n&apos;est pas une contrainte. C&apos;est la carte de votre entreprise."
+          "La comptabilité n'est pas une contrainte. C'est la carte de votre entreprise."
         </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>

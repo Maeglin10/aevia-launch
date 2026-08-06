@@ -1531,7 +1531,7 @@ return (
             >
               {[
                 { val: "12 ans", label: "En cuisine professionnelle" },
-                { val: "850+", label: "Repas d&apos;exception créés" },
+                { val: "850+", label: "Repas d'exception créés" },
                 { val: "100%", label: "Produits sourcés localement" },
                 { val: "4.9/5", label: "Satisfaction clients" },
               ].map((s) => (
@@ -2343,7 +2343,7 @@ return (
                 }}
               >
                 {[
-                  { icon: "📍", label: "Zone d&apos;intervention", val: (clientCity(sessionData) ?? "Paris") + " · Sur demande ailleurs" },
+                  { icon: "📍", label: "Zone d'intervention", val: (clientCity(sessionData) ?? "Paris") + " · Sur demande ailleurs" },
                   { icon: "🕐", label: "Délai de réservation", val: "3 jours minimum · 3–4 semaines pour grandes occasions" },
                   { icon: "📞", label: "Contact direct", val: "+33 6 XX XX XX XX" },
                   { icon: "✦", label: "Devis", val: "Gratuit · Réponse sous 24h · Sans engagement" },

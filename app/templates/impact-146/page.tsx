@@ -334,7 +334,7 @@ export default function KuroOmakasePage() {
               </Reveal>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                  {[
-                    { tier: (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Kuro Omakase")), courses: "12 courses", price: "¥88,000", note: "Chef&apos;s full progression. 3.5 hours. Seasonal kaiseki opening.", incl: ["House sake pairing", "Tea ceremony close", "Signed menu card"] },
+                    { tier: (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Kuro Omakase")), courses: "12 courses", price: "¥88,000", note: "Chef's full progression. 3.5 hours. Seasonal kaiseki opening.", incl: ["House sake pairing", "Tea ceremony close", "Signed menu card"] },
                     { tier: "Umi Course", courses: "8 courses", price: "¥52,000", note: "Ocean-focused tasting, emphasising sashimi and shellfish.", incl: ["Wine pairing available", "À la carte additions", "Private dining option"] },
                     { tier: "Tsuki Dinner", courses: "5 courses", price: "¥32,000", note: "An introduction to the Kuro kitchen. Ideal for first visits.", incl: ["Non-alcoholic pairing", "Allergen-conscious menu", "Counter seating"] },
                  ].map((m, i) => (

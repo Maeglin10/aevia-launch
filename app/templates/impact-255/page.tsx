@@ -786,7 +786,7 @@ function Intro() {
             color: C.ink,
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "intro.texte") ?? (<>
-          "Le droit n&apos;est pas un obstacle à votre développement. C&apos;est votre meilleure protection."
+          "Le droit n'est pas un obstacle à votre développement. C'est votre meilleure protection."
         </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>

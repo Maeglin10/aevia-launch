@@ -207,7 +207,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
         <span style={{ fontStyle: 'italic' }}>la stratégie.</span>
       </>
     ),
-    body: 'Avant de concevoir la stratégie juridique, nous prenons le temps de comprendre la situation dans sa globalité : les enjeux humains, financiers et relationnels. Cette écoute active nous permet d&apos;élaborer des solutions sur mesure, combinant rigueur technique et approche pragmatique, dans l&apos;intérêt exclusif de nos clients.',
+    body: 'Avant de concevoir la stratégie juridique, nous prenons le temps de comprendre la situation dans sa globalité : les enjeux humains, financiers et relationnels. Cette écoute active nous permet d\'élaborer des solutions sur mesure, combinant rigueur technique et approche pragmatique, dans l\'intérêt exclusif de nos clients.',
     img: PHOTO.librarySm,
     alt: 'Bibliothèque de droit du cabinet',
   },
@@ -711,7 +711,7 @@ function Hero() {
             lineHeight: 1.64,
             marginBottom: 42,
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Un cabinet parisien fondé sur l&apos;exigence, l&apos;écoute et vingt-cinq ans d&apos;engagement au service de nos clients."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Un cabinet parisien fondé sur l'exigence, l'écoute et vingt-cinq ans d'engagement au service de nos clients."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 26 }}
