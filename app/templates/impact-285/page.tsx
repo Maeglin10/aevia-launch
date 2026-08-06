@@ -34,6 +34,7 @@ import {
   Users,
 } from 'lucide-react';
 import {
+  clientPhone,
   clientAccrocheRestante,
   clientAddress,
   clientCity,
@@ -2644,7 +2645,7 @@ function FooterSection() {
             }}
           >
             <Phone size={14} color={C.salmon} strokeWidth={1.6} />
-            02 40 22 65 65
+            {clientPhone(sessionData) ?? "02 40 22 65 65"}
           </div>
 
           {/* Horaires condensés */}

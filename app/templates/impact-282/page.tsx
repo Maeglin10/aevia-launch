@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -2482,7 +2483,7 @@ function HorairesSection() {
                       color: C.ink,
                     }}
                   >
-                    03 20 79 44 44
+                    {clientPhone(sessionData) ?? "03 20 79 44 44"}
                   </div>
                 </div>
               </div>
@@ -2614,7 +2615,7 @@ function FooterSection() {
               }}
             >
               <Phone size={13} color={C.wheat} strokeWidth={1.5} />
-              03 20 79 44 44
+              {clientPhone(sessionData) ?? "03 20 79 44 44"}
             </div>
             <div
               style={{

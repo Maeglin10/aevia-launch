@@ -35,6 +35,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
@@ -1996,7 +1997,7 @@ function BilanFormSection() {
                       }}
                     >
                       <Phone size={14} color={C.orange} />
-                      06 22 65 65 65
+                      {clientPhone(sessionData) ?? "06 22 65 65 65"}
                     </div>
                   </div>
                 ) : (

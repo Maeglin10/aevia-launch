@@ -22,6 +22,7 @@ import {
   Shield,
 } from 'lucide-react';
 import {
+  clientPhone,
   clientAccrocheRestante,
   clientAddress,
   clientCity,
@@ -2002,7 +2003,7 @@ function Footer() {
               }}
             >
               <Phone size={14} color={C.accent} strokeWidth={1.5} />
-              +33 3 88 79 44 44
+              {clientPhone(sessionData) ?? "+33 3 88 79 44 44"}
             </div>
             <div
               style={{

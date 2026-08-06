@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientEmail,
   clientAccrocheRestante,
   clientCity,
@@ -2385,7 +2386,7 @@ function FooterSection() {
       title: 'Contact',
       items: [
         { label: 'Prendre rendez-vous', href: '#rendez-vous' },
-        { label: '01 42 65 78 37', href: 'tel:+33142650000' },
+        { label: (clientPhone(sessionData) ?? '01 42 65 78 37'), href: 'tel:+33142650000' },
         { label: (clientEmail(sessionData) ?? 'contact@maissonceleste.fr'), href: 'mailto:contact@maisonceleste.fr' },
         { label: 'Instagram', href: "/templates/impact-281" },
       ],

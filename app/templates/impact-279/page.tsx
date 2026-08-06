@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -2354,7 +2355,7 @@ function FooterSection() {
       items: [
         { label: (clientCity(sessionData) ?? 'Lyon') + ' — Brotteaux', href: '#cabinet' },
         { label: 'Métro A — Foch', href: '#cabinet' },
-        { label: '04 78 25 86 86', href: 'tel:+33478000000' },
+        { label: (clientPhone(sessionData) ?? '04 78 25 86 86'), href: 'tel:+33478000000' },
         { label: 'Email', href: 'mailto:cabinet.soler@gmail.com' },
       ],
     },

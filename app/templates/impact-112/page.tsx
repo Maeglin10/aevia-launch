@@ -31,6 +31,7 @@ import {
   Trash2,
 } from "lucide-react";
 import {
+  clientPhone,
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -2731,7 +2732,7 @@ return (
             >
               {[
                 { Icon: MapPin, t: "Atelier · Beaune, Bourgogne" },
-                { Icon: Phone, t: "+33 3 80 71 68 68" },
+                { Icon: Phone, t: (clientPhone(sessionData) ?? "+33 3 80 71 68 68") },
                 { Icon: Mail, t: (fd?.email ?? "julie@terreetgeste.fr") },
               ].map(({ Icon, t }) => (
                 <div

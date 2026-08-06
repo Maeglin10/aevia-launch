@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientCity,
   clientEyebrow,
   clientFaq,
@@ -1398,7 +1399,7 @@ export default function Impact173Page() {
             </p>
             <div style={{ marginTop: 48, display: "flex", flexDirection: "column", gap: 16 }}>
               {[
-                { icon: Phone, text: "+33 4 76 78 37 37" },
+                { icon: Phone, text: (clientPhone(sessionData) ?? "+33 4 76 78 37 37") },
                 { icon: Mail, text: (fd?.email ?? "contact@structure-batisseurs.fr") },
                 { icon: MapPin, text: (clientCity(sessionData) ?? "Grenoble") + " · Montpellier · Nantes" },
               ].map((c, i) => {

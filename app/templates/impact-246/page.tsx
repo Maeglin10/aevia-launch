@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientEmail,
   clientCity,
   clientHeroLine,
@@ -2158,7 +2159,7 @@ function Footer() {
     {
       title: 'Urgences & Contact',
       items: [
-        { label: '04 91 79 44 44', href: 'tel:0491000000' },
+        { label: (clientPhone(sessionData) ?? '04 91 79 44 44'), href: 'tel:0491000000' },
         { label: 'Devis en ligne', href: '#devis' },
         { label: 'Interventions 24h/7j', href: '#interventions' },
         { label: 'Certifications RGE', href: "/templates/impact-246" },
@@ -2256,7 +2257,7 @@ function Footer() {
               }}
             >
               <Phone size={14} strokeWidth={2} />
-              04 91 79 44 44
+              {clientPhone(sessionData) ?? "04 91 79 44 44"}
             </a>
           </div>
         </div>

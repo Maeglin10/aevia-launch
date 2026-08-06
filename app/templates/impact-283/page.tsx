@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -2927,7 +2928,7 @@ function PracticalSection() {
                 }}
               >
                 <Phone size={15} strokeWidth={2} />
-                04 67 20 51 51
+                {clientPhone(sessionData) ?? "04 67 20 51 51"}
               </a>
               <a
                 href={`mailto:${fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}`}
@@ -2984,7 +2985,7 @@ function FooterSection() {
     {
       titre: 'Contact',
       liens: [
-        { label: '04 67 20 51 51', href: 'tel:+33467000000' },
+        { label: (clientPhone(sessionData) ?? '04 67 20 51 51'), href: 'tel:+33467000000' },
         { label: 'cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr', href: 'mailto:cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr' },
         { label: '12 Av. de Palavas, Antigone', href: '#pratique' },
         { label: 'Urgences : Hôpital Lapeyronie', href: "/templates/impact-283" },
