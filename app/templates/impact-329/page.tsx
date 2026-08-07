@@ -10,6 +10,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
+  clientHeroLine,
   clientTrade,
   clientAccrocheRestante,
   clientCertifications,
@@ -265,7 +266,7 @@ export default function CapDemenagementsPage() {
                 Formule {f.k}
               </div>,
               <h1 key="big" style={{ fontSize: "clamp(38px, 6vw, 76px)", fontWeight: 900, letterSpacing: -1.5, lineHeight: 1.02, margin: "0 0 18px" }}>
-                {c?.heroHeadline ?? f.big}
+                {clientHeroLine(sessionData, 0, 1, 16) ?? c?.heroHeadline ?? f.big}
               </h1>,
               /*
                 Le hero de ce thème est un carrousel de formules : son titre et

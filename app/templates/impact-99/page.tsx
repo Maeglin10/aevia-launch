@@ -1,6 +1,7 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientHeroLine,
   clientCity,
   clientName,
   clientPhotos,
@@ -1289,8 +1290,8 @@ export default function EmberGrillPage() {
             <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
               <Reveal>
                 <h1 className="text-[clamp(2.5rem,7vw,8.5rem)] font-black leading-[0.95] tracking-tighter mb-12 uppercase text-white italic break-words">{c?.heroHeadline ?? <>
-                  Primitive <br />{" "}
-                  <span className="text-[var(--brand,#ff4d00)] not-italic">Refinement.</span>
+                  {clientHeroLine(sessionData, 0, 2, 12) ?? "Primitive"} <br />{" "}
+                  <span className="text-[var(--brand,#ff4d00)] not-italic">{clientHeroLine(sessionData, 1, 2, 12) ?? "Refinement."}</span>
                 </>}</h1>
                 <p className="max-w-md text-xl text-white/50 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{fd?.tagline ?? c?.heroSubline ?? <>
                   Where wood-fired alchemy meets contemporary culinary precision.

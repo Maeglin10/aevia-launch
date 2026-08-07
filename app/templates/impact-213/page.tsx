@@ -16,6 +16,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, GhostSolid, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
 import { HardCutRebuild, FixedRail } from '@/lib/templates/hero-kit-3';
 import {
+  clientHeroLine,
   clientAddress,
   clientCity,
   clientFaq,
@@ -590,7 +591,7 @@ function Hero() {
         >
           <HardCutRebuild index={i} stagger={0.09}>
             {[
-              <GhostSolid key="lockup" ghost={HERO_TRADES[i].ghost} solid="pierre après pierre" accent={C.accent} strokeWidth={1.5} />,
+              <GhostSolid key="lockup" ghost={clientHeroLine(sessionData, 0, 1, 14) ?? HERO_TRADES[i].ghost} solid="pierre après pierre" accent={C.accent} strokeWidth={1.5} />,
             ]}
           </HardCutRebuild>
         </motion.h1>

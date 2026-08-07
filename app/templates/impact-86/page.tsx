@@ -38,6 +38,7 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientHeroLine,
   clientCity,
   clientFaq,
   clientHours,
@@ -609,9 +610,9 @@ export default function AuraWellnessPage() {
             <h1
               className="text-white text-6xl md:text-8xl leading-none mb-6"
               style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
-            >{c?.heroHeadline ?? <>
-              Retrouver<br />
-              <em>l'essentiel</em>
+            >{<>
+              {clientHeroLine(sessionData, 0, 2, 12) ?? c?.heroHeadline ?? "Retrouver"}<br />
+              <em>{clientHeroLine(sessionData, 1, 2, 12) ?? "l'essentiel"}</em>
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
