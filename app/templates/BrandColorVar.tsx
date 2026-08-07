@@ -109,6 +109,16 @@ function detacherLesTextesDuClient(donnees: Record<string, unknown> | undefined)
     */
     const tb = t.toLowerCase();
     if (!valeurs.some((v) => tb.includes(v.toLowerCase()))) continue;
+
+    /*
+      Le débordement se traite partout, la lisibilité seulement sur une photo :
+      ce sont deux questions différentes. Un filigrane en trente-cinq pour cent
+      de la largeur, un mot de carrousel tenu sur un rang, un titre à effet —
+      aucun n'est posé sur une image, et tous sortaient de l'écran de quatre
+      cents pixels dès que la donnée du client était plus longue que prévu.
+    */
+    ajusterAuCadre(e);
+
     if (!surUneImage(e)) continue;
     // Une ombre déjà posée n'empêche pas de corriger la couleur : ce sont deux
     // décisions distinctes, et la première ne sauve pas un brun sur du doré.
@@ -130,33 +140,6 @@ function detacherLesTextesDuClient(donnees: Record<string, unknown> | undefined)
     if (ct && Math.abs(luminance(...ct) - lum) > 0.25) {
       e.style.setProperty("color", `rgb(${ct[0]}, ${ct[1]}, ${ct[2]})`, "important");
       lum = luminance(...ct);
-    }
-
-    /*
-      Sur téléphone, un nom long — « ATELIERS VIDAL & FILS » là où le thème
-      écrivait un mot — sort de l'écran par la droite : soixante pixels perdus,
-      mesurés sur impact-57. On n'autorise la césure que là où ça dépasse
-      vraiment ; ailleurs, rien ne change.
-    */
-    const r = e.getBoundingClientRect();
-    if (r.right > document.documentElement.clientWidth + 4) {
-      e.style.overflowWrap = "anywhere";
-      e.style.maxWidth = "100%";
-      // Une ligne tenue sur un seul rang ne peut pas se replier : il faut le lui permettre.
-      if (getComputedStyle(e).whiteSpace.startsWith("nowrap")) e.style.whiteSpace = "normal";
-    }
-
-    /*
-      Le texte peut aussi être amputé sans que la page déborde : son cadre le
-      coupe. « Plomberie, chauffage et énergies renouvelables » perdait
-      quatre-vingt-sept pixels dans un bandeau taillé pour trois mots. On le
-      laisse d'abord se replier ; si le cadre l'interdit, la police rétrécit.
-    */
-    if (e.scrollWidth > e.clientWidth + 4 && !e.dataset.clientAjuste) {
-      e.dataset.clientAjuste = "1";
-      e.style.overflowWrap = "anywhere";
-      if (getComputedStyle(e).whiteSpace.startsWith("nowrap")) e.style.whiteSpace = "normal";
-      if (e.scrollWidth > e.clientWidth + 4) retrecirJusquAuCadre(e);
     }
 
     if (!ombreDejaLa) {
@@ -222,6 +205,28 @@ function rendreLesNomsEntiers(nom: string | undefined) {
       }
     }
   }
+}
+
+/**
+ * Un texte du client qui ne tient pas : on le laisse d'abord se replier, puis
+ * on rétrécit la police. Le dessin du thème est conservé tant que le texte
+ * tient ; on n'intervient qu'au-delà.
+ */
+function ajusterAuCadre(e: HTMLElement) {
+  if (e.dataset.clientAjuste) return;
+  const large = document.documentElement.clientWidth;
+  const r = e.getBoundingClientRect();
+  const deborde = r.right > large + 4 || e.scrollWidth > e.clientWidth + 4;
+  if (!deborde) return;
+
+  e.dataset.clientAjuste = "1";
+  e.style.overflowWrap = "anywhere";
+  e.style.maxWidth = "100%";
+  if (getComputedStyle(e).whiteSpace.startsWith("nowrap")) e.style.whiteSpace = "normal";
+
+  const encore = () =>
+    e.getBoundingClientRect().right > large + 4 || e.scrollWidth > e.clientWidth + 4;
+  if (encore()) retrecirJusquAuCadre(e);
 }
 
 /** La police rétrécit par paliers jusqu'à ce que le texte tienne, sans jamais descendre sous onze pixels. */
