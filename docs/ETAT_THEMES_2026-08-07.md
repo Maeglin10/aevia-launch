@@ -6,20 +6,40 @@ lecture du code.
 
 ## Ce qui a été corrigé ce jour
 
-| Défaut | Ampleur | État |
+| Défaut | Ampleur mesurée | Après |
 |---|---|---|
-| Titre du hero mêlant client et démonstration | 12 thèmes | 0 restant |
-| Titre du hero entièrement en démonstration | 34 thèmes | en cours de vérification |
-| Surtitre annonçant le métier d'un autre | 5 thèmes | 0 restant |
-| Métier de la démonstration en identité | 35 thèmes | 0 restant |
-| Nom du client amputé dans l'en-tête | 6 thèmes | corrigé en un point |
-| Lien de réservation demandé, jamais utilisé | 151 thèmes en montrent, 5 le reliaient | 0 restant |
-| Adresse à moitié vraie (« 12 rue de la Paix, 44000 Annecy ») | 14 thèmes | 0 restant |
-| Code postal du modèle devant la ville du client | 8 thèmes | 0 restant |
-| SIRET inventé sous le nom du client | 31 thèmes | 0 restant |
-| Mentions légales d'une société qui n'existe pas | 603 pages | 0 restant |
-| Moyens de paiement jamais affichés | 1 thème réel | 0 restant |
-| Deux `onClick` sur la même balise (menu mobile mort) | 2 thèmes | 0 restant |
+| Titre du hero mêlant client et démonstration | 12 thèmes | 0 |
+| Titre du hero entièrement en démonstration | 34 thèmes | 0 |
+| Métier de la démonstration en identité | 35 thèmes | 0 |
+| Surtitre annonçant le métier d'un autre | 5 thèmes | 0 |
+| Nom du client amputé dans l'en-tête | 6 thèmes | 0 |
+| En-tête débordant sous un nom long | 17 thèmes | 0 |
+| Texte du client amputé par son propre cadre | 7 thèmes | 0 |
+| Lien de réservation demandé, jamais utilisé | 151 en montrent, 5 le reliaient | tous |
+| Horaires en démonstration | 91 thèmes | ~5, résidus de forme |
+| Adresse à moitié vraie (« 12 rue de la Paix, 44000 Annecy ») | 14 thèmes | 0 |
+| Code postal du modèle devant la ville du client | 8 thèmes | 0 |
+| SIRET inventé sous le nom du client | 31 thèmes | 0 |
+| Mentions légales d'une société qui n'existe pas | 603 pages | 0 |
+| Marque d'une autre entreprise sur les sous-pages | 151 pages | 0 |
+| Moyens de paiement jamais affichés | 1 thème réel | 0 |
+| Deux `onClick` sur la même balise (menu mobile mort) | 2 thèmes | 0 |
+
+## Corriger en un point plutôt qu'en cent cinquante
+
+Cinq de ces corrections vivent dans `app/templates/BrandColorVar.tsx`, une passe
+qui s'exécute après le rendu, sur les 373 thèmes à la fois :
+
+- le lien de réservation sous les boutons qui le promettent ;
+- les horaires du client à la place de ceux du modèle, en respectant la mise en
+  page — ligne condensée, ligne par jour, fragment dans une phrase, bloc coupé
+  par des `<br>`, tableau à deux colonnes ;
+- le nom qui rétrécit jusqu'à tenir, plutôt que de se faire couper ;
+- l'en-tête qui cesse de déborder quand le nom est long ;
+- la marque des sous-pages.
+
+Aucune ne touche au dessin des thèmes, et toutes sont neutres quand le client
+n'a rien saisi.
 
 ## Le formulaire demande enfin ce que les thèmes affichent
 
@@ -30,9 +50,7 @@ contrat qu'appellent les thèmes d'un métier et les champs que son étape récl
   sans question**.
 - `expertise_b2b` ne demandait pas l'adresse, `immobilier` ni les avis ni les
   réalisations ni les prestations, `produits` pas l'avant/après.
-- `bookingSystem` est désormais demandé partout : la passe globale relie les
-  boutons de réservation sur les 373 thèmes, plus seulement sur ceux du
-  rendez-vous.
+- `bookingSystem` est désormais demandé partout.
 
 ## Le catalogue proposé au client
 
@@ -44,15 +62,14 @@ contrat qu'appellent les thèmes d'un métier et les champs que son étape récl
 
 ## Les instruments, et ce qu'ils ont failli me faire croire
 
-Trois pannes de mesure ce jour, toutes du même genre : l'outil ment plus souvent
+Cinq pannes de mesure ce jour, toutes du même genre : l'outil ment plus souvent
 que le produit.
 
 1. **Le limiteur de débit.** `/api/sessions` accepte trente requêtes par minute.
-   Six mesures en parallèle l'ont saturé ; les pages se chargeaient alors sans
-   session, et 8 206 mesures ont conclu « aucun défaut » sur des pages vides de
-   toute donnée client. Les scripts lèvent désormais une erreur quand la session
-   n'est pas créée, et le serveur de mesure se lance avec
-   `SESSIONS_RATE_LIMIT=1000000`.
+   Six mesures en parallèle l'ont saturé ; les pages se chargeaient sans session,
+   et 8 206 mesures ont conclu « aucun défaut » sur des pages vides de toute
+   donnée client. Les scripts lèvent maintenant une erreur quand la session n'est
+   pas créée, et le serveur de mesure se lance avec `SESSIONS_RATE_LIMIT=1000000`.
 
 2. **Le témoin de contrôle.** Un nom de deux cents lettres ne déclenchait rien :
    l'instrument voyait la page déborder, pas un texte amputé dans son propre
@@ -63,6 +80,15 @@ que le produit.
    titre de démonstration avant que la session ne revienne. L'instrument relit
    trois fois, de plus en plus tard.
 
+4. **La fenêtre trop courte.** Le titre n'était cherché que dans les neuf cents
+   premiers pixels : dix-sept thèmes dont le hero s'ouvre sur une image pleine
+   hauteur étaient comptés en défaut alors que leur titre, personnalisé,
+   commence à onze cents pixels.
+
+5. **Le texte que la page transporte.** Le JSON-LD et les données d'hydratation
+   contiennent des heures ; les compter faisait passer trois thèmes sains pour
+   fautifs. Et « maintenant » contient « mar ».
+
 Ajouté : `scripts/check-imports-contrat.mjs`. Une fonction du contrat employée
 sans être importée ne casse pas la compilation — les thèmes portent
 `@ts-nocheck` — mais la page entière disparaît au premier rendu. C'est ce qui
@@ -72,6 +98,4 @@ démonstration.
 ## Ce qui reste
 
 - Vingt-deux cas limites sur les 373, deux écrans, avec l'instrument recalibré.
-- Les horaires : 118 thèmes en affichent, 27 seulement ceux du client.
-- La revue visuelle, un thème à la fois, avec les données d'un vrai client.
 - Les miniatures à régénérer, puis le déploiement et sa vérification en ligne.
