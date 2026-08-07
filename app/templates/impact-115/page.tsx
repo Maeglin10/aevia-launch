@@ -19,6 +19,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import {
+  clientHeroLine,
   clientCity,
   clientList,
   clientName,
@@ -961,7 +962,7 @@ export default function Impact115Page() {
                 color: "#fff",
                 marginBottom: 12,
               }}
-            >{c?.heroHeadline ?? <>
+            >{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
               Architecture
             </>}</h1>
           </TextReveal>

@@ -12,6 +12,7 @@ import {
   PressSection,
 } from './shared';
 import {
+  clientEyebrow,
   clientCity,
   clientName,
   clientReviews,
@@ -161,7 +162,7 @@ return (
             userSelect: 'none',
           }}
         >
-          MAISON
+          {clientName(sessionData)?.toUpperCase() ?? "MAISON"}
         </motion.div>
 
         <div
@@ -197,7 +198,7 @@ return (
                 color: SCENES[0].textSecondary,
               }}
             >
-              {clientCity(sessionData) ?? "Paris"} — Maison de Couture
+              {clientEyebrow(sessionData) ?? <>{clientCity(sessionData) ?? "Paris"} — Maison de Couture</>}
             </div>
             <div
               style={{

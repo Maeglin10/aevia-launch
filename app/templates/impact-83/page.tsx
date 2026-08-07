@@ -19,6 +19,7 @@ const HERO_CRAFTS = [
 ];
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientHeroLine,
   clientCity,
   clientEyebrow,
   clientName,
@@ -211,7 +212,7 @@ export default function Impact83Page() {
                 color: C.text,
                 marginBottom: 8,
               }}
-            >{c?.heroHeadline ?? <LineScroll lines={[HERO_CRAFTS[heroI].l1]} index={heroI} />}</motion.h1>
+            >{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <LineScroll lines={[HERO_CRAFTS[heroI].l1]} index={heroI} />}</motion.h1>
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}

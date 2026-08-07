@@ -865,7 +865,7 @@ export default function LumiereCliniquePage() {
             ) : (
               <>
                 <span className="text-xl tracking-widest font-light" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.1em" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Lumière Clinic"))}</span>
-                <span className="text-[10px] tracking-[0.25em] uppercase text-[var(--brand,#3A8080)]">Médecine esthétique médicale</span>
+                <span className="text-[10px] tracking-[0.25em] uppercase text-[var(--brand,#3A8080)]">{clientEyebrow(sessionData) ?? "Médecine esthétique médicale"}</span>
               </>
             )}
           </button>
@@ -996,7 +996,7 @@ export default function LumiereCliniquePage() {
             <div className="md:col-span-2">
               <button type="button" onClick={() => scrollToSection("hero")} className="text-left cursor-pointer">
                 <div className="text-[#FAFAF8] text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Lumière Clinic"))}</div>
-                <div className="text-[var(--brand,#3A8080)] text-xs tracking-widest uppercase mb-4">Médecine esthétique médicale</div>
+                <div className="text-[var(--brand,#3A8080)] text-xs tracking-widest uppercase mb-4">{clientEyebrow(sessionData) ?? "Médecine esthétique médicale"}</div>
               </button>
               <p className="text-sm leading-relaxed max-w-xs mb-5">{c?.aboutText ?? <>Rigueur médicale, résultats naturels. Traitements validés cliniquement, pratiqués par des médecins diplômés d&apos;État.</>}</p>
               <p className="text-xs text-[#4A4038] leading-relaxed max-w-xs">

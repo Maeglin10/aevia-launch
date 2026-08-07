@@ -22,6 +22,7 @@ import {
   Shield,
 } from 'lucide-react';
 import {
+  clientEyebrow,
   clientBookingUrl,
   clientPhone,
   clientAccrocheRestante,
@@ -653,7 +654,7 @@ function Hero() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.accentLight} align="center">
-            Dentisterie &amp; Implantologie · {clientCity(sessionData) ?? "Strasbourg"}
+            {clientEyebrow(sessionData) ?? <>Dentisterie &amp; Implantologie · {clientCity(sessionData) ?? "Strasbourg"}</>}
           </Eyebrow>
         </Reveal>
 

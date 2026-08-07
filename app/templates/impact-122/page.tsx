@@ -17,6 +17,7 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Menu, X, ArrowRight, Play, Bookmark, Share2, Clock, Calendar, Search, Newspaper, Globe, Sparkles } from "lucide-react"
 import {
+  clientHeroLine,
   clientCity,
   clientName,
   clientPhotos,
@@ -255,7 +256,7 @@ export default function ChronicleEditorialPage() {
               />
             ) : (
               <>
-                <h1 className="hero-ecran-court text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{  fontFamily: "Georgia, serif" }}>{clientName({ formData: fd }) ?? c?.heroHeadline ?? <>
+                <h1 className="hero-ecran-court text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{  fontFamily: "Georgia, serif" }}>{clientName({ formData: fd }) ?? clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
                   Chronicle.
                 </>}</h1>
                 {!scrolled && <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1a1814]/50 mt-1">Est. 1924</span>}

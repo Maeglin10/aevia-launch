@@ -19,6 +19,7 @@ import {
   MatchScore,
 } from "./shared"
 import {
+  clientHeroLine,
   clientWorks,
   clientCity,
   clientName,
@@ -158,7 +159,7 @@ return (
                   lineHeight: 1.1,
                   marginBottom: 24,
                 }}
-              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
                 The people who{" "}
                 <span
                   style={{

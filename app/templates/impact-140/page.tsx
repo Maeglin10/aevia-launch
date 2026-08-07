@@ -17,6 +17,7 @@ import { ArrowRight, MapPin, Compass, Calendar, Users, Star, ArrowLeft, Globe, S
 import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientHeroLine,
   clientCity,
   clientName,
   clientPhotos,
@@ -419,7 +420,7 @@ export default function WanderlustPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-bold tracking-tighter leading-[0.9] mb-6">{c?.heroHeadline ?? <>
+                <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-bold tracking-tighter leading-[0.9] mb-6">{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
                   {DESTINATIONS[activeDst % DESTINATIONS.length].title}
                 </>}</h1>
                 <p className="text-lg md:text-xl text-stone-300 max-w-2xl leading-relaxed mb-8 font-light">{fd?.tagline ?? c?.heroSubline ?? <>

@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
 import Link from "next/link";
 import { ArrowRight, Search, Menu, X, Clock, BookOpen, TrendingUp, Users, Star, Check, Rss, MessageSquare, Camera, Link2, ChevronRight, Calendar } from "lucide-react";
 import {
+  clientHeroLine,
   clientCity,
   clientEyebrow,
   clientFaq,
@@ -607,7 +608,7 @@ export default function EssentialBlogPage() {
                   fontFamily: C.serif, fontSize: "clamp(30px, 3.5vw, 52px)",
                   fontWeight: 700, lineHeight: 1.12, letterSpacing: "-0.02em",
                   color: C.bg, marginBottom: 24,
-                }}>{c?.heroHeadline ?? <>
+                }}>{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
                   {FEATURED_ARTICLE.title}
                 </>}</h1>
                 <p className="imx-hero-sub" style={{ fontSize: 16, color: "rgba(250,250,250,0.55)", fontFamily: C.sans, lineHeight: 1.75, marginBottom: 32, maxWidth: 580 }}>{fd?.tagline ?? c?.heroSubline ?? <>

@@ -31,6 +31,7 @@ import {
   WeeklyChart,
 } from "./shared"
 import {
+  clientHeroLine,
   clientCity,
   clientList,
   clientName,
@@ -161,7 +162,7 @@ return (
           </Reveal>
 
           <Reveal delay={0.1}>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] md:leading-[1.0] tracking-tight mb-4 md:mb-6 break-words">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] md:leading-[1.0] tracking-tight mb-4 md:mb-6 break-words">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
               Your Podcast.{" "}
               <span
                 className="inline-block"

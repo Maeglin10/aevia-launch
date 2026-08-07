@@ -7,6 +7,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowUpRight, X, Menu, Check } from "lucide-react";
 import {
+  clientHeroLine,
   clientPhone,
   clientCity,
   clientFaq,
@@ -532,11 +533,11 @@ return (
 
           <motion.div style={{ scale: heroTextScale }}>
             <div className="imx-hero164-title" style={{ fontSize: "clamp(56px, 8vw, 120px)", fontWeight: 900, lineHeight: 0.9, letterSpacing: "-3px", marginBottom: 40 }}>
-              ON FAIT<br />
-              <span style={{ color: "transparent", WebkitTextStroke: `2px ${C.bgDark}` }}>DES</span><br />
-              CHOSES<br />
-              <span style={{ color: C.accent, WebkitTextStroke: "0px" }}>QUI</span><br />
-              MARCHENT
+              {clientHeroLine(sessionData, 0, 5, 8) ?? "ON FAIT"}<br />
+              <span style={{ color: "transparent", WebkitTextStroke: `2px ${C.bgDark}` }}>{clientHeroLine(sessionData, 1, 5, 8) ?? "DES"}</span><br />
+              {clientHeroLine(sessionData, 2, 5, 8) ?? "CHOSES"}<br />
+              <span style={{ color: C.accent, WebkitTextStroke: "0px" }}>{clientHeroLine(sessionData, 3, 5, 8) ?? "QUI"}</span><br />
+              {clientHeroLine(sessionData, 4, 5, 8) ?? "MARCHENT"}
             </div>
             <div style={{ fontFamily: C.mono, fontSize: 13, color: C.textMuted, lineHeight: 1.8, maxWidth: 380 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.texte") ?? clientTagline(sessionData) ?? (<>
               Branding, web, campagnes, direction artistique. On ne fait pas joli pour le portfolio — on fait efficace pour vos résultats.

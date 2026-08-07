@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { Reveal, GridBackground } from "./shared";
 import {
+  clientHeroLine,
   clientCity,
   clientFaq,
   clientName,
@@ -881,7 +882,7 @@ return (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div>
               <Reveal delay={0.1} y={60}>
-                <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[1.1] uppercase mb-6 italic text-white">{c?.heroHeadline ?? <>
+                <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[1.1] uppercase mb-6 italic text-white">{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
                   {currentHero.name}
                 </>}</h1>
               </Reveal>

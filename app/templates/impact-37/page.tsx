@@ -20,6 +20,7 @@ import {
 } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientHeroLine,
   clientCity,
   clientFaq,
   clientName,
@@ -282,7 +283,7 @@ function WineHero() {
                 transformOrigin: "left center",
               }}
             >
-              {active === 0 && c?.heroHeadline ? c?.heroHeadline : wine.name}
+              {active === 0 ? (clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? wine.name) : wine.name}
             </motion.h1>
 
 

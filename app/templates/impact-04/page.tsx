@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator"
 import { Menu, X, Clock, MapPin, Phone, Mail, Star, ChevronDown, ArrowRight, Leaf, Flame, Wine, Utensils, CalendarDays, Users, Camera, Award, Globe, CheckCircle2 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientHeroLine,
   clientCity,
   clientFaq,
   clientHours,
@@ -403,7 +404,7 @@ return (
           </motion.div>
 
           <div className="overflow-hidden mb-4">
-            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.6 }} className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-light tracking-[-0.02em] leading-[0.85] text-[#f5efe6]">{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "L'Étoile Restaurant"))}</>}</motion.h1>
+            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.6 }} className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-light tracking-[-0.02em] leading-[0.85] text-[#f5efe6]">{clientHeroLine(sessionData, 0, 1, 20) ?? c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "L'Étoile Restaurant"))}</>}</motion.h1>
 
           </div>
           <div className="overflow-hidden mb-12">

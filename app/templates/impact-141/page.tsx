@@ -17,6 +17,7 @@ import { Play, Pause, SkipBack, SkipForward, Volume2, Heart, Share2, Disc3, Mic2
 
 import "../premium.css";
 import {
+  clientHeroLine,
   clientCity,
   clientName,
   clientPhotos,
@@ -347,7 +348,7 @@ export default function SonicPlayerPage() {
               transition={{ duration: 0.6 }}
               className="text-center lg:text-left w-full"
             >
-              <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-2">{c?.heroHeadline ?? <>
+              <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-2">{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
                 {RELEASES[activeRelease].title}
               </>}</h1>
               <h2 className="text-2xl md:text-3xl font-light text-slate-400 mb-12">

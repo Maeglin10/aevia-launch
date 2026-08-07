@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { C, FONT, FONT_BODY, STATS, MISSIONS, TEMOIGNAGES, Reveal } from "./shared";
 import { DWELL, useSlides, AnchoredBackdrop, WordFlight, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import {
+  clientHeroLine,
   clientBookingUrl,
   clientPhone,
   clientAddress,
@@ -359,7 +360,7 @@ export default function LedgerPage() {
             <span style={{ display: "block", fontSize: 12, fontWeight: 600, letterSpacing: "0.3em", textTransform: "uppercase", color: brand ?? 'var(--brand,#93c5fd)', marginBottom: 18 }}>
               {HERO_MISSIONS[heroI].k}
             </span>
-            <WordFlight text={c?.heroHeadline ?? HERO_MISSIONS[heroI].t} keyed={heroI} />
+            <WordFlight text={clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? HERO_MISSIONS[heroI].t} keyed={heroI} />
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 28 }}
