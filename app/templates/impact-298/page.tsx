@@ -44,6 +44,7 @@ import {
   Zap,
 } from 'lucide-react';
 import {
+  clientTrade,
   clientBookingUrl,
   clientCity,
   clientFaq,
@@ -1249,7 +1250,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Dr. Estelle Blanc"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Chirurgien-dentiste {clientCity(sessionData) ?? "Montpellier"} Antigone
+                {clientTrade(sessionData) ?? "Chirurgien-dentiste"} {clientCity(sessionData) ?? "Montpellier"} Antigone
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

@@ -9,6 +9,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
+  clientTrade,
   clientCertifications,
   clientCity,
   clientName,
@@ -213,7 +214,7 @@ export default function ToitsDeLoirePage() {
             <>
               <Home size={18} color={C.accent} style={{ flexShrink: 0 }} />
               <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Toits de Loire"))}</span>
-              <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>Couvreur-zingueur</span>
+              <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>{clientTrade(sessionData) ?? "Couvreur-zingueur"}</span>
             </>
           )}
         </div>
@@ -252,7 +253,7 @@ export default function ToitsDeLoirePage() {
         <div>
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>
           {/* {clientCity(sessionData) ?? "Angers"} était écrit en dur : la ville du thème survivait à celle du client. */}
-          Couvreur-zingueur{fd?.city ? ` · ${fd.city}` : " · " + (clientCity(sessionData) ?? "Angers")}
+          {clientTrade(sessionData) ?? "Couvreur-zingueur"}{fd?.city ? ` · ${fd.city}` : " · " + (clientCity(sessionData) ?? "Angers")}
         </span>
         <HardCutRebuild index={i} stagger={0.09}>
               {[

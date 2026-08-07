@@ -27,6 +27,7 @@ import {
 } from '@/lib/templates/hero-kit-2';
 import { PortalZoom } from '@/lib/templates/hero-kit-3';
 import {
+  clientTrade,
   clientAccrocheRestante,
   clientAddress,
   clientCity,
@@ -669,7 +670,7 @@ function Hero() {
               marginBottom: 28,
             }}
           >
-            Médecin généraliste · {clientCity(sessionData) ?? "Strasbourg"}
+            {clientTrade(sessionData) ?? "Médecin généraliste"} · {clientCity(sessionData) ?? "Strasbourg"}
           </span>
         </motion.div>
 

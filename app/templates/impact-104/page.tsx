@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientTrade,
   clientPhone,
   clientCity,
   clientHeroLine,
@@ -388,7 +389,7 @@ export default function LumiereDoreePage() {
               maxWidth: 500,
             }}
           >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Photographe de mariage basée à {clientCity({ formData: fd }) ?? "Paris"}, je capture vos émotions avec discrétion et sensibilité pour des souvenirs qui durent toute une vie.
+            {clientTrade(sessionData) ?? "Photographe"} de mariage basée à {clientCity({ formData: fd }) ?? "Paris"}, je capture vos émotions avec discrétion et sensibilité pour des souvenirs qui durent toute une vie.
           </>}</motion.p>
           <motion.div
             className="i104-hero-cta"
@@ -784,7 +785,7 @@ export default function LumiereDoreePage() {
                 {clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Studio Lumière Dorée"))}
               </div>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 1.8 }}>
-                Photographe mariage &amp; portraits.<br />
+                {clientTrade(sessionData) ?? "Photographe"} mariage &amp; portraits.<br />
                 {clientCity({ formData: fd }) ?? "Paris"} &amp; déplacements France entière.
               </p>
             </div>

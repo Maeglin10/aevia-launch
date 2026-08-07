@@ -154,6 +154,45 @@ function detacherLesTextesDuClient(donnees: Record<string, unknown> | undefined)
   }
 }
 
+/**
+ * Le nom du client, amputé par le cadre qui l'accueille.
+ *
+ * Les en-têtes réservent la place d'un mot — « Vidal », « Bloom » — et coupent
+ * le reste avec des points de suspension. « Ateliers Vidal & Fils » devient
+ * « Ateliers Vi… » : le nom de l'entreprise, la première chose qu'on lit,
+ * arrive amputé. Mesuré sur six thèmes avec un nom de vingt et une lettres,
+ * ce qui n'a rien d'extravagant.
+ *
+ * On rétrécit la police jusqu'à ce que le nom tienne, par paliers, sans
+ * descendre sous onze pixels. La barre garde sa hauteur, le dessin ne bouge
+ * pas, et le nom se lit en entier. Si même onze pixels ne suffisent pas, on
+ * autorise enfin le repli — mieux vaut deux lignes qu'un nom tronqué.
+ */
+function rendreLesNomsEntiers(nom: string | undefined) {
+  if (!nom || nom.trim().length < 4) return;
+  const cherche = nom.trim().toLowerCase();
+
+  for (const e of document.querySelectorAll<HTMLElement>("span, a, div, p, h1, h2, h3")) {
+    if (e.children.length > 0) continue;
+    const t = (e.textContent ?? "").trim();
+    if (t.toLowerCase() !== cherche) continue;
+    if (e.dataset.nomAjuste) continue;
+    if (e.scrollWidth <= e.clientWidth + 4) continue;
+
+    e.dataset.nomAjuste = "1";
+    const depart = parseFloat(getComputedStyle(e).fontSize) || 16;
+    for (let taille = depart - 1; taille >= 11; taille -= 1) {
+      e.style.fontSize = `${taille}px`;
+      if (e.scrollWidth <= e.clientWidth + 2) break;
+    }
+    if (e.scrollWidth > e.clientWidth + 2) {
+      e.style.whiteSpace = "normal";
+      e.style.overflowWrap = "anywhere";
+      e.style.textOverflow = "clip";
+    }
+  }
+}
+
 /*
   Le libellé qui fait d'un bouton un bouton de réservation. « Contact »,
   « devis » et « appeler » en sont exclus à dessein : ils mènent au formulaire
@@ -231,6 +270,7 @@ export function BrandColorVar() {
           rendreLesBoutonsLisibles();
           detacherLesTextesDuClient(d?.formData);
           relierLesBoutonsDeReservation(d?.businessProfile?.bookingSystem?.url);
+          rendreLesNomsEntiers(d?.formData?.businessName);
         };
         requestAnimationFrame(() => requestAnimationFrame(passer));
         for (const delai of [400, 1200, 2500]) setTimeout(passer, delai);

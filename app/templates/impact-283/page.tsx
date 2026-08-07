@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientTrade,
   clientPayments,
   clientBookingUrl,
   clientPhone,
@@ -1941,7 +1942,7 @@ function RdvFormSection() {
                 {/* Médecin prescripteur */}
                 <div style={{ marginBottom: 28 }}>
                   <label htmlFor="medecin" style={labelStyle}>
-                    Médecin prescripteur
+                    {clientTrade(sessionData) ?? "Médecin"} prescripteur
                   </label>
                   <input
                     id="medecin"

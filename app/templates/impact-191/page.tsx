@@ -444,7 +444,7 @@ export default function JardinsVivantsPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2.5 mb-5"><Leaf className="w-5 h-5 text-[var(--brand,#2d5a27)]" /><span className="font-bold text-white text-sm" style={{ fontFamily: "'Cardo', serif" }}>Jardins Vivants</span></div>
-            <p className="text-white/20 text-sm leading-relaxed">Paysagiste & entretien espaces verts · Haute-Savoie. Création, entretien, élagage, arrosage automatique.</p>
+            <p className="text-white/20 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Paysagiste"} & entretien espaces verts · Haute-Savoie. Création, entretien, élagage, arrosage automatique.</p>
           </div>
           {[
             { t: "Prestations", ls: ["Création jardin", "Entretien régulier", "Élagage & abattage", "Potager & verger", "Arrosage automatique"] },
@@ -461,7 +461,7 @@ export default function JardinsVivantsPage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <span>© 2026 {clientName(sessionData) ?? "Jardins Vivants"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 456 789 012 00033"} · {clientTrade(sessionData) ?? "Paysagiste"} qualifié · {clientCity(sessionData) ?? "Annecy"} (74){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span className="text-[var(--brand,#2d5a27)]/25">Paysagiste · Haute-Savoie</span>
+          <span className="text-[var(--brand,#2d5a27)]/25">{clientTrade(sessionData) ?? "Paysagiste"} · Haute-Savoie</span>
         </div>
       </footer>
     </div>

@@ -34,6 +34,7 @@ import {
   Users,
 } from 'lucide-react';
 import {
+  clientTrade,
   clientBookingUrl,
   clientPhone,
   clientAccrocheRestante,
@@ -520,7 +521,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.salmonLight} align="center">
-            Médecin généraliste · {clientCity(sessionData) ?? "Nantes"} Centre
+            {clientTrade(sessionData) ?? "Médecin généraliste"} · {clientCity(sessionData) ?? "Nantes"} Centre
           </Eyebrow>
         </Reveal>
 
@@ -2600,7 +2601,7 @@ function FooterSection() {
               marginBottom: 20,
             }}
           >
-            Médecin généraliste & voyages
+            {clientTrade(sessionData) ?? "Médecin généraliste"} & voyages
           </div>
 
           <p

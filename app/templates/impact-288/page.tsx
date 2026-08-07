@@ -2869,7 +2869,7 @@ function FooterSection() {
                     fontWeight: 600,
                   }}
                 >
-                  Électricien artisan
+                  {clientTrade(sessionData) ?? "Électricien"} artisan
                 </div>
               </div>
             </div>

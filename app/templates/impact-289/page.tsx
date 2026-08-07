@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientTrade,
   clientPhone,
   clientEmail,
   clientAddress,
@@ -326,7 +327,7 @@ function Nav() {
         ) : (
           <>
             <Scale size={20} color="rgba(255,255,255,0.85)" strokeWidth={1.6} />
-            <div>{fd?.businessName ?? (clientName(sessionData) ?? "Schreiber & Associés")}<span style={brandSub}>Expert-comptable · {clientCity(sessionData) ?? "Strasbourg"}</span>
+            <div>{fd?.businessName ?? (clientName(sessionData) ?? "Schreiber & Associés")}<span style={brandSub}>{clientTrade(sessionData) ?? "Expert-comptable"} · {clientCity(sessionData) ?? "Strasbourg"}</span>
             </div>
           </>
         )}
@@ -528,7 +529,7 @@ function HeroSection() {
       >
         <Reveal y={18}>
           <Eyebrow color="rgba(255,255,255,0.78)" align="center">
-            Expert-comptable & commissaires aux comptes · {clientCity(sessionData) ?? "Strasbourg"} Neudorf
+            {clientTrade(sessionData) ?? "Expert-comptable"} & commissaires aux comptes · {clientCity(sessionData) ?? "Strasbourg"} Neudorf
           </Eyebrow>
         </Reveal>
 
@@ -2393,7 +2394,7 @@ function FooterSection() {
               marginBottom: 22,
             }}
           >
-            Expert-comptable & commissaires aux comptes
+            {clientTrade(sessionData) ?? "Expert-comptable"} & commissaires aux comptes
           </div>
           <p
             style={{

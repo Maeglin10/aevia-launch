@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientTrade,
   clientSiret,
   clientName,
   clientCity,
@@ -663,7 +664,7 @@ function Hero() {
         }}
       >
         <Reveal>
-          <Eyebrow>Électricien certifié · Île-de-France</Eyebrow>
+          <Eyebrow>{clientTrade(sessionData) ?? "Électricien"} certifié · Île-de-France</Eyebrow>
         </Reveal>
 
         <motion.h1 className="hero-ecran-court hero-ecran-court-fort"
@@ -2017,7 +2018,7 @@ function Footer() {
               marginBottom: 22,
             }}
           >
-            Électricien qualibat en Île-de-France. Installation, domotique,
+            {clientTrade(sessionData) ?? "Électricien"} qualibat en Île-de-France. Installation, domotique,
             mise aux normes et bornes IRVE depuis 2009.
           </p>
           <div

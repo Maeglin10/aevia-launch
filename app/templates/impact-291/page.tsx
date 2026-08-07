@@ -2433,7 +2433,7 @@ function FooterSection() {
               marginBottom: 20,
             }}
           >
-            Ostéopathe diplômé d&apos;état, membre du Registre des Ostéopathes
+            {clientTrade(sessionData) ?? "Ostéopathe"} diplômé d&apos;état, membre du Registre des Ostéopathes
             de France. Consultation sur rendez-vous, {clientCity(sessionData) ?? "Strasbourg"}.
           </p>
           <div

@@ -2493,7 +2493,7 @@ function FooterSection() {
               maxWidth: 300,
             }}
           >
-            Électricien certifié Qualifelec RGE depuis 2009. Installation, rénovation,
+            {clientTrade(sessionData) ?? "Électricien"} certifié Qualifelec RGE depuis 2009. Installation, rénovation,
             domotique et dépannage sur {clientCity(sessionData) ?? "Paris"}.
           </p>
 

@@ -2015,7 +2015,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Paysagiste et horticulteur depuis 2003 dans le Bas-Rhin.
+            {clientTrade(sessionData) ?? "Paysagiste"} et horticulteur depuis 2003 dans le Bas-Rhin.
             600 jardins créés, 35 collaborateurs, passion alsacienne.
           </p>
           <div

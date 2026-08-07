@@ -1988,7 +1988,7 @@ function PractitionerSection() {
                 marginBottom: 28,
               }}
             >
-              Ostéopathe D.O. · 14 ans d&apos;expérience
+              {clientTrade(sessionData) ?? "Ostéopathe"} D.O. · 14 ans d&apos;expérience
             </p>
           </Reveal>
           <Reveal delay={0.18}>

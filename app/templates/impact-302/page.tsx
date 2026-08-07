@@ -44,6 +44,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientTrade,
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -1252,7 +1253,7 @@ return (
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Nexus Compta"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Expert-comptable {clientCity(sessionData) ?? "Toulouse"}
+                {clientTrade(sessionData) ?? "Expert-comptable"} {clientCity(sessionData) ?? "Toulouse"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>

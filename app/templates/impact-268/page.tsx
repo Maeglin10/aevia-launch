@@ -654,7 +654,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
         >
           <Eyebrow color={C.accentLight}>
-            Paysagiste · Île-de-France
+            {clientTrade(sessionData) ?? "Paysagiste"} · Île-de-France
           </Eyebrow>
         </motion.div>
 
@@ -1976,7 +1976,7 @@ function Footer() {
             maxWidth: 420,
           }}
         >
-          Paysagiste & Architecture de Jardin · Île-de-France
+          {clientTrade(sessionData) ?? "Paysagiste"} & Architecture de Jardin · Île-de-France
         </p>
         <div
           style={{

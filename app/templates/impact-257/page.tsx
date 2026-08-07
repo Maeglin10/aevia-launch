@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Heart, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientTrade,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -703,7 +704,7 @@ function Hero() {
       >
         <Reveal y={18}>
           <Eyebrow color={C.accentLight} align="center" dark>
-            Médecin Généraliste &amp; Médecine Fonctionnelle · {clientCity(sessionData) ?? "Bordeaux"}
+            {clientTrade(sessionData) ?? "Médecin"} Généraliste &amp; Médecine Fonctionnelle · {clientCity(sessionData) ?? "Bordeaux"}
           </Eyebrow>
         </Reveal>
 
@@ -1985,7 +1986,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Médecin généraliste &amp; médecine fonctionnelle à {clientCity(sessionData) ?? "Bordeaux"}.
+            {clientTrade(sessionData) ?? "Médecin généraliste"} &amp; médecine fonctionnelle à {clientCity(sessionData) ?? "Bordeaux"}.
             Consultations approfondies, bilans personnalisés.
           </p>
           <div
