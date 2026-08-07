@@ -1,5 +1,7 @@
 # AUDIT & POLISH — Aevia Launch (skylaunch)
 
+> **Rôle : quasi-prêt — sert à vendre Inbox (site pour prospects sans site). Finir, ne pas relancer de zéro.**
+
 > Prompt d'audit profond pour Fable 5. Lance-le depuis `~/skylaunch`. **Dépôt PUBLIC** — aucune fuite de secret, README impeccable. Ne déploie rien sans go.
 
 ## Contexte produit
