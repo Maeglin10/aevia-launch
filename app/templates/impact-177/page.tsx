@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientSiret,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -460,7 +461,7 @@ return (
           ))}
         </div>
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingTop: "1.5rem", borderTop: "1px solid rgba(255,255,255,0.05)", display: "flex", justifyContent: "space-between", gap: "1rem" }}>
-          <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.sans, fontSize: "0.6rem", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", letterSpacing: "0.15em" }}>© 2026 {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines"))} · SIRET 987 654 321 00045{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.sans, fontSize: "0.6rem", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", letterSpacing: "0.15em" }}>© 2026 {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines"))}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 987 654 321 00045"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: C.terra + "60", textTransform: "uppercase", letterSpacing: "0.15em" }}>Pisciniste certifié FPP</span>
         </div>
       </footer>

@@ -8,6 +8,7 @@ import { Flame, Thermometer, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientSiret,
   clientAreas,
   clientCity,
   clientHeroLine,
@@ -466,7 +467,7 @@ export default function ThermotekChauffagePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 {clientName(sessionData) ?? "Thermotek Chauffage"} · SIRET 345 678 901 00034 · RGE Qualibat · QualiPAC · Assurance Décennale{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Thermotek Chauffage"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 345 678 901 00034"} · RGE Qualibat · QualiPAC · Assurance Décennale{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#ea580c)]/30">Chauffagiste certifié · {clientCity({ formData: fd }) ?? "Bordeaux"}</span>
         </div>
       </footer>

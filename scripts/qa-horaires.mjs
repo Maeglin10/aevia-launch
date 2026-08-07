@@ -43,6 +43,7 @@ for (const id of ids) {
       } }),
     });
     const { sessionId } = await r.json();
+    if (!sessionId) throw new Error("session non créée (limiteur de débit ? lancer next start avec SESSIONS_RATE_LIMIT=100000)");
     await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
       method: "PATCH", headers: { "content-type": "application/json" },
       body: JSON.stringify({ businessProfile: { openingHours: HORAIRES } }),

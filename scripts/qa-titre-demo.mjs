@@ -55,6 +55,7 @@ for (const id of ids) {
       body: JSON.stringify({ formData }),
     });
     const { sessionId } = await r.json();
+    if (!sessionId) throw new Error("session non créée (limiteur de débit ? lancer next start avec SESSIONS_RATE_LIMIT=100000)");
 
     /*
       Deux lectures espacées : chaque thème va chercher la session de son côté,

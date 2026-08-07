@@ -16,6 +16,7 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import { Flame } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientSiret,
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -1780,7 +1781,7 @@ return (
             alignItems: 'center', gap: '0.75rem',
           }}>
             <div style={{ color: C.textMuted, fontSize: 12.5 }}>
-              © 2024 {clientName(sessionData) ?? "Therma Pro SAS"} · SIRET 123 456 789 00012 · RGE n° E-E200050{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2024 {clientName(sessionData) ?? "Therma Pro SAS"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 123 456 789 00012"} · RGE n° E-E200050{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </div>
             <div className="footer-badges" style={{ display: 'flex', gap: '0.75rem' }}>
               {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste2") ?? ['RGE Certifié', '4.9/5 Google', 'Garantie 5 ans']).map(badge => (

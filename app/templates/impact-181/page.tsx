@@ -7,6 +7,8 @@ import Link from "next/link"
 import { Home, ShieldCheck, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle, Wrench, AlertTriangle, Wind, Menu } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientSiret,
+  clientName,
   clientAreas,
   clientCity,
   clientHeroLine,
@@ -496,7 +498,7 @@ export default function ToitPierrePiscinesPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 {fd?.businessName ?? "Toit & Pierre Piscines"} · SIRET 456 789 012 00067 · Garantie Décennale · Assurance RC Pro{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {fd?.businessName ?? "Toit & Pierre Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 456 789 012 00067"} · Garantie Décennale · Assurance RC Pro{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#b91c1c)]/30">Pisciniste certifié · Pays de la Loire</span>
         </div>
       </footer>

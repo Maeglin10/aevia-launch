@@ -40,6 +40,7 @@ for (const id of ids) {
       body: JSON.stringify({ formData }),
     });
     const { sessionId } = await r.json();
+    if (!sessionId) throw new Error("session non créée (limiteur de débit ? lancer next start avec SESSIONS_RATE_LIMIT=100000)");
     const p = await ctx.newPage();
     await p.goto(`${BASE}/templates/${id}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 30000 });
     await p.waitForTimeout(2200);

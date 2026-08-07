@@ -12,6 +12,8 @@ import {
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientSiret,
+  clientName,
   clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
@@ -1692,7 +1694,7 @@ function Footer() {
             display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 14,
           }}>
             <p style={{ fontFamily: C.fontBody, fontSize: 12, color: C.textMuted }}>
-              © 2024 Meridian Freight SAS · RCS Paris 841 234 567 · SIRET 84123456700014{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2024 Meridian Freight SAS · RCS Paris 841 234 567{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 84123456700014"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               {['Mentions légales', 'CGV', 'Confidentialité', 'Cookies'].map((l) => (

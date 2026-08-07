@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientSiret,
   clientCertifications,
   clientCity,
   clientHeroLine,
@@ -2801,7 +2802,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024 {fd?.businessName ?? (clientName(sessionData) ?? "Plomberie Garonne")} — SIRET 000 000 000 00000 · {clientCity(sessionData) ?? "Toulouse"} (31){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024 {fd?.businessName ?? (clientName(sessionData) ?? "Plomberie Garonne")}{clientSiret(sessionData) ? ` — SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " — SIRET 000 000 000 00000"} · {clientCity(sessionData) ?? "Toulouse"} (31){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a href="#hero" style={{ color: 'inherit', textDecoration: 'none' }}>
