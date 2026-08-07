@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { C, FONT, FONT_BODY, STATS, COURS, AVIS, Reveal } from "./shared";
 import {
+  clientPhone,
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -803,7 +804,7 @@ export default function IronClubPage() {
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, lineHeight: 2 }}>{c?.aboutText ?? <>
                 {clientAddress({ businessProfile: bp }) ?? "12 rue de la Guillotière"}<br />
                 69007 {clientCity({ formData: fd }) ?? "Lyon"}<br />
-                04 78 34 49 49<br />{fd?.email ?? "contact@ironclub-lyon.fr"}</>}</p>
+                {clientPhone(sessionData) ?? "04 78 34 49 49"}<br />{fd?.email ?? "contact@ironclub-lyon.fr"}</>}</p>
             </div>
             <div>
               <p style={{ fontFamily: FONT, fontWeight: 700, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 20 }}>
