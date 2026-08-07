@@ -140,3 +140,67 @@ démonstration qu'il regarde, photo de chien comprise.
 - **Quatre-vingt-quatre thèmes** ont un texte peu contrasté à l'état nu. C'est
   le choix de leurs auteurs ; seuls les textes que la personnalisation dégradait
   ont été traités.
+
+## Deuxième chantier — ce que le client saisit, partout (7 août)
+
+Le premier passage n'avait mesuré que le hero et le pied de page. Les sections
+du milieu — prestations, avis, chiffres, équipe, engagements, questions, carte,
+catalogue, réalisations — n'avaient jamais été vérifiées en rendu.
+
+### Les deux vrais trous
+
+**La carte du restaurateur.** Son archétype lui demande une carte, pas des
+prestations. Or les thèmes lisent tous `clientServices` : trente-deux d'entre
+eux affichaient les plats de leur démonstration à qui avait rempli la sienne.
+Sur le site d'un restaurant, c'est le contenu principal. Le contrat sert
+désormais la carte, puis le catalogue, quand il n'y a pas de prestations — une
+fonction touchée, aucun thème recâblé.
+
+**La galerie de l'onglerie.** impact-210 affichait huit dégradés de couleur en
+guise de portfolio, sans une seule image, sur un métier qui se vend par la
+photographie.
+
+### Les démonstrations, telles qu'un acheteur les voit
+
+- Trois heros sans photographie : une boulangerie dont le pain était un emoji à
+  douze pour cent d'opacité, un torréfacteur réduit à un disque orange, un salon
+  de coiffure à un dégradé crème.
+- Soixante-trois numéros à trous (« +33 1 XX XX XX XX ») et cent trente et un
+  numéros en escalier (« 01 23 45 67 89 »), sur quatre-vingt-treize thèmes.
+- Une balise HTML lue comme du texte : « a touch of <em>parisian elegance</em> ».
+- Un accord fautif dans un titre qui défile : « L'ART DU COULEUR ».
+
+### Le pied de page, cinq passes
+
+74 → 23 → 16 → 0. Chaque correction révélait une écriture nouvelle : numéro seul
+sur sa ligne, libellé entre apostrophes à côté de son lien, clé de formulaire
+qui n'a jamais existé (`fd.businessPhone`), et pour finir un lien dont seul le
+`href` était branché — on composait le bon numéro en cliquant, on lisait celui
+de la démonstration.
+
+## Mesures finales sur les 373
+
+| Contrôle | Résultat |
+|---|---|
+| Pages qui plantent avec les données d'un client | **0** |
+| Titres coupés par la barre de navigation | **0** |
+| Accroche en double ou absente | **0** |
+| Sections déclarées restant muettes | **0** |
+| Images qui ne chargent pas | **0** |
+| Thèmes sans animation | **0** |
+| Débordements et textes hors écran (téléphone + ordinateur) | **0** |
+| Pieds de page portant une donnée de démonstration | **0** |
+
+## Ce que l'instrument a coûté
+
+Sur ce second chantier, la majorité des « trous » annoncés venaient de la mesure,
+pas du produit : données envoyées dans `formData` quand le contrat lit
+`businessProfile` ; champ `question`/`answer` quand il lit `q`/`a` ; `title`
+quand il lit `caption` ; photos dans un champ ignoré ; mots cherchés dans une
+galerie d'images ; deux sources attendues là où le thème n'en montre qu'une ;
+blocs jugés invisibles alors qu'ils étaient hors du champ de vision.
+
+Et trois fois, une reconstruction lancée pendant une mesure a produit des
+chiffres absurdes — cent vingt et une sections muettes, cent quatre-vingt-dix-huit
+pages vides — dus à des fragments de code en erreur, jamais au produit.
+**Aucune construction pendant une mesure.**
