@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { C, FONT, FONT_BODY, STATS, MISSIONS, TEMOIGNAGES, Reveal } from "./shared";
 import { DWELL, useSlides, AnchoredBackdrop, WordFlight, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import {
+  clientPhone,
   clientAddress,
   clientCity,
   clientName,
@@ -840,7 +841,7 @@ export default function LedgerPage() {
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
                 {clientAddress({ businessProfile: bp }) ?? "14 allée de Tourny"}<br />
                 33000 {clientCity({ formData: fd }) ?? "Bordeaux"}<br />
-                <a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>05 56 76 23 23</a><br />
+                <a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{clientPhone(sessionData) ?? "05 56 76 23 23"}</a><br />
                 <a href={`mailto:${fd?.email ?? "contact@ledger-associes.fr"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{fd?.email ?? "contact@ledger-associes.fr"}</a>
               </p>
             </div>
