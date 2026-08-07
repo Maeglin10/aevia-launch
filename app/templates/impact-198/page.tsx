@@ -1346,7 +1346,7 @@ export default function Impact198Page() {
                 lineHeight: 0.95,
                 marginBottom: 0,
               }}
-            >{<>{clientHeroLine(sessionData, 0, 1, 13) ?? "L'art du soin"}</>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 2, 13) ?? "L'art du soin"}</>}</h1>
           </TextReveal>
           <TextReveal immediate delay={0.45}>
             <h1
@@ -1359,9 +1359,9 @@ export default function Impact198Page() {
                 lineHeight: 0.95,
                 marginBottom: 28,
               }}
-            >
+            >{clientHeroLine(sessionData, 1, 2, 13) ?? <>
               {c?.heroHeadline ?? "à votre service"}
-            </h1>
+            </>}</h1>
           </TextReveal>
 
           <motion.p

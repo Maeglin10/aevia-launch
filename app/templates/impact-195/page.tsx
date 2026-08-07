@@ -219,12 +219,12 @@ export default function MaisonElisePage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 65 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.44, ease: [0.16, 1, 0.3, 1] }}>
-            <h1 className="font-bold leading-[0.88] tracking-tight mb-4 text-[#fdfaf7]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>{<>{clientHeroLine(sessionData, 0, 1, 15) ?? "Votre plus beau"}</>}</h1>
+            <h1 className="font-bold leading-[0.88] tracking-tight mb-4 text-[#fdfaf7]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>{<>{clientHeroLine(sessionData, 0, 3, 15) ?? "Votre plus beau"}</>}</h1>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 65 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}>
-            <h1 className="font-bold italic leading-[0.88] tracking-tight mb-10 text-[var(--brand,#c4a06a)]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>
+            <h1 className="font-bold italic leading-[0.88] tracking-tight mb-10 text-[var(--brand,#c4a06a)]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>{clientHeroLine(sessionData, 1, 3, 15) ?? <>
               {c?.heroHeadline ?? "jour en mémoire."}
-            </h1>
+            </>}</h1>
           </motion.div>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
@@ -272,9 +272,9 @@ export default function MaisonElisePage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)] mb-4">Nos formules</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "formules.titre") ?? (<>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>{clientHeroLine(sessionData, 2, 3, 15) ?? <>{/* TEXTE_SECTION */ clientText(sessionData, "formules.titre") ?? (<>
                 Un service pour<br /><span className="italic text-[var(--brand,#c4a06a)]">chaque vision.</span>
-              </>)}</h2>
+              </>)}</>}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

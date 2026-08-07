@@ -372,11 +372,11 @@ export default function GentlemansCutPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-6xl md:text-8xl lg:text-[96px] font-bold leading-[0.85] tracking-tight mb-3 text-[#f5f0e8]">{<>{clientHeroLine(sessionData, 0, 1, 7) ?? "The Art"}</>}</motion.h1>
+            className="text-6xl md:text-8xl lg:text-[96px] font-bold leading-[0.85] tracking-tight mb-3 text-[#f5f0e8]">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "The Art"}</>}</motion.h1>
           <motion.h1 initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            className="text-6xl md:text-8xl lg:text-[96px] font-bold italic leading-[0.85] tracking-tight mb-10 text-[var(--brand,#c9a84c)]">
+            className="text-6xl md:text-8xl lg:text-[96px] font-bold italic leading-[0.85] tracking-tight mb-10 text-[var(--brand,#c9a84c)]">{clientHeroLine(sessionData, 1, 3, 7) ?? <>
             of Grooming.
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
             className="max-w-sm text-sm text-[#f5f0e8]/30 leading-relaxed mb-12" style={{ fontFamily: "'DM Mono', monospace", fontStyle: "normal" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
@@ -414,7 +414,7 @@ export default function GentlemansCutPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/60 mb-4" style={{ fontFamily: "'DM Mono', monospace" }}>— Nos prestations</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#f5f0e8]">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Chaque service,<br /><span className="text-[var(--brand,#c9a84c)] italic">à la perfection.</span></>)}</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#f5f0e8]">{clientHeroLine(sessionData, 2, 3, 7) ?? <>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Chaque service,<br /><span className="text-[var(--brand,#c9a84c)] italic">à la perfection.</span></>)}</>}</h2>
             </div>
           </Reveal>
           <div className="divide-y divide-[var(--brand,#c9a84c)]/8">

@@ -220,7 +220,7 @@ export default function AxisBioPage() {
 
       <section className="i357-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Biologie médicale · {clientCity(sessionData) ?? "Metz"}</span>
-        <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 62px)", color: C.text, lineHeight: 1.1, margin: "18px 0 8px" }}>{clientHeroLine(sessionData, 0, 1, 18) ?? "Un résultat juste,"}<br /><TrackingCollapse word={S.word} index={i} from="0.34em" to="0.04em" style={{ color: C.accentDark }} /></h1>
+        <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 62px)", color: C.text, lineHeight: 1.1, margin: "18px 0 8px" }}>{clientHeroLine(sessionData, 0, 2, 18) ?? "Un résultat juste,"}<br /><TrackingCollapse word={S.word} index={i} from="0.34em" to="0.04em" style={{ color: C.accentDark }} /></h1>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
           {clientHeroPrestations(sessionData) ?? c?.heroSubline ?? "Sans rendez-vous dès 7 h, résultats du jour avant 17 h sur le serveur sécurisé, biologistes joignables pour interpréter. La biologie médicale accréditée COFRAC, au coin de la rue."}
         </p>
@@ -260,9 +260,9 @@ export default function AxisBioPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Analyses</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{clientHeroLine(sessionData, 1, 2, 18) ?? <>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Du bilan de routine<br /><em>au diagnostic pointu.</em>
-              </>)}</h2>
+              </>)}</>}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>

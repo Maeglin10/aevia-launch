@@ -1330,7 +1330,7 @@ export default function Page() {
                 lineHeight: 0.95,
                 letterSpacing: '0.1em',
               }}
-            >{<>{clientHeroLine(sessionData, 0, 1, 8) ?? "L'ART DU"}</>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "L'ART DU"}</>}</h1>
             <h1
               style={{
                 ...headingFont,
@@ -1341,9 +1341,9 @@ export default function Page() {
                 lineHeight: 0.95,
                 letterSpacing: '0.1em',
               }}
-            >
+            >{clientHeroLine(sessionData, 1, 2, 8) ?? <>
               <TrackingCollapse word={HERO_SERVICES[heroI].word} index={heroI} from="0.42em" to="0.1em" />
-            </h1>
+            </>}</h1>
           </motion.div>
 
           <motion.div

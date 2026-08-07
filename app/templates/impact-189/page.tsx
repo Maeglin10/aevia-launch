@@ -391,11 +391,11 @@ export default function AtelierLeoniePage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-4 text-white" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 1, 11) ?? "L'art de la"}</>}</motion.h1>
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-4 text-white" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 11) ?? "L'art de la"}</>}</motion.h1>
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[88px] font-bold italic leading-[0.88] tracking-tight mb-10 text-[var(--brand,#c97b7b)]" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold italic leading-[0.88] tracking-tight mb-10 text-[var(--brand,#c97b7b)]" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>{clientHeroLine(sessionData, 1, 3, 11) ?? <>
             coiffure.
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
             className="max-w-sm text-sm text-white/32 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
@@ -443,9 +443,9 @@ export default function AtelierLeoniePage() {
             <div className="mb-16 flex flex-col md:flex-row gap-8 justify-between items-end">
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)] mb-4">Nos prestations</div>
-                <h2 className="text-4xl md:text-5xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "prestations.titre") ?? (<>
+                <h2 className="text-4xl md:text-5xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>{clientHeroLine(sessionData, 2, 3, 11) ?? <>{/* TEXTE_SECTION */ clientText(sessionData, "prestations.titre") ?? (<>
                   Pour chaque<br /><span className="italic text-[var(--brand,#c97b7b)]">cheveu, un soin.</span>
-                </>)}</h2>
+                </>)}</>}</h2>
               </div>
               <p className="max-w-xs text-sm text-[#1a1218]/35 leading-relaxed">Prestations personnalisées, bilan capillaire offert, produits Kérastase & Olaplex.</p>
             </div>

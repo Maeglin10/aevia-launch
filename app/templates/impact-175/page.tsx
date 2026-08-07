@@ -946,7 +946,7 @@ export default function Impact175Page() {
                 lineHeight: 0.95,
                 letterSpacing: "-0.01em",
               }}
-            >{<>{clientHeroLine(sessionData, 0, 1, 14) ?? "Chaque instant"}</>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Chaque instant"}</>}</h1>
           </TextReveal>
           <TextReveal immediate delay={0.65}>
             <h1
@@ -959,9 +959,9 @@ export default function Impact175Page() {
                 lineHeight: 0.95,
                 marginBottom: 32,
               }}
-            >
+            >{clientHeroLine(sessionData, 1, 2, 14) ?? <>
               {c?.heroHeadline ?? "devient légende"}
-            </h1>
+            </>}</h1>
           </TextReveal>
 
           <motion.p

@@ -1452,7 +1452,7 @@ export default function Impact176Page() {
                 lineHeight: 1.05,
                 color: C.text,
               }}
-            >{<>{clientHeroLine(sessionData, 0, 1, 10) ?? "Your data."}</>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "Your data."}</>}</h1>
           </TextReveal>
           <TextReveal immediate delay={0.1} style={{ marginBottom: 8 }}>
             <h1
@@ -1463,9 +1463,9 @@ export default function Impact176Page() {
                 lineHeight: 1.05,
                 color: C.accent,
               }}
-            >
+            >{clientHeroLine(sessionData, 1, 3, 10) ?? <>
               {c?.heroHeadline ?? "Your decisions."}
-            </h1>
+            </>}</h1>
           </TextReveal>
           <TextReveal immediate delay={0.2} style={{ marginBottom: 36 }}>
             <h1
@@ -1476,9 +1476,9 @@ export default function Impact176Page() {
                 lineHeight: 1.05,
                 color: C.text,
               }}
-            >
+            >{clientHeroLine(sessionData, 2, 3, 10) ?? <>
               {c?.heroHeadline ?? "Your advantage."}
-            </h1>
+            </>}</h1>
           </TextReveal>
 
           <motion.p
