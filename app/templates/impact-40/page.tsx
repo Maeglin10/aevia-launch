@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientSiret,
   clientAddress,
   clientCity,
   clientFaq,
@@ -1482,7 +1483,7 @@ export default function TerreVivantePage() {
             }}
           >
             <p style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: "rgba(253,249,238,0.3)" }}>
-              © 2026 {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Terre Vivante"))} SARL. Tous droits réservés. SIRET 422 890 123 00034.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Terre Vivante"))} SARL. Tous droits réservés.{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " SIRET 422 890 123 00034"}.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <div style={{ display: "flex", gap: "1.75rem" }}>
               {["Mentions légales", "Confidentialité", "CGV"].map((l) => (

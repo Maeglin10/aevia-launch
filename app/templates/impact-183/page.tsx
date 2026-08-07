@@ -7,6 +7,8 @@ import Link from "next/link"
 import { Paintbrush, Sparkles, Phone, Star, MapPin, ArrowRight, CheckCircle, Layers, Brush, Shield, Menu } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientSiret,
+  clientName,
   clientAreas,
   clientCity,
   clientHeroLine,
@@ -453,7 +455,7 @@ return (
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 {fd?.businessName ?? "Couleurs & Co Piscines"} · SIRET 678 901 234 00056 · Garantie Décennale · Artisan pisciniste{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {fd?.businessName ?? "Couleurs & Co Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 678 901 234 00056"} · Garantie Décennale · Artisan pisciniste{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#4d7c5f)]/40">Pisciniste qualifié · Nord-Pas-de-Calais</span>
         </div>
       </footer>

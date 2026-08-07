@@ -18,6 +18,7 @@ import {
   heroSectionStyle, railResponsiveCSS, alpha, EASE_3, EASE_4, BEAT,
 } from "@/lib/templates/hero-kit";
 import {
+  clientSiret,
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -1862,7 +1863,7 @@ function Footer() {
           color: C.creamDim,
           opacity: 0.5,
         }}>
-          © 2024 {fd?.businessName ?? (clientName(sessionData) ?? "Ferretti Construction")}. SIRET 123 456 789 00010{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024 {fd?.businessName ?? (clientName(sessionData) ?? "Ferretti Construction")}.{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " SIRET 123 456 789 00010"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </div>
       </div>
     </footer>

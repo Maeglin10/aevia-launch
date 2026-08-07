@@ -658,6 +658,18 @@ export function clientLegalForm(s: SessionLike | null | undefined): string | und
   return trimmed(s?.businessProfile?.legal?.legalForm) || undefined;
 }
 
+/**
+ * Le numéro SIRET du client.
+ *
+ * Trente-huit pieds de page affichaient un numéro inventé juste après le nom
+ * de l'entreprise — « © 2026 Ateliers Vidal & Fils · SIRET 456 789 123 00078 ».
+ * Un identifiant faux attribué à une vraie société n'est pas une coquille de
+ * démonstration : il figure sur la page que ses clients lisent.
+ */
+export function clientSiret(s: SessionLike | null | undefined): string | undefined {
+  return trimmed(s?.businessProfile?.legal?.siret) || undefined;
+}
+
 
 export interface ClientHour {
   /** « Lundi », « Lun », tel que le thème l'écrit. */

@@ -21,6 +21,8 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientSiret,
+  clientName,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -2105,7 +2107,7 @@ function Footer() {
           letterSpacing: '0.06em',
         }}
       >
-        <span>© 2009–2026 ÉlectroPro — SIRET 000 000 000 00000{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2009–2026 ÉlectroPro{clientSiret(sessionData) ? ` — SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " — SIRET 000 000 000 00000"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: C.textFaint, textDecoration: 'none' }}>
             Mentions légales

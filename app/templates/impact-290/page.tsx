@@ -31,6 +31,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientSiret,
   clientAccrocheRestante,
   clientAddress,
   clientCertifications,
@@ -3138,7 +3139,7 @@ function FooterSection() {
               color: 'rgba(255,255,255,0.30)',
             }}
           >
-            © 2024 {fd?.businessName ?? (clientName(sessionData) ?? "Eau & Habitat Bretagne")} · SIRET 000 000 000 00000 ·
+            © 2024 {fd?.businessName ?? (clientName(sessionData) ?? "Eau & Habitat Bretagne")}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 000 000 000 00000"} ·
             Artisan RGE · Assurance décennale souscrite{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: 'flex', gap: 24 }}>

@@ -171,6 +171,15 @@ const CAS = {
     },
   },
 
+  /*
+    Témoin de contrôle. Un mot de deux cents lettres sans espace ne peut pas
+    tenir : s'il ne déclenche rien, c'est la mesure qui est muette, pas le
+    produit qui est parfait. À lancer avec --cas temoin-de-controle.
+  */
+  "temoin-de-controle": {
+    formData: { businessName: "A".repeat(200), tagline: "B".repeat(300), city: "C".repeat(120) },
+  },
+
   // Une accroche criée, sans ponctuation : les thèmes qui mettent déjà en capitales doublent l'effet.
   "accroche-en-capitales": {
     formData: { tagline: "PLOMBERIE CHAUFFAGE CLIMATISATION URGENCE 24H SUR 24 DANS TOUTE LA HAUTE-SAVOIE" },
@@ -222,6 +231,7 @@ for (const nomCas of casTestes) {
           body: JSON.stringify({ formData }),
         });
         const { sessionId } = await r.json();
+        if (!sessionId) throw new Error("session non créée (limiteur de débit ? lancer next start avec SESSIONS_RATE_LIMIT=100000)");
         await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
           method: "PATCH", headers: { "content-type": "application/json" },
           body: JSON.stringify({ businessProfile: profil }),
@@ -247,14 +257,44 @@ for (const nomCas of casTestes) {
             if (r.width < 8 || r.height < 6 || r.top > 2400) continue;
 
             if (r.right > largeur + 20 && r.left < largeur) {
+              /*
+                Un ancêtre qui défile contient le texte à dessein — un carrousel,
+                une barre de logos. Un ancêtre qui le coupe, lui, ne contient
+                rien : il l'ampute, et le nom du client s'arrête au bord de
+                l'écran sans que la page déborde d'un pixel.
+              */
               let contenu = false;
               let n = e.parentElement;
               for (let i = 0; i < 5 && n && !contenu; i++) {
                 const sn = getComputedStyle(n);
-                if (sn.overflow !== "visible" || sn.overflowX !== "visible") contenu = true;
+                const defile = ["auto", "scroll"].includes(sn.overflowX) || ["auto", "scroll"].includes(sn.overflow);
+                if (defile) contenu = true;
                 n = n.parentElement;
               }
               if (!contenu) soucis.push(`« ${t.slice(0, 20)} » sort de ${Math.round(r.right - largeur)} px`);
+            }
+          }
+
+          /*
+            Un texte tronqué dans son propre cadre. Le débordement de page ne le
+            voit pas : l'en-tête d'impact-01 a beau couper un nom de deux cents
+            lettres, la page, elle, ne déborde pas d'un pixel. On compare donc
+            la largeur du contenu à celle du cadre, élément par élément.
+
+            Un carrousel défile horizontalement par dessein : on ne retient que
+            les cadres qui ne se laissent pas faire défiler.
+          */
+          for (const e of document.querySelectorAll("*")) {
+            const r = e.getBoundingClientRect();
+            if (r.width < 60 || r.height < 10 || r.top > 2400) continue;
+            const s = getComputedStyle(e);
+            if (s.overflowX === "auto" || s.overflowX === "scroll") continue;
+            if (s.overflow === "auto" || s.overflow === "scroll") continue;
+            const t = (e.textContent ?? "").trim();
+            if (t.length < 3) continue;
+            const trop = e.scrollWidth - e.clientWidth;
+            if (trop > 12 && e.children.length === 0) {
+              soucis.push(`« ${t.slice(0, 18)} » tronqué de ${trop} px`);
             }
           }
 

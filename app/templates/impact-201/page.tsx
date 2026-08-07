@@ -13,6 +13,7 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientSiret,
   clientPhone,
   clientCity,
   clientEyebrow,
@@ -2697,8 +2698,7 @@ return (
                   color: "rgba(250,248,244,0.2)",
                   fontFamily: C.fontSans,
                 }}
-              >
-                SIRET 842 571 234 00018
+              >{clientSiret(sessionData) ? `SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : "SIRET 842 571 234 00018"}
               </div>
             </div>
             {[

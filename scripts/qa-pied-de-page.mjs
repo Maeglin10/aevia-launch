@@ -56,6 +56,7 @@ for (const id of ids) {
       body: JSON.stringify({ formData }),
     });
     const { sessionId } = await r.json();
+    if (!sessionId) throw new Error("session non créée (limiteur de débit ? lancer next start avec SESSIONS_RATE_LIMIT=100000)");
     // La création n'accepte que le formulaire ; le profil se pose ensuite.
     await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
       method: "PATCH", headers: { "content-type": "application/json" },
