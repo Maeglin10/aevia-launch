@@ -248,7 +248,7 @@ export default function SecurFastPage() {
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-24">
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.43, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-7 text-[#f0f4ff]">{<>
-            Bloqué dehors ?<br /><span className="text-[var(--brand,#2563eb)]">{clientHeroLine(sessionData, 0, 1, 10) ?? "On arrive."}</span>
+            Bloqué dehors ?<br /><span className="text-[var(--brand,#2563eb)]">{clientHeroLine(sessionData, 0, 2, 10) ?? "On arrive."}</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
@@ -305,7 +305,7 @@ export default function SecurFastPage() {
           <Reveal>
             <div className="mb-16">
               <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/55 mb-4">— Nos interventions</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Sécurité & <span className="text-[var(--brand,#2563eb)]">sérénité.</span></>)}</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">{clientHeroLine(sessionData, 1, 2, 10) ?? <>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>Sécurité & <span className="text-[var(--brand,#2563eb)]">sérénité.</span></>)}</>}</h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

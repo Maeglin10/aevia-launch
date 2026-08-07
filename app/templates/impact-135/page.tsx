@@ -1407,7 +1407,7 @@ export default function Impact135Page() {
                 color: C.text,
                 fontFamily: C.font,
               }}
-            >{<>{clientHeroLine(sessionData, 0, 1, 20) ?? "The Operating System"}</>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 2, 20) ?? "The Operating System"}</>}</h1>
           </TextReveal>
           <TextReveal immediate delay={0.1} style={{ marginBottom: 32 }}>
             <h1
@@ -1419,9 +1419,9 @@ export default function Impact135Page() {
                 color: C.accent,
                 fontFamily: C.font,
               }}
-            >
+            >{clientHeroLine(sessionData, 1, 2, 20) ?? <>
               {c?.heroHeadline ?? "for Elite Traders."}
-            </h1>
+            </>}</h1>
           </TextReveal>
 
           <motion.p

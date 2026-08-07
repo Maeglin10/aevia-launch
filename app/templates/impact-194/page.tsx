@@ -205,11 +205,11 @@ export default function TableExceptionPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[90px] font-bold leading-[0.88] tracking-tight mb-4 text-[#fefcf8]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 1, 17) ?? "L'art de recevoir"}</>}</motion.h1>
+            className="text-5xl md:text-7xl lg:text-[90px] font-bold leading-[0.88] tracking-tight mb-4 text-[#fefcf8]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 17) ?? "L'art de recevoir"}</>}</motion.h1>
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.56, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[90px] font-bold italic leading-[0.88] tracking-tight mb-10 text-[var(--brand,#d4a853)]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+            className="text-5xl md:text-7xl lg:text-[90px] font-bold italic leading-[0.88] tracking-tight mb-10 text-[var(--brand,#d4a853)]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{clientHeroLine(sessionData, 1, 2, 17) ?? <>
             à la lyonnaise.
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
             className="max-w-md text-sm text-[#fefcf8]/28 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>

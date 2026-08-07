@@ -1190,7 +1190,7 @@ return (
                 color: C.cream,
                 marginBottom: 8,
               }}
-            >{<>{clientHeroLine(sessionData, 0, 1, 17) ?? "La grande cuisine"}</>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 2, 17) ?? "La grande cuisine"}</>}</h1>
           </TextReveal>
           <TextReveal immediate delay={0.3}>
             <h1
@@ -1204,9 +1204,9 @@ return (
                 color: C.gold,
                 marginBottom: 40,
               }}
-            >
+            >{clientHeroLine(sessionData, 1, 2, 17) ?? <>
               {c?.heroHeadline ?? "dans votre maison."}
-            </h1>
+            </>}</h1>
           </TextReveal>
 
           <TextReveal immediate delay={0.4}>

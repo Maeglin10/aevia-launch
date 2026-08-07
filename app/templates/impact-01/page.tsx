@@ -1237,7 +1237,7 @@ return (
                 margin: 0,
                 color: T.text,
               }}
-            >{<>{clientHeroLine(sessionData, 0, 1, 12) ?? "We build the"}</>}</motion.h1>
+            >{<>{clientHeroLine(sessionData, 0, 2, 12) ?? "We build the"}</>}</motion.h1>
           </div>
 
           <div style={{ overflow: "hidden", paddingBottom: 16, marginBottom: 16 }}>
@@ -1259,7 +1259,12 @@ return (
                 color: T.accent,
               }}
             >
-              internet&apos;s best.
+              {/*
+                Ce second titre restait celui de la demonstration : un plombier
+                lisait « Plombier internet's best. » — son metier suivi du texte
+                du theme. Il porte desormais la suite de sa propre phrase.
+              */}
+              {clientHeroLine(sessionData, 1, 2, 12) ?? <>internet&apos;s best.</>}
             </motion.h1>
           </div>
 
