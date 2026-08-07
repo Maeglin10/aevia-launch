@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientTrade,
   clientBookingUrl,
   clientAccrocheRestante,
   clientAddress,
@@ -525,7 +526,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color="rgba(255,255,255,0.8)" align="center">
-            Médecin généraliste · {clientCity(sessionData) ?? "Lyon"} · Secteur 1
+            {clientTrade(sessionData) ?? "Médecin généraliste"} · {clientCity(sessionData) ?? "Lyon"} · Secteur 1
           </Eyebrow>
         </Reveal>
 
@@ -2569,7 +2570,7 @@ function FooterSection() {
               maxWidth: 300,
             }}
           >
-            Médecin généraliste à {clientCity(sessionData) ?? "Lyon"}. Secteur 1, carte Vitale acceptée, téléconsultation disponible.
+            {clientTrade(sessionData) ?? "Médecin généraliste"} à {clientCity(sessionData) ?? "Lyon"}. Secteur 1, carte Vitale acceptée, téléconsultation disponible.
           </p>
           <div
             style={{

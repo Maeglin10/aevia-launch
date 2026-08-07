@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Zap, Phone, Mail, MapPin, Clock, CheckCircle, Star, ArrowRight, Shield, Wrench, Lightbulb } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientTrade,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -498,7 +499,7 @@ return (
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontSize: 20, fontWeight: 800, color: C.accent, marginBottom: 8 }}>{fd?.businessName ?? "Volt Piscines"}</div>
-            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6, maxWidth: 220 }}>Pisciniste certifié FPP<br />{clientCity({ formData: fd }) ?? "Toulouse"} & agglomération</p>
+            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6, maxWidth: 220 }}>{clientTrade(sessionData) ?? "Pisciniste"} certifié FPP<br />{clientCity({ formData: fd }) ?? "Toulouse"} & agglomération</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Toulouse") + ", Haute-Garonne" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "05 61 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 7j/7 · 24h/24" }].map((item, i) => (

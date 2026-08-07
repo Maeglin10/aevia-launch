@@ -8,6 +8,7 @@ import { Droplets, ShieldCheck, Phone, Clock, Star, MapPin, ArrowRight, CheckCir
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientTrade,
   clientSiret,
   clientName,
   clientHeroLine,
@@ -530,7 +531,7 @@ export default function AquanovaPiscinesPage() {
               </div>
               <span className="font-bold text-white text-sm">{fd?.businessName ?? "AquaNova Piscines"}</span>
             </div>
-            <p className="text-white/25 text-sm leading-relaxed">Pisciniste certifié · Grand {clientCity({ formData: fd }) ?? "Lyon"}. Construction, rénovation et entretien de piscines depuis 2006.</p>
+            <p className="text-white/25 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Pisciniste"} certifié · Grand {clientCity({ formData: fd }) ?? "Lyon"}. Construction, rénovation et entretien de piscines depuis 2006.</p>
           </div>
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Rénovation de piscine", "Sécurité & conformité", "Local technique", "Entretien & hivernage"] },
@@ -547,7 +548,7 @@ export default function AquanovaPiscinesPage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 {fd?.businessName ?? "AquaNova Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 234 567 890 00056"} · Garantie Décennale · Assurance RC Pro{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span className="text-[var(--brand-light)]/30">Pisciniste certifié · Grand {clientCity({ formData: fd }) ?? "Lyon"}</span>
+          <span className="text-[var(--brand-light)]/30">{clientTrade(sessionData) ?? "Pisciniste"} certifié · Grand {clientCity({ formData: fd }) ?? "Lyon"}</span>
         </div>
       </footer>
     </div>

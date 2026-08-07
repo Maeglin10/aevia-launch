@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Sprout } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientTrade,
   clientCertifications,
   clientCity,
   clientHeroLine,
@@ -357,7 +358,7 @@ export default function VertNaturePage() {
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: C.sand, marginBottom: 8 }}>Vert Nature</div>
-            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Paysagiste · Jardinier · Gironde<br />Certifié agriculture biologique · SIRET</p>
+            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Paysagiste"} · Jardinier · Gironde<br />Certifié agriculture biologique · SIRET</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Bordeaux") }, { icon: <Phone size={13} />, t: (fd?.phone ?? "05 56 10 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 8h–18h" }].map((item, i) => (

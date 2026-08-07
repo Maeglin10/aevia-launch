@@ -265,10 +265,17 @@ for (const nomCas of casTestes) {
               */
               let contenu = false;
               let n = e.parentElement;
-              for (let i = 0; i < 5 && n && !contenu; i++) {
+              for (let i = 0; i < 6 && n && !contenu; i++) {
                 const sn = getComputedStyle(n);
                 const defile = ["auto", "scroll"].includes(sn.overflowX) || ["auto", "scroll"].includes(sn.overflow);
-                if (defile) contenu = true;
+                /*
+                  Un bandeau défilant est un texte volontairement plus large que
+                  son cadre, poussé par une animation. Le repérer à son
+                  animation évite de compter comme amputée chaque marque qui
+                  défile en boucle sous l'en-tête.
+                */
+                const anime = sn.animationName !== "none" || /matrix|translate/.test(sn.transform);
+                if (defile || anime) contenu = true;
                 n = n.parentElement;
               }
               if (!contenu) soucis.push(`« ${t.slice(0, 20)} » sort de ${Math.round(r.right - largeur)} px`);
@@ -292,8 +299,16 @@ for (const nomCas of casTestes) {
             if (s.overflow === "auto" || s.overflow === "scroll") continue;
             const t = (e.textContent ?? "").trim();
             if (t.length < 3) continue;
+            /* Même règle pour la troncature interne : un défilement animé n'ampute rien. */
+            let anime = false;
+            let a = e;
+            for (let i = 0; i < 6 && a && !anime; i++) {
+              const sa = getComputedStyle(a);
+              if (sa.animationName !== "none" || /matrix|translate/.test(sa.transform)) anime = true;
+              a = a.parentElement;
+            }
             const trop = e.scrollWidth - e.clientWidth;
-            if (trop > 12 && e.children.length === 0) {
+            if (!anime && trop > 12 && e.children.length === 0) {
               soucis.push(`« ${t.slice(0, 18)} » tronqué de ${trop} px`);
             }
           }

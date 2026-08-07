@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientTrade,
   clientAddress,
   clientPhone,
   clientAccrocheRestante,
@@ -659,7 +660,7 @@ function Hero() {
           transition={{ duration: 1.0, ease: EASE, delay: 0.05 }}
         >
           <Eyebrow color="rgba(255,255,255,0.75)">
-            Expert-comptable · {clientCity(sessionData) ?? "Nantes"} · Agréé CSOEC
+            {clientTrade(sessionData) ?? "Expert-comptable"} · {clientCity(sessionData) ?? "Nantes"} · Agréé CSOEC
           </Eyebrow>
         </motion.div>
 
@@ -2116,7 +2117,7 @@ function Footer() {
               margin: '0 0 24px',
             }}
           >
-            Expert-comptable agréé CSOEC à {clientCity(sessionData) ?? "Nantes"} — comptabilité, fiscalité et
+            {clientTrade(sessionData) ?? "Expert-comptable"} agréé CSOEC à {clientCity(sessionData) ?? "Nantes"} — comptabilité, fiscalité et
             conseil pour TPE, PME et indépendants.
           </p>
           <div

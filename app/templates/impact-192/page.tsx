@@ -472,7 +472,7 @@ export default function SecurFastPage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f0f4ff]/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f0f4ff]/8">
           <span>© 2026 {clientName(sessionData) ?? "SÉC'URFAST"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 567 890 123 00044"} · Agréé assurances · {clientCity(sessionData) ?? "Strasbourg"} (67){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span className="text-[var(--brand,#2563eb)]/20">Serrurier urgence · 24h/24</span>
+          <span className="text-[var(--brand,#2563eb)]/20">{clientTrade(sessionData) ?? "Serrurier"} urgence · 24h/24</span>
         </div>
       </footer>
     </div>

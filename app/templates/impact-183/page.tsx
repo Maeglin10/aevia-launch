@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Paintbrush, Sparkles, Phone, Star, MapPin, ArrowRight, CheckCircle, Layers, Brush, Shield, Menu } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientTrade,
   clientSiret,
   clientName,
   clientAreas,
@@ -439,7 +440,7 @@ return (
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2.5 mb-5"><Paintbrush className="w-5 h-5 text-[var(--brand,#4d7c5f)]" /><span className="font-bold text-white text-sm">{fd?.businessName ?? "Couleurs & Co Piscines"}</span></div>
-            <p className="text-white/25 text-sm leading-relaxed" style={{ fontFamily: "'Nunito', sans-serif" }}>Pisciniste qualifié · Nord & Pas-de-Calais. Construction, rénovation et entretien de piscines depuis 2010.</p>
+            <p className="text-white/25 text-sm leading-relaxed" style={{ fontFamily: "'Nunito', sans-serif" }}>{clientTrade(sessionData) ?? "Pisciniste"} qualifié · Nord & Pas-de-Calais. Construction, rénovation et entretien de piscines depuis 2010.</p>
           </div>
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Revêtement & finitions", "Rénovation de bassin", "Aménagement extérieur", "Entretien & hivernage"] },
@@ -456,7 +457,7 @@ return (
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 {fd?.businessName ?? "Couleurs & Co Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 678 901 234 00056"} · Garantie Décennale · Artisan pisciniste{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span className="text-[var(--brand,#4d7c5f)]/40">Pisciniste qualifié · Nord-Pas-de-Calais</span>
+          <span className="text-[var(--brand,#4d7c5f)]/40">{clientTrade(sessionData) ?? "Pisciniste"} qualifié · Nord-Pas-de-Calais</span>
         </div>
       </footer>
     </div>
