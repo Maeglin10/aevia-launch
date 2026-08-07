@@ -58,12 +58,34 @@ for (const id of ids) {
     */
     await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await p.waitForTimeout(1400);
-    const texte = await p.evaluate(() => (document.body.textContent ?? "").replace(/\s+/g, " ").toLowerCase());
+    /*
+      Ce que la page montre, et non ce qu'elle transporte : le JSON-LD et les
+      données d'hydratation vivent dans des <script> et contiennent des heures
+      ; les compter faisait passer trois thèmes sains pour fautifs.
+    */
+    const texte = await p.evaluate(() => {
+      const out = [];
+      for (const e of document.querySelectorAll("body *")) {
+        if (e.children.length > 0) continue;
+        if (["SCRIPT", "STYLE", "NOSCRIPT", "TEMPLATE"].includes(e.tagName)) continue;
+        out.push((e.textContent ?? "").replace(/\s+/g, " "));
+      }
+      return out.join(" · ").toLowerCase();
+    });
     await p.close();
 
     // Le thème parle-t-il d'horaires ? Deux jours de la semaine suffisent à le dire.
-    const montre = JOURS.filter((j) => texte.includes(j)).length >= 2
-      || /horaires|ouvert du|opening hours/.test(texte);
+    /*
+      Un jour et une heure doivent se toucher pour annoncer une ouverture.
+      « Formule brunch 10h–14h … sur réservation dès le jeudi » contient les
+      deux à trente mots d'écart et ne dit rien des horaires du commerce.
+    */
+    const proches = new RegExp(
+      `\\b(${JOURS.join("|")}|lun|mar|mer|jeu|ven|sam|dim)\\b[^·]{0,24}?\\d{1,2}\\s?[h:]`
+      + `|\\d{1,2}\\s?[h:]\\d{0,2}[^·]{0,24}?\\b(${JOURS.join("|")})\\b`,
+      "i",
+    );
+    const montre = proches.test(texte) || /\bhoraires\b|ouvert du|opening hours/.test(texte);
     const porte = /5\s*h\s*55|05\s*:\s*55|5:55/.test(texte) && /23\s*h\s*45|23\s*:\s*45|23:45/.test(texte);
     fiche = { id, montre, porte };
   } catch (e) {

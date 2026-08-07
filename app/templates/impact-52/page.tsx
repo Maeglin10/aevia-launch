@@ -16,6 +16,7 @@ import {
   GlitchHeadline,
 } from "./shared";
 import {
+  clientHeroLine,
   clientCity,
   clientName,
   clientReviews,
@@ -353,7 +354,7 @@ export default function Impact52Page() {
           <Reveal>
             <div style={{ marginBottom: "4rem" }}>
               <SectionLabel code="[MODULE: METRICS.LOG]" color={C.CYAN} />
-              <GlitchHeadline text="THE MATRIX" outlineText="STATS" outlineColor={C.PINK} />
+              <GlitchHeadline text={clientHeroLine(sessionData, 0, 2, 12)?.toUpperCase() ?? "THE MATRIX"} outlineText={clientHeroLine(sessionData, 1, 2, 12)?.toUpperCase() ?? "STATS"} outlineColor={C.PINK} />
             </div>
           </Reveal>
 

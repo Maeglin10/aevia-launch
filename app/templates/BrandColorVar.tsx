@@ -193,6 +193,110 @@ function rendreLesNomsEntiers(nom: string | undefined) {
   }
 }
 
+const JOURS = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+const ABREGE = ["lun", "mar", "mer", "jeu", "ven", "sam", "dim"];
+
+/** « 08:00 » se lit « 8h », « 18:30 » se lit « 18h30 » — comme les thèmes l'écrivent. */
+function heureCourte(h: string): string {
+  const m = /^(\d{1,2})[:h.](\d{2})?$/.exec(h.trim());
+  if (!m) return h.trim();
+  const minutes = m[2] && m[2] !== "00" ? m[2] : "";
+  return `${Number(m[1])}h${minutes}`;
+}
+
+/**
+ * Les horaires du client, à la place de ceux de la démonstration.
+ *
+ * Cent dix-huit thèmes affichent des jours et des heures ; vingt-sept
+ * seulement les tiraient de ce que le client a saisi. Les autres gardaient
+ * « Lun–Ven 9h–18h » de leur modèle : un cabinet fermé le lundi affichait
+ * qu'il ouvrait, et son téléphone sonnait pour rien.
+ *
+ * On remplace le texte, jamais la mise en page : une ligne condensée reste une
+ * ligne condensée, une ligne par jour garde sa ligne. Sans horaires saisis,
+ * rien ne bouge.
+ */
+function rendreLesHoraires(horaires: Array<{ day?: string; open?: string; close?: string; closed?: boolean }> | undefined) {
+  if (!Array.isArray(horaires) || horaires.length === 0) return;
+
+  const parJour = new Map<number, string>();
+  for (const h of horaires) {
+    const i = JOURS.indexOf(String(h?.day ?? "").trim().toLowerCase());
+    if (i < 0) continue;
+    const ferme = h?.closed || (!h?.open && !h?.close);
+    parJour.set(i, ferme ? "Fermé" : `${heureCourte(h.open ?? "")}–${heureCourte(h.close ?? "")}`);
+  }
+  if (parJour.size === 0) return;
+
+  /*
+    La forme condensée regroupe les jours consécutifs de même horaire, comme
+    l'écrivent les thèmes : « Lun–Ven 8h–18h30 · Sam 9h–12h ».
+  */
+  const tranches: string[] = [];
+  let debut = -1;
+  for (let i = 0; i <= 7; i++) {
+    const ici = parJour.get(i);
+    const avant = debut >= 0 ? parJour.get(debut) : undefined;
+    if (ici && ici === avant) continue;
+    if (debut >= 0 && avant && avant !== "Fermé") {
+      const jours = debut === i - 1 ? capitale(ABREGE[debut]) : `${capitale(ABREGE[debut])}–${capitale(ABREGE[i - 1])}`;
+      tranches.push(`${jours} ${avant}`);
+    }
+    debut = ici ? i : -1;
+  }
+  const condense = tranches.join(" · ");
+  if (!condense) return;
+
+  for (const e of document.querySelectorAll<HTMLElement>("p, span, div, li, td, dd, time")) {
+    if (e.children.length > 0) continue;
+    if (e.dataset.horairesRendus) continue;
+    const t = (e.textContent ?? "").replace(/\s+/g, " ").trim();
+    if (t.length < 5) continue;
+
+    /*
+      Dans une phrase, on ne remplace que le fragment horaire : « Notre équipe
+      est disponible du lundi au samedi, de 9h à 18h, pour toute commande » doit
+      garder sa phrase et changer ses heures, pas disparaître.
+    */
+    if (t.length > 90) {
+      // La virgule sépare souvent les jours des heures — « du lundi au samedi,
+      // de 9h à 18h » — et l'exclure faisait manquer la forme la plus courante.
+      const fragment = /\b(du\s+)?(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\s+(au|à|-|–)\s*(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)?[^.;]{0,30}?\d{1,2}\s?h\s?\d{0,2}[^.;]{0,16}?\d{1,2}\s?h\s?\d{0,2}/i;
+      if (fragment.test(t)) {
+        e.dataset.horairesRendus = "1";
+        e.textContent = t.replace(fragment, condense);
+      }
+      continue;
+    }
+
+    const bas = t.toLowerCase();
+    const nomsPresents = JOURS.filter((j) => bas.includes(j));
+    const abregesPresents = ABREGE.filter((j) => new RegExp(`\\b${j}`).test(bas));
+    const aDesHeures = /\d{1,2}\s?[h:]\s?\d{0,2}/.test(t);
+    if (!aDesHeures) continue;
+    /*
+      Sans nom de jour, ce n'est pas un horaire : « 24h/24 », « en 30 min »,
+      « depuis 1998 » portent des chiffres et n'ont rien à voir.
+    */
+    const jours = nomsPresents.length ? nomsPresents : abregesPresents.length ? abregesPresents : [];
+    if (jours.length === 0) continue;
+
+    e.dataset.horairesRendus = "1";
+    if (jours.length === 1) {
+      // Une ligne pour un seul jour : on ne remplace que ses heures.
+      const i = JOURS.indexOf(jours[0]) >= 0 ? JOURS.indexOf(jours[0]) : ABREGE.indexOf(jours[0]);
+      const valeur = parJour.get(i);
+      if (valeur) e.textContent = `${capitale(nomsPresents.length ? JOURS[i] : ABREGE[i])} ${valeur}`;
+    } else {
+      e.textContent = condense;
+    }
+  }
+}
+
+function capitale(x: string): string {
+  return x ? `${x[0].toUpperCase()}${x.slice(1)}` : x;
+}
+
 /*
   Le libellé qui fait d'un bouton un bouton de réservation. « Contact »,
   « devis » et « appeler » en sont exclus à dessein : ils mènent au formulaire
@@ -271,6 +375,7 @@ export function BrandColorVar() {
           detacherLesTextesDuClient(d?.formData);
           relierLesBoutonsDeReservation(d?.businessProfile?.bookingSystem?.url);
           rendreLesNomsEntiers(d?.formData?.businessName);
+          rendreLesHoraires(d?.businessProfile?.openingHours);
         };
         requestAnimationFrame(() => requestAnimationFrame(passer));
         for (const delai of [400, 1200, 2500]) setTimeout(passer, delai);

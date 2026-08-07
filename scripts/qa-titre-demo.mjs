@@ -31,7 +31,12 @@ const titreDuHero = () => {
   for (const h of document.querySelectorAll("h1, h2")) {
     if (flottants.some((f) => f.contains(h))) continue;
     const r = h.getBoundingClientRect();
-    if (r.top > 860 || r.height < 24 || r.width < 80) continue;
+    /*
+      Le premier titre de la page, où qu'il soit. Le limiter au premier écran
+      écartait dix-sept thèmes dont le hero s'ouvre sur une image pleine hauteur :
+      leur titre, personnalisé, commence à onze cents pixels.
+    */
+    if (r.top > 2600 || r.height < 24 || r.width < 80) continue;
     const t = (h.textContent ?? "").replace(/\s+/g, " ").trim();
     if (t.length >= 3) return t;
   }
@@ -65,9 +70,16 @@ for (const id of ids) {
     const p = await ctx.newPage();
     await p.goto(`${BASE}/templates/${id}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 40000 });
     await p.waitForTimeout(2600);
+    /*
+      Trois lectures, de plus en plus tard. Six navigateurs mesurent en même
+      temps : sous cette charge, la page rend parfois son titre de démonstration
+      avant que la session ne soit revenue, et un thème sain est compté en
+      défaut. Une seule relecture ne suffisait pas.
+    */
     let titre = await p.evaluate(titreDuHero);
-    if (!/plombier|annecy|vidal/i.test(titre)) {
-      await p.waitForTimeout(2200);
+    for (const attente of [2400, 3200]) {
+      if (/plombier|annecy|vidal/i.test(titre)) break;
+      await p.waitForTimeout(attente);
       titre = await p.evaluate(titreDuHero);
     }
     await p.close();
