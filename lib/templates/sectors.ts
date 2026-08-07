@@ -190,18 +190,18 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   restauration_rapide: ['impact-292', 'impact-293', 'impact-294', 'impact-295', 'impact-296'],
   // Genuinely scarce in the current 315-template catalog even after a full
   // manual review — no more real matches exist without fabricating content.
-  veterinaire:         ['impact-32', 'impact-171', 'impact-231', 'impact-95'],
+  veterinaire:         ['impact-32', 'impact-171', 'impact-231', 'impact-95', 'impact-30', 'impact-31'],
   menage:              ['impact-178', 'impact-315', 'impact-316', 'impact-317', 'impact-318', 'impact-319', 'impact-191'],
-  garage_auto:         ['impact-311', 'impact-312', 'impact-139', 'impact-221'],
+  garage_auto:         ['impact-311', 'impact-312', 'impact-139', 'impact-221', 'impact-39', 'impact-178'],
   // Genuinely scarce (see note above) — Studio Coach Sportif (impact-227) was
   // closer to 1:1 coaching and went to `coach` instead of here.
-  salle_sport:         ['impact-119', 'impact-174'],
+  salle_sport:         ['impact-119', 'impact-174', 'impact-139', 'impact-87', 'impact-30'],
   photographe:         ['impact-02',  'impact-16',  'impact-77',  'impact-96',  'impact-166', 'impact-104', 'impact-69'],
   // Genuinely scarce (see note above).
   fleuriste:           ['impact-47',  'impact-94', 'impact-175', 'impact-200', 'impact-105'],
   // Genuinely scarce (see note above) — impact-198 is a dual-fit with
   // institut_beaute (multi-service beauty salons commonly do both in France).
-  coiffeur:            ['impact-180', 'impact-209', 'impact-198', 'impact-227'],
+  coiffeur:            ['impact-180', 'impact-209', 'impact-198', 'impact-227', 'impact-84', 'impact-85'],
   institut_beaute:     ['impact-84', 'impact-85', 'impact-86', 'impact-88', 'impact-95', 'impact-148', 'impact-191', 'impact-192', 'impact-198', 'impact-210', 'impact-229', 'impact-71'],
   agent_immobilier:    ['impact-82',  'impact-92',  'impact-128', 'impact-167', 'impact-222', 'impact-241', 'impact-67'],
   architecte:          ['impact-17',  'impact-28',  'impact-118', 'impact-147', 'impact-156', 'impact-186'],
@@ -214,7 +214,7 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   // Only 3 genuine matches found after a full manual review — real BTP/
   // construction content exists in the catalog but is thin. Below the
   // 5-minimum on purpose rather than padding with unrelated templates.
-  btp_construction:    ['impact-173', 'impact-208', 'impact-213'],
+  btp_construction:    ['impact-173', 'impact-208', 'impact-213', 'impact-212', 'impact-214'],
 
   // Les 34 métiers ouverts par la série impact-326→383 (1er août 2026).
   // Sans ces lignes, les thèmes existent mais aucun secteur n'y mène :
@@ -222,38 +222,38 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   // un opticien ou une pharmacie. Ordre : le plus abouti d'abord.
   assurance:            ['impact-337', 'impact-338', 'impact-19', 'impact-48', 'impact-108'],
   audioprothesiste:     ['impact-339', 'impact-340', 'impact-138', 'impact-171', 'impact-231'],
-  auto_ecole:           ['impact-341', 'impact-342'],
+  auto_ecole:           ['impact-341', 'impact-342', 'impact-11', 'impact-49', 'impact-119'],
   brasserie:            ['impact-380', 'impact-37', 'impact-04', 'impact-99', 'impact-189'],
   caviste:              ['impact-381', 'impact-131', 'impact-218', 'impact-04', 'impact-99'],
-  commerce_bouche:      ['impact-345', 'impact-346'],
-  controle_technique:   ['impact-349', 'impact-350'],
+  commerce_bouche:      ['impact-345', 'impact-346', 'impact-33', 'impact-90', 'impact-37'],
+  controle_technique:   ['impact-349', 'impact-350', 'impact-139', 'impact-221', 'impact-39', 'impact-178'],
   couvreur:             ['impact-351', 'impact-352', 'impact-212', 'impact-214', 'impact-215'],
-  creche:               ['impact-353', 'impact-354', 'impact-11', 'impact-49'],
+  creche:               ['impact-353', 'impact-354', 'impact-11', 'impact-49', 'impact-119', 'impact-139'],
   cuisiniste:           ['impact-327', 'impact-334', 'impact-230', 'impact-17', 'impact-28'],
   demenageur:           ['impact-329', 'impact-39', 'impact-178', 'impact-191', 'impact-192'],
-  ecole_musique:        ['impact-377'],
-  formation:            ['impact-347', 'impact-348', 'impact-11', 'impact-49'],
-  gestion_patrimoine:   ['impact-378'],
+  ecole_musique:        ['impact-377', 'impact-11', 'impact-49', 'impact-119', 'impact-139'],
+  formation:            ['impact-347', 'impact-348', 'impact-11', 'impact-49', 'impact-119', 'impact-139'],
+  gestion_patrimoine:   ['impact-378', 'impact-48', 'impact-108', 'impact-19', 'impact-35'],
   infirmier:            ['impact-355', 'impact-356', 'impact-171', 'impact-231', 'impact-95'],
   laboratoire:          ['impact-357', 'impact-358', 'impact-171', 'impact-231', 'impact-95'],
-  location_materiel:    ['impact-359', 'impact-360'],
+  location_materiel:    ['impact-359', 'impact-360', 'impact-139', 'impact-221', 'impact-39'],
   menuisier:            ['impact-230', 'impact-379', 'impact-17', 'impact-28', 'impact-212'],
   notaire:              ['impact-326', 'impact-333', 'impact-46', 'impact-172', 'impact-193'],
   opticien:             ['impact-138', 'impact-331', 'impact-171', 'impact-231', 'impact-95'],
   peintre:              ['impact-361', 'impact-362', 'impact-212', 'impact-214', 'impact-215'],
   pharmacie:            ['impact-330', 'impact-336', 'impact-171', 'impact-231', 'impact-95'],
   podologue:            ['impact-363', 'impact-364', 'impact-210', 'impact-31', 'impact-233'],
-  pompes_funebres:      ['impact-328', 'impact-335'],
-  pressing:             ['impact-343', 'impact-344', 'impact-178', 'impact-191'],
+  pompes_funebres:      ['impact-328', 'impact-335', 'impact-46', 'impact-172', 'impact-193'],
+  pressing:             ['impact-343', 'impact-344', 'impact-178', 'impact-191', 'impact-235', 'impact-12'],
   producteur:           ['impact-365', 'impact-366', 'impact-40', 'impact-33', 'impact-90'],
   recrutement:          ['impact-36', 'impact-382', 'impact-48', 'impact-108', 'impact-46'],
-  sage_femme:           ['impact-367', 'impact-368'],
-  salle_reception:      ['impact-369', 'impact-370'],
-  securite:             ['impact-371', 'impact-372', 'impact-192', 'impact-39'],
+  sage_femme:           ['impact-367', 'impact-368', 'impact-171', 'impact-231', 'impact-95'],
+  salle_reception:      ['impact-369', 'impact-370', 'impact-175', 'impact-200', 'impact-105'],
+  securite:             ['impact-371', 'impact-372', 'impact-192', 'impact-39', 'impact-212', 'impact-214'],
   serrurier:            ['impact-192', 'impact-332', 'impact-212', 'impact-214', 'impact-215'],
   toiletteur:           ['impact-227', 'impact-383', 'impact-32', 'impact-180', 'impact-209'],
   vitrier:              ['impact-375', 'impact-376', 'impact-212', 'impact-214', 'impact-215'],
-  vtc:                  ['impact-373', 'impact-374', 'impact-123', 'impact-221'],
+  vtc:                  ['impact-373', 'impact-374', 'impact-123', 'impact-221', 'impact-39', 'impact-178'],
 };
 
 /** Short display name per template for the step-2 card. */

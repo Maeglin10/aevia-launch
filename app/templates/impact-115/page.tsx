@@ -875,8 +875,12 @@ export default function Impact115Page() {
             {["Projects", "Philosophy", "Services", "Studio", "Contact"].map((link, i) => (
               <motion.a
                 key={link}
-                onClick={() => document.getElementById(link.toLowerCase())?.scrollIntoView({behavior:"smooth"})}
-                onClick={() => setMenuOpen(false)}
+                onClick={() => {
+                  // Deux onClick se suivaient : JSX ne garde que le second, et
+                  // le menu du téléphone se fermait sans jamais défiler.
+                  document.getElementById(link.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
+                  setMenuOpen(false);
+                }}
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.08, duration: 0.5 }}

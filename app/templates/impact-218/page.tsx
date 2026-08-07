@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -307,7 +308,7 @@ function Nav() {
         ))}
       </div>
       <div className="dm-navcta">
-        <a href="#allocation" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#allocation"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <GoldButton>Réserver</GoldButton>
         </a>
       </div>

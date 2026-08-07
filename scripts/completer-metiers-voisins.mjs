@@ -21,7 +21,7 @@ const debut = sectors.indexOf("export const SECTOR_TEMPLATES");
 const bloc = sectors.slice(debut, sectors.indexOf("\n};", debut));
 
 const parMetier = {};
-for (const m of bloc.matchAll(/^\s{2}([a-z]+):\s*\[([^\]]*)\]/gm)) {
+for (const m of bloc.matchAll(/^\s{2}([a-z0-9_]+):\s*\[([^\]]*)\]/gm)) {
   parMetier[m[1]] = [...m[2].matchAll(/impact-[\w-]+/g)].map((x) => x[0]);
 }
 
@@ -56,6 +56,30 @@ const VOISINS = {
   assurance: ["comptable", "avocat"],
   caviste: ["restaurant"],
   producteur: ["boulangerie", "restaurant"],
+  /*
+    Onze métiers restaient à deux ou trois modèles : la table les ignorait
+    parce que sa lecture de SECTOR_TEMPLATES butait sur le tiret bas de leur
+    identifiant. Un professeur de musique n'avait qu'une seule proposition.
+  */
+  auto_ecole: ["formation", "coach"],
+  btp_construction: ["couvreur", "menuisier", "architecte"],
+  commerce_bouche: ["boulangerie", "caviste"],
+  controle_technique: ["garage_auto", "location_materiel", "demenageur"],
+  ecole_musique: ["formation", "coach"],
+  gestion_patrimoine: ["comptable", "avocat", "assurance"],
+  location_materiel: ["garage_auto", "demenageur"],
+  pompes_funebres: ["notaire", "avocat"],
+  sage_femme: ["medecin", "infirmier"],
+  salle_reception: ["mariage", "hotel"],
+  salle_sport: ["coach", "kine"],
+  // Sept métiers plafonnaient à quatre : quatre vignettes remplissent une
+  // rangée et demie, et le catalogue paraît maigre là où il compte 373 modèles.
+  garage_auto: ["controle_technique", "demenageur"],
+  coiffeur: ["institut_beaute", "toiletteur"],
+  creche: ["formation", "ecole_musique"],
+  formation: ["coach", "ecole_musique"],
+  pressing: ["menage", "couture"],
+  vtc: ["demenageur", "garage_auto"],
 };
 
 const CIBLE = 5;   // ce qu'un client doit voir au minimum pour choisir

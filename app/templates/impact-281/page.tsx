@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientPhone,
   clientEmail,
   clientAccrocheRestante,
@@ -374,7 +375,7 @@ function Nav() {
         ))}
       </div>
       <div className="r281-navcta">
-        <a href="#rendez-vous" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#rendez-vous"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <GoldButton>Prendre RDV</GoldButton>
         </a>
       </div>
@@ -585,7 +586,7 @@ function HeroSection() {
           transition={{ duration: 1.2, ease: EASE, delay: 0.72 }}
           style={{ marginTop: 44 }}
         >
-          <a href="#rendez-vous" style={{ textDecoration: 'none' }}>
+          <a href={clientBookingUrl(sessionData) ?? "#rendez-vous"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
             <GoldButton filled>Prendre rendez-vous</GoldButton>
           </a>
         </motion.div>
@@ -2064,7 +2065,7 @@ function AtelierSection() {
         </Reveal>
         <Reveal delay={0.30}>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            <a href="#rendez-vous" style={{ textDecoration: 'none' }}>
+            <a href={clientBookingUrl(sessionData) ?? "#rendez-vous"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
               <GoldButton filled>Prendre rendez-vous</GoldButton>
             </a>
             <a href="#services" style={{ textDecoration: 'none' }}>

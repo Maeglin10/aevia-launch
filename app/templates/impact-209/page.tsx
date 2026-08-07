@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, BlurThrough, Retint, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
 import { TrackingCollapse } from '@/lib/templates/hero-kit-3';
 import {
+  clientBookingUrl,
   clientPhotos,
   clientAddress,
   clientCity,
@@ -1182,7 +1183,7 @@ export default function Page() {
             </a>
           ))}
           <a
-            href="#reservation"
+            href={clientBookingUrl(sessionData) ?? "#reservation"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             style={{
               ...bodyFont,
               fontSize: '11px',
@@ -1357,7 +1358,7 @@ export default function Page() {
             </>}</p>
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' as const }}>
               <a
-                href="#reservation"
+                href={clientBookingUrl(sessionData) ?? "#reservation"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 style={{
                   ...bodyFont,
                   fontSize: '12px',

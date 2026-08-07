@@ -34,6 +34,7 @@ import {
   Users,
 } from 'lucide-react';
 import {
+  clientBookingUrl,
   clientPhone,
   clientAccrocheRestante,
   clientAddress,
@@ -333,7 +334,7 @@ function Nav() {
         ))}
       </div>
       <div className="r285-navcta">
-        <a href="#rdv" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <PrimaryButton filled salmon>
             Prendre RDV
           </PrimaryButton>
@@ -1305,7 +1306,7 @@ function ConsultationSection() {
           </div>
 
           <Reveal delay={0.1} style={{ marginTop: 28 }}>
-            <a href="#rdv" style={{ textDecoration: 'none' }}>
+            <a href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
               <PrimaryButton filled>
                 Réserver une consultation
               </PrimaryButton>
@@ -2764,7 +2765,7 @@ function FooterSection() {
           <a href="#hero" style={{ color: 'inherit', textDecoration: 'none' }}>
             Confidentialité
           </a>
-          <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <a href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ color: 'inherit', textDecoration: 'none' }}>
             Prendre RDV
           </a>
         </span>

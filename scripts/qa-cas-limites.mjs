@@ -179,6 +179,9 @@ const CAS = {
 
 const args = process.argv.slice(2);
 const casVoulu = args.includes("--cas") ? args[args.indexOf("--cas") + 1] : null;
+// Vingt et un cas sur deux écrans et 373 thèmes font quinze mille mesures : on
+// découpe par écran pour que chaque passe reste mesurable dans l'heure.
+const ecranVoulu = args.includes("--ecran") ? args[args.indexOf("--ecran") + 1] : null;
 const casTestes = casVoulu ? [casVoulu] : Object.keys(CAS);
 
 let ids = args.filter((a) => a.startsWith("impact-"));
@@ -193,7 +196,9 @@ const fiches = [];
 
 for (const nomCas of casTestes) {
   const cas = CAS[nomCas];
-  for (const ecran of [{ nom: "téléphone", w: 390, h: 844, mobile: true }, { nom: "ordinateur", w: 1440, h: 900, mobile: false }]) {
+  const ECRANS = [{ nom: "téléphone", w: 390, h: 844, mobile: true }, { nom: "ordinateur", w: 1440, h: 900, mobile: false }]
+    .filter((e) => !ecranVoulu || e.nom === ecranVoulu);
+  for (const ecran of ECRANS) {
     const ctx = await b.newContext({ viewport: { width: ecran.w, height: ecran.h }, isMobile: ecran.mobile, hasTouch: ecran.mobile });
 
     for (const id of ids) {

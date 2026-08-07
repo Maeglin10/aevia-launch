@@ -820,8 +820,12 @@ export default function TerreVivantePage() {
                 {l.label}
               </a>
             ))}
-            <button onClick={() => document.getElementById("tarifs")?.scrollIntoView({behavior:"smooth"})}
-              onClick={() => setMenuOpen(false)}
+            <button onClick={() => {
+                // Deux onClick se suivaient : JSX ne garde que le second, et le
+                // menu du téléphone se fermait sans jamais défiler vers les tarifs.
+                document.getElementById("tarifs")?.scrollIntoView({ behavior: "smooth" });
+                setMenuOpen(false);
+              }}
               style={{
                 backgroundColor: C.bgDark,
                 color: C.accent,

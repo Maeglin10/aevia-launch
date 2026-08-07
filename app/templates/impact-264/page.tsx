@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Heart, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -427,7 +428,7 @@ function Nav() {
         ))}
       </div>
       <div className="oa-navcta">
-        <a href="#reserver" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#reserver"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <TealButton filled>Réserver</TealButton>
         </a>
       </div>
@@ -1215,7 +1216,7 @@ function EditRowItem({ row }: { row: EditRow }) {
         </Reveal>
         <Reveal delay={0.24}>
           <div style={{ marginTop: 34 }}>
-            <a href="#reserver" style={{ textDecoration: 'none' }}>
+            <a href={clientBookingUrl(sessionData) ?? "#reserver"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
               <TealButton>Prendre rendez-vous</TealButton>
             </a>
           </div>
@@ -1942,7 +1943,7 @@ function Footer() {
               marginTop: 28,
             }}
           >
-            <a href="#reserver" style={{ textDecoration: 'none' }}>
+            <a href={clientBookingUrl(sessionData) ?? "#reserver"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
               <TealButton filled>Réserver</TealButton>
             </a>
           </div>

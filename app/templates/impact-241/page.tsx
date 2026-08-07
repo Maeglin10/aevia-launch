@@ -19,6 +19,7 @@ import {
   Quote,
 } from 'lucide-react';
 import {
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -1517,7 +1518,7 @@ function ExpertisePanel() {
           </div>
           <Reveal delay={0.28}>
             <div style={{ marginTop: 44 }}>
-              <a href="#contact" style={{ textDecoration: 'none' }}>
+              <a href={clientBookingUrl(sessionData) ?? "#contact"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
                 <GoldButton filled>Prendre rendez-vous</GoldButton>
               </a>
             </div>

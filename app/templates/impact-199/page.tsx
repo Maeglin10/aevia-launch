@@ -32,6 +32,7 @@ import {
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientBookingUrl,
   clientPhone,
   clientAddress,
   clientCity,
@@ -748,7 +749,7 @@ export default function Impact199Page() {
               transition={{ duration: 1, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
             >
               <a
-                href="#contact"
+                href={clientBookingUrl(sessionData) ?? "#contact"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className="group inline-flex items-center gap-3 bg-[var(--brand,#DC2626)] hover:bg-[#b91c1c] text-white font-semibold px-8 py-5 tracking-widest uppercase text-sm transition-all"
               >
                 Prendre Rendez-Vous
@@ -1035,7 +1036,7 @@ export default function Impact199Page() {
                 </p>
               </div>
               <a
-                href="#contact"
+                href={clientBookingUrl(sessionData) ?? "#contact"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className="flex-shrink-0 bg-[var(--brand,#DC2626)] hover:bg-[#b91c1c] text-white font-semibold px-8 py-4 tracking-widest uppercase text-sm transition-all flex items-center gap-2"
               >
                 Réserver un Flash
@@ -1633,7 +1634,7 @@ export default function Impact199Page() {
                 <p className="text-white/70 text-sm">Consultation gratuite — réponse sous 24h</p>
               </div>
               <a
-                href="#contact"
+                href={clientBookingUrl(sessionData) ?? "#contact"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className="flex-shrink-0 bg-white hover:bg-white/90 text-[var(--brand,#DC2626)] font-semibold px-8 py-4 tracking-widest uppercase text-sm transition-all flex items-center gap-2"
               >
                 Réserver maintenant

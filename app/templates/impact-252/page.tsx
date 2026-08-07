@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -462,7 +463,7 @@ function Nav() {
         ))}
       </div>
 
-      <a href="#rdv" style={{ textDecoration: 'none' }} className="sc-navlinks">
+      <a href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }} className="sc-navlinks">
         <TealButton filled>Prendre RDV</TealButton>
       </a>
 

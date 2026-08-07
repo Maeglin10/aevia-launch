@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Heart, MapPin, Quote } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
@@ -515,7 +516,7 @@ function Nav() {
       </div>
       <div className="kp-navcta">
         <a
-          href="#rdv"
+          href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           style={{
             display: 'inline-flex',
             alignItems: 'center',

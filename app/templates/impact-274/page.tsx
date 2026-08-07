@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientAccrocheRestante,
   clientAddress,
   clientCity,
@@ -340,7 +341,7 @@ function Nav() {
         ))}
       </div>
       <div className="r274-navcta">
-        <a href="#rdv" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <SageButton filled>Prendre rendez-vous</SageButton>
         </a>
       </div>

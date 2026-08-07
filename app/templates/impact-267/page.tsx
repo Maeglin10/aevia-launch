@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, PenLine } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -476,7 +477,7 @@ function Nav() {
         ))}
       </div>
       <div className="ev-navcta">
-        <a href="#reservation" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#reservation"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <AccentButton filled dark>
             Réserver
           </AccentButton>

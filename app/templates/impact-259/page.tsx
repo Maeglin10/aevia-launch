@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Coffee, MapPin, Quote, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
@@ -497,7 +498,7 @@ function Nav() {
       </div>
 
       <div className="fp-navcta">
-        <a href="#reservation" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#reservation"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <AmberButton filled>Réserver</AmberButton>
         </a>
       </div>

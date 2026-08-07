@@ -133,6 +133,22 @@ export function clientServices(s: SessionLike | null | undefined): ClientService
   const catalogue = clientProducts(s);
   if (catalogue) return catalogue.map((d) => service(d.name, d.description, d.price));
 
+  /*
+    L'agence immobilière saisit des biens. Cinq de ses sept thèmes affichent une
+    section de prestations : sans ce dernier repli, elle y lisait « Détartrage
+    Vidal » ou l'exemple du thème.
+  */
+  const biens = (s?.businessProfile?.listings ?? []) as any[];
+  const desBiens = keep(
+    biens.map((r) => service(
+      trimmed(r?.title),
+      [trimmed(r?.city), trimmed(r?.surface), trimmed(r?.rooms)].filter(Boolean).join(" · "),
+      trimmed(r?.price) || undefined,
+    )),
+    (r) => Boolean(r.title),
+  );
+  if (desBiens) return desBiens;
+
   const gen = (s?.generatedContent?.services ?? []) as any[];
   return keep(
     gen.map((r) =>
