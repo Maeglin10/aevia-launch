@@ -483,8 +483,8 @@ export default function QBitLabsPage() {
                     maxWidth: 640,
                   }}
                 >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>
-                  The future of computation{" "}
-                  <span style={{ fontWeight: 700 }}>{clientHeroLine(sessionData, 0, 1, 11) ?? "is quantum."}</span>
+                  {clientHeroLine(sessionData, 0, 2, 11) ?? "The future of computation"}{" "}
+                  <span style={{ fontWeight: 700 }}>{clientHeroLine(sessionData, 1, 2, 11) ?? "is quantum."}</span>
                 </>}</>)}</h1>
               </Reveal>
 

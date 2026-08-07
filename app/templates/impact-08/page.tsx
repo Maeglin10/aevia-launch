@@ -469,7 +469,7 @@ return (
                 style={{ y: bgTextY }}
                 className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-[0.03] pointer-events-none select-none z-0"
               >
-                 <h2 className="text-[35vw] font-black uppercase tracking-tighter leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>VULCAN</>)}</h2>
+                 <h2 className="text-[35vw] font-black uppercase tracking-tighter leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? clientName(sessionData) ?? (<>VULCAN</>)}</h2>
               </motion.div>
 
               <div className="relative z-10 w-full max-w-7xl">
@@ -685,8 +685,8 @@ return (
                <div className="lg:col-span-7">
                   <Reveal>
                      <div onClick={() => goTo("home")} className="flex flex-col mb-16 cursor-pointer">
-                        <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic">Vulcan</span>
-                        <span className="text-[12px] font-bold uppercase tracking-[0.8em] text-[var(--brand,#3b82f6)] ml-2">Motor Group Modena</span>
+                        <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic">{clientName(sessionData) ?? "Vulcan"}</span>
+                        {clientName(sessionData) ? null : <span className="text-[12px] font-bold uppercase tracking-[0.8em] text-[var(--brand,#3b82f6)] ml-2">Motor Group Modena</span>}
                      </div>
                      <p className="text-white/20 max-w-md mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
                         L'excellence absolue dans la performance automobile. Conçue pour l'élite mondiale dans notre sanctuaire italien.

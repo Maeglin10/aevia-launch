@@ -596,7 +596,7 @@ export default function Page() {
               color: C.text,
               marginBottom: 20,
             }}>{<>
-              Un intérieur{'\u00A0'}impeccable,<br />{clientHeroLine(sessionData, 0, 1, 25) ?? "sans lever le petit doigt"}</>}</h1>
+              {clientHeroLine(sessionData, 0, 2, 25) ?? <>Un intérieur{'\u00A0'}impeccable,</>}<br />{clientHeroLine(sessionData, 1, 2, 25) ?? "sans lever le petit doigt"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>

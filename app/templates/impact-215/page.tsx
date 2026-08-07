@@ -2230,12 +2230,12 @@ export default function FlammeEtCoPage() {
                 marginBottom: '1.25rem',
               }}
             >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>
-              Réchauffez{' '}
+              {clientHeroLine(sessionData, 0, 2, 15) ?? "Réchauffez"}{' '}
               <span style={{
                 background: `linear-gradient(135deg, ${C.accent}, ${C.goldLight})`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-              }}>{clientHeroLine(sessionData, 0, 1, 15) ?? "votre intérieur"}</span>
+              }}>{clientHeroLine(sessionData, 1, 2, 15) ?? "votre intérieur"}</span>
             </>}</>)}</motion.h1>
 
             <motion.p

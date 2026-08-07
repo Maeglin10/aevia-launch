@@ -8,6 +8,7 @@ import { Droplets, ShieldCheck, Phone, Clock, Star, MapPin, ArrowRight, CheckCir
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientHeroLine,
   clientAreas,
   clientCity,
   clientPhotos,
@@ -288,7 +289,7 @@ export default function AquanovaPiscinesPage() {
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            Votre piscine<br />sur-<span className="text-[var(--brand-light)]">mesure</span><br />à {clientCity({ formData: fd }) ?? "Lyon"}.
+            {clientHeroLine(sessionData, 0, 3, 13) ?? "Votre piscine"}<br />{clientHeroLine(sessionData, 1, 3, 13) ?? <>sur-<span className="text-[var(--brand-light)]">mesure</span></>}<br />{clientHeroLine(sessionData, 2, 3, 13) ?? <>à {clientCity({ formData: fd }) ?? "Lyon"}.</>}
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}

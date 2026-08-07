@@ -232,10 +232,10 @@ return (
         >
           <Reveal delay={0.1}>
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-[1.1] md:leading-[1.05] tracking-tight mb-4 md:mb-6 break-words">{<>
-              Apprenez ce que{" "}
+              {clientHeroLine(sessionData, 0, 3, 18) ?? "Apprenez ce que"}{" "}
               <span className="relative inline-block align-bottom" style={{ minWidth: "5.2em" }}>
                 <HeldSwap index={heroI} tilt={5} className="inline-block">
-                  <span className="text-[var(--brand,#6366F1)] whitespace-nowrap">{HERO_SUBJECTS[heroI]}</span>
+                  <span className="text-[var(--brand,#6366F1)] whitespace-nowrap">{clientHeroLine(sessionData, 1, 3, 18) || HERO_SUBJECTS[heroI]}</span>
                 </HeldSwap>
                 <motion.div
                   initial={{ scaleX: 0 }}
@@ -244,7 +244,7 @@ return (
                   className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--brand,#6366F1)]/30 rounded-full origin-left"
                 />
               </span>
-              <br />{clientHeroLine(sessionData, 0, 2, 18) ?? "quand vous voulez."}</>}</h1>
+              <br />{clientHeroLine(sessionData, 2, 3, 18) ?? "quand vous voulez."}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.2}>
@@ -295,11 +295,11 @@ return (
                 <span className="text-xs font-bold text-[var(--brand,#6366F1)] uppercase tracking-widest block mb-4">
                   Comment ça marche
                 </span>
-                <h2 className="text-3xl md:text-5xl font-extrabold text-[#1E1B4B] leading-tight">{clientHeroLine(sessionData, 1, 2, 18) ?? <>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
+                <h2 className="text-3xl md:text-5xl font-extrabold text-[#1E1B4B] leading-tight">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                   Quatre étapes,
                   <br />
                   <span className="text-[var(--brand,#6366F1)]">du premier clic au portfolio.</span>
-                </>)}</>}</h2>
+                </>)}</h2>
                 <div className="mt-8 flex gap-2">
                   {PARCOURS.map((st, n) => (
                     <motion.span
