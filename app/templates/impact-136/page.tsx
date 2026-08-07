@@ -420,9 +420,9 @@ export default function TextRevealPage() {
         <div className="max-w-[1200px] mx-auto">
           <Reveal>
             <h2 className="text-4xl md:text-6xl lg:text-[5rem] font-medium leading-[1.1] tracking-tight mb-16">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
-              We design digital experiences that{" "}
+              {clientHeroLine(sessionData, 0, 2, 24) ?? "We design digital experiences that"}{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 to-zinc-600">
-                refuse to be ignored.
+                {clientHeroLine(sessionData, 1, 2, 24) ?? "refuse to be ignored."}
               </span>
             </>)}</h2>
           </Reveal>

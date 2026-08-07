@@ -16,6 +16,7 @@ import {
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientHeroLine,
   clientCity,
   clientList,
   clientName,
@@ -1560,7 +1561,11 @@ export default function FashionEditorialTemplate() {
 
           {/* REQUIREMENT 2: Line-by-line reveal */}
           <EditorialHeading
-            lines={['The art', 'of quiet', '*luxury.']}
+            lines={[
+              clientHeroLine(sessionData, 0, 3, 10) ?? 'The art',
+              clientHeroLine(sessionData, 1, 3, 10) ?? 'of quiet',
+              clientHeroLine(sessionData, 2, 3, 10) ?? '*luxury.',
+            ]}
             fontSize={72}
             accentColor={accentColor}
           />
