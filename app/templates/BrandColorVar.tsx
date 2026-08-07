@@ -180,15 +180,91 @@ function rendreLesNomsEntiers(nom: string | undefined) {
     if (e.scrollWidth <= e.clientWidth + 4) continue;
 
     e.dataset.nomAjuste = "1";
-    const depart = parseFloat(getComputedStyle(e).fontSize) || 16;
-    for (let taille = depart - 1; taille >= 11; taille -= 1) {
-      e.style.fontSize = `${taille}px`;
-      if (e.scrollWidth <= e.clientWidth + 2) break;
+    retrecirJusquAuCadre(e);
+  }
+
+  /*
+    Le nom n'est pas toujours coupé : parfois il pousse ses voisins hors de
+    l'écran. « Établissements Vidal-Marquisats & Fils Réunis depuis 1912 »
+    laisse le bouton « Prendre rendez-vous » à soixante-sept pixels du bord
+    droit — mesuré sur dix-sept thèmes, toujours dans l'en-tête. Le nom, lui,
+    tient dans son propre cadre : rien ne le signalait.
+  */
+  for (const entete of document.querySelectorAll<HTMLElement>("header, nav")) {
+    const largeur = document.documentElement.clientWidth;
+    const deborde = [...entete.querySelectorAll<HTMLElement>("*")]
+      .some((x) => x.children.length === 0 && x.getBoundingClientRect().right > largeur + 4);
+    if (!deborde) continue;
+
+    for (const e of entete.querySelectorAll<HTMLElement>("span, a, div, p, h1, h2")) {
+      if (e.children.length > 0 || e.dataset.nomRetreci) continue;
+      if ((e.textContent ?? "").trim().toLowerCase() !== cherche) continue;
+      e.dataset.nomRetreci = "1";
+      const depart = parseFloat(getComputedStyle(e).fontSize) || 16;
+      for (let taille = depart - 1; taille >= 11; taille -= 1) {
+        e.style.fontSize = `${taille}px`;
+        const encore = [...entete.querySelectorAll<HTMLElement>("*")]
+          .some((x) => x.children.length === 0 && x.getBoundingClientRect().right > largeur + 4);
+        if (!encore) break;
+      }
     }
-    if (e.scrollWidth > e.clientWidth + 2) {
-      e.style.whiteSpace = "normal";
-      e.style.overflowWrap = "anywhere";
-      e.style.textOverflow = "clip";
+  }
+}
+
+/** La police rétrécit par paliers jusqu'à ce que le texte tienne, sans jamais descendre sous onze pixels. */
+function retrecirJusquAuCadre(e: HTMLElement) {
+  const depart = parseFloat(getComputedStyle(e).fontSize) || 16;
+  for (let taille = depart - 1; taille >= 11; taille -= 1) {
+    e.style.fontSize = `${taille}px`;
+    if (e.scrollWidth <= e.clientWidth + 2) return;
+  }
+  // Même onze pixels ne suffisent pas : mieux vaut deux lignes qu'un nom tronqué.
+  e.style.whiteSpace = "normal";
+  e.style.overflowWrap = "anywhere";
+  e.style.textOverflow = "clip";
+}
+
+/**
+ * La marque de l'en-tête, sur les pages annexes.
+ *
+ * Cent cinquante et une sous-pages — la carte, l'atelier, les archives, le
+ * contact — chargent la session sans jamais s'en servir : leur en-tête garde
+ * « Aether Sound Labs » ou « Atelier NOIR ». Un client qui achète le thème
+ * livre donc vingt-deux pages au nom d'une autre entreprise, et il ne les
+ * regarde pas toutes avant de publier.
+ *
+ * On ne touche qu'au lien qui ramène à l'accueil depuis l'en-tête : c'est là
+ * que vit la marque, et nulle part ailleurs.
+ */
+function rendreLaMarque(nom: string | undefined) {
+  if (!nom || nom.trim().length < 2) return;
+  const propre = nom.trim();
+  const racine = /^\/templates\/impact-[\w-]+$/;
+
+  for (const entete of document.querySelectorAll("header, nav")) {
+    for (const lien of entete.querySelectorAll<HTMLElement>("a")) {
+      const href = lien.getAttribute("href") ?? "";
+      if (!racine.test(href)) continue;
+      if (lien.dataset.marqueRendue) continue;
+      const texte = (lien.textContent ?? "").replace(/\s+/g, " ").trim();
+      if (texte.length === 0 || texte.length > 44) continue;
+      // Déjà au nom du client : rien à faire, et surtout rien à réécrire.
+      if (texte.toLowerCase().includes(propre.toLowerCase())) continue;
+
+      lien.dataset.marqueRendue = "1";
+      /*
+        Les marques s'écrivent souvent en deux morceaux — « Aether » puis
+        « Sound Labs ». Le premier reçoit le nom, les suivants s'effacent :
+        garder « Sound Labs » sous « Ateliers Vidal » ne voudrait rien dire.
+      */
+      const morceaux = [...lien.querySelectorAll<HTMLElement>("span, div, strong, b")]
+        .filter((x) => x.children.length === 0 && (x.textContent ?? "").trim().length > 0);
+      if (morceaux.length >= 1) {
+        morceaux[0].textContent = propre;
+        for (const autre of morceaux.slice(1)) autre.textContent = "";
+      } else {
+        lien.textContent = propre;
+      }
     }
   }
 }
@@ -247,11 +323,80 @@ function rendreLesHoraires(horaires: Array<{ day?: string; open?: string; close?
   const condense = tranches.join(" · ");
   if (!condense) return;
 
+  /*
+    Beaucoup de tableaux séparent les deux : « Lundi — Vendredi » dans une
+    colonne, « 7h00 — 19h00 » dans la suivante. Aucun des deux éléments ne porte
+    à lui seul un horaire ; pris isolément, ils passaient au travers.
+  */
   for (const e of document.querySelectorAll<HTMLElement>("p, span, div, li, td, dd, time")) {
-    if (e.children.length > 0) continue;
+    if (e.children.length > 0 || e.dataset.horairesRendus) continue;
+    const t = (e.textContent ?? "").replace(/\s+/g, " ").trim();
+    if (t.length < 3 || t.length > 40) continue;
+    if (/\d{1,2}\s?[h:]/.test(t)) continue;
+    const jours = JOURS.filter((j) => t.toLowerCase().includes(j));
+    const abreges = ABREGE.filter((j) => new RegExp(`\\b${j}\\b`, "i").test(t));
+    if (jours.length === 0 && abreges.length === 0) continue;
+
+    const voisin = e.nextElementSibling as HTMLElement | null;
+    const texteVoisin = (voisin?.textContent ?? "").replace(/\s+/g, " ").trim();
+    if (!voisin || voisin.children.length > 0 || !/^\D{0,4}\d{1,2}\s?[h:]/.test(texteVoisin)) continue;
+
+    e.dataset.horairesRendus = "1";
+    voisin.dataset.horairesRendus = "1";
+    const un = jours.length + abreges.length === 1;
+    if (un) {
+      const nom = jours[0] ?? abreges[0];
+      const i = JOURS.indexOf(nom) >= 0 ? JOURS.indexOf(nom) : ABREGE.indexOf(nom);
+      const valeur = parJour.get(i);
+      if (valeur) voisin.textContent = valeur;
+    } else {
+      /*
+        On garde le libellé de jours du thème pour ne pas défaire sa colonne,
+        et l'on ne remplace que les heures : la première tranche du client,
+        celle qui couvre la semaine.
+      */
+      voisin.textContent = tranches[0]?.replace(/^\S+\s/, "") ?? voisin.textContent;
+    }
+  }
+
+  for (const e of document.querySelectorAll<HTMLElement>("p, span, div, li, td, dd, time")) {
+    /*
+      Un bloc d'horaires tient souvent en un seul élément coupé par des <br> :
+      « Lun – Ven : 6h – 22h<br />Samedi : 8h – 18h ». Ces <br> comptent comme
+      enfants, et le bloc passait à travers — c'était le cas d'impact-87.
+    */
+    const queDesRetours = [...e.children].every((x) => x.tagName === "BR");
+    if (e.children.length > 0 && !queDesRetours) continue;
     if (e.dataset.horairesRendus) continue;
     const t = (e.textContent ?? "").replace(/\s+/g, " ").trim();
     if (t.length < 5) continue;
+
+    /*
+      Plusieurs lignes dans un seul élément : on remplace ligne à ligne, en
+      gardant les retours, plutôt que d'aplatir le bloc en une phrase.
+    */
+    if (queDesRetours && e.children.length > 0) {
+      const lignes = e.innerHTML.split(/<br\s*\/?>/i);
+      const refaites = lignes.map((ligne) => {
+        const nu = ligne.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+        if (!/\d{1,2}\s?[h:]/.test(nu)) return ligne;
+        const noms = JOURS.filter((j) => nu.toLowerCase().includes(j));
+        const abr = ABREGE.filter((j) => new RegExp(`\\b${j}\\b`, "i").test(nu));
+        if (noms.length === 0 && abr.length === 0) return ligne;
+        if (noms.length + abr.length === 1) {
+          const nom = noms[0] ?? abr[0];
+          const i = JOURS.indexOf(nom) >= 0 ? JOURS.indexOf(nom) : ABREGE.indexOf(nom);
+          const valeur = parJour.get(i);
+          return valeur ? `${capitale(noms.length ? JOURS[i] : ABREGE[i])} : ${valeur}` : ligne;
+        }
+        return tranches[0] ?? ligne;
+      });
+      if (refaites.join("") !== e.innerHTML) {
+        e.dataset.horairesRendus = "1";
+        e.innerHTML = refaites.join("<br />");
+      }
+      continue;
+    }
 
     /*
       Dans une phrase, on ne remplace que le fragment horaire : « Notre équipe
@@ -376,6 +521,7 @@ export function BrandColorVar() {
           relierLesBoutonsDeReservation(d?.businessProfile?.bookingSystem?.url);
           rendreLesNomsEntiers(d?.formData?.businessName);
           rendreLesHoraires(d?.businessProfile?.openingHours);
+          rendreLaMarque(d?.formData?.businessName);
         };
         requestAnimationFrame(() => requestAnimationFrame(passer));
         for (const delai of [400, 1200, 2500]) setTimeout(passer, delai);
