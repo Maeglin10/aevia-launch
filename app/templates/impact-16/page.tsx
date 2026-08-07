@@ -11,6 +11,7 @@ import { Menu, X, ArrowRight, Camera, Eye, Award, ChevronRight, MapPin, Mail, Ta
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientHeroLine,
   clientCity,
   clientName,
   clientPhotos,
@@ -278,7 +279,7 @@ return (
                   </div>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <h1 className="text-white text-6xl md:text-9xl leading-none mb-6" style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Obscura"))}</>}</h1>
+                  <h1 className="text-white text-6xl md:text-9xl leading-none mb-6" style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{clientHeroLine(sessionData, 0, 1, 20) ?? c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Obscura"))}</>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
                   <p className="text-white/50 text-lg max-w-md leading-relaxed mb-12 font-sans font-light">{fd?.tagline ?? c?.heroSubline ?? <>

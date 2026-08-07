@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientHeroLine,
   clientAddress,
   clientCity,
   clientList,
@@ -1498,7 +1499,7 @@ export default function WineryTemplate() {
             <div className="i131-title-slot" style={{ position: "absolute", insetInline: 0, zIndex: 3, pointerEvents: "none" }}>
               <h1 className="i131-title" style={{ margin: 0 }}>
                 <span style={{ fontFamily: C.fontSerif, fontWeight: 700, color: C.dark, fontSize: "clamp(30px, 5.4vw, 92px)", lineHeight: 1, letterSpacing: "0.04em", justifySelf: "end", paddingRight: "clamp(0px,1.8vw,28px)" }}>
-                  {c?.heroHeadline ?? HERO_CUVEES[heroI].left}
+                  {clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? HERO_CUVEES[heroI].left}
                 </span>
                 <span aria-hidden className="i131-title-gap" />
                 <span style={{ fontFamily: C.fontSerif, fontWeight: 700, color: C.burgundy, fontSize: "clamp(30px, 5.4vw, 92px)", lineHeight: 1, letterSpacing: "0.04em", justifySelf: "start", paddingLeft: "clamp(0px,1.8vw,28px)" }}>

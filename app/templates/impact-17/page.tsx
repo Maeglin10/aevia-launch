@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, Building2, ChevronRight, MapPin, Mail, Phone, Award, Layers, Users, Calendar, MessageSquare, ShieldCheck } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientHeroLine,
   clientCity,
   clientName,
   clientPhotos,
@@ -309,7 +310,7 @@ return (
                     <p className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4">Agence d'architecture · {clientCity(sessionData) ?? "Paris"}</p>
                   </Reveal>
                   <Reveal delay={0.1}>
-                    <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Kéops"))}</>}</h1>
+                    <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Kéops"))}</>}</h1>
                   </Reveal>
                   <Reveal delay={0.2}>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">

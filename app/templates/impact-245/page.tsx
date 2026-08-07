@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEyebrow,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -554,7 +555,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
         >
-          <Eyebrow color={C.accentLight}>Boulangerie artisanale · {clientCity(sessionData) ?? "Lyon"}</Eyebrow>
+          <Eyebrow color={C.accentLight}>{clientEyebrow(sessionData) ?? <>Boulangerie artisanale · {clientCity(sessionData) ?? "Lyon"}</>}</Eyebrow>
         </motion.div>
 
         <motion.h1

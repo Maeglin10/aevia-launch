@@ -7,6 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, MapPin, Calendar, Clock, ChevronRight, Search, Globe, Wind } from "lucide-react"
 import {
+  clientHeroLine,
   clientCity,
   clientName,
   clientPhotos,
@@ -334,7 +335,7 @@ export default function AtlasPage() {
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#F5F0E8] leading-[1.05] max-w-4xl mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{c?.heroHeadline ?? <>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#F5F0E8] leading-[1.05] max-w-4xl mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
               {featuredArticle.title}
             </>}</h1>
           </Reveal>

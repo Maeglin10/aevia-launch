@@ -85,12 +85,21 @@ for (const id of ids) {
     await p.close();
 
     const restes = METIERS.filter((m) => texte.includes(m));
-    fiche = { id, restes: restes.slice(0, 3), extrait: texte.slice(0, 60) };
+    /*
+      Le fragment fautif, et non la page entière : sans lui, on ne sait pas si
+      le métier étranger tient le surtitre ou s'il est perdu dans une carte de
+      prestation que le client remplacera par la sienne.
+    */
+    const fragments = restes.map((m) => {
+      const bout = texte.split(" · ").find((x) => x.includes(m)) ?? "";
+      return `${m} → « ${bout.slice(0, 46)} »`;
+    });
+    fiche = { id, restes: restes.slice(0, 3), fragments: fragments.slice(0, 3) };
   } catch (e) {
     fiche = { id, restes: [], erreur: String(e.message).slice(0, 50) };
   }
   fiches.push(fiche);
-  if (fiche.restes.length) console.log(`${id.padEnd(12)} métier de la démonstration : ${fiche.restes.join(", ")}`);
+  if (fiche.restes.length) console.log(`${id.padEnd(12)} ${(fiche.fragments ?? []).join("  |  ")}`);
   if (fiche.erreur) console.log(`${id.padEnd(12)} ERREUR ${fiche.erreur}`);
 }
 

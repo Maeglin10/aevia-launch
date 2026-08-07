@@ -6,6 +6,7 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { Search, User, ArrowRight, BookOpen, Clock, MessageSquare, Check, Link2, Camera, Bookmark, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import {
+  clientHeroLine,
   clientCity,
   clientFaq,
   clientName,
@@ -819,7 +820,7 @@ export default function ImpactFrequencePage() {
                   color: C.text,
                   marginBottom: 28,
                 }}
-              >{c?.heroHeadline ?? <>
+              >{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
                 {FEATURED_ARTICLE.title}
               </>}</motion.h1>
 

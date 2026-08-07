@@ -17,6 +17,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Progress } from "@/components/ui/progress"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientHeroLine,
   clientCity,
   clientList,
   clientName,
@@ -277,7 +278,7 @@ export default function KineticStudio() {
           ))}
         </div>
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-6xl md:text-8xl font-bold mb-6">{c?.heroHeadline ?? <>
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-6xl md:text-8xl font-bold mb-6">{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
             {fd?.businessName ?? "KINETIC"}
           </>}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-xl md:text-2xl font-light">{fd?.tagline ?? c?.heroSubline ?? <>
