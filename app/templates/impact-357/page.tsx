@@ -109,7 +109,11 @@ export default function AxisBioPage() {
   HERO = clientTagline({ formData: fd, generatedContent: c })
 
 
-    ? HERO_SOURCE.map((h, i) => (i === 0 ? { ...h, sub: clientTagline({ formData: fd, generatedContent: c })! } : h))
+    ? HERO_SOURCE.map((h, i) => ({
+        ...h,
+        ...(i === 0 ? { sub: clientTagline({ formData: fd, generatedContent: c })! } : {}),
+        word: clientServices(sessionData)?.[i]?.title ?? h.word,
+      }))
 
 
     : HERO_SOURCE;
