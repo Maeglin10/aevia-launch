@@ -360,10 +360,10 @@ export default function BlockBasePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7">
               <Reveal>
-                <h1 style={{ /* TITRE_DEGAGE */ marginTop: 55 }} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-[1.05] md:leading-[0.9] tracking-tighter uppercase mb-5 md:mb-8 [overflow-wrap:normal] [word-break:normal] text-balance">{<>{clientHeroLine(sessionData, 0, 3, 13) ?? "Zero"}<br />{" "}
-                  <span className="text-[#00f2ff]">{clientHeroLine(sessionData, 1, 3, 13) ?? "Knowledge."}</span> <br />{" "}
-                  Absolute <br />{" "}
-                  <span className="text-white/20">{clientHeroLine(sessionData, 2, 3, 13) ?? "Frictionless."}</span>
+                <h1 style={{ /* TITRE_DEGAGE */ marginTop: 55 }} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-[1.05] md:leading-[0.9] tracking-tighter uppercase mb-5 md:mb-8 [overflow-wrap:normal] [word-break:normal] text-balance">{<>{clientHeroLine(sessionData, 0, 4, 13) ?? "Zero"}<br />{" "}
+                  <span className="text-[#00f2ff]">{clientHeroLine(sessionData, 1, 4, 13) ?? "Knowledge."}</span> <br />{" "}
+                  {clientHeroLine(sessionData, 2, 4, 13) ?? "Absolute"} <br />{" "}
+                  <span className="text-white/20">{clientHeroLine(sessionData, 3, 4, 13) ?? "Frictionless."}</span>
                 </>}</h1>
                 <p className="max-w-xl text-base md:text-lg text-white/40 leading-relaxed font-light mb-6 md:mb-12 uppercase tracking-widest">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   High-performance indexing and indexer infrastructure for the

@@ -112,7 +112,10 @@ export default function AxisBioPage() {
     ? HERO_SOURCE.map((h, i) => ({
         ...h,
         ...(i === 0 ? { sub: clientTagline({ formData: fd, generatedContent: c })! } : {}),
-        word: clientServices(sessionData)?.[i]?.title ?? h.word,
+        // Le mot final appartient au titre : sans lui, un plombier finissait la
+        // phrase d'un laboratoire. Sa prestation d'abord, sinon la seconde
+        // ligne de sa propre phrase — jamais celle de la démonstration.
+        word: clientServices(sessionData)?.[i]?.title || clientHeroLine(sessionData, 1, 2, 18) || h.word,
       }))
 
 
@@ -264,9 +267,9 @@ export default function AxisBioPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Analyses</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{clientHeroLine(sessionData, 1, 2, 18) ?? <>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Du bilan de routine<br /><em>au diagnostic pointu.</em>
-              </>)}</>}</h2>
+              </>)}</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>

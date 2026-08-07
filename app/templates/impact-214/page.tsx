@@ -14,6 +14,7 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import { Droplets, Bell } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientHeroLine,
   clientAddress,
   clientCity,
   clientFaq,
@@ -1634,7 +1635,7 @@ export default function AquaPrestigePage() {
               color: C.white,
             }}
           >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            Votre Plombier{' '}
+            {clientHeroLine(sessionData, 0, 3, 14) ?? "Votre Plombier"}{' '}
             <span
               style={{
                 background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
@@ -1643,10 +1644,10 @@ export default function AquaPrestigePage() {
                 backgroundClip: 'text',
               }}
             >
-              de Confiance
+              {clientHeroLine(sessionData, 1, 3, 14) ?? "de Confiance"}
             </span>
             <br />
-            À {clientCity(sessionData) ?? "Paris"}
+            {clientHeroLine(sessionData, 2, 3, 14) ?? <>À {clientCity(sessionData) ?? "Paris"}</>}
           </>}</>)}</motion.h1>
 
           <motion.p
