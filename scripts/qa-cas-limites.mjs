@@ -129,6 +129,52 @@ const CAS = {
     formData: { businessName: "Vidal", tagline: "", city: "", phone: "", email: "", photoUrls: [] },
     profil: { services: [], reputation: { featuredReviews: [] }, keyStats: [], team: [] },
   },
+
+  /*
+    Une photographie presque noire, puis une presque blanche. Le texte posé
+    dessus a été pensé pour l'image du thème, pas pour celle-là : dans un sens
+    il s'efface, dans l'autre il éblouit.
+  */
+  "photo-tres-sombre": {
+    formData: { photoUrls: Array(4).fill("https://images.pexels.com/photos/1421903/pexels-photo-1421903.jpeg?auto=compress&cs=tinysrgb&w=1400") },
+  },
+  "photo-tres-claire": {
+    formData: { photoUrls: Array(4).fill("https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?auto=compress&cs=tinysrgb&w=1400") },
+  },
+
+  // Le client qui remplit tout, jusqu'au dernier champ.
+  "tout-au-maximum": {
+    formData: {
+      businessName: "Ateliers Vidal & Fils",
+      tagline: "Plomberie, chauffage et énergies renouvelables à Annecy depuis 1998",
+      photoUrls: Array(8).fill("https://images.pexels.com/photos/7937300/pexels-photo-7937300.jpeg?auto=compress&cs=tinysrgb&w=1200"),
+    },
+    profil: {
+      services: Array.from({ length: 8 }, (_, i) => ({ name: `Prestation ${i + 1}`, description: "Description courte et nette.", price: `${90 + i * 20} €` })),
+      reputation: { featuredReviews: Array.from({ length: 6 }, (_, i) => ({ author: `Client ${i + 1}`, text: "Travail soigné, délais tenus, prix conforme au devis.", rating: 5 })) },
+      keyStats: Array.from({ length: 4 }, (_, i) => ({ value: `${100 * (i + 1)}+`, label: `Indicateur ${i + 1}` })),
+      team: Array.from({ length: 4 }, (_, i) => ({ name: `Éloi Vidal ${i + 1}`, role: "Maître plombier" })),
+      certifications: ["Qualibat", "RGE", "Qualigaz", "Assurance décennale"],
+      faq: Array.from({ length: 5 }, (_, i) => ({ q: `Question numéro ${i + 1} ?`, a: "Une réponse claire et complète." })),
+      geo: { address: "12 rue des Marquisats", primaryCity: "Annecy", serviceAreas: ["Annecy", "Seynod", "Cran-Gevrier", "Épagny"] },
+    },
+  },
+
+  /*
+    Un commerce fermé toute la semaine : c'est le cas d'un artisan qui n'ouvre
+    que sur rendez-vous, et le tableau des horaires doit rester lisible.
+  */
+  "toujours-ferme": {
+    profil: {
+      openingHours: ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]
+        .map((day) => ({ day, closed: true })),
+    },
+  },
+
+  // Une accroche criée, sans ponctuation : les thèmes qui mettent déjà en capitales doublent l'effet.
+  "accroche-en-capitales": {
+    formData: { tagline: "PLOMBERIE CHAUFFAGE CLIMATISATION URGENCE 24H SUR 24 DANS TOUTE LA HAUTE-SAVOIE" },
+  },
 };
 
 const args = process.argv.slice(2);

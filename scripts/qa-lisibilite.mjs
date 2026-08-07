@@ -76,7 +76,19 @@ const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
 const fiches = [];
 
 for (const id of ids) {
+  /*
+    PHOTOS=sombre|claire rejoue la mesure avec l'image que le client a
+    televersee : le texte du hero a ete pense pour celle du theme, et une
+    photographie presque noire ou presque blanche change tout.
+  */
+  const BANQUE = {
+    sombre: "https://images.pexels.com/photos/1421903/pexels-photo-1421903.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    claire: "https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?auto=compress&cs=tinysrgb&w=1400",
+  };
+  const photos = BANQUE[process.env.PHOTOS ?? ""] ? Array(6).fill(BANQUE[process.env.PHOTOS]) : undefined;
+
   const d = {
+    ...(photos ? { photoUrls: photos } : {}),
     businessName: "Ateliers Vidal & Fils", city: "Annecy", businessType: "plombier",
     tagline: "Votre plombier de confiance à Annecy depuis 1998",
     email: `contact@${id}.fr`, phone: "04 50 11 22 33", brandColor: "#c2410c", template: id,
