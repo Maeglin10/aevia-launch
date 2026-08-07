@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -382,7 +383,7 @@ function Nav() {
         ))}
 
         <a
-          href="#contact"
+          href={clientBookingUrl(sessionData) ?? "#contact"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           style={{
             fontFamily: SANS,
             fontSize: 12,

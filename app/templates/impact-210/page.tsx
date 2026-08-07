@@ -21,6 +21,7 @@ import {
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientBookingUrl,
   clientPhotos,
   clientCity,
   clientHeroLine,
@@ -860,7 +861,7 @@ function ServiceCard({
             <span style={{ fontSize: 12, opacity: 0.7 }}>{service.duration}</span>
           </div>
           <a
-            href="#booking"
+            href={clientBookingUrl(sessionData) ?? "#booking"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             style={{
               background: '#fff',
               color: accentColor,
@@ -2155,7 +2156,7 @@ function ContactSection({ accentColor }: { accentColor: string }) {
             Réservez dès maintenant et transformez vos ongles en œuvre d&apos;art.
           </p>
           <a
-            href="#booking"
+            href={clientBookingUrl(sessionData) ?? "#booking"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             style={{
               background: '#fff',
               color: accentColor,

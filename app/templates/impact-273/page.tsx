@@ -22,6 +22,7 @@ import {
   Shield,
 } from 'lucide-react';
 import {
+  clientBookingUrl,
   clientPhone,
   clientAccrocheRestante,
   clientAddress,
@@ -494,7 +495,7 @@ function Nav() {
         ))}
       </div>
       <div className="cr-navcta">
-        <a href="#contact" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#contact"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <BlueButton filled>Prendre RDV</BlueButton>
         </a>
       </div>
@@ -707,7 +708,7 @@ function Hero() {
           transition={{ duration: 1.2, ease: EASE, delay: 0.72 }}
           style={{ marginTop: 44, display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}
         >
-          <a href="#contact" style={{ textDecoration: 'none' }}>
+          <a href={clientBookingUrl(sessionData) ?? "#contact"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
             <BlueButton filled>Prendre rendez-vous</BlueButton>
           </a>
           <a href="#soins" style={{ textDecoration: 'none' }}>
@@ -1290,7 +1291,7 @@ function EditRow({ row }: { row: EditRow }) {
           </p>
         </Reveal>
         <Reveal delay={0.24}>
-          <a href="#contact" style={{ textDecoration: 'none', display: 'inline-block', marginTop: 28 }}>
+          <a href={clientBookingUrl(sessionData) ?? "#contact"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none', display: 'inline-block', marginTop: 28 }}>
             <BlueButton>Prendre rendez-vous</BlueButton>
           </a>
         </Reveal>

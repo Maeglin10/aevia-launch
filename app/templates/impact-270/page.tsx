@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Feather, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -478,7 +479,7 @@ function Nav() {
         ))}
       </div>
       <div className="pp-navcta">
-        <a href="#reserver" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#reserver"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <GreenButton filled>Réserver</GreenButton>
         </a>
       </div>
@@ -711,7 +712,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.7 }}
           style={{ marginTop: 'clamp(24px,3.5vw,40px)' }}
         >
-          <a href="#reserver" style={{ textDecoration: 'none' }}>
+          <a href={clientBookingUrl(sessionData) ?? "#reserver"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
             <GreenButton filled>Prendre rendez-vous</GreenButton>
           </a>
         </motion.div>

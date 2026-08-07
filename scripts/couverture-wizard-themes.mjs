@@ -20,7 +20,7 @@ const RACINE = process.cwd();
 const capacites = fs.readFileSync(path.join(RACINE, "lib/templates/capabilities.ts"), "utf8");
 const BLOCS = {};
 for (const m of capacites.matchAll(/"(impact-[\w-]+)":\s*\[([^\]]*)\]/g)) {
-  BLOCS[m[1]] = [...m[2].matchAll(/"([a-z]+)"/g)].map((x) => x[1]);
+  BLOCS[m[1]] = [...m[2].matchAll(/"([a-z0-9_]+)"/g)].map((x) => x[1]);
 }
 
 // Les modèles proposés à chaque métier.
@@ -28,7 +28,7 @@ const sectors = fs.readFileSync(path.join(RACINE, "lib/templates/sectors.ts"), "
 const debut = sectors.indexOf("export const SECTOR_TEMPLATES");
 const blocSect = sectors.slice(debut, sectors.indexOf("\n};", debut));
 const MODELES = {};
-for (const m of blocSect.matchAll(/^\s{2}([a-z]+):\s*\[([^\]]*)\]/gm)) {
+for (const m of blocSect.matchAll(/^\s{2}([a-z0-9_]+):\s*\[([^\]]*)\]/gm)) {
   MODELES[m[1]] = [...m[2].matchAll(/impact-[\w-]+/g)].map((x) => x[0]);
 }
 

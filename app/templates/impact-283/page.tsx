@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientPhone,
   clientAddress,
   clientCity,
@@ -360,7 +361,7 @@ function NavSection() {
         ))}
       </div>
       <div className="r283-navcta">
-        <a href="#rdv" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <PrimaryButton>Prendre RDV</PrimaryButton>
         </a>
       </div>
@@ -601,7 +602,7 @@ function HeroSection() {
           transition={{ duration: 1.0, ease: EASE, delay: 0.64 }}
           style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}
         >
-          <a href="#rdv" style={{ textDecoration: 'none' }}>
+          <a href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
             <PrimaryButton>Prendre RDV</PrimaryButton>
           </a>
           <a href="#specialites" style={{ textDecoration: 'none' }}>
@@ -3085,7 +3086,7 @@ function FooterSection() {
 
             {/* Doctolib CTA */}
             <a
-              href="https://www.doctolib.fr"
+              href={clientBookingUrl(sessionData) ?? "https://www.doctolib.fr"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               target="_blank"
               rel="noopener noreferrer"
               style={{

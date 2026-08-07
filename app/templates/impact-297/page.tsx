@@ -44,6 +44,7 @@ import {
   Zap,
 } from 'lucide-react';
 import {
+  clientBookingUrl,
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -533,7 +534,7 @@ return (
 
           <Reveal delay={0.55}>
             <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="#contact" style={{ textDecoration: 'none' }}>
+              <a href={clientBookingUrl(sessionData) ?? "#contact"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
                 <Button filled>Prendre rendez-vous</Button>
               </a>
               <a href="#menu" style={{ textDecoration: 'none' }}>
@@ -670,7 +671,7 @@ return (
                 }}>
                   Chaque détail est pensé pour créer une expérience singulière, alliant savoir-faire historique et modernité.
                 </p>
-                <a href="#contact" style={{ textDecoration: 'none' }}>
+                <a href={clientBookingUrl(sessionData) ?? "#contact"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
                   <Button filled>Prendre rendez-vous</Button>
                 </a>
               </Reveal>

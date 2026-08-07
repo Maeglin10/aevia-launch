@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Quote, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -537,7 +538,7 @@ function Nav() {
         ))}
       </div>
       <div className="cs-navcta">
-        <a href="#rdv" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <TealButton filled>Prendre RDV</TealButton>
         </a>
       </div>
@@ -775,7 +776,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: EASE, delay: 0.64 }}
         >
-          <a href="#rdv" style={{ textDecoration: 'none' }}>
+          <a href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
             <TealButton filled>Prendre rendez-vous</TealButton>
           </a>
         </motion.div>

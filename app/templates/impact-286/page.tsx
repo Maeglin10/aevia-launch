@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -1219,7 +1220,7 @@ function ProcessSection() {
           </div>
           <Reveal delay={0.28}>
             <div style={{ marginTop: 36 }}>
-              <a href="#contact" style={{ textDecoration: 'none' }}>
+              <a href={clientBookingUrl(sessionData) ?? "#contact"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
                 <GoldButton filled>
                   Prendre rendez-vous
                 </GoldButton>

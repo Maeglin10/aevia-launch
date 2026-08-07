@@ -40,6 +40,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientCertifications,
   clientCity,
   clientFaq,
@@ -613,7 +614,7 @@ export default function Page() {
 
           <Reveal delay={0.55}>
             <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="#contact" style={{ textDecoration: 'none' }}>
+              <a href={clientBookingUrl(sessionData) ?? "#contact"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
                 <Button filled>Réserver mon ménage</Button>
               </a>
               <a href="#formules" style={{ textDecoration: 'none' }}>

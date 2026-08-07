@@ -32,13 +32,13 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeConfig> = {
   },
   produits: {
     id: "produits",
-    catalogueFields: ["products", "commerce", "team"],
-    coreFields: ["reputation", "openingHours", "geo", "paymentMethods", "keyStats", "faq", "certifications"],
+    catalogueFields: ["products", "commerce", "team", "beforeAfter"],
+    coreFields: ["reputation", "openingHours", "geo", "paymentMethods", "keyStats", "faq", "certifications" "bookingSystem",],
   },
   immobilier: {
     id: "immobilier",
-    catalogueFields: ["listings", "team"],
-    coreFields: ["geo", "keyStats", "faq"],
+    catalogueFields: ["listings", "team", "services", "beforeAfter"],
+    coreFields: ["geo", "keyStats", "faq", "reputation", "certifications", "openingHours" "bookingSystem",],
   },
   /*
     Les quatre archétypes suivants étaient des ébauches — une seule liste de
@@ -49,12 +49,12 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeConfig> = {
   portfolio_projets: {
     id: "portfolio_projets",
     catalogueFields: ["services", "beforeAfter", "team", "products"],
-    coreFields: ["certifications", "geo", "keyStats", "reputation", "faq", "openingHours"],
+    coreFields: ["certifications", "geo", "keyStats", "reputation", "faq", "openingHours" "bookingSystem",],
   },
   expertise_b2b: {
     id: "expertise_b2b",
     catalogueFields: ["services", "team", "beforeAfter"],
-    coreFields: ["keyStats", "faq", "certifications", "reputation", "openingHours"],
+    coreFields: ["keyStats", "faq", "certifications", "reputation", "openingHours", "geo" "bookingSystem",],
   },
   hotellerie: {
     id: "hotellerie",
@@ -64,7 +64,7 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeConfig> = {
   domicile: {
     id: "domicile",
     catalogueFields: ["services", "beforeAfter", "team", "products"],
-    coreFields: ["geo", "faq", "emergency", "certifications", "openingHours", "reputation", "keyStats"],
+    coreFields: ["geo", "faq", "emergency", "certifications", "openingHours", "reputation", "keyStats" "bookingSystem",],
   },
 };
 

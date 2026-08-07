@@ -9,6 +9,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
+  clientBookingUrl,
   clientCertifications,
   clientCity,
   clientHeroLine,
@@ -252,7 +253,7 @@ export default function EtudeNotarialePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href={telHref} style={{ background: C.navy, color: "#fff", borderRadius: 3, padding: "13px 24px", fontSize: 15, fontWeight: 600, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre rendez-vous</a>
+          <a href={clientBookingUrl(sessionData) ?? telHref} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ background: C.navy, color: "#fff", borderRadius: 3, padding: "13px 24px", fontSize: 15, fontWeight: 600, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre rendez-vous</a>
         </div>
       )}
 

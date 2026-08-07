@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -2279,7 +2280,7 @@ function PlanningSection() {
 
         <Reveal delay={0.4}>
           <div style={{ textAlign: 'center', marginTop: 52 }}>
-            <a href="#bilan" style={{ textDecoration: 'none' }}>
+            <a href={clientBookingUrl(sessionData) ?? "#bilan"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
               <CoachButton variant="coral">
                 Réserver une place
               </CoachButton>

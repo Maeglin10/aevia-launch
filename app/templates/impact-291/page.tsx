@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -340,7 +341,7 @@ function Nav() {
         ))}
       </div>
       <div className="r291-navcta">
-        <a href="#rdv" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <TerraButton filled>Prendre RDV</TerraButton>
         </a>
       </div>
@@ -2012,7 +2013,7 @@ function SportSection() {
               </div>
             </Reveal>
             <Reveal delay={0.26}>
-              <a href="#rdv" style={{ textDecoration: 'none' }}>
+              <a href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
                 <TerraButton filled>Bilan sportif — prendre RDV</TerraButton>
               </a>
             </Reveal>
@@ -2457,7 +2458,7 @@ function FooterSection() {
             </span>
           </div>
           <div style={{ marginTop: 24 }}>
-            <a href="#rdv" style={{ textDecoration: 'none' }}>
+            <a href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
               <TerraButton filled>Prendre rendez-vous</TerraButton>
             </a>
           </div>
@@ -2527,7 +2528,7 @@ function FooterSection() {
           <a href="#cabinet" style={{ color: 'inherit', textDecoration: 'none' }}>
             Politique de confidentialité
           </a>
-          <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <a href={clientBookingUrl(sessionData) ?? "#rdv"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ color: 'inherit', textDecoration: 'none' }}>
             Prendre RDV en ligne
           </a>
         </span>

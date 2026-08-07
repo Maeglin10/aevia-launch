@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -457,7 +458,7 @@ function Nav() {
         ))}
       </div>
       <div className="ds-navcta">
-        <a href="#reserver" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#reserver"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <AmberButton filled small>
             Réserver
           </AmberButton>
@@ -689,7 +690,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.62 }}
           style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}
         >
-          <a href="#reserver" style={{ textDecoration: 'none' }}>
+          <a href={clientBookingUrl(sessionData) ?? "#reserver"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
             <AmberButton filled>Prendre rendez-vous</AmberButton>
           </a>
           <a href="#styles" style={{ textDecoration: 'none' }}>

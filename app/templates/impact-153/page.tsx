@@ -20,6 +20,7 @@ import {
 } from "framer-motion"
 import Link from "next/link"
 import {
+  clientBookingUrl,
   clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
@@ -2014,7 +2015,7 @@ function Navigation() {
             </a>
           ))}
           <a
-            href="#enquiry"
+            href={clientBookingUrl(sessionData) ?? "#enquiry"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             style={{
               padding:       "10px 24px",
               background:    C.accent,

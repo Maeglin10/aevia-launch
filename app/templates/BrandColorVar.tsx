@@ -154,6 +154,60 @@ function detacherLesTextesDuClient(donnees: Record<string, unknown> | undefined)
   }
 }
 
+/*
+  Le libellé qui fait d'un bouton un bouton de réservation. « Contact »,
+  « devis » et « appeler » en sont exclus à dessein : ils mènent au formulaire
+  ou au téléphone, et les détourner vers l'agenda serait une erreur.
+*/
+const LIBELLE_RESERVATION =
+  /(prendre\s+(un\s+)?(rendez-?vous|rdv)|prenez\s+rendez-?vous|réserv(er|ez|ation en ligne)|reserver|book\s+(a|an|now|online)|schedule\s+(a|an)|jetzt\s+buchen|reservar)/i;
+
+/**
+ * Le lien de réservation du client, sous les boutons qui le promettent.
+ *
+ * Cent cinquante et un thèmes affichent « Prendre rendez-vous » ; cinq
+ * seulement menaient à l'agenda que le client avait saisi. Les autres
+ * renvoyaient vers une ancre interne — le champ était demandé pour rien.
+ *
+ * On corrige en un point plutôt que dans cent cinquante fichiers : la
+ * destination change, le bouton garde son dessin, et sans lien saisi rien ne
+ * bouge.
+ */
+function relierLesBoutonsDeReservation(url: string | undefined) {
+  if (!url) return;
+  const cible = /^https?:\/\//i.test(url) ? url : `https://${url}`;
+
+  for (const e of document.querySelectorAll<HTMLElement>("a, button, [role='button']")) {
+    if (e.dataset.reservationReliee) continue;
+    const texte = (e.textContent ?? "").replace(/\s+/g, " ").trim();
+    if (texte.length > 40 || !LIBELLE_RESERVATION.test(texte)) continue;
+
+    /*
+      Un lien déjà sorti du site — téléphone, courriel, ou l'agenda lui-même —
+      n'a pas à être détourné.
+    */
+    const href = e.getAttribute("href") ?? "";
+    if (/^(mailto:|tel:)/i.test(href)) continue;
+    if (href && !href.startsWith("#") && !href.startsWith("/")) continue;
+
+    e.dataset.reservationReliee = "1";
+    if (e.tagName === "A") {
+      e.setAttribute("href", cible);
+      e.setAttribute("target", "_blank");
+      e.setAttribute("rel", "noopener noreferrer");
+    } else {
+      /*
+        Un bouton garde son action propre — ouvrir une fiche, choisir un
+        créneau. On n'ajoute la nôtre que s'il ne fait que défiler vers une
+        ancre, ce qu'on ne peut pas savoir de l'extérieur ; on ouvre donc
+        l'agenda en plus, sans empêcher la sienne.
+      */
+      e.addEventListener("click", () => window.open(cible, "_blank", "noopener,noreferrer"));
+      e.style.cursor = "pointer";
+    }
+  }
+}
+
 export function BrandColorVar() {
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -176,6 +230,7 @@ export function BrandColorVar() {
         const passer = () => {
           rendreLesBoutonsLisibles();
           detacherLesTextesDuClient(d?.formData);
+          relierLesBoutonsDeReservation(d?.businessProfile?.bookingSystem?.url);
         };
         requestAnimationFrame(() => requestAnimationFrame(passer));
         for (const delai of [400, 1200, 2500]) setTimeout(passer, delai);

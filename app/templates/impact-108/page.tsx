@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { C, FONT, FONT_BODY, STATS, MISSIONS, TEMOIGNAGES, Reveal } from "./shared";
 import { DWELL, useSlides, AnchoredBackdrop, WordFlight, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import {
+  clientBookingUrl,
   clientPhone,
   clientAddress,
   clientCity,
@@ -782,7 +783,7 @@ export default function LedgerPage() {
             Rencontrons-nous pour analyser votre situation et définir ensemble vos axes d&apos;optimisation.
           </>}</p>
           <a
-            href={`${BASE}/contact`}
+            href={clientBookingUrl(sessionData) ?? `${BASE} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}/contact`}
             style={{
               fontFamily: FONT,
               fontWeight: 700,

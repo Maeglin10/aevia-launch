@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Scissors } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientBookingUrl,
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
@@ -467,7 +468,7 @@ function Nav() {
         ))}
       </div>
       <div className="as-navcta">
-        <a href="#commande" style={{ textDecoration: 'none' }}>
+        <a href={clientBookingUrl(sessionData) ?? "#commande"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})} style={{ textDecoration: 'none' }}>
           <TaupeButton filled>Prendre rendez-vous</TaupeButton>
         </a>
       </div>
