@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientPhone,
   clientEmail,
   clientCity,
@@ -3051,7 +3052,7 @@ function FooterSection() {
       links: [
         { label: (clientPhone(sessionData) ?? '+33 3 88 00 00 00'), href: 'tel:+33388000000' },
         { label: (clientEmail(sessionData) ?? 'contact@epousailles-alsace.fr'), href: 'mailto:contact@epousailles-alsace.fr' },
-        { label: `12 rue du Mariage, ${clientCity(sessionData) ?? "Strasbourg"}`, href: "/templates/impact-280" },
+        { label: (clientAddress(sessionData) ?? `12 rue du Mariage, ${clientCity(sessionData) ?? "Strasbourg"}`), href: "/templates/impact-280" },
         { label: 'Du lundi au vendredi 9h–18h', href: "/templates/impact-280" },
       ],
     },

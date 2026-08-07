@@ -1,6 +1,7 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientPhone,
   clientCity,
   clientHeroLine,
@@ -1701,7 +1702,7 @@ export default function Impact211Page() {
                 {[
                   { label: "Réservations", value: (clientPhone(sessionData) ?? "+33 1 42 61 71 68") },
                   { label: "Email", value: (fd?.email ?? "table@maisoneclat.fr") },
-                  { label: "Adresse", value: `14 rue de Varenne, 75007 ${clientCity({ formData: fd }) ?? "Paris"}` },
+                  { label: "Adresse", value: (clientAddress(sessionData) ?? `14 rue de Varenne, 75007 ${clientCity({ formData: fd }) ?? "Paris"}`) },
                 ].map((item) => (
                   <div key={item.label}>
                     <div style={{ fontFamily: font.sans, fontSize: "0.65rem", fontWeight: 400, letterSpacing: "0.15em", textTransform: "uppercase", color: C.gold, marginBottom: "0.2rem" }}>{item.label}</div>

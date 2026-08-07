@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientBookingUrl,
   clientCity,
   clientHeroLine,
@@ -1634,7 +1635,7 @@ function Footer() {
     {
       heading: 'Contact',
       href: '#contact',
-      links: ['Prendre RDV', '12 avenue Hoche, ' + (clientCity(sessionData) ?? 'Paris'), (fd?.email ?? 'contact@ateliervoss.fr'), '+33 1 44 77 30 30'],
+      links: ['Prendre RDV', (clientAddress(sessionData) ?? ('12 avenue Hoche, ' + (clientCity(sessionData) ?? 'Paris'))), (fd?.email ?? 'contact@ateliervoss.fr'), '+33 1 44 77 30 30'],
     },
   ];
 

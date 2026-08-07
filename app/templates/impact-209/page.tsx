@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, BlurThrough, Retint, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
 import { TrackingCollapse } from '@/lib/templates/hero-kit-3';
 import {
+  clientCodePostalVille,
   clientBookingUrl,
   clientPhotos,
   clientAddress,
@@ -1692,7 +1693,7 @@ export default function Page() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: '40px', marginBottom: '60px' }}>
             {[
-              { icon: '📍', label: 'Adresse', lines: ['14 rue de Varenne', '75007 ' + (clientCity({ formData: fd }) ?? 'Paris')] },
+              { icon: '📍', label: 'Adresse', lines: [(clientAddress(sessionData) ? '' : '14 rue de Varenne'), clientCodePostalVille(sessionData, "75007", "Paris")] },
               { icon: '📞', label: 'Téléphone', lines: ['+33 1 42 22 33 44'] },
               { icon: '✉️', label: 'Email', lines: [(fd?.email ?? 'contact@latelier-coiffure.fr')] },
               { icon: '🕐', label: 'Horaires', lines: ['Mar–Sam : 9h – 19h', 'Dim–Lun : Fermé'] },

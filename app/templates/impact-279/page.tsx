@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCodePostalVille,
   clientPhone,
   clientAddress,
   clientCity,
@@ -2137,7 +2138,7 @@ function PracticalSection() {
       title: 'Adresse',
       lines: [
         '18 rue de la Barre',
-        '69006 ' + (clientCity(sessionData) ?? 'Lyon') + ' — Brotteaux',
+        clientCodePostalVille(sessionData, "69006", "Lyon") + (clientCity(sessionData) ? '' : ' — Brotteaux'),
         'Métro A — Foch ou Masséna',
         'Tram T1 — Saxe-Gambetta',
       ],

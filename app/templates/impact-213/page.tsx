@@ -16,6 +16,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, GhostSolid, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
 import { HardCutRebuild, FixedRail } from '@/lib/templates/hero-kit-3';
 import {
+  clientAddress,
   clientCity,
   clientFaq,
   clientHours,
@@ -2344,7 +2345,7 @@ function ContactForm() {
             {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
               { icon: '📞', label: 'Téléphone', value: (fd?.phone ?? '04 78 73 82 82'), sub: 'Du lundi au vendredi, 8h–18h' },
               { icon: '✉️', label: 'E-mail', value: (fd?.email ?? 'contact@batisseurs-durand.fr'), sub: 'Réponse sous 24h' },
-              { icon: '📍', label: 'Siège social', value: `14 rue des Bâtisseurs, 69009 ${clientCity(sessionData) ?? "Lyon"}`, sub: (clientCity(sessionData) ?? 'Lyon') + ' — France' },
+              { icon: '📍', label: 'Siège social', value: (clientAddress(sessionData) ?? `14 rue des Bâtisseurs, 69009 ${clientCity(sessionData) ?? "Lyon"}`), sub: (clientCity(sessionData) ?? 'Lyon') + ' — France' },
             ]).map((item) => (
               <div
                 key={item.label}

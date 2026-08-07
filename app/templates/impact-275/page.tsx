@@ -40,6 +40,8 @@ import {
 // used to derive companion shades from the client's brand color.
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
+  clientCodePostalVille,
   clientPhone,
   clientEmail,
   clientCity,
@@ -2697,7 +2699,7 @@ function PracticalSection() {
     {
       icon: MapPin,
       label: 'Adresse',
-      lines: ['18, rue Breteuil', '13006 ' + (clientCity(sessionData) ?? 'Marseille') + ' — 6e arrondissement', 'Proche Préfecture · Parking Préfecture'],
+      lines: [(clientAddress(sessionData) ?? '18, rue Breteuil'), clientCodePostalVille(sessionData, "13006", "Marseille") + (clientCity(sessionData) ? '' : ' — 6e arrondissement'), 'Proche Préfecture · Parking Préfecture'],
     },
     {
       icon: Clock,

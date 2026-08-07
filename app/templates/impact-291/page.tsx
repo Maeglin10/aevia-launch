@@ -24,6 +24,8 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCodePostalVille,
+  clientAddress,
   clientBookingUrl,
   clientCity,
   clientHeroLine,
@@ -2103,8 +2105,8 @@ function INFO_BLOCKS_LIVE() {
   {
     label: 'Adresse',
     lines: [
-      '14 allée de la Robertsau',
-      '67000 ' + (clientCity(sessionData) ?? 'Strasbourg'),
+      (clientAddress(sessionData) ?? '14 allée de la Robertsau'),
+      (clientAddress(sessionData) ? '' : clientCodePostalVille(sessionData, "67000", "Strasbourg")),
       'Quartier Orangerie',
     ],
   },
