@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Menu, X, ArrowRight, Scale, Shield, Briefcase, Users, Building, FileText, Phone, Mail, MapPin, ChevronRight, Award, Globe } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAddress,
   clientPhone,
   clientCity,
   clientHeroLine,
@@ -547,7 +548,7 @@ export default function LegrandPage() {
               </Reveal>
               <Reveal delay={0.1}>
                 <div className="space-y-5">
-                  {[{ Icon: MapPin, text: `14 avenue Montaigne, 75008 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 44 20 00 00") }, { Icon: Mail, text: (fd?.email ?? "contact@legrand-associes.fr") }, { Icon: Globe, text: "Également à " + (clientCity(sessionData) ?? "Bruxelles") + " & Luxembourg" }].map(({ Icon, text }) => (
+                  {[{ Icon: MapPin, text: (clientAddress(sessionData) ?? `14 avenue Montaigne, 75008 ${clientCity(sessionData) ?? "Paris"}`) }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 44 20 00 00") }, { Icon: Mail, text: (fd?.email ?? "contact@legrand-associes.fr") }, { Icon: Globe, text: "Également à " + (clientCity(sessionData) ?? "Bruxelles") + " & Luxembourg" }].map(({ Icon, text }) => (
                     <div key={text} className="flex items-center gap-4 text-sm text-[#8A7860]">
                       <Icon className="w-4 h-4 text-[var(--brand,#C9A855)] flex-shrink-0" />
                       {text}

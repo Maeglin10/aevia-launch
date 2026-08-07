@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPayments,
   clientBookingUrl,
   clientPhone,
   clientAddress,
@@ -1726,7 +1727,7 @@ function RdvFormSection() {
                 { icon: Phone, text: (fd?.phone ?? '04 67 20 51 51') + ' — Lun-Ven 8h–19h' },
                 { icon: MapPin, text: `12 Avenue de Palavas, 34000 ${clientCity(sessionData) ?? "Montpellier"}` },
                 { icon: FileText, text: 'Ordonnance médicale requise' },
-                { icon: CreditCard, text: 'Secteur 1 & 2 — CB, chèque, espèces' },
+                { icon: CreditCard, text: clientPayments(sessionData)?.join(", ") ?? 'Secteur 1 & 2 — CB, chèque, espèces' },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
@@ -2796,7 +2797,7 @@ function PracticalSection() {
                   },
                   {
                     label: 'Paiement',
-                    val: 'CB, chèque, espèces — pas de paiement tiers',
+                    val: clientPayments(sessionData)?.join(", ") ?? 'CB, chèque, espèces — pas de paiement tiers',
                     highlight: false,
                   },
                 ].map((item) => (

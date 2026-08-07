@@ -752,6 +752,29 @@ export function clientCityOr(repli: string): string {
 }
 
 /**
+ * La ligne « code postal, ville » — sans jamais mêler les deux sources.
+ *
+ * Onze thèmes écrivaient le code postal de leur démonstration juste devant la
+ * ville du client : un plombier annécien lisait « 75007 Annecy ». Ce n'est pas
+ * une maladresse de mise en page, c'est une adresse fausse, et elle a l'air
+ * vraie.
+ *
+ * L'adresse saisie prime ; à défaut, la ville seule, sans code postal emprunté ;
+ * et sans rien du client, la ligne du thème mot pour mot.
+ */
+export function clientCodePostalVille(
+  s: SessionLike | null | undefined,
+  codeDemo: string,
+  villeDemo: string,
+): string {
+  const adresse = clientAddress(s);
+  if (adresse) return adresse;
+  const ville = clientCity(s);
+  if (ville) return ville;
+  return `${codeDemo} ${villeDemo}`;
+}
+
+/**
  * L'accroche du client, ou celle de la démonstration.
  *
  * Une dizaine de thèmes animent leur titre lettre par lettre : y injecter la

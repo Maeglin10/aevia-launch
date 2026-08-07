@@ -13,6 +13,7 @@ import {
 import { ArrowRight, Briefcase, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -1889,7 +1890,7 @@ function Footer() {
     },
     {
       title: 'Contact',
-      items: ['Prendre rendez-vous', '9 rue de Monceau, ' + (clientCity(sessionData) ?? 'Paris'), (fd?.email ?? 'cabinet@vaillant-assoc.fr'), '+33 1 40 00 00 00'],
+      items: ['Prendre rendez-vous', (clientAddress(sessionData) ?? ('9 rue de Monceau, ' + (clientCity(sessionData) ?? 'Paris'))), (fd?.email ?? 'cabinet@vaillant-assoc.fr'), '+33 1 40 00 00 00'],
     },
   ];
 

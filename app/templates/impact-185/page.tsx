@@ -8,6 +8,8 @@ import Link from "next/link"
 import { Scissors, Star, Phone, MapPin, Clock, ChevronRight, Shield, Calendar, Menu, X } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCodePostalVille,
+  clientAddress,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -530,7 +532,7 @@ export default function GentlemansCutPage() {
                 <div className="space-y-4">
                   {[
                     { icon: Clock, t: "Mar-Sam · 9h–19h" },
-                    { icon: MapPin, t: `12 rue du Pas Saint-Georges, 33000 ${clientCity({ formData: fd }) ?? "Bordeaux"}` },
+                    { icon: MapPin, t: (clientAddress(sessionData) ?? `12 rue du Pas Saint-Georges, 33000 ${clientCity({ formData: fd }) ?? "Bordeaux"}`) },
                     { icon: Calendar, t: "Résa en ligne ou " + (fd?.phone ?? "05 56 78 90 12") },
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-4">
@@ -614,7 +616,7 @@ export default function GentlemansCutPage() {
           {[
             { t: "Services", ls: ["Coupe classique", "Rasage traditionnel", "Combo barbe + coupe", "Taille de barbe", "Coloration & gris"] },
             { t: "Infos", ls: ["Notre histoire", "L'équipe", "FAQ", "Avis clients", "Politique hygiène"] },
-            { t: "Adresse", ls: ["12 rue du Pas Saint-Georges", "33000 " + (clientCity({ formData: fd }) ?? "Bordeaux"), "Mar-Sam 9h–19h", (fd?.phone ?? "05 56 78 90 12"), (fd?.email ?? "contact@gentlemanscut.fr")] },
+            { t: "Adresse", ls: [(clientAddress(sessionData) ?? "12 rue du Pas Saint-Georges"), clientCodePostalVille(sessionData, "33000", "Bordeaux"), "Mar-Sam 9h–19h", (fd?.phone ?? "05 56 78 90 12"), (fd?.email ?? "contact@gentlemanscut.fr")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)]/50 mb-5" style={{ fontFamily: "'DM Mono', monospace" }}>{col.t}</h4>
