@@ -146,6 +146,19 @@ function detacherLesTextesDuClient(donnees: Record<string, unknown> | undefined)
       if (getComputedStyle(e).whiteSpace.startsWith("nowrap")) e.style.whiteSpace = "normal";
     }
 
+    /*
+      Le texte peut aussi être amputé sans que la page déborde : son cadre le
+      coupe. « Plomberie, chauffage et énergies renouvelables » perdait
+      quatre-vingt-sept pixels dans un bandeau taillé pour trois mots. On le
+      laisse d'abord se replier ; si le cadre l'interdit, la police rétrécit.
+    */
+    if (e.scrollWidth > e.clientWidth + 4 && !e.dataset.clientAjuste) {
+      e.dataset.clientAjuste = "1";
+      e.style.overflowWrap = "anywhere";
+      if (getComputedStyle(e).whiteSpace.startsWith("nowrap")) e.style.whiteSpace = "normal";
+      if (e.scrollWidth > e.clientWidth + 4) retrecirJusquAuCadre(e);
+    }
+
     if (!ombreDejaLa) {
       e.style.textShadow = lum > 0.45
         ? "0 1px 3px rgba(0,0,0,0.55)"
@@ -242,15 +255,25 @@ function rendreLaMarque(nom: string | undefined) {
   const racine = /^\/templates\/impact-[\w-]+$/;
 
   for (const entete of document.querySelectorAll("header, nav")) {
+    /*
+      Le premier lien vers l'accueil seulement. Les en-têtes de sous-page en
+      ont souvent deux — le logo, puis « ← Retour » — et remplacer les deux
+      affichait le nom en double.
+    */
+    let dejaFait = false;
     for (const lien of entete.querySelectorAll<HTMLElement>("a")) {
+      if (dejaFait) break;
       const href = lien.getAttribute("href") ?? "";
       if (!racine.test(href)) continue;
       if (lien.dataset.marqueRendue) continue;
       const texte = (lien.textContent ?? "").replace(/\s+/g, " ").trim();
       if (texte.length === 0 || texte.length > 44) continue;
       // Déjà au nom du client : rien à faire, et surtout rien à réécrire.
-      if (texte.toLowerCase().includes(propre.toLowerCase())) continue;
+      if (texte.toLowerCase().includes(propre.toLowerCase())) { dejaFait = true; continue; }
+      // Un lien de retour n'est pas une marque, quelle que soit sa destination.
+      if (/retour|back|accueil|home|←|<-/i.test(texte)) continue;
 
+      dejaFait = true;
       lien.dataset.marqueRendue = "1";
       /*
         Les marques s'écrivent souvent en deux morceaux — « Aether » puis
@@ -328,7 +351,7 @@ function rendreLesHoraires(horaires: Array<{ day?: string; open?: string; close?
     colonne, « 7h00 — 19h00 » dans la suivante. Aucun des deux éléments ne porte
     à lui seul un horaire ; pris isolément, ils passaient au travers.
   */
-  for (const e of document.querySelectorAll<HTMLElement>("p, span, div, li, td, dd, time")) {
+  for (const e of document.querySelectorAll<HTMLElement>("p, span, div, li, td, dd, time, a")) {
     if (e.children.length > 0 || e.dataset.horairesRendus) continue;
     const t = (e.textContent ?? "").replace(/\s+/g, " ").trim();
     if (t.length < 3 || t.length > 40) continue;
@@ -359,7 +382,7 @@ function rendreLesHoraires(horaires: Array<{ day?: string; open?: string; close?
     }
   }
 
-  for (const e of document.querySelectorAll<HTMLElement>("p, span, div, li, td, dd, time")) {
+  for (const e of document.querySelectorAll<HTMLElement>("p, span, div, li, td, dd, time, a")) {
     /*
       Un bloc d'horaires tient souvent en un seul élément coupé par des <br> :
       « Lun – Ven : 6h – 22h<br />Samedi : 8h – 18h ». Ces <br> comptent comme
