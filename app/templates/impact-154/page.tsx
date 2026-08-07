@@ -28,6 +28,7 @@ import {
   UserCheck, Globe2, AlertCircle, Mail, Check
 } from "lucide-react"
 import {
+  clientHeroLine,
   clientCity,
   clientHours,
   clientList,
@@ -582,7 +583,7 @@ return (
           <div className="relative z-10 text-center max-w-7xl px-8">
              <Reveal>
                 <h1 className="text-5xl sm:text-6xl md:text-[14vw] font-light italic leading-[0.85] md:leading-[0.75] tracking-tighter uppercase mb-6 md:mb-16" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
-                   Heritage <br/> <span className="not-italic font-black text-white/5 italic">Eternalized.</span>
+                   {clientHeroLine(sessionData, 0, 2, 11) ?? "Heritage"} <br/> <span className="not-italic font-black text-white/5 italic">{clientHeroLine(sessionData, 1, 2, 11) ?? "Eternalized."}</span>
                 </>}</h1>
                 <div className="grid md:grid-cols-3 gap-4 sm:gap-6 md:gap-24 text-left max-w-5xl mx-auto border-t border-white/10 pt-6 md:pt-16">
                    <div className="space-y-4">

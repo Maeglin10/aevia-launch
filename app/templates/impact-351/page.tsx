@@ -9,6 +9,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
+  clientHeroLine,
   clientTrade,
   clientCertifications,
   clientCity,
@@ -148,11 +149,11 @@ export default function ToitsDeLoirePage() {
     génération n'a rien produit, on retombe sur la démo — mais alors c'est un
     repli, pas le cas normal.
   */
-  const HERO_SLIDES = c?.heroHeadline
+  const HERO_SLIDES = (clientHeroLine(sessionData, 0, 1, 24) ?? c?.heroHeadline)
     ? [
         {
           k: (CLIENT_SERVICES?.[0]?.title as string) ?? HERO[0].k,
-          line: c?.heroHeadline as string,
+          line: (clientHeroLine(sessionData, 0, 1, 24)?.toUpperCase() ?? c?.heroHeadline) as string,
           sub: (c?.heroSubline as string) ?? HERO[0].sub,
         },
         // Les diapositives suivantes viennent des services du client, pas du

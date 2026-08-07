@@ -1,6 +1,7 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientHeroLine,
   clientCity,
   clientFaq,
   clientName,
@@ -408,7 +409,7 @@ export default function AIHorizonsTemplate() {
     espaces — « VOTREPLOMBIERÀANNECY ». Le titre reste celui du thème, et
     l'accroche prend la ligne juste dessous.
   */
-  const heroTitle = c?.heroTitle || "LE SOMMET DES INTELLIGENCES";
+  const heroTitle = clientHeroLine(sessionData, 0, 1, 24)?.toUpperCase() ?? c?.heroTitle ?? "LE SOMMET DES INTELLIGENCES";
   const heroSubtitle = clientTagline({ formData: fd, generatedContent: c }) || c?.heroSubtitle || "Explorez les frontières de l'IA. 3 jours de conférences, d'ateliers techniques et de networking exclusif avec les pionniers du domaine.";
 
   // Countdown logic

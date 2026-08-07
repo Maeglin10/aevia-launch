@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientHeroLine,
   clientCity,
   clientFaq,
   clientName,
@@ -386,7 +387,7 @@ export default function AtelierPerformanceTemplate() {
     espaces — « VOTREPLOMBIERÀANNECY ». Le titre reste celui du thème, et
     l'accroche prend la ligne juste dessous.
   */
-  const heroTitle = c?.heroTitle || "L'Excellence Mécanique à l'État Pur.";
+  const heroTitle = clientHeroLine(sessionData, 0, 1, 26) ?? c?.heroTitle ?? "L'Excellence Mécanique à l'État Pur.";
   const heroSubtitle = clientTagline({ formData: fd, generatedContent: c }) || c?.heroSubtitle || "Spécialistes en préparation et optimisation de véhicules de prestige. Poussez les limites de votre machine avec notre expertise de pointe.";
 
   // Prefer the client's real business data (services / reviews / faq) when the

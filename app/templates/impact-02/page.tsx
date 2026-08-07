@@ -378,13 +378,13 @@ export default function CreativePortfolioSPA() {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5, duration: 1 }}>{clientEyebrow(sessionData) ?? "Visual Storyteller"}</motion.div>
 
           <div className="overflow-hidden mb-2">
-            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.7 }} className="text-7xl sm:text-8xl md:text-[10rem] lg:text-[12rem] font-extralight tracking-[-0.04em] leading-[0.85]">{c?.heroHeadline ?? <>{clientHeroLine(sessionData, 0, 2, 5) ?? (<>
+            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.7 }} className="text-7xl sm:text-8xl md:text-[10rem] lg:text-[12rem] font-extralight tracking-[-0.04em] leading-[0.85]">{c?.heroHeadline ?? <>{clientHeroLine(sessionData, 0, 2, 12) ?? (<>
               Elena
             </>)}</>}</motion.h1>
 
           </div>
           <div className="overflow-hidden mb-12">
-            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.85 }} className="text-7xl sm:text-8xl md:text-[10rem] lg:text-[12rem] font-black tracking-[-0.04em] leading-[0.85] italic">{clientHeroLine(sessionData, 1, 2, 5) ?? (<>
+            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.85 }} className="text-7xl sm:text-8xl md:text-[10rem] lg:text-[12rem] font-black tracking-[-0.04em] leading-[0.85] italic">{clientHeroLine(sessionData, 1, 2, 12) ?? (<>
               Korr<span className="text-amber-400">.</span>
             </>)}</motion.h1>
           </div>

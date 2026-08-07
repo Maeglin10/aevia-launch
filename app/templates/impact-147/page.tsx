@@ -15,6 +15,7 @@ import {
   HairlineArrows,
 } from "@/lib/templates/hero-kit-2"
 import {
+  clientHeroLine,
   clientCity,
   clientName,
   clientPhotos,
@@ -268,7 +269,7 @@ export default function VanguardLegalPage() {
         <GridBackground />
         
         {/* ── HERO ──────────────────── */}
-        <VanguardHero headline={c?.heroHeadline} subline={fd?.tagline ?? c?.heroSubline} />
+        <VanguardHero headline={clientHeroLine(sessionData, 0, 1, 30) ?? c?.heroHeadline} subline={fd?.tagline ?? c?.heroSubline} />
 
         <section id="offense" className="py-40 bg-[#02040a]">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">

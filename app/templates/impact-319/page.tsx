@@ -37,6 +37,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientHeroLine,
   clientPhone,
   clientEmail,
   clientAddress,
@@ -687,7 +688,7 @@ export default function Template({ session: initialSession }: { session?: any } 
                   fontWeight: 400,
                 }}
               >
-                {c?.heroTitle || "La pureté au naturel pour votre intérieur."}
+                {clientHeroLine(sessionData, 0, 1, 30) ?? c?.heroTitle ?? "La pureté au naturel pour votre intérieur."}
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
