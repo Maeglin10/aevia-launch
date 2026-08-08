@@ -46,10 +46,28 @@ for (const id of ids) {
     });
     const { sessionId } = await r.json();
     if (!sessionId) throw new Error("session non créée (limiteur de débit ? lancer next start avec SESSIONS_RATE_LIMIT=100000)");
+    /*
+      Le profil aussi, et pas seulement le formulaire : les passes qui
+      réécrivent la page — horaires, marque, réservation — ne se déclenchent
+      qu'avec ces données-là. Sans elles, la mesure ne voyait pas les quatre
+      thèmes que ces passes faisaient disparaître.
+    */
+    await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
+      method: "PATCH", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ businessProfile: {
+        openingHours: ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]
+          .map((day, i) => (i === 0 ? { day, closed: true } : { day, open: "05:55", close: "23:45" })),
+        services: [{ name: "Dépannage d'urgence", description: "Une heure sur place.", price: "90 €" }],
+        bookingSystem: { url: "https://exemple.fr/rendez-vous" },
+        geo: { address: "12 rue des Marquisats", primaryCity: "Annecy" },
+        legal: { siret: "123 456 789 00012" },
+        paymentMethods: ["Carte bancaire", "Virement"],
+      } }),
+    });
     const p = await ctx.newPage();
     p.on("pageerror", (e) => erreurs.push(String(e.message).slice(0, 90)));
     await p.goto(`${BASE}/templates/${id}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 30000 });
-    await p.waitForTimeout(2000);
+    await p.waitForTimeout(3600);
     const texte = await p.evaluate(() => (document.body.innerText ?? "").slice(0, 400));
     /*
       Deux signes : le message d'erreur de Next, et une page qui ne montre

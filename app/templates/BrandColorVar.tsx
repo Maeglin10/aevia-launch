@@ -151,6 +151,27 @@ function detacherLesTextesDuClient(donnees: Record<string, unknown> | undefined)
 }
 
 /**
+ * Écrire sans arracher le DOM sous React.
+ *
+ * `textContent = …` supprime tous les nœuds enfants et en crée un nouveau ;
+ * `innerHTML = …` en détruit davantage encore. React garde des références sur
+ * ces nœuds : au premier re-rendu, il tente d'en retirer un qui n'existe plus
+ * et la page entière disparaît — « NotFoundError: Failed to execute
+ * 'removeChild' ». Quatre thèmes étaient tombés ainsi.
+ *
+ * On se contente donc de changer la valeur des nœuds texte déjà en place.
+ * React les reconnaît, la structure ne bouge pas, et rien ne casse.
+ */
+function ecrireTexte(e: HTMLElement, valeur: string): boolean {
+  const textes = [...e.childNodes].filter((n) => n.nodeType === Node.TEXT_NODE && (n.nodeValue ?? "").trim());
+  if (textes.length === 0) return false;
+  textes[0].nodeValue = valeur;
+  // Les nœuds texte suivants sont vidés, jamais retirés.
+  for (const autre of textes.slice(1)) autre.nodeValue = "";
+  return true;
+}
+
+/**
  * Le nom du client, amputé par le cadre qui l'accueille.
  *
  * Les en-têtes réservent la place d'un mot — « Vidal », « Bloom » — et coupent
@@ -288,10 +309,10 @@ function rendreLaMarque(nom: string | undefined) {
       const morceaux = [...lien.querySelectorAll<HTMLElement>("span, div, strong, b")]
         .filter((x) => x.children.length === 0 && (x.textContent ?? "").trim().length > 0);
       if (morceaux.length >= 1) {
-        morceaux[0].textContent = propre;
-        for (const autre of morceaux.slice(1)) autre.textContent = "";
+        if (!ecrireTexte(morceaux[0], propre)) continue;
+        for (const autre of morceaux.slice(1)) autre.style.display = "none";
       } else {
-        lien.textContent = propre;
+        ecrireTexte(lien, propre);
       }
     }
   }
@@ -376,14 +397,15 @@ function rendreLesHoraires(horaires: Array<{ day?: string; open?: string; close?
       const nom = jours[0] ?? abreges[0];
       const i = JOURS.indexOf(nom) >= 0 ? JOURS.indexOf(nom) : ABREGE.indexOf(nom);
       const valeur = parJour.get(i);
-      if (valeur) voisin.textContent = valeur;
+      if (valeur) ecrireTexte(voisin, valeur);
     } else {
       /*
         On garde le libellé de jours du thème pour ne pas défaire sa colonne,
         et l'on ne remplace que les heures : la première tranche du client,
         celle qui couvre la semaine.
       */
-      voisin.textContent = tranches[0]?.replace(/^\S+\s/, "") ?? voisin.textContent;
+      const heures = tranches[0]?.replace(/^\S+\s/, "");
+      if (heures) ecrireTexte(voisin, heures);
     }
   }
 
@@ -404,25 +426,33 @@ function rendreLesHoraires(horaires: Array<{ day?: string; open?: string; close?
       gardant les retours, plutôt que d'aplatir le bloc en une phrase.
     */
     if (queDesRetours && e.children.length > 0) {
-      const lignes = e.innerHTML.split(/<br\s*\/?>/i);
-      const refaites = lignes.map((ligne) => {
-        const nu = ligne.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
-        if (!/\d{1,2}\s?[h:]/.test(nu)) return ligne;
+      /*
+        Les <br> découpent déjà le bloc en nœuds texte : un par ligne. On les
+        modifie un à un, sans jamais réécrire l'intérieur de l'élément —
+        remplacer innerHTML détruisait les nœuds que React suivait, et la page
+        entière disparaissait au premier re-rendu.
+      */
+      let change = false;
+      for (const noeud of [...e.childNodes]) {
+        if (noeud.nodeType !== Node.TEXT_NODE) continue;
+        const nu = (noeud.nodeValue ?? "").replace(/\s+/g, " ").trim();
+        if (!nu || !/\d{1,2}\s?[h:]/.test(nu)) continue;
         const noms = JOURS.filter((j) => nu.toLowerCase().includes(j));
         const abr = ABREGE.filter((j) => new RegExp(`\\b${j}\\b`, "i").test(nu));
-        if (noms.length === 0 && abr.length === 0) return ligne;
+        if (noms.length === 0 && abr.length === 0) continue;
         if (noms.length + abr.length === 1) {
           const nom = noms[0] ?? abr[0];
           const i = JOURS.indexOf(nom) >= 0 ? JOURS.indexOf(nom) : ABREGE.indexOf(nom);
           const valeur = parJour.get(i);
-          return valeur ? `${capitale(noms.length ? JOURS[i] : ABREGE[i])} : ${valeur}` : ligne;
+          if (!valeur) continue;
+          noeud.nodeValue = `${capitale(noms.length ? JOURS[i] : ABREGE[i])} : ${valeur}`;
+        } else {
+          if (!tranches[0]) continue;
+          noeud.nodeValue = tranches[0];
         }
-        return tranches[0] ?? ligne;
-      });
-      if (refaites.join("") !== e.innerHTML) {
-        e.dataset.horairesRendus = "1";
-        e.innerHTML = refaites.join("<br />");
+        change = true;
       }
+      if (change) e.dataset.horairesRendus = "1";
       continue;
     }
 
@@ -437,7 +467,7 @@ function rendreLesHoraires(horaires: Array<{ day?: string; open?: string; close?
       const fragment = /\b(du\s+)?(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\s+(au|à|-|–)\s*(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)?[^.;]{0,30}?\d{1,2}\s?h\s?\d{0,2}[^.;]{0,16}?\d{1,2}\s?h\s?\d{0,2}/i;
       if (fragment.test(t)) {
         e.dataset.horairesRendus = "1";
-        e.textContent = t.replace(fragment, condense);
+        ecrireTexte(e, t.replace(fragment, condense));
       }
       continue;
     }
@@ -459,9 +489,9 @@ function rendreLesHoraires(horaires: Array<{ day?: string; open?: string; close?
       // Une ligne pour un seul jour : on ne remplace que ses heures.
       const i = JOURS.indexOf(jours[0]) >= 0 ? JOURS.indexOf(jours[0]) : ABREGE.indexOf(jours[0]);
       const valeur = parJour.get(i);
-      if (valeur) e.textContent = `${capitale(nomsPresents.length ? JOURS[i] : ABREGE[i])} ${valeur}`;
+      if (valeur) ecrireTexte(e, `${capitale(nomsPresents.length ? JOURS[i] : ABREGE[i])} ${valeur}`);
     } else {
-      e.textContent = condense;
+      ecrireTexte(e, condense);
     }
   }
 }
