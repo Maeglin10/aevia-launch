@@ -292,8 +292,8 @@ export default function AureliusHeritageLayout({
             fontFamily: FONT_LABEL,
           }}
         >
-          <span>© {new Date().getFullYear()} Aurelius Heritage. Tous droits réservés.</span>
-          <span>{clientCity(__layoutSession) ?? "Paris"} — Genève — Tokyo</span>
+          <span>© {new Date().getFullYear()} {clientName(__layoutSession) ?? "Aurelius Heritage. Tous"} droits réservés.</span>
+          <span>{clientCity(__layoutSession) ?? "Paris"} — {clientCity(__layoutSession) ?? "Genève"} — Tokyo</span>
         </div>
       </footer>
     </div>

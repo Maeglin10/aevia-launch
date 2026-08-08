@@ -10,6 +10,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -26,7 +28,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   THERMOTEK CHAUFFAGE — Chauffagiste professionnel (Bordeaux)
+   THERMOTEK CHAUFFAGE — Chauffagiste professionnel ({clientCity(sessionData) ?? "Bordeaux"})
    Palette : noir charbon / orange flamme #ea580c / cuivre / blanc
    Fonts : DM Sans (titres) + Fira Code (accents)
    Style : dark industrial warm, technique et rassurant
@@ -68,7 +70,7 @@ function REALISATIONS_LIVE() {
   return [
   { t: `Copropriété · 84 lots, ${clientCity({ formData: fd }) ?? "Villeurbanne"}`, n: "Chaufferie gaz condensation", d: "Remplacement de deux chaudières de 1998 par une cascade de trois modules. Coupure de trois jours, en juin, avec production d'eau chaude maintenue." },
   { t: "Maison 1962 · Sainte-Foy", n: "Pompe à chaleur air/eau", d: "Dépose d'une chaudière fioul, PAC 11 kW et remplacement de six radiateurs. Facture de chauffage divisée par 2,4 sur la première saison." },
-  { t: "Restaurant · Lyon 2e", n: "Production ECS renforcée", d: "Ballon 500 L et bouclage sanitaire pour un service en continu. Posé de nuit pour ne pas fermer la salle." },
+  { t: "Restaurant · " + (clientCity(sessionData) ?? "Lyon") + " 2e", n: "Production ECS renforcée", d: "Ballon 500 L et bouclage sanitaire pour un service en continu. Posé de nuit pour ne pas fermer la salle." },
   { t: "Atelier · Corbas", n: "Aérothermes gaz", d: "800 m² à chauffer sans reprendre le réseau existant. Quatre aérothermes suspendus, régulation par zone." },
 ];
 }
@@ -108,7 +110,7 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 // swap in clientReviews(session) when the client provided real
 // reviews.
 const TEMOIGNAGES_DEMO = [
-  { q: "Chaudière tombée en panne un dimanche soir de janvier. Technicien présent en 3h. Pièce remplacée, chaudière repartie. Service au top.", n: "Bernard L.", l: "Bordeaux (33)" },
+  { q: "Chaudière tombée en panne un dimanche soir de janvier. Technicien présent en 3h. Pièce remplacée, chaudière repartie. Service au top.", n: "Bernard L.", l: (clientCity(sessionData) ?? "Bordeaux") + " (33)" },
   { q: "Thermotek nous a installé une PAC air-eau et géré toutes les aides MaPrimeRénov'. Économie de 60% sur notre facture de gaz. Exceptionnel.", n: "Isabelle & Marc D.", l: "Mérignac (33)" },
   { q: "Entretien annuel ponctuel, technicien sérieux et pédagogue. Le rapport de combustion est clair. On continue avec Thermotek depuis 8 ans.", n: "Sylvain A.", l: "Pessac (33)" },
 ]
@@ -201,7 +203,7 @@ export default function ThermotekChauffagePage() {
             ) : (
               <>
                 <Flame className="w-6 h-6 text-[var(--brand,#ea580c)] fill-[var(--brand,#ea580c)]/20" />
-                <span className="font-bold text-lg tracking-tight">{clientName({ formData: fd }) ?? "Thermo"}<span className="text-[var(--brand,#ea580c)]">tek</span></span>
+                <span className="font-bold text-lg tracking-tight" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName({ formData: fd }) ?? "Thermo"}<span className="text-[var(--brand,#ea580c)]">tek</span></span>
               </>
             )}
           </div>
@@ -241,12 +243,11 @@ export default function ThermotekChauffagePage() {
 
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.88] tracking-tight mb-9">{c?.heroHeadline ?? <>
-            Votre confort<br />thermique,<br /><span className="text-[var(--brand,#ea580c)]">notre priorité.</span>
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.88] tracking-tight mb-9">{<>{clientHeroLine(sessionData, 0, 3, 15) ?? "Votre confort"}<br />{clientHeroLine(sessionData, 1, 3, 15) ?? "thermique,"}<br /><span className="text-[var(--brand,#ea580c)]">{clientHeroLine(sessionData, 2, 3, 15) ?? "notre priorité."}</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Installation, entretien et dépannage de chaudières, pompes à chaleur et planchers chauffants. Certifié RGE, éligible aides MaPrimeRénov'. Intervention d'urgence sous 4h.
           </>}</motion.p>
 
@@ -449,12 +450,12 @@ export default function ThermotekChauffagePage() {
               <Flame className="w-5 h-5 text-[var(--brand,#ea580c)]" />
               <span className="font-bold text-sm">Thermotek Chauffage</span>
             </div>
-            <p className="text-white/25 text-sm leading-relaxed">Chauffagiste RGE · Bordeaux Métropole. Chaudières, PAC, plancher chauffant depuis 2002.</p>
+            <p className="text-white/25 text-sm leading-relaxed">Chauffagiste RGE · {clientCity(sessionData) ?? "Bordeaux"} Métropole. Chaudières, PAC, plancher chauffant depuis 2002.</p>
           </div>
           {[
             { t: "Services", ls: ["Chaudière gaz/condensation", "Pompe à chaleur", "Plancher chauffant", "VMC double flux", "Entretien annuel", "Dépannage urgent"] },
             { t: "Aides", ls: ["MaPrimeRénov'", "CEE (Certificats Économie Énergie)", "Eco-prêt taux zéro", "TVA à 5,5%", "Dossiers pris en charge"] },
-            { t: "Contact", ls: [(fd?.phone ?? "05 56 12 34 56"), (fd?.email ?? "contact@thermotek.fr"), "Bordeaux Métropole", "Astreinte hiver 24h/24", "Devis gratuit 24h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "05 56 12 34 56"), (fd?.email ?? "contact@thermotek.fr"), (clientCity(sessionData) ?? "Bordeaux") + " Métropole", "Astreinte hiver 24h/24", "Devis gratuit 24h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#ea580c)] mb-5" style={{ fontFamily: "'Fira Code', monospace" }}>{col.t}</h4>
@@ -465,7 +466,7 @@ export default function ThermotekChauffagePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 Thermotek Chauffage · SIRET 345 678 901 00034 · RGE Qualibat · QualiPAC · Assurance Décennale{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Thermotek Chauffage"} · SIRET 345 678 901 00034 · RGE Qualibat · QualiPAC · Assurance Décennale{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#ea580c)]/30">Chauffagiste certifié · {clientCity({ formData: fd }) ?? "Bordeaux"}</span>
         </div>
       </footer>

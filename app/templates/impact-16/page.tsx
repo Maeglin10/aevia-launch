@@ -16,6 +16,7 @@ import {
   clientPhotos,
   clientServices,
   clientText,
+  clientTrade,
   clientWorks,
 } from "@/lib/templates/clientContent";
 
@@ -201,7 +202,7 @@ return (
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <span className="text-[var(--brand,#C9A86C)] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Obscura"))}</span>
+              <span className="text-[var(--brand,#C9A86C)] tracking-widest" style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Obscura"))}</span>
             )}
           </div>
           <div className="hidden md:flex items-center gap-8 text-white/40 text-sm">
@@ -234,7 +235,7 @@ return (
                       style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                     />
                   ) : (
-                    <span className="text-[var(--brand,#C9A86C)] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Obscura"))}</span>
+                    <span className="text-[var(--brand,#C9A86C)] text-xl" style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Obscura"))}</span>
                   )}
                </div>
                <div className="flex flex-col gap-6 font-medium">
@@ -273,11 +274,11 @@ return (
               <motion.div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6" style={{ opacity: heroOpacity }}>
                 <Reveal>
                   <div className="flex items-center gap-2 text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-8">
-                    <Camera className="w-4 h-4" /> Photographe · {clientCity(sessionData) ?? "Paris"}
+                    <Camera className="w-4 h-4" /> {clientTrade(sessionData) ?? "Photographe"} · {clientCity(sessionData) ?? "Paris"}
                   </div>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <h1 className="text-white text-6xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Obscura"))}</>}</h1>
+                  <h1 className="text-white text-6xl md:text-9xl leading-none mb-6" style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Obscura"))}</>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
                   <p className="text-white/50 text-lg max-w-md leading-relaxed mb-12 font-sans font-light">{fd?.tagline ?? c?.heroSubline ?? <>
@@ -347,7 +348,7 @@ return (
       {/* Footer */}
       <footer className="bg-[#060402] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20 font-mono">
-          <span className="text-[var(--brand,#C9A86C)]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>Obscura · Photographe {clientCity(sessionData) ?? "Paris"}</span>
+          <span className="text-[var(--brand,#C9A86C)]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>Obscura · {clientTrade(sessionData) ?? "Photographe"} {clientCity(sessionData) ?? "Paris"}</span>
           <div className="flex gap-6">
             <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Mentions légales</a>
             <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Politique de Confidentialité</a>
@@ -607,7 +608,7 @@ function ProposPage() {
             <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-4 block font-mono">Elena Korr</span>
             <h2 className="text-4xl md:text-6xl font-light leading-tight mb-8 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Capturer le <span className="italic">temps suspendu.</span></>)}</h2>
             <p className="text-white/60 text-lg leading-relaxed mb-6 font-sans font-light">
-              Diplômée de l'École Nationale Supérieure des Arts Décoratifs de Paris, je consacre ma pratique photographique à l'étude des ambiances lumineuses contrastées et à la géométrie rigoureuse des lignes architecturales.
+              Diplômée de l'École Nationale Supérieure des Arts Décoratifs de {clientCity(sessionData) ?? "Paris"}, je consacre ma pratique photographique à l'étude des ambiances lumineuses contrastées et à la géométrie rigoureuse des lignes architecturales.
             </p>
             <p className="text-white/40 text-sm leading-relaxed mb-10 font-sans font-light">
                Mon travail navigue entre la spontanéité du reportage de rue et la rigueur millimétrée du portrait de mode en studio. J'ai eu l'opportunité de collaborer avec des maisons de haute couture internationales et des rédactions de presse indépendantes qui partagent cette même obsession de l'excellence visuelle.

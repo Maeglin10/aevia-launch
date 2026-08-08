@@ -10,12 +10,15 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -27,7 +30,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   SÉC'URFAST — Serrurier urgence & sécurité (Strasbourg)
+   SÉC'URFAST — Serrurier urgence & sécurité ({clientCity(sessionData) ?? "Strasbourg"})
    Palette : nuit #0d1524 / acier #1e3a5f / bleu électrique #2563eb / blanc froid #f0f4ff
    Fonts : Exo 2 (moderne, tech, lisible) + Inter
    Style : disponible 24/7, fiable, urgent, bleu nuit professionnel
@@ -244,13 +247,13 @@ export default function SecurFastPage() {
 
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-24">
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.43, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-7 text-[#f0f4ff]">{c?.heroHeadline ?? <>
-            Bloqué dehors ?<br /><span className="text-[var(--brand,#2563eb)]">On arrive.</span>
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-7 text-[#f0f4ff]">{<>
+            Bloqué dehors ?<br /><span className="text-[var(--brand,#2563eb)]">{clientHeroLine(sessionData, 0, 1, 10) ?? "On arrive."}</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-[#f0f4ff]/28 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
-            Serrurier professionnel à {clientCity({ formData: fd }) ?? "Strasbourg"}. Urgences 24h/24, 7j/7. Ouverture de porte, changement de serrure, porte blindée. Intervention sous 30 min. Devis avant intervention.
+            className="max-w-md text-sm text-[#f0f4ff]/28 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            {clientTrade(sessionData) ?? "Serrurier"} professionnel à {clientCity({ formData: fd }) ?? "Strasbourg"}. Urgences 24h/24, 7j/7. Ouverture de porte, changement de serrure, porte blindée. Intervention sous 30 min. Devis avant intervention.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-4 mb-8">
@@ -451,7 +454,7 @@ export default function SecurFastPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2.5 mb-5"><Lock className="w-4 h-4 text-[var(--brand,#2563eb)]" /><span className="font-bold text-[#f0f4ff] text-sm">SÉC'URFAST</span></div>
-            <p className="text-[#f0f4ff]/15 text-sm leading-relaxed">Serrurier urgence {clientCity({ formData: fd }) ?? "Strasbourg"}. Disponible 24h/24. Ouverture porte, serrures, porte blindée, contrôle d'accès.</p>
+            <p className="text-[#f0f4ff]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Serrurier"} urgence {clientCity({ formData: fd }) ?? "Strasbourg"}. Disponible 24h/24. Ouverture porte, serrures, porte blindée, contrôle d'accès.</p>
           </div>
           {[
             { t: "Services", ls: ["Urgence 24h/24", "Changement serrure", "Porte blindée", "Contrôle d'accès", "Coffre-fort"] },
@@ -467,7 +470,7 @@ export default function SecurFastPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f0f4ff]/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f0f4ff]/8">
-          <span>© 2026 SÉC'URFAST · SIRET 567 890 123 00044 · Agréé assurances · Strasbourg (67){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "SÉC'URFAST"} · SIRET 567 890 123 00044 · Agréé assurances · {clientCity(sessionData) ?? "Strasbourg"} (67){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#2563eb)]/20">Serrurier urgence · 24h/24</span>
         </div>
       </footer>

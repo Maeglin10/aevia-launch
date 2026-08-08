@@ -46,11 +46,14 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -88,7 +91,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   COURANT FORT {clientCity(sessionData) ?? "BORDEAUX"} — Électricien tertiaire {clientCity(sessionData) ?? "Bordeaux"} — smart home, alarmes, domotique. Exo 2, bleu nuit / lime.
+   COURANT FORT {clientCity(sessionData) ?? "BORDEAUX"} — {clientTrade(sessionData) ?? "Électricien"} tertiaire {clientCity(sessionData) ?? "Bordeaux"} — smart home, alarmes, domotique. Exo 2, bleu nuit / lime.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -105,8 +108,8 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  primary: "var(--brand,#c6f135)",
-  primaryLight: "var(--brand-light,#d8f860)",
+  primary: "#c6f135",
+  primaryLight: "#d8f860",
   primaryDark: "#a0cc10",
   bg: "#0d1117",
   bgDeep: "#080c12",
@@ -519,9 +522,7 @@ export default function Page() {
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Smart Home<br />& Tertiaire
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 11) ?? "Smart Home"}<br />{clientHeroLine(sessionData, 1, 2, 11) ?? "& Tertiaire"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -532,8 +533,8 @@ export default function Page() {
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
-              Électricien {clientCity(sessionData) ?? "Bordeaux"} Mériadeck. Smart home, alarmes, domotique, installations tertiaires.
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              {clientTrade(sessionData) ?? "Électricien"} {clientCity(sessionData) ?? "Bordeaux"} Mériadeck. Smart home, alarmes, domotique, installations tertiaires.
             </>}</p>
           </Reveal>
 
@@ -1258,7 +1259,7 @@ export default function Page() {
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Courant Fort Bordeaux"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Électricien tertiaire {clientCity(sessionData) ?? "Bordeaux"}
+                {clientTrade(sessionData) ?? "Électricien"} tertiaire {clientCity(sessionData) ?? "Bordeaux"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1302,7 +1303,7 @@ export default function Page() {
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Courant Fort {clientCity(sessionData) ?? "Bordeaux"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Courant Fort"} {clientCity(sessionData) ?? "Bordeaux"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

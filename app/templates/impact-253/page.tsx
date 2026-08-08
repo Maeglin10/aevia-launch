@@ -14,6 +14,8 @@ import { ArrowRight, ChevronDown, MapPin, Quote, Trophy } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -679,7 +681,7 @@ function Hero() {
             textShadow: '0 10px 56px rgba(0,0,0,0.55)',
             maxWidth: '14ch',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 11) ?? (<>
           Récupérer /{' '}
           <span style={{ color: C.accentLight }}>plus vite.</span>
         </>)}</motion.h1>
@@ -711,10 +713,7 @@ function Hero() {
             lineHeight: 1.72,
             margin: '0 0 38px',
           }}
-        >
-          Cabinet spécialisé sport & rééducation. Protocoles validés. Retour
-          terrain optimisé.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Cabinet spécialisé sport & rééducation. Protocoles validés. Retour terrain optimisé."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -2128,7 +2127,7 @@ function Footer() {
           color: 'rgba(196,220,204,0.46)',
         }}
       >
-        <span>© 2026 KinéSport Élite · {clientCity(sessionData) ?? "Paris"} 15e{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "KinéSport Élite"} · {clientCity(sessionData) ?? "Paris"} 15e{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

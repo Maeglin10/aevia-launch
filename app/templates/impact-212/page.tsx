@@ -18,6 +18,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientReviews,
@@ -879,7 +881,7 @@ export default function ThermaProPage() {
   );
 
   const projects_DEMO = [
-    { type: 'PAC air/eau + plancher chauffant',       location: 'Lyon 6e',            surface: '180 m²',   year: '2024', tag: 'Résidentiel' },
+    { type: 'PAC air/eau + plancher chauffant',       location: (clientCity(sessionData) ?? 'Lyon') + ' 6e',            surface: '180 m²',   year: '2024', tag: 'Résidentiel' },
     { type: 'Chaudière condensation gaz',              location: (clientCity(sessionData) ?? 'Villeurbanne'),       surface: '95 m²',    year: '2024', tag: 'Résidentiel' },
     { type: 'Climatisation multisplit 5 groupes',      location: 'Bron',               surface: '220 m²',   year: '2024', tag: 'Commercial'  },
     { type: 'PAC géothermique sol/eau',                location: 'Caluire-et-Cuire',   surface: '350 m²',   year: '2023', tag: 'Résidentiel' },
@@ -894,7 +896,7 @@ export default function ThermaProPage() {
   ];
 
   const testimonials_DEMO = [
-    { name: 'Pierre M.',       city: 'Lyon 3e',           text: 'Intervention ultra rapide un dimanche soir pour une panne de chaudière. Technicien très compétent, prix honnête, chaudière réparée en 1h. Je recommande chaudement !',                                service: 'Urgence'      },
+    { name: 'Pierre M.',       city: (clientCity(sessionData) ?? 'Lyon') + ' 3e',           text: 'Intervention ultra rapide un dimanche soir pour une panne de chaudière. Technicien très compétent, prix honnête, chaudière réparée en 1h. Je recommande chaudement !',                                service: 'Urgence'      },
     { name: 'Nathalie B.',     city: (clientCity(sessionData) ?? "Villeurbanne"),      text: 'Installation d\'une PAC air/eau complète avec plancher chauffant. Chantier propre et dans les délais annoncés. Les économies sont au rendez-vous : −40% sur ma facture de gaz.',                     service: 'PAC'          },
     { name: 'François T.',     city: 'Bron',              text: 'Therma Pro a géré l\'intégralité des démarches MaPrimeRénov\' pour moi. Simple, rapide, et l\'équipe est vraiment professionnelle. Je n\'ai eu qu\'à signer. Merci !',                             service: 'Financement'  },
     { name: 'Isabelle C.',     city: 'Caluire-et-Cuire',  text: 'Devis clair et honnête, pas de mauvaise surprise à la facture. L\'installation de la clim réversible est parfaite, vraiment silencieuse, et économique. Top service !',                             service: 'Climatisation'},
@@ -1161,14 +1163,11 @@ return (
                 color: C.white, marginBottom: 24,
                 letterSpacing: '-1px', maxWidth: 900,
               }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-              VOTRE CONFORT<br />
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 16) ?? "VOTRE CONFORT"}<br />
               <span style={{
                 background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
                 WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-              }}>THERMIQUE</span><br />
-              ENTRE NOS MAINS.
-            </>}</>)}</motion.h1>
+              }}>{clientHeroLine(sessionData, 1, 3, 16) ?? "THERMIQUE"}</span><br />{clientHeroLine(sessionData, 2, 3, 16) ?? "ENTRE NOS MAINS."}</>}</>)}</motion.h1>
 
             {/* Subtitle */}
             <motion.p
@@ -1179,7 +1178,7 @@ return (
                 color: C.textMuted, fontSize: 'clamp(15px, 2.2vw, 18px)', lineHeight: 1.7,
                 maxWidth: 540, marginBottom: 40,
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Spécialiste du chauffage, de la climatisation et des pompes à chaleur depuis 2009. Installation, entretien et dépannage 24h/7j dans toute la métropole lyonnaise.
             </>}</motion.p>
 
@@ -1504,7 +1503,7 @@ return (
               <div className="contact-info-cards" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 {[
                   { icon: '📞', title: 'Urgence chauffage',    val: (fd?.phone ?? '04 78 00 00 00'),    sub: 'Disponible 24h/7j'    },
-                  { icon: '📍', title: 'Zone d\'intervention', val: 'Métropole de Lyon', sub: 'Ain, Isère, Rhône'    },
+                  { icon: '📍', title: 'Zone d\'intervention', val: 'Métropole de ' + (clientCity(sessionData) ?? 'Lyon'), sub: 'Ain, Isère, Rhône'    },
                   { icon: '✉️', title: 'Email',               val: (fd?.email ?? 'contact@thermapro.fr'), sub: 'Réponse sous 24h'  },
                 ].map(info => (
                   <div key={info.title} style={{
@@ -1750,7 +1749,7 @@ return (
               <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 16, fontWeight: 700, color: C.white, marginBottom: '1.25rem', letterSpacing: '0.04em' }}>
                 Zone d'intervention
               </div>
-              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ['Lyon (tous arrondissements)', (clientCity(sessionData) ?? 'Villeurbanne'), 'Bron', 'Caluire-et-Cuire', 'Décines-Charpieu', 'Écully', 'Vénissieux', 'Tassin-la-Demi-Lune']).map(z => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? [(clientCity(sessionData) ?? 'Lyon') + ' (tous arrondissements)', (clientCity(sessionData) ?? 'Villeurbanne'), 'Bron', 'Caluire-et-Cuire', 'Décines-Charpieu', 'Écully', 'Vénissieux', 'Tassin-la-Demi-Lune']).map(z => (
                 <div key={z} style={{ marginBottom: 9 }}>
                   <span style={{ color: C.textMuted, fontSize: 13.5 }}>{z}</span>
                 </div>
@@ -1781,7 +1780,7 @@ return (
             alignItems: 'center', gap: '0.75rem',
           }}>
             <div style={{ color: C.textMuted, fontSize: 12.5 }}>
-              © 2024 Therma Pro SAS · SIRET 123 456 789 00012 · RGE n° E-E200050{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2024 {clientName(sessionData) ?? "Therma Pro SAS"} · SIRET 123 456 789 00012 · RGE n° E-E200050{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </div>
             <div className="footer-badges" style={{ display: 'flex', gap: '0.75rem' }}>
               {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste2") ?? ['RGE Certifié', '4.9/5 Google', 'Garantie 5 ans']).map(badge => (

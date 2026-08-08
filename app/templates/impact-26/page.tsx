@@ -10,6 +10,8 @@ import Image from "next/image"
 import { ArrowRight, Heart, ChevronLeft, ChevronRight, Star, Leaf, Droplets, Wind, ShoppingBag, X, Check } from "lucide-react"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -465,16 +467,15 @@ export default function Impact26() {
             transition={{ duration: 1, delay: 0.1 }}
             className="text-6xl md:text-9xl leading-[0.9] mb-8"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
-          >{c?.heroHeadline ?? <>
-            L'art de<br />
-            <em>l'invisible.</em>
+          >{<>{clientHeroLine(sessionData, 0, 2, 12) ?? "L'art de"}<br />
+            <em>{clientHeroLine(sessionData, 1, 2, 12) ?? "l'invisible."}</em>
           </>}</motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-[#F5EDE8]/60 text-lg max-w-xl mb-10 leading-relaxed"
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Chaque flacon est une œuvre. Chaque note, une promesse. Éther compose des parfums pour ceux qui refusent l'ordinaire.
           </>}</motion.p>
           <motion.div
@@ -802,7 +803,7 @@ export default function Impact26() {
               </button>
             ))}
           </div>
-          <p className="text-[#F5EDE8]/20 text-xs tracking-widest">© 2026 Éther Parfums, {clientCity(sessionData) ?? "Paris"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</p>
+          <p className="text-[#F5EDE8]/20 text-xs tracking-widest">© 2026 {clientName(sessionData) ?? "Éther Parfums"}, {clientCity(sessionData) ?? "Paris"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</p>
         </div>
       </footer>
     </div>

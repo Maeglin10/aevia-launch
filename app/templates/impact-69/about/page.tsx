@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -85,7 +86,7 @@ export default function AboutPage() {
               I spend weeks in each location before making an image. The mountains don't care about my schedule. The fog rolls in when it wants. All I do is be present — technically prepared, emotionally open, and patient enough to let the moment arrive.
             </p>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.8, fontWeight: 300, marginBottom: 40 }}>
-              Each print is made in partnership with Atelier Gaspard in Lyon, using archival pigment inks on 300gsm cotton rag paper. Every edition is limited to preserve collector value and my own artistic integrity.
+              Each print is made in partnership with Atelier Gaspard in {clientCity(sessionData) ?? "Lyon"}, using archival pigment inks on 300gsm cotton rag paper. Every edition is limited to preserve collector value and my own artistic integrity.
             </p>
             <div style={{ display: "flex", gap: 40 }}>
               {[{ val: "300gsm", label: "Cotton rag paper" }, { val: "50yr", label: "Archive guarantee" }, { val: "≤20", label: "Prints per series" }].map(item => (

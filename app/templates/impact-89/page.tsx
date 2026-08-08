@@ -36,8 +36,11 @@ import {
   Pen,
 } from "lucide-react";
 import {
+  clientPhone,
+  clientAccrocheRestante,
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -468,7 +471,7 @@ function AboutSection() {
               L'ART DANS<br /><span style={{ color: C.accent }}>LA PEAU.</span>
             </>)}</h2>
             <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 24 }}>
-              Ink & Iron n'est pas un simple salon de tatouage ; c'est un sanctuaire d'expression artistique et de rigueur technique. Situé au cœur du 11e arrondissement de Paris, notre atelier réunit trois artistes résidents de renommée internationale.
+              Ink & Iron n'est pas un simple salon de tatouage ; c'est un sanctuaire d'expression artistique et de rigueur technique. Situé au cœur du 11e arrondissement de {clientCity(sessionData) ?? "Paris"}, notre atelier réunit trois artistes résidents de renommée internationale.
             </p>
             <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 32 }}>
               Chaque pièce est une création sur-mesure unique, dessinée en étroite collaboration avec vous. Nous appliquons les standards d'hygiène les plus stricts de l'industrie (matériel à usage unique, stérilisation médicale) pour vous offrir une expérience d'exception en toute sécurité.
@@ -597,7 +600,7 @@ export default function Impact89Page() {
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,
   );
-  STATS = resolveList(clientStats(session), STATS_DEMO);
+  STATS = resolveList(clientStats(session)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, "") })), STATS_DEMO);
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], text: r.text, name: r.author })),
     TESTIMONIALS_DEMO,
@@ -870,9 +873,9 @@ return (
               color: C.text,
               marginBottom: 8,
             }}
-          >{c?.heroHeadline ?? <>
+          >{c?.heroHeadline ?? <>{clientHeroLine(sessionData, 0, 2, 6) ?? (<>
             INK
-          </>}</motion.h1>
+          </>)}</>}</motion.h1>
           <motion.div
             initial={{ opacity: 0, scaleX: 0 }}
             animate={{ opacity: 1, scaleX: 1 }}
@@ -896,9 +899,9 @@ return (
               color: C.accent,
               marginBottom: 40,
             }}
-          >
+          >{clientHeroLine(sessionData, 1, 2, 6) ?? (<>
             & IRON
-          </motion.h1>
+          </>)}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0 }}
@@ -913,7 +916,7 @@ return (
               lineHeight: 1.7,
               fontWeight: 300,
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientAccrocheRestante(sessionData, 2, 6) ?? c?.heroSubline ?? <>
             Tatouage luxury à {clientCity({ formData: fd }) ?? "Paris"}. Trois artistes. Un standard absolu d'excellence — de la consultation à la cicatrisation.
           </>}</motion.p>
 
@@ -1937,7 +1940,7 @@ return (
               <div style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 20 }}>Contact</div>
               {[
                 { Icon: MapPin, text: "24 Rue de la Roquette\nParis 11e, 75011" },
-                { Icon: Phone, text: "+33 1 43 56 78 90" },
+                { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 43 56 78 90") },
                 { Icon: Mail, text: (fd?.email ?? "contact@inkandironstudio.fr") },
                 { Icon: Clock, text: "Mar–Sam : 11h–20h\nDim–Lun : fermé" },
               ].map(({ Icon, text }) => (
@@ -1959,7 +1962,7 @@ return (
             gap: 16,
           }}>
             <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.textDim, letterSpacing: 2 }}>
-              © 2025 INK & IRON STUDIO — {clientCity(sessionData) ?? "PARIS"} 11E{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2025 {clientName(sessionData) ?? "INK"} & IRON STUDIO — {clientCity(sessionData) ?? "PARIS"} 11E{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {[

@@ -14,6 +14,8 @@ import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -573,7 +575,7 @@ function Hero() {
             letterSpacing: '-0.01em',
             cursor: 'default',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 38) ?? (<>
           Pain de{' '}
           <span
             style={{
@@ -599,10 +601,7 @@ function Hero() {
             lineHeight: 1.65,
             marginBottom: 'clamp(30px,4vw,52px)',
           }}
-        >
-          Levain de 8 ans, farine Label Rouge, pétrissage à la main.
-          Chaque fournée depuis 7h du matin — pour que vous arriviez à l'heure.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Levain de 8 ans, farine Label Rouge, pétrissage à la main. Chaque fournée depuis 7h du matin — pour que vous arriviez à l'heure."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

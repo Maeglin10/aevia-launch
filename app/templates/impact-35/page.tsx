@@ -16,6 +16,8 @@ import {
 } from "./shared"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -146,9 +148,7 @@ return (
                   lineHeight: 1.1,
                   marginBottom: 24,
                 }}
-              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
-                Travaillez là où <span style={{ color: C.accent }}>l'ambition</span> prend vie
-              </>}</>)}</motion.h1>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 8) ?? "Travaillez là où"}{" "}<span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 3, 8) ?? "l'ambition"}</span>{" "}{clientHeroLine(sessionData, 2, 3, 8) ?? "prend vie"}</>}</>)}</motion.h1>
 
               <motion.p
                 initial={{ opacity: 0 }}
@@ -160,7 +160,7 @@ return (
                   marginBottom: 40,
                   maxWidth: 480,
                 }}
-              >{fd?.tagline ?? c?.heroSubline ?? <>
+              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Un espace de coworking premium à {clientCity(sessionData) ?? "Paris"}. Hot desks, bureaux dédiés, salles de réunion, studio podcast — et une communauté pensée pour grandir.
               </>}</motion.p>
 
@@ -571,7 +571,7 @@ return (
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-35"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

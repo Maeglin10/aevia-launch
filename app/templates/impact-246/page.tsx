@@ -22,7 +22,10 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -524,7 +527,7 @@ function Nav() {
         ) : (
           <>
             <Wrench size={20} color={C.accent} strokeWidth={2} />
-            ThermoFix&nbsp;<span style={{ color: C.accent }}>{clientName(sessionData) ?? "Pro"}</span>
+            ThermoFix&nbsp;<span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  color: C.accent }}>{clientName(sessionData) ?? "Pro"}</span>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.accent, display: 'inline-block', marginLeft: 2 }} />
           </>
         )}
@@ -786,7 +789,7 @@ function Hero() {
             margin: 'clamp(22px,3vw,36px) 0 clamp(18px,2.5vw,28px)',
             textShadow: '0 10px 50px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 11) ?? (<>
           Dépannage /{' '}
           <br />
           en 1h.
@@ -805,11 +808,7 @@ function Hero() {
             lineHeight: 1.65,
             marginBottom: 'clamp(32px,4vw,48px)',
           }}
-        >
-          Plomberie, chauffage, climatisation — intervention d'urgence en moins
-          d'une heure sur Marseille et sa métropole. Devis gratuit avant toute
-          action.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Plomberie, chauffage, climatisation — intervention d'urgence en moins d'une heure sur Marseille et sa métropole. Devis gratuit avant toute action."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}
@@ -2150,7 +2149,7 @@ function Footer() {
       title: "Zone d'action",
       items: [
         { label: (clientCity(sessionData) ?? 'Marseille') + ' (1er–16e)', href: '#zone' },
-        { label: 'Aix-en-Provence', href: '#zone' },
+        { label: (clientCity(sessionData) ?? 'Aix-en-Provence'), href: '#zone' },
         { label: 'Aubagne', href: '#zone' },
         { label: 'Cassis', href: '#zone' },
         { label: 'Vitrolles', href: '#zone' },
@@ -2163,7 +2162,7 @@ function Footer() {
         { label: 'Devis en ligne', href: '#devis' },
         { label: 'Interventions 24h/7j', href: '#interventions' },
         { label: 'Certifications RGE', href: "/templates/impact-246" },
-        { label: fd?.email ?? 'contact@thermofix-pro.fr', href: `mailto:${fd?.email ?? 'contact@thermofix-pro.fr'}` },
+        { label: (clientEmail(sessionData) ?? 'contact@thermofix-pro.fr'), href: `mailto:${clientEmail(sessionData) ?? 'contact@thermofix-pro.fr'}` },
       ],
     },
   ];
@@ -2336,7 +2335,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.42)',
         }}
       >
-        <span>© 2026 ThermoFix Pro · {clientCity(sessionData) ?? "Marseille"} · SIRET 000 000 000 00000{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "ThermoFix Pro"} · {clientCity(sessionData) ?? "Marseille"} · SIRET 000 000 000 00000{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#tf-msg" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

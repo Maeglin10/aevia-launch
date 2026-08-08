@@ -14,12 +14,15 @@ import { ArrowRight, ChevronDown, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -34,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ATELIER TERRA — Paysagiste & Aménagement Extérieur · {clientCity(sessionData) ?? "Nantes"}
+   ATELIER TERRA — {clientTrade(sessionData) ?? "Paysagiste"} & Aménagement Extérieur · {clientCity(sessionData) ?? "Nantes"}
    Chorégraphie de défilement éditoriale, fond clair/sombre, sticky parallax.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -631,7 +634,7 @@ function Hero() {
           {/* White, not accentLight (#c8dfc4): a pale green eyebrow on a green
               garden photo has almost no contrast. */}
           <Eyebrow color="#ffffff" light>
-            Paysagiste · {clientCity(sessionData) ?? "Nantes"} &amp; Loire-Atlantique
+            {clientTrade(sessionData) ?? "Paysagiste"} · {clientCity(sessionData) ?? "Nantes"} &amp; Loire-Atlantique
           </Eyebrow>
         </Reveal>
 
@@ -650,7 +653,7 @@ function Hero() {
             margin: '24px 0 20px',
             textShadow: '0 10px 50px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 8) ?? (<>
           Jardins{' '}
           <span style={{ fontStyle: 'normal', color: C.accentLight }}>vivants.</span>
         </>)}</motion.h1>
@@ -668,11 +671,7 @@ function Hero() {
             lineHeight: 1.68,
             marginBottom: 40,
           }}
-        >
-          Conception, plantation et aménagement extérieur sur-mesure. Nous
-          créons des espaces verts qui respirent, produisent et enchantent —
-          saison après saison.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Conception, plantation et aménagement extérieur sur-mesure. Nous créons des espaces verts qui respirent, produisent et enchantent — saison après saison."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -1889,7 +1888,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Paysagiste & aménagement extérieur à {clientCity(sessionData) ?? "Nantes"} depuis 2010. Jardins vivants, durables et sans chimie.
+            {clientTrade(sessionData) ?? "Paysagiste"} & aménagement extérieur à {clientCity(sessionData) ?? "Nantes"} depuis 2010. Jardins vivants, durables et sans chimie.
           </p>
           <div
             style={{

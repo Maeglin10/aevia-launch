@@ -11,6 +11,9 @@ import { CrossPush } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -179,7 +182,7 @@ export default function PotagerEstuairePage() {
           ) : (
             <>
               <Leaf size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire"))}</span>
+              <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire"))}</span>
               
             </>
           )}
@@ -213,14 +216,12 @@ export default function PotagerEstuairePage() {
         <CrossPush images={HERO.map((s) => s.img)} index={i} overlay={0.5} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,8,10,0.92) 0%, rgba(8,8,10,0.40) 46%, rgba(8,8,10,0.10) 100%)", pointerEvents: "none" }} />
         <div className="i366-herotext" style={{ position: "relative", zIndex: 1, padding: "0 72px 76px", maxWidth: 860 }}>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.hi }}>
-            Maraîchage bio · Golfe du Morbihan
-          </motion.span>
+          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.hi }}>{clientEyebrow(sessionData) ?? "Maraîchage bio · Golfe du Morbihan"}</motion.span>
           <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.9, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(36px, 5vw, 64px)", color: "#fff", lineHeight: 1.1, margin: "16px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>
-            {c?.heroHeadline ?? (<>Un champ, cent familles,<br /><em style={{ color: C.hi }}>et les saisons pour contrat.</em></>)}
+            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Un champ, cent familles,"}<br /><em style={{ color: C.hi }}>{clientHeroLine(sessionData, 1, 2, 14) ?? "et les saisons pour contrat."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }} style={{ fontSize: 17, color: "rgba(255,255,255,0.78)", lineHeight: 1.75, marginBottom: 32, maxWidth: 520 }}>
-            {fd?.tagline ?? c?.heroSubline ?? "Le Potager nourrit cent familles en AMAP et le marché du samedi : légumes bio plantés, cueillis et distribués par la même équipe. S'engager sur une saison, c'est ce qui fait tenir une ferme."}
+            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Le Potager nourrit cent familles en AMAP et le marché du samedi : légumes bio plantés, cueillis et distribués par la même équipe. S'engager sur une saison, c'est ce qui fait tenir une ferme."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
@@ -406,7 +407,7 @@ export default function PotagerEstuairePage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire"))}</div>
+              <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire"))}</div>
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Maraîchage biologique · Vannes<br />Certifié AB — AMAP et marché des Lices</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -421,7 +422,7 @@ export default function PotagerEstuairePage() {
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
               © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
             </span>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+            <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>
         </div>
       </footer>

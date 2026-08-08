@@ -9,6 +9,9 @@ import { Ruler, ArrowRight, Menu, Star, MapPin, TreePine, Shovel, Layers, Mounta
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -217,16 +220,15 @@ export default function TerraArchitecturePage() {
                 <Reveal>
                   <div className="flex items-center gap-4 mb-8">
                      <div className="w-12 h-[1px] bg-[#3d3a35]/30" />
-                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#3d3a35]/50">Sustainability First Architecture</span>
+                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#3d3a35]/50">{clientEyebrow(sessionData) ?? "Sustainability First Architecture"}</span>
                   </div>
                 </Reveal>
                 <Reveal delay={0.1} y={60}>
-                  <h1 className="text-[3rem] sm:text-7xl md:text-[8rem] font-light tracking-tighter leading-[0.85] mb-6 md:mb-12 uppercase">{c?.heroHeadline ?? <>
-                    Rooted <br/> In <span className="italic text-[var(--brand,#6c6459)] font-normal">Nature.</span>
+                  <h1 className="text-[3rem] sm:text-7xl md:text-[8rem] font-light tracking-tighter leading-[0.85] mb-6 md:mb-12 uppercase">{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "Rooted"}<br/>{clientHeroLine(sessionData, 1, 3, 7) ?? "In"}{" "}<span className="italic text-[var(--brand,#6c6459)] font-normal">{clientHeroLine(sessionData, 2, 3, 7) ?? "Nature."}</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <p className="text-xl text-[#3d3a35]/60 font-light max-w-lg leading-relaxed mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
+                  <p className="text-xl text-[#3d3a35]/60 font-light max-w-lg leading-relaxed mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                     We design structures that don't just sit on the earth, but emerge from it. Minimalist, sustainable, and timeless architecture.
                   </>}</p>
                 </Reveal>
@@ -426,7 +428,7 @@ export default function TerraArchitecturePage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-[#3d3a35]/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-[#3d3a35]/30">
-          <span>© 2026 TERRA ARCHITECTURE STUDIO. BUILT WITH EARTH.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "TERRA ARCHITECTURE STUDIO. BUILT"} WITH EARTH.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-[#3d3a35] transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> BASED IN COPENHAGEN</Link>
              <Link href="#contact" className="hover:text-[#3d3a35] transition-colors flex items-center gap-2"><MapPin className="w-3 h-3" /> PARIS · TOKYO</Link>

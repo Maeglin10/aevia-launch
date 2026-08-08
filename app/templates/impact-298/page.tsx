@@ -46,6 +46,8 @@ import {
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientServices,
@@ -84,7 +86,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DR. ESTELLE BLANC — Chirurgien-dentiste Montpellier Antigone — implantologie, orthodontie invisible. EB Garamond, turquoise / blanc.
+   DR. ESTELLE BLANC — Chirurgien-dentiste {clientCity(sessionData) ?? "Montpellier"} Antigone — implantologie, orthodontie invisible. EB Garamond, turquoise / blanc.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -512,9 +514,7 @@ return (
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Votre Sourire<br />En Confiance
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 13) ?? "Votre Sourire"}<br />{clientHeroLine(sessionData, 1, 2, 13) ?? "En Confiance"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -525,8 +525,8 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
-              Implantologie, orthodontie invisible, blanchiment. Cabinet Montpellier Antigone.
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              Implantologie, orthodontie invisible, blanchiment. Cabinet {clientCity(sessionData) ?? "Montpellier"} Antigone.
             </>}</p>
           </Reveal>
 
@@ -642,7 +642,7 @@ return (
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Dr. Estelle Blanc"))}</Eyebrow>
+                <Eyebrow style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Dr. Estelle Blanc"))}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1128,7 +1128,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        Montpellier Antigone
+                        {clientCity(sessionData) ?? "Montpellier"} Antigone
                       </div>
                     </div>
                   </div>
@@ -1248,7 +1248,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Dr. Estelle Blanc"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Chirurgien-dentiste Montpellier Antigone
+                Chirurgien-dentiste {clientCity(sessionData) ?? "Montpellier"} Antigone
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1292,7 +1292,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Dr. Estelle Blanc. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Dr. Estelle Blanc."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

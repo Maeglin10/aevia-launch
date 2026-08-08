@@ -31,6 +31,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -555,7 +557,7 @@ function HeroSection() {
             textShadow: '0 8px 40px rgba(0,0,0,0.5)',
             maxWidth: 900,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 21) ?? (<>
           L&apos;eau maîtrisée,{' '}
           <span style={{color: brand ?? 'var(--brand,#e87070)' }}>votre confort</span>{' '}
           assuré
@@ -574,11 +576,7 @@ function HeroSection() {
             fontWeight: 400,
             marginBottom: 36,
           }}
-        >
-          Intervention rapide sur toutes vos installations de plomberie,
-          chauffage et salle de bain. Devis gratuit, tarifs transparents,
-          garantie biennale sur tous nos travaux.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Intervention rapide sur toutes vos installations de plomberie, chauffage et salle de bain. Devis gratuit, tarifs transparents, garantie biennale sur tous nos travaux."}</motion.p>
 
         {/* Badge urgence */}
         <motion.div

@@ -31,9 +31,11 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientAddress,
   clientCertifications,
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -368,7 +370,7 @@ function HeroSection() {
             textShadow: '0 10px 50px rgba(0,0,0,0.45)',
             maxWidth: 900,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 32) ?? (<>
           Votre confort,{' '}
           <span
             style={{
@@ -380,6 +382,13 @@ function HeroSection() {
             notre expertise
           </span>
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 32) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 32)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 26 }}

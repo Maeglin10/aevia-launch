@@ -30,6 +30,8 @@ import {
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -468,8 +470,7 @@ function Hero() {
               animate={{ opacity: 1, rotateY: 0, clipPath: "inset(0 0% 0 0)" }}
               transition={{ duration: 0.85, ease: EASE_4 }}
               style={{ fontSize: "clamp(36px, 4.4vw, 60px)", fontWeight: 800, color: C.text, lineHeight: 1.08, letterSpacing: "-0.02em", margin: "0 0 18px", transformOrigin: "left center" }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-              Votre sourire,<br /><span style={{ color: C.accent }}>notre passion</span>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Votre sourire,"}<br /><span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 14) ?? "notre passion"}</span>
             </>}</>)}</motion.h1>
 
             <motion.p
@@ -478,7 +479,7 @@ function Hero() {
               transition={{ duration: 0.55, ease: EASE_3, delay: BEAT.second }}
               className="hero-lede"
               style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.75, maxWidth: 440, margin: "0 0 26px" }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Soins conservateurs, esthétique et implantologie. Devis détaillé avant chaque acte, sans engagement.
             </>}</motion.p>
 

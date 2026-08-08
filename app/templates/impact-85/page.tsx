@@ -11,6 +11,8 @@ import {
   clientAddress,
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -560,12 +562,11 @@ export default function AetherLabsPage() {
             <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#8B7355)] mb-8">Laboratoire cosmétique — Grasse, France</p>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light leading-[1.0] mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? <>
-              La peau<br />révélée par la<br /><em>science pure</em>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light leading-[1.0] mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 14) ?? "La peau"}<br />{clientHeroLine(sessionData, 1, 3, 14) ?? "révélée par la"}<br /><em>{clientHeroLine(sessionData, 2, 3, 14) ?? "science pure"}</em>
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#6B5A40] leading-relaxed max-w-md mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="text-[#6B5A40] leading-relaxed max-w-md mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Aether Labs formule des soins à l&apos;intersection de la chimie organique et de la cosmétique clinique. Chaque produit est développé en laboratoire, testé sous contrôle dermatologique.
             </>}</p>
           </Reveal>
@@ -1032,7 +1033,7 @@ export default function AetherLabsPage() {
             </div>
           </div>
           <div className="pt-8 border-t border-[#1C1814] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 Aether Labs — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2024 {clientName(sessionData) ?? "Aether Labs"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
             <div className="flex gap-6">
               {[
                 { name: "Mentions légales", path: "/templates/impact-85/legal/mentions-legales" },

@@ -7,6 +7,8 @@ import { Scissors, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Ca
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -14,6 +16,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -45,7 +48,7 @@ let C: Record<string, string> = {
   bgSection: "#f0ece5",
   bgDark: "#1c1410",
   text: "#1c1410",
-  textMuted: "var(--brand-light,#6b5c4c)",
+  textMuted: "#6b5c4c",
   accent: "#8b6914",
   accentLight: "#f5e8c8",
   copper: "#b5651d",
@@ -448,11 +451,10 @@ return (
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
         <motion.div className="mb227-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.2vw, 70px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            L'art du soin masculin,<br /><em style={{ color: C.accentLight }}>à l'ancienne.</em>
+            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.2vw, 70px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 23) ?? "L'art du soin masculin,"}<br /><em style={{ color: C.accentLight }}>{clientHeroLine(sessionData, 1, 2, 23) ?? "à l'ancienne."}</em>
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Coupes, rasages au blaireau, soins barbe et cuir chevelu — Le Barber Club est l'adresse des hommes qui ne veulent pas choisir entre style et tradition.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -612,7 +614,7 @@ return (
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 18, color: C.accentLight, marginBottom: 8 }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Le Barber Club"))}</div>
-            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Barbier · {clientCity(sessionData) ?? "Lyon"}<br />Lun–Sam 9h–19h</p>
+            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Barbier"} · {clientCity(sessionData) ?? "Lyon"}<br />Lun–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + ", Rhône" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 78 00 00 01") }, { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h" }].map((item, i) => (

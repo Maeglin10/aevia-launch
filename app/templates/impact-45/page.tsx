@@ -7,7 +7,10 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown, Star } from "lucide-react";
 import { C, stats, testimonials, NeedleAnimation, artists, portfolioItems } from "./shared";
 import {
+  clientHeroPrestations,
+  clientAccrocheRestante,
   clientCity,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -44,7 +47,7 @@ function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.4 }}
             style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(52px, 8vw, 100px)", fontWeight: 700, color: C.white, lineHeight: 0.95, margin: "0 0 32px", letterSpacing: "-0.02em" }}
-          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             INK<br />
             <span style={{ color: C.accent }}>WORTH</span><br />
             WEARING
@@ -55,9 +58,7 @@ function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
             style={{ fontFamily: "'Barlow', system-ui", fontSize: 18, color: C.textMuted, lineHeight: 1.7, maxWidth: 520, marginBottom: 48 }}
-          >
-            Noir Ink is Paris's premier fine line and blackwork studio. Two artists. Twelve years. Thousands of pieces built to outlast a lifetime.
-          </motion.p>
+          >{clientHeroPrestations(sessionData) ?? "Noir Ink is Paris's premier fine line and blackwork studio. Two artists. Twelve years. Thousands of pieces built to outlast a lifetime."}</motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

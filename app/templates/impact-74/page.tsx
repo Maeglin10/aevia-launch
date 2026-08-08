@@ -10,6 +10,8 @@ import { Reveal, MagneticBtn } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -394,9 +396,8 @@ export default function AeviaKitchenPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="font-serif text-6xl md:text-8xl lg:text-[9.5rem] leading-[0.92] tracking-tight mb-10 text-white"
-          >{c?.heroHeadline ?? <>
-            L&apos;art de la<br />
-            <em className="text-[var(--brand,#c9a855)]">table française.</em>
+          >{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "L'art de la"}<br />
+            <em className="text-[var(--brand,#c9a855)]">{clientHeroLine(sessionData, 1, 2, 16) ?? "table française."}</em>
           </>}</motion.h1>
 
           <motion.p
@@ -404,7 +405,7 @@ export default function AeviaKitchenPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-xl text-base md:text-lg text-white/45 leading-relaxed mb-12 font-light"
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Une cuisine de saison ancrée dans la tradition, portée par l&apos;excellence du produit et la passion de l&apos;artisanat culinaire. Table étoilée — 12 couverts par service.
           </>}</motion.p>
 
@@ -997,7 +998,7 @@ export default function AeviaKitchenPage() {
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? "impact-74"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>

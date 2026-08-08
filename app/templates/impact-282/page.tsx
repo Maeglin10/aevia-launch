@@ -34,6 +34,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientPhotos,
@@ -528,7 +530,7 @@ function HeroSection() {
             margin: '28px 0 22px',
             textShadow: '0 12px 60px rgba(0,0,0,0.5)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 14) ?? (<>
           Le pain de nos{' '}
           <span style={{ fontStyle: 'italic', color: C.wheatLight }}>
             grands-pères
@@ -547,11 +549,7 @@ function HeroSection() {
             maxWidth: 580,
             lineHeight: 1.65,
           }}
-        >
-          Artisan boulanger depuis 1978 au cœur du Vieux-Bourg, nous pétrissons
-          chaque matin des pains au levain naturel, des viennoiseries feuilletées
-          et des pâtisseries de saison.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Artisan boulanger depuis 1978 au cœur du Vieux-Bourg, nous pétrissons chaque matin des pains au levain naturel, des viennoiseries feuilletées et des pâtisseries de saison."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -2859,7 +2857,7 @@ return (
       <HorairesSection />
       <FooterSection />
       {/* PIED_MINIMAL — le nom du client n'apparaissait nulle part */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? 'impact-282'}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>

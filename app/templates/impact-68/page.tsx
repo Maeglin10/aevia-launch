@@ -12,6 +12,8 @@ import { C, STATS, OrbitCenter, AnimatedCounter } from "./shared";
 import "../premium.css";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientReviews,
@@ -181,13 +183,9 @@ return (
                   marginBottom: "32px",
                   paddingBottom: "0.15em",
                 }}
-              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
-                Brands that
-                <br />
-                <span style={{ color: C.accent }}>shift</span>
-                <br />
-                perception.
-              </>}</>)}</motion.h1>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 11) ?? "Brands that"}<br />
+                <span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 3, 11) ?? "shift"}</span>
+                <br />{clientHeroLine(sessionData, 2, 3, 11) ?? "perception."}</>}</>)}</motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
@@ -201,7 +199,7 @@ return (
                   maxWidth: "480px",
                   marginBottom: "48px",
                 }}
-              >{fd?.tagline ?? c?.heroSubline ?? <>
+              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 We build identity systems for ambitious companies — from seed-stage startups to century-old maisons. Strategy, visual identity, and art direction that makes the right people stop scrolling.
               </>}</motion.p>
 
@@ -481,7 +479,7 @@ return (
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-68"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

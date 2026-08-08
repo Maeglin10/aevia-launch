@@ -35,15 +35,19 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
+  clientHeroLine,
   clientHours,
   clientList,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -72,7 +76,7 @@ const navHref = (label: unknown) =>
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   THOMAS LEBRUN COACH — Coach sportif & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran
+   THOMAS LEBRUN COACH — {clientTrade(sessionData) ?? "Coach sportif"} & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran
    Template Skylaunch premium · style sport/impact · 'use client' · auto-suffisant.
    Palette : noir intense / orange vif / blanc pur / gris acier
    ════════════════════════════════════════════════════════════════════════════ */
@@ -550,20 +554,27 @@ function HeroSection() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
           >
-            <Eyebrow>Coach sportif & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran</Eyebrow>
+            <Eyebrow>{clientTrade(sessionData) ?? "Coach sportif"} & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran</Eyebrow>
           </motion.div>
 
           <motion.h1
-            className="r276-hero-title"
+            className="hero-ecran-court r276-hero-title"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, ease: EASE, delay: 0.25 }}
-            style={{ marginTop: 24, marginBottom: 0 }}
-          >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+            style={{  marginTop: 24, marginBottom: 0 }}
+          >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 7) ?? (<>
             DÉPASSE<br />
             <span className="r276-hero-orange">TES</span><br />
             LIMITES
           </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 7) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 7)}
+        </p>
+      )}
+
 
           <motion.p
             className="r276-hero-sub"
@@ -2883,7 +2894,7 @@ function FooterSection() {
                   marginBottom: 28,
                 }}
               >
-                Coach sportif & nutritionnel certifié BPJEPS à {clientCity(sessionData) ?? "Bordeaux"} Caudéran.
+                {clientTrade(sessionData) ?? "Coach sportif"} & nutritionnel certifié BPJEPS à {clientCity(sessionData) ?? "Bordeaux"} Caudéran.
                 Transformations réelles, méthode personnalisée, résultats garantis.
               </p>
 
@@ -3049,7 +3060,7 @@ function FooterSection() {
                 margin: 0,
               }}
             >
-              © 2025 Thomas Lebrun Coach — {clientCity(sessionData) ?? "Bordeaux"} Caudéran. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2025 {clientName(sessionData) ?? "Thomas Lebrun Coach"} — {clientCity(sessionData) ?? "Bordeaux"} Caudéran. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               {LINKS.map((l) => (

@@ -9,12 +9,15 @@ import { ChefHat, Star, Phone, MapPin, Clock, CheckCircle, Utensils, Wine, Users
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -26,7 +29,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TABLE D'EXCEPTION — Traiteur premium & buffets événementiels (Lyon)
+   TABLE D'EXCEPTION — Traiteur premium & buffets événementiels ({clientCity(sessionData) ?? "Lyon"})
    Palette : blanc chaud #fefcf8 / champagne #d4a853 / bordeaux #7c2d3e / anthracite #1f1d1a
    Fonts : Playfair Display (titres gastronomiques) + Source Sans 3
    Style : gastronomique, festif, chaleur, prestige accessible
@@ -155,8 +158,8 @@ export default function TableExceptionPage() {
               />
             ) : (
               <>
-                <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Table d'Exception"}</div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/60">Traiteur · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes</div>
+                <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Playfair Display', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Table d'Exception"}</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/60">{clientTrade(sessionData) ?? "Traiteur"} · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes</div>
               </>
             )}
           </div>
@@ -197,21 +200,19 @@ export default function TableExceptionPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-10 h-[1px] bg-[var(--brand,#d4a853)]/60" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4a853)]/65">Traiteur haut de gamme · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4a853)]/65">{clientTrade(sessionData) ?? "Traiteur"} haut de gamme · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes</span>
             </div>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[90px] font-bold leading-[0.88] tracking-tight mb-4 text-[#fefcf8]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{c?.heroHeadline ?? <>
-            L'art de recevoir
-          </>}</motion.h1>
+            className="text-5xl md:text-7xl lg:text-[90px] font-bold leading-[0.88] tracking-tight mb-4 text-[#fefcf8]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 1, 17) ?? "L'art de recevoir"}</>}</motion.h1>
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.56, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-[90px] font-bold italic leading-[0.88] tracking-tight mb-10 text-[var(--brand,#d4a853)]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
             à la lyonnaise.
           </motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-md text-sm text-[#fefcf8]/28 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-md text-sm text-[#fefcf8]/28 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Traiteur événementiel à {clientCity({ formData: fd }) ?? "Lyon"}. Mariages, séminaires, cocktails, repas gastronomiques. Chef et équipe complète. Devis personnalisé sous 24h.
           </>}</motion.p>
 
@@ -419,7 +420,7 @@ export default function TableExceptionPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-bold text-[#fefcf8] mb-1 text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>Table d'Exception</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">Traiteur · {clientCity({ formData: fd }) ?? "Lyon"}</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">{clientTrade(sessionData) ?? "Traiteur"} · {clientCity({ formData: fd }) ?? "Lyon"}</div>
             <p className="text-[#fefcf8]/15 text-sm leading-relaxed">Traiteur haut de gamme à {clientCity({ formData: fd }) ?? "Lyon"}. Mariages, corporate, cocktails, plateaux. Chef et équipe sur place.</p>
           </div>
           {[
@@ -436,7 +437,7 @@ export default function TableExceptionPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#fefcf8]/8">
-          <span>© 2026 Table d'Exception · SIRET 789 012 345 00066 · Traiteur agréé · Lyon (69){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Table"} d'Exception · SIRET 789 012 345 00066 · Traiteur agréé · {clientCity(sessionData) ?? "Lyon"} (69){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#d4a853)]/15">L'art de recevoir</span>
         </div>
       </footer>

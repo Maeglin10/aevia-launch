@@ -21,6 +21,8 @@ import {
 import { MosaicPush } from '@/lib/templates/hero-kit-3';
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -41,7 +43,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉO RÉPUBLIQUE — Cabinet d'Ostéopathie · Paris 11e
+   OSTÉO RÉPUBLIQUE — Cabinet d'Ostéopathie · {clientCity(sessionData) ?? "Paris"} 11e
    Chorégraphie éditoriale premium : crossfade sticky 320vh, panneau principe
    collant, formulaire RDV interactif. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -757,7 +759,7 @@ function Hero() {
             margin: 'clamp(22px,3vw,36px) 0 clamp(18px,2vw,28px)',
             textShadow: '0 12px 60px rgba(0,0,0,0.5)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 19) ?? (<>
           Le mouvement&nbsp;/
           <br />
           retrouvé.
@@ -775,10 +777,7 @@ function Hero() {
             maxWidth: 520,
             lineHeight: 1.7,
           }}
-        >
-          Cabinet d'ostéopathie générale — adultes, sportifs, nourrissons et femmes
-          enceintes. Approche globale, mains expertes, résultats durables.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Cabinet d'ostéopathie générale — adultes, sportifs, nourrissons et femmes enceintes. Approche globale, mains expertes, résultats durables."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -2063,7 +2062,7 @@ function Footer() {
               maxWidth: 300,
             }}
           >
-            Cabinet d'ostéopathie D.O. · Paris 11e.
+            Cabinet d'ostéopathie D.O. · {clientCity(sessionData) ?? "Paris"} 11e.
             <br />
             Adultes, sportifs, nourrissons, femmes enceintes.
           </p>

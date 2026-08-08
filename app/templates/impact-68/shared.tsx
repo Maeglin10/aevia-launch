@@ -1,5 +1,7 @@
 "use client";
-import { clientCityOr } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+} from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
@@ -247,7 +249,7 @@ export const FAQS = [
   },
 ];
 
-export function OrbitText({ radius = 140, text = "ORBIT STUDIO · BRAND IDENTITY · PARIS · " }) {
+export function OrbitText({ radius = 140, text = "ORBIT STUDIO · BRAND IDENTITY · " + clientCityOr("Paris") + " · " }) {
   const chars = text.split("");
   const angleStep = 360 / chars.length;
 

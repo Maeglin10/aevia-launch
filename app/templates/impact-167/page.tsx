@@ -15,6 +15,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1259,9 +1261,7 @@ export default function Impact167Page() {
                   fontStyle: "italic",
                   marginBottom: 28,
                 }}
-              >{c?.heroHeadline ?? <>
-                L'art de trouver<br />l'exceptionnel
-              </>}</h1>
+              >{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "L'art de trouver"}<br />{clientHeroLine(sessionData, 1, 2, 16) ?? "l'exceptionnel"}</>}</h1>
             </TextReveal>
 
             <TextReveal immediate delay={0.7}>
@@ -1275,7 +1275,7 @@ export default function Impact167Page() {
                   maxWidth: 420,
                   marginBottom: 44,
                 }}
-              >{fd?.tagline ?? c?.heroSubline ?? <>
+              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Vingt-huit années à rechercher, négocier et transmettre les biens les plus rares de {clientCity(sessionData) ?? "Paris"}. Un accès privilégié au marché invisible.
               </>}</p>
             </TextReveal>
@@ -2133,7 +2133,7 @@ export default function Impact167Page() {
               letterSpacing: "0.1em",
             }}
           >
-            12 Rue de l'Université, 75007 Paris
+            12 Rue de l'Université, 75007 {clientCity(sessionData) ?? "Paris"}
           </div>
         </div>
         <div
@@ -2143,7 +2143,7 @@ export default function Impact167Page() {
             color: "rgba(255,255,255,0.25)",
           }}
         >
-          © 2025 Rive Gauche Immobilier. Tous droits réservés. Carte professionnelle T n° 75-XXX-2024.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2025 {clientName(sessionData) ?? "Rive Gauche Immobilier."} Tous droits réservés. Carte professionnelle T n° 75-XXX-2024.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </div>
         <div style={{ display: "flex", gap: 28 }}>
           {["Mentions légales", "Confidentialité", "Plan du site"].map((link) => (

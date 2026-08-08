@@ -18,6 +18,8 @@ import {
 } from "./shared";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -126,9 +128,8 @@ return (
                   paddingBottom: "12px",
                   marginBottom: 16,
                 }}
-              >{c?.heroHeadline ?? <>
-                The platform to build <br />
-                <span className="text-indigo-600">your next great idea</span>
+              >{<>{clientHeroLine(sessionData, 0, 2, 21) ?? "The platform to build"}<br />
+                <span className="text-indigo-600">{clientHeroLine(sessionData, 1, 2, 21) ?? "your next great idea"}</span>
               </>}</h1>
             </Reveal>
 
@@ -143,7 +144,7 @@ return (
                   maxWidth: 600,
                   margin: "0 auto 40px",
                 }}
-              >{fd?.tagline ?? c?.heroSubline ?? <>
+              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Nexus gives your team deep analytics, pipeline connections, and
                 enterprise-grade security in a single, unified workflow.
               </>}</p>
@@ -529,7 +530,7 @@ return (
         </Reveal>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-51"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

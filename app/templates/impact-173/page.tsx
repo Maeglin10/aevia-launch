@@ -32,7 +32,10 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEyebrow,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -119,7 +122,7 @@ function PROJECTS_DEMO_LIVE() {
     name: "Campus Tech Sud",
     type: "Bureaux & campus formation",
     category: "commercial",
-    location: "Montpellier, 34",
+    location: (clientCity(sessionData) ?? "Montpellier") + ", 34",
     surface: "8 200 m²",
     units: null,
     budget: "18.5M€",
@@ -134,7 +137,7 @@ function PROJECTS_DEMO_LIVE() {
     name: "Centre Commercial Avenir",
     type: "Commerce & loisirs",
     category: "commercial",
-    location: "Nantes, 44",
+    location: (clientCity(sessionData) ?? "Nantes") + ", 44",
     surface: "22 000 m²",
     units: null,
     budget: "45M€",
@@ -161,10 +164,10 @@ function PROJECTS_DEMO_LIVE() {
   },
   {
     id: "05",
-    name: "Pont Industriel de Lyon Est",
+    name: "Pont Industriel de " + (clientCity(sessionData) ?? "Lyon") + " Est",
     type: "Génie civil",
     category: "commercial",
-    location: "Lyon, 69",
+    location: (clientCity(sessionData) ?? "Lyon") + ", 69",
     surface: "—",
     units: null,
     budget: "11M€",
@@ -255,7 +258,7 @@ const TEAM_DEMO = [
     name: "Marie-Ange Delorme",
     role: "Directrice Technique",
     since: "Structure Bâtisseurs depuis 2008",
-    certs: ["École Centrale Nantes", "Expert structure béton"],
+    certs: ["École Centrale " + (clientCity(sessionData) ?? "Nantes"), "Expert structure béton"],
     desc: "Pilote la cellule études et la coordination des lots techniques sur les grands projets.",
   },
   {
@@ -305,7 +308,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     stars: 5,
   },
   {
-    quote: "Sur le pont ferroviaire de Lyon Est, zéro interruption de trafic ferroviaire non planifiée. Une performance technique remarquable.",
+    quote: "Sur le pont ferroviaire de " + (clientCity(sessionData) ?? "Lyon") + " Est, zéro interruption de trafic ferroviaire non planifiée. Une performance technique remarquable.",
     name: "Thierry Boulanger",
     role: "Chef de projet infrastructure",
     company: "SNCF Réseau",
@@ -748,9 +751,7 @@ export default function Impact173Page() {
               style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 40, flexWrap: "wrap" }}
             >
               <div style={{ width: 40, height: 2, background: C.orange, flexShrink: 0 }} />
-              <div style={{ fontSize: 11, letterSpacing: 2, color: C.orange, textTransform: "uppercase", fontWeight: 600, whiteSpace: "normal", maxWidth: 220 }}>
-                Depuis 1989 · Construire l'avenir
-              </div>
+              <div style={{ fontSize: 11, letterSpacing: 2, color: C.orange, textTransform: "uppercase", fontWeight: 600, whiteSpace: "normal", maxWidth: 220 }}>{clientEyebrow(sessionData) ?? "Depuis 1989 · Construire l'avenir"}</div>
             </motion.div>
 
             <h1 className="imx-hero173-h1" style={{
@@ -762,11 +763,8 @@ export default function Impact173Page() {
               textTransform: "uppercase",
               color: C.text,
               marginBottom: 0,
-            }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-              ON<br />
-              <span style={{ WebkitTextStroke: `2px ${C.orange}`, WebkitTextFillColor: "transparent", color: "transparent" }}>
-                BÂTIT.
-              </span>
+            }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 6) ?? "ON"}<br />
+              <span style={{ WebkitTextStroke: `2px ${C.orange}`, WebkitTextFillColor: "transparent", color: "transparent" }}>{clientHeroLine(sessionData, 1, 2, 6) ?? "BÂTIT."}</span>
             </>}</>)}</h1>
             <div className="imx-hero173-h1" style={{
               fontFamily: FONT_HEADING,
@@ -785,7 +783,7 @@ export default function Impact173Page() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
               style={{ maxWidth: 520, fontSize: 16, color: C.textSub, lineHeight: 1.8, marginTop: 48, marginBottom: 56 }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Entreprise générale de construction depuis 35 ans. Gros œuvre, réhabilitation, promotion immobilière. Prix ferme, délais tenus, interlocuteur unique.
             </>}</motion.p>
 
@@ -1525,7 +1523,7 @@ export default function Impact173Page() {
             {[
               { title: "Missions", links: ["Construction Neuve", "Réhabilitation", "Gros Œuvre", "Promotion & AMO"] },
               { title: "Projets", links: ["Résidentiel", "Tertiaire", "Équipements publics", "Génie civil"] },
-              { title: "Contact", links: [(clientCity(sessionData) ?? "Grenoble") + " (siège)", "Montpellier", "Nantes", (fd?.email ?? "contact@structure-batisseurs.fr")] },
+              { title: "Contact", links: [(clientCity(sessionData) ?? "Grenoble") + " (siège)", (clientCity(sessionData) ?? "Montpellier"), (clientCity(sessionData) ?? "Nantes"), (fd?.email ?? "contact@structure-batisseurs.fr")] },
             ].map(col => (
               <div key={col.title}>
                 <div style={{ fontSize: 11, color: C.orange, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>{col.title}</div>
@@ -1541,7 +1539,7 @@ export default function Impact173Page() {
             ))}
           </div>
           <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 28, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-            <div style={{ fontSize: 12, color: C.textMuted }}>© 2025 Structure Bâtisseurs · Tous droits réservés · {clientCity(sessionData) ?? "Grenoble"}, France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
+            <div style={{ fontSize: 12, color: C.textMuted }}>© 2025 {clientName(sessionData) ?? "Structure Bâtisseurs"} · Tous droits réservés · {clientCity(sessionData) ?? "Grenoble"}, France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
             <div style={{ display: "flex", gap: 32 }}>
               {["Mentions légales", "RGPD", "Politique cookies"].map(l => (
                 <a key={l} href="#contact" style={{ fontSize: 12, color: C.textMuted, textDecoration: "none" }}>{l}</a>

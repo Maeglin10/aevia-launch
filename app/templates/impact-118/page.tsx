@@ -11,7 +11,10 @@ import { Watch, ArrowRight, Menu, Star, Sparkles, Shield, Clock, Award, Hammer, 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAccrocheRestante,
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientServices,
@@ -239,12 +242,18 @@ export default function ChronosLuxuryPage() {
 
               <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
                 <Reveal>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#d4af37)]/60 block mb-10 italic">Defining Time Since 1924</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#d4af37)]/60 block mb-10 italic">{clientEyebrow(sessionData) ?? "Defining Time Since 1924"}</span>
                 </Reveal>
                 <Reveal delay={0.2} y={70}>
-                  <h1 className="text-7xl md:text-[9rem] font-extralight tracking-tighter leading-[0.85] text-white mb-12 uppercase" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
-                    Mastery In <br/> <span className="text-[var(--brand,#d4af37)] italic">Motion.</span>
+                  <h1 className="text-7xl md:text-[9rem] font-extralight tracking-tighter leading-[0.85] text-white mb-12 uppercase" style={{ fontFamily: "serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 10) ?? "Mastery In"}<br/> <span className="text-[var(--brand,#d4af37)] italic">{clientHeroLine(sessionData, 1, 2, 10) ?? "Motion."}</span>
                   </>}</h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 2, 10) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 2, 10)}
+        </p>
+      )}
+
                 </Reveal>
                 <Reveal delay={0.4}>
                   <div className="flex flex-col items-center justify-center gap-12">
@@ -307,7 +316,7 @@ export default function ChronosLuxuryPage() {
                           </div>
                           <div className="text-xl font-bold italic">{c.price}</div>
                         </div>
-                        <p className="text-sm text-white/40 leading-relaxed font-light">{fd?.tagline ?? c?.heroSubline ?? <>{c.desc}</>}</p>
+                        <p className="text-sm text-white/40 leading-relaxed font-light">{c.desc}</p>
                       </div>
                     </Reveal>
                   ))}
@@ -442,7 +451,7 @@ export default function ChronosLuxuryPage() {
         </div>
         
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/20">
-          <span>© 2026 CHRONOS HOROLOGY SA. GENÈVE.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "CHRONOS HOROLOGY SA. GENÈVE."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
              <a href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#d4af37)] transition-colors">Legal Mention</a>
              <a href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#d4af37)] transition-colors">Privacy Circle</a>

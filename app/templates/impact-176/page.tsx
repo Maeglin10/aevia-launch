@@ -17,6 +17,8 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -1450,9 +1452,7 @@ export default function Impact176Page() {
                 lineHeight: 1.05,
                 color: C.text,
               }}
-            >{c?.heroHeadline ?? <>
-              Your data.
-            </>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 1, 10) ?? "Your data."}</>}</h1>
           </TextReveal>
           <TextReveal immediate delay={0.1} style={{ marginBottom: 8 }}>
             <h1
@@ -1492,7 +1492,7 @@ export default function Impact176Page() {
               marginBottom: 48,
               maxWidth: 460,
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Metric turns raw data into actionable insights.
             Dashboards, alerts, and automated reports — all in one platform built for serious teams.
           </>}</motion.p>
@@ -2219,7 +2219,7 @@ export default function Impact176Page() {
               color: C.subdued,
             }}
           >
-            © 2026 Metric Analytics · All rights reserved · GDPR · Privacy Policy{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 {clientName(sessionData) ?? "Metric Analytics"} · All rights reserved · GDPR · Privacy Policy{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <div

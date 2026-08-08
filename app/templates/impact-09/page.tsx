@@ -39,6 +39,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -390,13 +392,13 @@ return (
                      <motion.h1
                         style={{ scale: textScale }}
                         className="text-5xl sm:text-6xl md:text-[15vw] font-black tracking-tight md:tracking-tighter uppercase mb-8 md:mb-16 leading-[0.9] md:leading-[0.7] italic flex flex-col break-words"
-                     >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-                        <span>Reach the</span>
-                        <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Beyond.</span>
+                     >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>
+                        <span>{clientHeroLine(sessionData, 0, 2, 9) ?? "Reach the"}</span>
+                        <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>{clientHeroLine(sessionData, 1, 2, 9) ?? "Beyond."}</span>
                      </>}</>)}</motion.h1>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-24 items-end text-left max-w-5xl">
-                        <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{fd?.tagline ?? c?.heroSubline ?? <>
+                        <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                            Nous maîtrisons le transit orbital commercial. Conçu pour l'élite évolutive, notre service assure une sécurité absolue vers les destinations lointaines.
                         </>}</p>
                         <div className="flex flex-col sm:flex-row gap-8 justify-end">
@@ -426,7 +428,7 @@ return (
                <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
                   <Reveal>
                      <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8 font-mono">Mission_Manifest</div>
-                     <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic">{/* TEXTE_SECTION */ clientText(sessionData, "manifest.titre") ?? (<>
+                     <h2 className="text-5xl sm:text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] italic">{/* TEXTE_SECTION */ clientText(sessionData, "manifest.titre") ?? (<>
                         The <br/> <span className="text-white/5" style={{ WebkitTextStroke: "1px white" }}>Destinations.</span>
                      </>)}</h2>
                   </Reveal>
@@ -559,15 +561,15 @@ return (
                            </>}</p>
                         </div>
                         
-                        <div className="bg-black text-[var(--brand,#00ff88)] p-12 border-8 border-black/10 rounded-2xl font-mono text-xs overflow-hidden shadow-2xl">
-                           <div className="flex gap-4 mb-12 border-b border-[var(--brand,#00ff88)]/20 pb-4">
+                        <div className="bg-black text-[#00ff88] p-12 border-8 border-black/10 rounded-2xl font-mono text-xs overflow-hidden shadow-2xl">
+                           <div className="flex gap-4 mb-12 border-b border-[#00ff88]/20 pb-4">
                               <CircleDot className="w-4 h-4 animate-pulse" />
                               <span className="font-black uppercase tracking-widest">Astrum_Console_v2.4</span>
                            </div>
                            <div className="space-y-6">
                               {TELEMETRY_LOGS.map((log, i) => (
                                  <div key={i} className="flex justify-between group cursor-default">
-                                    <span className="text-[var(--brand,#00ff88)]/30 group-hover:text-[var(--brand,#00ff88)] transition-colors">{log.time}</span>
+                                    <span className="text-[#00ff88]/30 group-hover:text-[#00ff88] transition-colors">{log.time}</span>
                                     <span className="font-black italic uppercase tracking-tighter">{log.event}</span>
                                     <span className="text-white/40">{log.value}</span>
                                     <span className="font-black">[{log.code}]</span>
@@ -575,7 +577,7 @@ return (
                               ))}
                               <motion.div 
                                  animate={{ opacity: [0, 1, 0] }} transition={{ duration: 1, repeat: Infinity }}
-                                 className="pt-8 border-t border-[var(--brand,#00ff88)]/20 flex gap-4"
+                                 className="pt-8 border-t border-[#00ff88]/20 flex gap-4"
                               >
                                  <span>_</span>
                                  <span className="uppercase italic tracking-widest">Awaiting flight signal input...</span>
@@ -649,7 +651,7 @@ return (
 
             <div className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-white/10 italic">
                <div className="flex flex-wrap gap-8 font-mono">
-                  <span>©2026 ASTRUM REACH ORBITAL.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+                  <span>©2026 {clientName(sessionData) ?? "ASTRUM REACH ORBITAL."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
                   <span className="hidden md:inline">//</span>
                   <a href="/templates/impact-09" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-indigo-400 transition-colors">MENTIONS LEGALES</a>
                </div>
@@ -705,7 +707,7 @@ function ManifestPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                   <div className="flex justify-between border-r border-white/10 pr-6"><span className="text-white/20">TARGET</span><span className="font-bold text-white">{mission.target.split(" // ")[0]}</span></div>
                   <div className="flex justify-between pl-6"><span className="text-white/20">PAYLOAD</span><span className="font-bold text-white">{mission.payload}</span></div>
                   <div className="flex justify-between border-r border-white/10 pr-6"><span className="text-white/20">DURATION</span><span className="font-bold text-white">{mission.duration}</span></div>
-                  <div className="flex justify-between pl-6"><span className="text-white/20">STATUS</span><span className="text-[var(--brand,#00ff88)] font-bold">READY</span></div>
+                  <div className="flex justify-between pl-6"><span className="text-white/20">STATUS</span><span className="text-[#00ff88] font-bold">READY</span></div>
                 </div>
 
                 <button onClick={() => goTo("briefing")} className="w-full py-6 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-colors italic">
@@ -777,7 +779,7 @@ function EngineeringPage() {
               En superposant des matrices de nanotubes de carbone et des polymères auto-cicatrisants, la coque externe d'Astrum résiste aux impacts de micrométéorites de taille inférieure à 5mm à des vitesses relatives de 28 km/s.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs">
-              <div><span className="text-white/20 block">SHIELD_STATUS</span><span className="text-[var(--brand,#00ff88)] font-bold">100% OK</span></div>
+              <div><span className="text-white/20 block">SHIELD_STATUS</span><span className="text-[#00ff88] font-bold">100% OK</span></div>
               <div><span className="text-white/20 block">AIR_REST</span><span className="text-white font-bold">1.2G NOM</span></div>
               <div><span className="text-white/20 block">TEMP_SHIELD</span><span className="text-white font-bold">STABLE</span></div>
             </div>

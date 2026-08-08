@@ -29,12 +29,15 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -52,7 +55,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET SOLER — Ostéopathe D.O., {clientCity(sessionData) ?? "Lyon"} · Brotteaux
+   CABINET SOLER — {clientTrade(sessionData) ?? "Ostéopathe"} D.O., {clientCity(sessionData) ?? "Lyon"} · Brotteaux
    Template premium holistique. Palette forêt × beige lin × terracotta.
    Auto-suffisant. 'use client'. Calqué sur le style éditorial impact-218.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -531,7 +534,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.terraLight} align="center">
-            Ostéopathe D.O. · {clientCity(sessionData) ?? "Lyon"} · Brotteaux
+            {clientTrade(sessionData) ?? "Ostéopathe"} D.O. · {clientCity(sessionData) ?? "Lyon"} · Brotteaux
           </Eyebrow>
         </Reveal>
 
@@ -550,7 +553,7 @@ function HeroSection() {
             textShadow: '0 12px 60px rgba(0,0,0,0.45)',
             maxWidth: 1000,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 19) ?? (<>
           Le mouvement libre,{' '}
           <span style={{ fontStyle: 'italic', color: C.terraLight }}>
             la santé retrouvée
@@ -569,10 +572,7 @@ function HeroSection() {
             maxWidth: 580,
             lineHeight: 1.65,
           }}
-        >
-          Une approche holistique du corps — écouter, comprendre et accompagner
-          chaque patient vers une santé durable et un mouvement retrouvé.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Une approche holistique du corps — écouter, comprendre et accompagner chaque patient vers une santé durable et un mouvement retrouvé."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -1310,7 +1310,7 @@ type Testimonial = {
 const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
-      'J&apos;avais une lombalgie chronique depuis trois ans. En deux séances, le Dr Soler a identifié une restriction que personne n&apos;avait vue. Après quatre séances, je n&apos;ai plus de douleurs quotidiennes. Un praticien exceptionnel.',
+      'J\'avais une lombalgie chronique depuis trois ans. En deux séances, le Dr Soler a identifié une restriction que personne n\'avait vue. Après quatre séances, je n\'ai plus de douleurs quotidiennes. Un praticien exceptionnel.',
     name: 'Sophie M.',
     situation: 'Lombalgie chronique · 38 ans',
     stars: 5,
@@ -1324,7 +1324,7 @@ const TESTIMONIALS_SOURCE: Testimonial[] = [
   },
   {
     quote:
-      'Triathlète amateur, je venais pour une tendinite récidivante. Le Dr Soler a trouvé une déséquilibre pelvien à l&apos;origine du problème. Je cours maintenant sans douleur et je vois le cabinet tous les deux mois en préventif.',
+      'Triathlète amateur, je venais pour une tendinite récidivante. Le Dr Soler a trouvé une déséquilibre pelvien à l\'origine du problème. Je cours maintenant sans douleur et je vois le cabinet tous les deux mois en préventif.',
     name: 'Thomas L.',
     situation: 'Sportif · Triathlète amateur',
     stars: 5,
@@ -1561,7 +1561,7 @@ function AppointmentFormSection() {
             }}
           >
             Décrivez votre situation ci-dessous. Le Dr Soler reviendra vers vous
-            dans les 24 heures pour confirmer votre rendez-vous au cabinet de
+            dans les 24 heures pour confirmer votre rendez-vous au cabinet de{" "}
             {clientCity(sessionData) ?? "Lyon"}.
           </p>
         </Reveal>
@@ -2520,7 +2520,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 Cabinet Soler · Ostéopathe D.O. · ADELI&nbsp;69XXXXXXX ·
+          © 2026 {clientName(sessionData) ?? "Cabinet Soler"} · Ostéopathe D.O. · ADELI&nbsp;69XXXXXXX ·
           Registre ARS Auvergne-Rhône-Alpes{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
@@ -2643,7 +2643,7 @@ return (
       <PracticalSection />
       <FooterSection />
       {/* PIED_MINIMAL — le nom du client n'apparaissait nulle part */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? 'impact-279'}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>

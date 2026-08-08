@@ -18,6 +18,8 @@ import { PanelDrop } from "@/lib/templates/hero-kit-3";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -1190,10 +1192,10 @@ export default function Page() {
             <div style={{ height: 1, width: 48, background: C.amber }} />
           </motion.div>
 
-          <h1 style={{ fontSize: "clamp(52px, 9vw, 112px)", fontWeight: 700, lineHeight: 0.92, letterSpacing: "-0.03em", marginBottom: 40, fontFamily: "'Playfair Display', serif" }}>{c?.heroHeadline ?? <>
-            <TextReveal immediate text="Le pain" delay={0.3} style={{ display: "block", color: C.brown }} />
-            <TextReveal immediate text="comme" delay={0.5} style={{ display: "block", fontStyle: "italic", color: C.terracotta }} />
-            <TextReveal immediate text="il se doit." delay={0.7} style={{ display: "block", color: C.brown }} />
+          <h1 style={{ fontSize: "clamp(52px, 9vw, 112px)", fontWeight: 700, lineHeight: 0.92, letterSpacing: "-0.03em", marginBottom: 40, fontFamily: "'Playfair Display', serif" }}>{<>
+            <TextReveal immediate text={clientHeroLine(sessionData, 0, 3, 11) ?? "Le pain"} delay={0.3} style={{ display: "block", color: C.brown }} />
+            <TextReveal immediate text={clientHeroLine(sessionData, 1, 3, 11) ?? "comme"} delay={0.5} style={{ display: "block", fontStyle: "italic", color: C.terracotta }} />
+            <TextReveal immediate text={clientHeroLine(sessionData, 2, 3, 11) ?? "il se doit."} delay={0.7} style={{ display: "block", color: C.brown }} />
           </>}</h1>
 
           <motion.p
@@ -1201,7 +1203,7 @@ export default function Page() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.1 }}
             style={{ fontFamily: "'Cabin', sans-serif", fontSize: 16, color: C.muted, lineHeight: 1.75, maxWidth: 520, margin: "0 auto 48px", fontWeight: 400 }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Boulangerie artisanale à {clientCity(sessionData) ?? "Lyon"} depuis 1987. Pains au levain, viennoiseries feuilletées, et ateliers de boulangerie. Tout est fait à la main, dans le respect du temps.
           </>}</motion.p>
 

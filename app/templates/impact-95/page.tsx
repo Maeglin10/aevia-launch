@@ -11,10 +11,14 @@ import { Menu, X, ArrowRight, CheckCircle, ChevronRight, Phone, Mail, Clock, Awa
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientEyebrow,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientServices,
+  clientStats,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -335,7 +339,7 @@ function EquipeSection() {
 
         <Reveal>
           <div className="bg-[#F0EDE8] p-10 md:p-14 grid md:grid-cols-4 gap-10 border border-[#D8D0C8]">
-            {[["3", "Médecins"], ["10+", "Ans d'expérience min."], ["4 800+", "Patients suivis"], ["97%", "Satisfaction patient"]].map(([val, label]) => (
+            {(clientStats(sessionData)?.map((s: any) => [s.value, s.label]) ?? [["3", "Médecins"], ["10+", "Ans d'expérience min."], ["4 800+", "Patients suivis"], ["97%", "Satisfaction patient"]]).map(([val, label]) => (
               <div key={label} className="text-center">
                 <div className="text-4xl font-light text-[var(--brand,#3A8080)] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{val}</div>
                 <div className="text-xs text-[#8A8278] uppercase tracking-wide">{label}</div>
@@ -923,15 +927,13 @@ export default function LumiereCliniquePage() {
           </motion.div>
           <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-24 min-h-[calc(100vh-80px)] flex flex-col justify-center">
             <Reveal>
-              <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#3A8080)] mb-8">Médecine esthétique de précision</p>
+              <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#3A8080)] mb-8">{clientEyebrow(sessionData) ?? "Médecine esthétique de précision"}</p>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="text-5xl md:text-7xl font-light leading-[1.0] mb-8 max-w-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? <>
-                La beauté<br /><em>comme résultat</em><br />de la science
-              </>}</h1>
+              <h1 className="text-5xl md:text-7xl font-light leading-[1.0] mb-8 max-w-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 14) ?? "La beauté"}<br /><em>{clientHeroLine(sessionData, 1, 3, 14) ?? "comme résultat"}</em><br />{clientHeroLine(sessionData, 2, 3, 14) ?? "de la science"}</>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-[#6B6560] text-lg leading-relaxed max-w-lg mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="text-[#6B6560] text-lg leading-relaxed max-w-lg mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Lumière Clinic allie rigueur médicale et approche esthétique personnalisée. Chaque protocole est co-construit avec le patient, fondé sur des preuves scientifiques et exécuté avec précision.
               </>}</p>
             </Reveal>

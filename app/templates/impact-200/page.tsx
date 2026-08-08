@@ -34,8 +34,11 @@ import {
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientPhone,
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientPhotos,
@@ -776,11 +779,7 @@ export default function Impact200Page() {
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            >{c?.heroHeadline ?? <>
-              Votre Jour,
-              <br />
-              Notre Art
-            </>}</motion.h1>
+            >{<>{clientHeroLine(sessionData, 0, 2, 11) ?? "Votre Jour,"}<br />{clientHeroLine(sessionData, 1, 2, 11) ?? "Notre Art"}</>}</motion.h1>
 
             {/* Serif subtitle */}
             <motion.p
@@ -789,7 +788,7 @@ export default function Impact200Page() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Nous orchestrons chaque détail de votre mariage avec une élégance méticuleuse, pour que ce jour reste gravé à jamais dans les mémoires.
             </>}</motion.p>
 
@@ -1403,7 +1402,7 @@ export default function Impact200Page() {
                   {
                     icon: <Phone className="w-5 h-5" />,
                     label: "Téléphone",
-                    value: "+33 1 47 00 00 00",
+                    value: (clientPhone(sessionData) ?? "+33 1 47 00 00 00"),
                     sub: "Lundi – Vendredi, 9h – 19h",
                   },
                   {
@@ -1665,7 +1664,7 @@ export default function Impact200Page() {
                 className="text-white/30 text-xs italic mb-1"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
-                © {new Date().getFullYear()} Cérémonie. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+                © {new Date().getFullYear()} {clientName(sessionData) ?? "Cérémonie."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
               </p>
               <p
                 className="text-white/20 text-xs"

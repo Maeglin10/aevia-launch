@@ -21,7 +21,10 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
+  clientHeroLine,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -71,7 +74,7 @@ let C: Record<string, string> = {
   bgCard: '#ffffff',
   accent: 'var(--brand,#1a7a5a)',
   accentDark: '#125c43',
-  accentLight: 'var(--brand-light,#c8e6d8)',
+  accentLight: '#c8e6d8',
   white: '#ffffff',
   ink: '#0c1e1a',
   textMuted: '#4a6b5a',
@@ -673,11 +676,11 @@ function Hero() {
           <Eyebrow color={C.accentLight}>Kinésithérapie · {clientCity(sessionData) ?? "Rennes"}</Eyebrow>
         </motion.div>
 
-        <motion.h1
+        <motion.h1 className="hero-ecran-court"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, ease: EASE, delay: 0.25 }}
-          style={{
+          style={{  
             fontFamily: SANS,
             fontWeight: 800,
             fontSize: 'clamp(3rem,10vw,9rem)',
@@ -688,7 +691,7 @@ function Hero() {
             textShadow: '0 8px 48px rgba(0,0,0,0.4)',
             maxWidth: '14ch',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 12) ?? (<>
           RETROUVER
           <br />
           LE MOUVEMENT
@@ -697,6 +700,13 @@ function Hero() {
             LIBREMENT
           </span>
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 12) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 12)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}
@@ -2181,7 +2191,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Centre Kiné Atlantique — Kinésithérapie à {clientCity(sessionData) ?? "Rennes"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Centre Kiné Atlantique"} — Kinésithérapie à {clientCity(sessionData) ?? "Rennes"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>

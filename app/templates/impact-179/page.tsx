@@ -77,7 +77,7 @@ let TARIFS = TARIFS_DEMO;
 function ZONES_DEMO_LIVE() {
   return [
   { v: (clientCity({ formData: fd }) ?? "Lyon") + " — 9e", d: "Intervention sous 2 h en urgence" },
-  { v: "Villeurbanne · Vaulx-en-Velin", d: "Sous 2 h" },
+  { v: (clientCity(sessionData) ?? "Villeurbanne") + " · Vaulx-en-Velin", d: "Sous 2 h" },
   { v: "Caluire · Rillieux", d: "Sous 3 h" },
   { v: "Écully · Tassin · Francheville", d: "Sous 3 h" },
   { v: "Vénissieux · Saint-Priest · Bron", d: "Sous 3 h" },
@@ -157,7 +157,7 @@ export default function AquanovaPiscinesPage() {
     })),
     [
       { q: "Notre piscine miroir est une pure merveille. De l'étude 3D à la mise en eau, l'équipe a été d'un professionnalisme rare. Délais tenus, budget respecté.", n: "Sandrine M.", l: (clientCity({ formData: fd }) ?? "Lyon") + " 3ème", s: 5 },
-      { q: "Rénovation complète de notre bassin des années 90 : nouveau liner, margelles, filtration au sel. Résultat bluffant. On se croirait dans une piscine neuve.", n: "Patrick & Aurélie F.", l: "Villeurbanne", s: 5 },
+      { q: "Rénovation complète de notre bassin des années 90 : nouveau liner, margelles, filtration au sel. Résultat bluffant. On se croirait dans une piscine neuve.", n: "Patrick & Aurélie F.", l: (clientCity(sessionData) ?? "Villeurbanne"), s: 5 },
       { q: "Couloir de nage installé en 6 semaines, chantier propre et bien organisé. Le système de nage à contre-courant est top. Je recommande les yeux fermés.", n: "Luc B.", l: (clientCity({ formData: fd }) ?? "Lyon") + " 6ème", s: 5 },
     ]
   );

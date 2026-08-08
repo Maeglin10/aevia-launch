@@ -29,6 +29,8 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
+  clientAddress,
   clientCity,
   clientFaq,
   clientName,
@@ -102,7 +104,7 @@ const INITIAL_C = {
   bgDeep: "#f0fdfa",
   bgCard: "#ffffff",
   text: "#1e293b",
-  textMuted: "var(--brand-light,#64748b)",
+  textMuted: "#64748b",
   accent: "#f59e0b",
   white: "#ffffff",
   black: "#000000",
@@ -410,7 +412,7 @@ export default function Page({ session: initialSession }) {
   }, [fd]);
   const phone = fd?.phone || "01 23 45 67 89";
   const email = fd?.email || "contact@plomberie-confort.fr";
-  const address = fd?.address || "15 Rue de la Paix, 75002 Paris";
+  const address = fd?.address || (clientAddress(sessionData) ?? "15 Rue de la Paix, 75002 Paris");
 
   const getIcon = (name) => {
     const icons = {
@@ -1137,7 +1139,7 @@ export default function Page({ session: initialSession }) {
         </div>
       </footer>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-314"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

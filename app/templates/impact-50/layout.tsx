@@ -1,3 +1,4 @@
+import { clientTrade } from "@/lib/templates/clientContent";
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {

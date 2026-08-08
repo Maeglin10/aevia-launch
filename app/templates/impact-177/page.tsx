@@ -1,6 +1,8 @@
 "use client";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -223,7 +225,7 @@ return (
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <span style={{ fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: C.dark }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines"))}</span>
+            <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: C.dark }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines"))}</span>
           )}
           <div style={{ gap: "3rem" }} className="hidden lg:flex">
             {["Projets", "Prestations", "À propos", "Contact"].map(l => (
@@ -282,12 +284,11 @@ return (
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontFamily: C.serif, fontSize: "clamp(3.5rem,9vw,8.5rem)", fontWeight: 400, lineHeight: 0.9, letterSpacing: "-0.01em", color: "#fff", marginBottom: "1.5rem", fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            Des piscines<br />qui vous<br /><span style={{ color: C.terraLight }}>ressemblent.</span>
+            style={{ fontFamily: C.serif, fontSize: "clamp(3.5rem,9vw,8.5rem)", fontWeight: 400, lineHeight: 0.9, letterSpacing: "-0.01em", color: "#fff", marginBottom: "1.5rem", fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "Des piscines"}<br />{clientHeroLine(sessionData, 1, 3, 12) ?? "qui vous"}<br /><span style={{ color: C.terraLight }}>{clientHeroLine(sessionData, 2, 3, 12) ?? "ressemblent."}</span>
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontFamily: C.sans, fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 480, marginBottom: "2.5rem" }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            style={{ fontFamily: C.sans, fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 480, marginBottom: "2.5rem" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Conception, construction et rénovation de piscines en Auvergne-Rhône-Alpes. Du projet à la mise en eau, une approche sur-mesure et humaine.
           </>}</motion.p>
 
@@ -443,7 +444,7 @@ return (
       <footer style={{ background: "#141210", padding: "4rem 2.5rem 2rem", borderTop: `1px solid rgba(255,255,255,0.05)` }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: "3rem", marginBottom: "3rem" }}>
           <div>
-            <div style={{ fontFamily: C.serif, fontSize: "1.2rem", fontStyle: "italic", color: "#fff", marginBottom: "1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines"))}</div>
+            <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.serif, fontSize: "1.2rem", fontStyle: "italic", color: "#fff", marginBottom: "1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines"))}</div>
             <p style={{ fontFamily: C.sans, fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.7 }}>Pisciniste certifié. Conception, construction et rénovation de piscines en Auvergne-Rhône-Alpes.</p>
           </div>
           {[
@@ -459,7 +460,7 @@ return (
           ))}
         </div>
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingTop: "1.5rem", borderTop: "1px solid rgba(255,255,255,0.05)", display: "flex", justifyContent: "space-between", gap: "1rem" }}>
-          <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", letterSpacing: "0.15em" }}>© 2026 {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines"))} · SIRET 987 654 321 00045{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.sans, fontSize: "0.6rem", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", letterSpacing: "0.15em" }}>© 2026 {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines"))} · SIRET 987 654 321 00045{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: C.terra + "60", textTransform: "uppercase", letterSpacing: "0.15em" }}>Pisciniste certifié FPP</span>
         </div>
       </footer>

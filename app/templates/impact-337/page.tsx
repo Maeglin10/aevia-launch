@@ -11,6 +11,8 @@ import { ComposeIn } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -38,7 +40,7 @@ let C: Record<string, string> = {
   text: "#161c2b",
   textMuted: "#5a6273",
   accent: "var(--brand,#2c4a8a)",
-  accentDark: "var(--brand, #22396b)",
+  accentDark: "var(--brand,#22396b)",
   accentLight: "#dde6f4",
   hi: "#9db4e0",
   white: "#ffffff",
@@ -49,9 +51,9 @@ const FONT_BODY = FONT;
 
 const NAV = [{"l": "Couvertures", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Honoraires", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 const HERO = [
-  { k: "Particuliers", sub: "La maison, la voiture, la famille — assemblées sans doublon.", tiles: [{ icon: Home, t: "Habitation", d: "Garanties ajustées à votre logement réel, pas à un forfait.", bg: "#dde6f4", fg: "var(--brand, #22396b)" }, { icon: Car, t: "Auto & deux-roues", d: "Bonus défendu, malussés acceptés, jeunes conducteurs suivis.", bg: "#131a2b", fg: "#dde6f4" }, { icon: HeartPulse, t: "Santé & prévoyance", d: "Complémentaire au bon niveau, ni sur- ni sous-assuré.", bg: "#e9eef5", fg: "var(--brand, #22396b)" }] },
-  { k: "Professionnels", sub: "Le local, la responsabilité, les hommes — d'un seul tenant.", tiles: [{ icon: Briefcase, t: "RC professionnelle", d: "Adaptée à votre code NAF et à vos contrats clients.", bg: "#131a2b", fg: "#dde6f4" }, { icon: Shield, t: "Multirisque pro", d: "Local, matériel, perte d'exploitation : chiffrés au réel.", bg: "#dde6f4", fg: "var(--brand, #22396b)" }, { icon: HeartPulse, t: "Santé collective", d: "Obligations employeur tenues, budget maîtrisé.", bg: "#e9eef5", fg: "var(--brand, #22396b)" }] },
-  { k: "Au sinistre", sub: "C'est là qu'un courtier se juge : nous gérons le dossier.", tiles: [{ icon: FileText, t: "Déclaration guidée", d: "Nous déclarons avec vous, dans les délais, pièces à l'appui.", bg: "#e9eef5", fg: "var(--brand, #22396b)" }, { icon: Umbrella, t: "Défense de l'assuré", d: "Face à l'expert de la compagnie, vous n'êtes pas seul.", bg: "#dde6f4", fg: "var(--brand, #22396b)" }, { icon: Shield, t: "Suivi jusqu'au chèque", d: "Relances faites, indemnisation suivie jusqu'au versement.", bg: "#131a2b", fg: "#dde6f4" }] }
+  { k: "Particuliers", sub: "La maison, la voiture, la famille — assemblées sans doublon.", tiles: [{ icon: Home, t: "Habitation", d: "Garanties ajustées à votre logement réel, pas à un forfait.", bg: "#dde6f4", fg: "var(--brand,#22396b)" }, { icon: Car, t: "Auto & deux-roues", d: "Bonus défendu, malussés acceptés, jeunes conducteurs suivis.", bg: "#131a2b", fg: "#dde6f4" }, { icon: HeartPulse, t: "Santé & prévoyance", d: "Complémentaire au bon niveau, ni sur- ni sous-assuré.", bg: "#e9eef5", fg: "var(--brand,#22396b)" }] },
+  { k: "Professionnels", sub: "Le local, la responsabilité, les hommes — d'un seul tenant.", tiles: [{ icon: Briefcase, t: "RC professionnelle", d: "Adaptée à votre code NAF et à vos contrats clients.", bg: "#131a2b", fg: "#dde6f4" }, { icon: Shield, t: "Multirisque pro", d: "Local, matériel, perte d'exploitation : chiffrés au réel.", bg: "#dde6f4", fg: "var(--brand,#22396b)" }, { icon: HeartPulse, t: "Santé collective", d: "Obligations employeur tenues, budget maîtrisé.", bg: "#e9eef5", fg: "var(--brand,#22396b)" }] },
+  { k: "Au sinistre", sub: "C'est là qu'un courtier se juge : nous gérons le dossier.", tiles: [{ icon: FileText, t: "Déclaration guidée", d: "Nous déclarons avec vous, dans les délais, pièces à l'appui.", bg: "#e9eef5", fg: "var(--brand,#22396b)" }, { icon: Umbrella, t: "Défense de l'assuré", d: "Face à l'expert de la compagnie, vous n'êtes pas seul.", bg: "#dde6f4", fg: "var(--brand,#22396b)" }, { icon: Shield, t: "Suivi jusqu'au chèque", d: "Relances faites, indemnisation suivie jusqu'au versement.", bg: "#131a2b", fg: "#dde6f4" }] }
 ];
 
 const SERVICES_SOURCE = [{"titre": "Auto & deux-roues", "desc": "Du tiers étendu au tous risques, bonus 50 défendu, résiliés et malussés étudiés. La bonne formule, pas la plus chère.", "tag": "Auto"}, {"titre": "Habitation", "desc": "Propriétaire, locataire, PNO : capitaux mobiliers estimés avec vous, objets de valeur déclarés correctement — c'est ce qui fait payer les sinistres.", "tag": "Habitation"}, {"titre": "Santé & prévoyance", "desc": "Complémentaire santé lisible, prévoyance qui maintient le revenu en cas d'arrêt. Analyse de vos contrats actuels offerte.", "tag": "Santé"}, {"titre": "Emprunteur", "desc": "Changez d'assurance de prêt à tout moment (loi Lemoine) : à garanties équivalentes, souvent des milliers d'euros économisés.", "tag": "Crédit"}, {"titre": "Professionnels & TNS", "desc": "RC pro, décennale, multirisque, mutuelle et retraite Madelin : un seul dossier pour tout le risque de l'entreprise.", "tag": "Pro"}, {"titre": "Gestion de sinistre", "desc": "Déclaration, expertise, contre-expertise si besoin : nous portons le dossier face à la compagnie jusqu'à l'indemnisation.", "tag": "Sinistre"}];
@@ -219,10 +221,10 @@ export default function CapAssurancesPage() {
             Courtier en assurances · {clientCity(sessionData) ?? "Brest"}
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>Assuré pour ce qui compte,<br /><em style={{ color: C.accentDark }}>pas pour remplir un contrat.</em></>)}
+            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Assuré pour ce qui compte,"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 14) ?? "pas pour remplir un contrat."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {fd?.tagline ?? c?.heroSubline ?? "Un courtier indépendant compare pour vous auto, habitation, santé et prévoyance auprès de vingt compagnies — et reste votre interlocuteur au moment du sinistre."}
+            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Un courtier indépendant compare pour vous auto, habitation, santé et prévoyance auprès de vingt compagnies — et reste votre interlocuteur au moment du sinistre."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

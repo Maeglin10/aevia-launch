@@ -22,6 +22,8 @@ import {
 import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -62,7 +64,7 @@ let TEMOIGNAGES_DEMO = TEMOIGNAGES_SOURCE;
 function MEDECINS_DEMO_LIVE() {
   return [
   { name: "Dr. Kenji Nakamura", spec: "Médecine esthétique faciale", exp: "14 ans", bio: "Formé à l'Académie de médecine esthétique de " + (clientCity({ formData: fd }) ?? "Paris") + ". Spécialiste des techniques d'injection ultra-précises et de la morphologie faciale.", badge: "Certifié AME" },
-  { name: "Dr. Sophie Bellamy", spec: "Laser & Régénération cutanée", exp: "9 ans", bio: "Docteure en dermatologie, IDRM Lausanne. Experte des protocoles laser CO₂ et PRP pour les cicatrices et le vieillissement cutané.", badge: "Dermatologie" },
+  { name: "Dr. Sophie Bellamy", spec: "Laser & Régénération cutanée", exp: "9 ans", bio: "Docteure en dermatologie, IDRM " + (clientCity(sessionData) ?? "Lausanne") + ". Experte des protocoles laser CO₂ et PRP pour les cicatrices et le vieillissement cutané.", badge: "Dermatologie" },
   { name: "Dr. Malik Osei", spec: "Corps & Médecine anti-âge", exp: "11 ans", bio: "Médecin du sport reconverti en esthétique corporelle. Approche globale alliant nutrition, hormonal et intervention pour des résultats durables.", badge: "Anti-âge" },
 ];
 }
@@ -181,12 +183,11 @@ return (
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-12 md:pt-32 md:pb-24 w-full flex flex-col justify-center">
           <Reveal delay={0.1}>
-            <h1 className="text-4xl md:text-7xl font-light text-[#F0EBE0] leading-[1.2] mb-4 md:mb-8 max-w-3xl pb-2 md:pb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{c?.heroHeadline ?? <>
-              L&apos;art de la médecine<br />esthétique de <em>précision</em>
+            <h1 className="text-4xl md:text-7xl font-light text-[#F0EBE0] leading-[1.2] mb-4 md:mb-8 max-w-3xl pb-2 md:pb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "L'art de la médecine"}<br />{clientHeroLine(sessionData, 1, 3, 10) ?? "esthétique de"}{" "}<em>{clientHeroLine(sessionData, 2, 3, 10) ?? "précision"}</em>
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#8A8278] text-base md:text-lg max-w-xl mb-6 md:mb-12 leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="text-[#8A8278] text-base md:text-lg max-w-xl mb-6 md:mb-12 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Une harmonie mesurée entre rigueur scientifique et vision artistique du visage. Nos protocoles de pointe respectent votre morphologie naturelle pour des résultats invisibles et durables.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-5">
@@ -273,7 +274,7 @@ return (
                   Chez Cypher Clinic, nous rejetons l'idée de beauté standardisée. Chaque visage est un code unique que nous lisons avec précision avant d'intervenir. Notre protocole d'analyse morphologique en 14 points est réalisé par un médecin qualifié — jamais une esthéticienne.
                 </>}</p>
                 <p className="text-[#8A8278] leading-relaxed mb-10 text-base">
-                  Nos médecins sont formés dans les instituts de référence mondiale (Académie de médecine esthétique de {clientCity({ formData: fd }) ?? "Paris"}, IDRM Lausanne). Chaque acte est documenté photographiquement avant et après pour un suivi rigoureux de votre évolution.
+                  Nos médecins sont formés dans les instituts de référence mondiale (Académie de médecine esthétique de {clientCity({ formData: fd }) ?? "Paris"}, IDRM {clientCity(sessionData) ?? "Lausanne"}). Chaque acte est documenté photographiquement avant et après pour un suivi rigoureux de votre évolution.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 border-t border-[#2A2820] pt-10">
                   {[{ v: "+2400", l: "Patients traités" }, { v: "14", l: "Points d'analyse" }, { v: "9 ans", l: "D'expertise" }].map((s, i) => (
@@ -363,7 +364,7 @@ return (
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-84"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

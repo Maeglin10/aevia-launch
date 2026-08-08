@@ -20,6 +20,9 @@ import {
 } from './shared';
 import {
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1050,9 +1053,7 @@ return (
               fontSize: '0.65rem',
               color: C.textDim,
             }}
-          >
-            AWWWARDS SOTD ×38
-          </div>
+          >{clientEyebrow(sessionData) ?? "AWWWARDS SOTD ×38"}</div>
         </div>
 
         {/* Bottom content */}
@@ -1076,11 +1077,11 @@ return (
                   color: C.text,
                   marginBottom: '1.5rem',
                 }}
-              >{c?.heroHeadline ?? <>
-                <MaskedTitle text="We Build" delay={0.3} />
-                <MaskedTitle text="Brands That" delay={0.4} />
+              >{<>
+                <MaskedTitle text={clientHeroLine(sessionData, 0, 3, 12) ?? "We Build"} delay={0.3} />
+                <MaskedTitle text={clientHeroLine(sessionData, 1, 3, 12) ?? "Brands That"} delay={0.4} />
                 <span style={{ color: C.accent }}>
-                  <MaskedTitle text="Break Rules." delay={0.5} />
+                  <MaskedTitle text={clientHeroLine(sessionData, 2, 3, 12) ?? "Break Rules."} delay={0.5} />
                 </span>
               </>}</h1>
               <p
@@ -1091,7 +1092,7 @@ return (
                   lineHeight: 1.8,
                   maxWidth: '45ch',
                 }}
-              >{fd?.tagline ?? c?.heroSubline ?? <>
+              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Studio créatif spécialisé dans les identités de marque disruptives, le motion design et les expériences digitales immersives.
               </>}</p>
             </div>
@@ -1149,7 +1150,7 @@ return (
       <StudioTeaser />
       <CTABanner />
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-57"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

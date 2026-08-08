@@ -29,6 +29,8 @@ import {
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -61,7 +63,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET DENT'OR — Chirurgien-dentiste & implantologie · Bordeaux Chartrons
+   CABINET DENT'OR — Chirurgien-dentiste & implantologie · {clientCity(sessionData) ?? "Bordeaux"} Chartrons
    Photographie réelle Unsplash + choreographie de défilement éditoriale
    (style premium × élégance médicale). Fichier 'use client' auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -532,7 +534,7 @@ function HeroSection() {
             margin: '28px 0 22px',
             textShadow: '0 14px 60px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 14) ?? (<>
           Le sourire que{' '}
           <span style={{ fontStyle: 'italic', color: C.goldLight }}>
             vous méritez
@@ -551,10 +553,7 @@ function HeroSection() {
             maxWidth: 580,
             lineHeight: 1.62,
           }}
-        >
-          Implantologie avancée, orthodontie invisible et esthétique dentaire —
-          au cœur des Chartrons, par une équipe passionnée et ultra-équipée.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Implantologie avancée, orthodontie invisible et esthétique dentaire — au cœur des Chartrons, par une équipe passionnée et ultra-équipée."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}
@@ -2761,7 +2760,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024 Cabinet Dent&apos;Or — Dr. Mathieu Prévost. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024 {clientName(sessionData) ?? "Cabinet Dent&apos"};Or — Dr. Mathieu Prévost. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Acte médical soumis au secret professionnel · Résultat non garanti · À titre
@@ -2781,7 +2780,7 @@ function FooterSection() {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PAGE — Impact 284 · Cabinet Dent'Or · Bordeaux Chartrons
+   PAGE — Impact 284 · Cabinet Dent'Or · {clientCity(sessionData) ?? "Bordeaux"} Chartrons
    ════════════════════════════════════════════════════════════════════════════ */
 
 export default function Impact284Page() {

@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
@@ -63,7 +64,7 @@ export default function SavoirFairePage() {
   ];
 
   const arts = [
-    { title: "Guillochage Main", desc: "Tour à guillocher XIXe siècle. Motifs grain d'orge, clous de Paris, soleil. 8 heures par cadran." },
+    { title: "Guillochage Main", desc: "Tour à guillocher XIXe siècle. Motifs grain d'orge, clous de " + (clientCity(sessionData) ?? "Paris") + ", soleil. 8 heures par cadran." },
     { title: "Émail Grand Feu", desc: "Cuisson à 800°C. Trois couches successives. Translucide, laiteux ou opaque — jamais identique." },
     { title: "Serti Grains", desc: "47 diamants VS sertis grain par grain à la main. Loupe 10x. La pince ne touche qu'une fois." },
   ];

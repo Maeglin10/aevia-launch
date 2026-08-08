@@ -9,6 +9,8 @@ import { Heart, Star, Phone, MapPin, Calendar, Sparkles, Music, Camera, Flower, 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -162,7 +164,7 @@ export default function MaisonElisePage() {
               />
             ) : (
               <>
-                <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ fontFamily: "'Lora', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Maison Élise"}</div>
+                <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Lora', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Maison Élise"}</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)]/60">Wedding Planner · {clientCity({ formData: fd }) ?? "Nice"} & Riviera</div>
               </>
             )}
@@ -217,9 +219,7 @@ export default function MaisonElisePage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 65 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.44, ease: [0.16, 1, 0.3, 1] }}>
-            <h1 className="font-bold leading-[0.88] tracking-tight mb-4 text-[#fdfaf7]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>{c?.heroHeadline ?? <>
-              Votre plus beau
-            </>}</h1>
+            <h1 className="font-bold leading-[0.88] tracking-tight mb-4 text-[#fdfaf7]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>{<>{clientHeroLine(sessionData, 0, 1, 15) ?? "Votre plus beau"}</>}</h1>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 65 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}>
             <h1 className="font-bold italic leading-[0.88] tracking-tight mb-10 text-[var(--brand,#c4a06a)]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>
@@ -228,7 +228,7 @@ export default function MaisonElisePage() {
           </motion.div>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-sm text-sm text-[#fdfaf7]/28 leading-relaxed mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-sm text-sm text-[#fdfaf7]/28 leading-relaxed mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Wedding planner sur la Côte d'Azur. Coordination jour J, organisation clé en main, déco florale, corporate. Chaque événement mérite d'être extraordinaire.
           </>}</motion.p>
 
@@ -429,7 +429,7 @@ export default function MaisonElisePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#fdfaf7]/8">
-          <span>© 2026 Maison Élise · SIRET 678 901 234 00055 · {clientCity(sessionData) ?? "Nice"} (06){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Maison Élise"} · SIRET 678 901 234 00055 · {clientCity(sessionData) ?? "Nice"} (06){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#c4a06a)]/18">Wedding Planner · Côte d'Azur</span>
         </div>
       </footer>

@@ -36,6 +36,8 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -321,7 +323,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.35 }}
           style={{ fontSize: fl(2.6, 6.5), fontWeight: 900, lineHeight: 1.0, letterSpacing: '-0.03em', textTransform: 'uppercase' as const, marginBottom: '1.5rem', maxWidth: '750px' }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 12) ?? (<>
           Redéfinir<br />le mouvement<br />
           <span style={{ color: C.blue, textShadow: `0 0 40px ${C.blueGlow}` }}>urbain</span>
         </>)}</motion.h1>
@@ -331,9 +333,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.55 }}
           style={{ fontSize: fl(1, 1.25), color: C.whiteOff, maxWidth: '480px', lineHeight: 1.65, marginBottom: '2.5rem' }}
-        >
-          Lumyx repense la mobilité électrique avec une ingénierie de précision et un design qui impose le respect.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Lumyx repense la mobilité électrique avec une ingénierie de précision et un design qui impose le respect."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -834,7 +834,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   { quote: '"Le design est dingue. Mes collègues pensaient que c\'était une moto italienne de luxe. Et l\'autonomie est réelle — pas juste sur papier."',  name: 'Thomas M.', city: 'Paris, 75', stars: 5 },
   { quote: '"J\'habite en banlieue de ' + (clientCity(sessionData) ?? 'Bordeaux') + ' et le Lumyx ONE couvre mes 18 km de trajet chaque jour sans sourciller. La charge rapide le soir en 3h30, c\'est parfait pour mon rythme."', name: 'Sophie L.', city: (clientCity(sessionData) ?? 'Bordeaux') + ', 33', stars: 5 },
   { quote: '"La qualité de fabrication est bluffante. Cadre aluminium, finitions impeccables. On sent que c\'est fait pour durer. Je recommande sans hésitation."', name: 'Antoine R.', city: 'Strasbourg, 67', stars: 5 },
-  { quote: '"Passée du vélo classique au Lumyx GT et je ne reviendrai jamais en arrière. La montée du Vieux-Nantes, les 45 km/h en palier — la liberté absolue."', name: 'Lucie B.', city: 'Nantes, 44', stars: 5 },
+  { quote: '"Passée du vélo classique au Lumyx GT et je ne reviendrai jamais en arrière. La montée du Vieux-' + (clientCity(sessionData) ?? 'Nantes') + ', les 45 km/h en palier — la liberté absolue."', name: 'Lucie B.', city: (clientCity(sessionData) ?? 'Nantes') + ', 44', stars: 5 },
   { quote: '"Le GPS intégré et l\'app sont vraiment bien foutus. Suivi temps réel, historique de trajets, verrouillage à distance. J\'ai même retrouvé mon scoot après une fausse alerte vol."', name: 'Maxime P.', city: 'Rennes, 35', stars: 5 },
 ];
 }
@@ -1152,7 +1152,7 @@ function Footer() {
         </div>
 
         <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: '1.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-          <div style={{ color: C.muted, fontSize: '0.8rem' }}>© 2026 Lumyx SAS — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
+          <div style={{ color: C.muted, fontSize: '0.8rem' }}>© 2026 {clientName(sessionData) ?? "Lumyx SAS"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
           <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
             {['Mentions légales', 'Politique de confidentialité', 'CGV'].map((item) => (
               <a key={item} href="#about" style={{ color: C.muted, textDecoration: 'none', fontSize: '0.78rem', transition: 'color 0.2s', cursor: 'pointer' }}

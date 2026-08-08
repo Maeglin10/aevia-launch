@@ -29,8 +29,10 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientAddress,
   clientCity,
+  clientHeroLine,
   clientHours,
   clientName,
   clientPhotos,
@@ -540,12 +542,19 @@ function HeroSection() {
             margin: '30px 0 20px',
             textShadow: '0 12px 60px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 14) ?? (<>
           Votre santé,{' '}
           <span style={{ fontStyle: 'italic', color: 'rgba(160,210,170,0.92)' }}>
             notre priorité
           </span>
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 14) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 14)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}
@@ -2506,7 +2515,7 @@ function FooterSection() {
     {
       title: 'Ressources',
       items: [
-        { label: 'Santé &amp; conseils', href: '#blog' },
+        { label: 'Santé & conseils', href: '#blog' },
         { label: 'Prendre RDV', href: '#rdv' },
         { label: 'Contact', href: '#infos' },
         { label: 'Urgences : 15', href: 'tel:15' },
@@ -2669,7 +2678,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 Dr. Sophie Renard — Médecin Généraliste. RPPS : 10 003 456 789{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Dr. Sophie Renard"} — Médecin Généraliste. RPPS : 10 003 456 789{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a href="/templates/impact-274" style={{ color: 'inherit', textDecoration: 'none' }}>

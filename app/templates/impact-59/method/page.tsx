@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -78,7 +79,7 @@ export default function MethodPage() {
                   &ldquo;Nous n&apos;offrons pas du repos. Nous créons les conditions pour que le repos devienne possible.&rdquo;
                 </p>
                 <p className="text-[10px] uppercase tracking-[0.3em] text-[#3d7a5e] mt-4 font-sans font-bold">
-                  — Dr. Clara Metz, Fondatrice
+                  — Dr. Clara {clientCity(sessionData) ?? "Metz"}, Fondatrice
                 </p>
               </div>
             </Reveal>
@@ -251,7 +252,7 @@ export default function MethodPage() {
       </section>
 
       {/* ==========================================
-          QUOTE BLOCK — Dr. Clara Metz
+          QUOTE BLOCK — Dr. Clara {clientCity(sessionData) ?? "Metz"}
           ========================================== */}
       <section className="py-32 px-6 md:px-12 bg-[#f8f5f0]">
         <div className="max-w-[1000px] mx-auto text-center">
@@ -267,7 +268,7 @@ export default function MethodPage() {
             <p
               className="text-xs uppercase tracking-[0.4em] text-[#3d7a5e] font-sans font-bold"
             >
-              Dr. Clara Metz · Fondatrice & Lead Clinicienne
+              Dr. Clara {clientCity(sessionData) ?? "Metz"} · Fondatrice & Lead Clinicienne
             </p>
           </Reveal>
         </div>

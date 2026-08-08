@@ -505,7 +505,7 @@ export default function Impact52Page() {
                   <span style={{ fontFamily: F.mono, fontSize: "0.6rem", color: `${C.CYAN}55`, letterSpacing: "0.1em" }}>{w.id}</span>
                   <h3 style={{ fontFamily: F.mono, fontWeight: 900, fontSize: "1.1rem", color: C.PINK, textShadow: `0 0 12px ${C.PINK}44`, letterSpacing: "0.04em" }}>{w.title}</h3>
                   <span style={{fontFamily: F.mono, fontSize: "0.65rem", color: brand ?? 'var(--brand,#6666aa)', letterSpacing: "0.08em" }}>{w.cat}</span>
-                  <span style={{ fontFamily: F.mono, fontSize: "0.65rem", color: "var(--brand-light,#333366)" }}>{w.year}</span>
+                  <span style={{ fontFamily: F.mono, fontSize: "0.65rem", color: "var(--brand,#333366)" }}>{w.year}</span>
                 </div>
               </Reveal>
             ))}
@@ -578,7 +578,7 @@ export default function Impact52Page() {
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-52"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

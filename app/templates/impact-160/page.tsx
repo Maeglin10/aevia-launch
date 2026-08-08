@@ -30,6 +30,8 @@ import {
 } from "lucide-react"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -224,13 +226,12 @@ return (
 
           <div className="relative z-10 text-center max-w-7xl">
              <Reveal>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[16vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic mix-blend-difference">{c?.heroHeadline ?? <>
-                   The <br/> <span className="text-white/5 italic">Monolith.</span>
+                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[16vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic mix-blend-difference">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "The"}<br/> <span className="text-white/5 italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "Monolith."}</span>
                 </>}</motion.h1>
                 <div className="grid md:grid-cols-3 gap-12 md:gap-24 text-left max-w-6xl mx-auto border-t border-white/5 pt-16">
                    <div className="space-y-6">
                       <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-white/60">Core Directive</h3>
-                      <p className="text-[11px] text-white/20 leading-loose uppercase tracking-[0.4em] font-bold italic">{fd?.tagline ?? c?.heroSubline ?? <>
+                      <p className="text-[11px] text-white/20 leading-loose uppercase tracking-[0.4em] font-bold italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                          Architecture brutale pour une infrastructure de données immuable. Nous forgeons le stockage de l'éternité numérique.
                       </>}</p>
                    </div>

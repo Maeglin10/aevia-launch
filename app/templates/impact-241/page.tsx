@@ -20,6 +20,8 @@ import {
 } from 'lucide-react';
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -692,7 +694,7 @@ function Hero() {
             margin: '22px 0 22px',
             textShadow: '0 12px 60px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 19) ?? (<>
           Trouver le bien
           <br />
           qui vous ressemble.
@@ -711,9 +713,7 @@ function Hero() {
             marginBottom: 38,
             letterSpacing: '0.01em',
           }}
-        >
-          L'agence bordelaise de référence pour l'immobilier de prestige, l'investissement locatif et les propriétés d'exception en Gironde.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "L'agence bordelaise de référence pour l'immobilier de prestige, l'investissement locatif et les propriétés d'exception en Gironde."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}
@@ -2036,7 +2036,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            12 cours de l'Intendance, 33000 Bordeaux
+            12 cours de l'Intendance, 33000 {clientCity(sessionData) ?? "Bordeaux"}
           </div>
         </div>
 

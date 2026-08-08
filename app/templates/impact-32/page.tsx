@@ -28,6 +28,8 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -308,7 +310,7 @@ function Navbar() {
                 <TemplateIcon emoji="🐾" size={20} color="#fff" />
               </div>
               <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>
-                {clientName(sessionData) ?? "Paw"}<span style={{ color: C.accent }}>Care</span>
+                {clientName(sessionData) ?? "Paw"}{!clientName(sessionData) && <span style={{ color: C.accent }}>Care</span>}
               </span>
             </>
           )}
@@ -381,7 +383,7 @@ function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
           style={{ fontSize: "clamp(36px, 4vw, 58px)", fontWeight: 800, color: C.text, lineHeight: 1.1, letterSpacing: -1.5, marginBottom: 24 }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 20) ?? (<>
           Vos animaux méritent{" "}
           <span style={{ color: C.accent }}>le meilleur soin</span>
         </>)}</motion.h1>
@@ -389,10 +391,7 @@ function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
           style={{ fontSize: 18, color: C.textMuted, lineHeight: 1.72, marginBottom: 36, maxWidth: 490 }}
-        >
-          PawCare Clinic, c'est une équipe de vétérinaires passionnés à Bordeaux, dédiée à la
-          santé et au bonheur de vos compagnons à poils, plumes ou écailles.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "PawCare Clinic, c'est une équipe de vétérinaires passionnés'à Bordeaux, dédiée à la santé et au bonheur de vos compagnons à poils, plumes ou écailles."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
@@ -887,7 +886,7 @@ return (
       {/* layout.tsx renders the site footer; this page rendered a second one
           on top of it, so the site showed two stacked footers. */}
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? "impact-32"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>

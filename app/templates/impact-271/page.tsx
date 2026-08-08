@@ -14,12 +14,15 @@ import { ArrowRight, ChevronDown, Sun, MapPin, Leaf } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -34,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   JARDINS D'ALSACE — Paysagiste & Horticulture · Strasbourg & Bas-Rhin
+   JARDINS D'ALSACE — Paysagiste & Horticulture · {clientCity(sessionData) ?? "Strasbourg"} & Bas-Rhin
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -656,7 +659,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
         >
           <Eyebrow color={C.accentLight}>
-            Paysagiste · {clientCity(sessionData) ?? "Strasbourg"} &amp; Bas-Rhin
+            {clientTrade(sessionData) ?? "Paysagiste"} · {clientCity(sessionData) ?? "Strasbourg"} &amp; Bas-Rhin
           </Eyebrow>
         </motion.div>
 
@@ -676,7 +679,7 @@ function Hero() {
             textShadow: '0 12px 60px rgba(0,0,0,0.45)',
             maxWidth: 900,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 20) ?? (<>
           L&apos;Alsace&nbsp;/
           <br />
           en fleurs.
@@ -695,10 +698,7 @@ function Hero() {
             lineHeight: 1.6,
             marginBottom: 'clamp(28px,3.5vw,46px)',
           }}
-        >
-          Création, plantation et entretien de jardins alsaciens et contemporains
-          depuis 2003. Plus de 600 jardins réalisés dans le Bas-Rhin.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Création, plantation et entretien de jardins alsaciens et contemporains depuis 2003. Plus de 600 jardins réalisés dans le Bas-Rhin."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

@@ -1,6 +1,8 @@
 "use client";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -8,6 +10,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
   clientWorks,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
@@ -1224,21 +1227,15 @@ return (
                 letterSpacing: "-0.01em",
                 marginBottom: 0,
               }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-              L'image
-              <br />
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 7) ?? "L'image"}<br />
               <em
                 style={{
                   fontStyle: "italic",
                   color: C.gold,
                   fontWeight: 300,
                 }}
-              >
-                comme
-              </em>
-              <br />
-              mémoire
-            </>}</>)}</h1>
+              >{clientHeroLine(sessionData, 1, 3, 7) ?? "comme"}</em>
+              <br />{clientHeroLine(sessionData, 2, 3, 7) ?? "mémoire"}</>}</>)}</h1>
           </TextReveal>
 
           <motion.p
@@ -1253,8 +1250,8 @@ return (
               maxWidth: 480,
               margin: "32px auto 48px",
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
-            Photographe documentaire et commerciale basée à {clientCity({ formData: fd }) ?? "Paris"}. Je photographie
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            {clientTrade(sessionData) ?? "Photographe"} documentaire et commerciale basée à {clientCity({ formData: fd }) ?? "Paris"}. Je photographie
             ce qui mérite d'être vu — pour l'éditorial, la mode, le mariage et
             l'architecture.
           </>}</motion.p>
@@ -1461,7 +1458,7 @@ return (
                 marginBottom: 24,
               }}
             >{c?.aboutText ?? <>
-              Iris Beaumont. Photographe documentaire et commerciale, basée à {clientCity({ formData: fd }) ?? "Paris"}
+              Iris Beaumont. {clientTrade(sessionData) ?? "Photographe"} documentaire et commerciale, basée à {clientCity({ formData: fd }) ?? "Paris"}
               depuis 2018. Formée à l'École Nationale Supérieure de la Photographie
               d'Arles, j'ai collaboré avec Vogue France, Le Monde, LVMH et des
               dizaines de petites maisons indépendantes.
@@ -2067,7 +2064,7 @@ return (
               letterSpacing: "0.05em",
             }}
           >
-            © 2025 Iris Studio. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2025 {clientName(sessionData) ?? "Iris Studio."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </div>
         </div>
       </footer>

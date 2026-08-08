@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useId } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight, ArrowLeft, Loader2, Check, ExternalLink, Upload, X, Plus, Image as ImageIcon, Info,
+  ArrowRight, ArrowLeft, Loader2, Check, ExternalLink, Upload, X, Plus, Image as ImageIcon, Info, Search,
 } from "lucide-react";
 import { useLang } from "@/lib/LangContext";
+import { iconeDe } from "@/lib/templates/sectorIcons";
 import { INDUSTRIES, SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/lib/templates/sectors";
 import { SECTOR_EXTRA_QUESTIONS } from "@/lib/templates/sector-questions";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
@@ -30,6 +31,11 @@ const REGISTRY_BY_ID = Object.fromEntries(
 
 const TOTAL_STEPS = 7;
 
+/** Le nom de chaque étape, dans l'ordre où le client les traverse. */
+const NOMS_ETAPES = (t: StepFormStrings) => [
+  t.s1Title, t.s2Title, t.s3Title, t.s4Title, t.s5Title, t.s6Title, t.s7Title,
+];
+
 // ─── i18n ────────────────────────────────────────────────────────────────────
 // UI chrome translations. Template *labels* stay as product names; their
 // descriptions, category names, business types, tones, field labels,
@@ -39,12 +45,14 @@ type StepFormStrings = {
   s1Title: string; s1Sub: string;
   s1IndustryTitle: string; s1IndustrySub: string;
   s1SpecialtyTitle: string; s1SpecialtySub: string; s1ChangeIndustry: string;
-  s2Title: string; s2Sub: string; s2Preview: string; s2Other: string;
+  s2Title: string; s2Sub: string; s2Preview: string; s2Other: string; s2ModelLabel: string;
+  s2Chosen: string; s2ChosenSub: string; s2Change: string;
   s3Title: string;
   s4Title: string; s4SectorSub: string;
   s5Title: string; s5Sub: string;
   s6Title: string;
   s7Title: string; s7Sub: string;
+  stepCount: string;
   fBusinessName: string; fWhatYouDo: string; fCity: string;
   fMainService: string; fBenefits: string; fPriceRange: string;
   fTargetAudience: string; phTargetAudience: string;
@@ -72,11 +80,11 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s1Title: "Votre activité", s1Sub: "Choisissez votre secteur — on vous montre les designs faits pour vous.",
     s1IndustryTitle: "Votre domaine", s1IndustrySub: "Quel est votre secteur d'activité ?",
     s1SpecialtyTitle: "Votre métier", s1SpecialtySub: "Précisez votre activité pour voir les designs qui vous correspondent.", s1ChangeIndustry: "← Changer de domaine",
-    s2Title: "Votre design", s2Sub: "Designs créés pour votre métier. Choisissez celui qui vous correspond.", s2Preview: "Voir le thème", s2Other: "Autre activité ? Voir tous les thèmes →",
+    s2Title: "Votre design", s2Sub: "Designs créés pour votre métier. Choisissez celui qui vous correspond.", s2Preview: "Voir le thème", s2ModelLabel: "Modèle", s2Chosen: "Votre design est choisi", s2ChosenSub: "Vous pourrez encore en changer avant de publier.", s2Change: "Changer", s2Other: "Autre activité ? Voir tous les thèmes →",
     s3Title: "Votre entreprise",
     s4Title: "Votre offre", s4SectorSub: "Ces questions permettent d'adapter le contenu à votre métier.",
     s5Title: "Vos visuels", s5Sub: "Ajoutez votre logo et des photos pour personnaliser votre site.",
-    s6Title: "Presque fini !",
+    s6Title: "Presque fini !", stepCount: "étape {n} sur {total}",
     s7Title: "Informations légales", s7Sub: "Pour générer vos mentions légales et CGV automatiquement. Tout est optionnel.",
     fBusinessName: "Nom de l'entreprise", fWhatYouDo: "Ce que vous faites", fCity: "Ville",
     fMainService: "Service principal", fBenefits: "3 avantages clés", fPriceRange: "Gamme de prix",
@@ -105,11 +113,11 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s1Title: "Your business type", s1Sub: "Pick your sector — we'll show the designs built for you.",
     s1IndustryTitle: "Your industry", s1IndustrySub: "What is your field of activity?",
     s1SpecialtyTitle: "Your profession", s1SpecialtySub: "Specify your activity to see the designs made for you.", s1ChangeIndustry: "← Change industry",
-    s2Title: "Your design", s2Sub: "Designs built for your profession. Pick the one that fits.", s2Preview: "Preview theme", s2Other: "Different business? See all themes →",
+    s2Title: "Your design", s2Sub: "Designs built for your profession. Pick the one that fits.", s2Preview: "Preview theme", s2ModelLabel: "Design", s2Chosen: "Your design is selected", s2ChosenSub: "You can still change it before publishing.", s2Change: "Change", s2Other: "Different business? See all themes →",
     s3Title: "Your business",
     s4Title: "Your offer", s4SectorSub: "These questions help tailor the content to your profession.",
     s5Title: "Your visuals", s5Sub: "Add your logo and photos to personalise your site.",
-    s6Title: "Almost there!",
+    s6Title: "Almost there!", stepCount: "step {n} of {total}",
     s7Title: "Legal information", s7Sub: "To auto-generate your legal notice and terms of sale. Everything is optional.",
     fBusinessName: "Business name", fWhatYouDo: "What you do", fCity: "City",
     fMainService: "Main service", fBenefits: "3 key benefits", fPriceRange: "Price range",
@@ -138,11 +146,11 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s1Title: "Tu actividad", s1Sub: "Elige tu sector — te mostramos los diseños hechos para ti.",
     s1IndustryTitle: "Tu sector", s1IndustrySub: "¿Cuál es tu campo de actividad?",
     s1SpecialtyTitle: "Tu profesión", s1SpecialtySub: "Especifica tu actividad para ver los diseños hechos para ti.", s1ChangeIndustry: "← Cambiar sector",
-    s2Title: "Tu diseño", s2Sub: "Diseños creados para tu profesión. Elige el que más te gusta.", s2Preview: "Ver tema", s2Other: "¿Otra actividad? Ver todos los temas →",
+    s2Title: "Tu diseño", s2Sub: "Diseños creados para tu profesión. Elige el que más te gusta.", s2Preview: "Ver tema", s2ModelLabel: "Modelo", s2Chosen: "Tu diseño está elegido", s2ChosenSub: "Podrás cambiarlo antes de publicar.", s2Change: "Cambiar", s2Other: "¿Otra actividad? Ver todos los temas →",
     s3Title: "Tu negocio",
     s4Title: "Tu oferta", s4SectorSub: "Estas preguntas permiten adaptar el contenido a tu profesión.",
     s5Title: "Tus visuales", s5Sub: "Añade tu logo y fotos para personalizar tu sitio.",
-    s6Title: "¡Casi listo!",
+    s6Title: "¡Casi listo!", stepCount: "paso {n} de {total}",
     s7Title: "Información legal", s7Sub: "Para generar automáticamente tu aviso legal y condiciones de venta. Todo es opcional.",
     fBusinessName: "Nombre del negocio", fWhatYouDo: "Qué haces", fCity: "Ciudad",
     fMainService: "Servicio principal", fBenefits: "3 beneficios clave", fPriceRange: "Rango de precios",
@@ -171,11 +179,11 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s1Title: "Ihre Branche", s1Sub: "Wählen Sie Ihren Sektor — wir zeigen die Designs für Sie.",
     s1IndustryTitle: "Ihre Branche", s1IndustrySub: "Was ist Ihr Tätigkeitsbereich?",
     s1SpecialtyTitle: "Ihr Beruf", s1SpecialtySub: "Präzisieren Sie Ihre Tätigkeit, um passende Designs zu sehen.", s1ChangeIndustry: "← Branche ändern",
-    s2Title: "Ihr Design", s2Sub: "Designs für Ihren Beruf. Wählen Sie das passende.", s2Preview: "Vorschau", s2Other: "Andere Branche? Alle Designs →",
+    s2Title: "Ihr Design", s2Sub: "Designs für Ihren Beruf. Wählen Sie das passende.", s2Preview: "Vorschau", s2ModelLabel: "Vorlage", s2Chosen: "Ihr Design steht fest", s2ChosenSub: "Sie können es vor der Veröffentlichung noch ändern.", s2Change: "Ändern", s2Other: "Andere Branche? Alle Designs →",
     s3Title: "Ihr Unternehmen",
     s4Title: "Ihr Angebot", s4SectorSub: "Diese Fragen ermöglichen es, den Inhalt auf Ihren Beruf abzustimmen.",
     s5Title: "Ihre Bilder", s5Sub: "Fügen Sie Ihr Logo und Fotos hinzu, um Ihre Website zu personalisieren.",
-    s6Title: "Fast geschafft!",
+    s6Title: "Fast geschafft!", stepCount: "Schritt {n} von {total}",
     s7Title: "Rechtliche Angaben", s7Sub: "Zur automatischen Erstellung von Impressum und AGB. Alles optional.",
     fBusinessName: "Firmenname", fWhatYouDo: "Was Sie tun", fCity: "Stadt",
     fMainService: "Hauptleistung", fBenefits: "3 Vorteile", fPriceRange: "Preisspanne",
@@ -204,11 +212,11 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s1Title: "A sua atividade", s1Sub: "Escolha o seu setor — mostramos os designs feitos para si.",
     s1IndustryTitle: "O seu setor", s1IndustrySub: "Qual é o seu campo de atividade?",
     s1SpecialtyTitle: "A sua profissão", s1SpecialtySub: "Especifique a sua atividade para ver os designs feitos para si.", s1ChangeIndustry: "← Mudar setor",
-    s2Title: "O seu design", s2Sub: "Designs criados para a sua profissão. Escolha o que mais gosta.", s2Preview: "Ver tema", s2Other: "Outra atividade? Ver todos os temas →",
+    s2Title: "O seu design", s2Sub: "Designs criados para a sua profissão. Escolha o que mais gosta.", s2Preview: "Ver tema", s2ModelLabel: "Modelo", s2Chosen: "O seu design está escolhido", s2ChosenSub: "Ainda pode mudá-lo antes de publicar.", s2Change: "Mudar", s2Other: "Outra atividade? Ver todos os temas →",
     s3Title: "O seu negócio",
     s4Title: "A sua oferta", s4SectorSub: "Estas perguntas permitem adaptar o conteúdo à sua profissão.",
     s5Title: "Os seus visuais", s5Sub: "Adicione o seu logotipo e fotos para personalizar o seu site.",
-    s6Title: "Quase lá!",
+    s6Title: "Quase lá!", stepCount: "passo {n} de {total}",
     s7Title: "Informações legais", s7Sub: "Para gerar automaticamente seus avisos legais e termos de venda. Tudo é opcional.",
     fBusinessName: "Nome do negócio", fWhatYouDo: "O que faz", fCity: "Cidade",
     fMainService: "Serviço principal", fBenefits: "3 benefícios", fPriceRange: "Faixa de preço",
@@ -273,18 +281,49 @@ const initial: FormState = {
 function ThemeThumb({ tid, fallbackColor }: { tid: string; fallbackColor: string }) {
   const [failed, setFailed] = useState(false);
   if (failed) {
-    return <div className="w-16 h-16 rounded-lg shrink-0 mt-0.5" style={{ background: fallbackColor }} />;
+    return <div className="w-full aspect-[4/3] rounded-lg" style={{ background: fallbackColor }} />;
   }
   return (
+    /*
+      Soixante-quatre pixels de côté pour choisir l'allure d'un site : le client
+      ne voyait rien de ce qu'il achetait. La vignette prend toute la largeur de
+      sa carte et montre le haut de la page, là où le dessin se juge.
+    */
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={`/thumbnails/${tid}.webp`}
       alt=""
       loading="lazy"
-      className="w-16 h-16 rounded-lg shrink-0 mt-0.5 object-cover object-top border border-zinc-800"
+      className="w-full aspect-[4/3] rounded-lg object-cover object-top border border-zinc-800 bg-zinc-900"
       onError={() => setFailed(true)}
     />
   );
+}
+
+/*
+  Ce que le client lit sous une vignette. La description du registre est écrite
+  pour nous — « Lora serif typography », « Spectral, violet accents », souvent en
+  anglais : elle parle de polices à qui veut savoir à quoi ressemblera son site.
+  On garde la première proposition, on coupe la partie technique.
+*/
+function descriptionLisible(brut: string | undefined): string {
+  if (!brut) return "";
+  const sansJargon = brut
+    .split(/[—–]/)[0]
+    .replace(/\b(serif|sans-serif|sans|typography|typographie|accents?|palette|hero|scroll|stagger|cards?|tabs?)\b[^,.;]*/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .replace(/[,;]\s*$/, "")
+    .trim();
+  const phrase = sansJargon.length >= 12 ? sansJargon : brut.split(/[.;]/)[0];
+  /*
+    La moitié du registre est décrite en anglais — « General practitioner
+    cabinet », « Dietitian nutritionist cabinet ». Une phrase anglaise tronquée
+    sous une vignette dit moins que rien : mieux vaut laisser l'image parler.
+  */
+  const anglais = /\b(the|with|and|for|your|our|built|modern|clean|bold|practitioner|dietitian|nutritionist|physician|studio|boutique|agency|clinic|firm|shop|vitrine|based|driven|first|led|focused|premium)\b/i;
+  const francais = /\b(le|la|les|des|du|votre|nos|avec|pour|et|à|au|aux|sur|en|par|chez|cabinet de|maison)\b/i;
+  if (anglais.test(phrase) && !francais.test(phrase)) return "";
+  return phrase.length > 96 ? `${phrase.slice(0, 93).trimEnd()}…` : phrase;
 }
 
 export function StepForm() {
@@ -574,16 +613,37 @@ export function StepForm() {
   };
 
   return (
-    <div className="w-full max-w-xl">
-      {/* Template pre-selection banner */}
-      {form.template && TEMPLATE_CITY_LABELS[form.template] && (
+    /*
+      Le choix du design a besoin de place : sur cinq cent vingt pixels, sept
+      modèles s'empilent et il faut six cents pixels de défilement pour atteindre
+      « Continuer ». C'est l'étape qui vend — elle s'étale.
+    */
+    <div className={`w-full ${step === 2 ? "max-w-5xl" : "max-w-xl"}`}>
+      {/*
+        Le rappel du modèle retenu. Il annonçait « Dr. Beaumont · Strasbourg » et,
+        juste dessous, « impact-243 » : le client lisait le nom d'un confrère
+        imaginaire et une référence de notre catalogue. Il voit maintenant ce
+        qu'il a choisi — sa vignette — et rien d'autre.
+      */}
+      {form.template && (
         <div className="mb-6 flex items-center gap-3 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20">
-          <div className="w-7 h-7 rounded-full bg-red-600 flex items-center justify-center text-white text-xs font-bold">✓</div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/thumbnails/${form.template}.webp`}
+            alt=""
+            className="w-16 h-12 rounded-md object-cover object-top border border-red-500/20 shrink-0"
+          />
           <div className="flex-1 min-w-0">
-            <div className="text-white text-sm font-semibold">{TEMPLATE_CITY_LABELS[form.template]}</div>
-            <div className="text-red-400 text-xs">{form.template}</div>
+            <div className="text-white text-sm font-semibold">{t.s2Chosen}</div>
+            <div className="text-zinc-400 text-xs">{t.s2ChosenSub}</div>
           </div>
-          <Link href="/themes" className="text-zinc-400 hover:text-white text-xs transition-colors shrink-0">Changer →</Link>
+          <button
+            type="button"
+            onClick={() => setStep(2)}
+            className="text-zinc-300 hover:text-white text-sm px-3 py-2 rounded-lg hover:bg-white/5 transition-colors shrink-0 cursor-pointer"
+          >
+            {t.s2Change}
+          </button>
         </div>
       )}
 
@@ -609,6 +669,19 @@ export function StepForm() {
         ))}
       </div>
 
+      {/*
+        Sept pastilles numérotées ne disent pas ce qui attend le client. Le nom
+        de l'étape en cours, et le compte, lui montrent où il en est et ce qu'il
+        lui reste — deux chiffres qui décident de continuer ou de fermer.
+      */}
+      <p className="mt-3 mb-6 text-center text-sm text-zinc-400">
+        <span className="text-zinc-300 font-medium">{NOMS_ETAPES(t)[step - 1]}</span>
+        <span className="mx-2 text-zinc-600">·</span>
+        {t.stepCount.replace("{n}", String(step)).replace("{total}", String(TOTAL_STEPS))}
+      </p>
+
+      {/* La barre d'action flotte au-dessus du contenu : la dernière ligne du
+          formulaire doit rester atteignable en dessous. */}
       {/* Step content */}
       <AnimatePresence mode="wait">
         <motion.div
@@ -650,7 +723,10 @@ export function StepForm() {
                             : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
                         }`}
                       >
-                        <span className="text-xl">{ind.emoji}</span>
+                        {(() => {
+                          const Icone = iconeDe(ind.id);
+                          return <Icone className="w-5 h-5 shrink-0 opacity-80" aria-hidden="true" />;
+                        })()}
                         <span className="text-base font-medium leading-tight">{ind.labels[locale] ?? ind.label}</span>
                       </button>
                     ))}
@@ -659,7 +735,7 @@ export function StepForm() {
                       onClick={() => { set("industry", "other"); set("sector", "other"); set("template", ""); setIndustryPhase("specialty"); }}
                       className="flex items-center gap-3 px-3 py-3 rounded-xl border border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white text-left transition-all"
                     >
-                      <span className="text-xl">🔍</span>
+                      <Search className="w-5 h-5 shrink-0 opacity-80" aria-hidden="true" />
                       <span className="text-base font-medium">{t.sectorOther}</span>
                     </button>
                   </div>
@@ -707,7 +783,10 @@ export function StepForm() {
                               : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
                           }`}
                         >
-                          <span className="text-xl">{s.emoji}</span>
+                          {(() => {
+                            const Icone = iconeDe(s.id);
+                            return <Icone className="w-5 h-5 shrink-0 opacity-80" aria-hidden="true" />;
+                          })()}
                           <span className="text-base font-medium leading-tight">{s.labels?.[locale] ?? s.label}</span>
                           {form.sector === s.id && <Check className="w-4 h-4 text-red-400 ml-auto shrink-0" />}
                         </button>
@@ -734,35 +813,46 @@ export function StepForm() {
                   </Link>
                 </div>
               ) : (
-                <div className="space-y-3">
-                  {(SECTOR_TEMPLATES[form.sector] ?? []).map((tid) => {
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                  {(SECTOR_TEMPLATES[form.sector] ?? []).map((tid, rang) => {
                     const meta = REGISTRY_BY_ID[tid];
-                    // Le nom du registre avant l'identifiant : soixante thèmes
-                    // vendus n'ont pas de libellé de ville, et affichaient donc
-                    // « impact-326 » comme titre de carte au client.
-                    const cityLabel = TEMPLATE_CITY_LABELS[tid] ?? meta?.name ?? tid;
                     const isSelected = form.template === tid;
                     return (
                       <button
                         key={tid}
                         type="button"
+                        aria-pressed={isSelected}
                         onClick={() => set("template", tid)}
-                        className={`w-full flex items-start gap-4 p-4 rounded-xl border text-left transition-all ${
-                          isSelected ? "border-red-600 bg-red-600/10" : "border-zinc-700 hover:border-zinc-500"
+                        className={`group relative flex flex-col gap-3 p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+                          isSelected
+                            ? "border-red-600 bg-red-600/10 ring-2 ring-red-600/40"
+                            : "border-zinc-800 hover:border-zinc-600 hover:bg-white/[0.02]"
                         }`}
                       >
-                        <ThemeThumb
-                          tid={tid}
-                          fallbackColor={SECTORS.find((s) => s.id === form.sector)?.accentColor ?? "#333"}
-                        />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between gap-2">
-                            <div className="text-white font-semibold text-base leading-snug">{cityLabel}</div>
-                            {isSelected && <Check className="w-4 h-4 text-red-400 shrink-0" />}
-                          </div>
-                          {meta && (
-                            <div className="text-zinc-500 text-sm mt-0.5 leading-snug line-clamp-2">{meta.description}</div>
+                        <div className="relative">
+                          <ThemeThumb
+                            tid={tid}
+                            fallbackColor={SECTORS.find((s) => s.id === form.sector)?.accentColor ?? "#333"}
+                          />
+                          {isSelected && (
+                            <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-600 flex items-center justify-center shadow-lg">
+                              <Check className="w-4 h-4 text-white" />
+                            </span>
                           )}
+                        </div>
+                        <div className="min-w-0">
+                          {/*
+                            Le registre nomme ses modèles d'après leur démonstration —
+                            « Dr. Beaumont · Strasbourg ». Le client ne choisit pas un
+                            confrère, il choisit une allure : on numérote, et la
+                            description dit ce que le modèle met en avant.
+                          */}
+                          <div className="text-white font-semibold text-base leading-snug">
+                            {t.s2ModelLabel} {rang + 1}
+                          </div>
+                          <div className="text-zinc-400 text-sm mt-0.5 leading-snug line-clamp-2 min-h-[2.5rem]">
+                            {descriptionLisible(meta?.description)}
+                          </div>
                           <a
                             href={`/templates/${tid}`}
                             target="_blank"
@@ -989,12 +1079,14 @@ export function StepForm() {
                   <div className="flex items-center gap-3">
                     <input
                       type="color"
+                      aria-label="Choisir la couleur de marque"
                       value={form.brandColor}
                       onChange={(e) => set("brandColor", e.target.value)}
                       className="w-12 h-12 rounded-xl border-2 border-zinc-700 cursor-pointer bg-transparent p-1"
                     />
                     <input
                       type="text"
+                      aria-label="Couleur de marque, code hexadécimal"
                       value={form.brandColor}
                       onChange={(e) => {
                         const v = e.target.value;
@@ -1121,8 +1213,14 @@ export function StepForm() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Nav buttons */}
-      <div className="flex items-center justify-between mt-6">
+      {/*
+        Sur un téléphone, l'étape du design demandait deux mille pixels de
+        défilement avant d'atteindre « Continuer » : deux écrans et demi à
+        remonter pour valider un choix fait tout en haut. La barre d'action se
+        colle donc au bas de l'écran sur mobile, comme dans tout tunnel d'achat,
+        et redevient une simple ligne dès qu'il y a de la place.
+      */}
+      <div className="sticky bottom-0 z-40 -mx-5 mt-10 flex items-center justify-between gap-3 border-t border-zinc-800/80 bg-[#09090b]/95 px-5 py-4 backdrop-blur sm:mx-0 sm:rounded-2xl sm:border sm:px-5">
         {(step > 1 || (step === 1 && industryPhase === "specialty" && form.industry !== "other")) ? (
           <button
             onClick={() => {
@@ -1135,7 +1233,7 @@ export function StepForm() {
                 if (step === 2) setIndustryPhase("specialty");
               }
             }}
-            className="flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-700 text-zinc-400 text-base hover:text-white transition-colors"
+            className="flex items-center gap-2 px-4 py-3 min-h-[44px] rounded-full border border-zinc-700 text-zinc-400 text-base hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> {t.back}
           </button>
@@ -1147,7 +1245,7 @@ export function StepForm() {
           <button
             onClick={goNext}
             aria-disabled={!canNext()}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-base font-semibold transition-all ${
+            className={`flex items-center gap-2 px-5 py-3 min-h-[44px] rounded-full bg-red-600 hover:bg-red-500 text-white text-base font-semibold transition-all ${
               canNext() ? "" : "opacity-50"
             }`}
           >
@@ -1185,9 +1283,26 @@ function Field({
   children: React.ReactNode;
 }) {
   const [showHint, setShowHint] = useState(false);
+  /*
+    L'étiquette était une voisine du champ, pas la sienne : rien ne les liait.
+    Un lecteur d'écran annonçait « zone de saisie » sans dire laquelle, le
+    remplissage automatique du navigateur ne proposait rien, et cliquer le
+    libellé ne donnait pas le focus. On pose donc un identifiant et on le
+    transmet au champ — quand c'en est un.
+  */
+  const id = useId();
+  const champ =
+    React.isValidElement(children) && typeof children.type === "string"
+      ? React.cloneElement(children as React.ReactElement<Record<string, unknown>>, {
+          id,
+          required: required || undefined,
+          "aria-invalid": error ? true : undefined,
+          "aria-describedby": error ? `${id}-erreur` : undefined,
+        })
+      : children;
   return (
     <div className="space-y-1.5">
-      <label className="flex items-center gap-1.5 text-lg font-medium text-zinc-300">
+      <label htmlFor={id} className="flex items-center gap-1.5 text-lg font-medium text-zinc-300">
         {label}
         {required && <span className="text-red-400 ml-0.5" aria-hidden="true">*</span>}
         {hint && (
@@ -1207,9 +1322,9 @@ function Field({
           {hint}
         </p>
       )}
-      {children}
+      {champ}
       {error && (
-        <p className="text-red-400 text-base" role="alert">
+        <p id={`${id}-erreur`} className="text-red-400 text-base" role="alert">
           {error}
         </p>
       )}

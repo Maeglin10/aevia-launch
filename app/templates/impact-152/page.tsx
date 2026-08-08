@@ -8,6 +8,8 @@ import Link from "next/link"
 import { ArrowRight, MapPin, Mail, Phone, Clock, Star, ChevronDown } from "lucide-react"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -73,11 +75,11 @@ let STATS = STATS_DEMO;
 
 function PROJETS_DEMO_LIVE() {
   return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ titre: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
-  { titre: "Villa contemporaine", lieu: "Lyon 5e", surface: "220 m²", style: "Minimaliste", tag: "Résidentiel", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80") },
-  { titre: "Penthouse panoramique", lieu: "Lyon 2e", surface: "160 m²", style: "Art Déco moderne", tag: "Prestige", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80") },
+  { titre: "Villa contemporaine", lieu: (clientCity(sessionData) ?? "Lyon") + " 5e", surface: "220 m²", style: "Minimaliste", tag: "Résidentiel", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80") },
+  { titre: "Penthouse panoramique", lieu: (clientCity(sessionData) ?? "Lyon") + " 2e", surface: "160 m²", style: "Art Déco moderne", tag: "Prestige", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80") },
   { titre: "Maison de maître", lieu: (clientCity({ formData: fd }) ?? "Villeurbanne"), surface: "310 m²", style: "Classique revisité", tag: "Rénovation", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80") },
-  { titre: "Loft industriel", lieu: "Lyon 7e", surface: "140 m²", style: "Industriel chic", tag: "Loft", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80") },
-  { titre: "Appartement haussmannien", lieu: "Lyon 1er", surface: "180 m²", style: "Parisien épuré", tag: "Résidentiel", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80") },
+  { titre: "Loft industriel", lieu: (clientCity(sessionData) ?? "Lyon") + " 7e", surface: "140 m²", style: "Industriel chic", tag: "Loft", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80") },
+  { titre: "Appartement haussmannien", lieu: (clientCity(sessionData) ?? "Lyon") + " 1er", surface: "180 m²", style: "Parisien épuré", tag: "Résidentiel", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80") },
   { titre: "Boutique concept store", lieu: "Part-Dieu", surface: "95 m²", style: "Retail design", tag: "Commercial", img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80") },
 ]);
 }
@@ -92,7 +94,7 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 const ATELIER = [
-  { t: "Le lieu", d: "Un ancien atelier de serrurerie de 180 m² rue de la Villette, à Lyon, gardé tel quel : verrière d'origine, sol béton, murs blanchis. On y dessine, on y maquette, et on y reçoit." },
+  { t: "Le lieu", d: "Un ancien atelier de serrurerie de 180 m² rue de la Villette, à " + (clientCity(sessionData) ?? "Lyon") + ", gardé tel quel : verrière d'origine, sol béton, murs blanchis. On y dessine, on y maquette, et on y reçoit." },
   { t: "La maquette avant l'écran", d: "Chaque projet passe par du carton plume et du contreplaqué à l'échelle. On voit en trois minutes ce qu'un rendu 3D met trois jours à cacher." },
   { t: "Les matériaux sous la main", d: "Une murothèque de 400 échantillons : chêne, laiton, terrazzo, lin, zellige. Vous touchez avant de choisir, on ne travaille pas sur nuancier imprimé." },
   { t: "Les artisans qu'on appelle", d: "Six ateliers partenaires en Île-de-France, les mêmes depuis six ans. Ébéniste, métallier, tapissier, staffeur. Aucun appel d'offres au moins-disant." },
@@ -108,7 +110,7 @@ let SERVICES = SERVICES_DEMO;
 
 function TEMOIGNAGES_SOURCE_LIVE() {
   return [
-  { texte: "Clémence a transformé notre appartement en un espace où il fait vraiment bon vivre. Son sens du détail et sa rigueur sont bluffants — et le budget a été parfaitement respecté.", auteur: "Marie & Thomas L.", projet: "Appartement 160 m², Lyon 2e" },
+  { texte: "Clémence a transformé notre appartement en un espace où il fait vraiment bon vivre. Son sens du détail et sa rigueur sont bluffants — et le budget a été parfaitement respecté.", auteur: "Marie & Thomas L.", projet: "Appartement 160 m², " + (clientCity(sessionData) ?? "Lyon") + " 2e" },
   { texte: "Nous avions peur de perdre le caractère de notre maison ancienne. Le Studio Noma a su magnifier les volumes tout en apportant la modernité qu'on cherchait. Résultat magistral.", auteur: "Édouard V.", projet: `Maison de maître, ${clientCity({ formData: fd }) ?? "Villeurbanne"}` },
   { texte: "Un accompagnement de A à Z, professionnel et chaleureux. Notre boutique est maintenant l'une des plus belles de la galerie. Les ventes ont bondi de 40% depuis l'ouverture.", auteur: "Sophie K.", projet: "Concept store, Part-Dieu" },
 ];
@@ -244,7 +246,7 @@ export default function StudioNomaPage() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <><span style={{ fontFamily: FONT, fontSize: 22, fontWeight: 600, color: scrolled ? C.text : "#fff", letterSpacing: 1 }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Studio <em>Noma</em></>)}</span></>
+            <><span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontSize: 22, fontWeight: 600, color: scrolled ? C.text : "#fff", letterSpacing: 1 }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Studio <em>Noma</em></>)}</span></>
           )}
         <div style={{ gap: 32, alignItems: "center" }} className="hidden md:flex">
           {NAV.map(({ l, h }) => (
@@ -288,12 +290,11 @@ export default function StudioNomaPage() {
 
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 820, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(52px, 7vw, 96px)", fontWeight: 300, color: "#fff", lineHeight: 1.0, letterSpacing: -1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            L'espace comme<br /><em style={{ color: C.accent }}>œuvre d'art.</em>
+            style={{ fontFamily: FONT, fontSize: "clamp(52px, 7vw, 96px)", fontWeight: 300, color: "#fff", lineHeight: 1.0, letterSpacing: -1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "L'espace comme"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 14) ?? "œuvre d'art."}</em>
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520, fontFamily: FONT_SANS }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520, fontFamily: FONT_SANS }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Studio Noma conçoit des intérieurs qui racontent une histoire. Chaque projet naît d'une écoute profonde et d'une maîtrise artisanale des matières, des volumes et de la lumière.
           </>}</motion.p>
 
@@ -449,10 +450,10 @@ export default function StudioNomaPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 40 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 24, fontWeight: 400, color: "#fff", marginBottom: 12 }}>Studio <em style={{ color: C.accent }}>Noma</em></div>
-            <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Architecture d'intérieur & décoration à Lyon depuis 2012.</p>
+            <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Architecture d'intérieur & décoration à {clientCity(sessionData) ?? "Lyon"} depuis 2012.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={14} />, t: "Lyon, Rhône-Alpes" }, { icon: <Mail size={14} />, t: (fd?.email ?? "contact@studionoma.fr") }, { icon: <Clock size={14} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
+            {[{ icon: <MapPin size={14} />, t: (clientCity(sessionData) ?? "Lyon") + ", Rhône-Alpes" }, { icon: <Mail size={14} />, t: (fd?.email ?? "contact@studionoma.fr") }, { icon: <Clock size={14} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.55)", fontSize: 14 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

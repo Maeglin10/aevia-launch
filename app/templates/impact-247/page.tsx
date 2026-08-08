@@ -14,12 +14,15 @@ import { ArrowRight, ChevronDown, Zap } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -34,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   VOLT & LUX — Électricien Certifié & Domotique · {clientCity(sessionData) ?? "Toulouse"}
+   VOLT & LUX — {clientTrade(sessionData) ?? "Électricien"} Certifié & Domotique · {clientCity(sessionData) ?? "Toulouse"}
    Photographie réelle + chorégraphie de défilement éditoriale. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -68,7 +71,7 @@ const SANS = "'Space Grotesk', system-ui, sans-serif" as const;
 
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
 function BASE_LIVE() {
-  return (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+  return 'https://images.unsplash.com/photo-';
 }
 let BASE = BASE_LIVE();
 function PHOTO_LIVE() {
@@ -481,7 +484,7 @@ function Hero() {
         }}
       >
         <Reveal y={16}>
-          <Eyebrow color={C.yellow}>Électricien certifié · {clientCity(sessionData) ?? "Toulouse"}</Eyebrow>
+          <Eyebrow color={C.yellow}>{clientTrade(sessionData) ?? "Électricien"} certifié · {clientCity(sessionData) ?? "Toulouse"}</Eyebrow>
         </Reveal>
 
         <motion.h1
@@ -500,7 +503,7 @@ function Hero() {
             maxWidth: '14ch',
             textShadow: '0 16px 60px rgba(0,0,0,0.6)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 18) ?? (<>
           L&apos;électricité{' '}
           <span style={{ fontStyle: 'italic', color: C.yellow }}>/ sans</span>
           {' '}compromis.
@@ -519,10 +522,7 @@ function Hero() {
             lineHeight: 1.65,
             marginBottom: 36,
           }}
-        >
-          Mise aux normes, domotique clé en main, bornes IRVE — 12 ans d&apos;expertise
-          certifiée Qualifelec au service des particuliers et professionnels toulousains.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Mise aux normes, domotique clé en main, bornes IRVE — 12 ans d'expertise certifiée Qualifelec au service des particuliers et professionnels toulousains."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -1966,7 +1966,7 @@ function Footer() {
               maxWidth: 300,
             }}
           >
-            Électricien certifié Qualifelec à {clientCity(sessionData) ?? "Toulouse"}. Mise aux normes,
+            {clientTrade(sessionData) ?? "Électricien"} certifié Qualifelec à {clientCity(sessionData) ?? "Toulouse"}. Mise aux normes,
             domotique &amp; bornes IRVE depuis 2012.
           </p>
           <div

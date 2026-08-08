@@ -23,7 +23,9 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import {
+  clientAccrocheRestante,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -576,7 +578,7 @@ const Hero: React.FC = () => {
               margin: '24px 0 0',
               letterSpacing: '-0.015em',
             }}
-          >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+          >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 15) ?? (<>
             Des espaces qui
             <br />
             <span style={{ fontStyle: 'italic', color: C.goldSoft }}>
@@ -584,6 +586,13 @@ const Hero: React.FC = () => {
             </span>{' '}
             des vies
           </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 15) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 15)}
+        </p>
+      )}
+
 
           <motion.p
             style={{ y: subY }}
@@ -823,7 +832,7 @@ const PROPERTIES_DEMO_SOURCE: Property[] = /* REALISATIONS */ resolveList(client
     img: PHOTO.city,
     surface: '280 m²',
     price: '6 200 000 €',
-    city: 'Paris 8ᵉ',
+    city: (clientCity(sessionData) ?? 'Paris') + ' 8ᵉ',
     type: 'Penthouse',
   },
   {
@@ -1180,7 +1189,7 @@ const StickyShowcase: React.FC = () => (
                 lineHeight: 1.1,
               }}
             >
-              Villa Hélios, Aix-en-Provence
+              Villa Hélios, {clientCity(sessionData) ?? "Aix-en-Provence"}
             </h4>
           </div>
         </div>
@@ -1281,7 +1290,7 @@ function SIGNATURES_LIVE() {
   },
   {
     img: PHOTO.living,
-    city: 'Lyon — Presqu’île',
+    city: (clientCity(sessionData) ?? 'Lyon') + ' — Presqu’île',
     caption: 'Appartement Confluence',
     detail:
       'Un duplex de 240 m² aux volumes traversants, mariant pierre dorée lyonnaise et design contemporain épuré.',
@@ -2270,7 +2279,7 @@ function FOOTER_COLS_LIVE() {
   },
   {
     head: 'Adresses',
-    links: ['Aix-en-Provence', 'Paris 8ᵉ', 'Lyon', (clientCity(sessionData) ?? 'Bordeaux')],
+    links: [(clientCity(sessionData) ?? 'Aix-en-Provence'), (clientCity(sessionData) ?? 'Paris') + ' 8ᵉ', (clientCity(sessionData) ?? 'Lyon'), (clientCity(sessionData) ?? 'Bordeaux')],
   },
 ];
 }
@@ -2424,7 +2433,7 @@ const Footer: React.FC = () => (
             color: 'rgba(255,255,255,0.5)',
           }}
         >
-          © 2026 Solis Immobilier — Carte professionnelle CPI 1301 2024 000 047
+          © 2026 {clientName(sessionData) ?? "Solis Immobilier"} — Carte professionnelle CPI 1301 2024 000 047
           218{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 24 }}>

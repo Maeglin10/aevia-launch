@@ -8,8 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { GhostSolid } from "@/lib/templates/hero-kit-2";
 import {
+  clientAccrocheRestante,
   clientCertifications,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -201,7 +203,7 @@ export default function FaubourgSerruresPage() {
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Serrurerie de sécurité · {clientCity(sessionData) ?? "Marseille"}</span>
         <div style={{ margin: "18px 0 8px" }}><GhostSolid ghost="VOTRE PORTE" solid="BLINDÉE." accent={C.accent} className="" /></div>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {fd?.tagline ?? c?.heroSubline ?? "Pas de dépannage à 3 h du matin ici : du blindage pensé à froid. Portes blindées, serrures A2P, coffres — étudiés, posés, garantis par des serruriers salariés."}
+          {clientAccrocheRestante(sessionData, 1, 15) ?? c?.heroSubline ?? "Pas de dépannage à 3 h du matin ici : du blindage pensé à froid. Portes blindées, serrures A2P, coffres — étudiés, posés, garantis par des serruriers salariés."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
@@ -235,7 +237,7 @@ export default function FaubourgSerruresPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Installations</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 15) ?? (<>
                 Ce qui tient<br /><em>quand on force.</em>
               </>)}</h2>
             </div>

@@ -16,6 +16,8 @@ import { Volume2, Music, Mic2, Disc, Waves, Globe, Mail, MapPin, ChevronRight, A
 import "../premium.css";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -309,10 +311,9 @@ export default function AetherSoundPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <Reveal>
-             <h1 className="text-5xl sm:text-6xl md:text-[14rem] font-black leading-[0.9] md:leading-[0.75] tracking-tight md:tracking-tighter mb-12 uppercase text-white italic break-words">{c?.heroHeadline ?? <>
-               The <br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Silence.</span>
+             <h1 style={{ /* TITRE_DEGAGE */ marginTop: 128 }} className="hero-ecran-court text-5xl sm:text-6xl md:text-[9rem] font-black leading-[0.9] md:leading-[0.78] tracking-tight md:tracking-tighter mb-12 uppercase text-white italic break-words">{<>The<br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Silence.</span>
              </>}</h1>
-             <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{fd?.tagline ?? c?.heroSubline ?? <>
+             <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                Redefining the threshold of hearing. Precision sonic instruments for the world's most discerning ears.
              </>}</p>
              <div className="flex flex-col sm:flex-row gap-6">
@@ -695,7 +696,7 @@ export default function AetherSoundPage() {
         ::-webkit-scrollbar-thumb{background:#c9a84c}
       `}</style>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-07"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

@@ -24,6 +24,8 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -846,13 +848,11 @@ export default function OriginRoastPage() {
                 Specialty Coffee Roastery — Direct Trade
               </motion.div>
               <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-                style={{ fontFamily: SERIF, fontSize: "clamp(48px, 6vw, 82px)", fontWeight: 900, color: C.cream, lineHeight: 1.03, marginBottom: 28 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
-                From Bean
-                <br />
-                <span style={{ color: C.caramel, fontStyle: "italic" }}>to Cup.</span>
+                style={{ fontFamily: SERIF, fontSize: "clamp(48px, 6vw, 82px)", fontWeight: 900, color: C.cream, lineHeight: 1.03, marginBottom: 28 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "From Bean"}<br />
+                <span style={{ color: C.caramel, fontStyle: "italic" }}>{clientHeroLine(sessionData, 1, 2, 9) ?? "to Cup."}</span>
               </>}</>)}</motion.h1>
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}
-                style={{ fontFamily: SANS, fontSize: 18, color: C.sand, lineHeight: 1.8, marginBottom: 44, maxWidth: 480, fontWeight: 300 }}>{fd?.tagline ?? c?.heroSubline ?? <>
+                style={{ fontFamily: SANS, fontSize: 18, color: C.sand, lineHeight: 1.8, marginBottom: 44, maxWidth: 480, fontWeight: 300 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Café de spécialité en petits lots — 47 fermes partenaires, 18 pays. Torréfié à la commande et expédié au pic de fraîcheur.
               </>}</motion.p>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}
@@ -1338,7 +1338,7 @@ export default function OriginRoastPage() {
 
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
 
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
 
         {clientName(sessionData) ?? "impact-38"}
 

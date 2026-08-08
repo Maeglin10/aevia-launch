@@ -26,6 +26,8 @@ import {
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -102,11 +104,8 @@ function HeroSection() {
             animate={{ opacity: 1, rotateY: 0, clipPath: "inset(0 0% 0 0)" }}
             transition={{ duration: 0.9, ease: EASE_4 }}
             style={{ fontFamily: SERIF, fontSize: "clamp(38px, 4.4vw, 62px)", fontWeight: 700, color: C.white, lineHeight: 1.06, margin: "0 0 22px", transformOrigin: "left center" }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            Le droit,<br />
-            <span style={{ color: C.accent }}>à la hauteur</span><br />
-            de vos enjeux.
-          </>}</>)}</motion.h1>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 14) ?? "Le droit,"}<br />
+            <span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 3, 14) ?? "à la hauteur"}</span><br />{clientHeroLine(sessionData, 2, 3, 14) ?? "de vos enjeux."}</>}</>)}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -114,7 +113,7 @@ function HeroSection() {
             transition={{ duration: 0.6, ease: EASE_3, delay: BEAT.second }}
             className="hero-lede"
             style={{ fontFamily: SANS, fontSize: 16, color: "rgba(255,255,255,0.66)", lineHeight: 1.7, maxWidth: 460, margin: "0 0 26px" }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             {fd?.businessName ?? "Dumont & Associés"} conseille dirigeants, fondateurs et conseils d’administration là où l’issue compte vraiment.
           </>}</motion.p>
 
@@ -572,7 +571,7 @@ export default function LawFirmHome() {
       <ConsultationSection />
       <FAQSection />
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? "impact-46"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>

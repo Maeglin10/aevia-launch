@@ -1,4 +1,5 @@
 "use client";
+import { clientTrade } from "@/lib/templates/clientContent";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 

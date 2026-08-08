@@ -8,6 +8,8 @@ import { Utensils, ArrowRight, Menu, Star, Clock, MapPin, Shield, Heart, Compass
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -176,13 +178,12 @@ export default function KuroOmakasePage() {
 
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
             <Reveal delay={0.2} y={70}>
-              <motion.h1 className="text-8xl md:text-[12rem] font-black tracking-tighter leading-[0.8] text-white mb-12 uppercase italic">{c?.heroHeadline ?? <>
-                Silent <br/> <span className="font-light not-italic">Craft.</span>
+              <motion.h1 className="text-8xl md:text-[12rem] font-black tracking-tighter leading-[0.8] text-white mb-12 uppercase italic">{<>{clientHeroLine(sessionData, 0, 2, 6) ?? "Silent"}<br/> <span className="font-light not-italic">{clientHeroLine(sessionData, 1, 2, 6) ?? "Craft."}</span>
               </>}</motion.h1>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col items-center justify-center gap-12">
-                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed italic">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   An intimate 8-seat sanctuary dedicated to the seasonal purity of Edomae-style sushi. Leave the decision to the Chef.
                 </>}</p>
                 <div className="flex flex-wrap justify-center gap-10">
@@ -333,7 +334,7 @@ export default function KuroOmakasePage() {
               </Reveal>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                  {[
-                    { tier: (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Kuro Omakase")), courses: "12 courses", price: "¥88,000", note: "Chef&apos;s full progression. 3.5 hours. Seasonal kaiseki opening.", incl: ["House sake pairing", "Tea ceremony close", "Signed menu card"] },
+                    { tier: (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Kuro Omakase")), courses: "12 courses", price: "¥88,000", note: "Chef's full progression. 3.5 hours. Seasonal kaiseki opening.", incl: ["House sake pairing", "Tea ceremony close", "Signed menu card"] },
                     { tier: "Umi Course", courses: "8 courses", price: "¥52,000", note: "Ocean-focused tasting, emphasising sashimi and shellfish.", incl: ["Wine pairing available", "À la carte additions", "Private dining option"] },
                     { tier: "Tsuki Dinner", courses: "5 courses", price: "¥32,000", note: "An introduction to the Kuro kitchen. Ideal for first visits.", incl: ["Non-alcoholic pairing", "Allergen-conscious menu", "Counter seating"] },
                  ].map((m, i) => (
@@ -418,7 +419,7 @@ export default function KuroOmakasePage() {
            ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
-           <span>© 2026 KURO OMAKASE GROUP. SILENCE IS FLAVOR.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+           <span>© 2026 {clientName(sessionData) ?? "KURO OMAKASE GROUP. SILENCE"} IS FLAVOR.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
            <div className="flex gap-12">
               <Link href="#contact" className="hover:text-white transition-all">KYOTO</Link>
               <Link href="#contact" className="hover:text-white transition-all">TOKYO</Link>

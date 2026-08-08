@@ -13,7 +13,10 @@ import {
 } from "framer-motion";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -59,7 +62,7 @@ function shadeColor(hex: string, percent: number): string {
 
 let C: Record<string, string> = {
   bg: "#0f0e0d",
-  champagne: "var(--brand,#e8d5a3)",
+  champagne: "#e8d5a3",
   ivory: "#faf8f3",
   terracotta: "#c4622d",
   terracottaLight: "#e08060",
@@ -930,7 +933,7 @@ export default function Impact175Page() {
               fontWeight: 500,
             }}
           >
-            Agence d'Événementiel · Paris · Monte-Carlo
+            Agence d'Événementiel · {clientCity(sessionData) ?? "Paris"} · Monte-Carlo
           </motion.div>
 
           <TextReveal immediate delay={0.5}>
@@ -943,9 +946,7 @@ export default function Impact175Page() {
                 lineHeight: 0.95,
                 letterSpacing: "-0.01em",
               }}
-            >{c?.heroHeadline ?? <>
-              Chaque instant
-            </>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 1, 14) ?? "Chaque instant"}</>}</h1>
           </TextReveal>
           <TextReveal immediate delay={0.65}>
             <h1
@@ -975,7 +976,7 @@ export default function Impact175Page() {
               margin: "0 auto 44px",
               lineHeight: 1.75,
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Nous créons des événements d'exception pour les maisons de prestige, les institutions et les particuliers exigeants.
           </>}</motion.p>
 
@@ -1656,7 +1657,7 @@ export default function Impact175Page() {
       >
         <div style={{ fontFamily: C.font, fontSize: 18, color: C.champagne }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Confluence Events"))}</div>
         <div style={{ fontFamily: C.fontSans, fontSize: 12, letterSpacing: "0.05em" }}>
-          © 2025 Confluence · {clientCity(sessionData) ?? "Paris"} · Monte-Carlo · info@confluence-events.fr{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2025 {clientName(sessionData) ?? "Confluence"} · {clientCity(sessionData) ?? "Paris"} · Monte-Carlo · {clientEmail(sessionData) ?? "info@confluence-events.fr"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </div>
       </footer>
     </div>

@@ -7,6 +7,8 @@ import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Zap } from "
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -257,7 +259,7 @@ export default function CabinetOsteopathiePage() {
           ) : (
             <>
               <Zap size={18} color={scrolled ? C.accent : "#fff"} />
-              <span style={{ fontFamily: FONT, fontSize: 21, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Cabinet"}<em>Équilibre</em></span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontSize: 21, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Cabinet"}<em>Équilibre</em></span>
             </>
           )}
         </div>
@@ -301,11 +303,10 @@ export default function CabinetOsteopathiePage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}16 0%, transparent 55%)` }} />
         <motion.div className="mb233-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            Retrouver l'équilibre<br /><em style={{color: brand ?? 'var(--brand,#7ec8e0)' }}>naturellement.</em>
+            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 21) ?? "Retrouver l'équilibre"}<br /><em style={{color: brand ?? 'var(--brand,#7ec8e0)' }}>{clientHeroLine(sessionData, 1, 2, 21) ?? "naturellement."}</em>
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Lucas Martin, ostéopathe D.O. à {clientCity(sessionData) ?? "Lyon"}. Prise en charge des douleurs du dos, articulations, migraines, nourrissons et sportifs. RDV disponible sous 48h.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>

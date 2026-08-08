@@ -13,7 +13,9 @@ import {
 import { ArrowRight, ChevronDown, Coffee, MapPin, Quote, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -701,12 +703,19 @@ function Hero() {
             margin: 'clamp(20px,2.4vw,34px) 0 0',
             textShadow: '0 14px 64px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 13) ?? (<>
           Pain vivant /{' '}
           <span style={{ color: C.accentLight, fontStyle: 'italic' }}>
             café vivant.
           </span>
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 13) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 13)}
+        </p>
+      )}
+
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

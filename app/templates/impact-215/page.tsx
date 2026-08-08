@@ -16,6 +16,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientReviews,
@@ -2227,15 +2229,13 @@ export default function FlammeEtCoPage() {
                 lineHeight: 1.12,
                 marginBottom: '1.25rem',
               }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>
               Réchauffez{' '}
               <span style={{
                 background: `linear-gradient(135deg, ${C.accent}, ${C.goldLight})`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-              }}>
-                votre intérieur
-              </span>
+              }}>{clientHeroLine(sessionData, 0, 1, 15) ?? "votre intérieur"}</span>
             </>}</>)}</motion.h1>
 
             <motion.p
@@ -2252,7 +2252,7 @@ export default function FlammeEtCoPage() {
                 maxWidth: '620px',
                 margin: '0 auto 2.5rem',
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Découvrez notre sélection de poêles à bois, poêles à granulés et cheminées design. 
               Expédition rapide, installation professionnelle, service après-vente réactif.
             </>}</motion.p>
@@ -2847,7 +2847,7 @@ export default function FlammeEtCoPage() {
                 ))}
               </div>
               <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem' }}>
-                © 2025 Flamme & Co · Tous droits réservés ·{' '}
+                © 2025 {clientName(sessionData) ?? "Flamme"} & Co · Tous droits réservés ·{' '}
                 {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<a href="/templates/impact-215" style={{ color: C.textMuted, textDecoration: 'underline' }}>Mentions légales</a>
                 {' · '}
                 <a href="/templates/impact-215" style={{ color: C.textMuted, textDecoration: 'underline' }}>CGV</a>

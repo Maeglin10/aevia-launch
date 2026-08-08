@@ -14,6 +14,8 @@ import { ArrowRight, ChevronDown, Heart, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -34,7 +36,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉO ATLANTIQUE — Cabinet d'Ostéopathie & Thérapies Manuelles · Nantes
+   OSTÉO ATLANTIQUE — Cabinet d'Ostéopathie & Thérapies Manuelles · {clientCity(sessionData) ?? "Nantes"}
    Chorégraphie de défilement éditoriale. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -629,7 +631,7 @@ function Hero() {
             margin: '28px 0 22px',
             textShadow: '0 12px 60px rgba(0,0,0,0.5)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 13) ?? (<>
           Retrouver{' '}
           <span style={{ fontStyle: 'normal', color: C.accentLight }}>/</span>
           <br />
@@ -648,10 +650,7 @@ function Hero() {
             maxWidth: 540,
             lineHeight: 1.65,
           }}
-        >
-          Un soin manuel précis et personnalisé pour que votre corps retrouve
-          sa liberté de mouvement.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Un soin manuel précis et personnalisé pour que votre corps retrouve sa liberté de mouvement."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}
@@ -2022,7 +2021,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2026 Ostéo Atlantique · {clientCity(sessionData) ?? "Nantes"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Ostéo Atlantique"} · {clientCity(sessionData) ?? "Nantes"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#reserver" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

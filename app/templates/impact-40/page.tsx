@@ -29,8 +29,11 @@ import {
 } from "lucide-react";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientAddress,
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -159,7 +162,7 @@ const seasonData: Record<
     icon: <Snowflake size={18} />,
     color: "#6ea8d0",
     items: [
-      { name: "Choux de Bruxelles", desc: "Tendres et légèrement sucrés après gelée", emoji: "🥦" },
+      { name: "Choux de " + (clientCity(sessionData) ?? "Bruxelles"), desc: "Tendres et légèrement sucrés après gelée", emoji: "🥦" },
       { name: "Carottes de sable", desc: "Extra-sucrées, élevées en pleine terre", emoji: "🥕" },
       { name: "Endives bressanes", desc: "Blanches et tendres, culture traditionnelle", emoji: "🌿" },
       { name: "Mâche", desc: "Douce et délicate, sans assaisonnement", emoji: "🥗" },
@@ -179,7 +182,7 @@ const testimonials_SOURCE = [
   },
   {
     name: "Chef Antoine Moreau",
-    role: "Restaurant L'Ardoise, Lyon",
+    role: "Restaurant L'Ardoise, " + (clientCity(sessionData) ?? "Lyon"),
     text: "En tant que chef, j'ai besoin de produits irréprochables. Terre Vivante est mon seul fournisseur de légumes depuis deux ans. La traçabilité et la fraîcheur sont incomparables.",
     rating: 5,
     avatar: "AM",
@@ -579,7 +582,7 @@ function SubscriptionModal({ plan, onClose }: { plan: PlanInfo; onClose: () => v
               </div>
               <div style={{ marginBottom: "1.75rem" }}>
                 <label htmlFor="sm-address" style={{ display: "block", fontFamily: C.bodyFont, fontSize: "0.78rem", fontWeight: 700, color: C.textLight, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.4rem" }}>Adresse de retrait / livraison</label>
-                <input id="sm-address" name="address" type="text" required placeholder="12 rue des Vignes, 69400 Villefranche" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, borderRadius: "0.7rem", padding: "0.85rem 1rem", fontSize: "0.9rem", fontFamily: C.bodyFont, outline: "none", color: C.text, background: C.white }} />
+                <input id="sm-address" name="address" type="text" required placeholder={clientAddress(sessionData) ?? "12 rue des Vignes, 69400 Villefranche"} style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, borderRadius: "0.7rem", padding: "0.85rem 1rem", fontSize: "0.9rem", fontFamily: C.bodyFont, outline: "none", color: C.text, background: C.white }} />
               </div>
 
               <button
@@ -893,9 +896,8 @@ export default function TerreVivantePage() {
               lineHeight: 1.08,
               marginBottom: "1.5rem",
             }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
-            De nos champs<br />
-            <span style={{ color: C.accent }}>à votre table</span>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 13) ?? "De nos champs"}<br />
+            <span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 13) ?? "à votre table"}</span>
           </>}</>)}</motion.h1>
 
           <motion.p
@@ -910,7 +912,7 @@ export default function TerreVivantePage() {
               margin: "0 auto 2.75rem",
               lineHeight: 1.8,
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Terre Vivante cultive 85 variétés de légumes, fruits et herbes dans le Beaujolais. Chaque panier raconte la saison, cueilli le matin même.
           </>}</motion.p>
 
@@ -1427,7 +1429,7 @@ export default function TerreVivantePage() {
               </p>
               <div style={{ marginTop: "1.75rem", display: "flex", flexDirection: "column", gap: "0.55rem" }}>
                 {[
-                  { icon: <MapPin size={13} />, text: "Route de Belleville, 69220 Lancié" },
+                  { icon: <MapPin size={13} />, text: (clientAddress(sessionData) ?? "Route de Belleville, 69220 Lancié") },
                   { icon: <Phone size={13} />, text: (fd?.phone ?? "04 74 66 08 31") },
                   { icon: <Mail size={13} />, text: (fd?.email ?? "contact@terrevivante.fr") },
                 ].map((item) => (

@@ -7,6 +7,8 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Code2, Phone, Mail, MapPin, Star, CheckCircle, ArrowRight, Layers, Sparkles, Globe } from "lucide-react"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -42,7 +44,7 @@ let C: Record<string, string> = {
   bgDark: "#0f172a",
   bgSection: "#f1f5f9",
   text: "#0f172a",
-  textMuted: "var(--brand,#64748b)",
+  textMuted: "#64748b",
   accent: "var(--brand-light,#6366f1)",
   accentDark: "#4f46e5",
   accentLight: "#e0e7ff",
@@ -263,7 +265,7 @@ export default function PixelRepublicPage() {
               <div style={{ width: 32, height: 32, background: `linear-gradient(135deg, ${C.accent}, ${C.violet2})`, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Code2 size={16} color="#fff" />
               </div>
-              <span style={{ fontSize: 18, fontWeight: 700, color: scrolled ? C.text : "#fff" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Pixel<span style={{ color: C.accent }}>Republic</span></>)}</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 700, color: scrolled ? C.text : "#fff" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Pixel<span style={{ color: C.accent }}>Republic</span></>)}</span>
             </>
           )}
         </div>
@@ -318,12 +320,11 @@ export default function PixelRepublicPage() {
 
         <motion.div className="imx25-hero-content md:!px-20" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.5vw, 72px)", fontWeight: 700, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
-            Votre présence digitale,<br /><span style={{ background: `linear-gradient(135deg, ${C.accent}, ${C.violet2})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>enfin à votre niveau.</span>
+            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.5vw, 72px)", fontWeight: 700, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 24) ?? "Votre présence digitale,"}<br /><span style={{ background: `linear-gradient(135deg, ${C.accent}, ${C.violet2})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{clientHeroLine(sessionData, 1, 2, 24) ?? "enfin à votre niveau."}</span>
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Pixel Republic crée des sites web, applications et identités visuelles qui convertissent. Stratégie, design, développement — une seule équipe, de A à Z.
           </>}</motion.p>
 

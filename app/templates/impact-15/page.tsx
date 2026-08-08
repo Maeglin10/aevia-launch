@@ -7,6 +7,8 @@ import { Zap, Phone, Mail, MapPin, Clock, CheckCircle, Star, ArrowRight, Shield,
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -39,7 +41,7 @@ let C: Record<string, string> = {
   bg: "#f7f8fa",
   bgSection: "#eef1f5",
   text: "#0f1c2e",
-  textMuted: "var(--brand,#5a6a7e)",
+  textMuted: "#5a6a7e",
   accent: "var(--brand-light,#f59e0b)",
   accentDark: "#d97706",
   accentLight: "#fef3c7",
@@ -302,12 +304,11 @@ return (
 
         <motion.div style={{ position: "relative", zIndex: 1, padding: "96px 24px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }} className="md:!px-20">
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontSize: "clamp(40px, 5.5vw, 72px)", fontWeight: 800, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            Votre piscine,<br /><span style={{ color: C.accent }}>sans mauvaise surprise.</span>
+            style={{ fontSize: "clamp(40px, 5.5vw, 72px)", fontWeight: 800, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 23) ?? "Votre piscine,"}<br /><span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 23) ?? "sans mauvaise surprise."}</span>
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Construction, rénovation, sécurité et entretien de piscines à {clientCity({ formData: fd }) ?? "Toulouse"} et agglomération. Du bassin béton sur-mesure au contrat d'entretien — devis gratuit sous 48h.
           </>}</motion.p>
 

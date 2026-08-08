@@ -20,6 +20,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientServices,
@@ -289,14 +291,10 @@ export default function MorphStudioPage() {
             
             <div className="relative z-10">
               <Reveal>
-                <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter leading-none text-white mb-8">{c?.heroHeadline ?? <>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#22d3ee)] to-purple-500">
-                    MORPH
-                  </span><br/>
-                  STUDIO.
-                </>}</h1>
+                <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter leading-none text-white mb-8">{<>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#22d3ee)] to-purple-500">{clientHeroLine(sessionData, 0, 2, 7) ?? "MORPH"}</span><br/>{clientHeroLine(sessionData, 1, 2, 7) ?? "STUDIO."}</>}</h1>
                 
-                <p className="max-w-xl text-lg md:text-xl text-zinc-400 leading-relaxed mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="max-w-xl text-lg md:text-xl text-zinc-400 leading-relaxed mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   {MANIFEST.hero.desc}
                 </>}</p>
                 
@@ -567,7 +565,7 @@ export default function MorphStudioPage() {
         </div>
 
         <div className="max-w-[1600px] mx-auto border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600">
-          <div>© 2026 MORPH STUDIO INC.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
+          <div>© 2026 {clientName(sessionData) ?? "MORPH STUDIO INC."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
             ALL SYSTEMS NOMINAL

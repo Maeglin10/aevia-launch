@@ -196,7 +196,7 @@ export default function VelvetLayout({
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
-          <span>© {new Date().getFullYear()} VELVET NIGHT GLOBAL COMMISSIONS. THE NIGHT IS ETERNAL.</span>
+          <span>© {new Date().getFullYear()} {clientName(__layoutSession) ?? "VELVET NIGHT GLOBAL COMMISSIONS."} THE NIGHT IS ETERNAL.</span>
           <div className="flex gap-12">
             <Link href="/templates/impact-70/legal" className="hover:text-white transition-all underline decoration-[#ff00ff]/20" style={{ textDecoration: "none" }}>SLA: NOMINAL</Link>
             <Link href="/templates/impact-70/legal" className="hover:text-white transition-all underline decoration-[#ff00ff]/20" style={{ textDecoration: "none" }}>DRESS_CODE: BLACK_TIE</Link>

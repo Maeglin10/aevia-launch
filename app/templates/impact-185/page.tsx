@@ -9,11 +9,14 @@ import { Scissors, Star, Phone, MapPin, Clock, ChevronRight, Shield, Calendar, M
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -25,7 +28,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   GENTLEMAN'S CUT — Barbier premium (Bordeaux)
+   GENTLEMAN'S CUT — Barbier premium ({clientCity(sessionData) ?? "Bordeaux"})
    Palette : noir encre #0a0908 / or vintage #c9a84c / ivoire #f5f0e8 / charcoal #1e1c1a
    Fonts : Playfair Display (titres) + DM Mono (labels)
    Style : éditorial masculin, premium, brasserie chic, contrasté
@@ -364,21 +367,19 @@ export default function GentlemansCutPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-10">
               <div className="w-12 h-[1px] bg-[var(--brand,#c9a84c)]/60" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c9a84c)]/70" style={{ fontFamily: "'DM Mono', monospace" }}>Barbier Traditionnel · {clientCity({ formData: fd }) ?? "Bordeaux"}</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c9a84c)]/70" style={{ fontFamily: "'DM Mono', monospace" }}>{clientTrade(sessionData) ?? "Barbier"} Traditionnel · {clientCity({ formData: fd }) ?? "Bordeaux"}</span>
             </div>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-6xl md:text-8xl lg:text-[96px] font-bold leading-[0.85] tracking-tight mb-3 text-[#f5f0e8]">{c?.heroHeadline ?? <>
-            The Art
-          </>}</motion.h1>
+            className="text-6xl md:text-8xl lg:text-[96px] font-bold leading-[0.85] tracking-tight mb-3 text-[#f5f0e8]">{<>{clientHeroLine(sessionData, 0, 1, 7) ?? "The Art"}</>}</motion.h1>
           <motion.h1 initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
             className="text-6xl md:text-8xl lg:text-[96px] font-bold italic leading-[0.85] tracking-tight mb-10 text-[var(--brand,#c9a84c)]">
             of Grooming.
           </motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-sm text-sm text-[#f5f0e8]/30 leading-relaxed mb-12" style={{ fontFamily: "'DM Mono', monospace", fontStyle: "normal" }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-sm text-sm text-[#f5f0e8]/30 leading-relaxed mb-12" style={{ fontFamily: "'DM Mono', monospace", fontStyle: "normal" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Coupe au ciseau, rasage droit, taille de barbe. Techniques ancestrales, produits artisanaux, précision chirurgicale.
           </>}</motion.p>
 
@@ -608,7 +609,7 @@ export default function GentlemansCutPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2.5 mb-5"><Scissors className="w-4 h-4 text-[var(--brand,#c9a84c)]" /><span className="font-bold text-[#f5f0e8] text-sm">Gentleman's Cut</span></div>
-            <p className="text-[#f5f0e8]/15 text-sm leading-relaxed" style={{ fontFamily: "'DM Mono', monospace" }}>Barbier traditionnel à {clientCity({ formData: fd }) ?? "Bordeaux"}. Coupe, rasage, barbe. Depuis 2011.</p>
+            <p className="text-[#f5f0e8]/15 text-sm leading-relaxed" style={{ fontFamily: "'DM Mono', monospace" }}>{clientTrade(sessionData) ?? "Barbier"} traditionnel à {clientCity({ formData: fd }) ?? "Bordeaux"}. Coupe, rasage, barbe. Depuis 2011.</p>
           </div>
           {[
             { t: "Services", ls: ["Coupe classique", "Rasage traditionnel", "Combo barbe + coupe", "Taille de barbe", "Coloration & gris"] },
@@ -624,7 +625,7 @@ export default function GentlemansCutPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#c9a84c)]/6 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f5f0e8]/8" style={{ fontFamily: "'DM Mono', monospace" }}>
-          <span>© 2026 Gentleman's Cut · SIRET 890 123 456 00078 · {clientCity({ formData: fd }) ?? "Bordeaux"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Gentleman's Cut"} · SIRET 890 123 456 00078 · {clientCity({ formData: fd }) ?? "Bordeaux"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#c9a84c)]/20">The Art of Grooming</span>
         </div>
       </footer>

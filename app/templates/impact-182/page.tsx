@@ -10,6 +10,9 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -29,7 +32,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   BÂTIR SOLIDE — Maçon & Gros Œuvre (Marseille)
+   BÂTIR SOLIDE — Maçon & Gros Œuvre ({clientCity(sessionData) ?? "Marseille"})
    Palette : sable chaud #d4a96a / brun terre #5c3317 / blanc cassé / ardoise
    Fonts : Barlow (titres condensed bold) + Source Sans (corps)
    Style : puissant, artisanal, solide, méditerranéen
@@ -191,7 +194,7 @@ export default function BatirSolidePage() {
       l: r.location ?? "",
     })),
     [
-      { q: "Extension de 40 m² réalisée en 3 mois top chrono. Qualité béton irréprochable, finitions soignées, aucun dépassement budget. Chapeau.", n: "Jean-Pierre M.", l: "Marseille 12ème" },
+      { q: "Extension de 40 m² réalisée en 3 mois top chrono. Qualité béton irréprochable, finitions soignées, aucun dépassement budget. Chapeau.", n: "Jean-Pierre M.", l: (clientCity(sessionData) ?? "Marseille") + " 12ème" },
       { q: "Suppression d'un mur porteur de 6m avec IPN. Bâtir Solide a géré l'étude de structure et les travaux. Parfait, aucune fissure, résultat propre.", n: "Nathalie & Frédéric D.", l: "Aix-en-Provence" },
       { q: "Ravalement ITE de notre immeuble 6 logements. Dossier MaPrimeRénov' entièrement géré par l'équipe. Économies énergétiques bluffantes.", n: "Syndicat copropriété Les Pins", l: "Aubagne (13)" },
     ]
@@ -225,7 +228,7 @@ export default function BatirSolidePage() {
             ) : (
               <>
                 <HardHat className="w-6 h-6 text-[var(--brand,#d4a96a)]" />
-                <span className="font-black text-lg tracking-wide text-white uppercase">{clientName(sessionData) ?? "Bâtir"}<span className="text-[var(--brand,#d4a96a)]">Solide</span></span>
+                <span className="font-black text-lg tracking-wide text-white uppercase">{clientName(sessionData) ?? "Bâtir"}{!clientName(sessionData) && <span className="text-[var(--brand,#d4a96a)]">Solide</span>}</span>
               </>
             )}
           </div>
@@ -266,17 +269,17 @@ export default function BatirSolidePage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-6">
               <div className="w-10 h-[2px] bg-[var(--brand,#d4a96a)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a96a)]">Maçon & Gros Œuvre · Région PACA</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a96a)]">{clientEyebrow(sessionData) ?? "Maçon & Gros Œuvre · Région PACA"}</span>
             </div>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
-            className="text-6xl md:text-8xl lg:text-[9rem] font-black leading-[0.85] tracking-tighter mb-9 uppercase text-white">{c?.heroHeadline ?? <>
-            On construit<br />pour <span className="text-[var(--brand,#d4a96a)]">durer.</span>
+            className="text-6xl md:text-8xl lg:text-[9rem] font-black leading-[0.85] tracking-tighter mb-9 uppercase text-white">{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "On construit"}<br />{clientHeroLine(sessionData, 1, 3, 12) ?? "pour"}{" "}<span className="text-[var(--brand,#d4a96a)]">{clientHeroLine(sessionData, 2, 3, 12) ?? "durer."}</span>
           </>}</motion.h1>
 
+
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Gros œuvre, extensions, ravalement, fondations. Artisan maçon qualifié Qualibat, 25 ans d'expérience sur la région PACA. Garantie décennale, devis gratuit sous 48h.
           </>}</motion.p>
 
@@ -465,7 +468,7 @@ export default function BatirSolidePage() {
           {[
             { t: "Savoir-faire", ls: ["Gros œuvre", "Extensions", "Ravalement ITE", "Rénovation structurelle", "Dallage & terrassement"] },
             { t: "Certifications", ls: ["Qualibat 3311", "Garantie Décennale", "RGE ITE", "MaPrimeRénov' éligible", "Assurance civile"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 91 23 45 67"), (fd?.email ?? "devis@batirsolide.fr"), "Marseille & PACA", "Lundi-Vendredi 7h-18h", "Devis gratuit 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 91 23 45 67"), (fd?.email ?? "devis@batirsolide.fr"), (clientCity(sessionData) ?? "Marseille") + " & PACA", "Lundi-Vendredi 7h-18h", "Devis gratuit 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a96a)] mb-5">{col.t}</h4>
@@ -476,7 +479,7 @@ export default function BatirSolidePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 Bâtir Solide · SIRET 567 890 123 00045 · Qualibat 3311 · Assurance Décennale SMABTP{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Bâtir Solide"} · SIRET 567 890 123 00045 · Qualibat 3311 · Assurance Décennale SMABTP{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#d4a96a)]/30">Maçon certifié · Région PACA</span>
         </div>
       </footer>

@@ -1,7 +1,9 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
+  clientHeroLine,
   clientHours,
   clientName,
   clientPhotos,
@@ -926,9 +928,9 @@ return (
                 letterSpacing: "-0.02em",
                 margin: 0,
               }}
-            >{c?.heroHeadline ?? <>
+            >{c?.heroHeadline ?? <>{clientHeroLine(sessionData, 0, 2, 10) ?? (<>
               Cucina
-            </>}</motion.h1>
+            </>)}</>}</motion.h1>
           </div>
           <div style={{ overflow: "hidden", marginBottom: 36 }}>
             <motion.h1
@@ -945,9 +947,9 @@ return (
                 letterSpacing: "-0.02em",
                 margin: 0,
               }}
-            >
+            >{clientHeroLine(sessionData, 1, 2, 10) ?? (<>
               Autentica.
-            </motion.h1>
+            </>)}</motion.h1>
           </div>
 
           <motion.p
@@ -963,7 +965,7 @@ return (
               maxWidth: 500,
               margin: "0 auto 48px",
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientAccrocheRestante(sessionData, 2, 10) ?? c?.heroSubline ?? <>
             A celebration of Roman culinary heritage — sourced daily from Campo de' Fiori, prepared with the rigor of a centuries-old tradition.
           </>}</motion.p>
 
@@ -2041,7 +2043,7 @@ return (
               letterSpacing: "0.1em",
             }}
           >
-            <span>© {new Date().getFullYear()} Ristorante Aureliano. Tutti i diritti riservati.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© {new Date().getFullYear()} {clientName(sessionData) ?? "Ristorante Aureliano."} Tutti i diritti riservati.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
             <div style={{ display: "flex", gap: 28 }}>
               {["Privacy Policy", "Cookie", "Legal"].map((l) => (
                 <a

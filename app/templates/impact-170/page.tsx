@@ -14,6 +14,8 @@ import {
 } from "framer-motion";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientReviews,
@@ -62,7 +64,7 @@ let C: Record<string, string> = {
   surface: "#131720",
   card: "#181f2d",
   cardBorder: "#1e2a3a",
-  green: "var(--brand,#00ff41)",
+  green: "#00ff41",
   greenDim: "rgba(0,255,65,0.12)",
   greenGlow: "rgba(0,255,65,0.08)",
   cyan: "#00e5ff",
@@ -186,7 +188,7 @@ const TERMINAL_LINES = [
   { delay: 3.6, text: "$ node --version && npx tsc --version", color: C.green },
   { delay: 4.0, text: "v22.4.0  TypeScript 5.5.3", color: C.text },
   { delay: 4.6, text: "$ echo $AVAILABLE_FOR_WORK", color: C.green },
-  { delay: 5.0, text: "true — open to senior / staff positions (remote preferred)", color: "var(--brand,#00ff41)" },
+  { delay: 5.0, text: "true — open to senior / staff positions (remote preferred)", color: "#00ff41" },
   { delay: 5.6, text: "$ _", color: C.green },
 ];
 
@@ -1142,7 +1144,7 @@ export default function Impact170Page() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
-              <span style={{ opacity: 0.5 }}>{clientName({ formData: fd })}</span>
+              <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  opacity: 0.92 }}>{clientName({ formData: fd })}</span>
             ) : (<>
             <>
           rafael.moreau<span style={{ opacity: 0.5 }}>@dev</span>
@@ -1389,10 +1391,8 @@ export default function Impact170Page() {
                   lineHeight: 1.1,
                   letterSpacing: "-0.02em",
                 }}
-              >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-                Rafaël
-                <br />
-                <span style={{ color: C.green }}>Moreau</span>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 6) ?? "Rafaël"}<br />
+                <span style={{ color: C.green }}>{clientHeroLine(sessionData, 1, 2, 6) ?? "Moreau"}</span>
               </>}</>)}</h1>
             </TextReveal>
 
@@ -1423,7 +1423,7 @@ export default function Impact170Page() {
                 marginBottom: 40,
                 maxWidth: 480,
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               8 ans d'expérience sur des systèmes distribués à haute disponibilité.
               Je construis des APIs qui tiennent à l'échelle, des frontends qui se
               chargent en 80ms, et des équipes qui livrent sans drama.

@@ -24,8 +24,11 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -47,7 +50,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SCHREIBER & ASSOCIÉS — Expert-comptable & commissaires aux comptes
+   SCHREIBER & ASSOCIÉS — Expert-comptable & commissaires aux comptes{" "}
    {clientCity(sessionData) ?? "Strasbourg"} Neudorf · Alsace-Moselle
    Page premium auto-suffisante. 'use client'. Framer Motion + Lucide React.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -543,7 +546,7 @@ function HeroSection() {
             textShadow: '0 10px 50px rgba(0,0,0,0.42)',
             maxWidth: 960,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 21) ?? (<>
           La rigueur au service{' '}
           <span style={{ fontStyle: 'italic', color: 'rgba(232,240,248,0.9)' }}>
             de votre réussite
@@ -562,11 +565,7 @@ function HeroSection() {
             lineHeight: 1.65,
             fontWeight: 400,
           }}
-        >
-          Depuis 28 ans, nous accompagnons les TPE et PME d&apos;Alsace dans leur
-          comptabilité, leur fiscalité et leur développement. Experts du droit local
-          Alsace-Moselle.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Depuis 28 ans, nous accompagnons les TPE et PME d'Alsace dans leur comptabilité, leur fiscalité et leur développement. Experts du droit local Alsace-Moselle."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}
@@ -2344,7 +2343,7 @@ function FooterSection() {
       items: [
         { label: 'Diagnostic gratuit', href: '#contact' },
         { label: '03 88 XX XX XX', href: 'tel:+33388000000' },
-        { label: fd?.email ?? 'contact@schreiber-ec.fr', href: `mailto:${fd?.email ?? 'contact@schreiber-ec.fr'}` },
+        { label: (clientEmail(sessionData) ?? 'contact@schreiber-ec.fr'), href: `mailto:${clientEmail(sessionData) ?? 'contact@schreiber-ec.fr'}` },
         { label: `14 rue de Neudorf, ${clientCity(sessionData) ?? "Strasbourg"}`, href: '#contact' },
       ],
     },

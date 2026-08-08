@@ -42,6 +42,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -338,13 +340,13 @@ export default function Page() {
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 900, margin: '0 auto', padding: '0 24px', textAlign: 'center' }}>
           <Reveal delay={0.25}>
             <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(36px, 6vw, 78px)', lineHeight: 1.08, fontWeight: 700, color: C.white, marginBottom: 20, textShadow: '0 4px 20px rgba(0,0,0,0.5)' }}>
-              {c?.heroHeadline ?? <>Nettoyage extrême<br />après sinistre & chantier</>}
+              {<>{clientHeroLine(sessionData, 0, 2, 13) ?? "Nettoyage extrême"}<br />{clientHeroLine(sessionData, 1, 2, 13) ?? "après sinistre & chantier"}</>}
             </h1>
           </Reveal>
 
           <Reveal delay={0.4}>
             <p style={{ fontSize: 'clamp(15px, 1.6vw, 19px)', lineHeight: 1.6, color: 'rgba(255,255,255,0.8)', maxWidth: 650, margin: '0 auto 36px' }}>
-              {fd?.tagline ?? c?.heroSubline ?? "Intervention rapide 24h/24. Dégât des eaux, incendie, fin de chantier, décontamination. Équipement professionnel et protocoles certifiés."}
+              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Intervention rapide 24h/24. Dégât des eaux, incendie, fin de chantier, décontamination. Équipement professionnel et protocoles certifiés."}
             </p>
           </Reveal>
 
@@ -456,7 +458,7 @@ export default function Page() {
                   {c?.aboutTitle ?? "Spécialistes des situations critiques"}
                 </h2>
                 <p style={{ fontSize: 15, lineHeight: 1.7, color: C.textMuted, marginBottom: 20 }}>
-                  {c?.aboutText ?? "Nettoyage Extrême intervient dans les situations où le nettoyage classique ne suffit plus. Après un sinistre, un incendie ou un chantier, nos équipes formées aux protocoles de décontamination restaurent vos locaux à l'état d'origine."}
+                  {c?.aboutText ?? "Nettoyage Extrême intervient dans les situations où le nettoyage classique ne suffit plus. Après'un sinistre, un incendie ou un chantier, nos équipes formées aux protocoles de décontamination restaurent vos locaux à l'état d'origine."}
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 32 }}>
                   {["Intervention < 2h en zone urbaine", "Matériel professionnel haute capacité", "Rapport d'intervention pour assurances", "Protocoles EN 14476 certifiés", "Équipes formées risques chimiques"].map((item, i) => (
@@ -642,7 +644,7 @@ export default function Page() {
             </div>
           </div>
           <div style={{ paddingTop: 32, borderTop: `1px solid ${C.primary}12`, textAlign: 'center', fontSize: 11.5, letterSpacing: '0.05em' }}>
-            © {new Date().getFullYear()} Nettoyage Extrême. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Nettoyage Extrême."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

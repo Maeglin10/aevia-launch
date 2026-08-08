@@ -10,6 +10,8 @@ import { Menu, X, ArrowRight, Film, Camera, ChevronRight, Award, Globe, Users, P
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -123,7 +125,7 @@ function filmsCatalogue_LIVE() {
     synopsis: "Un restaurateur d'art du Louvre découvre, sous les couches de vernis d'un tableau du XVIIe siècle, un portrait caché qui ressemble troublement à sa fille disparue. La frontière entre l'œuvre et la réalité se brouille dans ce thriller psychologique intimiste tourné dans les couloirs déserts du musée, entre fermeture et ouverture.",
     cast: ["Denis Lavant — Michel Fauré, restaurateur", "Lyna Khoudri — Inès, la fille disparue", "Isabelle Huppert — La conservatrice en chef"],
     crew: "Réalisé par Romain Music · Directeur de la photographie : Christophe Beaucarne · Musique : Rone · Décors : Katia Wyszkop",
-    festivals: ["César 2024 — Nommé Meilleur Court-Métrage", "Festival de Cannes 2024 — Quinzaine des Cinéastes", "Annecy Cinéma Espagnol & Italien 2024 — Prix Spécial"],
+    festivals: ["César 2024 — Nommé Meilleur Court-Métrage", "Festival de Cannes 2024 — Quinzaine des Cinéastes", (clientCity(sessionData) ?? "Annecy") + " Cinéma Espagnol & Italien 2024 — Prix Spécial"],
   },
   {
     title: "Mémoire Vive",
@@ -131,10 +133,10 @@ function filmsCatalogue_LIVE() {
     year: "2023",
     duration: "6 × 52 min",
     src: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600&q=80"),
-    synopsis: "Lyon, 2043. La mémoire des défunts peut désormais être téléchargée et implantée. Alma, archiviste dans une clinique de mémoire, découvre que certains souvenirs ont été falsifiés à grande échelle. Sa quête de vérité l'entraîne dans une conspiration qui remet en question la notion même d'identité. Thriller d'anticipation ancré dans un réalisme social, la série interroge notre rapport au deuil, à la vérité et à la manipulation numérique.",
+    synopsis: (clientCity(sessionData) ?? "Lyon") + ", 2043. La mémoire des défunts peut désormais être téléchargée et implantée. Alma, archiviste dans une clinique de mémoire, découvre que certains souvenirs ont été falsifiés à grande échelle. Sa quête de vérité l'entraîne dans une conspiration qui remet en question la notion même d'identité. Thriller d'anticipation ancré dans un réalisme social, la série interroge notre rapport au deuil, à la vérité et à la manipulation numérique.",
     cast: ["Vicky Krieps — Alma Renoir", "Tahar Rahim — Karim Ziani, enquêteur", "Virginie Efira — Dr. Hélène Vasseur", "Pio Marmaï — Lucas, le frère d'Alma", "Aïssa Maïga — Commandante Diallo"],
     crew: "Créée par Julien Ferraro & Nina Music · Réalisée par Julien Ferraro (épisodes 1-3) et Houda Benyamina (épisodes 4-6) · Directeur de la photographie : Julien Hirsch · Musique : Gesaffelstein",
-    festivals: ["Festival Séries Mania 2023 — Prix Spécial du Jury", "MIPCOM Cannes 2023 — Série Française de l'Année", "Festival de la Fiction de La Rochelle 2023 — Grand Prix"],
+    festivals: ["Festival Séries Mania 2023 — Prix Spécial du Jury", "MIPCOM Cannes 2023 — Série Française de l'Année", "Festival de la Fiction de " + (clientCity(sessionData) ?? "La Rochelle") + " 2023 — Grand Prix"],
   },
 ];
 }
@@ -234,28 +236,13 @@ export default function StudioPelikanPage() {
     setMobileOpen(false);
   };
 
-  const navItems: { label: string; target: ActivePage }[] = resolveList(
-    clientStats(sessionData)?.map((s: any, i: number) => ({ ...([
+  const navItems: { label: string; target: ActivePage }[] = [
     { label: "Films", target: "films" },
     { label: "Services", target: "services" },
     { label: "À propos", target: "propos" },
     { label: "Presse", target: "propos" },
     { label: "Contact", target: "home" },
-  ])[i % ([
-    { label: "Films", target: "films" },
-    { label: "Services", target: "services" },
-    { label: "À propos", target: "propos" },
-    { label: "Presse", target: "propos" },
-    { label: "Contact", target: "home" },
-  ]).length], target: s.value, label: s.label })),
-    [
-    { label: "Films", target: "films" },
-    { label: "Services", target: "services" },
-    { label: "À propos", target: "propos" },
-    { label: "Presse", target: "propos" },
-    { label: "Contact", target: "home" },
-  ],
-  );
+  ];
 
   const { scrollYProgress } = useScroll();
   const heroRef = useRef(null);
@@ -337,13 +324,12 @@ export default function StudioPelikanPage() {
                   <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Société de production · {clientCity(sessionData) ?? "Paris"}</p>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>
-                    Studio<br /><em>Pelikan</em>
+                  <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{<>{clientHeroLine(sessionData, 0, 2, 7) ?? "Studio"}<br /><em>{clientHeroLine(sessionData, 1, 2, 7) ?? "Pelikan"}</em>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <p className="text-white/50 text-lg max-w-sm">{fd?.tagline ?? c?.heroSubline ?? <>Cinéma d&apos;auteur, documentaire, série. Depuis 2012, nous produisons des œuvres qui voyagent.</>}</p>
+                    <p className="text-white/50 text-lg max-w-sm">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>Cinéma d&apos;auteur, documentaire, série. Depuis 2012, nous produisons des œuvres qui voyagent.</>}</p>
                     <button onClick={() => goTo("films")} className="shrink-0 border border-[var(--brand,#C9A05A)]/40 text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[var(--brand,#C9A05A)] hover:text-black transition-all cursor-pointer flex items-center gap-2">
                       <Play className="w-3 h-3 fill-current" /> Voir la bande démo
                     </button>
@@ -1031,7 +1017,7 @@ export default function StudioPelikanPage() {
             <button onClick={() => goTo("films")} className="hover:text-[var(--brand,#C9A05A)] transition-colors cursor-pointer">Films</button>
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#C9A05A)] transition-colors cursor-pointer">Mentions légales</button>
           </div>
-          <span>© 2026 Studio Pelikan. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Studio Pelikan."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         </div>
       </footer>
     </div>

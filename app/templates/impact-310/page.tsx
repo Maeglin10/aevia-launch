@@ -46,11 +46,14 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -85,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   JARDINS DE L'HÉRAULT — Paysagiste méditerranéen Montpellier — espèces locales, irrigation, terrasses. Fraunces, olive / sable.
+   JARDINS DE L'HÉRAULT — Paysagiste méditerranéen {clientCity(sessionData) ?? "Montpellier"} — espèces locales, irrigation, terrasses. Fraunces, olive / sable.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -367,7 +370,7 @@ export default function Page() {
 
   const GALLERY_DEMO = [PHOTO.gallery1, PHOTO.gallery2, PHOTO.gallery3, PHOTO.gallery4];
   const GALLERY = resolveList(
-    bp?.beforeAfter?.map((r: any) => r.afterUrl || r.beforeUrl || r.imageUrl),
+    bp?.beforeAfter?.map((r: any) => r.afterUrl || r.beforeUrl || r.imageUrl)?.filter(Boolean),
     GALLERY_DEMO
   );
 return (
@@ -555,9 +558,7 @@ return (
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Jardins<br />Méditerranéens
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Jardins"}<br />{clientHeroLine(sessionData, 1, 2, 14) ?? "Méditerranéens"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -568,8 +569,8 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
-              Espèces locales, irrigation économe, terrasses. Paysagiste {clientCity(sessionData) ?? "Montpellier"}.
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              Espèces locales, irrigation économe, terrasses. {clientTrade(sessionData) ?? "Paysagiste"} {clientCity(sessionData) ?? "Montpellier"}.
             </>}</p>
           </Reveal>
 
@@ -1394,7 +1395,7 @@ return (
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Jardins de l'Hérault"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Paysagiste méditerranéen {clientCity(sessionData) ?? "Montpellier"}
+                {clientTrade(sessionData) ?? "Paysagiste"} méditerranéen {clientCity(sessionData) ?? "Montpellier"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1438,7 +1439,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Jardins de l'Hérault. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Jardins"} de l'Hérault. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

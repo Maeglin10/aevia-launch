@@ -15,7 +15,9 @@ import Link from "next/link";
 import { C, F, projects, teamMembers, processSteps } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
+  clientHeroLine,
   clientList,
   clientServices,
   clientStats,
@@ -369,13 +371,20 @@ function HeroSection() {
               letterSpacing: '-0.03em',
               margin: '0 0 32px',
             }}
-          >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+          >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 8) ?? (<>
             Space
             <br />
             <span style={{ color: C.accent }}>Defines</span>
             <br />
             Culture.
           </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 8) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 8)}
+        </p>
+      )}
+
 
           <motion.p
             initial={{ opacity: 0, y: 24 }}

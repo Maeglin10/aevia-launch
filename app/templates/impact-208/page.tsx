@@ -19,6 +19,8 @@ import {
 } from "@/lib/templates/hero-kit";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientList,
   clientName,
@@ -316,8 +318,7 @@ function BlueprintHero() {
               margin: "0 0 20px",
               transformOrigin: "left center",
             }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            Bâtir ce qui<br /><span style={{ color: C.yellow }}>tient debout</span>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 12) ?? "Bâtir ce qui"}<br /><span style={{ color: C.yellow }}>{clientHeroLine(sessionData, 1, 2, 12) ?? "tient debout"}</span>
           </>}</>)}</motion.h1>
 
           <motion.p
@@ -326,7 +327,7 @@ function BlueprintHero() {
             transition={{ duration: 0.55, ease: EASE_3, delay: BEAT.second }}
             className="hero-lede"
             style={{ fontFamily: FONT_BODY, fontSize: 16, color: `${C.cream}a6`, lineHeight: 1.7, maxWidth: 480, margin: "0 0 30px" }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Gros œuvre, infrastructure et immobilier d’entreprise. 347 chantiers livrés, aucun litige de réception depuis 2011.
           </>}</motion.p>
 
@@ -2021,7 +2022,7 @@ export default function Page() {
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
   );
-  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  STATS = resolveList(clientStats(sessionData)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, "") })), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, yellow: brand };

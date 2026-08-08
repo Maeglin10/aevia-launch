@@ -1,5 +1,8 @@
 "use client";
-import { clientCityOr } from "@/lib/templates/clientContent";
+import {
+  clientAddress,
+  clientCityOr,
+} from "@/lib/templates/clientContent";
 
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
@@ -77,7 +80,7 @@ export const seasonData: Record<
     icon: <Snowflake size={18} />,
     color: "#6ea8d0",
     items: [
-      { name: "Choux de Bruxelles", desc: "Tendres et légèrement sucrés après gelée", emoji: "🥦" },
+      { name: "Choux de " + clientCityOr("Bruxelles"), desc: "Tendres et légèrement sucrés après gelée", emoji: "🥦" },
       { name: "Carottes de sable", desc: "Extra-sucrées, élevées en pleine terre", emoji: "🥕" },
       { name: "Endives bressanes", desc: "Blanches et tendres, culture traditionnelle", emoji: "🌿" },
       { name: "Mâche", desc: "Douce et délicate, sans assaisonnement", emoji: "🥗" },

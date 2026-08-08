@@ -1,5 +1,7 @@
 "use client";
-import { clientCityOr } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+} from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
@@ -116,7 +118,7 @@ export const COLLECTIONS = [
         stone: "Cadran squelette laqué",
         metal: "Or gris 18k",
         gem: "amethyst",
-        desc: "Architecture squelette ouverte révélant le Calibre AH-14. Décor côtes de Genève poli à la main, 40h de réserve.",
+        desc: "Architecture squelette ouverte révélant le Calibre AH-14. Décor côtes de " + clientCityOr("Genève") + " poli à la main, 40h de réserve.",
         limited: false,
       },
     ],
@@ -193,7 +195,7 @@ export const TESTIMONIALS = [
   },
   {
     name: "Ibrahim Al-Rashidi",
-    role: "Ambassadeur, Genève",
+    role: "Ambassadeur, " + clientCityOr("Genève"),
     note: 5,
     text: "Aurelius Heritage est l'une des rares maisons à allier l'excellence horlogère suisse à l'art de la joaillerie française. Unique.",
     piece: "Solstice Dame",
@@ -258,7 +260,7 @@ export const TEAM = [
   {
     name: "Viktor Brandt",
     role: "Maître Horloger",
-    bio: "Ancien chef d'atelier chez Patek Philippe. Membre de l'Académie Horlogère de Genève. Spécialiste des complications grands feux.",
+    bio: "Ancien chef d'atelier chez Patek Philippe. Membre de l'Académie Horlogère de " + clientCityOr("Genève") + ". Spécialiste des complications grands feux.",
     exp: "34 ans",
   },
   {

@@ -73,12 +73,12 @@ export const REVIEWS = [
   {
     author: "Sophie L.",
     text: "L'Atelier is more like a laboratory than a salon. The precision is unmatched.",
-    role: "Lyon",
+    role: clientCityOr("Lyon"),
   },
   {
     author: "Marc A.",
     text: "The facial ritual is a total sensory reset. My skin feels architectural.",
-    role: "Bordeaux",
+    role: clientCityOr("Bordeaux"),
   },
 ];
 

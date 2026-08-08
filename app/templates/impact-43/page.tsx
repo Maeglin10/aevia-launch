@@ -25,6 +25,8 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -250,9 +252,7 @@ export default function SereneRetreatHome() {
                 marginBottom: 28,
                 fontStyle: "italic",
               }}
-            >{c?.heroHeadline ?? <>
-              Where stillness<br />becomes medicine
-            </>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "Where stillness"}<br />{clientHeroLine(sessionData, 1, 2, 16) ?? "becomes medicine"}</>}</h1>
           </TextReveal>
 
           <TextReveal delay={0.6}>
@@ -267,7 +267,7 @@ export default function SereneRetreatHome() {
                 maxWidth: 500,
                 margin: "0 auto 48px",
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               A curated sanctuary of thermal waters, ancient botanicals,
               and silence. Sixty kilometres from the city. A world apart.
             </>}</p>
@@ -927,7 +927,7 @@ export default function SereneRetreatHome() {
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? "impact-43"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>

@@ -14,6 +14,8 @@ import { ArrowRight, ChevronDown, TrendingUp } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -661,7 +663,7 @@ function Hero() {
             textShadow: '0 16px 64px rgba(0,0,0,0.5)',
             maxWidth: 900,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 17) ?? (<>
           Votre croissance,
           <br />
           notre expertise.
@@ -680,10 +682,7 @@ function Hero() {
             lineHeight: 1.65,
             marginBottom: 38,
           }}
-        >
-          Cabinet d'expertise comptable et de conseil en gestion à Bordeaux.
-          Nous transformons vos chiffres en leviers de croissance.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Cabinet d'expertise comptable et de conseil en gestion à Bordeaux. Nous transformons vos chiffres en leviers de croissance."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}

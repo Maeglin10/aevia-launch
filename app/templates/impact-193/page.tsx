@@ -9,12 +9,15 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -29,7 +32,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   OSTÉO GAÏA — Ostéopathe D.O. ({clientCity(sessionData) ?? "Montpellier"})
+   OSTÉO GAÏA — {clientTrade(sessionData) ?? "Ostéopathe"} D.O. ({clientCity(sessionData) ?? "Montpellier"})
    Palette : sable doux #f5f0e8 / terracotta #c26b4c / brun chaud #5a3825 / beige foncé #3a2e28
    Fonts : Libre Baskerville (titres humanistes) + Lato
    Style : bien-être, corps, soin, chaleureux, corporel, confiance
@@ -183,11 +186,11 @@ export default function OsteoGaiaPage() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (/* NOM_LOGO */ clientName(sessionData) ? (
-              <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData)}</div>
+              <div className="font-bold text-[#3a2e28] text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData)}</div>
             ) : (<>
               <>
                 <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>Ostéo Gaïa</div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c26b4c)]/60">Ostéopathe D.O. · {clientCity(sessionData) ?? "Montpellier"}</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c26b4c)]/60">{clientTrade(sessionData) ?? "Ostéopathe"} D.O. · {clientCity(sessionData) ?? "Montpellier"}</div>
               </>
             </>))}
           </div>
@@ -229,18 +232,17 @@ export default function OsteoGaiaPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[var(--brand,#c26b4c)]/70" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#d4937a]">Ostéopathe diplômée D.O. · {clientCity(sessionData) ?? "Montpellier"}</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#d4937a]">{clientTrade(sessionData) ?? "Ostéopathe"} diplômée D.O. · {clientCity(sessionData) ?? "Montpellier"}</span>
             </div>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[84px] font-bold leading-[0.9] tracking-tight mb-7 text-[#f5f0e8]" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{c?.heroHeadline ?? <>
-            Retrouvez l'équilibre<br /><span className="text-[var(--brand,#c26b4c)] italic">de votre corps.</span>
+            className="text-5xl md:text-7xl lg:text-[84px] font-bold leading-[0.9] tracking-tight mb-7 text-[#f5f0e8]" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 21) ?? "Retrouvez l'équilibre"}<br /><span className="text-[var(--brand,#c26b4c)] italic">{clientHeroLine(sessionData, 1, 2, 21) ?? "de votre corps."}</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-md text-sm text-[#f5f0e8]/30 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
-            Cabinet d'ostéopathie à Montpellier. Douleurs du dos, nourrissons, sportifs, grossesse. Approche globale, douce et personnalisée. Prise en charge mutuelle partielle.
+            className="max-w-md text-sm text-[#f5f0e8]/30 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            Cabinet d'ostéopathie à {clientCity(sessionData) ?? "Montpellier"}. Douleurs du dos, nourrissons, sportifs, grossesse. Approche globale, douce et personnalisée. Prise en charge mutuelle partielle.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-4">
@@ -455,7 +457,7 @@ export default function OsteoGaiaPage() {
           <div>
             <div className="font-bold text-[#f5f0e8] mb-1 text-sm" style={{ fontFamily: "'Libre Baskerville', serif" }}>Ostéo Gaïa</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c26b4c)]/50 mb-5">Emma Dubois · D.O.</div>
-            <p className="text-[#f5f0e8]/20 text-sm leading-relaxed">Ostéopathe diplômée D.O. à {clientCity(sessionData) ?? "Montpellier"}. Dos, nourrissons, sportifs, grossesse, viscéral, crânio-sacré.</p>
+            <p className="text-[#f5f0e8]/20 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Ostéopathe"} diplômée D.O. à {clientCity(sessionData) ?? "Montpellier"}. Dos, nourrissons, sportifs, grossesse, viscéral, crânio-sacré.</p>
           </div>
           {[
             { t: "Soins", ls: ["Lombalgies & dos", "Nourrissons & bébés", "Grossesse & post-partum", "Sportifs", "Céphalées", "Viscéral"] },
@@ -471,8 +473,8 @@ export default function OsteoGaiaPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f5f0e8]/8">
-          <span>© 2026 Ostéo Gaïa · Emma Dubois D.O. · ADELI 340012345 · {clientCity(sessionData) ?? "Montpellier"} (34){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
-          <span className="text-[var(--brand,#c26b4c)]/20">Ostéopathe · {clientCity(sessionData) ?? "Montpellier"}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Ostéo Gaïa"} · Emma Dubois D.O. · ADELI 340012345 · {clientCity(sessionData) ?? "Montpellier"} (34){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span className="text-[var(--brand,#c26b4c)]/20">{clientTrade(sessionData) ?? "Ostéopathe"} · {clientCity(sessionData) ?? "Montpellier"}</span>
         </div>
       </footer>
     </div>

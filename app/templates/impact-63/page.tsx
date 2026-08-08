@@ -22,6 +22,9 @@ import {
 } from "@/lib/templates/hero-kit";
 import {
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -86,9 +89,7 @@ function HeroWatch() {
                 transition={{ duration: 0.8, ease: EASE_3 }}
                 style={{ width: 44, height: 1, display: "block" }}
               />
-              <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.34em", textTransform: "uppercase", color: C.textMuted }}>
-                Manufacture · Vallée de Joux
-              </span>
+              <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.34em", textTransform: "uppercase", color: C.textMuted }}>{clientEyebrow(sessionData) ?? "Manufacture · Vallée de Joux"}</span>
             </Rise>
 
             <motion.h1
@@ -96,8 +97,7 @@ function HeroWatch() {
               animate={{ opacity: 1, rotateY: 0, clipPath: "inset(0 0% 0 0)" }}
               transition={{ duration: 0.9, ease: EASE_4 }}
               style={{ fontFamily: SERIF, fontSize: "clamp(40px, 5vw, 74px)", fontWeight: 300, color: C.text, lineHeight: 1.04, margin: "0 0 16px", transformOrigin: "left center" }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-              Le temps comme<br /><em style={{ fontStyle: "italic", color: C.gold }}>philosophie</em>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Le temps comme"}<br /><em style={{ fontStyle: "italic", color: C.gold }}>{clientHeroLine(sessionData, 1, 2, 14) ?? "philosophie"}</em>
             </>}</>)}</motion.h1>
 
             <motion.p
@@ -106,7 +106,7 @@ function HeroWatch() {
               transition={{ duration: 0.55, ease: EASE_3, delay: BEAT.second }}
               className="hero-lede"
               style={{ fontFamily: SANS, fontSize: 16, color: C.textMuted, lineHeight: 1.8, maxWidth: 430, margin: "0 0 30px" }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Six calibres manufacture, assemblés à la main, réglés sur cinq positions. Aucune pièce ne quitte l’atelier avant quarante jours d’observation.
             </>}</motion.p>
 
@@ -487,7 +487,7 @@ return (
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-63"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

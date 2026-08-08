@@ -46,11 +46,14 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -85,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DUBOIS & PARTENAIRES — Avocat droit des affaires {clientCity(sessionData) ?? "Bordeaux"} — M&A, startups, RGPD. Cormorant Garamond, ardoise / or.
+   DUBOIS & PARTENAIRES — {clientTrade(sessionData) ?? "Avocat"} droit des affaires {clientCity(sessionData) ?? "Bordeaux"} — M&A, startups, RGPD. Cormorant Garamond, ardoise / or.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -542,9 +545,7 @@ export default function Page() {
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Droit des Affaires<br />& Startups
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 18) ?? "Droit des Affaires"}<br />{clientHeroLine(sessionData, 1, 2, 18) ?? "& Startups"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -555,7 +556,7 @@ export default function Page() {
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               M&A, levées de fonds, RGPD. Cabinet {clientCity(sessionData) ?? "Bordeaux"} Chartrons — expertise juridique de haut niveau.
             </>}</p>
           </Reveal>
@@ -1278,7 +1279,7 @@ export default function Page() {
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Dubois & Partenaires"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
-                Avocat droit des affaires {clientCity(sessionData) ?? "Bordeaux"}
+                {clientTrade(sessionData) ?? "Avocat"} droit des affaires {clientCity(sessionData) ?? "Bordeaux"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1322,7 +1323,7 @@ export default function Page() {
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Dubois & Partenaires. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Dubois"} & Partenaires. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

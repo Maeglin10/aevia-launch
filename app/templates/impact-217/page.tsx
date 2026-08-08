@@ -30,6 +30,8 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -77,7 +79,7 @@ let C: Record<string, string> = {
   bgAlt: '#101012',
   bgCard: '#141417',
   bgCardHover: '#1b1b1f',
-  accent: 'var(--brand,#d4ff00)', // acid yellow
+  accent: '#d4ff00', // acid yellow
   accentDim: 'var(--brand-light,#aacc00)',
   white: '#f5f6f7',
   textMuted: '#8d909a',
@@ -619,7 +621,7 @@ function Hero() {
             maxWidth: '14ch',
             willChange: 'transform',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 26) ?? (<>
           Forged for
           <br />
           the{' '}
@@ -652,10 +654,7 @@ function Hero() {
               fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)',
               lineHeight: 1.5,
             }}
-          >
-            Performance-grade sneakers, built like industrial machinery and
-            finished like couture. Limited runs. Forged to outlast.
-          </p>
+          >{clientHeroSubtitle(sessionData) ?? "Performance-grade sneakers, built like industrial machinery and finished like couture. Limited runs. Forged to outlast."}</p>
           <a
             href="#drops"
             style={{display: 'inline-flex',
@@ -1310,7 +1309,7 @@ const STORY_ROWS: StoryRow[] = [
     img: IMG.story1,
     index: '01',
     title: 'Built in the workshop, not the boardroom',
-    body: 'AirForge started in a Lyon garage with a heat press and an obsession. Every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.',
+    body: 'AirForge started in a ' + (clientCity(sessionData) ?? 'Lyon') + ' garage with a heat press and an obsession. Every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.',
   },
   {
     img: IMG.story2,
@@ -2116,7 +2115,7 @@ function Footer() {
             >
               <Zap size={24} color={C.accent} fill={C.accent} strokeWidth={1} />{fd?.businessName ?? (clientName(sessionData) ?? "AirForge")}</div>
             <p style={{ margin: '0 0 24px', color: C.textMuted, fontSize: 15, lineHeight: 1.6, maxWidth: 320 }}>
-              Performance sneakers forged in Lyon. Limited runs, built to outlast
+              Performance sneakers forged in {clientCity(sessionData) ?? "Lyon"}. Limited runs, built to outlast
               the hype.
             </p>
             <div style={{ display: 'flex', gap: 14 }}>
@@ -2200,7 +2199,7 @@ function Footer() {
             fontSize: 13,
           }}
         >
-          <span>© 2026 AirForge. All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "AirForge."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div style={{ display: 'flex', gap: 24 }}>
             <a href="#contact" style={{ color: C.textFaint, textDecoration: 'none' }}>
               Privacy

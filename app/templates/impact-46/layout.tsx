@@ -94,7 +94,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <><div style={{ display: "flex", alignItems: "center", gap: 14 }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
+              <><div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  display: "flex", alignItems: "center", gap: 14 }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               <div style={{ width: 36, height: 36, border: `1.5px solid ${C.accent}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Scale size={18} color={C.accent} />
               </div>
@@ -182,10 +182,10 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                   </div>
                 </div>
               </Link>
-              <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 14, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>Cabinet d'avocats spécialisé en droit des sociétés, fusions-acquisitions, propriété intellectuelle et contentieux commercial. Paris, France.</p>
+              <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 14, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>Cabinet d'avocats spécialisé en droit des sociétés, fusions-acquisitions, propriété intellectuelle et contentieux commercial. {clientCity(__layoutSession) ?? "Paris"}, France.</p>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <MessageSquare size={14} color={C.accent} />
-                <span style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>{clientEmail(__layoutSession) ?? "contact@exemple.fr"}</span>
+                <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Source Sans Pro', system-ui", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>{clientEmail(__layoutSession) ?? "contact@exemple.fr"}</span>
               </div>
             </div>
 
@@ -219,7 +219,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                 </div>
               ))}
             </div>
-            <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Dumont & Associés"}. Tous droits réservés. Barreau de {clientCity(__layoutSession) ?? "Paris"}.</p>
+            <p style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Source Sans Pro', system-ui", fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Dumont & Associés"}. Tous droits réservés. Barreau de {clientCity(__layoutSession) ?? "Paris"}.</p>
           </div>
         </div>
       </footer>

@@ -10,6 +10,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientAreas,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -63,7 +65,7 @@ let TARIFS = TARIFS_DEMO;
 function ZONES_DEMO_LIVE() {
   return [
   { v: (clientCity({ formData: fd }) ?? "Lyon") + " — 9e", d: "Tous arrondissements, sans supplément" },
-  { v: "Villeurbanne", d: "Sans supplément" },
+  { v: (clientCity(sessionData) ?? "Villeurbanne"), d: "Sans supplément" },
   { v: "Caluire · Rillieux", d: "Sans supplément" },
   { v: "Écully · Tassin · Sainte-Foy", d: "Sans supplément" },
   { v: "Bron · Vénissieux · Saint-Priest", d: "Supplément déplacement 6 €" },
@@ -225,12 +227,10 @@ export default function BrilloNetPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[82px] font-bold leading-[0.88] tracking-tight mb-8 text-white">{c?.heroHeadline ?? <>
-            Votre intérieur,<br />impeccable.
-          </>}</motion.h1>
+            className="text-5xl md:text-7xl lg:text-[82px] font-bold leading-[0.88] tracking-tight mb-8 text-white">{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "Votre intérieur,"}<br />{clientHeroLine(sessionData, 1, 2, 16) ?? "impeccable."}</>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-white/38 leading-relaxed mb-10" style={{ fontFamily: "'Inter', sans-serif" }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-md text-sm text-white/38 leading-relaxed mb-10" style={{ fontFamily: "'Inter', sans-serif" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Entreprise de ménage et nettoyage sur {clientCity({ formData: fd }) ?? "Lyon"}. Domicile, bureaux, fin de chantier. Intervenantes formées, assurées, ponctualité garantie. Premier passage sans engagement.
           </>}</motion.p>
 
@@ -398,7 +398,7 @@ export default function BrilloNetPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
               { q: "Intervenante ponctuelle, souriante, impeccable. Notre appartement n'a jamais été aussi propre. On renouvelle chaque semaine sans hésitation.", n: "Claire & Thomas M.", l: (clientCity({ formData: fd }) ?? "Lyon") },
-              { q: "Nettoyage fin de chantier parfait. La cuisine et les vitres étincelaient. Équipe rapide, pro et avec les bons produits. Vraiment recommandé.", n: "Mathieu V.", l: "Villeurbanne" },
+              { q: "Nettoyage fin de chantier parfait. La cuisine et les vitres étincelaient. Équipe rapide, pro et avec les bons produits. Vraiment recommandé.", n: "Mathieu V.", l: (clientCity(sessionData) ?? "Villeurbanne") },
               { q: "Nos bureaux sont nettoyés 3 fois par semaine. Zéro problème depuis 2 ans, intervenantes discrètes, travail remarquable. C'est pas donné à tout le monde.", n: "Agence ARBO", l: (clientCity({ formData: fd }) ?? "Lyon") },
             ].map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
@@ -460,7 +460,7 @@ export default function BrilloNetPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 BrilloNet · SIRET 789 012 345 00067 · RC Pro · Assurance décennale{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "BrilloNet"} · SIRET 789 012 345 00067 · RC Pro · Assurance décennale{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#0d9488)]/30">Ménage professionnel · {clientCity({ formData: fd }) ?? "Lyon"}</span>
         </div>
       </footer>

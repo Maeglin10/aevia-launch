@@ -19,6 +19,8 @@ import { Terminal, Cpu, Zap, Shield, Layers, Search, Menu, X, ArrowRight, Chevro
 import "../premium.css";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -97,19 +99,19 @@ function BLOCK_MANIFESTS_LIVE() {
     },
   ],
   telemetry: resolveList(clientStats({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
-    { label: "NETWORK_LOAD", val: 42, color: "var(--brand, #00f2ff)" },
+    { label: "NETWORK_LOAD", val: 42, color: "#00f2ff" },
     { label: "SYNC_ACCURACY", val: 99, color: "#7000ff" },
-    { label: "VALIDATOR_UPTIME", val: 100, color: "var(--brand, #00f2ff)" },
+    { label: "VALIDATOR_UPTIME", val: 100, color: "#00f2ff" },
     { label: "SECURITY_SCORE", val: 94, color: "#7000ff" },
   ])[i % ([
-    { label: "NETWORK_LOAD", val: 42, color: "var(--brand, #00f2ff)" },
+    { label: "NETWORK_LOAD", val: 42, color: "#00f2ff" },
     { label: "SYNC_ACCURACY", val: 99, color: "#7000ff" },
-    { label: "VALIDATOR_UPTIME", val: 100, color: "var(--brand, #00f2ff)" },
+    { label: "VALIDATOR_UPTIME", val: 100, color: "#00f2ff" },
     { label: "SECURITY_SCORE", val: 94, color: "#7000ff" },
   ]).length], val: s.value, label: s.label })), [
-    { label: "NETWORK_LOAD", val: 42, color: "var(--brand, #00f2ff)" },
+    { label: "NETWORK_LOAD", val: 42, color: "#00f2ff" },
     { label: "SYNC_ACCURACY", val: 99, color: "#7000ff" },
-    { label: "VALIDATOR_UPTIME", val: 100, color: "var(--brand, #00f2ff)" },
+    { label: "VALIDATOR_UPTIME", val: 100, color: "#00f2ff" },
     { label: "SECURITY_SCORE", val: 94, color: "#7000ff" },
   ]),
   logs: [
@@ -256,7 +258,7 @@ export default function BlockBasePage() {
   
 
   return (
-    <div className="premium-theme min-h-dvh bg-[#050507] text-white font-mono selection:bg-[var(--brand,#00f2ff)] selection:text-black overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#050507] text-white font-mono selection:bg-[#00f2ff] selection:text-black overflow-x-hidden">
       {/* ── BACKGROUND ARCHITECTURE ── */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,#111118_0%,transparent_50%)]" />
@@ -267,7 +269,7 @@ export default function BlockBasePage() {
             backgroundSize: "40px 40px",
           }}
         />
-        <div className="absolute top-0 left-0 w-full h-[50vh] bg-gradient-to-b from-[var(--brand,#00f2ff)]/5 to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-[50vh] bg-gradient-to-b from-[#00f2ff]/5 to-transparent" />
       </div>
 
       {/* ── NAVIGATION ── */}
@@ -283,10 +285,10 @@ export default function BlockBasePage() {
               <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
             ) : (
               <>
-                <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#00f2ff)] to-[#7000ff] rounded flex items-center justify-center text-black">
+                <div className="w-8 h-8 bg-gradient-to-br from-[#00f2ff] to-[#7000ff] rounded flex items-center justify-center text-black">
                   <Box className="w-5 h-5" />
                 </div>
-                <span className="group-hover:text-[var(--brand,#00f2ff)] transition-colors">
+                <span className="group-hover:text-[#00f2ff] transition-colors">
                   BLOCK // <span className="text-white/40">BASE</span>
                 </span>
               </>
@@ -299,7 +301,7 @@ export default function BlockBasePage() {
                 <Link
                   key={l}
                   href="#hero"
-                  className="hover:text-[var(--brand,#00f2ff)] transition-colors"
+                  className="hover:text-[#00f2ff] transition-colors"
                 >
                   {l}
                 </Link>
@@ -311,7 +313,7 @@ export default function BlockBasePage() {
             <button className="hidden md:block text-white/30 hover:text-white transition-colors">
               <Search className="w-4 h-4" />
             </button>
-            <MagneticBtn className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[var(--brand,#00f2ff)] transition-all">
+            <MagneticBtn className="px-6 py-2.5 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#00f2ff] transition-all">
               Initialize_API
             </MagneticBtn>
             <button
@@ -358,19 +360,18 @@ export default function BlockBasePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7">
               <Reveal>
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-[1.05] md:leading-[0.9] tracking-tighter uppercase mb-5 md:mb-8 [overflow-wrap:normal] [word-break:normal] text-balance">{c?.heroHeadline ?? <>
-                  Zero <br />{" "}
-                  <span className="text-[var(--brand,#00f2ff)]">Knowledge.</span> <br />{" "}
+                <h1 style={{ /* TITRE_DEGAGE */ marginTop: 55 }} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-[1.05] md:leading-[0.9] tracking-tighter uppercase mb-5 md:mb-8 [overflow-wrap:normal] [word-break:normal] text-balance">{<>{clientHeroLine(sessionData, 0, 3, 13) ?? "Zero"}<br />{" "}
+                  <span className="text-[#00f2ff]">{clientHeroLine(sessionData, 1, 3, 13) ?? "Knowledge."}</span> <br />{" "}
                   Absolute <br />{" "}
-                  <span className="text-white/20">Frictionless.</span>
+                  <span className="text-white/20">{clientHeroLine(sessionData, 2, 3, 13) ?? "Frictionless."}</span>
                 </>}</h1>
-                <p className="max-w-xl text-base md:text-lg text-white/40 leading-relaxed font-light mb-6 md:mb-12 uppercase tracking-widest">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="max-w-xl text-base md:text-lg text-white/40 leading-relaxed font-light mb-6 md:mb-12 uppercase tracking-widest">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   High-performance indexing and indexer infrastructure for the
                   next generation of decentralized computation. Engineering the
                   backbone of zero-knowledge privacy.
                 </>}</p>
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-6">
-                  <button className="px-10 py-5 bg-[var(--brand,#00f2ff)] text-black text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white transition-all shadow-[0_0_40px_rgba(0,242,255,0.2)]">
+                  <button className="px-10 py-5 bg-[#00f2ff] text-black text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white transition-all shadow-[0_0_40px_rgba(0,242,255,0.2)]">
                     Explore_The_SDK
                   </button>
                   <button className="px-10 py-5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all">
@@ -434,7 +435,7 @@ export default function BlockBasePage() {
                           className={
                             log.status === "COMPLETE" ||
                             log.status === "VERIFIED"
-                              ? "text-[var(--brand,#00f2ff)]"
+                              ? "text-[#00f2ff]"
                               : "text-yellow-500"
                           }
                         >
@@ -452,7 +453,7 @@ export default function BlockBasePage() {
                       repeat: Infinity,
                       ease: "linear",
                     }}
-                    className="absolute left-0 w-full h-20 bg-gradient-to-b from-transparent via-[var(--brand,#00f2ff)]/5 to-transparent pointer-events-none"
+                    className="absolute left-0 w-full h-20 bg-gradient-to-b from-transparent via-[#00f2ff]/5 to-transparent pointer-events-none"
                   />
                 </div>
               </Reveal>
@@ -468,7 +469,7 @@ export default function BlockBasePage() {
             <Reveal>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9]">{c?.aboutTitle ?? fd?.businessName ?? <>
                 Developer <br />{" "}
-                <span className="text-[var(--brand,#00f2ff)]">Ecosystem.</span>
+                <span className="text-[#00f2ff]">Ecosystem.</span>
               </>}</h2>
             </Reveal>
             <p className="max-w-sm text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light">{c?.aboutText ?? <>
@@ -480,12 +481,12 @@ export default function BlockBasePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {BLOCK_MANIFESTS.products.map((prod, i) => (
               <Reveal key={prod.id} delay={i * 0.1}>
-                <div className="group p-10 bg-[#0a0a0f] border border-white/5 hover:border-[var(--brand,#00f2ff)]/30 transition-all flex flex-col h-full rounded-2xl overflow-hidden relative">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--brand,#00f2ff)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center text-[var(--brand,#00f2ff)] mb-10 group-hover:bg-[var(--brand,#00f2ff)] group-hover:text-black transition-all">
+                <div className="group p-10 bg-[#0a0a0f] border border-white/5 hover:border-[#00f2ff]/30 transition-all flex flex-col h-full rounded-2xl overflow-hidden relative">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#00f2ff]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center text-[#00f2ff] mb-10 group-hover:bg-[#00f2ff] group-hover:text-black transition-all">
                     {prod.icon}
                   </div>
-                  <h3 className="text-2xl font-black uppercase mb-4 tracking-tighter group-hover:text-[var(--brand,#00f2ff)] transition-colors">
+                  <h3 className="text-2xl font-black uppercase mb-4 tracking-tighter group-hover:text-[#00f2ff] transition-colors">
                     {prod.name}
                   </h3>
                   <p className="text-sm text-white/40 leading-relaxed mb-10 flex-1 italic">
@@ -498,13 +499,13 @@ export default function BlockBasePage() {
                         key={j}
                         className="flex items-center gap-3 text-[10px] font-bold text-white/20 uppercase tracking-widest"
                       >
-                        <div className="w-1 h-1 bg-[var(--brand,#00f2ff)] rounded-full" />
+                        <div className="w-1 h-1 bg-[#00f2ff] rounded-full" />
                         {spec}
                       </div>
                     ))}
                   </div>
 
-                  <div className="p-4 bg-black/40 rounded-lg border border-white/5 font-mono text-[10px] text-[var(--brand,#00f2ff)]/60 group-hover:text-[var(--brand,#00f2ff)] transition-colors overflow-hidden">
+                  <div className="p-4 bg-black/40 rounded-lg border border-white/5 font-mono text-[10px] text-[#00f2ff]/60 group-hover:text-[#00f2ff] transition-colors overflow-hidden">
                     <code>{prod.code}</code>
                   </div>
                 </div>
@@ -519,7 +520,7 @@ export default function BlockBasePage() {
         <div className="max-w-[1500px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
             <Reveal>
-              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#00f2ff)] mb-6 block">
+              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#00f2ff] mb-6 block">
                 Network_Status
               </span>
               <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-12 uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
@@ -529,7 +530,7 @@ export default function BlockBasePage() {
               <div className="space-y-12">
                 {PRESTATIONS_INLINE.map((item, i) => (
                   <div key={i} className="flex gap-8 group">
-                    <div className="w-12 h-12 bg-white/5 border border-white/5 flex items-center justify-center text-white/20 group-hover:text-[var(--brand,#00f2ff)] transition-colors">
+                    <div className="w-12 h-12 bg-white/5 border border-white/5 flex items-center justify-center text-white/20 group-hover:text-[#00f2ff] transition-colors">
                       {item.icon}
                     </div>
                     <div>
@@ -560,7 +561,7 @@ export default function BlockBasePage() {
                         transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                         d="M 0 50 Q 50 20, 100 50 T 200 50 T 300 50 T 400 50"
                         fill="none"
-                        stroke="var(--brand, #00f2ff)"
+                        stroke="#00f2ff"
                         strokeWidth="0.5"
                         strokeOpacity="0.3"
                       />
@@ -576,9 +577,9 @@ export default function BlockBasePage() {
                       />
                     </svg>
                     {/* Pulsing Nodes */}
-                    <div className="absolute top-[20%] left-[25%] w-1.5 h-1.5 bg-[var(--brand,#00f2ff)] rounded-full shadow-[0_0_10px_#00f2ff] animate-pulse" />
+                    <div className="absolute top-[20%] left-[25%] w-1.5 h-1.5 bg-[#00f2ff] rounded-full shadow-[0_0_10px_#00f2ff] animate-pulse" />
                     <div className="absolute top-[70%] left-[55%] w-1.5 h-1.5 bg-[#7000ff] rounded-full shadow-[0_0_10px_#7000ff] animate-pulse" />
-                    <div className="absolute top-[40%] left-[85%] w-1.5 h-1.5 bg-[var(--brand,#00f2ff)] rounded-full shadow-[0_0_10px_#00f2ff] animate-pulse" />
+                    <div className="absolute top-[40%] left-[85%] w-1.5 h-1.5 bg-[#00f2ff] rounded-full shadow-[0_0_10px_#00f2ff] animate-pulse" />
                   </div>
                 </div>
                 <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-[10px] font-bold text-white/20 tracking-widest uppercase">
@@ -586,7 +587,7 @@ export default function BlockBasePage() {
                     <span>TX_PROCESSED: 4.2B</span>
                     <span>ACTIVE_NODES: 14,209</span>
                   </div>
-                  <div className="text-[var(--brand,#00f2ff)]">ENCRYPTED_STREAM</div>
+                  <div className="text-[#00f2ff]">ENCRYPTED_STREAM</div>
                 </div>
               </div>
             </Reveal>
@@ -617,7 +618,7 @@ export default function BlockBasePage() {
                     <div className="text-[10px] font-black text-white mb-2">
                       {s.label}
                     </div>
-                    <div className="text-[10px] font-bold text-[var(--brand,#00f2ff)] tracking-[0.2em]">
+                    <div className="text-[10px] font-bold text-[#00f2ff] tracking-[0.2em]">
                       {s.status}
                     </div>
                   </div>
@@ -634,12 +635,12 @@ export default function BlockBasePage() {
           <Reveal>
             <h2 className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Ready to <br />{" "}
-              <span className="text-[var(--brand,#00f2ff)]">Initialize?</span>
+              <span className="text-[#00f2ff]">Initialize?</span>
             </>)}</h2>
             <p className="max-w-xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">
               Join 42,000+ developers building the future of decentralized computation.
             </p>
-            <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[var(--brand,#00f2ff)] transition-all shadow-[0_0_50px_rgba(255,255,255,0.1)]">
+            <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#00f2ff] transition-all shadow-[0_0_50px_rgba(255,255,255,0.1)]">
               Get_API_Key
             </MagneticBtn>
           </Reveal>
@@ -661,14 +662,14 @@ export default function BlockBasePage() {
             </p>
             <div className="flex gap-6">
               {[GitBranch, Globe, Search].map((Icon, i) => (
-                <button key={i} className="text-white/20 hover:text-[var(--brand,#00f2ff)] transition-colors">
+                <button key={i} className="text-white/20 hover:text-[#00f2ff] transition-colors">
                   <Icon className="w-5 h-5" />
                 </button>
               ))}
             </div>
           </div>
           <div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest mb-8 text-[var(--brand,#00f2ff)]">System_Index</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-8 text-[#00f2ff]">System_Index</h4>
             <ul className="space-y-4 text-[10px] font-bold text-white/30 uppercase tracking-widest">
               <li className="hover:text-white transition-colors"><Link href="#contact">API_Reference</Link></li>
               <li className="hover:text-white transition-colors"><Link href="#contact">SDK_Documentation</Link></li>
@@ -677,7 +678,7 @@ export default function BlockBasePage() {
             </ul>
           </div>
           <div>
-            <h4 className="text-[10px] font-black uppercase tracking-widest mb-8 text-[var(--brand,#00f2ff)]">Telemetry</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-widest mb-8 text-[#00f2ff]">Telemetry</h4>
             <ul className="space-y-4 text-[10px] font-bold text-white/30 uppercase tracking-widest">
               <li className="hover:text-white transition-colors"><Link href="#contact">Network_Health</Link></li>
               <li className="hover:text-white transition-colors"><Link href="#contact">Governance_Log</Link></li>
@@ -701,7 +702,7 @@ export default function BlockBasePage() {
         </div>
       </footer>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-101"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

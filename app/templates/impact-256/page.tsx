@@ -14,12 +14,15 @@ import { ArrowRight, ChevronDown, Trophy, Dumbbell, MapPin } from 'lucide-react'
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -283,7 +286,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     quote: "J'ai terminé mon premier triathlon après 6 mois de préparation coaching. Le programme de périodisation était chirurgical. Je n'aurais pas pu sans lui.",
     name: 'Thomas R.',
-    role: 'Cycliste amateur · Aix-en-Provence',
+    role: 'Cycliste amateur · ' + (clientCity(sessionData) ?? 'Aix-en-Provence'),
     result: 'Triathlon complété',
   },
 ];
@@ -492,7 +495,7 @@ function Nav() {
         ) : (
           <>
             <Dumbbell size={20} color={C.accent} strokeWidth={2} />
-            <span>{clientName(sessionData) ?? "FORCE"}<span style={brandAccent}> BRUTE</span></span>
+            <span>{clientName(sessionData) ?? "FORCE"}{!clientName(sessionData) && <span style={brandAccent}> BRUTE</span>}</span>
           </>
         )}
       </div>
@@ -706,7 +709,7 @@ function Hero() {
             margin: '0 0 28px',
             textShadow: '0 8px 48px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 10) ?? (<>
           DEVENEZ<br />
           <span style={{ color: C.accent }}>PLUS</span> FORT.
         </>)}</motion.h1>
@@ -725,10 +728,7 @@ function Hero() {
             lineHeight: 1.6,
             marginBottom: 40,
           }}
-        >
-          Coaching personnalisé · Résultats garantis. La méthode qui transforme
-          réellement votre corps et votre santé.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Coaching personnalisé · Résultats garantis. La méthode qui transforme réellement votre corps et votre santé."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -2070,7 +2070,7 @@ function Footer() {
               marginBottom: 24,
             }}
           >
-            Coach sportif personnel certifié à {clientCity(sessionData) ?? "Marseille"}. Programmes sur mesure,
+            {clientTrade(sessionData) ?? "Coach sportif"} personnel certifié à {clientCity(sessionData) ?? "Marseille"}. Programmes sur mesure,
             résultats prouvés.
           </p>
           <div
@@ -2163,7 +2163,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2026 Force Brute · Coach Sportif {clientCity(sessionData) ?? "Marseille"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Force Brute"} · Coach Sportif {clientCity(sessionData) ?? "Marseille"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Confidentialité</a>

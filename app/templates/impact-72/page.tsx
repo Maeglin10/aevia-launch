@@ -8,7 +8,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { C, TextReveal, MagneticButton, Marquee, StackedCards, FILMS, ServiceCard, SERVICES, PRESS } from "./shared";
 import {
+  clientHeroPrestations,
+  clientAccrocheRestante,
   clientCity,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -241,12 +244,10 @@ return (
           <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", color: C.amber, marginBottom: "1.5rem" }}>
             NOTRE MISSION
           </div>
-          <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.03em", color: C.text, marginBottom: "2rem", lineHeight: 1.15, paddingBottom: "0.15em" }}>{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.03em", color: C.text, marginBottom: "2rem", lineHeight: 1.15, paddingBottom: "0.15em" }}>{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             Une écriture cinématographique sans concession.
           </>)}</h2>
-          <p style={{ fontSize: "1.05rem", color: C.textMuted, lineHeight: 1.8, maxWidth: "60ch", margin: "0 auto 3rem" }}>
-            Depuis plus de deux décennies, nous accompagnons des réalisateurs audacieux et des récits porteurs de sens. De la recherche de financement à la diffusion internationale, nous défendons une vision indépendante et passionnée du septième art.
-          </p>
+          <p style={{ fontSize: "1.05rem", color: C.textMuted, lineHeight: 1.8, maxWidth: "60ch", margin: "0 auto 3rem" }}>{clientHeroPrestations(sessionData) ?? "Depuis plus de deux décennies, nous accompagnons des réalisateurs audacieux et des récits porteurs de sens. De la recherche de financement à la diffusion internationale, nous défendons une vision indépendante et passionnée du septième art."}</p>
           <div style={{ display: "flex", justifyContent: "center", gap: "2rem" }}>
             <Link href="/templates/impact-72/films" style={{ textDecoration: "none" }}>
               <span style={{ color: C.amber, fontWeight: 700, fontSize: "0.85rem", letterSpacing: "0.05em" }}>VOIR NOS FILMS →</span>
@@ -561,7 +562,7 @@ return (
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-72"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

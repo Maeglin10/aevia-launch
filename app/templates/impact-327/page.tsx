@@ -11,6 +11,8 @@ import { ExpandFrame } from "@/lib/templates/hero-kit-2";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -282,10 +284,10 @@ export default function LignesEtBoisPage() {
             Cuisines & agencement sur mesure · {clientCity(sessionData) ?? "Lyon"}
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 44 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.9, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(36px, 5vw, 64px)", color: "#fff", lineHeight: 1.12, margin: "16px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>
-            {c?.heroHeadline ?? (<>Du plan 3D<br /><em style={{ color: C.oak }}>à la pièce à vivre.</em></>)}
+            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 19) ?? "Du plan 3D"}<br /><em style={{ color: C.oak }}>{clientHeroLine(sessionData, 1, 2, 19) ?? "à la pièce à vivre."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }} style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 34, maxWidth: 520 }}>
-            {fd?.tagline ?? c?.heroSubline ?? "Cuisines, dressings et agencements dessinés au millimètre, fabriqués en France, posés par nos menuisiers salariés. Devis ferme, garantie 10 ans."}
+            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Cuisines, dressings et agencements dessinés'au millimètre, fabriqués'en France, posés par nos menuisiers salariés. Devis ferme, garantie 10 ans."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 30px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, boxShadow: `0 8px 32px ${"rgba(164,85,46,0.4)"}` }} whileHover={{ scale: 1.03 }}>

@@ -11,6 +11,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientPhotos,
@@ -89,7 +91,7 @@ const savoirFaire_SOURCE = [
 let savoirFaire = savoirFaire_SOURCE;
 
 const timeline = [
-  { year: "1887", event: "Fondation par Édouard Lecomte à Genève" },
+  { year: "1887", event: "Fondation par Édouard Lecomte à " + (clientCity(sessionData) ?? "Genève") },
   { year: "1923", event: "Premier tourbillon maison breveté" },
   { year: "1961", event: "Lancement de la collection Heritage" },
   { year: "1998", event: "Acquisition de la manufacture de La Vallée de Joux" },
@@ -271,12 +273,11 @@ return (
                   <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-6">Manufacture horlogère · Depuis 1887</p>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <h1 className="text-white text-6xl md:text-8xl leading-none mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{c?.heroHeadline ?? <>
-                    L'art du<br /><em>mouvement</em>
+                  <h1 className="text-white text-6xl md:text-8xl leading-none mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "L'art du"}<br /><em>{clientHeroLine(sessionData, 1, 2, 9) ?? "mouvement"}</em>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
-                  <p className="text-white/60 text-lg max-w-md leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+                  <p className="text-white/60 text-lg max-w-md leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                     Chaque montre est une œuvre de précision. Assemblée à la main par nos maîtres horlogers dans notre manufacture de La Vallée de Joux.
                   </>}</p>
                 </Reveal>
@@ -488,7 +489,7 @@ return (
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 mt-10 pt-8 flex justify-between items-center text-xs text-white/20">
-          <span>© 2026 Atelier Mécanique. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Atelier Mécanique."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a
             href="/templates/impact-13"
             onClick={(e) => { e.preventDefault(); goTo("legal"); }}
@@ -778,7 +779,7 @@ function ManufactureSubPage({ goTo }: { goTo: (p: any) => void }) {
           </div>
           <div className="space-y-2">
             <h3 className="text-[var(--brand,#B49A6A)] text-lg font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>2. Décoration</h3>
-            <p className="text-xs leading-relaxed">Côtes de Genève, perlage des platines, et étirage des flancs. C'est à cette étape que le métal brut devient une œuvre d'art horlogère, révélant ses reflets subtils.</p>
+            <p className="text-xs leading-relaxed">Côtes de {clientCity(sessionData) ?? "Genève"}, perlage des platines, et étirage des flancs. C'est à cette étape que le métal brut devient une œuvre d'art horlogère, révélant ses reflets subtils.</p>
           </div>
           <div className="space-y-2">
             <h3 className="text-[var(--brand,#B49A6A)] text-lg font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>3. Assemblage</h3>
@@ -799,21 +800,21 @@ function ManufactureSubPage({ goTo }: { goTo: (p: any) => void }) {
 function MaisonSubPage() {
   const historyTimeline = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
-    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à Genève, se spécialisant dans la réparation de chronomètres de poche de haute précision." },
-    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de Genève et de kkew pour sa régularité de marche." },
+    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à " + (clientCity(sessionData) ?? "Genève") + ", se spécialisant dans la réparation de chronomètres de poche de haute précision." },
+    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de " + (clientCity(sessionData) ?? "Genève") + " et de kkew pour sa régularité de marche." },
     { year: "1961", title: "Collection Heritage", desc: "Lancement d'une gamme de garde-temps au design intemporel, marquant le début de l'exportation internationale de la marque." },
     { year: "1998", title: "Installation dans la Vallée", desc: "Rachat d'une ancienne ferme horlogère à La Vallée de Joux, regroupant l'ensemble de nos ateliers de création, de décoration et d'assemblage sous le même toit." },
     { year: "2019", title: "Le Titane Grade 5", desc: "Innovation technologique majeure avec un modèle entièrement squelette en titane microbillé pesant moins de 32 grammes." },
   ])[i % ([
-    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à Genève, se spécialisant dans la réparation de chronomètres de poche de haute précision." },
-    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de Genève et de kkew pour sa régularité de marche." },
+    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à " + (clientCity(sessionData) ?? "Genève") + ", se spécialisant dans la réparation de chronomètres de poche de haute précision." },
+    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de " + (clientCity(sessionData) ?? "Genève") + " et de kkew pour sa régularité de marche." },
     { year: "1961", title: "Collection Heritage", desc: "Lancement d'une gamme de garde-temps au design intemporel, marquant le début de l'exportation internationale de la marque." },
     { year: "1998", title: "Installation dans la Vallée", desc: "Rachat d'une ancienne ferme horlogère à La Vallée de Joux, regroupant l'ensemble de nos ateliers de création, de décoration et d'assemblage sous le même toit." },
     { year: "2019", title: "Le Titane Grade 5", desc: "Innovation technologique majeure avec un modèle entièrement squelette en titane microbillé pesant moins de 32 grammes." },
   ]).length], title: s.title, desc: s.desc || "" })),
     [
-    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à Genève, se spécialisant dans la réparation de chronomètres de poche de haute précision." },
-    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de Genève et de kkew pour sa régularité de marche." },
+    { year: "1887", title: "Fondation", desc: "Edouard Lecomte ouvre son premier atelier à " + (clientCity(sessionData) ?? "Genève") + ", se spécialisant dans la réparation de chronomètres de poche de haute précision." },
+    { year: "1923", title: "Le premier Tourbillon", desc: "Création et brevet du premier mouvement tourbillon maison, salué par les observatoires astronomiques de " + (clientCity(sessionData) ?? "Genève") + " et de kkew pour sa régularité de marche." },
     { year: "1961", title: "Collection Heritage", desc: "Lancement d'une gamme de garde-temps au design intemporel, marquant le début de l'exportation internationale de la marque." },
     { year: "1998", title: "Installation dans la Vallée", desc: "Rachat d'une ancienne ferme horlogère à La Vallée de Joux, regroupant l'ensemble de nos ateliers de création, de décoration et d'assemblage sous le même toit." },
     { year: "2019", title: "Le Titane Grade 5", desc: "Innovation technologique majeure avec un modèle entièrement squelette en titane microbillé pesant moins de 32 grammes." },

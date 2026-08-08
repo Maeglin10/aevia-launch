@@ -9,6 +9,9 @@ import { Volume2, ArrowRight, Menu, Star, Activity, Shield, Mic2, Speaker, Headp
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -226,18 +229,17 @@ export default function AetherSoundPage() {
             <Reveal>
               <div className="flex items-center justify-center gap-4 mb-12">
                 <AudioBars active />
-                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/40">Pure Signal Integrity</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/40">{clientEyebrow(sessionData) ?? "Pure Signal Integrity"}</span>
                 <AudioBars active />
               </div>
             </Reveal>
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-7xl md:text-[9rem] font-light tracking-tighter leading-[0.85] text-white mb-12 uppercase">{c?.heroHeadline ?? <>
-                Zero <br/> <span className="font-bold italic">Artifact.</span>
+              <h1 className="text-7xl md:text-[9rem] font-light tracking-tighter leading-[0.85] text-white mb-12 uppercase">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Zero"}<br/> <span className="font-bold italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "Artifact."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col items-center justify-center gap-12">
-                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   Luthier-grade acoustic engineering for the discerning audiophile. Experience the silence between the notes.
                 </>}</p>
                 <div className="flex flex-wrap justify-center gap-8">
@@ -470,7 +472,7 @@ export default function AetherSoundPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 AETHER SOUND AG. ALL RIGHTS RESERVED.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "AETHER SOUND AG. ALL"} RIGHTS RESERVED.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-white transition-colors">Privacy Circle</Link>
              <Link href="#contact" className="hover:text-white transition-colors">Technical Terms</Link>

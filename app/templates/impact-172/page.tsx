@@ -8,7 +8,10 @@ import Link from "next/link"
 import { Menu, X, ArrowRight, Scale, Shield, Briefcase, Users, Building, FileText, Phone, Mail, MapPin, ChevronRight, Award, Globe } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientPhone,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientServices,
@@ -288,15 +291,14 @@ export default function LegrandPage() {
         </motion.div>
         <div className="imx172-hero-content relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32">
           <Reveal>
-            <p className="text-[var(--brand,#C9A855)] text-xs tracking-[0.3em] uppercase mb-8">Fondé en 1991 · {clientCity(sessionData) ?? "Paris"} · Bruxelles · Luxembourg</p>
+            <p className="text-[var(--brand,#C9A855)] text-xs tracking-[0.3em] uppercase mb-8">Fondé en 1991 · {clientCity(sessionData) ?? "Paris"} · {clientCity(sessionData) ?? "Bruxelles"} · Luxembourg</p>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.0] text-[#F9F6F0] mb-8 max-w-4xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.heroHeadline ?? <>
-              <em>L&apos;excellence</em><br />juridique au service<br />de vos ambitions
-            </>}</h1>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.0] text-[#F9F6F0] mb-8 max-w-4xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{<>
+              <em>{clientHeroLine(sessionData, 0, 3, 10) ?? "L'excellence"}</em><br />{clientHeroLine(sessionData, 1, 3, 10) ?? "juridique au service"}<br />{clientHeroLine(sessionData, 2, 3, 10) ?? "de vos ambitions"}</>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 font-light leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 font-light leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Cabinet d&apos;avocats d&apos;affaires indépendant, Legrand & Associés conseille les entreprises et les institutions dans leurs opérations les plus complexes depuis plus de trente ans.
             </>}</p>
           </Reveal>
@@ -545,7 +547,7 @@ export default function LegrandPage() {
               </Reveal>
               <Reveal delay={0.1}>
                 <div className="space-y-5">
-                  {[{ Icon: MapPin, text: `14 avenue Montaigne, 75008 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: "+33 1 44 20 00 00" }, { Icon: Mail, text: (fd?.email ?? "contact@legrand-associes.fr") }, { Icon: Globe, text: "Également à Bruxelles & Luxembourg" }].map(({ Icon, text }) => (
+                  {[{ Icon: MapPin, text: `14 avenue Montaigne, 75008 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 44 20 00 00") }, { Icon: Mail, text: (fd?.email ?? "contact@legrand-associes.fr") }, { Icon: Globe, text: "Également à " + (clientCity(sessionData) ?? "Bruxelles") + " & Luxembourg" }].map(({ Icon, text }) => (
                     <div key={text} className="flex items-center gap-4 text-sm text-[#8A7860]">
                       <Icon className="w-4 h-4 text-[var(--brand,#C9A855)] flex-shrink-0" />
                       {text}
@@ -608,7 +610,7 @@ export default function LegrandPage() {
             ))}
           </div>
           <div className="text-xs">
-            <p>© 2024 Legrand & Associés · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
+            <p>© 2024 {clientName(sessionData) ?? "Legrand"} & Associés · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
             <p className="mt-1">Barreau de {clientCity(sessionData) ?? "Paris"} · SIRET 382 912 847 00025</p>
           </div>
         </div>

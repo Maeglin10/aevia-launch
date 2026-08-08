@@ -9,6 +9,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -352,7 +354,7 @@ export default function AltaTransactionsPage() {
                 <div className="w-7 h-7 border border-[var(--brand,#b8944a)] flex items-center justify-center">
                   <Building2 className="w-3.5 h-3.5 text-[var(--brand,#b8944a)]" />
                 </div>
-                <span className="text-white font-bold tracking-[0.2em] uppercase text-sm">{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Alta Transactions"))}</span>
+                <span className="text-white font-bold tracking-[0.2em] uppercase text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Alta Transactions"))}</span>
               </>
             )}
           </div>
@@ -398,13 +400,12 @@ export default function AltaTransactionsPage() {
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.92] tracking-tight mb-10 text-white"
-            style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic" }}>{c?.heroHeadline ?? <>
-            L'immobilier de<br />
-            <span className="text-[var(--brand,#b8944a)] not-italic">prestige</span>, autrement.
-          </>}</motion.h1>
+            style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic" }}>{<>{clientHeroLine(sessionData, 0, 3, 15) ?? "L'immobilier de"}<br />
+            <span className="text-[var(--brand,#b8944a)] not-italic">{clientHeroLine(sessionData, 1, 3, 15) ?? "prestige"}</span>{clientHeroLine(sessionData, 2, 3, 15) ?? ", autrement."}</>}</motion.h1>
+
 
           <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             15 ans d'expertise sur le marché parisien haut de gamme. 120 transactions par an. Une équipe de 6 experts totalement dédiés à vos ambitions patrimoniales.
           </>}</motion.p>
 
@@ -582,7 +583,7 @@ export default function AltaTransactionsPage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <Building2 className="w-5 h-5 text-[var(--brand,#b8944a)]" />
-              <span className="font-bold tracking-[0.2em] uppercase text-white text-sm">{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Alta Transactions"))}</span>
+              <span className="font-bold tracking-[0.2em] uppercase text-white text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Alta Transactions"))}</span>
             </div>
             <p className="text-sm text-white/25 leading-relaxed">Immobilier de prestige · {clientCity(sessionData) ?? "Paris"} · Expertise depuis 2009.</p>
           </div>
@@ -600,7 +601,7 @@ export default function AltaTransactionsPage() {
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 flex justify-between text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 Alta Transactions · SIRET 456 789 123 00078 · Carte professionnelle T/G/S n°C{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Alta Transactions"} · SIRET 456 789 123 00078 · Carte professionnelle T/G/S n°C{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#b8944a)]/30">Immobilier de prestige {clientCity(sessionData) ?? "Paris"}</span>
         </div>
       </footer>

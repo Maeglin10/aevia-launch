@@ -11,6 +11,8 @@ import { Reveal } from "./shared"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -148,12 +150,10 @@ return (
             <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#C9A86C)] mb-8">Promoteur immobilier — Fondé en 1989</p>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-5xl md:text-7xl font-normal text-[#F7F5F2] leading-[1.15] mb-8 max-w-3xl font-serif" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.heroHeadline ?? <>
-              Construire<br /><em>l&apos;excellence</em><br />durable
-            </>}</h1>
+            <h1 className="text-5xl md:text-7xl font-normal text-[#F7F5F2] leading-[1.15] mb-8 max-w-3xl font-serif" style={{ fontFamily: "'Libre Baskerville', serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "Construire"}<br /><em>{clientHeroLine(sessionData, 1, 3, 12) ?? "l'excellence"}</em><br />{clientHeroLine(sessionData, 2, 3, 12) ?? "durable"}</>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 leading-relaxed font-light">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 leading-relaxed font-light">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Depuis 35 ans, Blueprint réalise des programmes immobiliers d&apos;exception. Résidentiel haut de gamme, bureaux premium, opérations mixtes — nous concevons des lieux qui durent.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">
@@ -343,7 +343,7 @@ return (
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? "impact-82"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>

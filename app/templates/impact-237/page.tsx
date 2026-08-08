@@ -14,6 +14,9 @@ import { ArrowRight, ChevronDown, Quote, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -81,7 +84,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
 function PHOTO_BASE_LIVE() {
-  return (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+  return 'https://images.unsplash.com/photo-';
 }
 let PHOTO_BASE = PHOTO_BASE_LIVE();
 function P_LIVE() {
@@ -746,7 +749,7 @@ function Hero() {
             margin: '0 0 28px',
             textShadow: '0 12px 56px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 19) ?? (<>
           L&apos;éclat /{' '}
           <span style={{ fontStyle: 'normal', color: C.accentLight }}>d&apos;un sourire</span> /{' '}
           confiant
@@ -765,9 +768,7 @@ function Hero() {
             lineHeight: 1.7,
             marginBottom: 44,
           }}
-        >
-          Soins sans douleur, technologie numérique, expertise esthétique — le cabinet de référence de la Côte d&apos;Azur.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Soins sans douleur, technologie numérique, expertise esthétique — le cabinet de référence de la Côte d'Azur."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}
@@ -2170,7 +2171,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Cabinet Dentaire Sorrento. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Cabinet Dentaire Sorrento."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Dr. Clara Sorrento · RPPS 00000000000 · Ordre des Chirurgiens-Dentistes

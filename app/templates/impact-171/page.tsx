@@ -14,6 +14,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -409,13 +411,12 @@ export default function Impact171Page() {
           {/* Left */}
           <div>
             <Reveal delay={0.1}>
-              <h1 className="text-5xl md:text-6xl font-black leading-tight text-[#134E4A] mb-6" style={{ fontFamily: "'Figtree', sans-serif" }}>{c?.heroHeadline ?? <>
-                Votre Santé.<br />
-                <span className="text-[var(--brand,#0891B2)]">Notre Engagement.</span>
+              <h1 className="text-5xl md:text-6xl font-black leading-tight text-[#134E4A] mb-6" style={{ fontFamily: "'Figtree', sans-serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 17) ?? "Votre Santé."}<br />
+                <span className="text-[var(--brand,#0891B2)]">{clientHeroLine(sessionData, 1, 2, 17) ?? "Notre Engagement."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-lg text-[#134E4A]/70 leading-relaxed mb-8 max-w-lg">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="text-lg text-[#134E4A]/70 leading-relaxed mb-8 max-w-lg">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Médecine evidence-based, suivi personnalisé et technologies de diagnostic avancées.
                 Vitalité Médical place la prévention au cœur de votre santé.
               </>}</p>
@@ -922,7 +923,7 @@ export default function Impact171Page() {
             ))}
           </div>
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/40">
-            <span>© 2026 Vitalité Médical — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+            <span>© 2026 {clientName(sessionData) ?? "Vitalité Médical"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div className="flex gap-6">
               <span className="hover:text-white/70 cursor-pointer">Mentions légales</span>
               <span className="hover:text-white/70 cursor-pointer">RGPD</span>

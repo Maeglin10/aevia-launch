@@ -8,8 +8,11 @@ import Link from "next/link"
 import { Menu, X, ArrowRight, Coffee, Clock, MapPin, Phone, Mail, Star, Heart, ChevronRight, Loader2, CheckCircle2 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -264,12 +267,11 @@ return (
             <p className="text-[#C9A86C] text-xs tracking-[0.3em] uppercase mb-6">Torréfaction artisanale · {clientCity(sessionData) ?? "Paris"}</p>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-5xl md:text-7xl font-light text-white leading-[1.0] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{c?.heroHeadline ?? <>
-              Un café<br /><em>comme un rituel</em>
+            <h1 className="text-5xl md:text-7xl font-light text-white leading-[1.0] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 15) ?? "Un café"}<br /><em>{clientHeroLine(sessionData, 1, 2, 15) ?? "comme un rituel"}</em>
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#D4C9B0] text-lg max-w-md mb-10 leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="text-[#D4C9B0] text-lg max-w-md mb-10 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Chaque tasse est une promesse — de qualité, de soin, de présence. Bienvenue au Matin Doré.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">
@@ -504,7 +506,7 @@ return (
                   Venez nous <em>rendre visite</em>
                 </>)}</h2>
                 <div className="space-y-5 mb-10">
-                  {[{ Icon: MapPin, text: `34 rue de la Roquette, 75011 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: "+33 1 43 48 22 10" }, { Icon: Mail, text: (fd?.email ?? "bonjour@lematindore.fr") }, { Icon: Instagram, text: "@lematindore" }].map(({ Icon, text }) => (
+                  {[{ Icon: MapPin, text: `34 rue de la Roquette, 75011 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 43 48 22 10") }, { Icon: Mail, text: (fd?.email ?? "bonjour@lematindore.fr") }, { Icon: Instagram, text: "@lematindore" }].map(({ Icon, text }) => (
                     <div key={text} className="flex items-center gap-4 text-sm text-[#6B5A40]">
                       <Icon className="w-4 h-4 text-[var(--brand,#8B5E3C)] flex-shrink-0" />
                       {text}
@@ -644,7 +646,7 @@ return (
             </div>
           </div>
           <div className="pt-8 border-t border-[#4A3520] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 Le Matin Doré · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+            <span>© 2024 {clientName(sessionData) ?? "Le Matin Doré"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div className="flex gap-6">
               {["Mentions légales", "Confidentialité"].map(l => (
                 <Link key={l} href="#menu" className="hover:text-[#FDFAF5] transition-colors cursor-pointer">{l}</Link>

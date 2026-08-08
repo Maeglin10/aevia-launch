@@ -46,11 +46,14 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -85,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO PEAK PERFORMANCE — Coach sportif {clientCity(sessionData) ?? "Paris"} Est — transformation physique, nutrition, suivi app. Poppins, noir / vert néon.
+   STUDIO PEAK PERFORMANCE — {clientTrade(sessionData) ?? "Coach sportif"} {clientCity(sessionData) ?? "Paris"} Est — transformation physique, nutrition, suivi app. Poppins, noir / vert néon.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -102,8 +105,8 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  primary: "var(--brand,#39ff14)",
-  primaryLight: "var(--brand-light,#66ff44)",
+  primary: "#39ff14",
+  primaryLight: "#66ff44",
   primaryDark: "#22cc00",
   bg: "#0a0a0a",
   bgDeep: "#050505",
@@ -519,9 +522,7 @@ return (
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Transforme<br />Ton Corps
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 10) ?? "Transforme"}<br />{clientHeroLine(sessionData, 1, 2, 10) ?? "Ton Corps"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -532,7 +533,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Coaching sportif online et présentiel {clientCity(sessionData) ?? "Paris"} Est. Nutrition, suivi app, transformation garantie.
             </>}</p>
           </Reveal>
@@ -1265,7 +1266,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Peak Performance"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Coach sportif {clientCity(sessionData) ?? "Paris"} Est
+                {clientTrade(sessionData) ?? "Coach sportif"} {clientCity(sessionData) ?? "Paris"} Est
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1309,7 +1310,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Studio Peak Performance. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Studio Peak Performance."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

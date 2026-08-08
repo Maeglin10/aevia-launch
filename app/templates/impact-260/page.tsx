@@ -21,7 +21,9 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -178,7 +180,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre engagement',
-    img: ph((clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600')) + '&w=800',
+    img: ph((clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600')),
     alt: 'Plombier Aqua Confort Lyon au travail',
     title: (
       <>
@@ -248,7 +250,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Fuite importante un dimanche matin. Technicien sur place en 90 minutes, problème résolu avant midi. Pas de dégât des eaux. Le tarif forfaitaire annoncé par téléphone a été respecté à l'euro près. Je recommande sans hésiter.",
     name: 'Marc Vidal',
-    role: 'Propriétaire bailleur · Villeurbanne',
+    role: 'Propriétaire bailleur · ' + (clientCity(sessionData) ?? 'Villeurbanne'),
   },
 ];
 }
@@ -649,7 +651,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || (ph((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600')) + '&w=2000')}
+          src={fd?.photoUrls?.[0] || (ph((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600')))}
           alt="Plombier Aqua Confort Lyon en intervention"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
@@ -744,13 +746,20 @@ function Hero() {
             margin: 'clamp(16px,2.5vw,28px) 0 clamp(14px,2vw,22px)',
             textShadow: '0 12px 50px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 15) ?? (<>
           Confort garanti{' '}
           <br />
           <span style={{ fontStyle: 'normal', fontWeight: 300, color: C.accentLight }}>
             24h / 7j.
           </span>
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 15) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 15)}
+        </p>
+      )}
+
         <motion.p
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -2170,7 +2179,7 @@ function Footer() {
               }}
             >
               <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-              {clientCity(sessionData) ?? "Lyon"} · Villeurbanne · Bron · Vénissieux
+              {clientCity(sessionData) ?? "Lyon"} · {clientCity(sessionData) ?? "Villeurbanne"} · Bron · Vénissieux
             </div>
           </div>
         </div>
@@ -2249,7 +2258,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Aqua Confort {clientCity(sessionData) ?? "Lyon"} — SIRET 000 000 000 00000 · RGE certifié{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Aqua Confort"} {clientCity(sessionData) ?? "Lyon"} — SIRET 000 000 000 00000 · RGE certifié{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="/templates/impact-260" style={{ color: 'inherit', textDecoration: 'none' }}>

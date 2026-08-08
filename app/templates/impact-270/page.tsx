@@ -14,6 +14,8 @@ import { ArrowRight, ChevronDown, Feather, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -131,7 +133,7 @@ interface SafetyItem {
    ════════════════════════════════════════════════════════════════════════════ */
 
 function BASE_LIVE() {
-  return (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+  return 'https://images.unsplash.com/photo-';
 }
 let BASE = BASE_LIVE();
 const ph = (id: string, w = 1600) =>
@@ -683,7 +685,7 @@ function Hero() {
             margin: 'clamp(16px,2vw,28px) 0 clamp(14px,2vw,22px)',
             textShadow: '0 12px 60px rgba(0,0,0,0.5)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 17) ?? (<>
           Peau&nbsp;/
           <br />
           &amp;&nbsp;plume.
@@ -701,10 +703,7 @@ function Hero() {
             maxWidth: 480,
             lineHeight: 1.7,
           }}
-        >
-          Atelier de tatouage artistique et d&apos;illustration à Vieux-Lille.
-          Sur rendez-vous uniquement.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Atelier de tatouage artistique et d'illustration à Vieux-Lille. Sur rendez-vous uniquement."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

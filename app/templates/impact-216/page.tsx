@@ -12,8 +12,11 @@ import {
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientHeroPrestations,
+  clientAccrocheRestante,
   clientCity,
   clientFaq,
+  clientHeroSubtitle,
   clientHours,
   clientReviews,
   clientServices,
@@ -525,7 +528,7 @@ function Hero() {
               color: C.text, maxWidth: 800,
               letterSpacing: '-0.02em', marginBottom: 24,
             }}
-          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             Livraison &{' '}
             <span style={{ background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Logistique
@@ -539,10 +542,7 @@ function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.7 }}
             style={{ fontFamily: C.fontBody, fontSize: 'clamp(15px, 2vw, 20px)', color: C.textMuted, maxWidth: 560, lineHeight: 1.75, marginBottom: 40 }}
-          >
-            Transport routier express, messagerie B2B, logistique e-commerce et entreposage pour les entreprises françaises.
-            18 ans d'expertise, 97.8 % de livraisons à temps.
-          </motion.p>
+          >{clientHeroPrestations(sessionData) ?? "Transport routier express, messagerie B2B, logistique e-commerce et entreposage pour les entreprises françaises. 18 ans d'expertise, 97.8 % de livraisons à temps."}</motion.p>
 
           {/* CTAs */}
           <motion.div
@@ -605,19 +605,19 @@ function Hero() {
 function SHIPMENTS_LIVE() {
   return [
   {
-    id: 'MF-2406-8821', from: 'Paris CDG', to: 'Lyon Part-Dieu',
+    id: 'MF-2406-8821', from: (clientCity(sessionData) ?? 'Paris') + ' CDG', to: (clientCity(sessionData) ?? 'Lyon') + ' Part-Dieu',
     status: 'En transit', progress: 68, eta: "Aujourd'hui 17h30",
     steps: ['Enlèvement', 'Tri CDG', 'En route', 'Livraison'], currentStep: 2,
   },
   {
-    id: 'MF-2406-4437', from: (clientCity({ formData: fd }) ?? 'Bordeaux'), to: 'Lille Métropole',
+    id: 'MF-2406-4437', from: (clientCity({ formData: fd }) ?? 'Bordeaux'), to: (clientCity(sessionData) ?? 'Lille') + ' Métropole',
     status: 'En cours de tri', progress: 34, eta: 'Demain 10h00',
     steps: ['Enlèvement', 'Tri ' + (clientCity({ formData: fd }) ?? 'Bordeaux'), 'En route', 'Livraison'], currentStep: 1,
   },
   {
-    id: 'MF-2406-9904', from: 'Strasbourg', to: 'Marseille',
+    id: 'MF-2406-9904', from: (clientCity(sessionData) ?? 'Strasbourg'), to: (clientCity(sessionData) ?? 'Marseille'),
     status: 'Livré', progress: 100, eta: 'Livré 09h14',
-    steps: ['Enlèvement', 'Tri Strasbourg', 'En route', 'Livraison'], currentStep: 3,
+    steps: ['Enlèvement', 'Tri ' + (clientCity(sessionData) ?? 'Strasbourg'), 'En route', 'Livraison'], currentStep: 3,
   },
 ];
 }
@@ -1042,12 +1042,12 @@ function PricingSection() {
 // ─── 7. COVERAGE MAP ──────────────────────────────────────────────────────────
 function AGENCIES_LIVE() {
   return [
-  { name: 'Paris',      cx: 370, cy: 210, main: true },
-  { name: 'Lyon',       cx: 420, cy: 345, main: true },
-  { name: 'Marseille',  cx: 415, cy: 455, main: true },
+  { name: (clientCity(sessionData) ?? 'Paris'),      cx: 370, cy: 210, main: true },
+  { name: (clientCity(sessionData) ?? 'Lyon'),       cx: 420, cy: 345, main: true },
+  { name: (clientCity(sessionData) ?? 'Marseille'),  cx: 415, cy: 455, main: true },
   { name: (clientCity({ formData: fd }) ?? 'Bordeaux'),   cx: 235, cy: 390, main: false },
-  { name: 'Lille',      cx: 355, cy: 130, main: false },
-  { name: 'Strasbourg', cx: 525, cy: 195, main: false },
+  { name: (clientCity(sessionData) ?? 'Lille'),      cx: 355, cy: 130, main: false },
+  { name: (clientCity(sessionData) ?? 'Strasbourg'), cx: 525, cy: 195, main: false },
   { name: 'Nantes',     cx: 210, cy: 290, main: false },
 ];
 }
@@ -1757,7 +1757,7 @@ export default function MeridianFreightPage() {
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,
   );
-  STATS_DATA = resolveList(clientStats(session), STATS_DATA_DEMO);
+  STATS_DATA = resolveList(clientStats(session)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, "") })), STATS_DATA_DEMO);
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
     TESTIMONIALS_DEMO,

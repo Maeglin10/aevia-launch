@@ -1,6 +1,8 @@
 "use client";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -80,7 +82,7 @@ export default function LumiereDoreePage() {
     TEMOIGNAGES_DEMO
   );
   const GALERIE = resolveList(
-    bpLocal?.beforeAfter?.map((b: any, i: number) => b.afterUrl || b.beforeUrl || GALERIE_DEMO[i % GALERIE_DEMO.length]),
+    bpLocal?.beforeAfter?.map((b: any, i: number) => b.afterUrl || b.beforeUrl || GALERIE_DEMO[i % GALERIE_DEMO.length])?.filter(Boolean),
     GALERIE_DEMO
   );
 
@@ -255,7 +257,7 @@ export default function LumiereDoreePage() {
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 48 }}>
-              <span style={{ fontFamily: FONT, fontStyle: "italic", fontSize: 20, color: C.white }}>{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Studio Lumière Dorée"))}</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontStyle: "italic", fontSize: 20, color: C.white }}>{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Studio Lumière Dorée"))}</span>
               <button onClick={() => setMenuOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: C.white }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <line x1="18" y1="6" x2="6" y2="18" />
@@ -368,9 +370,8 @@ export default function LumiereDoreePage() {
               marginBottom: 24,
               fontStyle: "italic",
             }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{c?.heroHeadline ?? <>
-            Chaque amour mérite<br />
-            <span style={{ color: C.accent, fontStyle: "italic" }}>d&apos;être raconté</span>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 19) ?? "Chaque amour mérite"}<br />
+            <span style={{ color: C.accent, fontStyle: "italic" }}>{clientHeroLine(sessionData, 1, 2, 19) ?? "d'être raconté"}</span>
           </>}</>)}</motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 28 }}
@@ -385,7 +386,7 @@ export default function LumiereDoreePage() {
               marginBottom: 40,
               maxWidth: 500,
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Photographe de mariage basée à {clientCity({ formData: fd }) ?? "Paris"}, je capture vos émotions avec discrétion et sensibilité pour des souvenirs qui durent toute une vie.
           </>}</motion.p>
           <motion.div
@@ -820,7 +821,7 @@ export default function LumiereDoreePage() {
               fontWeight: 300,
             }}
           >
-            <span>© 2025 Studio Lumière Dorée — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2025 {clientName(sessionData) ?? "Studio Lumière Dorée"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
             <div style={{ display: "flex", gap: 24 }}>
               <a href="/templates/impact-104/legal" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
               <a href="/templates/impact-104/legal" style={{ color: "inherit", textDecoration: "none" }}>Confidentialité</a>

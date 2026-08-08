@@ -11,8 +11,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import {
+  clientPhone,
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -49,15 +52,15 @@ function shadeColor(hex: string, percent: number): string {
 
 let C: Record<string, string> = {
   bg: "#FBF7EF",
-  bgDark: "var(--brand, #0A2540)",
+  bgDark: "var(--brand,#0A2540)",
   bgCard: "#FFFFFF",
-  text: "var(--brand, #0A2540)",
-  textMuted: "var(--brand,#6b7b8d)",
+  text: "var(--brand,#0A2540)",
+  textMuted: "#6b7b8d",
   textLight: "rgba(10,37,64,0.55)",
   accent: 'var(--brand-light,#c9a96e)',
   accentDark: "#9E7A45",
   accentLight: "#F0E6D3",
-  marine: "var(--brand, #0A2540)",
+  marine: "var(--brand,#0A2540)",
   marineMid: "#1A3A5C",
   sand: "#FBF7EF",
   sandDark: "#F0E6D3",
@@ -165,7 +168,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     name: "Marc & Isabelle Delacroix",
-    origin: "Genève",
+    origin: (clientCity(sessionData) ?? "Genève"),
     trip: "Grèce des Cyclades, 8 nuits",
     rating: 5,
     text: "Le voilier privatisé était une idée absolument parfaite. Santorin sans les foules à l'aube, Folegandros que personne ne connaît, une baie secrète à Amorgos… Évasion Dorée connaît vraiment la Grèce.",
@@ -615,9 +618,8 @@ return (
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             style={{ fontSize: "clamp(48px, 7.5vw, 110px)", fontWeight: 300, lineHeight: 1.0, letterSpacing: "-0.02em", color: C.white, marginBottom: 28, maxWidth: 800 }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            Le monde<br />
-            <em style={{ color: C.accent, fontStyle: "italic" }}>autrement.</em>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 10) ?? "Le monde"}<br />
+            <em style={{ color: C.accent, fontStyle: "italic" }}>{clientHeroLine(sessionData, 1, 2, 10) ?? "autrement."}</em>
           </>}</>)}</motion.h1>
 
           <motion.p
@@ -625,7 +627,7 @@ return (
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
             style={{ fontSize: "clamp(16px, 2vw, 20px)", color: "rgba(255,255,255,0.65)", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 48, maxWidth: 520, fontWeight: 300 }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Voyages sur mesure en classe affaires et première. Expériences exclusives inaccessibles au grand public. Conciergerie 24h/24 sur tous les continents.
           </>}</motion.p>
 
@@ -1125,7 +1127,7 @@ return (
                 <span style={{ fontSize: 20, fontWeight: 400, color: C.white, letterSpacing: "0.08em" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Évasion Dorée"))}</span>
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", fontFamily: "system-ui", lineHeight: 1.8, maxWidth: 280, marginBottom: 24 }}>
-                Agence de voyages de luxe sur mesure depuis 2006. {clientCity(sessionData) ?? "Paris"} · Genève · Monaco. IATA 88-2-0456.
+                Agence de voyages de luxe sur mesure depuis 2006. {clientCity(sessionData) ?? "Paris"} · {clientCity(sessionData) ?? "Genève"} · Monaco. IATA 88-2-0456.
               </p>
               <div style={{ display: "flex", gap: 12 }}>
                 {[Camera, MessageSquare, Users2].map((Icon, i) => (
@@ -1143,7 +1145,7 @@ return (
             {[
               { title: "Destinations", links: ["Maldives", "Japon", "Kenya", "Patagonie", "Grèce", "Rajasthan"] },
               { title: "Services", links: ["Voyages sur mesure", "Classe affaires", "Conciergerie 24h", "Voyages famille", "Lune de miel"] },
-              { title: "Contact", links: ["Consultation gratuite", "+33 1 42 68 90 00", (fd?.email ?? "paris@evasion-doree.fr"), "Mentions légales", "CGV"] },
+              { title: "Contact", links: ["Consultation gratuite", (clientPhone(sessionData) ?? "+33 1 42 68 90 00"), (fd?.email ?? "paris@evasion-doree.fr"), "Mentions légales", "CGV"] },
             ].map(col => (
               <div key={col.title}>
                 <h4 style={{ fontSize: 11, fontWeight: 600, color: C.accent, letterSpacing: "0.12em", marginBottom: 20, fontFamily: "system-ui" }}>
@@ -1192,7 +1194,7 @@ return (
           </div>
 
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.2)", fontFamily: "system-ui" }}>© 2024 Évasion Dorée — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.2)", fontFamily: "system-ui" }}>© 2024 {clientName(sessionData) ?? "Évasion Dorée"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
               {[1,2,3,4,5].map(i => <Star key={i} size={11} fill={C.accent} color={C.accent} />)}
               <span style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", fontFamily: "system-ui", marginLeft: 8 }}>4.97/5 — 1 200+ voyageurs</span>

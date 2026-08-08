@@ -14,6 +14,8 @@ import { ArrowRight, ChevronDown, Heart, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -720,7 +722,7 @@ function Hero() {
             margin: '28px 0 24px',
             textShadow: '0 14px 60px rgba(0,0,0,0.48)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 10) ?? (<>
           Médecine /{' '}
           <span style={{ color: C.accentLight }}>qui va</span>
           {' '}/ au fond.
@@ -739,10 +741,7 @@ function Hero() {
             lineHeight: 1.68,
             letterSpacing: '0.01em',
           }}
-        >
-          Consultations de 45 minutes, bilan fonctionnel complet, protocole
-          personnalisé. La santé que vous méritez vraiment.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Consultations de 45 minutes, bilan fonctionnel complet, protocole personnalisé. La santé que vous méritez vraiment."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -2082,7 +2081,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Dr. Alexandre Moulin. Médecin conventionné secteur 2 · RPPS
+          © 2026 {clientName(sessionData) ?? "Dr. Alexandre Moulin. Médecin"} conventionné secteur 2 · RPPS
           xxxxxxxxx.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
@@ -2204,7 +2203,7 @@ return (
       <AppointmentForm />
       <Footer />
       {/* PIED_MINIMAL — le nom du client n'apparaissait nulle part */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? 'impact-257'}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>

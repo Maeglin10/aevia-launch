@@ -10,6 +10,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -17,6 +19,7 @@ import {
   clientServices,
   clientTeam,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -31,7 +34,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CLINIQUE DU BOIS VERT — Vétérinaire ({clientCity(sessionData) ?? "Toulouse"})
+   CLINIQUE DU BOIS VERT — {clientTrade(sessionData) ?? "Vétérinaire"} ({clientCity(sessionData) ?? "Toulouse"})
    Palette : blanc chaud #fdfaf6 / vert nature #3a7d44 / vert clair #e8f5eb / brun doux #4a3728
    Fonts : Lora (serif chaleureux titres) + Source Sans 3 (corps)
    Style : chaleureux, naturel, confiance, bienveillant
@@ -192,7 +195,7 @@ export default function CliniqueBoisVertPage() {
                 </div>
                 <div>
                   <div className="font-bold text-[#2d2318] text-sm leading-tight" style={{ fontFamily: "'Lora', Georgia, serif" }}>{clientName(sessionData) ?? "Clinique du Bois Vert"}</div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60">Vétérinaire · {clientCity(sessionData) ?? "Toulouse"}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60">{clientTrade(sessionData) ?? "Vétérinaire"} · {clientCity(sessionData) ?? "Toulouse"}</div>
                 </div>
               </>
             )}
@@ -240,12 +243,12 @@ export default function CliniqueBoisVertPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-7 text-white" style={{ fontFamily: "'Lora', Georgia, serif" }}>{c?.heroHeadline ?? <>
-            Prendre soin<br />de ceux qu'ils <span className="text-[#6bbf78] italic">aiment.</span>
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-7 text-white" style={{ fontFamily: "'Lora', Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 14) ?? "Prendre soin"}<br />{clientHeroLine(sessionData, 1, 3, 14) ?? "de ceux qu'ils"}{" "}<span className="text-[#6bbf78] italic">{clientHeroLine(sessionData, 2, 3, 14) ?? "aiment."}</span>
           </>}</motion.h1>
 
+
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Clinique vétérinaire à {clientCity(sessionData) ?? "Toulouse"}. Consultations, chirurgie, urgences 7j/7 jusqu'à 20h. Une équipe bienveillante pour vos compagnons chats, chiens et NAC.
           </>}</motion.p>
 
@@ -511,7 +514,7 @@ export default function CliniqueBoisVertPage() {
               <div className="w-7 h-7 bg-[var(--brand,#3a7d44)] rounded-full flex items-center justify-center"><Heart className="w-3.5 h-3.5 text-white" /></div>
               <span className="font-bold text-white text-sm" style={{ fontFamily: "'Lora', serif" }}>Clinique du Bois Vert</span>
             </div>
-            <p className="text-white/20 text-sm leading-relaxed">Vétérinaire à {clientCity(sessionData) ?? "Toulouse"}. Consultations, chirurgie, urgences 7j/7. Chats, chiens, NAC.</p>
+            <p className="text-white/20 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Vétérinaire"} à {clientCity(sessionData) ?? "Toulouse"}. Consultations, chirurgie, urgences 7j/7. Chats, chiens, NAC.</p>
           </div>
           {[
             { t: "Soins", ls: [
@@ -546,7 +549,7 @@ export default function CliniqueBoisVertPage() {
           </div>
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 Clinique du Bois Vert · SIRET 012 345 678 00090 · Ordre National des Vétérinaires{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Clinique"} du Bois Vert · SIRET 012 345 678 00090 · Ordre National des Vétérinaires{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#3a7d44)]/25">Clinique vétérinaire · {clientCity(sessionData) ?? "Toulouse"}</span>
         </div>
       </footer>

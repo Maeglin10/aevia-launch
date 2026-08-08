@@ -11,6 +11,8 @@ import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientReviews,
@@ -35,7 +37,7 @@ let brand: any = null;
    tuiles CSS — pictogramme, teinte, libellé — comme une signalétique. */
 
 let C: Record<string, string> = {
-  bg: "#f7faf8", bgSection: "#eef4f0", bgDark: "var(--brand, #123528)",
+  bg: "#f7faf8", bgSection: "#eef4f0", bgDark: "var(--brand,#123528)",
   text: "#14231c", textMuted: "#5b6b62",
   accent: "var(--brand,#1a7a52)", accentDark: "#125c3d", accentLight: "#dcefe5",
   mint: "#7fc7a4",
@@ -58,7 +60,7 @@ const HERO_UNIVERS = [
     line: "Votre ordonnance préparée avant votre arrivée.",
     tiles: [
       { icon: Pill, t: "Renouvellement", d: "Traitements chroniques suivis, rappels quand il est temps.", bg: "#e3f2ea", fg: "#125c3d" },
-      { icon: ShieldCheck, t: "Tiers payant", d: "Aucune avance de frais avec carte Vitale et mutuelle.", bg: "var(--brand, #123528)", fg: "#dcefe5" },
+      { icon: ShieldCheck, t: "Tiers payant", d: "Aucune avance de frais avec carte Vitale et mutuelle.", bg: "var(--brand,#123528)", fg: "#dcefe5" },
       { icon: Stethoscope, t: "Conseil du pharmacien", d: "Interactions vérifiées à chaque délivrance.", bg: "#f2ecdc", fg: "#5c4a1e" },
     ],
   },
@@ -66,7 +68,7 @@ const HERO_UNIVERS = [
     k: "Prévention",
     line: "Vaccins et dépistage, sans rendez-vous médical.",
     tiles: [
-      { icon: Syringe, t: "Vaccination", d: "Grippe, COVID, rappels — pharmaciens formés, sur place.", bg: "var(--brand, #123528)", fg: "#dcefe5" },
+      { icon: Syringe, t: "Vaccination", d: "Grippe, COVID, rappels — pharmaciens formés, sur place.", bg: "var(--brand,#123528)", fg: "#dcefe5" },
       { icon: HeartPulse, t: "Tests TROD", d: "Angine, glycémie, tension : résultat en quelques minutes.", bg: "#e3f2ea", fg: "#125c3d" },
       { icon: CheckCircle, t: "Entretiens", d: "Asthme, anticoagulants : suivis personnalisés remboursés.", bg: "#e8e9f4", fg: "#2e3470" },
     ],
@@ -77,7 +79,7 @@ const HERO_UNIVERS = [
     tiles: [
       { icon: Baby, t: "Bébé & maman", d: "Lait, soins, tire-lait en location sur ordonnance.", bg: "#f2ecdc", fg: "#5c4a1e" },
       { icon: Cross, t: "Matériel médical", d: "Béquilles, lits, tensiomètres — vente et location LPP.", bg: "#e3f2ea", fg: "#125c3d" },
-      { icon: Star, t: "Dermo-cosmétique", d: "Peaux sensibles et traitements : conseils de diplômés.", bg: "var(--brand, #123528)", fg: "#dcefe5" },
+      { icon: Star, t: "Dermo-cosmétique", d: "Peaux sensibles et traitements : conseils de diplômés.", bg: "var(--brand,#123528)", fg: "#dcefe5" },
     ],
   },
 ];
@@ -258,10 +260,10 @@ export default function PharmacieDuParcPage() {
             Ouvert Lun–Sam 8h30–19h30, sans interruption
           </motion.div>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }} style={{ fontSize: "clamp(34px, 4.6vw, 60px)", fontWeight: 800, letterSpacing: -1.2, lineHeight: 1.08, margin: "0 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>Votre pharmacie,<br /><span style={{ color: C.accent }}>au-delà du comptoir.</span></>)}
+            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 20) ?? "Votre pharmacie,"}<br /><span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 20) ?? "au-delà du comptoir."}</span></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 500, marginBottom: 32 }}>
-            {fd?.tagline ?? c?.heroSubline ?? "Ordonnances préparées à l'avance, vaccination sans rendez-vous, tests rapides et vrai conseil de pharmaciens diplômés — au cœur du quartier du Parc, à Lille."}
+            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Ordonnances préparées à l'avance, vaccination sans rendez-vous, tests rapides et vrai conseil de pharmaciens diplômés — au cœur du quartier du Parc, à Lille."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={`mailto:${mail}`} style={{ background: C.accent, color: "#fff", borderRadius: 10, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, boxShadow: C.shadowLg }} whileHover={{ scale: 1.03 }}>
@@ -326,7 +328,7 @@ export default function PharmacieDuParcPage() {
                   <span style={{ fontSize: 14.5, lineHeight: 1.65, opacity: 0.9 }}>{step}</span>
                 </div>
               ))}
-              <a href={`mailto:${mail}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 10, background: C.mint, color: "var(--brand, #123528)", borderRadius: 10, padding: "13px 26px", fontWeight: 700, fontSize: 14.5, textDecoration: "none" }}>
+              <a href={`mailto:${mail}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 10, background: C.mint, color: "var(--brand,#123528)", borderRadius: 10, padding: "13px 26px", fontWeight: 700, fontSize: 14.5, textDecoration: "none" }}>
                 {mail}
               </a>
             </div>

@@ -37,6 +37,9 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
+  clientEmail,
+  clientAddress,
   clientCity,
   clientFaq,
   clientList,
@@ -356,9 +359,9 @@ export default function Template({ session: initialSession }: { session?: any } 
   const bp = session?.businessProfile;
 
   const businessName = fd.businessName || "Éco-Clean Habitat";
-  const contactEmail = fd?.email || "contact@eco-clean-habitat.fr";
-  const contactPhone = fd.contactPhone || "01 23 45 67 89";
-  const contactAddress = fd.contactAddress || "123 Rue de la Nature, 75001 Paris";
+  const contactEmail = clientEmail(sessionData) || "contact@eco-clean-habitat.fr";
+  const contactPhone = clientPhone(sessionData) || "01 23 45 67 89";
+  const contactAddress = fd.contactAddress || (clientAddress(sessionData) ?? "123 Rue de la Nature, 75001 Paris");
 
   // Colors
   const brandColor = fd.brandColor || DEFAULT_BRAND_COLOR;
@@ -684,7 +687,7 @@ export default function Template({ session: initialSession }: { session?: any } 
                   fontWeight: 400,
                 }}
               >
-                {c.heroTitle || "La pureté au naturel pour votre intérieur."}
+                {c?.heroTitle || "La pureté au naturel pour votre intérieur."}
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
@@ -697,7 +700,7 @@ export default function Template({ session: initialSession }: { session?: any } 
                   marginBottom: "40px",
                 }}
               >
-                {clientTagline(sessionData) ?? (c.heroSubtitle || "Services de nettoyage professionnel respectueux de l'environnement, de votre santé et de votre bien-être.")}
+                {clientTagline(sessionData) ?? (c?.heroSubtitle || "Services de nettoyage professionnel respectueux de l'environnement, de votre santé et de votre bien-être.")}
               </p>
             </Reveal>
             <Reveal delay={0.3} className="flex flex-col sm:flex-row gap-4">
@@ -1156,7 +1159,7 @@ export default function Template({ session: initialSession }: { session?: any } 
         </div>
       </footer>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-319"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

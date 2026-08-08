@@ -14,6 +14,8 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -115,13 +117,12 @@ return (
 
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light tracking-tighter leading-[1.1] pb-4 md:pb-6 text-white mb-6 md:mb-16 uppercase italic">{c?.heroHeadline ?? <>
-                Silent <br /> <span className="font-bold not-italic">Caliber.</span>
+              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light tracking-tighter leading-[1.1] pb-4 md:pb-6 text-white mb-6 md:mb-16 uppercase italic">{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "Silent"}<br /> <span className="font-bold not-italic">{clientHeroLine(sessionData, 1, 2, 8) ?? "Caliber."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col items-center justify-center gap-6 md:gap-16">
-                <p className="text-lg md:text-2xl text-white/40 font-light max-w-2xl leading-relaxed italic">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="text-lg md:text-2xl text-white/40 font-light max-w-2xl leading-relaxed italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   Crafting high-fidelity movements that beat with the rhythm of tradition and the precision of tomorrow.
                 </>}</p>
                 <div className="flex flex-wrap justify-center gap-4 md:gap-12">
@@ -378,7 +379,7 @@ return (
         </section>
       </main>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? "impact-60"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>

@@ -22,8 +22,11 @@ import {
   Shield,
 } from 'lucide-react';
 import {
+  clientAccrocheRestante,
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -667,11 +670,18 @@ function Hero() {
             margin: '28px 0 24px',
             textShadow: '0 12px 60px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 17) ?? (<>
           Le sourire{' '}
           <br />
           que vous méritez.
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 17) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 17)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}
@@ -2100,7 +2110,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Cabinet Dentaire Rosenfeld · {clientCity(sessionData) ?? "Strasbourg"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Cabinet Dentaire Rosenfeld"} · {clientCity(sessionData) ?? "Strasbourg"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="/templates/impact-273" style={{ color: 'inherit', textDecoration: 'none' }}>

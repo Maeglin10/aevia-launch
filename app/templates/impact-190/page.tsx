@@ -9,6 +9,8 @@ import { Wrench, Car, Settings, Zap, Shield, Clock, Star, Phone, MapPin, CheckCi
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -167,7 +169,7 @@ export default function AutoExpertPage() {
                 <div className="w-7 h-7 bg-[var(--brand,#dc2626)] flex items-center justify-center">
                   <Wrench className="w-4 h-4 text-white" />
                 </div>
-                <span className="font-bold text-[#f1f3f5] tracking-wide text-sm">{clientName({ formData: fd }) ?? "AUTO"}<span className="text-[var(--brand,#dc2626)]">EXPERT</span></span>
+                <span className="font-bold text-[#f1f3f5] tracking-wide text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName({ formData: fd }) ?? "AUTO"}<span className="text-[var(--brand,#dc2626)]">EXPERT</span></span>
               </>
             )}
           </div>
@@ -215,12 +217,12 @@ export default function AutoExpertPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-8 text-[#f1f3f5]">{c?.heroHeadline ?? <>
-            Votre voiture<br />entre <span className="text-[var(--brand,#dc2626)]">de bonnes mains.</span>
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-8 text-[#f1f3f5]">{<>{clientHeroLine(sessionData, 0, 3, 16) ?? "Votre voiture"}<br />{clientHeroLine(sessionData, 1, 3, 16) ?? "entre"}{" "}<span className="text-[var(--brand,#dc2626)]">{clientHeroLine(sessionData, 2, 3, 16) ?? "de bonnes mains."}</span>
           </>}</motion.h1>
 
+
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-[#f1f3f5]/30 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-md text-sm text-[#f1f3f5]/30 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Garage multimarque à {clientCity({ formData: fd }) ?? "Rennes"}. Entretien, carrosserie, diagnostic électronique, VE & hybrides. Devis gratuit sous 30 min. Prise en charge assurance directe.
           </>}</motion.p>
 
@@ -454,7 +456,7 @@ export default function AutoExpertPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f1f3f5]/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f1f3f5]/8">
-          <span>© 2026 AutoExpert {clientCity(sessionData) ?? "Rennes"} · SIRET 345 678 901 00022 · FCA · {clientCity(sessionData) ?? "Rennes"} (35){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "AutoExpert"} {clientCity(sessionData) ?? "Rennes"} · SIRET 345 678 901 00022 · FCA · {clientCity(sessionData) ?? "Rennes"} (35){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#dc2626)]/15">Garage multimarque {clientCity({ formData: fd }) ?? "Rennes"}</span>
         </div>
       </footer>

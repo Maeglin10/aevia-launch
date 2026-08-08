@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientAddress,
   clientEmail,
   clientName,
 } from "@/lib/templates/clientContent";

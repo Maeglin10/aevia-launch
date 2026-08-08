@@ -8,6 +8,8 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Music, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Guitar } from "lucide-react"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -226,7 +228,7 @@ export default function ConservatoireAccordPage() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+          <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  display: "flex", alignItems: "center", gap: 10 }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
             <Music size={20} color={scrolled ? C.amber : "#fff"} />
             <span style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: scrolled ? C.text : "#fff" }}>Conservatoire<span style={{ color: C.amber }}> Accord</span></span>
           </>)}</div>
@@ -282,12 +284,11 @@ export default function ConservatoireAccordPage() {
 
         <motion.div className="mb73-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.2vw, 68px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "mb73-hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            La musique s'apprend<br /><em style={{ color: C.amber }}>avec passion et méthode.</em>
+            style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.2vw, 68px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "mb73-hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 24) ?? "La musique s'apprend"}<br /><em style={{ color: C.amber }}>{clientHeroLine(sessionData, 1, 2, 24) ?? "avec passion et méthode."}</em>
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Conservatoire Accord forme les musiciens de 4 à 99 ans à {clientCity({ formData: fd }) ?? "Lyon"} depuis 18 ans. Piano, guitare, chant, batterie, solfège — cours individuels ou en groupe, enfants et adultes.
           </>}</motion.p>
 

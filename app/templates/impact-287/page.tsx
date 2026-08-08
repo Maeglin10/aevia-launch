@@ -28,6 +28,8 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientList,
   clientName,
@@ -64,7 +66,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CÔTE D'AZUR COACHING — Coach bien-être & remise en forme · Nice Promenade
+   CÔTE D'AZUR COACHING — Coach bien-être & remise en forme · {clientCity(sessionData) ?? "Nice"} Promenade
    Photographies plein cadre + chorégraphie de défilement méditerranéenne
    (style Riviera × énergie outdoor). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -557,7 +559,7 @@ function HeroSection() {
             margin: '28px 0 20px',
             textShadow: '0 10px 50px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 20) ?? (<>
           Ton corps,{' '}
           <span
             style={{
@@ -581,10 +583,7 @@ function HeroSection() {
             lineHeight: 1.65,
             fontWeight: 400,
           }}
-        >
-          Coaching outdoor & bien-être sur la Côte d&apos;Azur. Séances en
-          plein air, yoga face à la mer, running & nutrition méditerranéenne.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Coaching outdoor & bien-être sur la Côte d'Azur. Séances en plein air, yoga face à la mer, running & nutrition méditerranéenne."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -1011,7 +1010,7 @@ function PROGRAMS_DEMO_LIVE() {
     name: 'Running & Cardio',
     tagline: 'Progresser en course, gagner en endurance',
     description:
-      'Plan d&apos;entraînement running adapté à ton niveau. De la Prom&apos; des Anglais aux collines niçoises, repousse tes limites dans un cadre unique.',
+      'Plan d\'entraînement running adapté à ton niveau. De la Prom\' des Anglais aux collines niçoises, repousse tes limites dans un cadre unique.',
     price: '65 € / séance',
     features: [
       'Analyse foulée',
@@ -1317,7 +1316,7 @@ const PILLARS: Pillar[] = [
   {
     number: '03',
     title: 'Séances plein air',
-    body: 'La Méditerranée comme décor, les éléments comme partenaires. Toutes les séances se déroulent en extérieur sur les sites les plus beaux de la Côte d&apos;Azur.',
+    body: 'La Méditerranée comme décor, les éléments comme partenaires. Toutes les séances se déroulent en extérieur sur les sites les plus beaux de la Côte d\'Azur.',
   },
   {
     number: '04',
@@ -1535,7 +1534,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      'En 3 mois avec Thomas, j&apos;ai perdu 12 kg sans jamais me sentir à court d&apos;énergie. Les séances outdoor me donnaient envie de me lever le matin. La Prom&apos; des Anglais, c&apos;est devenu mon terrain de jeu.',
+      'En 3 mois avec Thomas, j\'ai perdu 12 kg sans jamais me sentir à court d\'énergie. Les séances outdoor me donnaient envie de me lever le matin. La Prom\' des Anglais, c\'est devenu mon terrain de jeu.',
     name: 'Céline R.',
     role: 'Responsable marketing · ' + (clientCity(sessionData) ?? 'Nice'),
     result: '-12 kg',
@@ -1543,7 +1542,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     quote:
-      'Je n&apos;arrivais pas à toucher mes genoux avec mes mains. Aujourd&apos;hui je fais des salutations au soleil face à la mer chaque matin. Le programme yoga & mobilité a tout changé. Mon dos ne me fait plus mal.',
+      'Je n\'arrivais pas à toucher mes genoux avec mes mains. Aujourd\'hui je fais des salutations au soleil face à la mer chaque matin. Le programme yoga & mobilité a tout changé. Mon dos ne me fait plus mal.',
     name: 'Laurent M.',
     role: 'Chef de projet IT · Sophia Antipolis',
     result: '+45%',
@@ -1551,7 +1550,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     quote:
-      'Objectif : terminer le marathon de ' + (clientCity(sessionData) ?? 'Nice') + '. Mission accomplie. Thomas a adapté le plan à mes contraintes de boulot, les entraînements collines m&apos;ont préparé à tout. Je recommande les yeux fermés.',
+      'Objectif : terminer le marathon de ' + (clientCity(sessionData) ?? 'Nice') + '. Mission accomplie. Thomas a adapté le plan à mes contraintes de boulot, les entraînements collines m\'ont préparé à tout. Je recommande les yeux fermés.',
     name: 'Amandine T.',
     role: 'Infirmière · Antibes',
     result: '4h12',
@@ -3099,7 +3098,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 Côte d&apos;Azur Coaching · Thomas Morel · Coach diplômé
+          © 2026 {clientName(sessionData) ?? "Côte"} d&apos;Azur Coaching · Thomas Morel · Coach diplômé
           d&apos;État{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 20 }}>

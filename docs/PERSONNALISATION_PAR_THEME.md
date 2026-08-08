@@ -29,7 +29,7 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-11 | ✓ | — | 4 | — | ✓ | ✓ |
 | impact-12 | ✓ | realisation | 10 | ✓ | — | ✓ |
 | impact-13 | ✓ | horaires | 9 | ✓ | ✓ | ✓ |
-| impact-14 | ✓ | telephone, email | 12 | ✗ | ✓ | ✓ |
+| impact-14 | ✓ | telephone, email | 12 | ✓ | ✓ | ✓ |
 | impact-15 | ✓ | telephone | 6 | ✓ | ✓ | ✓ |
 | impact-16 | ✓ | realisation | 3 | ✓ | ✓ | ✓ |
 | impact-17 | ✓ | realisation | 2 | ✓ | ✓ | Paris |
@@ -47,17 +47,17 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-29 | ✓ | email, realisation | 9 | ✓ | ✓ | Paris |
 | impact-30 | ✓ | telephone, email | 6 | ✓ | ✓ | Paris |
 | impact-31 | ✓ | telephone, email | 5 | — | ✓ | ✓ |
-| impact-32 | ✓ | email | 5 | — | ✓ | Bordeaux |
-| impact-33 | ✓ | telephone, email, horaires | 6 | — | ✓ | ✓ |
+| impact-32 | ✓ | email | 5 | ✓ | ✓ | Bordeaux |
+| impact-33 | ✓ | telephone, email, horaires | 6 | ✓ | ✓ | ✓ |
 | impact-34 | ✓ | — | 4 | — | ✓ | ✓ |
-| impact-35 | ✓ | email | 4 | — | ✓ | ✓ |
+| impact-35 | ✓ | email | 4 | ✓ | ✓ | ✓ |
 | impact-36 | ✓ | — | 5 | — | ✓ | contact@exemple.fr |
 | impact-37 | ✓ | email | 5 | ✓ | ✓ | Bordeaux |
-| impact-38 | ✓ | — | 9 | — | ✓ | contact@exemple.fr |
-| impact-39 | ✓ | — | 6 | — | ✓ | Paris, valentinmilliand@aevia.services |
-| impact-40 | ✓ | telephone, email | 6 | — | ✓ | ✓ |
+| impact-38 | ✓ | — | 9 | ✓ | ✓ | contact@exemple.fr |
+| impact-39 | ✓ | — | 6 | ✓ | ✓ | Paris, valentinmilliand@aevia.services |
+| impact-40 | ✓ | telephone, email | 6 | ✓ | ✓ | ✓ |
 | impact-41 | ✓ | — | 0 | — | ✓ | ✓ |
-| impact-42 | ✓ | email | 7 | — | ✓ | ✓ |
+| impact-42 | ✓ | email | 7 | ✓ | ✓ | ✓ |
 | impact-43 | ✓ | — | 6 | ✓ | ✓ | ✓ |
 | impact-44 | ✓ | — | 4 | — | ✓ | business@ghostprotocol.gg, tryout@ghostprotocol.gg |
 | impact-45 | ✓ | — | 4 | ✓ | ✓ | Paris |
@@ -134,12 +134,12 @@ horaires, adresse, réalisations — et ses propres images.
 | impact-116 | ✓ | email | 15 | ✓ | ✓ | ✓ |
 | impact-117 | ✓ | realisation | 3 | ✓ | ✓ | ✓ |
 | impact-118 | ✓ | realisation | 12 | ✓ | ✓ | ✓ |
-| impact-119 | ✓ | — | 6 | ✗ | — | ✓ |
+| impact-119 | ✓ | — | 6 | — | — | ✓ |
 | impact-120 | ✓ | — | 8 | ✓ | ✓ | ✓ |
 | impact-121 | ✓ | email | 6 | ✓ | — | ✓ |
 | impact-122 | ✓ | — | 5 | ✓ | ✓ | ✓ |
 | impact-123 | ✓ | — | 5 | ✓ | — | ✓ |
-| impact-124 | ✓ | realisation | 5 | ✗ | ✓ | ✓ |
+| impact-124 | ✓ | realisation | 5 | ✓ | ✓ | ✓ |
 | impact-125 | ✓ | — | 3 | ✓ | ✓ | ✓ |
 | impact-126 | ✓ | email, horaires | 5 | ✓ | ✓ | ✓ |
 | impact-127 | ✓ | — | 8 | ✓ | ✓ | ✓ |

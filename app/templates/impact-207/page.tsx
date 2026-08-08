@@ -15,7 +15,10 @@ import {
 import Link from "next/link"
 import { TemplateIcon } from '@/components/TemplateIcon'
 import {
+  clientHeroPrestations,
+  clientAccrocheRestante,
   clientCity,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientReviews,
@@ -538,7 +541,7 @@ function RouteMapHero() {
               letterSpacing: "-0.03em",
               maxWidth: 820,
             }}
-          >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+          >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
             Move Cargo
             <br />
             <span style={{ color: T.accent }}>Without Limits.</span>
@@ -552,11 +555,7 @@ function RouteMapHero() {
               maxWidth: 560,
               marginBottom: 44,
             }}
-          >
-            End-to-end freight solutions across air, sea, and road — connecting
-            your supply chain to 43 countries with real-time tracking, predictive
-            ETAs, and 98.4% on-time delivery.
-          </p>
+          >{clientHeroPrestations(sessionData) ?? "End-to-end freight solutions across air, sea, and road — connecting your supply chain to 43 countries with real-time tracking, predictive ETAs, and 98.4% on-time delivery."}</p>
 
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             <a href="#contact" className="n207-btn-primary">

@@ -9,6 +9,9 @@ import { Compass, ArrowRight, Menu, Star, MapPin, Mountain, Camera, Globe, Tent,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -229,16 +232,15 @@ export default function MeridianJourneyPage() {
             <Reveal>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-[1px] bg-[var(--brand,#2dd4bf)]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)]">Expedition Storytelling</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)]">{clientEyebrow(sessionData) ?? "Expedition Storytelling"}</span>
               </div>
             </Reveal>
             <Reveal delay={0.15} y={70}>
-              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black tracking-tighter leading-[0.8] mb-8 uppercase">{c?.heroHeadline ?? <>
-                Into The<br/><span className="text-[var(--brand,#2dd4bf)]">Unknown.</span>
+              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black tracking-tighter leading-[0.8] mb-8 uppercase">{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "Into The"}<br/><span className="text-[var(--brand,#2dd4bf)]">{clientHeroLine(sessionData, 1, 2, 8) ?? "Unknown."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-white/50 font-light leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="max-w-lg text-lg text-white/50 font-light leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Guided expeditions to the world's most remote landscapes. Small teams, real challenge, permanent transformation.
               </>}</p>
             </Reveal>
@@ -453,7 +455,7 @@ export default function MeridianJourneyPage() {
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 MERIDIAN EXPEDITIONS.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "MERIDIAN EXPEDITIONS."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span>INTO THE UNKNOWN.</span>
         </div>
       </footer>

@@ -29,6 +29,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -412,13 +414,10 @@ export default function SkylineConciergePage() {
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <h1 className="text-4xl sm:text-5xl md:text-[8rem] font-black leading-[0.95] sm:leading-[0.85] tracking-tighter mb-10 uppercase break-words">{c?.heroHeadline ?? <>
-              The Standard of <br />{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#c9a96e)] via-[#ffffff] to-[var(--brand,#c9a96e)]">
-                Absolute Luxury.
-              </span>
+            <h1 style={{ /* TITRE_DEGAGE */ marginTop: 29 }} className="text-4xl sm:text-5xl md:text-[8rem] font-black leading-[0.95] sm:leading-[0.85] tracking-tighter mb-10 uppercase break-words">{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "The Standard of"}<br />{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#c9a96e)] via-[#ffffff] to-[var(--brand,#c9a96e)]">{clientHeroLine(sessionData, 1, 2, 16) ?? "Absolute Luxury."}</span>
             </>}</h1>
-            <p className="max-w-2xl text-lg text-white/40 leading-relaxed font-light italic mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="max-w-2xl text-lg text-white/40 leading-relaxed font-light italic mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Confidential brokerage and lifestyle management for the world's
               most discerning families. From off-market penthouses to global
               asset security.
@@ -1083,7 +1082,7 @@ export default function SkylineConciergePage() {
         ::-webkit-scrollbar-thumb{background:#c9a96e}
       `}</style>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? "impact-92"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>

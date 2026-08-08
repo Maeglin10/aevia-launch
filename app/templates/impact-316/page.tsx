@@ -42,6 +42,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -343,13 +345,13 @@ export default function Page() {
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
           <Reveal delay={0.25}>
             <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(34px, 5.5vw, 72px)', lineHeight: 1.1, fontWeight: 700, color: C.white, marginBottom: 20 }}>
-              {c?.heroHeadline ?? <>L'excellence au service<br />de vos espaces professionnels</>}
+              {<>{clientHeroLine(sessionData, 0, 2, 15) ?? "L'excellence au service"}<br />{clientHeroLine(sessionData, 1, 2, 15) ?? "de vos espaces professionnels"}</>}
             </h1>
           </Reveal>
 
           <Reveal delay={0.4}>
             <p style={{ fontSize: 'clamp(15px, 1.6vw, 19px)', lineHeight: 1.6, color: 'rgba(255,255,255,0.8)', maxWidth: 650, marginBottom: 36 }}>
-              {fd?.tagline ?? c?.heroSubline ?? "Nettoyage de bureaux, copropriétés et locaux commerciaux. Équipes formées, certifiées et engagées pour un résultat irréprochable."}
+              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Nettoyage de bureaux, copropriétés'et locaux commerciaux. Équipes formées, certifiées et engagées pour un résultat irréprochable."}
             </p>
           </Reveal>
 
@@ -705,7 +707,7 @@ export default function Page() {
             </div>
           </div>
           <div style={{ paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.1)', textAlign: 'center', fontSize: 11.5, letterSpacing: '0.05em' }}>
-            © {new Date().getFullYear()} Pro-Nettoyage Services. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Pro-Nettoyage Services."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

@@ -30,9 +30,11 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientAddress,
   clientCertifications,
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -40,6 +42,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -54,7 +57,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AMPÈRE & FILS — Électricien artisan · {clientCity(sessionData) ?? "Nantes"} & Loire-Atlantique
+   AMPÈRE & FILS — {clientTrade(sessionData) ?? "Électricien"} artisan · {clientCity(sessionData) ?? "Nantes"} & Loire-Atlantique
    Template premium calqué sur impact-218. Auto-suffisant. 'use client'.
    10 sous-composants : Hero · Crossfade · Services · Process · Testimonials
                         DevisForm · IRVE · Solaire · Certif · Footer
@@ -557,7 +560,7 @@ function HeroSection() {
             margin: '28px 0 20px',
             textShadow: '0 12px 60px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 18) ?? (<>
           L&apos;électricité{' '}
           <span
             style={{
@@ -568,6 +571,13 @@ function HeroSection() {
             de confiance
           </span>
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 18) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 18)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 26 }}
@@ -583,7 +593,7 @@ function HeroSection() {
             marginBottom: 0,
           }}
         >
-          Installations électriques, bornes IRVE et panneaux photovoltaïques à
+          Installations électriques, bornes IRVE et panneaux photovoltaïques à{" "}
           {clientCity(sessionData) ?? "Nantes"} et partout en Loire-Atlantique. Certifié RGE, QualiPV, Qualifelec.
         </motion.p>
 
@@ -1173,7 +1183,7 @@ function ServicesSection() {
             }}
           >
             De la mise aux normes à l'installation solaire, Ampère &amp; Fils
-            couvre l'ensemble de vos besoins électriques à Nantes et en
+            couvre l'ensemble de vos besoins électriques à {clientCity(sessionData) ?? "Nantes"} et en
             Loire-Atlantique.
           </p>
         </Reveal>
@@ -1474,7 +1484,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     stars: 5,
   },
   {
-    name: 'Martine &amp; Jean-Pierre R.',
+    name: 'Martine & Jean-Pierre R.',
     city: 'Rezé (44400)',
     project: 'Panneaux solaires 6 kWc',
     text: "Pose de 16 panneaux photovoltaïques sur notre toit. Bilan de production sérieux, dossier MaPrimeRénov' géré de A à Z. Premier mois : 80 % de notre consommation couverte. Bravo pour le suivi !",
@@ -2658,7 +2668,7 @@ function CertifSection() {
               lineHeight: 1.7,
             }}
           >
-            Ampère &amp; Fils détient toutes les certifications nécessaires pour
+            Ampère & Fils détient toutes les certifications nécessaires pour
             vous ouvrir l'accès aux aides et subventions de l'État. Vous êtes
             entre de bonnes mains.
           </p>
@@ -2704,7 +2714,7 @@ function CertifSection() {
                 lineHeight: 1.15,
               }}
             >
-              Prêt à démarrer votre projet&nbsp;?
+              Prêt à démarrer votre projet ?
             </h3>
             <p
               style={{
@@ -2845,7 +2855,7 @@ function FooterSection() {
                     lineHeight: 1,
                   }}
                 >
-                  Ampère &amp; Fils
+                  Ampère & Fils
                 </div>
                 <div
                   style={{
@@ -2872,7 +2882,7 @@ function FooterSection() {
                 margin: '0 0 22px',
               }}
             >
-              Électricien artisan à {clientCity(sessionData) ?? "Nantes"} depuis 1989. Installation, rénovation,
+              {clientTrade(sessionData) ?? "Électricien"} artisan à {clientCity(sessionData) ?? "Nantes"} depuis 1989. Installation, rénovation,
               bornes IRVE et panneaux solaires en Loire-Atlantique.
             </p>
 
@@ -3055,7 +3065,7 @@ function FooterSection() {
               lineHeight: 1.6,
             }}
           >
-            © {new Date().getFullYear()} Ampère &amp; Fils · SIRET 000 000 000 00000 ·
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Ampère & Fils"} · SIRET 000 000 000 00000 ·
             RGE n°E-E210000 · IRVE certifié INERIS · Assurance décennale Allianz n°SIN-XXX-XXXXX
           {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
           <div
@@ -3226,7 +3236,7 @@ export default function Impact288Page() {
       <CertifSection />
       <FooterSection />
       {/* PIED_MINIMAL — le nom du client n'apparaissait nulle part */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? 'impact-288'}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>

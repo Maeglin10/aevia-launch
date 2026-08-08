@@ -17,6 +17,8 @@ import {
 } from "./shared";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -139,10 +141,7 @@ return (
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
-              >{c?.heroHeadline ?? <>
-                Generative <br />
-                Art Pipelines
-              </>}</h1>
+              >{<>{clientHeroLine(sessionData, 0, 2, 13) ?? "Generative"}<br />{clientHeroLine(sessionData, 1, 2, 13) ?? "Art Pipelines"}</>}</h1>
             </Reveal>
 
             <Reveal delay={0.2}>
@@ -154,7 +153,7 @@ return (
                   maxWidth: 480,
                   marginBottom: 40,
                 }}
-              >{fd?.tagline ?? c?.heroSubline ?? <>
+              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Consolidate your rendering stack onto a direct GPU cluster.
                 Build, mutation, and deployment layered in mathematical vector spaces.
               </>}</p>
@@ -221,7 +220,7 @@ return (
                   fontWeight: 700,
                   textTransform: "uppercase",
                   letterSpacing: "0.1em",
-                  color: brand ?? 'var(--brand,#00ffd1)',
+                  color: brand ?? '#00ffd1',
                   marginBottom: 12,
                   display: "block",
                 }}
@@ -381,7 +380,7 @@ return (
                     fontFamily: "'Syne', sans-serif",
                     fontWeight: 800,
                     letterSpacing: "-0.03em",
-                    color: brand ?? 'var(--brand,#00ffd1)',
+                    color: brand ?? '#00ffd1',
                     marginBottom: 8,
                     textShadow: "0 0 20px rgba(0,255,209,0.3)",
                   }}
@@ -407,7 +406,7 @@ return (
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <Reveal>
             <div style={{ marginBottom: 80, textAlign: "center" }}>
-              <span style={{fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: brand ?? 'var(--brand,#00ffd1)', marginBottom: 12, display: "block" }}>
+              <span style={{fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: brand ?? '#00ffd1', marginBottom: 12, display: "block" }}>
                 {tr({ formData: fd }, "Pricing")}
               </span>
               <h2 style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontFamily: "'Syne', sans-serif", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
@@ -429,20 +428,20 @@ return (
                   }}
                 >
                   {plan.highlight && (
-                    <div style={{position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: brand ?? 'var(--brand,#00ffd1)', color: "#050510", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, padding: "4px 16px", borderRadius: 100 }}>
+                    <div style={{position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: brand ?? '#00ffd1', color: "#050510", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, padding: "4px 16px", borderRadius: 100 }}>
                       Most Popular
                     </div>
                   )}
                   <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 8 }}>{plan.name}</h3>
                   <p style={{ fontSize: 13, color: plan.highlight ? "rgba(255,255,255,0.7)" : "rgba(232,232,255,0.45)", marginBottom: 24, lineHeight: 1.5 }}>{plan.desc}</p>
                   <div style={{ marginBottom: 32 }}>
-                    <span style={{ fontSize: "clamp(36px, 4vw, 52px)", fontFamily: "'Syne', sans-serif", fontWeight: 800, color: plan.highlight ? "#fff" : "var(--brand,#00ffd1)", letterSpacing: "-0.03em" }}>{plan.price}</span>
+                    <span style={{ fontSize: "clamp(36px, 4vw, 52px)", fontFamily: "'Syne', sans-serif", fontWeight: 800, color: plan.highlight ? "#fff" : "#00ffd1", letterSpacing: "-0.03em" }}>{plan.price}</span>
                     {plan.period && <span style={{ fontSize: 14, color: plan.highlight ? "rgba(255,255,255,0.6)" : "rgba(232,232,255,0.4)" }}>{plan.period}</span>}
                   </div>
                   <ul style={{ display: "flex", flexDirection: "column" as const, gap: 12, marginBottom: 36 }}>
                     {plan.features.map((f) => (
                       <li key={f} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, color: plan.highlight ? "rgba(255,255,255,0.85)" : "rgba(232,232,255,0.6)" }}>
-                        <Check style={{ width: 14, height: 14, color: plan.highlight ? "var(--brand,#00ffd1)" : "var(--brand-light,#7c3aed)", flexShrink: 0 }} />
+                        <Check style={{ width: 14, height: 14, color: plan.highlight ? "#00ffd1" : "var(--brand-light,#7c3aed)", flexShrink: 0 }} />
                         {f}
                       </li>
                     ))}
@@ -457,7 +456,7 @@ return (
                       fontWeight: 700,
                       fontSize: 14,
                       textDecoration: "none",
-                      background: plan.highlight ? "var(--brand,#00ffd1)" : "rgba(124,58,237,0.1)",
+                      background: plan.highlight ? "#00ffd1" : "rgba(124,58,237,0.1)",
                       color: plan.highlight ? "#050510" : "#e8e8ff",
                       border: plan.highlight ? "none" : "1px solid rgba(124,58,237,0.3)",
                       transition: "opacity 0.2s",
@@ -488,7 +487,7 @@ return (
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "600px", height: "400px", background: "radial-gradient(ellipse, rgba(124,58,237,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "relative", maxWidth: 700, margin: "0 auto" }}>
           <Reveal>
-            <span style={{fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: brand ?? 'var(--brand,#00ffd1)', marginBottom: 12, display: "block" }}>
+            <span style={{fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: brand ?? '#00ffd1', marginBottom: 12, display: "block" }}>
               Start rendering
             </span>
             <h2
@@ -548,7 +547,7 @@ return (
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-54"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

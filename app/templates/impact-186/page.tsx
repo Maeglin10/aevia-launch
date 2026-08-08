@@ -10,6 +10,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -359,12 +361,11 @@ export default function DrFontainePage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-7 text-white">{c?.heroHeadline ?? <>
-            Votre sourire,<br /><span className="text-[#7bc3f5]">notre priorité.</span>
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-7 text-white">{<>{clientHeroLine(sessionData, 0, 2, 15) ?? "Votre sourire,"}<br /><span className="text-[#7bc3f5]">{clientHeroLine(sessionData, 1, 2, 15) ?? "notre priorité."}</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Cabinet dentaire moderne à {clientCity(sessionData) ?? "Nantes"}. Soins conservateurs, implants, esthétique et orthodontie. Équipement numérique dernière génération. Prise de RDV en ligne 24h/24.
           </>}</motion.p>
 
@@ -611,7 +612,7 @@ export default function DrFontainePage() {
           </div>
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 Dr. Léa Fontaine · RPPS 10234567890 · Secteur 2 · {clientCity(sessionData) ?? "Nantes"} (44){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Dr. Léa Fontaine"} · RPPS 10234567890 · Secteur 2 · {clientCity(sessionData) ?? "Nantes"} (44){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#1d6fa4)]/25">Cabinet dentaire · {clientCity(sessionData) ?? "Nantes"}</span>
         </div>
       </footer>

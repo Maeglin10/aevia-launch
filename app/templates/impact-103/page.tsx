@@ -10,6 +10,9 @@ import { Scale, ArrowRight, Menu, Star, Shield, Gavel, Briefcase, Landmark, Glob
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -272,16 +275,15 @@ export default function LuminaLawPage() {
                 <Reveal>
                   <div className="inline-flex items-center gap-4 mb-5 md:mb-10">
                      <div className="w-12 h-[2px] bg-[var(--brand,#1a365d)]" />
-                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1a365d)]">Elite Legal Counsel</span>
+                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1a365d)]">{clientEyebrow(sessionData) ?? "Elite Legal Counsel"}</span>
                   </div>
                 </Reveal>
                 <Reveal delay={0.1} y={60}>
-                  <h1 className="text-5xl sm:text-6xl md:text-[9rem] font-bold tracking-tighter leading-[0.95] md:leading-[0.8] text-[#1a1a1a] mb-6 md:mb-12 uppercase break-words" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
-                    Power <br/> <span className="text-[var(--brand,#1a365d)] font-light italic italic-none">In Truth.</span>
+                  <h1 className="text-5xl sm:text-6xl md:text-[9rem] font-bold tracking-tighter leading-[0.95] md:leading-[0.8] text-[#1a1a1a] mb-6 md:mb-12 uppercase break-words" style={{ fontFamily: "serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Power"}<br/> <span className="text-[var(--brand,#1a365d)] font-light italic italic-none">{clientHeroLine(sessionData, 1, 2, 9) ?? "In Truth."}</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <p className="text-base md:text-xl text-black/60 font-light max-w-lg leading-relaxed mb-6 md:mb-12">{fd?.tagline ?? c?.heroSubline ?? <>
+                  <p className="text-base md:text-xl text-black/60 font-light max-w-lg leading-relaxed mb-6 md:mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                     Lumina Law is a high-stakes firm dedicated to complex litigation and corporate strategy. When the outcome defines your legacy, we are the standard.
                   </>}</p>
                 </Reveal>
@@ -580,7 +582,7 @@ export default function LuminaLawPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-black/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-black/10">
-          <span>© 2026 LUMINA LAW GLOBAL PARTNERSHIP. STRENGTH IN TRUTH.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "LUMINA LAW GLOBAL PARTNERSHIP."} STRENGTH IN TRUTH.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <div className="flex gap-12">
              <Link href="#contact" className="hover:text-black transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> LONDON · NEW YORK · SINGAPORE</Link>
              <Link href="#contact" className="hover:text-black transition-colors flex items-center gap-2"><FileText className="w-3 h-3" /> LEGAL TERMS</Link>

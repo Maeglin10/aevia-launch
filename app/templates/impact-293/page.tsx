@@ -46,6 +46,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -523,9 +525,7 @@ return (
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              La Vraie Pizza<br />Napolitaine
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "La Vraie Pizza"}<br />{clientHeroLine(sessionData, 1, 2, 14) ?? "Napolitaine"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -536,7 +536,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Farine 00 Caputo, tomates San Marzano, four à bois. En 30 minutes.
             </>}</p>
           </Reveal>
@@ -653,7 +653,7 @@ return (
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Pizza Napoli Express"))}</Eyebrow>
+                <Eyebrow style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Pizza Napoli Express"))}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1306,7 +1306,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Pizza Napoli Express. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Pizza Napoli Express."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

@@ -34,9 +34,11 @@ import {
   Check,
 } from "lucide-react"
 import {
+  clientAccrocheRestante,
   clientAddress,
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientHours,
   clientName,
   clientPhotos,
@@ -106,7 +108,7 @@ let C: Record<string, string> = {
   bgDeep:    "#FCE7F3",
   primary:   "var(--brand,#ec4899)",
   secondary: "#8B5CF6",
-  text:      "var(--brand-light,#831843)",
+  text: "#831843",
   textSoft:  "#9D174D",
   textMuted: "#BE185D",
   textLight: "#F9A8D4",
@@ -779,7 +781,7 @@ function Hero() {
           <h1
             className="text-[clamp(52px,8vw,96px)] font-[700] italic leading-[0.92] tracking-[-0.02em] text-[var(--brand-light,#831843)] mb-8"
             style={{ fontFamily: "'Playfair Display', serif" }}
-          >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+          >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 27) ?? (<>
             <motion.span
               className="block"
               initial={{ opacity: 0, y: 32 }}
@@ -805,6 +807,13 @@ function Hero() {
               Parfait.
             </motion.span>
           </>)}</h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 27) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 27)}
+        </p>
+      )}
+
 
           <motion.p
             initial={{ opacity: 0 }}
@@ -1318,7 +1327,7 @@ function TestimonialsSection() {
                 </p>
                 <div className="flex items-center justify-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--brand,#ec4899)] to-[#8B5CF6] flex items-center justify-center text-white text-[14px] font-[700]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    {testimonials[active].avatar ?? (testimonials[active].name ?? testimonials[active].author ?? "?")[0]}
+                    {testimonials[active].avatar || (testimonials[active].name ?? testimonials[active].author ?? "?")[0]}
                   </div>
                   <div className="text-left">
                     <p className="text-[14px] font-[600] text-[var(--brand-light,#831843)]" style={{ fontFamily: "'Inter', sans-serif" }}>{testimonials[active].name ?? testimonials[active].author}</p>
@@ -1602,7 +1611,7 @@ function ContactFooter() {
             <span className="text-white/40 text-[12px]" style={{ fontFamily: "'Inter', sans-serif" }}>· {clientCity(sessionData) ?? "Paris"}</span>
           </div>
           <p className="text-[11px] text-white/40 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
-            © 2025 Velvet Nails — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2025 {clientName(sessionData) ?? "Velvet Nails"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div className="flex gap-5">
             <Link href="/templates/impact-88/mentions-legales" className="text-[11px] text-white/40 hover:text-white/80 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>

@@ -74,7 +74,7 @@ function projects_LIVE() {
   },
   { 
     name: "CONCRETE CHAPEL", 
-    loc: "Marseille", 
+    loc: clientCityOr("Marseille"), 
     year: "2023", 
     type: "Cultural", 
     img: clientPhotoAt(9, "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=800&h=600&fit=crop&crop=center"),
@@ -85,7 +85,7 @@ function projects_LIVE() {
   },
   { 
     name: "SILOS — Mixed Use Development", 
-    loc: "Lyon", 
+    loc: clientCityOr("Lyon"), 
     year: "2022", 
     type: "Mixed Use", 
     img: clientPhotoAt(10, "https://images.unsplash.com/photo-1460317442991-0ec209397118?w=800&h=600&fit=crop&crop=center"),
@@ -96,7 +96,7 @@ function projects_LIVE() {
   },
   { 
     name: "RAW TOWER — Office Tower", 
-    loc: "Bordeaux", 
+    loc: clientCityOr("Bordeaux"), 
     year: "2022", 
     type: "Commercial", 
     img: clientPhotoAt(11, "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=800&h=600&fit=crop&crop=center"),
@@ -133,7 +133,7 @@ function testimonials_LIVE() {
     quote: "Brutco doesn't deliver a building. They deliver a manifesto in concrete. We had no brief — only the ambition to create something that would outlast us. They made that real.",
     author: "Jean-Luc Marais",
     title: "CEO, Groupe Marais Développement",
-    project: "SILOS — Lyon",
+    project: "SILOS — " + clientCityOr("Lyon"),
     img: clientPhotoAt(16, "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=120&h=120&fit=crop&crop=face")
   },
   {
@@ -147,7 +147,7 @@ function testimonials_LIVE() {
     quote: "The Concrete Chapel has received over 12,000 visitors in its first year — not to pray, but to experience the acoustics. Brutco achieved something most architects never will: pure presence.",
     author: "Père Antoine Séverin",
     title: "Director, Fondation Séverin",
-    project: "CONCRETE CHAPEL — Marseille",
+    project: "CONCRETE CHAPEL — " + clientCityOr("Marseille"),
     img: clientPhotoAt(18, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=face")
   },
 ];
@@ -189,12 +189,12 @@ export const processSteps = [
 
 export const awards = [
   { year: "2024", award: "Grand Prix d'Architecture de France", cat: "Social Housing", project: "BLOC K, " + clientCityOr("Paris") + " 19ème" },
-  { year: "2023", award: "European Concrete Award", cat: "Material Innovation", project: "Concrete Chapel, Marseille" },
-  { year: "2022", award: "Prix National de la Construction", cat: "Mixed-Use Development", project: "SILOS, Lyon" },
-  { year: "2021", award: "RIBA International Prize — Shortlist", cat: "Excellence in Architecture", project: "RAW TOWER, Bordeaux" },
+  { year: "2023", award: "European Concrete Award", cat: "Material Innovation", project: "Concrete Chapel, " + clientCityOr("Marseille") },
+  { year: "2022", award: "Prix National de la Construction", cat: "Mixed-Use Development", project: "SILOS, " + clientCityOr("Lyon") },
+  { year: "2021", award: "RIBA International Prize — Shortlist", cat: "Excellence in Architecture", project: "RAW TOWER, " + clientCityOr("Bordeaux") },
   { year: "2020", award: "Mies van der Rohe Award — Nomination", cat: "European Architecture", project: "BUNKER OFFICE, La Défense" },
-  { year: "2018", award: "Prix de la Fondation d'Architecture", cat: "Cultural Buildings", project: "Concrete Chapel, Marseille" },
-  { year: "2017", award: "Grand Prix d'Architecture de France", cat: "Cultural Heritage", project: "Concrete Chapel, Marseille" },
+  { year: "2018", award: "Prix de la Fondation d'Architecture", cat: "Cultural Buildings", project: "Concrete Chapel, " + clientCityOr("Marseille") },
+  { year: "2017", award: "Grand Prix d'Architecture de France", cat: "Cultural Heritage", project: "Concrete Chapel, " + clientCityOr("Marseille") },
   { year: "2015", award: "Prix Spécial du Jury — Equerre d'Argent", cat: "Public Architecture", project: "BLOC K, " + clientCityOr("Paris") + " 19ème" },
 ]
 

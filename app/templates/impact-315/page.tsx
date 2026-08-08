@@ -43,6 +43,8 @@ import {
   clientCertifications,
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -593,9 +595,8 @@ export default function Page() {
               fontWeight: 700,
               color: C.text,
               marginBottom: 20,
-            }}>{c?.heroHeadline ?? <>
-              Un intérieur{'\u00A0'}impeccable,<br />sans lever le petit doigt
-            </>}</h1>
+            }}>{<>
+              Un intérieur{'\u00A0'}impeccable,<br />{clientHeroLine(sessionData, 0, 1, 25) ?? "sans lever le petit doigt"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -605,7 +606,7 @@ export default function Page() {
               color: C.textMuted,
               maxWidth: 600,
               margin: '0 auto 36px',
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Service de ménage à domicile professionnel. Personnel formé, assuré et vérifié. Réservation en ligne en 2 minutes.
             </>}</p>
           </Reveal>
@@ -1463,7 +1464,7 @@ export default function Page() {
             fontSize: 11.5,
             letterSpacing: '0.05em',
           }}>
-            © {new Date().getFullYear()} Brise de Propreté. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Brise"} de Propreté. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

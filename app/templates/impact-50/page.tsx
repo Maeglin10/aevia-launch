@@ -16,12 +16,15 @@ import {
 import { PanelRise } from "@/lib/templates/hero-kit-3"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -49,7 +52,7 @@ let C: Record<string, string> = {
   bg: "#faf7f4",
   bgSection: "#f2ece5",
   text: "#2a1f14",
-  textMuted: "var(--brand-light,#7a6655)",
+  textMuted: "#7a6655",
   accent: "#4a7c6f",
   accentDark: "#355c52",
   accentLight: "#d8ede9",
@@ -311,13 +314,12 @@ export default function CabinetMoreauPage() {
 
         <motion.div className="imx50-hero-content" style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px,7vw,80px) clamp(40px,8vw,90px)", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(40px, 5.2vw, 68px)", fontWeight: 400, color: "#fff", lineHeight: 1.12, marginBottom: 24 }}>{c?.heroHeadline ?? <>
-            Un espace pour se retrouver,<br /><em>à son propre rythme.</em>
+            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(40px, 5.2vw, 68px)", fontWeight: 400, color: "#fff", lineHeight: 1.12, marginBottom: 24 }}>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Un espace pour se retrouver,"}<br /><em>{clientHeroLine(sessionData, 1, 2, 14) ?? "à son propre rythme."}</em>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{fd?.tagline ?? c?.heroSubline ?? <>
-            Psychologue clinicienne à {clientCity({ formData: fd }) ?? "Montpellier"}, je vous accompagne face aux difficultés émotionnelles, relationnelles et professionnelles avec bienveillance et méthodes fondées sur les preuves.
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            {clientTrade(sessionData) ?? "Psychologue"} clinicienne à {clientCity({ formData: fd }) ?? "Montpellier"}, je vous accompagne face aux difficultés émotionnelles, relationnelles et professionnelles avec bienveillance et méthodes fondées sur les preuves.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -489,7 +491,7 @@ export default function CabinetMoreauPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: brand ?? 'var(--brand,#9fd4c9)', marginBottom: 8 }}>Laurence Moreau</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Psychologue clinicienne · {clientCity({ formData: fd }) ?? "Montpellier"}<br />Lun–Ven 9h–19h | Sam 9h–13h</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Psychologue"} clinicienne · {clientCity({ formData: fd }) ?? "Montpellier"}<br />Lun–Ven 9h–19h | Sam 9h–13h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Montpellier") + ", Hérault" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 34 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h" }].map((item, i) => (

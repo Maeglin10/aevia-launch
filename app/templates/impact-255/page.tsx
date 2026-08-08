@@ -14,6 +14,8 @@ import { ArrowRight, ChevronDown, Shield, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -683,7 +685,7 @@ function Hero() {
             maxWidth: '16ch',
             textShadow: '0 12px 60px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 11) ?? (<>
           Votre droit{' '}
           <span style={{ color: C.accentLight }}>/</span>
           <br />
@@ -703,9 +705,7 @@ function Hero() {
             lineHeight: 1.7,
             marginBottom: 'clamp(28px,3.5vw,48px)',
           }}
-        >
-          Droit des affaires et contentieux commercial. 15 ans d'expérience au service des entreprises qui ne transigent pas sur leurs droits.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Droit des affaires et contentieux commercial. 15 ans d'expérience au service des entreprises qui ne transigent pas sur leurs droits."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -786,7 +786,7 @@ function Intro() {
             color: C.ink,
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "intro.texte") ?? (<>
-          "Le droit n&apos;est pas un obstacle à votre développement. C&apos;est votre meilleure protection."
+          "Le droit n'est pas un obstacle à votre développement. C'est votre meilleure protection."
         </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>

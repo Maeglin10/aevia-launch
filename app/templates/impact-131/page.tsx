@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientAddress,
   clientCity,
   clientList,
   clientName,
@@ -2065,7 +2066,7 @@ export default function WineryTemplate() {
                 marginBottom: 24,
               }}
             >
-              Quatrième génération du domaine, Jean-Pierre a étudié l'oenologie à Bordeaux et fait ses armes dans la vallée du Rhône avant de reprendre Château de Valroc en 2005. Sa philosophie : laisser parler le terroir, intervenir le moins possible.
+              Quatrième génération du domaine, Jean-Pierre a étudié l'oenologie à {clientCity(sessionData) ?? "Bordeaux"} et fait ses armes dans la vallée du Rhône avant de reprendre Château de Valroc en 2005. Sa philosophie : laisser parler le terroir, intervenir le moins possible.
             </p>
             <p
               style={{
@@ -2314,7 +2315,7 @@ export default function WineryTemplate() {
 
               {/* Contact details */}
               {[
-                { label: "Adresse", value: "Château de Valroc, Route des Graves, 33760 Escoussans" },
+                { label: "Adresse", value: (clientAddress(sessionData) ?? "Château de Valroc, Route des Graves, 33760 Escoussans") },
                 { label: "Téléphone", value: "+33 5 56 23 78 90" },
                 { label: "Email", value: (fd?.email ?? "contact@chateau-valroc.fr") },
               ].map((c) => (
@@ -2568,7 +2569,7 @@ export default function WineryTemplate() {
                 textTransform: "uppercase",
               }}
             >
-              © 2024 Château de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2024 {clientName(sessionData) ?? "Château"} de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["Instagram", "LinkedIn", "Newsletter"]).map((s) => (
@@ -2760,7 +2761,7 @@ export default function WineryTemplate() {
             required
             value={orderForm.address}
             onChange={(e) => setOrderForm((f) => ({ ...f, address: e.target.value }))}
-            placeholder="12 rue des Graves, 33760 Escoussans"
+            placeholder={clientAddress(sessionData) ?? "12 rue des Graves, 33760 Escoussans"}
             className="mb131-field"
             style={modalInputStyle}
           />

@@ -1,5 +1,7 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import { motion, useScroll } from "framer-motion"
@@ -131,7 +133,7 @@ export default function ProposPage() {
                 <span className="text-[#C9A86C] text-xs tracking-widest uppercase mb-4 block font-mono">Elena Korr</span>
                 <h2 className="text-4xl md:text-6xl font-light leading-tight mb-8 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Capturer le <span className="italic">temps suspendu.</span></h2>
                 <p className="text-white/60 text-lg leading-relaxed mb-6 font-sans font-light">
-                  Diplômée de l'École Nationale Supérieure des Arts Décoratifs de Paris, je consacre ma pratique photographique à l'étude des ambiances lumineuses contrastées et à la géométrie rigoureuse des lignes architecturales.
+                  Diplômée de l'École Nationale Supérieure des Arts Décoratifs de {clientCity(sessionData) ?? "Paris"}, je consacre ma pratique photographique à l'étude des ambiances lumineuses contrastées et à la géométrie rigoureuse des lignes architecturales.
                 </p>
                 <p className="text-white/40 text-sm leading-relaxed mb-10 font-sans font-light">
                    Mon travail navigue entre la spontanéité du reportage de rue et la rigueur millimétrée du portrait de mode en studio. J'ai eu l'opportunité de collaborer avec des maisons de haute couture internationales et des rédactions de presse indépendantes qui partagent cette même obsession de l'excellence visuelle.

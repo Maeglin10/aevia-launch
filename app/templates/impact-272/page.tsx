@@ -13,7 +13,9 @@ import {
 import { ArrowRight, ChevronDown, Heart, MapPin, Quote } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -79,7 +81,7 @@ const SANS = "'Nunito', system-ui, sans-serif" as const;
 
 /* ── Photos Unsplash ──────────────────────────────────────────────────────── */
 function BASE_LIVE() {
-  return (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-');
+  return 'https://images.unsplash.com/photo-';
 }
 let BASE = BASE_LIVE();
 function P_LIVE() {
@@ -697,13 +699,20 @@ function Hero() {
             margin: '28px 0 24px',
             textShadow: '0 10px 60px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 21) ?? (<>
           Kiné{' '}
           <span style={{ fontStyle: 'normal', color: C.accentLight }}>
             /
           </span>{' '}
           pour les tout-petits.
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 21) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 21)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 26 }}
@@ -2170,7 +2179,7 @@ function Footer() {
           fontWeight: 300,
         }}
       >
-        <span>© 2026 KinéPédiatrie {clientCity(sessionData) ?? "Bordeaux"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "KinéPédiatrie"} {clientCity(sessionData) ?? "Bordeaux"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

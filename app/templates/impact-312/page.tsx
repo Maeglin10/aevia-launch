@@ -31,8 +31,12 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientHeroPrestations,
+  clientAccrocheRestante,
+  clientAddress,
   clientCity,
   clientFaq,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -351,7 +355,7 @@ export default function GarageMinimalistTemplate() {
   const businessName = fd.businessName || "Garage Minimalist";
   const phone = fd.phone || "01 23 45 67 89";
   const email = fd.email || "contact@garageminimalist.fr";
-  const address = fd.location || "123 Avenue de l'Automobile, 75000 Paris";
+  const address = fd.location || (clientAddress(sessionData) ?? "123 Avenue de l'Automobile, 75000 Paris");
 
   // Client-uploaded photos (uploaded in the brief) replace the stock
   // Unsplash placeholders — hero shot and about-section image first.
@@ -551,9 +555,7 @@ export default function GarageMinimalistTemplate() {
             </Reveal>
             
             <Reveal delay={0.2}>
-              <p style={{ fontSize: "1.25rem", maxWidth: "600px", marginBottom: "2.5rem", color: C.textMuted }}>
-                Un service transparent, des techniciens experts et un atelier moderne pour prendre soin de votre véhicule dans les meilleures conditions.
-              </p>
+              <p style={{ fontSize: "1.25rem", maxWidth: "600px", marginBottom: "2.5rem", color: C.textMuted }}>{clientHeroPrestations(sessionData) ?? "Un service transparent, des techniciens experts et un atelier moderne pour prendre soin de votre véhicule dans les meilleures conditions."}</p>
             </Reveal>
 
             <Reveal delay={0.4}>
@@ -1043,7 +1045,7 @@ export default function GarageMinimalistTemplate() {
         </div>
       </footer>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-312"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

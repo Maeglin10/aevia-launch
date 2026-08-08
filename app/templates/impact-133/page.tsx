@@ -19,6 +19,8 @@ import {
 } from "framer-motion";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -917,16 +919,16 @@ function HeroSection() {
             marginBottom: 36,
           }}
         >
-          <TextReveal immediate text="We Build" delay={0.1} />
+          <TextReveal immediate text={clientHeroLine(sessionData, 0, 3, 10) ?? "We Build"} delay={0.1} />
           <br />
           <TextReveal
             immediate
-            text="The Future"
+            text={clientHeroLine(sessionData, 1, 3, 10) ?? "The Future"}
             delay={0.3}
             style={{ color: C.violet }}
           />
           <br />
-          <TextReveal immediate text="Of Cities." delay={0.5} />
+          <TextReveal immediate text={clientHeroLine(sessionData, 2, 3, 10) ?? "Of Cities."} delay={0.5} />
         </h1>
 
         <motion.p
@@ -943,7 +945,7 @@ function HeroSection() {
             lineHeight: 1.65,
           }}
         >
-          {clientTagline(sessionData) ?? "Forma Studio fuses parametric computation with speculative vision — producing architecture that is alive, adaptive, and unmistakably of its moment."}
+          {clientHeroSubtitle(sessionData) ?? "Forma Studio fuses parametric computation with speculative vision — producing architecture that is alive, adaptive, and unmistakably of its moment."}
         </motion.p>
 
         <motion.div
@@ -2301,7 +2303,7 @@ return (
       <PressSection />
       <ContactFooter />
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-133"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

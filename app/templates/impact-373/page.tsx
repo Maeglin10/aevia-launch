@@ -11,6 +11,7 @@ import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientEyebrow,
   clientName,
   clientPhotos,
   clientReviews,
@@ -222,7 +223,7 @@ export default function RivieraChauffeurPage() {
       {/* ── HERO ────────────────────────────────────────────────────────── */}
 
       <section className="i373-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
-        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Chauffeur privé · Côte d'Azur</span>
+        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>{clientEyebrow(sessionData) ?? "Chauffeur privé · Côte d'Azur"}</span>
         <HardCutRebuild index={i} stagger={0.09}>
               {[
                 <div key="k" style={{ fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 12 }}>{S.k}</div>,
@@ -231,7 +232,7 @@ export default function RivieraChauffeurPage() {
               ]}
             </HardCutRebuild>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {fd?.tagline ?? c?.heroSubline ?? "Aéroport, gares, soirées, mise à disposition : un chauffeur VTC carté, une berline hybride impeccable, un prix annoncé avant de monter — et jamais de majoration surprise."}
+          {c?.heroSubline ?? "Aéroport, gares, soirées, mise à disposition : un chauffeur VTC carté, une berline hybride impeccable, un prix annoncé avant de monter — et jamais de majoration surprise."}
         </p>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

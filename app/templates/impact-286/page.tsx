@@ -26,6 +26,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -47,7 +49,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET VIDAL — Maître Clara Vidal · Avocate droit social & travail
+   CABINET VIDAL — Maître Clara Vidal · Avocate droit social & travail{" "}
    {clientCity(sessionData) ?? "Lyon"} Confluence · Design éditorial premium style Grand Palais × Barreau.
    Auto-suffisant. 'use client'. Pas d'imports externes sauf react/framer/lucide.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -517,7 +519,7 @@ function HeroSection() {
             textShadow: '0 12px 60px rgba(0,0,0,0.55)',
             maxWidth: 1100,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 22) ?? (<>
           Votre droit du travail{' '}
           <span style={{ fontStyle: 'italic', color: C.goldLight }}>
             défendu
@@ -536,10 +538,7 @@ function HeroSection() {
             maxWidth: 580,
             lineHeight: 1.62,
           }}
-        >
-          Droit social, licenciement, harcèlement moral — une avocate engagée à
-          vos côtés, de la consultation à la plaidoirie.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Droit social, licenciement, harcèlement moral — une avocate engagée à vos côtés, de la consultation à la plaidoirie."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -2508,7 +2507,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 Cabinet Vidal — Maître Clara Vidal, Avocate. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Cabinet Vidal"} — Maître Clara Vidal, Avocate. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a

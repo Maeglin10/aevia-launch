@@ -34,9 +34,11 @@ import {
   Sparkles,
 } from "lucide-react"
 import {
+  clientAccrocheRestante,
   clientAddress,
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientHours,
   clientList,
   clientName,
@@ -547,11 +549,18 @@ function Hero() {
             fontSize: "clamp(52px, 8vw, 120px)",
             color: C.cream,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 16) ?? (<>
           L'Orfèvrerie
           <br />
           <span style={{ color: C.gold }}>comme Art Vivant</span>
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 16) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 16)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -1792,7 +1801,7 @@ function Footer() {
             className="text-[11px] tracking-[0.08em]"
             style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}40` }}
           >
-            © 2025 Aurelia Joaillerie. Tous droits réservés. Entreprise du Patrimoine Vivant.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2025 {clientName(sessionData) ?? "Aurelia Joaillerie."} Tous droits réservés. Entreprise du Patrimoine Vivant.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div className="flex gap-6">
             <Link

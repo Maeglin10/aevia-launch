@@ -46,6 +46,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -519,9 +521,7 @@ return (
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Wok, Sushi<br />& Ramen
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 10) ?? "Wok, Sushi"}<br />{clientHeroLine(sessionData, 1, 2, 10) ?? "& Ramen"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -532,7 +532,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Cuisine asiatique fraîche chaque jour. Wok, sushi, ramen, bento. Livraison 25 min.
             </>}</p>
           </Reveal>
@@ -649,7 +649,7 @@ return (
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Wok Master"))}</Eyebrow>
+                <Eyebrow style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Wok Master"))}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1254,7 +1254,7 @@ return (
             marginBottom: 64
           }}>
             <div>
-              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Wok Master"))}</h4>
+              <h4 style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Wok Master"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
                 Asian fast-food {clientCity(sessionData) ?? "Paris"}
               </p>
@@ -1300,7 +1300,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Wok Master. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Wok Master."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

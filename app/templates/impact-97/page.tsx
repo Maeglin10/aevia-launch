@@ -30,6 +30,8 @@ import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientServices,
@@ -390,11 +392,10 @@ export default function HorizonYachtPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <Reveal>
-            <h1 className="text-[clamp(2.75rem,7vw,9rem)] font-black leading-[0.95] tracking-tighter mb-12 uppercase text-white italic break-words">{c?.heroHeadline ?? <>
-              Mastering <br />{" "}
-              <span className="text-[var(--brand,#c5a059)] not-italic">The Deep.</span>
+            <h1 className="text-[clamp(2.75rem,7vw,9rem)] font-black leading-[0.95] tracking-tighter mb-12 uppercase text-white italic break-words">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Mastering"}<br />{" "}
+              <span className="text-[var(--brand,#c5a059)] not-italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "The Deep."}</span>
             </>}</h1>
-            <p className="max-w-md text-lg text-white/50 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="max-w-md text-lg text-white/50 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               The world's most exclusive superyacht fleet, curated for the
               modern navigator.
             </>}</p>
@@ -792,7 +793,7 @@ export default function HorizonYachtPage() {
         ::-webkit-scrollbar-thumb{background:#c5a059}
       `}</style>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? "impact-97"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>

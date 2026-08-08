@@ -46,6 +46,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -521,9 +523,7 @@ export default function Page() {
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Mode Upcycling<br />& Ateliers
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Mode Upcycling"}<br />{clientHeroLine(sessionData, 1, 2, 14) ?? "& Ateliers"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -534,7 +534,7 @@ export default function Page() {
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Collections capsule éco-responsables, ateliers DIY, pièces uniques. {clientCity(sessionData) ?? "Bordeaux"}.
             </>}</p>
           </Reveal>
@@ -913,22 +913,22 @@ export default function Page() {
           }}>
             <Reveal delay={0.1}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[0]?.afterUrl ?? PHOTO.gallery1} alt="Visuel galerie 1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[0]?.afterUrl || PHOTO.gallery1} alt="Visuel galerie 1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.2}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[1]?.afterUrl ?? PHOTO.gallery2} alt="Visuel galerie 2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[1]?.afterUrl || PHOTO.gallery2} alt="Visuel galerie 2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.3}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[2]?.afterUrl ?? PHOTO.gallery3} alt="Visuel galerie 3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[2]?.afterUrl || PHOTO.gallery3} alt="Visuel galerie 3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.4}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[3]?.afterUrl ?? PHOTO.gallery4} alt="Visuel galerie 4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[3]?.afterUrl || PHOTO.gallery4} alt="Visuel galerie 4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
           </div>
@@ -1299,7 +1299,7 @@ export default function Page() {
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Re-Thread Studio. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Re-Thread Studio."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

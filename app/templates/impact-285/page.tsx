@@ -34,8 +34,10 @@ import {
   Users,
 } from 'lucide-react';
 import {
+  clientAccrocheRestante,
   clientAddress,
   clientCity,
+  clientHeroLine,
   clientHours,
   clientName,
   clientPhotos,
@@ -534,12 +536,19 @@ function HeroSection() {
             margin: '30px 0 24px',
             textShadow: '0 10px 50px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 17) ?? (<>
           Votre santé entre{' '}
           <span style={{ fontStyle: 'italic', color: C.salmonLight }}>
             de bonnes mains
           </span>
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 17) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 17)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 26 }}
@@ -2745,7 +2754,7 @@ function FooterSection() {
       >
         <span>
           © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Dr. Marc Lecomte")} · RPPS 10&nbsp;987&nbsp;654&nbsp;321 ·
-          Conseil de l'Ordre des Médecins de Loire-Atlantique · Nantes Centre
+          Conseil de l'Ordre des Médecins de Loire-Atlantique · {clientCity(sessionData) ?? "Nantes"} Centre
         {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 20 }}>
           <a href="#hero" style={{ color: 'inherit', textDecoration: 'none' }}>

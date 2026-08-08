@@ -22,6 +22,8 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -662,11 +664,11 @@ function Hero() {
           <Eyebrow>Électricien certifié · Île-de-France</Eyebrow>
         </Reveal>
 
-        <motion.h1
+        <motion.h1 className="hero-ecran-court hero-ecran-court-fort"
           initial={{ opacity: 0, y: 48 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, ease: EASE, delay: 0.1 }}
-          style={{
+          style={{ 
             fontFamily: FONT,
             fontWeight: 900,
             color: C.white,
@@ -677,7 +679,7 @@ function Hero() {
             margin: '24px 0 28px',
             textShadow: '0 8px 50px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 5) ?? (<>
           CÂBLÉ
           <br />
           <span style={{ color: C.accent }}>/POUR</span>
@@ -698,11 +700,7 @@ function Hero() {
             marginBottom: 38,
             fontWeight: 400,
           }}
-        >
-          Électricien qualifié depuis 2009 en Île-de-France. Installation,
-          domotique, mise aux normes et bornes IRVE — du devis à la réception,
-          sans compromis.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Électricien qualifié depuis 2009 en Île-de-France. Installation, domotique, mise aux normes et bornes IRVE — du devis à la réception, sans compromis."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

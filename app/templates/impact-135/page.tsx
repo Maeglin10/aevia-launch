@@ -7,6 +7,8 @@ import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, 
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientReviews,
@@ -45,7 +47,7 @@ let C: Record<string, string> = {
   card:      "#131619",
   border:    "#1e2328",
   borderHi:  "#2a3038",
-  accent: 'var(--brand,#00ff88)',
+  accent: '#00ff88',
   accentDim: "var(--brand-light,#00cc6a)",
   accentGlow:"rgba(0,255,136,0.12)",
   red:       "#ff4040",
@@ -1405,9 +1407,7 @@ export default function Impact135Page() {
                 color: C.text,
                 fontFamily: C.font,
               }}
-            >{c?.heroHeadline ?? <>
-              The Operating System
-            </>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 1, 20) ?? "The Operating System"}</>}</h1>
           </TextReveal>
           <TextReveal immediate delay={0.1} style={{ marginBottom: 32 }}>
             <h1
@@ -1436,7 +1436,7 @@ export default function Impact135Page() {
               marginBottom: 56,
               margin: "0 auto 56px",
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Sub-millisecond execution. Bloomberg-grade data. Unlimited algorithmic strategies.
             Built for traders who play at the highest level.
           </>}</motion.p>
@@ -2177,7 +2177,7 @@ export default function Impact135Page() {
               color: C.subdued,
             }}
           >
-            © 2026 TradeOS Inc. · All rights reserved · SOC 2 Type II{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 {clientName(sessionData) ?? "TradeOS Inc."} · All rights reserved · SOC 2 Type II{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
           </span>
           <span
             style={{

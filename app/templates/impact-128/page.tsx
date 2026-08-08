@@ -9,6 +9,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -198,12 +200,11 @@ export default function HavenEstatesPage() {
 
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-12 pb-24">
             <Reveal delay={0.15} y={70}>
-              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{c?.heroHeadline ?? <>
-                Exceptional<br/><em className="text-[var(--brand,#b8860b)]">Residences.</em>
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 11) ?? "Exceptional"}<br/><em className="text-[var(--brand,#b8860b)]">{clientHeroLine(sessionData, 1, 2, 11) ?? "Residences."}</em>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[#1a1a1a]/50 font-light leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="max-w-lg text-lg text-[#1a1a1a]/50 font-light leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Curated trophy properties for discerning clients worldwide. Off-market access. Discretion guaranteed.
               </>}</p>
             </Reveal>
@@ -391,7 +392,7 @@ export default function HavenEstatesPage() {
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 HAVEN ESTATES.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "HAVEN ESTATES."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>NEW YORK · LONDON · {clientCity(sessionData) ?? "PARIS"} · SINGAPORE</span>
         </div>
       </footer>

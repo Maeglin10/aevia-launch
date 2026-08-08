@@ -9,6 +9,8 @@ import { Code2, ArrowRight, Menu, Star, Terminal, GitBranch, Cpu, Boxes, Downloa
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
@@ -261,12 +263,11 @@ export default function WaveFXPage() {
 
           <div className="relative z-10 max-w-[1000px] mx-auto px-6 md:px-12 w-full text-center">
             <Reveal delay={0.1} y={60}>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] mb-8">{c?.heroHeadline ?? <>
-                Data Pipelines<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#818cf8)] via-blue-300 to-[var(--brand,#6366f1)]">Without the Pain.</span>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] mb-8">{<>{clientHeroLine(sessionData, 0, 2, 17) ?? "Data Pipelines"}<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#818cf8)] via-blue-300 to-[var(--brand,#6366f1)]">{clientHeroLine(sessionData, 1, 2, 17) ?? "Without the Pain."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-xl text-white/40 font-light max-w-lg mx-auto leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="text-xl text-white/40 font-light max-w-lg mx-auto leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 The open-source framework for building real-time data pipelines. Type-safe, zero-copy, and absurdly fast.
               </>}</p>
             </Reveal>
@@ -454,7 +455,7 @@ export default function WaveFXPage() {
           ))}
         </div>
         <div className="max-w-[1000px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 WAVEFX LABS.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "WAVEFX LABS."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span>MIT LICENSE · OPEN SOURCE</span>
         </div>
       </footer>

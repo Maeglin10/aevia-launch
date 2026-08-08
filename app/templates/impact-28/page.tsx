@@ -11,7 +11,9 @@ import { ArrowRight, ArrowUpRight, ChevronDown, ChevronLeft, ChevronRight } from
 import { resolveList } from "@/lib/templates/resolveList"
 import { Reveal, ScrollImage, projects as projects_DEMO, services as services_DEMO, team as team_DEMO, testimonials as testimonials_DEMO, processSteps } from "./shared"
 import {
+  clientAccrocheRestante,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -185,9 +187,7 @@ export default function Home() {
                 className="text-white"
               >
                 <div className="text-xs font-bold tracking-[0.4em] uppercase mb-6 opacity-70">{clientCity(sessionData) ?? "Paris"} · Founded 2008</div>
-                <h1 className="font-black leading-[0.85] text-white mb-8" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(64px, 12vw, 160px)", letterSpacing: "-0.02em" }}>{c?.heroHeadline ?? <>
-                  WE BUILD<br />WHAT<br />MATTERS.
-                </>}</h1>
+                <h1 className="font-black leading-[0.85] text-white mb-8" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(64px, 12vw, 160px)", letterSpacing: "-0.02em" }}>{<>{clientHeroLine(sessionData, 0, 3, 8) ?? "WE BUILD"}<br />{clientHeroLine(sessionData, 1, 3, 8) ?? "WHAT"}<br />{clientHeroLine(sessionData, 2, 3, 8) ?? "MATTERS."}</>}</h1>
               </motion.div>
             </div>
           </div>
@@ -300,7 +300,7 @@ export default function Home() {
                 <h2 className="font-black text-4xl md:text-5xl uppercase leading-[0.9] mb-8" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                   CONCRETE IS HONEST.<br />WE ARE BRUTAL.
                 </>)}</h2>
-                <p className="text-white/60 leading-relaxed mb-8 text-lg">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="text-white/60 leading-relaxed mb-8 text-lg">{clientAccrocheRestante(sessionData, 3, 8) ?? c?.heroSubline ?? <>
                   We don't design for awards. We design for people and cities. Brutalism is not a style — it's a conviction that architecture should be truthful about its materials and its purpose.
                 </>}</p>
                 <Link href="/templates/impact-28/services" className="inline-flex items-center gap-2 bg-white text-black font-bold text-sm uppercase tracking-widest px-8 py-4 hover:bg-gray-100 transition-colors cursor-pointer">
@@ -740,7 +740,7 @@ export default function Home() {
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? "impact-28"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>

@@ -13,7 +13,9 @@ import {
 import { ArrowRight, ChevronDown, Scissors } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -34,7 +36,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   L'ATELIER SOIE — Couture & Broderie sur-mesure · Lyon 2e
+   L'ATELIER SOIE — Couture & Broderie sur-mesure · {clientCity(sessionData) ?? "Lyon"} 2e
    Photographie réelle + chorégraphie de défilement éditoriale (style maison
    de couture × patrimoine lyonnais × soie). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -668,11 +670,18 @@ function Hero() {
             margin: '28px 0 24px',
             textShadow: '0 12px 60px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 10) ?? (<>
           Couture
           <br />
           lyonnaise.
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 10) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 10)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}
@@ -2048,7 +2057,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 L&rsquo;Atelier Soie — {clientCity(sessionData) ?? "Lyon"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "L&rsquo"};Atelier Soie — {clientCity(sessionData) ?? "Lyon"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Couture &amp; Broderie sur-mesure · Haute Couture Lyonnaise

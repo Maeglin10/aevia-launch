@@ -9,6 +9,9 @@ import { Flower2, ArrowRight, Menu, Star, Sparkles, MapPin, Clock, Phone, Heart,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -195,18 +198,17 @@ export default function OasisWellnessPage() {
             <Reveal>
               <div className="flex items-center justify-center gap-4 mb-8">
                 <div className="h-[1px] w-12 bg-[var(--brand,#2c3e2d)]/30" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2c3e2d)]/50">Quiet the soul, heal the body</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2c3e2d)]/50">{clientEyebrow(sessionData) ?? "Quiet the soul, heal the body"}</span>
                 <div className="h-[1px] w-12 bg-[var(--brand,#2c3e2d)]/30" />
               </div>
             </Reveal>
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-7xl md:text-[8rem] lg:text-[10rem] font-light italic leading-[0.85] tracking-tighter mb-12" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
-                Breath of <br/> <span className="font-bold not-italic">Serenity.</span>
+              <h1 className="text-7xl md:text-[8rem] lg:text-[10rem] font-light italic leading-[0.85] tracking-tighter mb-12" style={{ fontFamily: "serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Breath of"}<br/> <span className="font-bold not-italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "Serenity."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-                <p className="text-lg text-[var(--brand,#2c3e2d)]/60 font-light max-w-sm leading-relaxed">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="text-lg text-[var(--brand,#2c3e2d)]/60 font-light max-w-sm leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   A sanctuary dedicated to biological restoration and deep mindfulness. Rediscover your essence in the heart of the city.
                 </>}</p>
                 <div className="w-[1px] h-20 bg-[var(--brand,#2c3e2d)]/10 hidden md:block" />
@@ -492,7 +494,7 @@ export default function OasisWellnessPage() {
         </div>
         
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-[var(--brand,#2c3e2d)]/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#2c3e2d)]/30">
-          <span>© 2026 OASIS WELLNESS COLLECTIVE.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "OASIS WELLNESS COLLECTIVE."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <div className="flex gap-10">
             <Link href="#contact" className="hover:text-[var(--brand,#2c3e2d)] transition-colors">Mentions légales</Link>
             <Link href="#contact" className="hover:text-[var(--brand,#2c3e2d)] transition-colors">Confidentialité</Link>

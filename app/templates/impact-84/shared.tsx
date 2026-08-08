@@ -91,10 +91,10 @@ function SPECIALISTS_LIVE() {
   },
   {
     name: "Dr. Marc Duval", spec: "Chirurgien plasticien",
-    shortBio: "DESC Chirurgie plastique Pitié-Salpêtrière · FMH Lausanne",
+    shortBio: "DESC Chirurgie plastique Pitié-Salpêtrière · FMH " + clientCityOr("Lausanne"),
     fullBio: "Le Dr. Marc Duval a réalisé son DESC de Chirurgie Plastique, Reconstructrice et Esthétique à l'Hôpital de la Pitié-Salpêtrière. Titulaire du titre de spécialiste FMH (Fédération des Médecins Suisses) en chirurgie plastique, il apporte à Cypher Clinic une expertise rare en techniques mini-invasives et en thread lifting. Il assure également les consultations préopératoires pour les patients envisageant une chirurgie.",
     image: clientPhotoAt(5, "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&q=80&fit=crop"),
-    certifications: ["DESC Chirurgie plastique", "FMH Lausanne", "SOFCPRE"],
+    certifications: ["DESC Chirurgie plastique", "FMH " + clientCityOr("Lausanne"), "SOFCPRE"],
     experience: "18 ans d'expérience"
   },
 ];

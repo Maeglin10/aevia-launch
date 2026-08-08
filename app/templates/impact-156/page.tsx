@@ -8,6 +8,8 @@ import { ArrowRight, MapPin, Mail, Phone, Clock, Star, Heart, Sun, Moon, X, Chec
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientPhotos,
@@ -289,7 +291,7 @@ export default function LumiereYogaPage() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (/* NOM_LOGO */ clientName(sessionData) ? (
-              <span style={{ fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>{clientName(sessionData)}</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>{clientName(sessionData)}</span>
             ) : (<>
             <>
               <span style={{ fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>Lumière</span>
@@ -339,12 +341,11 @@ export default function LumiereYogaPage() {
 
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(46px, 6vw, 82px)", fontWeight: 400, color: "#fff", lineHeight: 1.08, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            Trouver l'équilibre,<br /><em style={{ color: C.accentLight }}>en soi et dans le monde.</em>
+            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(46px, 6vw, 82px)", fontWeight: 400, color: "#fff", lineHeight: 1.08, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 24) ?? "Trouver l'équilibre,"}<br /><em style={{ color: C.accentLight }}>{clientHeroLine(sessionData, 1, 2, 24) ?? "en soi et dans le monde."}</em>
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Lumière Yoga accueille tous les niveaux dans un espace chaleureux et bienveillant à {clientCity(sessionData) ?? "Bordeaux"}. Vinyasa, Yin, méditation — une pratique complète pour le corps et l'esprit.
           </>}</motion.p>
 

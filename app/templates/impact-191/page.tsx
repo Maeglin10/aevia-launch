@@ -10,12 +10,15 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -27,7 +30,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   JARDINS VIVANTS — Paysagiste & entretien espaces verts ({clientCity({ formData: fd }) ?? "Annecy"})
+   JARDINS VIVANTS — {clientTrade(sessionData) ?? "Paysagiste"} & entretien espaces verts ({clientCity({ formData: fd }) ?? "Annecy"})
    Palette : blanc naturel #fafaf7 / vert profond #2d5a27 / vert clair #a8d5a0 / terre #6b4226
    Fonts : Cardo (titres serif organique) + Source Sans 3
    Style : vivant, naturel, organique, expertise végétale
@@ -198,8 +201,8 @@ export default function JardinsVivantsPage() {
               <>
                 <Leaf className="w-5 h-5 text-[var(--brand,#2d5a27)]" />
                 <div>
-                  <div className="font-bold text-[#1e2a1c] text-sm leading-tight" style={{ fontFamily: "'Cardo', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Jardins Vivants"}</div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/50">Paysagiste · {clientCity({ formData: fd }) ?? "Annecy"}</div>
+                  <div className="font-bold text-[#1e2a1c] text-sm leading-tight" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Cardo', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Jardins Vivants"}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/50">{clientTrade(sessionData) ?? "Paysagiste"} · {clientCity({ formData: fd }) ?? "Annecy"}</div>
                 </div>
               </>
             )}
@@ -241,17 +244,16 @@ export default function JardinsVivantsPage() {
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[#a8d5a0]/60" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#a8d5a0]">Paysagiste & espaces verts · {clientCity({ formData: fd }) ?? "Annecy"} & Haute-Savoie</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#a8d5a0]">{clientTrade(sessionData) ?? "Paysagiste"} & espaces verts · {clientCity({ formData: fd }) ?? "Annecy"} & Haute-Savoie</span>
             </div>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-8 text-white" style={{ fontFamily: "'Cardo', Georgia, serif" }}>{c?.heroHeadline ?? <>
-            Un jardin qui<br /><span className="text-[#a8d5a0] italic">vous ressemble.</span>
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-8 text-white" style={{ fontFamily: "'Cardo', Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 15) ?? "Un jardin qui"}<br /><span className="text-[#a8d5a0] italic">{clientHeroLine(sessionData, 1, 2, 15) ?? "vous ressemble."}</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-md text-sm text-white/33 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+            className="max-w-md text-sm text-white/33 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Création et entretien de jardins en Haute-Savoie. Paysagiste qualifié, 100% local, devis gratuit sous 48h. De la terrasse au grand parc — chaque espace mérite de vivre.
           </>}</motion.p>
 
@@ -423,7 +425,7 @@ export default function JardinsVivantsPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Cardo', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Et si votre jardin<br /><span className="italic">devenait vivant ?</span>
             </>)}</h2>
-            <p className="text-white/50 mb-10 text-sm">Devis gratuit sous 48h · {clientCity({ formData: fd }) ?? "Annecy"} & Haute-Savoie · Paysagiste qualifié RGE</p>
+            <p className="text-white/50 mb-10 text-sm">Devis gratuit sous 48h · {clientCity({ formData: fd }) ?? "Annecy"} & Haute-Savoie · {clientTrade(sessionData) ?? "Paysagiste"} qualifié RGE</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#2d5a27)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f7f0] transition-colors rounded-lg shadow-lg">
                 Demander un devis
@@ -457,7 +459,7 @@ export default function JardinsVivantsPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 Jardins Vivants · SIRET 456 789 012 00033 · Paysagiste qualifié · {clientCity(sessionData) ?? "Annecy"} (74){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Jardins Vivants"} · SIRET 456 789 012 00033 · {clientTrade(sessionData) ?? "Paysagiste"} qualifié · {clientCity(sessionData) ?? "Annecy"} (74){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#2d5a27)]/25">Paysagiste · Haute-Savoie</span>
         </div>
       </footer>

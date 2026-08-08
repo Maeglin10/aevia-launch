@@ -31,7 +31,10 @@ import {
   ChevronDown,
 } from "lucide-react";
 import {
+  clientPhone,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientList,
   clientName,
@@ -1208,7 +1211,9 @@ return (
             y: heroTextY,
             opacity: heroOpacity,
             textAlign: "center",
-            padding: "0 24px",
+            /* TITRE_DEGAGE — la première ligne du titre passait sous la barre
+               de navigation : trente-deux pixels de lettres rognés. */
+            padding: "56px 24px 0",
             maxWidth: 1100,
             margin: "0 auto",
           }}
@@ -1232,9 +1237,7 @@ return (
                 margin: 0,
                 color: T.text,
               }}
-            >{c?.heroHeadline ?? <>
-              We build the
-            </>}</motion.h1>
+            >{<>{clientHeroLine(sessionData, 0, 1, 12) ?? "We build the"}</>}</motion.h1>
           </div>
 
           <div style={{ overflow: "hidden", paddingBottom: 16, marginBottom: 16 }}>
@@ -1274,7 +1277,7 @@ return (
               maxWidth: 600,
               margin: "0 auto 56px",
             }}
-          >{fd?.tagline ?? c?.heroSubline ?? <>
+          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
             Full-service creative studio crafting immersive digital experiences,
             brand identities, and high-performance products for ambitious brands.
           </>}</motion.p>
@@ -2053,7 +2056,7 @@ return (
             >
               {[
                 { icon: <Mail size={14} />, value: (fd?.email ?? "hello@impact.studio") },
-                { icon: <Phone size={14} />, value: "+33 1 42 86 00 00" },
+                { icon: <Phone size={14} />, value: (clientPhone(sessionData) ?? "+33 1 42 86 00 00") },
                 { icon: <MapPin size={14} />, value: (clientCity({ formData: fd }) ?? "Paris") + ", France" },
               ].map((item, i) => (
                 <div
@@ -4303,7 +4306,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-01"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

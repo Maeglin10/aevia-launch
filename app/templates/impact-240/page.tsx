@@ -13,13 +13,16 @@ import {
 import { ArrowRight, ChevronDown, Zap } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -37,7 +40,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO ATHLETIC — Coach sportif personnel · {clientCity(sessionData) ?? "Lyon"}
+   STUDIO ATHLETIC — {clientTrade(sessionData) ?? "Coach sportif"} personnel · {clientCity(sessionData) ?? "Lyon"}
    Photographie réelle + chorégraphie de défilement éditoriale (athletic ×
    performance × coaching premium). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -120,7 +123,7 @@ interface Transformation {
 
 /* ── Data ────────────────────────────────────────────────────────────────── */
 function PHOTO_BASE_LIVE() {
-  return (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-');
+  return 'https://images.unsplash.com/photo-';
 }
 let PHOTO_BASE = PHOTO_BASE_LIVE();
 
@@ -654,14 +657,14 @@ function Hero() {
         }}
       >
         <Reveal y={16}>
-          <Eyebrow>Coach sportif personnel · {clientCity(sessionData) ?? "Lyon"}</Eyebrow>
+          <Eyebrow>{clientTrade(sessionData) ?? "Coach sportif"} personnel · {clientCity(sessionData) ?? "Lyon"}</Eyebrow>
         </Reveal>
 
-        <motion.h1
+        <motion.h1 className="hero-ecran-court"
           initial={{ opacity: 0, y: 48 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, ease: EASE, delay: 0.12 }}
-          style={{
+          style={{ 
             fontFamily: DISPLAY,
             fontWeight: 900,
             fontStyle: 'italic',
@@ -673,13 +676,20 @@ function Hero() {
             margin: 'clamp(20px,3vh,36px) 0 clamp(18px,3vh,30px)',
             textShadow: '0 16px 70px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 8) ?? (<>
           LE CORPS
           <br />
           QUE VOUS
           <br />
           <span style={{ color: C.accent }}>MÉRITEZ</span>
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 8) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 8)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 28 }}
@@ -2038,7 +2048,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Coach sportif personnel premium à {clientCity(sessionData) ?? "Lyon"}. Résultats garantis,
+            {clientTrade(sessionData) ?? "Coach sportif"} personnel premium à {clientCity(sessionData) ?? "Lyon"}. Résultats garantis,
             méthode prouvée, suivi 24/7.
           </p>
           <div
@@ -2118,7 +2128,7 @@ function Footer() {
           color: C.textFaint,
         }}
       >
-        <span>© 2026 Studio Athletic. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Studio Athletic."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span>Conçu pour performer.</span>
       </div>
       <style>{`

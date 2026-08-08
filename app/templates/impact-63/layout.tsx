@@ -103,7 +103,7 @@ export default function MaisonDrouetLayout({
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block', margin: '0 auto' }}
               />
             ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
-              <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.goldDim }}>{clientName(__layoutSession)}</div>
+              <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.goldDim }}>{clientName(__layoutSession)}</div>
             ) : (<>
               <>
           <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.goldDim }}>MAISON</div>
@@ -204,7 +204,7 @@ export default function MaisonDrouetLayout({
         </div>
         <div style={{ maxWidth: "1300px", margin: "4rem auto 0", paddingTop: "2rem", borderTop: "1px solid #1A1A1A", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
           <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", letterSpacing: "0.15em", color: C.textDim }}>
-            © {new Date().getFullYear()} MAISON DROUET. TOUS DROITS RÉSERVÉS.
+            © {new Date().getFullYear()} {clientName(__layoutSession) ?? "MAISON DROUET. TOUS DROITS"} RÉSERVÉS.
           </div>
           <div style={{ display: "flex", gap: "2rem" }}>
             <Link href="/templates/impact-63/legal" style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", color: C.textDim, textDecoration: "none", cursor: "pointer" }}>

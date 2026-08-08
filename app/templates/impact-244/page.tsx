@@ -13,7 +13,10 @@ import {
 import { ArrowRight, ChevronDown, Heart } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -694,7 +697,7 @@ function Hero() {
             margin: '28px 0 20px',
             textShadow: '0 12px 64px rgba(0,0,0,0.44)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 27) ?? (<>
           L&apos;art d&apos;un&nbsp;/
           <br />
           mariage parfait.
@@ -712,9 +715,7 @@ function Hero() {
             maxWidth: 520,
             lineHeight: 1.7,
           }}
-        >
-          Atelier Céleste orchestre vos plus belles célébrations avec une obsession : que chaque détail soit à votre image.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Atelier Céleste orchestre vos plus belles célébrations avec une obsession : que chaque détail soit à votre image."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -1956,7 +1957,7 @@ function Footer() {
               color: 'rgba(255,255,255,0.45)',
             }}
           >
-            {clientCity(sessionData) ?? "Paris"} · +33 1 00 00 00 00
+            {clientCity(sessionData) ?? "Paris"} · {clientPhone(sessionData) ?? "+33 1 00 00 00 00"}
           </div>
         </div>
 
@@ -2028,7 +2029,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.36)',
         }}
       >
-        <span>© 2026 Atelier Céleste. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Atelier Céleste."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Confidentialité</a>

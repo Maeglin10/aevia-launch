@@ -48,6 +48,9 @@ import { CrossPush } from '@/lib/templates/hero-kit-3';
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -649,9 +652,7 @@ return (
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Tatouage Fineline<br />& Aquarelle
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 17) ?? "Tatouage Fineline"}<br />{clientHeroLine(sessionData, 1, 2, 17) ?? "& Aquarelle"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -662,7 +663,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Studio féminin sur rendez-vous. Fineline, aquarelle, tatouages délicats et durables. {clientCity(sessionData) ?? "Bordeaux"}.
             </>}</p>
           </Reveal>
@@ -1092,22 +1093,22 @@ return (
           }}>
             <Reveal delay={0.1}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[0]?.afterUrl ?? bp?.beforeAfter?.[0]?.beforeUrl ?? PHOTO.gallery1} alt={bp?.beforeAfter?.[0]?.caption ?? "Visuel galerie 1"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[0]?.afterUrl || bp?.beforeAfter?.[0]?.beforeUrl || PHOTO.gallery1} alt={bp?.beforeAfter?.[0]?.caption ?? "Visuel galerie 1"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.2}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[1]?.afterUrl ?? bp?.beforeAfter?.[1]?.beforeUrl ?? PHOTO.gallery2} alt={bp?.beforeAfter?.[1]?.caption ?? "Visuel galerie 2"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[1]?.afterUrl || bp?.beforeAfter?.[1]?.beforeUrl || PHOTO.gallery2} alt={bp?.beforeAfter?.[1]?.caption ?? "Visuel galerie 2"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.3}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[2]?.afterUrl ?? bp?.beforeAfter?.[2]?.beforeUrl ?? PHOTO.gallery3} alt={bp?.beforeAfter?.[2]?.caption ?? "Visuel galerie 3"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[2]?.afterUrl || bp?.beforeAfter?.[2]?.beforeUrl || PHOTO.gallery3} alt={bp?.beforeAfter?.[2]?.caption ?? "Visuel galerie 3"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.4}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={bp?.beforeAfter?.[3]?.afterUrl ?? bp?.beforeAfter?.[3]?.beforeUrl ?? PHOTO.gallery4} alt={bp?.beforeAfter?.[3]?.caption ?? "Visuel galerie 4"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[3]?.afterUrl || bp?.beforeAfter?.[3]?.beforeUrl || PHOTO.gallery4} alt={bp?.beforeAfter?.[3]?.caption ?? "Visuel galerie 4"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
           </div>
@@ -1592,7 +1593,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} Encre Délicate. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Encre Délicate."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

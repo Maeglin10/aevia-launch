@@ -14,6 +14,8 @@ import { ArrowRight, Briefcase, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -34,7 +36,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET VAILLANT & ASSOCIÉS — Expert-Comptable & Commissariat aux Comptes
+   CABINET VAILLANT & ASSOCIÉS — Expert-Comptable & Commissariat aux Comptes{" "}
    {clientCity(sessionData) ?? "Paris"} · Photographie réelle + chorégraphie éditoriale au défilement.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -63,7 +65,7 @@ let C: Record<string, string> = {
   bgDarkAlt: '#080706',
   bgCard: '#ffffff',
   accent: 'var(--brand,#2c4a8c)',
-  accentDark: 'var(--brand-light,#1e3570)',
+  accentDark: 'var(--brand,#1e3570)',
   accentLight: '#d4ddf0',
   white: '#ffffff',
   ink: '#0f0e0b',
@@ -657,7 +659,7 @@ function Hero() {
             textShadow: '0 10px 50px rgba(0,0,0,0.50)',
             maxWidth: '14ch',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 18) ?? (<>
           L&apos;expertise
           <br />
           au service
@@ -678,9 +680,7 @@ function Hero() {
             lineHeight: 1.7,
             marginBottom: 'clamp(28px,3vw,44px)',
           }}
-        >
-          Cabinet indépendant, 35 ans d&apos;ancrage parisien. Nous transformons vos obligations comptables et fiscales en avantages concurrentiels mesurables.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Cabinet indépendant, 35 ans d'ancrage parisien. Nous transformons vos obligations comptables et fiscales en avantages concurrentiels mesurables."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}
@@ -760,7 +760,7 @@ function Intro() {
             margin: 'clamp(24px,3vw,40px) auto 0',
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
-          "La comptabilité n&apos;est pas une contrainte. C&apos;est la carte de votre entreprise."
+          "La comptabilité n'est pas une contrainte. C'est la carte de votre entreprise."
         </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>

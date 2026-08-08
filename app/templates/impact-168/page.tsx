@@ -9,6 +9,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientList,
   clientName,
@@ -258,7 +260,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     quote: "Le service client est exceptionnel. J'ai eu un problème de taille, ils m'ont renvoyé un article sans même attendre le retour. Confiance totale.",
     name: "Sophie K.",
-    location: "Marseille",
+    location: (clientCity(sessionData) ?? "Marseille"),
     service: "Pantalon Wide-Leg",
     stars: 5,
     verified: true,
@@ -1231,10 +1233,8 @@ export default function ImpactEclatPage() {
                 fontStyle: "italic",
                 marginBottom: 40,
               }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-              La chaleur<br />
-              comme<br />
-              <span style={{ color: C.gold }}>philosophie.</span>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "La chaleur"}<br />{clientHeroLine(sessionData, 1, 3, 12) ?? "comme"}<br />
+              <span style={{ color: C.gold }}>{clientHeroLine(sessionData, 2, 3, 12) ?? "philosophie."}</span>
             </>}</>)}</h1>
 
             <p
@@ -1246,7 +1246,7 @@ export default function ImpactEclatPage() {
                 maxWidth: 440,
                 fontWeight: 300,
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Lin, soie, tencel. Des matières qui respirent, des coupes qui durent.
               La mode éditoriale pour celles qui choisissent la qualité sur la quantité.
             </>}</p>
@@ -2294,7 +2294,7 @@ export default function ImpactEclatPage() {
             fontFamily: C.sans,
           }}
         >
-          <span>© 2025 Éclat — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2025 {clientName(sessionData) ?? "Éclat"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <a
               href="/templates/impact-168"
@@ -3105,7 +3105,7 @@ function AboutPage({ goTo }: { goTo: (p: EclatPage) => void }) {
       <section style={{ padding: "clamp(48px, 7vw, 80px) clamp(20px, 6vw, 64px)" }}>
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
           {(clientList(sessionData, "bloc-110322.liste") ?? [
-            "Fondée en 2019 à Marseille, Éclat est partie d'un atelier de quatre personnes et d'une question : pourquoi la mode durable devrait-elle être terne ? Nous voulions prouver qu'éthique et désirabilité pouvaient coexister.",
+            "Fondée en 2019 à " + (clientCity(sessionData) ?? "Marseille") + ", Éclat est partie d'un atelier de quatre personnes et d'une question : pourquoi la mode durable devrait-elle être terne ? Nous voulions prouver qu'éthique et désirabilité pouvaient coexister.",
             "Aujourd'hui, nous collaborons avec des filatures européennes sélectionnées pour leur transparence et leur savoir-faire. Le lin vient de Normandie, la soie d'Italie, le cachemire d'ateliers labellisés.",
             "Chaque pièce est pensée comme un investissement : des matières nobles, des coupes intemporelles et des finitions haute couture, pour des vêtements que l'on garde et que l'on transmet.",
           ]).map((paraTxt, i) => (
@@ -3218,7 +3218,7 @@ function ContactPage() {
             {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
               { label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
               { label: "Téléphone", value: "+33 4 91 00 00 00" },
-              { label: "Ville", value: "Marseille, France" },
+              { label: "Ville", value: (clientCity(sessionData) ?? "Marseille") + ", France" },
               { label: "Horaires", value: "Lun – Ven · 9h – 18h" },
             ]).map(item => (
               <div key={item.label} style={{ marginBottom: 28, borderBottom: `1px solid ${C.borderLight}`, paddingBottom: 20 }}>

@@ -22,6 +22,8 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -507,7 +509,7 @@ function Hero() {
             margin: '28px 0 22px',
             textShadow: '0 12px 60px rgba(0,0,0,0.5)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 13) ?? (<>
           L&apos;art du{' '}
           <span style={{ fontStyle: 'italic', color: C.goldLight }}>temps</span>
         </>)}</motion.h1>
@@ -524,10 +526,7 @@ function Hero() {
             maxWidth: 560,
             lineHeight: 1.6,
           }}
-        >
-          Des vins de garde nés d&apos;un seul terroir, élevés sans hâte et
-          confiés, chaque année, à une poignée d&apos;amateurs.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Des vins de garde nés d'un seul terroir, élevés sans hâte et confiés, chaque année, à une poignée d'amateurs."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

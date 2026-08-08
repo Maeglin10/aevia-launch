@@ -34,6 +34,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientList,
   clientName,
@@ -566,7 +568,7 @@ function HeroSection() {
             textShadow: '0 8px 48px rgba(0,0,0,0.45)',
             maxWidth: 820,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 12) ?? (<>
           Retrouver le{' '}
           <span style={{ fontStyle: 'italic', color: C.turqLight }}>
             mouvement
@@ -590,11 +592,7 @@ function HeroSection() {
             marginBottom: 40,
             fontWeight: 400,
           }}
-        >
-          Kinésithérapeutes diplômés d'État, spécialisés en rééducation
-          orthopédique, respiratoire et neurologique. Équipements de pointe au
-          cœur du quartier Antigone.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Kinésithérapeutes diplômés d'État, spécialisés'en rééducation orthopédique, respiratoire et neurologique. Équipements de pointe au cœur du quartier Antigone."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 18 }}

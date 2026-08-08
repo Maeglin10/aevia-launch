@@ -16,7 +16,11 @@ import {
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhone,
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -693,9 +697,7 @@ function HeroSection() {
             letterSpacing: '0.3em',
             marginBottom: '2rem',
           }}
-        >
-          Palace — Founded 1887
-        </motion.p>
+        >{clientEyebrow(sessionData) ?? "Palace — Founded 1887"}</motion.p>
 
         <motion.h1
           initial={{ opacity: 0, y: 60 }}
@@ -710,7 +712,7 @@ function HeroSection() {
             marginBottom: '2.5rem',
             y: headingY,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 6) ?? (<>
           Grand<br />
           <em style={{ fontStyle: 'italic' }}>Palais</em>
         </>)}</motion.h1>
@@ -729,9 +731,7 @@ function HeroSection() {
             fontWeight: 300,
             fontStyle: 'italic',
           }}
-        >
-          Where time is measured not in hours, but in moments that endure.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Where time is measured not in hours, but in moments that endure."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -1377,7 +1377,7 @@ function LocationSection() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {[
                   { icon: '◎', label: 'Address', val: `8 Avenue de la Paix, 75009 ${clientCity(sessionData) ?? "Paris"}` },
-                  { icon: '◎', label: 'Telephone', val: '+33 1 40 00 00 00' },
+                  { icon: '◎', label: 'Telephone', val: (clientPhone(sessionData) ?? '+33 1 40 00 00 00') },
                   { icon: '◎', label: 'Reservations', val: (fd?.email ?? 'reservations@grandpalais.fr') },
                   { icon: '◎', label: 'Concierge', val: 'Available 24 hours' },
                 ].map(({ icon, label, val }) => (
@@ -1826,7 +1826,7 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
           }}
         >
           <span style={{ fontFamily: SANS, fontSize: '0.58rem', color: `${CREAM}35`, letterSpacing: '0.08em' }}>
-            © 2026 Grand Palais. All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2026 {clientName(sessionData) ?? "Grand Palais."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: 'flex', gap: '2rem' }}>
             {([
@@ -2281,7 +2281,7 @@ function ContactPage() {
           {/* Info */}
           <div>
             {[
-              { label: 'Telephone', val: '+33 1 40 00 00 00' },
+              { label: 'Telephone', val: (clientPhone(sessionData) ?? '+33 1 40 00 00 00') },
               { label: 'Reservations', val: (fd?.email ?? 'reservations@grandpalais.fr') },
               { label: 'Address', val: `8 Avenue de la Paix, 75009 ${clientCity(sessionData) ?? "Paris"}` },
               { label: 'Concierge', val: 'Available 24 hours a day' },

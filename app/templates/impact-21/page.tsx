@@ -10,10 +10,13 @@ import { Menu, X, ArrowRight, Layers, Cpu, Package, Eye, ChevronRight, Globe, Aw
 import {
   clientAddress,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
   clientWorks,
 } from "@/lib/templates/clientContent";
@@ -391,13 +394,12 @@ return (
             </motion.div>
             <div className="max-w-6xl mx-auto w-full relative z-10">
               <Reveal delay={0.1}>
-                <h1 className="text-gray-900 text-6xl md:text-8xl font-bold leading-none mb-8">{c?.heroHeadline ?? <>
-                  Design<br />
-                  <em className="font-light text-[var(--brand,#F97316)]">qui dure.</em>
+                <h1 className="text-gray-900 text-6xl md:text-8xl font-bold leading-none mb-8">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Design"}<br />
+                  <em className="font-light text-[var(--brand,#F97316)]">{clientHeroLine(sessionData, 1, 2, 9) ?? "qui dure."}</em>
                 </>}</h1>
               </Reveal>
               <Reveal delay={0.2}>
-                <p className="text-gray-500 text-xl max-w-lg leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+                <p className="text-gray-500 text-xl max-w-lg leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                   Packaging, mobilier, objets tech. Forme Studio crée des produits qui se distinguent, se vendent, et résistent au temps.
                 </>}</p>
               </Reveal>
@@ -412,7 +414,7 @@ return (
                 </div>
               </Reveal>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-16 max-w-sm">
-                {[["50+", "Produits lancés"], ["12 ans", "D'expérience"], ["18", "Récompenses design"]].map(([n, l]) => (
+                {(clientStats(sessionData)?.map((s: any) => [s.value, s.label]) ?? [["50+", "Produits lancés"], ["12 ans", "D'expérience"], ["18", "Récompenses design"]]).map(([n, l]) => (
                   <Reveal key={l}>
                     <div>
                       <p className="text-gray-900 text-2xl font-bold">{n}</p>
@@ -1141,7 +1143,7 @@ return (
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Politique de conf.</button>
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Mentions légales</button>
           </div>
-          <span>© 2026 Forme Studio. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Forme Studio."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
         </div>
       </footer>
     </div>

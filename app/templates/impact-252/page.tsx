@@ -14,6 +14,8 @@ import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -663,7 +665,7 @@ function Hero() {
             margin: '28px 0 24px',
             textShadow: '0 14px 64px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 15) ?? (<>
           Le sourire
           <br />
           <span style={{ fontStyle: 'normal', color: C.accentLight }}>
@@ -684,10 +686,7 @@ function Hero() {
             lineHeight: 1.7,
             letterSpacing: '0.04em',
           }}
-        >
-          Soins conservateurs, esthétique dentaire et implantologie — une
-          expertise complète dans un cabinet pensé pour votre confort.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Soins conservateurs, esthétique dentaire et implantologie — une expertise complète dans un cabinet pensé pour votre confort."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}

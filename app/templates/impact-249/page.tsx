@@ -14,6 +14,8 @@ import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -660,7 +662,7 @@ function Hero() {
             textShadow: '0 14px 60px rgba(0,0,0,0.55)',
             maxWidth: '10em',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 12) ?? (<>
           L&apos;encre
           <br />
           comme art.
@@ -679,10 +681,7 @@ function Hero() {
             lineHeight: 1.72,
             marginBottom: 'clamp(28px,4vw,44px)',
           }}
-        >
-          Quatre artistes, une obsession partagée : chaque tatouage est une
-          œuvre originale conçue spécialement pour vous.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Quatre artistes, une obsession partagée : chaque tatouage est une œuvre originale conçue spécialement pour vous."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -2093,7 +2092,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2024 Dermis Studio · {clientCity(sessionData) ?? "Montpellier"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2024 {clientName(sessionData) ?? "Dermis Studio"} · {clientCity(sessionData) ?? "Montpellier"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#reserver" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

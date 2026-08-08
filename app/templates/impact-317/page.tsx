@@ -42,6 +42,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientCity,
   clientFaq,
   clientName,
@@ -277,13 +278,13 @@ export default function TemplatePage({ session: initialSession }: { session?: an
     }
   }, [fd]);
   const tagline = c.tagline || "Le nettoyage qui redonne vie à votre espace.";
-  const heroHeading = clientTagline({ formData: fd, generatedContent: c }) || c.heroTitle || "L'énergie de la propreté à votre service";
-  const heroSub = c.heroSubtitle || "Des services de nettoyage résidentiels et commerciaux rapides, efficaces et éclatants pour un environnement toujours impeccable.";
+  const heroHeading = clientTagline({ formData: fd, generatedContent: c }) || c?.heroTitle || "L'énergie de la propreté à votre service";
+  const heroSub = c?.heroSubtitle || "Des services de nettoyage résidentiels et commerciaux rapides, efficaces et éclatants pour un environnement toujours impeccable.";
   const cta1 = c.ctaPrimary || "Demander un devis";
   const cta2 = c.ctaSecondary || "Voir nos services";
   const phone = fd.phone || "01 23 45 67 89";
   const email = fd.email || "contact@menagedynamique.fr";
-  const address = fd.address || "123 Avenue de la Propreté, 75000 Paris";
+  const address = fd.address || (clientAddress(sessionData) ?? "123 Avenue de la Propreté, 75000 Paris");
 
   const defaultServices = [
     { title: "Nettoyage Résidentiel", desc: "Un intérieur étincelant pour votre confort au quotidien, avec des produits respectueux de l'environnement." },
@@ -1258,7 +1259,7 @@ export default function TemplatePage({ session: initialSession }: { session?: an
 
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
 
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
 
         {clientName({ formData: fd }) ?? "impact-317"}
 

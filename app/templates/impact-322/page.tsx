@@ -41,6 +41,8 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
+  clientAddress,
   clientCity,
   clientList,
   clientName,
@@ -454,7 +456,7 @@ export default function Impact322() {
             <h1 
               style={{ fontFamily: SERIF, fontSize: 'clamp(40px, 8vw, 90px)', lineHeight: 1.1 }}
               className="mb-8 font-light"
-            >{/* ACCROCHE */ clientTagline({ formData: fd, generatedContent: c }) ?? (<>
+            >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
               Créateurs d'Événements <br />
               <span style={{ fontStyle: 'italic', color: C.primary }}>d'Exception</span>
             </>)}</h1>
@@ -787,7 +789,7 @@ export default function Impact322() {
                   </div>
                   <div className="flex items-center gap-4">
                     <MapPin style={{ color: C.primary }} size={20} />
-                    <span className="font-light">{fd?.location || "8 Avenue Montaigne, 75008 Paris"}</span>
+                    <span className="font-light">{fd?.location || (clientAddress(sessionData) ?? "8 Avenue Montaigne, 75008 Paris")}</span>
                   </div>
                 </div>
               </Reveal>
@@ -901,7 +903,7 @@ export default function Impact322() {
 
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
 
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
 
         {clientName({ formData: fd }) ?? "impact-322"}
 

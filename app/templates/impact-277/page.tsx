@@ -32,8 +32,10 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCertifications,
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -41,6 +43,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -55,7 +58,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ÉLECTRICITÉ DUMONT — Électricien certifié · {clientCity(sessionData) ?? "Paris"}
+   ÉLECTRICITÉ DUMONT — {clientTrade(sessionData) ?? "Électricien"} certifié · {clientCity(sessionData) ?? "Paris"}
    Photographie réelle + chorégraphie de défilement éditoriale (style Impact ×
    fiabilité artisanale × urgence). Fichier entièrement autonome. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -540,7 +543,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.yellow}>
-            Électricien certifié · {clientCity(sessionData) ?? "Paris"}
+            {clientTrade(sessionData) ?? "Électricien"} certifié · {clientCity(sessionData) ?? "Paris"}
           </Eyebrow>
         </Reveal>
 
@@ -560,12 +563,19 @@ function HeroSection() {
             textTransform: 'uppercase',
             maxWidth: 900,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 18) ?? (<>
           L&apos;électricité{' '}
           <span style={{ color: C.yellow }}>sans</span>
           <br />
           compromis
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 18) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 18)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}

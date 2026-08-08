@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus, X } from "lucide-react";
 import type { BusinessProfile } from "@/lib/sessions";
 import { useAutoSaveStep } from "@/components/wizard/useAutoSaveStep";
@@ -45,9 +45,36 @@ export function ServiceRdvStep({
 }) {
   useAutoSaveStep(sessionId, "businessProfile", value);
 
-  const services = value?.services ?? [];
+  /*
+    Une première ligne déjà ouverte. « Prestations » ne montrait qu'un lien
+    « + Ajouter une prestation » : le client pressé passait devant sans le voir,
+    et son site sortait sans la seule chose qui le décrit vraiment. Une ligne
+    vide en place se remplit ; un lien se manque.
+  */
+  const services = value?.services?.length ? value.services : [{ name: "" } as Service];
   const team = value?.team ?? [];
-  const openingHours = value?.openingHours ?? DAYS.map((day) => ({ day, closed: false } as OpeningHour));
+  /*
+    Quatorze champs d'horaires vides à remplir un par un : c'est le bloc le plus
+    lourd du wizard et celui qui fait fermer l'onglet. On propose donc la semaine
+    la plus courante — du lundi au vendredi, neuf heures dix-huit heures, samedi
+    et dimanche fermés. Le client corrige ce qui diffère au lieu de tout saisir,
+    et ce qu'il voit à l'écran est ce qui partira sur son site.
+  */
+  const HORAIRES_USUELS: OpeningHour[] = DAYS.map((day) =>
+    day === "Samedi" || day === "Dimanche"
+      ? ({ day, closed: true } as OpeningHour)
+      : ({ day, closed: false, open: "09:00", close: "18:00" } as OpeningHour),
+  );
+  const openingHours = value?.openingHours ?? HORAIRES_USUELS;
+
+  /*
+    Ces horaires proposés doivent exister dans la session, pas seulement à
+    l'écran : sans cela, un client qui les accepte tels quels n'envoie rien.
+  */
+  useEffect(() => {
+    if (!value?.openingHours) onChange({ ...(value ?? {}), openingHours: HORAIRES_USUELS });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const sources = value?.reputation?.sources ?? [];
 
   const patch = (partial: Partial<BusinessProfile>) => onChange({ ...value, ...partial });
@@ -99,7 +126,12 @@ export function ServiceRdvStep({
 
       {/* Services */}
       <div className="space-y-2">
-        <p className={label}>Prestations</p>
+        <p className={label}>
+          Prestations
+          <span className="ml-2 font-normal normal-case text-zinc-500">
+            ce que vous vendez — c'est ce que vos clients liront en premier
+          </span>
+        </p>
         <div className="flex flex-col gap-3">
           {services.map((s, i) => (
             <div key={i} className="bg-zinc-800/60 border border-zinc-700 rounded-xl p-3 flex flex-col gap-2">
@@ -108,19 +140,22 @@ export function ServiceRdvStep({
                   className={`${input} flex-1`}
                   value={s.name}
                   onChange={(e) => updateService(i, "name", e.target.value)}
-                  placeholder="Nom de la prestation"
+                  placeholder="Ex. Rénovation de salle de bain"
+                  aria-label="Nom de la prestation"
                 />
                 <input
                   className={`${input} w-24`}
                   value={s.price ?? ""}
                   onChange={(e) => updateService(i, "price", e.target.value)}
-                  placeholder="Prix"
+                  placeholder="2 400 €"
+                  aria-label="Prix de la prestation"
                 />
                 <input
                   className={`${input} w-24`}
                   value={s.duration ?? ""}
                   onChange={(e) => updateService(i, "duration", e.target.value)}
-                  placeholder="Durée"
+                  placeholder="1 semaine"
+                  aria-label="Durée de la prestation"
                 />
                 <button type="button" onClick={() => removeService(i)} aria-label="Supprimer">
                   <X size={14} className="text-zinc-500 hover:text-zinc-300 transition-colors" />
@@ -130,7 +165,8 @@ export function ServiceRdvStep({
                 className={`${input} w-full`}
                 value={s.description ?? ""}
                 onChange={(e) => updateService(i, "description", e.target.value)}
-                placeholder="Description courte (optionnel)"
+                placeholder="Dépose, plomberie, carrelage et pose des équipements (facultatif)"
+                aria-label="Description de la prestation"
               />
             </div>
           ))}
@@ -207,19 +243,24 @@ export function ServiceRdvStep({
         <div className="flex gap-2">
           <select
             className={`${input} w-40`}
+            aria-label="Outil de réservation"
             value={value?.bookingSystem?.provider ?? ""}
             onChange={(e) => patch({ bookingSystem: { ...value?.bookingSystem, provider: e.target.value } })}
           >
-            <option value="">…</option>
+            {/* « … » ne dit pas ce qu'on attend. */}
+            <option value="">Aucun outil</option>
             {BOOKING_PROVIDERS.map((p) => (
               <option key={p} value={p}>{p}</option>
             ))}
           </select>
           <input
             className={`${input} flex-1`}
+            aria-label="Lien de réservation"
+            type="url"
+            inputMode="url"
             value={value?.bookingSystem?.url ?? ""}
             onChange={(e) => patch({ bookingSystem: { ...value?.bookingSystem, url: e.target.value } })}
-            placeholder="Lien de réservation"
+            placeholder="https://…"
           />
         </div>
       </div>
@@ -231,11 +272,15 @@ export function ServiceRdvStep({
           {openingHours.map((h, i) => (
             <div key={h.day} className="flex items-center gap-2 text-sm">
               <span className="w-20 text-zinc-400 shrink-0">{h.day}</span>
-              <label className="flex items-center gap-1.5 text-xs text-zinc-500 shrink-0">
+              {/* Une case de treize pixels ne se coche pas au doigt : la zone
+                  cliquable englobe le mot et tient la hauteur minimale. */}
+              <label className="flex items-center gap-2 text-sm text-zinc-400 shrink-0 min-h-[44px] px-1 cursor-pointer">
                 <input
                   type="checkbox"
+                  className="w-4 h-4 accent-red-600 cursor-pointer"
                   checked={!!h.closed}
                   onChange={(e) => updateHour(i, "closed", e.target.checked)}
+                  aria-label={`${h.day} — fermé`}
                 />
                 Fermé
               </label>
@@ -243,14 +288,16 @@ export function ServiceRdvStep({
                 <>
                   <input
                     type="time"
-                    className={`${input} w-28`}
+                    aria-label={`${h.day} — heure d'ouverture`}
+                    className={`${input} w-32`}
                     value={h.open ?? ""}
                     onChange={(e) => updateHour(i, "open", e.target.value)}
                   />
                   <span className="text-zinc-600">→</span>
                   <input
                     type="time"
-                    className={`${input} w-28`}
+                    aria-label={`${h.day} — heure de fermeture`}
+                    className={`${input} w-32`}
                     value={h.close ?? ""}
                     onChange={(e) => updateHour(i, "close", e.target.value)}
                   />
@@ -264,12 +311,12 @@ export function ServiceRdvStep({
       {/* Reputation sources */}
       <div className="space-y-2">
         <p className={label}>Avis clients</p>
-        <p className="text-xs text-zinc-500">Si tu as ton lien Planity/Google, ajoute-le, sinon laisse vide.</p>
+        <p className="text-xs text-zinc-500">Si vous avez un lien Planity ou Google, ajoutez-le ; sinon, laissez vide.</p>
         <div className="flex flex-col gap-2">
           {sources.map((s, i) => (
             <div key={i} className="flex items-center gap-2">
               <input
-                className={`${input} w-28`}
+                className={`${input} w-32`}
                 value={s.platform}
                 onChange={(e) => updateSource(i, "platform", e.target.value)}
                 placeholder="Plateforme"

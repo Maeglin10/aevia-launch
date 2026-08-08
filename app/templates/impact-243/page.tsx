@@ -27,8 +27,10 @@ import {
 } from '@/lib/templates/hero-kit-2';
 import { PortalZoom } from '@/lib/templates/hero-kit-3';
 import {
+  clientAccrocheRestante,
   clientAddress,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -686,11 +688,18 @@ function Hero() {
             margin: '0 0 26px',
             textShadow: '0 12px 56px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 16) ?? (<>
           La médecine
           <br />
           qui vous écoute.
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 16) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 16)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}
@@ -2213,7 +2222,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.36)',
         }}
       >
-        <span>© 2026 Cabinet Dr. Élodie Beaumont — Médecin généraliste · {clientCity(sessionData) ?? "Strasbourg"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Cabinet Dr. Élodie Beaumont"} — Médecin généraliste · {clientCity(sessionData) ?? "Strasbourg"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

@@ -13,7 +13,10 @@ import {
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -684,7 +687,7 @@ function Hero() {
             textShadow: '0 14px 70px rgba(0,0,0,0.60)',
             maxWidth: 900,
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 10) ?? (<>
           Art /
           <br />
           permanent.
@@ -702,10 +705,7 @@ function Hero() {
             maxWidth: 520,
             lineHeight: 1.65,
           }}
-        >
-          Quatre artistes, zéro flash, cent pour cent sur mesure. Chaque tatouage
-          est une œuvre conçue pour une seule peau.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Quatre artistes, zéro flash, cent pour cent sur mesure. Chaque tatouage est une œuvre conçue pour une seule peau."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -2076,7 +2076,7 @@ function Footer() {
         items: [
           { label: (clientCity(sessionData) ?? 'Paris') + ' Marais', href: '#reservation' },
           { label: 'Sur rendez-vous', href: '#reservation' },
-          { label: fd?.email ?? 'studio@noirAbsolu.fr', href: `mailto:${fd?.email ?? 'studio@noirAbsolu.fr'}` },
+          { label: (clientEmail(sessionData) ?? 'studio@noirAbsolu.fr'), href: `mailto:${clientEmail(sessionData) ?? 'studio@noirAbsolu.fr'}` },
           { label: 'Instagram', href: "/templates/impact-262" },
         ],
       },
@@ -2227,7 +2227,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 Studio Noir Absolu. {clientCity(sessionData) ?? "Paris"} 3e Marais. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Studio Noir Absolu."} {clientCity(sessionData) ?? "Paris"} 3e Marais. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a

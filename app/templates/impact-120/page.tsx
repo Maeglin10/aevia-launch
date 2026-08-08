@@ -20,6 +20,9 @@ import { Sparkles, Droplets, Wind, Menu, X, ArrowRight, Flower2, Moon, Sun, Star
 import { DWELL, useSlides, HeldSwap, BlurThrough, CircularLabel, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import {
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -513,7 +516,7 @@ export default function EclatLuxuryPage() {
               className="mb-6 flex justify-center items-center gap-4"
             >
               <span className="h-[1px] w-12 bg-fuchsia-900/50 block" />
-              <span className="text-[10px] tracking-[0.4em] text-fuchsia-300/80 uppercase font-bold">Haute Parfumerie</span>
+              <span className="text-[10px] tracking-[0.4em] text-fuchsia-300/80 uppercase font-bold">{clientEyebrow(sessionData) ?? "Haute Parfumerie"}</span>
               <span className="h-[1px] w-12 bg-fuchsia-900/50 block" />
             </motion.div>
             
@@ -523,9 +526,8 @@ export default function EclatLuxuryPage() {
               transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
               className="text-7xl md:text-9xl lg:text-[12rem] leading-[0.8] tracking-tighter text-white mb-12"
               style={{ fontFamily: "Georgia, serif" }}
-            >{c?.heroHeadline ?? <>
-              ÉCLAT <br/>
-              <span className="text-zinc-600 italic font-light">ABSOLU</span>
+            >{<>{clientHeroLine(sessionData, 0, 2, 6) ?? "ÉCLAT"}<br/>
+              <span className="text-zinc-600 italic font-light">{clientHeroLine(sessionData, 1, 2, 6) ?? "ABSOLU"}</span>
             </>}</motion.h1>
 
             <motion.p 
@@ -533,7 +535,7 @@ export default function EclatLuxuryPage() {
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1 }}
               className="max-w-2xl mx-auto text-lg md:text-xl text-zinc-400 font-light italic tracking-wide"
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Architectural scent structures crafted in Grasse. Where botanical rarity meets quantum precision.
             </>}</motion.p>
           </div>
@@ -936,7 +938,7 @@ export default function EclatLuxuryPage() {
           </div>
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600">
-            <div>© 2026 Éclat Parfums. All Rights Reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</div>
+            <div>© 2026 {clientName(sessionData) ?? "Éclat Parfums. All Rights"} Reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</div>
             <div className="flex items-center gap-8 text-white/50">
               <Link href="#boutique" className="hover:text-white transition-colors">Camera</Link>
               <Link href="#boutique" className="hover:text-white transition-colors">MessageSquare</Link>

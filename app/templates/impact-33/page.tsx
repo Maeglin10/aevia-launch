@@ -28,6 +28,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientHours,
   clientName,
   clientReviews,
@@ -75,7 +77,7 @@ function shadeColor(hex: string, percent: number): string {
 
 let C: Record<string, string> = {
   bg: "#fdf8f0",
-  bgLight: "var(--brand-light,#f5e6c8)",
+  bgLight: "#f5e6c8",
   bgSection: "#fdf3e3",
   text: "#5c3317",
   textMuted: "#8c6440",
@@ -84,7 +86,7 @@ let C: Record<string, string> = {
   accentLight: "#fdedc8",
   brown: "#5c3317",
   brownLight: "#8c6440",
-  cream: "var(--brand-light,#f5e6c8)",
+  cream: "#f5e6c8",
   white: "#FFFFFF",
   border: "#e8d5b0",
   shadow: "0 4px 24px rgba(92,51,23,0.09)",
@@ -201,7 +203,7 @@ function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
           style={{ fontFamily: FONT_HEADING, fontSize: "clamp(36px, 5vw, 72px)", fontWeight: 700, color: C.text, lineHeight: 1.08, letterSpacing: -1.5, marginBottom: "clamp(14px,3vw,24px)" }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 15) ?? (<>
           Le pain, l'art,{" "}
           <em style={{ color: C.accent, fontStyle: "italic" }}>la tradition</em>
         </>)}</motion.h1>
@@ -209,10 +211,7 @@ function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.22 }}
           style={{ fontSize: "clamp(15px,2vw,19px)", color: C.textMuted, lineHeight: 1.7, marginBottom: "clamp(20px,4vw,40px)", maxWidth: 560 }}
-        >
-          La Fournée, c'est l'amour du pain au levain, des viennoiseries pur beurre et des pâtisseries
-          de saison. Tout est fait maison chaque jour dès 4h du matin dans notre fournil ouvert sur la rue.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "La Fournée, c'est l'amour du pain au levain, des viennoiseries pur beurre et des pâtisseries de saison. Tout est fait maison chaque jour dès 4h du matin dans notre fournil ouvert sur la rue."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.32 }}

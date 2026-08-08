@@ -12,6 +12,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -346,7 +347,7 @@ export default function AtlasPage() {
             </Link>
           </Reveal>
           <div className="mt-16 pt-8 border-t border-[#4A3520]/60 grid grid-cols-3 md:grid-cols-6 gap-4">
-            {[["87", "Récits publiés"], ["34", "Pays visités"], ["12", "Années de route"], ["480k", "Lecteurs mensuels"], ["6", "Prix reçus"], ["240h", "De vidéos"]].map(([val, label]) => (
+            {(clientStats(sessionData)?.map((s: any) => [s.value, s.label]) ?? [["87", "Récits publiés"], ["34", "Pays visités"], ["12", "Années de route"], ["480k", "Lecteurs mensuels"], ["6", "Prix reçus"], ["240h", "De vidéos"]]).map(([val, label]) => (
               <div key={label}>
                 <div className="text-xl text-[var(--brand,#C0392B)]" style={{ fontFamily: "'Playfair Display', serif" }}>{val}</div>
                 <div className="text-[10px] text-[#8A7560] mt-0.5">{label}</div>
@@ -549,7 +550,7 @@ export default function AtlasPage() {
             </div>
           </div>
           <div className="pt-8 border-t border-[#2C1F0E] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 Atlas · Journal de voyage · Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2024 {clientName(sessionData) ?? "Atlas"} · Journal de voyage · Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
             <div className="flex gap-6">
               {["Mentions légales", "Politique de confidentialité"].map(l => (
                 <Link key={l} href="#articles" className="hover:text-[#F5F0E8] transition-colors cursor-pointer">{l}</Link>

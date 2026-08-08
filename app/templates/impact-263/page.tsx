@@ -14,6 +14,8 @@ import { ArrowRight, ChevronDown, Leaf, MapPin, Send } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -642,7 +644,7 @@ function Hero() {
             textShadow: '0 12px 60px rgba(0,0,0,0.4)',
             maxWidth: '14ch',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 14) ?? (<>
           Jardins /{' '}
           <span style={{ color: C.accentLight }}>qui respirent.</span>
         </>)}</motion.h1>
@@ -660,9 +662,7 @@ function Hero() {
             lineHeight: 1.7,
             marginBottom: 38,
           }}
-        >
-          Conception paysagère, permaculture et éco-jardinage sur mesure. Chaque projet commence par écouter votre sol.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Conception paysagère, permaculture et éco-jardinage sur mesure. Chaque projet commence par écouter votre sol."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -750,7 +750,7 @@ function Intro() {
             color: C.ink,
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "demarche.texte") ?? (<>
-          "Un jardin n&apos;est pas un décor. C&apos;est un écosystème dont vous êtes responsable."
+          "Un jardin n'est pas un décor. C'est un écosystème dont vous êtes responsable."
         </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
@@ -1436,7 +1436,7 @@ function EcoPanel() {
                 lineHeight: 1.6,
               }}
             >
-              "Créer de la biodiversité, c&apos;est aussi investir dans votre propre qualité de vie."
+              "Créer de la biodiversité, c'est aussi investir dans votre propre qualité de vie."
             </div>
           </div>
         </div>

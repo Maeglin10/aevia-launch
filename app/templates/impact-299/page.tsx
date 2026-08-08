@@ -46,11 +46,14 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -85,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   KINÉPRO SPORT {clientCity(sessionData) ?? "LYON"} — Kinésithérapeute du sport {clientCity(sessionData) ?? "Lyon"} Confluence — athlètes, rééducation post-op, dry needling. Barlow Condensed, bleu / orange.
+   KINÉPRO SPORT {clientCity(sessionData) ?? "LYON"} — {clientTrade(sessionData) ?? "Kinésithérapeute"} du sport {clientCity(sessionData) ?? "Lyon"} Confluence — athlètes, rééducation post-op, dry needling. Barlow Condensed, bleu / orange.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -518,9 +521,7 @@ return (
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>{c?.heroHeadline ?? <>
-              Performance<br />& Récupération
-            </>}</h1>
+            }}>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Performance"}<br />{clientHeroLine(sessionData, 1, 2, 14) ?? "& Récupération"}</>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -531,7 +532,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{fd?.tagline ?? c?.heroSubline ?? <>
+            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Kinésithérapie du sport {clientCity(sessionData) ?? "Lyon"} Confluence. Football, running, natation. Rééducation post-op.
             </>}</p>
           </Reveal>
@@ -648,7 +649,7 @@ return (
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "KinéPro Sport Lyon"))}</Eyebrow>
+                <Eyebrow style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "KinéPro Sport Lyon"))}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -1254,7 +1255,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "KinéPro Sport Lyon"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                Kinésithérapeute du sport {clientCity(sessionData) ?? "Lyon"} Confluence
+                {clientTrade(sessionData) ?? "Kinésithérapeute"} du sport {clientCity(sessionData) ?? "Lyon"} Confluence
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1298,7 +1299,7 @@ return (
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} KinéPro Sport {clientCity(sessionData) ?? "Lyon"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "KinéPro Sport"} {clientCity(sessionData) ?? "Lyon"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

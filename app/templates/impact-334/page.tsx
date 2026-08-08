@@ -11,6 +11,8 @@ import { PanelDrop } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -226,10 +228,10 @@ export default function StudioCulinaPage() {
             Cuisines sur mesure · {clientCity(sessionData) ?? "Annecy"}
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>La cuisine dessinée<br /><em style={{ color: C.accentDark }}>autour de vos matins.</em></>)}
+            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 21) ?? "La cuisine dessinée"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 21) ?? "autour de vos matins."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {fd?.tagline ?? c?.heroSubline ?? "Un studio de conception, pas un couloir d'expo : trois cuisines témoins, un architecte d'intérieur, et des façades qui se posent au millimètre. Devis ferme, pose décennale."}
+            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Un studio de conception, pas un couloir d'expo : trois cuisines témoins, un architecte d'intérieur, et des façades qui se posent au millimètre. Devis ferme, pose décennale."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

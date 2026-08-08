@@ -9,6 +9,8 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { Reveal, MagneticBtn, Counter, MENUS, WINE_PAIRINGS, ARTISANS } from "./shared";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -162,13 +164,10 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <h1 className="text-5xl sm:text-6xl md:text-9xl lg:text-[9rem] xl:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12 uppercase text-white break-words">{c?.heroHeadline ?? <>
-              Surrender <br />{" "}
-              <span className="italic font-normal text-[var(--brand,#b8860b)]">
-                to fire.
-              </span>
+            <h1 className="text-5xl sm:text-6xl md:text-9xl lg:text-[9rem] xl:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12 uppercase text-white break-words">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Surrender"}<br />{" "}
+              <span className="italic font-normal text-[var(--brand,#b8860b)]">{clientHeroLine(sessionData, 1, 2, 9) ?? "to fire."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-[#f5efe0]/40 leading-relaxed font-light mb-12 italic">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-[#f5efe0]/40 leading-relaxed font-light mb-12 italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Chef Anatol Voss transforms memory, season, and flame into a
               dining experience that transcends cuisine.
             </>}</p>
@@ -524,7 +523,7 @@ return (
         </div>
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-62"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

@@ -50,7 +50,11 @@ import {
   Wind,
 } from "lucide-react";
 import {
+  clientAddress,
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -1436,9 +1440,7 @@ export default function HorizonMaritimePage() {
                   letterSpacing: 4,
                   textTransform: "uppercase",
                 }}
-              >
-                Private Maritime Journeys
-              </p>
+              >{clientEyebrow(sessionData) ?? "Private Maritime Journeys"}</p>
             </div>
 
             {/* Main headline */}
@@ -1455,13 +1457,9 @@ export default function HorizonMaritimePage() {
                 marginBottom: "1.5rem",
                 letterSpacing: -1,
               }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-              Beyond the
-              <br />
-              <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>ordinary</em>
-              <br />
-              horizon.
-            </>}</>)}</motion.h1>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "Beyond the"}<br />
+              <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>{clientHeroLine(sessionData, 1, 3, 10) ?? "ordinary"}</em>
+              <br />{clientHeroLine(sessionData, 2, 3, 10) ?? "horizon."}</>}</>)}</motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 24 }}
@@ -1476,7 +1474,7 @@ export default function HorizonMaritimePage() {
                 lineHeight: 1.8,
                 marginBottom: "2.5rem",
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Bespoke yacht charters and private aviation transfers across the world's most
               extraordinary waters. Curated for those who demand perfection without effort.
             </>}</motion.p>
@@ -2487,7 +2485,7 @@ export default function HorizonMaritimePage() {
             }}
           >
             <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.25)", letterSpacing: 1 }}>
-              © 2026 Horizon Maritime Group S.A.M. · All rights reserved · Monaco{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "Horizon Maritime Group S.A.M."} · All rights reserved · Monaco{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
               {["Privacy Policy", "Terms of Charter", "Cookie Policy", "Legal Mentions"].map((l) => (
@@ -3117,8 +3115,8 @@ function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
 function ContactPage() {
   const offices = [
-    { city: "Monaco", address: "Port Hercules, 98000 Monaco", phone: "+377 93 25 45 67", email: (fd?.email ?? "monaco@horizonmaritime.com") },
-    { city: "Geneva", address: "Rue du Rhône 42, 1204 Genève, Switzerland", phone: "+41 22 310 12 34", email: (fd?.email ?? "geneva@horizonmaritime.com") },
+    { city: "Monaco", address: (clientAddress(sessionData) ?? "Port Hercules, 98000 Monaco"), phone: "+377 93 25 45 67", email: (fd?.email ?? "monaco@horizonmaritime.com") },
+    { city: "Geneva", address: "Rue du Rhône 42, 1204 " + (clientCity(sessionData) ?? "Genève") + ", Switzerland", phone: "+41 22 310 12 34", email: (fd?.email ?? "geneva@horizonmaritime.com") },
     { city: "Singapore", address: "Marina Bay Sands Office, 018956 Singapore", phone: "+65 6688 8888", email: (fd?.email ?? "singapore@horizonmaritime.com") },
   ];
 

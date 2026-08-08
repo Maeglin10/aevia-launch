@@ -10,6 +10,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -200,7 +202,7 @@ export default function ApexFitnessPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Programs", "Pricing", "Team", "Contact"].map(l => (
-              <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-[var(--brand,#a3e635)] transition-colors">{l}</a>
+              <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-[#a3e635] transition-colors">{l}</a>
             ))}
           </div>
           <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-8 py-3 bg-[var(--brand,#84cc16)] text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white transition-colors duration-500">
@@ -211,7 +213,7 @@ export default function ApexFitnessPage() {
             <SheetContent side="right" className="bg-[#0a0a0a] border-[var(--brand,#84cc16)]/10 p-12">
               <div className="flex flex-col gap-8 mt-16">
                 {["Programs", "Pricing", "Team", "Contact"].map(l => (
-                  <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="text-3xl font-bold uppercase tracking-widest hover:text-[var(--brand,#a3e635)] transition-colors">{l}</a>
+                  <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="text-3xl font-bold uppercase tracking-widest hover:text-[#a3e635] transition-colors">{l}</a>
                 ))}
               </div>
             </SheetContent>
@@ -228,12 +230,11 @@ export default function ApexFitnessPage() {
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <Reveal delay={0.1} y={70}>
-              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] uppercase mb-10">{c?.heroHeadline ?? <>
-                Train<br/><span className="text-[var(--brand,#84cc16)]">Harder.</span>
+              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] uppercase mb-10">{<>{clientHeroLine(sessionData, 0, 2, 7) ?? "Train"}<br/><span className="text-[var(--brand,#84cc16)]">{clientHeroLine(sessionData, 1, 2, 7) ?? "Harder."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.25}>
-              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
+              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Science-backed programming. Expert coaching. A community that pushes you further than you'd go alone.
               </>}</p>
             </Reveal>
@@ -269,7 +270,7 @@ export default function ApexFitnessPage() {
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Programs</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#a3e635] block mb-4">Programs</span>
                 <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "programs.titre") ?? (<>Find Your <span className="text-[var(--brand,#84cc16)]">Program.</span></>)}</h2>
               </div>
             </Reveal>
@@ -313,7 +314,7 @@ export default function ApexFitnessPage() {
                   <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-[var(--brand,#84cc16)]/30 transition-all duration-500">
                     <div className="flex items-start gap-6">
                       <div className="w-14 h-14 rounded-xl bg-[var(--brand,#84cc16)]/10 border border-[var(--brand,#84cc16)]/20 flex items-center justify-center shrink-0 group-hover:bg-[var(--brand,#84cc16)] group-hover:border-[var(--brand,#84cc16)] transition-all duration-500">
-                        <f.icon className="w-6 h-6 text-[var(--brand,#a3e635)] group-hover:text-black transition-colors" />
+                        <f.icon className="w-6 h-6 text-[#a3e635] group-hover:text-black transition-colors" />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold mb-3 uppercase">{f.title}</h3>
@@ -332,7 +333,7 @@ export default function ApexFitnessPage() {
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Membership</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#a3e635] block mb-4">Membership</span>
                 <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "pricing.titre") ?? (<>Choose Your <span className="text-[var(--brand,#84cc16)]">Plan.</span></>)}</h2>
               </div>
             </Reveal>
@@ -342,12 +343,12 @@ export default function ApexFitnessPage() {
                   <div className={`p-8 rounded-2xl border h-full flex flex-col ${p.popular ? "bg-[var(--brand,#84cc16)]/5 border-[var(--brand,#84cc16)]/30 relative" : "bg-white/[0.02] border-white/5"}`}>
                     {p.popular && <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1 bg-[var(--brand,#84cc16)] text-black text-[10px] font-bold uppercase tracking-widest rounded-full">Most Popular</div>}
                     <h3 className="text-xl font-bold uppercase mb-1">{p.name}</h3>
-                    <div className="text-4xl font-black text-[var(--brand,#a3e635)] mb-1">{p.price}<span className="text-lg text-white/30 font-normal">/mo</span></div>
+                    <div className="text-4xl font-black text-[#a3e635] mb-1">{p.price}<span className="text-lg text-white/30 font-normal">/mo</span></div>
                     <p className="text-sm text-white/40 mb-6">{p.desc}</p>
                     <ul className="space-y-3 flex-1 mb-8">
                       {p.features.map((f, j) => (
                         <li key={j} className="flex items-center gap-2 text-sm text-white/60">
-                          <CheckCircle2 className="w-4 h-4 text-[var(--brand,#a3e635)] shrink-0" /> {f}
+                          <CheckCircle2 className="w-4 h-4 text-[#a3e635] shrink-0" /> {f}
                         </li>
                       ))}
                     </ul>
@@ -384,7 +385,7 @@ export default function ApexFitnessPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Elite Coaches</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#a3e635] block mb-4">Elite Coaches</span>
                 <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "team.titre") ?? (<>Meet the <span className="text-[var(--brand,#84cc16)]">Coaches.</span></>)}</h2>
               </div>
             </Reveal>
@@ -405,7 +406,7 @@ export default function ApexFitnessPage() {
                       <span className="text-black font-black text-xl">{c.initials}</span>
                     </div>
                     <h3 className="text-xl font-bold uppercase mb-2">{c.name}</h3>
-                    <div className="text-xs text-[var(--brand,#a3e635)] font-bold uppercase tracking-widest mb-4">{c.role}</div>
+                    <div className="text-xs text-[#a3e635] font-bold uppercase tracking-widest mb-4">{c.role}</div>
                     <p className="text-sm text-white/40 leading-relaxed">{c.bio}</p>
                   </div>
                 </Reveal>
@@ -419,7 +420,7 @@ export default function ApexFitnessPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">{tr(sessionData, "Reviews")}</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#a3e635] block mb-4">{tr(sessionData, "Reviews")}</span>
                 <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>What Our Members <span className="text-[var(--brand,#84cc16)]">Say.</span></>)}</h2>
               </div>
             </Reveal>
@@ -438,7 +439,7 @@ export default function ApexFitnessPage() {
                     <p className="text-white/60 leading-relaxed italic mb-8">"{t.quote}"</p>
                     <div>
                       <div className="font-bold text-sm text-white uppercase">{t.author}</div>
-                      <div className="text-xs text-[var(--brand,#a3e635)] font-medium mt-1 uppercase tracking-wider">{t.plan}</div>
+                      <div className="text-xs text-[#a3e635] font-medium mt-1 uppercase tracking-wider">{t.plan}</div>
                     </div>
                   </div>
                 </Reveal>
@@ -451,13 +452,13 @@ export default function ApexFitnessPage() {
         <section id="contact" className="py-32 bg-[#0a0a0a] border-t border-white/5">
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Connect</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#a3e635] block mb-4">Connect</span>
               <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-12 uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Get Your <span className="text-[var(--brand,#84cc16)]">Free Week.</span></>)}</h2>
             </Reveal>
             <Reveal delay={0.15}>
               {contactSubmitted ? (
                 <div className="p-12 bg-[#0d0d0d] rounded-2xl border border-[var(--brand,#84cc16)]/30 flex flex-col items-center justify-center">
-                  <CheckCircle2 className="w-12 h-12 text-[var(--brand,#a3e635)] mb-4" />
+                  <CheckCircle2 className="w-12 h-12 text-[#a3e635] mb-4" />
                   <p className="text-xl font-bold text-white">Merci, nous vous répondrons sous 24h.</p>
                 </div>
               ) : (
@@ -498,7 +499,7 @@ export default function ApexFitnessPage() {
             { title: "Follow", links: ["Instagram", "TikTok", "YouTube"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#a3e635)] mb-6">{col.title}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#a3e635] mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
                 {col.links.map(l => {
                   let href = "#";
@@ -513,7 +514,7 @@ export default function ApexFitnessPage() {
           ))}
         </div>
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex flex-col sm:flex-row justify-between gap-4">
-          <span>© 2026 APEX FITNESS. TRAIN HARDER.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "APEX FITNESS. TRAIN HARDER."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-6">
             <Link href="#contact" className="hover:text-white transition-colors">Mentions légales</Link>
             <Link href="#contact" className="hover:text-white transition-colors">Confidentialité</Link>

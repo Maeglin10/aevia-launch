@@ -14,6 +14,9 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -1171,15 +1174,13 @@ return (
                   color: C.gold,
                   fontFamily: C.fontSans,
                 }}
-              >
-                Chef privé · Formation étoilée
-              </span>
+              >{clientEyebrow(sessionData) ?? "Chef privé · Formation étoilée"}</span>
             </div>
           </TextReveal>
 
           <TextReveal immediate delay={0.2}>
             <h1
-              style={{
+              style={{ /* TITRE_DEGAGE */ marginTop: 87, 
                 fontFamily: C.font,
                 fontSize: "clamp(48px, 7vw, 96px)",
                 fontWeight: 300,
@@ -1188,9 +1189,7 @@ return (
                 color: C.cream,
                 marginBottom: 8,
               }}
-            >{c?.heroHeadline ?? <>
-              La grande cuisine
-            </>}</h1>
+            >{<>{clientHeroLine(sessionData, 0, 1, 17) ?? "La grande cuisine"}</>}</h1>
           </TextReveal>
           <TextReveal immediate delay={0.3}>
             <h1
@@ -1219,7 +1218,7 @@ return (
                 maxWidth: 500,
                 fontWeight: 300,
               }}
-            >{fd?.tagline ?? c?.heroSubline ?? <>
+            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Antoine Lefèvre, formé chez Alain Passard et Anne-Sophie Pic,
               compose pour vous des menus d&apos;exception à domicile —
               produits locaux, technique irréprochable, émotions garanties.
@@ -1532,7 +1531,7 @@ return (
             >
               {[
                 { val: "12 ans", label: "En cuisine professionnelle" },
-                { val: "850+", label: "Repas d&apos;exception créés" },
+                { val: "850+", label: "Repas d'exception créés" },
                 { val: "100%", label: "Produits sourcés localement" },
                 { val: "4.9/5", label: "Satisfaction clients" },
               ].map((s) => (
@@ -2344,7 +2343,7 @@ return (
                 }}
               >
                 {[
-                  { icon: "📍", label: "Zone d&apos;intervention", val: (clientCity(sessionData) ?? "Paris") + " · Sur demande ailleurs" },
+                  { icon: "📍", label: "Zone d'intervention", val: (clientCity(sessionData) ?? "Paris") + " · Sur demande ailleurs" },
                   { icon: "🕐", label: "Délai de réservation", val: "3 jours minimum · 3–4 semaines pour grandes occasions" },
                   { icon: "📞", label: "Contact direct", val: "+33 6 XX XX XX XX" },
                   { icon: "✦", label: "Devis", val: "Gratuit · Réponse sous 24h · Sans engagement" },
@@ -2807,7 +2806,7 @@ return (
                 fontFamily: C.fontSans,
               }}
             >
-              © 2025 Maison Saveur — Chef Antoine Lefèvre{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2025 {clientName(sessionData) ?? "Maison Saveur"} — Chef Antoine Lefèvre{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               {["Mentions légales", "Politique de confidentialité", "CGV"].map(

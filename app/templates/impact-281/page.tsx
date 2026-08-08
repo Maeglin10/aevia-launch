@@ -21,7 +21,10 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
+  clientAccrocheRestante,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -67,7 +70,7 @@ let C: Record<string, string> = {
   black: '#0d0d0d',
   blackDeep: '#080808',
   blackMid: '#1a1a1a',
-  champagne: 'var(--brand-light,#e8d5b0)',
+  champagne: '#e8d5b0',
   champagneDeep: '#d4bc93',
   champagneLight: '#f2e8d0',
   white: '#ffffff',
@@ -544,12 +547,19 @@ function HeroSection() {
             margin: '28px 0 24px',
             textShadow: '0 12px 60px rgba(0,0,0,0.55)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 17) ?? (<>
           L&apos;excellence{' '}
           <span style={{ fontStyle: 'italic', color: C.goldLight }}>
             à vos mesures
           </span>
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 17) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 17)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}
@@ -1100,7 +1110,7 @@ const PROCESS_STEPS: ProcessStep[] = [
   {
     num: '02',
     titre: 'Choix des étoffes',
-    body: 'Nous vous guidons dans notre sélection de tissus nobles — soie de Lyon, lainage anglais, dentelle de Calais — pour trouver la matière qui sublimera votre tenue.',
+    body: 'Nous vous guidons dans notre sélection de tissus nobles — soie de ' + (clientCity(sessionData) ?? 'Lyon') + ', lainage anglais, dentelle de Calais — pour trouver la matière qui sublimera votre tenue.',
   },
   {
     num: '03',
@@ -1775,7 +1785,7 @@ type Material = {
 const MATERIALS_SOURCE: Material[] = [
   {
     nom: 'Soie',
-    origine: 'Soie de Lyon · France',
+    origine: 'Soie de ' + (clientCity(sessionData) ?? 'Lyon') + ' · France',
     description:
       "Tissée sur les métiers jacquard lyonnais, notre soie charmeuse capte la lumière avec une fluidité incomparable. Elle habille aussi bien une robe de cocktail qu'un chemisier de soirée.",
     accent: 'Légèreté · Lumière · Sensualité',
@@ -2376,7 +2386,7 @@ function FooterSection() {
       items: [
         { label: 'Prendre rendez-vous', href: '#rendez-vous' },
         { label: '01 42 65 XX XX', href: 'tel:+33142650000' },
-        { label: fd?.email ?? 'contact@maisonceleste.fr', href: `mailto:${fd?.email ?? 'contact@maisonceleste.fr'}` },
+        { label: (clientEmail(sessionData) ?? 'contact@maisonceleste.fr'), href: `mailto:${clientEmail(sessionData) ?? 'contact@maisonceleste.fr'}` },
         { label: 'Instagram', href: "/templates/impact-281" },
       ],
     },

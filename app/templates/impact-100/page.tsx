@@ -27,6 +27,8 @@ import { Compass, Layout, Maximize, Ruler, Sparkles, Globe, Mail, MapPin, Chevro
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientServices,
@@ -366,11 +368,10 @@ export default function NovaSpacesPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[14rem] font-light leading-[0.95] lg:leading-[0.85] tracking-tighter mb-12 uppercase text-black break-words">{c?.heroHeadline ?? <>
-              The Silence <br />{" "}
-              <span className="font-black italic">Of Space.</span>
+            <h1 className="hero-ecran-court text-5xl sm:text-6xl md:text-7xl lg:text-[14rem] font-light leading-[0.95] lg:leading-[0.85] tracking-tighter mb-12 uppercase text-black break-words">{<>{clientHeroLine(sessionData, 0, 2, 11) ?? "The Silence"}<br />{" "}
+              <span className="font-black italic">{clientHeroLine(sessionData, 1, 2, 11) ?? "Of Space."}</span>
             </>}</h1>
-            <p className="max-w-md text-xl text-black/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{fd?.tagline ?? c?.heroSubline ?? <>
+            <p className="max-w-md text-xl text-black/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
               Sculpting void into atmosphere through architectural precision and
               material truth.
             </>}</p>
@@ -748,7 +749,7 @@ export default function NovaSpacesPage() {
         ::-webkit-scrollbar-thumb{background:#1a1a1a}
       `}</style>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-100"}
         {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>

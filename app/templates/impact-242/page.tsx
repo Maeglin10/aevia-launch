@@ -18,7 +18,9 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAccrocheRestante,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -659,11 +661,11 @@ function Hero() {
           </Eyebrow>
         </motion.div>
 
-        <motion.h1
+        <motion.h1 className="hero-ecran-court"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, ease: EASE, delay: 0.2 }}
-          style={{
+          style={{   
             fontFamily: FONT,
             fontWeight: 800,
             color: C.white,
@@ -673,11 +675,18 @@ function Hero() {
             margin: 'clamp(20px,3vw,32px) 0 clamp(18px,2.5vw,28px)',
             textShadow: '0 16px 60px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 13) ?? (<>
           VOS CHIFFRES
           <br />
           ENFIN CLAIRS.
         </>)}</motion.h1>
+      {/* ACCROCHE_SOUS_TITRE — le titre est trop étroit pour la phrase du client */}
+      {clientAccrocheRestante(sessionData, 1, 13) && (
+        <p style={{ fontSize: "clamp(15px, 1.5vw, 20px)", lineHeight: 1.5, opacity: 0.92, marginTop: 12, maxWidth: "44ch", textShadow: "0 1px 3px rgba(0,0,0,0.42)" }}>
+          {clientAccrocheRestante(sessionData, 1, 13)}
+        </p>
+      )}
+
 
         <motion.p
           initial={{ opacity: 0, y: 24 }}
@@ -2177,7 +2186,7 @@ function Footer() {
         }}
       >
         <span>
-          © {new Date().getFullYear()} Fiduciaire Marchand &amp; Partners. Tous droits réservés. Membre de l&apos;OEC.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © {new Date().getFullYear()} {clientName(sessionData) ?? "Fiduciaire Marchand & Partners."} Tous droits réservés. Membre de l&apos;OEC.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>

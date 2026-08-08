@@ -14,6 +14,8 @@ import { ArrowRight, ChevronDown, Heart, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
@@ -729,7 +731,7 @@ function Hero() {
             margin: '28px 0 26px',
             textShadow: '0 12px 64px rgba(0,0,0,0.45)',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 10) ?? (<>
           Votre jour
           <br />
           <span style={{ color: C.accentLight }}>parfait.</span>
@@ -748,10 +750,7 @@ function Hero() {
             maxWidth: 520,
             lineHeight: 1.72,
           }}
-        >
-          De la première esquisse à la dernière danse — nous orchestrons chaque
-          instant pour que vous n'ayez qu'à vivre.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "De la première esquisse à la dernière danse — nous orchestrons chaque instant pour que vous n'ayez qu'à vivre."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -2156,7 +2155,7 @@ function Footer() {
           color: 'rgba(236,220,204,0.38)',
         }}
       >
-        <span>© 2026 Maison Nuptiale · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Maison Nuptiale"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

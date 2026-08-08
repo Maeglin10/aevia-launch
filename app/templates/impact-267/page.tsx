@@ -14,6 +14,8 @@ import { ArrowRight, ChevronDown, PenLine } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
   clientPhotos,
@@ -127,7 +129,7 @@ interface SafetyItem {
    ════════════════════════════════════════════════════════════════════════════ */
 
 function PHOTO_BASE_LIVE() {
-  return (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-');
+  return 'https://images.unsplash.com/photo-';
 }
 let PHOTO_BASE = PHOTO_BASE_LIVE();
 
@@ -680,7 +682,7 @@ function Hero() {
             textShadow: '0 12px 60px rgba(0,0,0,0.6)',
             maxWidth: '14ch',
           }}
-        >{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
+        >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 8) ?? (<>
           Encre /{' '}
           <span style={{ color: C.accent }}>vivante.</span>
         </>)}</motion.h1>
@@ -699,10 +701,7 @@ function Hero() {
             lineHeight: 1.65,
             marginBottom: 'clamp(28px, 4vh, 48px)',
           }}
-        >
-          Art corporel sur-mesure. 100 % création originale.
-          Chaque tatouage naît d&apos;une conversation unique.
-        </motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "Art corporel sur-mesure. 100 % création originale. Chaque tatouage naît d'une conversation unique."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
