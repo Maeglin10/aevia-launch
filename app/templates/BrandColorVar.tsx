@@ -108,7 +108,17 @@ function detacherLesTextesDuClient(donnees: Record<string, unknown> | undefined)
       casse : « ATELIERS VIDAL & FILS » est bien le nom saisi au wizard.
     */
     const tb = t.toLowerCase();
-    if (!valeurs.some((v) => tb.includes(v.toLowerCase()))) continue;
+    /*
+      Le texte porte la donnée du client — ou n'en est qu'un morceau. Certains
+      titres découpent le nom mot par mot, chacun dans son bloc : aucun élément
+      ne contient alors le nom entier, et la passe les laissait tous passer.
+      « ÉTABLISSEMENTS » sortait ainsi de quatre-vingt-douze pixels sur
+      impact-52 sans que rien ne le voie.
+    */
+    const porteLaDonnee = valeurs.some(
+      (v) => tb.includes(v.toLowerCase()) || (t.length >= 6 && v.toLowerCase().includes(tb)),
+    );
+    if (!porteLaDonnee) continue;
 
     /*
       Le débordement se traite partout, la lisibilité seulement sur une photo :
@@ -247,15 +257,34 @@ function ajusterAuCadre(e: HTMLElement) {
 
   const encore = () =>
     e.getBoundingClientRect().right > large + 4 || e.scrollWidth > e.clientWidth + 4;
+
+  /*
+    « cent pour cent » suit le parent, pas l'écran. Sur impact-146 le parent
+    fait quatre cent soixante-quatorze pixels pour un écran de trois cent
+    quatre-vingt-dix : l'accroche centrée sortait des deux côtés, quarante-deux
+    pixels à gauche, autant à droite, sans que la page déborde. On borne donc
+    sur la largeur de l'écran.
+  */
+  if (encore()) e.style.maxWidth = "calc(100vw - 2rem)";
   if (encore()) retrecirJusquAuCadre(e);
 }
 
 /** La police rétrécit par paliers jusqu'à ce que le texte tienne, sans jamais descendre sous onze pixels. */
 function retrecirJusquAuCadre(e: HTMLElement) {
+  const large = document.documentElement.clientWidth;
+  /*
+    Deux façons de ne pas tenir : le contenu dépasse son cadre, ou le cadre
+    lui-même sort de l'écran. Un titre à effet dont chaque mot occupe son propre
+    bloc — le GlitchHeadline d'impact-52 — replie son texte sans rien faire
+    déborder, et pourtant sort de quatre-vingt-douze pixels.
+  */
+  const tient = () =>
+    e.scrollWidth <= e.clientWidth + 2 && e.getBoundingClientRect().right <= large + 4;
+
   const depart = parseFloat(getComputedStyle(e).fontSize) || 16;
   for (let taille = depart - 1; taille >= 11; taille -= 1) {
     e.style.fontSize = `${taille}px`;
-    if (e.scrollWidth <= e.clientWidth + 2) return;
+    if (tient()) return;
   }
   // Même onze pixels ne suffisent pas : mieux vaut deux lignes qu'un nom tronqué.
   e.style.whiteSpace = "normal";
