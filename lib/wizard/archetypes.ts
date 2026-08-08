@@ -23,7 +23,7 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeConfig> = {
   service_rdv: {
     id: "service_rdv",
     catalogueFields: ["services", "team", "beforeAfter"],
-    coreFields: ["bookingSystem", "openingHours", "reputation", "certifications", "keyStats", "faq", "geo"],
+    coreFields: ["bookingSystem", "openingHours", "reputation", "certifications", "keyStats", "faq", "geo", "paymentMethods"],
   },
   food: {
     id: "food",
