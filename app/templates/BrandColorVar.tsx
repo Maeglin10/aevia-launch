@@ -255,7 +255,15 @@ function rendreLesNomsEntiers(nom: string | undefined) {
 
     for (const e of entete.querySelectorAll<HTMLElement>("span, a, div, p, h1, h2")) {
       if (e.children.length > 0 || e.dataset.nomRetreci) continue;
-      if ((e.textContent ?? "").trim().toLowerCase() !== cherche) continue;
+      /*
+        Le nom, ou l'un de ses morceaux. Les en-têtes le découpent souvent en
+        deux blocs — « Ateliers » puis « Vidal & Fils » — et l'égalité stricte
+        ne trouvait alors rien à rétrécir : le bouton « Prendre rendez-vous »
+        restait poussé hors de l'écran.
+      */
+      const texte = (e.textContent ?? "").trim().toLowerCase();
+      if (texte.length < 4) continue;
+      if (texte !== cherche && !cherche.includes(texte) && !texte.includes(cherche)) continue;
       e.dataset.nomRetreci = "1";
       const depart = parseFloat(getComputedStyle(e).fontSize) || 16;
       for (let taille = depart - 1; taille >= 11; taille -= 1) {
@@ -263,6 +271,65 @@ function rendreLesNomsEntiers(nom: string | undefined) {
         const encore = [...entete.querySelectorAll<HTMLElement>("*")]
           .some((x) => x.children.length === 0 && x.getBoundingClientRect().right > largeur + 4);
         if (!encore) break;
+      }
+    }
+
+    /*
+      L'en-tête peut déborder sans que le nom y soit pour rien : sur impact-117
+      c'est la barre de liens elle-même qui dépasse de deux cents pixels dès que
+      le bloc de marque s'allonge. Aucun nom à rétrécir, et pourtant deux
+      boutons hors de l'écran.
+
+      On resserre alors la barre entière, d'un cran à la fois et quatre crans au
+      plus. C'est ce qu'un maquettiste ferait devant une barre trop chargée, et
+      cela ne se déclenche que si elle déborde vraiment.
+    */
+    const feuilles = [...entete.querySelectorAll<HTMLElement>("*")]
+      .filter((x) => x.children.length === 0 && (x.textContent ?? "").trim().length > 1);
+    const debordeEncore = () => feuilles.some((x) => x.getBoundingClientRect().right > largeur + 4);
+    for (let cran = 0; cran < 10 && debordeEncore(); cran++) {
+      for (const x of feuilles) {
+        const taille = parseFloat(getComputedStyle(x).fontSize) || 14;
+        if (taille <= 8) continue;
+        x.style.fontSize = `${Math.max(8, taille - 1)}px`;
+      }
+    }
+
+    /*
+      Une barre reste parfois trop longue même en petits caractères : ses liens
+      sont nombreux et son interlettrage large. On resserre alors l'espacement
+      des lettres avant de renoncer — c'est invisible à la lecture et cela rend
+      les derniers pixels.
+    */
+    if (debordeEncore()) {
+      for (const x of feuilles) {
+        const espace = parseFloat(getComputedStyle(x).letterSpacing);
+        if (Number.isFinite(espace) && espace > 0) x.style.letterSpacing = `${Math.max(0, espace - 0.5)}px`;
+      }
+    }
+
+    /*
+      Dernier recours : une barre trop chargée pour un téléphone, même en huit
+      pixels. Plutôt que de laisser un bouton hors de l'écran, on autorise ses
+      rangées à se replier — elle passe sur deux lignes et rien n'est perdu.
+      Mesuré sur impact-59, qui ne masque pas sa navigation sur mobile.
+    */
+    if (debordeEncore()) {
+      for (const x of feuilles) {
+        /*
+          Tous les conteneurs souples jusqu'à l'en-tête, et non le premier
+          rencontré : celui-ci ne fait souvent que cent vingt-cinq pixels et le
+          replier ne change rien — c'est la rangée de trois cent quatre-vingt-dix
+          qui doit céder.
+        */
+        let n: HTMLElement | null = x.parentElement;
+        for (let i = 0; i < 6 && n && n !== entete.parentElement; i++) {
+          if (!n.dataset.barreRepliee && getComputedStyle(n).display.includes("flex")) {
+            n.dataset.barreRepliee = "1";
+            n.style.flexWrap = "wrap";
+          }
+          n = n.parentElement;
+        }
       }
     }
   }
