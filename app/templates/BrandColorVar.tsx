@@ -341,12 +341,30 @@ function rendreLesNomsEntiers(nom: string | undefined) {
  * tient ; on n'intervient qu'au-delà.
  */
 function ajusterAuCadre(e: HTMLElement) {
-  if (e.dataset.clientAjuste) return;
+  /*
+    L'ajustement se refait quand le texte change, et seulement alors : un
+    carrousel remplace le mot dans le même élément toutes les trois secondes,
+    et la taille calculée pour « Détartrage » ne convient pas à « Installation
+    de pompe à chaleur ». Le marquer traité une fois pour toutes le laissait
+    tronqué ; le refaire à chaque passe rouvrait à chaque fois une fenêtre où
+    l'élément reprend sa taille d'origine avant d'être rétréci — et la page
+    clignotait.
+  */
+  const texte = (e.textContent ?? "").trim();
+  if (e.dataset.texteAjuste === texte) return;
+
   const large = document.documentElement.clientWidth;
   const r = e.getBoundingClientRect();
   const deborde = r.right > large + 4 || e.scrollWidth > e.clientWidth + 4;
   if (!deborde) return;
 
+  // On repart de la taille d'origine, sinon les rétrécissements s'additionnent.
+  if (!e.dataset.tailleOrigine) {
+    e.dataset.tailleOrigine = String(parseFloat(getComputedStyle(e).fontSize) || 16);
+  } else {
+    e.style.fontSize = `${e.dataset.tailleOrigine}px`;
+  }
+  e.dataset.texteAjuste = texte;
   e.dataset.clientAjuste = "1";
   e.style.overflowWrap = "anywhere";
   e.style.maxWidth = "100%";
@@ -777,10 +795,44 @@ export function BrandColorVar() {
         */
         let repasses = 0;
         let attente: ReturnType<typeof setTimeout> | undefined;
-        const veille = new MutationObserver(() => {
-          if (repasses >= 20) { veille.disconnect(); return; }
+        const veille = new MutationObserver((mutations) => {
+          /*
+            L'élément qui vient de changer est ajusté tout de suite, sans
+            attendre le regroupement : un carrousel affiche son mot pendant
+            trois secondes, et cent vingt millisecondes de texte tronqué se
+            voient. Le regroupement, lui, sert au reste de la page.
+          */
+          for (const m of mutations) {
+            const cible = m.target.nodeType === Node.TEXT_NODE
+              ? (m.target as Node).parentElement
+              : (m.target as HTMLElement);
+            if (!(cible instanceof HTMLElement)) continue;
+            /*
+              Un carrousel ne remplace pas un mot : il remplace tout un
+              sous-arbre. Ne regarder que l'élément muté laissait le mot du
+              client tronqué, puisque c'est son conteneur qui change.
+            */
+            /*
+              Au prochain rendu, jamais tout de suite : un élément qui vient
+              d'être inséré n'a pas encore de mise en page, sa largeur vaut
+              zéro, et rien ne paraît déborder.
+            */
+            requestAnimationFrame(() => {
+              if (cible.children.length === 0) { ajusterAuCadre(cible); return; }
+              for (const f of cible.querySelectorAll<HTMLElement>("*")) {
+                if (f.children.length === 0 && (f.textContent ?? "").trim().length >= 3) ajusterAuCadre(f);
+              }
+            });
+          }
+          /*
+            Un carrousel tourne tant que la page est ouverte : vingt repasses
+            couvraient une minute, après quoi le mot suivant restait tronqué.
+            Deux cents en couvrent dix, et la passe ne coûte rien quand rien ne
+            déborde — elle mesure, constate, et s'arrête.
+          */
+          if (repasses >= 200) { veille.disconnect(); return; }
           clearTimeout(attente);
-          attente = setTimeout(() => { repasses++; passer(); }, 300);
+          attente = setTimeout(() => { repasses++; passer(); }, 120);
         });
         veille.observe(document.body, { childList: true, subtree: true, characterData: true });
       })

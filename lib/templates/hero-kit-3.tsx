@@ -292,7 +292,20 @@ export function TrackingCollapse({
       <motion.span
         key={index}
         className={className}
-        style={{ display: "block", whiteSpace: "nowrap", ...style }}
+        /*
+          Le mot ne tient sur un rang que s'il y tient. Le carrousel affiche la
+          prestation du client — « Installation de pompe à chaleur » là où le
+          thème écrivait « sereinement. » — et « nowrap » la coupait de
+          soixante-quinze pixels. On borne à la largeur disponible et l'on
+          autorise le repli : l'effet d'interlettrage reste, la phrase entière
+          se lit.
+        */
+        style={{
+          display: "block",
+          maxWidth: "100%",
+          overflowWrap: "anywhere",
+          ...style,
+        }}
         initial={
           reduce
             ? { opacity: 0 }
