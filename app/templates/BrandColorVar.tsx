@@ -763,6 +763,26 @@ export function BrandColorVar() {
           trois secondes et demie.
         */
         for (const delai of [400, 1200, 2500, 4000]) setTimeout(passer, delai);
+
+        /*
+          Un carrousel change de mot toutes les trois secondes : la prestation
+          du client y apparaît longtemps après la dernière passe, et n'était
+          jamais ajustée — « Détartrage Vidal » restait tronqué de quarante et
+          un pixels sur impact-341.
+
+          On observe donc les changements de texte, groupés par tiers de
+          seconde, et l'on repasse. Vingt fois au plus : au-delà, la page a fini
+          de vivre et l'observateur se retire — nos propres écritures le
+          réveilleraient sans fin.
+        */
+        let repasses = 0;
+        let attente: ReturnType<typeof setTimeout> | undefined;
+        const veille = new MutationObserver(() => {
+          if (repasses >= 20) { veille.disconnect(); return; }
+          clearTimeout(attente);
+          attente = setTimeout(() => { repasses++; passer(); }, 300);
+        });
+        veille.observe(document.body, { childList: true, subtree: true, characterData: true });
       })
       .catch(() => {});
   }, []);
