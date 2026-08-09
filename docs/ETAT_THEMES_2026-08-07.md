@@ -95,7 +95,43 @@ sans être importée ne casse pas la compilation — les thèmes portent
 venait d'arriver à impact-351, et la mesure l'avait pris pour un titre resté en
 démonstration.
 
+## Le piège que ces corrections ont créé
+
+Les cinq passes réécrivent la page après le rendu. Écrire avec `textContent` ou
+`innerHTML` **détruit les nœuds que React suit** : au premier re-rendu, il tente
+d'en retirer un qui n'existe plus et la page entière disparaît —
+« NotFoundError: Failed to execute 'removeChild' on 'Node' ». Quatre thèmes
+étaient tombés ainsi (impact-27, 37, 38, 42).
+
+Les passes ne changent plus que la **valeur des nœuds texte déjà en place** ; la
+structure du DOM ne bouge pas. Un morceau à effacer se masque, il ne se vide
+pas.
+
+Le harnais de plantage ne posait que le formulaire, jamais le profil : ces
+passes ne se déclenchaient donc pas, et la mesure ne voyait pas ce qu'elle
+aurait dû voir. Il envoie désormais horaires, prestations, agenda, adresse,
+SIRET et moyens de paiement.
+
+## Vérifications finales
+
+- **Plantages : 0 sur 373**, 0 page vide, avec le profil complet du client.
+- **Nom long** (« Établissements Vidal-Marquisats & Fils Réunis depuis 1912 »,
+  56 lettres) : 0 défaut lié à la donnée du client sur 373. Reste un bandeau
+  décoratif d'impact-52 qui déborde aussi **sans** session — dette du thème,
+  pas de la personnalisation.
+- **Contrat** : toute fonction employée est importée (`check-imports-contrat`).
+- **Archétypes** : 0 section affichée sans question posée.
+
+Trois corrections de mesure de plus, toutes du même genre que les précédentes :
+« cent pour cent » de largeur suit le parent et non l'écran ; le rétrécissement
+ne regardait que le contenu débordant de son cadre, jamais le cadre sortant de
+l'écran ; et un nom découpé mot par mot n'était reconnu dans aucun élément,
+puisque aucun ne le contenait en entier.
+
 ## Ce qui reste
 
-- Vingt-deux cas limites sur les 373, deux écrans, avec l'instrument recalibré.
-- Les miniatures à régénérer, puis le déploiement et sa vérification en ligne.
+- Les vingt-deux cas limites sur les deux écrans en une seule passe : le noyau
+  a été vérifié cas par cas, la campagne complète demande environ trois heures
+  sans interruption.
+- Un bandeau décoratif d'impact-52 déborde sur téléphone, indépendamment du
+  client.
