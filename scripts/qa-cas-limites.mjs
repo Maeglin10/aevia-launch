@@ -239,7 +239,12 @@ for (const nomCas of casTestes) {
 
         const p = await ctx.newPage();
         await p.goto(`${BASE}/templates/${id}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 30000 });
-        await p.waitForTimeout(2600);
+        /*
+          Après la dernière passe de BrandColorVar, jamais pendant : lire à
+          deux mille six cents millisecondes attrapait la page entre deux
+          corrections et signalait des débordements déjà résolus.
+        */
+        await p.waitForTimeout(4600);
 
         fiche = await p.evaluate(({ identifiant, nom, nomEcran, largeur }) => {
           const soucis = [];
@@ -264,10 +269,19 @@ for (const nomCas of casTestes) {
                 l'écran sans que la page déborde d'un pixel.
               */
               let contenu = false;
-              let n = e.parentElement;
+              // Depuis l'élément lui-même : un bandeau défilant porte sa propre
+              // transformation, et partir du parent la manquait.
+              let n = e;
               for (let i = 0; i < 6 && n && !contenu; i++) {
                 const sn = getComputedStyle(n);
-                const defile = ["auto", "scroll"].includes(sn.overflowX) || ["auto", "scroll"].includes(sn.overflow);
+                /*
+                  Un ancêtre qui masque ce qui dépasse — « hidden », « clip » —
+                  est un carrousel ou une fenêtre : la vignette suivante y
+                  déborde à dessein, c'est ce qui invite à faire défiler. Ce
+                  n'est pas un texte amputé au milieu de sa phrase.
+                */
+                const defile = ["auto", "scroll", "hidden", "clip"].includes(sn.overflowX)
+                  || ["auto", "scroll", "hidden", "clip"].includes(sn.overflow);
                 /*
                   Un bandeau défilant est un texte volontairement plus large que
                   son cadre, poussé par une animation. Le repérer à son

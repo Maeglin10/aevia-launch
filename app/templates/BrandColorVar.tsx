@@ -626,6 +626,53 @@ function capitale(x: string): string {
   return x ? `${x[0].toUpperCase()}${x.slice(1)}` : x;
 }
 
+/**
+ * Sur un site livré, aucun texte ne sort de l'écran.
+ *
+ * Les passes précédentes ne s'occupent que de ce que le client a écrit. Restait
+ * le texte des thèmes : un sous-titre calibré pour une mise en page avec photo,
+ * qui déborde de quarante-deux pixels dès que le client n'en fournit aucune ;
+ * un bandeau de spécifications trop long pour un téléphone. Quatorze thèmes
+ * mesurés, dont douze débordaient déjà dans la démonstration.
+ *
+ * La démonstration du catalogue garde son dessin — cette passe ne tourne que
+ * lorsqu'une session existe, c'est-à-dire sur le site de quelqu'un. Et elle
+ * laisse tranquilles les bandeaux qui défilent : leur texte est plus large que
+ * leur cadre par construction.
+ */
+function bornerLesTextesDuTheme() {
+  const large = document.documentElement.clientWidth;
+
+  const defileOuAnime = (e: Element): boolean => {
+    let n: Element | null = e;
+    for (let i = 0; i < 6 && n; i++) {
+      const s = getComputedStyle(n);
+      if (["auto", "scroll"].includes(s.overflowX) || ["auto", "scroll"].includes(s.overflow)) return true;
+      if (s.animationName !== "none" || /matrix|translate/.test(s.transform)) return true;
+      n = n.parentElement;
+    }
+    return false;
+  };
+
+  for (const e of document.querySelectorAll<HTMLElement>("p, span, div, li, h1, h2, h3, h4, a, td, dd, button")) {
+    if (e.children.length > 0 || e.dataset.borne) continue;
+    const t = (e.textContent ?? "").trim();
+    if (t.length < 3) continue;
+    const s = getComputedStyle(e);
+    if (s.visibility === "hidden" || s.display === "none" || Number(s.opacity) < 0.15) continue;
+    const r = e.getBoundingClientRect();
+    if (r.width < 8 || r.height < 6) continue;
+    if (r.right <= large + 4 && e.scrollWidth <= e.clientWidth + 4) continue;
+    if (defileOuAnime(e)) continue;
+
+    e.dataset.borne = "1";
+    e.style.overflowWrap = "anywhere";
+    e.style.maxWidth = "calc(100vw - 1.5rem)";
+    if (s.whiteSpace.startsWith("nowrap")) e.style.whiteSpace = "normal";
+    if (e.getBoundingClientRect().right > large + 4 || e.scrollWidth > e.clientWidth + 4) retrecirJusquAuCadre(e);
+  }
+}
+
 /*
   Le libellé qui fait d'un bouton un bouton de réservation. « Contact »,
   « devis » et « appeler » en sont exclus à dessein : ils mènent au formulaire
@@ -706,9 +753,16 @@ export function BrandColorVar() {
           rendreLesNomsEntiers(d?.formData?.businessName);
           rendreLesHoraires(d?.businessProfile?.openingHours);
           rendreLaMarque(d?.formData?.businessName);
+          bornerLesTextesDuTheme();
         };
         requestAnimationFrame(() => requestAnimationFrame(passer));
-        for (const delai of [400, 1200, 2500]) setTimeout(passer, delai);
+        /*
+          Une dernière passe tardive : sur une connexion lente, ou sur un thème
+          dont l'animation d'entrée dure, la session arrive après la troisième.
+          Mesuré sur impact-146, où le sous-titre restait débordant jusqu'à
+          trois secondes et demie.
+        */
+        for (const delai of [400, 1200, 2500, 4000]) setTimeout(passer, delai);
       })
       .catch(() => {});
   }, []);
