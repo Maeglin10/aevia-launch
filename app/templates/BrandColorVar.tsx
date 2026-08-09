@@ -78,11 +78,41 @@ function rendreLesBoutonsLisibles() {
   suffit à détacher les lettres du fond. Elle ne s'applique qu'aux textes qui
   portent la donnée du client, et seulement quand ils sont posés sur une image.
 */
-function detacherLesTextesDuClient(donnees: Record<string, unknown> | undefined) {
+function detacherLesTextesDuClient(
+  donnees: Record<string, unknown> | undefined,
+  profil?: Record<string, any>,
+) {
   if (!donnees) return;
   const valeurs = ["tagline", "businessName", "city", "phone", "address", "businessType"]
     .map((k) => (typeof donnees[k] === "string" ? (donnees[k] as string).trim() : ""))
     .filter((v) => v.length >= 4);
+
+  /*
+    Le profil aussi, pas seulement le formulaire. Une prestation au libellé
+    long, un intitulé de chiffre-clé, un nom d'équipier : ces textes-là sortaient
+    de l'écran sans que la passe les reconnaisse comme venant du client — elle
+    ne connaissait que le nom, la ville et l'accroche. Mesuré sur les carrousels
+    d'impact-341, 357 et 372, et sur les bandeaux de chiffres de quatre autres.
+  */
+  const duProfil = (liste: any[] | undefined, champs: string[]) =>
+    (Array.isArray(liste) ? liste : [])
+      .flatMap((r) => champs.map((c) => (typeof r?.[c] === "string" ? r[c].trim() : "")))
+      .filter((v: string) => v.length >= 4);
+
+  valeurs.push(
+    ...duProfil(profil?.services, ["name", "title", "description"]),
+    ...duProfil(profil?.menu, ["name", "category"]),
+    ...duProfil(profil?.products, ["name"]),
+    ...duProfil(profil?.keyStats, ["value", "label"]),
+    ...duProfil(profil?.team, ["name", "role"]),
+    ...duProfil(profil?.faq, ["q"]),
+    ...duProfil(profil?.beforeAfter, ["caption"]),
+    ...duProfil(profil?.reputation?.featuredReviews, ["author", "text"]),
+    ...(Array.isArray(profil?.certifications) ? profil!.certifications : [])
+      .filter((v: unknown) => typeof v === "string" && v.trim().length >= 4)
+      .map((v: string) => v.trim()),
+  );
+
   if (valeurs.length === 0) return;
 
   const surUneImage = (e: Element): boolean => {
@@ -604,7 +634,7 @@ export function BrandColorVar() {
         */
         const passer = () => {
           rendreLesBoutonsLisibles();
-          detacherLesTextesDuClient(d?.formData);
+          detacherLesTextesDuClient(d?.formData, d?.businessProfile);
           relierLesBoutonsDeReservation(d?.businessProfile?.bookingSystem?.url);
           rendreLesNomsEntiers(d?.formData?.businessName);
           rendreLesHoraires(d?.businessProfile?.openingHours);
