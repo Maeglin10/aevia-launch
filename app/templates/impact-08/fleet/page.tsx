@@ -1,4 +1,6 @@
 "use client"
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientProducts } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useRef, useState } from "react";
 import { 
@@ -36,7 +38,7 @@ let fd: any = null;
 let bp: any = null;
 let c: any = null;
 
-const FLEET = [
+const FLEET_DEMO_ANNEXE = [
   {
     id: "vul-ty-01",
     name: "Tyrant GT",
@@ -73,7 +75,12 @@ const FLEET = [
     img: "https://images.unsplash.com/photo-1611605645802-c21be743c321?w=1600&q=80",
     color: "#10b981"
   }
-]
+];
+function FLEET_LIVE() {
+  return resolveList(clientProducts(sessionData)?.map((p: any, i: number) => ({ ...FLEET_DEMO_ANNEXE[i % FLEET_DEMO_ANNEXE.length], name: p.name, desc: p.description ?? p.desc ?? FLEET_DEMO_ANNEXE[i % FLEET_DEMO_ANNEXE.length].desc })), FLEET_DEMO_ANNEXE);
+}
+let FLEET = FLEET_DEMO_ANNEXE;
+
 
 function Reveal({ children, delay = 0, y = 40, x = 0, scale = 1 }: { children: React.ReactNode, delay?: number, y?: number, x?: number, scale?: number }) {
   const ref = useRef(null)
@@ -135,6 +142,7 @@ export default function FleetPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  FLEET = FLEET_LIVE();
 
   const containerRef = useRef(null)
 

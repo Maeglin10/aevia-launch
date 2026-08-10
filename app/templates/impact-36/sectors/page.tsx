@@ -1,4 +1,6 @@
 "use client"
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 
 import React from "react"
 import { useEffect, useState } from "react";
@@ -12,7 +14,7 @@ let fd: any = null;
 let bp: any = null;
 let c: any = null;
 
-const SECTORS_DETAIL = [
+const SECTORS_DETAIL_DEMO_ANNEXE = [
   {
     name: "Technology & SaaS",
     desc: "Placing software leaders, VP of engineering, product management leads and scale-up executives.",
@@ -73,7 +75,12 @@ const SECTORS_DETAIL = [
     desc: "Executive directors, board members and fundraising campaign leads.",
     placements: "40+ Placements",
   },
-]
+];
+function SECTORS_DETAIL_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SECTORS_DETAIL_DEMO_ANNEXE[i % SECTORS_DETAIL_DEMO_ANNEXE.length], name: s.title, desc: s.desc || SECTORS_DETAIL_DEMO_ANNEXE[i % SECTORS_DETAIL_DEMO_ANNEXE.length].desc })), SECTORS_DETAIL_DEMO_ANNEXE);
+}
+let SECTORS_DETAIL = SECTORS_DETAIL_DEMO_ANNEXE;
+
 
 
 export default function SectorsPage() {
@@ -97,6 +104,7 @@ export default function SectorsPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  SECTORS_DETAIL = SECTORS_DETAIL_LIVE();
 
   return (
     <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>

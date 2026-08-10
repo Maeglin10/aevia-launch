@@ -1,4 +1,5 @@
 "use client"
+import { clientCertifications } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 import { clientTeam } from "@/lib/templates/clientContent";
 
@@ -63,13 +64,18 @@ function crew_LIVE() {
 let crew = crew_DEMO_ANNEXE;
 
 
-const awards = [
+const awards_DEMO_ANNEXE = [
   { title: "FWA of the Day", category: "WebGL Product Configurator — Phantom Motors", year: "2025" },
   { title: "Awwwards Site of the Month", category: "Virtual Showroom Experience — Studio Levi", year: "2024" },
   { title: "CSS Design Awards Best UX", category: "Augmented Reality Visualizer — Luminary", year: "2024" },
   { title: "Webby Award — Best Use of Technology", category: "Multi-user AR Experience — ArcSpace", year: "2023" },
   { title: "Smashing Magazine Feature", category: "Annual WebGL Innovation Showcase", year: "2023" },
-]
+];
+function awards_LIVE() {
+  return resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...awards_DEMO_ANNEXE[i % awards_DEMO_ANNEXE.length], title: typeof x === "string" ? x : (x.name ?? x.title) })), awards_DEMO_ANNEXE);
+}
+let awards = awards_DEMO_ANNEXE;
+
 
 const techStack_DEMO_ANNEXE = [
   {
@@ -318,6 +324,7 @@ export default function StudioPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  awards = awards_LIVE();
   crew = crew_LIVE();
   techStack = techStack_LIVE();
   timeline = timeline_LIVE();

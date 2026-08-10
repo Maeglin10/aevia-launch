@@ -1,4 +1,6 @@
 'use client';
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientProducts } from "@/lib/templates/clientContent";
 import { clientCity } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from 'framer-motion';
@@ -16,7 +18,7 @@ const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
 
 type CartItem = { id: number; name: string; price: number; size: string; qty: number };
 
-const COLLECTION = [
+const COLLECTION_DEMO_ANNEXE = [
   {
     id: 1,
     name: 'Velvet Noir Coat',
@@ -72,6 +74,11 @@ const COLLECTION = [
     desc: 'Fine merino wool in column silhouette. Subtle side slit, draped cowl back, hand-embroidered hem detail.',
   },
 ];
+function COLLECTION_LIVE() {
+  return resolveList(clientProducts(sessionData)?.map((p: any, i: number) => ({ ...COLLECTION_DEMO_ANNEXE[i % COLLECTION_DEMO_ANNEXE.length], name: p.name, price: p.price ?? COLLECTION_DEMO_ANNEXE[i % COLLECTION_DEMO_ANNEXE.length].price, desc: p.description ?? p.desc ?? COLLECTION_DEMO_ANNEXE[i % COLLECTION_DEMO_ANNEXE.length].desc })), COLLECTION_DEMO_ANNEXE);
+}
+let COLLECTION = COLLECTION_DEMO_ANNEXE;
+
 
 function CartDrawer({
   cart,
@@ -238,6 +245,7 @@ export default function BoutiquePage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  COLLECTION = COLLECTION_LIVE();
 
   const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);

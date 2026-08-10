@@ -1,4 +1,6 @@
 'use client';
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientTeam } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -35,7 +37,7 @@ export default function ArtistesPage() {
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
-  const artistRoster = [
+  const artistRoster_DEMO_ANNEXE = [
     { name: "Kova", genre: "R&B / Soul", albums: 3, achievement: "Top 10 FR", desc: "Son dernier album a atteint le Top 10 FR. Voix puissante, production soul moderne enregistrée en Studio A.", tags: ["R&B", "Soul", "Vocals"], img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80&fit=crop" },
     { name: "Théo Laurent", genre: "Hip-Hop", albums: 2, achievement: "50M streams Spotify", desc: "50M streams cumulés sur Spotify. Textes incisifs, prod trap/boom-bap. Enregistré en Studio B.", tags: ["Hip-Hop", "Trap", "Rap"], img: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80&fit=crop" },
     { name: "MIRA", genre: "Electro / Pop", albums: 1, achievement: "Netflix · Canal+", desc: "Synchronisations sur Netflix et Canal+. Electro-pop aérienne avec des arrangements sophistiqués.", tags: ["Electro", "Pop", "Sync"], img: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80&fit=crop" },
@@ -43,6 +45,8 @@ export default function ArtistesPage() {
     { name: "Lucie Mercer", genre: "Folk / Indie", albums: 1, achievement: "Coup de cœur Fnac", desc: "Coup de cœur Fnac pour son premier album. Folk intime enregistré en Studio B, arrangements cordes sur Studio A.", tags: ["Folk", "Indie", "Acoustic"], img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80&fit=crop" },
     { name: "BLOC", genre: "Metal / Rock", albums: 2, achievement: "Tournée Européenne", desc: "Tournée européenne 2025. Metal alt-rock, drum live room Studio A, guitares et mix en Studio B.", tags: ["Metal", "Rock", "Live"], img: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80&fit=crop" },
   ];
+  const artistRoster = resolveList(clientTeam(sessionData)?.map((m: any, i: number) => ({ ...artistRoster_DEMO_ANNEXE[i % artistRoster_DEMO_ANNEXE.length], name: m.name })), artistRoster_DEMO_ANNEXE);
+
 
   return (
     <div style={{ minHeight: "100dvh", backgroundColor: C.bg, paddingTop: "4rem" }}>

@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientMenu } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -35,7 +37,7 @@ export default function MenuPage() {
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
-  const menus = [
+  const menus_DEMO_ANNEXE = [
     {
       name: "Menu Découverte",
       subtitle: "4 plats",
@@ -101,6 +103,8 @@ export default function MenuPage() {
       border: C.border,
     },
   ];
+  const menus = resolveList(clientMenu(sessionData)?.map((m: any, i: number) => ({ ...menus_DEMO_ANNEXE[i % menus_DEMO_ANNEXE.length], name: m.name, price: m.price ?? menus_DEMO_ANNEXE[i % menus_DEMO_ANNEXE.length].price })), menus_DEMO_ANNEXE);
+
 
   return (
     <div style={{ minHeight: "100dvh", backgroundColor: C.bg, paddingTop: "8rem", paddingBottom: "5rem" }}>

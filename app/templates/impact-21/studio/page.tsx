@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientCertifications } from "@/lib/templates/clientContent";
 import { clientCity } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
@@ -45,13 +47,18 @@ function timeline_LIVE() {
 }
 let timeline = timeline_LIVE();
 
-const awards = [
+const awards_DEMO_ANNEXE = [
   { name: "Red Dot Design Award", count: 5, years: "2016, 2018, 2020, 2022, 2024" },
   { name: "iF Design Award", count: 4, years: "2017, 2019, 2021, 2023" },
   { name: "A' Design Award Gold", count: 3, years: "2018, 2020, 2024" },
   { name: "French Design Award", count: 4, years: "2016, 2019, 2022, 2025" },
   { name: "Good Design Award", count: 2, years: "2021, 2023" },
 ];
+function awards_LIVE() {
+  return resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...awards_DEMO_ANNEXE[i % awards_DEMO_ANNEXE.length], title: typeof x === "string" ? x : (x.name ?? x.title) })), awards_DEMO_ANNEXE);
+}
+let awards = awards_DEMO_ANNEXE;
+
 
 
 export default function StudioPage() {
@@ -76,6 +83,7 @@ export default function StudioPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  awards = awards_LIVE();
   timeline = timeline_LIVE();
 
   useFonts();

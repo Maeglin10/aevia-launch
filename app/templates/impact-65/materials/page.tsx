@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientProducts } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
@@ -33,7 +35,7 @@ export default function MaterialsPage() {
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
-  const materialsList = [
+  const materialsList_DEMO_ANNEXE = [
     {
       name: "UD Carbon (Unidirectional)",
       desc: "Maximum strength along a single axis. Ideal for structural tubes, high-stress rods, and reinforcements where loading is predictable.",
@@ -67,6 +69,8 @@ export default function MaterialsPage() {
       thermal: "Up to 150°C",
     },
   ];
+  const materialsList = resolveList(clientProducts(sessionData)?.map((p: any, i: number) => ({ ...materialsList_DEMO_ANNEXE[i % materialsList_DEMO_ANNEXE.length], name: p.name, desc: p.description ?? p.desc ?? materialsList_DEMO_ANNEXE[i % materialsList_DEMO_ANNEXE.length].desc })), materialsList_DEMO_ANNEXE);
+
 
   return (
     <div className="bg-[#050505] text-[#888] font-sans min-h-dvh py-24 px-6 relative">

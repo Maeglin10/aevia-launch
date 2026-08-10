@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 import {
   clientCity,
   clientName, clientAddress, clientPhone,} from "@/lib/templates/clientContent";
@@ -2730,7 +2732,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 }
 
 function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
-  const experiences = [
+  const experiences_DEMO_ANNEXE = [
     {
       title: "Bespoke Cuisine",
       desc: "Our onboard culinary program features Michelin-starred chefs who tailor menus around your personal preferences and locally sourced ingredients at every anchorage.",
@@ -2752,6 +2754,8 @@ function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
       img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=1200",
     },
   ];
+  const experiences = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...experiences_DEMO_ANNEXE[i % experiences_DEMO_ANNEXE.length], title: s.title, desc: s.desc || experiences_DEMO_ANNEXE[i % experiences_DEMO_ANNEXE.length].desc })), experiences_DEMO_ANNEXE);
+
 
   return (
     <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100dvh" }}>

@@ -1,4 +1,5 @@
 "use client";
+import { clientTeam } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 import { clientServices } from "@/lib/templates/clientContent";
 
@@ -55,11 +56,16 @@ function theses_LIVE() {
 let theses = theses_DEMO_ANNEXE;
 
 
-const team = [
+const team_DEMO_ANNEXE = [
   { name: "Édouard Merlin", role: "Managing Partner", background: "Ex-Partner Sequoia Europe · fondateur de 3 startups (2 exits)" },
   { name: "Isabelle Vance", role: "General Partner", background: "Ex-CFO Goldman Sachs Europe · Advisory Board OpenAI France" },
   { name: "Marc Rousseau", role: "Partner — Opérations", background: "Ex-COO Doctolib · advisor 12 scale-ups Series B+" },
 ];
+function team_LIVE() {
+  return resolveList(clientTeam(sessionData)?.map((m: any, i: number) => ({ ...team_DEMO_ANNEXE[i % team_DEMO_ANNEXE.length], name: m.name, role: m.role ?? team_DEMO_ANNEXE[i % team_DEMO_ANNEXE.length].role })), team_DEMO_ANNEXE);
+}
+let team = team_DEMO_ANNEXE;
+
 
 const sectors = ["Tous", "HealthTech", "FinTech", "CleanTech", "Infrastructure", "EdTech", "CyberSec"];
 
@@ -92,6 +98,7 @@ export default function Page() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  team = team_LIVE();
   theses = theses_LIVE();
 
   useFonts();

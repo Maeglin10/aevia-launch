@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -29,7 +31,7 @@ const T = {
 const FONT_HEADING = "'Syne', sans-serif";
 const FONT_BODY = "'Inter', sans-serif";
 
-const PROJECTS = [
+const PROJECTS_DEMO_ANNEXE = [
   {
     id: 1,
     title: "Aether Labs",
@@ -52,6 +54,11 @@ const PROJECTS = [
     image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop",
   },
 ];
+function PROJECTS_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...PROJECTS_DEMO_ANNEXE[i % PROJECTS_DEMO_ANNEXE.length], title: s.title })), PROJECTS_DEMO_ANNEXE);
+}
+let PROJECTS = PROJECTS_DEMO_ANNEXE;
+
 
 
 export default function WorkPage() {
@@ -75,6 +82,7 @@ export default function WorkPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  PROJECTS = PROJECTS_LIVE();
 
   return (
     <div style={{ minHeight: "100dvh", backgroundColor: T.bg, color: T.text, fontFamily: FONT_BODY }}>

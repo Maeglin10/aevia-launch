@@ -177,7 +177,7 @@ type RoomFull = {
   amenities: string[];
 };
 
-const ROOMS_FULL: RoomFull[] = [
+const ROOMS_FULL_DEMO_ANNEXE = [
   {
     slug: 'prestige-room',
     name: 'Prestige Room',
@@ -247,6 +247,11 @@ const ROOMS_FULL: RoomFull[] = [
     amenities: ['Two principal bedrooms', 'Library & grand piano', 'Suspended garden terrace', 'Private chef on request', 'Chauffeured car', 'Personal concierge'],
   },
 ];
+function ROOMS_FULL_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...ROOMS_FULL_DEMO_ANNEXE[i % ROOMS_FULL_DEMO_ANNEXE.length], name: s.title, desc: s.desc || ROOMS_FULL_DEMO_ANNEXE[i % ROOMS_FULL_DEMO_ANNEXE.length].desc, price: s.price ?? ROOMS_FULL_DEMO_ANNEXE[i % ROOMS_FULL_DEMO_ANNEXE.length].price })), ROOMS_FULL_DEMO_ANNEXE);
+}
+let ROOMS_FULL = ROOMS_FULL_DEMO_ANNEXE;
+
 
 // ─── Hotel services / experiences (Services sub-page) ─────────────────────────
 const SERVICES_DEMO_ANNEXE = [
@@ -2435,6 +2440,7 @@ export default function GrandPalaisPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  ROOMS_FULL = ROOMS_FULL_LIVE();
   SERVICES = SERVICES_LIVE();
   EXPERIENCES = EXPERIENCES_LIVE();
   ROOMS = ROOMS_LIVE();

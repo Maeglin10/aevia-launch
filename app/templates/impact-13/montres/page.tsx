@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientProducts } from "@/lib/templates/clientContent";
 import { clientCity } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
@@ -152,7 +154,7 @@ export default function MontresPage() {
   useFonts();
   const [activeModel, setActiveModel] = useState(0);
 
-  const watchModels = [
+  const watchModels_DEMO_ANNEXE = [
     {
       name: "Calibre Tourbillon I",
       movement: "Manufacture LM-01",
@@ -202,6 +204,8 @@ export default function MontresPage() {
       details: "Boîtier en or blanc 18k, cadran guilloché main argenté, aiguilles en acier bleui à la flamme.",
     }
   ];
+  const watchModels = resolveList(clientProducts(sessionData)?.map((p: any, i: number) => ({ ...watchModels_DEMO_ANNEXE[i % watchModels_DEMO_ANNEXE.length], name: p.name, price: p.price ?? watchModels_DEMO_ANNEXE[i % watchModels_DEMO_ANNEXE.length].price })), watchModels_DEMO_ANNEXE);
+
 
   const [filter, setFilter] = useState("Tout");
   const filteredList = filter === "Tout" ? watchModels : watchModels.filter(m => m.category === filter);

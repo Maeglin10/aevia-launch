@@ -1,5 +1,7 @@
 
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 import {
   clientName } from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -49,7 +51,7 @@ let c: any = null;
    ASTRUM REACH ORBITAL DATASET (ULTRA DENSITY)
    ========================================================================== */
 
-const MISSIONS = [
+const MISSIONS_DEMO_ANNEXE = [
   {
     id: "mis-lh-01",
     name: "Lunar Descent",
@@ -83,7 +85,12 @@ const MISSIONS = [
     img: "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=1600&q=80",
     color: "#f43f5e"
   }
-]
+];
+function MISSIONS_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...MISSIONS_DEMO_ANNEXE[i % MISSIONS_DEMO_ANNEXE.length], name: s.title, desc: s.desc || MISSIONS_DEMO_ANNEXE[i % MISSIONS_DEMO_ANNEXE.length].desc })), MISSIONS_DEMO_ANNEXE);
+}
+let MISSIONS = MISSIONS_DEMO_ANNEXE;
+
 
 const CRAFT_SPECS = [
   { label: "Shield Integrity", value: "98.4%", trend: "Stable", detail: "Liquid-Graphene Layer" },
@@ -216,6 +223,7 @@ export default function AstrumReachPremiumManifest() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  MISSIONS = MISSIONS_LIVE();
 
   const [page, setPage] = useState<ActivePage>("manifest")
   const containerRef = useRef(null)
