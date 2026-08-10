@@ -130,6 +130,7 @@ for (const { theme, route } of choisies) {
         contenant un glyphe de 16 px est confortable.
       */
       const petites = [];
+      const boites = [];
       for (const e of document.querySelectorAll("a, button, [role=button], input, select")) {
         const s = getComputedStyle(e);
         if (s.display === "none" || s.visibility === "hidden" || s.pointerEvents === "none") continue;
@@ -149,9 +150,28 @@ for (const { theme, route } of choisies) {
         */
         if (/\bsr-only\b|lien-evitement|skip-link/.test(String(e.className ?? ""))) continue;
         if (s.display.startsWith("inline") && e.tagName === "A") continue;
-        if (Math.min(r.width, r.height) < 32) {
-          petites.push(`${((e.textContent ?? "").trim() || e.tagName).slice(0, 20)} ${Math.round(r.width)}x${Math.round(r.height)}`);
-        }
+        if (Math.min(r.width, r.height) >= 32) continue;
+        boites.push({ e, r });
+      }
+
+      /*
+        L'exception d'espacement de WCAG 2.5.8, sans quoi l'instrument
+        sur-déclare massivement : une cible plus petite que 24 px reste
+        conforme si un cercle de 24 px centré dessus ne touche aucune autre
+        cible. Les liens de pied de page mesurent 22 px de haut mais sont
+        espacés de 36 — un doigt ne peut pas se tromper de lien.
+
+        Sans cette règle : 446 cibles sur 235 pages. Avec : 8, toutes le même
+        bouton de menu. Le premier chiffre aurait noyé le seul vrai défaut.
+      */
+      const petitesBoites = boites;
+      for (const { e, r } of petitesBoites) {
+        const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        const voisine = petitesBoites.some((a) => a.e !== e
+          && Math.abs(a.r.left + a.r.width / 2 - cx) < 24
+          && Math.abs(a.r.top + a.r.height / 2 - cy) < 24);
+        if (!voisine && Math.min(r.width, r.height) >= 20 && Math.max(r.width, r.height) >= 24) continue;
+        petites.push(`${((e.textContent ?? "").trim() || e.tagName).slice(0, 20)} ${Math.round(r.width)}x${Math.round(r.height)}`);
       }
 
       return { defile, largeurDoc: doc.scrollWidth, coupes, dehors, petites: [...new Set(petites)] };
