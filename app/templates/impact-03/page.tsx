@@ -1240,6 +1240,14 @@ export default function FashionEditorialTemplate() {
   });
   // Map vertical scroll to horizontal translation for 6 cards × 340px wide + gap
   const galleryX = useTransform(galleryScrub, [0.05, 0.95], ['0%', '-58%']);
+  /*
+    Ce `useTransform` vivait dans le JSX de la galerie, une section rendue
+    seulement sur la vue d'accueil. Au clic sur « Boutique » la section
+    disparaît, le hook cesse d'être appelé, et React démonte toute la page :
+    « Rendered fewer hooks than expected » (#300). Un hook se déclare une fois,
+    en tête du composant, quelle que soit la vue affichée.
+  */
+  const galleryProgressWidth = useTransform(galleryScrub, [0.05, 0.95], ['0%', '100%']);
 
   /* ── REQUIREMENT 4: Accent color scroll interpolation ── */
   // We split scrollYProgress into 3 bands across the total page
@@ -2065,7 +2073,7 @@ export default function FashionEditorialTemplate() {
                   left: 0,
                   height: '100%',
                   background: '#0a0a0a',
-                  width: useTransform(galleryScrub, [0.05, 0.95], ['0%', '100%']),
+                  width: galleryProgressWidth,
                 }}
               />
             </div>

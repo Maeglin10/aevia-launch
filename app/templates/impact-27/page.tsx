@@ -744,6 +744,17 @@ function AnimatedCTA() {
   const springX = useSpring(mouseX, { stiffness: 80, damping: 20 })
   const springY = useSpring(mouseY, { stiffness: 80, damping: 20 })
   const sectionRef = useRef<HTMLElement>(null)
+  /*
+    Ces `useTransform` vivaient dans le style d'un élément JSX. Un hook y est
+    appelé seulement quand la vue qui le porte est rendue : dès qu'elle
+    disparaît, React compte moins de hooks qu'au rendu précédent et démonte la
+    page (#300). Déclarés ici, ils valent la même chose et ne dépendent plus de
+    ce qui est affiché. Rien ne change à l'écran.
+  */
+  const haloUnLeft = useTransform(springX, [0, 1], ["-20%", "60%"])
+  const haloUnTop = useTransform(springY, [0, 1], ["-40%", "40%"])
+  const haloDeuxRight = useTransform(springX, [0, 1], ["60%", "-10%"])
+  const haloDeuxBottom = useTransform(springY, [0, 1], ["60%", "-10%"])
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const rect = sectionRef.current?.getBoundingClientRect()
@@ -765,15 +776,15 @@ function AnimatedCTA() {
       <motion.div
         className="absolute w-[600px] h-[600px] bg-[var(--brand,#9B5CF6)]/20 rounded-full blur-3xl pointer-events-none"
         style={{
-          left: useTransform(springX, [0, 1], ["-20%", "60%"]),
-          top: useTransform(springY, [0, 1], ["-40%", "40%"]),
+          left: haloUnLeft,
+          top: haloUnTop,
         }}
       />
       <motion.div
         className="absolute w-96 h-96 bg-[#6D28D9]/15 rounded-full blur-3xl pointer-events-none"
         style={{
-          right: useTransform(springX, [0, 1], ["60%", "-10%"]),
-          bottom: useTransform(springY, [0, 1], ["60%", "-10%"]),
+          right: haloDeuxRight,
+          bottom: haloDeuxBottom,
         }}
       />
 

@@ -876,6 +876,13 @@ export default function Impact167Page() {
 
   const heroBgY = useTransform(heroScroll, [0, 1], ["0%", "30%"]);
   const heroTextY = useTransform(heroScroll, [0, 1], ["0%", "60%"]);
+  /*
+    Ce `useTransform` vivait dans le style d'un élément JSX : il n'était appelé
+    que si cette vue était rendue. Dès qu'elle disparaît, React compte moins de
+    hooks qu'au rendu précédent et démonte la page (#300). Déclaré ici, il vaut
+    la même chose sans dépendre de l'affichage. Rien ne change à l'écran.
+  */
+  const heroPhotoY = useTransform(heroScroll, [0, 1], ["0%", "20%"]);
   const scrollWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
@@ -1350,7 +1357,7 @@ export default function Impact167Page() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              y: useTransform(heroScroll, [0, 1], ["0%", "20%"]),
+              y: heroPhotoY,
             }}
           />
           <div
