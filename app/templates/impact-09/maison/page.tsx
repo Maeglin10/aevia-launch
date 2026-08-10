@@ -1,6 +1,7 @@
 
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientName } from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -235,8 +236,8 @@ export default function AstrumReachPremiumMaison() {
       {/* 1. HEADER (ORBITAL STYLE) */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 md:px-12 py-8 border-b border-white/5 bg-black/40 backdrop-blur-xl">
          <div onClick={() => goTo("home")} className="flex flex-col group cursor-pointer">
-            <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none group-hover:text-indigo-400 transition-colors">Astrum.</span>
-            <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-indigo-500 -mt-1 ml-1 font-mono">Reach Orbital Group</span>
+            <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none group-hover:text-indigo-400 transition-colors">{clientName(sessionData) ?? "Astrum."}</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-indigo-500 -mt-1 ml-1 font-mono">{clientName(sessionData) ? "" : "Reach Orbital Group"}</span>
          </div>
          <div className="hidden lg:flex gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-white/30 font-mono">
             {[
@@ -523,8 +524,8 @@ export default function AstrumReachPremiumMaison() {
                <div className="lg:col-span-6">
                   <Reveal>
                      <div onClick={() => goTo("home")} className="flex flex-col mb-16 cursor-pointer">
-                        <span className="text-7xl md:text-[12vw] font-black tracking-tighter uppercase leading-[0.7] italic">Astrum.</span>
-                        <span className="text-[12px] font-bold uppercase tracking-[1em] text-indigo-500 ml-2 font-mono">Reach Orbital Group</span>
+                        <span className="text-7xl md:text-[12vw] font-black tracking-tighter uppercase leading-[0.7] italic">{clientName(sessionData) ?? "Astrum."}</span>
+                        <span className="text-[12px] font-bold uppercase tracking-[1em] text-indigo-500 ml-2 font-mono">{clientName(sessionData) ? "" : "Reach Orbital Group"}</span>
                      </div>
                      <p className="text-white/20 max-w-sm mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
                         La maîtrise absolue du transit orbital commercial. Conçu pour l'élite mondiale.

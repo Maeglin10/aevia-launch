@@ -459,7 +459,7 @@ function NavBar({ scrolled, page, goTo }: { scrolled: boolean; page: HotelPage; 
           onClick={() => goTo('home')}
           style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: SERIF, fontSize: '1.5rem', color: scrolled ? DARK : CREAM, letterSpacing: '0.08em', fontWeight: 300 }}
         >
-          Grand Palais
+          {clientName(sessionData) ?? "Grand Palais"}
         </button>
 
         {/* Desktop links */}
@@ -1511,7 +1511,7 @@ function BookingCTA() {
             }}
           >
             Live the<br />
-            <em style={{ fontStyle: 'italic', color: GOLD }}>Grand Palais</em>
+            <em style={{ fontStyle: 'italic', color: GOLD }}>{clientName(sessionData) ?? "Grand Palais"}</em>
           </h2>
         </BlurReveal>
 
@@ -1685,7 +1685,7 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
               onClick={() => goTo('home')}
               style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: SERIF, fontSize: '1.6rem', fontWeight: 300, color: GOLD, marginBottom: '1rem', letterSpacing: '0.05em', display: 'block' }}
             >
-              Grand Palais
+              {clientName(sessionData) ?? "Grand Palais"}
             </button>
             <p style={{ fontFamily: SERIF, fontSize: '0.9rem', color: `${CREAM}50`, lineHeight: 1.7, fontStyle: 'italic', maxWidth: '20rem', marginBottom: '1.5rem' }}>
               A palace of quiet distinction at the heart of {clientCity(sessionData) ?? "Paris"} since 1887.

@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 // @ts-nocheck
 
@@ -37,8 +38,8 @@ export default function TechnicalKitPage() {
       <nav className="fixed top-0 left-0 w-full z-50 transition-all duration-700 bg-black/90 backdrop-blur-2xl py-4 border-b border-white/5">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="/templates/impact-07" className="group flex flex-col items-center">
-             <span className="text-3xl font-black tracking-[0.1em] uppercase leading-none italic">Aether</span>
-             <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[#c9a84c] -mt-1 ml-1">Sound Labs</span>
+             <span className="text-3xl font-black tracking-[0.1em] uppercase leading-none italic">{clientName(sessionData) ?? "Aether"}</span>
+             <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[#c9a84c] -mt-1 ml-1">{clientName(sessionData) ? "" : "Sound Labs"}</span>
           </Link>
           
           <Link href="/templates/impact-07" className="flex items-center gap-3 group">

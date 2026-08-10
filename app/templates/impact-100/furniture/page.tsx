@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
@@ -44,10 +45,10 @@ export default function Page() {
           
           <div className="group flex flex-col items-center">
             <span className="text-3xl font-light tracking-[0.3em] uppercase leading-none">
-              Nova
+              {clientName(sessionData) ?? "Nova"}
             </span>
             <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-black/30 -mt-1 ml-1">
-              Spatial Design
+              {clientName(sessionData) ? "" : "Spatial Design"}
             </span>
           </div>
         </div>
