@@ -1264,6 +1264,18 @@ function FloorPlanSection() {
     [0.05, 0.55],
     [TOTAL, 0]
   );
+  /*
+    Quatre `useTransform` vivaient dans le style d'éléments JSX, dont un à
+    l'intérieur d'un `.map()` : le nombre de hooks suivait alors la longueur de
+    la liste — et cette liste porte la donnée du client. Un client avec trois
+    pièces au lieu de quatre faisait tomber la page (« Rendered fewer hooks
+    than expected », #300). Les valeurs sont identiques d'un élément à l'autre :
+    déclarées ici, elles ne dépendent plus ni de la vue ni de la liste. Rien ne
+    change à l'écran.
+  */
+  const traitProgression = useTransform(scrollYProgress, [0.05, 0.4], [0, 1]);
+  const libelleOpacite = useTransform(scrollYProgress, [0.35, 0.55], [0, 0.55]);
+  const boussoleOpacite = useTransform(scrollYProgress, [0.4, 0.55], [0, 1]);
   const smoothDash = useSpring(dashOffset, { stiffness: 60, damping: 30 });
 
   return (
@@ -1489,7 +1501,7 @@ function FloorPlanSection() {
               stroke={C.accent}
               strokeWidth="2"
               style={{
-                pathLength: useTransform(scrollYProgress, [0.05, 0.4], [0, 1]),
+                pathLength: traitProgression,
               }}
             />
 
@@ -1546,11 +1558,7 @@ function FloorPlanSection() {
                 fill={C.accent}
                 opacity={0.55}
                 style={{
-                  opacity: useTransform(
-                    scrollYProgress,
-                    [0.35, 0.55],
-                    [0, 0.55]
-                  ),
+                  opacity: libelleOpacite,
                 }}
               >
                 {l.label.toUpperCase()}
@@ -1560,7 +1568,7 @@ function FloorPlanSection() {
             {/* North arrow */}
             <motion.g
               style={{
-                opacity: useTransform(scrollYProgress, [0.4, 0.55], [0, 1]),
+                opacity: boussoleOpacite,
               }}
             >
               <line
@@ -1592,7 +1600,7 @@ function FloorPlanSection() {
             {/* Scale bar */}
             <motion.g
               style={{
-                opacity: useTransform(scrollYProgress, [0.4, 0.55], [0, 1]),
+                opacity: boussoleOpacite,
               }}
             >
               <line
