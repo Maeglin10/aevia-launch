@@ -1,0 +1,12 @@
+import { chromium } from "playwright";
+const BASE = "http://localhost:3000";
+const [theme, route, ...mots] = process.argv.slice(2);
+const b = await chromium.launch();
+const p = await b.newPage();
+await p.goto(`${BASE}/templates/${theme}/${route}`, { waitUntil: "domcontentloaded", timeout: 40000 });
+await p.waitForTimeout(2500);
+await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+await p.waitForTimeout(1200);
+const t = (await p.evaluate(() => document.body.textContent ?? "")).replace(/\s+/g, " ");
+console.log(theme + "/" + route, "(sans session)", mots.map((m) => m + ":" + (t.includes(m) ? "OUI" : "non")).join(" · "));
+await b.close();
