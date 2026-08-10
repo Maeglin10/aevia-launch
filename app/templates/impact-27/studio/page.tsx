@@ -72,7 +72,7 @@ const awards_DEMO_ANNEXE = [
   { title: "Smashing Magazine Feature", category: "Annual WebGL Innovation Showcase", year: "2023" },
 ];
 function awards_LIVE() {
-  return resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...awards_DEMO_ANNEXE[i % awards_DEMO_ANNEXE.length], title: typeof x === "string" ? x : (x.name ?? x.title) })), awards_DEMO_ANNEXE);
+  return resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...awards_DEMO_ANNEXE[i % awards_DEMO_ANNEXE.length], name: typeof x === "string" ? x : (x.name ?? x.title), title: typeof x === "string" ? x : (x.name ?? x.title) })), awards_DEMO_ANNEXE);
 }
 let awards = awards_DEMO_ANNEXE;
 

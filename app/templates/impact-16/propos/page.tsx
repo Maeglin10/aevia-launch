@@ -43,7 +43,7 @@ const AWARDS_DEMO_ANNEXE = [
   { name: "Prix Roger-Viollet", year: "2023", category: "Reportage" },
 ];
 function AWARDS_LIVE() {
-  return resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...AWARDS_DEMO_ANNEXE[i % AWARDS_DEMO_ANNEXE.length], title: typeof x === "string" ? x : (x.name ?? x.title) })), AWARDS_DEMO_ANNEXE);
+  return resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...AWARDS_DEMO_ANNEXE[i % AWARDS_DEMO_ANNEXE.length], name: typeof x === "string" ? x : (x.name ?? x.title), title: typeof x === "string" ? x : (x.name ?? x.title) })), AWARDS_DEMO_ANNEXE);
 }
 let AWARDS = AWARDS_DEMO_ANNEXE;
 

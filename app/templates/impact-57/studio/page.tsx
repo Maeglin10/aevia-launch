@@ -32,7 +32,7 @@ const AWARDS_DEMO_ANNEXE = [
   { n: '05', title: 'Cannes Lions Bronze', year: '2024', org: 'Cannes Lions' },
 ];
 function AWARDS_LIVE() {
-  return resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...AWARDS_DEMO_ANNEXE[i % AWARDS_DEMO_ANNEXE.length], title: typeof x === "string" ? x : (x.name ?? x.title) })), AWARDS_DEMO_ANNEXE);
+  return resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...AWARDS_DEMO_ANNEXE[i % AWARDS_DEMO_ANNEXE.length], name: typeof x === "string" ? x : (x.name ?? x.title), title: typeof x === "string" ? x : (x.name ?? x.title) })), AWARDS_DEMO_ANNEXE);
 }
 let AWARDS = AWARDS_DEMO_ANNEXE;
 
