@@ -1666,16 +1666,17 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
       title: 'Stay',
       links: [
         { label: 'Rooms & Suites', page: 'chambres' },
-        { label: 'Prestige Room', page: 'chambres' },
-        { label: 'Grand Suite', page: 'chambres' },
-        { label: 'Presidential Suite', page: 'chambres' },
+        /* Les noms du client quand il en a, ceux de la démonstration sinon. */
+        { label: clientServices(sessionData)?.[0]?.title ?? 'Prestige Room', page: 'chambres' },
+        { label: clientServices(sessionData)?.[1]?.title ?? 'Grand Suite', page: 'chambres' },
+        { label: clientServices(sessionData)?.[2]?.title ?? 'Presidential Suite', page: 'chambres' },
       ],
     },
     {
       title: 'Experiences',
       links: [
-        { label: "L'Atelier Restaurant", page: 'services' },
-        { label: 'Espace Étoile Spa', page: 'services' },
+        { label: clientServices(sessionData)?.[3]?.title ?? "L'Atelier Restaurant", page: 'services' },
+        { label: clientServices(sessionData)?.[4]?.title ?? 'Espace Étoile Spa', page: 'services' },
         { label: 'Bar Lumière', page: 'services' },
         { label: 'Private Events', page: 'services' },
       ],
