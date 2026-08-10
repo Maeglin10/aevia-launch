@@ -93,6 +93,30 @@ const MENU_HIGHLIGHTS = [
   },
 ];
 
+/*
+  Les plats mis en avant : ceux du client quand il a rempli sa carte, ceux de
+  la démonstration sinon. Ne prenait jusqu'ici que ses photos, jamais ses noms
+  ni ses prix — une vitrine de plats qu'il ne sert pas.
+*/
+function plmatsMisEnAvant(demo: any[]) {
+  /*
+    Même source que la page d'accueil : la carte d'abord, puis les prestations,
+    puis l'ancienne extraction en texte libre. Un traiteur remplit « services »
+    là où un restaurant remplit « menu » — les deux doivent s'afficher.
+  */
+  const carte = bp?.menu?.length ? bp.menu
+    : bp?.services?.length ? bp.services.map((s: any) => ({ name: s.name ?? s.title, price: s.price, description: s.description ?? s.desc }))
+    : (c?.menuItems?.length ? c.menuItems : null);
+  if (!carte) return demo;
+  return demo.map((row: any, i: number) => {
+    const plat = carte[i % carte.length];
+    return { ...row, name: plat.name ?? row.name, price: plat.price ?? row.price,
+             desc: plat.description ?? plat.desc ?? row.desc,
+             category: plat.category ?? row.category };
+  });
+}
+
+
 const PHILOSOPHY_DEMO_ANNEXE = [
   {
     title: "The Fire Lab",
@@ -360,8 +384,15 @@ const LABEL_CLASS =
 
 function CartePage() {
   // Real client menu (from the wizard) or template demo dishes.
-  const hasRealMenu = !!(c?.menuItems && c.menuItems.length > 0);
-  const carteSections = hasRealMenu ? buildCarteSections(c.menuItems) : CARTE_SECTIONS;
+  /*
+    L'étape « carte » du formulaire (businessProfile.menu) prime sur l'ancienne
+    extraction en texte libre. Cette page ne lisait que la seconde : le
+    restaurateur remplissait sa carte et sa page carte restait en démonstration.
+  */
+  const hasRealMenu = !!(bp?.menu?.length || (c?.menuItems && c.menuItems.length > 0));
+  const carteSections = bp?.menu?.length
+    ? buildCarteSections(bp.menu)
+    : (c?.menuItems && c.menuItems.length > 0) ? buildCarteSections(c.menuItems) : CARTE_SECTIONS;
   return (
     <section id="hero" className="pt-44 pb-32 px-6 md:px-12 min-h-dvh">
       <div className="max-w-[1600px] mx-auto">
@@ -1052,6 +1083,13 @@ let c: any = null;
   qui n'existait pas — la page entière disparaissait.
 */
 let sessionData: any = null;
+/*
+  Le profil du client, où vit sa carte. Cette page ne gardait que
+  `generatedContent` : `bp?.menu` y désignait une variable inexistante et la
+  page entière tombait en « bp is not defined » — la même erreur, au même
+  endroit, que pour `sessionData`.
+*/
+let bp: any = null;
 
 export default function EmberGrillPage() {
   const router = useRouter();
@@ -1078,6 +1116,7 @@ export default function EmberGrillPage() {
 
   c = session?.generatedContent;
   sessionData = session;
+  bp = session?.businessProfile;
   PHILOSOPHY = PHILOSOPHY_LIVE();
 
   const [page, setPage] = useState<EmberPage>("carte");
@@ -1286,7 +1325,7 @@ export default function EmberGrillPage() {
               </Reveal>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                {MENU_HIGHLIGHTS.map((item, i) => (
+                {plmatsMisEnAvant(MENU_HIGHLIGHTS).map((item, i) => (
                   <Reveal key={item.id} delay={i * 0.1}>
                     <div
                       className="group space-y-10 cursor-pointer"

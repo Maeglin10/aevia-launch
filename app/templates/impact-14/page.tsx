@@ -2472,7 +2472,8 @@ export default function HorizonMaritimePage() {
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <MapPin size={12} style={{color: brand ?? 'var(--brand,#c9a84c)' }} />
                 <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>
-                  Port Hercules, Monaco
+                  {/* L'adresse du client au pied de page, celle du modèle sinon. */}
+                  {clientAddress(sessionData) ?? "Port Hercules, Monaco"}
                 </span>
               </div>
             </div>

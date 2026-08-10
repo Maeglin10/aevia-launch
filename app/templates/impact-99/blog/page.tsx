@@ -94,6 +94,30 @@ const MENU_HIGHLIGHTS = [
   },
 ];
 
+/*
+  Les plats mis en avant : ceux du client quand il a rempli sa carte, ceux de
+  la démonstration sinon. Ne prenait jusqu'ici que ses photos, jamais ses noms
+  ni ses prix — une vitrine de plats qu'il ne sert pas.
+*/
+function plmatsMisEnAvant(demo: any[]) {
+  /*
+    Même source que la page d'accueil : la carte d'abord, puis les prestations,
+    puis l'ancienne extraction en texte libre. Un traiteur remplit « services »
+    là où un restaurant remplit « menu » — les deux doivent s'afficher.
+  */
+  const carte = bp?.menu?.length ? bp.menu
+    : bp?.services?.length ? bp.services.map((s: any) => ({ name: s.name ?? s.title, price: s.price, description: s.description ?? s.desc }))
+    : (c?.menuItems?.length ? c.menuItems : null);
+  if (!carte) return demo;
+  return demo.map((row: any, i: number) => {
+    const plat = carte[i % carte.length];
+    return { ...row, name: plat.name ?? row.name, price: plat.price ?? row.price,
+             desc: plat.description ?? plat.desc ?? row.desc,
+             category: plat.category ?? row.category };
+  });
+}
+
+
 const PHILOSOPHY_DEMO_ANNEXE = [
   {
     title: "The Fire Lab",
@@ -176,6 +200,32 @@ const CARTE_SECTIONS = [
     ],
   },
 ];
+
+/*
+  La carte du client, groupée par catégorie — même logique que la page
+  d'accueil. Sans elle, le restaurateur remplit sa carte au formulaire et
+  cette page continue d'afficher celle de la démonstration.
+
+  Les icônes sont reprises aux rubriques de la démonstration : le client
+  choisit ses plats, le thème garde son vocabulaire visuel.
+*/
+function construireLaCarteDuClient(items: any[]) {
+  const ordre: string[] = [];
+  const groupes: Record<string, { name: string; price: string; desc: string }[]> = {};
+  for (const item of items) {
+    const cat = item.category || "Menu";
+    if (!groupes[cat]) { groupes[cat] = []; ordre.push(cat); }
+    groupes[cat].push({ name: item.name, price: item.price, desc: item.description || "" });
+  }
+  return ordre.map((cat, i) => ({
+    id: cat.toLowerCase().replace(/[^a-z0-9]+/g, "-") || `cat-${i}`,
+    label: cat,
+    icon: CARTE_SECTIONS[i % CARTE_SECTIONS.length].icon,
+    note: "",
+    items: groupes[cat],
+  }));
+}
+
 
 /* ── BLOG — mock FR articles ─────────────────────────────────────────────── */
 
@@ -348,7 +398,7 @@ function CartePage() {
         />
 
         <div className="space-y-32">
-          {CARTE_SECTIONS.map((sec, si) => (
+          {(bp?.menu?.length ? construireLaCarteDuClient(bp.menu) : (c?.menuItems?.length ? construireLaCarteDuClient(c.menuItems) : CARTE_SECTIONS)).map((sec, si) => (
             <Reveal key={sec.id} delay={si * 0.05}>
               <div>
                 <div className="flex items-end justify-between mb-14 gap-8 border-b border-white/5 pb-8">
@@ -1254,7 +1304,7 @@ export default function EmberGrillPage() {
               </Reveal>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                {MENU_HIGHLIGHTS.map((item, i) => (
+                {plmatsMisEnAvant(MENU_HIGHLIGHTS).map((item, i) => (
                   <Reveal key={item.id} delay={i * 0.1}>
                     <div
                       className="group space-y-10 cursor-pointer"
