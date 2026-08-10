@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -28,7 +30,7 @@ const T = {
 const FONT_HEADING = "'Syne', sans-serif";
 const FONT_BODY = "'Inter', sans-serif";
 
-const VALUES = [
+const VALUES_DEMO_ANNEXE = [
   {
     icon: <Palette size={24} />,
     title: "Detail",
@@ -45,12 +47,23 @@ const VALUES = [
     text: "Beautiful work that doesn't convert is just decoration. We measure our success by our clients' results.",
   },
 ];
+function VALUES_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...VALUES_DEMO_ANNEXE[i % VALUES_DEMO_ANNEXE.length], title: s.title, text: s.desc || "" || "" })), VALUES_DEMO_ANNEXE);
+}
+let VALUES = VALUES_DEMO_ANNEXE;
+
 
 
 export default function AboutPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -62,6 +75,7 @@ export default function AboutPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  VALUES = VALUES_LIVE();
 
   return (
     <div style={{ minHeight: "100dvh", backgroundColor: T.bg, color: T.text, fontFamily: FONT_BODY }}>

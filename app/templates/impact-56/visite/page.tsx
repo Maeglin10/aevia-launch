@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -15,7 +17,13 @@ let c: any = null;
 export default function VisitePage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -39,7 +47,7 @@ export default function VisitePage() {
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const experiences = [
+  const experiences_DEMO_ANNEXE = [
     {
       id: "classique",
       title: "Visite & Dégustation Classique",
@@ -81,6 +89,9 @@ export default function VisitePage() {
       includes: ["Participation aux vendanges manuelles", "Vinification guidée par le Maître de Chai", "Nuit en chambre d'hôtes partenaire", "2 dîners et 1 déjeuner au Château", "6 bouteilles personnalisées offertes"]
     }
   ];
+
+  const experiences = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...experiences_DEMO_ANNEXE[i % experiences_DEMO_ANNEXE.length], title: s.title, description: s.desc || experiences_DEMO_ANNEXE[i % experiences_DEMO_ANNEXE.length].description, price: s.price ?? experiences_DEMO_ANNEXE[i % experiences_DEMO_ANNEXE.length].price })), experiences_DEMO_ANNEXE);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));

@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientReviews } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { Check, CheckCircle, Star, ArrowRight, Coffee, Package, Truck, Shield, Heart, Award, Users, Leaf, ChevronDown } from "lucide-react";
@@ -79,12 +81,18 @@ const PLAN_COMPARISON_FEATURES = [
   { feature: "Résiliation libre", decouv: "✓", amateur: "✓", connais: "✓" },
 ];
 
-const REVIEW_HIGHLIGHTS = [
+const REVIEW_HIGHLIGHTS_DEMO_ANNEXE = [
   { name: "Tariq H.", avatar: "TH", plan: "Connaisseur", rating: 5, short: "Chaque mois une découverte. Le niveau d'un caviste — mais pour le café." },
   { name: "Sophie L.", avatar: "SL", plan: "Amateur", rating: 5, short: "La régularité est remarquable. Je commande pour mon café aussi." },
   { name: "Hana M.", avatar: "HM", plan: "Connaisseur", rating: 5, short: "Accès aux réserves exclusives — j'ai eu le Kenya AA deux semaines avant tout le monde." },
   { name: "Carlos M.", avatar: "CM", plan: "Amateur", rating: 5, short: "Pour mon restaurant, la qualité justifie largement le prix. Mes clients le remarquent." },
 ];
+
+function REVIEW_HIGHLIGHTS_LIVE() {
+  return resolveList(clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEW_HIGHLIGHTS_DEMO_ANNEXE[i % REVIEW_HIGHLIGHTS_DEMO_ANNEXE.length], name: r.author ?? REVIEW_HIGHLIGHTS_DEMO_ANNEXE[i % REVIEW_HIGHLIGHTS_DEMO_ANNEXE.length].name, short: r.text, avatar: (r.author ?? "").split(/\s+/).map((p: string) => p[0] ?? "").join("").slice(0, 2).toUpperCase() || REVIEW_HIGHLIGHTS_DEMO_ANNEXE[i % REVIEW_HIGHLIGHTS_DEMO_ANNEXE.length].avatar })), REVIEW_HIGHLIGHTS_DEMO_ANNEXE);
+}
+let REVIEW_HIGHLIGHTS = REVIEW_HIGHLIGHTS_DEMO_ANNEXE;
+
 
 const FRESHNESS_TIMELINE = [
   { day: "J", label: "Commande", desc: "Votre prélèvement est confirmé" },
@@ -170,7 +178,13 @@ function FreshnessTimeline() {
 export default function AbonnementPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -182,6 +196,7 @@ export default function AbonnementPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  REVIEW_HIGHLIGHTS = REVIEW_HIGHLIGHTS_LIVE();
 
   const [billing, setBilling] = useState<"mensuel" | "bimestriel">("mensuel");
   const [submitted, setSubmitted] = useState(false);

@@ -1,4 +1,6 @@
 'use client';
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -16,7 +18,13 @@ let c: any = null;
 export default function StudiosPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -31,7 +39,7 @@ export default function StudiosPage() {
 
   const [activeTab, setActiveTab] = useState(0);
 
-  const studioDetails = [
+  const studioDetails_DEMO_ANNEXE = [
     {
       name: "Studio A",
       tag: "Main Room",
@@ -99,6 +107,9 @@ export default function StudiosPage() {
       ],
     },
   ];
+
+  const studioDetails = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...studioDetails_DEMO_ANNEXE[i % studioDetails_DEMO_ANNEXE.length], name: s.title, desc: s.desc || studioDetails_DEMO_ANNEXE[i % studioDetails_DEMO_ANNEXE.length].desc, rate: s.price ?? studioDetails_DEMO_ANNEXE[i % studioDetails_DEMO_ANNEXE.length].rate })), studioDetails_DEMO_ANNEXE);
+
 
   const outboard = [
     { brand: "Neve", items: ["1073 × 8", "33609 compressor"] },

@@ -1,4 +1,6 @@
 "use client"
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientReviews } from "@/lib/templates/clientContent";
 
 import React from "react"
 import { useEffect, useState } from "react";
@@ -48,7 +50,7 @@ const EVENTS_DATA = [
   },
 ]
 
-const TESTIMONIALS_DATA = [
+const TESTIMONIALS_DATA_DEMO_ANNEXE = [
   {
     name: "Amara Diallo",
     role: "Head of Growth, FinPath",
@@ -67,13 +69,25 @@ const TESTIMONIALS_DATA = [
     avatar: "MC",
     text: "Je signe 40% plus de contrats quand je reçois mes clients ici. L'atmosphère inspire le sérieux et l'ambition.",
   },
-]
+];
+
+function TESTIMONIALS_DATA_LIVE() {
+  return resolveList(clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_DATA_DEMO_ANNEXE[i % TESTIMONIALS_DATA_DEMO_ANNEXE.length], name: r.author ?? TESTIMONIALS_DATA_DEMO_ANNEXE[i % TESTIMONIALS_DATA_DEMO_ANNEXE.length].name, text: r.text })), TESTIMONIALS_DATA_DEMO_ANNEXE);
+}
+let TESTIMONIALS_DATA = TESTIMONIALS_DATA_DEMO_ANNEXE;
+
 
 
 export default function CommunityPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -85,6 +99,7 @@ export default function CommunityPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  TESTIMONIALS_DATA = TESTIMONIALS_DATA_LIVE();
 
   return (
     <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>

@@ -1,4 +1,5 @@
 "use client";
+import { clientFaq, clientServices } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientHours,
@@ -49,7 +50,7 @@ const B2B_SECTORS = [
   { icon: Truck, label: "Distribution", desc: "Programme revendeur pour épiceries fines et boutiques spécialisées." },
 ];
 
-const WORKSHOP_CONTACT_OPTIONS = [
+const WORKSHOP_CONTACT_OPTIONS_DEMO_ANNEXE = [
   {
     title: "Initiation dégustation",
     duration: "2h",
@@ -88,7 +89,13 @@ const WORKSHOP_CONTACT_OPTIONS = [
   },
 ];
 
-const SUBSCRIPTION_FAQ = [
+function WORKSHOP_CONTACT_OPTIONS_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...WORKSHOP_CONTACT_OPTIONS_DEMO_ANNEXE[i % WORKSHOP_CONTACT_OPTIONS_DEMO_ANNEXE.length], title: s.title, desc: s.desc || WORKSHOP_CONTACT_OPTIONS_DEMO_ANNEXE[i % WORKSHOP_CONTACT_OPTIONS_DEMO_ANNEXE.length].desc, price: s.price ?? WORKSHOP_CONTACT_OPTIONS_DEMO_ANNEXE[i % WORKSHOP_CONTACT_OPTIONS_DEMO_ANNEXE.length].price })), WORKSHOP_CONTACT_OPTIONS_DEMO_ANNEXE);
+}
+let WORKSHOP_CONTACT_OPTIONS = WORKSHOP_CONTACT_OPTIONS_DEMO_ANNEXE;
+
+
+const SUBSCRIPTION_FAQ_DEMO_ANNEXE = [
   {
     q: "Comment fonctionne la facturation de l'abonnement ?",
     a: "Votre abonnement est prélevé le 1er de chaque mois. Vous recevez une confirmation par email 3 jours avant chaque prélèvement. Vous pouvez modifier, suspendre ou annuler à tout moment depuis votre espace client, jusqu'à 48h avant le prélèvement.",
@@ -114,6 +121,12 @@ const SUBSCRIPTION_FAQ = [
     a: "Photographiez le colis dès réception et envoyez-nous l'email dans les 48h à " + (fd?.email ?? "contact@originroast.co") + ". Nous expédions un remplacement sous 72h sans frais supplémentaires. Les problèmes liés au transporteur sont couverts par notre assurance colis.",
   },
 ];
+
+function SUBSCRIPTION_FAQ_LIVE() {
+  return resolveList(clientFaq(sessionData)?.map((x: any) => ({ q: x.q, a: x.a })), SUBSCRIPTION_FAQ_DEMO_ANNEXE);
+}
+let SUBSCRIPTION_FAQ = SUBSCRIPTION_FAQ_DEMO_ANNEXE;
+
 
 const TRUST_BADGES = [
   { icon: Award, label: "SCA Certified", desc: "Tous nos torréfacteurs sont certifiés Q-Grader" },
@@ -174,7 +187,13 @@ function ContactFAQItem({ faq, delay }: { faq: { q: string; a: string }; delay: 
 export default function ContactPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -186,6 +205,8 @@ export default function ContactPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  SUBSCRIPTION_FAQ = SUBSCRIPTION_FAQ_LIVE();
+  WORKSHOP_CONTACT_OPTIONS = WORKSHOP_CONTACT_OPTIONS_LIVE();
 
   const [submitted, setSubmitted] = useState(false);
   const [activeTab, setActiveTab] = useState<"general" | "b2b" | "workshop">("general");

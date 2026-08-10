@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
@@ -15,7 +17,13 @@ let c: any = null;
 export default function SoinsPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -28,7 +36,7 @@ export default function SoinsPage() {
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
-  const specialties = [
+  const specialties_DEMO_ANNEXE = [
     {
       title: "Blanchiment dentaire Zoom!",
       tech: "Lampe LED Philips Zoom! WhiteSpeed",
@@ -78,6 +86,9 @@ export default function SoinsPage() {
       price: "À partir de 800 € / dent"
     }
   ];
+
+  const specialties = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...specialties_DEMO_ANNEXE[i % specialties_DEMO_ANNEXE.length], title: s.title, details: s.desc || specialties_DEMO_ANNEXE[i % specialties_DEMO_ANNEXE.length].details, price: s.price ?? specialties_DEMO_ANNEXE[i % specialties_DEMO_ANNEXE.length].price })), specialties_DEMO_ANNEXE);
+
 
   return (
     <motion.div

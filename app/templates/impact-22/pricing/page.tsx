@@ -1,4 +1,5 @@
 "use client";
+import { clientFaq } from "@/lib/templates/clientContent";
 import {
   clientName, clientServices } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
@@ -64,12 +65,17 @@ const pipeline = [
   { step: "Réponse", code: '{\n  "completion": "...",\n  "usage": {...},\n  "latency_ms": 88\n}', desc: "Résultat structuré avec métriques" },
 ];
 
-const faqs = [
+const faqs_DEMO_ANNEXE = [
   { q: "Quelle est la différence avec Azure OpenAI ou Bedrock ?", a: "Nimbus est model-agnostic : vous pouvez swapper des modèles open-source et propriétaires via une seule API. Pas de vendor lock-in, coûts jusqu'à 80% inférieurs." },
   { q: "Comment fonctionne la facturation ?", a: "Pay-as-you-go par token / image / seconde d'audio. Aucun engagement minimum. Volume discounts automatiques dès 10M tokens/mois." },
   { q: "Peut-on déployer nos propres modèles fine-tunés ?", a: "Oui. Upload via CLI ou S3-compatible API. Format GGUF, SafeTensors, ONNX. Votre modèle est privé et isolé dans votre namespace." },
   { q: "Quelle est la SLA uptime ?", a: "99.99% sur les endpoints production avec failover multi-région automatique. Compensations crédit si violation SLA." },
 ];
+function faqs_LIVE() {
+  return resolveList(clientFaq(sessionData)?.map((f: any, i: number) => ({ ...faqs_DEMO_ANNEXE[i % faqs_DEMO_ANNEXE.length], q: f.q, a: f.a })), faqs_DEMO_ANNEXE);
+}
+let faqs = faqs_DEMO_ANNEXE;
+
 
 /* ─── Nav item → page mapping ─── */
 const navMap: Record<string, ActivePage> = {
@@ -99,7 +105,13 @@ const footerLinkMap: Record<string, ActivePage> = {
 export default function NimbusAIPricingPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -112,6 +124,7 @@ export default function NimbusAIPricingPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  faqs = faqs_LIVE();
   features = features_LIVE();
 
   useFonts();
