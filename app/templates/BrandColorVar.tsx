@@ -768,8 +768,79 @@ function relierLesBoutonsDeReservation(url: string | undefined) {
   }
 }
 
+/*
+  Le menu du téléphone, atteignable au doigt.
+
+  Cent quatre thèmes ouvrent leur navigation par un bouton portant « ☰ », posé
+  avec `padding: 0` : mesuré à 20 × 22 px sur impact-10, quand un doigt en vise
+  quarante. C'est la commande de navigation principale sur téléphone — la
+  manquer, c'est ne plus pouvoir circuler dans le site.
+
+  On agrandit la zone touchable par du rembourrage, et on annule le
+  déplacement par une marge négative de même valeur. Le bouton n'a ni fond ni
+  bordure : rien ne se voit, le glyphe garde sa taille et sa position. Le
+  dessin du thème n'est pas touché.
+
+  Neutre par construction : ne s'applique qu'aux commandes sans texte visible
+  (un glyphe, une icône) déjà plus petites que la cible. Un bouton libellé
+  « Réserver » ou déjà confortable n'est jamais modifié.
+*/
+function agrandirLesCommandesTactiles() {
+  const CIBLE = 40;
+  for (const e of document.querySelectorAll<HTMLElement>("button, a, [role=button]")) {
+    if (e.dataset.cibleAgrandie) continue;
+    const s = getComputedStyle(e);
+    if (s.display === "none" || s.visibility === "hidden" || s.pointerEvents === "none") continue;
+    /*
+      Un lien au fil d'une phrase garde sa hauteur : l'agrandir décalerait la
+      ligne autour de lui, et WCAG 2.5.8 l'exempte précisément pour ça. Seuls
+      les liens posés en bloc — une colonne de pied de page, une liste de
+      navigation — sont des cibles que le doigt vise isolément.
+    */
+    if (e.tagName === "A" && s.display === "inline") continue;
+    if (/\bsr-only\b|lien-evitement|skip-link/.test(String(e.className ?? ""))) continue;
+    const r = e.getBoundingClientRect();
+    if (r.width === 0 || r.height === 0) continue;
+    const texte = (e.textContent ?? "").trim();
+
+    if (texte.length <= 2) {
+      // Un glyphe ou une icône : trop petit dans les deux sens, on agrandit les deux.
+      if (Math.min(r.width, r.height) >= 32) continue;
+      const marge = Math.ceil((CIBLE - Math.min(r.width, r.height)) / 2);
+      e.style.padding = `${marge}px`;
+      e.style.margin = `-${marge}px`;
+      e.dataset.cibleAgrandie = "1";
+      continue;
+    }
+
+    /*
+      Un lien libellé n'est jamais trop étroit — « Mentions légales » fait
+      soixante pixels de large — mais souvent trop plat : quatorze pixels de
+      haut, alignés côte à côte en pied de page. On n'agrandit donc QUE la
+      hauteur. Du rembourrage horizontal les ferait se chevaucher, et deux
+      cibles qui se recouvrent sont pires qu'une cible basse.
+    */
+    if (r.height >= 24) continue;
+    const marge = Math.ceil((24 - r.height) / 2) + 4;
+    e.style.paddingTop = `${marge}px`;
+    e.style.paddingBottom = `${marge}px`;
+    e.style.marginTop = `-${marge}px`;
+    e.style.marginBottom = `-${marge}px`;
+    e.dataset.cibleAgrandie = "1";
+  }
+}
+
 export function BrandColorVar() {
   useEffect(() => {
+    /*
+      Cette passe-ci ne dépend pas du client : c'est une dette du thème, elle
+      doit s'appliquer même sur un site sans session — la galerie, un aperçu
+      partagé sans paramètre.
+    */
+    const tactile = () => { try { agrandirLesCommandesTactiles(); } catch {} };
+    requestAnimationFrame(() => requestAnimationFrame(tactile));
+    for (const delai of [600, 1800, 3500]) setTimeout(tactile, delai);
+
     let id = new URLSearchParams(window.location.search).get("session");
     /* La navigation interne perd le paramètre : on retient la session par thème. */
     try {
