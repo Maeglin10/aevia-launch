@@ -87,7 +87,9 @@ function HeroBento({ i }: { i: number }) {
           area: { gridColumn: "1 / span 2", gridRow: "1 / span 2" },
           node: (
             <div style={cell("rgba(255,255,255,0.06)", C.white, "1.3rem")}>
-              <span style={{ fontFamily: FONT_SYNE, fontWeight: 800, fontSize: "clamp(1.6rem,2.6vw,2.4rem)", lineHeight: 0.95, whiteSpace: "pre-line", letterSpacing: "-0.03em" }}>
+              {/* « PRODUCT » sortait de sa cellule de soixante-neuf pixels : le saut de
+                  ligne forcé impose la coupe, mais rien ne bornait la largeur. */}
+              <span style={{ fontFamily: FONT_SYNE, fontWeight: 800, fontSize: "clamp(1.6rem,2.6vw,2.4rem)", lineHeight: 0.95, whiteSpace: "pre-line", letterSpacing: "-0.03em", maxWidth: "100%", overflowWrap: "anywhere" }}>
                 {d.field}
               </span>
             </div>

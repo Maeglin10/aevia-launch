@@ -323,7 +323,7 @@ for (const nomCas of casTestes) {
             }
             const trop = e.scrollWidth - e.clientWidth;
             if (!anime && trop > 12 && e.children.length === 0) {
-              soucis.push(`« ${t.slice(0, 18)} » tronqué de ${trop} px [${e.tagName} ${getComputedStyle(e).fontSize} ${getComputedStyle(e).whiteSpace} ajuste=${e.dataset.clientAjuste ?? "non"} borne=${e.dataset.borne ?? "non"} enfants=${e.children.length}]`);
+              soucis.push(`« ${t.slice(0, 18)} » tronqué de ${trop} px`);
             }
           }
 
