@@ -785,8 +785,38 @@ function relierLesBoutonsDeReservation(url: string | undefined) {
   (un glyphe, une icône) déjà plus petites que la cible. Un bouton libellé
   « Réserver » ou déjà confortable n'est jamais modifié.
 */
+/*
+  La zone cliquable s'étend par un pseudo-élément, pas par du rembourrage.
+
+  Première version : padding pour agrandir, marge négative pour compenser. Ça
+  ne compense pas partout — sur un bouton à largeur fixe en `box-sizing:
+  border-box`, le rembourrage rogne le contenu au lieu d'agrandir la boîte, et
+  les trois barres du burger d'impact-41 se décalaient de quatre pixels.
+
+  Un `::after` en position absolue déborde de son parent sans rien pousser :
+  aucune boîte ne change de taille, aucun voisin ne bouge. L'inset vient d'une
+  propriété personnalisée posée sur l'élément, qui n'a elle-même aucun effet
+  de mise en page.
+*/
+function poserLaFeuilleTactile() {
+  if (document.getElementById("cible-tactile-style")) return;
+  const s = document.createElement("style");
+  s.id = "cible-tactile-style";
+  s.textContent = `
+[data-cible-agrandie]::after {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--cible-y, 0px));
+  bottom: calc(-1 * var(--cible-y, 0px));
+  left: calc(-1 * var(--cible-x, 0px));
+  right: calc(-1 * var(--cible-x, 0px));
+}`;
+  document.head.appendChild(s);
+}
+
 function agrandirLesCommandesTactiles() {
   const CIBLE = 40;
+  poserLaFeuilleTactile();
   for (const e of document.querySelectorAll<HTMLElement>("button, a, [role=button]")) {
     if (e.dataset.cibleAgrandie) continue;
     const s = getComputedStyle(e);
@@ -803,30 +833,63 @@ function agrandirLesCommandesTactiles() {
     if (r.width === 0 || r.height === 0) continue;
     const texte = (e.textContent ?? "").trim();
 
+    /*
+      Le pseudo-élément a besoin d'un ancrage : sans position non statique sur
+      le parent, il se placerait par rapport à un ancêtre lointain. `relative`
+      ne déplace rien tant qu'aucun décalage n'est posé.
+    */
+    if (getComputedStyle(e).position === "static") e.style.position = "relative";
+
     if (texte.length <= 2) {
       // Un glyphe ou une icône : trop petit dans les deux sens, on agrandit les deux.
       if (Math.min(r.width, r.height) >= 32) continue;
       const marge = Math.ceil((CIBLE - Math.min(r.width, r.height)) / 2);
-      e.style.padding = `${marge}px`;
-      e.style.margin = `-${marge}px`;
+      e.style.setProperty("--cible-x", `${marge}px`);
+      e.style.setProperty("--cible-y", `${marge}px`);
       e.dataset.cibleAgrandie = "1";
       continue;
     }
 
     /*
-      Un lien libellé n'est jamais trop étroit — « Mentions légales » fait
-      soixante pixels de large — mais souvent trop plat : quatorze pixels de
-      haut, alignés côte à côte en pied de page. On n'agrandit donc QUE la
-      hauteur. Du rembourrage horizontal les ferait se chevaucher, et deux
-      cibles qui se recouvrent sont pires qu'une cible basse.
+      Un lien libellé manque d'une dimension ou de l'autre, jamais des deux :
+      « Mentions légales » en pied de page fait soixante pixels de large et
+      quatorze de haut ; un menu en texte vertical fait neuf de large et cent
+      quatre-vingts de haut. On n'agrandit que l'axe déficient — une première
+      version ne traitait que la hauteur et laissait les menus verticaux
+      intacts sur vingt pages.
+
+      Et jamais au-delà de la moitié de l'espace qui sépare la cible de sa
+      voisine : deux cibles qui se recouvrent sont pires qu'une cible étroite.
     */
-    if (r.height >= 24) continue;
-    const marge = Math.ceil((24 - r.height) / 2) + 4;
-    e.style.paddingTop = `${marge}px`;
-    e.style.paddingBottom = `${marge}px`;
-    e.style.marginTop = `-${marge}px`;
-    e.style.marginBottom = `-${marge}px`;
-    e.dataset.cibleAgrandie = "1";
+    const ecart = (axe: "x" | "y") => {
+      let mini = Infinity;
+      for (const a of document.querySelectorAll<HTMLElement>("a, button, [role=button]")) {
+        if (a === e) continue;
+        const q = a.getBoundingClientRect();
+        if (q.width === 0 || q.height === 0) continue;
+        if (axe === "x") {
+          if (q.bottom < r.top || q.top > r.bottom) continue; // pas sur la même ligne
+          mini = Math.min(mini, q.left >= r.right ? q.left - r.right : r.left >= q.right ? r.left - q.right : 0);
+        } else {
+          if (q.right < r.left || q.left > r.right) continue; // pas dans la même colonne
+          mini = Math.min(mini, q.top >= r.bottom ? q.top - r.bottom : r.top >= q.bottom ? r.top - q.bottom : 0);
+        }
+      }
+      return mini;
+    };
+
+    const poser = (axe: "x" | "y", taille: number) => {
+      if (taille >= 24) return false;
+      const place = ecart(axe);
+      const marge = Math.max(0, Math.min(Math.ceil((24 - taille) / 2) + 4,
+        place === Infinity ? 12 : Math.floor(place / 2) - 1));
+      if (marge <= 0) return false;
+      e.style.setProperty(axe === "x" ? "--cible-x" : "--cible-y", `${marge}px`);
+      return true;
+    };
+
+    const fait = [poser("y", r.height), poser("x", r.width)].some(Boolean);
+    if (fait) e.dataset.cibleAgrandie = "1";
   }
 }
 
@@ -840,6 +903,20 @@ export function BrandColorVar() {
     const tactile = () => { try { agrandirLesCommandesTactiles(); } catch {} };
     requestAnimationFrame(() => requestAnimationFrame(tactile));
     for (const delai of [600, 1800, 3500]) setTimeout(tactile, delai);
+    /*
+      Une commande peut n'apparaître qu'au défilement — un pied de page monté
+      tard, un panneau révélé à l'approche. Aux seules passes minutées, le
+      résultat variait d'une mesure à l'autre : présente une fois, absente la
+      suivante. On repasse donc à chaque défilement, au plus une fois par
+      cadre.
+    */
+    let enAttente = false;
+    const auDefilement = () => {
+      if (enAttente) return;
+      enAttente = true;
+      requestAnimationFrame(() => { enAttente = false; tactile(); });
+    };
+    window.addEventListener("scroll", auDefilement, { passive: true });
 
     let id = new URLSearchParams(window.location.search).get("session");
     /* La navigation interne perd le paramètre : on retient la session par thème. */

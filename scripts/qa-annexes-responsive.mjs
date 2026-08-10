@@ -88,7 +88,12 @@ for (const { theme, route } of choisies) {
     // Les passes globales s'exécutent jusqu'à 4 s après le rendu.
     await p.waitForTimeout(4600);
     await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-    await p.waitForTimeout(900);
+    /*
+      Une navigation qui pivote au défilement change de taille pendant son
+      animation : mesuré trop tôt, un lien de 34 px de large en paraît 19. On
+      laisse l'animation finir avant de conclure.
+    */
+    await p.waitForTimeout(2000);
 
     const releve = await p.evaluate(({ largeur, valeurs }) => {
       const marge = 2; // les arrondis de sous-pixel ne sont pas des défauts
@@ -150,8 +155,24 @@ for (const { theme, route } of choisies) {
         */
         if (/\bsr-only\b|lien-evitement|skip-link/.test(String(e.className ?? ""))) continue;
         if (s.display.startsWith("inline") && e.tagName === "A") continue;
-        if (Math.min(r.width, r.height) >= 32) continue;
-        boites.push({ e, r });
+        /*
+          Une navigation qui pivote au défilement n'a pas de taille stable :
+          impact-68 donne 34 px de large au repos et 19 en cours de rotation,
+          d'une mesure à l'autre. C'est au repos que le doigt la vise — la même
+          exemption que pour le texte d'un bandeau animé.
+        */
+        if (voulu(e)) continue;
+        /*
+          La zone touchable n'est pas la boîte : la passe globale l'étend par
+          un pseudo-élément, précisément pour ne déplacer aucun voisin. La
+          mesure doit lire cette extension, sinon elle continue de compter des
+          défauts déjà corrigés.
+        */
+        const mx = parseFloat(s.getPropertyValue("--cible-x")) || 0;
+        const my = parseFloat(s.getPropertyValue("--cible-y")) || 0;
+        const zone = { left: r.left - mx, top: r.top - my, width: r.width + 2 * mx, height: r.height + 2 * my };
+        if (Math.min(zone.width, zone.height) >= 32) continue;
+        boites.push({ e, r: zone });
       }
 
       /*
