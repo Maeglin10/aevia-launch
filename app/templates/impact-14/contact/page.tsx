@@ -1,8 +1,7 @@
 "use client";
 import {
   clientCity,
-  clientName,
-} from "@/lib/templates/clientContent";
+  clientName, clientAddress, clientPhone,} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
@@ -2329,7 +2328,8 @@ export default function HorizonMaritimePage() {
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <MapPin size={12} style={{ color: "#c9a84c" }} />
                 <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>
-                  Port Hercules, Monaco
+                  {/* L'adresse du client au pied de page, celle du modèle sinon. */}
+                  {clientAddress(sessionData) ?? "Port Hercules, Monaco"}
                 </span>
               </div>
             </div>
@@ -2834,9 +2834,26 @@ function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
 }
 
 function ContactPage() {
-  const offices = [
+  /*
+    Une adresse à moitié vraie est pire qu'une adresse de démonstration :
+    « Rue du Rhône 42, 1204 Annecy, Switzerland » mêlait la rue du modèle, la
+    ville du client et le pays d'un troisième — elle a l'air vraie, rien
+    n'alerte à la relecture, et le client la livre à ses visiteurs.
+
+    Dès que le client donne son adresse, on n'affiche que la sienne. Sans
+    adresse, les trois bureaux de la démonstration restent intacts.
+  */
+  const adresseDuClient = clientAddress(sessionData);
+  const offices = adresseDuClient
+    ? [{
+        city: clientCity(sessionData) ?? "",
+        address: adresseDuClient,
+        phone: clientPhone(sessionData) ?? "",
+        email: fd?.email ?? "",
+      }]
+    : [
     { city: "Monaco", address: "Port Hercules, 98000 Monaco", phone: "+377 93 25 45 67", email: (fd?.email ?? "monaco@horizonmaritime.com") },
-    { city: "Geneva", address: "Rue du Rhône 42, 1204 " + (clientCity(sessionData) ?? "Genève") + ", Switzerland", phone: "+41 22 310 12 34", email: (fd?.email ?? "geneva@horizonmaritime.com") },
+    { city: "Geneva", address: "Rue du Rhône 42, 1204 Genève, Switzerland", phone: "+41 22 310 12 34", email: (fd?.email ?? "geneva@horizonmaritime.com") },
     { city: "Singapore", address: "Marina Bay Sands Office, 018956 Singapore", phone: "+65 6688 8888", email: (fd?.email ?? "singapore@horizonmaritime.com") },
   ];
 
