@@ -424,7 +424,14 @@ function rendreLaMarque(nom: string | undefined) {
   const propre = nom.trim();
   const racine = /^\/templates\/impact-[\w-]+$/;
 
+  /*
+    Une page n'a qu'une marque. Beaucoup de thèmes portent deux en-têtes — l'un
+    pour l'ordinateur, l'autre pour le téléphone — et les traiter séparément
+    écrivait le nom deux fois de suite.
+  */
+  let marqueFaite = false;
   for (const entete of document.querySelectorAll("header, nav")) {
+    if (marqueFaite) break;
     /*
       Le premier lien vers l'accueil seulement. Les en-têtes de sous-page en
       ont souvent deux — le logo, puis « ← Retour » — et remplacer les deux
@@ -439,11 +446,12 @@ function rendreLaMarque(nom: string | undefined) {
       const texte = (lien.textContent ?? "").replace(/\s+/g, " ").trim();
       if (texte.length === 0 || texte.length > 44) continue;
       // Déjà au nom du client : rien à faire, et surtout rien à réécrire.
-      if (texte.toLowerCase().includes(propre.toLowerCase())) { dejaFait = true; continue; }
+      if (texte.toLowerCase().includes(propre.toLowerCase())) { dejaFait = true; marqueFaite = true; continue; }
       // Un lien de retour n'est pas une marque, quelle que soit sa destination.
       if (/retour|back|accueil|home|←|<-/i.test(texte)) continue;
 
       dejaFait = true;
+      marqueFaite = true;
       lien.dataset.marqueRendue = "1";
       /*
         Les marques s'écrivent souvent en deux morceaux — « Aether » puis
@@ -458,7 +466,22 @@ function rendreLaMarque(nom: string | undefined) {
       } else {
         ecrireTexte(lien, propre);
       }
+
+      /*
+        La signature du modèle vit souvent hors du lien, juste après :
+        « Reach Orbital Group » sous « NOVA », « Grill & Cellar » sous « EMBER ».
+        La laisser affiche le nom d'une autre entreprise à côté de celui du
+        client.
+      */
+      const apres = lien.nextElementSibling as HTMLElement | null;
+      const texteApres = (apres?.textContent ?? "").replace(/\s+/g, " ").trim();
+      if (apres && texteApres.length > 1 && texteApres.length <= 34
+          && !/accueil|home|menu|contact|services?|blog|tarifs?|pricing|connexion|login|panier/i.test(texteApres)
+          && apres.querySelectorAll("a, button").length === 0) {
+        apres.style.display = "none";
+      }
     }
+
   }
 }
 

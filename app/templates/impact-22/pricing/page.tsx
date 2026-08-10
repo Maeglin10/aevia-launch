@@ -1,5 +1,6 @@
 "use client";
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientName, clientServices } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
@@ -133,7 +134,7 @@ export default function NimbusAIPricingPage() {
         <div className="max-w-6xl mx-auto bg-[#060B16]/90 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4 flex items-center justify-between">
           <button onClick={() => goTo("home")} className="flex items-center gap-2 cursor-pointer">
             <div className="w-8 h-8 bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div>
-            <span className="text-white font-bold text-lg">NimbusAI</span>
+            <span className="text-white font-bold text-lg">{clientName(sessionData) ?? "NimbusAI"}</span>
           </button>
           <div className="hidden md:flex items-center gap-8 text-gray-400 text-sm font-medium">
             {["Modèles", "Pricing", "Docs", "Status", "Blog"].map(item => (
@@ -152,7 +153,7 @@ export default function NimbusAIPricingPage() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#060B16] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-white font-bold text-xl">NimbusAI</span>
+              <span className="text-white font-bold text-xl">{clientName(sessionData) ?? "NimbusAI"}</span>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
             {["Modèles", "Pricing", "Docs", "Status", "Blog"].map((item, i) => (
@@ -325,7 +326,7 @@ export default function NimbusAIPricingPage() {
       <footer className="bg-[#060B16] border-t border-white/5 py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
-            <div className="flex items-center gap-2 mb-4"><div className="w-8 h-8 bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div><span className="text-white font-bold">NimbusAI</span></div>
+            <div className="flex items-center gap-2 mb-4"><div className="w-8 h-8 bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div><span className="text-white font-bold">{clientName(sessionData) ?? "NimbusAI"}</span></div>
             <p className="text-gray-500 text-sm">Cloud AI infrastructure pour les équipes qui construisent les produits de demain.</p>
           </div>
           {[

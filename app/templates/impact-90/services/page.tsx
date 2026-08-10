@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
@@ -67,8 +68,8 @@ export default function Page() {
             ))}
           </svg>
           <div>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: C.brown, lineHeight: 1 }}>Maison Laval</p>
-            <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 10, color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>Boulangerie Artisanale</p>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: C.brown, lineHeight: 1 }}>{clientName(sessionData) ?? "Maison Laval"}</p>
+            <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 10, color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>{clientName(sessionData) ? "" : "Boulangerie Artisanale"}</p>
           </div>
         </div>
         <div style={{ display: "flex", gap: 28, alignItems: "center" }}>

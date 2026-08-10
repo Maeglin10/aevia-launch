@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
@@ -1038,6 +1039,12 @@ import { useRouter } from "next/navigation";
 
 // Global state variable for CartePage() compatibility (menu wiring only)
 let c: any = null;
+/*
+  La session complète, pour le contrat : cette page ne gardait que
+  `generatedContent`, et `clientName(sessionData)` y référençait une variable
+  qui n'existait pas — la page entière disparaissait.
+*/
+let sessionData: any = null;
 
 export default function EmberGrillPage() {
   const router = useRouter();
@@ -1057,6 +1064,7 @@ export default function EmberGrillPage() {
   }, []);
 
   c = session?.generatedContent;
+  sessionData = session;
 
   const [page, setPage] = useState<EmberPage>("carte");
   const [blogSlug, setBlogSlug] = useState<string | null>(null);
@@ -1091,10 +1099,10 @@ export default function EmberGrillPage() {
             className="group flex flex-col items-center cursor-pointer"
           >
             <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none italic text-white">
-              Ember
+              {clientName(sessionData) ?? "Ember"}
             </span>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#ff4d00] -mt-1 ml-1">
-              Grill & Cellar
+              {clientName(sessionData) ? "" : "Grill & Cellar"}
             </span>
           </button>
 
@@ -1454,10 +1462,10 @@ export default function EmberGrillPage() {
             <Reveal>
               <div className="flex flex-col mb-12">
                 <span className="text-5xl font-black tracking-[-0.05em] uppercase leading-none italic text-white">
-                  Ember
+                  {clientName(sessionData) ?? "Ember"}
                 </span>
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#ff4d00] -mt-1 ml-1">
-                  Grill & Cellar
+                  {clientName(sessionData) ? "" : "Grill & Cellar"}
                 </span>
               </div>
               <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
