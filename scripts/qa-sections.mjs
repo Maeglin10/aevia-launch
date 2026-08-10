@@ -85,6 +85,24 @@ const BLOCS = {};
 for (const m of capacites.matchAll(/"(impact-[\w-]+)":\s*\[([^\]]*)\]/g)) {
   BLOCS[m[1]] = [...m[2].matchAll(/"([a-z]+)"/g)].map((x) => x[1]);
 }
+/*
+  Le thème qui appelle « clientReviews » affiche quelque chose des avis du
+  client, mais la table peut ne pas déclarer le bloc — et l'instrument saute
+  alors la vérification sans le dire. 216 thèmes étaient dans ce cas, 264
+  sections jamais regardées, et un rapport à zéro défaut qui ressemblait à un
+  produit sain.
+
+  BLOCS_FORCES pointe vers une table { "impact-01": ["avis"] } à ajouter aux
+  déclarations. On mesure d'abord, on ne complète capabilities.ts qu'ensuite,
+  sur ce qui s'affiche vraiment : le fichier a déjà été resserré cinq fois
+  parce qu'une heuristique déclarait des sections qui n'existaient pas.
+*/
+if (process.env.BLOCS_FORCES) {
+  const forces = JSON.parse(fs.readFileSync(process.env.BLOCS_FORCES, "utf8"));
+  for (const [id, blocs] of Object.entries(forces)) {
+    BLOCS[id] = [...new Set([...(BLOCS[id] ?? []), ...blocs])];
+  }
+}
 const DECLARE = {
   prestations: ["prestations", "tarifs"],
   "réalisations": ["realisations"],
