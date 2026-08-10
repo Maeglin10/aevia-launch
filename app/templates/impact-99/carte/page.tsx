@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 import { clientName } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -91,7 +93,7 @@ const MENU_HIGHLIGHTS = [
   },
 ];
 
-const PHILOSOPHY = [
+const PHILOSOPHY_DEMO_ANNEXE = [
   {
     title: "The Fire Lab",
     desc: "We utilize three distinct wood types—Hickory, Cherry, and Oak—to create a complex smoke profile unique to every cut.",
@@ -108,6 +110,11 @@ const PHILOSOPHY = [
     icon: ChefHat,
   },
 ];
+function PHILOSOPHY_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...PHILOSOPHY_DEMO_ANNEXE[i % PHILOSOPHY_DEMO_ANNEXE.length], title: s.title, desc: s.desc || "" || "" })), PHILOSOPHY_DEMO_ANNEXE);
+}
+let PHILOSOPHY = PHILOSOPHY_DEMO_ANNEXE;
+
 
 const STATS = [
   { label: "Wood Species", value: "3" },
@@ -1055,7 +1062,13 @@ export default function EmberGrillPage() {
   } | null>(null);
 
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => r.json())
@@ -1065,6 +1078,7 @@ export default function EmberGrillPage() {
 
   c = session?.generatedContent;
   sessionData = session;
+  PHILOSOPHY = PHILOSOPHY_LIVE();
 
   const [page, setPage] = useState<EmberPage>("carte");
   const [blogSlug, setBlogSlug] = useState<string | null>(null);

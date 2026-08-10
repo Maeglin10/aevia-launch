@@ -86,7 +86,7 @@ function ROOMS_LIVE() {
 }
 let ROOMS = ROOMS_LIVE();
 
-const EXPERIENCES = [
+const EXPERIENCES_DEMO_ANNEXE = [
   {
     label: "L\'Atelier",
     sub: 'Two Michelin Stars',
@@ -106,6 +106,16 @@ const EXPERIENCES = [
     img: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1000&q=85',
   },
 ];
+function EXPERIENCES_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({
+      label: s.title ?? s.name,
+      sub: EXPERIENCES_DEMO_ANNEXE[i % EXPERIENCES_DEMO_ANNEXE.length].sub,
+      desc: s.description ?? s.desc ?? EXPERIENCES_DEMO_ANNEXE[i % EXPERIENCES_DEMO_ANNEXE.length].desc,
+      img: EXPERIENCES_DEMO_ANNEXE[i % EXPERIENCES_DEMO_ANNEXE.length].img,
+    })), EXPERIENCES_DEMO_ANNEXE);
+}
+let EXPERIENCES = EXPERIENCES_DEMO_ANNEXE;
+
 
 const STATS = [
   { n: '1887', l: 'Founded' },
@@ -228,7 +238,7 @@ const ROOMS_FULL: RoomFull[] = [
 ];
 
 // ─── Hotel services / experiences (Services sub-page) ─────────────────────────
-const SERVICES = [
+const SERVICES_DEMO_ANNEXE = [
   {
     glyph: '✦',
     label: 'Espace Étoile',
@@ -278,6 +288,18 @@ const SERVICES = [
     points: ['Prestige saloons', 'English-speaking chauffeurs', 'Airport transfers', 'Bespoke excursions'],
   },
 ];
+function SERVICES_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({
+      glyph: SERVICES_DEMO_ANNEXE[i % SERVICES_DEMO_ANNEXE.length].glyph,
+      label: s.title ?? s.name,
+      sub: SERVICES_DEMO_ANNEXE[i % SERVICES_DEMO_ANNEXE.length].sub,
+      desc: s.description ?? s.desc ?? SERVICES_DEMO_ANNEXE[i % SERVICES_DEMO_ANNEXE.length].desc,
+      img: SERVICES_DEMO_ANNEXE[i % SERVICES_DEMO_ANNEXE.length].img,
+      points: SERVICES_DEMO_ANNEXE[i % SERVICES_DEMO_ANNEXE.length].points,
+    })), SERVICES_DEMO_ANNEXE);
+}
+let SERVICES = SERVICES_DEMO_ANNEXE;
+
 
 // ─── Blog mock data (EN — art of living / travel / gastronomy) ────────────────
 const BLOG_POSTS = [
@@ -2382,7 +2404,13 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
 export default function GrandPalaisPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -2396,6 +2424,8 @@ export default function GrandPalaisPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  SERVICES = SERVICES_LIVE();
+  EXPERIENCES = EXPERIENCES_LIVE();
   TESTIMONIALS = TESTIMONIALS_LIVE();
   ROOMS = ROOMS_LIVE();
 

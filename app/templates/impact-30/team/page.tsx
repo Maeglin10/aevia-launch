@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientTeam } from "@/lib/templates/clientContent";
 import { clientCity } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
@@ -16,7 +18,13 @@ let c: any = null;
 export default function TeamPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -29,7 +37,7 @@ export default function TeamPage() {
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
-  const members = [
+  const members_DEMO_ANNEXE = [
     {
       name: "Dr. Claire Laurent",
       role: "Chirurgienne-dentiste co-fondatrice",
@@ -73,6 +81,9 @@ export default function TeamPage() {
       description: "Spécialisée dans l'esthétique du sourire et la dentisterie conservatrice (dite a minima), le Dr Ramirez met son sens artistique au service des patients pour éclaircir ou restructurer les sourires de façon naturelle et élégante."
     }
   ];
+
+  const members = resolveList(clientTeam(sessionData)?.map((m: any, i: number) => ({ ...members_DEMO_ANNEXE[i % members_DEMO_ANNEXE.length], name: m.name, role: m.role ?? members_DEMO_ANNEXE[i % members_DEMO_ANNEXE.length].role, initials: m.name.split(/\s+/).map((p: string) => p[0] ?? "").join("").slice(0, 2).toUpperCase() })), members_DEMO_ANNEXE);
+
 
   return (
     <motion.div

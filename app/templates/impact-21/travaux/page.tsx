@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -32,7 +34,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const projectDetails = [
+const projectDetails_DEMO_ANNEXE = [
   {
     name: "Capsule Pro",
     category: "Packaging",
@@ -94,12 +96,23 @@ const projectDetails = [
     ergonomics: "Contrôle via application et geste, rotation silencieuse < 20 dB, consommation 12W. Capteur crépusculaire intégré pour une adaptation automatique.",
   },
 ];
+function projectDetails_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...projectDetails_DEMO_ANNEXE[i % projectDetails_DEMO_ANNEXE.length], name: s.title, description: s.desc || "" || "" })), projectDetails_DEMO_ANNEXE);
+}
+let projectDetails = projectDetails_DEMO_ANNEXE;
+
 
 
 export default function TravauxPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -111,6 +124,7 @@ export default function TravauxPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  projectDetails = projectDetails_LIVE();
 
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);

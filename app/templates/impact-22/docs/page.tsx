@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientFaq, clientServices } from "@/lib/templates/clientContent";
 import { clientName } from "@/lib/templates/clientContent";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
@@ -35,7 +37,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const features = [
+const features_DEMO_ANNEXE = [
   { icon: <Cloud className="w-6 h-6" />, title: "Cloud Inference", desc: "Exécutez n'importe quel modèle en millisecondes sur notre infrastructure distribuée dans 12 régions.", color: "#06B6D4" },
   { icon: <Cpu className="w-6 h-6" />, title: "GPU à la demande", desc: "A100, H100, L40S. Scalez de 0 à 1 000 GPU en 90 secondes avec auto-scaling intelligent.", color: "#8B5CF6" },
   { icon: <Zap className="w-6 h-6" />, title: "Latence < 100ms", desc: "Edge computing mondial. Vos modèles tournent au plus proche de vos utilisateurs finaux.", color: "#F59E0B" },
@@ -43,6 +45,11 @@ const features = [
   { icon: <Lock className="w-6 h-6" />, title: "Déploiement privé", desc: "VPC dédié, encryption at rest + in transit, conformité RGPD, HIPAA, SOC2 Type II.", color: "#EF4444" },
   { icon: <BarChart3 className="w-6 h-6" />, title: "Observabilité IA", desc: "Monitoring des coûts d'inférence, traces LLM, drift detection et alertes automatiques.", color: "#3B82F6" },
 ];
+function features_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...features_DEMO_ANNEXE[i % features_DEMO_ANNEXE.length], title: s.title, desc: s.desc || "" || "" })), features_DEMO_ANNEXE);
+}
+let features = features_DEMO_ANNEXE;
+
 
 const models = [
   { name: "LLaMA 3.1 405B", type: "LLM", latency: "90ms", cost: "0.70$ / 1M tokens", badge: "Recommandé" },
@@ -59,12 +66,17 @@ const pipeline = [
   { step: "Réponse", code: '{\n  "completion": "...",\n  "usage": {...},\n  "latency_ms": 88\n}', desc: "Résultat structuré avec métriques" },
 ];
 
-const faqs = [
+const faqs_DEMO_ANNEXE = [
   { q: "Quelle est la différence avec Azure OpenAI ou Bedrock ?", a: "Nimbus est model-agnostic : vous pouvez swapper des modèles open-source et propriétaires via une seule API. Pas de vendor lock-in, coûts jusqu'à 80% inférieurs." },
   { q: "Comment fonctionne la facturation ?", a: "Pay-as-you-go par token / image / seconde d'audio. Aucun engagement minimum. Volume discounts automatiques dès 10M tokens/mois." },
   { q: "Peut-on déployer nos propres modèles fine-tunés ?", a: "Oui. Upload via CLI ou S3-compatible API. Format GGUF, SafeTensors, ONNX. Votre modèle est privé et isolé dans votre namespace." },
   { q: "Quelle est la SLA uptime ?", a: "99.99% sur les endpoints production avec failover multi-région automatique. Compensations crédit si violation SLA." },
 ];
+function faqs_LIVE() {
+  return resolveList(clientFaq(sessionData)?.map((f: any, i: number) => ({ ...faqs_DEMO_ANNEXE[i % faqs_DEMO_ANNEXE.length], q: f.q, a: f.a })), faqs_DEMO_ANNEXE);
+}
+let faqs = faqs_DEMO_ANNEXE;
+
 
 /* ─── Nav item → page mapping ─── */
 const navMap: Record<string, ActivePage> = {
@@ -94,7 +106,13 @@ const footerLinkMap: Record<string, ActivePage> = {
 export default function NimbusAIDocsPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -106,6 +124,8 @@ export default function NimbusAIDocsPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  faqs = faqs_LIVE();
+  features = features_LIVE();
 
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);

@@ -1,4 +1,5 @@
 "use client";
+import { clientTeam, clientFaq } from "@/lib/templates/clientContent";
 import {
   clientCity,
   clientHours,
@@ -68,7 +69,7 @@ const EMERGENCY_SIGNS = [
   { label: "Abcès ou plaie ouverte", urgent: false },
 ];
 
-const GUARD_TEAM = [
+const GUARD_TEAM_DEMO_ANNEXE = [
   {
     name: "Dr. Lucas Martin",
     role: "Urgentiste — nuits & week-ends",
@@ -95,7 +96,13 @@ const GUARD_TEAM = [
   },
 ];
 
-const EMERGENCY_FAQ = [
+function GUARD_TEAM_LIVE() {
+  return resolveList(clientTeam(sessionData)?.map((m: any, i: number) => ({ ...GUARD_TEAM_DEMO_ANNEXE[i % GUARD_TEAM_DEMO_ANNEXE.length], name: m.name, role: m.role ?? GUARD_TEAM_DEMO_ANNEXE[i % GUARD_TEAM_DEMO_ANNEXE.length].role, initials: m.name.split(/\s+/).map((p: string) => p[0] ?? "").join("").slice(0, 2).toUpperCase() })), GUARD_TEAM_DEMO_ANNEXE);
+}
+let GUARD_TEAM = GUARD_TEAM_DEMO_ANNEXE;
+
+
+const EMERGENCY_FAQ_DEMO_ANNEXE = [
   {
     q: "Mon chien a mangé du chocolat — c'est une urgence ?",
     a: "Oui, surtout le chocolat noir et le cacao. La théobromine est toxique pour les chiens. Calculez le ratio : 50 mg/kg peut provoquer des convulsions. Si votre chien pèse 10 kg et a ingéré >20g de chocolat noir, appelez immédiatement. Plus tôt vous appelez, plus efficace est le traitement (vomissement provoqué dans les 2h).",
@@ -121,6 +128,13 @@ const EMERGENCY_FAQ = [
     a: "Oui. Dr. Nadia Sall est spécialisée aviculture. Un oiseau en détresse respiratoire (queue qui pompe, bec ouvert, position de pingouin) est une urgence extrême — leur métabolisme est très rapide. Appelez avant de vous déplacer car nous préparerons une couveuse chauffante et l'oxygène.",
   },
 ];
+
+
+function EMERGENCY_FAQ_LIVE() {
+  return resolveList(clientFaq(sessionData)?.map((x: any) => ({ q: x.q, a: x.a })), EMERGENCY_FAQ_DEMO_ANNEXE);
+}
+let EMERGENCY_FAQ = EMERGENCY_FAQ_DEMO_ANNEXE;
+
 
 function CONTACT_INFO_LIVE() {
   return [
@@ -1264,7 +1278,13 @@ function EmergencyFAQ() {
 export default function ContactPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -1277,6 +1297,8 @@ export default function ContactPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  EMERGENCY_FAQ = EMERGENCY_FAQ_LIVE();
+  GUARD_TEAM = GUARD_TEAM_LIVE();
   CONTACT_INFO = CONTACT_INFO_LIVE();
 
   return (

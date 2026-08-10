@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices, clientTeam } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 
@@ -25,32 +27,57 @@ const useFonts = () => {
   }, [])
 }
 
-const COURSES = [
+const COURSES_DEMO_ANNEXE = [
   { title: "Data Science & IA", level: "Intermédiaire", duration: "48h", students: "12 400", rating: 4.9, price: "199€", tag: "Populaire", color: "#7C3AED", category: "Données" },
   { title: "UX Design System", level: "Débutant", duration: "32h", students: "8 200", rating: 4.8, price: "149€", tag: "Nouveau", color: "#0EA5E9", category: "Design" },
   { title: "Full-Stack React/Node", level: "Avancé", duration: "64h", students: "9 800", rating: 4.9, price: "249€", tag: "Bestseller", color: "#10B981", category: "Tech" },
   { title: "Marketing Digital", level: "Débutant", duration: "24h", students: "15 600", rating: 4.7, price: "99€", tag: "Certifiant", color: "#F59E0B", category: "Business" },
-]
+];
+
+function COURSES_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...COURSES_DEMO_ANNEXE[i % COURSES_DEMO_ANNEXE.length], title: s.title, price: s.price ?? COURSES_DEMO_ANNEXE[i % COURSES_DEMO_ANNEXE.length].price })), COURSES_DEMO_ANNEXE);
+}
+let COURSES = COURSES_DEMO_ANNEXE;
+
 
 const CATEGORIES = ["Tous", "Tech", "Design", "Business", "Données", "Créativité"]
 
-const INSTRUCTORS = [
+const INSTRUCTORS_DEMO_ANNEXE = [
   { name: "Dr. Lucas Martin", specialty: "Data Science & ML", courses: 12, students: "42k", rating: 4.9, bio: "Ancien chercheur en IA chez Google, spécialiste de l'apprentissage profond et de l'architecture des réseaux de neurones." },
   { name: "Emma Chartier", specialty: "UX/UI Design", courses: 8, students: "28k", rating: 4.8, bio: "Designer produit Senior passée par Apple et Airbnb. Passionnée d'accessibilité et de design systems évolutifs." },
   { name: "Théo Bernardin", specialty: "Développement Web", courses: 15, students: "61k", rating: 4.9, bio: "Développeur Core dans l'équipe Next.js. Expert en performance web et architectures serverless à haute disponibilité." },
-]
+];
 
-const PLANS = [
+function INSTRUCTORS_LIVE() {
+  return resolveList(clientTeam(sessionData)?.map((m: any, i: number) => ({ ...INSTRUCTORS_DEMO_ANNEXE[i % INSTRUCTORS_DEMO_ANNEXE.length], name: m.name, specialty: m.role ?? INSTRUCTORS_DEMO_ANNEXE[i % INSTRUCTORS_DEMO_ANNEXE.length].specialty })), INSTRUCTORS_DEMO_ANNEXE);
+}
+let INSTRUCTORS = INSTRUCTORS_DEMO_ANNEXE;
+
+
+const PLANS_DEMO_ANNEXE = [
   { name: "Starter", price: "29", period: "mois", features: ["50 cours inclus", "Projets pratiques", "Forum communauté", "Certificat de suivi"], cta: "Commencer", highlight: false },
   { name: "Pro", price: "79", period: "mois", features: ["Tous les cours", "Mentoring mensuel", "Projets guidés", "Certificats officiels", "Support prioritaire"], cta: "Essai 7 jours gratuit", highlight: true },
   { name: "Équipe", price: "199", period: "mois", features: ["10 sièges inclus", "Dashboard équipe", "Rapports de progression", "Onboarding dédié", "Formateur attitré"], cta: "Contacter l'équipe", highlight: false },
-]
+];
+
+
+function PLANS_LIVE() {
+  return resolveList(clientServices(sessionData)?.filter((s: any) => s.price).map((s: any, i: number) => ({ ...PLANS_DEMO_ANNEXE[i % PLANS_DEMO_ANNEXE.length], name: s.title, price: s.price })), PLANS_DEMO_ANNEXE);
+}
+let PLANS = PLANS_DEMO_ANNEXE;
+
 
 
 export default function Page() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -62,6 +89,9 @@ export default function Page() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  PLANS = PLANS_LIVE();
+  INSTRUCTORS = INSTRUCTORS_LIVE();
+  COURSES = COURSES_LIVE();
 
   useFonts()
   const [mobileOpen, setMobileOpen] = useState(false)

@@ -1,4 +1,6 @@
 "use client"
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientTeam } from "@/lib/templates/clientContent";
 
 import { useEffect, useState } from "react";
 import { clientCity } from "@/lib/templates/clientContent";
@@ -20,7 +22,7 @@ let c: any = null;
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const crew = [
+const crew_DEMO_ANNEXE = [
   {
     name: "Valentin Milliand",
     role: "Creative Director & Tech Lead",
@@ -53,7 +55,13 @@ const crew = [
     tags: ["ARKit", "WebXR", "TensorFlow.js"],
     linkedin: "#",
   },
-]
+];
+
+function crew_LIVE() {
+  return resolveList(clientTeam(sessionData)?.map((m: any, i: number) => ({ ...crew_DEMO_ANNEXE[i % crew_DEMO_ANNEXE.length], name: m.name, role: m.role ?? crew_DEMO_ANNEXE[i % crew_DEMO_ANNEXE.length].role })), crew_DEMO_ANNEXE);
+}
+let crew = crew_DEMO_ANNEXE;
+
 
 const awards = [
   { title: "FWA of the Day", category: "WebGL Product Configurator — Phantom Motors", year: "2025" },
@@ -63,7 +71,7 @@ const awards = [
   { title: "Smashing Magazine Feature", category: "Annual WebGL Innovation Showcase", year: "2023" },
 ]
 
-const techStack = [
+const techStack_DEMO_ANNEXE = [
   {
     category: "Rendering",
     icon: <Triangle className="w-5 h-5" />,
@@ -118,7 +126,12 @@ const techStack = [
       { name: "WebWorkers", desc: "Zero main-thread data processing for 60 FPS guarantee.", level: 91 },
     ],
   },
-]
+];
+function techStack_LIVE() {
+  return resolveList(clientTeam(sessionData)?.map((m: any, i: number) => ({ ...techStack_DEMO_ANNEXE[i % techStack_DEMO_ANNEXE.length], name: m.name, role: m.role })), techStack_DEMO_ANNEXE);
+}
+let techStack = techStack_DEMO_ANNEXE;
+
 
 const values = [
   {
@@ -286,7 +299,13 @@ function StudioTimeline() {
 export default function StudioPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -299,6 +318,8 @@ export default function StudioPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  crew = crew_LIVE();
+  techStack = techStack_LIVE();
   timeline = timeline_LIVE();
 
   return (

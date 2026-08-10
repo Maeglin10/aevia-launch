@@ -288,7 +288,13 @@ export default function Page({ session: initialSession }) {
   // never actually given a `session` prop by Next.js routing — it must fetch
   // its own from /templates/impact-314?session=<id>, otherwise fd stays null.
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => r.json())

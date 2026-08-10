@@ -406,7 +406,13 @@ export default function PlumberDarkUrgent() {
   // Without this, fd.logoBase64 / fd.photoUrls / fd.businessName below never
   // receive real data outside of a same-browser localStorage fallback.
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => r.json())

@@ -1,4 +1,6 @@
 'use client';
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -16,7 +18,13 @@ let c: any = null;
 export default function ProductionPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -29,7 +37,7 @@ export default function ProductionPage() {
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
-  const services = [
+  const services_DEMO_ANNEXE = [
     {
       icon: <Music size={24} color={C.accent} />,
       title: "Beat Production",
@@ -86,6 +94,9 @@ export default function ProductionPage() {
       color: "#06b6d4",
     },
   ];
+
+  const services = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...services_DEMO_ANNEXE[i % services_DEMO_ANNEXE.length], title: s.title, desc: s.desc || services_DEMO_ANNEXE[i % services_DEMO_ANNEXE.length].desc })), services_DEMO_ANNEXE);
+
 
   return (
     <div style={{ minHeight: "100dvh", backgroundColor: C.bg, paddingTop: "4rem" }}>

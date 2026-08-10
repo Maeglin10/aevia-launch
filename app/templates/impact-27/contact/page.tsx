@@ -1,4 +1,6 @@
 "use client"
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientFaq } from "@/lib/templates/clientContent";
 
 import { useCallback, useEffect, useState } from "react";
 import { clientCity } from "@/lib/templates/clientContent";
@@ -40,7 +42,7 @@ const TIMELINE_OPTIONS = [
   { id: "t4", label: "6 months+", desc: "Strategic partnership" },
 ]
 
-const FAQ = [
+const FAQ_DEMO_ANNEXE = [
   {
     q: "How quickly do you respond?",
     a: "We reply to every inquiry within 24 business hours. If your project is urgent, mention it in the brief and we'll fast-track the conversation.",
@@ -57,7 +59,13 @@ const FAQ = [
     q: "Do you sign NDAs?",
     a: "Yes, we sign NDAs before discussing any proprietary details. Send us a request and we'll turn it around within the same day.",
   },
-]
+];
+
+function FAQ_LIVE() {
+  return resolveList(clientFaq(sessionData)?.map((x: any) => ({ q: x.q, a: x.a })), FAQ_DEMO_ANNEXE);
+}
+let FAQ = FAQ_DEMO_ANNEXE;
+
 
 // ─── Form State Types ─────────────────────────────────────────────────────────
 
@@ -529,7 +537,13 @@ function MultiStepForm() {
 export default function ContactPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("session");
+    let id = new URLSearchParams(window.location.search).get("session");
+    /* La navigation interne perd le paramètre : on retient la session par thème. */
+    try {
+      const cleSession = "apercu-session:" + window.location.pathname.split("/")[2];
+      if (id) sessionStorage.setItem(cleSession, id);
+      else id = sessionStorage.getItem(cleSession);
+    } catch {}
     if (!id) return;
     fetch(`/api/sessions?id=${id}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -541,6 +555,7 @@ export default function ContactPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  FAQ = FAQ_LIVE();
 
   return (
     <div className="relative min-h-dvh">
