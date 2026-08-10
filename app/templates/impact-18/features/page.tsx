@@ -1,4 +1,6 @@
 "use client";
+import { clientServices } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 import { clientCity } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -48,7 +50,7 @@ export default function FeaturesPage() {
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const features = [
+  const features_DEMO_ANNEXE = [
     { icon: <Zap className="w-5 h-5" />, title: "Automatisation intelligente", desc: "Automatisez vos workflows en quelques clics. Connectez vos outils préférés sans code.", color: "#3B82F6" },
     { icon: <BarChart3 className="w-5 h-5" />, title: "Analytics en temps réel", desc: "Tableaux de bord personnalisables avec vos KPIs les plus importants mis à jour en direct.", color: "#8B5CF6" },
     { icon: <Users className="w-5 h-5" />, title: "Collaboration d'équipe", desc: "Travaillez ensemble avec des espaces de travail partagés, commentaires et permissions granulaires.", color: "#06B6D4" },
@@ -56,6 +58,8 @@ export default function FeaturesPage() {
     { icon: <Globe className="w-5 h-5" />, title: "Intégrations natives", desc: "Connectez-vous à +350 applications : Slack, Salesforce, HubSpot, Notion, et plus.", color: "#F59E0B" },
     { icon: <Code2 className="w-5 h-5" />, title: "API & Webhooks", desc: "Une API REST complète et des webhooks pour construire des intégrations sur mesure.", color: "#EF4444" },
   ];
+  const features = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...features_DEMO_ANNEXE[i % features_DEMO_ANNEXE.length], title: s.title, desc: s.desc || features_DEMO_ANNEXE[i % features_DEMO_ANNEXE.length].desc })), features_DEMO_ANNEXE);
+
 
   return (
     <div className="min-h-dvh bg-[#0D1117] text-white overflow-x-clip flex flex-col" style={{ fontFamily: "'Inter', sans-serif" }}>

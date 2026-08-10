@@ -1,4 +1,6 @@
 "use client";
+import { clientMenu } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -62,12 +64,14 @@ export default function CartePage() {
     { name: "Assiette de fromages affinés", desc: "Sélection par notre maître fromager : Comté, Époisses, Saint-Nectaire fermier, Roquefort Papillon", price: "18€" },
   ];
 
-  const vins = [
+  const vins_DEMO_ANNEXE = [
     { name: "Gevrey-Chambertin 1er Cru", producer: "Domaine Rossignol-Trapet", appellation: "Bourgogne Rouge", vintage: "2019", price: "145€" },
     { name: "Puligny-Montrachet Les Pucelles", producer: "Domaine Leflaive", appellation: "Bourgogne Blanc", vintage: "2020", price: "210€" },
     { name: "Côte-Rôtie La Mouline", producer: "Guigal", appellation: "Rhône Nord", vintage: "2018", price: "185€" },
     { name: "Sauternes Premier Cru Classé", producer: "Château d'Yquem", appellation: "Sauternes Liquoreux", vintage: "2017", price: "290€" },
   ];
+  const vins = resolveList(clientMenu(sessionData)?.map((m: any, i: number) => ({ ...vins_DEMO_ANNEXE[i % vins_DEMO_ANNEXE.length], name: m.name, price: m.price ?? vins_DEMO_ANNEXE[i % vins_DEMO_ANNEXE.length].price })), vins_DEMO_ANNEXE);
+
 
   const Section = ({ title, items, isWine = false }: { title: string; items: any[]; isWine?: boolean }) => (
     <SectionReveal>
