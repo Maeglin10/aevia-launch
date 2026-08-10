@@ -99,6 +99,29 @@ fouillées (exfiltration, `eval(atob(`, jetons), puis `npm ci` depuis le verrou.
 Les 4 vulnérabilités restantes vivent dans `eslint`, `puppeteer` et `shadcn`,
 jamais livrés.
 
+## Ce que la démonstration garde, et pourquoi
+
+`qa-demo-residuelle.mjs` part de la page et non du code : on remplit tout ce
+que le formulaire propose, et l'on relève ce que la démonstration continue
+d'afficher. C'est l'instrument qui manquait — les autres partaient du contrat
+(« telle section lit-elle telle fonction ») et ne voyaient donc que ce qui
+était déjà câblé.
+
+59 listes ont survécu à un profil complet. **31 ont été câblées** : ce que le
+client vend (boutique, collections, montres, flotte, matériaux, menus, vins),
+ce qu'il propose (chambres, espaces, spécialités, missions, secteurs,
+destinations, expériences, projets, formules, fonctionnalités), qui il est
+(quatre équipes), ce qu'il organise (les événements), ses distinctions.
+
+**28 restent au thème, par décision assumée** : étapes d'une méthode, valeurs
+d'une maison, piliers, jalons d'histoire, signaux de confiance, options de
+mouture d'un torréfacteur, gestes d'un savoir-faire. Un client ne les saisit
+nulle part et ne le devrait pas — elles font le modèle. Deux cas regardés puis
+laissés : `impact-29/contact` porte déjà l'e-mail du client, ses autres entrées
+sont des comptes GitHub et LinkedIn que le formulaire ne collecte pas ;
+`impact-32/services` liste les assurances acceptées d'un vétérinaire, un fait
+d'entreprise sans champ correspondant.
+
 ## Les garde-fous ajoutés
 
 - `check-hooks-dans-jsx.mjs` — un hook en valeur de propriété d'objet. 0/373.
