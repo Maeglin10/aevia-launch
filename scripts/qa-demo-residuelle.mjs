@@ -64,6 +64,14 @@ function temoinsDeDemonstration(src) {
     const nom = brut.replace(/_DEMO_ANNEXE$/, "");
     // Seules les listes rendues comptent : une constante morte n'est pas un défaut.
     if (!new RegExp(`\\{\\s*${nom}\\s*\\.(map|slice)|${nom}\\.(map|slice)\\(`).test(src)) continue;
+    /*
+      Une liste déjà câblée n'est plus un défaut, même si son témoin réapparaît
+      ailleurs dans la page : « FWA of the Day » vit aussi dans une frise
+      chronologique d'impact-27, « Tyrant GT » dans un paragraphe d'impact-08.
+      Chercher la chaîne partout faisait déclarer fautives des sections qui
+      affichent bel et bien la donnée du client — vérifié à la main sur les deux.
+    */
+    if (new RegExp(`\\b${nom}\\s*=\\s*resolveList\\(|function\\s+${nom}_LIVE\\b`).test(src)) continue;
     // Navigation, réseaux, colonnes de pied de page : au thème, par dessein.
     if (/^(NAV|LINKS?|SOCIAL|FOOTER|MENU_PAGES|PAGES|ROUTES|positions|socials|footerCols|navItems)/i.test(nom)) continue;
     // Les articles de blog ne sont pas remplis au formulaire.
