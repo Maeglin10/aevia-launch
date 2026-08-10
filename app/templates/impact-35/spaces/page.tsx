@@ -1,4 +1,6 @@
 "use client"
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 
 import React from "react"
 import { useEffect, useState } from "react";
@@ -12,7 +14,7 @@ let fd: any = null;
 let bp: any = null;
 let c: any = null;
 
-const SPACES_DATA = [
+const SPACES_DATA_DEMO_ANNEXE = [
   {
     id: "openspace",
     name: "Open Space",
@@ -68,7 +70,12 @@ const SPACES_DATA = [
     cta: "Organiser un événement",
     href: "/templates/impact-35/pricing#visite",
   },
-]
+];
+function SPACES_DATA_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPACES_DATA_DEMO_ANNEXE[i % SPACES_DATA_DEMO_ANNEXE.length], name: s.title, tagline: s.desc || SPACES_DATA_DEMO_ANNEXE[i % SPACES_DATA_DEMO_ANNEXE.length].tagline })), SPACES_DATA_DEMO_ANNEXE);
+}
+let SPACES_DATA = SPACES_DATA_DEMO_ANNEXE;
+
 
 
 export default function SpacesPage() {
@@ -92,6 +99,7 @@ export default function SpacesPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  SPACES_DATA = SPACES_DATA_LIVE();
 
   return (
     <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>

@@ -1,4 +1,6 @@
 'use client';
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientCertifications } from "@/lib/templates/clientContent";
 import {
   clientCity,
 } from "@/lib/templates/clientContent";
@@ -22,13 +24,18 @@ let bp: any = null;
 let c: any = null;
 
 // ── Awards data ──────────────────────────────────────────────────────────────
-const AWARDS = [
+const AWARDS_DEMO_ANNEXE = [
   { n: '01', title: 'AWWWARDS Site of the Year', year: '2023', org: 'AWWWARDS' },
   { n: '02', title: 'D&AD Silver Pencil', year: '2024', org: 'D&AD' },
   { n: '03', title: 'CSS Design Awards', year: '2024', org: 'CSSDA' },
   { n: '04', title: 'Red Dot Award — Communication Design', year: '2023', org: 'Red Dot' },
   { n: '05', title: 'Cannes Lions Bronze', year: '2024', org: 'Cannes Lions' },
 ];
+function AWARDS_LIVE() {
+  return resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...AWARDS_DEMO_ANNEXE[i % AWARDS_DEMO_ANNEXE.length], title: typeof x === "string" ? x : (x.name ?? x.title) })), AWARDS_DEMO_ANNEXE);
+}
+let AWARDS = AWARDS_DEMO_ANNEXE;
+
 
 // ── Avatar initials ──────────────────────────────────────────────────────────
 function getInitials(name: string): string {
@@ -249,6 +256,7 @@ export default function StudioPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  AWARDS = AWARDS_LIVE();
 
   return (
     <div style={{ background: C.bg, minHeight: '100dvh' }}>

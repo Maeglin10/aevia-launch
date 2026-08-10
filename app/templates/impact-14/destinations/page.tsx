@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -11,7 +13,7 @@ let fd: any = null;
 let bp: any = null;
 let c: any = null;
 
-const ALL_DESTINATIONS = [
+const ALL_DESTINATIONS_DEMO_ANNEXE = [
   {
     name: "Monaco",
     region: "French Riviera",
@@ -55,6 +57,11 @@ const ALL_DESTINATIONS = [
     desc: "Glacier expedition cruising with arctic luxury amenities, private heliskiing guides, and aurora viewing decks."
   }
 ];
+function ALL_DESTINATIONS_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...ALL_DESTINATIONS_DEMO_ANNEXE[i % ALL_DESTINATIONS_DEMO_ANNEXE.length], name: s.title, desc: s.desc || ALL_DESTINATIONS_DEMO_ANNEXE[i % ALL_DESTINATIONS_DEMO_ANNEXE.length].desc })), ALL_DESTINATIONS_DEMO_ANNEXE);
+}
+let ALL_DESTINATIONS = ALL_DESTINATIONS_DEMO_ANNEXE;
+
 
 
 export default function DestinationsPage() {
@@ -78,6 +85,7 @@ export default function DestinationsPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  ALL_DESTINATIONS = ALL_DESTINATIONS_LIVE();
 
   return (
     <div style={{ minHeight: "100dvh", background: "#0a1520", color: "#f0ece0", fontFamily: "'Montserrat', sans-serif", padding: "120px 24px" }}>

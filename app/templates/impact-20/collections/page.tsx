@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientProducts } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
@@ -11,7 +13,7 @@ let fd: any = null;
 let bp: any = null;
 let c: any = null;
 
-const PRODUCTS = [
+const PRODUCTS_DEMO_ANNEXE = [
   {
     name: "Solitaire Éternité",
     subtitle: "La pureté absolue",
@@ -61,6 +63,11 @@ const PRODUCTS = [
     image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80",
   },
 ];
+function PRODUCTS_LIVE() {
+  return resolveList(clientProducts(sessionData)?.map((p: any, i: number) => ({ ...PRODUCTS_DEMO_ANNEXE[i % PRODUCTS_DEMO_ANNEXE.length], name: p.name, price: p.price ?? PRODUCTS_DEMO_ANNEXE[i % PRODUCTS_DEMO_ANNEXE.length].price })), PRODUCTS_DEMO_ANNEXE);
+}
+let PRODUCTS = PRODUCTS_DEMO_ANNEXE;
+
 
 
 export default function CollectionsPage() {
@@ -84,6 +91,7 @@ export default function CollectionsPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  PRODUCTS = PRODUCTS_LIVE();
 
   return (
     <div

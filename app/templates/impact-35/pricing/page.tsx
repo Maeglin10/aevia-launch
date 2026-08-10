@@ -52,7 +52,7 @@ export default function PricingPage() {
     }
   }
 
-  const plans = [
+  const plans_DEMO_ANNEXE = [
     {
       name: "Day Pass",
       price: billing === "mensuel" ? "25" : "21",
@@ -110,7 +110,9 @@ export default function PricingPage() {
       highlight: false,
       note: null,
     },
-  ]
+  ];
+  const plans = resolveList(clientServices(sessionData)?.filter((s: any) => s.price).map((s: any, i: number) => ({ ...plans_DEMO_ANNEXE[i % plans_DEMO_ANNEXE.length], name: s.title, price: s.price })), plans_DEMO_ANNEXE);
+
 
   const meetingRoom = {
     heure: "35",

@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientCertifications } from "@/lib/templates/clientContent";
 import {
   clientCity,
 } from "@/lib/templates/clientContent";
@@ -35,11 +37,16 @@ const useFonts = () => {
   }, [])
 }
 
-const AWARDS = [
+const AWARDS_DEMO_ANNEXE = [
   { name: "World Photography Awards", year: "2025", category: "Portrait" },
   { name: "IPA — International Photography Awards", year: "2024", category: "Mode" },
   { name: "Prix Roger-Viollet", year: "2023", category: "Reportage" },
-]
+];
+function AWARDS_LIVE() {
+  return resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...AWARDS_DEMO_ANNEXE[i % AWARDS_DEMO_ANNEXE.length], title: typeof x === "string" ? x : (x.name ?? x.title) })), AWARDS_DEMO_ANNEXE);
+}
+let AWARDS = AWARDS_DEMO_ANNEXE;
+
 
 const CLIENTS = ["Vogue France", "Le Monde", "LVMH", "Chanel", "Elle", "Air France"]
 
@@ -65,6 +72,7 @@ export default function ProposPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  AWARDS = AWARDS_LIVE();
 
   useFonts()
   const [mobileOpen, setMobileOpen] = useState(false)

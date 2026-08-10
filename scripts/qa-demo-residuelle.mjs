@@ -54,7 +54,14 @@ function temoinsDeDemonstration(src) {
   const out = [];
   const re = /(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*(?::[^=]+)?=\s*\[\s*\{/g;
   for (const m of [...src.matchAll(re)]) {
-    const nom = m[1];
+    const brut = m[1];
+    /*
+      Une liste câblée garde sa démonstration sous `X_DEMO_ANNEXE` et rend `X`.
+      Sans reconnaître ce nom, l'instrument cesse de regarder les pages qu'on
+      vient de corriger — et annonce zéro parce qu'il ne mesure plus rien.
+      C'est précisément ainsi qu'un instrument ment.
+    */
+    const nom = brut.replace(/_DEMO_ANNEXE$/, "");
     // Seules les listes rendues comptent : une constante morte n'est pas un défaut.
     if (!new RegExp(`\\{\\s*${nom}\\s*\\.(map|slice)|${nom}\\.(map|slice)\\(`).test(src)) continue;
     // Navigation, réseaux, colonnes de pied de page : au thème, par dessein.

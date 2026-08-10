@@ -1,4 +1,6 @@
 "use client"
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 
 import React from "react"
 import { useEffect, useState } from "react";
@@ -13,7 +15,7 @@ let fd: any = null;
 let bp: any = null;
 let c: any = null;
 
-const DETAIL_FEATURES = [
+const DETAIL_FEATURES_DEMO_ANNEXE = [
   {
     id: "host",
     icon: Mic,
@@ -98,7 +100,12 @@ const DETAIL_FEATURES = [
       "Player audio universel personnalisable en couleur",
     ],
   },
-]
+];
+function DETAIL_FEATURES_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...DETAIL_FEATURES_DEMO_ANNEXE[i % DETAIL_FEATURES_DEMO_ANNEXE.length], title: s.title, desc: s.desc || DETAIL_FEATURES_DEMO_ANNEXE[i % DETAIL_FEATURES_DEMO_ANNEXE.length].desc })), DETAIL_FEATURES_DEMO_ANNEXE);
+}
+let DETAIL_FEATURES = DETAIL_FEATURES_DEMO_ANNEXE;
+
 
 
 export default function FeaturesPage() {
@@ -122,6 +129,7 @@ export default function FeaturesPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  DETAIL_FEATURES = DETAIL_FEATURES_LIVE();
 
   return (
     <div className="py-20 px-6 max-w-7xl mx-auto">

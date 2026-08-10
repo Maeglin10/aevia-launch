@@ -113,7 +113,7 @@ const EQUIPMENT = [
   },
 ];
 
-const SPECIALTIES_DETAIL = [
+const SPECIALTIES_DETAIL_DEMO_ANNEXE = [
   {
     id: "chirurgie",
     icon: <Syringe size={28} color={C.accent} />,
@@ -195,6 +195,11 @@ const SPECIALTIES_DETAIL = [
     recovery: "Hospitalisation 24h si nécessaire",
   },
 ];
+function SPECIALTIES_DETAIL_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPECIALTIES_DETAIL_DEMO_ANNEXE[i % SPECIALTIES_DETAIL_DEMO_ANNEXE.length], title: s.title, summary: s.desc || SPECIALTIES_DETAIL_DEMO_ANNEXE[i % SPECIALTIES_DETAIL_DEMO_ANNEXE.length].summary, price: s.price ?? SPECIALTIES_DETAIL_DEMO_ANNEXE[i % SPECIALTIES_DETAIL_DEMO_ANNEXE.length].price })), SPECIALTIES_DETAIL_DEMO_ANNEXE);
+}
+let SPECIALTIES_DETAIL = SPECIALTIES_DETAIL_DEMO_ANNEXE;
+
 
 // ─── Hero Section ─────────────────────────────────────────────────────────────
 function ServicesHero() {
@@ -892,6 +897,7 @@ export default function ServicesPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  SPECIALTIES_DETAIL = SPECIALTIES_DETAIL_LIVE();
   PROCESS_STEPS = PROCESS_STEPS_LIVE();
 
   return (

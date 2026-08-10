@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
@@ -33,7 +35,7 @@ export default function ResearchPage() {
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
-  const sectors = [
+  const sectors_DEMO_ANNEXE = [
     {
       title: "Aerospace & Satellites",
       tag: "ORBITAL SYSTEMS",
@@ -53,6 +55,8 @@ export default function ResearchPage() {
       specs: ["Zero saltwater degradation", "Anti-cavitation profiles", "Integrated load-sensors"],
     },
   ];
+  const sectors = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...sectors_DEMO_ANNEXE[i % sectors_DEMO_ANNEXE.length], title: s.title, desc: s.desc || sectors_DEMO_ANNEXE[i % sectors_DEMO_ANNEXE.length].desc })), sectors_DEMO_ANNEXE);
+
 
   return (
     <div className="bg-[#050505] text-[#888] font-sans min-h-dvh py-24 px-6 relative">

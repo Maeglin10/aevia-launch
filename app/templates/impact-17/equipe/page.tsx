@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientTeam } from "@/lib/templates/clientContent";
 import {
   clientCity,
 } from "@/lib/templates/clientContent";
@@ -25,11 +27,16 @@ const useFonts = () => {
   }, []);
 };
 
-const team = [
+const team_DEMO_ANNEXE = [
   { name: "Nadia Kéops", role: "Architecte Fondatrice", years: "22 ans", citation: "L'architecture n'est pas seulement esthétique, c'est l'art d'habiter le monde avec respect." },
   { name: "Luc Ferrand", role: "Associé — Construction", years: "16 ans", citation: "Chaque pierre posée doit avoir une fonction, chaque espace une raison d'être." },
   { name: "Amina Belkacem", role: "Architecte DPLG", years: "9 ans", citation: "Concevoir des lieux de rencontre fluides qui s'intègrent organiquement dans la ville." },
 ];
+function team_LIVE() {
+  return resolveList(clientTeam(sessionData)?.map((m: any, i: number) => ({ ...team_DEMO_ANNEXE[i % team_DEMO_ANNEXE.length], name: m.name, role: m.role ?? team_DEMO_ANNEXE[i % team_DEMO_ANNEXE.length].role })), team_DEMO_ANNEXE);
+}
+let team = team_DEMO_ANNEXE;
+
 
 
 export default function EquipePage() {
@@ -53,6 +60,7 @@ export default function EquipePage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  team = team_LIVE();
 
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);

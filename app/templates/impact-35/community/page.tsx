@@ -1,4 +1,5 @@
 "use client"
+import { clientTeam, clientServices } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 import { clientReviews } from "@/lib/templates/clientContent";
 
@@ -14,16 +15,21 @@ let fd: any = null;
 let bp: any = null;
 let c: any = null;
 
-const MEMBERS_DATA = [
+const MEMBERS_DATA_DEMO_ANNEXE = [
   { name: "Luminary SaaS", type: "Startup B2B", founding: "2023", avatar: "LS", color: "#3b82f6" },
   { name: "Sophie M.", type: "Freelance Design", founding: "2021", avatar: "SM", color: "#ec4899" },
   { name: "FinPath", type: "Scale-up Fintech", founding: "2020", avatar: "FP", color: "#8b5cf6" },
   { name: "Studio Krea", type: "Agence Créative", founding: "2022", avatar: "SK", color: "#f59e0b" },
   { name: "Marc Chen", type: "Consultant Stratégie", founding: "2019", avatar: "MC", color: "#14b8a6" },
   { name: "DataFlow", type: "Scale-up Data", founding: "2021", avatar: "DF", color: C.accent },
-]
+];
+function MEMBERS_DATA_LIVE() {
+  return resolveList(clientTeam(sessionData)?.map((m: any, i: number) => ({ ...MEMBERS_DATA_DEMO_ANNEXE[i % MEMBERS_DATA_DEMO_ANNEXE.length], name: m.name })), MEMBERS_DATA_DEMO_ANNEXE);
+}
+let MEMBERS_DATA = MEMBERS_DATA_DEMO_ANNEXE;
 
-const EVENTS_DATA = [
+
+const EVENTS_DATA_DEMO_ANNEXE = [
   {
     date: "19 Juin",
     title: "Workshop Design Thinking",
@@ -48,7 +54,12 @@ const EVENTS_DATA = [
     color: "#8b5cf6",
     desc: "5 minutes pour présenter votre projet à des investisseurs et mentors.",
   },
-]
+];
+function EVENTS_DATA_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...EVENTS_DATA_DEMO_ANNEXE[i % EVENTS_DATA_DEMO_ANNEXE.length], title: s.title, desc: s.desc || EVENTS_DATA_DEMO_ANNEXE[i % EVENTS_DATA_DEMO_ANNEXE.length].desc })), EVENTS_DATA_DEMO_ANNEXE);
+}
+let EVENTS_DATA = EVENTS_DATA_DEMO_ANNEXE;
+
 
 const TESTIMONIALS_DATA_DEMO_ANNEXE = [
   {
@@ -99,6 +110,8 @@ export default function CommunityPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  MEMBERS_DATA = MEMBERS_DATA_LIVE();
+  EVENTS_DATA = EVENTS_DATA_LIVE();
   TESTIMONIALS_DATA = TESTIMONIALS_DATA_LIVE();
 
   return (

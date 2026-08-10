@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientProducts } from "@/lib/templates/clientContent";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -41,7 +43,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 };
 
 function CollectionsSubPage({ activeCol, setActiveCol }: { activeCol: number; setActiveCol: (i: number) => void }) {
-  const collectionsList = [
+  const collectionsList_DEMO_ANNEXE = [
     {
       name: "Couture Noire",
       season: "SS 2026",
@@ -67,6 +69,8 @@ function CollectionsSubPage({ activeCol, setActiveCol }: { activeCol: number; se
       image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80",
     }
   ];
+  const collectionsList = resolveList(clientProducts(sessionData)?.map((p: any, i: number) => ({ ...collectionsList_DEMO_ANNEXE[i % collectionsList_DEMO_ANNEXE.length], name: p.name, desc: p.description ?? p.desc ?? collectionsList_DEMO_ANNEXE[i % collectionsList_DEMO_ANNEXE.length].desc })), collectionsList_DEMO_ANNEXE);
+
 
   return (
     <section className="py-32 px-6 bg-black text-white min-h-dvh">

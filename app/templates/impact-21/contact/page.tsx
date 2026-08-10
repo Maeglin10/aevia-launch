@@ -1,4 +1,6 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
+import { clientServices } from "@/lib/templates/clientContent";
 import { clientCity } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
@@ -32,7 +34,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const pricingTiers = [
+const pricingTiers_DEMO_ANNEXE = [
   {
     name: "Essentiel",
     price: "3 500 €",
@@ -53,6 +55,11 @@ const pricingTiers = [
     features: ["Audit design complet", "Direction artistique", "Prototypage illimité", "Suivi fournisseurs", "Assets marketing", "Support 12 mois"],
   },
 ];
+function pricingTiers_LIVE() {
+  return resolveList(clientServices(sessionData)?.filter((s: any) => s.price).map((s: any, i: number) => ({ ...pricingTiers_DEMO_ANNEXE[i % pricingTiers_DEMO_ANNEXE.length], name: s.title, price: s.price, desc: s.desc || pricingTiers_DEMO_ANNEXE[i % pricingTiers_DEMO_ANNEXE.length].desc })), pricingTiers_DEMO_ANNEXE);
+}
+let pricingTiers = pricingTiers_DEMO_ANNEXE;
+
 
 
 export default function ContactPage() {
@@ -76,6 +83,7 @@ export default function ContactPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  pricingTiers = pricingTiers_LIVE();
 
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);
