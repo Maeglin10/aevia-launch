@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { put } from "@vercel/blob";
 import * as Sentry from "@sentry/nextjs";
 import { SITE_PRICES, ADDONS, priceIn, isCurrency, type Currency } from "@/lib/pricing";
+import { decouper, prixDe } from "@/lib/domains/pricing";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -58,8 +59,14 @@ export async function POST(req: NextRequest) {
       branding?: string | number | boolean;
       currency?: string;
       brief?: Record<string, unknown>;
+      /*
+        Le nom de domaine que le client a choisi et accepté de payer, avec son
+        prix affiché. Absent s'il a préféré rester sur une adresse en
+        .vercel.app — le domaine est une option, jamais un péage.
+      */
+      domaine?: { nom?: unknown; prix?: unknown };
     };
-    const { type, name, theme, maintenance, branding, currency, brief } = body;
+    const { type, name, theme, maintenance, branding, currency, brief, domaine } = body;
 
     // Validate required fields
     const siteType = (typeof type === "string" && type) ? type : "landing";
@@ -116,6 +123,29 @@ export async function POST(req: NextRequest) {
         quantity: 1,
       },
     ];
+
+    /*
+      Le nom de domaine, quand le client en a choisi un. Le prix vient de notre
+      table (lib/domains/pricing.ts) et non du client : on revalide côté serveur
+      pour qu'un montant trafiqué dans le navigateur ne devienne pas le montant
+      facturé.
+    */
+    const domaineNom = typeof domaine?.nom === "string" ? domaine.nom.trim().toLowerCase() : "";
+    const decoupe = domaineNom ? decouper(domaineNom) : undefined;
+    const tarifDomaine = decoupe ? prixDe(decoupe.extension) : undefined;
+    if (domaineNom && tarifDomaine) {
+      lineItems.push({
+        price_data: {
+          currency: stripeCcy,
+          product_data: {
+            name: `Nom de domaine ${domaineNom}`,
+            description: "Enregistrement, configuration et rattachement au site — première année comprise",
+          },
+          unit_amount: priceIn(tarifDomaine.prix, ccy) * 100,
+        },
+        quantity: 1,
+      });
+    }
 
     if (withBranding) {
       lineItems.push({
@@ -199,7 +229,14 @@ export async function POST(req: NextRequest) {
         branding: withBranding ? "1" : "0",
         currency: ccy,
         briefId,
-        domain: typeof brief?.domain === "string" ? (brief.domain as string).slice(0, 100) : "",
+        /*
+          Le domaine choisi ET payé prime sur celui simplement mentionné dans le
+          brief : c'est lui que le webhook enregistrera. Un domaine cité sans
+          être payé reste une intention, pas une commande.
+        */
+        domain: (domaineNom && tarifDomaine ? domaineNom
+          : typeof brief?.domain === "string" ? (brief.domain as string) : "").slice(0, 100),
+        domainePaye: domaineNom && tarifDomaine ? "1" : "0",
       },
       // Force Stripe to collect customer email (even though Checkout collects by default in payment mode)
       customer_email: undefined, // let Stripe collect it
