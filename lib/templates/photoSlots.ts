@@ -3282,7 +3282,67 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
    "The Ember Cellar Selection",
    "Fire & Smoke"
   ]
- }
+ },
+
+  /*
+    Cinquante-deux thèmes ne portent aucune photographie : ils composent avec
+    de la typographie, des aplats et des dégradés. Absents de cette table, ils
+    héritaient du réglage par défaut — une photo réclamée au client — qui ne
+    s'affichait alors nulle part. Déclarés à zéro, le formulaire cesse de la
+    demander et le dit franchement.
+  */
+  "impact-102": { n: 0, total: 0, labels: [] },
+  "impact-11": { n: 0, total: 0, labels: [] },
+  "impact-113": { n: 0, total: 0, labels: [] },
+  "impact-135": { n: 0, total: 0, labels: [] },
+  "impact-153": { n: 0, total: 0, labels: [] },
+  "impact-164": { n: 0, total: 0, labels: [] },
+  "impact-168": { n: 0, total: 0, labels: [] },
+  "impact-212": { n: 0, total: 0, labels: [] },
+  "impact-216": { n: 0, total: 0, labels: [] },
+  "impact-22": { n: 0, total: 0, labels: [] },
+  "impact-31": { n: 0, total: 0, labels: [] },
+  "impact-39": { n: 0, total: 0, labels: [] },
+  "impact-51": { n: 0, total: 0, labels: [] },
+  "impact-129": { n: 0, total: 0, labels: [] },
+  "impact-150": { n: 0, total: 0, labels: [] },
+  "impact-161": { n: 0, total: 0, labels: [] },
+  "impact-165": { n: 0, total: 0, labels: [] },
+  "impact-169": { n: 0, total: 0, labels: [] },
+  "impact-18": { n: 0, total: 0, labels: [] },
+  "impact-213": { n: 0, total: 0, labels: [] },
+  "impact-330": { n: 0, total: 0, labels: [] },
+  "impact-36": { n: 0, total: 0, labels: [] },
+  "impact-40": { n: 0, total: 0, labels: [] },
+  "impact-44": { n: 0, total: 0, labels: [] },
+  "impact-48": { n: 0, total: 0, labels: [] },
+  "impact-52": { n: 0, total: 0, labels: [] },
+  "impact-64": { n: 0, total: 0, labels: [] },
+  "impact-68": { n: 0, total: 0, labels: [] },
+  "impact-72": { n: 0, total: 0, labels: [] },
+  "impact-96": { n: 0, total: 0, labels: [] },
+  "impact-03": { n: 0, total: 0, labels: [] },
+  "impact-133": { n: 0, total: 0, labels: [] },
+  "impact-159": { n: 0, total: 0, labels: [] },
+  "impact-173": { n: 0, total: 0, labels: [] },
+  "impact-207": { n: 0, total: 0, labels: [] },
+  "impact-214": { n: 0, total: 0, labels: [] },
+  "impact-35": { n: 0, total: 0, labels: [] },
+  "impact-41": { n: 0, total: 0, labels: [] },
+  "impact-49": { n: 0, total: 0, labels: [] },
+  "impact-53": { n: 0, total: 0, labels: [] },
+  "impact-69": { n: 0, total: 0, labels: [] },
+  "impact-101": { n: 0, total: 0, labels: [] },
+  "impact-112": { n: 0, total: 0, labels: [] },
+  "impact-170": { n: 0, total: 0, labels: [] },
+  "impact-211": { n: 0, total: 0, labels: [] },
+  "impact-215": { n: 0, total: 0, labels: [] },
+  "impact-32": { n: 0, total: 0, labels: [] },
+  "impact-329": { n: 0, total: 0, labels: [] },
+  "impact-34": { n: 0, total: 0, labels: [] },
+  "impact-42": { n: 0, total: 0, labels: [] },
+  "impact-54": { n: 0, total: 0, labels: [] },
+  "impact-58": { n: 0, total: 0, labels: [] },
 };
 
 /** Les emplacements du thème choisi. Un thème inconnu n'en demande qu'une. */
