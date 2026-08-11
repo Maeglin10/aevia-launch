@@ -35,8 +35,8 @@ export default function CGUPage() {
           </p>
           <ul className="list-disc list-inside text-sm text-zinc-700 space-y-1.5 mb-4 ml-2">
             <li>Formulaire interactif pour la collecte de vos informations (entreprise, secteur, description)</li>
-            <li>Génération automatique du contenu web (textes, structure) via Claude AI</li>
-            <li>Sélection d&apos;un template de design professionnel parmi 200+ modèles</li>
+            <li>Contenu du site pré-structuré par modèle, complété au besoin par génération assistée par IA (Google Gemini et Groq)</li>
+            <li>Sélection d&apos;un modèle de design professionnel parmi plus de 370 modèles</li>
             <li>Développement et personnalisation du site</li>
             <li>Déploiement et mise en ligne sur Vercel</li>
             <li>Délai de livraison : 7 jours ouvrés après paiement et données complètes</li>
@@ -93,10 +93,15 @@ export default function CGUPage() {
                   <td className="py-2 pr-4">899 €</td>
                   <td className="py-2">Site complet, blog, formulaires, SEO</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-zinc-200">
                   <td className="py-2 pr-4">Business</td>
                   <td className="py-2 pr-4">1 499 €</td>
                   <td className="py-2">E-commerce, intégrations, SEO avancé</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Hébergement &amp; maintenance</td>
+                  <td className="py-2 pr-4">20 €/mois</td>
+                  <td className="py-2">Option récurrente : hébergement, mises à jour et support</td>
                 </tr>
               </tbody>
             </table>
@@ -113,6 +118,23 @@ export default function CGUPage() {
             <li>Tous les tarifs sont indiqués hors taxes (HT)</li>
             <li>La TVA applicable est celle en vigueur au moment de la facturation selon la réglementation française</li>
             <li>Une facture est émise après paiement et conservée 10 ans</li>
+          </ul>
+
+          <h3 className="text-base font-semibold text-zinc-900 mb-2 mt-6">4.3 Option d&apos;hébergement et maintenance (abonnement)</h3>
+          <p className="text-sm leading-relaxed text-zinc-700 mb-3">
+            L&apos;option d&apos;hébergement et de maintenance est un abonnement facultatif de
+            <strong className="text-zinc-900"> 20 €/mois HT</strong>, prélevé mensuellement par Stripe.
+          </p>
+          <ul className="list-disc list-inside text-sm text-zinc-700 space-y-1.5 mb-4 ml-2">
+            <li>L&apos;abonnement est à durée indéterminée et reconduit automatiquement chaque mois.</li>
+            <li>
+              Il est <strong className="text-zinc-900">résiliable à tout moment</strong>, sans frais et
+              sans préavis, depuis votre espace client ou par simple demande à{" "}
+              <a href="mailto:valentinmilliand@aevia.services" className="underline">valentinmilliand@aevia.services</a> ;
+              la résiliation prend effet à la fin de la période mensuelle en cours (résiliation facilitée,
+              art. L215-1 et suivants du Code de la consommation).
+            </li>
+            <li>Aucun remboursement au prorata n&apos;est effectué pour un mois entamé.</li>
           </ul>
         </section>
 
@@ -152,6 +174,26 @@ export default function CGUPage() {
               des 14 jours), cette renonciation est irrévocable
             </li>
           </ul>
+
+          {/* TODO (revue juridique) : Aevia doit adhérer à un médiateur de la
+              consommation agréé (art. L612-1 Code conso) et insérer ci-dessous
+              son NOM et son ADRESSE/URL exacts avant toute vente à un consommateur.
+              La plateforme ODR européenne ci-dessous est un complément, pas un
+              substitut au médiateur désigné. */}
+          <h3 className="text-base font-semibold text-zinc-900 mb-2 mt-6">5.3 Médiation de la consommation</h3>
+          <p className="text-sm leading-relaxed text-zinc-700 mb-3">
+            Conformément aux articles L.612-1 et suivants du Code de la consommation, tout consommateur
+            a le droit de recourir gratuitement à un médiateur de la consommation en vue de la résolution
+            amiable d&apos;un litige qui l&apos;opposerait à Aevia, après avoir tenté au préalable de le
+            résoudre par une réclamation écrite adressée à{" "}
+            <a href="mailto:valentinmilliand@aevia.services" className="underline">valentinmilliand@aevia.services</a>.
+            Les coordonnées du médiateur de la consommation compétent sont communiquées sur demande.
+          </p>
+          <p className="text-sm leading-relaxed text-zinc-700">
+            Pour les litiges liés à un achat en ligne, la Commission européenne met à disposition une
+            plateforme de règlement en ligne des litiges accessible à l&apos;adresse{" "}
+            <a href="https://ec.europa.eu/consumers/odr" className="underline" target="_blank" rel="noopener noreferrer">ec.europa.eu/consumers/odr</a>.
+          </p>
         </section>
 
         {/* ── 6. Obligations du client ──────────────────────────────────────────── */}
