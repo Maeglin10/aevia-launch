@@ -1315,6 +1315,7 @@ export default function Impact94Page() {
               { label: "Confidentialité", href: "/templates/impact-94/legal/confidentialite" },
               { label: "CGV", href: "/templates/impact-94/legal/cgu" },
               { label: "Mentions", href: "/templates/impact-94/legal/mentions-legales" },
+              { label: "Politique de cookies", href: "/templates/impact-94/legal/cookies" },
             ].map((link) => (
               <Link
                 key={link.label}

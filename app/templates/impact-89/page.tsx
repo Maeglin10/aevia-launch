@@ -1974,7 +1974,8 @@ return (
               {[
                 { name: "Mentions légales", path: "/templates/impact-89/legal/mentions-legales" },
                 { name: "Confidentialité", path: "/templates/impact-89/legal/confidentialite" },
-                { name: "CGU", path: "/templates/impact-89/legal/cgu" }
+                { name: "CGU", path: "/templates/impact-89/legal/cgu" },
+                { name: "Politique de cookies", path: "/templates/impact-89/legal/cookies" }
               ].map((item) => (
                 <Link key={item.name} href={item.path} style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.textDim, textDecoration: "none", letterSpacing: 2, textTransform: "uppercase" }}>
                   {item.name}

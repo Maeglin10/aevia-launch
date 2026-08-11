@@ -95,4 +95,55 @@ describe("generateLegalPages", () => {
       expect(cgv).toContain("Institut Test");
     }
   });
+  /*
+    La politique de cookies doit décrire le comportement RÉEL du bandeau
+    (app/templates/TemplateAnalytics.tsx) : rien n'est déposé sans accord, le
+    choix vit dans le stockage local — pas dans un cookie — et le bandeau ne
+    revient pas. Un document qui promettrait un réglage inexistant serait pire
+    qu'un document absent.
+  */
+  it("politique de cookies : décrit GA4 seulement quand un identifiant est configuré", () => {
+    const avecGa4 = generateLegalPages(
+      { ...fd, ga4Id: "G-ABC123" } as FormData, undefined, "plombier",
+    ).cookies;
+    expect(avecGa4).toContain("Google Analytics 4");
+    expect(avecGa4).toContain("_ga");
+    expect(avecGa4).toContain("13 mois");
+    expect(avecGa4).toContain("après votre accord explicite");
+    expect(avecGa4).toContain("site-analytics-consent");
+    expect(avecGa4).toContain("stockage local");
+    expect(avecGa4).not.toContain("undefined");
+
+    const sansGa4 = generateLegalPages(fd, undefined, "plombier").cookies;
+    expect(sansGa4).toContain("strictement nécessaires");
+    expect(sansGa4).not.toContain("Google Analytics");
+    expect(sansGa4).not.toContain("_ga");
+    expect(sansGa4).toContain("Aucun bandeau de consentement");
+  });
+
+  it("politique de cookies : la donnée du client est échappée", () => {
+    const hostile = {
+      businessName: '<script>alert("xss")</script>',
+      email: '"><img src=x onerror=alert(1)>',
+    } as FormData;
+    const { cookies } = generateLegalPages(hostile, undefined, "plombier");
+    /*
+      Ce qui rend une injection inoffensive, c'est l'absence de chevron ouvrant,
+      pas l'absence du mot « onerror ». Une première version de ce test exigeait
+      que la chaîne « onerror= » disparaisse : elle survit en texte inerte, et
+      c'est très bien — c'est le `<` échappé qui empêche le navigateur d'en
+      faire une balise.
+    */
+    expect(cookies).not.toContain("<script>");
+    expect(cookies).not.toContain("<img");
+    expect(cookies).toContain("&lt;script&gt;");
+    expect(cookies).toContain("&lt;img");
+  });
+
+  it("politique de cookies : renvoie vers la politique de confidentialité", () => {
+    const { cookies } = generateLegalPages(fd, undefined, "plombier");
+    expect(cookies).toContain("./confidentialite");
+    expect(cookies).toContain("cnil.fr");
+    expect(cookies).toContain("Institut Test");
+  });
 });

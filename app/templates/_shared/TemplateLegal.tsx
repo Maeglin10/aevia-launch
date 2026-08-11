@@ -16,6 +16,7 @@ type LegalPages = {
   cgv?: string;
   confidentialite?: string;
   cgu?: string;
+  cookies?: string;
 };
 
 const DOCS: { key: keyof LegalPages; title: string }[] = [
@@ -23,6 +24,7 @@ const DOCS: { key: keyof LegalPages; title: string }[] = [
   { key: "cgv", title: "Conditions Générales de Vente" },
   { key: "confidentialite", title: "Politique de confidentialité" },
   { key: "cgu", title: "Conditions Générales d’Utilisation" },
+  { key: "cookies", title: "Politique de cookies" },
 ];
 
 /* `only` renders a single document. Footers across the catalogue link to
@@ -75,7 +77,7 @@ export default function TemplateLegal({ only }: { only?: keyof LegalPages } = {}
         <p style={{ color: "#6b7280", fontSize: 14, marginBottom: 40 }}>
           {only
             ? "Document contractuel de l’établissement."
-            : "Mentions légales, conditions de vente et d’utilisation, politique de confidentialité."}
+            : "Mentions légales, conditions de vente et d’utilisation, confidentialité et cookies."}
         </p>
 
         {!loaded && <p style={{ color: "#9ca3af" }}>Chargement…</p>}

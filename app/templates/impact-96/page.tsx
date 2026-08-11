@@ -2651,6 +2651,7 @@ return (
                 { label: "Mentions légales", href: "/templates/impact-96/legal/mentions-legales" },
                 { label: "Confidentialité", href: "/templates/impact-96/legal/confidentialite" },
                 { label: "CGV", href: "/templates/impact-96/legal/cgu" },
+                { label: "Politique de cookies", href: "/templates/impact-96/legal/cookies" },
               ].map((link) => (
                 <Link
                   key={link.label}
