@@ -117,10 +117,11 @@ WS**, auto-entrepreneur, **SIREN 852 546 225**, RCS Bourg-en-Bresse, TVA non app
    sous-traitants** et transferts hors UE (Stripe, Vercel, GA4, Anthropic/Gemini/Groq,
    banques d'images).
 
-> Remédiation en cours : le commit `aa8a0078` (« fix(security): client-site GA4 behind
-> consent + escape stored XSS ») s'attaque aux points **#1** (consentement GA4 sur les
-> sites livrés) et **#3** (échappement XSS dans les thèmes et `generateLegalPages`). À
-> re-vérifier au navigateur avant de considérer ces deux points clos. #2 et #4 restent.
+> Remédiation en cours (branche `chantier-2026-08`) : les quatre points ont chacun un
+> commit dédié — **#1/#3** consentement GA4 des sites livrés + échappement XSS
+> (`aa8a0078`), **#2** mentions B2C obligatoires dans CGV/CGU (`c930072d`), **#4** la
+> confidentialité générée nomme GA4/cookies quand l'analytics est actif (`894dc315`).
+> À **re-vérifier au navigateur** avant de considérer ces points clos.
 
 ## État d'ingénierie (résumé)
 
