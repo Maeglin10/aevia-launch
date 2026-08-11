@@ -1044,7 +1044,8 @@ export default function AetherLabsPage() {
               {[
                 { name: "Mentions légales", path: "/templates/impact-85/legal/mentions-legales" },
                 { name: "CGU", path: "/templates/impact-85/legal/cgu" },
-                { name: "Confidentialité", path: "/templates/impact-85/legal/confidentialite" }
+                { name: "Confidentialité", path: "/templates/impact-85/legal/confidentialite" },
+                { name: "Politique de cookies", path: "/templates/impact-85/legal/cookies" }
               ].map(l => (
                 <Link key={l.name} href={l.path} className="hover:text-[#F8F6F2] transition-colors cursor-pointer">{l.name}</Link>
               ))}
