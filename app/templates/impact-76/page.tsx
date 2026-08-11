@@ -251,7 +251,7 @@ return (
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(0, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop"))}
+            src={photo(8, "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop")}
             alt="Structura Hero"
             fill
             className="object-cover brightness-50 grayscale-[0.5]"

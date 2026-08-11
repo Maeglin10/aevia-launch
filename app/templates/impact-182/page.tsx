@@ -267,7 +267,7 @@ export default function BatirSolidePage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=85&w=2400"))} alt="Maçon construction gros œuvre" fill className="object-cover" priority style={{ filter: "brightness(0.5)" }} />
+          <Image src={photo(3, "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=85&w=2400")} alt="Maçon construction gros œuvre" fill className="object-cover" priority style={{ filter: "brightness(0.5)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1a1008] via-[#1a1008]/45 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#1a1008]/65 to-transparent" />
         </motion.div>

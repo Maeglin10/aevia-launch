@@ -173,7 +173,7 @@ return (
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80"))}
+            src={photo(3, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80")}
             alt="Vision Hero"
             fill
             className="object-cover brightness-[0.4] grayscale-[80%]"

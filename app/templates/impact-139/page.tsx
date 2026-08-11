@@ -231,7 +231,7 @@ export default function ApexFitnessPage() {
         {/* ── HERO ────── */}
         <section id="hero" className="relative h-[110vh] min-h-[640px] flex items-center overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=2400"))} alt="Gym" fill className="object-cover opacity-40" priority />
+            <Image src={photo(3, "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=2400")} alt="Gym" fill className="object-cover opacity-40" priority />
             <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
@@ -371,7 +371,7 @@ export default function ApexFitnessPage() {
         {/* ── CTA ──────── */}
         <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=2400"))} alt="CTA" fill className="object-cover" />
+            <Image src={photo(4, "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-black/60" />
           </div>
           <div className="relative z-10 text-center px-6">

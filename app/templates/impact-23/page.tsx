@@ -321,7 +321,7 @@ export default function StudioPelikanPage() {
           {/* Hero */}
           <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
-              <Image src={photo(0, (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop"))} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Pelikan"))} fill className="object-cover" priority />
+              <Image src={photo(10, "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop")} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Pelikan"))} fill className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-b from-[#100D08]/70 via-[#100D08]/30 to-[#100D08]/95" />
             </motion.div>
             <motion.div className="relative z-10 h-full flex flex-col justify-end pb-20 px-6" style={{ opacity: heroOpacity }}>
@@ -603,7 +603,7 @@ export default function StudioPelikanPage() {
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src={photo(1, (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80"))} alt="Écriture" fill className="object-cover" />
+                  <Image src={photo(11, "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80")} alt="Écriture" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#150F09]/80 to-transparent" />
                 </div>
               </Reveal>
@@ -615,7 +615,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
               <Reveal delay={0.1}>
                 <div className="relative overflow-hidden rounded-2xl order-2 lg:order-1" style={{ aspectRatio: "4/3" }}>
-                  <Image src={photo(2, (clientPhotos(sessionData)[12] || "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=600&q=80"))} alt="Tournage" fill className="object-cover" />
+                  <Image src={photo(12, "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=600&q=80")} alt="Tournage" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#100D08]/80 to-transparent" />
                 </div>
               </Reveal>
@@ -671,7 +671,7 @@ export default function StudioPelikanPage() {
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src={photo(3, (clientPhotos(sessionData)[13] || "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80"))} alt="Post-production" fill className="object-cover" />
+                  <Image src={photo(13, "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80")} alt="Post-production" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#150F09]/80 to-transparent" />
                 </div>
               </Reveal>
@@ -683,7 +683,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
               <Reveal delay={0.1}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src={photo(4, (clientPhotos(sessionData)[14] || "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&q=80"))} alt="Brand Content" fill className="object-cover" />
+                  <Image src={photo(14, "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&q=80")} alt="Brand Content" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#100D08]/80 to-transparent" />
                 </div>
               </Reveal>
@@ -826,7 +826,7 @@ export default function StudioPelikanPage() {
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src={photo(5, (clientPhotos(sessionData)[15] || "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80"))} alt="Studio Pelikan Paris" fill className="object-cover" />
+                  <Image src={photo(15, "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80")} alt="Studio Pelikan Paris" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#150F09]/80 to-transparent" />
                 </div>
               </Reveal>

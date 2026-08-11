@@ -760,7 +760,7 @@ export default function Impact200Page() {
         {/* Parallax Image */}
         <motion.div className="absolute inset-0 z-0" style={{ y: heroY, opacity: heroOpacity }}>
           <Image
-            src={photo(0, (clientPhotos(sessionData)[18] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=90"))}
+            src={photo(18, "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=90")}
             alt="Mariage de rêve"
             fill
             className="object-cover"
@@ -856,7 +856,7 @@ export default function Impact200Page() {
               <div className="relative w-full max-w-sm mx-auto">
                 <div className="aspect-[4/5] relative rounded-3xl overflow-hidden shadow-2xl shadow-[var(--brand,#DB2777)]/20">
                   <Image
-                    src={photo(1, (clientPhotos(sessionData)[19] || "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80"))}
+                    src={photo(19, "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80")}
                     alt="Mariage romantique"
                     fill
                     className="object-cover"

@@ -730,7 +730,7 @@ return (
           }}
         >
           <img
-            src={photo(0, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1800&q=85"))}
+            src={photo(9, "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1800&q=85")}
             alt="Hero"
             style={{ width: "100%", height: "110%", objectFit: "cover", display: "block" }}
           />

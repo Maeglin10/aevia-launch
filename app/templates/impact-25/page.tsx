@@ -319,7 +319,7 @@ export default function PixelRepublicPage() {
       {/* Hero */}
       <section ref={heroRef} className="imx25-hero" style={{ height: "100dvh", minHeight: "560px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1920&q=80"))} alt="Agence web Pixel Republic Paris" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(3, "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1920&q=80")} alt="Agence web Pixel Republic Paris" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,5,20,0.93) 0%, rgba(5,5,20,0.48) 45%, rgba(5,5,20,0.10) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
@@ -436,7 +436,7 @@ export default function PixelRepublicPage() {
             </motion.a>
           </Reveal>
           <Reveal>
-            <img src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80"))} alt="Equipe Pixel Republic" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(4, "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80")} alt="Equipe Pixel Republic" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
         </div>
       </section>

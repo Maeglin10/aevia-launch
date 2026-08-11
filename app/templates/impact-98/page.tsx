@@ -372,7 +372,7 @@ export default function ZenithWatchesPage() {
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
-            src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1600&q=80"))}
+            src={photo(3, "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1600&q=80")}
             alt="Watch Movement"
             fill
             className="object-cover opacity-40 mix-blend-luminosity grayscale contrast-150"
@@ -579,7 +579,7 @@ export default function ZenithWatchesPage() {
           <Reveal>
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
               <Image
-                src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1200&q=80"))}
+                src={photo(4, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1200&q=80")}
                 alt="Vintage Heritage"
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-[2s] mix-blend-luminosity grayscale group-hover:grayscale-0"

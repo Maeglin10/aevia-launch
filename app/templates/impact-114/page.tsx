@@ -1091,7 +1091,7 @@ export default function Impact114Page() {
                 style={{ top: "-60px", bottom: "-60px", left: 0, right: 0, y: aboutImgY }}
               >
                 <Image
-                  src={photo(0, (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900&q=85&auto=format&fit=crop"))}
+                  src={photo(11, "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900&q=85&auto=format&fit=crop")}
                   alt="Julien Moreau photographe"
                   fill
                   className="object-cover"

@@ -289,7 +289,7 @@ export default function StudioNomaPage() {
       <style>{`@media (max-width: 640px) { #hero { height: 100dvh !important; min-height: 100dvh !important; } }`}</style>
       <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80"))} alt="Intérieur Studio Noma" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(6, "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80")} alt="Intérieur Studio Noma" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(20,12,8,0.90) 0%, rgba(20,12,8,0.42) 45%, rgba(20,12,8,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />

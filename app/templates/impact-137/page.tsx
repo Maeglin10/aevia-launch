@@ -226,7 +226,7 @@ export default function TorrefieCoffeePage() {
         {/* ── HERO ────────────────────────────── */}
         <section id="hero" className="relative h-[110vh] min-h-[640px] flex items-center overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src={photo(0, (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/7091096/pexels-photo-7091096.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Coffee" fill className="object-cover" priority />
+            <Image src={photo(4, "https://images.pexels.com/photos/7091096/pexels-photo-7091096.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Coffee" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-r from-[#f5f0ea] via-[#f5f0ea]/60 to-transparent" />
           </motion.div>
 
@@ -404,7 +404,7 @@ export default function TorrefieCoffeePage() {
         {/* ── CTA ────────────────────────────── */}
         <section id="contact" className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(1, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=2400"))} alt="CTA" fill className="object-cover" />
+            <Image src={photo(5, "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-[#2c1810]/70" />
           </div>
           <div className="relative z-10 text-center text-[#f5f0ea] px-6">

@@ -593,7 +593,7 @@ export default function LedgerPage() {
       >
         <div style={{ overflow: "hidden" }}>
           <img
-            src={photo(1, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80"))}
+            src={photo(2, "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80")}
             alt="Expert-comptable Bordeaux"
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />

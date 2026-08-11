@@ -480,11 +480,11 @@ return (
           {/* Social proof */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.6 }} className="flex flex-col items-center gap-4">
             <div className="flex -space-x-2">
-              {[photo(0, (clientPhotos(sessionData)[14] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80")),
-                photo(1, (clientPhotos(sessionData)[15] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80")),
-                photo(2, (clientPhotos(sessionData)[16] || "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&q=80")),
-                photo(3, (clientPhotos(sessionData)[17] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&q=80")),
-                photo(4, (clientPhotos(sessionData)[18] || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&q=80"))].map((src, i) => (
+              {[photo(14, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80"),
+                photo(15, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80"),
+                photo(16, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&q=80"),
+                photo(17, "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&q=80"),
+                photo(18, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&q=80")].map((src, i) => (
                 <Avatar key={i} className="w-8 h-8 border-2 border-[#09090b]">
                   <AvatarImage src={src} />
                   <AvatarFallback className="bg-[var(--brand,#7c3aed)] text-[10px]">U</AvatarFallback>

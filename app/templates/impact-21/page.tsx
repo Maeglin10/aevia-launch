@@ -1,5 +1,6 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
+import { clientCertifications } from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -249,8 +250,11 @@ export default function FormeStudioPage() {
 
 
   sessionData = session;
+
+
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  const awards_DU_CLIENT = resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...awards[i % awards.length], name: typeof x === "string" ? x : (x.name ?? x.title) })), awards);
   projectDetails_SOURCE = projectDetails_SOURCE_LIVE();
   projects = projects_LIVE();
   timeline = timeline_LIVE();
@@ -395,7 +399,7 @@ return (
           <section id="hero" ref={heroRef} className="relative min-h-dvh flex items-center pt-32 pb-16 px-6 overflow-hidden bg-[#F8F4F0]">
             <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
               <div className="absolute top-20 right-0 w-1/2 h-full opacity-20">
-                <Image src={photo(0, (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80"))} alt="bg" fill className="object-cover" priority />
+                <Image src={photo(10, "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80")} alt="bg" fill className="object-cover" priority />
               </div>
             </motion.div>
             <div className="max-w-6xl mx-auto w-full relative z-10">
@@ -900,7 +904,7 @@ return (
                 <h2 className="text-white text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>18 prix internationaux</>)}</h2>
               </Reveal>
               <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-5">
-                {awards.map((a, i) => (
+                {awards_DU_CLIENT.map((a, i) => (
                   <Reveal key={a.name} delay={i * 0.08}>
                     <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center hover:border-[var(--brand,#F97316)]/40 transition-colors">
                       <Award className="w-8 h-8 text-[var(--brand,#F97316)] mx-auto mb-4" />

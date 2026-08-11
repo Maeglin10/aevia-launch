@@ -422,7 +422,7 @@ return (
                   className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-[80vw] max-w-5xl opacity-40 mix-blend-screen pointer-events-none z-0"
                >
                   <img 
-                     src={photo(0, (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/7327336/pexels-photo-7327336.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
+                     src={photo(3, "https://images.pexels.com/photos/7327336/pexels-photo-7327336.jpeg?auto=compress&cs=tinysrgb&w=1600")}
                      className="w-full h-auto grayscale transition-all duration-1000"
                      alt="Starship"
                   />
@@ -775,7 +775,7 @@ function EngineeringPage() {
 
         <div className="border border-white/5 bg-black p-12 flex flex-col lg:flex-row items-center gap-12 font-mono">
           <div className="w-full lg:w-1/2 aspect-video relative">
-            <img src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80"))} alt="Telemetry HUD" className="w-full h-full object-cover grayscale" />
+            <img src={photo(4, "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80")} alt="Telemetry HUD" className="w-full h-full object-cover grayscale" />
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-transparent pointer-events-none" />
           </div>
           <div className="w-full lg:w-1/2">
@@ -832,7 +832,7 @@ function MaisonPage({ goTo }: { goTo: (p: ActivePage) => void }) {
             </div>
           </div>
           <div className="aspect-[4/5] bg-[#020205] border border-white/5 relative overflow-hidden">
-            <img src={photo(2, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=800&q=80"))} alt="Space helmet" className="w-full h-full object-cover grayscale opacity-50" />
+            <img src={photo(5, "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=800&q=80")} alt="Space helmet" className="w-full h-full object-cover grayscale opacity-50" />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent p-12 flex flex-col justify-end font-mono">
               <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-2">Tokyo_Launchpad_Registry</span>
               <h4 className="text-2xl font-black uppercase italic tracking-tighter text-white">Full Physiological Prep</h4>
