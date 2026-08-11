@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef, Suspense } from "react";
+import { ChoixDomaine } from "@/components/wizard/ChoixDomaine";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
 import { ChevronRight, ChevronLeft, ChevronDown, Upload, X, Check, Loader2, Globe, Phone, Mail, MapPin, Plus, Link } from "lucide-react";
@@ -73,6 +74,8 @@ interface BriefData {
   linkedin: string;
   website: string;
   domain: string;
+  /** Le prix affiché et accepté pour ce domaine, 0 si le client s'en passe. */
+  domainePrix: number;
   notes: string;
 }
 
@@ -82,7 +85,7 @@ const INITIAL: BriefData = {
   logoUrl: "", photoUrls: [], inspirations: "",
   services: [{ name: "", description: "" }, { name: "", description: "" }, { name: "", description: "" }],
   about: "", phone: "", email: "", address: "",
-  instagram: "", linkedin: "", website: "", domain: "", notes: "",
+  instagram: "", linkedin: "", website: "", domain: "", domainePrix: 0, notes: "",
 };
 
 const STEPS = ["Votre entreprise", "Vos visuels", "Votre contenu"];
@@ -429,11 +432,17 @@ function Step3({ data, onChange }: { data: BriefData; onChange: (d: Partial<Brie
         </Field>
       </div>
 
-      <Field label="Nom de domaine souhaité (optionnel — on l'achète et le configure pour vous)">
-        <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
-          <Globe size={14} className="text-white/30 shrink-0" />
-          <input value={data.domain} onChange={(e) => onChange({ domain: e.target.value })} placeholder="mon-entreprise.fr" className="bg-transparent text-sm text-white placeholder:text-white/20 focus:outline-none flex-1" />
-        </div>
+      {/*
+        Le nom de domaine se choisit en connaissance de cause : le champ montre
+        désormais le prix et deux ou trois autres pistes, et laisse refuser sans
+        frais. L'ancien champ promettait « on l'achète et on le configure pour
+        vous » sans jamais dire combien.
+      */}
+      <Field label="Nom de domaine (optionnel — vous voyez le prix avant de choisir)">
+        <ChoixDomaine
+          valeur={data.domain ? { nom: data.domain, prix: data.domainePrix ?? 0 } : null}
+          onChange={(choix) => onChange({ domain: choix?.nom ?? "", domainePrix: choix?.prix ?? 0 })}
+        />
       </Field>
 
       <Field label="Demandes spéciales / informations complémentaires">
@@ -553,6 +562,12 @@ function OnboardingContent() {
           branding: withBranding,
           currency,
           brief: data,
+          /*
+            Le domaine part séparément du brief : c'est une ligne de la commande,
+            que le serveur revalide dans sa propre table de prix. Le brief, lui,
+            reste une note d'intention.
+          */
+          domaine: data.domain ? { nom: data.domain, prix: data.domainePrix } : undefined,
         }),
       });
       if (!res.ok) throw new Error("Erreur lors de la création du paiement");
