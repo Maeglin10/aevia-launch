@@ -359,9 +359,9 @@ export default function KineticMarqueePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
-                { name: "Aki Sato", role: "Creative Director", img: photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600")) },
-                { name: "Leo Croft", role: "Lead Motion Designer", img: photo(1, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600")) },
-                { name: "Zoë Vane", role: "Head of Brand Strategy", img: photo(2, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=600")) }
+                { name: "Aki Sato", role: "Creative Director", img: photo(4, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600") },
+                { name: "Leo Croft", role: "Lead Motion Designer", img: photo(5, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600") },
+                { name: "Zoë Vane", role: "Head of Brand Strategy", img: photo(6, "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=600") }
               ].map((member, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group">

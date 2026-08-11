@@ -275,7 +275,7 @@ export default function VoltProPage() {
         <section id="hero" className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image
-              src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=85&w=2400"))}
+              src={photo(3, "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=85&w=2400")}
               alt="Électricien au travail sur tableau électrique"
               fill className="object-cover opacity-50" priority
             />
@@ -578,7 +578,7 @@ export default function VoltProPage() {
         {/* ── CTA ── */}
         <section id="contact" className="relative py-48 flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=2400"))} alt="Câblage électrique moderne" fill className="object-cover opacity-30" />
+            <Image src={photo(4, "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=2400")} alt="Câblage électrique moderne" fill className="object-cover opacity-30" />
             <div className="absolute inset-0 bg-[#080a0c]/80" />
           </div>
           <Reveal className="relative z-10 text-center px-6">

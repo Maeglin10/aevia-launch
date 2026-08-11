@@ -387,7 +387,7 @@ export default function HorizonYachtPage() {
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
-            src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1600&q=80"))}
+            src={photo(4, "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1600&q=80")}
             alt="Yacht Deck"
             fill
             className="object-cover opacity-60 contrast-110"
@@ -599,7 +599,7 @@ export default function HorizonYachtPage() {
           <Reveal>
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
               <Image
-                src={photo(1, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80"))}
+                src={photo(5, "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80")}
                 alt="Destination"
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 transition-all duration-1000"

@@ -383,7 +383,7 @@ export default function AeviaKitchenPage() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2400&auto=format&fit=crop"))}
+            src={photo(6, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2400&auto=format&fit=crop")}
             alt="Salle gastronomique Aevia Kitchen"
             fill
             className="object-cover brightness-[0.55]"
@@ -540,7 +540,7 @@ export default function AeviaKitchenPage() {
               <div className="relative">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-lg">
                   <Image
-                    src={photo(1, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop"))}
+                    src={photo(7, "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop")}
                     alt="Chef exécutif Aevia Kitchen"
                     fill
                     className="object-cover object-center"

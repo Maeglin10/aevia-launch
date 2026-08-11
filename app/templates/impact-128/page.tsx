@@ -200,7 +200,7 @@ export default function HavenEstatesPage() {
         {/* ── HERO ────────────────────────── */}
         <section id="hero" className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2400"))} alt="Estate" fill className="object-cover" priority />
+            <Image src={photo(4, "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2400")} alt="Estate" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#faf9f6] via-[#faf9f6]/20 to-transparent" />
           </motion.div>
 
@@ -358,7 +358,7 @@ export default function HavenEstatesPage() {
         {/* ── CTA ──────────────────────────── */}
         <section id="contact" className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(1, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=2400"))} alt="CTA" fill className="object-cover" />
+            <Image src={photo(6, "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-black/50" />
           </div>
           <div className="relative z-10 text-center text-white px-6">

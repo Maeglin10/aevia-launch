@@ -887,7 +887,7 @@ return (
             y: heroParallaxY,
             opacity: heroOpacity,
             backgroundImage:
-              "url(photo(0, (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2200&auto=format&fit=crop')))",
+              "url(photo(1, 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2200&auto=format&fit=crop'))",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -908,7 +908,7 @@ return (
         />
 
         {/* SVG pasta watermark */}
-        <img src={photo(1, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80"))} alt="Portrait" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }} />
+        <img src={photo(2, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80")} alt="Portrait" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }} />
 
         {/* Hero content */}
         <div
@@ -1474,7 +1474,7 @@ return (
                 position: "absolute",
                 inset: 0,
                 backgroundImage:
-                  "url(photo(2, (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop')))",
+                  "url(photo(3, 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop'))",
                 backgroundSize: "cover",
                 backgroundPosition: "center top",
                 borderRadius: 2,

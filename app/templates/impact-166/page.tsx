@@ -1175,7 +1175,7 @@ return (
           }}
         >
           <img
-            src={photo(0, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1400&auto=format&fit=crop"))}
+            src={photo(1, "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1400&auto=format&fit=crop")}
             alt="Iris Studio hero"
             style={{
               width: "100%",
@@ -1537,7 +1537,7 @@ return (
             style={{ position: "relative" }}
           >
             <img
-              src={photo(1, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1504257432389-52343af06ae3?q=80&w=1400&auto=format&fit=crop"))}
+              src={photo(2, "https://images.unsplash.com/photo-1504257432389-52343af06ae3?q=80&w=1400&auto=format&fit=crop")}
               alt="Iris Beaumont"
               style={{
                 width: "100%",

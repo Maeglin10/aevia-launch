@@ -244,7 +244,7 @@ export default function VulcanMotorsPage() {
         {/* ── HERO ──────────────────── */}
         <section id="hero" className="relative h-dvh flex items-center pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/596815/pexels-photo-596815.jpeg?auto=compress&cs=tinysrgb&w=2400"))} alt="Hypercar Detail" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" priority />
+            <Image src={photo(3, "https://images.pexels.com/photos/596815/pexels-photo-596815.jpeg?auto=compress&cs=tinysrgb&w=2400")} alt="Hypercar Detail" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent" />
             <div className="absolute inset-0 bg-black/40" />
           </div>
@@ -311,7 +311,7 @@ export default function VulcanMotorsPage() {
               </div>
               <Reveal delay={0.2}>
                 <div className="aspect-square relative grayscale hover:grayscale-0 transition-all duration-1000 border border-white/5 p-4 bg-white/[0.02]">
-                   <ParallaxImg src={photo(1, (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/11189630/pexels-photo-11189630.jpeg?auto=compress&cs=tinysrgb&w=1200"))} alt="Engine Detail" />
+                   <ParallaxImg src={photo(4, "https://images.pexels.com/photos/11189630/pexels-photo-11189630.jpeg?auto=compress&cs=tinysrgb&w=1200")} alt="Engine Detail" />
                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[1px] bg-red-600/20 rotate-45 pointer-events-none" />
                 </div>
               </Reveal>
@@ -434,7 +434,7 @@ export default function VulcanMotorsPage() {
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative aspect-square grayscale hover:grayscale-0 transition-all duration-[2000ms]">
-                  <ParallaxImg src={photo(2, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?auto=format&fit=crop&q=80&w=1200"))} alt="Track" />
+                  <ParallaxImg src={photo(5, "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?auto=format&fit=crop&q=80&w=1200")} alt="Track" />
                   <div className="absolute inset-0 bg-gradient-to-tr from-red-600/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-1000" />
                 </div>
               </Reveal>

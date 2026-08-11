@@ -30,10 +30,10 @@ let fd: any = null;
 // equipe, jusqu'ici écrit dans le rendu sans constante nommée.
 function EQUIPE_ANON_SOURCE_LIVE() {
   return [
-                { name: "Mia Versa", role: "Creative Director", yrs: "10yr", img: photo(1, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400")), tags: ["Brand", "Identity"] },
-                { name: "Theo Nakamura", role: "Lead Product Designer", yrs: "7yr", img: photo(2, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400")), tags: ["UX", "Mobile"] },
-                { name: "Sasha Okafor", role: "Art Director", yrs: "8yr", img: photo(3, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=400")), tags: ["Campaign", "Photo"] },
-                { name: "Remi Blanc", role: "Motion & 3D Lead", yrs: "5yr", img: photo(4, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400")), tags: ["Motion", "3D"] },
+                { name: "Mia Versa", role: "Creative Director", yrs: "10yr", img: photo(0, "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400"), tags: ["Brand", "Identity"] },
+                { name: "Theo Nakamura", role: "Lead Product Designer", yrs: "7yr", img: photo(1, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400"), tags: ["UX", "Mobile"] },
+                { name: "Sasha Okafor", role: "Art Director", yrs: "8yr", img: photo(2, "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=400"), tags: ["Campaign", "Photo"] },
+                { name: "Remi Blanc", role: "Motion & 3D Lead", yrs: "5yr", img: photo(3, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400"), tags: ["Motion", "3D"] },
               ];
 }
 let EQUIPE_ANON_SOURCE = EQUIPE_ANON_SOURCE_LIVE();
@@ -281,7 +281,7 @@ export default function StudioVersaPage() {
         {/* ── HERO ─────────────────── */}
         <section id="hero" className="relative min-h-[90vh] flex items-center pt-40 pb-20 overflow-hidden">
           <div className="absolute top-0 right-0 w-[50vw] h-full hidden lg:block">
-            <ParallaxImg src={photo(0, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1600"))} alt="Studio" />
+            <ParallaxImg src={photo(8, "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1600")} alt="Studio" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#faf5f0] via-[#faf5f0]/40 to-transparent" />
           </div>
 

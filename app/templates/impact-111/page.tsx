@@ -252,7 +252,7 @@ export default function TerraArchitecturePage() {
               
               <Reveal delay={0.5}>
                 <div className="relative aspect-[4/5] bg-[var(--brand,#c4b5a2)]/20 rounded-sm">
-                   <ParallaxImg src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200"))} alt="Main Project" />
+                   <ParallaxImg src={photo(4, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200")} alt="Main Project" />
                 </div>
               </Reveal>
             </div>

@@ -230,7 +230,7 @@ export default function MeridianJourneyPage() {
         {/* ── HERO ──────────────────────────── */}
         <section id="hero" className="relative h-[100dvh] md:h-[100dvh] min-h-[560px] md:min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2400"))} alt="Mountains" fill className="object-cover opacity-70" priority />
+            <Image src={photo(3, "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2400")} alt="Mountains" fill className="object-cover opacity-70" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d1210] via-[#0d1210]/30 to-transparent" />
           </motion.div>
 
@@ -418,7 +418,7 @@ export default function MeridianJourneyPage() {
         {/* ── CTA ─────────────────────────── */}
         <section id="contact" className="relative h-[80vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&q=80&w=2400"))} alt="CTA" fill className="object-cover" />
+            <Image src={photo(4, "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-[#0d1210]/70" />
           </div>
           <div className="relative z-10 text-center px-6">

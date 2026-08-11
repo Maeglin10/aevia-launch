@@ -349,7 +349,7 @@ export default function EtudeNotarialePage() {
       <section id="etude" className="i326-pad" style={{ padding: "100px 64px", background: C.bgSection }}>
         <div className="i326-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80"))} alt="Notaire associé de l'étude" loading="lazy" style={{ width: "100%", borderRadius: 4, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(4, "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80")} alt="Notaire associé de l'étude" loading="lazy" style={{ width: "100%", borderRadius: 4, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>

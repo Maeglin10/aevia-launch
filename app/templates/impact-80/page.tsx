@@ -321,7 +321,7 @@ return (
           <Reveal delay={0.5} y={0}>
             <div className="relative aspect-[4/5] overflow-hidden group">
               <ParallaxImg
-                src={photo(0, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1400&auto=format&fit=crop"))}
+                src={photo(7, "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1400&auto=format&fit=crop")}
                 alt="Architectural Minimal"
               />
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all duration-1000" />

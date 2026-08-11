@@ -1002,7 +1002,7 @@ function AteliersSection() {
           <Reveal x={-40} y={0}>
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
-                src={photo(1, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=800&auto=format&fit=crop"))}
+                src={photo(2, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=800&auto=format&fit=crop")}
                 alt="Atelier Aurelia"
                 fill
                 className="object-cover"
@@ -1519,7 +1519,7 @@ function ContactSection() {
               style={{ backgroundColor: C.creamSoft, border: `1px solid ${C.border}` }}
             >
               <Image
-                src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop"))}
+                src={photo(3, "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop")}
                 alt="Localisation Aurelia"
                 fill
                 className="object-cover opacity-50"

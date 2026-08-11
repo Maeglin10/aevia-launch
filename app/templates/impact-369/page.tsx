@@ -317,7 +317,7 @@ export default function DomaineCharmillesPage() {
       <section id="engagements" className="i369-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i369-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80"))} alt="Cérémonie dans le parc du domaine" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(4, "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80")} alt="Cérémonie dans le parc du domaine" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>

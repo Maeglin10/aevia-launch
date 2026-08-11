@@ -363,7 +363,7 @@ export default function Impact174Page() {
         {/* Right — athlete image */}
         <div className="hidden lg:block w-1/2 relative overflow-hidden">
           <motion.div style={{ y: heroImageY }} className="absolute inset-0">
-            <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1581009137042-c552e485697a?q=80&w=1200&auto=format&fit=crop"))}
+            <Image src={photo(3, "https://images.unsplash.com/photo-1581009137042-c552e485697a?q=80&w=1200&auto=format&fit=crop")}
               alt="FORGE athlete" fill className="object-cover" />
           </motion.div>
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />
