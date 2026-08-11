@@ -29,12 +29,27 @@ for (const theme of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-")))
       partir du premier faisait lire le mauvais bloc — trois cent soixante-six
       faux positifs, dont aucun n'existait.
     */
+    /*
+      TOUS les blocs, pas seulement le premier. Un fichier peut importer du
+      contrat à deux endroits — une ligne ajoutée en tête, puis le bloc
+      multiligne d'origine. Ne lire que le premier faisait accuser impact-21 et
+      impact-38 d'oublier dix fonctions qu'ils importent bel et bien.
+    */
     const marque = '} from "@/lib/templates/clientContent";';
-    const finBloc = src.indexOf(marque);
-    const debutBloc = finBloc < 0 ? -1 : src.lastIndexOf("import {", finBloc);
-    const importees = new Set(
-      debutBloc < 0 ? [] : src.slice(debutBloc + "import {".length, finBloc).split(",").map((x) => x.trim()),
-    );
+    const importees = new Set();
+    let curseur = 0;
+    for (;;) {
+      const finBloc = src.indexOf(marque, curseur);
+      if (finBloc < 0) break;
+      const debutBloc = src.lastIndexOf("import {", finBloc);
+      if (debutBloc >= 0) {
+        for (const nom of src.slice(debutBloc + "import {".length, finBloc).split(",")) {
+          const propre = nom.trim();
+          if (propre) importees.add(propre);
+        }
+      }
+      curseur = finBloc + marque.length;
+    }
     const manquantes = [...employees].filter((n) => exportees.has(n) && !importees.has(n));
     if (manquantes.length) {
       fautifs++;
