@@ -1525,7 +1525,7 @@ function TestimonialCard({ t, i }: { t: (typeof TESTIMONIALS_DEMO)[number]; i: n
             margin: '18px 0 20px',
             flex: 1,
           }}
-          dangerouslySetInnerHTML={{ __html: `"${t.text}"` }}
+          children={`"${t.text}"`}
         />
 
         {/* Auteur */}
@@ -1565,7 +1565,7 @@ function TestimonialCard({ t, i }: { t: (typeof TESTIMONIALS_DEMO)[number]; i: n
                 fontSize: 14.5,
                 color: C.navy,
               }}
-              dangerouslySetInnerHTML={{ __html: t.name }}
+              children={t.name}
             />
             <div
               style={{

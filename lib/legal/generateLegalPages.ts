@@ -17,17 +17,30 @@ function clause(value: string | undefined, render: (v: string) => string): strin
   return value ? render(value) : "";
 }
 
+// Client-supplied identity (business name, SIRET, address…) is interpolated
+// into HTML strings rendered with dangerouslySetInnerHTML downstream. Escape it
+// at the source so a `<` or a pasted <script> in the wizard can never execute on
+// the delivered site. Applied once to each field below → every interpolation is
+// safe without touching the templates.
+function esc(s: string): string {
+  return s.replace(
+    /[&<>"']/g,
+    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!,
+  );
+}
+const escOpt = (v: string | undefined): string | undefined => (v ? esc(v) : v);
+
 // Template-string generation from captured legal data — no AI call needed,
 // these are boilerplate legal structures with fields substituted in. Mirrors
 // the hand-written maison-maria legal pages already shipped
 // (app/maison-maria/legal/*) for section structure and tone.
 export function generateLegalPages(fd: FormData, legal: Legal, niche?: string): LegalPages {
-  const businessName = fd.businessName || "Cette entreprise";
-  const email = fd.email || "";
-  const legalForm = legal?.legalForm;
-  const siret = legal?.siret;
-  const companyAddress = legal?.companyAddress;
-  const capitalSocial = legal?.capitalSocial;
+  const businessName = esc(fd.businessName || "Cette entreprise");
+  const email = esc(fd.email || "");
+  const legalForm = escOpt(legal?.legalForm);
+  const siret = escOpt(legal?.siret);
+  const companyAddress = escOpt(legal?.companyAddress);
+  const capitalSocial = escOpt(legal?.capitalSocial);
 
   const identity = `
     <ul>

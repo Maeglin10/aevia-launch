@@ -1569,7 +1569,7 @@ return (
                       color: C.creamMuted,
                       fontFamily: C.fontSans,
                     }}
-                    dangerouslySetInnerHTML={{ __html: s.label }}
+                    children={s.label}
                   />
                 </div>
               ))}
@@ -2379,7 +2379,7 @@ return (
                           textTransform: "uppercase" as const,
                           marginBottom: 4,
                         }}
-                        dangerouslySetInnerHTML={{ __html: info.label }}
+                        children={info.label}
                       />
                       <div
                         style={{
@@ -2388,7 +2388,7 @@ return (
                           fontFamily: C.fontSans,
                           fontWeight: 500,
                         }}
-                        dangerouslySetInnerHTML={{ __html: info.val }}
+                        children={info.val}
                       />
                     </div>
                   </div>

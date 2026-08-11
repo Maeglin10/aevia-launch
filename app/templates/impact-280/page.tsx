@@ -1176,7 +1176,7 @@ function ServiceCard({
                 strokeWidth={2.5}
                 style={{ flexShrink: 0, marginTop: 2 }}
               />
-              <span dangerouslySetInnerHTML={{ __html: item }} />
+              <span children={item} />
             </li>
           ))}
         </ul>
@@ -1494,7 +1494,7 @@ function ProcessStep({
                 lineHeight: 1.70,
                 marginBottom: 14,
               }}
-              dangerouslySetInnerHTML={{ __html: desc }}
+              children={desc}
             />
             <div
               style={{
