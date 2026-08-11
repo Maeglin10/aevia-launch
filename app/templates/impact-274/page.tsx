@@ -2639,7 +2639,7 @@ function FooterSection() {
                 <li key={item.label}>
                   <a
                     href={item.href}
-                    dangerouslySetInnerHTML={{ __html: item.label }}
+                    children={item.label}
                     style={{
                       fontFamily: SANS,
                       fontSize: 15,

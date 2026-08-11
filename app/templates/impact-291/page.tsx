@@ -1358,12 +1358,12 @@ function TestimonialsSection() {
                   margin: '0 0 22px',
                   flex: 1,
                 }}
-                dangerouslySetInnerHTML={{ __html: `"${t.quote}"` }}
+                children={`"${t.quote}"`}
               />
               <figcaption style={{ borderTop: `1px solid ${C.ivoryDeep}`, paddingTop: 18 }}>
                 <div
                   style={{ fontFamily: SERIF, fontSize: 17, fontWeight: 700, color: C.dark }}
-                  dangerouslySetInnerHTML={{ __html: t.name }}
+                  children={t.name}
                 />
                 <div
                   style={{
@@ -1375,7 +1375,7 @@ function TestimonialsSection() {
                     marginTop: 4,
                     fontWeight: 500,
                   }}
-                  dangerouslySetInnerHTML={{ __html: t.role }}
+                  children={t.role}
                 />
                 {t.suivi && (
                   <div
