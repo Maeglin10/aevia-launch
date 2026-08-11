@@ -10,7 +10,7 @@ Trois documents, trois rôles :
 |---|---|
 | [SLIDER_REVOLUTION_TEARDOWN_2.md](SLIDER_REVOLUTION_TEARDOWN_2.md) | Quels sont les timings, et comment ils ont été mesurés |
 | **Ce document** | Quel geste existe, ce qu'il fait, quel composant l'écrit |
-| [PLAN_HEROS_PREMIUM.md](PLAN_HEROS_PREMIUM.md) | Sur quel thème poser quoi, dans quel ordre, avec quels contrôles |
+| [PLAN_HEROS_PREMIUM.md](archive/PLAN_HEROS_PREMIUM.md) | Sur quel thème poser quoi, dans quel ordre, avec quels contrôles (archivé) |
 
 Trois pages de démonstration, toutes adressables par ancre :
 

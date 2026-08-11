@@ -97,6 +97,13 @@ export function generateLegalPages(fd: FormData, legal: Legal, niche?: string): 
 
     <h2>5. Vos droits</h2>
     <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, de suppression, de portabilité et d'opposition concernant vos données personnelles.${email ? ` Pour exercer ces droits, contactez-nous à : ${email}.` : ""} Vous pouvez également adresser une réclamation à la CNIL (<a href="https://www.cnil.fr">cnil.fr</a>).</p>
+${
+    fd.ga4Id
+      ? `
+    <h2>6. Cookies et mesure d'audience</h2>
+    <p>Ce site utilise des cookies de mesure d'audience (Google Analytics) afin d'analyser sa fréquentation. Ces cookies ne sont déposés qu'après votre consentement, recueilli via le bandeau affiché lors de votre première visite, et vous pouvez les refuser sans que cela n'altère l'accès au site. Les cookies strictement nécessaires au fonctionnement du site ne requièrent pas de consentement.</p>`
+      : ""
+  }
   `.trim();
 
   const cgu = `
