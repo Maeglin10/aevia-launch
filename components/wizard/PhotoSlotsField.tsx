@@ -38,6 +38,28 @@ export function PhotoSlotsField({
   emptyLabel: string;
 }) {
   const slots = photoSlotsFor(templateId);
+
+  /*
+    Cinquante-deux thèmes ne portent aucune photographie : ils composent avec
+    de la typographie, des aplats et des dégradés. Leur réclamer une photo
+    serait lui faire perdre son temps pour une image qui ne paraîtrait nulle
+    part — et le laisser devant une zone vide, sans explication, serait pire.
+    On le dit, et on passe à la suite.
+  */
+  if (slots.n === 0) {
+    return (
+      <div className="rounded-lg border border-zinc-700 bg-zinc-900/50 p-4">
+        <p className="text-sm text-zinc-300">
+          Ce thème n&apos;utilise pas de photographie.
+        </p>
+        <p className="mt-1 text-xs text-zinc-500">
+          Il compose avec la typographie, les couleurs et les formes. Vous
+          n&apos;avez donc aucune image à fournir ici — votre logo et vos
+          couleurs suffisent.
+        </p>
+      </div>
+    );
+  }
   /*
     Les banques d'images, pour le client qui n'a pas de photo de son atelier.
 
