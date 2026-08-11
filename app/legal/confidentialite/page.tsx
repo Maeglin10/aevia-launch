@@ -246,7 +246,7 @@ export default function ConfidentialitePage() {
             6. Transferts de données hors Union européenne
           </h2>
           <p className="text-sm leading-relaxed text-zinc-700 mb-3">
-            Certains de nos sous-traitants (Stripe, Anthropic, Render, Vercel) sont
+            Certains de nos sous-traitants (Stripe, Anthropic, Google, Groq, Vercel) sont
             établis aux États-Unis. Ces transferts sont encadrés par des{" "}
             <strong className="text-zinc-900">Clauses Contractuelles Types (CCT)</strong> adoptées
             par la Commission européenne, garantissant un niveau de protection équivalent à celui
