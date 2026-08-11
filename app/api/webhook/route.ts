@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rattacherAuProjet } from "@/lib/domains/vercel";
 import Stripe from "stripe";
 import { Resend } from "resend";
 import { put } from "@vercel/blob";
@@ -430,7 +431,17 @@ async function handleDesiredDomain(rawDomain: string, siteName: string): Promise
         const dns = j.dnsConfigured
           ? ", DNS→Vercel OK"
           : `, ⚠️ DNS à finir${j.dnsError ? `: ${j.dnsError}` : ""}`;
-        return `✅ Domaine ${domain} ENREGISTRÉ (${availLine})${dns}. Reste : ajouter ${domain} au projet Vercel aevia-launch.`;
+        /*
+          Dernière étape jusqu'ici laissée à la main : rattacher le domaine au
+          projet. Tant que personne ne le faisait, le client avait payé un nom
+          qui ne menait nulle part. Elle ne doit jamais faire échouer la
+          commande — d'où le message, et non l'exception.
+        */
+        const rattachement = await rattacherAuProjet(domain);
+        const detailDns = rattachement.dns?.length
+          ? ` DNS à poser : ${rattachement.dns.map((d) => `${d.type} ${d.nom} → ${d.valeur}`).join(" ; ")}.`
+          : "";
+        return `✅ Domaine ${domain} ENREGISTRÉ (${availLine})${dns}. ${rattachement.message}${detailDns}`;
       }
       return `⚠️ Enregistrement ${domain} ÉCHOUÉ (HTTP ${r.status}${j.message ? `: ${j.message}` : ""}) — ${availLine}. À traiter manuellement.`;
     } catch (e) {
