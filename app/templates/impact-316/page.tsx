@@ -1,208 +1,435 @@
 "use client";
-import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
-import React, { useRef, useState, useEffect } from 'react';
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-} from 'framer-motion';
+import React, { useRef, useState, useEffect } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   Building2,
-  Calendar,
   Check,
   CheckCircle,
   ChevronDown,
-  Clock,
   ClipboardCheck,
-  FileText,
-  Gem,
   Globe,
   Layers,
   Mail,
   MapPin,
-  Menu,
   Phone,
-  Quote,
-  Shield,
   ShieldCheck,
   Sparkles,
-  Star,
-  Target,
-  TrendingUp,
-  Users,
-  X,
-  Zap
-} from 'lucide-react';
+} from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
+import { DifferentialExit } from "@/lib/templates/hero-kit-3";
 import {
+  clientAddress,
+  clientCertifications,
   clientCity,
+  clientEmail,
+  clientEyebrow,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 let fd: any = null;
-
-// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
-// saisir, le thème ne les lisait pas.
-const STATS_INLINE_SOURCE = [
-  { value: "350+", label: "Clients B2B actifs" },
-              { value: "1.2M", label: "m² nettoyés / mois" },
-              { value: "16 ans", label: "d'expérience" },
-              { value: "ISO", label: "14001 certifié" }
-];
-let STATS_INLINE = STATS_INLINE_SOURCE;
-
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
 let sessionData: any = null;
-let brand: any = null;
-
-const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-  </svg>
-);
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PRO-NETTOYAGE SERVICES — Nettoyage professionnel de bureaux & locaux B2B.
-   Cinzel, marine / or. Fichier auto-suffisant premium généré par Antigravity.
+   PRO-NETTOYAGE SERVICES — Nettoyage professionnel B2B (bureaux, copropriétés).
+   Réécriture premium : héros H9 double colonne + rail de stats vertical,
+   geste DifferentialExit (trois plans, trois vitesses au défilement),
+   services en rangées éditoriales à filet, chiffres fantômes.
+   Fontes : Spectral (serif) × IBM Plex Sans. Palette #f4f6f8 / #22577a.
    ════════════════════════════════════════════════════════════════════════════ */
 
-function shadeColor(hex: string, percent: number): string {
-  const num = parseInt(hex.replace('#', ''), 16);
-  if (isNaN(num)) return hex;
-  const amt = Math.round(2.55 * percent);
-  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
-  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
-  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
-  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
-}
-
-let C: Record<string, string> = {
-  primary: "var(--brand,#d97706)",
-  primaryLight: "var(--brand-light,#f59e0b)",
-  primaryDark: "#b45309",
-  bg: "#ffffff",
-  bgDeep: "#fafafa",
-  bgCard: "#f5f5f5",
-  text: "#0f172a",
-  textMuted: "#475569",
-  accent: "#0f172a",
+const C = {
+  bg: "#f4f6f8",
+  bgAlt: "#e9edf2",
+  bgDark: "#101c26",
+  bgDarkAlt: "#0b141c",
+  bgCard: "#ffffff",
+  accent: "var(--brand,#22577a)",
+  accentDark: "var(--brand-light,#173d57)",
+  accentLight: "#d7e3ed",
+  ink: "#12202c",
+  textMuted: "#41556a",
+  textFaint: "#7d8fa2",
+  border: "#d3dce4",
   white: "#ffffff",
-  black: "#000000",
-};
+  mint: "#2d8a63",
+} as const;
 
-const SERIF = "'Cinzel', serif" as const;
-const SANS = "'Inter', sans-serif" as const;
+const SERIF = "'Spectral', Georgia, serif" as const;
+const SANS = "'IBM Plex Sans', system-ui, sans-serif" as const;
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-function PHOTO_LIVE() {
-  return {
-  hero: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop"),
-  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1497215842964-222b430dc094?q=80&w=1600&auto=format&fit=crop"),
-  special: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1600&auto=format&fit=crop"),
-  gallery1: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop"),
-  gallery2: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1497215842964-222b430dc094?q=80&w=800&auto=format&fit=crop"),
-  gallery3: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=800&auto=format&fit=crop"),
-  gallery4: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=800&auto=format&fit=crop"),
-} as const;
+/* ── Photos — URLs existantes du thème, jamais de nouvelle URL ───────────── */
+function photo(i: number, repli: string): string {
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || repli;
 }
-let PHOTO = PHOTO_LIVE();
+const P_ABOUT = "https://images.unsplash.com/photo-1497215842964-222b430dc094?q=80&w=1600&auto=format&fit=crop";
+const P_G1 = "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop";
+const P_G2 = "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=800&auto=format&fit=crop";
+const P_G3 = "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=800&auto=format&fit=crop";
+const P_G4 = "https://images.unsplash.com/photo-1497215842964-222b430dc094?q=80&w=800&auto=format&fit=crop";
 
-function Eyebrow({ children, color = C.primary, align = 'left' }: { children: React.ReactNode; color?: string; align?: 'left' | 'center' }) {
+/* ── Données de démonstration (contenu rédactionnel conservé) ────────────── */
+const STATS_SOURCE = [
+  { value: "350+", label: "Clients B2B actifs" },
+  { value: "1.2M", label: "m² nettoyés / mois" },
+  { value: "16 ans", label: "d'expérience" },
+  { value: "ISO", label: "14001 certifié" },
+];
+let STATS = STATS_SOURCE;
+
+const SERVICES_SOURCE = [
+  { icon: Building2, num: "01", title: "Nettoyage de Bureaux", desc: "Entretien quotidien ou hebdomadaire de vos open-spaces, salles de réunion et espaces communs." },
+  { icon: Layers, num: "02", title: "Copropriétés", desc: "Parties communes, halls d'entrée, escaliers, locaux poubelles. Contrat sur mesure." },
+  { icon: Globe, num: "03", title: "Vitrerie Professionnelle", desc: "Nettoyage intérieur et extérieur de baies vitrées, façades, verrières de grande hauteur." },
+  { icon: ShieldCheck, num: "04", title: "Désinfection", desc: "Protocole virucide certifié EN 14476 pour bureaux, salles d'attente et espaces médicaux." },
+  { icon: Sparkles, num: "05", title: "Remise en État", desc: "Nettoyage après travaux, fin de bail, déménagement. Restitution à l'état d'origine." },
+  { icon: ClipboardCheck, num: "06", title: "Audit & Qualité", desc: "Contrôles qualité réguliers, reporting mensuel, interlocuteur dédié. Certification ISO 14001." },
+];
+let SERVICES = SERVICES_SOURCE;
+
+const METHODE_SOURCE = [
+  { step: "01", title: "Audit gratuit", desc: "Visite de vos locaux, analyse des besoins et cahier des charges personnalisé." },
+  { step: "02", title: "Devis détaillé", desc: "Proposition claire, transparente et sans engagement sous 48h." },
+  { step: "03", title: "Mise en place", desc: "Équipe dédiée, planning adapté à vos horaires, clés en main." },
+  { step: "04", title: "Suivi qualité", desc: "Contrôles réguliers, reporting mensuel et ajustements continus." },
+];
+
+const ENGAGEMENTS_SOURCE = [
+  "Certification ISO 14001",
+  "Contrôle qualité mensuel",
+  "Personnel formé & déclaré",
+  "Assurance RC Pro incluse",
+  "Interlocuteur dédié",
+];
+let ENGAGEMENTS = ENGAGEMENTS_SOURCE;
+
+function AVIS_SOURCE_LIVE() {
+  return [
+    { name: "Laurent P.", role: "Directeur Général, TechCorp " + (clientCity(sessionData) ?? "Paris"), text: "Pro-Nettoyage assure l'entretien de nos 2 000 m² de bureaux depuis 3 ans. Fiabilité exemplaire, équipes discrètes et résultats constants.", detail: "Bureaux · contrat 3 ans" },
+    { name: "Nathalie F.", role: "Syndic, Résidence Les Érables", text: "Les parties communes n'ont jamais été aussi propres. Les résidents sont unanimes. Le reporting mensuel est un vrai plus.", detail: "Copropriété" },
+    { name: "Stéphane R.", role: "DRH, Cabinet Juridique Bordeaux", text: "Passage quotidien impeccable, équipe stable et professionnelle. Notre cabinet a un standing irréprochable grâce à leur travail.", detail: "Passage quotidien" },
+  ];
+}
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();
+let AVIS = AVIS_SOURCE;
+
+const FAQ_SOURCE = [
+  { q: "Quelle est la durée minimum d'engagement ?", a: "Nos contrats sont flexibles. Nous proposons des engagements de 3, 6 ou 12 mois avec des conditions avantageuses pour les contrats annuels. Un préavis de 30 jours suffit." },
+  { q: "Intervenez-vous en dehors des heures de bureau ?", a: "Oui, nos équipes s'adaptent à vos horaires : interventions matinales dès 5h, en soirée après 19h ou le week-end. Aucun supplément pour les créneaux standards hors bureau." },
+  { q: "Comment gérez-vous les accès et la sécurité ?", a: "Chaque agent signe une clause de confidentialité. Nous gérons les badges, clés et protocoles d'accès en coordination avec votre responsable sécurité." },
+  { q: "Proposez-vous un suivi de qualité ?", a: "Absolument. Un responsable qualité effectue des contrôles mensuels. Vous recevez un rapport détaillé avec photos et scores de conformité." },
+];
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Primitives
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/** Kicker : filet 40×1 px + capitales interlettrées. */
+function Eyebrow({
+  children,
+  color = C.accent,
+  align = "left",
+}: {
+  children: React.ReactNode;
+  color?: string;
+  align?: "left" | "center";
+}) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: align === 'center' ? 'center' : 'flex-start', marginBottom: 16 }}>
-      <span style={{ width: 32, height: 1.5, background: color, opacity: 0.6 }} />
-      <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: '0.3em', textTransform: 'uppercase', color, fontWeight: 700 }}>{children}</span>
-      {align === 'center' && <span style={{ width: 32, height: 1.5, background: color, opacity: 0.6 }} />}
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 14,
+        justifyContent: align === "center" ? "center" : "flex-start",
+      }}
+    >
+      <span style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${color})`, opacity: 0.85, flexShrink: 0 }} />
+      <span
+        style={{
+          fontFamily: SANS,
+          fontSize: 10.5,
+          letterSpacing: "0.36em",
+          textTransform: "uppercase",
+          color,
+          fontWeight: 600,
+        }}
+      >
+        {children}
+      </span>
+      {align === "center" && (
+        <span style={{ width: 40, height: 1, background: `linear-gradient(90deg, ${color}, transparent)`, opacity: 0.85, flexShrink: 0 }} />
+      )}
     </div>
   );
 }
 
-function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
+function Reveal({
+  children,
+  delay = 0,
+  y = 32,
+  style,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  y?: number;
+  style?: React.CSSProperties;
+}) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-8% 0px -8% 0px' });
+  const inView = useInView(ref, { once: true, margin: "-10% 0px -10% 0px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : undefined} transition={{ duration: 1.0, ease: EASE, delay }}>
+    <motion.div
+      ref={ref}
+      style={style}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 0.95, ease: EASE, delay }}
+    >
       {children}
     </motion.div>
   );
 }
 
-function Button({ children, onClick, filled = false, type = 'button' }: { children: React.ReactNode; onClick?: () => void; filled?: boolean; type?: 'button' | 'submit' }) {
-  const [hover, setHover] = useState(false);
+/** Bouton institutionnel, angle net, flèche qui avance. */
+function CtaButton({
+  children,
+  href = "#devis",
+  filled = true,
+  onDark = false,
+  type,
+}: {
+  children: React.ReactNode;
+  href?: string;
+  filled?: boolean;
+  onDark?: boolean;
+  type?: "submit";
+}) {
+  const [h, setH] = useState(false);
+  const style: React.CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 10,
+    padding: "15px 30px",
+    fontFamily: SANS,
+    fontSize: 12,
+    letterSpacing: "0.18em",
+    textTransform: "uppercase",
+    fontWeight: 600,
+    cursor: "pointer",
+    textDecoration: "none",
+    border: `1px solid ${filled ? C.accent : onDark ? "rgba(255,255,255,0.4)" : C.accent}`,
+    background: filled ? (h ? C.accentDark : C.accent) : h ? (onDark ? "rgba(255,255,255,0.1)" : "rgba(34,87,122,0.07)") : "transparent",
+    color: filled ? C.white : onDark ? "rgba(255,255,255,0.92)" : C.accent,
+    transform: h ? "translateY(-2px)" : "none",
+    boxShadow: h
+      ? "0 14px 34px -14px rgba(16,28,38,0.45), 0 3px 10px -4px rgba(16,28,38,0.25)"
+      : "0 0 0 0 rgba(0,0,0,0)",
+    transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+  };
+  const arrow = (
+    <ArrowRight
+      size={14}
+      style={{ transform: h ? "translateX(5px)" : "none", transition: "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)" }}
+    />
+  );
+  if (type === "submit") {
+    return (
+      <button type="submit" onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={style}>
+        {children}
+        {arrow}
+      </button>
+    );
+  }
   return (
-    <button type={type} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
-      style={{
-        display: 'inline-flex', alignItems: 'center', gap: 10, padding: '14px 28px',
-        fontFamily: SANS, fontSize: 11.5, letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, cursor: 'pointer',
-        border: `1.5px solid ${C.primary}`, background: filled ? C.primary : 'transparent', color: filled ? C.white : C.primary,
-        borderRadius: 2, transform: hover ? 'translateY(-2px)' : 'none',
-        boxShadow: hover && filled ? `0 6px 20px ${C.primary}33` : 'none', transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-      }}>
+    <a href={href} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={style}>
       {children}
-      <ArrowRight size={13} style={{ transform: hover ? 'translateX(4px)' : 'none', transition: 'transform 0.4s ease' }} />
-    </button>
+      {arrow}
+    </a>
   );
 }
 
-/* ════════════════════════════════════════════════════════════════════════════ */
-
-
-const SERVICES_DEMO = [
-  { icon: <Building2 size={28} />, title: "Nettoyage de Bureaux", desc: "Entretien quotidien ou hebdomadaire de vos open-spaces, salles de réunion et espaces communs." },
-  { icon: <Layers size={28} />, title: "Copropriétés", desc: "Parties communes, halls d'entrée, escaliers, locaux poubelles. Contrat sur mesure." },
-  { icon: <Globe size={28} />, title: "Vitrerie Professionnelle", desc: "Nettoyage intérieur et extérieur de baies vitrées, façades, verrières de grande hauteur." },
-  { icon: <ShieldCheck size={28} />, title: "Désinfection", desc: "Protocole virucide certifié EN 14476 pour bureaux, salles d'attente et espaces médicaux." },
-  { icon: <Sparkles size={28} />, title: "Remise en État", desc: "Nettoyage après travaux, fin de bail, déménagement. Restitution à l'état d'origine." },
-  { icon: <ClipboardCheck size={28} />, title: "Audit & Qualité", desc: "Contrôles qualité réguliers, reporting mensuel, interlocuteur dédié. Certification ISO 14001." },
-];
-
-function TESTIMONIALS_SOURCE_LIVE() {
-  return [
-  { name: "Laurent P.", role: "Directeur Général, TechCorp " + (clientCity(sessionData) ?? "Paris"), text: "Pro-Nettoyage assure l'entretien de nos 2 000 m² de bureaux depuis 3 ans. Fiabilité exemplaire, équipes discrètes et résultats constants.", rating: 5 },
-  { name: "Nathalie F.", role: "Syndic, Résidence Les Érables", text: "Les parties communes n'ont jamais été aussi propres. Les résidents sont unanimes. Le reporting mensuel est un vrai plus.", rating: 5 },
-  { name: "Stéphane R.", role: "DRH, Cabinet Juridique Bordeaux", text: "Passage quotidien impeccable, équipe stable et professionnelle. Notre cabinet a un standing irréprochable grâce à leur travail.", rating: 5 },
-];
+function NavLink({ label, href }: { label: string; href: string }) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        fontFamily: SANS,
+        fontSize: 12.5,
+        fontWeight: 500,
+        letterSpacing: "0.08em",
+        textTransform: "uppercase",
+        color: h ? C.ink : C.textMuted,
+        textDecoration: "none",
+        transition: "color 0.35s",
+        position: "relative",
+        padding: "12px 2px",
+      }}
+    >
+      {label}
+      <span
+        style={{
+          position: "absolute",
+          left: 0,
+          bottom: 8,
+          height: 1,
+          width: h ? "100%" : "0%",
+          background: C.accent,
+          transition: "width 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+        }}
+      />
+    </a>
+  );
 }
-let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
+/* ════════════════════════════════════════════════════════════════════════════
+   Nav — collante à 4 propriétés (padding, fond, flou, filet)
+   ════════════════════════════════════════════════════════════════════════════ */
+function Nav() {
+  const [solid, setSolid] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setSolid(window.scrollY > 60);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const links = [
+    { label: "Prestations", href: "#services" },
+    { label: "Méthode", href: "#methode" },
+    { label: "Engagements", href: "#engagements" },
+    { label: "Références", href: "#references" },
+  ];
+
+  return (
+    <>
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 90,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: solid ? "12px clamp(20px,5vw,64px)" : "24px clamp(20px,5vw,64px)",
+          background: solid ? "rgba(244,246,248,0.92)" : "transparent",
+          backdropFilter: solid ? "blur(14px) saturate(140%)" : "none",
+          WebkitBackdropFilter: solid ? "blur(14px) saturate(140%)" : "none",
+          borderBottom: solid ? `1px solid ${C.border}` : "1px solid transparent",
+          transition: "all 0.55s cubic-bezier(0.16, 1, 0.3, 1)",
+        }}
+      >
+        <a href="#hero" style={{ textDecoration: "none", display: "flex", alignItems: "baseline", gap: 8, minWidth: 0 }}>
+          {fd?.logoBase64 ? (
+            <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
+          ) : (
+            <>
+              <span style={{ fontFamily: SERIF, fontSize: 20, fontWeight: 600, letterSpacing: "0.02em", color: C.ink, whiteSpace: "nowrap" }}>
+                {clientName(sessionData) ?? "Pro-Nettoyage"}
+              </span>
+              <span style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accent, fontWeight: 600 }}>
+                {clientTrade(sessionData) ?? "Services"}
+              </span>
+            </>
+          )}
+        </a>
+        <div className="i316-navlinks" style={{ display: "flex", alignItems: "center", gap: "clamp(18px,2.4vw,36px)" }}>
+          {links.map((l) => (
+            <NavLink key={l.label} label={l.label} href={l.href} />
+          ))}
+          <CtaButton href="#devis">Devis gratuit</CtaButton>
+        </div>
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="i316-burger"
+          aria-label="Menu"
+          style={{
+            display: "none",
+            flexDirection: "column",
+            justifyContent: "center",
+            gap: 5,
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: 10,
+            minWidth: 44,
+            minHeight: 44,
+          }}
+        >
+          <span style={{ width: 22, height: 1.5, background: C.ink, display: "block", transition: "transform 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ width: 22, height: 1.5, background: C.ink, display: "block", opacity: mobileOpen ? 0 : 1, transition: "opacity 0.3s" }} />
+          <span style={{ width: 22, height: 1.5, background: C.ink, display: "block", transition: "transform 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
+      </nav>
+      {mobileOpen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 58,
+            left: 0,
+            right: 0,
+            zIndex: 89,
+            background: "rgba(244,246,248,0.98)",
+            borderBottom: `1px solid ${C.border}`,
+            padding: "18px clamp(20px,5vw,48px) 26px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 4,
+          }}
+        >
+          {links.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              onClick={() => setMobileOpen(false)}
+              style={{ color: C.ink, textDecoration: "none", fontFamily: SANS, fontSize: 15, letterSpacing: "0.08em", textTransform: "uppercase", padding: "12px 0" }}
+            >
+              {l.label}
+            </a>
+          ))}
+          <a
+            href="#devis"
+            onClick={() => setMobileOpen(false)}
+            style={{ marginTop: 10, background: C.accent, color: C.white, textAlign: "center", textDecoration: "none", fontFamily: SANS, fontSize: 13, letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 600, padding: "14px 24px" }}
+          >
+            Devis gratuit
+          </a>
+        </div>
+      )}
+    </>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   PAGE
+   ════════════════════════════════════════════════════════════════════════════ */
 export default function Page() {
-  const [session, setSession] = useState<{
-    formData?: {
-      businessName?: string; businessType?: string; tagline?: string;
-      city?: string; mainService?: string; benefits?: string[];
-      priceRange?: string; targetAudience?: string; brandColor?: string;
-      email?: string; phone?: string; instagram?: string; linkedin?: string;
-      logoBase64?: string;
-    };
-    generatedContent?: {
-      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
-      aboutText?: string; ctaText?: string;
-      services?: { title?: string; description?: string }[];
-      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
-    };
-    businessProfile?: any;
-  } | null>(null);
+  const [session, setSession] = useState<any>(null);
 
   useEffect(() => {
     let id = new URLSearchParams(window.location.search).get("session");
@@ -213,181 +440,490 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`).then((r) => r.json()).then(setSession).catch(() => {});
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
   }, []);
 
   fd = session?.formData;
-
-
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  PHOTO = PHOTO_LIVE();
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
 
-  STATS_INLINE = resolveList(
-
+  STATS = resolveList(
     clientStats(sessionData)?.map((s: any, i: number) => ({
-
-      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
-
+      ...STATS_SOURCE[i % STATS_SOURCE.length],
       value: s.value,
-
       label: s.label,
-
     })),
-
-    STATS_INLINE_SOURCE,
-
+    STATS_SOURCE,
   );
-
-  useEffect(() => {
-    if (!fd?.photoUrls?.length) return;
-    let n = 0;
-    const _photoArrays: any[] = [PHOTO];
-    _photoArrays.forEach((arr) => {
-      if (!Array.isArray(arr)) return;
-      arr.forEach((item) => {
-        if (!item || typeof item !== "object") return;
-        for (const key of ["img", "src", "image", "imgSrc", "photo"]) {
-          if (typeof item[key] === "string" && item[key].includes("images.unsplash.com")) {
-            if (fd.photoUrls[n]) item[key] = fd.photoUrls[n];
-            n++;
-          }
-        }
-      });
-    });
-  });
-  TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
-    TESTIMONIALS_SOURCE,
-  );
-  brand = fd?.brandColor ?? null;
-  if (brand) {
-    C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
-  }
-
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', company: '', message: '' });
-
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
-  const heroScale = useTransform(heroProgress, [0, 1], [1, 1.08]);
-  const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
-  const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
-
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); if (formData.name && formData.email) setFormSubmitted(true); };
-
-  const SERVICES = resolveList(
+  SERVICES = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
-      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
-      title: s.title ?? s.name,
-      desc: s.description ?? s.desc,
+      ...SERVICES_SOURCE[i % SERVICES_SOURCE.length],
+      num: String(i + 1).padStart(2, "0"),
+      title: s.title ?? s.name ?? SERVICES_SOURCE[i % SERVICES_SOURCE.length].title,
+      desc: s.description ?? s.desc ?? SERVICES_SOURCE[i % SERVICES_SOURCE.length].desc,
     })),
-    SERVICES_DEMO
+    SERVICES_SOURCE,
   );
-  const TESTIMONIALS = resolveList(
+  AVIS = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({
-      name: r.name ?? r.author,
-      role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
-      text: r.text ?? r.quote,
-      rating: r.stars ?? r.rating ?? 5,
+      ...AVIS_SOURCE[i % AVIS_SOURCE.length],
+      name: r.name ?? r.author ?? AVIS_SOURCE[i % AVIS_SOURCE.length].name,
+      text: r.text ?? r.quote ?? AVIS_SOURCE[i % AVIS_SOURCE.length].text,
+      role: r.location ?? r.role ?? AVIS_SOURCE[i % AVIS_SOURCE.length].role,
     })),
-    TESTIMONIALS_DEMO
+    AVIS_SOURCE,
   );
+  ENGAGEMENTS = resolveList(clientCertifications(sessionData), ENGAGEMENTS_SOURCE);
+
+  const FAQ = resolveList(
+    clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })),
+    FAQ_SOURCE,
+  );
+
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const [hoverService, setHoverService] = useState<number | null>(null);
+  const [hoverGal, setHoverGal] = useState<number | null>(null);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", company: "", message: "" });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.name && formData.email) setFormSubmitted(true);
+  };
+
+  const phone = clientPhone(sessionData) ?? "+33 (0)1 00 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? "+33177307474").replace(/[\s().]/g, "")}`;
+  const email = clientEmail(sessionData) ?? "commercial@pro-nettoyage.fr";
+  const zone = clientAddress(sessionData) ?? fd?.city ?? "Île-de-France & Grand Ouest";
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: SANS, minHeight: '100dvh', overflowX: 'hidden' }}>
+    <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, minHeight: "100dvh", overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        .i316-ease { transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+        @media (max-width: 900px) {
+          .i316-navlinks { display: none !important; }
+          .i316-burger { display: flex !important; }
+        }
+        @media (max-width: 880px) {
+          .i316-hero { grid-template-columns: 1fr !important; gap: 44px !important; padding-top: 120px !important; }
+          .i316-rail { border-left: none !important; border-top: 1px solid ${C.border}; padding-left: 0 !important; padding-top: 26px !important; flex-direction: row !important; flex-wrap: wrap; gap: 26px !important; }
+          .i316-rail > div { flex: 1 1 40%; }
+          .i316-split { grid-template-columns: 1fr !important; }
+          .i316-srow { grid-template-columns: 48px 1fr !important; }
+          .i316-srow .i316-sicon { display: none !important; }
+          .i316-contact { grid-template-columns: 1fr !important; }
+          .i316-footgrid { grid-template-columns: 1fr 1fr !important; }
+          .i316-avis > * { margin-top: 0 !important; }
+        }
+        @media (max-width: 540px) {
+          .i316-footgrid { grid-template-columns: 1fr !important; }
+          .i316-formgrid { grid-template-columns: 1fr !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .i316-cue { display: none !important; }
+          .i316-stamp { animation: none !important; }
+        }
+        @keyframes i316-spin { to { transform: rotate(360deg); } }
+      `}</style>
 
-      {/* ════════ NAVBAR ════════ */}
-      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(12px)', borderBottom: `1px solid ${C.accent}0d` }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <a href="#hero" style={{ fontFamily: SERIF, fontSize: 20, fontWeight: 700, color: C.accent, textDecoration: 'none', letterSpacing: '0.08em', display: 'flex', alignItems: 'center' }}>
-            {fd?.logoBase64 ? (
-              <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
-            ) : (
-              <>PRO-NETTOYAGE<span style={{ color: C.primary, marginLeft: 6 }}>{tr(sessionData, "SERVICES")}</span></>
-            )}
-          </a>
-          <div style={{ gap: 28, alignItems: 'center' }} className="hidden md:flex">
-            <a href="#services" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>{tr(sessionData, "Services")}</a>
-            <a href="#about" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>Entreprise</a>
-            <a href="#avis" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>Références</a>
-            <a href="#contact" style={{ textDecoration: 'none' }}>
-              <button style={{ background: C.accent, color: C.white, border: 'none', padding: '9px 18px', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', borderRadius: 2, cursor: 'pointer' }}>
-                Devis gratuit
-              </button>
-            </a>
+      <Nav />
+
+      {/* ════════ HERO — H9 : double colonne texte + rail de stats vertical ════════
+          Geste : DifferentialExit — au défilement, le titre, le paragraphe et le
+          rail ne partent pas à la même vitesse. Trois plans, trois rythmes. */}
+      <section
+        id="hero"
+        style={{
+          position: "relative",
+          minHeight: "100dvh",
+          display: "flex",
+          alignItems: "center",
+          background: C.bg,
+          overflow: "hidden",
+          padding: "clamp(120px,16vh,180px) clamp(24px,6vw,96px) clamp(56px,8vh,96px)",
+        }}
+      >
+        {/* Texture : quadrillage technique très pâle */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              `repeating-linear-gradient(90deg, rgba(34,87,122,0.045) 0 1px, transparent 1px 96px), repeating-linear-gradient(0deg, rgba(34,87,122,0.035) 0 1px, transparent 1px 96px)`,
+            pointerEvents: "none",
+          }}
+        />
+        {/* Chiffre fantôme — le fond, part lentement */}
+        <DifferentialExit depth={0.05} style={{ position: "absolute", right: "-2%", bottom: "-4%", pointerEvents: "none", zIndex: 0 }}>
+          <div
+            aria-hidden
+            style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontWeight: 300,
+              fontSize: "clamp(11rem,26vw,26rem)",
+              lineHeight: 1,
+              color: C.accent,
+              opacity: 0.07,
+              userSelect: "none",
+              whiteSpace: "nowrap",
+            }}
+          >
+            m²
           </div>
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{ background: 'transparent', border: 'none', color: C.accent, cursor: 'pointer' }} className="md:hidden" aria-label="Menu">
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} style={{ background: C.bgDeep, borderBottom: `1px solid ${C.accent}0d`, overflow: 'hidden' }} className="md:hidden">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: 24 }}>
-                <a href="#services" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>{tr(sessionData, "Services")}</a>
-                <a href="#about" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>Entreprise</a>
-                <a href="#avis" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>Références</a>
-                <a href="#contact" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none' }}>
-                  <button style={{ background: C.accent, color: C.white, border: 'none', padding: '12px 24px', width: '100%', fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', borderRadius: 2 }}>Devis gratuit</button>
-                </a>
-              </div>
+        </DifferentialExit>
+
+        <div
+          className="i316-hero"
+          style={{
+            position: "relative",
+            zIndex: 2,
+            width: "100%",
+            maxWidth: 1240,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "minmax(0,1.5fr) minmax(0,0.6fr)",
+            gap: "clamp(48px,6vw,96px)",
+            alignItems: "center",
+          }}
+        >
+          {/* Colonne texte — premier plan, part vite */}
+          <div>
+            <DifferentialExit depth={0.9}>
+              <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.05 }}>
+                <Eyebrow>{clientEyebrow(sessionData) ?? "Nettoyage professionnel · B2B"}</Eyebrow>
+              </motion.div>
+              <motion.h1
+                initial={{ opacity: 0, y: 44 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: EASE, delay: 0.16 }}
+                style={{
+                  fontFamily: SERIF,
+                  fontWeight: 500,
+                  fontSize: "clamp(2.7rem,6.2vw,5.6rem)",
+                  lineHeight: 0.99,
+                  letterSpacing: "-0.015em",
+                  color: C.ink,
+                  margin: "clamp(20px,2.6vw,34px) 0 clamp(18px,2.2vw,28px)",
+                  maxWidth: "16ch",
+                }}
+              >{/* ACCROCHE */ (clientHeroLine(sessionData, 0, 2, 18) != null) ? (<>
+                {clientHeroLine(sessionData, 0, 2, 18)}
+                <br />
+                {clientHeroLine(sessionData, 1, 2, 18)}
+              </>) : (<>
+                L&apos;excellence au service de vos espaces{" "}
+                <em style={{ fontStyle: "italic", color: C.accent }}>professionnels</em>.
+              </>)}</motion.h1>
+            </DifferentialExit>
+
+            <DifferentialExit depth={0.55}>
+              <motion.p
+                initial={{ opacity: 0, y: 28 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.05, ease: EASE, delay: 0.4 }}
+                style={{
+                  fontFamily: SANS,
+                  fontWeight: 300,
+                  fontSize: "clamp(1rem,1.6vw,1.2rem)",
+                  lineHeight: 1.72,
+                  color: C.textMuted,
+                  maxWidth: 500,
+                  margin: "0 0 clamp(28px,3.6vw,44px)",
+                }}
+              >
+                {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Nettoyage de bureaux, copropriétés et locaux commerciaux. Équipes formées, certifiées et engagées pour un résultat irréprochable."}
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 22 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.0, ease: EASE, delay: 0.58 }}
+                style={{ display: "flex", gap: 14, flexWrap: "wrap" }}
+              >
+                <CtaButton href="#devis">Demander un devis</CtaButton>
+                <CtaButton href="#services" filled={false}>Nos prestations</CtaButton>
+              </motion.div>
+            </DifferentialExit>
+          </div>
+
+          {/* Rail de stats vertical — plan intermédiaire */}
+          <DifferentialExit depth={0.25}>
+            <motion.div
+              className="i316-rail"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.1, ease: EASE, delay: 0.5 }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "clamp(24px,3.4vh,40px)",
+                borderLeft: `1px solid ${C.border}`,
+                paddingLeft: "clamp(24px,2.6vw,40px)",
+                position: "relative",
+              }}
+            >
+              {STATS.map((s, i) => (
+                <div key={s.label + i}>
+                  <div style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.9rem,3vw,2.6rem)", lineHeight: 1, color: C.accent, letterSpacing: "-0.01em" }}>
+                    {s.value}
+                  </div>
+                  <div style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: C.textFaint, marginTop: 8, fontWeight: 500 }}>
+                    {s.label}
+                  </div>
+                </div>
+              ))}
             </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
+          </DifferentialExit>
+        </div>
 
-      {/* ════════ HERO ════════ */}
-      <section id="hero" ref={heroRef} style={{ position: 'relative', height: '100vh', minHeight: 650, display: 'flex', alignItems: 'center', background: C.accent, overflow: 'hidden', paddingTop: 80 }}>
-        <motion.div style={{ position: 'absolute', inset: 0, scale: heroScale, y: heroY, opacity: heroOpacity }}>
-          <img src={PHOTO.hero} alt="Bureaux professionnels modernes" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(15,23,42,0.88) 0%, rgba(15,23,42,0.65) 100%)' }} />
-        </motion.div>
+        {/* Cue défilement */}
+        <div
+          className="i316-cue"
+          style={{
+            position: "absolute",
+            bottom: 26,
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 6,
+            color: C.textFaint,
+            fontSize: 10,
+            letterSpacing: "0.28em",
+            textTransform: "uppercase",
+            zIndex: 3,
+          }}
+        >
+          <span>Défiler</span>
+          <motion.div animate={{ y: [0, 7, 0] }} transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}>
+            <ChevronDown size={15} color={C.accent} strokeWidth={1.5} />
+          </motion.div>
+        </div>
+      </section>
 
-        <div style={{ position: 'relative', zIndex: 2, maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
-          <Reveal delay={0.25}>
-            <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(34px, 5.5vw, 72px)', lineHeight: 1.1, fontWeight: 700, color: C.white, marginBottom: 20 }}>
-              {<>{clientHeroLine(sessionData, 0, 2, 15) ?? "L'excellence au service"}<br />{clientHeroLine(sessionData, 1, 2, 15) ?? "de vos espaces professionnels"}</>}
-            </h1>
+      {/* ════════ RESPIRATION — une phrase serif italique ════════ */}
+      <section style={{ background: C.bgAlt, padding: "clamp(88px,12vw,168px) clamp(24px,8vw,160px)", textAlign: "center" }}>
+        <Reveal>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
+            <Eyebrow color={C.textMuted} align="center">Notre philosophie</Eyebrow>
+          </div>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p
+            style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontWeight: 300,
+              fontSize: "clamp(1.5rem,3.2vw,2.9rem)",
+              lineHeight: 1.38,
+              color: C.ink,
+              maxWidth: 940,
+              margin: "0 auto",
+            }}
+          >{/* TEXTE_SECTION */ clientText(sessionData, "philosophie.texte") ?? (<>
+            Des locaux impeccables, des équipes stables,{" "}
+            <span style={{ color: C.accent }}>un interlocuteur unique</span>.
+          </>)}</p>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <div style={{ width: 1, height: 76, background: `linear-gradient(${C.accent}, transparent)`, margin: "48px auto 0" }} />
+        </Reveal>
+      </section>
+
+      {/* ════════ SERVICES — rangées éditoriales numérotées à filet ════════ */}
+      <section id="services" style={{ background: C.bg, padding: "clamp(88px,12vw,160px) clamp(24px,6vw,96px)" }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+          <Reveal>
+            <Eyebrow>Nos prestations B2B</Eyebrow>
           </Reveal>
-
-          <Reveal delay={0.4}>
-            <p style={{ fontSize: 'clamp(15px, 1.6vw, 19px)', lineHeight: 1.6, color: 'rgba(255,255,255,0.8)', maxWidth: 650, marginBottom: 36 }}>
-              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Nettoyage de bureaux, copropriétés'et locaux commerciaux. Équipes formées, certifiées et engagées pour un résultat irréprochable."}
+          <Reveal delay={0.08}>
+            <h2
+              style={{
+                fontFamily: SERIF,
+                fontWeight: 500,
+                fontSize: "clamp(1.9rem,4.4vw,3.8rem)",
+                lineHeight: 1.06,
+                letterSpacing: "-0.01em",
+                color: C.ink,
+                margin: "20px 0 14px",
+                maxWidth: "22ch",
+              }}
+            >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
+              Des solutions sur mesure pour chaque{" "}
+              <em style={{ fontStyle: "italic", color: C.accent }}>espace</em>
+            </>)}</h2>
+          </Reveal>
+          <Reveal delay={0.14}>
+            <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(0.95rem,1.4vw,1.1rem)", lineHeight: 1.75, color: C.textMuted, maxWidth: 500, margin: "0 0 clamp(40px,5vw,64px)" }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "services.texte") ?? (<>
+              Bureaux, commerces, copropriétés ou établissements de santé — nous adaptons nos protocoles à chaque environnement.
+              </>)}
             </p>
           </Reveal>
 
-          <Reveal delay={0.55}>
-            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-              <a href="#contact" style={{ textDecoration: 'none' }}><Button filled>Demander un devis</Button></a>
-              <a href="#services" style={{ textDecoration: 'none' }}>
-                <button style={{ padding: '14px 28px', background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.2)', color: '#ffffff', fontSize: 11.5, letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, borderRadius: 2, cursor: 'pointer', transition: 'all 0.3s' }}>
-                  Nos prestations
-                </button>
-              </a>
+          <div>
+            {SERVICES.map((s, i) => {
+              const Icon = s.icon;
+              const on = hoverService === i;
+              return (
+                <Reveal key={s.num + s.title} delay={i * 0.05}>
+                  <div
+                    className="i316-srow"
+                    onMouseEnter={() => setHoverService(i)}
+                    onMouseLeave={() => setHoverService(null)}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "clamp(56px,8vw,110px) 1fr auto",
+                      gap: "clamp(16px,3vw,44px)",
+                      alignItems: "center",
+                      padding: "clamp(24px,3.2vw,40px) clamp(10px,1.4vw,20px)",
+                      borderTop: `1px solid ${C.border}`,
+                      borderImage: on ? `linear-gradient(90deg, ${C.accent}, transparent 70%) 1` : undefined,
+                      background: on ? C.bgCard : "transparent",
+                      transform: on ? "translateX(8px)" : "none",
+                      boxShadow: on
+                        ? "0 26px 54px -34px rgba(16,28,38,0.35), 0 4px 14px -8px rgba(16,28,38,0.12)"
+                        : "none",
+                      transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+                      cursor: "default",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: SERIF,
+                        fontStyle: "italic",
+                        fontWeight: 300,
+                        fontSize: "clamp(1.5rem,2.6vw,2.2rem)",
+                        color: on ? C.accent : C.textFaint,
+                        lineHeight: 1,
+                        transition: "color 0.45s",
+                      }}
+                    >
+                      {s.num}
+                    </span>
+                    <div>
+                      <h3 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.15rem,1.8vw,1.5rem)", color: C.ink, margin: "0 0 8px", lineHeight: 1.2 }}>
+                        {s.title}
+                      </h3>
+                      <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: 14.5, lineHeight: 1.68, color: C.textMuted, margin: 0, maxWidth: 560 }}>
+                        {s.desc}
+                      </p>
+                    </div>
+                    <span
+                      className="i316-sicon"
+                      style={{
+                        width: 52,
+                        height: 52,
+                        display: "grid",
+                        placeItems: "center",
+                        border: `1px solid ${on ? C.accent : C.border}`,
+                        color: on ? C.accent : C.textFaint,
+                        borderRadius: "50%",
+                        transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+                        transform: on ? "rotate(-8deg) scale(1.06)" : "none",
+                      }}
+                    >
+                      <Icon size={20} strokeWidth={1.5} />
+                    </span>
+                  </div>
+                </Reveal>
+              );
+            })}
+            <div style={{ borderTop: `1px solid ${C.border}` }} />
+          </div>
+        </div>
+      </section>
+
+      {/* ════════ MÉTHODE — bande sombre, chiffres fantômes ════════ */}
+      <section id="methode" style={{ background: C.bgDark, padding: "clamp(88px,12vw,160px) clamp(24px,6vw,96px)", position: "relative", overflow: "hidden" }}>
+        {/* Glow radial discret */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: "-30%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "80%",
+            height: "70%",
+            background: "radial-gradient(ellipse, rgba(34,87,122,0.32) 0%, transparent 68%)",
+            opacity: 0.35,
+            pointerEvents: "none",
+          }}
+        />
+        <div style={{ maxWidth: 1140, margin: "0 auto", position: "relative", zIndex: 2 }}>
+          <Reveal>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Eyebrow color={C.accentLight} align="center">Notre processus</Eyebrow>
             </div>
           </Reveal>
-        </div>
+          <Reveal delay={0.08}>
+            <h2
+              style={{
+                fontFamily: SERIF,
+                fontWeight: 500,
+                fontSize: "clamp(1.8rem,4vw,3.4rem)",
+                lineHeight: 1.06,
+                color: C.white,
+                textAlign: "center",
+                margin: "20px auto clamp(48px,6vw,80px)",
+                maxWidth: "24ch",
+              }}
+            >{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
+              Du premier contact à l&apos;excellence{" "}
+              <em style={{ fontStyle: "italic", color: C.accentLight }}>quotidienne</em>
+            </>)}</h2>
+          </Reveal>
 
-        <div style={{ position: 'absolute', bottom: 24, left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, opacity: 0.6, color: '#ffffff', fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-          <span>Défiler</span>
-          <ChevronDown size={14} className="animate-bounce" />
-        </div>
-      </section>
-
-      {/* ════════ STATS ════════ */}
-      <section style={{ padding: '80px 24px', background: C.bg, borderBottom: `1px solid ${C.accent}0a` }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: 40, textAlign: 'center' }}>
-            {STATS_INLINE.map((stat, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div style={{ padding: '16px 8px' }}>
-                  <div style={{ fontFamily: SERIF, fontSize: 42, fontWeight: 700, color: C.primary, marginBottom: 6 }}>{stat.value}</div>
-                  <div style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.textMuted, fontWeight: 600 }}>{stat.label}</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(230px, 100%), 1fr))", gap: "clamp(18px,2.4vw,28px)" }}>
+            {METHODE_SOURCE.map((m, i) => (
+              <Reveal key={m.step} delay={i * 0.09}>
+                <div
+                  style={{
+                    position: "relative",
+                    padding: "clamp(26px,3vw,38px) clamp(20px,2.4vw,30px)",
+                    borderTop: `1px solid rgba(215,227,237,0.18)`,
+                    height: "100%",
+                  }}
+                >
+                  {/* Chiffre fantôme */}
+                  <span
+                    aria-hidden
+                    style={{
+                      position: "absolute",
+                      top: 4,
+                      right: 8,
+                      fontFamily: SERIF,
+                      fontStyle: "italic",
+                      fontSize: "clamp(4.4rem,7vw,6.4rem)",
+                      lineHeight: 1,
+                      color: C.accentLight,
+                      opacity: 0.08,
+                      pointerEvents: "none",
+                      userSelect: "none",
+                    }}
+                  >
+                    {m.step}
+                  </span>
+                  <div style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accentLight, fontWeight: 600, marginBottom: 16 }}>
+                    Étape {m.step}
+                  </div>
+                  <h3 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.15rem,1.7vw,1.4rem)", color: C.white, margin: "0 0 10px" }}>
+                    {m.title}
+                  </h3>
+                  <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: 14, lineHeight: 1.7, color: "rgba(215,227,237,0.66)", margin: 0 }}>
+                    {m.desc}
+                  </p>
                 </div>
               </Reveal>
             ))}
@@ -395,155 +931,199 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ════════ ABOUT ════════ */}
-      <section id="about" style={{ padding: '120px 24px', background: C.bgDeep }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))', gap: 64, alignItems: 'center' }}>
-            <Reveal>
-              <div style={{ position: 'relative', borderRadius: 4, overflow: 'hidden', aspectRatio: '4/5' }}>
-                <img src={PHOTO.about} alt="Nos équipes en action" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 24, background: 'linear-gradient(transparent, rgba(15,23,42,0.9))' }}>
-                  <div style={{ fontFamily: SERIF, color: C.primary, fontSize: 14, fontWeight: 700, letterSpacing: '0.1em' }}>DEPUIS 2008</div>
+      {/* ════════ ENGAGEMENTS — split photo + garanties ════════ */}
+      <section id="engagements" style={{ background: C.bg, padding: "clamp(88px,12vw,160px) clamp(24px,6vw,96px)" }}>
+        <div
+          className="i316-split"
+          style={{
+            maxWidth: 1140,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "minmax(0,0.92fr) minmax(0,1.08fr)",
+            gap: "clamp(40px,6vw,96px)",
+            alignItems: "center",
+          }}
+        >
+          <Reveal y={46}>
+            <div style={{ position: "relative", overflow: "hidden", aspectRatio: "4/5", background: C.bgDark }}>
+              <img
+                src={photo(0, P_ABOUT)}
+                alt="Nos équipes en intervention"
+                loading="lazy"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(16,28,38,0.72) 0%, rgba(16,28,38,0.08) 42%, transparent 70%)" }} />
+              <div style={{ position: "absolute", left: 24, bottom: 22 }}>
+                <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accentLight, fontWeight: 600 }}>
+                  Depuis 2008
+                </div>
+                <div style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(1.05rem,1.6vw,1.3rem)", color: C.white, marginTop: 6 }}>
+                  Hygiène, rigueur, durabilité.
                 </div>
               </div>
-            </Reveal>
-
-            <div>
-              <Reveal delay={0.15}>
-                <Eyebrow>Notre entreprise</Eyebrow>
-                <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', lineHeight: 1.15, color: C.text, marginBottom: 24, fontWeight: 700 }}>
-                  {c?.aboutTitle ?? "Un partenaire de confiance pour vos locaux"}
-                </h2>
-                <p style={{ fontSize: 15, lineHeight: 1.7, color: C.textMuted, marginBottom: 20 }}>
-                  {c?.aboutText ?? "Pro-Nettoyage Services accompagne les entreprises, syndics et collectivités dans l'entretien de leurs espaces. Notre engagement : des locaux impeccables, des équipes stables et un interlocuteur unique."}
-                </p>
-                <p style={{ fontSize: 15, lineHeight: 1.7, color: C.textMuted, marginBottom: 36 }}>
-                  Certifiés ISO 14001, nous utilisons des produits éco-responsables et des protocoles rigoureux pour garantir hygiène et durabilité.
-                </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 32 }}>
-                  {["Certification ISO 14001", "Contrôle qualité mensuel", "Personnel formé & déclaré", "Assurance RC Pro incluse", "Interlocuteur dédié"].map((item, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <CheckCircle size={16} color={C.primary} />
-                      <span style={{ fontSize: 14, color: C.text }}>{item}</span>
-                    </div>
-                  ))}
-                </div>
-                <a href="#contact" style={{ textDecoration: 'none' }}><Button filled>Demander un audit gratuit</Button></a>
-              </Reveal>
             </div>
-          </div>
-        </div>
-      </section>
+          </Reveal>
 
-      {/* ════════ SERVICES ════════ */}
-      <section id="services" style={{ padding: '120px 24px', background: C.bg }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
+          <div>
             <Reveal>
-              <Eyebrow align="center">Nos prestations B2B</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
-                Des solutions sur mesure pour chaque espace
-              </>)}</h2>
-              <p style={{ fontSize: 15, lineHeight: 1.6, color: C.textMuted, maxWidth: 600, margin: '0 auto' }}>
-                Bureaux, commerces, copropriétés ou établissements de santé — nous adaptons nos protocoles à chaque environnement.
+              <Eyebrow>Notre entreprise</Eyebrow>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2
+                style={{
+                  fontFamily: SERIF,
+                  fontWeight: 500,
+                  fontSize: "clamp(1.8rem,3.8vw,3.2rem)",
+                  lineHeight: 1.08,
+                  color: C.ink,
+                  margin: "20px 0 22px",
+                }}
+              >{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (c?.aboutTitle ?? (<>
+                Un partenaire de <em style={{ fontStyle: "italic", color: C.accent }}>confiance</em> pour vos locaux
+              </>))}</h2>
+            </Reveal>
+            <Reveal delay={0.14}>
+              <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(0.95rem,1.4vw,1.08rem)", lineHeight: 1.78, color: C.textMuted, maxWidth: 500, margin: "0 0 14px" }}>
+                {c?.aboutText ?? "Pro-Nettoyage Services accompagne les entreprises, syndics et collectivités dans l'entretien de leurs espaces. Notre engagement : des locaux impeccables, des équipes stables et un interlocuteur unique."}
+              </p>
+              <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(0.95rem,1.4vw,1.08rem)", lineHeight: 1.78, color: C.textMuted, maxWidth: 500, margin: "0 0 30px" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "engagements.texte") ?? (<>
+                Certifiés ISO 14001, nous utilisons des produits éco-responsables et des protocoles rigoureux pour garantir hygiène et durabilité.
+                </>)}
               </p>
             </Reveal>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: 24 }}>
-            {SERVICES.map((service, i) => (
-              <Reveal key={i} delay={i * 0.08}>
-                <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.3 }}
-                  style={{ background: C.bgDeep, borderRadius: 4, padding: 32, border: `1px solid ${C.accent}0a`, height: '100%' }}>
-                  <div style={{ width: 56, height: 56, borderRadius: 4, background: `${C.primary}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.primary, marginBottom: 20 }}>
-                    {service.icon}
+            <div>
+              {ENGAGEMENTS.map((e, i) => (
+                <Reveal key={i} delay={0.18 + i * 0.05}>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: 14,
+                      alignItems: "flex-start",
+                      padding: "13px 0",
+                      borderTop: i === 0 ? `1px solid ${C.border}` : `1px solid ${C.border}`,
+                    }}
+                  >
+                    <span style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(45,138,99,0.12)", display: "grid", placeItems: "center", flexShrink: 0, marginTop: 1 }}>
+                      <Check size={13} color={C.mint} strokeWidth={2.4} />
+                    </span>
+                    <span style={{ fontFamily: SANS, fontSize: 15, color: C.ink, lineHeight: 1.55 }}>{e}</span>
                   </div>
-                  <h3 style={{ fontFamily: SERIF, fontSize: 17, fontWeight: 700, color: C.text, marginBottom: 10 }}>{service.title}</h3>
-                  <p style={{ fontSize: 14, lineHeight: 1.6, color: C.textMuted }}>{service.desc}</p>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ════════ PROCESS ════════ */}
-      <section style={{ padding: '120px 24px', background: C.accent }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <Reveal>
-              <Eyebrow align="center" color={C.primary}>Notre processus</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.white, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
-                Du premier contact à l'excellence quotidienne
-              </>)}</h2>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal delay={0.4}>
+              <div style={{ marginTop: 30 }}>
+                <CtaButton href="#devis">Demander un audit gratuit</CtaButton>
+              </div>
             </Reveal>
           </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))', gap: 32 }}>
-            {[
-              { step: "01", title: "Audit gratuit", desc: "Visite de vos locaux, analyse des besoins et cahier des charges personnalisé." },
-              { step: "02", title: "Devis détaillé", desc: "Proposition claire, transparente et sans engagement sous 48h." },
-              { step: "03", title: "Mise en place", desc: "Équipe dédiée, planning adapté à vos horaires, clés en main." },
-              { step: "04", title: "Suivi qualité", desc: "Contrôles réguliers, reporting mensuel et ajustements continus." },
-            ].map((item, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div style={{ textAlign: 'center', padding: 24 }}>
-                  <div style={{ fontFamily: SERIF, fontSize: 48, fontWeight: 700, color: C.primary, marginBottom: 16 }}>{item.step}</div>
-                  <h3 style={{ fontFamily: SERIF, fontSize: 17, fontWeight: 700, color: C.white, marginBottom: 8 }}>{item.title}</h3>
-                  <p style={{ fontSize: 13.5, lineHeight: 1.6, color: 'rgba(255,255,255,0.65)' }}>{item.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* ════════ GALERIE ════════ */}
-      <section id="gallery" style={{ padding: '120px 24px', background: C.bg }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
+      {/* ════════ RÉALISATIONS ════════ */}
+      <section style={{ background: C.bgAlt, padding: "clamp(80px,11vw,150px) clamp(24px,6vw,96px)" }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "clamp(40px,5vw,60px)" }}>
             <Reveal>
               <Eyebrow align="center">Réalisations</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "gallery.titre") ?? (<>
-                Des espaces qui inspirent confiance
-              </>)}</h2>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.8rem,3.8vw,3.2rem)", lineHeight: 1.08, color: C.ink, margin: "18px auto 0", maxWidth: "24ch" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
+                Des espaces qui inspirent <em style={{ fontStyle: "italic", color: C.accent }}>confiance</em>
+                </>)}
+              </h2>
             </Reveal>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(250px, 100%), 1fr))', gap: 16 }}>
-            {[PHOTO.gallery1, PHOTO.gallery2, PHOTO.gallery3, PHOTO.gallery4].map((src, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.3 }} style={{ borderRadius: 4, overflow: 'hidden', aspectRatio: '4/3' }}>
-                  <img src={src} alt={`Réalisation ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </motion.div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: "clamp(12px,1.6vw,20px)" }}>
+            {[photo(1, P_G1), photo(2, P_G2), photo(3, P_G3), photo(4, P_G4)].map((src, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div
+                  onMouseEnter={() => setHoverGal(i)}
+                  onMouseLeave={() => setHoverGal(null)}
+                  style={{
+                    overflow: "hidden",
+                    aspectRatio: "4/3",
+                    position: "relative",
+                    background: C.bgDark,
+                    boxShadow: hoverGal === i
+                      ? "0 30px 60px -30px rgba(16,28,38,0.45), 0 6px 18px -10px rgba(16,28,38,0.2)"
+                      : "0 10px 30px -24px rgba(16,28,38,0.3)",
+                    transform: hoverGal === i ? "translateY(-6px)" : "none",
+                    transition: "all 0.55s cubic-bezier(0.16, 1, 0.3, 1)",
+                  }}
+                >
+                  <img
+                    src={src}
+                    alt={`Réalisation ${i + 1}`}
+                    loading="lazy"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                      transform: hoverGal === i ? "scale(1.05)" : "scale(1)",
+                      transition: "transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)",
+                    }}
+                  />
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(16,28,38,0.5), transparent 45%)", opacity: hoverGal === i ? 1 : 0.6, transition: "opacity 0.5s" }} />
+                </div>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ════════ TESTIMONIALS ════════ */}
-      <section id="avis" style={{ padding: '120px 24px', background: C.bgDeep }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <Reveal>
-              <Eyebrow align="center">Références clients</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce que disent nos partenaires</>)}</h2>
-            </Reveal>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: 24 }}>
-            {TESTIMONIALS.map((t, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div style={{ background: C.bg, borderRadius: 4, padding: 32, border: `1px solid ${C.accent}0a`, height: '100%' }}>
-                  <div style={{ display: 'flex', gap: 2, marginBottom: 16 }}>
-                    {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={14} fill={C.primary} color={C.primary} />)}
+      {/* ════════ RÉFÉRENCES — colonnes décalées ════════ */}
+      <section id="references" style={{ background: C.bg, padding: "clamp(88px,12vw,160px) clamp(24px,6vw,96px)" }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+          <Reveal>
+            <Eyebrow>Références clients</Eyebrow>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.8rem,4vw,3.4rem)", lineHeight: 1.06, color: C.ink, margin: "20px 0 clamp(40px,5vw,64px)", maxWidth: "20ch" }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
+              Ce que disent nos <em style={{ fontStyle: "italic", color: C.accent }}>partenaires</em>
+              </>)}
+            </h2>
+          </Reveal>
+          <div className="i316-avis" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "clamp(20px,2.6vw,32px)", alignItems: "start" }}>
+            {AVIS.map((t, i) => (
+              <Reveal key={t.name + i} delay={i * 0.1} style={{ marginTop: i % 2 === 1 ? 44 : 0 }}>
+                <figure
+                  style={{
+                    background: C.bgCard,
+                    border: `1px solid ${C.border}`,
+                    borderTop: `2px solid ${C.accent}`,
+                    padding: "clamp(26px,3.2vw,40px)",
+                    margin: 0,
+                    boxShadow: "0 18px 50px -38px rgba(16,28,38,0.3)",
+                    height: "100%",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint, marginBottom: 18, fontWeight: 600 }}>
+                    {t.detail}
                   </div>
-                  <Quote size={20} color={C.primary} style={{ marginBottom: 12, opacity: 0.4 }} />
-                  <p style={{ fontSize: 14.5, lineHeight: 1.65, color: C.text, marginBottom: 20, fontStyle: 'italic' }}>{t.text}</p>
-                  <div>
-                    <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 14, color: C.text }}>{t.name}</div>
-                    <div style={{ fontSize: 12, color: C.textMuted }}>{t.role}</div>
-                  </div>
-                </div>
+                  <blockquote
+                    style={{
+                      fontFamily: SERIF,
+                      fontStyle: "italic",
+                      fontWeight: 300,
+                      fontSize: "clamp(1rem,1.5vw,1.18rem)",
+                      lineHeight: 1.68,
+                      color: C.ink,
+                      margin: "0 0 24px",
+                    }}
+                  >
+                    &ldquo;{t.text}&rdquo;
+                  </blockquote>
+                  <figcaption style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16 }}>
+                    <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: 15, color: C.accent }}>{t.name}</div>
+                    <div style={{ fontFamily: SANS, fontSize: 12.5, color: C.textFaint, marginTop: 4 }}>{t.role}</div>
+                  </figcaption>
+                </figure>
               </Reveal>
             ))}
           </div>
@@ -551,32 +1131,58 @@ export default function Page() {
       </section>
 
       {/* ════════ FAQ ════════ */}
-      <section id="faq" style={{ padding: '120px 24px', background: C.bg }}>
-        <div style={{ maxWidth: 800, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+      <section id="faq" style={{ background: C.bgAlt, padding: "clamp(80px,11vw,150px) clamp(24px,6vw,96px)" }}>
+        <div style={{ maxWidth: 820, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "clamp(36px,4.6vw,56px)" }}>
             <Reveal>
               <Eyebrow align="center">FAQ</Eyebrow>
-              <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.text, marginBottom: 16, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>Questions fréquentes</>)}</h2>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.7rem,3.6vw,3rem)", lineHeight: 1.08, color: C.ink, margin: "18px 0 0" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
+                Questions <em style={{ fontStyle: "italic", color: C.accent }}>fréquentes</em>
+                </>)}
+              </h2>
             </Reveal>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {resolveList(clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })), [
-              { q: "Quelle est la durée minimum d'engagement ?", a: "Nos contrats sont flexibles. Nous proposons des engagements de 3, 6 ou 12 mois avec des conditions avantageuses pour les contrats annuels. Un préavis de 30 jours suffit." },
-              { q: "Intervenez-vous en dehors des heures de bureau ?", a: "Oui, nos équipes s'adaptent à vos horaires : interventions matinales dès 5h, en soirée après 19h ou le week-end. Aucun supplément pour les créneaux standards hors bureau." },
-              { q: "Comment gérez-vous les accès et la sécurité ?", a: "Chaque agent signe une clause de confidentialité. Nous gérons les badges, clés et protocoles d'accès en coordination avec votre responsable sécurité." },
-              { q: "Proposez-vous un suivi de qualité ?", a: "Absolument. Un responsable qualité effectue des contrôles mensuels. Vous recevez un rapport détaillé avec photos et scores de conformité." },
-            ] as any[]).map((item: any, i: number) => (
-              <Reveal key={i} delay={i * 0.06}>
-                <div style={{ background: C.bgDeep, borderRadius: 4, border: `1px solid ${C.accent}0a`, overflow: 'hidden' }}>
-                  <button onClick={() => setExpandedFaq(expandedFaq === i ? null : i)}
-                    style={{ width: '100%', padding: '20px 24px', background: 'transparent', border: 'none', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', color: C.text }}>
-                    <span style={{ fontFamily: SERIF, fontSize: 15, fontWeight: 700, color: C.text }}>{item.q}</span>
-                    <ChevronDown size={18} style={{ transform: expandedFaq === i ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s ease', color: C.primary, flexShrink: 0, marginLeft: 12 }} />
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {FAQ.map((item: any, i: number) => (
+              <Reveal key={i} delay={i * 0.05}>
+                <div style={{ background: C.bgCard, border: `1px solid ${expandedFaq === i ? C.accent : C.border}`, overflow: "hidden", transition: "border-color 0.4s" }}>
+                  <button
+                    onClick={() => setExpandedFaq(expandedFaq === i ? null : i)}
+                    style={{
+                      width: "100%",
+                      padding: "clamp(18px,2.4vw,24px) clamp(18px,2.6vw,28px)",
+                      background: "transparent",
+                      border: "none",
+                      textAlign: "left",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      gap: 12,
+                      minHeight: 44,
+                    }}
+                  >
+                    <span style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(0.98rem,1.5vw,1.15rem)", color: C.ink, lineHeight: 1.4 }}>{item.q}</span>
+                    <ChevronDown
+                      size={17}
+                      style={{ transform: expandedFaq === i ? "rotate(180deg)" : "none", transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)", color: C.accent, flexShrink: 0 }}
+                    />
                   </button>
                   <AnimatePresence initial={false}>
                     {expandedFaq === i && (
-                      <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} style={{ overflow: 'hidden' }}>
-                        <div style={{ padding: '0 24px 24px', fontSize: 14, lineHeight: 1.6, color: C.textMuted }}>{item.a}</div>
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.45, ease: EASE }}
+                        style={{ overflow: "hidden" }}
+                      >
+                        <div style={{ padding: "0 clamp(18px,2.6vw,28px) clamp(18px,2.4vw,24px)", fontFamily: SANS, fontWeight: 300, fontSize: 14.5, lineHeight: 1.72, color: C.textMuted }}>
+                          {item.a}
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -587,137 +1193,246 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ════════ CTA ════════ */}
-      <section style={{ padding: '100px 24px', background: C.accent, textAlign: 'center' }}>
-        <div style={{ maxWidth: 700, margin: '0 auto' }}>
-          <Reveal>
-            <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 48px)', color: C.white, marginBottom: 20, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>
-              Prêt à transformer vos espaces ?
-            </>)}</h2>
-            <p style={{ fontSize: 16, lineHeight: 1.6, color: 'rgba(255,255,255,0.75)', marginBottom: 36 }}>
-              Audit gratuit de vos locaux. Devis sous 48h. Sans engagement.
-            </p>
-            <a href="#contact" style={{ textDecoration: 'none' }}><Button filled>Planifier mon audit gratuit</Button></a>
+      {/* ════════ DEVIS / CONTACT — section sombre, glow radial ════════ */}
+      <section id="devis" style={{ background: C.bgDark, padding: "clamp(96px,13vw,180px) clamp(24px,6vw,96px)", position: "relative", overflow: "hidden" }}>
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: "-24%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "70%",
+            height: "60%",
+            background: "radial-gradient(ellipse, rgba(34,87,122,0.35) 0%, transparent 70%)",
+            opacity: 0.34,
+            pointerEvents: "none",
+          }}
+        />
+        {/* Détail gratuit : tampon circulaire ISO qui tourne lentement */}
+        <div aria-hidden className="i316-stamp" style={{ position: "absolute", top: "clamp(28px,5vw,64px)", right: "clamp(20px,5vw,72px)", width: 108, height: 108, opacity: 0.4, animation: "i316-spin 34s linear infinite", pointerEvents: "none" }}>
+          <svg viewBox="0 0 100 100" width="108" height="108">
+            <defs>
+              <path id="i316c" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" />
+            </defs>
+            <circle cx="50" cy="50" r="26" fill="none" stroke="rgba(215,227,237,0.35)" strokeWidth="0.6" />
+            <text style={{ fontFamily: SANS, fontSize: 8.4, letterSpacing: 2.6, fill: "rgba(215,227,237,0.55)", textTransform: "uppercase" }}>
+              <textPath href="#i316c">iso 14001 · qualité contrôlée · reporting mensuel ·</textPath>
+            </text>
+          </svg>
+        </div>
+
+        <div
+          className="i316-contact"
+          style={{
+            position: "relative",
+            zIndex: 2,
+            maxWidth: 1140,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "minmax(0,0.95fr) minmax(0,1.05fr)",
+            gap: "clamp(44px,6vw,96px)",
+            alignItems: "start",
+          }}
+        >
+          <div>
+            <Reveal>
+              <Eyebrow color={C.accentLight}>Contact commercial</Eyebrow>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.9rem,4.2vw,3.6rem)", lineHeight: 1.05, color: C.white, margin: "20px 0 18px" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
+                Prêt à transformer vos <em style={{ fontStyle: "italic", color: C.accentLight }}>espaces</em> ?
+                </>)}
+              </h2>
+            </Reveal>
+            <Reveal delay={0.14}>
+              <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(0.95rem,1.4vw,1.1rem)", lineHeight: 1.75, color: "rgba(215,227,237,0.72)", maxWidth: 460, margin: "0 0 36px" }}>
+                Audit gratuit de vos locaux. Devis sous 48h. Sans engagement. Notre équipe commerciale vous recontacte sous 24h.
+              </p>
+            </Reveal>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              {[
+                { icon: <Phone size={17} />, label: "Téléphone", value: phone, href: telHref },
+                { icon: <Mail size={17} />, label: "E-mail", value: email, href: `mailto:${email}` },
+                { icon: <MapPin size={17} />, label: "Zone d'intervention", value: zone },
+              ].map((item, i) => (
+                <Reveal key={i} delay={0.2 + i * 0.06}>
+                  <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+                    <span style={{ width: 44, height: 44, borderRadius: "50%", border: "1px solid rgba(215,227,237,0.25)", display: "grid", placeItems: "center", color: C.accentLight, flexShrink: 0 }}>
+                      {item.icon}
+                    </span>
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(215,227,237,0.5)", fontWeight: 600 }}>{item.label}</div>
+                      {item.href ? (
+                        <a href={item.href} style={{ fontFamily: SANS, fontSize: 15.5, color: C.white, fontWeight: 500, textDecoration: "none", overflowWrap: "anywhere" }}>{item.value}</a>
+                      ) : (
+                        <div style={{ fontFamily: SANS, fontSize: 15.5, color: C.white, fontWeight: 500 }}>{item.value}</div>
+                      )}
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+
+          <Reveal delay={0.14}>
+            <div style={{ background: "rgba(255,255,255,0.035)", border: "1px solid rgba(215,227,237,0.16)", padding: "clamp(26px,3.6vw,44px)" }}>
+              {formSubmitted ? (
+                <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, ease: EASE }} style={{ textAlign: "center", padding: "24px 0" }}>
+                  <CheckCircle size={44} color={C.accentLight} style={{ margin: "0 auto 16px", display: "block" }} />
+                  <h3 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.3rem,2vw,1.6rem)", color: C.white, margin: "0 0 10px" }}>Demande envoyée !</h3>
+                  <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: 14.5, color: "rgba(215,227,237,0.7)", lineHeight: 1.7, margin: 0 }}>
+                    Merci {formData.name}, notre équipe commerciale vous recontactera sous 24h pour organiser un audit gratuit de vos locaux.
+                  </p>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                  <div className="i316-formgrid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22 }}>
+                    {[
+                      { label: "Nom & Prénom", key: "name", type: "text", required: true },
+                      { label: "E-mail professionnel", key: "email", type: "email", required: true },
+                      { label: "Entreprise", key: "company", type: "text", required: false },
+                      { label: "Téléphone", key: "phone", type: "tel", required: false },
+                    ].map((field) => (
+                      <div key={field.key}>
+                        <label htmlFor={`i316-${field.key}`} style={{ display: "block", fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.2em", textTransform: "uppercase", color: C.accentLight, marginBottom: 6, fontWeight: 600 }}>
+                          {field.label}
+                        </label>
+                        <input
+                          id={`i316-${field.key}`}
+                          type={field.type}
+                          required={field.required}
+                          value={(formData as any)[field.key]}
+                          onChange={(e) => setFormData({ ...formData, [field.key]: e.target.value })}
+                          style={{
+                            width: "100%",
+                            boxSizing: "border-box",
+                            padding: "13px 2px",
+                            minHeight: 44,
+                            background: "transparent",
+                            border: "none",
+                            borderBottom: "1px solid rgba(215,227,237,0.28)",
+                            color: C.white,
+                            fontFamily: SANS,
+                            fontSize: 15,
+                            outline: "none",
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <label htmlFor="i316-message" style={{ display: "block", fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.2em", textTransform: "uppercase", color: C.accentLight, marginBottom: 6, fontWeight: 600 }}>
+                      Décrivez votre besoin
+                    </label>
+                    <textarea
+                      id="i316-message"
+                      rows={4}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      placeholder="Surface des locaux, fréquence souhaitée, horaires d'intervention…"
+                      style={{
+                        width: "100%",
+                        boxSizing: "border-box",
+                        padding: "13px 2px",
+                        background: "transparent",
+                        border: "none",
+                        borderBottom: "1px solid rgba(215,227,237,0.28)",
+                        color: C.white,
+                        fontFamily: SANS,
+                        fontSize: 15,
+                        outline: "none",
+                        resize: "vertical",
+                        lineHeight: 1.6,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <CtaButton type="submit">Envoyer ma demande</CtaButton>
+                  </div>
+                </form>
+              )}
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ════════ CONTACT ════════ */}
-      <section id="contact" style={{ padding: '120px 24px', background: C.bg }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))', gap: 64 }}>
-            <div>
-              <Reveal>
-                <Eyebrow>Contact commercial</Eyebrow>
-                <h2 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 44px)', color: C.text, marginBottom: 24, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Demandez votre devis personnalisé</>)}</h2>
-                <p style={{ fontSize: 15, lineHeight: 1.6, color: C.textMuted, marginBottom: 40 }}>
-                  Notre équipe commerciale vous recontacte sous 24h pour organiser un audit gratuit de vos locaux.
-                </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-                  {[
-                    { icon: <Phone size={18} />, label: "Téléphone", value: fd?.phone ?? "+33 (0)1 00 00 00 00", href: `tel:${fd?.phone ?? "+33177307474"}` },
-                    { icon: <Mail size={18} />, label: "E-mail", value: fd?.email ?? "commercial@pro-nettoyage.fr", href: `mailto:${fd?.email ?? "commercial@pro-nettoyage.fr"}` },
-                    { icon: <MapPin size={18} />, label: "Zone d'intervention", value: fd?.city ?? "Île-de-France & Grand Ouest" },
-                  ].map((item, i) => (
-                    <div key={i} style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-                      <div style={{ width: 44, height: 44, borderRadius: '50%', background: `${C.primary}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.primary, flexShrink: 0 }}>
-                        {item.icon}
-                      </div>
-                      <div>
-                        <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>{item.label}</div>
-                        {item.href ? (
-                          <a href={item.href} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{item.value}</a>
-                        ) : (
-                          <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>{item.value}</div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Reveal>
-            </div>
-            <div>
-              <Reveal delay={0.15}>
-                <div style={{ background: C.bgDeep, padding: 40, borderRadius: 4, border: `1px solid ${C.accent}0a` }}>
-                  {formSubmitted ? (
-                    <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} style={{ textAlign: 'center', padding: '24px 0' }}>
-                      <div style={{ color: C.primary, marginBottom: 16 }}><CheckCircle size={48} style={{ margin: '0 auto' }} /></div>
-                      <h3 style={{ fontFamily: SERIF, fontSize: 22, color: C.primary, marginBottom: 8, fontWeight: 700 }}>Demande envoyée !</h3>
-                      <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>Merci {formData.name}, notre équipe commerciale vous recontactera sous 24h.</p>
-                    </motion.div>
-                  ) : (
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                      {[
-                        { label: "Nom & Prénom", key: "name", type: "text", required: true },
-                        { label: "E-mail professionnel", key: "email", type: "email", required: true },
-                        { label: "Entreprise", key: "company", type: "text", required: false },
-                        { label: "Téléphone", key: "phone", type: "tel", required: false },
-                      ].map((field) => (
-                        <div key={field.key}>
-                          <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>{field.label}</label>
-                          <input type={field.type} required={field.required} value={(formData as any)[field.key]}
-                            onChange={(e) => setFormData({ ...formData, [field.key]: e.target.value })}
-                            style={{ width: '100%', padding: '12px 16px', background: C.bg, border: `1px solid ${C.accent}12`, borderRadius: 2, color: C.text, fontFamily: SANS, fontSize: 14, outline: 'none' }}
-                          />
-                        </div>
-                      ))}
-                      <div>
-                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Décrivez votre besoin</label>
-                        <textarea rows={4} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                          placeholder="Surface des locaux, fréquence souhaitée, horaires d'intervention…"
-                          style={{ width: '100%', padding: '12px 16px', background: C.bg, border: `1px solid ${C.accent}12`, borderRadius: 2, color: C.text, fontFamily: SANS, fontSize: 14, outline: 'none', resize: 'none' }}
-                        />
-                      </div>
-                      <Button type="submit" filled>Envoyer ma demande</Button>
-                    </form>
-                  )}
-                </div>
-              </Reveal>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ════════ FOOTER ════════ */}
-      <footer style={{ background: C.accent, padding: '80px 24px 40px', borderTop: `1px solid ${C.primary}12`, fontSize: 13.5, color: 'rgba(255,255,255,0.6)' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))', gap: 48, marginBottom: 64 }}>
+      <footer style={{ background: C.bgDarkAlt, padding: "clamp(56px,8vw,100px) clamp(24px,6vw,96px) 36px", borderTop: "1px solid rgba(34,87,122,0.35)" }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+          <div className="i316-footgrid" style={{ display: "grid", gridTemplateColumns: "1.4fr repeat(3, 1fr)", gap: "clamp(30px,4.6vw,56px)", marginBottom: "clamp(40px,5.6vw,64px)" }}>
             <div>
-              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "PRO-NETTOYAGE SERVICES"))}</h4>
-              <p style={{ lineHeight: 1.6 }}>Nettoyage professionnel B2B</p>
-              <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
-                <a href={fd?.instagram ?? "https://instagram.com"} target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
+              <div style={{ fontFamily: SERIF, fontWeight: 500, fontSize: 19, color: C.white }}>
+                {clientName(sessionData) ?? "Pro-Nettoyage Services"}
+              </div>
+              <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: 13.5, lineHeight: 1.7, color: "rgba(215,227,237,0.5)", marginTop: 14, maxWidth: 300 }}>
+                {clientTrade(sessionData) ?? "Nettoyage professionnel B2B"}
+                {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              </p>
+              {fd?.instagram && (
+                <a href={fd.instagram} target="_blank" rel="noreferrer" style={{ display: "inline-block", marginTop: 16, fontFamily: SANS, fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: C.accentLight, textDecoration: "none" }}>
+                  Instagram
+                </a>
+              )}
+            </div>
+            <div>
+              <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.accentLight, fontWeight: 600, marginBottom: 18 }}>Navigation</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
+                {[
+                  { label: "Prestations", href: "#services" },
+                  { label: "Méthode", href: "#methode" },
+                  { label: "Engagements", href: "#engagements" },
+                  { label: "Références", href: "#references" },
+                  { label: "Contact", href: "#devis" },
+                ].map((l) => (
+                  <a key={l.label} href={l.href} style={{ fontFamily: SANS, fontWeight: 300, fontSize: 13.5, color: "rgba(215,227,237,0.6)", textDecoration: "none" }}>
+                    {l.label}
+                  </a>
+                ))}
               </div>
             </div>
             <div>
-              <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary, marginBottom: 16, fontWeight: 700 }}>Navigation</h5>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <a href="#services" style={{ textDecoration: 'none', color: 'inherit' }}>{tr(sessionData, "Services")}</a>
-                <a href="#about" style={{ textDecoration: 'none', color: 'inherit' }}>Entreprise</a>
-                <a href="#avis" style={{ textDecoration: 'none', color: 'inherit' }}>Références</a>
-                <a href="#contact" style={{ textDecoration: 'none', color: 'inherit' }}>Contact</a>
-              </div>
+              <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.accentLight, fontWeight: 600, marginBottom: 18 }}>Horaires</div>
+              <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: 13.5, lineHeight: 1.75, color: "rgba(215,227,237,0.6)", margin: 0 }}>
+                Interventions 5h–22h
+                <br />
+                Bureau Lun–Ven 8h30–18h
+              </p>
             </div>
             <div>
-              <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary, marginBottom: 16, fontWeight: 700 }}>Horaires</h5>
-              <p style={{ lineHeight: 1.6 }}>Interventions 5h–22h · Bureau Lun–Ven 8h30–18h</p>
-            </div>
-            <div>
-              <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary, marginBottom: 16, fontWeight: 700 }}>Légal</h5>
-              <p style={{ lineHeight: 1.6, fontSize: 12 }}>
-                SIRET: 894 302 596 00012<br />
-                TVA: FR 89 894302596<br />
-                Responsable: Pro-Nettoyage Services<br />
-                Hébergeur: Vercel Inc.
+              <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.accentLight, fontWeight: 600, marginBottom: 18 }}>Légal</div>
+              <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: 12.5, lineHeight: 1.8, color: "rgba(215,227,237,0.5)", margin: 0 }}>
+                Éditeur : {clientName(sessionData) ?? "Aevia WS"}
+                <br />
+                SIREN <LegalIdentity fallback="852 546 225" kind="siren" />
+                <br />
+                Hébergeur : Vercel Inc.
               </p>
             </div>
           </div>
-          <div style={{ paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.1)', textAlign: 'center', fontSize: 11.5, letterSpacing: '0.05em' }}>
-            © {new Date().getFullYear()} {clientName(sessionData) ?? "Pro-Nettoyage Services."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          <div
+            style={{
+              paddingTop: 22,
+              borderTop: "1px solid rgba(215,227,237,0.1)",
+              display: "flex",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: 10,
+              fontFamily: SANS,
+              fontSize: 12,
+              color: "rgba(215,227,237,0.36)",
+            }}
+          >
+            <span>
+              © {new Date().getFullYear()} {clientName(sessionData) ?? "Pro-Nettoyage Services"}. Tous droits réservés.
+              {/* VILLE_PIED */}
+              {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            </span>
+            <span>Devis gratuit sous 48h · Audit sans engagement</span>
           </div>
         </div>
       </footer>
-
     </div>
   );
 }
