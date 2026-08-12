@@ -3,23 +3,40 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import { ArrowRight, CheckCircle, ClipboardList, Clock, Clock3, HeartPulse, Home, Mail, MapPin, Phone, Star, Syringe } from "lucide-react";
+import {
+  Check,
+  ClipboardList,
+  Clock,
+  Clock3,
+  HeartPulse,
+  Home,
+  Mail,
+  MapPin,
+  Phone,
+  Syringe,
+} from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { ComposeIn } from "@/lib/templates/hero-kit-3";
 import {
+  clientAddress,
   clientCertifications,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -32,56 +49,400 @@ let bp: any = null;
 let sessionData: any = null;
 let brand: any = null;
 
-/* Infirmiers libéraux, 2e variante, cabinet côtier moderne. Signature : ComposeIn — la tournée du jour qui se compose, soin par soin. Tuiles CSS sans photo. */
+/* ════════════════════════════════════════════════════════════════════════════
+   SOINS DE L'ESTUAIRE — Cabinet infirmier côtier · Saint-Nazaire
+
+   Geste signature : ComposeIn. La tournée du jour ne défile pas, elle SE
+   COMPOSE — un carton entre par la gauche, un deuxième par la droite, le
+   troisième monte du bas, après une seconde de scène vide. Un seul index
+   pilote tout le héros ; les flèches et la fraction lisent le même.
+
+   Archétype H3 (plein cadre, titre en bas, fond de repli C.bgDark obligatoire)
+   · fontes P3 (Cormorant Garamond + system-ui) · palette #f6fafb / #227c9d.
+
+   Dessin qui s'écarte du squelette : prestations en BENTO de tuiles inégales,
+   organisation en rail horizontal numéroté, tarifs en BANDES pleine largeur,
+   avis en MARQUEE qui dérive comme une marée.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');`;
+
+const SERIF = "'Cormorant Garamond', Garamond, Georgia, serif";
+const SANS = "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+
+/* Une seule courbe pour toute la page — reprise à l'identique en CSS. */
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const EASE_CSS = "cubic-bezier(.16,1,.3,1)";
 
 let C: Record<string, string> = {
-  bg: "#f6f9fb",
-  bgSection: "#e9f0f5",
-  bgDark: "#12222e",
-  text: "#132029",
-  textMuted: "#54646e",
-  accent: "var(--brand,#20648c)",
-  accentDark: "var(--brand, #194e6d)",
-  accentLight: "#dbeaf3",
-  hi: "#8cc0dd",
+  bg: "#f6fafb",
+  bgAlt: "#e7f1f5",
+  bgCard: "#ffffff",
+  bgDark: "#0e2634",
+  bgDarkAlt: "#0a1c27",
+  accent: "var(--brand, #227c9d)",
+  accentDark: "var(--brand-light, #17607b)",
+  accentLight: "#d6e9f1",
+  ink: "#10242f",
+  textMuted: "#4a626e",
+  textFaint: "#87a1ad",
+  border: "#d4e3ea",
   white: "#ffffff",
-  border: "#d9e4ea",
+  /* Clé métier : l'écume de l'estuaire, seule couleur claire sur les fonds sombres. */
+  ecume: "#8ecbe0",
 };
-const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
-const FONT_BODY = FONT;
 
-const NAV = [{"l": "Soins", "h": "#services"}, {"l": "L'organisation", "h": "#methode"}, {"l": "Prise en charge", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [
-  { k: "La tournée du matin", sub: "Composée la veille, tenue le jour même.", tiles: [{ icon: Syringe, t: "6h30 — À jeun d'abord", d: "Prélèvements et glycémies avant le petit-déjeuner des patients.", bg: "#dbeaf3", fg: "var(--brand, #194e6d)" }, { icon: Home, t: "Matinée — Soins lourds", d: "Pansements complexes et perfusions, quand on a le temps de bien faire.", bg: "#12222e", fg: "#dbeaf3" }, { icon: Clock3, t: "Créneaux fiables", d: "SMS si la tournée glisse — votre matinée n'attend pas la nôtre.", bg: "#e9f0f5", fg: "var(--brand, #194e6d)" }] },
-  { k: "Le suivi partagé", sub: "La famille informée, le médecin aussi.", tiles: [{ icon: ClipboardList, t: "Dossier commun", d: "Six infirmiers, un seul dossier de soins — la continuité, vraiment.", bg: "#12222e", fg: "#dbeaf3" }, { icon: HeartPulse, t: "Appli famille", d: "Passage confirmé, constantes notées : les proches éloignés respirent.", bg: "#dbeaf3", fg: "var(--brand, #194e6d)" }, { icon: Home, t: "Lien médecin", d: "Photos de plaies sécurisées, alertes précoces — le médecin sait avant que ça s'aggrave.", bg: "#e9f0f5", fg: "var(--brand, #194e6d)" }] },
-  { k: "Les soins techniques", sub: "L'hôpital à la maison, en sécurité.", tiles: [{ icon: Syringe, t: "Perfusions & PICC", d: "Antibiothérapies, nutrition, chimio orale accompagnée — protocoles hospitaliers.", bg: "#e9f0f5", fg: "var(--brand, #194e6d)" }, { icon: ClipboardList, t: "Chimio & post-op", d: "Retours de bloc suivis en lien direct avec les services.", bg: "#dbeaf3", fg: "var(--brand, #194e6d)" }, { icon: HeartPulse, t: "Palliatif coordonné", d: "Avec l'HAD et l'équipe mobile : rester chez soi, accompagné.", bg: "#12222e", fg: "#dbeaf3" }] }
+const NAV = [
+  { l: "Soins", h: "#services" },
+  { l: "L'organisation", h: "#methode" },
+  { l: "Prise en charge", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
 ];
 
-const SERVICES_SOURCE = [{"titre": "Prélèvements", "desc": "À domicile dès 6h30, au cabinet sans rendez-vous de 7h30 à 9h30. Acheminement direct aux deux laboratoires de la ville.", "tag": "Biologie"}, {"titre": "Plaies & cicatrisation", "desc": "Formation plaies et cicatrisation (DU) au cabinet : escarres, ulcères, plaies chroniques suivies par protocole photographié.", "tag": "Expertise"}, {"titre": "Perfusions à domicile", "desc": "PICC-line, chambres implantables, pompes : les soins d'hôpital à la maison, avec les protocoles de l'hôpital.", "tag": "Technique"}, {"titre": "Grand âge & dépendance", "desc": "Toilettes, piluliers, surveillance : des passages réguliers qui maintiennent à domicile dans la dignité.", "tag": "Autonomie"}, {"titre": "Diabète", "desc": "Éducation, glycémies, insuline, prévention du pied diabétique : le suivi rapproché qui évite les hospitalisations.", "tag": "Diabète"}, {"titre": "Coordination familles", "desc": "Application dédiée : passages confirmés, transmissions visibles, messagerie sécurisée. Les enfants à distance restent informés.", "tag": "Familles"}];
-let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Un appel, une réponse", "d": "La secrétaire décroche de 8h à 18h : ordonnance reçue, tournée organisée, créneau confirmé dans l'heure."}, {"n": "02", "t": "La bonne compétence", "d": "Plaies complexes au titulaire du DU, perfusions aux référents techniques : chacun son domaine."}, {"n": "03", "t": "Le passage confirmé", "d": "SMS ou notification à chaque passage — utile pour les proches, rassurant pour tous."}, {"n": "04", "t": "Le lien qui remonte", "d": "Toute évolution signalée au médecin le jour même. Les urgences évitées valent mieux que les urgences gérées."}];
-const ENGAGEMENT_DEMO = ["Six infirmiers diplômés d'État, conventionnés CPAM, inscrits à l'Ordre", "Secrétariat humain 8h-18h — pas de répondeur qui promet de rappeler", "Dossier de soins unique partagé, messagerie sécurisée de santé (MSSanté)", "Zone d'intervention annoncée et tenue : on refuse plutôt que de mal faire"];
-let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS_DEMO = [{"a": "Soins sur ordonnance", "p": "tiers payant", "n": "AMI/AIS selon nomenclature + indemnités de déplacement réglementaires."}, {"a": "Prélèvement au cabinet", "p": "tiers payant", "n": "Sans rendez-vous 7h30-9h30, résultats via votre laboratoire."}, {"a": "Bilan de soins infirmiers (BSI)", "p": "pris en charge", "n": "Pour les patients dépendants : évaluation complète, plan de soins transmis."}, {"a": "Appli familles", "p": "incluse", "n": "Pour tous les patients en soins réguliers, sans supplément."}];
-let TARIFS = TARIFS_DEMO;
-const AVIS_SOURCE = [{"texte": "Depuis Paris, je vois chaque passage chez mon père à Saint-Nazaire : confirmé, commenté, avec les constantes. Cette appli m'a rendu des nuits de sommeil.", "auteur": "Fils de M. G.", "detail": "Suivi à distance"}, {"texte": "Escarre de stade 3 reprise en trois mois par l'infirmière au DU plaies. Photos envoyées au médecin chaque semaine, protocole ajusté sans que je me déplace.", "auteur": "Épouse de R.", "detail": "Plaies complexes"}, {"texte": "Le secrétariat change tout : un humain répond, la tournée est calée le jour même. Après deux cabinets injoignables, on mesure la différence.", "auteur": "Nadège P.", "detail": "Perfusions post-op"}];
-let AVIS_DEMO = AVIS_SOURCE;
-const STATS_DEMO = [{"value": "6", "label": "Infirmiers D.E."}, {"value": "1", "label": "Secrétaire qui décroche"}, {"value": "20 km", "label": "De zone couverte annoncée"}, {"value": "98 %", "label": "De passages dans le créneau"}];
-let STATS = STATS_DEMO;
+/* ── Contenu rédactionnel du thème (conservé mot pour mot) ───────────────── */
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+/* Les trois scènes du héros. Le `ton` remplace les hex écrits dans la donnée :
+   la couleur d'une tuile appartient à la palette, pas au contenu. */
+const HERO_SOURCE = [
+  {
+    k: "La tournée du matin",
+    sub: "Composée la veille, tenue le jour même.",
+    tiles: [
+      { icon: Syringe, t: "6h30 — À jeun d'abord", d: "Prélèvements et glycémies avant le petit-déjeuner des patients.", ton: "clair" },
+      { icon: Home, t: "Matinée — Soins lourds", d: "Pansements complexes et perfusions, quand on a le temps de bien faire.", ton: "sombre" },
+      { icon: Clock3, t: "Créneaux fiables", d: "SMS si la tournée glisse — votre matinée n'attend pas la nôtre.", ton: "pale" },
+    ],
+  },
+  {
+    k: "Le suivi partagé",
+    sub: "La famille informée, le médecin aussi.",
+    tiles: [
+      { icon: ClipboardList, t: "Dossier commun", d: "Six infirmiers, un seul dossier de soins — la continuité, vraiment.", ton: "sombre" },
+      { icon: HeartPulse, t: "Appli famille", d: "Passage confirmé, constantes notées : les proches éloignés respirent.", ton: "clair" },
+      { icon: Home, t: "Lien médecin", d: "Photos de plaies sécurisées, alertes précoces — le médecin sait avant que ça s'aggrave.", ton: "pale" },
+    ],
+  },
+  {
+    k: "Les soins techniques",
+    sub: "L'hôpital à la maison, en sécurité.",
+    tiles: [
+      { icon: Syringe, t: "Perfusions & PICC", d: "Antibiothérapies, nutrition, chimio orale accompagnée — protocoles hospitaliers.", ton: "pale" },
+      { icon: ClipboardList, t: "Chimio & post-op", d: "Retours de bloc suivis en lien direct avec les services.", ton: "clair" },
+      { icon: HeartPulse, t: "Palliatif coordonné", d: "Avec l'HAD et l'équipe mobile : rester chez soi, accompagné.", ton: "sombre" },
+    ],
+  },
+];
+
+const SERVICES_SOURCE = [
+  { titre: "Prélèvements", desc: "À domicile dès 6h30, au cabinet sans rendez-vous de 7h30 à 9h30. Acheminement direct aux deux laboratoires de la ville.", tag: "Biologie" },
+  { titre: "Plaies & cicatrisation", desc: "Formation plaies et cicatrisation (DU) au cabinet : escarres, ulcères, plaies chroniques suivies par protocole photographié.", tag: "Expertise" },
+  { titre: "Perfusions à domicile", desc: "PICC-line, chambres implantables, pompes : les soins d'hôpital à la maison, avec les protocoles de l'hôpital.", tag: "Technique" },
+  { titre: "Grand âge & dépendance", desc: "Toilettes, piluliers, surveillance : des passages réguliers qui maintiennent à domicile dans la dignité.", tag: "Autonomie" },
+  { titre: "Diabète", desc: "Éducation, glycémies, insuline, prévention du pied diabétique : le suivi rapproché qui évite les hospitalisations.", tag: "Diabète" },
+  { titre: "Coordination familles", desc: "Application dédiée : passages confirmés, transmissions visibles, messagerie sécurisée. Les enfants à distance restent informés.", tag: "Familles" },
+];
+let SERVICES_DEMO = SERVICES_SOURCE;
+
+const METHODE_SOURCE = [
+  { n: "01", t: "Un appel, une réponse", d: "La secrétaire décroche de 8h à 18h : ordonnance reçue, tournée organisée, créneau confirmé dans l'heure." },
+  { n: "02", t: "La bonne compétence", d: "Plaies complexes au titulaire du DU, perfusions aux référents techniques : chacun son domaine." },
+  { n: "03", t: "Le passage confirmé", d: "SMS ou notification à chaque passage — utile pour les proches, rassurant pour tous." },
+  { n: "04", t: "Le lien qui remonte", d: "Toute évolution signalée au médecin le jour même. Les urgences évitées valent mieux que les urgences gérées." },
+];
+
+const ENGAGEMENT_DEMO = [
+  "Six infirmiers diplômés d'État, conventionnés CPAM, inscrits à l'Ordre",
+  "Secrétariat humain 8h-18h — pas de répondeur qui promet de rappeler",
+  "Dossier de soins unique partagé, messagerie sécurisée de santé (MSSanté)",
+  "Zone d'intervention annoncée et tenue : on refuse plutôt que de mal faire",
+];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
+
+const TARIFS_SOURCE = [
+  { a: "Soins sur ordonnance", p: "tiers payant", n: "AMI/AIS selon nomenclature + indemnités de déplacement réglementaires." },
+  { a: "Prélèvement au cabinet", p: "tiers payant", n: "Sans rendez-vous 7h30-9h30, résultats via votre laboratoire." },
+  { a: "Bilan de soins infirmiers (BSI)", p: "pris en charge", n: "Pour les patients dépendants : évaluation complète, plan de soins transmis." },
+  { a: "Appli familles", p: "incluse", n: "Pour tous les patients en soins réguliers, sans supplément." },
+];
+let TARIFS = TARIFS_SOURCE;
+
+const AVIS_SOURCE = [
+  { texte: "Depuis Paris, je vois chaque passage chez mon père à Saint-Nazaire : confirmé, commenté, avec les constantes. Cette appli m'a rendu des nuits de sommeil.", auteur: "Fils de M. G.", detail: "Suivi à distance" },
+  { texte: "Escarre de stade 3 reprise en trois mois par l'infirmière au DU plaies. Photos envoyées au médecin chaque semaine, protocole ajusté sans que je me déplace.", auteur: "Épouse de R.", detail: "Plaies complexes" },
+  { texte: "Le secrétariat change tout : un humain répond, la tournée est calée le jour même. Après deux cabinets injoignables, on mesure la différence.", auteur: "Nadège P.", detail: "Perfusions post-op" },
+];
+let AVIS_DEMO = AVIS_SOURCE;
+
+const STATS_SOURCE = [
+  { value: "6", label: "Infirmiers D.E." },
+  { value: "1", label: "Secrétaire qui décroche" },
+  { value: "20 km", label: "De zone couverte annoncée" },
+  { value: "98 %", label: "De passages dans le créneau" },
+];
+let STATS = STATS_SOURCE;
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Primitives
+   ════════════════════════════════════════════════════════════════════════════ */
+
+function Reveal({
+  children,
+  delay = 0,
+  y = 30,
+  style,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  y?: number;
+  style?: React.CSSProperties;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-12% 0px -8% 0px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 26 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
+    <motion.div
+      ref={ref}
+      className={className}
+      style={style}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 0.9, ease: EASE, delay }}
+    >
       {children}
     </motion.div>
   );
 }
 
-function photo(i: number, fallback: string): string {
-  return fd?.photoUrls?.[i] || fallback;
+/** Kicker : filet de 40×1 px puis capitales très espacées. */
+function Kicker({
+  children,
+  color = C.accentDark,
+  align = "left",
+}: {
+  children: React.ReactNode;
+  color?: string;
+  align?: "left" | "center";
+}) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: align === "center" ? "center" : "flex-start" }}>
+      <span aria-hidden style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${color})`, opacity: 0.9 }} />
+      <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.38em", textTransform: "uppercase", color, fontWeight: 600 }}>{children}</span>
+      {align === "center" && <span aria-hidden style={{ width: 40, height: 1, background: `linear-gradient(270deg, transparent, ${color})`, opacity: 0.9 }} />}
+    </div>
+  );
 }
+
+/** Le mot fantôme du fond : texture sans image. */
+function Ghost({
+  children,
+  right = false,
+  color = C.ink,
+  opacity = 0.05,
+  size = "clamp(210px, 28vw, 440px)",
+  top = "-8%",
+}: {
+  children: React.ReactNode;
+  right?: boolean;
+  color?: string;
+  opacity?: number;
+  size?: string;
+  top?: string;
+}) {
+  return (
+    <span
+      aria-hidden
+      className="i356-ghost"
+      style={{
+        position: "absolute",
+        top,
+        [right ? "right" : "left"]: "-1%",
+        fontFamily: SERIF,
+        fontStyle: "italic",
+        fontWeight: 300,
+        fontSize: size,
+        lineHeight: 0.78,
+        color,
+        opacity,
+        pointerEvents: "none",
+        userSelect: "none",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+/** Bouton : élévation + deux ombres + accent, sur 0,5 s. */
+function Bouton({
+  href,
+  children,
+  variant = "plein",
+  large = false,
+  clair = false,
+}: {
+  href: string;
+  children: React.ReactNode;
+  variant?: "plein" | "ligne";
+  large?: boolean;
+  /** Posé sur un fond sombre : le contour et le texte passent en clair. */
+  clair?: boolean;
+}) {
+  const [h, setH] = useState(false);
+  const plein = variant === "plein";
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      onFocus={() => setH(true)}
+      onBlur={() => setH(false)}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: large ? "16px 32px" : "14px 26px",
+        minHeight: 44,
+        fontFamily: SANS,
+        fontSize: large ? 13.5 : 12.5,
+        fontWeight: 600,
+        letterSpacing: "0.1em",
+        textTransform: "uppercase",
+        borderRadius: 2,
+        textDecoration: "none",
+        border: `1px solid ${plein ? "transparent" : clair ? "rgba(255,255,255,0.45)" : h ? C.accent : C.border}`,
+        background: plein ? (h ? C.accentDark : C.accent) : h ? (clair ? "rgba(255,255,255,0.12)" : C.white) : "transparent",
+        color: plein ? C.white : clair ? C.white : h ? C.accentDark : C.ink,
+        transform: h ? "translateY(-2px)" : "translateY(0)",
+        boxShadow: h
+          ? `0 16px 32px -20px rgba(10,28,39,0.6), 0 2px 0 0 ${plein ? C.accentDark : C.accentLight}`
+          : "0 0 0 0 rgba(0,0,0,0), 0 0 0 0 rgba(0,0,0,0)",
+        transition: `all .5s ${EASE_CSS}`,
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
+/** Lien de navigation : soulignement dont la largeur pousse. */
+function NavLien({ label, href, clair }: { label: string; href: string; clair: boolean }) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        position: "relative",
+        fontFamily: SANS,
+        fontSize: 12.5,
+        fontWeight: 500,
+        letterSpacing: "0.12em",
+        textTransform: "uppercase",
+        color: clair ? (h ? C.white : "rgba(255,255,255,0.82)") : h ? C.accentDark : C.textMuted,
+        textDecoration: "none",
+        padding: "12px 2px",
+        transition: `color .45s ${EASE_CSS}`,
+      }}
+    >
+      {label}
+      <span
+        aria-hidden
+        style={{
+          position: "absolute",
+          left: 0,
+          bottom: 8,
+          height: 1,
+          width: h ? "100%" : "0%",
+          background: clair ? C.ecume : C.accent,
+          transition: `width .5s ${EASE_CSS}`,
+        }}
+      />
+    </a>
+  );
+}
+
+/** Une tuile du bento des prestations. Tailles inégales assumées. */
+function TuileService({ s, idx }: { s: any; idx: number }) {
+  const [h, setH] = useState(false);
+  /* Rythme du bento : 1re et 4e tuiles larges, la 3e haute. */
+  const large = idx % 5 === 0 || idx % 5 === 3;
+  const sombre = idx % 5 === 2;
+  return (
+    <article
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        width: "100%",
+        background: sombre ? C.bgDark : C.white,
+        border: `1px solid ${sombre ? "rgba(255,255,255,0.1)" : C.border}`,
+        borderRadius: 3,
+        padding: "clamp(24px, 3vw, 38px)",
+        height: "100%",
+        transform: h ? "translateY(-4px)" : "translateY(0)",
+        boxShadow: h
+          ? "0 30px 54px -38px rgba(10,28,39,0.62), 0 1px 0 0 var(--brand, #227c9d)"
+          : "0 0 0 0 rgba(0,0,0,0), 0 0 0 0 rgba(0,0,0,0)",
+        transition: `all .5s ${EASE_CSS}`,
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+        <span style={{ width: 26, height: 1, background: sombre ? C.ecume : C.accent, opacity: 0.9 }} />
+        <span style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: sombre ? C.ecume : C.accentDark, fontWeight: 600 }}>{s.tag}</span>
+      </div>
+      <h3
+        style={{
+          fontFamily: SERIF,
+          fontWeight: 400,
+          fontSize: large ? "clamp(26px, 3vw, 36px)" : "clamp(22px, 2.4vw, 28px)",
+          lineHeight: 1.1,
+          letterSpacing: "-0.01em",
+          color: sombre ? C.white : C.ink,
+          margin: "0 0 12px",
+        }}
+      >
+        {s.titre}
+      </h3>
+      <p style={{ fontFamily: SANS, fontSize: 14.5, lineHeight: 1.75, color: sombre ? "rgba(255,255,255,0.66)" : C.textMuted, margin: 0, maxWidth: large ? 560 : 380 }}>{s.desc}</p>
+    </article>
+  );
+}
+
+/** Une bande de tarif : pleine largeur, filet haut, prix à droite. */
+function BandeTarif({ t, idx }: { t: any; idx: number }) {
+  const [h, setH] = useState(false);
+  return (
+    <div
+      className="i356-bande"
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        display: "grid",
+        gridTemplateColumns: "minmax(0, 0.34fr) minmax(0, 1.2fr) minmax(0, 0.4fr)",
+        gap: "clamp(12px, 2.4vw, 32px)",
+        alignItems: "baseline",
+        padding: "clamp(22px, 2.8vw, 34px) clamp(8px, 2vw, 26px)",
+        borderTop: `1px solid ${idx === 0 ? C.ink : C.border}`,
+        background: h ? C.white : "transparent",
+        boxShadow: h ? "0 20px 40px -34px rgba(10,28,39,0.6), inset 0 -1px 0 0 var(--brand, #227c9d)" : "0 0 0 0 rgba(0,0,0,0), inset 0 0 0 0 rgba(0,0,0,0)",
+        transition: `all .5s ${EASE_CSS}`,
+      }}
+    >
+      <div style={{ fontFamily: SERIF, fontSize: "clamp(20px, 2.2vw, 26px)", lineHeight: 1.2, color: C.ink }}>{t.a}</div>
+      <div style={{ fontFamily: SANS, fontSize: 14, lineHeight: 1.72, color: C.textMuted }}>{t.n}</div>
+      <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: C.accentDark, textAlign: "right", whiteSpace: "nowrap" }}>{t.p}</div>
+    </div>
+  );
+}
+
+function photo(i: number, repli: string): string {
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || repli;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Page
+   ════════════════════════════════════════════════════════════════════════════ */
 
 export default function SoinsEstuairePage() {
   const [session, setSession] = useState<any>(null);
@@ -101,11 +462,11 @@ export default function SoinsEstuairePage() {
       .catch(() => {});
   }, []);
 
-
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -115,11 +476,17 @@ export default function SoinsEstuairePage() {
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
-    TARIFS_DEMO,
+    clientServices(sessionData)?.map((s: any, i: number) => ({
+      ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
+      a: s.title,
+      p: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      n: s.desc || s.description || TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
+    })),
+    TARIFS_SOURCE,
   );
-  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
-  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
+  STATS = resolveList(clientStats(sessionData), STATS_SOURCE);
+  ENGAGEMENT = clientList(sessionData, "engagements.liste") ?? resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
+
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
@@ -128,187 +495,409 @@ export default function SoinsEstuairePage() {
   const SERVICES = resolveList(
     clientServices(sessionData)?.map((s: any, n: number) => ({
       titre: s.title ?? SERVICES_DEMO[n % SERVICES_DEMO.length].titre,
-      desc: s.description ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
+      desc: s.description ?? s.desc ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
       tag: SERVICES_DEMO[n % SERVICES_DEMO.length].tag,
     })),
-    SERVICES_DEMO
+    SERVICES_DEMO,
   );
   const AVIS = resolveList(
     clientReviews(sessionData)?.map((r: any, n: number) => ({
       texte: r.text ?? AVIS_DEMO[n % AVIS_DEMO.length].texte,
-      auteur: r.name ?? AVIS_DEMO[n % AVIS_DEMO.length].auteur,
-      detail: r.location ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
+      auteur: r.name ?? r.author ?? AVIS_DEMO[n % AVIS_DEMO.length].auteur,
+      detail: r.location ?? r.role ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
     })),
-    AVIS_DEMO
+    AVIS_DEMO,
   );
+
+  /* Les scènes du héros reprennent les prestations du client quand il en a
+     saisi : la tuile garde son dessin et son icône, le texte devient le sien. */
+  const DU_CLIENT = clientServices(sessionData);
+  const HERO = HERO_SOURCE.map((scene, s) => ({
+    ...scene,
+    tiles: scene.tiles.map((tile, t) => {
+      if (!DU_CLIENT?.length) return tile;
+      const presta = SERVICES[(s * 3 + t) % SERVICES.length];
+      return { ...tile, t: presta?.titre ?? tile.t, d: presta?.desc ?? tile.d };
+    }),
+  }));
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  /* Un seul index pour tout le héros : les tuiles, la fraction et les flèches. */
+  const { i, next, prev } = useSlides(HERO.length, DWELL.slow);
   const S = HERO[i];
 
-  const tiles = S.tiles.map(({ icon: Icon, t: tt, d, bg, fg }, n) => ({
-    from: (n === 0 ? "left" : n === 1 ? "right" : "bottom") as "left" | "right" | "bottom",
-    node: (
-      <div style={{ background: bg, color: fg, borderRadius: 14, padding: "20px 22px", height: "100%", display: "flex", gap: 16, alignItems: "flex-start" }}>
-        <Icon size={22} style={{ flexShrink: 0, marginTop: 2 }} />
-        <div style={{ minWidth: 0 }}>
-          <div style={{ fontWeight: 700, fontSize: 15.5, marginBottom: 5 }}>{tt}</div>
-          <div style={{ fontSize: 13.5, lineHeight: 1.6, opacity: 0.85 }}>{d}</div>
-        </div>
-      </div>
-    ),
-  }));
-
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", h);
+    const h = () => setScrolled(window.scrollY > 60);
+    h();
+    window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = fd?.phone ?? "02 40 00 00 01";
-  const telHref = `tel:${fd?.phone ?? "+33240000001"}`;
-  const mail = fd?.email ?? "secretariat@soins-estuaire.fr";
+  const nom = fd?.businessName ?? clientName(sessionData) ?? "Soins de l'Estuaire";
+  const ville = clientCity(sessionData) ?? "Saint-Nazaire";
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 01";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000001").replace(/[^+\d]/g, "")}`;
+  const mail = clientEmail(sessionData) ?? fd?.email ?? "secretariat@soins-estuaire.fr";
+  const adresse = clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "44600", "Saint-Nazaire");
+  /* Plein cadre : la photo du client d'abord, celle du thème ensuite. Le fond
+     sombre est peint dessous — image bloquée, le héros tient quand même. */
+  const heroImg = photo(0, "https://images.pexels.com/photos/7345459/pexels-photo-7345459.jpeg?auto=compress&cs=tinysrgb&w=1400");
+  /* Deuxième emplacement : sans photo confiée, panneau CSS (dégradé d'estuaire,
+     filets d'horizon, halo). Aucune adresse d'image inventée. */
+  const cabinetImg = photo(1, "");
+
+  /* Les tuiles du geste : le contenu de la scène, le dessin du thème. */
+  const tuiles = S.tiles.map((tile: any, n: number) => {
+    const Icon = tile.icon;
+    const sombre = tile.ton === "sombre";
+    const pale = tile.ton === "pale";
+    return {
+      from: (n === 0 ? "left" : n === 1 ? "right" : "bottom") as "left" | "right" | "bottom",
+      node: (
+        <div
+          style={{
+            background: sombre ? C.bgDark : pale ? "rgba(255,255,255,0.9)" : C.accentLight,
+            color: sombre ? C.white : C.ink,
+            border: `1px solid ${sombre ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.55)"}`,
+            borderLeft: `2px solid ${sombre ? C.ecume : C.accent}`,
+            borderRadius: 3,
+            padding: "18px 20px",
+            display: "flex",
+            gap: 15,
+            alignItems: "flex-start",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+          }}
+        >
+          <Icon size={19} style={{ flexShrink: 0, marginTop: 3, color: sombre ? C.ecume : C.accentDark }} />
+          <div style={{ minWidth: 0 }}>
+            <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: 14, letterSpacing: "0.01em", marginBottom: 5 }}>{tile.t}</div>
+            <div style={{ fontFamily: SANS, fontSize: 13, lineHeight: 1.62, opacity: 0.82 }}>{tile.d}</div>
+          </div>
+        </div>
+      ),
+    };
+  });
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
+    <div id="i356-root" style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip" }}>
       <style>{`
-        @media (max-width: 900px) { #i356-nav { display: none !important; } .i356-burger { display: flex !important; } }
-        @media (max-width: 860px) {
-          .i356-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
-          .i356-card { max-width: 380px; margin: 0 auto; width: 100%; }
-          .i356-split { grid-template-columns: 1fr !important; }
-          .i356-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
-          .i356-stats .i356-statcell { border-right: none !important; }
-          .i356-pad { padding-left: 24px !important; padding-right: 24px !important; }
-          .i356-herotext { padding: 0 24px 44px !important; }
+        ${FONTS_CSS}
+        #i356-root em { font-style: italic; }
+        .i356-marquee { display: flex; gap: 20px; width: max-content; animation: i356-derive 46s linear infinite; }
+        .i356-marquee:hover { animation-play-state: paused; }
+        @keyframes i356-derive {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .i356-marquee { animation: none !important; }
+          .i356-piste { overflow-x: auto !important; }
+        }
+        @media (max-width: 980px) {
+          #i356-nav { display: none !important; }
+          .i356-burger { display: flex !important; }
+        }
+        @media (max-width: 900px) {
+          .i356-herobas { grid-template-columns: minmax(0,1fr) !important; gap: 30px !important; }
+          .i356-bento { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+          .i356-tuile { grid-column: span 2 !important; }
+          .i356-rail { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+          .i356-split { grid-template-columns: minmax(0,1fr) !important; gap: 38px !important; }
+          .i356-split-media { order: initial !important; }
+          .i356-contact { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
+          .i356-stats { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+          .i356-statcell { border-right: none !important; }
+          .i356-bande { grid-template-columns: minmax(0,1fr) !important; gap: 8px !important; }
+          .i356-bande > div:last-child { text-align: left !important; }
+        }
+        @media (max-width: 620px) {
+          .i356-ghost { display: none !important; }
+          .i356-bento { grid-template-columns: minmax(0,1fr) !important; }
+          .i356-rail { grid-template-columns: minmax(0,1fr) !important; }
         }
       `}</style>
 
-      {/* ── NAV ─────────────────────────────────────────────────────────── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", background: scrolled ? C.bg : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "all 0.4s ease" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+      {/* ══ NAV — claire tant qu'on est sur le plein cadre ═══════════════ */}
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: scrolled ? "12px clamp(20px, 5vw, 62px)" : "22px clamp(20px, 5vw, 62px)",
+          background: scrolled ? "rgba(246,250,251,0.94)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
+          borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
+          transition: `padding .55s ${EASE_CSS}, background .55s ${EASE_CSS}, border-color .55s ${EASE_CSS}, backdrop-filter .55s ${EASE_CSS}`,
+        }}
+      >
+        <a href="#i356-root" style={{ display: "flex", alignItems: "center", gap: 11, minWidth: 0, textDecoration: "none" }}>
           {fd?.logoBase64 ? (
-            <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
+            <img src={fd.logoBase64} alt={nom} style={{ height: 32, maxWidth: 168, objectFit: "contain", display: "block" }} />
           ) : (
             <>
-              <HeartPulse size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Soins de l'Estuaire"))}</span>
-              <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>Infirmiers</span>
+              <HeartPulse size={17} color={scrolled ? C.accent : C.ecume} style={{ flexShrink: 0 }} />
+              <span style={{ fontFamily: SERIF, fontSize: 23, letterSpacing: "0.01em", color: scrolled ? C.ink : C.white, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", transition: `color .55s ${EASE_CSS}` }}>{nom}</span>
+              <span style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.28em", textTransform: "uppercase", color: scrolled ? C.textFaint : "rgba(255,255,255,0.6)", marginLeft: 4, whiteSpace: "nowrap" }}>
+                {clientTrade(sessionData) ?? "Infirmiers"}
+              </span>
             </>
           )}
-        </div>
-        <div id="i356-nav" style={{ display: "flex", gap: 24, alignItems: "center" }}>
+        </a>
+
+        <div id="i356-nav" style={{ display: "flex", gap: "clamp(16px, 2vw, 30px)", alignItems: "center" }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
+            <NavLien key={l} label={l} href={h} clair={!scrolled} />
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33240000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
-            Appeler le secrétariat
-          </motion.a>
+          <Bouton href={telHref} variant={scrolled ? "plein" : "ligne"} clair={!scrolled}>
+            Le secrétariat
+          </Bouton>
         </div>
-        <button className="i356-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+
+        <button
+          className="i356-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: scrolled ? C.ink : C.white, transition: `transform .4s ${EASE_CSS}`, transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: scrolled ? C.ink : C.white, transition: "opacity .3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: scrolled ? C.ink : C.white, transition: `transform .4s ${EASE_CSS}`, transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
         </button>
       </nav>
+
       {mobileOpen && (
-        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "20px 28px", display: "flex", flexDirection: "column", gap: 4 }}>
+        <div style={{ position: "fixed", top: 64, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "18px clamp(20px, 5vw, 62px) 26px", display: "flex", flexDirection: "column", gap: 2 }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
+            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ fontFamily: SANS, color: C.ink, fontSize: 15.5, fontWeight: 500, textDecoration: "none", padding: "13px 0", borderBottom: `1px solid ${C.border}` }}>
+              {l}
+            </a>
           ))}
-          <a href={`tel:${fd?.phone ?? "+33240000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Appeler le secrétariat</a>
+          <a href={telHref} style={{ marginTop: 14, background: C.accent, color: C.white, fontFamily: SANS, borderRadius: 2, padding: "15px 22px", fontSize: 14.5, fontWeight: 600, textDecoration: "none", textAlign: "center" }}>
+            {phone}
+          </a>
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i356-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
-        <div>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>{clientEyebrow(sessionData) ?? "Cabinet infirmier · Saint-Nazaire"}</motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 24) ?? "Votre traitement suit,"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 24) ?? "même quand la vie bouge."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Six infirmiers, une secrétaire qui décroche, une application de suivi pour les familles : le cabinet infirmier organisé comme il devrait l'être partout. Conventionné, tiers payant."}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-              Organiser des soins <ArrowRight size={16} />
-            </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-              Nos soins
-            </motion.a>
-          </motion.div>
-          
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 42, flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontSize: 13.5, color: C.textMuted }}>
-              <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
+      {/* ══ HÉROS — H3 plein cadre, titre en bas ═════════════════════════ */}
+      <section
+        style={{
+          position: "relative",
+          minHeight: "100dvh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          /* Fond de repli obligatoire : le plein cadre ne dépend jamais
+             de l'arrivée d'une image. */
+          background: C.bgDark,
+          overflow: "hidden",
+          padding: "clamp(120px, 16vh, 180px) clamp(20px, 5vw, 62px) clamp(40px, 6vw, 68px)",
+        }}
+      >
+        {heroImg ? (
+          <img
+            src={heroImg}
+            alt="Visite infirmière au domicile"
+            loading="eager"
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+        ) : (
+          /* Sans image : l'estuaire en CSS — dégradé d'eau, bandes d'horizon,
+             halo bas. Rien ne manque à l'écran. */
+          <div aria-hidden style={{ position: "absolute", inset: 0 }}>
+            <span style={{ position: "absolute", inset: 0, background: `linear-gradient(168deg, ${C.bgDarkAlt} 0%, ${C.bgDark} 46%, var(--brand, #227c9d) 190%)` }} />
+            <span style={{ position: "absolute", inset: 0, background: `radial-gradient(72% 48% at 24% 82%, var(--brand, #227c9d) 0%, transparent 68%)`, opacity: 0.12 }} />
+            {[0.34, 0.46, 0.58, 0.7].map((y) => (
+              <span key={y} style={{ position: "absolute", left: 0, right: 0, top: `${y * 100}%`, height: 1, background: `linear-gradient(90deg, transparent, rgba(142,203,224,0.28), transparent)` }} />
+            ))}
+          </div>
+        )}
+
+        {/* Trois scrims : lisibilité du titre bas, profondeur, vignettage. */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(10,28,39,0.72) 0%, rgba(10,28,39,0.18) 34%, rgba(10,28,39,0.62) 72%, rgba(10,28,39,0.94) 100%)" }} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 82% at 22% 78%, transparent 30%, rgba(10,28,39,0.62) 100%)", mixBlendMode: "multiply" }} />
+
+        <Ghost right color={C.ecume} opacity={0.07} top="8%" size="clamp(240px, 32vw, 500px)">
+          6
+        </Ghost>
+
+        <div style={{ position: "relative", zIndex: 3, maxWidth: 1280, margin: "0 auto", width: "100%" }}>
+          <div className="i356-herobas" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.12fr) minmax(0, 0.88fr)", gap: "clamp(28px, 4vw, 60px)", alignItems: "flex-end" }}>
+            <div>
+              <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}>
+                <Kicker color={C.ecume}>{clientEyebrow(sessionData) ?? `Cabinet infirmier · ${ville}`}</Kicker>
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 34 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: EASE, delay: 0.22 }}
+                style={{
+                  fontFamily: SERIF,
+                  fontWeight: 300,
+                  fontSize: "clamp(42px, 7vw, 86px)",
+                  lineHeight: 0.98,
+                  letterSpacing: "-0.015em",
+                  color: C.white,
+                  margin: "clamp(18px, 2.4vw, 28px) 0 clamp(16px, 2vw, 22px)",
+                  textShadow: "0 14px 50px rgba(10,28,39,0.55)",
+                }}
+              >
+                {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
+                  <>
+                    {clientHeroLine(sessionData, 0, 2, 24) ?? "Votre traitement suit,"}
+                    <br />
+                    <em style={{ color: C.ecume }}>{clientHeroLine(sessionData, 1, 2, 24) ?? "même quand la vie bouge."}</em>
+                  </>
+                )}
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 22 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.05, ease: EASE, delay: 0.4 }}
+                style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15px, 1.5vw, 17px)", lineHeight: 1.78, color: "rgba(255,255,255,0.78)", maxWidth: 500, marginBottom: "clamp(24px, 3vw, 34px)" }}
+              >
+                {clientHeroSubtitle(sessionData) ??
+                  c?.heroSubline ??
+                  "Six infirmiers, une secrétaire qui décroche, une application de suivi pour les familles : le cabinet infirmier organisé comme il devrait l'être partout. Conventionné, tiers payant."}
+              </motion.p>
+
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE, delay: 0.54 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+                <Bouton href={telHref} large>
+                  Organiser des soins
+                </Bouton>
+                <Bouton href="#services" variant="ligne" large clair>
+                  Nos soins
+                </Bouton>
+              </motion.div>
+
+              {/* La commande du geste : la fraction et les flèches lisent le
+                  même index que les tuiles. */}
+              <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: "clamp(26px, 3.4vw, 40px)", flexWrap: "wrap", color: "rgba(255,255,255,0.72)" }}>
+                <SlideIndex i={i} total={HERO.length} variant="fraction" color="rgba(255,255,255,0.72)" className="" />
+                <span style={{ fontFamily: SANS, fontSize: 13, lineHeight: 1.55, maxWidth: 380 }}>
+                  <strong style={{ color: C.white, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
+                </span>
+                <HairlineArrows onPrev={prev} onNext={next} color="rgba(255,255,255,0.8)" className="" labels={{ prev: "Scène précédente", next: "Scène suivante" }} />
+              </div>
+            </div>
+
+            {/* ── Le geste : la scène se compose, tuile après tuile ── */}
+            <ComposeIn
+              index={i}
+              items={tuiles}
+              hold={1.1}
+              beat={0.16}
+              style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr)", gridTemplateRows: "repeat(3, minmax(84px, auto))", gap: 12 }}
+            />
           </div>
         </div>
-        <ComposeIn index={i} items={tiles}  style={{ display: "grid", gridTemplateColumns: "1fr", gridTemplateRows: "repeat(3, minmax(112px, auto))", gap: 12 }} />
       </section>
 
-      {/* ── STATS ───────────────────────────────────────────────────────── */}
-      <section style={{ background: C.bgDark }}>
-        <div className="i356-stats i356-pad" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
-          {STATS.map((s, idx) => (
-            <Reveal key={s.label} delay={idx * 0.08}>
-              <div className="i356-statcell" style={{ padding: "30px 8px", textAlign: "center", borderRight: idx < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
-                <div style={{ fontFamily: FONT, fontSize: 32, color: C.hi, lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 7 }}>{s.label}</div>
+      {/* ══ CHIFFRES — bande fine sous le plein cadre ═══════════════════ */}
+      <section style={{ background: C.bgDarkAlt, padding: "0 clamp(20px, 5vw, 62px)" }}>
+        <div className="i356-stats" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1180, margin: "0 auto" }}>
+          {STATS.map((s: any, idx: number) => (
+            <Reveal key={s.label} delay={idx * 0.055}>
+              <div
+                className="i356-statcell"
+                style={{
+                  padding: "clamp(26px, 3.2vw, 40px) clamp(10px, 1.6vw, 22px)",
+                  borderRight: idx < STATS.length - 1 ? "1px solid rgba(255,255,255,0.09)" : "none",
+                  height: "100%",
+                }}
+              >
+                <div style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(32px, 3.8vw, 48px)", lineHeight: 1, color: C.ecume }}>{s.value}</div>
+                <div style={{ fontFamily: SANS, fontSize: 12.5, lineHeight: 1.6, color: "rgba(255,255,255,0.5)", marginTop: 10, maxWidth: 190 }}>{s.label}</div>
               </div>
             </Reveal>
           ))}
         </div>
       </section>
 
+      {/* ══ RESPIRATION ═════════════════════════════════════════════════ */}
+      <section style={{ background: C.bg, padding: "clamp(60px, 8vw, 100px) clamp(20px, 5vw, 62px)", textAlign: "center" }}>
+        <Reveal>
+          <p style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(23px, 3.2vw, 38px)", lineHeight: 1.42, color: C.ink, maxWidth: 800, margin: "0 auto", letterSpacing: "-0.005em" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.phrase") ??
+              "Une tournée n'est pas une liste de passages : c'est une journée que six soignants tiennent ensemble, du premier prélèvement au dernier appel au médecin."}
+          </p>
+        </Reveal>
+      </section>
 
-      {/* ── SERVICES ────────────────────────────────────────────────────── */}
-      <section id="services" className="i356-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+      {/* ══ PRESTATIONS — bento de tuiles inégales ══════════════════════ */}
+      <section id="services" style={{ background: C.bgAlt, padding: "clamp(72px, 9vw, 124px) clamp(20px, 5vw, 62px)", position: "relative", overflow: "hidden" }}>
+        <Ghost opacity={0.045} top="4%">
+          soin
+        </Ghost>
+        <div style={{ maxWidth: 1220, margin: "0 auto", position: "relative", zIndex: 2 }}>
           <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Nos soins</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
-                Techniques ou quotidiens,<br /><em>avec la même rigueur.</em>
-              </>)}</h2>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 30, flexWrap: "wrap", marginBottom: "clamp(30px, 4vw, 50px)" }}>
+              <div>
+                <Kicker>Nos soins</Kicker>
+                <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(32px, 4.8vw, 58px)", lineHeight: 1.04, letterSpacing: "-0.018em", color: C.ink, marginTop: 18 }}>
+                  {/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (
+                    <>
+                      Techniques ou quotidiens,
+                      <br />
+                      <em style={{ color: C.accentDark }}>avec la même rigueur.</em>
+                    </>
+                  )}
+                </h2>
+              </div>
+              <p style={{ fontFamily: SANS, fontSize: 14.5, lineHeight: 1.78, color: C.textMuted, maxWidth: 360 }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "services.intro") ??
+                  "Chaque acte est confié au soignant qui l'a le plus pratiqué. C'est la seule façon d'être aussi sûr sur une escarre que sur une prise de sang."}
+              </p>
             </div>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
-            {SERVICES.map((s, idx) => (
-              <Reveal key={s.titre} delay={idx * 0.06}>
-                <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
-                  <span style={{ background: C.accentLight, color: C.accentDark, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
-                </motion.div>
+
+          <div className="i356-bento" style={{ display: "grid", gridTemplateColumns: "repeat(6, minmax(0,1fr))", gap: "clamp(12px, 1.6vw, 20px)" }}>
+            {SERVICES.map((s: any, idx: number) => (
+              <Reveal
+                key={s.titre + idx}
+                delay={Math.min(idx, 4) * 0.055}
+                className="i356-tuile"
+                style={{ gridColumn: idx % 5 === 0 || idx % 5 === 3 ? "span 4" : "span 2", display: "flex" }}
+              >
+                <TuileService s={s} idx={idx} />
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── MÉTHODE / INFOS ─────────────────────────────────────────────── */}
-      <section id="methode" className="i356-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+      {/* ══ L'ORGANISATION — rail horizontal numéroté ═══════════════════ */}
+      <section id="methode" style={{ background: C.bg, padding: "clamp(72px, 9vw, 124px) clamp(20px, 5vw, 62px)" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>L'organisation</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
-                Un cabinet qui tourne,<br /><em>des patients qui le sentent.</em>
-              </>)}</h2>
-            </div>
+            <Kicker>L'organisation</Kicker>
+            <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(32px, 4.8vw, 58px)", lineHeight: 1.04, letterSpacing: "-0.018em", color: C.ink, margin: "18px 0 clamp(34px, 4.4vw, 54px)", maxWidth: 700 }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (
+                <>
+                  Un cabinet qui tourne,
+                  <br />
+                  <em style={{ color: C.accentDark }}>des patients qui le sentent.</em>
+                </>
+              )}
+            </h2>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
-            {METHODE.map((m, idx) => (
-              <Reveal key={m.n} delay={idx * 0.08}>
-                <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                  <div style={{ fontFamily: FONT, fontSize: 28, color: C.accentDark, marginBottom: 12 }}>{m.n}</div>
-                  <h3 style={{ fontSize: 16.5, fontWeight: 700, color: C.text, marginBottom: 9 }}>{m.t}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
+
+          <div className="i356-rail" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: "clamp(16px, 2.4vw, 34px)" }}>
+            {METHODE_SOURCE.map((m, idx) => (
+              <Reveal key={m.n} delay={idx * 0.055}>
+                <div style={{ borderTop: `1px solid ${C.ink}`, paddingTop: 20, height: "100%" }}>
+                  <div style={{ fontFamily: SERIF, fontSize: "clamp(40px, 5vw, 60px)", lineHeight: 0.9, color: C.accentLight, marginBottom: 14 }}>{m.n}</div>
+                  <h3 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(20px, 2.2vw, 25px)", lineHeight: 1.2, color: C.ink, margin: "0 0 10px" }}>{m.t}</h3>
+                  <p style={{ fontFamily: SANS, fontSize: 14, lineHeight: 1.75, color: C.textMuted, margin: 0 }}>{m.d}</p>
                 </div>
               </Reveal>
             ))}
@@ -316,123 +905,224 @@ export default function SoinsEstuairePage() {
         </div>
       </section>
 
-      {/* ── ENGAGEMENTS ─────────────────────────────────────────────────── */}
-      <section id="engagements" className="i356-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div className="i356-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
-          <Reveal>
-            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", justifyContent: "center" , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/7345459/pexels-photo-7345459.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Visite infirmière au domicile" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
-          </Reveal>
-          <Reveal delay={0.15}>
+      {/* ══ LE CABINET / ENGAGEMENTS ════════════════════════════════════ */}
+      <section id="engagements" style={{ background: C.bgAlt, padding: "clamp(72px, 9vw, 124px) clamp(20px, 5vw, 62px)" }}>
+        <div className="i356-split" style={{ maxWidth: 1160, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0, 1.05fr) minmax(0, 0.95fr)", gap: "clamp(34px, 5vw, 70px)", alignItems: "center" }}>
+          <Reveal delay={0.1}>
             <div>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Le cabinet</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
-                Organisés<br /><em>parce que c'est du soin.</em>
-              </>)}</h2>
-              {ENGAGEMENT.map((e, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
-                  <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
-                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
-                </div>
-              ))}
-              <motion.a href={telHref} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 24, background: C.accentDark, color: "#fff", borderRadius: 8, padding: "14px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.02 }}>
-                Nous appeler <ArrowRight size={16} />
-              </motion.a>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── TARIFS ──────────────────────────────────────────────────────── */}
-      <section id="tarifs" className="i356-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 16 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Prise en charge</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Nomenclature, <em>tiers payant, point.</em></>)}</h2>
-              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Actes cotés selon la NGAP, remboursés par l'Assurance Maladie sur prescription. Le tiers payant est systématique — vous ne sortez pas la carte bleue.</p>
-            </div>
-          </Reveal>
-          <div style={{ marginTop: 38 }}>
-            {TARIFS.map((tt, idx) => (
-              <Reveal key={tt.a} delay={idx * 0.06}>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "space-between", alignItems: "baseline", background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px", marginBottom: 12 }}>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: FONT, fontSize: 17.5, color: C.text }}>{tt.a}</div>
-                    <div style={{ fontSize: 13.5, color: C.textMuted, marginTop: 5, lineHeight: 1.6 }}>{tt.n}</div>
+              <Kicker>Le cabinet</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(30px, 4vw, 48px)", lineHeight: 1.06, letterSpacing: "-0.018em", color: C.ink, margin: "18px 0 clamp(22px, 3vw, 30px)" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (
+                  <>
+                    Organisés
+                    <br />
+                    <em style={{ color: C.accentDark }}>parce que c'est du soin.</em>
+                  </>
+                )}
+              </h2>
+              <div style={{ borderTop: `1px solid ${C.border}` }}>
+                {ENGAGEMENT.map((e: string, idx: number) => (
+                  <div key={idx} style={{ display: "flex", gap: 14, alignItems: "flex-start", padding: "15px 0", borderBottom: `1px solid ${C.border}` }}>
+                    <span style={{ flexShrink: 0, marginTop: 3, width: 18, height: 18, borderRadius: "50%", background: C.accentLight, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+                      <Check size={11} color={C.accentDark} strokeWidth={2.4} />
+                    </span>
+                    <span style={{ fontFamily: SANS, fontSize: 14.5, lineHeight: 1.72, color: C.textMuted }}>{e}</span>
                   </div>
-                  <div style={{ fontFamily: FONT, fontSize: 19, color: C.accentDark, whiteSpace: "nowrap" }}>{tt.p}</div>
+                ))}
+              </div>
+              <div style={{ marginTop: "clamp(24px, 3vw, 32px)" }}>
+                <Bouton href={telHref}>Nous appeler</Bouton>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.02}>
+            <div className="i356-split-media">
+              {cabinetImg ? (
+                <div style={{ borderRadius: "3px 3px 3px 110px", overflow: "hidden", border: `1px solid ${C.border}`, aspectRatio: "4 / 3.6" }}>
+                  <img src={cabinetImg} alt="L'équipe du cabinet infirmier" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                 </div>
+              ) : (
+                <div
+                  aria-hidden
+                  style={{
+                    position: "relative",
+                    aspectRatio: "4 / 3.6",
+                    borderRadius: "3px 3px 3px 110px",
+                    overflow: "hidden",
+                    background: `linear-gradient(158deg, ${C.accentLight} 0%, ${C.bg} 58%, ${C.bgAlt} 100%)`,
+                    border: `1px solid ${C.border}`,
+                  }}
+                >
+                  <span style={{ position: "absolute", inset: 0, background: `radial-gradient(58% 58% at 72% 28%, var(--brand, #227c9d) 0%, transparent 64%)`, opacity: 0.11 }} />
+                  {[0.3, 0.42, 0.54, 0.66, 0.78].map((y) => (
+                    <span key={y} style={{ position: "absolute", left: "8%", right: "8%", top: `${y * 100}%`, height: 1, background: `linear-gradient(90deg, transparent, ${C.accent}, transparent)`, opacity: 0.25 }} />
+                  ))}
+                  <span style={{ position: "absolute", left: "50%", top: "26%", width: 12, height: 12, marginLeft: -6, borderRadius: "50%", background: C.accent, opacity: 0.4 }} />
+                </div>
+              )}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ══ PRISE EN CHARGE — bandes ════════════════════════════════════ */}
+      <section id="tarifs" style={{ background: C.bg, padding: "clamp(72px, 9vw, 124px) clamp(20px, 5vw, 62px)" }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <Reveal>
+            <Kicker align="center">Prise en charge</Kicker>
+            <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(30px, 4.4vw, 52px)", lineHeight: 1.06, letterSpacing: "-0.018em", color: C.ink, textAlign: "center", margin: "18px 0 14px" }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (
+                <>
+                  Nomenclature, <em style={{ color: C.accentDark }}>tiers payant, point.</em>
+                </>
+              )}
+            </h2>
+            <p style={{ fontFamily: SANS, fontSize: 15, lineHeight: 1.78, color: C.textMuted, maxWidth: 580, margin: "0 auto", textAlign: "center" }}>
+              Actes cotés selon la NGAP, remboursés par l'Assurance Maladie sur prescription. Le tiers payant est systématique — vous ne sortez pas la carte bleue.
+            </p>
+          </Reveal>
+
+          <div style={{ marginTop: "clamp(34px, 4.5vw, 54px)", borderBottom: `1px solid ${C.border}` }}>
+            {TARIFS.map((t: any, idx: number) => (
+              <Reveal key={t.a + idx} delay={Math.min(idx, 4) * 0.055}>
+                <BandeTarif t={t} idx={idx} />
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── AVIS ────────────────────────────────────────────────────────── */}
-      <section className="i356-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
-        <Reveal>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Des soins <em style={{ color: C.hi }}>qui s'organisent</em>.</>)}</h2>
+      {/* ══ AVIS — marquee qui dérive ═══════════════════════════════════ */}
+      <section style={{ background: C.bgDark, padding: "clamp(72px, 9vw, 116px) 0", position: "relative", overflow: "hidden" }}>
+        <div style={{ padding: "0 clamp(20px, 5vw, 62px)", marginBottom: "clamp(34px, 4.4vw, 54px)" }}>
+          <Reveal>
+            <Kicker color={C.ecume} align="center">
+              Ce qu'on nous écrit
+            </Kicker>
+            <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(30px, 4.4vw, 52px)", lineHeight: 1.06, color: C.white, textAlign: "center", margin: "18px 0 0", letterSpacing: "-0.018em" }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (
+                <>
+                  Des soins <em style={{ color: C.ecume }}>qui s'organisent</em>.
+                </>
+              )}
+            </h2>
+          </Reveal>
+        </div>
+
+        <div className="i356-piste" style={{ overflow: "hidden", maskImage: "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)", WebkitMaskImage: "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)" }}>
+          <div className="i356-marquee">
+            {[...AVIS, ...AVIS].map((a: any, idx: number) => (
+              <figure
+                key={idx}
+                style={{
+                  margin: 0,
+                  width: "min(78vw, 400px)",
+                  flexShrink: 0,
+                  background: "rgba(255,255,255,0.045)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderTop: `1px solid ${C.ecume}`,
+                  borderRadius: 3,
+                  padding: "clamp(24px, 3vw, 32px)",
+                }}
+              >
+                <blockquote style={{ margin: 0, fontFamily: SERIF, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(17px, 1.9vw, 21px)", lineHeight: 1.55, color: "rgba(255,255,255,0.88)" }}>
+                  « {a.texte} »
+                </blockquote>
+                <figcaption style={{ marginTop: 20, paddingTop: 14, borderTop: "1px solid rgba(255,255,255,0.1)" }}>
+                  <div style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 600, color: C.white }}>{a.auteur}</div>
+                  <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.24em", textTransform: "uppercase", color: C.ecume, marginTop: 6 }}>{a.detail}</div>
+                </figcaption>
+              </figure>
+            ))}
           </div>
-        </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {AVIS.map((a, idx) => (
-            <Reveal key={a.auteur} delay={idx * 0.1}>
-              <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>
-                  {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.hi} color={C.hi} />)}
-                </div>
-                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
-                <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14 }}>
-                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: C.hi, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
-                </div>
-              </div>
-            </Reveal>
-          ))}
         </div>
       </section>
 
-      {/* ── CONTACT ─────────────────────────────────────────────────────── */}
-      <section id="contact" className="i356-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
-        <Reveal>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Secrétariat 8h-18h</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-            Une ordonnance ?<br /><em>La tournée s'organise aujourd'hui.</em>
-          </>)}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Appelez le secrétariat : créneau confirmé dans l'heure, premier passage souvent le jour même.</p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {phone}
-            </motion.a>
-            <motion.a href={`mailto:${mail}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ background: C.accent, color: "#fff" }}>
-              <Mail size={18} /> Nous écrire
-            </motion.a>
-          </div>
-        </Reveal>
+      {/* ══ CONTACT ═════════════════════════════════════════════════════ */}
+      <section id="contact" style={{ background: C.bg, padding: "clamp(72px, 9vw, 124px) clamp(20px, 5vw, 62px)" }}>
+        <div className="i356-contact" style={{ maxWidth: 1080, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0, 1.12fr) minmax(0, 0.88fr)", gap: "clamp(34px, 5vw, 70px)", alignItems: "center" }}>
+          <Reveal>
+            <div>
+              <Kicker>Secrétariat 8h-18h</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(32px, 4.8vw, 56px)", lineHeight: 1.04, letterSpacing: "-0.018em", color: C.ink, margin: "18px 0 18px" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (
+                  <>
+                    Une ordonnance ?
+                    <br />
+                    <em style={{ color: C.accentDark }}>La tournée s'organise aujourd'hui.</em>
+                  </>
+                )}
+              </h2>
+              <p style={{ fontFamily: SANS, fontSize: 15.5, lineHeight: 1.8, color: C.textMuted, maxWidth: 470, marginBottom: "clamp(24px, 3vw, 34px)" }}>
+                Appelez le secrétariat : créneau confirmé dans l'heure, premier passage souvent le jour même.
+              </p>
+              <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+                <Bouton href={telHref} large>
+                  {phone}
+                </Bouton>
+                <Bouton href={`mailto:${mail}`} variant="ligne" large>
+                  Nous écrire
+                </Bouton>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.12}>
+            <div style={{ background: C.bgAlt, border: `1px solid ${C.border}`, borderLeft: `2px solid var(--brand, #227c9d)`, borderRadius: 2, padding: "clamp(24px, 3vw, 34px)" }}>
+              {[
+                { icon: <MapPin size={14} />, l: "Le cabinet", v: adresse },
+                { icon: <Phone size={14} />, l: "Secrétariat", v: phone },
+                { icon: <Mail size={14} />, l: "Courriel", v: mail },
+                { icon: <Clock size={14} />, l: "Tournées", v: "6h30 – 20h30 · permanence téléphonique 8h – 18h" },
+              ].map((r, idx) => (
+                <div key={r.l} style={{ display: "flex", gap: 14, alignItems: "flex-start", padding: "14px 0", borderTop: idx === 0 ? "none" : `1px solid ${C.border}` }}>
+                  <span style={{ color: C.accent, marginTop: 3, flexShrink: 0 }}>{r.icon}</span>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textFaint }}>{r.l}</div>
+                    <div style={{ fontFamily: SANS, fontSize: 14.5, color: C.ink, marginTop: 5, lineHeight: 1.6, wordBreak: "break-word" }}>{r.v}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
       </section>
 
-      {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="i356-pad" style={{ background: C.bgDark, padding: "44px 64px 22px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
-            <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Soins de l'Estuaire"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Cabinet infirmier · Saint-Nazaire<br />Conventionné CPAM — Ordre national des infirmiers</p>
+      {/* ══ PIED DE PAGE ════════════════════════════════════════════════ */}
+      <footer style={{ background: C.bgDarkAlt, padding: "clamp(46px, 6vw, 72px) clamp(20px, 5vw, 62px) 24px" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 32, paddingBottom: "clamp(26px, 3.4vw, 40px)" }}>
+            <div style={{ maxWidth: 420 }}>
+              <div style={{ fontFamily: SERIF, fontSize: 27, color: C.ecume, fontWeight: 400 }}>{nom}</div>
+              <p style={{ fontFamily: SANS, color: "rgba(255,255,255,0.42)", fontSize: 13.5, lineHeight: 1.75, marginTop: 12 }}>
+                Cabinet infirmier · {ville}
+                <br />
+                Conventionné CPAM — Ordre national des infirmiers
+              </p>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Saint-Nazaire, Loire-Atlantique" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Tournées 6h30–20h30 · permanence téléphonique 8h–18h" }].map((item, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
-                  <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {[
+                { icon: <MapPin size={13} />, t: adresse },
+                { icon: <Phone size={13} />, t: phone },
+                { icon: <Clock size={13} />, t: "Tournées 6h30–20h30 · permanence téléphonique 8h–18h" },
+              ].map((item, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 11, color: "rgba(255,255,255,0.45)", fontSize: 13, alignItems: "center", fontFamily: SANS }}>
+                  <span style={{ color: C.ecume, display: "inline-flex" }}>{item.icon}</span>
+                  {item.t}
                 </div>
               ))}
             </div>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Soins de l'Estuaire"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+            <span style={{ fontFamily: SANS, color: "rgba(255,255,255,0.28)", fontSize: 12 }}>
+              © 2026 {nom} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />
+              {/* VILLE_PIED */}
+              {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+            <span style={{ fontFamily: SANS, color: "rgba(255,255,255,0.28)", fontSize: 12 }}>
+              Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.
+            </span>
           </div>
         </div>
       </footer>

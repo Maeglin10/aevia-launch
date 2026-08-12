@@ -1,24 +1,52 @@
 "use client";
 // @ts-nocheck
 
-import React, { useState, useRef, useEffect } from "react";
+/* ════════════════════════════════════════════════════════════════════════════
+   IMPACT-362 — DUO PEINTURES · Père & fille, peinture et rénovation, Orléans
+
+   Geste signature   : InvertSweep — la page bascule du sombre au clair au fil
+                       du défilement. Ici la bascule N'EST PAS décorative :
+                       c'est l'avant/après du chantier, et la jauge du héros
+                       affiche sa progression réelle (0 % = avant, 100 % = après).
+   Archétype héros   : H6 — typographique, sans photographie. Texture de bâche
+                       en hachures, mot fantôme, jauge de chantier.
+   Paire de fontes   : P9 — Syne (display, structure) + Work Sans (texte, voix).
+   Signature visuelle: la bande. Prestations en colonnes filetées, tarifs en
+                       bandes pleine largeur, avis en bandes empilées — jamais
+                       une grille de cartes.
+
+   ⚠ Piège connu, traité ici : dans le héros, PAS UNE SEULE couleur fixe. Tout
+   hérite de `currentColor`, ou se calcule en `color-mix` depuis la progression
+   `invert` — sinon la moitié de la bascule se retrouve sans contraste.
+
+   Contenu : celui du thème, mot pour mot. Rien d'inventé, aucune section
+   supprimée.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { ArrowRight, Building, CheckCircle, Clock, Mail, MapPin, Paintbrush, Phone, Star, Users } from "lucide-react";
+import { ArrowRight, Building, CheckCircle, Clock, Mail, MapPin, Paintbrush, Phone, Quote, Users } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { InvertSweep } from "@/lib/templates/hero-kit-3";
 import {
+  clientAddress,
   clientCertifications,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -31,55 +59,214 @@ let bp: any = null;
 let sessionData: any = null;
 let brand: any = null;
 
-/* Peintre en bâtiment, 2e variante, duo père-fille, rénovation. Signature : InvertSweep — le scroll bascule la page, l'avant/après du chantier. Sans photographie. */
-
+/* ── Jetons ───────────────────────────────────────────────────────────────── */
 let C: Record<string, string> = {
-  bg: "#faf8f4",
-  bgSection: "#f1ebe2",
-  bgDark: "#191410",
-  text: "#1e1812",
-  textMuted: "#6b6052",
-  accent: "var(--brand,#a4552e)",
-  accentDark: "#7e3f20",
-  accentLight: "#f6e5da",
-  hi: "#c99f6a",
+  bg: "#f9f8f4",
+  bgAlt: "#eeeae1",
+  bgDark: "#131a20",
+  bgDarkAlt: "#0d1216",
+  bgCard: "#ffffff",
+  accent: "var(--brand,#356b8f)",
+  accentDark: "var(--brand-light,#24506e)",
+  accentLight: "#dfe9f0",
+  ink: "#1a1f24",
+  /* l'encre claire, celle du haut de la bascule : le héros en a besoin */
+  inkLight: "#f4f3ef",
+  textMuted: "#5e6670",
+  textFaint: "#949aa2",
+  border: "#e0dcd2",
   white: "#ffffff",
-  border: "#e3d9ca",
+  /* clé métier : la craie du carnet de chantier */
+  craie: "#c9b48d",
 };
-const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
-const FONT_BODY = FONT;
 
-const NAV = [{"l": "Chantiers", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [];
+const DISPLAY = "'Syne', system-ui, sans-serif";
+const BODY = "'Work Sans', system-ui, -apple-system, 'Segoe UI', sans-serif";
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const SERVICES_SOURCE = [{"titre": "Appartements locatifs", "desc": "Remise en blanc entre deux locataires : murs, plafonds, boiseries en une semaine, photos avant/après pour le dossier du propriétaire.", "tag": "Locatif"}, {"titre": "Cages d'escalier", "desc": "Le chantier que les copropriétés repoussent : échafaudage d'escalier, travail par demi-volées, immeuble praticable tous les jours.", "tag": "Copro"}, {"titre": "Maisons familiales", "desc": "Pièce par pièce ou tout d'un coup : on planifie avec votre vie, pas contre elle. Meubles déplacés et remis, sols garantis.", "tag": "Maison"}, {"titre": "Plafonds & dégâts des eaux", "desc": "Après sinistre : traitement des auréoles, sous-couche isolante, raccords invisibles. Facture conforme pour l'assurance.", "tag": "Sinistre"}, {"titre": "Boiseries & radiateurs", "desc": "Portes, plinthes, fenêtres, radiateurs déposés-peints-reposés : les finitions qui datent un intérieur — ou le rajeunissent.", "tag": "Boiseries"}, {"titre": "Petits chantiers assumés", "desc": "Une chambre, un couloir, un plafond : pas de chantier trop petit — le carnet de la semaine leur garde de la place.", "tag": "Petits"}];
+const NAV = [
+  { l: "Chantiers", h: "#services" },
+  { l: "La méthode", h: "#methode" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+
+/* ── Données de démonstration (contenu du thème, conservé mot pour mot) ───── */
+
+const SERVICES_SOURCE = [
+  { titre: "Appartements locatifs", desc: "Remise en blanc entre deux locataires : murs, plafonds, boiseries en une semaine, photos avant/après pour le dossier du propriétaire.", tag: "Locatif" },
+  { titre: "Cages d'escalier", desc: "Le chantier que les copropriétés repoussent : échafaudage d'escalier, travail par demi-volées, immeuble praticable tous les jours.", tag: "Copro" },
+  { titre: "Maisons familiales", desc: "Pièce par pièce ou tout d'un coup : on planifie avec votre vie, pas contre elle. Meubles déplacés et remis, sols garantis.", tag: "Maison" },
+  { titre: "Plafonds & dégâts des eaux", desc: "Après sinistre : traitement des auréoles, sous-couche isolante, raccords invisibles. Facture conforme pour l'assurance.", tag: "Sinistre" },
+  { titre: "Boiseries & radiateurs", desc: "Portes, plinthes, fenêtres, radiateurs déposés-peints-reposés : les finitions qui datent un intérieur — ou le rajeunissent.", tag: "Boiseries" },
+  { titre: "Petits chantiers assumés", desc: "Une chambre, un couloir, un plafond : pas de chantier trop petit — le carnet de la semaine leur garde de la place.", tag: "Petits" },
+];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Visite et devis en 48 h", "d": "Métré, état des supports, contraintes d'accès. Le devis détaille tout, y compris ce qu'on ne fera pas."}, {"n": "02", "t": "Dates bloquées, tenues", "d": "Le chantier commence à la date écrite. Si un imprévu décale, vous le savez une semaine avant — pas la veille."}, {"n": "03", "t": "Le carnet de chantier", "d": "Chaque jour : ce qui est fait, ce qui reste, photo à l'appui. Posé sur le chantier, consultable par tous."}, {"n": "04", "t": "Réception et retouches", "d": "Tour complet ensemble, retouches immédiates, garanties et factures remises le jour même."}];
-const ENGAGEMENT_DEMO = ["Garantie décennale et RC pro à jour, attestations jointes à chaque devis", "Jamais de sous-traitance ni d'intérim : ceux qui devisent sont ceux qui peignent", "Date de début écrite au devis, pénalité offerte si on la manque de notre fait", "Chantier aspiré et rangé chaque soir — la poussière ne fait pas partie du devis"];
-let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS_DEMO = [{"a": "Remise en blanc (pièce 12 m²)", "p": "490 € forfait", "n": "Murs + plafond + plinthes, blanc satiné lessivable."}, {"a": "Murs & plafonds sur mesure", "p": "26–34 €/m²", "n": "Selon supports, teintes au choix sans supplément."}, {"a": "Cage d'escalier (par étage)", "p": "dès 890 €", "n": "Échafaudage, murs, plafonds, rampe — praticable chaque soir."}, {"a": "Plafond après dégât des eaux", "p": "dès 390 €", "n": "Traitement, sous-couche isolante, raccord invisible."}];
-let TARIFS = TARIFS_DEMO;
-function AVIS_SOURCE_LIVE() {
-  return [{"texte": "Trois appartements locatifs remis en blanc en trois semaines, photos avant/après envoyées à chaque fin. Mes locations repartent plus vite et je ne visite même plus les chantiers.", "auteur": "Propriétaire bailleur", "detail": "Remises en blanc"}, {"texte": "La cage d'escalier de notre copro repoussée depuis cinq ans : faite en huit jours, immeuble praticable tous les soirs. Le carnet de chantier posé dans le hall a mis tout le monde d'accord.", "auteur": "Conseil syndical, " + (clientCity(sessionData) ?? "Orléans") + " centre", "detail": "Copropriété"}, {"texte": "Un père et une fille qui bossent en silence, protègent tout, et laissent la maison plus propre que trouvée. Le devis n'a pas bougé d'un euro.", "auteur": "Régine M.", "detail": "Maison familiale"}];
-}
-let AVIS_SOURCE = AVIS_SOURCE_LIVE();;
-let AVIS_DEMO = AVIS_SOURCE;
-const STATS_DEMO = [{"value": "2", "label": "Compagnons — et pas d'intérim"}, {"value": "48 h", "label": "Devis après visite"}, {"value": "850+", "label": "Chantiers depuis 1998"}, {"value": "J+0", "label": "Chantier aspiré chaque soir"}];
-let STATS = STATS_DEMO;
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+const METHODE_SOURCE = [
+  { n: "01", t: "Visite et devis en 48 h", d: "Métré, état des supports, contraintes d'accès. Le devis détaille tout, y compris ce qu'on ne fera pas." },
+  { n: "02", t: "Dates bloquées, tenues", d: "Le chantier commence à la date écrite. Si un imprévu décale, vous le savez une semaine avant — pas la veille." },
+  { n: "03", t: "Le carnet de chantier", d: "Chaque jour : ce qui est fait, ce qui reste, photo à l'appui. Posé sur le chantier, consultable par tous." },
+  { n: "04", t: "Réception et retouches", d: "Tour complet ensemble, retouches immédiates, garanties et factures remises le jour même." },
+];
+
+const ENGAGEMENT_SOURCE = [
+  "Garantie décennale et RC pro à jour, attestations jointes à chaque devis",
+  "Jamais de sous-traitance ni d'intérim : ceux qui devisent sont ceux qui peignent",
+  "Date de début écrite au devis, pénalité offerte si on la manque de notre fait",
+  "Chantier aspiré et rangé chaque soir — la poussière ne fait pas partie du devis",
+];
+let ENGAGEMENT = ENGAGEMENT_SOURCE;
+
+const TARIFS_SOURCE = [
+  { a: "Remise en blanc (pièce 12 m²)", p: "490 € forfait", n: "Murs + plafond + plinthes, blanc satiné lessivable." },
+  { a: "Murs & plafonds sur mesure", p: "26–34 €/m²", n: "Selon supports, teintes au choix sans supplément." },
+  { a: "Cage d'escalier (par étage)", p: "dès 890 €", n: "Échafaudage, murs, plafonds, rampe — praticable chaque soir." },
+  { a: "Plafond après dégât des eaux", p: "dès 390 €", n: "Traitement, sous-couche isolante, raccord invisible." },
+];
+let TARIFS = TARIFS_SOURCE;
+
+function AVIS_SOURCE_LIVE() {
+  return [
+    { texte: "Trois appartements locatifs remis en blanc en trois semaines, photos avant/après envoyées à chaque fin. Mes locations repartent plus vite et je ne visite même plus les chantiers.", auteur: "Propriétaire bailleur", detail: "Remises en blanc" },
+    { texte: "La cage d'escalier de notre copro repoussée depuis cinq ans : faite en huit jours, immeuble praticable tous les soirs. Le carnet de chantier posé dans le hall a mis tout le monde d'accord.", auteur: "Conseil syndical, " + (clientCity(sessionData) ?? "Orléans") + " centre", detail: "Copropriété" },
+    { texte: "Un père et une fille qui bossent en silence, protègent tout, et laissent la maison plus propre que trouvée. Le devis n'a pas bougé d'un euro.", auteur: "Régine M.", detail: "Maison familiale" },
+  ];
+}
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();
+let AVIS = AVIS_SOURCE;
+
+const STATS_SOURCE = [
+  { value: "2", label: "Compagnons — et pas d'intérim" },
+  { value: "48 h", label: "Devis après visite" },
+  { value: "850+", label: "Chantiers depuis 1998" },
+  { value: "J+0", label: "Chantier aspiré chaque soir" },
+];
+let STATS = STATS_SOURCE;
+
+/* Une seule photographie dans ce thème — le héros est typographique. Le second
+   emplacement attend celle du client ; sans elle, le repli CSS tient la page. */
+const PHOTO_REPLI = [
+  "https://images.pexels.com/photos/7217983/pexels-photo-7217983.jpeg?auto=compress&cs=tinysrgb&w=1400",
+  "",
+];
+
+function photo(i: number, repli: string): string {
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || repli;
+}
+
+/* ── Primitives ───────────────────────────────────────────────────────────── */
+
+function Reveal({ children, delay = 0, y = 24, style }: { children: React.ReactNode; delay?: number; y?: number; style?: React.CSSProperties }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-12% 0px -10% 0px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 26 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
+    <motion.div
+      ref={ref}
+      style={style}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 0.88, ease: EASE, delay }}
+    >
       {children}
     </motion.div>
   );
 }
 
-function photo(i: number, fallback: string): string {
-  return fd?.photoUrls?.[i] || fallback;
+/** Kicker : filet de 40 px, capitales très espacées. `inherit` pour le héros. */
+function Kicker({ children, tone = "ink", center = false }: { children: React.ReactNode; tone?: "ink" | "light" | "inherit"; center?: boolean }) {
+  const col = tone === "light" ? "rgba(255,255,255,0.68)" : tone === "inherit" ? "currentColor" : C.accentDark;
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: center ? "center" : "flex-start", color: col, opacity: tone === "inherit" ? 0.78 : 1 }}>
+      <span aria-hidden style={{ width: 40, height: 1, background: "currentColor", opacity: 0.8, flexShrink: 0 }} />
+      <span style={{ fontFamily: BODY, fontSize: 10.5, letterSpacing: "0.34em", textTransform: "uppercase", fontWeight: 600, color: "currentColor" }}>{children}</span>
+      {center && <span aria-hidden style={{ width: 40, height: 1, background: "currentColor", opacity: 0.8, flexShrink: 0 }} />}
+    </div>
+  );
 }
+
+/**
+ * La jauge avant → après.
+ *
+ * Elle n'illustre pas la bascule : elle la mesure. `progress` est la valeur
+ * réelle rendue par InvertSweep, donc la barre et la page disent la même chose.
+ * Tracée en `currentColor` : lisible sur les deux fonds, par construction.
+ */
+function JaugeChantier({ progress }: { progress: number }) {
+  const pct = Math.round(progress * 100);
+  return (
+    <div style={{ maxWidth: 460, color: "currentColor" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 10 }}>
+        <span style={{ fontFamily: BODY, fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", fontWeight: 600, opacity: pct > 55 ? 0.35 : 0.9 }}>Avant</span>
+        <span style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: 12, letterSpacing: "0.04em", opacity: 0.55, fontVariantNumeric: "tabular-nums" }}>{pct} %</span>
+        <span style={{ fontFamily: BODY, fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", fontWeight: 600, opacity: pct > 55 ? 0.9 : 0.35 }}>Après</span>
+      </div>
+      <div style={{ position: "relative", height: 2, background: "currentColor", opacity: 0.9 }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "currentColor", opacity: 0.22 }} />
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            left: 0,
+            top: -1,
+            height: 4,
+            width: `${pct}%`,
+            background: "currentColor",
+            transition: "width 120ms linear",
+          }}
+        />
+      </div>
+      {/* graduations : la règle du peintre */}
+      <div aria-hidden style={{ display: "flex", justifyContent: "space-between", marginTop: 5, opacity: 0.32 }}>
+        {[...Array(11)].map((_, n) => (
+          <span key={n} style={{ width: 1, height: n % 5 === 0 ? 8 : 4, background: "currentColor", display: "block" }} />
+        ))}
+      </div>
+      <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: 12.5, lineHeight: 1.6, opacity: 0.6, margin: "14px 0 0" }}>
+        Faites défiler — l'avant / après se révèle.
+      </p>
+    </div>
+  );
+}
+
+/** Une bande de tarif : pleine largeur, prix à droite, filet dessous. */
+function BandeTarif({ t, idx }: { t: any; idx: number }) {
+  const [h, setH] = useState(false);
+  return (
+    <Reveal delay={Math.min(idx, 4) * 0.05}>
+      <div
+        className="i362-bande"
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        style={{
+          display: "grid",
+          gridTemplateColumns: "56px minmax(0,1fr) auto",
+          gap: "6px clamp(14px, 2.4vw, 32px)",
+          alignItems: "center",
+          padding: "clamp(20px, 2.6vw, 30px) clamp(12px, 2vw, 24px)",
+          borderBottom: `1px solid ${C.border}`,
+          background: h ? C.bgCard : "transparent",
+          transform: h ? "translateX(6px)" : "translateX(0)",
+          boxShadow: h ? "0 16px 40px rgba(19,26,32,0.08), 0 2px 8px rgba(19,26,32,0.05)" : "none",
+          transition: "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+        }}
+      >
+        <span style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(22px, 3vw, 34px)", lineHeight: 1, color: h ? C.accent : C.border, transition: "color 0.5s cubic-bezier(0.16, 1, 0.3, 1)" }}>
+          {String(idx + 1).padStart(2, "0")}
+        </span>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: "clamp(16.5px, 1.9vw, 20px)", lineHeight: 1.26, letterSpacing: "-0.015em", color: C.ink }}>{t.a}</div>
+          <div style={{ fontFamily: BODY, fontWeight: 300, fontSize: 13.5, lineHeight: 1.68, color: C.textMuted, marginTop: 7, maxWidth: 560 }}>{t.n}</div>
+        </div>
+        <div className="i362-prix" style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(15px, 1.8vw, 19px)", color: C.accentDark, whiteSpace: "nowrap", textAlign: "right" }}>
+          {t.p}
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+/* ── Page ─────────────────────────────────────────────────────────────────── */
 
 export default function DuoPeinturesPage() {
   const [session, setSession] = useState<any>(null);
@@ -99,247 +286,555 @@ export default function DuoPeinturesPage() {
       .catch(() => {});
   }, []);
 
-
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+
+  /* Blocs vivants : recalculés à chaque rendu, une fois la session affectée. */
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
-
-
+  STATS = resolveList(clientStats(sessionData), STATS_SOURCE);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData) ?? clientList(sessionData, "engagements.liste"), ENGAGEMENT_SOURCE);
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({
+      ...SERVICES_SOURCE[i % SERVICES_SOURCE.length],
+      titre: s.title || SERVICES_SOURCE[i % SERVICES_SOURCE.length].titre,
+      desc: s.description || s.desc || SERVICES_SOURCE[i % SERVICES_SOURCE.length].desc,
+    })),
     SERVICES_SOURCE,
   );
-  AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({
+      ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
+      a: s.title || TARIFS_SOURCE[i % TARIFS_SOURCE.length].a,
+      p: s.price || TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      n: s.description || s.desc || TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
+    })),
+    TARIFS_SOURCE,
+  );
+  AVIS = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
+      ...AVIS_SOURCE[i % AVIS_SOURCE.length],
+      texte: r.text || AVIS_SOURCE[i % AVIS_SOURCE.length].texte,
+      auteur: r.name || r.author || AVIS_SOURCE[i % AVIS_SOURCE.length].auteur,
+      detail: r.location || r.role || AVIS_SOURCE[i % AVIS_SOURCE.length].detail,
+    })),
     AVIS_SOURCE,
   );
-  TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
-    TARIFS_DEMO,
-  );
-  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
-  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
   }
 
-  const SERVICES = resolveList(
-    clientServices(sessionData)?.map((s: any, n: number) => ({
-      titre: s.title ?? SERVICES_DEMO[n % SERVICES_DEMO.length].titre,
-      desc: s.description ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
-      tag: SERVICES_DEMO[n % SERVICES_DEMO.length].tag,
-    })),
-    SERVICES_DEMO
-  );
-  const AVIS = resolveList(
-    clientReviews(sessionData)?.map((r: any, n: number) => ({
-      texte: r.text ?? AVIS_DEMO[n % AVIS_DEMO.length].texte,
-      auteur: r.name ?? AVIS_DEMO[n % AVIS_DEMO.length].auteur,
-      detail: r.location ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
-    })),
-    AVIS_DEMO
-  );
+  const SERVICES = SERVICES_DEMO;
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  
-
 
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", h);
+    const h = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = fd?.phone ?? "02 38 00 00 00";
-  const telHref = `tel:${fd?.phone ?? "+33238000000"}`;
-  const mail = fd?.email ?? "contact@duo-peintures.fr";
+  const nom = fd?.businessName ?? clientName(sessionData) ?? "Duo Peintures";
+  const ville = clientCity(sessionData) ?? "Orléans";
+  const metier = clientTrade(sessionData) ?? "Peinture & rénovation";
+  const phone = clientPhone(sessionData) ?? "02 38 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? "+33238000000").replace(/[^+\d]/g, "")}`;
+  const mail = clientEmail(sessionData) ?? "contact@duo-peintures.fr";
+  const adresse = clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "45000", "Orléans");
+
+  const equipePhoto = photo(0, PHOTO_REPLI[0]);
+  const carnetPhoto = photo(1, PHOTO_REPLI[1]);
+
+  /* Le fond courant de la bascule : sert de couleur de texte aux boutons pleins
+     du héros, qui sont donc lisibles du sombre au clair sans un hex fixe. */
+  const fondCourant = (p: number) => `color-mix(in srgb, ${C.bg} ${Math.round(p * 100)}%, ${C.bgDark})`;
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
+    <div style={{ background: C.bg, color: C.ink, fontFamily: BODY, overflowX: "clip" }}>
       <style>{`
-        @media (max-width: 900px) { #i362-nav { display: none !important; } .i362-burger { display: flex !important; } }
-        @media (max-width: 860px) {
-          .i362-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
-          .i362-card { max-width: 380px; margin: 0 auto; width: 100%; }
-          .i362-split { grid-template-columns: 1fr !important; }
-          .i362-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
-          .i362-stats .i362-statcell { border-right: none !important; }
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Work+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+        @media (max-width: 980px) { #i362-nav { display: none !important; } .i362-burger { display: flex !important; } }
+        @media (max-width: 900px) {
+          .i362-split { grid-template-columns: minmax(0,1fr) !important; }
+          .i362-split > * { order: initial !important; }
+          .i362-colonnes { grid-template-columns: minmax(0,1fr) !important; }
+          .i362-etape { grid-template-columns: minmax(0,1fr) !important; gap: 12px !important; }
+          .i362-avis { grid-template-columns: minmax(0,1fr) !important; }
+          .i362-sticky { position: static !important; }
           .i362-pad { padding-left: 24px !important; padding-right: 24px !important; }
-          .i362-herotext { padding: 0 24px 44px !important; }
+        }
+        @media (max-width: 620px) {
+          .i362-bande { grid-template-columns: minmax(0,1fr) !important; }
+          .i362-bande .i362-prix { text-align: left !important; }
+          .i362-statgrille { grid-template-columns: repeat(auto-fit, minmax(min(140px,100%), 1fr)) !important; }
+        }
+
+        .i362-navlink { position: relative; }
+        .i362-navlink::after {
+          content: ""; position: absolute; left: 8px; bottom: 8px; height: 1.5px; width: 0;
+          background: currentColor; transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .i362-navlink:hover::after { width: calc(100% - 16px); }
+        .i362-fleche { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .i362-cta:hover .i362-fleche { transform: translateX(5px); }
+
+        @media (prefers-reduced-motion: reduce) {
+          .i362-navlink::after, .i362-fleche { transition: none !important; }
         }
       `}</style>
 
-      {/* ── NAV ─────────────────────────────────────────────────────────── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", background: scrolled ? C.bg : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "all 0.4s ease" }}>
+      {/* ── NAV — collante : hauteur, fond, flou, filet + couleur d'encre ── */}
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          height: scrolled ? 64 : 82,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0 clamp(20px, 4vw, 52px)",
+          background: scrolled ? "rgba(249,248,244,0.94)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
+          borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
+          color: scrolled ? C.ink : C.inkLight,
+          transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+        }}
+      >
         <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
           {fd?.logoBase64 ? (
-            <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
+            <img src={fd.logoBase64} alt={nom} style={{ height: 30, maxWidth: 168, objectFit: "contain", display: "block" }} />
           ) : (
             <>
-              <Paintbrush size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Duo Peintures"))}</span>
-              <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>Père & fille</span>
+              <Paintbrush size={17} color="currentColor" style={{ flexShrink: 0 }} aria-hidden />
+              <span style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: 19, letterSpacing: "-0.02em", color: "currentColor", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{nom}</span>
+              <span style={{ fontFamily: BODY, fontSize: 9.5, letterSpacing: "0.26em", textTransform: "uppercase", color: "currentColor", opacity: 0.6, marginLeft: 8, whiteSpace: "nowrap" }}>Père &amp; fille</span>
             </>
           )}
         </div>
-        <div id="i362-nav" style={{ display: "flex", gap: 24, alignItems: "center" }}>
+        <div id="i362-nav" style={{ display: "flex", gap: 2, alignItems: "center" }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
+            <a key={l} href={h} className="i362-navlink" style={{ fontFamily: BODY, fontSize: 13.5, fontWeight: 400, color: "currentColor", opacity: 0.8, textDecoration: "none", padding: "12px 10px" }}>
+              {l}
+            </a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33238000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
-            Devis sous 48 h
+          <motion.a
+            href={telHref}
+            className="i362-cta"
+            style={{ background: C.accentDark, color: C.white, padding: "12px 22px", fontFamily: BODY, fontSize: 13, fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap", marginLeft: 14, display: "inline-flex", alignItems: "center", gap: 8 }}
+            whileHover={{ scale: 1.03, y: -1 }}
+          >
+            Devis sous 48 h <ArrowRight size={14} className="i362-fleche" aria-hidden />
           </motion.a>
         </div>
-        <button className="i362-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        <button
+          className="i362-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44, color: "currentColor" }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
         </button>
       </nav>
       {mobileOpen && (
-        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "20px 28px", display: "flex", flexDirection: "column", gap: 4 }}>
+        <div style={{ position: "fixed", top: 64, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "18px 26px 24px", display: "flex", flexDirection: "column", gap: 2 }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
+            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ fontFamily: BODY, color: C.ink, fontSize: 16, fontWeight: 400, textDecoration: "none", padding: "12px 0" }}>
+              {l}
+            </a>
           ))}
-          <a href={`tel:${fd?.phone ?? "+33238000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Devis sous 48 h</a>
+          <a href={telHref} style={{ background: C.accentDark, color: C.white, padding: "14px 22px", fontFamily: BODY, fontSize: 15, fontWeight: 600, textDecoration: "none", textAlign: "center", marginTop: 10 }}>
+            Devis sous 48 h
+          </a>
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-
-      <InvertSweep dark={C.bgDark} light={C.bg} textDark="#f4f2ee" textLight={C.text} accent={C.accent} className="">
+      {/* ── HÉROS H6 — InvertSweep : la page bascule, avant → après.
+             Aucune couleur fixe ici : tout hérite, ou se calcule depuis
+             `invert`. C'est la condition pour que les deux extrémités de la
+             bascule restent lisibles. ─────────────────────────────────────── */}
+      <InvertSweep dark={C.bgDark} light={C.bg} textDark={C.inkLight} textLight={C.ink} accent={C.accent} className="">
         {(invert) => (
-          <div className="i362-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "140px 24px 80px" }}>
-            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: "inherit", opacity: 0.7 }}>Peinture & rénovation · {clientCity(sessionData) ?? "Orléans"}</span>
-            <h1 style={{ fontFamily: FONT, fontSize: "clamp(36px, 5.4vw, 68px)", lineHeight: 1.08, margin: "18px 0 20px", maxWidth: 820 }}>
-              {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 24) ?? "Avant, après :"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 24) ?? "c'est tout notre métier."}</em></>)}
-            </h1>
-            <p style={{ fontSize: 16.5, opacity: 0.75, lineHeight: 1.75, maxWidth: 560, marginBottom: 32 }}>
-              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Un père compagnon, une fille reprise d'entreprise : deux peintres qui rénovent cages d'escalier, appartements locatifs et maisons familiales — vite, proprement, au prix écrit."}
-            </p>
-            <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
-              <a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none" }}>Demander un devis</a>
-              <a href="#services" style={{ border: "1px solid currentColor", borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none", color: "inherit" }}>Nos chantiers</a>
+          <div
+            style={{
+              position: "relative",
+              minHeight: "100dvh",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              padding: "clamp(126px, 16vh, 178px) clamp(24px, 5vw, 64px) clamp(48px, 7vh, 82px)",
+            }}
+          >
+            {/* Texture : la bâche de protection, hachures diagonales en
+                currentColor — visible sur les deux fonds par construction. */}
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                inset: 0,
+                pointerEvents: "none",
+                opacity: 0.06,
+                backgroundImage: "repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 26px)",
+              }}
+            />
+            {/* Mot fantôme : le second temps du métier. */}
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                left: "-2vw",
+                bottom: "4vh",
+                fontFamily: DISPLAY,
+                fontWeight: 800,
+                fontSize: "clamp(96px, 21vw, 300px)",
+                lineHeight: 0.76,
+                letterSpacing: "-0.05em",
+                color: "currentColor",
+                opacity: 0.055,
+                pointerEvents: "none",
+                userSelect: "none",
+              }}
+            >
+              APRÈS
             </div>
-            <span style={{ marginTop: 44, fontSize: 12.5, opacity: 0.55 }}>Faites défiler — l'avant / après se révèle.</span>
+
+            <div style={{ maxWidth: 1180, margin: "0 auto", width: "100%", position: "relative" }}>
+              <Kicker tone="inherit">{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
+
+              <h1
+                style={{
+                  fontFamily: DISPLAY,
+                  fontWeight: 800,
+                  fontSize: "clamp(42px, 7.4vw, 96px)",
+                  lineHeight: 0.94,
+                  letterSpacing: "-0.035em",
+                  margin: "clamp(22px, 3vw, 34px) 0 clamp(20px, 2.6vw, 30px)",
+                  maxWidth: 1020,
+                  color: "currentColor",
+                  textTransform: "uppercase",
+                }}
+              >
+                {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
+                  <>
+                    <span style={{ display: "block" }}>{clientHeroLine(sessionData, 0, 2, 22) ?? "Avant, après :"}</span>
+                    {/* La seconde ligne est la figure du thème : italique fine,
+                        soulignée d'un trait qui suit la bascule. */}
+                    <span
+                      style={{
+                        display: "inline-block",
+                        fontFamily: BODY,
+                        fontStyle: "italic",
+                        fontWeight: 300,
+                        textTransform: "none",
+                        letterSpacing: "-0.02em",
+                        borderBottom: "2px solid currentColor",
+                        paddingBottom: "0.06em",
+                        opacity: 0.92,
+                      }}
+                    >
+                      {clientHeroLine(sessionData, 1, 2, 22) ?? "c'est tout notre métier."}
+                    </span>
+                  </>
+                )}
+              </h1>
+
+              <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.8, opacity: 0.76, maxWidth: 560, margin: "0 0 clamp(28px, 3.6vw, 40px)", color: "currentColor" }}>
+                {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Un père compagnon, une fille reprise d'entreprise : deux peintres qui rénovent cages d'escalier, appartements locatifs et maisons familiales — vite, proprement, au prix écrit."}
+              </p>
+
+              <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", marginBottom: "clamp(34px, 6vh, 62px)" }}>
+                {/* Bouton plein : fond = l'encre courante, texte = le fond
+                    courant. Deux valeurs calculées, aucun hex figé. */}
+                <a
+                  href={telHref}
+                  className="i362-cta"
+                  style={{
+                    background: "currentColor",
+                    color: fondCourant(invert),
+                    padding: "16px 30px",
+                    fontFamily: BODY,
+                    fontSize: 14.5,
+                    fontWeight: 600,
+                    textDecoration: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  Demander un devis <ArrowRight size={16} className="i362-fleche" aria-hidden />
+                </a>
+                <a
+                  href="#services"
+                  style={{ border: "1px solid currentColor", color: "currentColor", padding: "15px 26px", fontFamily: BODY, fontSize: 14.5, fontWeight: 500, textDecoration: "none", opacity: 0.86 }}
+                >
+                  Nos chantiers
+                </a>
+              </div>
+
+              <JaugeChantier progress={invert} />
+            </div>
           </div>
         )}
       </InvertSweep>
 
-      {/* ── STATS ───────────────────────────────────────────────────────── */}
-      <section style={{ background: C.bgDark }}>
-        <div className="i362-stats i362-pad" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
-          {STATS.map((s, idx) => (
-            <Reveal key={s.label} delay={idx * 0.08}>
-              <div className="i362-statcell" style={{ padding: "30px 8px", textAlign: "center", borderRight: idx < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
-                <div style={{ fontFamily: FONT, fontSize: 32, color: C.hi, lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 7 }}>{s.label}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+      {/* ── RESPIRATION ───────────────────────────────────────────────────── */}
+      <section className="i362-pad" style={{ background: C.bg, padding: "clamp(54px, 7.5vw, 96px) 64px clamp(28px, 4vw, 44px)", textAlign: "center" }}>
+        <Reveal>
+          <p style={{ fontFamily: BODY, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(20px, 2.7vw, 31px)", lineHeight: 1.5, letterSpacing: "-0.015em", color: C.textMuted, maxWidth: 700, margin: "0 auto" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.phrase") ?? (
+              <>
+                Deux mains, deux générations. <span style={{ fontStyle: "normal", fontFamily: DISPLAY, fontWeight: 700, color: C.ink }}>Un seul carnet.</span>
+              </>
+            )}
+          </p>
+        </Reveal>
       </section>
 
-
-      {/* ── SERVICES ────────────────────────────────────────────────────── */}
-      <section id="services" className="i362-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+      {/* ── LA MÉTHODE — quatre bandes numérotées, chiffres en marge ──────── */}
+      <section id="methode" className="i362-pad" style={{ background: C.bg, padding: "clamp(28px, 4vw, 48px) clamp(24px, 5vw, 64px) clamp(76px, 9vw, 120px)" }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Chantiers</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
-                La rénovation<br /><em>qui rafraîchit tout.</em>
-              </>)}</h2>
+            <div style={{ marginBottom: "clamp(28px, 4vw, 48px)" }}>
+              <Kicker>La méthode</Kicker>
+              <h2 style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(30px, 4.2vw, 54px)", lineHeight: 1.02, letterSpacing: "-0.035em", color: C.ink, margin: "18px 0 0", maxWidth: 780, textTransform: "uppercase" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (
+                  <>
+                    Deux compagnons,
+                    <br />
+                    <span style={{ fontFamily: BODY, fontStyle: "italic", fontWeight: 300, textTransform: "none", letterSpacing: "-0.02em", color: C.accentDark }}>un carnet de chantier.</span>
+                  </>
+                )}
+              </h2>
             </div>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
-            {SERVICES.map((s, idx) => (
-              <Reveal key={s.titre} delay={idx * 0.06}>
-                <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
-                  <span style={{ background: C.accentLight, color: C.accentDark, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ── MÉTHODE / INFOS ─────────────────────────────────────────────── */}
-      <section id="methode" className="i362-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>La méthode</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
-                Deux compagnons,<br /><em>un carnet de chantier.</em>
-              </>)}</h2>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
-            {METHODE.map((m, idx) => (
-              <Reveal key={m.n} delay={idx * 0.08}>
-                <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                  <div style={{ fontFamily: FONT, fontSize: 28, color: C.accentDark, marginBottom: 12 }}>{m.n}</div>
-                  <h3 style={{ fontSize: 16.5, fontWeight: 700, color: C.text, marginBottom: 9 }}>{m.t}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
+          <div style={{ borderTop: `1px solid ${C.border}` }}>
+            {METHODE_SOURCE.map((m, idx) => (
+              <Reveal key={m.n} delay={Math.min(idx, 4) * 0.055}>
+                <div
+                  className="i362-etape"
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "minmax(0,0.34fr) minmax(0,0.66fr)",
+                    gap: "clamp(14px, 3vw, 48px)",
+                    alignItems: "start",
+                    padding: "clamp(24px, 3.2vw, 38px) 0",
+                    borderBottom: `1px solid ${C.border}`,
+                    position: "relative",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 14, minWidth: 0 }}>
+                    <span style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(30px, 4.6vw, 56px)", lineHeight: 0.9, letterSpacing: "-0.04em", color: C.accentLight }}>{m.n}</span>
+                    <h3 style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: "clamp(17px, 2vw, 22px)", lineHeight: 1.2, letterSpacing: "-0.02em", color: C.ink, margin: 0 }}>{m.t}</h3>
+                  </div>
+                  <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(14.5px, 1.5vw, 16px)", lineHeight: 1.8, color: C.textMuted, margin: 0, maxWidth: 560 }}>{m.d}</p>
                 </div>
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* ── ENGAGEMENTS ─────────────────────────────────────────────────── */}
-      <section id="engagements" className="i362-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div className="i362-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
-          <Reveal>
-            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", justifyContent: "center" , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/7217983/pexels-photo-7217983.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Duo de peintres en chantier" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <div>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Nos engagements</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
-                Le prix écrit,<br /><em>le délai tenu.</em>
-              </>)}</h2>
-              {ENGAGEMENT.map((e, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
-                  <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
-                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
+          {/* Les chiffres, en marge de la méthode — pas en bande sombre. */}
+          <Reveal delay={0.1}>
+            <div className="i362-statgrille" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(180px, 100%), 1fr))", gap: "clamp(16px, 2.4vw, 28px)", marginTop: "clamp(36px, 5vw, 58px)" }}>
+              {STATS.map((s: any, idx: number) => (
+                <div key={s.label} style={{ borderLeft: `2px solid ${idx === 0 ? C.accent : C.border}`, paddingLeft: 16, minWidth: 0 }}>
+                  <div style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(26px, 3vw, 38px)", lineHeight: 1, letterSpacing: "-0.03em", color: C.ink }}>{s.value}</div>
+                  <div style={{ fontFamily: BODY, fontWeight: 300, fontSize: 12.5, lineHeight: 1.55, color: C.textFaint, marginTop: 9 }}>{s.label}</div>
                 </div>
               ))}
-              <motion.a href={telHref} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 24, background: C.accentDark, color: "#fff", borderRadius: 8, padding: "14px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.02 }}>
-                Nous appeler <ArrowRight size={16} />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── CHANTIERS — colonnes filetées, jamais de cartes ───────────────── */}
+      <section id="services" className="i362-pad" style={{ background: C.bgAlt, padding: "clamp(76px, 9vw, 124px) clamp(24px, 5vw, 64px)", position: "relative", overflow: "hidden" }}>
+        <span
+          aria-hidden
+          style={{
+            position: "absolute",
+            right: "-2vw",
+            top: "2vh",
+            fontFamily: DISPLAY,
+            fontWeight: 800,
+            fontSize: "clamp(120px, 24vw, 340px)",
+            lineHeight: 0.76,
+            letterSpacing: "-0.05em",
+            color: C.ink,
+            opacity: 0.04,
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        >
+          1998
+        </span>
+        <div style={{ maxWidth: 1180, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <div style={{ marginBottom: "clamp(30px, 4vw, 50px)" }}>
+              <Kicker>Chantiers</Kicker>
+              <h2 style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(30px, 4.2vw, 54px)", lineHeight: 1.02, letterSpacing: "-0.035em", color: C.ink, margin: "18px 0 0", maxWidth: 760, textTransform: "uppercase" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (
+                  <>
+                    La rénovation
+                    <br />
+                    <span style={{ fontFamily: BODY, fontStyle: "italic", fontWeight: 300, textTransform: "none", letterSpacing: "-0.02em", color: C.accentDark }}>qui rafraîchit tout.</span>
+                  </>
+                )}
+              </h2>
+            </div>
+          </Reveal>
+          <div className="i362-colonnes" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 0, borderTop: `1px solid ${C.border}` }}>
+            {SERVICES.map((s: any, idx: number) => (
+              <Reveal key={s.titre + idx} delay={Math.min(idx, 5) * 0.05}>
+                <ColonneService s={s} idx={idx} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TARIFS — en bandes pleine largeur ─────────────────────────────── */}
+      <section id="tarifs" className="i362-pad" style={{ background: C.bg, padding: "clamp(76px, 9vw, 124px) clamp(24px, 5vw, 64px)" }}>
+        <div style={{ maxWidth: 1040, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ marginBottom: "clamp(26px, 3.4vw, 42px)", maxWidth: 640 }}>
+              <Kicker>Tarifs</Kicker>
+              <h2 style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(28px, 3.8vw, 48px)", lineHeight: 1.04, letterSpacing: "-0.035em", color: C.ink, margin: "18px 0 0", textTransform: "uppercase" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (
+                  <>
+                    Simples, <span style={{ fontFamily: BODY, fontStyle: "italic", fontWeight: 300, textTransform: "none", letterSpacing: "-0.02em", color: C.accentDark }}>tout compris.</span>
+                  </>
+                )}
+              </h2>
+              <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: 15, lineHeight: 1.78, color: C.textMuted, margin: "16px 0 0" }}>
+                Préparation, protection et deux couches comprises. Les remises en blanc locatives sont au forfait par pièce — le propriétaire sait d'avance.
+              </p>
+            </div>
+          </Reveal>
+          <div style={{ borderTop: `1px solid ${C.border}` }}>
+            {TARIFS.map((t: any, idx: number) => (
+              <BandeTarif key={t.a + idx} t={t} idx={idx} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ENGAGEMENTS — le carnet, ouvert ───────────────────────────────── */}
+      <section id="engagements" className="i362-pad" style={{ background: C.bgDark, color: "rgba(255,255,255,0.82)", padding: "clamp(76px, 9.5vw, 124px) clamp(24px, 5vw, 64px)" }}>
+        <div className="i362-split" style={{ maxWidth: 1140, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: "clamp(32px, 5vw, 72px)", alignItems: "center" }}>
+          <Reveal>
+            <div>
+              <Kicker tone="light">Nos engagements</Kicker>
+              <h2 style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(28px, 3.8vw, 46px)", lineHeight: 1.04, letterSpacing: "-0.035em", color: C.white, margin: "18px 0 26px", textTransform: "uppercase" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (
+                  <>
+                    Le prix écrit,
+                    <br />
+                    <span style={{ fontFamily: BODY, fontStyle: "italic", fontWeight: 300, textTransform: "none", letterSpacing: "-0.02em", color: C.craie }}>le délai tenu.</span>
+                  </>
+                )}
+              </h2>
+              {ENGAGEMENT.map((e: string, idx: number) => (
+                <div key={idx} style={{ display: "flex", gap: 13, padding: "13px 0", borderBottom: idx < ENGAGEMENT.length - 1 ? "1px solid rgba(255,255,255,0.10)" : "none" }}>
+                  <CheckCircle size={16} color={C.craie} style={{ flexShrink: 0, marginTop: 3 }} aria-hidden />
+                  <span style={{ fontFamily: BODY, fontWeight: 300, fontSize: 14.5, lineHeight: 1.72, color: "rgba(255,255,255,0.76)" }}>{e}</span>
+                </div>
+              ))}
+              <motion.a
+                href={telHref}
+                className="i362-cta"
+                style={{ display: "inline-flex", alignItems: "center", gap: 9, marginTop: 26, background: C.white, color: C.bgDark, padding: "15px 28px", fontFamily: BODY, fontSize: 14.5, fontWeight: 600, textDecoration: "none" }}
+                whileHover={{ scale: 1.02, y: -2 }}
+              >
+                Nous appeler <ArrowRight size={16} className="i362-fleche" aria-hidden />
               </motion.a>
             </div>
           </Reveal>
+          <Reveal delay={0.12}>
+            <div style={{ position: "relative" }}>
+              <div style={{ aspectRatio: "4/3", overflow: "hidden", background: `linear-gradient(150deg, ${C.bgDarkAlt} 0%, ${C.accentDark} 100%)`, position: "relative", display: "grid", placeItems: "center" }}>
+                {equipePhoto ? (
+                  <img src={equipePhoto} alt="Duo de peintres en chantier" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                ) : (
+                  <>
+                    <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: "repeating-linear-gradient(-45deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 22px)" }} />
+                    <Users size={72} color={C.craie} strokeWidth={1} aria-hidden style={{ position: "relative", opacity: 0.85 }} />
+                  </>
+                )}
+              </div>
+              {/* Étiquette de carnet, posée en débord — le détail gratuit. */}
+              <div
+                style={{
+                  position: "absolute",
+                  right: -1,
+                  bottom: -16,
+                  background: C.craie,
+                  color: C.bgDark,
+                  padding: "10px 16px",
+                  fontFamily: DISPLAY,
+                  fontWeight: 700,
+                  fontSize: 11,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  maxWidth: "calc(100% - 24px)",
+                }}
+              >
+                Carnet de chantier · jour {String(new Date().getDate()).padStart(2, "0")}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ── TARIFS ──────────────────────────────────────────────────────── */}
-      <section id="tarifs" className="i362-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+      {/* ── AVIS — bandes empilées, une par témoignage ────────────────────── */}
+      <section className="i362-pad" style={{ background: C.bg, padding: "clamp(76px, 9vw, 122px) clamp(24px, 5vw, 64px)" }}>
+        <div style={{ maxWidth: 1060, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 16 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Tarifs</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Simples, <em>tout compris.</em></>)}</h2>
-              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Préparation, protection et deux couches comprises. Les remises en blanc locatives sont au forfait par pièce — le propriétaire sait d'avance.</p>
+            <div style={{ marginBottom: "clamp(28px, 3.6vw, 46px)" }}>
+              <Kicker>Après le chantier</Kicker>
+              <h2 style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(27px, 3.6vw, 46px)", lineHeight: 1.04, letterSpacing: "-0.035em", color: C.ink, margin: "18px 0 0", textTransform: "uppercase" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (
+                  <>
+                    Avant, après — <span style={{ fontFamily: BODY, fontStyle: "italic", fontWeight: 300, textTransform: "none", letterSpacing: "-0.02em", color: C.accentDark }}>ils ont vu les deux.</span>
+                  </>
+                )}
+              </h2>
             </div>
           </Reveal>
-          <div style={{ marginTop: 38 }}>
-            {TARIFS.map((tt, idx) => (
-              <Reveal key={tt.a} delay={idx * 0.06}>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "space-between", alignItems: "baseline", background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px", marginBottom: 12 }}>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: FONT, fontSize: 17.5, color: C.text }}>{tt.a}</div>
-                    <div style={{ fontSize: 13.5, color: C.textMuted, marginTop: 5, lineHeight: 1.6 }}>{tt.n}</div>
+          <div style={{ borderTop: `1px solid ${C.border}` }}>
+            {AVIS.map((a: any, idx: number) => (
+              <Reveal key={a.auteur + idx} delay={Math.min(idx, 4) * 0.07}>
+                <div
+                  className="i362-avis"
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "minmax(0,1fr) minmax(0,0.42fr)",
+                    gap: "clamp(14px, 3vw, 44px)",
+                    alignItems: "start",
+                    padding: "clamp(26px, 3.4vw, 42px) 0",
+                    borderBottom: `1px solid ${C.border}`,
+                  }}
+                >
+                  <div style={{ minWidth: 0, display: "flex", gap: 16 }}>
+                    <Quote size={20} color={C.accentLight} style={{ flexShrink: 0, marginTop: 4 }} aria-hidden />
+                    <p style={{ fontFamily: BODY, fontWeight: 300, fontStyle: "italic", fontSize: "clamp(16px, 1.9vw, 20px)", lineHeight: 1.66, color: C.ink, margin: 0 }}>
+                      {a.texte}
+                    </p>
                   </div>
-                  <div style={{ fontFamily: FONT, fontSize: 19, color: C.accentDark, whiteSpace: "nowrap" }}>{tt.p}</div>
+                  <div style={{ minWidth: 0, paddingTop: 6 }}>
+                    <div style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: 14, letterSpacing: "-0.01em", color: C.ink }}>{a.auteur}</div>
+                    <div style={{ fontFamily: BODY, fontWeight: 300, fontSize: 12.5, color: C.textFaint, marginTop: 6 }}>{a.detail}</div>
+                    <span aria-hidden style={{ display: "block", width: 34, height: 2, background: C.accent, marginTop: 12 }} />
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -347,74 +842,141 @@ export default function DuoPeinturesPage() {
         </div>
       </section>
 
-      {/* ── AVIS ────────────────────────────────────────────────────────── */}
-      <section className="i362-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
-        <Reveal>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Avant, après — <em style={{ color: C.hi }}>ils ont vu les deux</em>.</>)}</h2>
-          </div>
-        </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {AVIS.map((a, idx) => (
-            <Reveal key={a.auteur} delay={idx * 0.1}>
-              <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>
-                  {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.hi} color={C.hi} />)}
-                </div>
-                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
-                <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14 }}>
-                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: C.hi, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
-                </div>
+      {/* ── CONTACT ───────────────────────────────────────────────────────── */}
+      <section id="contact" className="i362-pad" style={{ background: C.bgAlt, padding: "clamp(76px, 9vw, 124px) clamp(24px, 5vw, 64px)" }}>
+        <div className="i362-split" style={{ maxWidth: 1060, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1.1fr) minmax(0,0.9fr)", gap: "clamp(30px, 5vw, 68px)", alignItems: "start" }}>
+          <Reveal>
+            <div>
+              <Kicker>Devis sous 48 h</Kicker>
+              <h2 style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(29px, 4.2vw, 52px)", lineHeight: 1.02, letterSpacing: "-0.035em", color: C.ink, margin: "20px 0 18px", textTransform: "uppercase" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (
+                  <>
+                    Montrez-nous l'avant,
+                    <br />
+                    <span style={{ fontFamily: BODY, fontStyle: "italic", fontWeight: 300, textTransform: "none", letterSpacing: "-0.02em", color: C.accentDark }}>on s'occupe de l'après.</span>
+                  </>
+                )}
+              </h2>
+              <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: 16, lineHeight: 1.78, color: C.textMuted, maxWidth: 480, margin: "0 0 clamp(26px, 3.6vw, 38px)" }}>
+                Visite gratuite à {ville} et 30 km. Envoyez des photos par mail pour un premier avis — on vous dit franchement si ça vaut un devis.
+              </p>
+              <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+                <motion.a
+                  href={telHref}
+                  style={{ background: C.accentDark, color: C.white, padding: "17px 32px", fontFamily: BODY, fontSize: 15.5, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                >
+                  <Phone size={17} aria-hidden /> {phone}
+                </motion.a>
+                <motion.a
+                  href={`mailto:${mail}`}
+                  style={{ background: "transparent", color: C.ink, border: `1.5px solid ${C.accentDark}`, padding: "16px 28px", fontFamily: BODY, fontSize: 15.5, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                >
+                  <Mail size={17} aria-hidden /> Nous écrire
+                </motion.a>
               </div>
-            </Reveal>
-          ))}
+            </div>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: "clamp(22px, 3vw, 32px)" }}>
+              {carnetPhoto && (
+                <div style={{ aspectRatio: "16/9", overflow: "hidden", marginBottom: 20 }}>
+                  <img src={carnetPhoto} alt="Chantier de rénovation terminé" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </div>
+              )}
+              <div style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em", color: C.ink, marginBottom: 18, textTransform: "uppercase" }}>
+                L'atelier
+              </div>
+              {[
+                { icon: <MapPin size={14} aria-hidden />, l: "Adresse", t: adresse },
+                { icon: <Phone size={14} aria-hidden />, l: "Téléphone", t: phone },
+                { icon: <Mail size={14} aria-hidden />, l: "E-mail", t: mail },
+                { icon: <Clock size={14} aria-hidden />, l: "Horaires", t: "Lun–Ven 7h30–18h" },
+                { icon: <Building size={14} aria-hidden />, l: "Interventions", t: `${ville} et 30 km` },
+              ].map((r, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "11px 0", borderTop: idx === 0 ? "none" : `1px solid ${C.border}` }}>
+                  <span style={{ color: C.accent, display: "inline-flex", marginTop: 2 }}>{r.icon}</span>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontFamily: BODY, fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint, fontWeight: 600 }}>{r.l}</div>
+                    <div style={{ fontFamily: BODY, fontWeight: 400, fontSize: 14, lineHeight: 1.6, color: C.ink, marginTop: 4, overflowWrap: "break-word" }}>{r.t}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ── CONTACT ─────────────────────────────────────────────────────── */}
-      <section id="contact" className="i362-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
-        <Reveal>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Devis sous 48 h</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-            Montrez-nous l'avant,<br /><em>on s'occupe de l'après.</em>
-          </>)}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Visite gratuite à {clientCity(sessionData) ?? "Orléans"} et 30 km. Envoyez des photos par mail pour un premier avis — on vous dit franchement si ça vaut un devis.</p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {phone}
-            </motion.a>
-            <motion.a href={`mailto:${mail}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ background: C.accent, color: "#fff" }}>
-              <Mail size={18} /> Nous écrire
-            </motion.a>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="i362-pad" style={{ background: C.bgDark, padding: "44px 64px 22px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
-            <div>
-              <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Duo Peintures"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Entreprise de peinture · {clientCity(sessionData) ?? "Orléans"}<br />Décennale — deux compagnons, un carnet de chantier tenu</p>
+      {/* ── FOOTER ────────────────────────────────────────────────────────── */}
+      <footer className="i362-pad" style={{ background: C.bgDarkAlt, padding: "clamp(46px, 6vw, 70px) clamp(24px, 5vw, 64px) 26px" }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 30, marginBottom: 32 }}>
+            <div style={{ minWidth: 240 }}>
+              <div style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 20, letterSpacing: "-0.02em", color: C.craie, marginBottom: 10, textTransform: "uppercase" }}>{nom}</div>
+              <p style={{ fontFamily: BODY, fontWeight: 300, color: "rgba(255,255,255,0.40)", fontSize: 13, lineHeight: 1.75, margin: 0 }}>
+                Entreprise de peinture · {ville}
+                <br />
+                Décennale — deux compagnons, un carnet de chantier tenu
+              </p>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Orléans") + ", Loiret" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 7h30–18h" }].map((item, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
-                  <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
+            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+              {[
+                { icon: <MapPin size={13} aria-hidden />, t: adresse },
+                { icon: <Phone size={13} aria-hidden />, t: phone },
+                { icon: <Mail size={13} aria-hidden />, t: mail },
+                { icon: <Clock size={13} aria-hidden />, t: "Lun–Ven 7h30–18h" },
+              ].map((item, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.44)", fontFamily: BODY, fontWeight: 300, fontSize: 13, alignItems: "center" }}>
+                  <span style={{ color: C.craie, display: "inline-flex" }}>{item.icon}</span>
+                  {item.t}
                 </div>
               ))}
             </div>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Duo Peintures"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+            <span style={{ fontFamily: BODY, fontWeight: 300, color: "rgba(255,255,255,0.26)", fontSize: 12 }}>
+              © 2026 {nom} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />
+              {/* VILLE_PIED */}
+              {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
-            <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+            <span style={{ fontFamily: BODY, fontWeight: 300, color: "rgba(255,255,255,0.26)", fontSize: 12 }}>
+              Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.
+            </span>
           </div>
         </div>
       </footer>
+    </div>
+  );
+}
+
+/** Une colonne filetée de prestation — le dessin des « chantiers ». */
+function ColonneService({ s, idx }: { s: any; idx: number }) {
+  const [h, setH] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        borderBottom: `1px solid ${C.border}`,
+        borderRight: `1px solid ${C.border}`,
+        padding: "clamp(24px, 3vw, 34px) clamp(18px, 2.4vw, 30px)",
+        height: "100%",
+        background: h ? C.bgCard : "transparent",
+        transform: h ? "translateY(-4px)" : "translateY(0)",
+        boxShadow: h ? "0 20px 44px rgba(19,26,32,0.10), 0 3px 10px rgba(19,26,32,0.06)" : "none",
+        transition: "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, marginBottom: 14 }}>
+        <span style={{ fontFamily: BODY, fontSize: 10, fontWeight: 600, letterSpacing: "0.3em", textTransform: "uppercase", color: h ? C.accent : C.textFaint, transition: "color 0.5s cubic-bezier(0.16, 1, 0.3, 1)" }}>
+          {s.tag}
+        </span>
+        <span style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 13, color: C.textFaint, opacity: 0.5 }}>{String(idx + 1).padStart(2, "0")}</span>
+      </div>
+      <h3 style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: "clamp(18px, 2vw, 22px)", lineHeight: 1.2, letterSpacing: "-0.025em", color: C.ink, margin: "0 0 12px" }}>{s.titre}</h3>
+      <span aria-hidden style={{ display: "block", height: 2, width: h ? 52 : 20, background: C.accent, marginBottom: 14, transition: "width 0.5s cubic-bezier(0.16, 1, 0.3, 1)" }} />
+      <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: 14.5, lineHeight: 1.78, color: C.textMuted, margin: 0 }}>{s.desc}</p>
     </div>
   );
 }
