@@ -728,7 +728,6 @@ export default function CapAssurancesPage() {
 
         @media (prefers-reduced-motion: reduce) {
           .i337-derive { animation: none !important; }
-          * { scroll-behavior: auto !important; }
         }
       `}</style>
 
