@@ -483,7 +483,9 @@ export default function NettoyageExtremePage() {
 
             <div style={{ maxWidth: 1180, margin: "0 auto", width: "100%", position: "relative" }}>
               <Kicker tone="inherit">
-                {clientEyebrow(sessionData) ?? clientTrade(sessionData) ?? "Nettoyage extrême"} · {ville}
+                {/* clientEyebrow porte déjà « Métier · Ville » : n'ajouter la
+                    ville qu'aux replis, sinon elle s'écrit deux fois. */}
+                {clientEyebrow(sessionData) ?? <>{clientTrade(sessionData) ?? "Nettoyage extrême"} · {ville}</>}
               </Kicker>
 
               {/* Titre en contour : la 1re ligne est détourée (l'avant, encore

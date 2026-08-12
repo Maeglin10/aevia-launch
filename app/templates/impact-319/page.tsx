@@ -431,7 +431,9 @@ export default function EcoCleanHabitatPage() {
                   maison aérée. */}
               <span className="i319-dot" aria-hidden style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent, display: "inline-block" }} />
               <span style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 700, letterSpacing: "0.36em", textTransform: "uppercase", color: C.accentDark }}>
-                {clientEyebrow(sessionData) ?? "Entretien naturel"} · {ville}
+                {/* clientEyebrow porte déjà « Métier · Ville » : n'ajouter la
+                    ville qu'au repli, sinon elle s'écrit deux fois. */}
+                {clientEyebrow(sessionData) ?? <>Entretien naturel · {ville}</>}
               </span>
             </div>
           </motion.div>
