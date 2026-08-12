@@ -1,24 +1,53 @@
 "use client";
 // @ts-nocheck
 
+/* ════════════════════════════════════════════════════════════════════════════
+   STUDIO CULINA — Cuisiniste de montagne · Annecy
+   ─────────────────────────────────────────────────────────────────────────────
+   Cuisiniste, 2e variante du catalogue (la 1re est impact-327, ExpandFrame).
+   Celle-ci est un studio-showroom de montagne.
+
+   Geste signature : PanelDrop — le panneau descend comme une façade qu'on pose
+   sur un caisson. Verticale, jamais horizontale : c'est le geste de l'atelier.
+
+   Archétype héros : H2 — média À GAUCHE, texte à droite. Le seul du lot à
+   ouvrir par la matière plutôt que par la parole.
+
+   Fontes : P8 — Newsreader (titres, serif de presse) × Manrope (texte, sans).
+
+   Signature visuelle : le NUANCIER. Les matières citées au devis — chêne
+   brossé, bois de bout, céramique, granit, quartz, stratifié — dessinées en
+   CSS, sans une seule image. Prestations en rangées éditoriales numérotées,
+   tarifs en table fine à conducteur pointillé, avis en spotlight rotatif.
+   ════════════════════════════════════════════════════════════════════════════ */
+
 import React, { useState, useRef, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
-import { ArrowRight, CheckCircle, Clock, Mail, MapPin, Phone, Ruler, Star } from "lucide-react";
+import { motion, AnimatePresence, useInView, useReducedMotion } from "framer-motion";
+import { ArrowRight, ArrowUpRight, Mail, MapPin, Phone, Ruler } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { PanelDrop } from "@/lib/templates/hero-kit-3";
 import {
+  clientAddress,
+  clientAreas,
   clientCertifications,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -31,60 +60,442 @@ let bp: any = null;
 let sessionData: any = null;
 let brand: any = null;
 
-/* Cuisiniste, 2e variante (la 1re est impact-327, ExpandFrame). Celle-ci est un studio-showroom montagne. Signature : PanelDrop — le panneau qui descend comme une façade qu'on pose. */
-
+/* ── Jetons ──────────────────────────────────────────────────────────────── */
 let C: Record<string, string> = {
-  bg: "#fbf9f4",
-  bgSection: "#f3eee2",
-  bgDark: "#1e1a12",
-  text: "#221d14",
-  textMuted: "#6a6152",
-  accent: "var(--brand,#8a6a2f)",
-  accentDark: "#6b5124",
-  accentLight: "#f2e8d2",
-  hi: "#d3b878",
+  bg: "#f8f5ef",
+  bgAlt: "#efe7d9",
+  bgDark: "#1f1a13",
+  bgDarkAlt: "#15110b",
+  bgCard: "#ffffff",
+  accent: "var(--brand, #7d5a3c)",
+  accentDark: "var(--brand-light, #5c412a)",
+  accentLight: "#efe1cd",
+  ink: "#211b12",
+  textMuted: "#6b6152",
+  textFaint: "#9b9184",
+  border: "#e3d9c6",
   white: "#ffffff",
-  border: "#e5dcc8",
+  /* clé métier : la veine, le seul ton chaud qui n'est pas la marque */
+  veine: "#b98d55",
 };
-const FONT = "'Libre Baskerville', Georgia, serif";
-const FONT_BODY = "'Cabin', system-ui, sans-serif";
 
-const NAV = [{"l": "Prestations", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-function HERO_DEMO_LIVE() {
-  return [{"k": "Façades chêne brossé", "line": "Le bois qui se patine avec la maison.", "sub": "Massif ou plaqué, huilé à cœur.", "img": (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/7546654/pexels-photo-7546654.jpeg?auto=compress&cs=tinysrgb&w=1600"), "alt": "Façades bois et plan de travail"}, {"k": "Îlot central", "line": "Le point de gravité de la maison.", "sub": "Plans céramique, granit ou bois de bout.", "img": (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80"), "alt": "Pièce à vivre avec agencement sur mesure"}, {"k": "De l'atelier au mur", "line": "Chaque caisson ajusté avant de partir.", "sub": "Contrôle qualité en atelier, pose en 2 jours.", "img": (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/6969818/pexels-photo-6969818.jpeg?auto=compress&cs=tinysrgb&w=1600"), "alt": "Atelier de fabrication des caissons"}];
+const SERIF = "'Newsreader', Georgia, serif";
+const SANS = "'Manrope', system-ui, -apple-system, sans-serif";
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const EASE_CSS = "cubic-bezier(.16,1,.3,1)";
+
+const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Manrope:wght@300;400;500;600;700&display=swap');`;
+
+const NAV = [
+  { l: "Le nuancier", h: "#nuancier" },
+  { l: "Prestations", h: "#services" },
+  { l: "La méthode", h: "#methode" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+
+/* ── Données de démonstration ────────────────────────────────────────────── */
+
+function HERO_SOURCE_LIVE() {
+  return [
+    {
+      k: "Façades chêne brossé",
+      line: "Le bois qui se patine avec la maison.",
+      sub: "Massif ou plaqué, huilé à cœur.",
+      img: "https://images.pexels.com/photos/7546654/pexels-photo-7546654.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      alt: "Façades bois et plan de travail",
+    },
+    {
+      k: "Îlot central",
+      line: "Le point de gravité de la maison.",
+      sub: "Plans céramique, granit ou bois de bout.",
+      img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80",
+      alt: "Pièce à vivre avec agencement sur mesure",
+    },
+    {
+      k: "De l'atelier au mur",
+      line: "Chaque caisson ajusté avant de partir.",
+      sub: "Contrôle qualité en atelier, pose en 2 jours.",
+      img: "https://images.pexels.com/photos/6969818/pexels-photo-6969818.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      alt: "Atelier de fabrication des caissons",
+    },
+  ];
 }
-let HERO_DEMO = HERO_DEMO_LIVE();
-let HERO = HERO_DEMO;
+let HERO_SOURCE = HERO_SOURCE_LIVE();
+let HERO = HERO_SOURCE;
 
-const SERVICES_SOURCE = [{"titre": "Cuisine complète", "desc": "Conception, fabrication européenne, pose par nos équipes. Charnières et coulisses garanties à vie, façades au choix du studio.", "tag": "Cuisine"}, {"titre": "Îlots & plans", "desc": "Céramique, granit, quartz, bois massif. Découpes ajustées sur place au gabarit — même sur murs qui ne sont pas droits.", "tag": "Plans"}, {"titre": "Électroménager intégré", "desc": "Sélection multi-marques au prix du web, intégrée au projet et livrée-posée avec la cuisine. SAV assuré par le studio.", "tag": "Équipement"}, {"titre": "Dressing & rangements", "desc": "Chambres, entrées, sous-pentes : les mêmes façades et finitions que votre cuisine, pour une maison cohérente.", "tag": "Rangement"}, {"titre": "Buanderie & arrière-cuisine", "desc": "La pièce qui rend la cuisine belle : tout ce qui déborde trouve sa place, plomberie et électricité coordonnées.", "tag": "Annexe"}, {"titre": "Rénovation coordonnée", "desc": "Sols, crédences, éclairage, peinture : nos artisans partenaires interviennent dans le même calendrier, sous notre coordination.", "tag": "Travaux"}];
+/* Le nuancier ne nomme que des matières déjà écrites au devis du thème :
+   rien n'est inventé, tout est redessiné en CSS. */
+const NUANCIER_SOURCE = [
+  { nom: "Chêne brossé", note: "Façades massif ou plaqué, huilées à cœur", fond: "linear-gradient(118deg,#dcbe90 0%,#c39c66 46%,#a97f4b 100%)", veine: "rgba(88,58,24,0.16)", clair: false },
+  { nom: "Bois de bout", note: "Plan de travail, veine debout", fond: "linear-gradient(118deg,#c99a63 0%,#a9754a 52%,#875733 100%)", veine: "rgba(56,32,10,0.22)", clair: false },
+  { nom: "Céramique", note: "Grand format, plan sans joint", fond: "linear-gradient(118deg,#eeece6 0%,#d3cec4 55%,#b7b1a6 100%)", veine: "rgba(40,38,34,0.10)", clair: true },
+  { nom: "Granit", note: "Plan massif, chants adoucis", fond: "linear-gradient(118deg,#5e5b56 0%,#403d39 55%,#2b2926 100%)", veine: "rgba(255,255,255,0.13)", clair: false },
+  { nom: "Quartz", note: "Reconstitué, teintes unies", fond: "linear-gradient(118deg,#f3f0ea 0%,#e0dad0 55%,#c8c2b6 100%)", veine: "rgba(60,58,54,0.09)", clair: true },
+  { nom: "Stratifié", note: "La ligne linéaire, plan compact", fond: "linear-gradient(118deg,#cdb99e 0%,#b39e82 55%,#96805f 100%)", veine: "rgba(70,48,20,0.14)", clair: false },
+];
+let NUANCIER = NUANCIER_SOURCE;
+
+const SERVICES_SOURCE = [
+  { titre: "Cuisine complète", desc: "Conception, fabrication européenne, pose par nos équipes. Charnières et coulisses garanties à vie, façades au choix du studio.", tag: "Cuisine" },
+  { titre: "Îlots & plans", desc: "Céramique, granit, quartz, bois massif. Découpes ajustées sur place au gabarit — même sur murs qui ne sont pas droits.", tag: "Plans" },
+  { titre: "Électroménager intégré", desc: "Sélection multi-marques au prix du web, intégrée au projet et livrée-posée avec la cuisine. SAV assuré par le studio.", tag: "Équipement" },
+  { titre: "Dressing & rangements", desc: "Chambres, entrées, sous-pentes : les mêmes façades et finitions que votre cuisine, pour une maison cohérente.", tag: "Rangement" },
+  { titre: "Buanderie & arrière-cuisine", desc: "La pièce qui rend la cuisine belle : tout ce qui déborde trouve sa place, plomberie et électricité coordonnées.", tag: "Annexe" },
+  { titre: "Rénovation coordonnée", desc: "Sols, crédences, éclairage, peinture : nos artisans partenaires interviennent dans le même calendrier, sous notre coordination.", tag: "Travaux" },
+];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Atelier conception — 2 h", "d": "Au studio, autour des cuisines témoins. Vos habitudes, vos appareils, votre budget réel — avant tout dessin."}, {"n": "02", "t": "Relevé laser & plans", "d": "Relevé millimétré chez vous, plans techniques et perspectives réalistes. Trois révisions incluses."}, {"n": "03", "t": "Devis ferme signé", "d": "Poste par poste, électroménager compris. Aucun avenant surprise : l'imprévu est à notre charge."}, {"n": "04", "t": "Pose et réception", "d": "Deux jours de pose en moyenne, protection des sols, réception signée pièce par pièce avec liste de réserves à zéro."}];
-const ENGAGEMENT_DEMO = ["Devis ferme et définitif — l'imprévu de chantier est à notre charge", "Garantie décennale sur la pose, 10 ans sur les caissons, quincaillerie à vie", "Un seul interlocuteur du premier rendez-vous à la levée des réserves", "Showroom sur rendez-vous : deux heures pour vous, jamais de vente debout"];
+
+const METHODE = [
+  { n: "01", t: "Atelier conception — 2 h", d: "Au studio, autour des cuisines témoins. Vos habitudes, vos appareils, votre budget réel — avant tout dessin." },
+  { n: "02", t: "Relevé laser & plans", d: "Relevé millimétré chez vous, plans techniques et perspectives réalistes. Trois révisions incluses." },
+  { n: "03", t: "Devis ferme signé", d: "Poste par poste, électroménager compris. Aucun avenant surprise : l'imprévu est à notre charge." },
+  { n: "04", t: "Pose et réception", d: "Deux jours de pose en moyenne, protection des sols, réception signée pièce par pièce avec liste de réserves à zéro." },
+];
+
+const ENGAGEMENT_DEMO = [
+  "Devis ferme et définitif — l'imprévu de chantier est à notre charge",
+  "Garantie décennale sur la pose, 10 ans sur les caissons, quincaillerie à vie",
+  "Un seul interlocuteur du premier rendez-vous à la levée des réserves",
+  "Showroom sur rendez-vous : deux heures pour vous, jamais de vente debout",
+];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS_DEMO = [{"a": "Cuisine linéaire posée", "p": "dès 7 900 €", "n": "Façades stratifiées, plan compact, électroménager en sus selon sélection."}, {"a": "Cuisine avec îlot", "p": "dès 12 900 €", "n": "Plan céramique, éclairage sous meubles, prises affleurantes incluses."}, {"a": "Dressing assorti", "p": "dès 2 900 €", "n": "Toute hauteur, intérieurs modulables, portes assorties aux façades cuisine."}, {"a": "Atelier conception 2 h", "p": "offert", "n": "Déduit à la commande. Plans remis même si le projet ne se fait pas chez nous."}];
+
+const TARIFS_DEMO = [
+  { a: "Cuisine linéaire posée", p: "dès 7 900 €", n: "Façades stratifiées, plan compact, électroménager en sus selon sélection." },
+  { a: "Cuisine avec îlot", p: "dès 12 900 €", n: "Plan céramique, éclairage sous meubles, prises affleurantes incluses." },
+  { a: "Dressing assorti", p: "dès 2 900 €", n: "Toute hauteur, intérieurs modulables, portes assorties aux façades cuisine." },
+  { a: "Atelier conception 2 h", p: "offert", n: "Déduit à la commande. Plans remis même si le projet ne se fait pas chez nous." },
+];
 let TARIFS = TARIFS_DEMO;
+
 function AVIS_SOURCE_LIVE() {
-  return [{"texte": "L'atelier de deux heures au studio vaut tous les rendez-vous de cuisinistes classiques. On a parlé petits-déjeuners avant de parler façades. Le résultat est exactement notre maison.", "auteur": "Claire & Julien V.", "detail": "Cuisine îlot, " + (clientCity(sessionData) ?? "Annecy") + "-le-Vieux"}, {"texte": "Mur de 1927 pas droit du tout : le plan céramique a été gabarié sur place, l'ajustement est invisible. Deux jours de pose, zéro réserve à la réception.", "auteur": "Hélène B.", "detail": "Rénovation complète"}, {"texte": "Le devis ferme n'a pas bougé alors qu'un caisson a dû être refabriqué. Studio sérieux, poseurs soigneux, SAV réactif sur un charnière un an après.", "auteur": "Famille Roche", "detail": "Cuisine + buanderie"}];
+  return [
+    {
+      texte: "L'atelier de deux heures au studio vaut tous les rendez-vous de cuisinistes classiques. On a parlé petits-déjeuners avant de parler façades. Le résultat est exactement notre maison.",
+      auteur: "Claire & Julien V.",
+      detail: "Cuisine îlot, " + (clientCity(sessionData) ?? "Annecy") + "-le-Vieux",
+    },
+    {
+      texte: "Mur de 1927 pas droit du tout : le plan céramique a été gabarié sur place, l'ajustement est invisible. Deux jours de pose, zéro réserve à la réception.",
+      auteur: "Hélène B.",
+      detail: "Rénovation complète",
+    },
+    {
+      texte: "Le devis ferme n'a pas bougé alors qu'un caisson a dû être refabriqué. Studio sérieux, poseurs soigneux, SAV réactif sur un charnière un an après.",
+      auteur: "Famille Roche",
+      detail: "Cuisine + buanderie",
+    },
+  ];
 }
-let AVIS_SOURCE = AVIS_SOURCE_LIVE();;
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();
 let AVIS_DEMO = AVIS_SOURCE;
-const STATS_DEMO = [{"value": "180+", "label": "Cuisines livrées"}, {"value": "3", "label": "Cuisines témoins au studio"}, {"value": "2 j", "label": "De pose en moyenne"}, {"value": "10 ans", "label": "Garantie caissons & pose"}];
+
+const STATS_DEMO = [
+  { value: "180+", label: "Cuisines livrées" },
+  { value: "3", label: "Cuisines témoins au studio" },
+  { value: "2 j", label: "De pose en moyenne" },
+  { value: "10 ans", label: "Garantie caissons & pose" },
+];
 let STATS = STATS_DEMO;
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+function ZONES_SOURCE_LIVE() {
+  return [
+    clientCity(sessionData) ?? "Annecy",
+    (clientCity(sessionData) ?? "Annecy") + "-le-Vieux",
+    "Haute-Savoie",
+  ];
+}
+let ZONES_SOURCE = ZONES_SOURCE_LIVE();
+let ZONES = ZONES_SOURCE;
+
+/* ── Primitives ──────────────────────────────────────────────────────────── */
+
+function Reveal({ children, delay = 0, y = 28, style }: { children: React.ReactNode; delay?: number; y?: number; style?: React.CSSProperties }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-12% 0px -10% 0px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 26 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
+    <motion.div
+      ref={ref}
+      style={style}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 0.86, ease: EASE, delay }}
+    >
       {children}
     </motion.div>
   );
 }
 
-function photo(i: number, fallback: string): string {
-  return fd?.photoUrls?.[i] || fallback;
+/** Le kicker du thème : filet 40×1 px, puis les capitales filées. */
+function Kicker({ children, color = C.accentDark, align = "left" }: { children: React.ReactNode; color?: string; align?: "left" | "center" }) {
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 14, justifyContent: align === "center" ? "center" : "flex-start" }}>
+      <span style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${color})`, flexShrink: 0 }} />
+      <span style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.36em", textTransform: "uppercase", color }}>{children}</span>
+      {align === "center" && <span style={{ width: 40, height: 1, background: `linear-gradient(90deg, ${color}, transparent)`, flexShrink: 0 }} />}
+    </span>
+  );
 }
 
+/** Le chiffre fantôme : la texture sans image du thème. */
+function GhostNum({ children, size = "clamp(96px,13vw,190px)", right = false, color = "rgba(125,90,60,0.075)" }: { children: React.ReactNode; size?: string; right?: boolean; color?: string }) {
+  return (
+    <span
+      aria-hidden
+      style={{
+        position: "absolute",
+        top: "-0.22em",
+        left: right ? "auto" : "-0.03em",
+        right: right ? "-0.03em" : "auto",
+        fontFamily: SERIF,
+        fontStyle: "italic",
+        fontWeight: 300,
+        fontSize: size,
+        lineHeight: 1,
+        color,
+        pointerEvents: "none",
+        userSelect: "none",
+        zIndex: 0,
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+function NavLink({ label, href, onClick }: { label: string; href: string; onClick?: () => void }) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onClick={onClick}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        position: "relative",
+        fontFamily: SANS,
+        fontSize: 12.5,
+        fontWeight: 500,
+        letterSpacing: "0.12em",
+        textTransform: "uppercase",
+        color: h ? C.ink : C.textMuted,
+        textDecoration: "none",
+        padding: "12px 2px",
+        transition: `color .45s ${EASE_CSS}`,
+      }}
+    >
+      {label}
+      <span
+        style={{
+          position: "absolute",
+          left: 0,
+          bottom: 6,
+          height: 1,
+          width: h ? "100%" : "0%",
+          background: C.accent,
+          transition: `width .5s ${EASE_CSS}`,
+        }}
+      />
+    </a>
+  );
+}
+
+function Btn({ children, href, filled = false, dark = false }: { children: React.ReactNode; href: string; filled?: boolean; dark?: boolean }) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: filled ? "15px 30px" : "14px 26px",
+        fontFamily: SANS,
+        fontSize: 12,
+        fontWeight: 600,
+        letterSpacing: "0.16em",
+        textTransform: "uppercase",
+        borderRadius: 2,
+        textDecoration: "none",
+        border: `1px solid ${filled ? "transparent" : dark ? "rgba(255,255,255,0.32)" : C.border}`,
+        background: filled ? (h ? C.accentDark : C.accent) : h ? (dark ? "rgba(255,255,255,0.08)" : C.bgAlt) : dark ? "transparent" : C.white,
+        color: filled ? C.white : dark ? "rgba(255,255,255,0.9)" : C.ink,
+        boxShadow: h && filled ? "0 16px 34px -18px rgba(31,26,19,0.55), 0 3px 10px -6px rgba(31,26,19,0.4)" : "0 0 0 rgba(0,0,0,0)",
+        transform: h ? "translateY(-2px)" : "none",
+        transition: `background .5s ${EASE_CSS}, box-shadow .5s ${EASE_CSS}, transform .5s ${EASE_CSS}, border-color .5s ${EASE_CSS}`,
+      }}
+    >
+      {children}
+      <ArrowRight size={14} style={{ transform: h ? "translateX(4px)" : "none", transition: `transform .5s ${EASE_CSS}` }} />
+    </a>
+  );
+}
+
+/** Un carreau du nuancier : la matière dessinée, jamais photographiée. */
+function Swatch({ item, i }: { item: any; i: number }) {
+  const [h, setH] = useState(false);
+  return (
+    <Reveal delay={i * 0.055}>
+      <div
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        style={{
+          position: "relative",
+          borderRadius: 3,
+          overflow: "hidden",
+          border: `1px solid ${h ? C.accent : C.border}`,
+          background: C.bgCard,
+          transform: h ? "translateY(-6px)" : "none",
+          boxShadow: h
+            ? "0 30px 56px -34px rgba(31,26,19,0.45), 0 6px 16px -10px rgba(31,26,19,0.28)"
+            : "0 10px 26px -22px rgba(31,26,19,0.30)",
+          transition: `transform .5s ${EASE_CSS}, box-shadow .5s ${EASE_CSS}, border-color .5s ${EASE_CSS}`,
+        }}
+      >
+        <div
+          style={{
+            height: "clamp(96px,11vw,138px)",
+            background: item.fond,
+            position: "relative",
+          }}
+        >
+          {/* la veine : un motif CSS, pas une texture importée */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: `repeating-linear-gradient(96deg, ${item.veine} 0px, ${item.veine} 1px, transparent 1px, transparent ${6 + (i % 3) * 3}px)`,
+              opacity: h ? 0.95 : 0.7,
+              transition: `opacity .5s ${EASE_CSS}`,
+            }}
+          />
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "radial-gradient(120% 80% at 22% 12%, rgba(255,255,255,0.22), transparent 60%)",
+            }}
+          />
+        </div>
+        <div style={{ padding: "16px 18px 18px" }}>
+          <div style={{ fontFamily: SERIF, fontSize: 18, color: C.ink, lineHeight: 1.2 }}>{item.nom}</div>
+          <div style={{ fontFamily: SANS, fontSize: 12.5, color: C.textFaint, marginTop: 6, lineHeight: 1.6 }}>{item.note}</div>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+/** Une prestation : rangée éditoriale numérotée, pas une carte. */
+function ServiceRow({ item, i }: { item: any; i: number }) {
+  const [h, setH] = useState(false);
+  const num = String(i + 1).padStart(2, "0");
+  return (
+    <Reveal delay={(i % 3) * 0.05}>
+      <article
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        className="i334-srow"
+        style={{
+          position: "relative",
+          display: "grid",
+          gridTemplateColumns: "72px minmax(0,1fr) minmax(0,1.25fr)",
+          gap: "clamp(18px,3vw,44px)",
+          alignItems: "start",
+          padding: "clamp(26px,3.4vw,44px) clamp(10px,1.6vw,22px)",
+          borderTop: `1px solid ${C.border}`,
+          background: h ? C.bgCard : "transparent",
+          transform: h ? "translateX(6px)" : "none",
+          boxShadow: h
+            ? "0 26px 52px -36px rgba(31,26,19,0.42), 0 4px 14px -10px rgba(31,26,19,0.22)"
+            : "0 0 0 rgba(0,0,0,0)",
+          transition: `background .5s ${EASE_CSS}, transform .5s ${EASE_CSS}, box-shadow .5s ${EASE_CSS}`,
+        }}
+      >
+        <div style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(24px,2.6vw,34px)", color: h ? C.accent : C.textFaint, lineHeight: 1, transition: `color .5s ${EASE_CSS}` }}>{num}</div>
+        <div>
+          <h3 style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(21px,2.3vw,30px)", color: C.ink, margin: 0, lineHeight: 1.14, letterSpacing: "-0.01em" }}>{item.titre}</h3>
+          <span
+            style={{
+              display: "inline-block",
+              marginTop: 14,
+              fontFamily: SANS,
+              fontSize: 10,
+              fontWeight: 600,
+              letterSpacing: "0.24em",
+              textTransform: "uppercase",
+              color: C.accentDark,
+              borderBottom: `1px solid ${h ? C.accent : C.border}`,
+              paddingBottom: 4,
+              transition: `border-color .5s ${EASE_CSS}`,
+            }}
+          >
+            {item.tag}
+          </span>
+        </div>
+        <p style={{ fontFamily: SANS, fontSize: "clamp(14px,1.15vw,15.5px)", color: C.textMuted, lineHeight: 1.78, margin: 0, maxWidth: 500 }}>{item.desc}</p>
+        <ArrowUpRight
+          size={18}
+          color={C.accent}
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: "clamp(26px,3.4vw,44px)",
+            right: 6,
+            opacity: h ? 1 : 0,
+            transform: h ? "translate(0,0)" : "translate(-6px,6px)",
+            transition: `opacity .5s ${EASE_CSS}, transform .5s ${EASE_CSS}`,
+          }}
+        />
+      </article>
+    </Reveal>
+  );
+}
+
+/** Une ligne de tarif : table fine, conducteur pointillé, pas de carte. */
+function TarifRow({ item, i }: { item: any; i: number }) {
+  const [h, setH] = useState(false);
+  return (
+    <Reveal delay={i * 0.05}>
+      <div
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "8px clamp(14px,2vw,28px)",
+          alignItems: "baseline",
+          padding: "clamp(20px,2.4vw,30px) clamp(6px,1.4vw,18px)",
+          borderTop: `1px solid ${C.border}`,
+          background: h ? "rgba(255,255,255,0.7)" : "transparent",
+          transform: h ? "translateY(-2px)" : "none",
+          boxShadow: h ? "0 20px 40px -34px rgba(31,26,19,0.5), 0 2px 8px -6px rgba(31,26,19,0.2)" : "0 0 0 rgba(0,0,0,0)",
+          transition: `background .5s ${EASE_CSS}, transform .5s ${EASE_CSS}, box-shadow .5s ${EASE_CSS}`,
+        }}
+      >
+        <div style={{ minWidth: 0, flex: "1 1 260px" }}>
+          <div style={{ fontFamily: SERIF, fontSize: "clamp(18px,1.8vw,23px)", color: C.ink, lineHeight: 1.24 }}>{item.a}</div>
+          <div style={{ fontFamily: SANS, fontSize: 13.5, color: C.textFaint, marginTop: 7, lineHeight: 1.7, maxWidth: 520 }}>{item.n}</div>
+        </div>
+        <span aria-hidden style={{ flex: "1 1 40px", height: 1, alignSelf: "center", minWidth: 24, backgroundImage: `linear-gradient(90deg, ${C.border} 50%, transparent 50%)`, backgroundSize: "6px 1px", opacity: h ? 1 : 0.55, transition: `opacity .5s ${EASE_CSS}` }} />
+        <div style={{ fontFamily: SERIF, fontSize: "clamp(19px,1.9vw,24px)", color: h ? C.accent : C.accentDark, whiteSpace: "nowrap", transition: `color .5s ${EASE_CSS}` }}>{item.p}</div>
+      </div>
+    </Reveal>
+  );
+}
+
+function photo(i: number, repli: string): string {
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || repli;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   PAGE
+   ════════════════════════════════════════════════════════════════════════════ */
 export default function StudioCulinaPage() {
   const [session, setSession] = useState<any>(null);
 
@@ -103,354 +514,576 @@ export default function StudioCulinaPage() {
       .catch(() => {});
   }, []);
 
-  useEffect(() => {
-    const fid = "fonts-i334";
-    if (document.getElementById(fid)) return;
-    const s = document.createElement("style");
-    s.id = fid;
-    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Cabin:wght@400;500;600;700&display=swap');`;
-    document.head.appendChild(s);
-  }, []);
-
   fd = session?.formData;
-
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  HERO_DEMO = HERO_DEMO_LIVE();
+
+  HERO_SOURCE = HERO_SOURCE_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
+  ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
+  const CLIENT_SERVICES = clientServices(sessionData);
 
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    CLIENT_SERVICES?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
     AVIS_SOURCE,
   );
-  HERO = HERO_DEMO.map((row, i) => ({
-    ...row,
-    img: clientPhotos(sessionData)[0 + i] || row.img,
-  }));
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    CLIENT_SERVICES?.map((s: any, i: number) => ({
+      ...TARIFS_DEMO[i % TARIFS_DEMO.length],
+      a: s.title,
+      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      n: s.description || s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
+    })),
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
+  ZONES = resolveList(clientAreas(sessionData), ZONES_SOURCE);
+  NUANCIER = resolveList(
+    clientList(sessionData, "nuancier.matieres")?.map((m: string, i: number) => ({ ...NUANCIER_SOURCE[i % NUANCIER_SOURCE.length], nom: m })),
+    NUANCIER_SOURCE,
+  );
+
+  /* Les photos du hero suivent la diapositive : celle du client d'abord,
+     celle du thème ensuite — jamais d'URL inventée. */
+  HERO = HERO_SOURCE.map((row: any, i: number) => ({ ...row, img: photo(i, row.img) }));
+
   brand = fd?.brandColor ?? null;
-  if (brand) {
-    C = { ...C, accent: brand };
-  }
+  if (brand) C = { ...C, accent: brand };
 
   const SERVICES = resolveList(
-    clientServices(sessionData)?.map((s: any, n: number) => ({
+    CLIENT_SERVICES?.map((s: any, n: number) => ({
       titre: s.title ?? SERVICES_DEMO[n % SERVICES_DEMO.length].titre,
-      desc: s.description ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
+      desc: s.description ?? s.desc ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
       tag: SERVICES_DEMO[n % SERVICES_DEMO.length].tag,
     })),
-    SERVICES_DEMO
+    SERVICES_DEMO,
   );
   const AVIS = resolveList(
     clientReviews(sessionData)?.map((r: any, n: number) => ({
       texte: r.text ?? AVIS_DEMO[n % AVIS_DEMO.length].texte,
       auteur: r.name ?? AVIS_DEMO[n % AVIS_DEMO.length].auteur,
-      detail: r.location ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
+      detail: r.location ?? r.role ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
     })),
-    AVIS_DEMO
+    AVIS_DEMO,
   );
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const reduce = useReducedMotion();
+
+  /* Un seul index pilote tout le héros : panneau, légende, compteur, flèches. */
   const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
+  /* Le spotlight des avis : sa propre horloge, plus lente que le héros. */
+  const [avisI, setAvisI] = useState(0);
+  useEffect(() => {
+    if (AVIS.length < 2) return;
+    const t = setInterval(() => setAvisI((n) => (n + 1) % AVIS.length), 7000);
+    return () => clearInterval(t);
+  }, [AVIS.length]);
+  const A = AVIS[avisI % AVIS.length];
 
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", h);
+    const h = () => setScrolled(window.scrollY > 40);
+    h();
+    window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = fd?.phone ?? "04 50 00 00 00";
-  const telHref = `tel:${fd?.phone ?? "+33450000000"}`;
-  const mail = fd?.email ?? "studio@culina-annecy.fr";
+  const marque = fd?.businessName ?? clientName(sessionData) ?? "Studio Culina";
+  const ville = clientCity(sessionData) ?? "Annecy";
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "04 50 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33450000000").replace(/\s/g, "")}`;
+  const mail = clientEmail(sessionData) ?? fd?.email ?? "studio@culina-annecy.fr";
+  const adresse = clientAddress(sessionData);
+  const lieu = clientCodePostalVille(sessionData, "", ville).trim();
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
+    <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
+      <style>{FONTS_CSS}</style>
       <style>{`
-        @media (max-width: 900px) { #i334-nav { display: none !important; } .i334-burger { display: flex !important; } }
-        @media (max-width: 860px) {
-          .i334-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
-          .i334-card { max-width: 380px; margin: 0 auto; width: 100%; }
-          .i334-split { grid-template-columns: 1fr !important; }
-          .i334-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
-          .i334-stats .i334-statcell { border-right: none !important; }
-          .i334-pad { padding-left: 24px !important; padding-right: 24px !important; }
-          .i334-herotext { padding: 0 24px 44px !important; }
+        @media (max-width: 980px) { #i334-nav { display: none !important; } .i334-burger { display: flex !important; } }
+        @media (max-width: 900px) {
+          .i334-hero { grid-template-columns: minmax(0,1fr) !important; padding: 116px 22px 56px !important; gap: 34px !important; }
+          .i334-hero > * { order: initial !important; }
+          .i334-heromedia { max-width: 480px; margin: 0 auto; width: 100%; }
+          .i334-split { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
+          .i334-split > * { order: initial !important; }
+          .i334-srow { grid-template-columns: minmax(0,1fr) !important; gap: 12px !important; }
+          .i334-statband { grid-template-columns: repeat(auto-fit, minmax(min(150px,100%),1fr)) !important; }
+          .i334-statcell { border-right: none !important; border-top: 1px solid rgba(255,255,255,0.08) !important; }
+          .i334-methode { grid-template-columns: minmax(0,1fr) !important; }
+          .i334-sticky { position: static !important; }
+          .i334-pad { padding-left: 22px !important; padding-right: 22px !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .i334-anim { transition: none !important; animation: none !important; }
         }
       `}</style>
 
       {/* ── NAV ─────────────────────────────────────────────────────────── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", background: scrolled ? C.bg : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "all 0.4s ease" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: scrolled ? "10px clamp(20px,4vw,52px)" : "20px clamp(20px,4vw,52px)",
+          background: scrolled ? "rgba(248,245,239,0.92)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
+          borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
+          transition: `padding .55s ${EASE_CSS}, background .55s ${EASE_CSS}, backdrop-filter .55s ${EASE_CSS}, border-color .55s ${EASE_CSS}`,
+        }}
+      >
+        <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0, textDecoration: "none" }}>
           {fd?.logoBase64 ? (
-            <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
+            <img src={fd.logoBase64} alt={marque} style={{ height: 30, maxWidth: 170, objectFit: "contain", display: "block" }} />
           ) : (
             <>
-              <Ruler size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Culina"))}</span>
-              <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>Cuisines</span>
+              <Ruler size={17} color={C.accent} style={{ flexShrink: 0 }} />
+              <span style={{ fontFamily: SERIF, fontSize: 19, color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", letterSpacing: "-0.01em" }}>{marque}</span>
+              <span style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.textFaint, marginLeft: 6 }}>{clientTrade(sessionData) ?? "Cuisines"}</span>
             </>
           )}
-        </div>
-        <div id="i334-nav" style={{ display: "flex", gap: 24, alignItems: "center" }}>
+        </a>
+        <div id="i334-nav" style={{ display: "flex", gap: "clamp(14px,1.8vw,28px)", alignItems: "center" }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
+            <NavLink key={l} label={l} href={h} />
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33450000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <Btn href={telHref} filled>
             Atelier conception
-          </motion.a>
+          </Btn>
         </div>
-        <button className="i334-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        <button
+          className="i334-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
         </button>
       </nav>
       {mobileOpen && (
-        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "20px 28px", display: "flex", flexDirection: "column", gap: 4 }}>
+        <div style={{ position: "fixed", top: 62, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "18px 26px 24px", display: "flex", flexDirection: "column", gap: 2 }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
+            <NavLink key={l} label={l} href={h} onClick={() => setMobileOpen(false)} />
           ))}
-          <a href={`tel:${fd?.phone ?? "+33450000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Atelier conception</a>
+          <a href={telHref} style={{ background: C.accent, color: C.white, borderRadius: 2, padding: "14px 22px", fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", textDecoration: "none", textAlign: "center", marginTop: 12 }}>
+            Atelier conception
+          </a>
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i334-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
-        <div>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
-            Cuisines sur mesure · {clientCity(sessionData) ?? "Annecy"}
-          </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 21) ?? "La cuisine dessinée"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 21) ?? "autour de vos matins."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Un studio de conception, pas un couloir d'expo : trois cuisines témoins, un architecte d'intérieur, et des façades qui se posent au millimètre. Devis ferme, pose décennale."}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-              Réserver l'atelier conception <ArrowRight size={16} />
-            </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-              Nos prestations
-            </motion.a>
-          </motion.div>
-          
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 42, flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontSize: 13.5, color: C.textMuted }}>
-              <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
-          </div>
-        </div>
-        <div className="i334-card">
+      {/* ── HERO — H2 : le média à GAUCHE, la parole à droite ────────────── */}
+      <section
+        id="top"
+        className="i334-hero i334-pad"
+        style={{
+          minHeight: "100dvh",
+          display: "grid",
+          gridTemplateColumns: "minmax(0,0.94fr) minmax(0,1.06fr)",
+          gap: "clamp(30px,4.5vw,68px)",
+          alignItems: "center",
+          padding: "clamp(130px,14vw,168px) clamp(22px,5vw,64px) clamp(60px,7vw,86px)",
+          maxWidth: 1280,
+          margin: "0 auto",
+          position: "relative",
+        }}
+      >
+        {/* glow radial : la lumière de l'atelier, 0.10 max */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(58% 46% at 18% 26%, rgba(185,141,85,0.10), transparent 68%)" }} />
+
+        {/* Colonne média — order 1 en grand écran, remise à la suite en dessous de 900 px */}
+        <div className="i334-heromedia" style={{ order: 1, position: "relative", zIndex: 1 }}>
           <PanelDrop index={i}>
-            <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", boxShadow: "0 18px 52px rgba(0,0,0,0.18)" }}>
-              <img src={S.img} alt={S.alt} loading="lazy" style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }} />
-              <div style={{ padding: "22px 24px 24px", borderTop: `3px solid ${C.accent}` }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accentDark, marginBottom: 8 }}>{S.k}</div>
-                <div style={{ fontFamily: FONT, fontSize: 19, color: C.text, lineHeight: 1.35 }}>{S.line}</div>
+            <figure style={{ margin: 0, background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 3, overflow: "hidden", boxShadow: "0 40px 80px -50px rgba(31,26,19,0.6), 0 8px 22px -16px rgba(31,26,19,0.32)" }}>
+              <div style={{ position: "relative", background: C.bgDark }}>
+                <img src={S.img} alt={S.alt} loading="eager" style={{ width: "100%", aspectRatio: "4/3.15", objectFit: "cover", display: "block" }} />
+                <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(31,26,19,0.20) 0%, rgba(31,26,19,0) 38%, rgba(31,26,19,0.04) 70%, rgba(31,26,19,0.34) 100%)" }} />
               </div>
-            </div>
+              <figcaption style={{ padding: "20px 22px 22px", borderTop: `2px solid ${C.accent}` }}>
+                <div style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.30em", textTransform: "uppercase", color: C.accentDark, marginBottom: 9 }}>{S.k}</div>
+                <div style={{ fontFamily: SERIF, fontSize: "clamp(17px,1.7vw,21px)", color: C.ink, lineHeight: 1.34 }}>{S.line}</div>
+              </figcaption>
+            </figure>
           </PanelDrop>
         </div>
-      </section>
 
-      {/* ── STATS ───────────────────────────────────────────────────────── */}
-      <section style={{ background: C.bgDark }}>
-        <div className="i334-stats i334-pad" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
-          {STATS.map((s, idx) => (
-            <Reveal key={s.label} delay={idx * 0.08}>
-              <div className="i334-statcell" style={{ padding: "30px 8px", textAlign: "center", borderRight: idx < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
-                <div style={{ fontFamily: FONT, fontSize: 32, color: C.hi, lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 7 }}>{s.label}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+        {/* Colonne parole */}
+        <div style={{ order: 2, position: "relative", zIndex: 1 }}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.15, ease: EASE }}>
+            <Kicker>{clientEyebrow(sessionData) ?? <>Cuisines sur mesure · {ville}</>}</Kicker>
+          </motion.div>
 
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.95, delay: 0.28, ease: EASE }}
+            style={{
+              fontFamily: SERIF,
+              fontWeight: 300,
+              fontSize: "clamp(38px,5.4vw,70px)",
+              color: C.ink,
+              lineHeight: 0.99,
+              letterSpacing: "-0.022em",
+              margin: "clamp(18px,2vw,26px) 0 clamp(16px,1.8vw,24px)",
+            }}
+          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>
+            {clientHeroLine(sessionData, 0, 2, 20) ?? "La cuisine dessinée"}
+            <br />
+            <em style={{ fontStyle: "italic", color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 20) ?? "autour de vos matins."}</em>
+          </>)}</motion.h1>
 
-      {/* ── SERVICES ────────────────────────────────────────────────────── */}
-      <section id="services" className="i334-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Prestations</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
-                Du plan de travail<br /><em>au dernier tiroir.</em>
-              </>)}</h2>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
-            {SERVICES.map((s, idx) => (
-              <Reveal key={s.titre} delay={idx * 0.06}>
-                <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
-                  <span style={{ background: C.accentLight, color: C.accentDark, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
-                </motion.div>
-              </Reveal>
-            ))}
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.44, ease: EASE }}
+            style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.25vw,17px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.78, maxWidth: 480, marginBottom: "clamp(24px,3vw,34px)" }}
+          >
+            {clientHeroSubtitle(sessionData) ??
+              clientTagline(sessionData) ??
+              "Un studio de conception, pas un couloir d'expo : trois cuisines témoins, un architecte d'intérieur, et des façades qui se posent au millimètre. Devis ferme, pose décennale."}
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.58, ease: EASE }} style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+            <Btn href={telHref} filled>
+              Réserver l'atelier
+            </Btn>
+            <Btn href="#nuancier">Voir le nuancier</Btn>
+          </motion.div>
+
+          {/* légende + compteur + flèches : le même index que le panneau */}
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: "clamp(30px,4vw,46px)", flexWrap: "wrap", paddingTop: 22, borderTop: `1px solid ${C.border}` }}>
+            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
+            <span style={{ fontFamily: SANS, fontSize: 13, color: C.textMuted, lineHeight: 1.6 }}>
+              <strong style={{ color: C.ink, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
+            </span>
+            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
           </div>
         </div>
       </section>
 
-      {/* ── MÉTHODE / INFOS ─────────────────────────────────────────────── */}
-      <section id="methode" className="i334-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>La méthode</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
-                Un projet mené<br /><em>comme un chantier d'architecte.</em>
-              </>)}</h2>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
-            {METHODE.map((m, idx) => (
-              <Reveal key={m.n} delay={idx * 0.08}>
-                <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                  <div style={{ fontFamily: FONT, fontSize: 28, color: C.accentDark, marginBottom: 12 }}>{m.n}</div>
-                  <h3 style={{ fontSize: 16.5, fontWeight: 700, color: C.text, marginBottom: 9 }}>{m.t}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── ENGAGEMENTS ─────────────────────────────────────────────────── */}
-      <section id="engagements" className="i334-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div className="i334-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
-          <Reveal>
-            <img src={photo(4, "https://images.pexels.com/photos/6969818/pexels-photo-6969818.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Contrôle d'un caisson à l'atelier" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
-          </Reveal>
-          <Reveal delay={0.15}>
-            <div>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Nos engagements</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
-                Le sur-mesure,<br /><em>sans l'à-peu-près.</em>
-              </>)}</h2>
-              {ENGAGEMENT.map((e, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
-                  <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
-                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
-                </div>
-              ))}
-              <motion.a href={telHref} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 24, background: C.accentDark, color: "#fff", borderRadius: 8, padding: "14px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.02 }}>
-                Nous appeler <ArrowRight size={16} />
-              </motion.a>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── TARIFS ──────────────────────────────────────────────────────── */}
-      <section id="tarifs" className="i334-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 16 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Tarifs</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Des budgets <em>tenus.</em></>)}</h2>
-              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Prix pose et raccordements compris. L'atelier conception est offert et déduit à la commande.</p>
-            </div>
-          </Reveal>
-          <div style={{ marginTop: 38 }}>
-            {TARIFS.map((tt, idx) => (
-              <Reveal key={tt.a} delay={idx * 0.06}>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "space-between", alignItems: "baseline", background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px", marginBottom: 12 }}>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: FONT, fontSize: 17.5, color: C.text }}>{tt.a}</div>
-                    <div style={{ fontSize: 13.5, color: C.textMuted, marginTop: 5, lineHeight: 1.6 }}>{tt.n}</div>
-                  </div>
-                  <div style={{ fontFamily: FONT, fontSize: 19, color: C.accentDark, whiteSpace: "nowrap" }}>{tt.p}</div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── AVIS ────────────────────────────────────────────────────────── */}
-      <section className="i334-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
+      {/* ── RESPIRATION ─────────────────────────────────────────────────── */}
+      <section className="i334-pad" style={{ background: C.bgAlt, padding: "clamp(74px,10vw,140px) clamp(22px,8vw,150px)", textAlign: "center" }}>
         <Reveal>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Ils cuisinent <em style={{ color: C.hi }}>dedans</em>.</>)}</h2>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 30 }}>
+            <Kicker color={C.textMuted} align="center">Le studio</Kicker>
           </div>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {AVIS.map((a, idx) => (
-            <Reveal key={a.auteur} delay={idx * 0.1}>
-              <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>
-                  {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.hi} color={C.hi} />)}
-                </div>
-                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
-                <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14 }}>
-                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: C.hi, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
-                </div>
+        <Reveal delay={0.09}>
+          <p style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(23px,3.2vw,44px)", lineHeight: 1.36, color: C.ink, maxWidth: 940, margin: "0 auto", letterSpacing: "-0.008em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "respiration.texte") ?? (<>
+            Une cuisine ne se choisit pas sur catalogue : elle se dessine autour d'une maison, d'un mur qui n'est pas droit et de deux heures de conversation.
+          </>)}</p>
+        </Reveal>
+        <Reveal delay={0.18}>
+          <div style={{ width: 1, height: 82, background: `linear-gradient(${C.accent}, transparent)`, margin: "clamp(34px,4vw,52px) auto 0" }} />
+        </Reveal>
+      </section>
+
+      {/* ── NUANCIER — la signature visuelle, dessinée sans photo ────────── */}
+      <section id="nuancier" className="i334-pad" style={{ background: C.bg, padding: "clamp(76px,10vw,140px) clamp(22px,5vw,64px)", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", backgroundImage: `repeating-linear-gradient(90deg, ${C.border} 0px, ${C.border} 1px, transparent 1px, transparent 104px)`, opacity: 0.35 }} />
+        <div style={{ maxWidth: 1220, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <Kicker>Le nuancier de l'atelier</Kicker>
+            <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(30px,4.2vw,54px)", color: C.ink, margin: "18px 0 0", lineHeight: 1.06, letterSpacing: "-0.018em", maxWidth: 820 }}>{/* TEXTE_SECTION */ clientText(sessionData, "nuancier.titre") ?? (<>
+              Les matières écrites au devis,<br /><em style={{ fontStyle: "italic", color: C.accent }}>et rien d'autre.</em>
+            </>)}</h2>
+            <p style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.15vw,16px)", color: C.textMuted, lineHeight: 1.78, maxWidth: 500, marginTop: 20 }}>
+              Chaque essence et chaque plan de travail cités dans nos formules se regarde ici, à plat. Le studio les tient en main : deux heures suffisent à trancher.
+            </p>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "clamp(14px,1.8vw,24px)", marginTop: "clamp(36px,4.5vw,58px)" }}>
+            {NUANCIER.map((n: any, idx: number) => (
+              <Swatch key={n.nom} item={n} i={idx} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRESTATIONS — rangées éditoriales numérotées ─────────────────── */}
+      <section id="services" className="i334-pad" style={{ background: C.bgAlt, padding: "clamp(80px,11vw,150px) clamp(22px,5vw,64px)", position: "relative", overflow: "hidden" }}>
+        <div style={{ maxWidth: 1220, margin: "0 auto", position: "relative" }}>
+          <GhostNum right>{String(SERVICES.length).padStart(2, "0")}</GhostNum>
+          <Reveal>
+            <div style={{ marginBottom: "clamp(28px,3.5vw,46px)", position: "relative" }}>
+              <Kicker>Prestations</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(30px,4.3vw,56px)", color: C.ink, margin: "18px 0 0", lineHeight: 1.06, letterSpacing: "-0.018em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
+                Du plan de travail<br /><em style={{ fontStyle: "italic", color: C.accent }}>au dernier tiroir.</em>
+              </>)}</h2>
+            </div>
+          </Reveal>
+          <div style={{ borderBottom: `1px solid ${C.border}` }}>
+            {SERVICES.map((s: any, idx: number) => (
+              <ServiceRow key={s.titre} item={s} i={idx} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CHIFFRES — bande sombre, chiffres fantômes derrière ──────────── */}
+      <section style={{ background: C.bgDark, position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(70% 100% at 50% 0%, rgba(185,141,85,0.11), transparent 70%)" }} />
+        <div
+          className="i334-statband i334-pad"
+          style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1160, margin: "0 auto", padding: "0 clamp(22px,4vw,44px)", position: "relative" }}
+        >
+          {STATS.map((s: any, idx: number) => (
+            <Reveal key={s.label} delay={idx * 0.07}>
+              <div className="i334-statcell" style={{ position: "relative", padding: "clamp(34px,4vw,52px) 10px", textAlign: "center", borderRight: idx < STATS.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none", overflow: "hidden" }}>
+                <span aria-hidden style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(70px,8vw,120px)", color: "rgba(255,255,255,0.045)", lineHeight: 1, pointerEvents: "none", userSelect: "none" }}>
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <div style={{ position: "relative", fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(28px,3.2vw,40px)", color: C.veine, lineHeight: 1, letterSpacing: "-0.02em" }}>{s.value}</div>
+                <div style={{ position: "relative", fontFamily: SANS, fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.46)", marginTop: 12, lineHeight: 1.5 }}>{s.label}</div>
               </div>
             </Reveal>
           ))}
+        </div>
+      </section>
+
+      {/* ── MÉTHODE — colonne collante + étapes filetées ─────────────────── */}
+      <section id="methode" className="i334-pad" style={{ background: C.bg, padding: "clamp(80px,11vw,152px) clamp(22px,5vw,64px)" }}>
+        <div
+          className="i334-methode"
+          style={{ maxWidth: 1160, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,0.86fr) minmax(0,1.14fr)", gap: "clamp(32px,5vw,84px)", alignItems: "start" }}
+        >
+          <div className="i334-sticky" style={{ position: "sticky", top: 118, alignSelf: "start" }}>
+            <Reveal>
+              <Kicker>La méthode</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(29px,3.9vw,50px)", color: C.ink, margin: "18px 0 20px", lineHeight: 1.06, letterSpacing: "-0.018em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
+                Un projet mené<br /><em style={{ fontStyle: "italic", color: C.accent }}>comme un chantier d'architecte.</em>
+              </>)}</h2>
+              <p style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.15vw,16px)", color: C.textMuted, lineHeight: 1.8, maxWidth: 420 }}>
+                Quatre temps, dans cet ordre. Le premier est offert, le troisième est ferme, le quatrième se signe pièce par pièce.
+              </p>
+              <div style={{ width: 60, height: 1, background: `linear-gradient(90deg, ${C.accent}, transparent)`, marginTop: 26 }} />
+            </Reveal>
+          </div>
+          <div>
+            {METHODE.map((m, idx) => (
+              <Reveal key={m.n} delay={idx * 0.06}>
+                <div style={{ position: "relative", display: "flex", gap: "clamp(18px,2.6vw,36px)", alignItems: "flex-start", padding: "clamp(24px,3.2vw,40px) 0", borderTop: `1px solid ${C.border}` }}>
+                  <span style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(26px,3vw,38px)", color: C.veine, lineHeight: 1, minWidth: 54, flexShrink: 0 }}>{m.n}</span>
+                  <div>
+                    <h3 style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.3vw,17.5px)", fontWeight: 600, letterSpacing: "0.01em", color: C.ink, margin: "0 0 10px" }}>{m.t}</h3>
+                    <p style={{ fontFamily: SANS, fontSize: "clamp(14px,1.1vw,15.5px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.8, margin: 0, maxWidth: 480 }}>{m.d}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+            <div style={{ borderTop: `1px solid ${C.border}` }} />
+          </div>
+        </div>
+      </section>
+
+      {/* ── ENGAGEMENTS — split, photo à droite (le miroir du héros) ─────── */}
+      <section id="engagements" className="i334-pad" style={{ background: C.bgAlt, padding: "clamp(80px,11vw,150px) clamp(22px,5vw,64px)" }}>
+        <div className="i334-split" style={{ maxWidth: 1160, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: "clamp(34px,5vw,76px)", alignItems: "center" }}>
+          <Reveal style={{ order: 2 }}>
+            <div style={{ position: "relative", borderRadius: 3, overflow: "hidden", background: C.bgDark, border: `1px solid ${C.border}` }}>
+              <img
+                src={photo(3, "https://images.pexels.com/photos/6969818/pexels-photo-6969818.jpeg?auto=compress&cs=tinysrgb&w=1600")}
+                alt="Contrôle d'un caisson à l'atelier"
+                loading="lazy"
+                style={{ width: "100%", aspectRatio: "4/3.4", objectFit: "cover", display: "block" }}
+              />
+              <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(31,26,19,0.38) 0%, rgba(31,26,19,0.04) 42%, transparent 100%)" }} />
+              <div style={{ position: "absolute", left: 20, bottom: 18, fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.86)" }}>
+                Contrôle atelier
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.12} style={{ order: 1 }}>
+            <div>
+              <Kicker>Nos engagements</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(28px,3.7vw,46px)", color: C.ink, margin: "18px 0 26px", lineHeight: 1.08, letterSpacing: "-0.018em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
+                Le sur-mesure,<br /><em style={{ fontStyle: "italic", color: C.accent }}>sans l'à-peu-près.</em>
+              </>)}</h2>
+              <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                {ENGAGEMENT.map((e: string, idx: number) => (
+                  <li key={idx} style={{ display: "flex", gap: 16, alignItems: "flex-start", padding: "15px 0", borderTop: idx === 0 ? "none" : `1px solid ${C.border}` }}>
+                    <span aria-hidden style={{ marginTop: 10, width: 18, height: 1, background: C.accent, flexShrink: 0 }} />
+                    <span style={{ fontFamily: SANS, fontSize: "clamp(14px,1.12vw,15.5px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.72 }}>{e}</span>
+                  </li>
+                ))}
+              </ul>
+              <div style={{ marginTop: 30 }}>
+                <Btn href={telHref} filled>
+                  Nous appeler
+                </Btn>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── TARIFS — table fine à conducteur pointillé ───────────────────── */}
+      <section id="tarifs" className="i334-pad" style={{ background: C.bg, padding: "clamp(80px,11vw,150px) clamp(22px,5vw,64px)", position: "relative", overflow: "hidden" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Kicker align="center">Tarifs</Kicker>
+              </div>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(30px,4vw,52px)", color: C.ink, margin: "18px 0 0", lineHeight: 1.06, letterSpacing: "-0.018em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Des budgets <em style={{ fontStyle: "italic", color: C.accent }}>tenus.</em></>)}</h2>
+              <p style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.15vw,16px)", fontWeight: 300, color: C.textMuted, maxWidth: 540, margin: "18px auto 0", lineHeight: 1.78 }}>
+                Prix pose et raccordements compris. L'atelier conception est offert et déduit à la commande.
+              </p>
+            </div>
+          </Reveal>
+          <div style={{ marginTop: "clamp(34px,4.5vw,54px)", borderBottom: `1px solid ${C.border}` }}>
+            {TARIFS.map((t: any, idx: number) => (
+              <TarifRow key={t.a} item={t} i={idx} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── AVIS — spotlight rotatif, un seul à la fois ──────────────────── */}
+      <section className="i334-pad" style={{ background: C.bgDark, padding: "clamp(80px,11vw,150px) clamp(22px,5vw,64px)", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(60% 60% at 50% 18%, rgba(185,141,85,0.12), transparent 70%)" }} />
+        <div style={{ maxWidth: 900, margin: "0 auto", position: "relative", textAlign: "center" }}>
+          <Reveal>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 26 }}>
+              <Kicker color="rgba(255,255,255,0.45)" align="center">Ils cuisinent dedans</Kicker>
+            </div>
+            <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(27px,3.5vw,44px)", color: C.bg, lineHeight: 1.08, letterSpacing: "-0.018em", marginBottom: "clamp(34px,4.4vw,54px)" }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce que la maison <em style={{ fontStyle: "italic", color: C.veine }}>en dit</em>.</>)}</h2>
+          </Reveal>
+
+          <div style={{ minHeight: 240, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.figure
+                key={A.auteur + String(avisI)}
+                initial={reduce ? { opacity: 0 } : { opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduce ? { opacity: 0 } : { opacity: 0, y: -14 }}
+                transition={{ duration: reduce ? 0.2 : 0.62, ease: EASE }}
+                style={{ margin: 0 }}
+              >
+                <blockquote style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(19px,2.3vw,29px)", color: "rgba(248,245,239,0.9)", lineHeight: 1.56, margin: "0 auto 30px", maxWidth: 760 }}>
+                  « {A.texte} »
+                </blockquote>
+                <figcaption>
+                  <div style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 600, letterSpacing: "0.06em", color: C.bg }}>{A.auteur}</div>
+                  <div style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: C.veine, marginTop: 8 }}>{A.detail}</div>
+                </figcaption>
+              </motion.figure>
+            </AnimatePresence>
+          </div>
+
+          <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 32 }}>
+            {AVIS.map((a: any, n: number) => (
+              <button
+                key={a.auteur + String(n)}
+                onClick={() => setAvisI(n)}
+                aria-label={`Avis ${n + 1}`}
+                style={{ background: "none", border: "none", cursor: "pointer", padding: "16px 6px", minWidth: 44, minHeight: 44, display: "flex", alignItems: "center", justifyContent: "center" }}
+              >
+                <span
+                  className="i334-anim"
+                  style={{
+                    display: "block",
+                    height: 2,
+                    width: n === avisI % AVIS.length ? 40 : 16,
+                    borderRadius: 99,
+                    background: n === avisI % AVIS.length ? C.veine : "rgba(255,255,255,0.24)",
+                    transition: `width .55s ${EASE_CSS}, background .55s ${EASE_CSS}`,
+                  }}
+                />
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ── CONTACT ─────────────────────────────────────────────────────── */}
-      <section id="contact" className="i334-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
-        <Reveal>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Atelier offert</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-            Deux heures pour dessiner<br /><em>la cuisine de votre maison.</em>
-          </>)}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Atelier conception au studio, plans remis dans tous les cas. Réservation par téléphone.</p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {phone}
-            </motion.a>
-            <motion.a href={`mailto:${mail}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ background: C.accent, color: "#fff" }}>
-              <Mail size={18} /> Nous écrire
-            </motion.a>
-          </div>
-        </Reveal>
+      <section id="contact" className="i334-pad" style={{ background: C.accentLight, padding: "clamp(80px,11vw,150px) clamp(22px,5vw,64px)", textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", backgroundImage: `repeating-linear-gradient(0deg, rgba(125,90,60,0.06) 0px, rgba(125,90,60,0.06) 1px, transparent 1px, transparent 84px)` }} />
+        <div style={{ maxWidth: 780, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Kicker align="center">Atelier offert</Kicker>
+            </div>
+            <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(30px,4.3vw,56px)", color: C.ink, margin: "18px 0 18px", lineHeight: 1.06, letterSpacing: "-0.018em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
+              Deux heures pour dessiner<br /><em style={{ fontStyle: "italic", color: C.accent }}>la cuisine de votre maison.</em>
+            </>)}</h2>
+            <p style={{ fontFamily: SANS, fontSize: "clamp(15px,1.2vw,16.5px)", fontWeight: 300, color: C.textMuted, maxWidth: 470, margin: "0 auto clamp(28px,3.6vw,40px)", lineHeight: 1.78 }}>
+              Atelier conception au studio, plans remis dans tous les cas. Réservation par téléphone.
+            </p>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+              <a
+                href={telHref}
+                style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.white, borderRadius: 2, padding: "16px 32px", fontFamily: SANS, fontSize: 15, fontWeight: 600, textDecoration: "none" }}
+              >
+                <Phone size={17} /> {phone}
+              </a>
+              <a
+                href={`mailto:${mail}`}
+                style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "transparent", color: C.ink, border: `1px solid ${C.accent}`, borderRadius: 2, padding: "16px 30px", fontFamily: SANS, fontSize: 15, fontWeight: 600, textDecoration: "none" }}
+              >
+                <Mail size={17} /> Nous écrire
+              </a>
+            </div>
+            <div style={{ marginTop: 30, fontFamily: SANS, fontSize: 12.5, color: C.textFaint, lineHeight: 1.8 }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, flexWrap: "wrap", justifyContent: "center" }}>
+                <MapPin size={13} color={C.accentDark} />
+                {adresse ?? lieu} · Nous dessinons pour {ZONES.join(", ")}
+              </span>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="i334-pad" style={{ background: C.bgDark, padding: "44px 64px 22px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
-            <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Culina"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Cuisines & agencement sur mesure · {clientCity(sessionData) ?? "Annecy"}<br />Fabrication européenne, pose garantie décennale</p>
+      <footer className="i334-pad" style={{ background: C.bgDarkAlt, padding: "clamp(52px,7vw,84px) clamp(22px,5vw,64px) 26px" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 32, marginBottom: 38 }}>
+            <div style={{ maxWidth: 340 }}>
+              <div style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(20px,2vw,26px)", color: C.veine, marginBottom: 12, letterSpacing: "-0.01em" }}>{marque}</div>
+              <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.4)", lineHeight: 1.8, margin: 0 }}>
+                Cuisines & agencement sur mesure · {ville}
+                <br />
+                Fabrication européenne, pose garantie décennale
+              </p>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Annecy") + ", Haute-Savoie" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Mar–Sam 9h30–19h, showroom sur RDV" }].map((item, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
-                  <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {[
+                { icon: <MapPin size={13} />, t: adresse ?? `${lieu}, Haute-Savoie` },
+                { icon: <Phone size={13} />, t: phone },
+                { icon: <Mail size={13} />, t: mail },
+              ].map((item, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.44)", fontFamily: SANS, fontSize: 13, alignItems: "center" }}>
+                  <span style={{ color: C.veine, display: "flex" }}>{item.icon}</span>
+                  {item.t}
                 </div>
               ))}
             </div>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Culina"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 18, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+            <span style={{ color: "rgba(255,255,255,0.26)", fontFamily: SANS, fontSize: 11.5, letterSpacing: "0.04em" }}>
+              © 2026 {marque} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />
+              {/* VILLE_PIED */}
+              {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+            <span style={{ color: "rgba(255,255,255,0.26)", fontFamily: SANS, fontSize: 11.5, letterSpacing: "0.04em" }}>
+              Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.
+            </span>
           </div>
         </div>
       </footer>
