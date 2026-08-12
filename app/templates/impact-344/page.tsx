@@ -89,6 +89,7 @@ let C: Record<string, string> = {
   borderSoft: "#e8ede2",
   borderDark: "rgba(255,255,255,0.10)",
   white: "#ffffff",
+  inkLight: "#f3f6ef",
   sap: "#a9c491",
 };
 
@@ -531,7 +532,7 @@ export default function AquaVertPressingPage() {
           backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
           borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
-          color: scrolled ? C.ink : "#f2f4ee",
+          color: scrolled ? C.ink : C.inkLight,
           transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
@@ -587,7 +588,7 @@ export default function AquaVertPressingPage() {
       {/* ── HÉROS H6 — InvertSweep : la page bascule du sombre au clair.
              Tout le contenu hérite la couleur pilotée par le geste : pas un
              seul hex fixe dans ce bloc, hors bouton plein. ──────────────── */}
-      <InvertSweep dark={C.bgDark} light={C.bg} textDark="#f3f6ef" textLight={C.ink} accent={C.accent} className="">
+      <InvertSweep dark={C.bgDark} light={C.bg} textDark={C.inkLight} textLight={C.ink} accent={C.accent} className="">
         {(invert) => (
           <div
             style={{
@@ -639,7 +640,7 @@ export default function AquaVertPressingPage() {
                 style={{
                   fontFamily: DISPLAY,
                   fontWeight: 800,
-                  fontSize: "clamp(42px, 8vw, 108px)",
+                  fontSize: "clamp(40px, 7vw, 88px)",
                   lineHeight: 0.96,
                   letterSpacing: "-0.03em",
                   margin: "24px 0 26px",
@@ -656,7 +657,7 @@ export default function AquaVertPressingPage() {
                       style={{
                         display: "block",
                         color: "transparent",
-                        WebkitTextStroke: `1.6px color-mix(in srgb, ${C.ink} ${Math.round(invert * 100)}%, #f3f6ef)`,
+                        WebkitTextStroke: `1.6px color-mix(in srgb, ${C.ink} ${Math.round(invert * 100)}%, ${C.inkLight})`,
                       }}
                     >
                       {clientHeroLine(sessionData, 1, 2, 24) ?? "ni vos fibres, ni la ville."}
@@ -809,6 +810,19 @@ export default function AquaVertPressingPage() {
               </div>
             </Reveal>
           </div>
+        </div>
+
+        {/* Deux emplacements photo de plus, en bande : la tournée et l'atelier.
+            Sans image, les aplats végétaux tiennent la bande seuls. */}
+        <div style={{ maxWidth: 1160, margin: "clamp(36px, 5vw, 60px) auto 0", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 16 }}>
+          {[
+            { i: 1, alt: "Vélo-cargo de collecte devant la boutique", label: "La tournée" },
+            { i: 2, alt: "Machines d'aquanettoyage en atelier", label: "L'atelier" },
+          ].map((ph, idx) => (
+            <Reveal key={ph.i} delay={idx * 0.08}>
+              <Plate src={photo(ph.i, PHOTO_FALLBACK[ph.i])} alt={ph.alt} ratio="16/10" label={ph.label} />
+            </Reveal>
+          ))}
         </div>
       </section>
 
