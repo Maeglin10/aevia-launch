@@ -1,232 +1,240 @@
 "use client";
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientEmail,
-  clientAccrocheRestante,
-  clientCity,
-  clientList,
-  clientName,
-  clientPhotos,
-  clientTagline,
-  clientText,
-  clientWorks,
-} from "@/lib/templates/clientContent";
 // @ts-nocheck
+
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { ArrowRight, ArrowUpRight, Calendar, Check, Clock, FileText, Mail, MapPin, Phone } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import { LegalIdentity } from "../LegalIdentity";
+import { DWELL, ExpandFrame, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
-  Building,
-  Calendar,
-  MapPin,
-  Search,
-  ShoppingCart,
-  X,
-  ChevronRight,
-  ChevronLeft,
-  Menu,
-  Star,
-  Check,
-  Briefcase,
-  Award,
-  Clock,
-  ArrowRight,
-  User,
-  Mail,
-  CreditCard,
-  FileText,
-  ChevronDown
-} from "lucide-react";
+  clientHeroLine,
+  clientHeroSubtitle,
+  clientEyebrow,
+  clientTrade,
+  clientCertifications,
+  clientCity,
+  clientName,
+  clientPhone,
+  clientEmail,
+  clientAddress,
+  clientCodePostalVille,
+  clientPhotos,
+  clientServices,
+  clientStats,
+  clientTeam,
+  clientWorks,
+  clientList,
+  clientText,
+} from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
 let sessionData: any = null;
-const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
-const Linkedin = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
-/**
- * ==========================================
- * IMPACT-325: B2B SEMINAR HUB (Event E-Commerce)
- * ==========================================
- * Business: Professional Seminars & Masterclasses
- * Vibe: Corporate, Premium, Elegant, Light
- * Fonts: Lora (Headings) & Inter (Body)
- * Colors: Navy Blue (#1e3a8a), Gold (#eab308), Canvas
- */
+/* ════════════════════════════════════════════════════════════════════════════
+   IMPACT-325 · EXECUTIVEHUB — séminaires corporate (masterclasses B2B)
+   Réécriture premium — geste signature : ExpandFrame (le cadre qui s'ouvre).
+   Héros H7 magazine : méta-rangée filée, titre serif géant, bandeau média bas.
+   Fontes P2 : Playfair Display (serif) + Space Grotesk (sans).
+   Signature : cadre qui s'ouvre · table de tarifs à lignes fines ·
+   références en grille 56px/1fr. Palette claire #f7f7f4 / #1e3a8a.
+   ════════════════════════════════════════════════════════════════════════════ */
 
-function shadeColor(color: string, percent: number) {
-  let R = parseInt(color.substring(1, 3), 16);
-  let G = parseInt(color.substring(3, 5), 16);
-  let B = parseInt(color.substring(5, 7), 16);
+const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600&display=swap');`;
 
-  R = parseInt((R * (100 + percent)) / 100 as any);
-  G = parseInt((G * (100 + percent)) / 100 as any);
-  B = parseInt((B * (100 + percent)) / 100 as any);
-
-  R = (R < 255 ? R : 255);
-  G = (G < 255 ? G : 255);
-  B = (B < 255 ? B : 255);
-
-  R = Math.round(R);
-  G = Math.round(G);
-  B = Math.round(B);
-
-  const RR = ((R.toString(16).length == 1) ? "0" + R.toString(16) : R.toString(16));
-  const GG = ((G.toString(16).length == 1) ? "0" + G.toString(16) : G.toString(16));
-  const BB = ((B.toString(16).length == 1) ? "0" + B.toString(16) : B.toString(16));
-
-  return "#" + RR + GG + BB;
-}
-
-const C = {
-  primary: "var(--brand,#1e3a8a)", // Navy Blue
-  primaryLight: "#3b82f6",
-  primaryDark: "#172554",
-  bg: "#f8fafc", // Light Canvas
-  bgDeep: "#ffffff",
-  bgCard: "#f1f5f9",
-  text: "#0f172a", // Dark Text
-  textMuted: "#64748b",
-  accent: "var(--brand-light,#eab308)", // Gold
+let C: Record<string, string> = {
+  bg: "#f7f7f4",
+  bgAlt: "#efefe9",
+  bgDark: "#101a33",
+  bgDarkAlt: "#0a1124",
+  bgCard: "#ffffff",
+  accent: "var(--brand,#1e3a8a)",
+  accentDark: "var(--brand-light,#41599f)",
+  accentLight: "#e4e8f3",
+  ink: "#161a24",
+  textMuted: "#4d5361",
+  textFaint: "#8b8f99",
+  border: "#dbdad0",
   white: "#ffffff",
-  black: "#000000",
-  success: "#16a34a",
-  danger: "#dc2626",
-  border: "#e2e8f0"
+  gold: "#9a7b2d", // clé métier : filets dorés du programme
 };
 
-const SERIF = "'Lora', serif";
-const SANS = "'Inter', sans-serif";
-const EASE = [0.16, 1, 0.3, 1];
+const SERIF = "'Playfair Display', Georgia, serif";
+const SANS = "'Space Grotesk', system-ui, sans-serif";
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-function PHOTOS_LIVE() {
-  return {
-  hero: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"),
-  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"),
-  event1: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
-  event2: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1515169067868-5387ec356754?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
-  event3: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1558402529-d2638a7023e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
-  event4: (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/9275222/pexels-photo-9275222.jpeg?auto=compress&cs=tinysrgb&w=800"),
-  speaker1: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"),
-  speaker2: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"),
-};
+/* ── Photos — URLs existantes du thème, jamais d'URL inventée ────────────── */
+const FALLBACK_PHOTOS = [
+  "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80", // 0 bandeau média A
+  "https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // 1 volet corporate
+  "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // 2 séminaire I (+ bandeau B)
+  "https://images.unsplash.com/photo-1515169067868-5387ec356754?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // 3 séminaire II
+  "https://images.unsplash.com/photo-1558402529-d2638a7023e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // 4 séminaire III (+ bandeau C)
+  "https://images.pexels.com/photos/9275222/pexels-photo-9275222.jpeg?auto=compress&cs=tinysrgb&w=800", // 5 séminaire IV
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", // 6 intervenant 1
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", // 7 intervenante 2
+];
+
+function photo(i: number, repli: string): string {
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || repli;
 }
-let PHOTOS = PHOTOS_LIVE();
 
-const CustomInstagramIcon = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-  </svg>
-);
+/* ── Données de démonstration (contenu rédactionnel conservé) ────────────── */
 
-// --- REUSABLE COMPONENTS ---
+const SEMINARS_SOURCE = [
+  { id: "s1", num: "I", title: "Leadership Masterclass 2026", speaker: "Dr. Jonathan Hayes", date: "2026-09-10", dateLabel: "September 10, 2026", time: "09:00 – 17:00", venue: "Grand Hotel Paris", category: "Leadership", level: "Executive", price: 450, pi: 2 },
+  { id: "s2", num: "II", title: "Future of AI in Business", speaker: "Sarah Chen", date: "2026-09-22", dateLabel: "September 22, 2026", time: "10:00 – 16:00", venue: "Tech Hub London", category: "Technology", level: "All Levels", price: 300, pi: 3 },
+  { id: "s3", num: "III", title: "Advanced Financial Strategy", speaker: "Robert Sterling", date: "2026-10-05", dateLabel: "October 5, 2026", time: "09:00 – 18:00", venue: "Finance Center Frankfurt", category: "Finance", level: "Advanced", price: 600, pi: 4 },
+  { id: "s4", num: "IV", title: "Strategic Marketing Summit", speaker: "Elena Rodriguez", date: "2026-10-15", dateLabel: "October 15, 2026", time: "09:30 – 15:30", venue: "Palais des Congrès", category: "Marketing", level: "Intermediate", price: 350, pi: 5 },
+];
 
-function Reveal({ children, delay = 0, y = 30, className = "" }) {
+function SEMINARS_LIVE() {
+  const ville = clientCity(sessionData);
+  const base = SEMINARS_SOURCE.map((s) => ({
+    ...s,
+    venue: ville ? s.venue.replace("Paris", ville) : s.venue,
+  }));
+  return /* REALISATIONS */ resolveList(
+    clientWorks(sessionData)?.map((o: any, i: number) => ({
+      ...base[i % base.length],
+      title: o.title ?? base[i % base.length].title,
+      category: o.detail || base[i % base.length].category,
+      ...(o.imageUrl ? { img: o.imageUrl } : {}),
+    })),
+    base,
+  );
+}
+let SEMINARS = SEMINARS_LIVE();
+
+/* Table des droits d'inscription — lignes fines. */
+const TARIFS_SOURCE = [
+  { k: "Leadership Masterclass 2026", eb: "$360", std: "$450", ex: "$675", n: "Executive level · Grand Hotel Paris" },
+  { k: "Future of AI in Business", eb: "$240", std: "$300", ex: "$450", n: "All levels · Tech Hub London" },
+  { k: "Advanced Financial Strategy", eb: "$480", std: "$600", ex: "$900", n: "Advanced · Finance Center Frankfurt" },
+  { k: "Strategic Marketing Summit", eb: "$280", std: "$350", ex: "$525", n: "Intermediate · Palais des Congrès" },
+];
+
+function TARIFS_LIVE() {
+  return resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({
+      ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
+      k: s.title ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].k,
+      std: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].std,
+      eb: s.price ? "− 20 %" : TARIFS_SOURCE[i % TARIFS_SOURCE.length].eb,
+      ex: s.price ? "+ 50 %" : TARIFS_SOURCE[i % TARIFS_SOURCE.length].ex,
+      n: s.description ?? s.desc ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
+    })),
+    TARIFS_SOURCE,
+  );
+}
+let TARIFS = TARIFS_LIVE();
+
+const STATS_SOURCE = [
+  { v: "50+", l: "Industry leaders" },
+  { v: "200+", l: "Corporate partners" },
+  { v: "12", l: "Global locations" },
+  { v: "98%", l: "Satisfaction rate" },
+];
+
+function STATS_LIVE() {
+  return resolveList(
+    clientStats(sessionData)?.map((s: any) => ({ v: s.value, l: s.label })),
+    STATS_SOURCE,
+  );
+}
+let STATS = STATS_LIVE();
+
+/* Références — les intervenants du programme, en grille 56px / 1fr. */
+const REFS_SOURCE = [
+  { name: "Dr. Jonathan Hayes", role: "Leadership Masterclass 2026", tag: "Leadership · Executive", pi: 6 },
+  { name: "Sarah Chen", role: "Future of AI in Business", tag: "Technology · All levels", pi: 7 },
+  { name: "Robert Sterling", role: "Advanced Financial Strategy", tag: "Finance · Advanced", pi: -1 },
+  { name: "Elena Rodriguez", role: "Strategic Marketing Summit", tag: "Marketing · Intermediate", pi: -1 },
+];
+
+function REFS_LIVE() {
+  return resolveList(
+    clientTeam(sessionData)?.map((m: any, i: number) => ({
+      ...REFS_SOURCE[i % REFS_SOURCE.length],
+      name: m.name ?? REFS_SOURCE[i % REFS_SOURCE.length].name,
+      role: m.role ?? REFS_SOURCE[i % REFS_SOURCE.length].role,
+      ...(m.photoUrl ? { img: m.photoUrl } : {}),
+    })),
+    REFS_SOURCE,
+  );
+}
+let REFS = REFS_LIVE();
+
+const BULLETS_SOURCE = [
+  "Customized curriculum alignment",
+  "Volume licensing and group discounts",
+  "Post-seminar implementation support",
+  "Priority access to global industry experts",
+];
+
+function BULLETS_LIVE() {
+  return resolveList(
+    clientList(sessionData, "bloc.liste1") ?? clientCertifications(sessionData),
+    BULLETS_SOURCE,
+  );
+}
+let BULLETS = BULLETS_LIVE();
+
+const PROGRAMS = ["Executive Leadership", "Financial Strategy", "Tech & Innovation", "Corporate Custom"];
+
+const NAV = [
+  { l: "Calendar", h: "#seminars" },
+  { l: "Fees", h: "#fees" },
+  { l: "Enterprises", h: "#corporate" },
+  { l: "Speakers", h: "#speakers" },
+  { l: "Contact", h: "#contact" },
+];
+
+/* ── Primitives ──────────────────────────────────────────────────────────── */
+
+function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-70px" });
   return (
-    <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay, ease: EASE }}
-      className={className}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9, delay, ease: EASE }}>
       {children}
     </motion.div>
   );
 }
 
-function Button({ children, variant = "primary", onClick, className = "", fullWidth = false, size = "md" }) {
-  const baseStyle = {
-    fontFamily: SANS,
-    fontWeight: 500,
-    borderRadius: "2px", // Professional, sharp edges
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    width: fullWidth ? "100%" : "auto",
-    border: "none",
-    outline: "none",
-    gap: "8px",
-    letterSpacing: "0.5px"
-  };
-
-  const sizes = {
-    sm: { padding: "8px 16px", fontSize: "13px" },
-    md: { padding: "12px 24px", fontSize: "15px" },
-    lg: { padding: "16px 32px", fontSize: "16px" }
-  };
-
-  const variants = {
-    primary: {
-      backgroundColor: C.primary,
-      color: C.white,
-    },
-    accent: {
-      backgroundColor: C.accent,
-      color: C.primaryDark,
-      fontWeight: 600
-    },
-    outline: {
-      backgroundColor: "transparent",
-      color: C.primary,
-      border: `1px solid ${C.primary}`,
-    },
-    ghost: {
-      backgroundColor: "transparent",
-      color: C.text,
-    }
-  };
-
+function Kicker({ children, color = C.accent }: { children: React.ReactNode; color?: string }) {
   return (
-    <motion.button
-      whileHover={{ y: -2, boxShadow: variant === 'primary' || variant === 'accent' ? "0 4px 12px rgba(0,0,0,0.1)" : "none" }}
-      whileTap={{ scale: 0.98 }}
-      onClick={onClick}
-      style={{ ...baseStyle, ...sizes[size], ...variants[variant] }}
-      className={className}
-    >
-      {children}
-    </motion.button>
-  );
-}
-
-function Eyebrow({ text }) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
-      <div style={{ width: "40px", height: "1px", backgroundColor: C.accent }} />
-      <span style={{ 
-        color: C.accent, 
-        fontFamily: SANS, 
-        fontWeight: 600, 
-        textTransform: "uppercase",
-        letterSpacing: "1.5px",
-        fontSize: "12px"
-      }}>
-        {text}
-      </span>
+    <div style={{ display: "flex", alignItems: "center", gap: 13 }}>
+      <span aria-hidden style={{ width: 40, height: 1, background: `linear-gradient(90deg, ${color}, transparent)` }} />
+      <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.38em", textTransform: "uppercase", color, fontWeight: 500 }}>{children}</span>
     </div>
   );
 }
 
-// --- MOCK DATA ---
-
-function MOCK_EVENTS_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
-  { id: "s1", title: "Leadership Masterclass 2026", speaker: "Dr. Jonathan Hayes", date: "2026-09-10", time: "09:00 - 17:00", venue: "Grand Hotel " + (clientCity(sessionData) ?? "Paris"), price: 450, image: PHOTOS.event1, category: "Leadership", level: "Executive" },
-  { id: "s2", title: "Future of AI in Business", speaker: "Sarah Chen", date: "2026-09-22", time: "10:00 - 16:00", venue: "Tech Hub London", price: 300, image: PHOTOS.event2, category: "Technology", level: "All Levels" },
-  { id: "s3", title: "Advanced Financial Strategy", speaker: "Robert Sterling", date: "2026-10-05", time: "09:00 - 18:00", venue: "Finance Center Frankfurt", price: 600, image: PHOTOS.event3, category: "Finance", level: "Advanced" },
-  { id: "s4", title: "Strategic Marketing Summit", speaker: "Elena Rodriguez", date: "2026-10-15", time: "09:30 - 15:30", venue: "Palais des Congrès", price: 350, image: PHOTOS.event4, category: "Marketing", level: "Intermediate" },
-]);
+function NavLink({ l, h }: { l: string; h: string }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <a
+      href={h}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{ position: "relative", color: hov ? C.accent : C.textMuted, fontFamily: SANS, fontSize: 13, fontWeight: 500, letterSpacing: "0.06em", textDecoration: "none", padding: "12px 2px", transition: "color 0.45s cubic-bezier(.16,1,.3,1)" }}
+    >
+      {l}
+      <span aria-hidden style={{ position: "absolute", left: 0, bottom: 7, height: 1, width: hov ? "100%" : "0%", background: C.gold, transition: "width 0.5s cubic-bezier(.16,1,.3,1)" }} />
+    </a>
+  );
 }
-let MOCK_EVENTS = MOCK_EVENTS_LIVE();
 
-// --- MAIN PAGE COMPONENT ---
+/* ── Page ────────────────────────────────────────────────────────────────── */
 
-export default function Impact325SeminarHub({ session: initialSession }) {
-  // Standard session loading (matches every other template): this page is
-  // never actually given a `session` prop by Next.js routing — it must fetch
-  // its own from /templates/impact-325?session=<id>, otherwise fd is always {}.
-  const [session, setSession] = useState(initialSession ?? null);
+export default function Impact325ExecutiveHub() {
+  const [session, setSession] = useState<any>(null);
+
   useEffect(() => {
     let id = new URLSearchParams(window.location.search).get("session");
     /* La navigation interne perd le paramètre : on retient la session par thème. */
@@ -242,558 +250,634 @@ export default function Impact325SeminarHub({ session: initialSession }) {
       .catch(() => {});
   }, []);
 
-  const fd = session?.formData || {};
-
+  fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
   sessionData = session;
-  MOCK_EVENTS = MOCK_EVENTS_LIVE();
-  PHOTOS = PHOTOS_LIVE();
+  SEMINARS = SEMINARS_LIVE();
+  TARIFS = TARIFS_LIVE();
+  STATS = STATS_LIVE();
+  REFS = REFS_LIVE();
+  BULLETS = BULLETS_LIVE();
 
+  const businessName = fd?.businessName ?? (clientName(sessionData) ?? "ExecutiveHub");
+  const ville = clientCity(sessionData) ?? "Paris";
+  const mail = clientEmail(sessionData) || "contact@executivehub.example";
+  const phone = clientPhone(sessionData);
 
-  const c = session?.generatedContent || {};
-
-  // Override brand color if provided
-  if (fd.brandColor) {
-    C.primary = fd.brandColor;
-    C.primaryLight = shadeColor(fd.brandColor, 40);
-    C.primaryDark = shadeColor(fd.brandColor, -20);
-  }
-
-  const businessName = fd.businessName || "ExecutiveHub";
-
-  // Client-uploaded photos (uploaded in the brief) replace the stock
-  // Unsplash placeholders — hero shot and about-section image first.
-  // MOCK_EVENTS captured PHOTOS.eventN by value at module init, so its
-  // `.image` fields must also be mutated directly, not just PHOTOS itself.
-  useEffect(() => {
-    if (!fd?.photoUrls?.length) return;
-    const p = fd.photoUrls;
-    if (p[0]) PHOTOS.hero = p[0];
-    if (p[1]) PHOTOS.about = p[1];
-    if (p[2]) { PHOTOS.event1 = p[2]; if (MOCK_EVENTS[0]) MOCK_EVENTS[0].image = p[2]; }
-    if (p[3]) { PHOTOS.event2 = p[3]; if (MOCK_EVENTS[1]) MOCK_EVENTS[1].image = p[3]; }
-    if (p[4]) { PHOTOS.event3 = p[4]; if (MOCK_EVENTS[2]) MOCK_EVENTS[2].image = p[4]; }
-    if (p[5]) { PHOTOS.event4 = p[5]; if (MOCK_EVENTS[3]) MOCK_EVENTS[3].image = p[5]; }
-  }, [fd]);
-  const contactEmail = clientEmail(sessionData) || "contact@executivehub.example";
-
-  // State
-  const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [checkoutStep, setCheckoutStep] = useState(0); // 0: none, 1: cart, 2: details, 3: success
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [ctaHov, setCtaHov] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const h = () => setScrolled(window.scrollY > 40);
+    h();
+    window.addEventListener("scroll", h, { passive: true });
+    return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const categories = ["All", ...Array.from(new Set(MOCK_EVENTS.map(e => e.category)))];
+  /* Un seul index pilote tout le héros : le cadre qui s'ouvre et sa légende. */
+  const BAND = [photo(0, FALLBACK_PHOTOS[0]), photo(2, FALLBACK_PHOTOS[2]), photo(4, FALLBACK_PHOTOS[4])];
+  const { i: bandIdx, next, prev } = useSlides(BAND.length, DWELL.slow);
+  const bandSem = SEMINARS[bandIdx % SEMINARS.length];
 
-  const filteredEvents = MOCK_EVENTS.filter(e => {
-    const matchCat = activeCategory === "All" || e.category === activeCategory;
-    const matchSearch = e.title.toLowerCase().includes(searchQuery.toLowerCase()) || e.speaker.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchCat && matchSearch;
-  });
-
-  const getTicketPrice = (basePrice, type) => {
-    if (type === "Early Bird") return basePrice * 0.8;
-    if (type === "Executive") return basePrice * 1.5;
-    return basePrice;
-  };
-
-  const addToCart = (event, qty = 1, type = "Standard") => {
-    setCartItems(prev => {
-      const existing = prev.find(item => item.event.id === event.id && item.type === type);
-      if (existing) {
-        return prev.map(item => item.event.id === event.id && item.type === type ? { ...item, qty: item.qty + qty } : item);
-      }
-      return [...prev, { event, qty, type, price: getTicketPrice(event.price, type) }];
-    });
-    setCartOpen(true);
-    setCheckoutStep(1);
-  };
-
-  const removeFromCart = (id, type) => {
-    setCartItems(prev => prev.filter(item => !(item.event.id === id && item.type === type)));
-  };
-
-  const updateQty = (id, type, delta) => {
-    setCartItems(prev => prev.map(item => {
-      if (item.event.id === id && item.type === type) {
-        const newQty = Math.max(1, item.qty + delta);
-        return { ...item, qty: newQty };
-      }
-      return item;
-    }));
-  };
-
-  const cartTotal = cartItems.reduce((acc, item) => acc + (item.price * item.qty), 0);
-  const cartCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
-
-  const handleCheckout = (e) => {
-    e.preventDefault();
-    setCheckoutStep(3); // skip to success for demo
-    setTimeout(() => {
-      setCartItems([]);
-      setCheckoutStep(0);
-      setCartOpen(false);
-    }, 5000);
-  };
+  const heroLigne1 = clientHeroLine(sessionData, 0, 2, 18);
+  const heroLigne2 = clientHeroLine(sessionData, 1, 2, 18);
 
   return (
-    <div style={{ backgroundColor: C.bg, color: C.text, fontFamily: SANS, minHeight: "100vh", overflowX: "hidden" }}>
-      
-      {/* NAVIGATION */}
-      <nav style={{
-        position: "fixed",
-        top: 0, left: 0, right: 0,
-        backgroundColor: scrolled ? 'rgba(255, 255, 255, 0.95)' : 'transparent',
-        backdropFilter: scrolled ? "blur(10px)" : "none",
-        borderBottom: scrolled ? `1px solid ${C.border}` : '1px solid transparent',
-        zIndex: 50,
-        transition: "all 0.3s ease",
-        padding: "20px 4%"
-      }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip" }}>
+      <style>{`
+        ${FONTS_CSS}
+        @media (max-width: 900px) {
+          .i325-navlinks { display: none !important; }
+          .i325-burger { display: flex !important; }
+        }
+        @media (max-width: 860px) {
+          .i325-meta { grid-template-columns: 1fr !important; row-gap: 0; }
+          .i325-meta > div { border-right: none !important; border-bottom: 1px solid ${"#dbdad0"}; }
+          .i325-feat { grid-template-columns: 1fr !important; }
+          .i325-feat > * { order: initial !important; }
+          .i325-split { grid-template-columns: 1fr !important; }
+          .i325-split > * { order: initial !important; }
+          .i325-herofoot { flex-direction: column; align-items: flex-start !important; gap: 16px; }
+        }
+      `}</style>
+
+      {/* ── MASTHEAD — filet de tête façon revue ─────────────────────────── */}
+      <div aria-hidden style={{ height: 3, background: `linear-gradient(90deg, ${C.accent}, ${C.gold}, transparent)` }} />
+
+      {/* ── NAV — collante, 4 propriétés en transition ───────────────────── */}
+      <nav
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: scrolled ? "12px clamp(20px,4.5vw,56px)" : "22px clamp(20px,4.5vw,56px)",
+          background: scrolled ? "rgba(247,247,244,0.94)" : C.bg,
+          backdropFilter: scrolled ? "blur(12px) saturate(120%)" : "none",
+          borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
+          boxShadow: scrolled ? "0 14px 34px -26px rgba(22,26,36,0.35)" : "none",
+          transition: "padding 0.55s cubic-bezier(.16,1,.3,1), background 0.55s cubic-bezier(.16,1,.3,1), border-color 0.55s cubic-bezier(.16,1,.3,1), box-shadow 0.55s cubic-bezier(.16,1,.3,1)",
+        }}
+      >
+        <a href="#" style={{ display: "flex", alignItems: "baseline", gap: 10, textDecoration: "none", minWidth: 0 }}>
           {fd?.logoBase64 ? (
-            // Client logo (uploaded in the brief) replaces the placeholder mark —
-            // essential for the client to recognise their brand in the render.
-            <img
-              src={fd.logoBase64}
-              alt={businessName ?? 'logo'}
-              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
-            />
+            <img src={fd.logoBase64} alt={businessName} style={{ height: 32, maxWidth: 160, objectFit: "contain", display: "block", alignSelf: "center" }} />
           ) : (
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <Building color={scrolled ? C.primary : C.white} size={28} />
-              <h1 className="hero-ecran-court" style={{ fontFamily: SERIF, fontSize: "22px", fontWeight: 700, margin: 0, color: scrolled ? C.primary : C.white }}>
-                {businessName}
-              </h1>
-            </div>
+            <>
+              <span style={{ fontFamily: SERIF, fontSize: 21, fontWeight: 600, color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{businessName}</span>
+              <span style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.32em", textTransform: "uppercase", color: C.textFaint, whiteSpace: "nowrap" }}>{clientTrade(sessionData) ?? "Executive seminars"}</span>
+            </>
           )}
-
-          <div style={{ display: "none", gap: "40px", alignItems: "center", '@media(minWidth: 768px)': { display: 'flex' } }}>
-            {["Seminars", "Speakers", "Corporate", "Contact"].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} style={{
-                color: scrolled ? C.text : C.white, textDecoration: "none", fontSize: "14px", fontWeight: 500, fontFamily: SANS, transition: "color 0.2s"
-              }} onMouseOver={e => e.currentTarget.style.color = C.accent} onMouseOut={e => e.currentTarget.style.color = scrolled ? C.text : C.white}>
-                {item}
-              </a>
-            ))}
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-            <button 
-              onClick={() => { setCartOpen(true); setCheckoutStep(1); }}
-              style={{
-                background: "transparent", border: "none", color: scrolled ? C.text : C.white, cursor: "pointer", position: "relative", padding: "8px"
-              }}
-            >
-              <ShoppingCart size={22} />
-              {cartCount > 0 && (
-                <span style={{
-                  position: "absolute", top: 0, right: 0, backgroundColor: C.accent, color: C.primaryDark,
-                  fontSize: "11px", fontWeight: "bold", width: "18px", height: "18px", borderRadius: "50%",
-                  display: "flex", alignItems: "center", justifyContent: "center"
-                }}>
-                  {cartCount}
-                </span>
-              )}
-            </button>
-            <Button variant={scrolled ? "primary" : "outline"} size="sm" style={{ display: "none", '@media(minWidth: 768px)': { display: "inline-flex" } }}>
-              Login
-            </Button>
-            <div style={{ display: "block", color: scrolled ? C.text : C.white, '@media(minWidth: 768px)': { display: "none" } }}>
-              <Menu size={24} />
-            </div>
-          </div>
+        </a>
+        <div className="i325-navlinks" style={{ display: "flex", alignItems: "center", gap: "clamp(14px,2vw,28px)" }}>
+          {NAV.map((n) => (
+            <NavLink key={n.l} {...n} />
+          ))}
+          <a
+            href="#contact"
+            onMouseEnter={() => setCtaHov(true)}
+            onMouseLeave={() => setCtaHov(false)}
+            style={{
+              fontFamily: SANS,
+              fontSize: 11.5,
+              fontWeight: 600,
+              letterSpacing: "0.16em",
+              textTransform: "uppercase",
+              color: C.white,
+              background: ctaHov ? C.accentDark : C.accent,
+              padding: "12px 22px",
+              textDecoration: "none",
+              transform: ctaHov ? "translateY(-2px)" : "none",
+              boxShadow: ctaHov ? "0 14px 30px -14px rgba(30,58,138,0.55)" : "none",
+              transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+            }}
+          >
+            Register
+          </a>
         </div>
+        <button
+          className="i325-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "transform 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "opacity 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "transform 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
       </nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 64, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "16px 26px 26px", display: "flex", flexDirection: "column", gap: 2 }}>
+          {NAV.map((n) => (
+            <a key={n.l} href={n.h} onClick={() => setMobileOpen(false)} style={{ color: C.ink, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "13px 0" }}>
+              {n.l}
+            </a>
+          ))}
+          <a href="#contact" onClick={() => setMobileOpen(false)} style={{ background: C.accent, color: C.white, padding: "14px 24px", fontSize: 13, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", textAlign: "center", marginTop: 12 }}>
+            Register
+          </a>
+        </div>
+      )}
 
-      {/* CART DRAWER */}
-      <AnimatePresence>
-        {cartOpen && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setCartOpen(false)}
-              style={{ position: "fixed", inset: 0, backgroundColor: "rgba(15, 23, 42, 0.4)", backdropFilter: "blur(4px)", zIndex: 99 }}
-            />
-            <motion.div 
-              initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: "100%", maxWidth: "500px", backgroundColor: C.bgDeep, zIndex: 100, display: "flex", flexDirection: "column", boxShadow: "-5px 0 25px rgba(0,0,0,0.1)" }}
-            >
-              <div style={{ padding: "30px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: `1px solid ${C.border}` }}>
-                <h2 style={{ fontFamily: SERIF, fontSize: "22px", fontWeight: 600, margin: 0, color: C.primary }}>
-                  {checkoutStep === 1 ? "Your Registration" : checkoutStep === 2 ? "Attendee Details" : "Invoice Sent"}
-                </h2>
-                <button onClick={() => setCartOpen(false)} style={{ background: "transparent", border: "none", color: C.textMuted, cursor: "pointer" }}>
-                  <X size={24} />
-                </button>
-              </div>
-
-              <div style={{ flex: 1, overflowY: "auto", padding: "30px" }}>
-                {checkoutStep === 1 && (
-                  cartItems.length === 0 ? (
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", color: C.textMuted }}>
-                      <Briefcase size={48} style={{ marginBottom: "16px", opacity: 0.5 }} />
-                      <p>No seminars selected.</p>
-                      <Button variant="outline" style={{ marginTop: "20px" }} onClick={() => setCartOpen(false)}>Browse Seminars</Button>
-                    </div>
-                  ) : (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-                      {cartItems.map((item, idx) => (
-                        <div key={idx} style={{ display: "flex", gap: "16px", paddingBottom: "24px", borderBottom: `1px solid ${C.border}` }}>
-                          <img src={item.event.image} alt={item.event.title} style={{ width: "90px", height: "90px", objectFit: "cover", borderRadius: "4px" }} />
-                          <div style={{ flex: 1 }}>
-                            <h4 style={{ margin: "0 0 6px 0", fontSize: "15px", fontFamily: SERIF, fontWeight: 600, color: C.primary }}>{item.event.title}</h4>
-                            <p style={{ margin: "0 0 12px 0", fontSize: "13px", color: C.textMuted }}>{item.type} Access • {item.event.date}</p>
-                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                              <div style={{ display: "flex", alignItems: "center", gap: "12px", border: `1px solid ${C.border}`, padding: "4px 8px", borderRadius: "2px" }}>
-                                <button onClick={() => updateQty(item.event.id, item.type, -1)} style={{ background: "none", border: "none", color: C.text, cursor: "pointer", padding: "0 4px" }}>-</button>
-                                <span style={{ fontSize: "14px", fontWeight: 500 }}>{item.qty}</span>
-                                <button onClick={() => updateQty(item.event.id, item.type, 1)} style={{ background: "none", border: "none", color: C.text, cursor: "pointer", padding: "0 4px" }}>+</button>
-                              </div>
-                              <span style={{ fontWeight: 600, color: C.text }}>${item.price * item.qty}</span>
-                            </div>
-                          </div>
-                          <button onClick={() => removeFromCart(item.event.id, item.type)} style={{ background: "none", border: "none", color: C.textMuted, cursor: "pointer", alignSelf: "flex-start", padding: 0 }}>
-                            <X size={18} />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )
-                )}
-
-                {checkoutStep === 2 && (
-                  <form onSubmit={handleCheckout} style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-                    <div>
-                      <h3 style={{ fontSize: "16px", fontFamily: SANS, fontWeight: 600, margin: "0 0 16px 0", color: C.primary }}>Company Details</h3>
-                      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                        <input type="text" placeholder="Company Name" required style={{ width: "100%", padding: "12px", borderRadius: "2px", border: `1px solid ${C.border}`, backgroundColor: C.bgCard, fontFamily: SANS }} />
-                        <input type="text" placeholder="VAT Number (Optional)" style={{ width: "100%", padding: "12px", borderRadius: "2px", border: `1px solid ${C.border}`, backgroundColor: C.bgCard, fontFamily: SANS }} />
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 style={{ fontSize: "16px", fontFamily: SANS, fontWeight: 600, margin: "0 0 16px 0", color: C.primary }}>Primary Contact</h3>
-                      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                        <div style={{ display: "flex", gap: "16px" }}>
-                          <input type="text" placeholder="First Name" required style={{ flex: 1, padding: "12px", borderRadius: "2px", border: `1px solid ${C.border}`, backgroundColor: C.bgCard, fontFamily: SANS }} />
-                          <input type="text" placeholder="Last Name" required style={{ flex: 1, padding: "12px", borderRadius: "2px", border: `1px solid ${C.border}`, backgroundColor: C.bgCard, fontFamily: SANS }} />
-                        </div>
-                        <input type="email" placeholder="Corporate Email Address" required style={{ width: "100%", padding: "12px", borderRadius: "2px", border: `1px solid ${C.border}`, backgroundColor: C.bgCard, fontFamily: SANS }} />
-                      </div>
-                    </div>
-
-                    <div style={{ backgroundColor: C.bgCard, padding: "16px", borderRadius: "4px", display: "flex", gap: "12px", alignItems: "flex-start" }}>
-                      <FileText size={20} color={C.primary} style={{ flexShrink: 0, marginTop: "2px" }} />
-                      <p style={{ margin: 0, fontSize: "13px", color: C.textMuted, lineHeight: 1.5 }}>
-                        An invoice will be generated and sent to the provided email address upon confirmation. Payment terms are 30 days net.
-                      </p>
-                    </div>
-                  </form>
-                )}
-
-                {checkoutStep === 3 && (
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", textAlign: "center" }}>
-                    <div style={{ width: "80px", height: "80px", borderRadius: "50%", backgroundColor: `${C.success}10`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "24px" }}>
-                      <Check size={40} color={C.success} />
-                    </div>
-                    <h2 style={{ fontFamily: SERIF, fontSize: "24px", color: C.primary, margin: "0 0 16px 0" }}>Registration Successful</h2>
-                    <p style={{ color: C.textMuted, marginBottom: "32px", lineHeight: 1.6 }}>
-                      Thank you for registering. The invoice and attendee access details have been sent to your corporate email.
-                    </p>
-                    <div style={{ backgroundColor: C.bgCard, padding: "20px", borderRadius: "4px", width: "100%" }}>
-                      <p style={{ fontSize: "13px", color: C.textMuted, margin: "0 0 8px 0" }}>Registration ID</p>
-                      <p style={{ fontSize: "18px", fontWeight: 600, color: C.text, margin: 0, fontFamily: SANS }}>B2B-{Math.floor(Math.random() * 100000)}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {checkoutStep < 3 && cartItems.length > 0 && (
-                <div style={{ padding: "30px", borderTop: `1px solid ${C.border}`, backgroundColor: C.bgDeep }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "14px", color: C.textMuted }}>
-                    <span>Subtotal</span>
-                    <span>${cartTotal.toFixed(2)}</span>
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "24px", fontSize: "14px", color: C.textMuted }}>
-                    <span>Tax (VAT 20%)</span>
-                    <span>${(cartTotal * 0.2).toFixed(2)}</span>
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "30px", fontSize: "20px", fontWeight: 600, fontFamily: SERIF }}>
-                    <span>Total</span>
-                    <span style={{ color: C.primary }}>${(cartTotal * 1.2).toFixed(2)}</span>
-                  </div>
-                  
-                  {checkoutStep === 1 ? (
-                    <Button fullWidth size="lg" onClick={() => setCheckoutStep(2)}>Continue to Details</Button>
-                  ) : (
-                    <Button fullWidth size="lg" onClick={handleCheckout}>Confirm Registration</Button>
-                  )}
-                </div>
-              )}
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
-      {/* HERO SECTION */}
-      <section id="corporate" style={{
-        position: "relative",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        padding: "120px 4% 80px",
-        backgroundColor: C.primary,
-        overflow: "hidden"
-      }}>
-        {/* Abstract shapes / Image background */}
-        <div style={{
-          position: "absolute", right: 0, top: 0, bottom: 0, width: "60%",
-          backgroundImage: `url(${PHOTOS.hero})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: 0.3,
-          clipPath: "polygon(20% 0, 100% 0, 100% 100%, 0% 100%)"
-        }} />
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(90deg, ${C.primaryDark} 40%, transparent 100%)`, zIndex: 1 }} />
-
-        <div style={{ position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", width: "100%" }}>
-          <div style={{ maxWidth: "700px" }}>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-              style={{  fontFamily: SERIF, fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 500, lineHeight: 1.1, margin: "0 0 24px 0", color: C.white }}
-            >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
-              Elevate Your Corporate Strategy
-            </>)}</motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.4 }}
-              style={{ fontSize: "clamp(16px, 2vw, 20px)", color: "rgba(255,255,255,0.8)", margin: "0 0 40px 0", lineHeight: 1.6, fontWeight: 300 }}
-            >
-              {c?.heroText || "Join industry leaders in exclusive seminars designed for executives and visionaries. Equip your team with the knowledge to drive innovation and growth."}
-            </motion.p>
-
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }} style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-              <Button size="lg" variant="accent" onClick={() => { document.getElementById("seminars").scrollIntoView({ behavior: "smooth" }); }}>
-                View Upcoming Seminars
-              </Button>
-              <Button variant="outline" size="lg" style={{ color: C.white, borderColor: "rgba(255,255,255,0.3)" }}>
-                Corporate Solutions
-              </Button>
-            </motion.div>
+      {/* ── HÉROS H7 magazine — méta-rangée, titre serif géant, bandeau bas ─ */}
+      <header style={{ position: "relative", padding: "clamp(28px,4vw,56px) clamp(20px,4.5vw,56px) 0", maxWidth: 1280, margin: "0 auto" }}>
+        {/* Méta-rangée filée */}
+        <motion.div
+          className="i325-meta"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.85, ease: EASE, delay: 0.05 }}
+          style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0,1fr))", borderTop: `1px solid ${C.ink}`, borderBottom: `1px solid ${C.border}` }}
+        >
+          <div style={{ padding: "14px clamp(2px,1vw,14px) 14px 0", borderRight: `1px solid ${C.border}`, fontFamily: SANS, fontSize: 11, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textMuted }}>
+            {clientEyebrow(sessionData) ?? `Executive seminars · ${ville}`}
           </div>
-        </div>
-      </section>
+          <div style={{ padding: "14px clamp(10px,1.4vw,18px)", borderRight: `1px solid ${C.border}`, fontFamily: SANS, fontSize: 11, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textMuted }}>
+            Season 2026 · N° IV
+          </div>
+          <div style={{ padding: "14px 0 14px clamp(10px,1.4vw,18px)", fontFamily: SANS, fontSize: 11, letterSpacing: "0.26em", textTransform: "uppercase", color: C.gold }}>
+            Masterclasses &amp; corporate programs
+          </div>
+        </motion.div>
 
-      {/* STATS STRIP */}
-      <section style={{ backgroundColor: C.white, borderBottom: `1px solid ${C.border}`, padding: "40px 4%" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "30px", textAlign: "center" }}>
-           {[
-             { label: "Industry Leaders", value: "50+", icon: <User size={24}/> },
-             { label: "Corporate Partners", value: "200+", icon: <Building size={24}/> },
-             { label: "Global Locations", value: "12", icon: <MapPin size={24}/> },
-             { label: "Satisfaction Rate", value: "98%", icon: <Award size={24}/> },
-           ].map((stat, i) => (
-             <Reveal key={i} delay={i * 0.1}>
-               <div style={{ color: C.primary, marginBottom: "12px", display: "flex", justifyContent: "center" }}>{stat.icon}</div>
-               <div style={{ fontFamily: SERIF, fontSize: "32px", fontWeight: 600, color: C.text, marginBottom: "4px" }}>{stat.value}</div>
-               <div style={{ color: C.textMuted, fontSize: "13px", textTransform: "uppercase", letterSpacing: "0.5px" }}>{stat.label}</div>
-             </Reveal>
-           ))}
-        </div>
-      </section>
-
-      {/* SEMINARS CATALOG */}
-      <section id="seminars" style={{ padding: "100px 4%", backgroundColor: C.bg }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", marginBottom: "60px" }}>
-              <Eyebrow text="Curriculum" />
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 600, margin: "0", color: C.text }}>{/* TEXTE_SECTION */ clientText(sessionData, "seminars.titre") ?? (<>
-                Upcoming Masterclasses
-              </>)}</h2>
+        {/* Titre serif géant */}
+        <div style={{ position: "relative", padding: "clamp(40px,6vw,84px) 0 clamp(30px,4.4vw,58px)" }}>
+          <span aria-hidden style={{ position: "absolute", top: "6%", right: "-2%", fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(120px,20vw,300px)", lineHeight: 1, color: "rgba(30,58,138,0.05)", pointerEvents: "none", userSelect: "none" }}>
+            26
+          </span>
+          <motion.h1
+            initial={{ opacity: 0, y: 34 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.15, ease: EASE, delay: 0.18 }}
+            style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(2.7rem,7vw,6.6rem)", lineHeight: 0.99, letterSpacing: "-0.015em", color: C.ink, margin: 0, maxWidth: 980, position: "relative" }}
+          >
+            {heroLigne1 ?? (<>Elevate your</>)}
+            <span style={{ display: "block" }}>
+              {heroLigne2 ?? (<><em style={{ fontStyle: "italic", color: C.accent }}>corporate</em> strategy.</>)}
+            </span>
+          </motion.h1>
+          <motion.div
+            className="i325-herofoot"
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: EASE, delay: 0.4 }}
+            style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 30, marginTop: "clamp(24px,3.4vw,44px)", flexWrap: "wrap" }}
+          >
+            <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15px,1.5vw,18px)", color: C.textMuted, maxWidth: 520, lineHeight: 1.75, margin: 0 }}>
+              {clientHeroSubtitle(sessionData) ?? c?.heroText ?? "Join industry leaders in exclusive seminars designed for executives and visionaries. Equip your team with the knowledge to drive innovation and growth."}
+            </p>
+            <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+              <HeroCta href="#seminars" filled>
+                View the calendar
+              </HeroCta>
+              <HeroCta href="#corporate">Corporate solutions</HeroCta>
             </div>
+          </motion.div>
+        </div>
+
+        {/* Bandeau média bas — le cadre s'ouvre (ExpandFrame) */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, ease: EASE, delay: 0.55 }}>
+          <div style={{ position: "relative", background: C.bgDark, overflow: "hidden" }}>
+            <ExpandFrame
+              src={BAND[bandIdx % BAND.length]}
+              alt={`${businessName} — ${bandSem?.title ?? "seminar"}`}
+              index={bandIdx}
+              radius={0}
+              className=""
+            />
+            {/* L'ExpandFrame est absolu : cette boîte donne la hauteur du bandeau. */}
+            <div aria-hidden style={{ aspectRatio: "21/9", minHeight: 260 }} />
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,17,36,0.55), transparent 45%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", left: "clamp(16px,2.4vw,32px)", bottom: "clamp(14px,2vw,26px)", color: C.white, maxWidth: "80%" }}>
+              <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.32em", textTransform: "uppercase", color: "rgba(255,255,255,0.75)", marginBottom: 8 }}>{bandSem?.category}</div>
+              <div style={{ fontFamily: SERIF, fontSize: "clamp(18px,2.2vw,28px)", fontWeight: 500, lineHeight: 1.15 }}>{bandSem?.title}</div>
+              <div style={{ fontFamily: SANS, fontSize: 12.5, color: "rgba(255,255,255,0.75)", marginTop: 7 }}>
+                {bandSem?.dateLabel} · {bandSem?.venue}
+              </div>
+            </div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, borderBottom: `1px solid ${C.border}`, padding: "12px 2px 14px", flexWrap: "wrap" }}>
+            <SlideIndex i={bandIdx} total={BAND.length} variant="flat" color={C.textFaint} className="" />
+            <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint }}>The frame opens on the next session</span>
+            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" labels={{ prev: "Previous session", next: "Next session" }} />
+          </div>
+        </motion.div>
+
+        {/* Chiffres — rail fileté sous le bandeau */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(160px,100%),1fr))", gap: 0, padding: "clamp(8px,1vw,14px) 0 clamp(30px,4vw,54px)" }}>
+          {STATS.map((s, idx) => (
+            <Reveal key={`${s.l}-${idx}`} delay={idx * 0.08}>
+              <div style={{ padding: "clamp(16px,2vw,26px) clamp(4px,1vw,18px) 0", borderLeft: idx > 0 ? `1px solid ${C.border}` : "none" }}>
+                <div style={{ fontFamily: SERIF, fontSize: "clamp(26px,3vw,40px)", fontWeight: 500, color: C.accent, lineHeight: 1 }}>{s.v}</div>
+                <div style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: C.textFaint, marginTop: 9 }}>{s.l}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </header>
+
+      {/* ── RESPIRATION ──────────────────────────────────────────────────── */}
+      <section style={{ background: C.bgAlt, padding: "clamp(72px,10vw,140px) clamp(24px,7vw,120px)", textAlign: "center" }}>
+        <Reveal>
+          <p style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 400, fontSize: "clamp(22px,3vw,42px)", lineHeight: 1.42, color: C.ink, maxWidth: 900, margin: "0 auto" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.texte") ?? (<>Actionable insights and strategic frameworks — taught by the people who wrote them.</>)}
+          </p>
+        </Reveal>
+        <Reveal delay={0.14}>
+          <div aria-hidden style={{ width: 1, height: "clamp(48px,6vw,80px)", background: `linear-gradient(${C.gold}, transparent)`, margin: "clamp(28px,3.6vw,46px) auto 0" }} />
+        </Reveal>
+      </section>
+
+      {/* ── CALENDRIER — dossiers de séminaires en rangées magazine ──────── */}
+      <section id="seminars" style={{ background: C.bg, padding: "clamp(80px,10vw,140px) clamp(20px,4.5vw,56px)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <Reveal>
+            <Kicker>Curriculum</Kicker>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px,4.4vw,58px)", fontWeight: 500, lineHeight: 1.05, letterSpacing: "-0.01em", color: C.ink, margin: "clamp(14px,2vw,22px) 0 clamp(30px,4.4vw,58px)", maxWidth: 760 }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "seminars.titre") ?? (<>Upcoming <em style={{ fontStyle: "italic", color: C.accent }}>masterclasses.</em></>)}
+            </h2>
           </Reveal>
 
-          {/* Filters */}
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", marginBottom: "40px", gap: "20px" }}>
-            <div style={{ display: "flex", gap: "12px", overflowX: "auto", paddingBottom: "8px", flex: 1, scrollbarWidth: "none" }}>
-              {categories.map(cat => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  style={{
-                    padding: "8px 20px", borderRadius: "20px", border: `1px solid ${activeCategory === cat ? C.primary : C.border}`,
-                    backgroundColor: activeCategory === cat ? C.primary : C.white, color: activeCategory === cat ? C.white : C.textMuted,
-                    fontFamily: SANS, fontWeight: 500, fontSize: "14px", cursor: "pointer", transition: "all 0.3s ease", whiteSpace: "nowrap"
-                  }}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* List/Grid View */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-            {filteredEvents.map((event, idx) => (
-              <Reveal key={event.id} delay={idx * 0.1}>
-                <div style={{ 
-                  backgroundColor: C.white, borderRadius: "4px", overflow: "hidden", border: `1px solid ${C.border}`, 
-                  display: "flex", flexDirection: "row", flexWrap: "wrap", transition: "box-shadow 0.3s ease",
-                  ':hover': { boxShadow: "0 10px 30px rgba(0,0,0,0.05)" }
-                }} className="seminar-card">
-                  <div style={{ width: "100%", maxWidth: "300px", minHeight: "200px", position: "relative" }}>
-                    <img src={event.image} alt={event.title} style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", inset: 0 }} />
-                    <div style={{ position: "absolute", top: "16px", left: "16px", backgroundColor: C.white, padding: "4px 12px", borderRadius: "2px", fontSize: "12px", fontWeight: 600, color: C.primary }}>
-                      {event.category}
-                    </div>
-                  </div>
-                  
-                  <div style={{ padding: "30px", flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", minWidth: "300px" }}>
-                    <div>
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
-                        <h3 style={{ fontFamily: SERIF, fontSize: "22px", fontWeight: 600, margin: 0, color: C.text }}>{event.title}</h3>
-                        <span style={{ fontSize: "20px", fontWeight: 700, color: C.primary }}>${event.price}</span>
-                      </div>
-                      <p style={{ fontSize: "15px", color: C.textMuted, marginBottom: "20px" }}>Led by <span style={{ fontWeight: 600, color: C.text }}>{event.speaker}</span></p>
-                      
-                      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", marginBottom: "24px" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: C.textMuted }}>
-                          <Calendar size={16} color={C.primary} /> <span>{event.date}</span>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: C.textMuted }}>
-                          <Clock size={16} color={C.primary} /> <span>{event.time}</span>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: C.textMuted }}>
-                          <MapPin size={16} color={C.primary} /> <span>{event.venue}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div style={{ display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
-                      <Button onClick={() => addToCart(event)}>Register Now</Button>
-                      <select 
-                        onChange={(e) => addToCart(event, 1, e.target.value)}
-                        style={{ padding: "10px 16px", borderRadius: "2px", border: `1px solid ${C.border}`, fontFamily: SANS, fontSize: "14px", backgroundColor: C.bg, cursor: "pointer", outline: "none" }}
-                        defaultValue=""
-                      >
-                        <option value="" disabled>Other Ticket Types...</option>
-                        <option value="Early Bird">Early Bird (-20%)</option>
-                        <option value="Executive">Executive (+50%)</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
+          <div style={{ borderTop: `1px solid ${C.ink}` }}>
+            {SEMINARS.map((s, idx) => (
+              <SeminarFeature key={`${s.id}-${idx}`} s={s} idx={idx} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* WHY US / CORPORATE SOLUTIONS */}
-      <section style={{ padding: "100px 4%", backgroundColor: C.white, borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(400px, 100%), 1fr))", gap: "60px", alignItems: "center" }}>
+      {/* ── TARIFS — table à lignes fines ────────────────────────────────── */}
+      <section id="fees" style={{ background: C.bgCard, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "clamp(80px,10vw,140px) clamp(20px,4.5vw,56px)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <Reveal>
-            <Eyebrow text="For Enterprises" />
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 600, margin: "0 0 24px 0", color: C.text }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
-              Transform your leadership team
-            </>)}</h2>
-            <p style={{ color: C.textMuted, fontSize: "16px", lineHeight: 1.7, marginBottom: "32px" }}>
-              Our executive masterclasses are designed to provide actionable insights and strategic frameworks. We offer comprehensive corporate packages including private workshops, dedicated account management, and centralized invoicing.
-            </p>
-            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 40px 0", display: "flex", flexDirection: "column", gap: "16px" }}>
-              {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
-                "Customized curriculum alignment",
-                "Volume licensing and group discounts",
-                "Post-seminar implementation support",
-                "Priority access to global industry experts"
-              ]).map((item, i) => (
-                <li key={i} style={{ display: "flex", alignItems: "center", gap: "12px", color: C.text, fontSize: "15px" }}>
-                  <Check size={18} color={C.primary} /> {item}
-                </li>
-              ))}
-            </ul>
-            <Button variant="outline">Request Corporate Brochure</Button>
+            <Kicker>Registration fees</Kicker>
           </Reveal>
-          
-          <Reveal delay={0.2} style={{ position: "relative" }}>
-            <div style={{ position: "absolute", top: "-20px", left: "-20px", width: "100%", height: "100%", border: `2px solid ${C.accent}`, zIndex: 0 }} />
-            <img src={PHOTOS.about} alt="Corporate Seminar" style={{ width: "100%", position: "relative", zIndex: 1, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }} />
+          <div className="i325-split" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.2fr) minmax(0,0.8fr)", gap: "clamp(20px,3vw,44px)", alignItems: "end", margin: "clamp(14px,2vw,22px) 0 clamp(30px,4vw,50px)" }}>
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px,4vw,52px)", fontWeight: 500, lineHeight: 1.06, letterSpacing: "-0.01em", color: C.ink, margin: 0 }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>One page, <em style={{ fontStyle: "italic", color: C.accent }}>three seats.</em></>)}
+            </h2>
+            <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.75, margin: 0 }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.texte") ?? (<>Early Bird closes thirty days before each session. Executive access includes priority seating and the private lunch. Prices before VAT (20 %).</>)}
+            </p>
+          </div>
+
+          <Reveal delay={0.1}>
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", minWidth: 640, borderCollapse: "collapse", fontFamily: SANS }}>
+                <thead>
+                  <tr>
+                    {["Seminar", "Early Bird — 20 %", "Standard", "Executive + 50 %"].map((h, j) => (
+                      <th key={h} style={{ textAlign: j === 0 ? "left" : "right", fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.28em", textTransform: "uppercase", fontWeight: 500, color: C.textFaint, padding: "0 clamp(8px,1.4vw,18px) 14px", borderBottom: `1px solid ${C.ink}` }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {TARIFS.map((t, idx) => (
+                    <TarifRow key={`${t.k}-${idx}`} t={t} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.16}>
+            <div style={{ display: "flex", gap: 14, alignItems: "flex-start", background: C.bg, border: `1px solid ${C.border}`, padding: "clamp(16px,2vw,24px)", marginTop: "clamp(26px,3.4vw,40px)" }}>
+              <FileText size={19} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
+              <p style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.7, margin: 0 }}>
+                An invoice will be generated and sent to the provided email address upon confirmation. Payment terms are 30 days net. Volume licensing and centralized invoicing available for corporate accounts.
+              </p>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ backgroundColor: C.text, color: C.white, padding: "80px 4% 40px" }}>
-        {/* auto-fit resolves to a single column on a phone, and the brand
-            cell's "span 2" then conjures an implicit second one — 435px of
-            track inside a 359px footer, so the link columns ran off-screen */}
-        <style>{`@media (max-width: 768px) { .i325-foot-brand { grid-column: auto !important; } }`}</style>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "40px", marginBottom: "60px" }}>
-            <div className="i325-foot-brand" style={{ gridColumn: "span 2" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
-                <Building color={C.accent} size={28} />
-                <h2 style={{ fontFamily: SERIF, fontSize: "22px", fontWeight: 700, margin: 0, color: C.white }}>
-                  {businessName}
-                </h2>
+      {/* ── ENTREPRISES — volet corporate, cadre doré décalé ─────────────── */}
+      <section id="corporate" style={{ background: C.bg, padding: "clamp(80px,10vw,140px) clamp(20px,4.5vw,56px)" }}>
+        <div className="i325-split" style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: "clamp(36px,5.5vw,84px)", alignItems: "center" }}>
+          <Reveal>
+            <div>
+              <Kicker>For enterprises</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px,3.8vw,48px)", fontWeight: 500, lineHeight: 1.08, letterSpacing: "-0.01em", color: C.ink, margin: "clamp(14px,2vw,20px) 0 clamp(16px,2vw,24px)" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Transform your <em style={{ fontStyle: "italic", color: C.accent }}>leadership</em> team.</>)}
+              </h2>
+              <p style={{ fontFamily: SANS, fontSize: 15, color: C.textMuted, lineHeight: 1.8, maxWidth: 500, margin: "0 0 clamp(24px,3vw,36px)" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "corporate.texte") ?? (<>Our executive masterclasses are designed to provide actionable insights and strategic frameworks. We offer comprehensive corporate packages including private workshops, dedicated account management, and centralized invoicing.</>)}
+              </p>
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 clamp(26px,3.4vw,40px)", display: "flex", flexDirection: "column", gap: 13 }}>
+                {/* LISTE_LIBELLES */ BULLETS.map((b, idx) => (
+                  <li key={idx} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                    <Check size={16} color={C.accent} style={{ flexShrink: 0, marginTop: 3 }} />
+                    <span style={{ fontFamily: SANS, fontSize: 14.5, color: C.ink, lineHeight: 1.6 }}>{b}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href={`mailto:${mail}`} style={{ display: "inline-flex", alignItems: "center", gap: 10, border: `1px solid ${C.accent}`, color: C.accent, padding: "14px 28px", fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", textDecoration: "none" }}>
+                Request corporate brochure <ArrowUpRight size={15} />
+              </a>
+            </div>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <div style={{ position: "relative", padding: "clamp(14px,1.8vw,22px) clamp(14px,1.8vw,22px) 0 0" }}>
+              <div aria-hidden style={{ position: "absolute", top: 0, right: 0, width: "88%", height: "92%", border: `1px solid ${C.gold}` }} />
+              <div style={{ position: "relative", background: C.bgDark, overflow: "hidden" }}>
+                {photo(1, FALLBACK_PHOTOS[1]) ? (
+                  <img src={photo(1, FALLBACK_PHOTOS[1])} alt={`Corporate seminar — ${businessName}`} loading="lazy" style={{ width: "100%", height: "auto", aspectRatio: "4/3", objectFit: "cover", display: "block" }} />
+                ) : (
+                  <div aria-hidden style={{ aspectRatio: "4/3", background: `linear-gradient(150deg, ${C.bgDark}, ${C.bgDarkAlt})` }} />
+                )}
+                <div aria-hidden style={{ position: "absolute", left: 0, bottom: 0, width: "100%", height: 3, background: `linear-gradient(90deg, ${C.gold}, transparent)` }} />
               </div>
-              <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "14px", lineHeight: 1.6, maxWidth: "400px", marginBottom: "24px" }}>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── RÉFÉRENCES — intervenants en grille 56px / 1fr ───────────────── */}
+      <section id="speakers" style={{ background: C.bgDark, padding: "clamp(80px,10vw,140px) clamp(20px,4.5vw,56px)", position: "relative", overflow: "hidden" }}>
+        <span aria-hidden style={{ position: "absolute", top: "-6%", right: "-2%", fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(140px,24vw,340px)", lineHeight: 1, color: "rgba(255,255,255,0.03)", pointerEvents: "none", userSelect: "none" }}>
+          &amp;
+        </span>
+        <div style={{ maxWidth: 900, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <Kicker color={C.gold}>References</Kicker>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px,4vw,52px)", fontWeight: 500, lineHeight: 1.06, letterSpacing: "-0.01em", color: C.white, margin: "clamp(14px,2vw,22px) 0 clamp(30px,4vw,52px)", maxWidth: 640 }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "references.titre") ?? (<>Led by the <em style={{ fontStyle: "italic", color: C.gold }}>industry.</em></>)}
+            </h2>
+          </Reveal>
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.14)" }}>
+            {REFS.map((r, idx) => (
+              <RefRow key={`${r.name}-${idx}`} r={r} idx={idx} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CONTACT ──────────────────────────────────────────────────────── */}
+      <section id="contact" style={{ background: C.bg, padding: "clamp(80px,10vw,140px) clamp(20px,4.5vw,56px)" }}>
+        <div className="i325-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1.05fr) minmax(0,0.95fr)", gap: "clamp(36px,5vw,72px)", alignItems: "start" }}>
+          <div>
+            <Reveal>
+              <Kicker>Contact</Kicker>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px,4vw,52px)", fontWeight: 500, lineHeight: 1.06, letterSpacing: "-0.01em", color: C.ink, margin: "clamp(14px,2vw,22px) 0 clamp(16px,2.2vw,26px)" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Reserve the <em style={{ fontStyle: "italic", color: C.accent }}>next seat.</em></>)}
+              </h2>
+              <p style={{ fontFamily: SANS, fontSize: 15, color: C.textMuted, lineHeight: 1.8, maxWidth: 460, margin: "0 0 clamp(26px,3.4vw,40px)" }}>
+                Registrations are confirmed by email with the invoice and attendee access details. Group registrations and private workshops are quoted within one working day.
+              </p>
+            </Reveal>
+            <Reveal delay={0.14}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
+                <a href={`mailto:${mail}`} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.white, padding: "16px 32px", fontFamily: SANS, fontSize: 12.5, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none" }}>
+                  <Mail size={16} /> Write to us
+                </a>
+                {phone && (
+                  <a href={`tel:${phone}`} style={{ display: "inline-flex", alignItems: "center", gap: 10, border: `1px solid ${C.border}`, color: C.ink, padding: "15px 30px", fontFamily: SANS, fontSize: 12.5, fontWeight: 600, letterSpacing: "0.1em", textDecoration: "none" }}>
+                    <Phone size={16} /> {phone}
+                  </a>
+                )}
+              </div>
+            </Reveal>
+          </div>
+          <Reveal delay={0.12}>
+            <div style={{ borderLeft: `1px solid ${C.border}`, paddingLeft: "clamp(20px,2.6vw,36px)", display: "flex", flexDirection: "column", gap: 20 }}>
+              {[
+                { icon: <Mail size={15} color={C.accent} />, t: "Email", d: mail },
+                { icon: <MapPin size={15} color={C.accent} />, t: "Address", d: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "75000", "Paris") },
+                { icon: <Calendar size={15} color={C.accent} />, t: "Season", d: "September — October 2026, four sessions" },
+                { icon: <Clock size={15} color={C.accent} />, t: "Invoicing", d: "Invoice on confirmation · payment terms 30 days net" },
+              ].map((l) => (
+                <div key={l.t} style={{ display: "flex", gap: 13, alignItems: "flex-start" }}>
+                  <span style={{ marginTop: 3 }}>{l.icon}</span>
+                  <div>
+                    <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textFaint, marginBottom: 5 }}>{l.t}</div>
+                    <div style={{ fontFamily: SANS, fontSize: 14.5, color: C.ink, lineHeight: 1.6, overflowWrap: "anywhere" }}>{l.d}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── FOOTER ───────────────────────────────────────────────────────── */}
+      <footer style={{ background: C.bgDarkAlt, padding: "clamp(48px,6vw,84px) clamp(20px,4.5vw,56px) 26px" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(230px,100%),1fr))", gap: "clamp(26px,3.5vw,48px)", marginBottom: "clamp(30px,4vw,52px)" }}>
+            <div>
+              <div style={{ fontFamily: SERIF, fontSize: 20, fontWeight: 500, color: C.white, marginBottom: 14 }}>{businessName}</div>
+              <p style={{ fontFamily: SANS, fontSize: 13.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.75, maxWidth: 340, margin: 0 }}>
                 Empowering leaders and organizations through world-class seminars, strategic insights, and global networking opportunities.
               </p>
-              <div style={{ display: "flex", gap: "16px" }}>
-                <a href="#" style={{ color: "rgba(255,255,255,0.6)", transition: "color 0.2s" }}><Linkedin size={20} /></a>
-                <a href="#" style={{ color: "rgba(255,255,255,0.6)", transition: "color 0.2s" }}><Twitter size={20} /></a>
-              </div>
             </div>
-            
             <div>
-              <h4 style={{ fontFamily: SANS, fontSize: "14px", fontWeight: 600, color: C.white, marginBottom: "24px", textTransform: "uppercase", letterSpacing: "1px" }}>Programs</h4>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
-                <li><a href="#" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none", fontSize: "14px" }}>Executive Leadership</a></li>
-                <li><a href="#" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none", fontSize: "14px" }}>Financial Strategy</a></li>
-                <li><a href="#" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none", fontSize: "14px" }}>Tech & Innovation</a></li>
-                <li><a href="#" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none", fontSize: "14px" }}>Corporate Custom</a></li>
+              <h4 style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 500, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", margin: "0 0 18px" }}>Programs</h4>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 11 }}>
+                {PROGRAMS.map((p) => (
+                  <li key={p}>
+                    <a href="#seminars" style={{ color: "rgba(255,255,255,0.62)", textDecoration: "none", fontFamily: SANS, fontSize: 13.5 }}>{p}</a>
+                  </li>
+                ))}
               </ul>
             </div>
-
             <div>
-              <h4 style={{ fontFamily: SANS, fontSize: "14px", fontWeight: 600, color: C.white, marginBottom: "24px", textTransform: "uppercase", letterSpacing: "1px" }}>Contact</h4>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
-                <li style={{ display: "flex", alignItems: "center", gap: "8px", color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>
-                  <Mail size={16} /> {contactEmail}
+              <h4 style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 500, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", margin: "0 0 18px" }}>Contact</h4>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 11 }}>
+                <li style={{ display: "flex", alignItems: "center", gap: 9, color: "rgba(255,255,255,0.62)", fontFamily: SANS, fontSize: 13.5, overflowWrap: "anywhere" }}>
+                  <Mail size={14} color={C.gold} /> {mail}
                 </li>
-                <li style={{ display: "flex", alignItems: "flex-start", gap: "8px", color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>
-                  <MapPin size={16} style={{ marginTop: "2px" }} /> 100 Corporate Blvd, Business District
+                {phone && (
+                  <li style={{ display: "flex", alignItems: "center", gap: 9, color: "rgba(255,255,255,0.62)", fontFamily: SANS, fontSize: 13.5 }}>
+                    <Phone size={14} color={C.gold} /> {phone}
+                  </li>
+                )}
+                <li style={{ display: "flex", alignItems: "flex-start", gap: 9, color: "rgba(255,255,255,0.62)", fontFamily: SANS, fontSize: 13.5 }}>
+                  <MapPin size={14} color={C.gold} style={{ marginTop: 3, flexShrink: 0 }} /> {clientCodePostalVille(sessionData, "75000", "Paris")}
                 </li>
               </ul>
             </div>
           </div>
-          
-          <div style={{ borderTop: `1px solid rgba(255,255,255,0.1)`, paddingTop: "24px", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "16px" }}>
-            <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "13px", margin: 0 }}>&copy; 2026 {businessName}. All rights reserved.</p>
-            <div style={{ display: "flex", gap: "24px" }}>
-              <a href="#" style={{ color: "rgba(255,255,255,0.4)", textDecoration: "none", fontSize: "13px" }}>Privacy Policy</a>
-              <a href="#" style={{ color: "rgba(255,255,255,0.4)", textDecoration: "none", fontSize: "13px" }}>Terms of Service</a>
-            </div>
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: 20, display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 10 }}>
+            <span style={{ fontFamily: SANS, fontSize: 12, color: "rgba(255,255,255,0.4)" }}>
+              © 2026 {businessName}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""} — all rights reserved.
+            </span>
+            <span style={{ fontFamily: SANS, fontSize: 12, color: "rgba(255,255,255,0.4)" }}>
+              Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" /> · hébergement Vercel Inc.
+            </span>
           </div>
         </div>
       </footer>
-      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-325"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
-      </footer>
+    </div>
+  );
+}
+
+/* Bouton de héros — flèche qui avance, élévation, deux ombres. */
+function HeroCta({ children, href, filled = false }: { children: React.ReactNode; href: string; filled?: boolean }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "15px 28px",
+        fontFamily: SANS,
+        fontSize: 12,
+        letterSpacing: "0.18em",
+        textTransform: "uppercase",
+        fontWeight: 600,
+        border: `1px solid ${filled ? C.accent : C.border}`,
+        background: filled ? (hov ? C.accentDark : C.accent) : hov ? C.accentLight : "transparent",
+        color: filled ? C.white : C.ink,
+        textDecoration: "none",
+        transform: hov ? "translateY(-2px)" : "none",
+        boxShadow: hov ? "0 16px 34px -18px rgba(30,58,138,0.5), 0 4px 12px -8px rgba(22,26,36,0.25)" : "none",
+        transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+      }}
+    >
+      {children}
+      <ArrowRight size={14} style={{ transform: hov ? "translateX(4px)" : "none", transition: "transform 0.5s cubic-bezier(.16,1,.3,1)" }} />
+    </a>
+  );
+}
+
+/* Dossier de séminaire — rangée magazine alternée, numéro romain fantôme. */
+function SeminarFeature({ s, idx }: { s: any; idx: number }) {
+  const [hov, setHov] = useState(false);
+  const reverse = idx % 2 === 1;
+  const img = s.img || photo(s.pi, FALLBACK_PHOTOS[s.pi]);
+  return (
+    <Reveal delay={Math.min(idx * 0.05, 0.2)}>
+      <article
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => setHov(false)}
+        className="i325-feat"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "minmax(0,0.85fr) minmax(0,1.15fr)",
+          gap: "clamp(22px,3.4vw,54px)",
+          alignItems: "center",
+          padding: "clamp(28px,4vw,52px) 0",
+          borderBottom: `1px solid ${C.border}`,
+          position: "relative",
+        }}
+      >
+        <span aria-hidden style={{ position: "absolute", top: "clamp(16px,2.4vw,30px)", right: 0, fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(52px,7vw,104px)", lineHeight: 1, color: "rgba(30,58,138,0.07)", pointerEvents: "none", userSelect: "none" }}>
+          {s.num}
+        </span>
+        <div style={{ order: reverse ? 2 : 1, position: "relative", background: C.bgDark, overflow: "hidden" }}>
+          {img ? (
+            <img
+              src={img}
+              alt={s.title}
+              loading="lazy"
+              style={{ width: "100%", height: "auto", aspectRatio: "3/2", objectFit: "cover", display: "block", transform: hov ? "scale(1.05)" : "scale(1)", transition: "transform 0.7s cubic-bezier(.16,1,.3,1)" }}
+            />
+          ) : (
+            <div aria-hidden style={{ aspectRatio: "3/2", background: `linear-gradient(150deg, ${C.bgDark}, ${C.bgDarkAlt})` }} />
+          )}
+          <span aria-hidden style={{ position: "absolute", left: 0, bottom: 0, height: 2, width: hov ? "100%" : "0%", background: C.gold, transition: "width 0.7s cubic-bezier(.16,1,.3,1)" }} />
+        </div>
+        <div style={{ order: reverse ? 1 : 2, minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginBottom: 12 }}>
+            <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.3em", textTransform: "uppercase", color: C.gold, fontWeight: 500 }}>{s.category}</span>
+            <span aria-hidden style={{ width: 26, height: 1, background: C.border }} />
+            <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: C.textFaint }}>{s.level}</span>
+          </div>
+          <h3 style={{ fontFamily: SERIF, fontSize: "clamp(22px,2.8vw,36px)", fontWeight: 500, lineHeight: 1.14, letterSpacing: "-0.01em", color: hov ? C.accent : C.ink, margin: "0 0 12px", transition: "color 0.5s cubic-bezier(.16,1,.3,1)" }}>{s.title}</h3>
+          <p style={{ fontFamily: SANS, fontSize: 14.5, color: C.textMuted, lineHeight: 1.7, margin: "0 0 16px" }}>
+            Led by <span style={{ color: C.ink, fontWeight: 500 }}>{s.speaker}</span>
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(12px,1.8vw,26px)", marginBottom: 20 }}>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: SANS, fontSize: 13, color: C.textMuted }}>
+              <Calendar size={14} color={C.accent} /> {s.dateLabel}
+            </span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: SANS, fontSize: 13, color: C.textMuted }}>
+              <Clock size={14} color={C.accent} /> {s.time}
+            </span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: SANS, fontSize: 13, color: C.textMuted }}>
+              <MapPin size={14} color={C.accent} /> {s.venue}
+            </span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+            <a
+              href="#fees"
+              style={{ display: "inline-flex", alignItems: "center", gap: 9, fontFamily: SANS, fontSize: 11.5, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: hov ? C.accent : C.textMuted, textDecoration: "none", padding: "12px 2px", transition: "color 0.45s cubic-bezier(.16,1,.3,1)" }}
+            >
+              See the fees
+              <ArrowRight size={14} style={{ transform: hov ? "translateX(5px)" : "none", transition: "transform 0.5s cubic-bezier(.16,1,.3,1)" }} />
+            </a>
+            <span style={{ fontFamily: SERIF, fontSize: "clamp(17px,1.8vw,22px)", fontWeight: 500, color: C.ink }}>${s.price}</span>
+          </div>
+        </div>
+      </article>
+    </Reveal>
+  );
+}
+
+/* Ligne de la table des droits — filet fin, survol discret. */
+function TarifRow({ t }: { t: any }) {
+  const [hov, setHov] = useState(false);
+  const cell: React.CSSProperties = { padding: "clamp(16px,2vw,24px) clamp(8px,1.4vw,18px)", borderBottom: `1px solid ${C.border}`, verticalAlign: "top" };
+  return (
+    <tr onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={{ background: hov ? C.bg : "transparent", transition: "background 0.45s cubic-bezier(.16,1,.3,1)" }}>
+      <td style={{ ...cell, textAlign: "left" }}>
+        <div style={{ fontFamily: SERIF, fontSize: "clamp(16px,1.7vw,20px)", fontWeight: 500, color: hov ? C.accent : C.ink, lineHeight: 1.25, transition: "color 0.45s cubic-bezier(.16,1,.3,1)" }}>{t.k}</div>
+        <div style={{ fontFamily: SANS, fontSize: 12.5, color: C.textFaint, marginTop: 6, lineHeight: 1.55 }}>{t.n}</div>
+      </td>
+      <td style={{ ...cell, textAlign: "right", fontFamily: SANS, fontSize: 14.5, color: C.textMuted, whiteSpace: "nowrap" }}>{t.eb}</td>
+      <td style={{ ...cell, textAlign: "right", fontFamily: SERIF, fontSize: "clamp(16px,1.7vw,20px)", fontWeight: 500, color: C.ink, whiteSpace: "nowrap" }}>{t.std}</td>
+      <td style={{ ...cell, textAlign: "right", fontFamily: SANS, fontSize: 14.5, color: C.gold, whiteSpace: "nowrap" }}>{t.ex}</td>
+    </tr>
+  );
+}
+
+/* Référence — rangée 56px / 1fr : portrait ou folio, puis le dossier. */
+function RefRow({ r, idx }: { r: any; idx: number }) {
+  const [hov, setHov] = useState(false);
+  const img = r.img || (r.pi >= 0 ? photo(r.pi, FALLBACK_PHOTOS[r.pi]) : "");
+  return (
+    <div
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      className="i325-ref"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "56px minmax(0,1fr)",
+        gap: "clamp(16px,2.2vw,30px)",
+        alignItems: "center",
+        padding: "clamp(18px,2.4vw,28px) 0",
+        borderBottom: "1px solid rgba(255,255,255,0.12)",
+        paddingLeft: hov ? 10 : 0,
+        transition: "padding-left 0.5s cubic-bezier(.16,1,.3,1)",
+      }}
+    >
+      {img ? (
+        <img src={img} alt={r.name} loading="lazy" style={{ width: 56, height: 56, borderRadius: "50%", objectFit: "cover", display: "block", border: `1px solid ${hov ? C.gold : "rgba(255,255,255,0.2)"}`, transition: "border-color 0.5s cubic-bezier(.16,1,.3,1)" }} />
+      ) : (
+        <span aria-hidden style={{ width: 56, height: 56, borderRadius: "50%", border: `1px solid ${hov ? C.gold : "rgba(255,255,255,0.2)"}`, display: "grid", placeItems: "center", fontFamily: SERIF, fontStyle: "italic", fontSize: 19, color: hov ? C.gold : "rgba(255,255,255,0.55)", transition: "color 0.5s cubic-bezier(.16,1,.3,1), border-color 0.5s cubic-bezier(.16,1,.3,1)" }}>
+          {String(idx + 1).padStart(2, "0")}
+        </span>
+      )}
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontFamily: SERIF, fontSize: "clamp(17px,1.9vw,23px)", fontWeight: 500, color: hov ? C.gold : C.white, lineHeight: 1.25, transition: "color 0.5s cubic-bezier(.16,1,.3,1)" }}>{r.name}</div>
+          <div style={{ fontFamily: SANS, fontSize: 13, color: "rgba(255,255,255,0.55)", marginTop: 5 }}>{r.role}</div>
+        </div>
+        <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.26em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", whiteSpace: "nowrap" }}>{r.tag}</span>
+      </div>
     </div>
   );
 }
