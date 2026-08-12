@@ -124,7 +124,23 @@ async function creerSession(templateId) {
 const MESURE = () => {
   const doc = document.documentElement;
   const largeurPage = doc.clientWidth;
+  /*
+    `innerText` rend le texte tel qu'il est peint : une section en
+    `text-transform: uppercase` renvoie « ZINGUERIE », pas « Zinguerie ». Un
+    marqueur sensible à la casse a fait passer pour absentes des prestations
+    et des avis qui étaient bien à l'écran. On compare donc sans casse ni
+    accent, et les espaces des nombres — fine, insécable — sont ramenés à
+    l'espace ordinaire.
+  */
+  const aplatir = (s) =>
+    (s || "")
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "")
+      .replace(/[   ]/g, " ")
+      .toLowerCase();
   const texte = document.body.innerText;
+  const plat = aplatir(texte);
+  const contient = (...aiguilles) => aiguilles.some((a) => plat.includes(aplatir(a)));
 
   const estVolontaire = (el) => {
     let n = el;
@@ -168,16 +184,16 @@ const MESURE = () => {
     longueurTexte: texte.length,
     // Marqueurs du client — s'ils manquent, la page montre encore la démo.
     client: {
-      nom: texte.includes("Vidal"),
-      ville: texte.includes("Annecy"),
-      prestation: texte.includes("Zinguerie") || texte.includes("zinguerie") || texte.includes("Réfection"),
-      tarif: texte.includes("9 400") || texte.includes("780") || texte.includes("640"),
-      avis: texte.includes("Brunet") || texte.includes("Delaunay") || texte.includes("Léman"),
-      chiffre: texte.includes("2 300") || texte.includes("51"),
-      telephone: texte.includes("04 50 71 82 93"),
-      courriel: texte.includes("contact@ateliers-vidal.fr"),
-      adresse: texte.includes("route des Creuses"),
-      siret: texte.includes("412 875 336"),
+      nom: contient("Vidal"),
+      ville: contient("Annecy"),
+      prestation: contient("Zinguerie", "Réfection", "Démoussage", "Isolation des combles"),
+      tarif: contient("9 400", "780", "640", "2 900", "1 250"),
+      avis: contient("Brunet", "Delaunay", "Léman"),
+      chiffre: contient("2 300", "48 h", "10 ans"),
+      telephone: contient("04 50 71 82 93"),
+      courriel: contient("contact@ateliers-vidal.fr"),
+      adresse: contient("route des Creuses"),
+      siret: contient("412 875 336"),
     },
     // Ce qui trahit une page cassée.
     panne: /This page couldn't load|Application error|Unhandled Runtime/i.test(texte),
