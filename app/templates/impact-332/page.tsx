@@ -67,7 +67,7 @@ const SANS = "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif";
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Palette ─────────────────────────────────────────────────────────────── */
-let C: Record<string, string> = { bg: "#0d1013", bgAlt: "#12161b", bgDark: "#080a0d", bgDarkAlt: "#05070a", bgCard: "#151a21", accent: "var(--brand, #4e9fd4)", accentDark: "var(--brand-light, #8cc3e8)", accentLight: "#101a23", ink: "#eef1f4", textMuted: "#98a3af", textFaint: "#5f6b78", border: "rgba(255,255,255,0.09)", white: "#ffffff", /* clé métier : l'acier brossé du blindage */
+let C: Record<string, string> = { bg: "#0d1013", bgAlt: "#12161b", bgDark: "#080a0d", bgDarkAlt: "#05070a", bgCard: "#151a21", accent: "var(--brand, #4e9fd4)", accentDark: "var(--brand-light, #8cc3e8)", accentLight: "#101a23", ink: "#eef1f4", textMuted: "#98a3af", textFaint: "#5f6b78", border: "rgba(255,255,255,0.09)", white: "#ffffff", /* le texte posé SUR l'accent : jamais du blanc, il n'y passerait pas */ onAccent: "#08131c", /* clé métier : l'acier brossé du blindage */
   acier: "#c3ccd6",
 };
 
@@ -216,7 +216,7 @@ function BentoTile({
   const [h, setH] = useState(false);
   return (
     <article
-      onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} className={large ? "i332-tile i332-tile-large" : "i332-tile"} style={{ position: "relative", overflow: "hidden", background: h ? C.bgCard : C.bgAlt, border: `1px solid ${h ? C.accent : C.border}`, padding: large ? "clamp(28px, 3.6vw, 46px)" : "clamp(22px, 2.6vw, 32px)", transform: h ? "translateY(-4px)" : "translateY(0)", boxShadow: h ? "0 26px 52px -30px rgba(0,0,0,0.85), inset 0 1px 0 0 rgba(255,255,255,0.07)" : "0 0 0 0 rgba(0,0,0,0), inset 0 0 0 0 rgba(255,255,255,0)", transition: "all .5s cubic-bezier(0.16, 1, 0.3, 1)", height: "100%", }}
+      onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ position: "relative", overflow: "hidden", background: h ? C.bgCard : C.bgAlt, border: `1px solid ${h ? C.accent : C.border}`, padding: large ? "clamp(28px, 3.6vw, 46px)" : "clamp(22px, 2.6vw, 32px)", transform: h ? "translateY(-4px)" : "translateY(0)", boxShadow: h ? "0 26px 52px -30px rgba(0,0,0,0.85), inset 0 1px 0 0 rgba(255,255,255,0.07)" : "0 0 0 0 rgba(0,0,0,0), inset 0 0 0 0 rgba(255,255,255,0)", transition: "all .5s cubic-bezier(0.16, 1, 0.3, 1)", height: "100%", }}
     >
       <Ghost style={{ bottom: -14, right: 8, fontSize: large ? "clamp(96px, 12vw, 168px)" : "clamp(64px, 7vw, 104px)" }}>
         {String(n + 1).padStart(2, "0")}
@@ -515,7 +515,6 @@ export default function FaubourgSerruresPage() {
           .i332-pband { grid-template-columns: minmax(0, 36px) minmax(0, 1fr); row-gap: 10px; }
           .i332-pband > :last-child { grid-column: 2 / -1; text-align: left; }
           .i332-pied { grid-template-columns: 1fr; }
-          .i332-sticky { position: static !important; }
         }
         @media (prefers-reduced-motion: reduce) {
           .i332-marquee { animation: none; }
@@ -552,7 +551,7 @@ export default function FaubourgSerruresPage() {
             <NavLink key={n.l} label={n.l} href={n.h} />
           ))}
           <motion.a
-            href={telHref} whileHover={{ y: -2 }} transition={{ duration: 0.45, ease: EASE }} style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, background: C.accent, color: "#08131c", padding: "13px 24px", textDecoration: "none", whiteSpace: "nowrap", }}
+            href={telHref} whileHover={{ y: -2 }} transition={{ duration: 0.45, ease: EASE }} style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, background: C.accent, color: C.onAccent, padding: "13px 24px", textDecoration: "none", whiteSpace: "nowrap", }}
           >
             Étude gratuite
           </motion.a>
@@ -579,7 +578,7 @@ export default function FaubourgSerruresPage() {
             </a>
           ))}
           <a
-            href={telHref} style={{ marginTop: 14, background: C.accent, color: "#08131c", textAlign: "center", padding: "15px 22px", fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, textDecoration: "none", }}
+            href={telHref} style={{ marginTop: 14, background: C.accent, color: C.onAccent, textAlign: "center", padding: "15px 22px", fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, textDecoration: "none", }}
           >
             Étude gratuite
           </a>
@@ -604,7 +603,7 @@ export default function FaubourgSerruresPage() {
             initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.18 }} style={{ margin: "clamp(20px, 2.6vw, 32px) 0 0" }}
           >
             <h1
-              style={{ fontFamily: DISPLAY, fontWeight: 900, fontSize: "clamp(42px, 8.4vw, 108px)", lineHeight: 0.94, letterSpacing: "-0.035em", margin: 0, }}
+              style={{ fontFamily: DISPLAY, fontWeight: 900, fontSize: "clamp(42px, 8.4vw, 108px)", lineHeight: 0.94, letterSpacing: "-0.035em", margin: 0, overflowWrap: "break-word", }}
             >
               <GhostSolid ghost={lockGhost} solid={lockSolid} accent={C.accent} strokeWidth={1.4} className="" />
             </h1>
@@ -623,7 +622,7 @@ export default function FaubourgSerruresPage() {
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.44 }} style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}
           >
             <motion.a
-              href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: "#08131c", fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, padding: "17px 32px", textDecoration: "none", boxShadow: "0 18px 38px -22px rgba(78,159,212,0.9)", }}
+              href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.onAccent, fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, padding: "17px 32px", textDecoration: "none", boxShadow: "0 18px 38px -22px rgba(78,159,212,0.9)", }}
             >
               Demander une étude <ArrowRight size={15} />
             </motion.a>
@@ -661,10 +660,10 @@ export default function FaubourgSerruresPage() {
             <div key={rep} style={{ display: "flex", alignItems: "center", gap: 0, flexShrink: 0 }}>
               {BANDE.map((b) => (
                 <span
-                  key={`${rep}-${b}`} style={{ display: "inline-flex", alignItems: "center", gap: 18, fontFamily: DISPLAY, fontWeight: 700, fontSize: 13, letterSpacing: "0.22em", textTransform: "uppercase", color: "#08131c", padding: "0 26px", whiteSpace: "nowrap", }}
+                  key={`${rep}-${b}`} style={{ display: "inline-flex", alignItems: "center", gap: 18, fontFamily: DISPLAY, fontWeight: 700, fontSize: 13, letterSpacing: "0.22em", textTransform: "uppercase", color: C.onAccent, padding: "0 26px", whiteSpace: "nowrap", }}
                 >
                   {b}
-                  <span style={{ width: 5, height: 5, background: "#08131c", opacity: 0.55, display: "inline-block" }} />
+                  <span style={{ width: 5, height: 5, background: C.onAccent, opacity: 0.55, display: "inline-block" }} />
                 </span>
               ))}
             </div>
@@ -740,11 +739,22 @@ export default function FaubourgSerruresPage() {
           </Reveal>
 
           <div className="i332-bento">
-            {SERVICES.map((s: any, idx: number) => (
-              <Reveal key={`${s.titre}-${idx}`} delay={Math.min(idx, 5) * 0.055} y={24} style={{ height: "100%", gridColumn: "inherit" }}>
-                <BentoTile s={s} n={idx} large={idx === 0 || idx === 3} />
-              </Reveal>
-            ))}
+            {/*
+              L'enfant de la grille est ce div-ci, pas la tuile : c'est lui qui
+              doit porter la classe d'empan. Le motif 4-2 / 2-4 se répète tous
+              les quatre éléments, donc la rangée reste pleine quel que soit le
+              nombre de prestations saisies par le client.
+            */}
+            {SERVICES.map((s: any, idx: number) => {
+              const large = idx % 4 === 0 || idx % 4 === 3;
+              return (
+                <div key={`${s.titre}-${idx}`} className={large ? "i332-tile i332-tile-large" : "i332-tile"}>
+                  <Reveal delay={Math.min(idx, 5) * 0.055} y={24} style={{ height: "100%" }}>
+                    <BentoTile s={s} n={idx} large={large} />
+                  </Reveal>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -753,7 +763,7 @@ export default function FaubourgSerruresPage() {
       <section
         id="urgence" style={{ padding: "clamp(60px, 9vw, 120px) clamp(22px, 6vw, 68px)", background: C.bgAlt, borderTop: `1px solid ${C.border}`, position: "relative", overflow: "hidden", }}
       >
-        <Ghost style={{ top: "-4%", right: "2%", fontSize: "clamp(110px, 16vw, 240px)", opacity: 0.04 }}>24 H</Ghost>
+        <Ghost style={{ top: "-4%", right: "2%", fontSize: "clamp(110px, 16vw, 240px)", opacity: 0.04 }}>48 H</Ghost>
         <div style={{ maxWidth: 1180, margin: "0 auto", position: "relative" }}>
           <Reveal>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 22, alignItems: "flex-end", justifyContent: "space-between", marginBottom: "clamp(26px, 3.4vw, 44px)" }}>
@@ -904,7 +914,7 @@ export default function FaubourgSerruresPage() {
                 ))}
               </div>
               <motion.a
-                href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, marginTop: "clamp(22px, 2.6vw, 32px)", background: C.accent, color: "#08131c", fontFamily: SANS, fontSize: 11.5, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, padding: "16px 30px", textDecoration: "none", }}
+                href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, marginTop: "clamp(22px, 2.6vw, 32px)", background: C.accent, color: C.onAccent, fontFamily: SANS, fontSize: 11.5, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, padding: "16px 30px", textDecoration: "none", }}
               >
                 Nous appeler <ArrowRight size={15} />
               </motion.a>
@@ -1020,7 +1030,7 @@ export default function FaubourgSerruresPage() {
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
               <motion.a
-                href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: "#08131c", fontFamily: SANS, fontSize: 13, letterSpacing: "0.08em", fontWeight: 700, padding: "18px 34px", textDecoration: "none", boxShadow: "0 20px 40px -24px rgba(78,159,212,0.95)", }}
+                href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.onAccent, fontFamily: SANS, fontSize: 13, letterSpacing: "0.08em", fontWeight: 700, padding: "18px 34px", textDecoration: "none", boxShadow: "0 20px 40px -24px rgba(78,159,212,0.95)", }}
               >
                 <Phone size={17} /> {tel}
               </motion.a>

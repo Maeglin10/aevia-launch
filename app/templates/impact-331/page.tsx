@@ -246,14 +246,14 @@ function ServiceRow({
     <div
       className={`i331-srow ${decale ? "i331-srow-decale" : ""}`} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ position: "relative", borderTop: `1px solid ${h ? C.accent : C.border}`, background: h ? C.white : "transparent", transform: h ? "translateY(-3px)" : "translateY(0)", boxShadow: h ? `0 22px 44px -28px rgba(10,31,37,0.42), 0 2px 0 0 ${C.accent}` : "0 0 0 0 rgba(0,0,0,0), 0 0 0 0 rgba(0,0,0,0)", transition: "all .5s cubic-bezier(0.16, 1, 0.3, 1)", }}
     >
-      <div className="i331-srow-num">
+      <div>
         <span
           style={{ fontFamily: SERIF, fontSize: "clamp(30px, 3.4vw, 44px)", lineHeight: 1, color: h ? C.accent : C.textFaint, transition: "color .5s cubic-bezier(0.16, 1, 0.3, 1)", }}
         >
           {String(n + 1).padStart(2, "0")}
         </span>
       </div>
-      <div className="i331-srow-titre">
+      <div style={{ minWidth: 0 }}>
         <span
           style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.28em", textTransform: "uppercase", color: C.accentDark, display: "block", marginBottom: 9, }}
         >
@@ -552,7 +552,6 @@ export default function RegardNordPage() {
           }
           .i331-prow > :last-child { grid-column: 2 / -1; text-align: left; }
           .i331-pied { grid-template-columns: 1fr; }
-          .i331-sticky { position: static !important; }
         }
         @media (prefers-reduced-motion: reduce) {
           .i331-srow, .i331-prow { transition: none !important; }
@@ -642,7 +641,7 @@ export default function RegardNordPage() {
           </motion.div>
 
           <motion.h1
-            className="i331-h1" initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.16 }} style={{ fontFamily: SERIF, fontSize: "clamp(40px, 6.6vw, 84px)", fontWeight: 500, lineHeight: 0.98, letterSpacing: "-0.028em", color: C.ink, margin: "clamp(20px, 2.6vw, 32px) 0 0", }}
+            className="i331-h1" initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.16 }} style={{ fontFamily: SERIF, fontSize: "clamp(40px, 6.6vw, 84px)", fontWeight: 500, lineHeight: 0.98, letterSpacing: "-0.028em", color: C.ink, margin: "clamp(20px, 2.6vw, 32px) 0 0", overflowWrap: "break-word", }}
           >
             {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
               <>
@@ -713,8 +712,16 @@ export default function RegardNordPage() {
             />
 
             {/* ── GESTE SIGNATURE : la monture pivote au défilement ───────── */}
+            {/*
+              La boîte est plus haute que la monture, et la monture y est
+              centrée : ScrollSpin mesure sa propre hauteur pour établir la
+              course du défilement. Une boîte à la taille du dessin aurait fait
+              tourner la monture en une centaine de pixels — le geste aurait été
+              vrai mais invisible. transformOrigin reste au centre, donc la
+              monture pivote sur elle-même et non en orbite.
+            */}
             <ScrollSpin
-              degrees={38} style={{ position: "absolute", top: "clamp(6px, 1.6vw, 30px)", right: "clamp(-18px, -1.4vw, 0px)", zIndex: 5, pointerEvents: "none", }}
+              degrees={38} style={{ position: "absolute", top: "clamp(-70px, -6vw, -30px)", right: "clamp(-18px, -1.4vw, 0px)", width: 250, height: 320, display: "grid", placeItems: "center", zIndex: 5, pointerEvents: "none", }}
             >
               <MontureSVG size={230} stroke={C.accent} />
             </ScrollSpin>
@@ -769,13 +776,13 @@ export default function RegardNordPage() {
         <div
           aria-hidden style={{ position: "absolute", inset: 0, background: `radial-gradient(90% 140% at 18% 0%, rgba(169,214,220,0.11) 0%, rgba(169,214,220,0) 62%)`, pointerEvents: "none", }}
         />
-        <div className="i331-stats i331-pad" style={{ position: "relative", padding: "0 clamp(16px, 4vw, 40px)" }}>
+        <div className="i331-stats" style={{ position: "relative", padding: "0 clamp(16px, 4vw, 40px)" }}>
           {STATS.map((s, idx) => (
             <Reveal key={`${s.label}-${idx}`} delay={idx * 0.06} y={18}>
               <div
                 style={{ position: "relative", padding: "clamp(30px, 4vw, 46px) clamp(10px, 1.6vw, 20px)", borderRight: idx < STATS.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none", overflow: "hidden", }}
               >
-                <Ghost style={{ top: "6%", left: "4%", fontSize: "clamp(60px, 8vw, 104px)", color: "#ffffff", opacity: 0.05 }}>
+                <Ghost style={{ top: "6%", left: "4%", fontSize: "clamp(60px, 8vw, 104px)", color: C.white, opacity: 0.05 }}>
                   {String(idx + 1).padStart(2, "0")}
                 </Ghost>
                 <div
@@ -1063,7 +1070,7 @@ export default function RegardNordPage() {
                   className="i331-avis-decale" style={{ position: "relative", padding: "clamp(24px, 3vw, 34px) clamp(20px, 2.4vw, 30px)", border: "1px solid rgba(255,255,255,0.10)", borderTop: `2px solid ${C.verre}`, background: "rgba(255,255,255,0.035)", transform: `translateY(${idx % 3 === 1 ? 34 : idx % 3 === 2 ? 17 : 0}px)`, height: "100%", overflow: "hidden", }}
                 >
                   <span
-                    aria-hidden style={{ position: "absolute", top: -18, right: 12, fontFamily: SERIF, fontSize: 120, lineHeight: 1, color: "#ffffff", opacity: 0.06, pointerEvents: "none", }}
+                    aria-hidden style={{ position: "absolute", top: -18, right: 12, fontFamily: SERIF, fontSize: 120, lineHeight: 1, color: C.white, opacity: 0.06, pointerEvents: "none", }}
                   >
                     &rdquo;
                   </span>

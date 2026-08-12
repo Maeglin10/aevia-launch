@@ -15,6 +15,7 @@ import {
   clientEmail,
   clientEyebrow,
   clientHeroLine,
+  clientHeroPrestations,
   clientList,
   clientName,
   clientPhone,
@@ -66,7 +67,7 @@ const SANS = "'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif";
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Palette ─────────────────────────────────────────────────────────────── */
-let C: Record<string, string> = { bg: "#0c0e14", bgAlt: "#11141c", bgDark: "#080a0f", bgDarkAlt: "#05060b", bgCard: "#141827", accent: "var(--brand, #7d8ff2)", accentDark: "var(--brand-light, #a5b2f7)", accentLight: "#131624", ink: "#eef0f6", textMuted: "#98a0b4", textFaint: "#626c84", border: "rgba(255,255,255,0.09)", white: "#ffffff", /* clé métier : le papier chiffon des minutes, en très sombre */ minute: "#cfd4e6", };
+let C: Record<string, string> = { bg: "#0c0e14", bgAlt: "#11141c", bgDark: "#080a0f", bgDarkAlt: "#05060b", bgCard: "#141827", accent: "var(--brand, #7d8ff2)", accentDark: "var(--brand-light, #a5b2f7)", accentLight: "#131624", ink: "#eef0f6", textMuted: "#98a0b4", textFaint: "#626c84", border: "rgba(255,255,255,0.09)", white: "#ffffff", /* le texte posé SUR l'accent : jamais du blanc, il n'y passerait pas */ onAccent: "#0b0d16", /* clé métier : le papier chiffon des minutes, en très sombre */ minute: "#cfd4e6", };
 
 /* ════════════════════════════════════════════════════════════════════════════
    Données — SOURCE figée, LIVE ré-appelée dans le rendu
@@ -521,7 +522,6 @@ export default function EtudeDuCanalPage() {
           .i333-bareme { grid-template-columns: minmax(0, 32px) minmax(0, 1fr); row-gap: 10px; }
           .i333-bareme > :last-child { grid-column: 2 / -1; text-align: left; }
           .i333-pied { grid-template-columns: 1fr; }
-          .i333-sticky { position: static !important; }
         }
         @media (prefers-reduced-motion: reduce) {
           .i333-bareme { transition: none !important; }
@@ -557,7 +557,7 @@ export default function EtudeDuCanalPage() {
             <NavLink key={n.l} label={n.l} href={n.h} />
           ))}
           <motion.a
-            href={telHref} whileHover={{ y: -2 }} transition={{ duration: 0.45, ease: EASE }} style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, background: C.accent, color: "#0b0d16", padding: "13px 24px", textDecoration: "none", whiteSpace: "nowrap", }}
+            href={telHref} whileHover={{ y: -2 }} transition={{ duration: 0.45, ease: EASE }} style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, background: C.accent, color: C.onAccent, padding: "13px 24px", textDecoration: "none", whiteSpace: "nowrap", }}
           >
             Prendre rendez-vous
           </motion.a>
@@ -584,7 +584,7 @@ export default function EtudeDuCanalPage() {
             </a>
           ))}
           <a
-            href={telHref} style={{ marginTop: 14, background: C.accent, color: "#0b0d16", textAlign: "center", padding: "15px 22px", fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, textDecoration: "none", }}
+            href={telHref} style={{ marginTop: 14, background: C.accent, color: C.onAccent, textAlign: "center", padding: "15px 22px", fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, textDecoration: "none", }}
           >
             Prendre rendez-vous
           </a>
@@ -633,19 +633,24 @@ export default function EtudeDuCanalPage() {
         {/* ── GESTE SIGNATURE : les mots de l'acte entrent en vol ───────── */}
         <div style={{ position: "relative", zIndex: 2 }}>
           <h1
-            style={{ fontFamily: SERIF, fontSize: "clamp(38px, 6.6vw, 90px)", fontWeight: 400, lineHeight: 0.99, letterSpacing: "-0.026em", color: C.ink, margin: 0, minHeight: "2.1em", }}
+            style={{ fontFamily: SERIF, fontSize: "clamp(38px, 6.6vw, 90px)", fontWeight: 400, lineHeight: 0.99, letterSpacing: "-0.026em", color: C.ink, margin: 0, minHeight: "2.1em", overflowWrap: "break-word", }}
           >
             <WordFlight text={S.line} keyed={i} className="" />
           </h1>
           <p
             style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.25vw, 17px)", fontWeight: 300, lineHeight: 1.82, color: C.textMuted, maxWidth: 560, margin: "clamp(22px, 2.6vw, 32px) 0 clamp(26px, 3vw, 36px)", }}
           >
-            {c?.heroSubline ??
+            {/*
+              Le titre porte déjà l'accroche du client : le sous-titre annonce
+              donc ce que l'étude fait, jamais la même phrase deux fois.
+            */}
+            {clientHeroPrestations(sessionData) ??
+              c?.heroSubline ??
               "Une étude jeune, des actes anciens comme le droit : vente, donation, succession, société. Chaque clause expliquée avant d'être signée, au tarif réglementé national."}
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a
-              href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: "#0b0d16", fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, padding: "17px 32px", textDecoration: "none", boxShadow: "0 18px 38px -22px rgba(125,143,242,0.9)", }}
+              href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.onAccent, fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, padding: "17px 32px", textDecoration: "none", boxShadow: "0 18px 38px -22px rgba(125,143,242,0.9)", }}
             >
               Prendre rendez-vous <ArrowRight size={15} />
             </motion.a>
@@ -843,7 +848,7 @@ export default function EtudeDuCanalPage() {
                 ))}
               </div>
               <motion.a
-                href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, marginTop: "clamp(22px, 2.6vw, 32px)", background: C.accent, color: "#0b0d16", fontFamily: SANS, fontSize: 11.5, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, padding: "16px 30px", textDecoration: "none", }}
+                href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, marginTop: "clamp(22px, 2.6vw, 32px)", background: C.accent, color: C.onAccent, fontFamily: SANS, fontSize: 11.5, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, padding: "16px 30px", textDecoration: "none", }}
               >
                 Nous appeler <ArrowRight size={15} />
               </motion.a>
@@ -989,7 +994,7 @@ export default function EtudeDuCanalPage() {
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
               <motion.a
-                href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: "#0b0d16", fontFamily: SANS, fontSize: 13, letterSpacing: "0.08em", fontWeight: 600, padding: "18px 34px", textDecoration: "none", boxShadow: "0 20px 40px -24px rgba(125,143,242,0.95)", }}
+                href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.onAccent, fontFamily: SANS, fontSize: 13, letterSpacing: "0.08em", fontWeight: 600, padding: "18px 34px", textDecoration: "none", boxShadow: "0 20px 40px -24px rgba(125,143,242,0.95)", }}
               >
                 <Phone size={17} /> {tel}
               </motion.a>
