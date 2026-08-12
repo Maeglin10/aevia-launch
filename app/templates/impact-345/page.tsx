@@ -609,7 +609,7 @@ export default function MaisonBertinPage() {
             className="i345-titre"
             style={{
               fontFamily: DISPLAY,
-              fontSize: "clamp(36px, 5.6vw, 74px)",
+              fontSize: "clamp(34px, 5vw, 64px)",
               lineHeight: 1.02,
               letterSpacing: "-0.02em",
               color: C.ink,

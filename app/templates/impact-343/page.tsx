@@ -706,7 +706,7 @@ export default function BlancNetPage() {
           <h1
             style={{
               fontFamily: DISPLAY,
-              fontSize: "clamp(38px, 5.6vw, 76px)",
+              fontSize: "clamp(36px, 5.2vw, 64px)",
               lineHeight: 0.98,
               letterSpacing: "-0.015em",
               color: C.ink,
@@ -930,7 +930,7 @@ export default function BlancNetPage() {
           </div>
 
           {/* Vitrine : deux emplacements photo, beaux même vides. */}
-          <div className="i343-frise" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 16, marginTop: "clamp(34px, 5vw, 58px)" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 16, marginTop: "clamp(34px, 5vw, 58px)" }}>
             {[
               { i: 2, alt: "Repassage à la vapeur en atelier", label: "Atelier" },
               { i: 3, alt: "Vêtements rendus sous housse", label: "Retrait" },
