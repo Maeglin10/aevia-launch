@@ -57,6 +57,62 @@ const CLIENTS = [
       geo: { address: "8 rue Royale", primaryCity: "Annecy" },
     },
     attendus: [["produit", "Tourte de seigle"], ["chiffre", "1 200"], ["nom", "Maison Vidal"]] },
+  /*
+    Les cinq archétypes qui manquaient. Trois seulement étaient couverts —
+    on ne peut pas dire « testé comme un vrai client » sur trois huitièmes du
+    catalogue.
+  */
+  { archetype: "immobilier", theme: "impact-19", formData: {
+      businessName: "Agence Vidal", city: "Annecy", businessType: "agence immobilière",
+      tagline: "Le lac et ses rives", email: "a@vidal.fr", phone: "04 50 44 55 66" },
+    profil: {
+      services: [{ name: "Estimation offerte", description: "Sous 48 heures.", price: "0 €" }],
+      listings: [{ title: "Villa vue lac", price: "890 000 €", description: "180 m², jardin clos." }],
+      reputation: { featuredReviews: [{ author: "Claire M.", text: "Vendu en trois semaines.", rating: 5 }] },
+      certifications: ["Carte professionnelle T"],
+      geo: { address: "5 avenue d'Albigny", primaryCity: "Annecy" },
+    },
+    attendus: [["prestation", "Estimation offerte"], ["avis", "Vendu en trois semaines"], ["nom", "Agence Vidal"]] },
+  { archetype: "portfolio_projets", theme: "impact-27", formData: {
+      businessName: "Studio Vidal", city: "Annecy", businessType: "studio créatif",
+      tagline: "Images et interfaces", email: "s@vidal.fr", phone: "04 50 55 66 77" },
+    profil: {
+      services: [{ name: "Direction artistique", description: "De la marque à l'écran.", price: "4 500 €" }],
+      team: [{ name: "Éloi Vidal", role: "Directeur artistique" }],
+      certifications: ["Prix du design 2025"],
+      faq: [{ q: "Travaillez-vous à distance ?", a: "Oui, partout en Europe." }],
+      geo: { address: "10 rue Sommeiller", primaryCity: "Annecy" },
+    },
+    attendus: [["prestation", "Direction artistique"], ["équipe", "Éloi Vidal"], ["nom", "Studio Vidal"]] },
+  { archetype: "expertise_b2b", theme: "impact-36", formData: {
+      businessName: "Conseil Vidal", city: "Annecy", businessType: "cabinet de conseil",
+      tagline: "Stratégie et opérations", email: "e@vidal.fr", phone: "04 50 66 77 88" },
+    profil: {
+      services: [{ name: "Audit organisationnel", description: "Six semaines, restitution incluse.", price: "12 000 €" }],
+      keyStats: [{ value: "140", label: "missions" }],
+      geo: { address: "2 place des Cordeliers", primaryCity: "Annecy" },
+    },
+    attendus: [["prestation", "Audit organisationnel"], ["chiffre", "140"], ["nom", "Conseil Vidal"]] },
+  { archetype: "hotellerie", theme: "impact-10", formData: {
+      businessName: "Hotel Vidal", city: "Annecy", businessType: "hôtel",
+      tagline: "Face au lac", email: "h@vidal.fr", phone: "04 50 77 88 99" },
+    profil: {
+      services: [{ name: "Suite Marquisats", description: "45 m², balcon sur le lac.", price: "290 €" }],
+      reputation: { featuredReviews: [{ author: "Sophie L.", text: "Vue imprenable, accueil parfait.", rating: 5 }] },
+      openingHours: [{ day: "lundi", open: "07:00", close: "23:00" }],
+      geo: { address: "1 quai du Thiou", primaryCity: "Annecy" },
+    },
+    attendus: [["prestation", "Suite Marquisats"], ["avis", "Vue imprenable"], ["nom", "Hotel Vidal"]] },
+  { archetype: "domicile", theme: "impact-13", formData: {
+      businessName: "Vidal Domicile", city: "Annecy", businessType: "aide à domicile",
+      tagline: "Présence et soin", email: "d@vidal.fr", phone: "04 50 88 99 00" },
+    profil: {
+      services: [{ name: "Accompagnement quotidien", description: "Deux heures par jour.", price: "28 €" }],
+      team: [{ name: "Éloi Vidal", role: "Auxiliaire de vie" }],
+      certifications: ["Agrément qualité"],
+      geo: { address: "14 rue Carnot", primaryCity: "Annecy" },
+    },
+    attendus: [["prestation", "Accompagnement quotidien"], ["équipe", "Éloi Vidal"], ["nom", "Vidal Domicile"]] },
 ];
 
 const b = await chromium.launch();

@@ -741,7 +741,7 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-160": {
-  n: 2,
+  n: 1,
   total: 2,
   labels: [
    null,
@@ -3147,7 +3147,7 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-86": {
-  n: 8,
+  n: 7,
   total: 8,
   labels: [
    "Le rituel du soir : ralentir pour mieux dormir",

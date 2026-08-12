@@ -112,13 +112,60 @@ for (const id of ids) {
           Le cumul dans le temps reste nécessaire sur l'accueil, où vivent les
           diaporamas ; ailleurs deux relevés suffisent.
         */
+        /*
+          Et les vues internes. Beaucoup de thèmes sont des applications d'une
+          seule page : « Work », « Services », « Contact » ne changent pas
+          d'adresse, ils changent d'état. impact-01 montre ses photos 7 et 8
+          dans sa vue « Work », atteinte au clic — une campagne qui se contente
+          de charger des adresses les compte perdues. C'était le cas de la
+          mienne, et cela gonflait le compte.
+        */
+        const cliquerLesVuesInternes = async () => {
+          const libelles = await p.evaluate(() => [...document.querySelectorAll("header a, header button, nav a, nav button")]
+            .map((e) => (e.textContent ?? "").trim())
+            .filter((t) => t && t.length <= 22 && !/^(accueil|home|retour)/i.test(t)));
+          for (const libelle of libelles.slice(0, 8)) {
+            if (vues.size >= demandes) return;
+            const clique = await p.evaluate((m) => {
+              const e = [...document.querySelectorAll("header a, header button, nav a, nav button")]
+                .find((x) => (x.textContent ?? "").trim() === m);
+              if (!e || (e.getAttribute?.("href") ?? "").startsWith("http")) return false;
+              e.click(); return true;
+            }, libelle).catch(() => false);
+            if (!clique) continue;
+            await p.waitForTimeout(1400);
+            await p.evaluate(async () => {
+              for (let y = 0; y < document.body.scrollHeight; y += window.innerHeight) {
+                window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 200));
+              }
+            }).catch(() => {});
+            const src = await p.evaluate(() => [...document.querySelectorAll("img")].map((e) => e.currentSrc || e.src)
+              .concat([...document.querySelectorAll("*")].map((e) => (getComputedStyle(e).backgroundImage || "").match(/url\(["']?(.*?)["']?\)/)?.[1]).filter(Boolean))).catch(() => []);
+            for (const u of src) {
+              const dec = decodeURIComponent(u);
+              for (let i = 0; i < demandes; i++) if (dec.includes(`photos/${IDENTIFIANTS[i]}/`)) vues.add(i);
+            }
+          }
+        };
         const tours = route ? 2 : 8;
         for (let k = 0; k < tours; k++) {
           const src = await p.evaluate(() => {
             const out = [];
+            /*
+              `currentSrc` est vide tant que l'image n'est pas chargée : Next
+              diffère les images d'un conteneur masqué (un aperçu qui n'apparaît
+              qu'au survol). Compter le seul chargement faisait passer pour
+              perdues des photos bel et bien posées dans la page — sur
+              impact-121, trois d'entre elles avec naturalWidth à zéro.
+
+              La question est « la photo du client est-elle branchée ici ? »,
+              pas « le navigateur l'a-t-il déjà téléchargée ? ». On lit donc
+              aussi l'attribut et le srcset.
+            */
             for (const e of document.querySelectorAll("img")) {
-              const s = e.currentSrc || e.src;
-              if (s) out.push(s);
+              for (const s of [e.currentSrc, e.src, e.getAttribute("src"), e.getAttribute("srcset"), e.getAttribute("data-src")]) {
+                if (s) out.push(s);
+              }
             }
             for (const e of document.querySelectorAll("*")) {
               const m = getComputedStyle(e).backgroundImage?.match(/url\(["']?(.*?)["']?\)/);
@@ -133,6 +180,7 @@ for (const id of ids) {
           if (vues.size >= demandes) break;
           await p.waitForTimeout(900);
         }
+        if (!route && vues.size < demandes) await cliquerLesVuesInternes();
       } catch { /* une route qui échoue ne prouve rien : les autres comptent */ }
       await p.close();
       if (vues.size >= demandes) break;
