@@ -516,27 +516,14 @@ export default function BorealCourtagePage() {
   */
   const STATS_BENTO = STATS.length >= 4 ? STATS : [...STATS, ...STATS_SOURCE].slice(0, 4);
 
+  /*
+    La tuile de titre ne cascade PAS : elle est posée dans la grille, hors du
+    geste. Deux raisons, l'une de lecture, l'autre d'usage — le titre qui se
+    redessine toutes les 5,6 s se lit comme un rechargement, et un bouton
+    d'appel démonté une seconde sur six perd le clic qu'on lui destinait. Le
+    reste de la grille se vide et se remplit : c'est là que le geste vit.
+  */
   const tiles = [
-    {
-      area: { gridColumn: "1 / span 3", gridRow: "1 / span 2" },
-      node: (
-        <div style={{ ...tuileFond("sombre"), borderRadius: 3, padding: "clamp(24px,3vw,40px)", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", gap: 18 }}>
-          <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
-          <h1 style={{ fontFamily: SERIF, fontSize: "clamp(34px,5vw,68px)", fontWeight: 400, color: C.ink, lineHeight: 0.99, letterSpacing: "-0.026em", margin: 0 }}>{titreHero}</h1>
-          <p style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.4vw,16.5px)", color: C.textMuted, lineHeight: 1.74, maxWidth: 480, margin: 0 }}>
-            {clientHeroPrestations(sessionData) ??
-              c?.heroSubline ??
-              "Courtage spécialisé PME et ETI : multirisque, flottes, cyber, RC dirigeants. Nous cartographions vos risques, négocions en place de marché et gérons vos sinistres."}
-          </p>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 4 }}>
-            <CTA href={telHref} filled>
-              Cartographier nos risques
-            </CTA>
-            <CTA href="#services">Nos programmes</CTA>
-          </div>
-        </div>
-      ),
-    },
     {
       area: { gridColumn: "4 / span 1", gridRow: "1 / span 1" },
       node: (
@@ -637,11 +624,14 @@ export default function BorealCourtagePage() {
         @media (max-width: 980px) { #i338-nav { display: none !important; } .i338-burger { display: flex !important; } }
 
         /* Bento : sous 900px, les placements inline de chaque tuile doivent
-           céder. Les tuiles animées sont les enfants directs de la grille —
-           on les remet en flux plutôt que d'éditer dix placements. */
+           céder. Les tuiles animées ne sont pas des enfants directs de la
+           grille — leur conteneur est en display:contents — d'où les deux
+           sélecteurs : on les remet toutes en flux plutôt que d'éditer dix
+           placements un par un. */
         @media (max-width: 900px) {
           .i338-bento { grid-template-columns: minmax(0,1fr) !important; grid-auto-rows: auto !important; }
-          .i338-bento > div { grid-column: auto !important; grid-row: auto !important; }
+          .i338-bento > div,
+          .i338-cascade > div { grid-column: auto !important; grid-row: auto !important; min-height: 104px; }
         }
         @media (max-width: 860px) {
           .i338-split { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
@@ -784,9 +774,15 @@ export default function BorealCourtagePage() {
         </span>
 
         <div style={{ position: "relative", width: "100%", maxWidth: 1320, margin: "0 auto" }}>
-          <BentoCascade
-            index={i}
-            tiles={tiles}
+          {/*
+            La grille appartient à la page, pas au geste : le conteneur du
+            BentoCascade est en `display: contents`, si bien que ses tuiles
+            animées deviennent des éléments de CETTE grille. C'est la seule
+            façon d'avoir une tuile fixe (le titre) et neuf tuiles qui
+            cascadent dans une seule et même grille — un placement porté par
+            un wrapper non placé renvoie tout le bento en flux automatique.
+          */}
+          <div
             className="i338-bento"
             style={{
               display: "grid",
@@ -794,7 +790,36 @@ export default function BorealCourtagePage() {
               gridAutoRows: "minmax(104px, auto)",
               gap: "clamp(8px,1vw,14px)",
             }}
-          />
+          >
+            <div
+              style={{
+                ...tuileFond("sombre"),
+                gridColumn: "1 / span 3",
+                gridRow: "1 / span 2",
+                borderRadius: 3,
+                padding: "clamp(24px,3vw,40px)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                gap: 18,
+              }}
+            >
+              <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
+              <h1 style={{ fontFamily: SERIF, fontSize: "clamp(34px,5vw,68px)", fontWeight: 400, color: C.ink, lineHeight: 0.99, letterSpacing: "-0.026em", margin: 0 }}>{titreHero}</h1>
+              <p style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.4vw,16.5px)", color: C.textMuted, lineHeight: 1.74, maxWidth: 480, margin: 0 }}>
+                {clientHeroPrestations(sessionData) ??
+                  c?.heroSubline ??
+                  "Courtage spécialisé PME et ETI : multirisque, flottes, cyber, RC dirigeants. Nous cartographions vos risques, négocions en place de marché et gérons vos sinistres."}
+              </p>
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 4 }}>
+                <CTA href={telHref} filled>
+                  Cartographier nos risques
+                </CTA>
+                <CTA href="#services">Nos programmes</CTA>
+              </div>
+            </div>
+            <BentoCascade index={i} tiles={tiles} className="i338-cascade" style={{ display: "contents" }} />
+          </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: "clamp(20px,2.4vw,32px)", flexWrap: "wrap" }}>
             <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
             <span style={{ fontFamily: SANS, fontSize: 13, color: C.textMuted }}>
