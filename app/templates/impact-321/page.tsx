@@ -26,6 +26,7 @@ import {
   MapPin,
   Menu,
   Mic,
+  Phone,
   X,
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
@@ -41,6 +42,8 @@ import {
   clientHeroSubtitle,
   clientList,
   clientName,
+  clientPhone,
+  clientAddress,
   clientPhotos,
   clientServices,
   clientStats,
@@ -528,7 +531,12 @@ export default function Impact321Page() {
 
   const businessName = clientName(sessionData) ?? "AI Horizons '26";
   const eventDate = fd?.eventDate ?? "15 – 17 Novembre 2026";
-  const eventLocation = fd?.eventLocation ?? `Station F, ${clientCity(sessionData) ?? "Paris"}`;
+  /*
+    L'adresse saisie par le client prime sur le lieu de la démonstration : un
+    organisateur qui a renseigné son siège ne doit pas voir « Station F ».
+  */
+  const eventLocation = fd?.eventLocation ?? clientAddress(sessionData) ?? `Station F, ${clientCity(sessionData) ?? "Paris"}`;
+  const tel = clientPhone(sessionData) ?? fd?.phone ?? null;
   const mail = clientEmail(sessionData) ?? "contact@aihorizons.com";
 
   /*
@@ -1216,6 +1224,11 @@ export default function Impact321Page() {
                 <a href={`mailto:${mail}`} style={{ display: "flex", alignItems: "center", gap: 9, color: C.textMuted, textDecoration: "none", padding: "4px 0" }}>
                   <Mail size={15} color={C.accentDark} /> {mail}
                 </a>
+                {tel && (
+                  <a href={`tel:${tel.replace(/\s/g, "")}`} style={{ display: "flex", alignItems: "center", gap: 9, color: C.textMuted, textDecoration: "none", padding: "4px 0" }}>
+                    <Phone size={15} color={C.accentDark} /> {tel}
+                  </a>
+                )}
                 <span style={{ display: "flex", alignItems: "center", gap: 9 }}>
                   <MapPin size={15} color={C.accentDark} /> {eventLocation}
                 </span>
