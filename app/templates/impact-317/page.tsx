@@ -454,7 +454,23 @@ export default function Page() {
   /* ── Calculateur d'estimation (section conservée du thème) ─────────────── */
   const [hours, setHours] = useState(2);
   const [frequency, setFrequency] = useState("weekly");
-  const hourlyRate = 35;
+  /*
+    Le taux horaire vient du client dès qu'il en a saisi un — mais seulement
+    s'il est bien horaire. Une prestation facturée au forfait (« à partir de
+    9 400 € ») multipliée par un nombre d'heures donnerait une estimation
+    absurde, et l'estimation est ce que le visiteur retient. À défaut, le
+    thème garde le sien.
+  */
+  const tauxClient = (() => {
+    for (const s of clientServices(sessionData) ?? []) {
+      const p = String(s.price ?? "");
+      if (!/\/\s*h|heure|de l'heure/i.test(p)) continue;
+      const n = parseFloat(p.replace(/\s/g, "").replace(",", ".").match(/\d+(\.\d+)?/)?.[0] ?? "");
+      if (Number.isFinite(n) && n > 0) return n;
+    }
+    return null;
+  })();
+  const hourlyRate = tauxClient ?? 35;
   const calculateEstimate = () => {
     let rate = hourlyRate;
     if (frequency === "weekly") rate = hourlyRate * 0.9;

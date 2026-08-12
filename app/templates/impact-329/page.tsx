@@ -85,7 +85,7 @@ const NAV = [
 ];
 
 /* Les trois formules, coupées net et remontées pièce par pièce. */
-const HERO_FORMULES = [
+const HERO_FORMULES_SOURCE = [
   {
     k: "Éco",
     big: "ON TRANSPORTE.",
@@ -105,6 +105,8 @@ const HERO_FORMULES = [
     d: "Cartons faits et défaits, meubles remontés à l'identique, penderies re-rangées. Vous n'ouvrez pas un carton.",
   },
 ];
+
+let HERO_FORMULES = HERO_FORMULES_SOURCE;
 
 const SERVICES_SOURCE = [
   { titre: "Déménagement particuliers", desc: "Du studio à la maison familiale, dans toute la France. Camions capitonnés, sangles, couvertures et équipe formée au portage lourd.", tag: "Particuliers" },
@@ -389,6 +391,21 @@ export default function CapDemenagementsPage() {
   AVIS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
     AVIS_SOURCE,
+  );
+  /*
+    Les formules portent un prix : c'est celui du client dès qu'il l'a saisi.
+    Le libellé et la phrase de la démonstration restent quand il n'a rempli
+    que le nom — une bande sans texte vaut moins que la bande d'origine.
+  */
+  HERO_FORMULES = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({
+      ...HERO_FORMULES_SOURCE[i % HERO_FORMULES_SOURCE.length],
+      k: s.title,
+      big: String(s.title || "").toUpperCase(),
+      ...(s.price ? { p: s.price } : {}),
+      ...(s.desc ? { d: s.desc } : {}),
+    })),
+    HERO_FORMULES_SOURCE,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
