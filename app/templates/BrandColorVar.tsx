@@ -422,6 +422,75 @@ function ajusterAuCadre(e: HTMLElement) {
 }
 
 /**
+ * Le nom au bas de la page.
+ *
+ * La passe qui rend la marque ne regarde que l'en-tête. Le pied de page, lui,
+ * garde son « © 2026 L'ÉTOILE ANNECY · ALL RIGHTS RESERVED » — le nom du
+ * restaurant de la démonstration, en bas du site d'un couvreur qui l'a payé.
+ *
+ * On ne remplace que le segment qui suit l'année, jamais la ligne entière :
+ * la mention légale, l'éditeur, l'hébergeur sont écrits ailleurs et sont justes.
+ */
+function rendreLeCopyright(nom: string | undefined) {
+  if (!nom || nom.trim().length < 2) return;
+  const propre = nom.trim();
+  const motif = /(©\s*\d{4}\s+)([^·—|\n]{2,60}?)(\s*(?:·|—|\||$))/;
+
+  for (const e of document.querySelectorAll<HTMLElement>("footer *, footer")) {
+    if (e.children.length > 0 || e.dataset.copyrightRendu) continue;
+    const t = (e.textContent ?? "").replace(/\s+/g, " ").trim();
+    if (!t.includes("©")) continue;
+    if (t.toLowerCase().includes(propre.toLowerCase())) continue;
+    const m = motif.exec(t);
+    if (!m) continue;
+    e.dataset.copyrightRendu = "1";
+    e.textContent = t.replace(motif, `$1${propre}$3`);
+  }
+}
+
+/**
+ * Le téléphone et le courriel du client, quand la page ne les porte nulle part.
+ *
+ * Cent soixante et onze thèmes du catalogue n'affichent ni l'un ni l'autre —
+ * pas même en lien `tel:`. Pour un site d'artisan, c'est le manque le plus
+ * coûteux qui soit : le visiteur trouve le métier, la ville, les prestations,
+ * et repart sans pouvoir appeler.
+ *
+ * On ne redessine rien : on ajoute une ligne au pied de page, dans sa couleur
+ * et sa fonte, et seulement si le numéro n'apparaît nulle part ailleurs. Un
+ * thème qui affiche déjà le contact ne bouge pas d'un pixel.
+ */
+function poserLeContact(donnees: Record<string, unknown> | undefined) {
+  const tel = typeof donnees?.phone === "string" ? donnees.phone.trim() : "";
+  const mail = typeof donnees?.email === "string" ? donnees.email.trim() : "";
+  if (!tel && !mail) return;
+
+  const pied = document.querySelector<HTMLElement>("footer");
+  if (!pied || pied.dataset.contactPose) return;
+
+  const texte = document.body.textContent ?? "";
+  const manqueTel = Boolean(tel) && !texte.includes(tel);
+  const manqueMail = Boolean(mail) && !texte.includes(mail);
+  if (!manqueTel && !manqueMail) return;
+
+  pied.dataset.contactPose = "1";
+  const ligne = document.createElement("div");
+  ligne.style.cssText =
+    "margin-top:16px;display:flex;gap:20px;flex-wrap:wrap;align-items:center;font-size:14px;line-height:1.6;opacity:0.9";
+
+  const lien = (href: string, libelle: string) => {
+    const a = document.createElement("a");
+    a.href = href;
+    a.textContent = libelle;
+    a.style.cssText = "color:inherit;text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px";
+    return a;
+  };
+  if (manqueTel) ligne.appendChild(lien(`tel:${tel.replace(/[^\d+]/g, "")}`, tel));
+  if (manqueMail) ligne.appendChild(lien(`mailto:${mail}`, mail));
+  pied.appendChild(ligne);
+}
+
+/**
  * Le fond du thème jusqu'au bas du document.
  *
  * impact-333 finit sur cent trente pixels blancs sous son pied de page noir.
@@ -1104,6 +1173,8 @@ export function BrandColorVar() {
           rendreLaMarque(d?.formData?.businessName);
           bornerLesTextesDuTheme();
           rendreLesMotsEntiers();
+          rendreLeCopyright(d?.formData?.businessName);
+          poserLeContact(d?.formData);
           prolongerLeFond();
         };
         requestAnimationFrame(() => requestAnimationFrame(passer));
