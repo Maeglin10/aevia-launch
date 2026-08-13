@@ -22,6 +22,19 @@ import path from "node:path";
 import { chromium } from "playwright";
 
 const BASE = process.env.AUDIT_BASE ?? "http://localhost:3000";
+
+/*
+  Les banques d'images répondent-elles depuis cette machine ? On le mesure une
+  fois, au lieu de le supposer : c'est cette supposition, héritée d'un conteneur
+  sans réseau, qui vidait les clichés de toutes leurs photos.
+*/
+const BANQUES_JOIGNABLES = await fetch(
+  "https://images.pexels.com/photos/792034/pexels-photo-792034.jpeg?auto=compress&cs=tinysrgb&w=60",
+  { signal: AbortSignal.timeout(8000) },
+)
+  .then((r) => r.ok)
+  .catch(() => false);
+console.log(BANQUES_JOIGNABLES ? "Banques d'images joignables : photos réelles." : "Banques d'images hors de portée : photos coupées.");
 const CHROME = process.env.CHROME_PATH && fs.existsSync(process.env.CHROME_PATH)
   ? process.env.CHROME_PATH
   : undefined; // sinon, le navigateur de Playwright
@@ -214,13 +227,23 @@ for (const id of ids) {
       const ctx = await navigateur.newContext({ viewport: { width: largeur, height: hauteur }, deviceScaleFactor: 1 });
       const page = await ctx.newPage();
       page.on("pageerror", (e) => fiche.erreurs.push(`${nom}: ${String(e).slice(0, 120)}`));
-      // Les banques d'images sont injoignables ici ; on coupe net plutôt que
-      // d'attendre leur expiration, la page doit tenir sans elles.
-      await page.route("**/*", (route) => {
-        const u = route.request().url();
-        if (/images\.unsplash\.com|images\.pexels\.com|source\.unsplash/.test(u)) return route.abort();
-        return route.continue();
-      });
+      /*
+        Les banques d'images ne répondent pas partout — le harnais de nuit
+        tournait sans réseau sortant. On coupait donc net, et la page devait
+        tenir sans elles. Mais couper là où elles RÉPONDENT rend les clichés
+        mensongers : chaque photo devient son texte de remplacement, et un
+        thème complet paraît amputé. J'ai accusé impact-332 sur cette base.
+
+        On coupe donc seulement quand les banques sont vraiment hors de portée
+        (mesuré une fois au démarrage), et jamais autrement.
+      */
+      if (!BANQUES_JOIGNABLES) {
+        await page.route("**/*", (route) => {
+          const u = route.request().url();
+          if (/images\.unsplash\.com|images\.pexels\.com|source\.unsplash/.test(u)) return route.abort();
+          return route.continue();
+        });
+      }
       await page.goto(`${BASE}/templates/${id}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 60000 });
       await page.waitForTimeout(4200); // laisser passer les entrées et les repasses de BrandColorVar
       /*
@@ -240,9 +263,46 @@ for (const id of ids) {
         }
       });
       await page.waitForTimeout(1200);
+      /*
+        Attendre que les photos soient arrivées. Sans cela, le cliché saisit
+        l'instant où l'image se télécharge encore : le navigateur y affiche le
+        texte de remplacement, et une page complète passe pour une page dont
+        les photos manquent. C'est ce qui m'a fait accuser impact-332 à tort.
+      */
+      await page
+        .evaluate(
+          () =>
+            new Promise((fini) => {
+              const reste = () => [...document.images].filter((i) => !i.complete);
+              const voir = () => (reste().length ? setTimeout(voir, 200) : fini());
+              voir();
+            }),
+        )
+        .catch(() => {});
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.waitForTimeout(900);
       fiche[nom] = await page.evaluate(MESURE);
+      /*
+        Attendre que l'image s'arrête de bouger.
+
+        Beaucoup de héros tournent : trois couvertures qui se relaient toutes
+        les cinq secondes, chacune entrant par une animation d'une seconde. Un
+        cliché pris au hasard tombe une fois sur cinq pendant la transition, et
+        montre alors un panneau à moitié sorti du cadre — j'ai cru impact-334
+        amputé de sa photo sur cette seule base.
+
+        On compare donc deux clichés du haut de page à 450 ms d'intervalle, et
+        on ne garde que l'instant où ils sont identiques. Un héros qui ne
+        s'arrête jamais finit par être photographié quand même, après huit
+        tentatives : mieux vaut une image imparfaite qu'une attente sans fin.
+      */
+      let precedent = null;
+      for (let essai = 0; essai < 8; essai++) {
+        const vue = await page.screenshot({ clip: { x: 0, y: 0, width: largeur, height: Math.min(hauteur, 900) } });
+        if (precedent && Buffer.compare(precedent, vue) === 0) break;
+        precedent = vue;
+        await page.waitForTimeout(450);
+      }
       await page.screenshot({ path: path.join(sortie, `${id}-${nom}.png`), fullPage: false });
       await page.screenshot({ path: path.join(sortie, `${id}-${nom}-entier.png`), fullPage: true });
       await ctx.close();

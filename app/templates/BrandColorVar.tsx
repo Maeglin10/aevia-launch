@@ -384,6 +384,64 @@ function ajusterAuCadre(e: HTMLElement) {
   if (encore()) retrecirJusquAuCadre(e);
 }
 
+/**
+ * Un mot du client coupé en deux lignes.
+ *
+ * « COUVREU / R À ANNECY » : le titre d'impact-332 casse le mot en plein
+ * milieu. Aucun garde ne le voyait, et pour une bonne raison — le texte TIENT
+ * dans son cadre. `scrollWidth` n'excède pas `clientWidth`, rien ne sort de
+ * l'écran : du point de vue de la mesure, tout va bien. C'est le repli
+ * `overflow-wrap: break-word` qui a fait son office, sur un mot plus large que
+ * la colonne.
+ *
+ * On ne peut pas deviner la largeur d'un mot depuis sa longueur : elle dépend
+ * de la fonte, de la graisse, de l'interlettrage. On la mesure donc — un
+ * `Range` posé sur le mot rend un rectangle par ligne occupée. Deux rectangles
+ * à des hauteurs différentes, c'est un mot coupé.
+ */
+function motCoupeDans(e: HTMLElement): boolean {
+  const parcours = document.createTreeWalker(e, NodeFilter.SHOW_TEXT);
+  const plage = document.createRange();
+  for (let n = parcours.nextNode(); n; n = parcours.nextNode()) {
+    const texte = n.textContent ?? "";
+    for (const m of texte.matchAll(/\S+/g)) {
+      /* « à », « de », « et » : les couper ne se voit pas, et ils ne le sont jamais. */
+      if (m[0].length < 4) continue;
+      plage.setStart(n, m.index);
+      plage.setEnd(n, m.index + m[0].length);
+      const rects = [...plage.getClientRects()].filter((r) => r.width > 0.5);
+      if (rects.length < 2) continue;
+      if (new Set(rects.map((r) => Math.round(r.top))).size > 1) return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Rendre au client ses mots entiers.
+ *
+ * On rétrécit par paliers jusqu'à ce que plus aucun mot ne soit coupé. Si même
+ * la moitié de la taille n'y suffit pas, on rend sa taille d'origine : un titre
+ * minuscule ET coupé serait deux défauts au lieu d'un.
+ */
+function rendreLesMotsEntiers() {
+  for (const e of document.querySelectorAll<HTMLElement>("h1, h2, h3, h4")) {
+    const style = getComputedStyle(e);
+    /* Le petit texte se replie sans qu'on le remarque ; c'est l'affiche qui blesse. */
+    if (parseFloat(style.fontSize) < 24) continue;
+    if (!motCoupeDans(e)) continue;
+
+    if (!e.dataset.tailleOrigine) e.dataset.tailleOrigine = style.fontSize;
+    const depart = parseFloat(e.dataset.tailleOrigine);
+    let repare = false;
+    for (let taille = depart - 2; taille >= depart * 0.5; taille -= 2) {
+      e.style.fontSize = `${taille}px`;
+      if (!motCoupeDans(e)) { repare = true; break; }
+    }
+    if (!repare) e.style.fontSize = "";
+  }
+}
+
 /** La police rétrécit par paliers jusqu'à ce que le texte tienne, sans jamais descendre sous onze pixels. */
 function retrecirJusquAuCadre(e: HTMLElement) {
   const large = document.documentElement.clientWidth;
@@ -949,6 +1007,7 @@ export function BrandColorVar() {
           rendreLesHoraires(d?.businessProfile?.openingHours);
           rendreLaMarque(d?.formData?.businessName);
           bornerLesTextesDuTheme();
+          rendreLesMotsEntiers();
         };
         requestAnimationFrame(() => requestAnimationFrame(passer));
         /*
