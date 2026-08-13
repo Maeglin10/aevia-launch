@@ -340,6 +340,27 @@ function rendreLesNomsEntiers(nom: string | undefined) {
  * on rétrécit la police. Le dessin du thème est conservé tant que le texte
  * tient ; on n'intervient qu'au-delà.
  */
+/**
+ * L'élément vit-il dans quelque chose qui bouge ou qui défile ?
+ *
+ * Un titre qui défile horizontalement déborde de son cadre par dessein : c'est
+ * le geste même. Le rétrécir revient à effacer le thème — impact-347 affichait
+ * son titre de héros en onze pixels, la taille plancher, au lieu de soixante.
+ *
+ * On remonte jusqu'au corps de page : l'animation d'un bandeau est souvent
+ * posée bien plus haut que l'élément qui porte le texte.
+ */
+function dansUnElementQuiBouge(e: Element): boolean {
+  let n: Element | null = e;
+  while (n && n !== document.body) {
+    const s = getComputedStyle(n);
+    if (["auto", "scroll"].includes(s.overflowX) || ["auto", "scroll"].includes(s.overflow)) return true;
+    if (s.animationName !== "none" || /matrix|translate/.test(s.transform)) return true;
+    n = n.parentElement;
+  }
+  return false;
+}
+
 function ajusterAuCadre(e: HTMLElement) {
   /*
     L'ajustement se refait quand le texte change, et seulement alors : un
@@ -357,6 +378,8 @@ function ajusterAuCadre(e: HTMLElement) {
   const r = e.getBoundingClientRect();
   const deborde = r.right > large + 4 || e.scrollWidth > e.clientWidth + 4;
   if (!deborde) return;
+  /* Ce qui défile déborde à dessein : le rétrécir efface le geste du thème. */
+  if (dansUnElementQuiBouge(e)) return;
 
   // On repart de la taille d'origine, sinon les rétrécissements s'additionnent.
   if (!e.dataset.tailleOrigine) {
@@ -382,6 +405,53 @@ function ajusterAuCadre(e: HTMLElement) {
   */
   if (encore()) e.style.maxWidth = "calc(100vw - 2rem)";
   if (encore()) retrecirJusquAuCadre(e);
+}
+
+/**
+ * Le fond du thème jusqu'au bas du document.
+ *
+ * impact-333 finit sur cent trente pixels blancs sous son pied de page noir.
+ * Le thème peint son fond sur sa propre enveloppe ; quand le document est plus
+ * haut qu'elle — un décor en position absolue, une ancre, un espace de fin —
+ * c'est le blanc du navigateur qui apparaît dessous.
+ *
+ * On recopie donc le fond de l'enveloppe sur `html` et `body`. Rien ne change
+ * quand le thème est clair ; sur les thèmes sombres, la bande disparaît.
+ */
+function prolongerLeFond() {
+  const corps = document.body;
+  if (!corps || corps.dataset.fondProlonge) return;
+
+  const peint = (e: Element | null): string | null => {
+    if (!e) return null;
+    const f = getComputedStyle(e).backgroundColor;
+    return f && f !== "transparent" && f !== "rgba(0, 0, 0, 0)" ? f : null;
+  };
+
+  /*
+    C'est le bas de la page qui compte : la bande apparaît sous le pied de
+    page. On prend donc sa couleur — et non celle de l'enveloppe, souvent
+    transparente parce que chaque section peint la sienne.
+  */
+  const pied = document.querySelector("footer");
+  let fond = peint(pied);
+  if (!fond && pied) {
+    for (const e of Array.from(pied.querySelectorAll("*")).slice(0, 40)) {
+      fond = peint(e);
+      if (fond) break;
+    }
+  }
+  if (!fond) {
+    for (const e of Array.from(corps.children)) {
+      fond = peint(e);
+      if (fond) break;
+    }
+  }
+  if (!fond) return;
+
+  corps.dataset.fondProlonge = "1";
+  corps.style.background = fond;
+  document.documentElement.style.background = fond;
 }
 
 /**
@@ -425,7 +495,14 @@ function motCoupeDans(e: HTMLElement): boolean {
  * minuscule ET coupé serait deux défauts au lieu d'un.
  */
 function rendreLesMotsEntiers() {
-  for (const e of document.querySelectorAll<HTMLElement>("h1, h2, h3, h4")) {
+  /*
+    Pas seulement les titres : le prix d'impact-321 est un `div` en corps 50,
+    et « 180 € le déplacement » s'y coupait en « déplac / ement ». On retient
+    donc tout texte assez grand pour que la coupure se voie, et on écarte les
+    conteneurs — leurs enfants sont examinés pour eux.
+  */
+  for (const e of document.querySelectorAll<HTMLElement>("h1, h2, h3, h4, p, div, span, li, td, a, strong, em, blockquote")) {
+    if (e.children.length > 0 && !/^H[1-4]$/.test(e.tagName)) continue;
     const style = getComputedStyle(e);
     /* Le petit texte se replie sans qu'on le remarque ; c'est l'affiche qui blesse. */
     if (parseFloat(style.fontSize) < 24) continue;
@@ -742,17 +819,6 @@ function capitale(x: string): string {
 function bornerLesTextesDuTheme() {
   const large = document.documentElement.clientWidth;
 
-  const defileOuAnime = (e: Element): boolean => {
-    let n: Element | null = e;
-    for (let i = 0; i < 6 && n; i++) {
-      const s = getComputedStyle(n);
-      if (["auto", "scroll"].includes(s.overflowX) || ["auto", "scroll"].includes(s.overflow)) return true;
-      if (s.animationName !== "none" || /matrix|translate/.test(s.transform)) return true;
-      n = n.parentElement;
-    }
-    return false;
-  };
-
   for (const e of document.querySelectorAll<HTMLElement>("p, span, div, li, h1, h2, h3, h4, a, td, dd, button")) {
     if (e.children.length > 0 || e.dataset.borne) continue;
     const t = (e.textContent ?? "").trim();
@@ -762,13 +828,29 @@ function bornerLesTextesDuTheme() {
     const r = e.getBoundingClientRect();
     if (r.width < 8 || r.height < 6) continue;
     if (r.right <= large + 4 && e.scrollWidth <= e.clientWidth + 4) continue;
-    if (defileOuAnime(e)) continue;
+    if (dansUnElementQuiBouge(e)) continue;
 
     e.dataset.borne = "1";
     e.style.overflowWrap = "anywhere";
     e.style.maxWidth = "calc(100vw - 1.5rem)";
-    if (s.whiteSpace.startsWith("nowrap")) e.style.whiteSpace = "normal";
-    if (e.getBoundingClientRect().right > large + 4 || e.scrollWidth > e.clientWidth + 4) retrecirJusquAuCadre(e);
+
+    const tient = () =>
+      e.getBoundingClientRect().right <= large + 4 && e.scrollWidth <= e.clientWidth + 4;
+
+    /*
+      Un `nowrap` posé par le thème est une intention, pas un oubli : le prix
+      d'impact-341 tient sur une ligne parce qu'un montant se lit d'un coup.
+      L'annuler d'emblée donnait « à partir / de 9 400 / € » sur trois lignes,
+      le symbole seul en bas — trois lignes que J'AVAIS créées.
+
+      On rétrécit donc d'abord, et on ne permet le repli que si même la plus
+      petite taille ne suffit pas.
+    */
+    if (s.whiteSpace.startsWith("nowrap")) {
+      if (!tient()) retrecirJusquAuCadre(e);
+      if (!tient()) { e.style.whiteSpace = "normal"; e.style.fontSize = ""; }
+    }
+    if (!tient()) retrecirJusquAuCadre(e);
   }
 }
 
@@ -1008,6 +1090,7 @@ export function BrandColorVar() {
           rendreLaMarque(d?.formData?.businessName);
           bornerLesTextesDuTheme();
           rendreLesMotsEntiers();
+          prolongerLeFond();
         };
         requestAnimationFrame(() => requestAnimationFrame(passer));
         /*

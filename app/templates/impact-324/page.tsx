@@ -87,12 +87,12 @@ function photo(i: number, repli: string): string {
 /* ── Données de démonstration (contenu rédactionnel conservé) ────────────── */
 
 const EVENTS_SOURCE = [
-  { id: "e1", title: "Midnight Neon Tour", artist: "Syntax Error", d: "15", m: "Aug", time: "21:00", venue: "The Grand Arena, Paris", price: "45 €", category: "Electronic", pi: 4 },
-  { id: "e2", title: "Acoustic Sessions", artist: "Elena Rossi", d: "20", m: "Aug", time: "19:30", venue: "Intimate Hall, Lyon", price: "35 €", category: "Acoustic", pi: 5 },
-  { id: "e3", title: "Summer Vibes Festival", artist: "Various Artists", d: "05", m: "Sep", time: "14:00", venue: "Open Air Park, Marseille", price: "89 €", category: "Festival", pi: 6 },
-  { id: "e4", title: "Symphony of the Night", artist: "Orchestre de Paris", d: "12", m: "Sep", time: "20:00", venue: "Philharmonie, Paris", price: "60 €", category: "Classical", pi: 7 },
-  { id: "e5", title: "Rock Revival", artist: "The Thunders", d: "25", m: "Sep", time: "20:30", venue: "Zénith, Lille", price: "50 €", category: "Rock", pi: 4 },
-  { id: "e6", title: "Jazz & Wine Night", artist: "Blue Note Quartet", d: "02", m: "Oct", time: "20:00", venue: "Jazz Club, Bordeaux", price: "40 €", category: "Jazz", pi: 5 },
+  { id: "e1", title: "Tournée Néon de minuit", artist: "Syntax Error", d: "15", m: "août", time: "21:00", venue: "Grande Halle, Paris", price: "45 €", category: "Électro", pi: 4 },
+  { id: "e2", title: "Acoustic Sessions", artist: "Elena Rossi", d: "20", m: "août", time: "19:30", venue: "Intimate Hall, Lyon", price: "35 €", category: "Acoustic", pi: 5 },
+  { id: "e3", title: "Summer Vibes Festival", artist: "Various Artists", d: "05", m: "sept.", time: "14:00", venue: "Open Air Park, Marseille", price: "89 €", category: "Festival", pi: 6 },
+  { id: "e4", title: "Symphonie de la nuit", artist: "Orchestre de Paris", d: "12", m: "sept.", time: "20:00", venue: "Philharmonie, Paris", price: "60 €", category: "Classique", pi: 7 },
+  { id: "e5", title: "Nuit rock", artist: "Les Foudres", d: "25", m: "sept.", time: "20:30", venue: "Zénith, Lille", price: "50 €", category: "Rock", pi: 4 },
+  { id: "e6", title: "Jazz & Wine Night", artist: "Blue Note Quartet", d: "02", m: "oct.", time: "20:00", venue: "Jazz Club, Bordeaux", price: "40 €", category: "Jazz", pi: 5 },
 ];
 
 function EVENTS_LIVE() {
@@ -118,22 +118,22 @@ const TICKETS_SOURCE = [
   {
     k: "Standard",
     p: "35 – 89 €",
-    n: "The price printed on the announcement is the price at checkout, on the day, for the last seat as for the first.",
-    perks: ["Any show on the calendar", "Cash and card, no booking fee in person", "Companion ticket free — step-free access to every floor"],
+    n: "Le prix imprimé sur l'annonce est celui payé au guichet, le soir même, pour la dernière place comme pour la première.",
+    perks: ["Toutes les soirées du calendrier", "Espèces et carte, sans frais de réservation au guichet", "Place accompagnant offerte — accès de plain-pied à tous les niveaux"],
     featured: false,
   },
   {
     k: "VIP",
     p: "× 2",
-    n: "Take your concert experience to the next level — premium seating, backstage access, drinks and meet & greet.",
-    perks: ["Early entry & dedicated VIP entrance", "Premium front row or balcony seating", "Exclusive merchandise package", "Access to VIP lounge & private bar"],
+    n: "Le concert autrement : placement privilégié, coulisses, boisson et rencontre avec les artistes.",
+    perks: ["Entrée anticipée et accès VIP réservé", "Premier rang ou balcon", "Coffret collector", "Salon VIP et bar privé"],
     featured: true,
   },
   {
     k: "Group 10+",
-    p: "On quote",
-    n: "Written quote within one working day, with a held allocation for seven days.",
-    perks: ["Held allocation for seven days", "One inbox, read by a person", "Quote within one working day"],
+    p: "Sur devis",
+    n: "Devis écrit sous un jour ouvré, places tenues sept jours.",
+    perks: ["Places tenues sept jours", "Une seule adresse, lue par quelqu'un", "Devis sous un jour ouvré"],
     featured: false,
   },
 ];
@@ -152,10 +152,10 @@ function TICKETS_LIVE() {
 let TICKETS = TICKETS_LIVE();
 
 const ENGAGE_SOURCE = [
-  "No dynamic pricing — the price on the announcement is the price at checkout",
-  "Artists paid on the night, in the dressing room, support acts included",
-  "Four rooms we run ourselves — owned or on long leases, never subcontracted",
-  "Demos welcome; we answer all of them, eventually",
+  "Aucun prix qui varie — le prix annoncé est le prix payé",
+  "Artistes payés le soir même, en loge, premières parties comprises",
+  "Quatre salles que nous exploitons — en propre ou en bail long, jamais sous-traitées",
+  "Démos bienvenues : nous répondons à toutes, tôt ou tard",
 ];
 
 function ENGAGE_LIVE() {
@@ -164,10 +164,10 @@ function ENGAGE_LIVE() {
 let ENGAGE = ENGAGE_LIVE();
 
 const STATS_SOURCE = [
-  { v: "500K+", l: "Tickets sold" },
-  { v: "4.9/5", l: "Customer rating" },
-  { v: "120+", l: "Live events yearly" },
-  { v: "100%", l: "Secure booking" },
+  { v: "500K+", l: "Billets vendus" },
+  { v: "4.9/5", l: "Note des spectateurs" },
+  { v: "120+", l: "Soirées par an" },
+  { v: "100%", l: "Réservation sécurisée" },
 ];
 
 function STATS_LIVE() {
@@ -179,9 +179,9 @@ function STATS_LIVE() {
 let STATS = STATS_LIVE();
 
 const AVIS_SOURCE = [
-  { name: "Sophie Martin", role: "Festival Goer", text: "Best ticketing experience I've had. Fast, secure, and I got my VIP pass without any hassle. The event was legendary!" },
-  { name: "Lucas Dubois", role: "Music Enthusiast", text: "The seat selection process was incredibly smooth. Customer service was also top-notch when I needed help." },
-  { name: "Emma Leroy", role: "Concert Addict", text: "I attend over 20 concerts a year and this platform is by far my favorite. Never missed a drop since I started using it." },
+  { name: "Sophie Martin", role: "Habituée des festivals", text: "La billetterie la plus simple que j'aie connue. Rapide, sûre, et mon pass VIP sans la moindre difficulté." },
+  { name: "Lucas Dubois", role: "Mélomane", text: "Le choix des places est d'une fluidité rare, et l'accueil au téléphone à la hauteur." },
+  { name: "Emma Leroy", role: "Abonnée", text: "Je vais à plus de vingt concerts par an, et c'est de loin la billetterie que je préfère. Je n'ai jamais raté une mise en vente depuis." },
 ];
 
 function AVIS_LIVE() {
@@ -198,10 +198,10 @@ function AVIS_LIVE() {
 let AVIS = AVIS_LIVE();
 
 const ABOUT_SOURCE = [
-  { t: "Since 2011", d: "Started as a 200-capacity room above a bar in Lille. Same three people still book every act on the calendar." },
-  { t: "No dynamic pricing", d: "The price printed on the announcement is the price at checkout, on the day, for the last seat as for the first." },
-  { t: "Artists paid on the night", d: "Settlement in the dressing room, before the load-out. Support acts included, no thirty-day terms." },
-  { t: "Rooms we run ourselves", d: "Four venues, all owned or on long leases. Nothing is subcontracted to a promoter we have not worked with for years." },
+  { t: "Depuis 2011", d: "Une salle de deux cents places au-dessus d'un bar, à Lille. Les mêmes trois personnes programment encore chaque soirée." },
+  { t: "Aucun prix qui varie", d: "Le prix imprimé sur l'annonce est celui payé au guichet, le soir même, pour la dernière place comme pour la première." },
+  { t: "Artistes payés le soir même", d: "Règlement en loge, avant le démontage. Premières parties comprises, sans délai de trente jours." },
+  { t: "Des salles que nous exploitons", d: "Quatre lieux, en propre ou en bail long. Rien n'est confié à un producteur que nous ne connaissons pas de longue date." },
 ];
 
 function ABOUT_LIVE() {
@@ -211,17 +211,17 @@ function ABOUT_LIVE() {
 let ABOUT = ABOUT_LIVE();
 
 const CONTACT_SOURCE = [
-  { t: "Box office", d: "Wednesday to Saturday, 14:00 — 19:00, at the venue. Cash and card, no booking fee in person." },
-  { t: "Groups of ten or more", d: "Written quote within one working day, with a held allocation for seven days." },
-  { t: "Accessibility", d: "Step-free access to every floor, companion ticket free. Tell us at booking and we confirm the specifics for that room." },
-  { t: "Press & artist enquiries", d: "One inbox, read by a person. Demos welcome; we answer all of them, eventually." },
+  { t: "Guichet", d: "Du mercredi au samedi, 14 h — 19 h, sur place. Espèces et carte, sans frais de réservation." },
+  { t: "Groupes de dix et plus", d: "Devis écrit sous un jour ouvré, places tenues sept jours." },
+  { t: "Accessibilité", d: "Accès de plain-pied à tous les niveaux, place accompagnant offerte. Dites-le à la réservation : nous confirmons les détails propres à la salle." },
+  { t: "Presse et artistes", d: "Une seule adresse, lue par quelqu'un. Démos bienvenues : nous répondons à toutes, tôt ou tard." },
 ];
 
 const NAV = [
   { l: "Dates", h: "#dates" },
-  { l: "Tickets", h: "#tickets" },
+  { l: "Billetterie", h: "#tickets" },
   { l: "VIP", h: "#vip" },
-  { l: "The house", h: "#about" },
+  { l: "La maison", h: "#about" },
   { l: "Contact", h: "#contact" },
 ];
 
@@ -463,7 +463,7 @@ export default function Impact324LiveTicket() {
               transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
             }}
           >
-            Get tickets
+            Réserver
           </a>
         </div>
         <button
@@ -485,7 +485,7 @@ export default function Impact324LiveTicket() {
             </a>
           ))}
           <a href="#tickets" onClick={() => setMobileOpen(false)} style={{ background: C.accent, color: C.bgDark, borderRadius: 999, padding: "14px 24px", fontSize: 14, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", textDecoration: "none", textAlign: "center", marginTop: 12 }}>
-            Get tickets
+            Réserver
           </a>
         </div>
       )}
@@ -506,7 +506,7 @@ export default function Impact324LiveTicket() {
             <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: "clamp(14px,2vw,22px)" }}>
               <span className="i324-livedot" aria-hidden style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent, boxShadow: "0 0 10px rgba(236,72,153,0.9)" }} />
               <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.38em", textTransform: "uppercase", color: C.accentDark, fontWeight: 600 }}>
-                {clientEyebrow(sessionData) ?? <>Live tickets · {ville} — Lille</>}
+                {clientEyebrow(sessionData) ?? <>Billetterie live · {ville} — Lille</>}
               </span>
             </div>
           </motion.div>
@@ -519,7 +519,7 @@ export default function Impact324LiveTicket() {
           >
             {heroLigne1 ?? (
               <>
-                Feel the <em style={{ fontStyle: "italic", color: C.accent }}>vibe.</em>
+                Vivez le <em style={{ fontStyle: "italic", color: C.accent }}>frisson.</em>
               </>
             )}
             <span style={{ display: "block" }}>
@@ -537,7 +537,7 @@ export default function Impact324LiveTicket() {
             transition={{ duration: 1, ease: EASE, delay: 0.48 }}
             style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15.5px,1.6vw,19px)", color: "rgba(245,246,251,0.82)", maxWidth: 500, lineHeight: 1.72, margin: "0 0 clamp(26px,3.4vw,44px)" }}
           >
-            {clientHeroSubtitle(sessionData) ?? c?.heroText ?? "Discover the best live concerts, festivals, and exclusive events. Secure your tickets now and make memories that last a lifetime."}
+            {clientHeroSubtitle(sessionData) ?? c?.heroText ?? "Concerts, festivals et soirées rares : réservez votre place et gardez-en le souvenir longtemps."}
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE, delay: 0.62 }} style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "clamp(16px,2.6vw,34px)" }}>
@@ -545,7 +545,7 @@ export default function Impact324LiveTicket() {
               href="#dates"
               style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.bgDark, borderRadius: 999, padding: "16px 32px", fontFamily: SANS, fontSize: 13, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", textDecoration: "none", boxShadow: "0 14px 40px -14px rgba(236,72,153,0.65)" }}
             >
-              Browse the dates <ArrowRight size={15} />
+              Voir les dates <ArrowRight size={15} />
             </a>
             {/* Légende de scène — pilotée par le même index que les affiches */}
             <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
@@ -555,7 +555,7 @@ export default function Impact324LiveTicket() {
                 {" — "}
                 {heroEvent?.d} {heroEvent?.m} · {heroEvent?.venue}
               </span>
-              <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" labels={{ prev: "Previous poster", next: "Next poster" }} />
+              <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" labels={{ prev: "Affiche précédente", next: "Affiche suivante" }} />
             </div>
           </motion.div>
         </div>
@@ -584,7 +584,7 @@ export default function Impact324LiveTicket() {
         <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(60% 50% at 50% 45%, rgba(236,72,153,0.07), transparent 70%)", pointerEvents: "none" }} />
         <Reveal>
           <p style={{ fontFamily: DISPLAY, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(22px,3vw,40px)", lineHeight: 1.4, letterSpacing: "-0.005em", color: C.ink, maxWidth: 860, margin: "0 auto", position: "relative" }}>
-            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.texte") ?? (<>Same three people still book every act on the calendar — and the price on the poster is the price at the door.</>)}
+            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.texte") ?? (<>Les mêmes trois personnes programment chaque soirée depuis le début — et le prix affiché est le prix à l'entrée.</>)}
           </p>
         </Reveal>
         <Reveal delay={0.15}>
@@ -599,11 +599,11 @@ export default function Impact324LiveTicket() {
         </div>
         <div style={{ maxWidth: 1180, margin: "0 auto", position: "relative" }}>
           <Reveal>
-            <Kicker>Upcoming shows</Kicker>
+            <Kicker>À l'affiche</Kicker>
           </Reveal>
           <Reveal delay={0.08}>
             <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(30px,4.6vw,58px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", color: C.ink, margin: "clamp(14px,2vw,22px) 0 clamp(34px,4.5vw,58px)" }}>
-              {/* TEXTE_SECTION */ clientText(sessionData, "events.titre") ?? (<>Secure your <em style={{ fontStyle: "italic", color: C.accent }}>spot.</em></>)}
+              {/* TEXTE_SECTION */ clientText(sessionData, "events.titre") ?? (<>Réservez votre <em style={{ fontStyle: "italic", color: C.accent }}>place.</em></>)}
             </h2>
           </Reveal>
 
@@ -619,14 +619,14 @@ export default function Impact324LiveTicket() {
       <section id="tickets" style={{ background: C.bg, padding: "clamp(80px,10vw,140px) clamp(24px,6vw,88px)", position: "relative" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto" }}>
           <Reveal>
-            <Kicker>Tickets</Kicker>
+            <Kicker>Billetterie</Kicker>
           </Reveal>
           <div className="i324-split" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.25fr) minmax(0,0.75fr)", gap: "clamp(20px,3vw,44px)", alignItems: "end", margin: "clamp(14px,2vw,22px) 0 clamp(34px,4.5vw,56px)" }}>
             <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(30px,4.6vw,58px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", color: C.ink, margin: 0 }}>
-              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>The price on the poster<br /><em style={{ fontStyle: "italic", color: C.accent }}>is the price.</em></>)}
+              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Le prix sur l'affiche<br /><em style={{ fontStyle: "italic", color: C.accent }}>est le prix payé.</em></>)}
             </h2>
             <p style={{ fontFamily: SANS, fontSize: 14.5, color: C.textMuted, lineHeight: 1.75, margin: 0, maxWidth: 460 }}>
-              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.texte") ?? (<>No dynamic pricing, no booking fee in person. Standard, VIP, or a written group quote — the announcement is the contract.</>)}
+              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.texte") ?? (<>Aucun prix qui varie, aucun frais de réservation au guichet. Standard, VIP ou devis de groupe : l'annonce fait foi.</>)}
             </p>
           </div>
 
@@ -667,19 +667,19 @@ export default function Impact324LiveTicket() {
           </Reveal>
           <Reveal delay={0.12}>
             <div>
-              <Kicker color={C.accentDark}>Exclusive access</Kicker>
+              <Kicker color={C.accentDark}>Accès privilégié</Kicker>
               <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(28px,3.8vw,50px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", color: C.ink, margin: "clamp(14px,2vw,20px) 0 clamp(16px,2vw,24px)" }}>
-                {/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Upgrade to the <em style={{ fontStyle: "italic", color: C.accent }}>VIP</em> experience.</>)}
+                {/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Passez à l'expérience <em style={{ fontStyle: "italic", color: C.accent }}>VIP</em> experience.</>)}
               </h2>
               <p style={{ fontFamily: SANS, fontSize: 15, color: C.textMuted, lineHeight: 1.78, maxWidth: 500, margin: "0 0 clamp(24px,3vw,34px)" }}>
-                {/* TEXTE_SECTION */ clientText(sessionData, "vip.texte") ?? (<>Take your concert experience to the next level. Enjoy premium seating, exclusive backstage access, complimentary drinks, and meet &amp; greet opportunities with your favorite artists.</>)}
+                {/* TEXTE_SECTION */ clientText(sessionData, "vip.texte") ?? (<>Le concert vu d'un autre endroit : placement privilégié, accès aux coulisses, boisson offerte et rencontre avec les artistes.</>)}
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 13, marginBottom: "clamp(26px,3.4vw,40px)" }}>
                 {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
                   "Early Entry & Dedicated VIP Entrance",
                   "Premium Front Row or Balcony Seating",
                   "Exclusive Merchandise Package",
-                  "Access to VIP Lounge & Private Bar",
+                  "Salon VIP et bar privé",
                 ]).map((perk, idx) => (
                   <div key={idx} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                     <span style={{ width: 22, height: 22, borderRadius: "50%", background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -690,7 +690,7 @@ export default function Impact324LiveTicket() {
                 ))}
               </div>
               <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 10, border: `1px solid ${C.accent}`, color: C.accentDark, borderRadius: 999, padding: "14px 28px", fontFamily: SANS, fontSize: 12.5, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", textDecoration: "none" }}>
-                Ask the box office <ArrowRight size={14} />
+                Écrire au guichet <ArrowRight size={14} />
               </a>
             </div>
           </Reveal>
@@ -716,11 +716,11 @@ export default function Impact324LiveTicket() {
       <section id="about" style={{ background: C.bg, padding: "clamp(80px,10vw,140px) clamp(24px,6vw,88px)" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto" }}>
           <Reveal>
-            <Kicker>The house</Kicker>
+            <Kicker>La maison</Kicker>
           </Reveal>
           <Reveal delay={0.08}>
             <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(30px,4.4vw,54px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", color: C.ink, margin: "clamp(14px,2vw,22px) 0 clamp(30px,4vw,54px)", maxWidth: 700 }}>
-              {/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>Who puts the <em style={{ fontStyle: "italic", color: C.accent }}>shows</em> on.</>)}
+              {/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>Qui fait les <em style={{ fontStyle: "italic", color: C.accent }}>soirées</em> on.</>)}
             </h2>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px,100%),1fr))", gap: "clamp(22px,3vw,40px)" }}>
@@ -744,11 +744,11 @@ export default function Impact324LiveTicket() {
         </div>
         <div style={{ maxWidth: 880, margin: "0 auto", textAlign: "center", position: "relative" }}>
           <Reveal>
-            <Kicker>Fan reviews</Kicker>
+            <Kicker>Ils y étaient</Kicker>
           </Reveal>
           <Reveal delay={0.08}>
             <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(28px,4vw,50px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", color: C.ink, margin: "clamp(14px,2vw,22px) 0 clamp(30px,4vw,50px)" }}>
-              {/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Hear the <em style={{ fontStyle: "italic", color: C.accent }}>crowd.</em></>)}
+              {/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Écoutez la <em style={{ fontStyle: "italic", color: C.accent }}>salle.</em></>)}
             </h2>
           </Reveal>
           <Reveal delay={0.14}>
@@ -769,7 +769,7 @@ export default function Impact324LiveTicket() {
             <div style={{ fontFamily: SANS, fontSize: 14, fontWeight: 600, color: C.ink }}>{avis?.name}</div>
             <div style={{ fontFamily: SANS, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", color: C.textFaint, marginTop: 5 }}>{avis?.role}</div>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 18, marginTop: 28 }}>
-              <HairlineArrows onPrev={() => setAvisIdx(avisIdx - 1)} onNext={() => setAvisIdx(avisIdx + 1)} color={C.ink} className="" labels={{ prev: "Previous review", next: "Next review" }} />
+              <HairlineArrows onPrev={() => setAvisIdx(avisIdx - 1)} onNext={() => setAvisIdx(avisIdx + 1)} color={C.ink} className="" labels={{ prev: "Avis précédent", next: "Avis suivant" }} />
               <SlideIndex i={((avisIdx % AVIS.length) + AVIS.length) % AVIS.length} total={AVIS.length} variant="flat" color={C.textFaint} className="" />
             </div>
           </Reveal>
@@ -784,7 +784,7 @@ export default function Impact324LiveTicket() {
           </Reveal>
           <Reveal delay={0.08}>
             <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(30px,4.4vw,54px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", color: C.ink, margin: "clamp(14px,2vw,22px) 0 clamp(30px,4vw,50px)", maxWidth: 680 }}>
-              {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Reaching a <em style={{ fontStyle: "italic", color: C.accent }}>human.</em></>)}
+              {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Parler à quelqu'un de <em style={{ fontStyle: "italic", color: C.accent }}>vivant.</em></>)}
             </h2>
           </Reveal>
           <div className="i324-contactgrid" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0,1fr))", gap: "clamp(16px,2.2vw,26px)", marginBottom: "clamp(30px,4vw,48px)" }}>
@@ -797,7 +797,7 @@ export default function Impact324LiveTicket() {
           <Reveal delay={0.1}>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 14, alignItems: "center" }}>
               <a href={`mailto:${mail}`} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.bgDark, borderRadius: 999, padding: "16px 32px", fontFamily: SANS, fontSize: 13, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none" }}>
-                <Mail size={16} /> Email the box office
+                <Mail size={16} /> Écrire au guichet
               </a>
               {phone && (
                 <a href={`tel:${phone}`} style={{ display: "inline-flex", alignItems: "center", gap: 10, border: `1px solid ${C.border}`, color: C.ink, borderRadius: 999, padding: "15px 30px", fontFamily: SANS, fontSize: 13, fontWeight: 600, letterSpacing: "0.1em", textDecoration: "none" }}>
@@ -818,16 +818,16 @@ export default function Impact324LiveTicket() {
         <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center", position: "relative" }}>
           <Reveal>
             <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(26px,3.6vw,44px)", fontWeight: 800, letterSpacing: "-0.02em", color: C.ink, margin: "0 0 14px", lineHeight: 1.08 }}>
-              {/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Never miss a <em style={{ fontStyle: "italic", color: C.accent }}>show.</em></>)}
+              {/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Ne manquez plus une <em style={{ fontStyle: "italic", color: C.accent }}>soirée.</em></>)}
             </h2>
             <p style={{ fontFamily: SANS, fontSize: 15, color: C.textMuted, lineHeight: 1.7, margin: "0 0 30px" }}>
-              Subscribe to our newsletter for pre-sale codes, exclusive drops, and VIP offers.
+              Recevez les préventes, les mises en vente et les offres VIP avant tout le monde.
             </p>
             <form onSubmit={(ev) => ev.preventDefault()} style={{ display: "flex", gap: 10, maxWidth: 480, margin: "0 auto", flexWrap: "wrap", justifyContent: "center" }}>
               <input
                 type="email"
-                placeholder="Enter your email"
-                aria-label="Email address"
+                placeholder="Votre adresse e-mail"
+                aria-label="Adresse e-mail"
                 style={{ flex: "1 1 220px", padding: "15px 20px", borderRadius: 999, border: `1px solid ${C.border}`, outline: "none", background: C.bgCard, color: C.ink, fontFamily: SANS, fontSize: 14 }}
               />
               <button type="submit" style={{ background: C.accent, color: C.bgDark, borderRadius: 999, border: "none", padding: "15px 30px", fontFamily: SANS, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", cursor: "pointer" }}>
@@ -848,7 +848,7 @@ export default function Impact324LiveTicket() {
                 <span style={{ fontFamily: DISPLAY, fontSize: 18, fontWeight: 800, color: C.ink }}>{businessName}</span>
               </div>
               <p style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 320, margin: 0 }}>
-                Your ultimate destination for live music, concerts, and exclusive event experiences.
+                La billetterie des concerts, des festivals et des soirées qu'on n'oublie pas.
               </p>
             </div>
             <div>
@@ -954,7 +954,7 @@ function EventRow({ e, idx }: { e: any; idx: number }) {
             aria-label={`Tickets — ${e.title}`}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: SANS, fontSize: 11.5, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: hov ? C.accentDark : C.textMuted, textDecoration: "none", padding: "12px 4px", transition: "color 0.45s cubic-bezier(.16,1,.3,1)" }}
           >
-            Book
+            Réserver
             <ArrowRight size={14} style={{ transform: hov ? "translateX(5px)" : "none", transition: "transform 0.5s cubic-bezier(.16,1,.3,1)" }} />
           </a>
         </div>

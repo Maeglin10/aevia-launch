@@ -247,7 +247,9 @@ const CORPS_METIERS_DEMO = [
   "Serrurerie & métallerie",
 ];
 
-const TEAM_DEMO = [
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function TEAM_DEMO_LIVE() {
+  return [
   {
     name: "Philippe Barrault",
     role: "Directeur Général",
@@ -277,6 +279,8 @@ const TEAM_DEMO = [
     desc: "Chiffrage, réponse aux appels d'offres, suivi commercial des grands comptes publics et privés.",
   },
 ];
+}
+let TEAM_DEMO = TEAM_DEMO_LIVE();
 
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
@@ -469,6 +473,7 @@ export default function Impact173Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TEAM_DEMO = TEAM_DEMO_LIVE();
   PARTENAIRES = PARTENAIRES_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();

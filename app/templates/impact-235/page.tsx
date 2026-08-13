@@ -141,7 +141,9 @@ interface Material {
   description: string;
 }
 
-const MATERIALS_SOURCE: Material[] = [
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function MATERIALS_SOURCE_LIVE() {
+  return [
   {
     name: 'Soie de ' + (clientCity(sessionData) ?? 'Lyon'),
     origin: 'Fabrique Bucol, Rhône-Alpes',
@@ -167,6 +169,8 @@ const MATERIALS_SOURCE: Material[] = [
       "Le lin Ulster, cultivé dans les pluies atlantiques, possède une résistance singulière et un tomber rectiligne parfait. Il vieillit en s\'embellissant, comme doit le faire une pièce sur mesure.",
   },
 ];
+}
+let MATERIALS_SOURCE: Material[] = MATERIALS_SOURCE_LIVE();
 let MATERIALS = MATERIALS_SOURCE;
 
 interface PressItem {
@@ -1858,6 +1862,7 @@ export default function AtlierMargueriteVossPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  MATERIALS_SOURCE = MATERIALS_SOURCE_LIVE();
   IMG = IMG_LIVE();
   PRESS_DEMO = PRESS_DEMO_LIVE();
 

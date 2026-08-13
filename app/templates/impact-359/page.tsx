@@ -539,8 +539,14 @@ export default function LocamatPage() {
     dépôt. Archivo 900 en capitales tient 15 signes par ligne au plus grand
     palier : c'est le maxLigne passé au contrat.
   */
-  const l1 = i === 0 ? clientHeroLine(sessionData, 0, 2, 15) ?? S.l1 : S.l1;
-  const l2 = i === 0 ? clientHeroLine(sessionData, 1, 2, 15) ?? S.l2 : S.l2;
+  /*
+    Les couvertures d'après gardaient la phrase du thème : le visiteur voyait le
+    métier d'une autre entreprise en grand titre, quelques secondes après celui
+    du client. Elles portent maintenant ses prestations.
+  */
+  const presta = clientServices(sessionData)?.[i]?.title as string | undefined;
+  const l1 = i === 0 ? clientHeroLine(sessionData, 0, 2, 15) ?? S.l1 : presta ?? S.l1;
+  const l2 = i === 0 ? clientHeroLine(sessionData, 1, 2, 15) ?? S.l2 : presta ? "" : S.l2;
 
   /* Les tuiles du geste : trois tailles inégales, la première à cheval. */
   const tiles = S.tiles.map(({ icon: Icon, t, d }: any, n: number) => ({

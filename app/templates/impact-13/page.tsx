@@ -90,13 +90,17 @@ const savoirFaire_SOURCE = [
 ];
 let savoirFaire = savoirFaire_SOURCE;
 
-const timeline = [
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function timeline_LIVE() {
+  return [
   { year: "1887", event: "Fondation par Édouard Lecomte à " + (clientCity(sessionData) ?? "Genève") },
   { year: "1923", event: "Premier tourbillon maison breveté" },
   { year: "1961", event: "Lancement de la collection Heritage" },
   { year: "1998", event: "Acquisition de la manufacture de La Vallée de Joux" },
   { year: "2019", event: "Première montre entièrement en titane Grade 5" },
 ];
+}
+let timeline = timeline_LIVE();
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -141,6 +145,7 @@ export default function AtelierMecaniquePage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  timeline = timeline_LIVE();
   savoirFaire = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...savoirFaire_SOURCE[i % savoirFaire_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     savoirFaire_SOURCE,

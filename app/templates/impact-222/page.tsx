@@ -818,7 +818,9 @@ type Property = {
   type: string;
 };
 
-const PROPERTIES_DEMO_SOURCE: Property[] = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function PROPERTIES_DEMO_SOURCE_LIVE() {
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     name: 'Le Domaine des Cèdres',
     img: PHOTO.villa,
@@ -844,6 +846,8 @@ const PROPERTIES_DEMO_SOURCE: Property[] = /* REALISATIONS */ resolveList(client
     type: 'Mas de caractère',
   },
 ]);
+}
+let PROPERTIES_DEMO_SOURCE: Property[] = PROPERTIES_DEMO_SOURCE_LIVE();
 let PROPERTIES_DEMO = PROPERTIES_DEMO_SOURCE;
 
 const PropertyCard: React.FC<{ p: any; delay: number; index?: number }> = ({
@@ -2530,6 +2534,7 @@ export default function ImpactTemplate(): React.ReactElement {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PROPERTIES_DEMO_SOURCE = PROPERTIES_DEMO_SOURCE_LIVE();
   PHOTO = PHOTO_LIVE();
   FOOTER_COLS = FOOTER_COLS_LIVE();
   SIGNATURES = SIGNATURES_LIVE();
