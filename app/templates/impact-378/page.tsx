@@ -47,8 +47,17 @@ let C: Record<string, string> = {
   white: "#ffffff",
   border: "#e2d9c8",
 };
-const FONT = "Georgia, 'Times New Roman', serif";
-const FONT_BODY = "system-ui, -apple-system, sans-serif";
+/*
+  La paire du plan (P11) : « EB Garamond » porte la voix du thème,
+  « Outfit » porte la lecture. Le thème n'avait que
+  system-ui pour tout — c'est ce qui le rendait interchangeable avec ses
+  voisins. FONT reste le corps de texte, pour ne pas mettre une serif
+  d'affiche dans les paragraphes ; FONT_TITRE ne va qu'aux titres.
+*/
+const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');`;
+const FONT_TITRE = "'EB Garamond', Georgia, 'Times New Roman', serif";
+const FONT = "'Outfit', system-ui, -apple-system, sans-serif";
+const FONT_BODY = FONT;
 
 const NAV = [{"l": "Expertises", "h": "#services"}, {"l": "Infos pratiques", "h": "#methode"}, {"l": "Honoraires", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 const HERO = [];
@@ -166,7 +175,8 @@ export default function CapHorizonPatrimoinePage() {
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
-      <style>{`
+      <style>{`${FONTS_CSS}
+
         @media (max-width: 900px) { #i378-nav { display: none !important; } .i378-burger { display: flex !important; } }
         @media (max-width: 860px) {
           .i378-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
@@ -221,7 +231,7 @@ export default function CapHorizonPatrimoinePage() {
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
             Gestion de patrimoine · {clientCity(sessionData) ?? "Lyon"}
           </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
             {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 16) ?? "Votre patrimoine mérite"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 16) ?? "une stratégie, pas des produits."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
@@ -264,7 +274,7 @@ export default function CapHorizonPatrimoinePage() {
             renderTitle={(active) => (
               <div>
                 <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Le parcours</span>
-                <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 44px)", color: C.text, lineHeight: 1.15, margin: "12px 0 0" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
+                <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3.4vw, 44px)", color: C.text, lineHeight: 1.15, margin: "12px 0 0" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
                   Une stratégie<br /><em style={{ color: C.accentDark }}>en quatre temps.</em>
                 </>)}</h2>
                 <div style={{ marginTop: 26, display: "flex", gap: 8 }}>
@@ -284,7 +294,7 @@ export default function CapHorizonPatrimoinePage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Expertises</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Tout le patrimoine,<br /><em>pas un seul produit.</em>
               </>)}</h2>
             </div>
@@ -294,7 +304,7 @@ export default function CapHorizonPatrimoinePage() {
               <Reveal key={s.titre} delay={idx * 0.06}>
                 <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
                   <span style={{ background: C.accentLight, color: C.accentDark, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
+                  <h3 style={{ fontFamily: FONT_TITRE, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
                   <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
                 </motion.div>
               </Reveal>
@@ -309,7 +319,7 @@ export default function CapHorizonPatrimoinePage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Infos pratiques</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
                 Un cabinet réglementé,<br /><em>ça change la conversation.</em>
               </>)}</h2>
             </div>
@@ -337,7 +347,7 @@ export default function CapHorizonPatrimoinePage() {
           <Reveal delay={0.15}>
             <div>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Nos engagements</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
                 Votre intérêt,<br /><em>c'est le statut qui l'impose.</em>
               </>)}</h2>
               {ENGAGEMENT.map((e, idx) => (
@@ -360,7 +370,7 @@ export default function CapHorizonPatrimoinePage() {
           <Reveal>
             <div style={{ textAlign: "center", marginBottom: 16 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Honoraires</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Le conseil se paie, <em>c'est ce qui le rend libre.</em></>)}</h2>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Le conseil se paie, <em>c'est ce qui le rend libre.</em></>)}</h2>
               <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Le bilan est facturé — c'est la condition de son indépendance. Les honoraires de suivi sont dégressifs selon les encours conseillés.</p>
             </div>
           </Reveal>
@@ -384,7 +394,7 @@ export default function CapHorizonPatrimoinePage() {
       <section className="i378-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Des patrimoines <em style={{ color: C.hi }}>qui ont un cap</em>.</>)}</h2>
+            <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Des patrimoines <em style={{ color: C.hi }}>qui ont un cap</em>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
@@ -409,7 +419,7 @@ export default function CapHorizonPatrimoinePage() {
       <section id="contact" className="i378-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Premier échange</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
+          <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Trente minutes pour voir<br /><em>si nous pouvons vous être utiles.</em>
           </>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Premier entretien téléphonique offert et sans engagement. Si un bilan ne vous servirait à rien, nous vous le dirons.</p>

@@ -47,7 +47,16 @@ let C: Record<string, string> = {
   white: "#ffffff",
   border: "#d9e4ea",
 };
-const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
+/*
+  La paire du plan (P10) : « Spectral » porte la voix du thème,
+  « IBM Plex Sans » porte la lecture. Le thème n'avait que
+  system-ui pour tout — c'est ce qui le rendait interchangeable avec ses
+  voisins. FONT reste le corps de texte, pour ne pas mettre une serif
+  d'affiche dans les paragraphes ; FONT_TITRE ne va qu'aux titres.
+*/
+const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700;800&display=swap');`;
+const FONT_TITRE = "'Spectral', Georgia, 'Times New Roman', serif";
+const FONT = "'IBM Plex Sans', system-ui, -apple-system, sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Ouvrages", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
@@ -156,7 +165,8 @@ export default function MiroiterieDuPortPage() {
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
-      <style>{`
+      <style>{`${FONTS_CSS}
+
         @media (max-width: 900px) { #i375-nav { display: none !important; } .i375-burger { display: flex !important; } }
         @media (max-width: 860px) {
           .i375-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
@@ -211,7 +221,7 @@ export default function MiroiterieDuPortPage() {
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
             Vitrier-miroitier · {clientCity(sessionData) ?? "Le Havre"}
           </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
             {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 22) ?? "Le verre, coupé juste,"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 22) ?? "posé net."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
@@ -268,7 +278,7 @@ export default function MiroiterieDuPortPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Ouvrages</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Tout ce qui est verre,<br /><em>on le fait.</em>
               </>)}</h2>
             </div>
@@ -278,7 +288,7 @@ export default function MiroiterieDuPortPage() {
               <Reveal key={s.titre} delay={idx * 0.06}>
                 <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
                   <span style={{ background: C.accentLight, color: C.accentDark, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
+                  <h3 style={{ fontFamily: FONT_TITRE, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
                   <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
                 </motion.div>
               </Reveal>
@@ -293,7 +303,7 @@ export default function MiroiterieDuPortPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>La méthode</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
                 Mesurer deux fois,<br /><em>couper une.</em>
               </>)}</h2>
             </div>
@@ -321,7 +331,7 @@ export default function MiroiterieDuPortPage() {
           <Reveal delay={0.15}>
             <div>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Nos engagements</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
                 L'urgence honnête,<br /><em>le sur-mesure exact.</em>
               </>)}</h2>
               {ENGAGEMENT.map((e, idx) => (
@@ -344,7 +354,7 @@ export default function MiroiterieDuPortPage() {
           <Reveal>
             <div style={{ textAlign: "center", marginBottom: 16 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Tarifs</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Au juste prix <em>du travail d'atelier.</em></>)}</h2>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Au juste prix <em>du travail d'atelier.</em></>)}</h2>
               <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>L'urgence est facturée au même barème que le programmé, majoration de déplacement affichée. Devis ferme pour tout ouvrage sur mesure.</p>
             </div>
           </Reveal>
@@ -368,7 +378,7 @@ export default function MiroiterieDuPortPage() {
       <section className="i375-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Le verre, <em style={{ color: C.hi }}>sans casse-tête</em>.</>)}</h2>
+            <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Le verre, <em style={{ color: C.hi }}>sans casse-tête</em>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
@@ -393,7 +403,7 @@ export default function MiroiterieDuPortPage() {
       <section id="contact" className="i375-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>L'atelier</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
+          <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Un vitrage cassé ?<br /><em>Appelez avant de bâcher.</em>
           </>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Urgence 7j/7 : mise en sécurité le jour même. Pour le sur-mesure, l'atelier reçoit sur rendez-vous avec vos cotes ou les nôtres.</p>

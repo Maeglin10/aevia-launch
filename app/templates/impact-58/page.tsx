@@ -29,6 +29,7 @@ import {
   clientText,
   memoriserSession,
 } from "@/lib/templates/clientContent";
+import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -296,6 +297,7 @@ return (
             position: 'relative',
           }}
         >
+          <TitreDeLaPage session={sessionData} />
           {/* Floating label */}
           <div style={{ position: 'absolute', top: '2rem', right: '3rem' }}>
             <div style={{ fontFamily: "'Syne Mono', monospace", fontSize: '0.6rem', color: C.textDim }}>

@@ -14,6 +14,7 @@ import {
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
+import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -721,6 +722,7 @@ return (
           paddingTop: 120,
         }}
       >
+        <TitreDeLaPage session={sessionData} />
         {/* Parallax background image */}
         <motion.div
           style={{

@@ -47,7 +47,16 @@ let C: Record<string, string> = {
   white: "#181307",
   border: "rgba(255,255,255,0.09)",
 };
-const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
+/*
+  La paire du plan (P6) : « Archivo » porte la voix du thème,
+  « Inter » porte la lecture. Le thème n'avait que
+  system-ui pour tout — c'est ce qui le rendait interchangeable avec ses
+  voisins. FONT reste le corps de texte, pour ne pas mettre une serif
+  d'affiche dans les paragraphes ; FONT_TITRE ne va qu'aux titres.
+*/
+const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');`;
+const FONT_TITRE = "'Archivo', system-ui, -apple-system, sans-serif";
+const FONT = "'Inter', system-ui, -apple-system, sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Nos bières", "h": "#services"}, {"l": "Le brassage", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
@@ -161,7 +170,8 @@ export default function BrasserieHoublonPage() {
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
-      <style>{`
+      <style>{`${FONTS_CSS}
+
         @media (max-width: 900px) { #i380-nav { display: none !important; } .i380-burger { display: flex !important; } }
         @media (max-width: 860px) {
           .i380-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
@@ -216,7 +226,7 @@ export default function BrasserieHoublonPage() {
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>
             Brasserie artisanale · {clientCity(sessionData) ?? "Lille"}
           </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
             {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 21) ?? "La bière brassée ici,"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 21) ?? "bue ici, aimée ici."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
@@ -256,7 +266,7 @@ export default function BrasserieHoublonPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Nos bières</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Quatre permanentes,<br /><em>et ce qui nous passe par la tête.</em>
               </>)}</h2>
             </div>
@@ -266,7 +276,7 @@ export default function BrasserieHoublonPage() {
               <Reveal key={s.titre} delay={idx * 0.06}>
                 <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
                   <span style={{ background: C.accentLight, color: C.accent, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
+                  <h3 style={{ fontFamily: FONT_TITRE, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
                   <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
                 </motion.div>
               </Reveal>
@@ -281,7 +291,7 @@ export default function BrasserieHoublonPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Le brassage</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
                 Petits volumes,<br /><em>grandes exigences.</em>
               </>)}</h2>
             </div>
@@ -309,7 +319,7 @@ export default function BrasserieHoublonPage() {
           <Reveal delay={0.15}>
             <div>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>La maison</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
                 Indépendants,<br /><em>et fiers de l'être.</em>
               </>)}</h2>
               {ENGAGEMENT.map((e, idx) => (
@@ -332,7 +342,7 @@ export default function BrasserieHoublonPage() {
           <Reveal>
             <div style={{ textAlign: "center", marginBottom: 16 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Au verre, <em>au fût, à la caisse.</em></>)}</h2>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Au verre, <em>au fût, à la caisse.</em></>)}</h2>
               <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Vente directe à la boutique et au taproom. Tarifs CHR sur demande, livraison offerte sur {clientCity(sessionData) ?? "Lille"} dès 6 fûts.</p>
             </div>
           </Reveal>
@@ -356,7 +366,7 @@ export default function BrasserieHoublonPage() {
       <section className="i380-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>On revient <em style={{ color: C.hi }}>le jeudi soir</em>.</>)}</h2>
+            <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>On revient <em style={{ color: C.hi }}>le jeudi soir</em>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
@@ -381,7 +391,7 @@ export default function BrasserieHoublonPage() {
       <section id="contact" className="i380-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Le taproom</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
+          <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Les cuves sont là,<br /><em>les verres aussi.</em>
           </>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Taproom du jeudi au samedi soir, boutique du mercredi au samedi après-midi. Visites-dégustations le samedi à 15 h, sur réservation.</p>

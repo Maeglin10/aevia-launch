@@ -27,6 +27,7 @@ import {
   clientText,
   clientTrade,
 } from "@/lib/templates/clientContent";
+import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 
 /* ════════════════════════════════════════════════════════════════════════════
    ALLURE & APPUI — Pédicure-podologue, cabinet bien-être · Pau
@@ -809,6 +810,7 @@ export default function AllureAppuiPage() {
           overflow: "hidden",
         }}
       >
+        <TitreDeLaPage session={sessionData} />
         {/* Glow radial — sans image, jamais au-dessus de 0.12. */}
         <div
           aria-hidden

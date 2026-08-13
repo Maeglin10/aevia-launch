@@ -50,7 +50,16 @@ let C: Record<string, string> = {
   white: "#ffffff",
   border: "#dbe1ec",
 };
-const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
+/*
+  La paire du plan (P10) : « Spectral » porte la voix du thème,
+  « IBM Plex Sans » porte la lecture. Le thème n'avait que
+  system-ui pour tout — c'est ce qui le rendait interchangeable avec ses
+  voisins. FONT reste le corps de texte, pour ne pas mettre une serif
+  d'affiche dans les paragraphes ; FONT_TITRE ne va qu'aux titres.
+*/
+const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700;800&display=swap');`;
+const FONT_TITRE = "'Spectral', Georgia, 'Times New Roman', serif";
+const FONT = "'IBM Plex Sans', system-ui, -apple-system, sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Services", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
@@ -181,7 +190,8 @@ export default function HorizonProtectionPage() {
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
-      <style>{`
+      <style>{`${FONTS_CSS}
+
         @media (max-width: 900px) { #i372-nav { display: none !important; } .i372-burger { display: flex !important; } }
         @media (max-width: 860px) {
           .i372-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
@@ -234,7 +244,7 @@ export default function HorizonProtectionPage() {
 
       <section className="i372-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Sécurité privée · {clientCity(sessionData) ?? "Toulouse"}</span>
-        <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 62px)", color: C.text, lineHeight: 1.1, margin: "18px 0 8px" }}>{clientHeroLine(sessionData, 0, 2, 12) ?? "Une présence"}<br /><TrackingCollapse word={S.word} index={i} from="0.34em" to="0.04em" style={{ color: C.accentDark }} /></h1>
+        <h1 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 5vw, 62px)", color: C.text, lineHeight: 1.1, margin: "18px 0 8px" }}>{clientHeroLine(sessionData, 0, 2, 12) ?? "Une présence"}<br /><TrackingCollapse word={S.word} index={i} from="0.34em" to="0.04em" style={{ color: C.accentDark }} /></h1>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
           {clientHeroPrestations(sessionData) ?? c?.heroSubline ?? "Commerces de centre-ville, résidences, événements privés : des agents formés'à la relation autant qu'à la vigilance. La sécurité qui rassure vos clients au lieu de les inquiéter."}
         </p>
@@ -274,7 +284,7 @@ export default function HorizonProtectionPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>{tr(sessionData, "Services")}</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Protéger sans<br /><em>transformer le lieu en bunker.</em>
               </>)}</h2>
             </div>
@@ -284,7 +294,7 @@ export default function HorizonProtectionPage() {
               <Reveal key={s.titre} delay={idx * 0.06}>
                 <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
                   <span style={{ background: C.accentLight, color: C.accentDark, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
+                  <h3 style={{ fontFamily: FONT_TITRE, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
                   <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
                 </motion.div>
               </Reveal>
@@ -299,7 +309,7 @@ export default function HorizonProtectionPage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>La méthode</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
                 Des agents qui savent<br /><em>à qui ils parlent.</em>
               </>)}</h2>
             </div>
@@ -327,7 +337,7 @@ export default function HorizonProtectionPage() {
           <Reveal delay={0.15}>
             <div>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Nos garanties</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
                 La discrétion<br /><em>n'exclut pas la rigueur.</em>
               </>)}</h2>
               {ENGAGEMENT.map((e, idx) => (
@@ -350,7 +360,7 @@ export default function HorizonProtectionPage() {
           <Reveal>
             <div style={{ textAlign: "center", marginBottom: 16 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Tarifs</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Des contrats clairs, <em>des heures déclarées.</em></>)}</h2>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Des contrats clairs, <em>des heures déclarées.</em></>)}</h2>
               <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Nos tarifs couvrent des agents déclarés, formés et encadrés. En dessous d'un certain prix, c'est vous qui portez le risque juridique — nous l'écrivons dans chaque devis.</p>
             </div>
           </Reveal>
@@ -374,7 +384,7 @@ export default function HorizonProtectionPage() {
       <section className="i372-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Protégés, <em style={{ color: C.hi }}>sereinement</em>.</>)}</h2>
+            <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Protégés, <em style={{ color: C.hi }}>sereinement</em>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
@@ -399,7 +409,7 @@ export default function HorizonProtectionPage() {
       <section id="contact" className="i372-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Parlons-en</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
+          <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             La sécurité se prépare<br /><em>avant d'être nécessaire.</em>
           </>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Audit de sûreté offert, devis sous 72 h. PC opérationnel joignable 24h/24 pour nos clients sous contrat.</p>

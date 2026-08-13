@@ -39,6 +39,7 @@ import {
   clientText,
   clientTrade,
 } from "@/lib/templates/clientContent";
+import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -620,6 +621,7 @@ export default function PrismeFormationPage() {
           overflow: "hidden",
         }}
       >
+        <TitreDeLaPage session={sessionData} />
         {/* Textures sans image : quadrillage de cahier, glow, chiffre fantôme. */}
         <div
           aria-hidden

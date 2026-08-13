@@ -42,6 +42,7 @@ import {
   clientText,
   clientWorks,
 } from "@/lib/templates/clientContent";
+import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -813,6 +814,7 @@ export default function Impact114Page() {
           3. COLLECTIONS
           ================================================================ */}
       <section id="collections" className="py-28 px-6 md:px-12 max-w-[1400px] mx-auto">
+        <TitreDeLaPage session={sessionData} />
         <Reveal>
           <div className="max-w-2xl mb-16">
             <span
