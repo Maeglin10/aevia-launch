@@ -20,6 +20,7 @@ import {
   clientTagline,
   memoriserSession,
 } from "@/lib/templates/clientContent";
+import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -130,6 +131,7 @@ return (
           overflow: 'hidden',
         }}
       >
+        <TitreDeLaPage session={sessionData} />
         {/* Fabric texture background */}
         <div
           style={{

@@ -8149,52 +8149,52 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "respiration.texte",
       "type": "texte",
-      "apercu": "Same three people still book every act on the calendar — and"
+      "apercu": "Les mêmes trois personnes programment chaque soirée depuis l"
     },
     {
       "cle": "events.titre",
       "type": "texte",
-      "apercu": "Secure your spot."
+      "apercu": "Réservez votre place."
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "The price on the poster is the price."
+      "apercu": "Le prix sur l'affiche est le prix payé."
     },
     {
       "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "No dynamic pricing, no booking fee in person. Standard, VIP,"
+      "apercu": "Aucun prix qui varie, aucun frais de réservation au guichet."
     },
     {
       "cle": "section-3.titre",
       "type": "texte",
-      "apercu": "Upgrade to the VIP experience."
+      "apercu": "Passez à l'expérience VIP experience."
     },
     {
       "cle": "vip.texte",
       "type": "texte",
-      "apercu": "Take your concert experience to the next level. Enjoy premiu"
+      "apercu": "Le concert vu d'un autre endroit : placement privilégié, acc"
     },
     {
       "cle": "about.titre",
       "type": "texte",
-      "apercu": "Who puts the shows on."
+      "apercu": "Qui fait les soirées on."
     },
     {
       "cle": "section-5.titre",
       "type": "texte",
-      "apercu": "Hear the crowd."
+      "apercu": "Écoutez la salle."
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Reaching a human."
+      "apercu": "Parler à quelqu'un de vivant."
     },
     {
       "cle": "section-8.titre",
       "type": "texte",
-      "apercu": "Never miss a show."
+      "apercu": "Ne manquez plus une soirée."
     },
     {
       "cle": "bloc.liste1",
@@ -8206,32 +8206,32 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "respiration.texte",
       "type": "texte",
-      "apercu": "Actionable insights and strategic frameworks — taught by the"
+      "apercu": "Des méthodes qui s'appliquent dès le lundi — enseignées par "
     },
     {
       "cle": "seminars.titre",
       "type": "texte",
-      "apercu": "Upcoming masterclasses."
+      "apercu": "Prochaines masterclasses."
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "One page, three seats."
+      "apercu": "Une page, trois places."
     },
     {
       "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "Early Bird closes thirty days before each session. Executive"
+      "apercu": "Le tarif anticipé se ferme trente jours avant chaque session"
     },
     {
       "cle": "section-4.titre",
       "type": "texte",
-      "apercu": "Transform your leadership team."
+      "apercu": "Formez vos dirigeants ensemble."
     },
     {
       "cle": "corporate.texte",
       "type": "texte",
-      "apercu": ""
+      "apercu": "Nos masterclasses donnent des méthodes applicables et un cad"
     },
     {
       "cle": "references.titre",
@@ -8241,7 +8241,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Reserve the next seat."
+      "apercu": "Réservez la prochaine place."
     },
     {
       "cle": "bloc.liste1",
