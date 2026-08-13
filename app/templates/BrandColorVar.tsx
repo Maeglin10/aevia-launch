@@ -443,8 +443,19 @@ function rendreLeCopyright(nom: string | undefined) {
     if (t.toLowerCase().includes(propre.toLowerCase())) continue;
     const m = motif.exec(t);
     if (!m) continue;
+
+    /*
+      On écrit dans le nœud de texte existant, jamais `textContent = …` :
+      cette affectation détruit les enfants et en crée un nouveau, alors que
+      React garde une référence sur l'ancien. Au rendu suivant il tente
+      d'insérer devant un nœud qui n'est plus là — « Failed to execute
+      insertBefore » — et la page entière disparaît. Vu en production sur
+      impact-380, après déploiement.
+    */
+    const noeud = Array.from(e.childNodes).find((n) => n.nodeType === Node.TEXT_NODE);
+    if (!noeud) continue;
     e.dataset.copyrightRendu = "1";
-    e.textContent = t.replace(motif, `$1${propre}$3`);
+    noeud.nodeValue = (noeud.nodeValue ?? "").replace(motif, `$1${propre}$3`);
   }
 }
 
