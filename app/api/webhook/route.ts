@@ -658,6 +658,15 @@ export async function POST(req: NextRequest) {
         ?? `${String(rawBrief.phone ?? "")} | ${String(rawBrief.email ?? "")} | ${String(rawBrief.address ?? "")}`;
       const briefSocials = (rawBrief.socials as string | undefined)
         ?? `IG:${String(rawBrief.instagram ?? "")} LI:${String(rawBrief.linkedin ?? "")} WEB:${String(rawBrief.website ?? "")}`;
+      /*
+        L'adresse saisie à l'étape 3 du wizard n'était lue nulle part : le
+        client la remplissait, et son site affichait la ville de la
+        démonstration — « Couvreur à Nice » pour une entreprise de Voiron. On
+        la reprend, et on en tire la ville quand elle suit un code postal.
+      */
+      const briefAddress = String(rawBrief.address ?? "").trim();
+      const villeDuBrief = /\b\d{5}\s+(.+)$/.exec(briefAddress)?.[1]?.trim() ?? "";
+
       const briefServicesStr = typeof rawBrief.services === "string"
         ? rawBrief.services
         : JSON.stringify(rawBrief.services ?? []);
@@ -688,7 +697,7 @@ export async function POST(req: NextRequest) {
         businessName:   briefCompany   ?? siteName,
         businessType:   siteType,
         tagline:        briefTagline   ?? "",
-        city:           "",
+        city:           villeDuBrief,
         mainService:    briefDescription ?? "",
         benefits:       ["", "", ""],
         priceRange:     "",
@@ -828,6 +837,14 @@ Retourne uniquement du JSON valide, sans markdown.`;
           id: previewSessionId,
           formData,
           generatedContent,
+          /*
+            `clientAddress` lit le profil, jamais le formulaire : sans ce bloc,
+            l'adresse du client n'apparaissait sur aucun thème — ni dans le pied
+            de page, ni dans les mentions légales.
+          */
+          ...(briefAddress
+            ? { businessProfile: { legal: { companyAddress: briefAddress }, geo: { address: briefAddress } } }
+            : {}),
           createdAt: new Date(),
         });
       } catch (err) {

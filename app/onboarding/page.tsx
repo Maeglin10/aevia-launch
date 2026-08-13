@@ -514,7 +514,20 @@ function OnboardingContent() {
   const canNext = () => {
     if (step === 0) return data.company.trim().length > 0 && data.industry.length > 0;
     if (step === 1) return true; // visuals are optional
-    if (step === 2) return data.services.some(s => s.name.trim().length > 0) && acceptedCgv;
+    /*
+      Le bouton s'activait dès qu'une prestation était nommée — puis l'envoi
+      exigeait en plus une description et un courriel valide, et refoulait le
+      client. On demande donc ici exactement ce que l'envoi demandera : le
+      bouton ne s'allume que lorsque le formulaire est vraiment complet, et le
+      message d'erreur reste là pour dire lequel des deux manque si le client
+      efface un champ après coup.
+    */
+    if (step === 2)
+      return (
+        acceptedCgv &&
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email.trim()) &&
+        data.services.some((s) => s.name.trim().length > 0 && s.description.trim().length > 0)
+      );
     return false;
   };
 
@@ -720,6 +733,26 @@ function OnboardingContent() {
                 {submitting ? <Loader2 size={16} className="animate-spin" /> : null}
                 {submitting ? "Redirection..." : "Procéder au paiement →"}
               </button>
+            )}
+            {/*
+              Un bouton éteint sans raison est un cul-de-sac : le client ne sait
+              pas ce qu'on attend de lui. On dit ce qui manque, en clair, à côté
+              du bouton — et la ligne disparaît dès que c'est complet.
+            */}
+            {step === STEPS.length - 1 && !canNext() && !submitting && (
+              <p className="text-xs text-white/45">
+                Il reste à renseigner :{" "}
+                {[
+                  !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email.trim()) ? "une adresse e-mail valide" : null,
+                  !data.services.some((s) => s.name.trim().length > 0 && s.description.trim().length > 0)
+                    ? "un service avec son nom et sa description"
+                    : null,
+                  !acceptedCgv ? "l'acceptation des conditions" : null,
+                ]
+                  .filter(Boolean)
+                  .join(", ")}
+                .
+              </p>
             )}
           </div>
         </div>
