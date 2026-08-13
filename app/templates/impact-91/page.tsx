@@ -148,7 +148,10 @@ const COLLECTIONS_DEMO = [
 function buildCollections() {
   if (!clientServices(sessionData)?.length) return COLLECTIONS_DEMO;
   const demoPieces = COLLECTIONS_DEMO[0].pieces;
-  const pieces = bp.services.map((s: any, i: number) => ({
+  /* La liste résolue par le contrat, et non `bp.services` : un restaurant
+     remplit une carte, pas des prestations, et `bp.services` est alors absent —
+     `.map` sur undefined, page blanche. */
+  const pieces = (clientServices(sessionData) ?? []).map((s: any, i: number) => ({
     name: s.title ?? s.name,
     material: s.description ?? demoPieces[i % demoPieces.length].material,
     price: s.price ?? demoPieces[i % demoPieces.length].price,

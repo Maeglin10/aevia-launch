@@ -326,7 +326,8 @@ export default function Impact171Page() {
   }
 
   const specialties = clientServices(sessionData)?.length
-    ? bp.services.map((s: any, i: number) => ({
+    /* Idem : on lit ce que le contrat a résolu, carte comprise. */
+    ? (clientServices(sessionData) ?? []).map((s: any, i: number) => ({
         id: `svc-${i}`,
         label: s.name,
         icon: SPECIALTY_ICONS[i % SPECIALTY_ICONS.length],
