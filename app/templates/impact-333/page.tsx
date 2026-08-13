@@ -385,19 +385,28 @@ export default function EtudeDuCanalPage() {
   );
 
   /*
-    La première couverture porte le titre du client ; les suivantes gardent les
-    domaines du thème, qui décrivent des spécialités et non l'entreprise. Si le
-    client a nommé ses propres domaines, ce sont les siens qui les remplacent.
+    La couverture tourne : trois écrans se succèdent, et chacun porte un
+    grand titre. Le premier prenait l'accroche du client, les deux suivants
+    gardaient la phrase du thème — « Transmettre clairement, de son vivant. »
+    s'affichait donc en titre chez un couvreur, quelques secondes après son
+    propre nom. Un titre qui parle du métier d'un autre est le défaut le plus
+    visible qu'une page puisse avoir.
+
+    Les couvertures suivantes portent donc les prestations du client, et la
+    mention « Matière » son métier. Sans données du client, le thème garde ses
+    propres mots — c'est la règle.
   */
   const CLIENT_SERVICES = clientServices(sessionData);
   const accroche = clientHeroLine(sessionData, 0, 1, 54) ?? clientTagline(sessionData);
+  const metierClient = clientTrade(sessionData);
   HERO = accroche
     ? HERO_SOURCE.map((h, i) =>
         i === 0
           ? { ...h, k: (CLIENT_SERVICES?.[0]?.title as string) ?? h.k, line: accroche }
           : {
               ...h,
-              k: (CLIENT_SERVICES?.[i]?.title as string) ?? h.k,
+              k: metierClient ?? h.k,
+              line: (CLIENT_SERVICES?.[i]?.title as string) ?? h.line,
               sub: (CLIENT_SERVICES?.[i]?.description as string) ?? h.sub,
             },
       )
