@@ -159,10 +159,35 @@ en entier, dollars compris.
 
 ---
 
-## Ce qui reste
+## 9. L'élévation des 19 thèmes sobres — faite
 
-- **L'élévation graphique des 19 thèmes sobres** au niveau des 47 repris. Le
-  prompt existe : `docs/PROMPT_REPRISE_THEMES_316_383.md`.
+Leur point commun n'était pas la structure (ils ont les mêmes sections que les
+autres) mais la **typographie** : `FONT = system-ui` pour les titres COMME pour
+le texte. Même dessin de lettre que le voisin, quelle que soit la palette.
+
+Chacun reçoit la paire que le plan lui assigne (§2, P1 à P12), avec deux rôles
+séparés — `FONT_TITRE` aux titres seulement, car une serif d'affiche dans les
+paragraphes aurait été pire que system-ui partout. Vérifié au navigateur :
+impact-380 rend « Archivo » sur son titre, « Inter » sur son texte.
+
+Trois défauts de fond ont été trouvés en chemin, et corrigés :
+
+- **171 thèmes n'affichaient ni le téléphone ni le courriel du client**, pas
+  même en lien `tel:`. Pour un site d'artisan, c'est le manque le plus coûteux.
+  Ligne de contact au pied de page, dans la fonte et la couleur du thème, posée
+  seulement quand elle manque.
+- **13 thèmes n'avaient aucun `<h1>`** : leur titre est peint par le geste
+  signature dans un `div`. À l'œil c'est un titre ; pour un moteur, la page n'en
+  a pas. Composant `TitreDeLaPage` : invisible, lu par les machines.
+- **Le copyright gardait le nom de la démonstration** — « © 2026 L'ÉTOILE
+  ANNECY » en bas du site d'un couvreur.
+
+**Un piège coûteux, trouvé en production et pas en local** : `e.textContent = …`
+détruit le nœud de texte que React détient. Au rendu suivant il insère devant un
+nœud disparu et la page entière s'efface. impact-380 est resté blanc quinze
+minutes après le déploiement. On écrit désormais dans `nodeValue`.
+
+## Ce qui reste
 - **impact-160** garde une ombre décorative rognée de vingt-huit pixels en
   390 px. La page ne défile pas horizontalement, aucun texte du client n'est
   perdu ; c'est le dessin du thème.
