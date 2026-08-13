@@ -309,8 +309,14 @@ export default function NovaPlatformSaaS() {
 
 
 
+  /*
+    Un identifiant par onglet, et jamais deux fois le même : le client donne
+    quatre chiffres pour trois onglets, et `i % 3` rendait le quatrième
+    identique au premier. Deux onglets de même valeur font boucler Base UI —
+    « Maximum update depth exceeded », page blanche, en production.
+  */
   FEATURE_TABS_DEMO = resolveList(
-    clientStats(session)?.map((s: any, i: number) => ({ ...FEATURE_TABS_DEMO_SOURCE[i % FEATURE_TABS_DEMO_SOURCE.length], value: s.value, label: s.label })),
+    clientStats(session)?.map((s: any, i: number) => ({ ...FEATURE_TABS_DEMO_SOURCE[i % FEATURE_TABS_DEMO_SOURCE.length], id: `${FEATURE_TABS_DEMO_SOURCE[i % FEATURE_TABS_DEMO_SOURCE.length].id}-${i}`, value: s.value, label: s.label })),
     FEATURE_TABS_DEMO_SOURCE,
   );
   PRICING = resolveList(
@@ -588,7 +594,7 @@ return (
             </div>
           </Reveal>
 
-          <Tabs defaultValue="performance" className="w-full">
+          <Tabs defaultValue={FEATURE_TABS[0]?.id ?? "performance"} className="w-full">
             <TabsList className="flex flex-wrap justify-center gap-2 h-auto bg-transparent mb-12">
               {FEATURE_TABS.map(tab => (
                 <TabsTrigger key={tab.id} value={tab.id} className="flex items-center gap-2 px-6 py-3 rounded-full data-[state=active]:bg-[var(--brand,#7c3aed)] data-[state=active]:text-white text-zinc-400 border border-white/10 hover:border-[var(--brand,#8b5cf6)]/40 hover:text-white transition-all duration-200 cursor-pointer text-sm font-semibold">

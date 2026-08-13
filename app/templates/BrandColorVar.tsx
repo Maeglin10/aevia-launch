@@ -352,11 +352,25 @@ function rendreLesNomsEntiers(nom: string | undefined) {
  */
 function dansUnElementQuiBouge(e: Element): boolean {
   let n: Element | null = e;
+  let niveau = 0;
   while (n && n !== document.body) {
     const s = getComputedStyle(n);
+    /*
+      Une animation ou un cadre qui défile protègent sur toute la chaîne : le
+      bandeau d'avis d'impact-336 porte la sienne très haut.
+    */
     if (["auto", "scroll"].includes(s.overflowX) || ["auto", "scroll"].includes(s.overflow)) return true;
-    if (s.animationName !== "none" || /matrix|translate/.test(s.transform)) return true;
+    if (s.animationName !== "none") return true;
+    /*
+      Une transformation, en revanche, ne protège qu'à deux niveaux. Étendue à
+      toute la chaîne, un simple `scale(1.06)` décoratif posé haut dans
+      impact-160 mettait à l'abri trente et un éléments qui sortaient vraiment
+      de l'écran — dont le nom du client, en titre, à cinq cents pixels d'un
+      écran qui en fait trois cent quatre-vingt-dix.
+    */
+    if (niveau <= 1 && /matrix|translate/.test(s.transform)) return true;
     n = n.parentElement;
+    niveau++;
   }
   return false;
 }
