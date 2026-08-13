@@ -22,7 +22,9 @@ import path from "node:path";
 import { chromium } from "playwright";
 
 const BASE = process.env.AUDIT_BASE ?? "http://localhost:3000";
-const CHROME = process.env.CHROME_PATH ?? "/opt/pw-browsers/chromium";
+const CHROME = process.env.CHROME_PATH && fs.existsSync(process.env.CHROME_PATH)
+  ? process.env.CHROME_PATH
+  : undefined; // sinon, le navigateur de Playwright
 const args = process.argv.slice(2);
 const sortie = args.includes("--sortie") ? args[args.indexOf("--sortie") + 1] : "/tmp/vue-reprise";
 const ids = args.filter((a) => a.startsWith("impact-"));
@@ -202,7 +204,7 @@ const MESURE = () => {
 };
 
 const brut = [];
-const navigateur = await chromium.launch({ executablePath: CHROME });
+const navigateur = await chromium.launch(CHROME ? { executablePath: CHROME } : {});
 
 for (const id of ids) {
   const fiche = { id, bureau: null, telephone: null, erreurs: [] };
@@ -221,8 +223,23 @@ for (const id of ids) {
       });
       await page.goto(`${BASE}/templates/${id}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 60000 });
       await page.waitForTimeout(4200); // laisser passer les entrées et les repasses de BrandColorVar
-      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-      await page.waitForTimeout(1500);
+      /*
+        Un défilement PROGRESSIF, et non un saut jusqu'en bas.
+
+        Les thèmes repris entrent leurs blocs à l'approche (`whileInView`),
+        depuis `opacity: 0`. Sauter d'un coup en bas ne les déclenche pas tous :
+        sur impact-331, trente blocs restaient invisibles et la capture montrait
+        une page aux deux tiers vide — un défaut spectaculaire qui n'existait
+        pas. Mesuré : 30 blocs à opacité nulle après le saut, 0 après un
+        défilement par paliers.
+      */
+      await page.evaluate(async () => {
+        for (let y = 0; y < document.body.scrollHeight; y += 400) {
+          window.scrollTo(0, y);
+          await new Promise((r) => setTimeout(r, 120));
+        }
+      });
+      await page.waitForTimeout(1200);
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.waitForTimeout(900);
       fiche[nom] = await page.evaluate(MESURE);
