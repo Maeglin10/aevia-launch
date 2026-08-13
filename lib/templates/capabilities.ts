@@ -142,7 +142,7 @@ export const THEME_BLOCKS: Record<string, ContentBlock[]> = {
   "impact-59": ["avis", "chiffres", "methode", "prestations", "tarifs"],
   "impact-60": ["avis", "prestations", "tarifs"],
   "impact-61": ["prestations", "realisations"],
-  "impact-62": ["avis", "chiffres", "menu", "methode", "prestations"],
+  "impact-62": ["avis", "chiffres", "menu", "methode"],
   "impact-63": [],
   "impact-64": ["methode", "prestations", "tarifs"],
   "impact-65": ["avis", "prestations", "produits"],

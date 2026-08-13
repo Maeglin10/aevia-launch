@@ -155,7 +155,6 @@ export default function KeopsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  const team_DU_CLIENT = resolveList(clientTeam(sessionData)?.map((m: any, i: number) => ({ ...team[i % team.length], name: m.name, role: m.role ?? team[i % team.length].role })), team);
   projects_DEMO = projects_DEMO_LIVE();
 
 
@@ -668,7 +667,7 @@ function EquipePage() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {team_DU_CLIENT.map((t, i) => (
+          {team.map((t, i) => (
             <div key={t.name} className="bg-white border border-[#1A1510]/5 rounded-2xl p-8 hover:border-[var(--brand,#C46A3E)]/30 transition-colors flex flex-col justify-between">
               <div>
                 <div className="w-16 h-16 bg-[var(--brand,#C46A3E)] rounded-2xl flex items-center justify-center text-white text-2xl font-medium mb-6" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.name.charAt(0)}</div>

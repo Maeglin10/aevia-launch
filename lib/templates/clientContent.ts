@@ -105,8 +105,25 @@ function review(text: string, author: string, detail?: string, rating?: number):
   };
 }
 
+/**
+ * Une liste, quoi qu'on nous donne.
+ *
+ * Dix-neuf lectures du contrat faisaient `(champ ?? []).map(...)`. Le jour où
+ * un profil arrive avec `openingHours` en objet — « { lundi: "9h-18h" } », ce
+ * qu'un import ou une saisie produit très naturellement — `.map` n'existe pas,
+ * l'exception remonte, et la page entière disparaît. Mesuré : quinze thèmes
+ * blancs pour un seul champ de la mauvaise forme.
+ *
+ * Une donnée mal formée doit coûter une section, jamais la page.
+ */
+function enTableau(v: unknown): any[] {
+  if (Array.isArray(v)) return v;
+  if (v && typeof v === "object") return Object.values(v as Record<string, unknown>);
+  return [];
+}
+
 export function clientServices(s: SessionLike | null | undefined): ClientService[] | undefined {
-  const own = (s?.businessProfile?.services ?? []) as any[];
+  const own = enTableau(s?.businessProfile?.services);
   const fromProfile = keep(
     own.map((r) => service(
       trimmed(r?.name) || trimmed(r?.title),
@@ -138,7 +155,7 @@ export function clientServices(s: SessionLike | null | undefined): ClientService
     section de prestations : sans ce dernier repli, elle y lisait « Détartrage
     Vidal » ou l'exemple du thème.
   */
-  const biens = (s?.businessProfile?.listings ?? []) as any[];
+  const biens = enTableau(s?.businessProfile?.listings);
   const desBiens = keep(
     biens.map((r) => service(
       trimmed(r?.title),
@@ -149,7 +166,7 @@ export function clientServices(s: SessionLike | null | undefined): ClientService
   );
   if (desBiens) return desBiens;
 
-  const gen = (s?.generatedContent?.services ?? []) as any[];
+  const gen = enTableau(s?.generatedContent?.services);
   return keep(
     gen.map((r) =>
       service(trimmed(r?.title) || trimmed(r?.name), trimmed(r?.description) || trimmed(r?.desc)),
@@ -159,7 +176,7 @@ export function clientServices(s: SessionLike | null | undefined): ClientService
 }
 
 export function clientReviews(s: SessionLike | null | undefined): ClientReview[] | undefined {
-  const own = (s?.businessProfile?.reputation?.featuredReviews ?? []) as any[];
+  const own = enTableau(s?.businessProfile?.reputation?.featuredReviews);
   const fromProfile = keep(
     own.map((r) =>
       review(
@@ -175,7 +192,7 @@ export function clientReviews(s: SessionLike | null | undefined): ClientReview[]
 
   // Les témoignages générés restent un repli : le client a demandé qu'ils ne
   // disparaissent pas, mais les siens passent devant.
-  const gen = (s?.generatedContent?.testimonials ?? []) as any[];
+  const gen = enTableau(s?.generatedContent?.testimonials);
   return keep(
     gen.map((r) =>
       review(
@@ -190,7 +207,7 @@ export function clientReviews(s: SessionLike | null | undefined): ClientReview[]
 }
 
 export function clientStats(s: SessionLike | null | undefined): ClientStat[] | undefined {
-  const rows = (s?.businessProfile?.keyStats ?? []) as any[];
+  const rows = enTableau(s?.businessProfile?.keyStats);
   return keep(
     rows.map((r) => ({ value: trimmed(r?.value), label: trimmed(r?.label) })),
     (r) => Boolean(r.value),
@@ -198,12 +215,12 @@ export function clientStats(s: SessionLike | null | undefined): ClientStat[] | u
 }
 
 export function clientCertifications(s: SessionLike | null | undefined): string[] | undefined {
-  const rows = (s?.businessProfile?.certifications ?? []) as any[];
+  const rows = enTableau(s?.businessProfile?.certifications);
   return keep(rows.map(trimmed), Boolean);
 }
 
 export function clientFaq(s: SessionLike | null | undefined): ClientFaq[] | undefined {
-  const rows = (s?.businessProfile?.faq ?? []) as any[];
+  const rows = enTableau(s?.businessProfile?.faq);
   return keep(
     rows.map((r) => ({ q: trimmed(r?.q), a: trimmed(r?.a) })),
     (r) => Boolean(r.q),
@@ -211,7 +228,7 @@ export function clientFaq(s: SessionLike | null | undefined): ClientFaq[] | unde
 }
 
 export function clientTeam(s: SessionLike | null | undefined): ClientMember[] | undefined {
-  const rows = (s?.businessProfile?.team ?? []) as any[];
+  const rows = enTableau(s?.businessProfile?.team);
   return keep(
     rows.map((r) => ({
       name: trimmed(r?.name),
@@ -223,7 +240,7 @@ export function clientTeam(s: SessionLike | null | undefined): ClientMember[] | 
 }
 
 export function clientAreas(s: SessionLike | null | undefined): string[] | undefined {
-  const rows = (s?.businessProfile?.geo?.serviceAreas ?? []) as any[];
+  const rows = enTableau(s?.businessProfile?.geo?.serviceAreas);
   return keep(rows.map(trimmed), Boolean);
 }
 
@@ -286,7 +303,7 @@ function dish(name?: string, category?: string, description?: string, price?: st
  * sienne. Pour lui, c'est le contenu principal de sa page.
  */
 export function clientMenu(s: SessionLike | null | undefined): ClientDish[] | undefined {
-  const rows = (s?.businessProfile?.menu ?? []) as any[];
+  const rows = enTableau(s?.businessProfile?.menu);
   const fromProfile = keep(
     rows.map((r) => dish(trimmed(r?.name) || trimmed(r?.title), trimmed(r?.category), trimmed(r?.description) || trimmed(r?.desc), trimmed(r?.price))),
     (r) => Boolean(r.name),
@@ -294,7 +311,7 @@ export function clientMenu(s: SessionLike | null | undefined): ClientDish[] | un
   if (fromProfile) return fromProfile;
 
   // Le contenu généré emploie « menuItems » ; on l'accepte aussi.
-  const gen = (s?.generatedContent?.menuItems ?? []) as any[];
+  const gen = enTableau(s?.generatedContent?.menuItems);
   return keep(
     gen.map((r) => dish(trimmed(r?.name) || trimmed(r?.title), trimmed(r?.category), trimmed(r?.description) || trimmed(r?.desc), trimmed(r?.price))),
     (r) => Boolean(r.name),
@@ -308,7 +325,7 @@ export function clientMenu(s: SessionLike | null | undefined): ClientDish[] | un
  * « produits » sans jamais lire ceux du client.
  */
 export function clientProducts(s: SessionLike | null | undefined): ClientDish[] | undefined {
-  const rows = (s?.businessProfile?.products ?? []) as any[];
+  const rows = enTableau(s?.businessProfile?.products);
   return keep(
     rows.map((r) => dish(trimmed(r?.name) || trimmed(r?.title), trimmed(r?.category), trimmed(r?.description) || trimmed(r?.desc), trimmed(r?.price))),
     (r) => Boolean(r.name),
@@ -340,7 +357,7 @@ export function clientWorks(s: SessionLike | null | undefined): ClientWork[] | u
     title, detail, desc, imageUrl, name: title, description: desc,
   });
 
-  const avantApres = (s?.businessProfile?.beforeAfter ?? []) as any[];
+  const avantApres = enTableau(s?.businessProfile?.beforeAfter);
   const desChantiers = keep(
     avantApres.map((r) =>
       oeuvre(trimmed(r?.caption), "", trimmed(r?.caption), trimmed(r?.afterUrl) || trimmed(r?.beforeUrl) || undefined),
@@ -349,7 +366,7 @@ export function clientWorks(s: SessionLike | null | undefined): ClientWork[] | u
   );
   if (desChantiers) return desChantiers;
 
-  const biens = (s?.businessProfile?.listings ?? []) as any[];
+  const biens = enTableau(s?.businessProfile?.listings);
   const desBiens = keep(
     biens.map((r) =>
       oeuvre(
@@ -363,7 +380,7 @@ export function clientWorks(s: SessionLike | null | undefined): ClientWork[] | u
   );
   if (desBiens) return desBiens;
 
-  const produits = (s?.businessProfile?.products ?? []) as any[];
+  const produits = enTableau(s?.businessProfile?.products);
   return keep(
     produits.map((r) =>
       oeuvre(trimmed(r?.name), trimmed(r?.price), trimmed(r?.description), trimmed(r?.photoUrl) || undefined),
@@ -691,7 +708,17 @@ export interface ClientHour {
  * seule chaîne, parce que c'est ainsi qu'ils l'écrivent tous.
  */
 export function clientHours(s: SessionLike | null | undefined): ClientHour[] | undefined {
-  const rows = (s?.businessProfile?.openingHours ?? []) as any[];
+  /*
+    Deux écritures cohabitent pour les horaires : une liste de
+    « { day, open, close } », et un objet « { lundi: "12h-14h" } » — c'est la
+    forme la plus naturelle à la saisie comme à l'import. On accepte les deux ;
+    l'objet garde son jour, qui est la clé.
+  */
+  const brut = s?.businessProfile?.openingHours;
+  const rows =
+    brut && typeof brut === "object" && !Array.isArray(brut)
+      ? Object.entries(brut as Record<string, unknown>).map(([day, h]) => ({ day, open: String(h ?? ""), close: "" }))
+      : enTableau(brut);
   return keep(
     rows.map((r) => {
       const jour = trimmed(r?.day);
@@ -735,7 +762,7 @@ export function clientBookingUrl(s: SessionLike | null | undefined): string | un
 
 /** Les moyens de paiement acceptés. */
 export function clientPayments(s: SessionLike | null | undefined): string[] | undefined {
-  const rows = (s?.businessProfile?.paymentMethods ?? []) as any[];
+  const rows = enTableau(s?.businessProfile?.paymentMethods);
   return keep(rows.map(trimmed), Boolean);
 }
 
@@ -814,6 +841,6 @@ export function clientPhotoAt(i: number, repli: string): string {
 
 /** Les photos du client. Jamais de photo de stock à la place. */
 export function clientPhotos(s: SessionLike | null | undefined): string[] {
-  const rows = (s?.formData?.photoUrls ?? []) as any[];
+  const rows = enTableau(s?.formData?.photoUrls);
   return rows.map(trimmed).filter(Boolean);
 }

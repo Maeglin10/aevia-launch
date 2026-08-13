@@ -476,13 +476,36 @@ function poserLeContact(donnees: Record<string, unknown> | undefined) {
   const mail = typeof donnees?.email === "string" ? donnees.email.trim() : "";
   if (!tel && !mail) return;
 
-  const pied = document.querySelector<HTMLElement>("footer");
-  if (!pied || pied.dataset.contactPose) return;
+  /*
+    Trois thèmes n'ont pas de balise `footer` du tout — impact-115, 121 et 131.
+    La ligne n'avait alors nulle part où se poser, et le client restait
+    injoignable. À défaut de pied de page, on la met en fin de document, avec un
+    filet au-dessus pour qu'elle ne paraisse pas tomber là par accident.
+  */
+  if (document.querySelector("[data-contact-pose]")) return;
 
+  /* Le besoin d'abord : sans quoi la passe, qui repasse six fois, sèmerait six
+     blocs vides sur les pages qui affichent déjà le contact. */
   const texte = document.body.textContent ?? "";
   const manqueTel = Boolean(tel) && !texte.includes(tel);
   const manqueMail = Boolean(mail) && !texte.includes(mail);
   if (!manqueTel && !manqueMail) return;
+
+  /*
+    Trois thèmes n'ont pas de balise `footer` du tout — impact-115, 121 et 131.
+    La ligne n'avait alors nulle part où se poser, et le client restait
+    injoignable. À défaut de pied de page, on la met en fin de document, avec un
+    filet au-dessus pour qu'elle ne paraisse pas tomber là par accident.
+  */
+  const pied =
+    document.querySelector<HTMLElement>("footer") ??
+    (() => {
+      const bloc = document.createElement("div");
+      bloc.style.cssText =
+        "padding:28px 6vw;border-top:1px solid currentColor;opacity:0.75;font-size:14px";
+      document.body.appendChild(bloc);
+      return bloc;
+    })();
 
   pied.dataset.contactPose = "1";
   const ligne = document.createElement("div");
