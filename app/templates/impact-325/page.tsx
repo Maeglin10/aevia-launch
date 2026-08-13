@@ -86,10 +86,10 @@ function photo(i: number, repli: string): string {
 /* ── Données de démonstration (contenu rédactionnel conservé) ────────────── */
 
 const SEMINARS_SOURCE = [
-  { id: "s1", num: "I", title: "Leadership Masterclass 2026", speaker: "Dr. Jonathan Hayes", date: "2026-09-10", dateLabel: "September 10, 2026", time: "09:00 – 17:00", venue: "Grand Hotel Paris", category: "Leadership", level: "Executive", price: 450, pi: 2 },
-  { id: "s2", num: "II", title: "Future of AI in Business", speaker: "Sarah Chen", date: "2026-09-22", dateLabel: "September 22, 2026", time: "10:00 – 16:00", venue: "Tech Hub London", category: "Technology", level: "All Levels", price: 300, pi: 3 },
-  { id: "s3", num: "III", title: "Advanced Financial Strategy", speaker: "Robert Sterling", date: "2026-10-05", dateLabel: "October 5, 2026", time: "09:00 – 18:00", venue: "Finance Center Frankfurt", category: "Finance", level: "Advanced", price: 600, pi: 4 },
-  { id: "s4", num: "IV", title: "Strategic Marketing Summit", speaker: "Elena Rodriguez", date: "2026-10-15", dateLabel: "October 15, 2026", time: "09:30 – 15:30", venue: "Palais des Congrès", category: "Marketing", level: "Intermediate", price: 350, pi: 5 },
+  { id: "s1", num: "I", title: "Masterclass Leadership 2026", speaker: "Dr Jonathan Hayes", date: "2026-09-10", dateLabel: "10 septembre 2026", time: "09:00 – 17:00", venue: "Grand Hôtel, Paris", category: "Leadership", level: "Dirigeants", price: 450, pi: 2 },
+  { id: "s2", num: "II", title: "L'IA en entreprise", speaker: "Sarah Chen", date: "2026-09-22", dateLabel: "22 septembre 2026", time: "10:00 – 16:00", venue: "Station F, Paris", category: "Technology", level: "Tous niveaux", price: 300, pi: 3 },
+  { id: "s3", num: "III", title: "Stratégie financière avancée", speaker: "Robert Sterling", date: "2026-10-05", dateLabel: "5 octobre 2026", time: "09:00 – 18:00", venue: "Place de la Bourse, Lyon", category: "Finance", level: "Avancé", price: 600, pi: 4 },
+  { id: "s4", num: "IV", title: "Sommet du marketing stratégique", speaker: "Elena Rodriguez", date: "2026-10-15", dateLabel: "15 octobre 2026", time: "09:30 – 15:30", venue: "Palais des Congrès", category: "Marketing", level: "Intermédiaire", price: 350, pi: 5 },
 ];
 
 function SEMINARS_LIVE() {
@@ -112,10 +112,10 @@ let SEMINARS = SEMINARS_LIVE();
 
 /* Table des droits d'inscription — lignes fines. */
 const TARIFS_SOURCE = [
-  { k: "Leadership Masterclass 2026", eb: "$360", std: "$450", ex: "$675", n: "Executive level · Grand Hotel Paris" },
-  { k: "Future of AI in Business", eb: "$240", std: "$300", ex: "$450", n: "All levels · Tech Hub London" },
-  { k: "Advanced Financial Strategy", eb: "$480", std: "$600", ex: "$900", n: "Advanced · Finance Center Frankfurt" },
-  { k: "Strategic Marketing Summit", eb: "$280", std: "$350", ex: "$525", n: "Intermediate · Palais des Congrès" },
+  { k: "Masterclass Leadership 2026", eb: "360 €", std: "450 €", ex: "675 €", n: "Niveau dirigeant · Grand Hôtel, Paris" },
+  { k: "L'IA en entreprise", eb: "240 €", std: "300 €", ex: "450 €", n: "Tous niveaux · Station F, Paris" },
+  { k: "Stratégie financière avancée", eb: "480 €", std: "600 €", ex: "900 €", n: "Avancé · Place de la Bourse, Lyon" },
+  { k: "Sommet du marketing stratégique", eb: "280 €", std: "350 €", ex: "525 €", n: "Intermédiaire · Palais des Congrès" },
 ];
 
 function TARIFS_LIVE() {
@@ -134,10 +134,10 @@ function TARIFS_LIVE() {
 let TARIFS = TARIFS_LIVE();
 
 const STATS_SOURCE = [
-  { v: "50+", l: "Industry leaders" },
-  { v: "200+", l: "Corporate partners" },
-  { v: "12", l: "Global locations" },
-  { v: "98%", l: "Satisfaction rate" },
+  { v: "50+", l: "Intervenants reconnus" },
+  { v: "200+", l: "Entreprises partenaires" },
+  { v: "12", l: "Villes d'accueil" },
+  { v: "98%", l: "Taux de satisfaction" },
 ];
 
 function STATS_LIVE() {
@@ -150,10 +150,10 @@ let STATS = STATS_LIVE();
 
 /* Références — les intervenants du programme, en grille 56px / 1fr. */
 const REFS_SOURCE = [
-  { name: "Dr. Jonathan Hayes", role: "Leadership Masterclass 2026", tag: "Leadership · Executive", pi: 6 },
-  { name: "Sarah Chen", role: "Future of AI in Business", tag: "Technology · All levels", pi: 7 },
-  { name: "Robert Sterling", role: "Advanced Financial Strategy", tag: "Finance · Advanced", pi: -1 },
-  { name: "Elena Rodriguez", role: "Strategic Marketing Summit", tag: "Marketing · Intermediate", pi: -1 },
+  { name: "Dr. Jonathan Hayes", role: "Masterclass Leadership 2026", tag: "Leadership · Dirigeants", pi: 6 },
+  { name: "Sarah Chen", role: "L'IA en entreprise", tag: "Technologie · Tous niveaux", pi: 7 },
+  { name: "Robert Sterling", role: "Stratégie financière avancée", tag: "Finance · Avancé", pi: -1 },
+  { name: "Elena Rodriguez", role: "Sommet du marketing stratégique", tag: "Marketing · Intermédiaire", pi: -1 },
 ];
 
 function REFS_LIVE() {
@@ -170,10 +170,10 @@ function REFS_LIVE() {
 let REFS = REFS_LIVE();
 
 const BULLETS_SOURCE = [
-  "Customized curriculum alignment",
-  "Volume licensing and group discounts",
-  "Post-seminar implementation support",
-  "Priority access to global industry experts",
+  "Programme ajusté à vos enjeux",
+  "Tarifs de groupe et licences en volume",
+  "Accompagnement après la session",
+  "Accès prioritaire aux intervenants",
 ];
 
 function BULLETS_LIVE() {
@@ -184,7 +184,7 @@ function BULLETS_LIVE() {
 }
 let BULLETS = BULLETS_LIVE();
 
-const PROGRAMS = ["Executive Leadership", "Financial Strategy", "Tech & Innovation", "Corporate Custom"];
+const PROGRAMS = ["Leadership dirigeant", "Stratégie financière", "Tech & innovation", "Sur mesure entreprise"];
 
 const NAV = [
   { l: "Calendar", h: "#seminars" },
@@ -394,7 +394,7 @@ export default function Impact325ExecutiveHub() {
           style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0,1fr))", borderTop: `1px solid ${C.ink}`, borderBottom: `1px solid ${C.border}` }}
         >
           <div style={{ padding: "14px clamp(2px,1vw,14px) 14px 0", borderRight: `1px solid ${C.border}`, fontFamily: SANS, fontSize: 11, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textMuted }}>
-            {clientEyebrow(sessionData) ?? `Executive seminars · ${ville}`}
+            {clientEyebrow(sessionData) ?? `Séminaires dirigeants · ${ville}`}
           </div>
           <div style={{ padding: "14px clamp(10px,1.4vw,18px)", borderRight: `1px solid ${C.border}`, fontFamily: SANS, fontSize: 11, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textMuted }}>
             Season 2026 · N° IV
@@ -415,9 +415,9 @@ export default function Impact325ExecutiveHub() {
             transition={{ duration: 1.15, ease: EASE, delay: 0.18 }}
             style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(2.7rem,7vw,6.6rem)", lineHeight: 0.99, letterSpacing: "-0.015em", color: C.ink, margin: 0, maxWidth: 980, position: "relative" }}
           >
-            {heroLigne1 ?? (<>Elevate your</>)}
+            {heroLigne1 ?? (<>Élevez votre</>)}
             <span style={{ display: "block" }}>
-              {heroLigne2 ?? (<><em style={{ fontStyle: "italic", color: C.accent }}>corporate</em> strategy.</>)}
+              {heroLigne2 ?? (<><em style={{ fontStyle: "italic", color: C.accent }}>stratégie</em> d'entreprise.</>)}
             </span>
           </motion.h1>
           <motion.div
@@ -428,11 +428,11 @@ export default function Impact325ExecutiveHub() {
             style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 30, marginTop: "clamp(24px,3.4vw,44px)", flexWrap: "wrap" }}
           >
             <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15px,1.5vw,18px)", color: C.textMuted, maxWidth: 520, lineHeight: 1.75, margin: 0 }}>
-              {clientHeroSubtitle(sessionData) ?? c?.heroText ?? "Join industry leaders in exclusive seminars designed for executives and visionaries. Equip your team with the knowledge to drive innovation and growth."}
+              {clientHeroSubtitle(sessionData) ?? c?.heroText ?? "Des séminaires réservés aux dirigeants, animés par ceux qui font le métier. Repartez avec de quoi décider, pas seulement de quoi réfléchir."}
             </p>
             <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
               <HeroCta href="#seminars" filled>
-                View the calendar
+                Voir le calendrier
               </HeroCta>
               <HeroCta href="#corporate">Corporate solutions</HeroCta>
             </div>
@@ -462,8 +462,8 @@ export default function Impact325ExecutiveHub() {
           </div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, borderBottom: `1px solid ${C.border}`, padding: "12px 2px 14px", flexWrap: "wrap" }}>
             <SlideIndex i={bandIdx} total={BAND.length} variant="flat" color={C.textFaint} className="" />
-            <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint }}>The frame opens on the next session</span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" labels={{ prev: "Previous session", next: "Next session" }} />
+            <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint }}>Le cadre s'ouvre sur la prochaine session</span>
+            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" labels={{ prev: "Session précédente", next: "Session suivante" }} />
           </div>
         </motion.div>
 
@@ -484,7 +484,7 @@ export default function Impact325ExecutiveHub() {
       <section style={{ background: C.bgAlt, padding: "clamp(72px,10vw,140px) clamp(24px,7vw,120px)", textAlign: "center" }}>
         <Reveal>
           <p style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 400, fontSize: "clamp(22px,3vw,42px)", lineHeight: 1.42, color: C.ink, maxWidth: 900, margin: "0 auto" }}>
-            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.texte") ?? (<>Actionable insights and strategic frameworks — taught by the people who wrote them.</>)}
+            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.texte") ?? (<>Des méthodes qui s'appliquent dès le lundi — enseignées par ceux qui les ont écrites.</>)}
           </p>
         </Reveal>
         <Reveal delay={0.14}>
@@ -496,11 +496,11 @@ export default function Impact325ExecutiveHub() {
       <section id="seminars" style={{ background: C.bg, padding: "clamp(80px,10vw,140px) clamp(20px,4.5vw,56px)" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <Reveal>
-            <Kicker>Curriculum</Kicker>
+            <Kicker>Programme</Kicker>
           </Reveal>
           <Reveal delay={0.08}>
             <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px,4.4vw,58px)", fontWeight: 500, lineHeight: 1.05, letterSpacing: "-0.01em", color: C.ink, margin: "clamp(14px,2vw,22px) 0 clamp(30px,4.4vw,58px)", maxWidth: 760 }}>
-              {/* TEXTE_SECTION */ clientText(sessionData, "seminars.titre") ?? (<>Upcoming <em style={{ fontStyle: "italic", color: C.accent }}>masterclasses.</em></>)}
+              {/* TEXTE_SECTION */ clientText(sessionData, "seminars.titre") ?? (<>Prochaines <em style={{ fontStyle: "italic", color: C.accent }}>masterclasses.</em></>)}
             </h2>
           </Reveal>
 
@@ -516,14 +516,14 @@ export default function Impact325ExecutiveHub() {
       <section id="fees" style={{ background: C.bgCard, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "clamp(80px,10vw,140px) clamp(20px,4.5vw,56px)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <Reveal>
-            <Kicker>Registration fees</Kicker>
+            <Kicker>Droits d'inscription</Kicker>
           </Reveal>
           <div className="i325-split" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.2fr) minmax(0,0.8fr)", gap: "clamp(20px,3vw,44px)", alignItems: "end", margin: "clamp(14px,2vw,22px) 0 clamp(30px,4vw,50px)" }}>
             <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px,4vw,52px)", fontWeight: 500, lineHeight: 1.06, letterSpacing: "-0.01em", color: C.ink, margin: 0 }}>
-              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>One page, <em style={{ fontStyle: "italic", color: C.accent }}>three seats.</em></>)}
+              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Une page, <em style={{ fontStyle: "italic", color: C.accent }}>trois places.</em></>)}
             </h2>
             <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.75, margin: 0 }}>
-              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.texte") ?? (<>Early Bird closes thirty days before each session. Executive access includes priority seating and the private lunch. Prices before VAT (20 %).</>)}
+              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.texte") ?? (<>Le tarif anticipé se ferme trente jours avant chaque session. L'accès dirigeant comprend le placement prioritaire et le déjeuner privé. Prix hors taxes (20 %).</>)}
             </p>
           </div>
 
@@ -562,12 +562,12 @@ export default function Impact325ExecutiveHub() {
         <div className="i325-split" style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: "clamp(36px,5.5vw,84px)", alignItems: "center" }}>
           <Reveal>
             <div>
-              <Kicker>For enterprises</Kicker>
+              <Kicker>Pour les entreprises</Kicker>
               <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px,3.8vw,48px)", fontWeight: 500, lineHeight: 1.08, letterSpacing: "-0.01em", color: C.ink, margin: "clamp(14px,2vw,20px) 0 clamp(16px,2vw,24px)" }}>
-                {/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Transform your <em style={{ fontStyle: "italic", color: C.accent }}>leadership</em> team.</>)}
+                {/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Formez vos <em style={{ fontStyle: "italic", color: C.accent }}>dirigeants</em> ensemble.</>)}
               </h2>
               <p style={{ fontFamily: SANS, fontSize: 15, color: C.textMuted, lineHeight: 1.8, maxWidth: 500, margin: "0 0 clamp(24px,3vw,36px)" }}>
-                {/* TEXTE_SECTION */ clientText(sessionData, "corporate.texte") ?? (<>Our executive masterclasses are designed to provide actionable insights and strategic frameworks. We offer comprehensive corporate packages including private workshops, dedicated account management, and centralized invoicing.</>)}
+                {/* TEXTE_SECTION */ clientText(sessionData, "corporate.texte") ?? (<>Nos masterclasses donnent des méthodes applicables et un cadre de décision. Nous proposons des formules packages including private workshops, dedicated account management, and centralized invoicing.</>)}
               </p>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 clamp(26px,3.4vw,40px)", display: "flex", flexDirection: "column", gap: 13 }}>
                 {/* LISTE_LIBELLES */ BULLETS.map((b, idx) => (
@@ -629,7 +629,7 @@ export default function Impact325ExecutiveHub() {
             </Reveal>
             <Reveal delay={0.08}>
               <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px,4vw,52px)", fontWeight: 500, lineHeight: 1.06, letterSpacing: "-0.01em", color: C.ink, margin: "clamp(14px,2vw,22px) 0 clamp(16px,2.2vw,26px)" }}>
-                {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Reserve the <em style={{ fontStyle: "italic", color: C.accent }}>next seat.</em></>)}
+                {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Réservez la <em style={{ fontStyle: "italic", color: C.accent }}>prochaine place.</em></>)}
               </h2>
               <p style={{ fontFamily: SANS, fontSize: 15, color: C.textMuted, lineHeight: 1.8, maxWidth: 460, margin: "0 0 clamp(26px,3.4vw,40px)" }}>
                 Registrations are confirmed by email with the invoice and attendee access details. Group registrations and private workshops are quoted within one working day.
@@ -652,9 +652,9 @@ export default function Impact325ExecutiveHub() {
             <div style={{ borderLeft: `1px solid ${C.border}`, paddingLeft: "clamp(20px,2.6vw,36px)", display: "flex", flexDirection: "column", gap: 20 }}>
               {[
                 { icon: <Mail size={15} color={C.accent} />, t: "Email", d: mail },
-                { icon: <MapPin size={15} color={C.accent} />, t: "Address", d: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "75000", "Paris") },
-                { icon: <Calendar size={15} color={C.accent} />, t: "Season", d: "September — October 2026, four sessions" },
-                { icon: <Clock size={15} color={C.accent} />, t: "Invoicing", d: "Invoice on confirmation · payment terms 30 days net" },
+                { icon: <MapPin size={15} color={C.accent} />, t: "Adresse", d: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "75000", "Paris") },
+                { icon: <Calendar size={15} color={C.accent} />, t: "Saison", d: "Septembre — octobre 2026, quatre sessions" },
+                { icon: <Clock size={15} color={C.accent} />, t: "Facturation", d: "Facture à la confirmation · paiement à 30 jours" },
               ].map((l) => (
                 <div key={l.t} style={{ display: "flex", gap: 13, alignItems: "flex-start" }}>
                   <span style={{ marginTop: 3 }}>{l.icon}</span>

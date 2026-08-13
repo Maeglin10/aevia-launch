@@ -1304,7 +1304,9 @@ interface StoryRow {
   reverse?: boolean;
 }
 
-const STORY_ROWS: StoryRow[] = [
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function STORY_ROWS_LIVE() {
+  return [
   {
     img: IMG.story1,
     index: '01',
@@ -1319,6 +1321,8 @@ const STORY_ROWS: StoryRow[] = [
     reverse: true,
   },
 ];
+}
+let STORY_ROWS: StoryRow[] = STORY_ROWS_LIVE();
 
 function EditorialRows() {
   return (
@@ -2550,6 +2554,7 @@ export default function ImpactSneakerPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STORY_ROWS = STORY_ROWS_LIVE();
   IMG = IMG_LIVE();
   SPECS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPECS_SOURCE[i % SPECS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),

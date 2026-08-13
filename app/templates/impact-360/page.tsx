@@ -572,8 +572,15 @@ export default function AtlantiqueMaterielsPage() {
     génération en a produit un ; les suivantes gardent les phrases du thème.
     Syne 700 en plein cadre tient 24 signes par ligne : c'est le maxLigne.
   */
-  const l1 = i === 0 ? clientHeroLine(sessionData, 0, 2, 24) ?? S.l1 : S.l1;
-  const l2 = i === 0 ? clientHeroLine(sessionData, 1, 2, 24) ?? S.l2 : S.l2;
+  /*
+    Les couvertures suivantes portaient encore la phrase du thème : « Séminaires,
+    inaugurations, clé en main. » s'affichait en grand chez un couvreur, quelques
+    secondes après son propre titre. Elles prennent donc ses prestations, et le
+    thème ne reprend la main que si le client n'en a déclaré aucune.
+  */
+  const presta = clientServices(sessionData)?.[i]?.title as string | undefined;
+  const l1 = i === 0 ? clientHeroLine(sessionData, 0, 2, 24) ?? S.l1 : presta ?? S.l1;
+  const l2 = i === 0 ? clientHeroLine(sessionData, 1, 2, 24) ?? S.l2 : presta ? "" : S.l2;
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 40);

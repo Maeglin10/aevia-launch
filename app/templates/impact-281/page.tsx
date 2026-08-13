@@ -1103,7 +1103,9 @@ function ServicesSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type ProcessStep = { num: string; titre: string; body: string };
 
-const PROCESS_STEPS: ProcessStep[] = [
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function PROCESS_STEPS_LIVE() {
+  return [
   {
     num: '01',
     titre: 'Consultation & mesures',
@@ -1125,6 +1127,8 @@ const PROCESS_STEPS: ProcessStep[] = [
     body: "Votre création vous est remise dans une housse de protection sur mesure, accompagnée d'une fiche d'entretien personnalisée. La maison reste disponible pour tout ajustement.",
   },
 ];
+}
+let PROCESS_STEPS: ProcessStep[] = PROCESS_STEPS_LIVE();
 
 function ProcessSection() {
   const sec: React.CSSProperties = {
@@ -1784,7 +1788,9 @@ type Material = {
   accent: string;
 };
 
-const MATERIALS_SOURCE: Material[] = [
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function MATERIALS_SOURCE_LIVE() {
+  return [
   {
     nom: 'Soie',
     origine: 'Soie de ' + (clientCity(sessionData) ?? 'Lyon') + ' · France',
@@ -1814,6 +1820,8 @@ const MATERIALS_SOURCE: Material[] = [
     accent: 'Naturel · Structure · Authenticité',
   },
 ];
+}
+let MATERIALS_SOURCE: Material[] = MATERIALS_SOURCE_LIVE();
 let MATERIALS = MATERIALS_SOURCE;
 
 function MaterialCard({ mat, i }: { mat: Material; i: number }) {
@@ -2624,6 +2632,8 @@ export default function Impact281Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  MATERIALS_SOURCE = MATERIALS_SOURCE_LIVE();
+  PROCESS_STEPS = PROCESS_STEPS_LIVE();
   PHOTO = PHOTO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

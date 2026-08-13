@@ -14,7 +14,9 @@ let fd: any = null;
 let bp: any = null;
 let c: any = null;
 
-const GUIDE_EXTENDED = [
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function GUIDE_EXTENDED_LIVE() {
+  return [
   {
     background: "Neurosciences cliniques",
     formation: "Université de Heidelberg · Stanford Center on Longevity",
@@ -49,6 +51,8 @@ const GUIDE_EXTENDED = [
       "Formée à l'Institut Hakomi et au Somatic Experiencing Trauma Institute, Elena Rossi travaille depuis 15 ans avec des entrepreneurs, des athlètes et des dirigeants sur la régulation du système nerveux autonome. Ses sessions individuelles sont au cœur de chaque retraite Luminal. Avant de rejoindre Luminal, Elena a travaillé avec des équipes de soins intensifs hospitaliers pour développer des protocoles de prévention du burnout soignant.",
   },
 ];
+}
+let GUIDE_EXTENDED = GUIDE_EXTENDED_LIVE();
 
 
 export default function LineagePage() {
@@ -69,6 +73,7 @@ export default function LineagePage() {
   }, []);
 
   sessionData = __session;
+  GUIDE_EXTENDED = GUIDE_EXTENDED_LIVE();
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

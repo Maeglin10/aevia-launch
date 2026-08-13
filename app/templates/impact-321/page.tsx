@@ -423,7 +423,14 @@ function TicketCard321({ ticket, onOpen }: { ticket: any; onOpen: () => void }) 
         </span>
       )}
       <h3 style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(18px, 2vw, 22px)", margin: "0 0 12px", color: C.ink }}>{ticket.name}</h3>
-      <div style={{ fontFamily: DISPLAY, fontSize: "clamp(36px, 4vw, 50px)", fontWeight: 800, lineHeight: 1, color: ticket.primary ? C.accentDark : C.ink, marginBottom: 14 }}>{ticket.price}</div>
+      {/*
+        L'emplacement est dessiné pour un montant court — « 890 € ». Le client
+        écrit rarement cela : « à partir de 9 400 € » remplissait trois lignes
+        et écrasait le nom de la prestation, « 180 € le déplacement » se
+        coupait en plein milieu du mot. La taille suit donc la longueur, sans
+        changer le dessin quand le montant est court.
+      */}
+      <div style={{ fontFamily: DISPLAY, fontSize: String(ticket.price ?? "").length > 9 ? "clamp(22px, 2.2vw, 28px)" : "clamp(36px, 4vw, 50px)", fontWeight: 800, lineHeight: 1.08, color: ticket.primary ? C.accentDark : C.ink, marginBottom: 14 }}>{ticket.price}</div>
       <p style={{ color: C.textMuted, fontSize: 14.5, lineHeight: 1.65, margin: "0 0 26px" }}>{ticket.desc}</p>
       <div style={{ display: "flex", flexDirection: "column", gap: 13, marginBottom: 30, flexGrow: 1 }}>
         {(ticket.features ?? []).map((feat: string, j: number) => (

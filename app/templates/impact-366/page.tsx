@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { CrossPush } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientAddress,
   clientCity,
   clientEyebrow,
   clientHeroLine,
@@ -417,7 +418,7 @@ export default function PotagerEstuairePage() {
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Maraîchage biologique · Vannes<br />Certifié AB — AMAP et marché des Lices</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Vannes, Morbihan" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Distribution AMAP : Mar 18h–19h30 · Marché : Sam matin" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? clientCity(sessionData) ?? "Vannes, Morbihan" }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Distribution AMAP : Mar 18h–19h30 · Marché : Sam matin" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

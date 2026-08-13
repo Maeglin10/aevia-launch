@@ -273,8 +273,14 @@ for (const id of ids) {
         .evaluate(
           () =>
             new Promise((fini) => {
+              /*
+                Avec une échéance : une image qui ne se termine jamais — hôte
+                muet, requête suspendue — figeait le balayage sans un mot.
+                Huit minutes perdues sur impact-325 avant de le comprendre.
+              */
+              const limite = Date.now() + 12000;
               const reste = () => [...document.images].filter((i) => !i.complete);
-              const voir = () => (reste().length ? setTimeout(voir, 200) : fini());
+              const voir = () => (reste().length && Date.now() < limite ? setTimeout(voir, 200) : fini());
               voir();
             }),
         )

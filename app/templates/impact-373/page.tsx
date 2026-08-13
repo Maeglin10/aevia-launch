@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientAddress,
   clientCity,
   clientEyebrow,
   clientName,
@@ -425,7 +426,7 @@ export default function RivieraChauffeurPage() {
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Chauffeur VTC · {clientCity(sessionData) ?? "Nice"} & Côte d'Azur<br />Inscrit au registre des VTC (REVTC) — carte professionnelle</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Nice") + ", Alpes-Maritimes" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Réservations 24h/24 · courses 5h–2h" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Nice") + ", Alpes-Maritimes")) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Réservations 24h/24 · courses 5h–2h" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

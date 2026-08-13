@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { PushBlur } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientAddress,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -416,7 +417,7 @@ export default function PoilsEtCompagniePage() {
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Salon de toilettage & pension familiale · {clientCity(sessionData) ?? "Angers"}<br />Toiletteuse diplômée — pension déclarée DDPP</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Angers") + ", Maine-et-Loire" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–18h30 · pension 7j/7 sur réservation" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Angers") + ", Maine-et-Loire")) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–18h30 · pension 7j/7 sur réservation" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>
