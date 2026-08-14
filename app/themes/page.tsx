@@ -24,9 +24,24 @@ import { themeRating, themeActive } from "@/lib/theme-stats";
 //    too samey and the animation image slots render empty in preview. Not shown
 //    and not QA'd for now, pending rework. Remove an id from this range to
 //    re-surface a theme once reworked.
+//
+//  - 2026-08-14 : impact-326..383 REMIS EN VENTE. Les soixante-six thèmes
+//    cachés ont été repris, puis mesurés sur quatre profils clients (artisan,
+//    restaurant, commerce, client minimal) : 0 page cassée, 0 défilement
+//    horizontal, 0 titre manquant, 0 cul-de-sac. Les dix-neuf plus sobres ont
+//    reçu la paire de fontes que le plan leur assignait.
+//
+//  - 2026-08-14 : douze thèmes RETIRÉS le temps d'un chantier. Leurs pages
+//    annexes racontent l'histoire d'une autre entreprise — « ABOUT NEURALMESH,
+//    the decentralized cognitive layer » sur la page « à propos » d'impact-50,
+//    chez un couvreur qui l'a payée. Trente-neuf pages mesurées sans une seule
+//    donnée du client. Tant qu'elles ne sont pas câblées, ces thèmes ne se
+//    vendent pas : mieux vaut un catalogue plus court qu'un client qui livre
+//    le site de quelqu'un d'autre.
 const HIDDEN_IMPACT = new Set<string>([
   "impact-202","impact-203","impact-204","impact-205","impact-206",
-  ...Array.from({ length: 383 - 326 + 1 }, (_, i) => `impact-${326 + i}`),
+  "impact-01","impact-03","impact-14","impact-20","impact-25","impact-50",
+  "impact-55","impact-73","impact-74","impact-87","impact-104","impact-108",
 ]);
 
 // ─── Featured (hand-picked best) ─────────────────────────────────────────────
