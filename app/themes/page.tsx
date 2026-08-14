@@ -31,17 +31,16 @@ import { themeRating, themeActive } from "@/lib/theme-stats";
 //    horizontal, 0 titre manquant, 0 cul-de-sac. Les dix-neuf plus sobres ont
 //    reçu la paire de fontes que le plan leur assignait.
 //
-//  - 2026-08-14 : douze thèmes RETIRÉS le temps d'un chantier. Leurs pages
-//    annexes racontent l'histoire d'une autre entreprise — « ABOUT NEURALMESH,
+//  - 2026-08-14 : douze thèmes retirés quelques heures, puis REMIS. Leurs pages
+//    annexes racontaient l'histoire d'une autre entreprise — « ABOUT NEURALMESH,
 //    the decentralized cognitive layer » sur la page « à propos » d'impact-50,
-//    chez un couvreur qui l'a payée. Trente-neuf pages mesurées sans une seule
-//    donnée du client. Tant qu'elles ne sont pas câblées, ces thèmes ne se
-//    vendent pas : mieux vaut un catalogue plus court qu'un client qui livre
-//    le site de quelqu'un d'autre.
+//    chez un couvreur qui l'a payée. Trente-neuf pages sans une seule donnée du
+//    client. Elles portent maintenant son nom, son métier, sa ville, son
+//    accroche et ses prestations ; la marque de la démonstration ne subsiste
+//    qu'en repli. Remesuré : 557 pages annexes, un seul défaut restant
+//    (impact-77/anatomy défile de côté, antérieur et hors de ce lot).
 const HIDDEN_IMPACT = new Set<string>([
   "impact-202","impact-203","impact-204","impact-205","impact-206",
-  "impact-01","impact-03","impact-14","impact-20","impact-25","impact-50",
-  "impact-55","impact-73","impact-74","impact-87","impact-104","impact-108",
 ]);
 
 // ─── Featured (hand-picked best) ─────────────────────────────────────────────

@@ -1,7 +1,9 @@
 "use client";
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientServices,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientCity } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";

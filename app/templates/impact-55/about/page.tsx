@@ -1,5 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
+import {
+  clientAddress,
+  clientCity,
+  clientEmail,
+  clientName,
+  clientPhone,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 
 import React from "react";
 import { TerminalWindow } from "../shared";
@@ -51,11 +61,16 @@ export default function AboutPage() {
 
           <div style={{ borderLeft: "2px solid #003300", paddingLeft: "20px", marginBottom: "28px" }}>
             {[
-              ["uid",       "0(ghost) gid=0(root) groups=0(root),4(adm),27(sudo)"],
-              ["shell",     "/bin/ghost_shell"],
-              ["hostname",  "ghost-prod-01.internal"],
-              ["uptime",    "847 days, 14:22:09"],
-              ["clearance", "CLASSIFIED / SAP ACCESS"],
+              /*
+                La sortie du terminal décrivait un collectif fictif. Elle décrit
+                maintenant l'entreprise du client, dans la même mise en scène :
+                le geste du thème est conservé, le contenu est le sien.
+              */
+              ["identité",  clientName(sessionData) ?? "0(ghost) gid=0(root) groups=0(root),4(adm),27(sudo)"],
+              ["métier",    clientTrade(sessionData) ?? "/bin/ghost_shell"],
+              ["secteur",   clientCity(sessionData) ?? "ghost-prod-01.internal"],
+              ["ancienneté", clientText(sessionData, "identite.anciennete") ?? "847 days, 14:22:09"],
+              ["statut",    clientText(sessionData, "identite.statut") ?? "CLASSIFIED / SAP ACCESS"],
             ].map(([key, val]) => (
               <div key={key} style={{ display: "flex", gap: "12px", fontSize: "12px", lineHeight: "1.9", letterSpacing: "0.04em" }}>
                 <span style={{ color: "#005500", minWidth: "90px" }}>{key}:</span>
@@ -66,9 +81,11 @@ export default function AboutPage() {
 
           <div style={{ color: "#008F11", fontSize: "13px", lineHeight: "1.9", letterSpacing: "0.04em" }}>
             <p style={{ marginBottom: "16px" }}>
-              # Ghost Shell is a stealth-first engineering collective operating at the intersection
+              {/* TEXTE_SECTION */ clientText(sessionData, "apropos.texte") ??
+                clientTagline(sessionData) ??
+                `# Ghost Shell is a stealth-first engineering collective operating at the intersection
               # of offensive security and product design. We build systems that resist adversaries
-              # by design — not as an afterthought.
+              # by design — not as an afterthought.`}
             </p>
             <p style={{ marginBottom: "16px" }}>
               # Our team has shipped infrastructure for red-team operations, zero-trust enterprise

@@ -1,5 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -36,6 +45,7 @@ export default function AboutPage() {
 
   return (
     <div className="py-20 bg-[#08080c] min-h-dvh">
+      <EnteteAnnexe session={sessionData} repli="StreamHub" accueil="/templates/impact-73" />
       <div className="max-w-3xl mx-auto px-6">
         <Reveal className="mb-20 text-center">
           <span className="text-[10px] uppercase tracking-[0.5em] font-black text-rose-500 mb-6 block">
@@ -45,7 +55,7 @@ export default function AboutPage() {
             Own the <br /> <span className="text-rose-500">Spectrum.</span>
           </h2>
           <p className="text-sm text-white/40 leading-relaxed font-bold uppercase tracking-widest italic mt-6">
-            StreamHub provides direct-to-audience broadcasting at 8K resolution with ultra-low glass-to-glass latency. Est. 2026.
+            {/* TEXTE_SECTION */ clientText(sessionData, "apropos.texte") ?? clientTagline(sessionData) ?? "StreamHub provides direct-to-audience broadcasting at 8K resolution with ultra-low glass-to-glass latency. Est. 2026."}
           </p>
         </Reveal>
 

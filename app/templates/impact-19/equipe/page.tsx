@@ -1,7 +1,9 @@
 "use client";
-import { clientTeam } from "@/lib/templates/clientContent";
+import {
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientServices } from "@/lib/templates/clientContent";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";

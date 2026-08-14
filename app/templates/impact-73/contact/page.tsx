@@ -2,6 +2,15 @@
 // @ts-nocheck
 
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 import { Mail, Globe, MapPin, Check } from "lucide-react";
 import { Reveal } from "../shared";
 
@@ -38,6 +47,7 @@ export default function ContactPage() {
 
   return (
     <div className="py-20 bg-[#08080c] min-h-dvh">
+      <EnteteAnnexe session={sessionData} repli="StreamHub" accueil="/templates/impact-73" />
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           {/* Info Col */}

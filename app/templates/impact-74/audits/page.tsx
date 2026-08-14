@@ -1,5 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import { ShieldCheck, Terminal } from "lucide-react";
@@ -36,6 +45,7 @@ export default function AuditsPage() {
 
   return (
     <div className="py-20 bg-[#05060a]">
+      <EnteteAnnexe session={sessionData} repli="Aevia Kitchen" accueil="/templates/impact-74" />
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-center">
           <div className="lg:col-span-5">
@@ -47,9 +57,7 @@ export default function AuditsPage() {
                 Neural <br /> <span className="text-emerald-500">Audit.</span>
               </h2>
               <p className="text-lg text-white/20 leading-relaxed font-bold mb-16 uppercase tracking-tight italic">
-                Every internal system event is cross-referenced against 12
-                separate integrity nodes to ensure zero unauthorized
-                manipulation.
+                {/* TEXTE_SECTION */ clientText(sessionData, "audits.texte") ?? clientTagline(sessionData) ?? "Every internal system event is cross-referenced against 12                 separate integrity nodes to ensure zero unauthorized                 manipulation."}
               </p>
 
               <div className="space-y-6">

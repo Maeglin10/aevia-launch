@@ -2,6 +2,15 @@
 // @ts-nocheck
 
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Radio, MessageSquare, Play, X } from "lucide-react";
@@ -41,6 +50,7 @@ export default function BrowsePage() {
 
   return (
     <div className="py-20 bg-[#08080c] min-h-dvh">
+      <EnteteAnnexe session={sessionData} repli="StreamHub" accueil="/templates/impact-73" />
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
           <Reveal>
@@ -49,8 +59,7 @@ export default function BrowsePage() {
             </h2>
           </Reveal>
           <p className="max-w-sm text-sm text-white/20 leading-relaxed font-bold uppercase tracking-widest italic text-right">
-            Real-time content across all spectrums. Instant engagement. No
-            delays.
+            {/* TEXTE_SECTION */ clientText(sessionData, "parcourir.texte") ?? clientTagline(sessionData) ?? "Real-time content across all spectrums. Instant engagement. No             delays."}
           </p>
         </div>
 

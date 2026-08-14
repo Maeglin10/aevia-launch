@@ -1,5 +1,9 @@
 'use client';
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 import { useEffect, useState } from "react";
 
 import { motion } from 'framer-motion';
@@ -46,6 +50,7 @@ export default function AboutPage() {
         paddingTop: 80,
       }}
     >
+      <EnteteAnnexe session={sessionData} repli="Atelier NOIR" accueil="/templates/impact-03" />
       <div style={{ padding: '40px 64px 100px', maxWidth: 800, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
         <Link
           href="/templates/impact-03"

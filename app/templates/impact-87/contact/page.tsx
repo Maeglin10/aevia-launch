@@ -1,5 +1,6 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import { clientCity, clientName, clientServices, clientTagline, clientText, clientTrade } from "@/lib/templates/clientContent";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -43,6 +44,7 @@ export default function IronClubContactPage() {
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, minHeight: "100dvh" }}>
+      <EnteteAnnexe session={sessionData} repli="Iron Club" accueil="/templates/impact-87" />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
         * { box-sizing: border-box; }
@@ -79,10 +81,10 @@ export default function IronClubContactPage() {
             lineHeight: 1,
           }}
         >
-          Nous contacter
+          {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? "Nous contacter"}
         </h1>
         <p style={{ fontFamily: FONT_BODY, fontSize: 18, color: "rgba(255,255,255,0.65)", marginTop: 16 }}>
-          Réservez votre séance d&apos;essai ou posez-nous vos questions.
+          {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? clientTagline(sessionData) ?? "Réservez votre séance d&apos;essai ou posez-nous vos questions."}
         </p>
       </div>
 

@@ -1,6 +1,11 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientServices } from "@/lib/templates/clientContent";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientServices,
+  clientTagline,
+  clientText,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -79,6 +84,7 @@ export default function AboutPage() {
 
   return (
     <div style={{ minHeight: "100dvh", backgroundColor: T.bg, color: T.text, fontFamily: FONT_BODY }}>
+      <EnteteAnnexe session={sessionData} repli="IMPACT" accueil="/templates/impact-01" />
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "80px 24px" }}>
         <Link href="/templates/impact-01" style={{ display: "inline-flex", alignItems: "center", gap: 8, color: T.muted, textDecoration: "none", marginBottom: 60, fontSize: "0.9rem", transition: "color 0.2s" }} onMouseOver={(e) => (e.currentTarget.style.color = T.text)} onMouseOut={(e) => (e.currentTarget.style.color = T.muted)}>
           <ArrowLeft size={16} />
@@ -90,12 +96,12 @@ export default function AboutPage() {
             We build digital <span style={{ color: T.accent }}>experiences.</span>
           </h1>
           <p style={{ color: T.muted, fontSize: "1.125rem", maxWidth: 600, lineHeight: 1.6, margin: "0 0 60px 0" }}>
-            We are a creative agency bridging the gap between exceptional design and world-class engineering. We partner with visionaries to craft digital products that leave a lasting impact.
+            {/* TEXTE_SECTION */ clientText(sessionData, "apropos.texte") ?? clientTagline(sessionData) ?? "We are a creative agency bridging the gap between exceptional design and world-class engineering. We partner with visionaries to craft digital products that leave a lasting impact."}
           </p>
         </motion.div>
 
         <div style={{ marginTop: 80 }}>
-          <h2 style={{ fontFamily: FONT_HEADING, fontSize: "2rem", fontWeight: 700, margin: "0 0 40px 0" }}>Our Values</h2>
+          <h2 style={{ fontFamily: FONT_HEADING, fontSize: "2rem", fontWeight: 700, margin: "0 0 40px 0" }}>{/* TEXTE_SECTION */ clientText(sessionData, "apropos.titre") ?? "Our Values"}</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 32 }}>
             {VALUES.map((val, idx) => (
               <motion.div

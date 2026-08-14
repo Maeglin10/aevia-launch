@@ -1,5 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import { Globe, Terminal, Database } from "lucide-react";
@@ -36,6 +45,7 @@ export default function MonitoringPage() {
 
   return (
     <div className="py-20 bg-[#05060a]">
+      <EnteteAnnexe session={sessionData} repli="Aevia Kitchen" accueil="/templates/impact-74" />
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
           <Reveal>
@@ -45,8 +55,7 @@ export default function MonitoringPage() {
             </h2>
           </Reveal>
           <p className="max-w-sm text-sm text-white/20 leading-relaxed font-bold uppercase tracking-widest italic text-right">
-            Global monitoring of institutional perimeters. Real-time
-            visualization of attempted breaches.
+            {/* TEXTE_SECTION */ clientText(sessionData, "suivi.texte") ?? clientTagline(sessionData) ?? "Global monitoring of institutional perimeters. Real-time             visualization of attempted breaches."}
           </p>
         </div>
 

@@ -1,6 +1,12 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientServices } from "@/lib/templates/clientContent";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -89,6 +95,7 @@ export default function DestinationsPage() {
 
   return (
     <div style={{ minHeight: "100dvh", background: "#0a1520", color: "#f0ece0", fontFamily: "'Montserrat', sans-serif", padding: "120px 24px" }}>
+      <EnteteAnnexe session={sessionData} repli="Horizon Maritime" accueil="/templates/impact-14" />
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <Link 
           href="/templates/impact-14"
@@ -112,14 +119,14 @@ export default function DestinationsPage() {
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
             <Anchor size={16} color="#c9a84c" />
             <span style={{ color: "#c9a84c", fontSize: 10, letterSpacing: "0.4em", textTransform: "uppercase" }}>
-              Horizon Maritime · Curated Fleet
+              {clientName(sessionData) ?? (clientName(sessionData) ?? "Horizon Maritime")} · Curated Fleet
             </span>
           </div>
           <h1 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 300, color: "#f0ece0", marginBottom: 24 }}>
-            Private Destinations Catalog
+            {/* TEXTE_SECTION */ clientText(sessionData, "destinations.titre") ?? "Private Destinations Catalog"}
           </h1>
           <p style={{ color: "rgba(240,236,224,0.6)", fontSize: 16, maxWidth: 640, lineHeight: 1.8 }}>
-            Explore our 87 exclusive anchorages across the Mediterranean, Caribbean, Indian Ocean, and Arctic fjords.
+            {/* TEXTE_SECTION */ clientText(sessionData, "destinations.texte") ?? clientTagline(sessionData) ?? "Explore our 87 exclusive anchorages across the Mediterranean, Caribbean, Indian Ocean, and Arctic fjords."}
           </p>
         </div>
 

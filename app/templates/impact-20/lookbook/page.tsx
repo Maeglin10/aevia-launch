@@ -1,5 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -44,6 +53,7 @@ export default function LookbookPage() {
         padding: "120px 40px",
       }}
     >
+      <EnteteAnnexe session={sessionData} repli="Maison Élara" accueil="/templates/impact-20" />
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
         <Link 
           href="/templates/impact-20"
@@ -75,9 +85,7 @@ export default function LookbookPage() {
               textTransform: "uppercase",
               marginBottom: 16,
             }}
-          >
-            Maison Élara
-          </p>
+          >{clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Élara")}</p>
           <h1
             style={{
               color: "#f0ece0",
@@ -88,12 +96,11 @@ export default function LookbookPage() {
               lineHeight: 1.1,
             }}
           >
-            Lookbook
+            {/* TEXTE_SECTION */ clientText(sessionData, "lookbook.titre") ?? "Lookbook"}
           </h1>
           <div style={{ color: "rgba(240,236,224,0.7)", fontSize: 16, lineHeight: 1.8 }}>
             <p style={{ marginBottom: 24 }}>
-              Découvrez nos pièces d'exception portées. Une galerie de nos plus belles créations 
-              pour vous inspirer.
+              {/* TEXTE_SECTION */ clientText(sessionData, "lookbook.texte") ?? clientTagline(sessionData) ?? "Découvrez nos pièces d'exception portées. Une galerie de nos plus belles créations                pour vous inspirer."}
             </p>
             <p>
               Des parures impériales aux bagues de fiançailles, laissez-vous transporter par la 

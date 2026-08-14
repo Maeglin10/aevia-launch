@@ -1,7 +1,9 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientTeam } from "@/lib/templates/clientContent";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";

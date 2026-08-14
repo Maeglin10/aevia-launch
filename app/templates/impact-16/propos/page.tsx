@@ -1,7 +1,7 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientCertifications } from "@/lib/templates/clientContent";
 import {
+  clientCertifications,
   clientCity,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
